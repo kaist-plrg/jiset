@@ -121,7 +121,7 @@ object JISETTest {
   lazy val specs = {
     val specs = (for (version <- VERSIONS) yield {
       println(s"[info] parsing $version...")
-      version -> ECMAScriptParser(infos(version), "", false, false)
+      version -> ECMAScriptParser(version, infos(version), "", false, false)
     }).toMap
     println("[info] all specifications are successfully parsed.")
     specs

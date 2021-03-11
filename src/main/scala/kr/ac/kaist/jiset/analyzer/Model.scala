@@ -160,12 +160,62 @@ class Model(cfg: CFG) {
     "Boolean" -> AbsValue("Boolean"),
     "Number" -> AbsValue("Number"),
     "BigInt" -> AbsValue("BigInt"),
+    "PRIMITIVE" -> AbsValue(NamedAddr("PRIMITIVE")),
   )
 
   // TODO more manual modelings
   private def manualMaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
     "Global" -> (Some("OrdinaryObject"), Map()),
-    // TODO %Array.prototype%, ...
+    // primitive object for numeric values
+    "PRIMITIVE" -> (None, Map(
+      "Number" -> AbsValue(NamedAddr("PRIMITIVE.Number")),
+      "BigInt" -> AbsValue(NamedAddr("PRIMITIVE.BigInt")),
+    )),
+    "PRIMITIVE.Number" -> (None, Map(
+      "unit" -> AbsValue(Num(1)),
+      "unaryMinus" -> getClo("Number::unaryMinus"),
+      "bitwiseNOT" -> getClo("Number::bitwiseNOT"),
+      "exponentiate" -> getClo("Number::exponentiate"),
+      "multiply" -> getClo("Number::multiply"), // XXX
+      "divide" -> getClo("Number::divide"), // XXX
+      "remainder" -> getClo("Number::remainder"), // XXX
+      "add" -> getClo("Number::add"), // XXX
+      "subtract" -> getClo("Number::subtract"),
+      "leftShift" -> getClo("Number::leftShift"),
+      "signedRightShift" -> getClo("Number::signedRightShift"),
+      "unsignedRightShift" -> getClo("Number::unsignedRightShift"),
+      "lessThan" -> getClo("Number::lessThan"),
+      "equal" -> getClo("Number::equal"),
+      "sameValue" -> getClo("Number::sameValue"),
+      "sameValueZero" -> getClo("Number::sameValueZero"),
+      "bitwiseAND" -> getClo("Number::bitwiseAND"),
+      "bitwiseXOR" -> getClo("Number::bitwiseXOR"),
+      "bitwiseOR" -> getClo("Number::bitwiseOR"),
+      "toString" -> getClo("Number::toString"),
+    )),
+    "PRIMITIVE.BigInt" -> (None, Map(
+      "unit" -> AbsValue(BigInt(1)),
+      "unaryMinus" -> getClo("BigInt::unaryMinus"),
+      "bitwiseNOT" -> getClo("BigInt::bitwiseNOT"), // XXX
+      "exponentiate" -> getClo("BigInt::exponentiate"),
+      "multiply" -> getClo("BigInt::multiply"), // XXX
+      "divide" -> getClo("BigInt::divide"),
+      "remainder" -> getClo("BigInt::remainder"),
+      "add" -> getClo("BigInt::add"), // XXX
+      "subtract" -> getClo("BigInt::subtract"), // XXX
+      "leftShift" -> getClo("BigInt::leftShift"),
+      "signedRightShift" -> getClo("BigInt::signedRightShift"),
+      "unsignedRightShift" -> getClo("BigInt::unsignedRightShift"),
+      "lessThan" -> getClo("BigInt::lessThan"), // XXX
+      "equal" -> getClo("BigInt::equal"), // XXX
+      "sameValue" -> getClo("BigInt::sameValue"),
+      "sameValueZero" -> getClo("BigInt::sameValueZero"),
+      "bitwiseAND" -> getClo("BigInt::bitwiseAND"),
+      "bitwiseXOR" -> getClo("BigInt::bitwiseXOR"),
+      "bitwiseOR" -> getClo("BigInt::bitwiseOR"),
+      "toString" -> getClo("BigInt::toString"),
+    )),
+    // built-in objects
     "%AsyncFunction%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("Function")),
       "Call" -> getClo("AsyncFunction"),

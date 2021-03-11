@@ -38,6 +38,9 @@ package object jiset {
     "es2016", "es2017", "es2018", "es2019", "es2020", "recent"
   )
 
+  // Resource directory
+  val RESOURCE_DIR = s"${BASE_DIR}/src/main/resources"
+
   // Debugging mode
   var DEBUG: Boolean = false
 

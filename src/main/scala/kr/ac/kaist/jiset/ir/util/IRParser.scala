@@ -27,12 +27,12 @@ object IRParser extends Parser {
     algo ^^ { Left(_) } | inst ^^ { Right(_) }
 
   // algorithm
-  lazy val algo: Parser[Algo] = "def" ~> (head ~ inst) <~ "#" ^^ {
-    case h ~ body => Algo(h, body, List(""))
+  lazy val algo: Parser[Algo] = "def" ~> head ~ ("=" ~> inst) ^^ {
+    case h ~ body => Algo(h, body, Nil)
   }
 
   // head
-  lazy val head: Parser[Head] = ident ~ { "(" ~> repsep(ident, ",") <~ ")" } ^^ {
+  lazy val head: Parser[Head] = "\\S+".r ~ { "(" ~> repsep(ident, ",") <~ ")" } ^^ {
     case name ~ params => NormalHead(name, params.map(Param(_)))
   }
 }

@@ -134,6 +134,9 @@ object Useful {
   // create directories
   def mkdir(name: String): Unit = new File(name).mkdirs
 
+  // file existence check
+  def exists(name: String): Boolean = new File(name).exists
+
   // colored println
   def setColor(color: String): Any => String =
     if (color == "") x => x.toString else x => color + x.toString + RESET

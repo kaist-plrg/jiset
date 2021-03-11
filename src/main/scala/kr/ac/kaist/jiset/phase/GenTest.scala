@@ -28,9 +28,9 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     config: GenTestConfig
   ): Unit = {
     TEST_MODE = true
-    val parsedMap = (for (version <- List("recent")) yield time(s"parse $version", {
+    val parsedMap = (for (version <- VERSIONS) yield time(s"parse $version", {
       val input = ECMAScriptParser.preprocess(version)
-      val spec = ECMAScriptParser(input, "", false, false)
+      val spec = ECMAScriptParser(version, input, "", false, false)
       version -> (input, spec)
     })).toMap
     genGrammarTest(parsedMap)
@@ -47,7 +47,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
   def genGrammarTest(parsedMap: Map[String, Parsed]): Unit =
     time("generate grammar tests", {
       mkdir(GRAMMAR_DIR)
-      for (version <- List("recent")) {
+      for (version <- VERSIONS) {
         val (_, spec) = parsedMap(version)
         val filename = s"$GRAMMAR_DIR/$version.grammar"
         dumpFile(spec.grammar.toString, filename)
@@ -57,7 +57,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
   // generate cfg test
   def genCFGTest(parsedMap: Map[String, Parsed]): Unit = time("generate cfg tests", {
     mkdir(CFG_TEST_DIR)
-    for (version <- List("recent")) {
+    for (version <- VERSIONS) {
       val (_, spec) = parsedMap(version)
       val baseDir = s"$CFG_TEST_DIR/$version"
       mkdir(baseDir)
@@ -88,7 +88,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
 
   // generate basic test
   def genBasicTest(parsedMap: Map[String, Parsed]): Unit =
-    for (version <- List("recent")) {
+    for (version <- VERSIONS) {
       val (input, spec) = parsedMap(version)
       time(s"generate $version tests", {
         val baseDir = s"$BASIC_COMPILE_DIR/$version"
@@ -99,7 +99,10 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
         val (secIds, _) = ECMAScriptParser.parseHeads()
 
         mkdir(baseDir)
-        spec.algos.foreach(algo => {
+        for {
+          algo <- spec.algos
+          if algo.code != Nil
+        } {
           val Algo(head, rawBody, code) = algo
           // file name
           val filename = s"$baseDir/${algo.name}"
@@ -110,7 +113,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
           dumpJson(tokens, s"$filename.json")
           // dump ir
           dumpFile(rawBody.beautified(index = false, asite = false), s"$filename.ir")
-        })
+        }
       })
     }
 

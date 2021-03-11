@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.parser
 
+import kr.ac.kaist.jiset.ir.IRParser
 import kr.ac.kaist.jiset.parser.algorithm.{ ASiteWalker, AlgoParser, HeadParser }
 import kr.ac.kaist.jiset.parser.grammar.GrammarParser
 import kr.ac.kaist.jiset.spec._
@@ -7,7 +8,7 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP, RECENT_VERSION }
+import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP, RECENT_VERSION, RESOURCE_DIR }
 import org.jsoup._
 import org.jsoup.nodes._
 import scala.collection.mutable.Stack
@@ -20,8 +21,9 @@ object ECMAScriptParser {
     useCount: Boolean,
     detail: Boolean
   ): ECMAScript =
-    apply(preprocess(version), query, useCount, detail)
+    apply(version, preprocess(version), query, useCount, detail)
   def apply(
+    version: String,
     input: (Array[String], Document, Region),
     query: String,
     useCount: Boolean,
@@ -33,9 +35,10 @@ object ECMAScriptParser {
     implicit val grammar = parseGrammar
 
     // parse algorithm
-    val algos =
+    val algos = (
       if (query == "") parseAlgo(document, useCount, detail)
       else getElems(document, query).toList.flatMap(parseAlgo(_, useCount, detail))
+    ) ++ manualAlgos(version)
 
     // intrinsic object names
     val intrinsics = parseIntrinsic
@@ -253,4 +256,11 @@ object ECMAScriptParser {
 
   // parse section hierarchy
   def parseSection(implicit document: Document): Section = Section(document.body)
+
+  // parse manual algorithms
+  def manualAlgos(version: String): Iterable[Algo] = for {
+    file <- walkTree(s"$RESOURCE_DIR/$version")
+    filename = file.toString
+    if irFilter(filename)
+  } yield IRParser.parseAlgo(readFile(file.toString))
 }
