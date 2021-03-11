@@ -48,6 +48,15 @@ object BasicDomain extends heap.Domain {
     // update
     def +(pair: (Addr, AbsObj)): Elem = copy(map = map + pair)
 
+    // get size
+    def size: Int = map.size
+
+    // get addresses
+    def keySet: Set[Addr] = map.keySet
+
+    // remove addresses
+    def --(set: Set[Addr]): Elem = copy(map = map -- set)
+
     // normalize addresses
     def normAddr(set: Set[Addr]): Set[Addr] = (new AddrNormalizer(this))(set)
   }

@@ -105,10 +105,13 @@ class AbsSemantics(
     if (params.exists(_.kind == Param.Kind.Variadic)) ???
     val pairs = getEnv(call, params, args)
     val np = NodePoint(func.entry, view)
-    val newSt = pairs.foldLeft(st.copy(env = AbsEnv.Empty)) {
-      case (st, (x, v)) => st + (x -> v)
+    val (newSt, root) = pairs.foldLeft((AbsState.Empty, AbsValue.Bot)) {
+      case ((st, root), (x, v)) => (st + (x -> v), root ⊔ v)
     }
-    this += np -> newSt
+
+    // garbage collection
+    val newHeap = GC(st.heap, root)
+    this += np -> newSt.copy(heap = newHeap)
 
     val rp = ReturnPoint(func, view)
     val callNP = NodePoint(call, callView)
