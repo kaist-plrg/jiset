@@ -232,6 +232,43 @@ class Model(cfg: CFG) {
     "%ArrayBuffer.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
     )),
+    "%ArrayIteratorPrototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%IteratorPrototype%")),
+    )),
+    "%AsyncFromSyncIteratorPrototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%AsyncIteratorPrototype%")),
+    )),
+    "%AsyncIteratorPrototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
+    "%Atomics%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
+    "%BigInt%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("BigInt"),
+      "Construct" -> getClo("BigInt"),
+    )),
+    "%BigInt.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
+    "%Boolean%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("Boolean"),
+      "Construct" -> getClo("Boolean"),
+    )),
+    "%Boolean.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+      "BooleanData" -> AF,
+    )),
+    "%DataView%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("Function.prototype")),
+      "Call" -> getClo("DataView"),
+      "Construct" -> getClo("DataView"),
+    )),
+    "%DataView.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
   )
 
   // TODO more manual modelings
