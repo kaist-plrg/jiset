@@ -209,7 +209,7 @@ class Model(cfg: CFG) {
       "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
     )),
     "%Array%" -> (Some("OrdinaryObject"), Map(
-      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
       "Call" -> getClo("Array"),
       "Construct" -> getClo("Array"),
     )),
