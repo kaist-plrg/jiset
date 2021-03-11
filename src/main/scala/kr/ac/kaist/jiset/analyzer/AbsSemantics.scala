@@ -118,8 +118,8 @@ class AbsSemantics(
     }
 
     // garbage collection
-    val newHeap = if (useGC) GC(st.heap, root) else st.heap
-    this += np -> newSt.copy(heap = newHeap)
+    val newH = if (useGC) GC(st.heap, root) else st.heap
+    this += np -> newSt.copy(heap = newH)
 
     val rp = ReturnPoint(func, view)
     val callNP = NodePoint(call, callView)
@@ -132,7 +132,12 @@ class AbsSemantics(
 
   // update return points
   def doReturn(pair: (ReturnPoint, (AbsHeap, AbsValue))): Unit = {
-    val (rp, (newH, newV)) = pair
+    val (rp, (tempH, newV)) = pair
+    val newH = if (useGC) {
+      val entryH = this(NodePoint(rp.func.entry, rp.view)).heap
+      val root = entryH.keySet.foldLeft(newV)(_ ⊔ AbsValue.alpha(_))
+      GC(tempH, root)
+    } else tempH
     val (oldH, oldV) = this(rp)
     if (!(newH ⊑ oldH && newV ⊑ oldV)) {
       rpMap += rp -> (oldH ⊔ newH, oldV ⊔ newV)
