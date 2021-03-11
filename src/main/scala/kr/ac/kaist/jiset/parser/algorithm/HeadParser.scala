@@ -268,7 +268,7 @@ object HeadParser extends HeadParsers {
 
   // check validity of names
   def nameCheck(name: String): Boolean =
-    namePattern.matches(name) && !ECMAScript.PREDEF.contains(name)
+    namePattern.matches(name) && !ECMAScript.PREDEF_FUNC.contains(name)
 
   // find receiver parameter
   def firstReceiverParam(str: String): Option[String] = str match {

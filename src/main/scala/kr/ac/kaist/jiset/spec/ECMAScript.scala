@@ -81,16 +81,6 @@ object ECMAScript {
     "IsAbruptCompletion" -> (1, 1),
     "WrapCompletion" -> (1, 1),
     "GetArgument" -> (2, 2),
-    // TEMPORARY -> should be extracted in later
-    "Number::exponentiate" -> (2, 2),
-    "Number::mutiply" -> (2, 2),
-    "Number::divide" -> (2, 2),
-    "Number::remainder" -> (2, 2),
-    "Number::add" -> (2, 2),
-    "BigInt::bitwiseNOT" -> (2, 2),
-    "BigInt::mutiply" -> (2, 2),
-    "BigInt::add" -> (2, 2),
-    "BigInt::subtract" -> (2, 2)
   )
 
   // pre-defined global identifiers

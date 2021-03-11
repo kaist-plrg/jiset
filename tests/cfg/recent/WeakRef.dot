@@ -1,45 +1,45 @@
 digraph {
-  node18360 [shape=cds, label=<<font color="black">3:app __x2__ = (AddToKeptObjects target)</font>> color="black" fillcolor="white" style=filled]
-  node18356 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node18353 [shape=diamond, label=<<font color="black">(= NewTarget undefined)</font>> color="black" fillcolor="white" style=filled]
-  node18361 [shape=none, margin=0, label=<<font color="black">
+  node18429 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18438 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:[! __x2__]</td></tr>
       <tr><td align="left">4:weakRef.WeakRefTarget = target</td></tr>
       <tr><td align="left">5:return weakRef</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18351 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18357 [shape=none, margin=0, label=<<font color="black">
+  node18432 [shape=cds, label=<<font color="black">1:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node18433 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node18428 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18427 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18431 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18350 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18354 [shape=none, margin=0, label=<<font color="black">
+  node18434 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18358 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryCreateFromConstructor NewTarget &quot;%WeakRef.prototype%&quot; (new [&quot;WeakRefTarget&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node18355 [shape=cds, label=<<font color="black">1:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
-  node18352 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node18359 [shape=none, margin=0, label=<<font color="black">
+  node18430 [shape=diamond, label=<<font color="black">(= NewTarget undefined)</font>> color="black" fillcolor="white" style=filled]
+  node18435 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryCreateFromConstructor NewTarget &quot;%WeakRef.prototype%&quot; (new [&quot;WeakRefTarget&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node18437 [shape=cds, label=<<font color="black">3:app __x2__ = (AddToKeptObjects target)</font>> color="black" fillcolor="white" style=filled]
+  node18436 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let weakRef = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18360 -> node18361 [ color="black"]
-  node18357 -> node18358 [ color="black"]
-  node18356 -> node18357 [label=<<font color="black">true</font>> color="black"]
-  node18356 -> node18358 [label=<<font color="black">false</font>> color="black"]
-  node18359 -> node18360 [ color="black"]
-  node18358 -> node18359 [ color="black"]
-  node18350 -> node18352 [ color="black"]
-  node18361 -> node18351 [ color="black"]
-  node18354 -> node18355 [ color="black"]
-  node18352 -> node18353 [ color="black"]
-  node18353 -> node18354 [label=<<font color="black">true</font>> color="black"]
-  node18353 -> node18355 [label=<<font color="black">false</font>> color="black"]
-  node18355 -> node18356 [ color="black"]
+  node18429 -> node18430 [ color="black"]
+  node18435 -> node18436 [ color="black"]
+  node18431 -> node18432 [ color="black"]
+  node18427 -> node18429 [ color="black"]
+  node18434 -> node18435 [ color="black"]
+  node18430 -> node18431 [label=<<font color="black">true</font>> color="black"]
+  node18430 -> node18432 [label=<<font color="black">false</font>> color="black"]
+  node18433 -> node18434 [label=<<font color="black">true</font>> color="black"]
+  node18433 -> node18435 [label=<<font color="black">false</font>> color="black"]
+  node18438 -> node18428 [ color="black"]
+  node18436 -> node18437 [ color="black"]
+  node18437 -> node18438 [ color="black"]
+  node18432 -> node18433 [ color="black"]
 }

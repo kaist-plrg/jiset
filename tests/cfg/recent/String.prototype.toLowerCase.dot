@@ -1,39 +1,39 @@
 digraph {
-  node14419 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let O = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14423 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let sText = [! __x2__]</td></tr>
-      <tr><td align="left">3:??? &quot;Let id:{lowerText} be the result of toLowercase ( id:{sText} ) , according to the Unicode Default Case Conversion algorithm .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14420 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
-  node14424 [shape=cds, label=<<font color="black">4:app __x3__ = (CodePointsToString lowerText)</font>> color="black" fillcolor="white" style=filled]
-  node14416 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14417 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14421 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let S = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14425 [shape=none, margin=0, label=<<font color="black">
+  node14501 [shape=cds, label=<<font color="black">4:app __x3__ = (CodePointsToString lowerText)</font>> color="black" fillcolor="white" style=filled]
+  node14494 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14497 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
+  node14502 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:let L = [! __x3__]</td></tr>
       <tr><td align="left">5:return L</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14418 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
-  node14422 [shape=cds, label=<<font color="black">2:app __x2__ = (StringToCodePoints S)</font>> color="black" fillcolor="white" style=filled]
-  node14422 -> node14423 [ color="black"]
-  node14420 -> node14421 [ color="black"]
-  node14424 -> node14425 [ color="black"]
-  node14418 -> node14419 [ color="black"]
-  node14419 -> node14420 [ color="black"]
-  node14421 -> node14422 [ color="black"]
-  node14423 -> node14424 [ color="black"]
-  node14416 -> node14418 [ color="black"]
-  node14425 -> node14417 [ color="black"]
+  node14493 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14498 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let S = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14496 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14499 [shape=cds, label=<<font color="black">2:app __x2__ = (StringToCodePoints S)</font>> color="black" fillcolor="white" style=filled]
+  node14495 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
+  node14500 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let sText = [! __x2__]</td></tr>
+      <tr><td align="left">3:??? &quot;Let id:{lowerText} be the result of toLowercase ( id:{sText} ) , according to the Unicode Default Case Conversion algorithm .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14499 -> node14500 [ color="black"]
+  node14495 -> node14496 [ color="black"]
+  node14497 -> node14498 [ color="black"]
+  node14496 -> node14497 [ color="black"]
+  node14498 -> node14499 [ color="black"]
+  node14502 -> node14494 [ color="black"]
+  node14500 -> node14501 [ color="black"]
+  node14501 -> node14502 [ color="black"]
+  node14493 -> node14495 [ color="black"]
 }

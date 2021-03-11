@@ -1,33 +1,33 @@
 digraph {
-  node12960 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:exponent = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12956 [shape=cds, label=<<font color="black">app exponent = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node12961 [shape=cds, label=<<font color="black">2:app __x2__ = (PRIMITIVE[Number].exponentiate base exponent)</font>> color="black" fillcolor="white" style=filled]
-  node12959 [shape=cds, label=<<font color="black">1:app __x1__ = (ToNumber exponent)</font>> color="black" fillcolor="white" style=filled]
-  node12953 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12958 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:base = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12954 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12957 [shape=cds, label=<<font color="black">0:app __x0__ = (ToNumber base)</font>> color="black" fillcolor="white" style=filled]
-  node12955 [shape=cds, label=<<font color="black">app base = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node12962 [shape=none, margin=0, label=<<font color="black">
+  node13020 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return [! __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12961 -> node12962 [ color="black"]
-  node12960 -> node12961 [ color="black"]
-  node12956 -> node12957 [ color="black"]
-  node12955 -> node12956 [ color="black"]
-  node12959 -> node12960 [ color="black"]
-  node12957 -> node12958 [ color="black"]
-  node12953 -> node12955 [ color="black"]
-  node12962 -> node12954 [ color="black"]
-  node12958 -> node12959 [ color="black"]
+  node13013 [shape=cds, label=<<font color="black">app base = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node13014 [shape=cds, label=<<font color="black">app exponent = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node13018 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:exponent = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13015 [shape=cds, label=<<font color="black">0:app __x0__ = (ToNumber base)</font>> color="black" fillcolor="white" style=filled]
+  node13012 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13017 [shape=cds, label=<<font color="black">1:app __x1__ = (ToNumber exponent)</font>> color="black" fillcolor="white" style=filled]
+  node13019 [shape=cds, label=<<font color="black">2:app __x2__ = (PRIMITIVE[Number].exponentiate base exponent)</font>> color="black" fillcolor="white" style=filled]
+  node13016 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:base = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13011 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13016 -> node13017 [ color="black"]
+  node13015 -> node13016 [ color="black"]
+  node13019 -> node13020 [ color="black"]
+  node13018 -> node13019 [ color="black"]
+  node13020 -> node13012 [ color="black"]
+  node13017 -> node13018 [ color="black"]
+  node13014 -> node13015 [ color="black"]
+  node13013 -> node13014 [ color="black"]
+  node13011 -> node13013 [ color="black"]
 }

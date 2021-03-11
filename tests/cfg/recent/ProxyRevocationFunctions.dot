@@ -1,16 +1,19 @@
 digraph {
-  node19490 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19488 [shape=none, margin=0, label=<<font color="black">
+  node19565 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let F = GLOBAL_context.Function</td></tr>
       <tr><td align="left">1:let p = F.RevocableProxy</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19491 [shape=none, margin=0, label=<<font color="black">
+  node19566 [shape=diamond, label=<<font color="black">(= p null)</font>> color="black" fillcolor="white" style=filled]
+  node19563 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19567 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19564 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19568 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:F.RevocableProxy = null</td></tr>
       <tr><td align="left">5:p.ProxyTarget = null</td></tr>
@@ -18,13 +21,10 @@ digraph {
       <tr><td align="left">7:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19487 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19489 [shape=diamond, label=<<font color="black">(= p null)</font>> color="black" fillcolor="white" style=filled]
-  node19486 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19489 -> node19490 [label=<<font color="black">true</font>> color="black"]
-  node19489 -> node19491 [label=<<font color="black">false</font>> color="black"]
-  node19491 -> node19487 [ color="black"]
-  node19488 -> node19489 [ color="black"]
-  node19490 -> node19491 [ color="black"]
-  node19486 -> node19488 [ color="black"]
+  node19568 -> node19564 [ color="black"]
+  node19565 -> node19566 [ color="black"]
+  node19566 -> node19567 [label=<<font color="black">true</font>> color="black"]
+  node19566 -> node19568 [label=<<font color="black">false</font>> color="black"]
+  node19567 -> node19568 [ color="black"]
+  node19563 -> node19565 [ color="black"]
 }

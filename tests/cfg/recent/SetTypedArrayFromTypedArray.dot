@@ -1,42 +1,12 @@
 digraph {
-  node16701 [shape=none, margin=0, label=<<font color="black">
+  node16789 [shape=cds, label=<<font color="black">app __x4__ = (SameValue srcBuffer targetBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node16772 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw RangeError</td></tr>
+      <tr><td align="left">3:let targetLength = target.ArrayLength</td></tr>
+      <tr><td align="left">4:let srcBuffer = source.ViewedArrayBuffer</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16720 [shape=diamond, label=<<font color="black">(= srcType targetType)</font>> color="black" fillcolor="white" style=filled]
-  node16693 [shape=diamond, label=<<font color="black">(= __x0__ true)</font>> color="black" fillcolor="white" style=filled]
-  node16725 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">33:__x7__</td></tr>
-      <tr><td align="left">34:srcByteIndex = (+ srcByteIndex 1i)</td></tr>
-      <tr><td align="left">35:targetByteIndex = (+ targetByteIndex 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16697 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
-  node16729 [shape=cds, label=<<font color="black">39:app __x9__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
-  node16723 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">32:let value = __x6__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16691 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let targetBuffer = target.ViewedArrayBuffer</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16718 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let srcByteIndex = srcByteOffset</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16703 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw RangeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16706 [shape=cds, label=<<font color="black">20:app __x2__ = (IsSharedArrayBuffer srcBuffer)</font>> color="black" fillcolor="white" style=filled]
-  node16699 [shape=none, margin=0, label=<<font color="black">
+  node16776 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let targetName = target.TypedArrayName</td></tr>
       <tr><td align="left">7:??? &quot;Let id:{targetType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{targetName} .&quot;</td></tr>
@@ -49,139 +19,169 @@ digraph {
       <tr><td align="left">14:let srcByteOffset = source.ByteOffset</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16727 [shape=cds, label=<<font color="black">38:app __x8__ = (GetValueFromBuffer srcBuffer srcByteIndex srcType true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
-  node16728 [shape=none, margin=0, label=<<font color="black">
+  node16780 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">38:let value = __x8__</td></tr>
+      <tr><td align="left">throw RangeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16708 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x2__ true) (= __x3__ true))</font>> color="black" fillcolor="white" style=filled]
-  node16698 [shape=none, margin=0, label=<<font color="black">
+  node16769 [shape=cds, label=<<font color="black">2:app __x0__ = (IsDetachedBuffer targetBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node16770 [shape=diamond, label=<<font color="black">(= __x0__ true)</font>> color="black" fillcolor="white" style=filled]
+  node16791 [shape=diamond, label=<<font color="black">(= same true)</font>> color="black" fillcolor="white" style=filled]
+  node16794 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
+      <tr><td align="left">23:srcBuffer = [? __x5__]</td></tr>
+      <tr><td align="left">25:let srcByteIndex = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16713 [shape=none, margin=0, label=<<font color="black">
+  node16797 [shape=diamond, label=<<font color="black">(= srcType targetType)</font>> color="black" fillcolor="white" style=filled]
+  node16777 [shape=diamond, label=<<font color="black">(= targetOffset Infinity)</font>> color="black" fillcolor="white" style=filled]
+  node16804 [shape=cds, label=<<font color="black">38:app __x8__ = (GetValueFromBuffer srcBuffer srcByteIndex srcType true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
+  node16784 [shape=cds, label=<<font color="black">20:app __x3__ = (IsSharedArrayBuffer targetBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node16798 [shape=diamond, label=<<font color="black">(&lt; targetByteIndex limit)</font>> color="black" fillcolor="white" style=filled]
+  node16785 [shape=diamond, label=<<font color="black">(&amp;&amp; (= __x2__ true) (= __x3__ true))</font>> color="black" fillcolor="white" style=filled]
+  node16801 [shape=cds, label=<<font color="black">33:app __x7__ = (SetValueInBuffer targetBuffer targetByteIndex CONST_Uint8 value true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
+  node16790 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let same = __x4__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16730 [shape=none, margin=0, label=<<font color="black">
+  node16793 [shape=cds, label=<<font color="black">23:app __x5__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSIC_ArrayBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node16800 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">32:let value = __x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16783 [shape=cds, label=<<font color="black">20:app __x2__ = (IsSharedArrayBuffer srcBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node16768 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let targetBuffer = target.ViewedArrayBuffer</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16805 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">38:let value = __x8__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16786 [shape=diamond, label=<<font color="black">(= srcBuffer.ArrayBufferData targetBuffer.ArrayBufferData)</font>> color="black" fillcolor="white" style=filled]
+  node16773 [shape=cds, label=<<font color="black">5:app __x1__ = (IsDetachedBuffer srcBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node16796 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">27:let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)</td></tr>
+      <tr><td align="left">28:let limit = (* (+ targetByteIndex targetElementSize) srcLength)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16779 [shape=diamond, label=<<font color="black">(&lt; targetLength (+ srcLength targetOffset))</font>> color="black" fillcolor="white" style=filled]
+  node16782 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16774 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node16767 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16799 [shape=cds, label=<<font color="black">32:app __x6__ = (GetValueFromBuffer srcBuffer srcByteIndex CONST_Uint8 true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
+  node16802 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">33:__x7__</td></tr>
+      <tr><td align="left">34:srcByteIndex = (+ srcByteIndex 1i)</td></tr>
+      <tr><td align="left">35:targetByteIndex = (+ targetByteIndex 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16806 [shape=cds, label=<<font color="black">39:app __x9__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
+  node16787 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let same = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16781 [shape=diamond, label=<<font color="black">(! (== target.ContentType source.ContentType))</font>> color="black" fillcolor="white" style=filled]
+  node16766 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16807 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">39:__x9__</td></tr>
       <tr><td align="left">40:srcByteIndex = (+ srcByteIndex srcElementSize)</td></tr>
       <tr><td align="left">41:targetByteIndex = (+ targetByteIndex targetElementSize)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16712 [shape=cds, label=<<font color="black">app __x4__ = (SameValue srcBuffer targetBuffer)</font>> color="black" fillcolor="white" style=filled]
-  node16689 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16721 [shape=diamond, label=<<font color="black">(&lt; targetByteIndex limit)</font>> color="black" fillcolor="white" style=filled]
-  node16716 [shape=cds, label=<<font color="black">23:app __x5__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSIC_ArrayBuffer)</font>> color="black" fillcolor="white" style=filled]
-  node16704 [shape=diamond, label=<<font color="black">(! (== target.ContentType source.ContentType))</font>> color="black" fillcolor="white" style=filled]
-  node16719 [shape=none, margin=0, label=<<font color="black">
+  node16795 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">27:let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)</td></tr>
-      <tr><td align="left">28:let limit = (* (+ targetByteIndex targetElementSize) srcLength)</td></tr>
+      <tr><td align="left">let srcByteIndex = srcByteOffset</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16700 [shape=diamond, label=<<font color="black">(= targetOffset Infinity)</font>> color="black" fillcolor="white" style=filled]
-  node16715 [shape=none, margin=0, label=<<font color="black">
+  node16803 [shape=diamond, label=<<font color="black">(&lt; targetByteIndex limit)</font>> color="black" fillcolor="white" style=filled]
+  node16778 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">22:let srcByteLength = source.ByteLength</td></tr>
+      <tr><td align="left">throw RangeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16690 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16722 [shape=cds, label=<<font color="black">32:app __x6__ = (GetValueFromBuffer srcBuffer srcByteIndex CONST_Uint8 true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
-  node16705 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16694 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16709 [shape=diamond, label=<<font color="black">(= srcBuffer.ArrayBufferData targetBuffer.ArrayBufferData)</font>> color="black" fillcolor="white" style=filled]
-  node16726 [shape=diamond, label=<<font color="black">(&lt; targetByteIndex limit)</font>> color="black" fillcolor="white" style=filled]
-  node16695 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let targetLength = target.ArrayLength</td></tr>
-      <tr><td align="left">4:let srcBuffer = source.ViewedArrayBuffer</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16710 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let same = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16714 [shape=diamond, label=<<font color="black">(= same true)</font>> color="black" fillcolor="white" style=filled]
-  node16692 [shape=cds, label=<<font color="black">2:app __x0__ = (IsDetachedBuffer targetBuffer)</font>> color="black" fillcolor="white" style=filled]
-  node16707 [shape=cds, label=<<font color="black">20:app __x3__ = (IsSharedArrayBuffer targetBuffer)</font>> color="black" fillcolor="white" style=filled]
-  node16702 [shape=diamond, label=<<font color="black">(&lt; targetLength (+ srcLength targetOffset))</font>> color="black" fillcolor="white" style=filled]
-  node16717 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">23:srcBuffer = [? __x5__]</td></tr>
-      <tr><td align="left">25:let srcByteIndex = 0i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16696 [shape=cds, label=<<font color="black">5:app __x1__ = (IsDetachedBuffer srcBuffer)</font>> color="black" fillcolor="white" style=filled]
-  node16711 [shape=none, margin=0, label=<<font color="black">
+  node16788 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let same = false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16724 [shape=cds, label=<<font color="black">33:app __x7__ = (SetValueInBuffer targetBuffer targetByteIndex CONST_Uint8 value true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
-  node16722 -> node16723 [ color="black"]
-  node16692 -> node16693 [ color="black"]
-  node16715 -> node16716 [ color="black"]
-  node16706 -> node16707 [ color="black"]
-  node16712 -> node16713 [ color="black"]
-  node16689 -> node16691 [ color="black"]
-  node16724 -> node16725 [ color="black"]
-  node16704 -> node16705 [label=<<font color="black">true</font>> color="black"]
-  node16704 -> node16706 [label=<<font color="black">false</font>> color="black"]
-  node16696 -> node16697 [ color="black"]
-  node16703 -> node16704 [ color="black"]
-  node16714 -> node16715 [label=<<font color="black">true</font>> color="black"]
-  node16714 -> node16718 [label=<<font color="black">false</font>> color="black"]
-  node16702 -> node16703 [label=<<font color="black">true</font>> color="black"]
-  node16702 -> node16704 [label=<<font color="black">false</font>> color="black"]
-  node16693 -> node16694 [label=<<font color="black">true</font>> color="black"]
-  node16693 -> node16695 [label=<<font color="black">false</font>> color="black"]
-  node16717 -> node16719 [ color="black"]
-  node16726 -> node16727 [label=<<font color="black">true</font>> color="black"]
-  node16726 -> node16690 [label=<<font color="black">false</font>> color="black"]
-  node16697 -> node16698 [label=<<font color="black">true</font>> color="black"]
-  node16697 -> node16699 [label=<<font color="black">false</font>> color="black"]
-  node16723 -> node16724 [ color="black"]
-  node16699 -> node16700 [ color="black"]
-  node16711 -> node16714 [ color="black"]
-  node16718 -> node16719 [ color="black"]
-  node16716 -> node16717 [ color="black"]
-  node16698 -> node16699 [ color="black"]
-  node16705 -> node16706 [ color="black"]
-  node16710 -> node16714 [ color="black"]
-  node16708 -> node16709 [label=<<font color="black">true</font>> color="black"]
-  node16708 -> node16712 [label=<<font color="black">false</font>> color="black"]
-  node16729 -> node16730 [ color="black"]
-  node16720 -> node16721 [label=<<font color="black">true</font>> color="black"]
-  node16720 -> node16726 [label=<<font color="black">false</font>> color="black"]
-  node16725 -> node16721 [ color="black"]
-  node16701 -> node16702 [ color="black"]
-  node16730 -> node16726 [ color="black"]
-  node16695 -> node16696 [ color="black"]
-  node16700 -> node16701 [label=<<font color="black">true</font>> color="black"]
-  node16700 -> node16702 [label=<<font color="black">false</font>> color="black"]
-  node16694 -> node16695 [ color="black"]
-  node16707 -> node16708 [ color="black"]
-  node16709 -> node16710 [label=<<font color="black">true</font>> color="black"]
-  node16709 -> node16711 [label=<<font color="black">false</font>> color="black"]
-  node16727 -> node16728 [ color="black"]
-  node16721 -> node16722 [label=<<font color="black">true</font>> color="black"]
-  node16721 -> node16690 [label=<<font color="black">false</font>> color="black"]
-  node16728 -> node16729 [ color="black"]
-  node16713 -> node16714 [ color="black"]
-  node16719 -> node16720 [ color="black"]
-  node16691 -> node16692 [ color="black"]
+  node16771 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16792 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">22:let srcByteLength = source.ByteLength</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16775 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16771 -> node16772 [ color="black"]
+  node16770 -> node16771 [label=<<font color="black">true</font>> color="black"]
+  node16770 -> node16772 [label=<<font color="black">false</font>> color="black"]
+  node16769 -> node16770 [ color="black"]
+  node16773 -> node16774 [ color="black"]
+  node16794 -> node16796 [ color="black"]
+  node16791 -> node16792 [label=<<font color="black">true</font>> color="black"]
+  node16791 -> node16795 [label=<<font color="black">false</font>> color="black"]
+  node16797 -> node16798 [label=<<font color="black">true</font>> color="black"]
+  node16797 -> node16803 [label=<<font color="black">false</font>> color="black"]
+  node16772 -> node16773 [ color="black"]
+  node16787 -> node16791 [ color="black"]
+  node16775 -> node16776 [ color="black"]
+  node16768 -> node16769 [ color="black"]
+  node16789 -> node16790 [ color="black"]
+  node16788 -> node16791 [ color="black"]
+  node16802 -> node16798 [ color="black"]
+  node16790 -> node16791 [ color="black"]
+  node16806 -> node16807 [ color="black"]
+  node16784 -> node16785 [ color="black"]
+  node16796 -> node16797 [ color="black"]
+  node16800 -> node16801 [ color="black"]
+  node16783 -> node16784 [ color="black"]
+  node16776 -> node16777 [ color="black"]
+  node16785 -> node16786 [label=<<font color="black">true</font>> color="black"]
+  node16785 -> node16789 [label=<<font color="black">false</font>> color="black"]
+  node16774 -> node16775 [label=<<font color="black">true</font>> color="black"]
+  node16774 -> node16776 [label=<<font color="black">false</font>> color="black"]
+  node16786 -> node16787 [label=<<font color="black">true</font>> color="black"]
+  node16786 -> node16788 [label=<<font color="black">false</font>> color="black"]
+  node16793 -> node16794 [ color="black"]
+  node16777 -> node16778 [label=<<font color="black">true</font>> color="black"]
+  node16777 -> node16779 [label=<<font color="black">false</font>> color="black"]
+  node16807 -> node16803 [ color="black"]
+  node16799 -> node16800 [ color="black"]
+  node16798 -> node16799 [label=<<font color="black">true</font>> color="black"]
+  node16798 -> node16767 [label=<<font color="black">false</font>> color="black"]
+  node16795 -> node16796 [ color="black"]
+  node16766 -> node16768 [ color="black"]
+  node16781 -> node16782 [label=<<font color="black">true</font>> color="black"]
+  node16781 -> node16783 [label=<<font color="black">false</font>> color="black"]
+  node16804 -> node16805 [ color="black"]
+  node16803 -> node16804 [label=<<font color="black">true</font>> color="black"]
+  node16803 -> node16767 [label=<<font color="black">false</font>> color="black"]
+  node16778 -> node16779 [ color="black"]
+  node16782 -> node16783 [ color="black"]
+  node16780 -> node16781 [ color="black"]
+  node16801 -> node16802 [ color="black"]
+  node16779 -> node16780 [label=<<font color="black">true</font>> color="black"]
+  node16779 -> node16781 [label=<<font color="black">false</font>> color="black"]
+  node16805 -> node16806 [ color="black"]
+  node16792 -> node16793 [ color="black"]
 }

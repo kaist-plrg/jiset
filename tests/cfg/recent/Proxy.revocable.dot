@@ -1,52 +1,52 @@
 digraph {
-  node19481 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let result = [! __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19477 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let p = [? __x0__]</td></tr>
-      <tr><td align="left">1:let steps = ProxyRevocationFunctions</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19485 [shape=none, margin=0, label=<<font color="black">
+  node19550 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19553 [shape=cds, label=<<font color="black">0:app __x0__ = (ProxyCreate target handler)</font>> color="black" fillcolor="white" style=filled]
+  node19561 [shape=cds, label=<<font color="black">6:app __x4__ = (CreateDataPropertyOrThrow result &quot;revoke&quot; revoker)</font>> color="black" fillcolor="white" style=filled]
+  node19557 [shape=cds, label=<<font color="black">4:app __x2__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node19562 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:[! __x4__]</td></tr>
       <tr><td align="left">7:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19484 [shape=cds, label=<<font color="black">6:app __x4__ = (CreateDataPropertyOrThrow result &quot;revoke&quot; revoker)</font>> color="black" fillcolor="white" style=filled]
-  node19478 [shape=cds, label=<<font color="black">2:app __x1__ = (CreateBuiltinFunction steps (new [&quot;RevocableProxy&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node19474 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node19479 [shape=none, margin=0, label=<<font color="black">
+  node19549 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19554 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let p = [? __x0__]</td></tr>
+      <tr><td align="left">1:let steps = ProxyRevocationFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19559 [shape=cds, label=<<font color="black">5:app __x3__ = (CreateDataPropertyOrThrow result &quot;proxy&quot; p)</font>> color="black" fillcolor="white" style=filled]
+  node19558 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let result = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19551 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node19556 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let revoker = [! __x1__]</td></tr>
       <tr><td align="left">3:revoker.RevocableProxy = p</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19483 [shape=none, margin=0, label=<<font color="black">
+  node19555 [shape=cds, label=<<font color="black">2:app __x1__ = (CreateBuiltinFunction steps (new [&quot;RevocableProxy&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node19560 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:[! __x3__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19475 [shape=cds, label=<<font color="black">app handler = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node19480 [shape=cds, label=<<font color="black">4:app __x2__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
-  node19482 [shape=cds, label=<<font color="black">5:app __x3__ = (CreateDataPropertyOrThrow result &quot;proxy&quot; p)</font>> color="black" fillcolor="white" style=filled]
-  node19476 [shape=cds, label=<<font color="black">0:app __x0__ = (ProxyCreate target handler)</font>> color="black" fillcolor="white" style=filled]
-  node19473 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19472 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19484 -> node19485 [ color="black"]
-  node19483 -> node19484 [ color="black"]
-  node19475 -> node19476 [ color="black"]
-  node19479 -> node19480 [ color="black"]
-  node19472 -> node19474 [ color="black"]
-  node19477 -> node19478 [ color="black"]
-  node19482 -> node19483 [ color="black"]
-  node19480 -> node19481 [ color="black"]
-  node19474 -> node19475 [ color="black"]
-  node19476 -> node19477 [ color="black"]
-  node19485 -> node19473 [ color="black"]
-  node19478 -> node19479 [ color="black"]
-  node19481 -> node19482 [ color="black"]
+  node19552 [shape=cds, label=<<font color="black">app handler = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node19557 -> node19558 [ color="black"]
+  node19562 -> node19550 [ color="black"]
+  node19555 -> node19556 [ color="black"]
+  node19559 -> node19560 [ color="black"]
+  node19552 -> node19553 [ color="black"]
+  node19554 -> node19555 [ color="black"]
+  node19556 -> node19557 [ color="black"]
+  node19561 -> node19562 [ color="black"]
+  node19558 -> node19559 [ color="black"]
+  node19549 -> node19551 [ color="black"]
+  node19553 -> node19554 [ color="black"]
+  node19560 -> node19561 [ color="black"]
+  node19551 -> node19552 [ color="black"]
 }

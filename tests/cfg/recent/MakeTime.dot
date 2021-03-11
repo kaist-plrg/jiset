@@ -1,48 +1,48 @@
 digraph {
-  node13058 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let h = [! __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node13062 [shape=none, margin=0, label=<<font color="black">
+  node13120 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let s = [! __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13056 [shape=none, margin=0, label=<<font color="black">
+  node13116 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return NaN</td></tr>
+      <tr><td align="left">1:let h = [! __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13059 [shape=cds, label=<<font color="black">2:app __x1__ = (ToIntegerOrInfinity min)</font>> color="black" fillcolor="white" style=filled]
-  node13060 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let m = [! __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node13054 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13064 [shape=none, margin=0, label=<<font color="black">
+  node13122 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:let milli = [! __x3__]</td></tr>
       <tr><td align="left">5:??? &quot;Let id:{t} be ( ( id:{h} code:{*} msPerHour code:{+} id:{m} code:{*} msPerMinute ) code:{+} id:{s} code:{*} msPerSecond ) code:{+} id:{milli} , performing the arithmetic according to IEEE 754 - 2019 rules ( that is , as if using the ECMAScript operators code:{*} and code:{+} ) .&quot;</td></tr>
       <tr><td align="left">6:return t</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13057 [shape=cds, label=<<font color="black">1:app __x0__ = (ToIntegerOrInfinity hour)</font>> color="black" fillcolor="white" style=filled]
-  node13055 [shape=diamond, label=<<font color="black">(|| (|| (= hour Infinity) (= hour -Infinity)) (|| (|| (= min Infinity) (= min -Infinity)) (|| (|| (= sec Infinity) (= sec -Infinity)) (|| (= ms Infinity) (= ms -Infinity)))))</font>> color="black" fillcolor="white" style=filled]
-  node13063 [shape=cds, label=<<font color="black">4:app __x3__ = (ToIntegerOrInfinity ms)</font>> color="black" fillcolor="white" style=filled]
-  node13053 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13061 [shape=cds, label=<<font color="black">3:app __x2__ = (ToIntegerOrInfinity sec)</font>> color="black" fillcolor="white" style=filled]
-  node13057 -> node13058 [ color="black"]
-  node13059 -> node13060 [ color="black"]
-  node13061 -> node13062 [ color="black"]
-  node13056 -> node13057 [ color="black"]
-  node13064 -> node13054 [ color="black"]
-  node13053 -> node13055 [ color="black"]
-  node13055 -> node13056 [label=<<font color="black">true</font>> color="black"]
-  node13055 -> node13057 [label=<<font color="black">false</font>> color="black"]
-  node13062 -> node13063 [ color="black"]
-  node13058 -> node13059 [ color="black"]
-  node13060 -> node13061 [ color="black"]
-  node13063 -> node13064 [ color="black"]
+  node13112 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13117 [shape=cds, label=<<font color="black">2:app __x1__ = (ToIntegerOrInfinity min)</font>> color="black" fillcolor="white" style=filled]
+  node13121 [shape=cds, label=<<font color="black">4:app __x3__ = (ToIntegerOrInfinity ms)</font>> color="black" fillcolor="white" style=filled]
+  node13119 [shape=cds, label=<<font color="black">3:app __x2__ = (ToIntegerOrInfinity sec)</font>> color="black" fillcolor="white" style=filled]
+  node13114 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return NaN</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13118 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let m = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13111 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13115 [shape=cds, label=<<font color="black">1:app __x0__ = (ToIntegerOrInfinity hour)</font>> color="black" fillcolor="white" style=filled]
+  node13113 [shape=diamond, label=<<font color="black">(|| (|| (= hour Infinity) (= hour -Infinity)) (|| (|| (= min Infinity) (= min -Infinity)) (|| (|| (= sec Infinity) (= sec -Infinity)) (|| (= ms Infinity) (= ms -Infinity)))))</font>> color="black" fillcolor="white" style=filled]
+  node13115 -> node13116 [ color="black"]
+  node13121 -> node13122 [ color="black"]
+  node13120 -> node13121 [ color="black"]
+  node13113 -> node13114 [label=<<font color="black">true</font>> color="black"]
+  node13113 -> node13115 [label=<<font color="black">false</font>> color="black"]
+  node13118 -> node13119 [ color="black"]
+  node13117 -> node13118 [ color="black"]
+  node13111 -> node13113 [ color="black"]
+  node13114 -> node13115 [ color="black"]
+  node13122 -> node13112 [ color="black"]
+  node13116 -> node13117 [ color="black"]
+  node13119 -> node13120 [ color="black"]
 }

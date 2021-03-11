@@ -1,20 +1,16 @@
 digraph {
-  node18985 [shape=none, margin=0, label=<<font color="black">
+  node19062 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let C = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18984 [shape=cds, label=<<font color="black">2:app __x1__ = (SpeciesConstructor promise INTRINSIC_Promise)</font>> color="black" fillcolor="white" style=filled]
-  node18989 [shape=diamond, label=<<font color="black">(= __x3__ false)</font>> color="black" fillcolor="white" style=filled]
-  node18994 [shape=cds, label=<<font color="black">13:app __x5__ = (CreateBuiltinFunction stepsCatchFinally (new [&quot;Constructor&quot;, &quot;OnFinally&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node18978 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18990 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:let thenFinally = onFinally</td></tr>
-      <tr><td align="left">6:let catchFinally = onFinally</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18993 [shape=none, margin=0, label=<<font color="black">
+  node19059 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node19069 [shape=cds, label=<<font color="black">9:app __x4__ = (CreateBuiltinFunction stepsThenFinally (new [&quot;Constructor&quot;, &quot;OnFinally&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node19063 [shape=cds, label=<<font color="black">3:app __x2__ = (IsConstructor C)</font>> color="black" fillcolor="white" style=filled]
+  node19065 [shape=cds, label=<<font color="black">7:app __x3__ = (IsCallable onFinally)</font>> color="black" fillcolor="white" style=filled]
+  node19056 [shape=cds, label=<<font color="black">app onFinally = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node19058 [shape=cds, label=<<font color="black">1:app __x0__ = (Type promise)</font>> color="black" fillcolor="white" style=filled]
+  node19070 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">9:let thenFinally = [! __x4__]</td></tr>
       <tr><td align="left">10:thenFinally.Constructor = C</td></tr>
@@ -22,66 +18,70 @@ digraph {
       <tr><td align="left">12:let stepsCatchFinally = CatchFinallyFunctions</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18996 [shape=cds, label=<<font color="black">16:app __x6__ = (Invoke promise &quot;then&quot; (new [thenFinally, catchFinally]))</font>> color="black" fillcolor="white" style=filled]
-  node18991 [shape=none, margin=0, label=<<font color="black">
+  node19066 [shape=diamond, label=<<font color="black">(= __x3__ false)</font>> color="black" fillcolor="white" style=filled]
+  node19071 [shape=cds, label=<<font color="black">13:app __x5__ = (CreateBuiltinFunction stepsCatchFinally (new [&quot;Constructor&quot;, &quot;OnFinally&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node19057 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:let stepsThenFinally = ThenFinallyFunctions</td></tr>
+      <tr><td align="left">0:let promise = this</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18983 [shape=none, margin=0, label=<<font color="black">
+  node19067 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let thenFinally = onFinally</td></tr>
+      <tr><td align="left">6:let catchFinally = onFinally</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19055 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19060 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18995 [shape=none, margin=0, label=<<font color="black">
+  node19073 [shape=cds, label=<<font color="black">16:app __x6__ = (Invoke promise &quot;then&quot; (new [thenFinally, catchFinally]))</font>> color="black" fillcolor="white" style=filled]
+  node19068 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let stepsThenFinally = ThenFinallyFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19072 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">13:let catchFinally = [! __x5__]</td></tr>
       <tr><td align="left">14:catchFinally.Constructor = C</td></tr>
       <tr><td align="left">15:catchFinally.OnFinally = onFinally</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18981 [shape=cds, label=<<font color="black">1:app __x0__ = (Type promise)</font>> color="black" fillcolor="white" style=filled]
-  node18977 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18992 [shape=cds, label=<<font color="black">9:app __x4__ = (CreateBuiltinFunction stepsThenFinally (new [&quot;Constructor&quot;, &quot;OnFinally&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node18988 [shape=cds, label=<<font color="black">7:app __x3__ = (IsCallable onFinally)</font>> color="black" fillcolor="white" style=filled]
-  node18982 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node18997 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">16:return [? __x6__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18979 [shape=cds, label=<<font color="black">app onFinally = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node18986 [shape=cds, label=<<font color="black">3:app __x2__ = (IsConstructor C)</font>> color="black" fillcolor="white" style=filled]
-  node18980 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let promise = this</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18987 [shape=none, margin=0, label=<<font color="black">
+  node19064 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:assert (= __x2__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18990 -> node18996 [ color="black"]
-  node18987 -> node18988 [ color="black"]
-  node18997 -> node18978 [ color="black"]
-  node18989 -> node18990 [label=<<font color="black">true</font>> color="black"]
-  node18989 -> node18991 [label=<<font color="black">false</font>> color="black"]
-  node18988 -> node18989 [ color="black"]
-  node18984 -> node18985 [ color="black"]
-  node18980 -> node18981 [ color="black"]
-  node18991 -> node18992 [ color="black"]
-  node18983 -> node18984 [ color="black"]
-  node18982 -> node18983 [label=<<font color="black">true</font>> color="black"]
-  node18982 -> node18984 [label=<<font color="black">false</font>> color="black"]
-  node18993 -> node18994 [ color="black"]
-  node18981 -> node18982 [ color="black"]
-  node18979 -> node18980 [ color="black"]
-  node18996 -> node18997 [ color="black"]
-  node18995 -> node18996 [ color="black"]
-  node18992 -> node18993 [ color="black"]
-  node18985 -> node18986 [ color="black"]
-  node18977 -> node18979 [ color="black"]
-  node18994 -> node18995 [ color="black"]
-  node18986 -> node18987 [ color="black"]
+  node19054 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19074 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:return [? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19061 [shape=cds, label=<<font color="black">2:app __x1__ = (SpeciesConstructor promise INTRINSIC_Promise)</font>> color="black" fillcolor="white" style=filled]
+  node19066 -> node19067 [label=<<font color="black">true</font>> color="black"]
+  node19066 -> node19068 [label=<<font color="black">false</font>> color="black"]
+  node19058 -> node19059 [ color="black"]
+  node19069 -> node19070 [ color="black"]
+  node19067 -> node19073 [ color="black"]
+  node19068 -> node19069 [ color="black"]
+  node19063 -> node19064 [ color="black"]
+  node19062 -> node19063 [ color="black"]
+  node19057 -> node19058 [ color="black"]
+  node19074 -> node19055 [ color="black"]
+  node19070 -> node19071 [ color="black"]
+  node19071 -> node19072 [ color="black"]
+  node19064 -> node19065 [ color="black"]
+  node19059 -> node19060 [label=<<font color="black">true</font>> color="black"]
+  node19059 -> node19061 [label=<<font color="black">false</font>> color="black"]
+  node19061 -> node19062 [ color="black"]
+  node19060 -> node19061 [ color="black"]
+  node19065 -> node19066 [ color="black"]
+  node19054 -> node19056 [ color="black"]
+  node19056 -> node19057 [ color="black"]
+  node19072 -> node19073 [ color="black"]
+  node19073 -> node19074 [ color="black"]
 }
