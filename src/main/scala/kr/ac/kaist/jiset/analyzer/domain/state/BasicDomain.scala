@@ -158,7 +158,9 @@ object BasicDomain extends state.Domain {
               typeV
             } else AbsValue.Bot
             vopt.value ⊔ typeV
-          case Infinite => ???
+          case Infinite =>
+            alarm(s"top string property @ ${beautify(obj)}")
+            AbsValue.Bot
         }
         case ListElem(list) =>
           val strV: AbsValue = prop.str.getSingle match {
