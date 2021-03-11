@@ -14,7 +14,21 @@ import scala.util.matching.Regex
 // TODO more manual modelings
 class Model(cfg: CFG) {
   // global variables and heaps
-  def getGlobal: (Map[String, AbsValue], Map[Addr, AbsObj]) = {
+  lazy val global: (Map[String, AbsValue], Map[Addr, AbsObj]) = getGlobal
+
+  // type map
+  lazy val typeMap: Map[String, TyInfo] =
+    typeInfos.map(info => info.name -> info).toMap
+
+  // manual modeling of semantics
+  type Meaning = (Int, AbsSemantics, ReturnPoint, AbsState) => AbsState
+  lazy val manualSemantics: Map[String, Meaning] = meanings
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Private Helper Functions
+  //////////////////////////////////////////////////////////////////////////////
+  // get global variables and heaps
+  private def getGlobal = {
     val (env, heaps) = cfg.getGlobal
     val globalEnv = manualEnv ++ (for ((x, v) <- env) yield x -> AbsValue(v))
     var globalHeap = (for ((a, o) <- heaps) yield a -> AbsObj(o)).toMap
@@ -37,14 +51,9 @@ class Model(cfg: CFG) {
     (globalEnv, globalHeap)
   }
 
-  // type map
-  def typeMap: Map[String, TyInfo] =
-    typeInfos.map(info => info.name -> info).toMap
-
-  // manual modeling of semantics
-  type Meaning = (Int, AbsSemantics, ReturnPoint, AbsState) => AbsState
+  // meaning of not yet compiled lines
   private val ignore: Meaning = (_, _, _, st) => st
-  val manualSemantics: Map[String, Meaning] = Map(
+  private def meanings: Map[String, Meaning] = Map(
     "Create an immutable binding in id:{envRec} for id:{N} and record that it is uninitialized . If id:{S} is value:{true} , record that the newly created binding is a strict binding ." -> ignore,
     "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-ecmascript-function-objects} ." -> ((asite, _, _, st) => {
       val (addr, s0) = st.allocList(asite, List(AbsStr.Top))
@@ -90,7 +99,7 @@ class Model(cfg: CFG) {
       "LexicalEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
       "VariableEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
       "Function" -> AbsValue(Ty("Object")) ⊔ AbsNull.Top,
-      "Realm" -> AbsValue(Ty("Realm")),
+      "Realm" -> AbsValue(Ty("RealmRecord")),
       "ScriptOrModule" -> AbsTy(Ty("ScriptRecord"), Ty("ModuleRecord")),
     ),
     TyInfo(
@@ -141,7 +150,7 @@ class Model(cfg: CFG) {
   private def manualEnv: Map[String, AbsValue] = Map(
     "GLOBAL_context" -> AbsValue(Ty("ExecutionContext")),
     "GLOBAL_executionStack" -> AbsValue(NamedAddr("ExecutionStack")),
-    "REALM" -> AbsValue(Ty("Realm")),
+    "REALM" -> AbsValue(Ty("RealmRecord")),
     "Object" -> AbsValue("Object"),
     "String" -> AbsValue("String"),
     "Symbol" -> AbsValue("Symbol"),
@@ -154,48 +163,49 @@ class Model(cfg: CFG) {
   // TODO more manual modelings
   private def manualMaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
     "Global" -> (Some("OrdinaryObject"), Map()),
-    // %AsyncFunction%
-    "%AsyncFunction%" -> (Some("Constructor"), Map(
+    // TODO %Array.prototype%, ...
+    "%AsyncFunction%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("Function")),
-      "name" -> AbsStr("AsyncFunction"),
+      "Call" -> getClo("AsyncFunction"),
+      "Construct" -> getClo("AsyncFunction"),
     )),
     "%AsyncFunction.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
     )),
-    // %Function%
-    "%Function%" -> (Some("Constructor"), Map(
-      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
+    "%Function%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("Function"),
+      "Construct" -> getClo("Function"),
     )),
-    "%Function.prototype%" -> (Some("FunctionObject"), Map(
-      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF,
-      "Prototype" -> AbsValue(NamedAddr("%Object.Prototype%")),
-      "name" -> AbsStr(""),
-    // "length" -> AbsNum(+0.0)
+    "%Function.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+      "Call" -> AbsClo.Bot // TODO accepts any arguments and returns undefined when invoked. (See 19.2.3 Properties of the Function Prototype Object)
     )),
-    // %AsyncGeneratorFunction%
-    "%AsyncGeneratorFunction%" -> (Some("Constructor"), Map(
+    "%AsyncGeneratorFunction%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Function%")),
-      "name" -> AbsStr("AsyncGeneratorFunction")
+      "Call" -> getClo("AsyncGeneratorFunction"),
+      "Construct" -> getClo("AsyncGeneratorFunction"),
     )),
     "%AsyncGeneratorFunction.prototype%" -> (Some("OrdinaryObject"), Map(
-      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF,
-      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
     )),
-    // %Object%
-    "%Object%" -> (Some("Constructor"), Map(
-      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
+    "%Object%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> AbsClo.Bot, // TODO getClo("Object") <- why not exist?
+      "Construct" -> AbsClo.Bot, // TODO getClo("Object") <- why not exist?
     )),
     "%Object.prototype%" -> (Some("OrdinaryObject"), Map(
-      "Writable" -> AF, "Enumerable" -> AF, "Configurable" -> AF,
-      "Prototype" -> AbsNull(Null)
+      "Prototype" -> AbsNull.Top,
+      "Extensible" -> AT,
     )),
-    // %Promise%
-    "%Promise%" -> (Some("Constructor"), Map(
-      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%"))
+    "%Promise%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("Promise"),
+      "Construct" -> getClo("Promise"),
     )),
     "%Promise.prototype%" -> (Some("OrdinaryObject"), Map(
-      "Prototype" -> (AbsValue(NamedAddr("%Object.prototype%")))
-    ))
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
   )
   // TODO more manual modelings
   private def manualLists: Map[String, AbsValue] = Map(
@@ -205,8 +215,14 @@ class Model(cfg: CFG) {
 
   private def getClos(pattern: Regex): AbsValue = AbsValue(for {
     func <- cfg.funcs.toSet
-    if pattern.matches(func.algo.head.printName)
+    if pattern.matches(func.name)
   } yield (Clo(func.uid, Env()): Value))
+  private val cloMap: Map[String, AbsValue] =
+    (for (func <- cfg.funcs) yield func.name -> AbsValue(Clo(func.uid))).toMap
+  private def getClo(name: String): AbsValue = cloMap.getOrElse(name, {
+    alarm(s"unknown function name: $name")
+    AbsValue.Bot
+  })
   private def getConsts(names: String*): AbsValue =
     AbsValue(names.toSet.map[Value](Const(_)))
 }

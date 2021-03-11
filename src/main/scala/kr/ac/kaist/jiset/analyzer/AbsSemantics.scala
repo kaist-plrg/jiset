@@ -30,7 +30,7 @@ class AbsSemantics(
   lazy val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
 
   // global variables
-  lazy val (globalEnv, globalHeap) = model.getGlobal
+  lazy val (globalEnv, globalHeap) = model.global
 
   // type map
   lazy val typeMap = model.typeMap
@@ -40,6 +40,7 @@ class AbsSemantics(
 
   // statistics
   lazy val stat = new Stat(this)
+
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
