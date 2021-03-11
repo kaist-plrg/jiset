@@ -208,6 +208,14 @@ class Model(cfg: CFG) {
     "%Promise.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
     )),
+    "%Array%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")
+      "Call" -> getClo("Array"),
+      "Construct" -> getClo("Array"),
+    )),
+    "%Array.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
   )
 
   // TODO more manual modelings
