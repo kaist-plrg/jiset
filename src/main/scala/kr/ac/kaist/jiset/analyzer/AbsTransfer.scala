@@ -222,7 +222,7 @@ class AbsTransfer(
     def transfer(call: Call, view: View): Updater = call.inst match {
       case IApp(Id(x), ERef(RefId(Id("Type"))), List(arg)) => for {
         v <- transfer(arg)
-        ty <- get(_.typeOf(v.escaped))
+        ty <- get(_.typeOf(sem, v.escaped))
         _ <- modify(_ + (x -> ty))
       } yield ()
       case IApp(Id(x), fexpr, args) => for {
@@ -295,7 +295,7 @@ class AbsTransfer(
       } yield v
       case ETypeOf(expr) => for {
         v <- transfer(expr)
-        t <- get(_.typeOf(v.escaped))
+        t <- get(_.typeOf(sem, v.escaped))
       } yield t
       case EIsCompletion(expr) => for {
         v <- transfer(expr)

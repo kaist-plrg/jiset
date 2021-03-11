@@ -299,9 +299,19 @@ object BasicDomain extends state.Domain {
     def pop(list: AbsValue, idx: AbsValue): (AbsValue, Elem) = ???
 
     // get type of pure values
-    def typeOf(v: AbsPure): AbsValue = {
+    def typeOf(sem: AbsSemantics, v: AbsPure): AbsValue = {
+      import AbsObj._
       var set = Set[Str]()
-      if (!v.addr.isBottom) set += Str("Object") // TODO unsound
+      if (!v.addr.isBottom) for (addr <- v.addr.toSet) {
+        set += Str(lookup(sem, addr) match {
+          case SymbolElem(_) => "Symbol"
+          case MapElem(Some(parent), _) =>
+            if (parent endsWith "Object") "Object" else parent
+          case MapElem(None, _) => "Record"
+          case ListElem(_) => "List"
+          case _ => ???
+        })
+      }
       if (!v.ty.isBottom) set ++= v.ty.toSet.map(t => Str(t.name))
       if (!v.const.isBottom) ???
       if (!v.clo.isBottom) ???
