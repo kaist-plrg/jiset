@@ -1,30 +1,30 @@
 digraph {
-  node18429 [shape=none, margin=0, label=<<font color="black">
+  node18499 [shape=cds, label=<<font color="black">1:app __x0__ = (NewPromiseCapability C)</font>> color="black" fillcolor="white" style=filled]
+  node18496 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18498 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let C = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18497 [shape=cds, label=<<font color="black">app r = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18502 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:[? __x1__]</td></tr>
       <tr><td align="left">3:return promiseCapability.Promise</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18425 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let C = this</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18424 [shape=cds, label=<<font color="black">app r = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node18428 [shape=cds, label=<<font color="black">2:app __x1__ = (Call promiseCapability.Reject undefined (new [r]))</font>> color="black" fillcolor="white" style=filled]
-  node18427 [shape=none, margin=0, label=<<font color="black">
+  node18500 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let promiseCapability = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18422 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18426 [shape=cds, label=<<font color="black">1:app __x0__ = (NewPromiseCapability C)</font>> color="black" fillcolor="white" style=filled]
-  node18423 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18426 -> node18427 [ color="black"]
-  node18429 -> node18423 [ color="black"]
-  node18422 -> node18424 [ color="black"]
-  node18427 -> node18428 [ color="black"]
-  node18428 -> node18429 [ color="black"]
-  node18425 -> node18426 [ color="black"]
-  node18424 -> node18425 [ color="black"]
+  node18495 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18501 [shape=cds, label=<<font color="black">2:app __x1__ = (Call promiseCapability.Reject undefined (new [r]))</font>> color="black" fillcolor="white" style=filled]
+  node18500 -> node18501 [ color="black"]
+  node18495 -> node18497 [ color="black"]
+  node18497 -> node18498 [ color="black"]
+  node18498 -> node18499 [ color="black"]
+  node18501 -> node18502 [ color="black"]
+  node18499 -> node18500 [ color="black"]
+  node18502 -> node18496 [ color="black"]
 }

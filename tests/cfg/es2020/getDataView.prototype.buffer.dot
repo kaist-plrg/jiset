@@ -1,6 +1,12 @@
 digraph {
-  node17285 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireInternalSlot O &quot;DataView&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node17286 [shape=none, margin=0, label=<<font color="black">
+  node17358 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireInternalSlot O &quot;DataView&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node17357 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17356 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17359 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:[? __x0__]</td></tr>
       <tr><td align="left">2:assert (! (= O.ViewedArrayBuffer absent))</td></tr>
@@ -8,15 +14,9 @@ digraph {
       <tr><td align="left">4:return buffer</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17282 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17283 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17284 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let O = this</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17282 -> node17284 [ color="black"]
-  node17284 -> node17285 [ color="black"]
-  node17285 -> node17286 [ color="black"]
-  node17286 -> node17283 [ color="black"]
+  node17355 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17355 -> node17357 [ color="black"]
+  node17357 -> node17358 [ color="black"]
+  node17358 -> node17359 [ color="black"]
+  node17359 -> node17356 [ color="black"]
 }

@@ -1,44 +1,44 @@
 digraph {
-  node16849 [shape=cds, label=<<font color="black">app handler = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node16850 [shape=cds, label=<<font color="black">0:app __x0__ = (ProxyCreate target handler)</font>> color="black" fillcolor="white" style=filled]
-  node16847 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16854 [shape=cds, label=<<font color="black">4:app __x2__ = (CreateDataProperty result &quot;proxy&quot; p)</font>> color="black" fillcolor="white" style=filled]
-  node16857 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:__x3__</td></tr>
-      <tr><td align="left">6:return result</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16855 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:__x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16851 [shape=none, margin=0, label=<<font color="black">
+  node16911 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let p = [? __x0__]</td></tr>
       <tr><td align="left">1:let revoker = (new BuiltinFunctionObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
       <tr><td align="left">2:revoker.RevocableProxy = p</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16856 [shape=cds, label=<<font color="black">5:app __x3__ = (CreateDataProperty result &quot;revoke&quot; revoker)</font>> color="black" fillcolor="white" style=filled]
-  node16853 [shape=none, margin=0, label=<<font color="black">
+  node16915 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:__x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16907 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16916 [shape=cds, label=<<font color="black">5:app __x3__ = (CreateDataProperty result &quot;revoke&quot; revoker)</font>> color="black" fillcolor="white" style=filled]
+  node16910 [shape=cds, label=<<font color="black">0:app __x0__ = (ProxyCreate target handler)</font>> color="black" fillcolor="white" style=filled]
+  node16906 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16913 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let result = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16848 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node16846 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16852 [shape=cds, label=<<font color="black">3:app __x1__ = (ObjectCreate INTRINSIC_ObjectPrototype)</font>> color="black" fillcolor="white" style=filled]
-  node16855 -> node16856 [ color="black"]
-  node16854 -> node16855 [ color="black"]
-  node16856 -> node16857 [ color="black"]
-  node16846 -> node16848 [ color="black"]
-  node16849 -> node16850 [ color="black"]
-  node16848 -> node16849 [ color="black"]
-  node16852 -> node16853 [ color="black"]
-  node16853 -> node16854 [ color="black"]
-  node16851 -> node16852 [ color="black"]
-  node16850 -> node16851 [ color="black"]
-  node16857 -> node16847 [ color="black"]
+  node16909 [shape=cds, label=<<font color="black">app handler = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node16917 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:__x3__</td></tr>
+      <tr><td align="left">6:return result</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16912 [shape=cds, label=<<font color="black">3:app __x1__ = (ObjectCreate INTRINSIC_ObjectPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node16914 [shape=cds, label=<<font color="black">4:app __x2__ = (CreateDataProperty result &quot;proxy&quot; p)</font>> color="black" fillcolor="white" style=filled]
+  node16908 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16914 -> node16915 [ color="black"]
+  node16915 -> node16916 [ color="black"]
+  node16910 -> node16911 [ color="black"]
+  node16916 -> node16917 [ color="black"]
+  node16912 -> node16913 [ color="black"]
+  node16917 -> node16907 [ color="black"]
+  node16913 -> node16914 [ color="black"]
+  node16911 -> node16912 [ color="black"]
+  node16909 -> node16910 [ color="black"]
+  node16908 -> node16909 [ color="black"]
+  node16906 -> node16908 [ color="black"]
 }

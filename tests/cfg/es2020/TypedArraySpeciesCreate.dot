@@ -1,42 +1,42 @@
 digraph {
-  node16427 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16424 [shape=cds, label=<<font color="black">3:app __x1__ = (TypedArrayCreate constructor argumentList)</font>> color="black" fillcolor="white" style=filled]
-  node16420 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16428 [shape=none, margin=0, label=<<font color="black">
+  node16501 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16423 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let constructor = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16419 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16421 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:??? &quot;Let id:{defaultConstructor} be the intrinsic object listed in column one of link:{unhandled: table-the-typedarray-constructors} for id:{exemplar} . [ [ TypedArrayName ] ] .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16426 [shape=diamond, label=<<font color="black">(! (= result.ContentType exemplar.ContentType))</font>> color="black" fillcolor="white" style=filled]
-  node16422 [shape=cds, label=<<font color="black">2:app __x0__ = (SpeciesConstructor exemplar defaultConstructor)</font>> color="black" fillcolor="white" style=filled]
-  node16425 [shape=none, margin=0, label=<<font color="black">
+  node16498 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let result = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16419 -> node16421 [ color="black"]
-  node16421 -> node16422 [ color="black"]
-  node16423 -> node16424 [ color="black"]
-  node16428 -> node16420 [ color="black"]
-  node16426 -> node16427 [label=<<font color="black">true</font>> color="black"]
-  node16426 -> node16428 [label=<<font color="black">false</font>> color="black"]
-  node16422 -> node16423 [ color="black"]
-  node16424 -> node16425 [ color="black"]
-  node16425 -> node16426 [ color="black"]
-  node16427 -> node16428 [ color="black"]
+  node16495 [shape=cds, label=<<font color="black">2:app __x0__ = (SpeciesConstructor exemplar defaultConstructor)</font>> color="black" fillcolor="white" style=filled]
+  node16497 [shape=cds, label=<<font color="black">3:app __x1__ = (TypedArrayCreate constructor argumentList)</font>> color="black" fillcolor="white" style=filled]
+  node16492 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16496 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let constructor = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16500 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16493 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16499 [shape=diamond, label=<<font color="black">(! (= result.ContentType exemplar.ContentType))</font>> color="black" fillcolor="white" style=filled]
+  node16494 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:??? &quot;Let id:{defaultConstructor} be the intrinsic object listed in column one of link:{unhandled: table-the-typedarray-constructors} for id:{exemplar} . [ [ TypedArrayName ] ] .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16496 -> node16497 [ color="black"]
+  node16495 -> node16496 [ color="black"]
+  node16497 -> node16498 [ color="black"]
+  node16494 -> node16495 [ color="black"]
+  node16492 -> node16494 [ color="black"]
+  node16500 -> node16501 [ color="black"]
+  node16498 -> node16499 [ color="black"]
+  node16501 -> node16493 [ color="black"]
+  node16499 -> node16500 [label=<<font color="black">true</font>> color="black"]
+  node16499 -> node16501 [label=<<font color="black">false</font>> color="black"]
 }

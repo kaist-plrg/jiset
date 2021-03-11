@@ -1,39 +1,39 @@
 digraph {
-  node17969 [shape=none, margin=0, label=<<font color="black">
+  node18020 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18023 [shape=cds, label=<<font color="black">app proto = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node18030 [shape=cds, label=<<font color="black">2:app __x2__ = (target.SetPrototypeOf target proto)</font>> color="black" fillcolor="white" style=filled]
+  node18026 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17962 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node17966 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17967 [shape=cds, label=<<font color="black">1:app __x1__ = (Type proto)</font>> color="black" fillcolor="white" style=filled]
-  node17963 [shape=cds, label=<<font color="black">app proto = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node17964 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
-  node17971 [shape=none, margin=0, label=<<font color="black">
+  node18027 [shape=cds, label=<<font color="black">1:app __x1__ = (Type proto)</font>> color="black" fillcolor="white" style=filled]
+  node18028 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= __x1__ Object)) (! (= proto null)))</font>> color="black" fillcolor="white" style=filled]
+  node18025 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node18021 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18022 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18031 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17968 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= __x1__ Object)) (! (= proto null)))</font>> color="black" fillcolor="white" style=filled]
-  node17970 [shape=cds, label=<<font color="black">2:app __x2__ = (target.SetPrototypeOf target proto)</font>> color="black" fillcolor="white" style=filled]
-  node17960 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17961 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17965 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node17970 -> node17971 [ color="black"]
-  node17968 -> node17969 [label=<<font color="black">true</font>> color="black"]
-  node17968 -> node17970 [label=<<font color="black">false</font>> color="black"]
-  node17964 -> node17965 [ color="black"]
-  node17963 -> node17964 [ color="black"]
-  node17966 -> node17967 [ color="black"]
-  node17967 -> node17968 [ color="black"]
-  node17971 -> node17961 [ color="black"]
-  node17960 -> node17962 [ color="black"]
-  node17969 -> node17970 [ color="black"]
-  node17962 -> node17963 [ color="black"]
-  node17965 -> node17966 [label=<<font color="black">true</font>> color="black"]
-  node17965 -> node17967 [label=<<font color="black">false</font>> color="black"]
+  node18024 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node18029 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18027 -> node18028 [ color="black"]
+  node18023 -> node18024 [ color="black"]
+  node18025 -> node18026 [label=<<font color="black">true</font>> color="black"]
+  node18025 -> node18027 [label=<<font color="black">false</font>> color="black"]
+  node18024 -> node18025 [ color="black"]
+  node18020 -> node18022 [ color="black"]
+  node18028 -> node18029 [label=<<font color="black">true</font>> color="black"]
+  node18028 -> node18030 [label=<<font color="black">false</font>> color="black"]
+  node18029 -> node18030 [ color="black"]
+  node18030 -> node18031 [ color="black"]
+  node18031 -> node18021 [ color="black"]
+  node18026 -> node18027 [ color="black"]
+  node18022 -> node18023 [ color="black"]
 }

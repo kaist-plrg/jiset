@@ -1,6 +1,21 @@
 digraph {
-  node17959 [shape=cds, label=<<font color="black">app generator = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node17962 [shape=none, margin=0, label=<<font color="black">
+  node18033 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node18040 [shape=cds, label=<<font color="black">7:app __x2__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
+  node18030 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18037 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let iteratorResult = [! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18031 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18036 [shape=cds, label=<<font color="black">5:app __x0__ = (CreateIterResultObject value done)</font>> color="black" fillcolor="white" style=filled]
+  node18039 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:[! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18038 [shape=cds, label=<<font color="black">6:app __x1__ = (Call promiseCapability.Resolve undefined (new [iteratorResult]))</font>> color="black" fillcolor="white" style=filled]
+  node18035 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let queue = generator.AsyncGeneratorQueue</td></tr>
       <tr><td align="left">2:assert (&lt; 0i queue.length)</td></tr>
@@ -8,38 +23,23 @@ digraph {
       <tr><td align="left">4:let promiseCapability = next.Capability</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17966 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:[! __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17958 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17967 [shape=cds, label=<<font color="black">7:app __x2__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
-  node17963 [shape=cds, label=<<font color="black">5:app __x0__ = (CreateIterResultObject value done)</font>> color="black" fillcolor="white" style=filled]
-  node17964 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:let iteratorResult = [! __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17957 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17968 [shape=none, margin=0, label=<<font color="black">
+  node18041 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:[! __x2__]</td></tr>
       <tr><td align="left">8:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17960 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node17961 [shape=cds, label=<<font color="black">app done = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
-  node17965 [shape=cds, label=<<font color="black">6:app __x1__ = (Call promiseCapability.Resolve undefined (new [iteratorResult]))</font>> color="black" fillcolor="white" style=filled]
-  node17965 -> node17966 [ color="black"]
-  node17963 -> node17964 [ color="black"]
-  node17959 -> node17960 [ color="black"]
-  node17966 -> node17967 [ color="black"]
-  node17967 -> node17968 [ color="black"]
-  node17957 -> node17959 [ color="black"]
-  node17960 -> node17961 [ color="black"]
-  node17961 -> node17962 [ color="black"]
-  node17962 -> node17963 [ color="black"]
-  node17968 -> node17958 [ color="black"]
-  node17964 -> node17965 [ color="black"]
+  node18032 [shape=cds, label=<<font color="black">app generator = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18034 [shape=cds, label=<<font color="black">app done = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node18035 -> node18036 [ color="black"]
+  node18030 -> node18032 [ color="black"]
+  node18039 -> node18040 [ color="black"]
+  node18036 -> node18037 [ color="black"]
+  node18040 -> node18041 [ color="black"]
+  node18033 -> node18034 [ color="black"]
+  node18034 -> node18035 [ color="black"]
+  node18038 -> node18039 [ color="black"]
+  node18037 -> node18038 [ color="black"]
+  node18032 -> node18033 [ color="black"]
+  node18041 -> node18031 [ color="black"]
 }

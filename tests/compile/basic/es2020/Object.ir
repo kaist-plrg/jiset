@@ -1,0 +1,12 @@
+{
+  if (! (|| (= NewTarget undefined) (= NewTarget GLOBAL_context.Function))) {
+    app __x0__ = (OrdinaryCreateFromConstructor NewTarget "%Object.prototype%")
+    return [? __x0__]
+  } else {}
+  if (|| (= value undefined) (= value null)) {
+    app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+    return __x1__
+  } else {}
+  app __x2__ = (ToObject value)
+  return [! __x2__]
+}

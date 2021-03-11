@@ -1,39 +1,39 @@
 digraph {
-  node18717 [shape=cds, label=<<font color="black">1:app __x1__ = (Type proto)</font>> color="black" fillcolor="white" style=filled]
-  node18713 [shape=cds, label=<<font color="black">app proto = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node18710 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18718 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= __x1__ Object)) (! (= proto null)))</font>> color="black" fillcolor="white" style=filled]
-  node18714 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
-  node18721 [shape=none, margin=0, label=<<font color="black">
+  node18793 [shape=cds, label=<<font color="black">2:app __x2__ = (target.SetPrototypeOf target proto)</font>> color="black" fillcolor="white" style=filled]
+  node18784 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18789 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18787 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node18783 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18790 [shape=cds, label=<<font color="black">1:app __x1__ = (Type proto)</font>> color="black" fillcolor="white" style=filled]
+  node18788 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node18794 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18720 [shape=cds, label=<<font color="black">2:app __x2__ = (target.SetPrototypeOf target proto)</font>> color="black" fillcolor="white" style=filled]
-  node18711 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18712 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node18715 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node18716 [shape=none, margin=0, label=<<font color="black">
+  node18785 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18791 [shape=diamond, label=<<font color="black">(&amp;&amp; (! (= __x1__ Object)) (! (= proto null)))</font>> color="black" fillcolor="white" style=filled]
+  node18792 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18719 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18716 -> node18717 [ color="black"]
-  node18714 -> node18715 [ color="black"]
-  node18712 -> node18713 [ color="black"]
-  node18719 -> node18720 [ color="black"]
-  node18718 -> node18719 [label=<<font color="black">true</font>> color="black"]
-  node18718 -> node18720 [label=<<font color="black">false</font>> color="black"]
-  node18721 -> node18711 [ color="black"]
-  node18713 -> node18714 [ color="black"]
-  node18717 -> node18718 [ color="black"]
-  node18715 -> node18716 [label=<<font color="black">true</font>> color="black"]
-  node18715 -> node18717 [label=<<font color="black">false</font>> color="black"]
-  node18720 -> node18721 [ color="black"]
-  node18710 -> node18712 [ color="black"]
+  node18786 [shape=cds, label=<<font color="black">app proto = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node18792 -> node18793 [ color="black"]
+  node18794 -> node18784 [ color="black"]
+  node18793 -> node18794 [ color="black"]
+  node18787 -> node18788 [ color="black"]
+  node18786 -> node18787 [ color="black"]
+  node18783 -> node18785 [ color="black"]
+  node18789 -> node18790 [ color="black"]
+  node18788 -> node18789 [label=<<font color="black">true</font>> color="black"]
+  node18788 -> node18790 [label=<<font color="black">false</font>> color="black"]
+  node18790 -> node18791 [ color="black"]
+  node18791 -> node18792 [label=<<font color="black">true</font>> color="black"]
+  node18791 -> node18793 [label=<<font color="black">false</font>> color="black"]
+  node18785 -> node18786 [ color="black"]
 }

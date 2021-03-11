@@ -1,50 +1,36 @@
 digraph {
-  node16308 [shape=cds, label=<<font color="black">5:app __x1__ = (IsSharedArrayBuffer arrayBuffer)</font>> color="black" fillcolor="white" style=filled]
-  node16315 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">14:??? &quot;Else , let id:{rawValue} be a List of id:{elementSize} containing , in order , the id:{elementSize} sequence of bytes starting with id:{block} [ id:{byteIndex} ] .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16312 [shape=none, margin=0, label=<<font color="black">
+  node16372 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let noTear = true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16307 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ false)</td></tr>
-      <tr><td align="left">3:let block = arrayBuffer.ArrayBufferData</td></tr>
-      <tr><td align="left">4:??? &quot;Let id:{elementSize} be the Number value of the Element Size value specified in link:{unhandled: table-49} for Element Type id:{type} .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16316 [shape=diamond, label=<<font color="black">(= isLittleEndian absent)</font>> color="black" fillcolor="white" style=filled]
-  node16311 [shape=diamond, label=<<font color="black">(&amp;&amp; (= isTypedArray true) (|| (|| (|| (|| (|| (= type &quot;Int8&quot;) (= type &quot;Uint8&quot;)) (= type &quot;Int16&quot;)) (= type &quot;Uint16&quot;)) (= type &quot;Int32&quot;)) (= type &quot;Uint32&quot;)))</font>> color="black" fillcolor="white" style=filled]
-  node16313 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let noTear = false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16318 [shape=cds, label=<<font color="black">16:app __x2__ = (RawBytesToNumber type rawValue isLittleEndian)</font>> color="black" fillcolor="white" style=filled]
-  node16304 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16319 [shape=none, margin=0, label=<<font color="black">
+  node16376 [shape=diamond, label=<<font color="black">(= isLittleEndian absent)</font>> color="black" fillcolor="white" style=filled]
+  node16364 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16379 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">16:return __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16306 [shape=cds, label=<<font color="black">0:app __x0__ = (IsDetachedBuffer arrayBuffer)</font>> color="black" fillcolor="white" style=filled]
-  node16317 [shape=none, margin=0, label=<<font color="black">
+  node16371 [shape=diamond, label=<<font color="black">(&amp;&amp; (= isTypedArray true) (|| (|| (|| (|| (|| (= type &quot;Int8&quot;) (= type &quot;Uint8&quot;)) (= type &quot;Int16&quot;)) (= type &quot;Uint16&quot;)) (= type &quot;Int32&quot;)) (= type &quot;Uint32&quot;)))</font>> color="black" fillcolor="white" style=filled]
+  node16365 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16375 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">isLittleEndian = GLOBAL_agent.LittleEndian</td></tr>
+      <tr><td align="left">14:??? &quot;Else , let id:{rawValue} be a List of id:{elementSize} containing , in order , the id:{elementSize} sequence of bytes starting with id:{block} [ id:{byteIndex} ] .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16310 [shape=none, margin=0, label=<<font color="black">
+  node16370 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let execution = GLOBAL_agent.CandidateExecution</td></tr>
       <tr><td align="left">7:??? &quot;Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16305 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16314 [shape=none, margin=0, label=<<font color="black">
+  node16366 [shape=cds, label=<<font color="black">0:app __x0__ = (IsDetachedBuffer arrayBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node16377 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">isLittleEndian = GLOBAL_agent.LittleEndian</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16374 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">9:??? &quot;Let id:{rawValue} be a List of length id:{elementSize} of nondeterministically chosen byte values .&quot;</td></tr>
       <tr><td align="left">11:let readEvent = (new ReadSharedMemory(&quot;Order&quot; -&gt; order, &quot;NoTear&quot; -&gt; noTear, &quot;Block&quot; -&gt; block, &quot;ByteIndex&quot; -&gt; byteIndex, &quot;ElementSize&quot; -&gt; elementSize))</td></tr>
@@ -52,23 +38,37 @@ digraph {
       <tr><td align="left">13:append (new ChosenValueRecord(&quot;Event&quot; -&gt; readEvent, &quot;ChosenValue&quot; -&gt; rawValue)) -&gt; execution.ChosenValues</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16309 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
-  node16318 -> node16319 [ color="black"]
-  node16312 -> node16314 [ color="black"]
-  node16315 -> node16316 [ color="black"]
-  node16310 -> node16311 [ color="black"]
-  node16311 -> node16312 [label=<<font color="black">true</font>> color="black"]
-  node16311 -> node16313 [label=<<font color="black">false</font>> color="black"]
-  node16306 -> node16307 [ color="black"]
-  node16304 -> node16306 [ color="black"]
-  node16317 -> node16318 [ color="black"]
-  node16313 -> node16314 [ color="black"]
-  node16319 -> node16305 [ color="black"]
-  node16308 -> node16309 [ color="black"]
-  node16314 -> node16315 [ color="black"]
-  node16309 -> node16310 [label=<<font color="black">true</font>> color="black"]
-  node16309 -> node16315 [label=<<font color="black">false</font>> color="black"]
-  node16316 -> node16317 [label=<<font color="black">true</font>> color="black"]
-  node16316 -> node16318 [label=<<font color="black">false</font>> color="black"]
-  node16307 -> node16308 [ color="black"]
+  node16367 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ false)</td></tr>
+      <tr><td align="left">3:let block = arrayBuffer.ArrayBufferData</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{elementSize} be the Number value of the Element Size value specified in link:{unhandled: table-49} for Element Type id:{type} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16369 [shape=diamond, label=<<font color="black">(= __x1__ true)</font>> color="black" fillcolor="white" style=filled]
+  node16378 [shape=cds, label=<<font color="black">16:app __x2__ = (RawBytesToNumber type rawValue isLittleEndian)</font>> color="black" fillcolor="white" style=filled]
+  node16368 [shape=cds, label=<<font color="black">5:app __x1__ = (IsSharedArrayBuffer arrayBuffer)</font>> color="black" fillcolor="white" style=filled]
+  node16373 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let noTear = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16364 -> node16366 [ color="black"]
+  node16368 -> node16369 [ color="black"]
+  node16378 -> node16379 [ color="black"]
+  node16375 -> node16376 [ color="black"]
+  node16377 -> node16378 [ color="black"]
+  node16369 -> node16370 [label=<<font color="black">true</font>> color="black"]
+  node16369 -> node16375 [label=<<font color="black">false</font>> color="black"]
+  node16366 -> node16367 [ color="black"]
+  node16376 -> node16377 [label=<<font color="black">true</font>> color="black"]
+  node16376 -> node16378 [label=<<font color="black">false</font>> color="black"]
+  node16372 -> node16374 [ color="black"]
+  node16379 -> node16365 [ color="black"]
+  node16374 -> node16375 [ color="black"]
+  node16373 -> node16374 [ color="black"]
+  node16367 -> node16368 [ color="black"]
+  node16370 -> node16371 [ color="black"]
+  node16371 -> node16372 [label=<<font color="black">true</font>> color="black"]
+  node16371 -> node16373 [label=<<font color="black">false</font>> color="black"]
 }

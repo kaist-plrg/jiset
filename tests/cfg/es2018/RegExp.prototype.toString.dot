@@ -1,44 +1,44 @@
 digraph {
-  node14296 [shape=none, margin=0, label=<<font color="black">
+  node14358 [shape=cds, label=<<font color="black">2:app __x2__ = (ToString [? __x1__])</font>> color="black" fillcolor="white" style=filled]
+  node14354 [shape=cds, label=<<font color="black">1:app __x0__ = (Type R)</font>> color="black" fillcolor="white" style=filled]
+  node14351 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14361 [shape=cds, label=<<font color="black">3:app __x4__ = (ToString [? __x3__])</font>> color="black" fillcolor="white" style=filled]
+  node14357 [shape=cds, label=<<font color="black">2:app __x1__ = (Get R &quot;source&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node14353 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
+      <tr><td align="left">0:let R = this</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14301 [shape=cds, label=<<font color="black">3:app __x4__ = (ToString [? __x3__])</font>> color="black" fillcolor="white" style=filled]
-  node14292 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14299 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let pattern = [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14295 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node14291 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14302 [shape=none, margin=0, label=<<font color="black">
+  node14352 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14362 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let flags = [? __x4__]</td></tr>
       <tr><td align="left">4:let result = (+ (+ (+ &quot;/&quot; pattern) &quot;/&quot;) flags)</td></tr>
       <tr><td align="left">5:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14294 [shape=cds, label=<<font color="black">1:app __x0__ = (Type R)</font>> color="black" fillcolor="white" style=filled]
-  node14297 [shape=cds, label=<<font color="black">2:app __x1__ = (Get R &quot;source&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node14300 [shape=cds, label=<<font color="black">3:app __x3__ = (Get R &quot;flags&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node14293 [shape=none, margin=0, label=<<font color="black">
+  node14360 [shape=cds, label=<<font color="black">3:app __x3__ = (Get R &quot;flags&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node14356 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let R = this</td></tr>
+      <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14298 [shape=cds, label=<<font color="black">2:app __x2__ = (ToString [? __x1__])</font>> color="black" fillcolor="white" style=filled]
-  node14297 -> node14298 [ color="black"]
-  node14299 -> node14300 [ color="black"]
-  node14300 -> node14301 [ color="black"]
-  node14302 -> node14292 [ color="black"]
-  node14301 -> node14302 [ color="black"]
-  node14295 -> node14296 [label=<<font color="black">true</font>> color="black"]
-  node14295 -> node14297 [label=<<font color="black">false</font>> color="black"]
-  node14298 -> node14299 [ color="black"]
-  node14291 -> node14293 [ color="black"]
-  node14294 -> node14295 [ color="black"]
-  node14293 -> node14294 [ color="black"]
-  node14296 -> node14297 [ color="black"]
+  node14359 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let pattern = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14355 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node14358 -> node14359 [ color="black"]
+  node14357 -> node14358 [ color="black"]
+  node14354 -> node14355 [ color="black"]
+  node14359 -> node14360 [ color="black"]
+  node14355 -> node14356 [label=<<font color="black">true</font>> color="black"]
+  node14355 -> node14357 [label=<<font color="black">false</font>> color="black"]
+  node14361 -> node14362 [ color="black"]
+  node14351 -> node14353 [ color="black"]
+  node14356 -> node14357 [ color="black"]
+  node14353 -> node14354 [ color="black"]
+  node14360 -> node14361 [ color="black"]
+  node14362 -> node14352 [ color="black"]
 }

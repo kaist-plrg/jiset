@@ -1,0 +1,39 @@
+digraph {
+  node12447 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12443 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12446 [shape=diamond, label=<<font color="black">(! (= NewTarget undefined))</font>> color="black" fillcolor="white" style=filled]
+  node12450 [shape=cds, label=<<font color="black">app __x0__ = (ToString description)</font>> color="black" fillcolor="white" style=filled]
+  node12449 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let descString = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12451 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let descString = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12445 [shape=cds, label=<<font color="black">app description = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12452 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:??? &quot;Return a new unique Symbol value whose [ [ Description ] ] value is id:{descString} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12448 [shape=diamond, label=<<font color="black">(= description undefined)</font>> color="black" fillcolor="white" style=filled]
+  node12444 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12447 -> node12448 [ color="black"]
+  node12446 -> node12447 [label=<<font color="black">true</font>> color="black"]
+  node12446 -> node12448 [label=<<font color="black">false</font>> color="black"]
+  node12450 -> node12451 [ color="black"]
+  node12448 -> node12449 [label=<<font color="black">true</font>> color="black"]
+  node12448 -> node12450 [label=<<font color="black">false</font>> color="black"]
+  node12445 -> node12446 [ color="black"]
+  node12449 -> node12452 [ color="black"]
+  node12452 -> node12444 [ color="black"]
+  node12451 -> node12452 [ color="black"]
+  node12443 -> node12445 [ color="black"]
+}

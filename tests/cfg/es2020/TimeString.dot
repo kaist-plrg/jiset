@@ -1,5 +1,9 @@
 digraph {
-  node13469 [shape=none, margin=0, label=<<font color="black">
+  node13520 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13521 [shape=cds, label=<<font color="black">app tv = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node13519 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13522 [shape=cds, label=<<font color="black">0:app __x0__ = (Type tv)</font>> color="black" fillcolor="white" style=filled]
+  node13523 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= __x0__ Number)</td></tr>
       <tr><td align="left">1:assert (! (= tv NaN))</td></tr>
@@ -9,12 +13,8 @@ digraph {
       <tr><td align="left">5:return (+ (+ (+ (+ (+ (+ hour &quot;:&quot;) minute) &quot;:&quot;) second) &quot; &quot;) &quot;GMT&quot;)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13468 [shape=cds, label=<<font color="black">0:app __x0__ = (Type tv)</font>> color="black" fillcolor="white" style=filled]
-  node13466 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13467 [shape=cds, label=<<font color="black">app tv = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node13465 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13465 -> node13467 [ color="black"]
-  node13467 -> node13468 [ color="black"]
-  node13468 -> node13469 [ color="black"]
-  node13469 -> node13466 [ color="black"]
+  node13519 -> node13521 [ color="black"]
+  node13521 -> node13522 [ color="black"]
+  node13522 -> node13523 [ color="black"]
+  node13523 -> node13520 [ color="black"]
 }

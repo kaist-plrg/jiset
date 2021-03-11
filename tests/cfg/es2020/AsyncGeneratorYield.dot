@@ -1,54 +1,54 @@
 digraph {
-  node18040 [shape=cds, label=<<font color="black">3:app __x0__ = (GetGeneratorKind)</font>> color="black" fillcolor="white" style=filled]
-  node18043 [shape=none, margin=0, label=<<font color="black">
+  node18114 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:assert (= __x0__ CONST_async)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18120 [shape=cds, label=<<font color="black">14:app __x3__ = (AsyncGeneratorResolve generator value false)</font>> color="black" fillcolor="white" style=filled]
+  node18116 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:value = [? __x1__]</td></tr>
       <tr><td align="left">5:generator.AsyncGeneratorState = CONST_suspendedYield</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18037 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18047 [shape=cds, label=<<font color="black">14:app __x3__ = (AsyncGeneratorResolve generator value false)</font>> color="black" fillcolor="white" style=filled]
-  node18039 [shape=none, margin=0, label=<<font color="black">
+  node18111 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18112 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let genContext = GLOBAL_context</td></tr>
       <tr><td align="left">2:let generator = genContext.Generator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18044 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] genContext)</font>> color="black" fillcolor="white" style=filled]
-  node18048 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">14:return [! __x3__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18038 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18045 [shape=none, margin=0, label=<<font color="black">
+  node18118 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let __x2__ = (- GLOBAL_executionStack.length 1i)</td></tr>
       <tr><td align="left">(pop GLOBAL_executionStack __x2__)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18041 [shape=none, margin=0, label=<<font color="black">
+  node18121 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:assert (= __x0__ CONST_async)</td></tr>
+      <tr><td align="left">14:return [! __x3__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18046 [shape=none, margin=0, label=<<font color="black">
+  node18110 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18113 [shape=cds, label=<<font color="black">3:app __x0__ = (GetGeneratorKind)</font>> color="black" fillcolor="white" style=filled]
+  node18119 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
       <tr><td align="left">7:??? &quot;Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : in:{} out:{}&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18042 [shape=cds, label=<<font color="black">4:app __x1__ = (Await value)</font>> color="black" fillcolor="white" style=filled]
-  node18039 -> node18040 [ color="black"]
-  node18048 -> node18038 [ color="black"]
-  node18044 -> node18045 [label=<<font color="black">true</font>> color="black"]
-  node18044 -> node18046 [label=<<font color="black">false</font>> color="black"]
-  node18037 -> node18039 [ color="black"]
-  node18047 -> node18048 [ color="black"]
-  node18041 -> node18042 [ color="black"]
-  node18043 -> node18044 [ color="black"]
-  node18040 -> node18041 [ color="black"]
-  node18046 -> node18047 [ color="black"]
-  node18042 -> node18043 [ color="black"]
-  node18045 -> node18046 [ color="black"]
+  node18117 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] genContext)</font>> color="black" fillcolor="white" style=filled]
+  node18115 [shape=cds, label=<<font color="black">4:app __x1__ = (Await value)</font>> color="black" fillcolor="white" style=filled]
+  node18114 -> node18115 [ color="black"]
+  node18121 -> node18111 [ color="black"]
+  node18120 -> node18121 [ color="black"]
+  node18113 -> node18114 [ color="black"]
+  node18119 -> node18120 [ color="black"]
+  node18117 -> node18118 [label=<<font color="black">true</font>> color="black"]
+  node18117 -> node18119 [label=<<font color="black">false</font>> color="black"]
+  node18115 -> node18116 [ color="black"]
+  node18116 -> node18117 [ color="black"]
+  node18118 -> node18119 [ color="black"]
+  node18112 -> node18113 [ color="black"]
+  node18110 -> node18112 [ color="black"]
 }

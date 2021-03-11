@@ -1,15 +1,12 @@
 digraph {
-  node16018 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16016 [shape=none, margin=0, label=<<font color="black">
+  node16077 [shape=diamond, label=<<font color="black">(= p null)</font>> color="black" fillcolor="white" style=filled]
+  node16076 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let p = F.RevocableProxy</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16019 [shape=none, margin=0, label=<<font color="black">
+  node16075 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16079 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:F.RevocableProxy = null</td></tr>
       <tr><td align="left">4:p.ProxyTarget = null</td></tr>
@@ -17,13 +14,16 @@ digraph {
       <tr><td align="left">6:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16015 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16014 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16017 [shape=diamond, label=<<font color="black">(= p null)</font>> color="black" fillcolor="white" style=filled]
-  node16018 -> node16019 [ color="black"]
-  node16016 -> node16017 [ color="black"]
-  node16017 -> node16018 [label=<<font color="black">true</font>> color="black"]
-  node16017 -> node16019 [label=<<font color="black">false</font>> color="black"]
-  node16014 -> node16016 [ color="black"]
-  node16019 -> node16015 [ color="black"]
+  node16074 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16078 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16074 -> node16076 [ color="black"]
+  node16077 -> node16078 [label=<<font color="black">true</font>> color="black"]
+  node16077 -> node16079 [label=<<font color="black">false</font>> color="black"]
+  node16076 -> node16077 [ color="black"]
+  node16079 -> node16075 [ color="black"]
+  node16078 -> node16079 [ color="black"]
 }

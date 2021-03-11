@@ -1,32 +1,32 @@
 digraph {
-  node17364 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17365 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17366 [shape=cds, label=<<font color="black">1:app __x0__ = (AgentSignifier)</font>> color="black" fillcolor="white" style=filled]
-  node17371 [shape=none, margin=0, label=<<font color="black">
+  node17437 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17442 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:assert (= __x1__ true)</td></tr>
+      <tr><td align="left">4:??? &quot;Perform LeaveCriticalSection ( id:{WL} ) and suspend id:{W} for up to id:{timeout} milliseconds , performing the combined operation in such a way that a notification that arrives after the critical section is exited but before the suspension takes effect is not lost . id:{W} can notify either because the timeout expired or because it was notified explicitly by another agent calling NotifyWaiter ( id:{WL} , id:{W} ) , and not for any other reasons at all .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17440 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= W __x0__)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17439 [shape=cds, label=<<font color="black">1:app __x0__ = (AgentSignifier)</font>> color="black" fillcolor="white" style=filled]
+  node17444 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:__x2__</td></tr>
       <tr><td align="left">6:??? &quot;If id:{W} was notified explicitly by another agent calling NotifyWaiter ( id:{WL} , id:{W} ) , return value:{true} .&quot;</td></tr>
       <tr><td align="left">7:return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17370 [shape=cds, label=<<font color="black">5:app __x2__ = (EnterCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
-  node17367 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:assert (= W __x0__)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17368 [shape=cds, label=<<font color="black">3:app __x1__ = (AgentCanSuspend)</font>> color="black" fillcolor="white" style=filled]
-  node17369 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:assert (= __x1__ true)</td></tr>
-      <tr><td align="left">4:??? &quot;Perform LeaveCriticalSection ( id:{WL} ) and suspend id:{W} for up to id:{timeout} milliseconds , performing the combined operation in such a way that a notification that arrives after the critical section is exited but before the suspension takes effect is not lost . id:{W} can notify either because the timeout expired or because it was notified explicitly by another agent calling NotifyWaiter ( id:{WL} , id:{W} ) , and not for any other reasons at all .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17368 -> node17369 [ color="black"]
-  node17371 -> node17365 [ color="black"]
-  node17364 -> node17366 [ color="black"]
-  node17369 -> node17370 [ color="black"]
-  node17367 -> node17368 [ color="black"]
-  node17370 -> node17371 [ color="black"]
-  node17366 -> node17367 [ color="black"]
+  node17438 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17443 [shape=cds, label=<<font color="black">5:app __x2__ = (EnterCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
+  node17441 [shape=cds, label=<<font color="black">3:app __x1__ = (AgentCanSuspend)</font>> color="black" fillcolor="white" style=filled]
+  node17443 -> node17444 [ color="black"]
+  node17442 -> node17443 [ color="black"]
+  node17440 -> node17441 [ color="black"]
+  node17444 -> node17438 [ color="black"]
+  node17439 -> node17440 [ color="black"]
+  node17437 -> node17439 [ color="black"]
+  node17441 -> node17442 [ color="black"]
 }

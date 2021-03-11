@@ -1,0 +1,45 @@
+digraph {
+  node12564 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return n</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12559 [shape=diamond, label=<<font color="black">(! (= value absent))</font>> color="black" fillcolor="white" style=filled]
+  node12565 [shape=cds, label=<<font color="black">7:app __x1__ = (OrdinaryCreateFromConstructor NewTarget &quot;%Number.prototype%&quot; (new [&quot;NumberData&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node12561 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let prim = [? __x0__]</td></tr>
+      <tr><td align="left">2:??? &quot;If Type ( id:{prim} ) is BigInt , let id:{n} be the Number value for the mathematical value of id:{prim} .&quot;</td></tr>
+      <tr><td align="left">3:??? &quot;Otherwise , let id:{n} be id:{prim} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12558 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12566 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let O = [? __x1__]</td></tr>
+      <tr><td align="left">8:O.NumberData = n</td></tr>
+      <tr><td align="left">9:return O</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12562 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let n = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12563 [shape=diamond, label=<<font color="black">(= NewTarget undefined)</font>> color="black" fillcolor="white" style=filled]
+  node12560 [shape=cds, label=<<font color="black">1:app __x0__ = (ToNumeric value)</font>> color="black" fillcolor="white" style=filled]
+  node12556 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12557 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12562 -> node12563 [ color="black"]
+  node12559 -> node12560 [label=<<font color="black">true</font>> color="black"]
+  node12559 -> node12562 [label=<<font color="black">false</font>> color="black"]
+  node12565 -> node12566 [ color="black"]
+  node12566 -> node12557 [ color="black"]
+  node12563 -> node12564 [label=<<font color="black">true</font>> color="black"]
+  node12563 -> node12565 [label=<<font color="black">false</font>> color="black"]
+  node12556 -> node12558 [ color="black"]
+  node12564 -> node12565 [ color="black"]
+  node12560 -> node12561 [ color="black"]
+  node12558 -> node12559 [ color="black"]
+  node12561 -> node12563 [ color="black"]
+}

@@ -1,18 +1,40 @@
 digraph {
-  node18081 [shape=diamond, label=<<font color="black">(&lt; __x5__ __x4__.length)</font>> color="black" fillcolor="white" style=filled]
-  node18087 [shape=none, margin=0, label=<<font color="black">
+  node18133 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18143 [shape=diamond, label=<<font color="black">(contains execution.HappensBefore (new [R, W]))</font>> color="black" fillcolor="white" style=filled]
+  node18146 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:return true</td></tr>
+      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18073 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18076 [shape=none, margin=0, label=<<font color="black">
+  node18136 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let __x1__ = __x0__</td></tr>
       <tr><td align="left">0:let __x2__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18080 [shape=none, margin=0, label=<<font color="black">
+  node18137 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node18144 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18135 [shape=cds, label=<<font color="black">0:app __x0__ = (SharedDataBlockEventSet execution)</font>> color="black" fillcolor="white" style=filled]
+  node18141 [shape=diamond, label=<<font color="black">(&lt; __x5__ __x4__.length)</font>> color="black" fillcolor="white" style=filled]
+  node18134 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18142 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let W = __x4__[__x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18139 [shape=cds, label=<<font color="black">1:app __x3__ = (execution.ReadsBytesFrom execution R)</font>> color="black" fillcolor="white" style=filled]
+  node18145 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:??? &quot;If there is a WriteSharedMemory or ReadModifyWriteSharedMemory event id:{V} that has id:{byteLocation} in its range such that the pairs ( id:{W} , id:{V} ) and ( id:{V} , id:{R} ) are in id:{execution} . [ [ HappensBefore ] ] , then in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">8:byteLocation = (+ byteLocation 1i)</td></tr>
+      <tr><td align="left">__x5__ = (+ __x5__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18140 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let Ws = __x3__</td></tr>
       <tr><td align="left">2:let byteLocation = R.ByteIndex</td></tr>
@@ -20,53 +42,31 @@ digraph {
       <tr><td align="left">3:let __x5__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18085 [shape=none, margin=0, label=<<font color="black">
+  node18147 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:??? &quot;If there is a WriteSharedMemory or ReadModifyWriteSharedMemory event id:{V} that has id:{byteLocation} in its range such that the pairs ( id:{W} , id:{V} ) and ( id:{V} , id:{R} ) are in id:{execution} . [ [ HappensBefore ] ] , then in:{} out:{}&quot;</td></tr>
-      <tr><td align="left">8:byteLocation = (+ byteLocation 1i)</td></tr>
-      <tr><td align="left">__x5__ = (+ __x5__ 1i)</td></tr>
+      <tr><td align="left">9:return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18078 [shape=none, margin=0, label=<<font color="black">
+  node18138 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let R = __x1__[__x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18083 [shape=diamond, label=<<font color="black">(contains execution.HappensBefore (new [R, W]))</font>> color="black" fillcolor="white" style=filled]
-  node18074 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18082 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let W = __x4__[__x5__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18079 [shape=cds, label=<<font color="black">1:app __x3__ = (execution.ReadsBytesFrom execution R)</font>> color="black" fillcolor="white" style=filled]
-  node18075 [shape=cds, label=<<font color="black">0:app __x0__ = (SharedDataBlockEventSet execution)</font>> color="black" fillcolor="white" style=filled]
-  node18084 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18086 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18077 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
-  node18083 -> node18084 [label=<<font color="black">true</font>> color="black"]
-  node18083 -> node18085 [label=<<font color="black">false</font>> color="black"]
-  node18077 -> node18078 [label=<<font color="black">true</font>> color="black"]
-  node18077 -> node18087 [label=<<font color="black">false</font>> color="black"]
-  node18085 -> node18081 [ color="black"]
-  node18084 -> node18085 [ color="black"]
-  node18086 -> node18077 [ color="black"]
-  node18079 -> node18080 [ color="black"]
-  node18087 -> node18074 [ color="black"]
-  node18075 -> node18076 [ color="black"]
-  node18082 -> node18083 [ color="black"]
-  node18078 -> node18079 [ color="black"]
-  node18073 -> node18075 [ color="black"]
-  node18076 -> node18077 [ color="black"]
-  node18080 -> node18081 [ color="black"]
-  node18081 -> node18082 [label=<<font color="black">true</font>> color="black"]
-  node18081 -> node18086 [label=<<font color="black">false</font>> color="black"]
+  node18145 -> node18141 [ color="black"]
+  node18138 -> node18139 [ color="black"]
+  node18136 -> node18137 [ color="black"]
+  node18133 -> node18135 [ color="black"]
+  node18141 -> node18142 [label=<<font color="black">true</font>> color="black"]
+  node18141 -> node18146 [label=<<font color="black">false</font>> color="black"]
+  node18137 -> node18138 [label=<<font color="black">true</font>> color="black"]
+  node18137 -> node18147 [label=<<font color="black">false</font>> color="black"]
+  node18139 -> node18140 [ color="black"]
+  node18140 -> node18141 [ color="black"]
+  node18135 -> node18136 [ color="black"]
+  node18143 -> node18144 [label=<<font color="black">true</font>> color="black"]
+  node18143 -> node18145 [label=<<font color="black">false</font>> color="black"]
+  node18142 -> node18143 [ color="black"]
+  node18144 -> node18145 [ color="black"]
+  node18146 -> node18137 [ color="black"]
+  node18147 -> node18134 [ color="black"]
 }

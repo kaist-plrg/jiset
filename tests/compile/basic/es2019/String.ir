@@ -1,0 +1,20 @@
+{
+  if (= argumentsList.length 0i) let s = "" else {
+    let __x0__ = true
+    __x0__ = (= NewTarget undefined)
+    if __x0__ {
+      app __x1__ = (Type value)
+      __x0__ = (= __x1__ Symbol)
+    } else {}
+    if __x0__ {
+      app __x2__ = (SymbolDescriptiveString value)
+      return __x2__
+    } else {}
+    app __x3__ = (ToString value)
+    let s = [? __x3__]
+  }
+  if (= NewTarget undefined) return s else {}
+  app __x4__ = (GetPrototypeFromConstructor NewTarget INTRINSIC_StringPrototype)
+  app __x5__ = (StringCreate s [? __x4__])
+  return [! __x5__]
+}

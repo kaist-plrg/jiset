@@ -1,0 +1,43 @@
+digraph {
+  node11922 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let n = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11926 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return n</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11923 [shape=cds, label=<<font color="black">app __x0__ = (ToNumber value)</font>> color="black" fillcolor="white" style=filled]
+  node11927 [shape=cds, label=<<font color="black">3:app __x1__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_NumberPrototype (new [&quot;NumberData&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node11920 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11921 [shape=diamond, label=<<font color="black">(= argumentsList.length 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11918 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11928 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let O = [? __x1__]</td></tr>
+      <tr><td align="left">4:O.NumberData = n</td></tr>
+      <tr><td align="left">5:return O</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11925 [shape=diamond, label=<<font color="black">(= NewTarget undefined)</font>> color="black" fillcolor="white" style=filled]
+  node11919 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11924 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let n = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11925 -> node11926 [label=<<font color="black">true</font>> color="black"]
+  node11925 -> node11927 [label=<<font color="black">false</font>> color="black"]
+  node11924 -> node11925 [ color="black"]
+  node11918 -> node11920 [ color="black"]
+  node11928 -> node11919 [ color="black"]
+  node11922 -> node11925 [ color="black"]
+  node11923 -> node11924 [ color="black"]
+  node11926 -> node11927 [ color="black"]
+  node11920 -> node11921 [ color="black"]
+  node11927 -> node11928 [ color="black"]
+  node11921 -> node11922 [label=<<font color="black">true</font>> color="black"]
+  node11921 -> node11923 [label=<<font color="black">false</font>> color="black"]
+}

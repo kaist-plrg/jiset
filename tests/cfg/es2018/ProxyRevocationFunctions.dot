@@ -1,6 +1,5 @@
 digraph {
-  node17783 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17787 [shape=none, margin=0, label=<<font color="black">
+  node17847 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:F.RevocableProxy = null</td></tr>
       <tr><td align="left">4:p.ProxyTarget = null</td></tr>
@@ -8,22 +7,23 @@ digraph {
       <tr><td align="left">6:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17784 [shape=none, margin=0, label=<<font color="black">
+  node17843 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17844 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let p = F.RevocableProxy</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17786 [shape=none, margin=0, label=<<font color="black">
+  node17845 [shape=diamond, label=<<font color="black">(= p null)</font>> color="black" fillcolor="white" style=filled]
+  node17842 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17846 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17785 [shape=diamond, label=<<font color="black">(= p null)</font>> color="black" fillcolor="white" style=filled]
-  node17782 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17785 -> node17786 [label=<<font color="black">true</font>> color="black"]
-  node17785 -> node17787 [label=<<font color="black">false</font>> color="black"]
-  node17787 -> node17783 [ color="black"]
-  node17784 -> node17785 [ color="black"]
-  node17786 -> node17787 [ color="black"]
-  node17782 -> node17784 [ color="black"]
+  node17845 -> node17846 [label=<<font color="black">true</font>> color="black"]
+  node17845 -> node17847 [label=<<font color="black">false</font>> color="black"]
+  node17846 -> node17847 [ color="black"]
+  node17844 -> node17845 [ color="black"]
+  node17847 -> node17843 [ color="black"]
+  node17842 -> node17844 [ color="black"]
 }

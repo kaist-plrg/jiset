@@ -1,50 +1,50 @@
 digraph {
-  node11239 [shape=cds, label=<<font color="black">0:app __x0__ = (Type number)</font>> color="black" fillcolor="white" style=filled]
-  node11247 [shape=none, margin=0, label=<<font color="black">
+  node11277 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11288 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11242 [shape=diamond, label=<<font color="black">(|| (|| (= number NaN) (= number Infinity)) (= number -Infinity))</font>> color="black" fillcolor="white" style=filled]
-  node11238 [shape=cds, label=<<font color="black">app number = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node11244 [shape=cds, label=<<font color="black">2:app __x1__ = (ToInteger number)</font>> color="black" fillcolor="white" style=filled]
-  node11237 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11245 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let integer = __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11240 [shape=diamond, label=<<font color="black">(! (= __x0__ Number))</font>> color="black" fillcolor="white" style=filled]
-  node11246 [shape=diamond, label=<<font color="black">(! (= integer number))</font>> color="black" fillcolor="white" style=filled]
-  node11236 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11241 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11243 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node11248 [shape=none, margin=0, label=<<font color="black">
+  node11289 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11242 -> node11243 [label=<<font color="black">true</font>> color="black"]
-  node11242 -> node11244 [label=<<font color="black">false</font>> color="black"]
-  node11244 -> node11245 [ color="black"]
-  node11248 -> node11237 [ color="black"]
-  node11236 -> node11238 [ color="black"]
-  node11240 -> node11241 [label=<<font color="black">true</font>> color="black"]
-  node11240 -> node11242 [label=<<font color="black">false</font>> color="black"]
-  node11241 -> node11242 [ color="black"]
-  node11239 -> node11240 [ color="black"]
-  node11245 -> node11246 [ color="black"]
-  node11246 -> node11247 [label=<<font color="black">true</font>> color="black"]
-  node11246 -> node11248 [label=<<font color="black">false</font>> color="black"]
-  node11243 -> node11244 [ color="black"]
-  node11247 -> node11237 [ color="black"]
-  node11238 -> node11239 [ color="black"]
+  node11285 [shape=cds, label=<<font color="black">2:app __x1__ = (ToInteger number)</font>> color="black" fillcolor="white" style=filled]
+  node11284 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11278 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node11279 [shape=cds, label=<<font color="black">app number = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11283 [shape=diamond, label=<<font color="black">(|| (|| (= number NaN) (= number Infinity)) (= number -Infinity))</font>> color="black" fillcolor="white" style=filled]
+  node11280 [shape=cds, label=<<font color="black">0:app __x0__ = (Type number)</font>> color="black" fillcolor="white" style=filled]
+  node11282 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11287 [shape=diamond, label=<<font color="black">(! (= integer number))</font>> color="black" fillcolor="white" style=filled]
+  node11286 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let integer = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11281 [shape=diamond, label=<<font color="black">(! (= __x0__ Number))</font>> color="black" fillcolor="white" style=filled]
+  node11285 -> node11286 [ color="black"]
+  node11277 -> node11279 [ color="black"]
+  node11283 -> node11284 [label=<<font color="black">true</font>> color="black"]
+  node11283 -> node11285 [label=<<font color="black">false</font>> color="black"]
+  node11286 -> node11287 [ color="black"]
+  node11287 -> node11288 [label=<<font color="black">true</font>> color="black"]
+  node11287 -> node11289 [label=<<font color="black">false</font>> color="black"]
+  node11281 -> node11282 [label=<<font color="black">true</font>> color="black"]
+  node11281 -> node11283 [label=<<font color="black">false</font>> color="black"]
+  node11282 -> node11283 [ color="black"]
+  node11284 -> node11285 [ color="black"]
+  node11279 -> node11280 [ color="black"]
+  node11289 -> node11278 [ color="black"]
+  node11280 -> node11281 [ color="black"]
+  node11288 -> node11278 [ color="black"]
 }

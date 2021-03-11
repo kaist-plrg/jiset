@@ -1,54 +1,54 @@
 digraph {
-  node18504 [shape=cds, label=<<font color="black">5:app __x2__ = (IsConstructor C)</font>> color="black" fillcolor="white" style=filled]
-  node18499 [shape=none, margin=0, label=<<font color="black">
+  node18575 [shape=cds, label=<<font color="black">3:app __x1__ = (Call onFinally undefined)</font>> color="black" fillcolor="white" style=filled]
+  node18582 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let F = GLOBAL_context.Function</td></tr>
-      <tr><td align="left">1:let onFinally = F.OnFinally</td></tr>
+      <tr><td align="left">8:return [? __x4__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18507 [shape=none, margin=0, label=<<font color="black">
+  node18571 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18578 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:let promise = [? __x3__]</td></tr>
-      <tr><td align="left">7:??? &quot;Let id:{thrower} be equivalent to a function that throws id:{reason} .&quot;</td></tr>
+      <tr><td align="left">5:assert (= __x2__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18498 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18503 [shape=none, margin=0, label=<<font color="black">
+  node18576 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let result = [? __x1__]</td></tr>
       <tr><td align="left">4:let C = F.Constructor</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18508 [shape=cds, label=<<font color="black">8:app __x4__ = (Invoke promise &quot;then&quot; (new [thrower]))</font>> color="black" fillcolor="white" style=filled]
-  node18497 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18502 [shape=cds, label=<<font color="black">3:app __x1__ = (Call onFinally undefined)</font>> color="black" fillcolor="white" style=filled]
-  node18505 [shape=none, margin=0, label=<<font color="black">
+  node18581 [shape=cds, label=<<font color="black">8:app __x4__ = (Invoke promise &quot;then&quot; (new [thrower]))</font>> color="black" fillcolor="white" style=filled]
+  node18573 [shape=cds, label=<<font color="black">2:app __x0__ = (IsCallable onFinally)</font>> color="black" fillcolor="white" style=filled]
+  node18570 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18580 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:assert (= __x2__ true)</td></tr>
+      <tr><td align="left">6:let promise = [? __x3__]</td></tr>
+      <tr><td align="left">7:??? &quot;Let id:{thrower} be equivalent to a function that throws id:{reason} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18509 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:return [? __x4__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18501 [shape=none, margin=0, label=<<font color="black">
+  node18574 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (= __x0__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18500 [shape=cds, label=<<font color="black">2:app __x0__ = (IsCallable onFinally)</font>> color="black" fillcolor="white" style=filled]
-  node18506 [shape=cds, label=<<font color="black">6:app __x3__ = (PromiseResolve C result)</font>> color="black" fillcolor="white" style=filled]
-  node18503 -> node18504 [ color="black"]
-  node18505 -> node18506 [ color="black"]
-  node18504 -> node18505 [ color="black"]
-  node18500 -> node18501 [ color="black"]
-  node18502 -> node18503 [ color="black"]
-  node18506 -> node18507 [ color="black"]
-  node18508 -> node18509 [ color="black"]
-  node18509 -> node18498 [ color="black"]
-  node18507 -> node18508 [ color="black"]
-  node18501 -> node18502 [ color="black"]
-  node18497 -> node18499 [ color="black"]
-  node18499 -> node18500 [ color="black"]
+  node18579 [shape=cds, label=<<font color="black">6:app __x3__ = (PromiseResolve C result)</font>> color="black" fillcolor="white" style=filled]
+  node18572 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let F = GLOBAL_context.Function</td></tr>
+      <tr><td align="left">1:let onFinally = F.OnFinally</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18577 [shape=cds, label=<<font color="black">5:app __x2__ = (IsConstructor C)</font>> color="black" fillcolor="white" style=filled]
+  node18576 -> node18577 [ color="black"]
+  node18573 -> node18574 [ color="black"]
+  node18577 -> node18578 [ color="black"]
+  node18572 -> node18573 [ color="black"]
+  node18570 -> node18572 [ color="black"]
+  node18581 -> node18582 [ color="black"]
+  node18580 -> node18581 [ color="black"]
+  node18578 -> node18579 [ color="black"]
+  node18574 -> node18575 [ color="black"]
+  node18579 -> node18580 [ color="black"]
+  node18582 -> node18571 [ color="black"]
+  node18575 -> node18576 [ color="black"]
 }

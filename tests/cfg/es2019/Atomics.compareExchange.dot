@@ -1,37 +1,5 @@
 digraph {
-  node16765 [shape=cds, label=<<font color="black">2:app __x2__ = (ToInteger expectedValue)</font>> color="black" fillcolor="white" style=filled]
-  node16762 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16758 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node16769 [shape=cds, label=<<font color="black">7:app __x4__ = (NumberToRawBytes elementType expected isLittleEndian)</font>> color="black" fillcolor="white" style=filled]
-  node16764 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let i = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16767 [shape=cds, label=<<font color="black">3:app __x3__ = (ToInteger replacementValue)</font>> color="black" fillcolor="white" style=filled]
-  node16759 [shape=cds, label=<<font color="black">app expectedValue = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
-  node16760 [shape=cds, label=<<font color="black">app replacementValue = (GetArgument argumentsList 3i)</font>> color="black" fillcolor="white" style=filled]
-  node16757 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node16772 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">12:return __x5__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16761 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
-  node16768 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let replacement = [? __x3__]</td></tr>
-      <tr><td align="left">4:let arrayTypeName = typedArray.TypedArrayName</td></tr>
-      <tr><td align="left">5:??? &quot;Let id:{elementType} be the String value of the Element Type value in link:{unhandled: table-49} for id:{arrayTypeName} .&quot;</td></tr>
-      <tr><td align="left">6:let isLittleEndian = GLOBAL_agent.LittleEndian</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16755 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16770 [shape=none, margin=0, label=<<font color="black">
+  node16830 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:let expectedBytes = __x4__</td></tr>
       <tr><td align="left">8:??? &quot;Let id:{elementSize} be the Number value of the Element Size value specified in link:{unhandled: table-49} for id:{arrayTypeName} .&quot;</td></tr>
@@ -40,29 +8,61 @@ digraph {
       <tr><td align="left">11:??? &quot;Let code:{compareExchange} denote a semantic function of two List of byte values arguments that returns the second argument if the first argument is element - wise equal to id:{expectedBytes} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16763 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
-  node16766 [shape=none, margin=0, label=<<font color="black">
+  node16817 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16826 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let expected = [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16756 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16771 [shape=cds, label=<<font color="black">12:app __x5__ = (GetModifySetValueInBuffer buffer indexedPosition elementType replacement ??? &quot;compareExchange&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node16768 -> node16769 [ color="black"]
-  node16771 -> node16772 [ color="black"]
-  node16769 -> node16770 [ color="black"]
-  node16759 -> node16760 [ color="black"]
-  node16767 -> node16768 [ color="black"]
-  node16770 -> node16771 [ color="black"]
-  node16758 -> node16759 [ color="black"]
-  node16755 -> node16757 [ color="black"]
-  node16772 -> node16756 [ color="black"]
-  node16760 -> node16761 [ color="black"]
-  node16763 -> node16764 [ color="black"]
-  node16765 -> node16766 [ color="black"]
-  node16761 -> node16762 [ color="black"]
-  node16766 -> node16767 [ color="black"]
-  node16757 -> node16758 [ color="black"]
-  node16764 -> node16765 [ color="black"]
-  node16762 -> node16763 [ color="black"]
+  node16829 [shape=cds, label=<<font color="black">7:app __x4__ = (NumberToRawBytes elementType expected isLittleEndian)</font>> color="black" fillcolor="white" style=filled]
+  node16818 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node16822 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16825 [shape=cds, label=<<font color="black">2:app __x2__ = (ToInteger expectedValue)</font>> color="black" fillcolor="white" style=filled]
+  node16823 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
+  node16819 [shape=cds, label=<<font color="black">app expectedValue = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node16831 [shape=cds, label=<<font color="black">12:app __x5__ = (GetModifySetValueInBuffer buffer indexedPosition elementType replacement ??? &quot;compareExchange&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node16828 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let replacement = [? __x3__]</td></tr>
+      <tr><td align="left">4:let arrayTypeName = typedArray.TypedArrayName</td></tr>
+      <tr><td align="left">5:??? &quot;Let id:{elementType} be the String value of the Element Type value in link:{unhandled: table-49} for id:{arrayTypeName} .&quot;</td></tr>
+      <tr><td align="left">6:let isLittleEndian = GLOBAL_agent.LittleEndian</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16824 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let i = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16820 [shape=cds, label=<<font color="black">app replacementValue = (GetArgument argumentsList 3i)</font>> color="black" fillcolor="white" style=filled]
+  node16827 [shape=cds, label=<<font color="black">3:app __x3__ = (ToInteger replacementValue)</font>> color="black" fillcolor="white" style=filled]
+  node16816 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16821 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
+  node16815 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16832 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:return __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16821 -> node16822 [ color="black"]
+  node16817 -> node16818 [ color="black"]
+  node16815 -> node16817 [ color="black"]
+  node16820 -> node16821 [ color="black"]
+  node16819 -> node16820 [ color="black"]
+  node16825 -> node16826 [ color="black"]
+  node16831 -> node16832 [ color="black"]
+  node16818 -> node16819 [ color="black"]
+  node16832 -> node16816 [ color="black"]
+  node16827 -> node16828 [ color="black"]
+  node16829 -> node16830 [ color="black"]
+  node16826 -> node16827 [ color="black"]
+  node16823 -> node16824 [ color="black"]
+  node16828 -> node16829 [ color="black"]
+  node16824 -> node16825 [ color="black"]
+  node16822 -> node16823 [ color="black"]
+  node16830 -> node16831 [ color="black"]
 }

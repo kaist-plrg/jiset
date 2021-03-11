@@ -1,27 +1,27 @@
 digraph {
-  node18056 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (|| (= (typeof R) &quot;ReadSharedMemory&quot;) (= (typeof R) &quot;ReadModifyWriteSharedMemory&quot;))</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18058 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let Ws = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18055 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18059 [shape=cds, label=<<font color="black">3:app __x1__ = (ComposeWriteEventBytes execution R.ByteIndex Ws)</font>> color="black" fillcolor="white" style=filled]
-  node18057 [shape=cds, label=<<font color="black">1:app __x0__ = (execution.ReadsBytesFrom execution R)</font>> color="black" fillcolor="white" style=filled]
-  node18060 [shape=none, margin=0, label=<<font color="black">
+  node18114 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18120 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:return __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18054 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18059 -> node18060 [ color="black"]
-  node18056 -> node18057 [ color="black"]
-  node18058 -> node18059 [ color="black"]
-  node18060 -> node18055 [ color="black"]
-  node18057 -> node18058 [ color="black"]
-  node18054 -> node18056 [ color="black"]
+  node18116 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (|| (= (typeof R) &quot;ReadSharedMemory&quot;) (= (typeof R) &quot;ReadModifyWriteSharedMemory&quot;))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18119 [shape=cds, label=<<font color="black">3:app __x1__ = (ComposeWriteEventBytes execution R.ByteIndex Ws)</font>> color="black" fillcolor="white" style=filled]
+  node18118 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let Ws = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18117 [shape=cds, label=<<font color="black">1:app __x0__ = (execution.ReadsBytesFrom execution R)</font>> color="black" fillcolor="white" style=filled]
+  node18115 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18114 -> node18116 [ color="black"]
+  node18119 -> node18120 [ color="black"]
+  node18116 -> node18117 [ color="black"]
+  node18117 -> node18118 [ color="black"]
+  node18118 -> node18119 [ color="black"]
+  node18120 -> node18115 [ color="black"]
 }

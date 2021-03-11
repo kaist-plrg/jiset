@@ -1,13 +1,5 @@
 digraph {
-  node17132 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryCreateFromConstructor constructor &quot;%SharedArrayBuffer.prototype%&quot; (new [&quot;ArrayBufferData&quot;, &quot;ArrayBufferByteLength&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node17136 [shape=cds, label=<<font color="black">2:app __x2__ = (CreateSharedByteDataBlock byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node17133 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17130 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17137 [shape=none, margin=0, label=<<font color="black">
+  node17210 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let block = [? __x2__]</td></tr>
       <tr><td align="left">3:obj.ArrayBufferData = block</td></tr>
@@ -15,18 +7,26 @@ digraph {
       <tr><td align="left">5:return obj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17134 [shape=cds, label=<<font color="black">1:app __x1__ = (IsNonNegativeInteger byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node17131 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17135 [shape=none, margin=0, label=<<font color="black">
+  node17206 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17207 [shape=cds, label=<<font color="black">1:app __x1__ = (IsNonNegativeInteger byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node17203 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17208 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= [! __x1__] true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17135 -> node17136 [ color="black"]
-  node17137 -> node17131 [ color="black"]
-  node17132 -> node17133 [ color="black"]
-  node17130 -> node17132 [ color="black"]
-  node17134 -> node17135 [ color="black"]
-  node17133 -> node17134 [ color="black"]
-  node17136 -> node17137 [ color="black"]
+  node17205 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryCreateFromConstructor constructor &quot;%SharedArrayBuffer.prototype%&quot; (new [&quot;ArrayBufferData&quot;, &quot;ArrayBufferByteLength&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node17209 [shape=cds, label=<<font color="black">2:app __x2__ = (CreateSharedByteDataBlock byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node17204 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17209 -> node17210 [ color="black"]
+  node17206 -> node17207 [ color="black"]
+  node17208 -> node17209 [ color="black"]
+  node17203 -> node17205 [ color="black"]
+  node17207 -> node17208 [ color="black"]
+  node17210 -> node17204 [ color="black"]
+  node17205 -> node17206 [ color="black"]
 }

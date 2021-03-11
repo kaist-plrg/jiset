@@ -1,26 +1,26 @@
 digraph {
-  node17976 [shape=diamond, label=<<font color="black">(= NewTarget undefined)</font>> color="black" fillcolor="white" style=filled]
-  node17972 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17979 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:return [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17975 [shape=cds, label=<<font color="black">app handler = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node17974 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node17977 [shape=none, margin=0, label=<<font color="black">
+  node18033 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18037 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17973 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17978 [shape=cds, label=<<font color="black">1:app __x0__ = (ProxyCreate target handler)</font>> color="black" fillcolor="white" style=filled]
-  node17978 -> node17979 [ color="black"]
-  node17979 -> node17973 [ color="black"]
-  node17972 -> node17974 [ color="black"]
-  node17974 -> node17975 [ color="black"]
-  node17976 -> node17977 [label=<<font color="black">true</font>> color="black"]
-  node17976 -> node17978 [label=<<font color="black">false</font>> color="black"]
-  node17975 -> node17976 [ color="black"]
-  node17977 -> node17978 [ color="black"]
+  node18036 [shape=diamond, label=<<font color="black">(= NewTarget undefined)</font>> color="black" fillcolor="white" style=filled]
+  node18039 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:return [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18038 [shape=cds, label=<<font color="black">1:app __x0__ = (ProxyCreate target handler)</font>> color="black" fillcolor="white" style=filled]
+  node18035 [shape=cds, label=<<font color="black">app handler = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node18032 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18034 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18035 -> node18036 [ color="black"]
+  node18036 -> node18037 [label=<<font color="black">true</font>> color="black"]
+  node18036 -> node18038 [label=<<font color="black">false</font>> color="black"]
+  node18032 -> node18034 [ color="black"]
+  node18038 -> node18039 [ color="black"]
+  node18037 -> node18038 [ color="black"]
+  node18039 -> node18033 [ color="black"]
+  node18034 -> node18035 [ color="black"]
 }

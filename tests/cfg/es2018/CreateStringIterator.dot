@@ -1,8 +1,15 @@
 digraph {
-  node13266 [shape=cds, label=<<font color="black">0:app __x0__ = (Type string)</font>> color="black" fillcolor="white" style=filled]
-  node13263 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13265 [shape=cds, label=<<font color="black">app string = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node13269 [shape=none, margin=0, label=<<font color="black">
+  node13325 [shape=cds, label=<<font color="black">app string = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node13326 [shape=cds, label=<<font color="black">0:app __x0__ = (Type string)</font>> color="black" fillcolor="white" style=filled]
+  node13323 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13327 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13324 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13328 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_StringIteratorPrototype (new [&quot;IteratedString&quot;, &quot;StringIteratorNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node13329 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let iterator = __x1__</td></tr>
       <tr><td align="left">2:iterator.IteratedString = string</td></tr>
@@ -10,17 +17,10 @@ digraph {
       <tr><td align="left">4:return iterator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13264 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13268 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_StringIteratorPrototype (new [&quot;IteratedString&quot;, &quot;StringIteratorNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node13267 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node13269 -> node13264 [ color="black"]
-  node13265 -> node13266 [ color="black"]
-  node13268 -> node13269 [ color="black"]
-  node13266 -> node13267 [ color="black"]
-  node13267 -> node13268 [ color="black"]
-  node13263 -> node13265 [ color="black"]
+  node13329 -> node13324 [ color="black"]
+  node13327 -> node13328 [ color="black"]
+  node13323 -> node13325 [ color="black"]
+  node13328 -> node13329 [ color="black"]
+  node13325 -> node13326 [ color="black"]
+  node13326 -> node13327 [ color="black"]
 }

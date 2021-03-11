@@ -1,12 +1,6 @@
 digraph {
-  node13906 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13910 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:assert (= __x1__ String)</td></tr>
-      <tr><td align="left">3:let stringLength = str.length</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node13914 [shape=none, margin=0, label=<<font color="black">
+  node13982 [shape=cds, label=<<font color="black">2:app __x1__ = (Type str)</font>> color="black" fillcolor="white" style=filled]
+  node13987 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:assert (= __x3__ String)</td></tr>
       <tr><td align="left">8:let tailPos = (+ position matchLength)</td></tr>
@@ -15,30 +9,36 @@ digraph {
       <tr><td align="left">11:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13911 [shape=cds, label=<<font color="black">4:app __x2__ = (IsNonNegativeInteger position)</font>> color="black" fillcolor="white" style=filled]
-  node13907 [shape=cds, label=<<font color="black">0:app __x0__ = (Type matched)</font>> color="black" fillcolor="white" style=filled]
-  node13913 [shape=cds, label=<<font color="black">7:app __x3__ = (Type replacement)</font>> color="black" fillcolor="white" style=filled]
-  node13908 [shape=none, margin=0, label=<<font color="black">
+  node13981 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= __x0__ String)</td></tr>
       <tr><td align="left">1:let matchLength = matched.length</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13912 [shape=none, margin=0, label=<<font color="black">
+  node13979 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13984 [shape=cds, label=<<font color="black">4:app __x2__ = (IsNonNegativeInteger position)</font>> color="black" fillcolor="white" style=filled]
+  node13980 [shape=cds, label=<<font color="black">0:app __x0__ = (Type matched)</font>> color="black" fillcolor="white" style=filled]
+  node13985 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:assert (= [! __x2__] true)</td></tr>
       <tr><td align="left">5:assert (! (&lt; stringLength position))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13905 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node13909 [shape=cds, label=<<font color="black">2:app __x1__ = (Type str)</font>> color="black" fillcolor="white" style=filled]
-  node13907 -> node13908 [ color="black"]
-  node13908 -> node13909 [ color="black"]
-  node13911 -> node13912 [ color="black"]
-  node13914 -> node13906 [ color="black"]
-  node13913 -> node13914 [ color="black"]
-  node13912 -> node13913 [ color="black"]
-  node13909 -> node13910 [ color="black"]
-  node13905 -> node13907 [ color="black"]
-  node13910 -> node13911 [ color="black"]
+  node13978 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node13983 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:assert (= __x1__ String)</td></tr>
+      <tr><td align="left">3:let stringLength = str.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13986 [shape=cds, label=<<font color="black">7:app __x3__ = (Type replacement)</font>> color="black" fillcolor="white" style=filled]
+  node13981 -> node13982 [ color="black"]
+  node13982 -> node13983 [ color="black"]
+  node13987 -> node13979 [ color="black"]
+  node13985 -> node13986 [ color="black"]
+  node13980 -> node13981 [ color="black"]
+  node13983 -> node13984 [ color="black"]
+  node13978 -> node13980 [ color="black"]
+  node13986 -> node13987 [ color="black"]
+  node13984 -> node13985 [ color="black"]
 }

@@ -1,6 +1,12 @@
 digraph {
-  node12058 [shape=cds, label=<<font color="black">7:app __x2__ = (Type replacement)</font>> color="black" fillcolor="white" style=filled]
-  node12059 [shape=none, margin=0, label=<<font color="black">
+  node12116 [shape=cds, label=<<font color="black">2:app __x1__ = (Type str)</font>> color="black" fillcolor="white" style=filled]
+  node12115 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+      <tr><td align="left">1:let matchLength = matched.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12119 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:assert (= __x2__ String)</td></tr>
       <tr><td align="left">8:let tailPos = (+ position matchLength)</td></tr>
@@ -9,28 +15,22 @@ digraph {
       <tr><td align="left">11:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12052 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12053 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12056 [shape=cds, label=<<font color="black">2:app __x1__ = (Type str)</font>> color="black" fillcolor="white" style=filled]
-  node12054 [shape=cds, label=<<font color="black">0:app __x0__ = (Type matched)</font>> color="black" fillcolor="white" style=filled]
-  node12055 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
-      <tr><td align="left">1:let matchLength = matched.length</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12057 [shape=none, margin=0, label=<<font color="black">
+  node12114 [shape=cds, label=<<font color="black">0:app __x0__ = (Type matched)</font>> color="black" fillcolor="white" style=filled]
+  node12118 [shape=cds, label=<<font color="black">7:app __x2__ = (Type replacement)</font>> color="black" fillcolor="white" style=filled]
+  node12117 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (= __x1__ String)</td></tr>
       <tr><td align="left">3:let stringLength = str.length</td></tr>
       <tr><td align="left">5:assert (! (&lt; stringLength position))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12056 -> node12057 [ color="black"]
-  node12055 -> node12056 [ color="black"]
-  node12057 -> node12058 [ color="black"]
-  node12059 -> node12053 [ color="black"]
-  node12054 -> node12055 [ color="black"]
-  node12058 -> node12059 [ color="black"]
-  node12052 -> node12054 [ color="black"]
+  node12112 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12113 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12115 -> node12116 [ color="black"]
+  node12119 -> node12113 [ color="black"]
+  node12118 -> node12119 [ color="black"]
+  node12114 -> node12115 [ color="black"]
+  node12117 -> node12118 [ color="black"]
+  node12112 -> node12114 [ color="black"]
+  node12116 -> node12117 [ color="black"]
 }

@@ -1,0 +1,13 @@
+{
+  if (! (= NewTarget undefined)) throw TypeError else {}
+  app __x0__ = (ToPrimitive value Number)
+  let prim = [? __x0__]
+  app __x1__ = (Type prim)
+  if (= __x1__ Number) {
+    app __x2__ = (NumberToBigInt prim)
+    return [? __x2__]
+  } else {
+    app __x3__ = (ToBigInt value)
+    return [? __x3__]
+  }
+}

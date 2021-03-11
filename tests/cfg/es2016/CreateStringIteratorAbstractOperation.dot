@@ -1,14 +1,7 @@
 digraph {
-  node12232 [shape=cds, label=<<font color="black">0:app __x0__ = (Type string)</font>> color="black" fillcolor="white" style=filled]
-  node12233 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12231 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12234 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_StringIteratorPrototype (new [&quot;IteratedString&quot;, &quot;StringIteratorNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node12230 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12235 [shape=none, margin=0, label=<<font color="black">
+  node12291 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12294 [shape=cds, label=<<font color="black">1:app __x1__ = (ObjectCreate INTRINSIC_StringIteratorPrototype (new [&quot;IteratedString&quot;, &quot;StringIteratorNextIndex&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node12295 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let iterator = __x1__</td></tr>
       <tr><td align="left">2:iterator.IteratedString = string</td></tr>
@@ -16,9 +9,16 @@ digraph {
       <tr><td align="left">4:return iterator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12232 -> node12233 [ color="black"]
-  node12235 -> node12231 [ color="black"]
-  node12234 -> node12235 [ color="black"]
-  node12233 -> node12234 [ color="black"]
-  node12230 -> node12232 [ color="black"]
+  node12290 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12293 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12292 [shape=cds, label=<<font color="black">0:app __x0__ = (Type string)</font>> color="black" fillcolor="white" style=filled]
+  node12293 -> node12294 [ color="black"]
+  node12292 -> node12293 [ color="black"]
+  node12295 -> node12291 [ color="black"]
+  node12290 -> node12292 [ color="black"]
+  node12294 -> node12295 [ color="black"]
 }

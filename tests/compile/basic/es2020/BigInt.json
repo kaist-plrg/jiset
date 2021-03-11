@@ -1,0 +1,23 @@
+["If", "NewTarget", "is", "not", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
+  "id": "prim"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "value"
+}, ",", "hint", "Number", ")", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "prim"
+}, ")", "is", "Number", ",", "return", "?", "NumberToBigInt", "(", {
+  "id": "prim"
+}, ")", ".", {
+  "k": 2
+}, "Otherwise", ",", "return", "?", "ToBigInt", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 3
+}]

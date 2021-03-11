@@ -1,20 +1,7 @@
 digraph {
-  node19219 [shape=cds, label=<<font color="black">0:access __x0__ = (ClassElementList &quot;PrototypePropertyNameList&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node19226 [shape=diamond, label=<<font color="black">__x5__</font>> color="black" fillcolor="white" style=filled]
-  node19223 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19218 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19217 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19228 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19221 [shape=diamond, label=<<font color="black">(&lt; __x4__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
-  node19220 [shape=none, margin=0, label=<<font color="black">
+  node19282 [shape=diamond, label=<<font color="black">(= __x1__[__x4__] __x2__)</font>> color="black" fillcolor="white" style=filled]
+  node19286 [shape=diamond, label=<<font color="black">__x5__</font>> color="black" fillcolor="white" style=filled]
+  node19280 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let __x1__ = __x0__</td></tr>
       <tr><td align="left">0:let __x2__ = &quot;constructor&quot;</td></tr>
@@ -23,31 +10,44 @@ digraph {
       <tr><td align="left">0:let __x5__ = false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19222 [shape=diamond, label=<<font color="black">(= __x1__[__x4__] __x2__)</font>> color="black" fillcolor="white" style=filled]
-  node19227 [shape=none, margin=0, label=<<font color="black">
+  node19287 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw SyntaxError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19224 [shape=diamond, label=<<font color="black">(&lt; 1i __x3__)</font>> color="black" fillcolor="white" style=filled]
-  node19225 [shape=none, margin=0, label=<<font color="black">
+  node19277 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19283 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19288 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19284 [shape=diamond, label=<<font color="black">(&lt; 1i __x3__)</font>> color="black" fillcolor="white" style=filled]
+  node19285 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">__x5__ = true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19219 -> node19220 [ color="black"]
-  node19217 -> node19219 [ color="black"]
-  node19226 -> node19227 [label=<<font color="black">true</font>> color="black"]
-  node19226 -> node19228 [label=<<font color="black">false</font>> color="black"]
-  node19221 -> node19222 [label=<<font color="black">true</font>> color="black"]
-  node19221 -> node19224 [label=<<font color="black">false</font>> color="black"]
-  node19228 -> node19218 [ color="black"]
-  node19227 -> node19218 [ color="black"]
-  node19222 -> node19223 [label=<<font color="black">true</font>> color="black"]
-  node19222 -> node19221 [label=<<font color="black">false</font>> color="black"]
-  node19223 -> node19221 [ color="black"]
-  node19225 -> node19226 [ color="black"]
-  node19224 -> node19225 [label=<<font color="black">true</font>> color="black"]
-  node19224 -> node19226 [label=<<font color="black">false</font>> color="black"]
-  node19220 -> node19221 [ color="black"]
+  node19278 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node19279 [shape=cds, label=<<font color="black">0:access __x0__ = (ClassElementList &quot;PrototypePropertyNameList&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node19281 [shape=diamond, label=<<font color="black">(&lt; __x4__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node19282 -> node19283 [label=<<font color="black">true</font>> color="black"]
+  node19282 -> node19281 [label=<<font color="black">false</font>> color="black"]
+  node19280 -> node19281 [ color="black"]
+  node19286 -> node19287 [label=<<font color="black">true</font>> color="black"]
+  node19286 -> node19288 [label=<<font color="black">false</font>> color="black"]
+  node19284 -> node19285 [label=<<font color="black">true</font>> color="black"]
+  node19284 -> node19286 [label=<<font color="black">false</font>> color="black"]
+  node19279 -> node19280 [ color="black"]
+  node19288 -> node19278 [ color="black"]
+  node19277 -> node19279 [ color="black"]
+  node19283 -> node19281 [ color="black"]
+  node19281 -> node19282 [label=<<font color="black">true</font>> color="black"]
+  node19281 -> node19284 [label=<<font color="black">false</font>> color="black"]
+  node19285 -> node19286 [ color="black"]
+  node19287 -> node19278 [ color="black"]
 }

@@ -1,0 +1,13 @@
+{
+  if (! (= value absent)) {
+    app __x0__ = (ToNumeric value)
+    let prim = [? __x0__]
+    ??? "If Type ( id:{prim} ) is BigInt , let id:{n} be the Number value for the mathematical value of id:{prim} ."
+    ??? "Otherwise , let id:{n} be id:{prim} ."
+  } else let n = 0i
+  if (= NewTarget undefined) return n else {}
+  app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%Number.prototype%" (new ["NumberData"]))
+  let O = [? __x1__]
+  O.NumberData = n
+  return O
+}

@@ -1,26 +1,28 @@
 digraph {
-  node18033 [shape=diamond, label=<<font color="black">(! (= state CONST_executing))</font>> color="black" fillcolor="white" style=filled]
-  node18020 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18023 [shape=cds, label=<<font color="black">app completion = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node18030 [shape=cds, label=<<font color="black">4:app __x2__ = (Call promiseCapability.Reject undefined (new [badGeneratorError]))</font>> color="black" fillcolor="white" style=filled]
-  node18026 [shape=none, margin=0, label=<<font color="black">
+  node18107 [shape=cds, label=<<font color="black">11:app __x3__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
+  node18101 [shape=diamond, label=<<font color="black">(|| (! (= __x1__ Object)) (= generator.AsyncGeneratorState absent))</font>> color="black" fillcolor="white" style=filled]
+  node18104 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let promiseCapability = [! __x0__]</td></tr>
+      <tr><td align="left">4:[! __x2__]</td></tr>
+      <tr><td align="left">5:return promiseCapability.Promise</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18036 [shape=none, margin=0, label=<<font color="black">
+  node18094 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18097 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">12:return promiseCapability.Promise</td></tr>
+      <tr><td align="left">0:assert (is-completion completion)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18027 [shape=cds, label=<<font color="black">2:app __x1__ = (Type generator)</font>> color="black" fillcolor="white" style=filled]
-  node18035 [shape=none, margin=0, label=<<font color="black">
+  node18108 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">11:[! __x3__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18028 [shape=diamond, label=<<font color="black">(|| (! (= __x1__ Object)) (= generator.AsyncGeneratorState absent))</font>> color="black" fillcolor="white" style=filled]
-  node18032 [shape=none, margin=0, label=<<font color="black">
+  node18100 [shape=cds, label=<<font color="black">2:app __x1__ = (Type generator)</font>> color="black" fillcolor="white" style=filled]
+  node18095 [shape=cds, label=<<font color="black">app generator = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node18096 [shape=cds, label=<<font color="black">app completion = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node18103 [shape=cds, label=<<font color="black">4:app __x2__ = (Call promiseCapability.Reject undefined (new [badGeneratorError]))</font>> color="black" fillcolor="white" style=filled]
+  node18105 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let queue = generator.AsyncGeneratorQueue</td></tr>
       <tr><td align="left">7:let request = (new AsyncGeneratorRequest(&quot;Completion&quot; -&gt; completion, &quot;Capability&quot; -&gt; promiseCapability))</td></tr>
@@ -28,42 +30,40 @@ digraph {
       <tr><td align="left">9:let state = generator.AsyncGeneratorState</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18034 [shape=cds, label=<<font color="black">11:app __x3__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
-  node18025 [shape=cds, label=<<font color="black">1:app __x0__ = (NewPromiseCapability INTRINSIC_Promise)</font>> color="black" fillcolor="white" style=filled]
-  node18021 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18022 [shape=cds, label=<<font color="black">app generator = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node18031 [shape=none, margin=0, label=<<font color="black">
+  node18099 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:[! __x2__]</td></tr>
-      <tr><td align="left">5:return promiseCapability.Promise</td></tr>
+      <tr><td align="left">1:let promiseCapability = [! __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18024 [shape=none, margin=0, label=<<font color="black">
+  node18109 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (is-completion completion)</td></tr>
+      <tr><td align="left">12:return promiseCapability.Promise</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18029 [shape=none, margin=0, label=<<font color="black">
+  node18102 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let badGeneratorError = ??? &quot;TypeError&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18035 -> node18036 [ color="black"]
-  node18027 -> node18028 [ color="black"]
-  node18029 -> node18030 [ color="black"]
-  node18023 -> node18024 [ color="black"]
-  node18036 -> node18021 [ color="black"]
-  node18031 -> node18032 [ color="black"]
-  node18032 -> node18033 [ color="black"]
-  node18024 -> node18025 [ color="black"]
-  node18020 -> node18022 [ color="black"]
-  node18034 -> node18035 [ color="black"]
-  node18030 -> node18031 [ color="black"]
-  node18033 -> node18034 [label=<<font color="black">true</font>> color="black"]
-  node18033 -> node18036 [label=<<font color="black">false</font>> color="black"]
-  node18028 -> node18029 [label=<<font color="black">true</font>> color="black"]
-  node18028 -> node18032 [label=<<font color="black">false</font>> color="black"]
-  node18025 -> node18026 [ color="black"]
-  node18026 -> node18027 [ color="black"]
-  node18022 -> node18023 [ color="black"]
+  node18106 [shape=diamond, label=<<font color="black">(! (= state CONST_executing))</font>> color="black" fillcolor="white" style=filled]
+  node18093 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node18098 [shape=cds, label=<<font color="black">1:app __x0__ = (NewPromiseCapability INTRINSIC_Promise)</font>> color="black" fillcolor="white" style=filled]
+  node18099 -> node18100 [ color="black"]
+  node18100 -> node18101 [ color="black"]
+  node18108 -> node18109 [ color="black"]
+  node18104 -> node18105 [ color="black"]
+  node18096 -> node18097 [ color="black"]
+  node18098 -> node18099 [ color="black"]
+  node18107 -> node18108 [ color="black"]
+  node18097 -> node18098 [ color="black"]
+  node18109 -> node18094 [ color="black"]
+  node18095 -> node18096 [ color="black"]
+  node18093 -> node18095 [ color="black"]
+  node18101 -> node18102 [label=<<font color="black">true</font>> color="black"]
+  node18101 -> node18105 [label=<<font color="black">false</font>> color="black"]
+  node18106 -> node18107 [label=<<font color="black">true</font>> color="black"]
+  node18106 -> node18109 [label=<<font color="black">false</font>> color="black"]
+  node18105 -> node18106 [ color="black"]
+  node18103 -> node18104 [ color="black"]
+  node18102 -> node18103 [ color="black"]
 }

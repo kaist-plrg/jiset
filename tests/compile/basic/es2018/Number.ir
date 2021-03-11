@@ -1,0 +1,11 @@
+{
+  if (= argumentsList.length 0i) let n = 0i else {
+    app __x0__ = (ToNumber value)
+    let n = [? __x0__]
+  }
+  if (= NewTarget undefined) return n else {}
+  app __x1__ = (OrdinaryCreateFromConstructor NewTarget INTRINSIC_NumberPrototype (new ["NumberData"]))
+  let O = [? __x1__]
+  O.NumberData = n
+  return O
+}

@@ -1,18 +1,35 @@
 digraph {
-  node16039 [shape=diamond, label=<<font color="black">(! (= e CONST_empty))</font>> color="black" fillcolor="white" style=filled]
-  node16035 [shape=none, margin=0, label=<<font color="black">
+  node16092 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node16099 [shape=diamond, label=<<font color="black">(! (= e CONST_empty))</font>> color="black" fillcolor="white" style=filled]
+  node16091 [shape=cds, label=<<font color="black">1:app __x0__ = (Type S)</font>> color="black" fillcolor="white" style=filled]
+  node16088 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16102 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
+      <tr><td align="left">7:return count</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16028 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16040 [shape=none, margin=0, label=<<font color="black">
+  node16100 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">count = (+ count 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16031 [shape=cds, label=<<font color="black">1:app __x0__ = (Type S)</font>> color="black" fillcolor="white" style=filled]
-  node16036 [shape=none, margin=0, label=<<font color="black">
+  node16095 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16090 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let S = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16101 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16094 [shape=diamond, label=<<font color="black">(= S.SetData absent)</font>> color="black" fillcolor="white" style=filled]
+  node16096 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let entries = S.SetData</td></tr>
       <tr><td align="left">4:let count = 0i</td></tr>
@@ -20,51 +37,34 @@ digraph {
       <tr><td align="left">5:let __x2__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16037 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
-  node16042 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return count</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16032 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node16029 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16034 [shape=diamond, label=<<font color="black">(= S.SetData absent)</font>> color="black" fillcolor="white" style=filled]
-  node16038 [shape=none, margin=0, label=<<font color="black">
+  node16089 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16097 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node16098 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let e = __x1__[__x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16041 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16033 [shape=none, margin=0, label=<<font color="black">
+  node16093 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16030 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let S = this</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16031 -> node16032 [ color="black"]
-  node16034 -> node16035 [label=<<font color="black">true</font>> color="black"]
-  node16034 -> node16036 [label=<<font color="black">false</font>> color="black"]
-  node16037 -> node16038 [label=<<font color="black">true</font>> color="black"]
-  node16037 -> node16042 [label=<<font color="black">false</font>> color="black"]
-  node16028 -> node16030 [ color="black"]
-  node16032 -> node16033 [label=<<font color="black">true</font>> color="black"]
-  node16032 -> node16034 [label=<<font color="black">false</font>> color="black"]
-  node16030 -> node16031 [ color="black"]
-  node16036 -> node16037 [ color="black"]
-  node16039 -> node16040 [label=<<font color="black">true</font>> color="black"]
-  node16039 -> node16041 [label=<<font color="black">false</font>> color="black"]
-  node16035 -> node16036 [ color="black"]
-  node16033 -> node16034 [ color="black"]
-  node16042 -> node16029 [ color="black"]
-  node16040 -> node16041 [ color="black"]
-  node16038 -> node16039 [ color="black"]
-  node16041 -> node16037 [ color="black"]
+  node16098 -> node16099 [ color="black"]
+  node16091 -> node16092 [ color="black"]
+  node16100 -> node16101 [ color="black"]
+  node16101 -> node16097 [ color="black"]
+  node16092 -> node16093 [label=<<font color="black">true</font>> color="black"]
+  node16092 -> node16094 [label=<<font color="black">false</font>> color="black"]
+  node16099 -> node16100 [label=<<font color="black">true</font>> color="black"]
+  node16099 -> node16101 [label=<<font color="black">false</font>> color="black"]
+  node16093 -> node16094 [ color="black"]
+  node16094 -> node16095 [label=<<font color="black">true</font>> color="black"]
+  node16094 -> node16096 [label=<<font color="black">false</font>> color="black"]
+  node16090 -> node16091 [ color="black"]
+  node16102 -> node16089 [ color="black"]
+  node16088 -> node16090 [ color="black"]
+  node16097 -> node16098 [label=<<font color="black">true</font>> color="black"]
+  node16097 -> node16102 [label=<<font color="black">false</font>> color="black"]
+  node16095 -> node16096 [ color="black"]
+  node16096 -> node16097 [ color="black"]
 }

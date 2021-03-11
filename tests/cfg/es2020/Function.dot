@@ -1,20 +1,20 @@
 digraph {
-  node12276 [shape=none, margin=0, label=<<font color="black">
+  node12286 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12287 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let C = GLOBAL_context.Function</td></tr>
       <tr><td align="left">1:let args = argumentsList</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12275 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12278 [shape=none, margin=0, label=<<font color="black">
+  node12288 [shape=cds, label=<<font color="black">2:app __x0__ = (CreateDynamicFunction C NewTarget CONST_normal args)</font>> color="black" fillcolor="white" style=filled]
+  node12289 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12274 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12277 [shape=cds, label=<<font color="black">2:app __x0__ = (CreateDynamicFunction C NewTarget CONST_normal args)</font>> color="black" fillcolor="white" style=filled]
-  node12274 -> node12276 [ color="black"]
-  node12276 -> node12277 [ color="black"]
-  node12277 -> node12278 [ color="black"]
-  node12278 -> node12275 [ color="black"]
+  node12285 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node12285 -> node12287 [ color="black"]
+  node12287 -> node12288 [ color="black"]
+  node12288 -> node12289 [ color="black"]
+  node12289 -> node12286 [ color="black"]
 }

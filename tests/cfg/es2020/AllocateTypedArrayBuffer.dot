@@ -1,7 +1,12 @@
 digraph {
-  node16409 [shape=cds, label=<<font color="black">2:app __x0__ = (IsNonNegativeInteger length)</font>> color="black" fillcolor="white" style=filled]
-  node16406 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16410 [shape=none, margin=0, label=<<font color="black">
+  node16481 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16480 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16484 [shape=cds, label=<<font color="black">6:app __x1__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node16483 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (= [! __x0__] true)</td></tr>
       <tr><td align="left">3:let constructorName = O.TypedArrayName</td></tr>
@@ -9,14 +14,7 @@ digraph {
       <tr><td align="left">5:let byteLength = (* elementSize length)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16408 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16411 [shape=cds, label=<<font color="black">6:app __x1__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node16407 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16412 [shape=none, margin=0, label=<<font color="black">
+  node16485 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let data = [? __x1__]</td></tr>
       <tr><td align="left">7:O.ViewedArrayBuffer = data</td></tr>
@@ -26,10 +24,12 @@ digraph {
       <tr><td align="left">11:return O</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16408 -> node16409 [ color="black"]
-  node16406 -> node16408 [ color="black"]
-  node16409 -> node16410 [ color="black"]
-  node16411 -> node16412 [ color="black"]
-  node16412 -> node16407 [ color="black"]
-  node16410 -> node16411 [ color="black"]
+  node16482 [shape=cds, label=<<font color="black">2:app __x0__ = (IsNonNegativeInteger length)</font>> color="black" fillcolor="white" style=filled]
+  node16479 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16485 -> node16480 [ color="black"]
+  node16481 -> node16482 [ color="black"]
+  node16479 -> node16481 [ color="black"]
+  node16482 -> node16483 [ color="black"]
+  node16483 -> node16484 [ color="black"]
+  node16484 -> node16485 [ color="black"]
 }

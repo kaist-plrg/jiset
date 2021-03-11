@@ -1,19 +1,20 @@
 digraph {
-  node17894 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17899 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17898 [shape=cds, label=<<font color="black">app __x1__ = (CreateIterResultObject undefined true)</font>> color="black" fillcolor="white" style=filled]
-  node17895 [shape=cds, label=<<font color="black">0:app __x0__ = (GeneratorValidate generator)</font>> color="black" fillcolor="white" style=filled]
-  node17896 [shape=none, margin=0, label=<<font color="black">
+  node17969 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let state = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17897 [shape=diamond, label=<<font color="black">(= state CONST_completed)</font>> color="black" fillcolor="white" style=filled]
-  node17900 [shape=none, margin=0, label=<<font color="black">
+  node17972 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17966 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17967 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17971 [shape=cds, label=<<font color="black">app __x1__ = (CreateIterResultObject undefined true)</font>> color="black" fillcolor="white" style=filled]
+  node17968 [shape=cds, label=<<font color="black">0:app __x0__ = (GeneratorValidate generator)</font>> color="black" fillcolor="white" style=filled]
+  node17970 [shape=diamond, label=<<font color="black">(= state CONST_completed)</font>> color="black" fillcolor="white" style=filled]
+  node17973 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))</td></tr>
       <tr><td align="left">3:let genContext = generator.GeneratorContext</td></tr>
@@ -26,13 +27,12 @@ digraph {
       <tr><td align="left">10:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17893 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17895 -> node17896 [ color="black"]
-  node17897 -> node17898 [label=<<font color="black">true</font>> color="black"]
-  node17897 -> node17900 [label=<<font color="black">false</font>> color="black"]
-  node17898 -> node17899 [ color="black"]
-  node17900 -> node17894 [ color="black"]
-  node17899 -> node17900 [ color="black"]
-  node17896 -> node17897 [ color="black"]
-  node17893 -> node17895 [ color="black"]
+  node17972 -> node17973 [ color="black"]
+  node17973 -> node17967 [ color="black"]
+  node17970 -> node17971 [label=<<font color="black">true</font>> color="black"]
+  node17970 -> node17973 [label=<<font color="black">false</font>> color="black"]
+  node17969 -> node17970 [ color="black"]
+  node17971 -> node17972 [ color="black"]
+  node17968 -> node17969 [ color="black"]
+  node17966 -> node17968 [ color="black"]
 }

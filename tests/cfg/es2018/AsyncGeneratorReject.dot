@@ -1,6 +1,13 @@
 digraph {
-  node17079 [shape=cds, label=<<font color="black">app generator = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node17081 [shape=none, margin=0, label=<<font color="black">
+  node17143 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:[! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17139 [shape=cds, label=<<font color="black">app generator = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node17142 [shape=cds, label=<<font color="black">5:app __x0__ = (Call promiseCapability.Reject undefined (new [exception]))</font>> color="black" fillcolor="white" style=filled]
+  node17138 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17141 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let queue = generator.AsyncGeneratorQueue</td></tr>
       <tr><td align="left">2:assert (&lt; 0i queue.length)</td></tr>
@@ -8,28 +15,21 @@ digraph {
       <tr><td align="left">4:let promiseCapability = next.Capability</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17085 [shape=none, margin=0, label=<<font color="black">
+  node17137 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node17144 [shape=cds, label=<<font color="black">6:app __x1__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
+  node17140 [shape=cds, label=<<font color="black">app exception = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node17145 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:[! __x1__]</td></tr>
       <tr><td align="left">7:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17078 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17082 [shape=cds, label=<<font color="black">5:app __x0__ = (Call promiseCapability.Reject undefined (new [exception]))</font>> color="black" fillcolor="white" style=filled]
-  node17083 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:[! __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17077 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17080 [shape=cds, label=<<font color="black">app exception = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node17084 [shape=cds, label=<<font color="black">6:app __x1__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
-  node17077 -> node17079 [ color="black"]
-  node17082 -> node17083 [ color="black"]
-  node17083 -> node17084 [ color="black"]
-  node17079 -> node17080 [ color="black"]
-  node17084 -> node17085 [ color="black"]
-  node17081 -> node17082 [ color="black"]
-  node17080 -> node17081 [ color="black"]
-  node17085 -> node17078 [ color="black"]
+  node17139 -> node17140 [ color="black"]
+  node17137 -> node17139 [ color="black"]
+  node17144 -> node17145 [ color="black"]
+  node17142 -> node17143 [ color="black"]
+  node17141 -> node17142 [ color="black"]
+  node17140 -> node17141 [ color="black"]
+  node17143 -> node17144 [ color="black"]
+  node17145 -> node17138 [ color="black"]
 }

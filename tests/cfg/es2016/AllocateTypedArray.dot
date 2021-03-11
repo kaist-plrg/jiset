@@ -1,48 +1,48 @@
 digraph {
-  node14273 [shape=cds, label=<<font color="black">9:app __x2__ = (AllocateTypedArrayBuffer obj length)</font>> color="black" fillcolor="white" style=filled]
-  node14271 [shape=diamond, label=<<font color="black">(= length absent)</font>> color="black" fillcolor="white" style=filled]
-  node14265 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14272 [shape=none, margin=0, label=<<font color="black">
+  node14327 [shape=cds, label=<<font color="black">0:app __x0__ = (GetPrototypeFromConstructor newTarget defaultProto)</font>> color="black" fillcolor="white" style=filled]
+  node14335 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return obj</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14326 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14329 [shape=cds, label=<<font color="black">1:app __x1__ = (IntegerIndexedObjectCreate proto (new [&quot;ViewedArrayBuffer&quot;, &quot;TypedArrayName&quot;, &quot;ByteLength&quot;, &quot;ByteOffset&quot;, &quot;ArrayLength&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node14332 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:obj.ByteLength = 0i</td></tr>
       <tr><td align="left">6:obj.ByteOffset = 0i</td></tr>
       <tr><td align="left">7:obj.ArrayLength = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14274 [shape=none, margin=0, label=<<font color="black">
+  node14333 [shape=cds, label=<<font color="black">9:app __x2__ = (AllocateTypedArrayBuffer obj length)</font>> color="black" fillcolor="white" style=filled]
+  node14328 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let proto = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14331 [shape=diamond, label=<<font color="black">(= length absent)</font>> color="black" fillcolor="white" style=filled]
+  node14334 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">9:[? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14266 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node14269 [shape=cds, label=<<font color="black">1:app __x1__ = (IntegerIndexedObjectCreate proto (new [&quot;ViewedArrayBuffer&quot;, &quot;TypedArrayName&quot;, &quot;ByteLength&quot;, &quot;ByteOffset&quot;, &quot;ArrayLength&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node14270 [shape=none, margin=0, label=<<font color="black">
+  node14325 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node14330 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let obj = __x1__</td></tr>
       <tr><td align="left">2:assert (= obj.ViewedArrayBuffer undefined)</td></tr>
       <tr><td align="left">3:obj.TypedArrayName = constructorName</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node14267 [shape=cds, label=<<font color="black">0:app __x0__ = (GetPrototypeFromConstructor newTarget defaultProto)</font>> color="black" fillcolor="white" style=filled]
-  node14268 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let proto = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14275 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">10:return obj</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node14273 -> node14274 [ color="black"]
-  node14265 -> node14267 [ color="black"]
-  node14275 -> node14266 [ color="black"]
-  node14269 -> node14270 [ color="black"]
-  node14272 -> node14275 [ color="black"]
-  node14270 -> node14271 [ color="black"]
-  node14271 -> node14272 [label=<<font color="black">true</font>> color="black"]
-  node14271 -> node14273 [label=<<font color="black">false</font>> color="black"]
-  node14268 -> node14269 [ color="black"]
-  node14267 -> node14268 [ color="black"]
-  node14274 -> node14275 [ color="black"]
+  node14335 -> node14326 [ color="black"]
+  node14327 -> node14328 [ color="black"]
+  node14330 -> node14331 [ color="black"]
+  node14334 -> node14335 [ color="black"]
+  node14333 -> node14334 [ color="black"]
+  node14325 -> node14327 [ color="black"]
+  node14329 -> node14330 [ color="black"]
+  node14328 -> node14329 [ color="black"]
+  node14331 -> node14332 [label=<<font color="black">true</font>> color="black"]
+  node14331 -> node14333 [label=<<font color="black">false</font>> color="black"]
+  node14332 -> node14335 [ color="black"]
 }

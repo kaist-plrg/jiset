@@ -1,113 +1,113 @@
 digraph {
-  node16701 [shape=cds, label=<<font color="black">app count = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
-  node16720 [shape=none, margin=0, label=<<font color="black">
+  node16765 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let i = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16776 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:__x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16780 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">14:let W = S[0i]</td></tr>
       <tr><td align="left">15:(pop S 0i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16712 [shape=none, margin=0, label=<<font color="black">
+  node16769 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let intCount = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16770 [shape=cds, label=<<font color="black">5:app __x3__ = (max intCount 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16759 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node16778 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">12:let S = __x6__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16771 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:let c = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16777 [shape=cds, label=<<font color="black">12:app __x6__ = (RemoveWaiters WL c)</font>> color="black" fillcolor="white" style=filled]
+  node16784 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:__x8__</td></tr>
+      <tr><td align="left">19:return n</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16762 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray true)</font>> color="black" fillcolor="white" style=filled]
+  node16757 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16772 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let block = buffer.ArrayBufferData</td></tr>
       <tr><td align="left">7:let offset = typedArray.ByteOffset</td></tr>
       <tr><td align="left">8:let indexedPosition = (+ (* i 4i) offset)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16697 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16709 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let intCount = [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16723 [shape=cds, label=<<font color="black">18:app __x8__ = (LeaveCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
-  node16718 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">12:let S = __x6__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16703 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16706 [shape=diamond, label=<<font color="black">(= count undefined)</font>> color="black" fillcolor="white" style=filled]
-  node16699 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node16710 [shape=cds, label=<<font color="black">5:app __x3__ = (max intCount 0i)</font>> color="black" fillcolor="white" style=filled]
-  node16708 [shape=cds, label=<<font color="black">4:app __x2__ = (ToInteger count)</font>> color="black" fillcolor="white" style=filled]
-  node16698 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16713 [shape=cds, label=<<font color="black">9:app __x4__ = (GetWaiterList block indexedPosition)</font>> color="black" fillcolor="white" style=filled]
-  node16721 [shape=cds, label=<<font color="black">16:app __x7__ = (WakeWaiter WL W)</font>> color="black" fillcolor="white" style=filled]
-  node16716 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">11:__x5__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16704 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
-  node16719 [shape=diamond, label=<<font color="black">(&lt; 0i S.length)</font>> color="black" fillcolor="white" style=filled]
-  node16700 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node16715 [shape=cds, label=<<font color="black">11:app __x5__ = (EnterCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
-  node16722 [shape=none, margin=0, label=<<font color="black">
+  node16768 [shape=cds, label=<<font color="black">4:app __x2__ = (ToInteger count)</font>> color="black" fillcolor="white" style=filled]
+  node16761 [shape=cds, label=<<font color="black">app count = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node16783 [shape=cds, label=<<font color="black">18:app __x8__ = (LeaveCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
+  node16758 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node16773 [shape=cds, label=<<font color="black">9:app __x4__ = (GetWaiterList block indexedPosition)</font>> color="black" fillcolor="white" style=filled]
+  node16779 [shape=diamond, label=<<font color="black">(&lt; 0i S.length)</font>> color="black" fillcolor="white" style=filled]
+  node16764 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
+  node16782 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">16:__x7__</td></tr>
       <tr><td align="left">17:append 1i -&gt; n</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16705 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let i = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16714 [shape=none, margin=0, label=<<font color="black">
+  node16774 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">9:let WL = __x4__</td></tr>
       <tr><td align="left">10:let n = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16707 [shape=none, margin=0, label=<<font color="black">
+  node16767 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let c = Infinity</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16702 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray true)</font>> color="black" fillcolor="white" style=filled]
-  node16717 [shape=cds, label=<<font color="black">12:app __x6__ = (RemoveWaiters WL c)</font>> color="black" fillcolor="white" style=filled]
-  node16711 [shape=none, margin=0, label=<<font color="black">
+  node16763 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:let c = __x3__</td></tr>
+      <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16724 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">18:__x8__</td></tr>
-      <tr><td align="left">19:return n</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16723 -> node16724 [ color="black"]
-  node16720 -> node16721 [ color="black"]
-  node16715 -> node16716 [ color="black"]
-  node16703 -> node16704 [ color="black"]
-  node16711 -> node16712 [ color="black"]
-  node16704 -> node16705 [ color="black"]
-  node16719 -> node16720 [label=<<font color="black">true</font>> color="black"]
-  node16719 -> node16723 [label=<<font color="black">false</font>> color="black"]
-  node16712 -> node16713 [ color="black"]
-  node16722 -> node16719 [ color="black"]
-  node16710 -> node16711 [ color="black"]
-  node16699 -> node16700 [ color="black"]
-  node16721 -> node16722 [ color="black"]
-  node16718 -> node16719 [ color="black"]
-  node16716 -> node16717 [ color="black"]
-  node16705 -> node16706 [ color="black"]
-  node16707 -> node16712 [ color="black"]
-  node16709 -> node16710 [ color="black"]
-  node16697 -> node16699 [ color="black"]
-  node16702 -> node16703 [ color="black"]
-  node16708 -> node16709 [ color="black"]
-  node16701 -> node16702 [ color="black"]
-  node16724 -> node16698 [ color="black"]
-  node16717 -> node16718 [ color="black"]
-  node16700 -> node16701 [ color="black"]
-  node16714 -> node16715 [ color="black"]
-  node16713 -> node16714 [ color="black"]
-  node16706 -> node16707 [label=<<font color="black">true</font>> color="black"]
-  node16706 -> node16708 [label=<<font color="black">false</font>> color="black"]
+  node16781 [shape=cds, label=<<font color="black">16:app __x7__ = (WakeWaiter WL W)</font>> color="black" fillcolor="white" style=filled]
+  node16766 [shape=diamond, label=<<font color="black">(= count undefined)</font>> color="black" fillcolor="white" style=filled]
+  node16760 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node16775 [shape=cds, label=<<font color="black">11:app __x5__ = (EnterCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
+  node16768 -> node16769 [ color="black"]
+  node16771 -> node16772 [ color="black"]
+  node16769 -> node16770 [ color="black"]
+  node16773 -> node16774 [ color="black"]
+  node16776 -> node16777 [ color="black"]
+  node16757 -> node16759 [ color="black"]
+  node16782 -> node16779 [ color="black"]
+  node16781 -> node16782 [ color="black"]
+  node16770 -> node16771 [ color="black"]
+  node16760 -> node16761 [ color="black"]
+  node16766 -> node16767 [label=<<font color="black">true</font>> color="black"]
+  node16766 -> node16768 [label=<<font color="black">false</font>> color="black"]
+  node16772 -> node16773 [ color="black"]
+  node16779 -> node16780 [label=<<font color="black">true</font>> color="black"]
+  node16779 -> node16783 [label=<<font color="black">false</font>> color="black"]
+  node16778 -> node16779 [ color="black"]
+  node16780 -> node16781 [ color="black"]
+  node16774 -> node16775 [ color="black"]
+  node16767 -> node16772 [ color="black"]
+  node16777 -> node16778 [ color="black"]
+  node16759 -> node16760 [ color="black"]
+  node16783 -> node16784 [ color="black"]
+  node16763 -> node16764 [ color="black"]
+  node16765 -> node16766 [ color="black"]
+  node16775 -> node16776 [ color="black"]
+  node16761 -> node16762 [ color="black"]
+  node16784 -> node16758 [ color="black"]
+  node16764 -> node16765 [ color="black"]
+  node16762 -> node16763 [ color="black"]
 }
