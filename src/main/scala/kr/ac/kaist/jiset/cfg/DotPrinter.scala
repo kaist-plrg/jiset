@@ -16,20 +16,42 @@ class DotPrinter {
     this >> "}"
   }
 
+  def showPrev(sem: AbsSemantics, rp: ReturnPoint, depth: Int): Unit = {
+    var visited = Set[(Function, View)]()
+    def aux(rp: ReturnPoint, depth: Int): Unit = if (depth > 0) {
+      val entry = NodePoint(rp.func.entry, rp.view)
+      for ((np, _) <- sem.getRetEdges(rp)) {
+        val func = sem.funcOf(np)
+        val pair = (func, np.view)
+        if (!(visited contains pair)) {
+          visited += pair
+          doCluster(pair, sem, None)
+          aux(ReturnPoint(func, np.view), depth - 1)
+        }
+        doEdge(np2str(np), np2str(entry), REACH, s"label=<call>")
+      }
+    }
+    aux(rp, depth)
+  }
+
   // for debugging analysis
   def apply(
     sem: AbsSemantics,
     cur: Option[ControlPoint],
-    focus: Boolean = false
+    depth: Option[Int] = None
   ): DotPrinter = {
     this >> "digraph {"
 
     // print functions
-    cur match {
-      case Some(cp) if focus =>
+    (cur, depth) match {
+      case (Some(cp), Some(depth)) =>
         val func = sem.funcOf(cp)
         val view = cp.view
         doCluster((func, view), sem, cur)
+
+        // print call edges only for one call depth
+        val rp = ReturnPoint(func, view)
+        showPrev(sem, rp, depth)
       case _ =>
         val funcs: Set[(Function, View)] =
           sem.getControlPoints.map(cp => (sem.funcOf(cp), cp.view))
@@ -40,7 +62,7 @@ class DotPrinter {
           case (ReturnPoint(func, rv), calls) => {
             val entry = NodePoint(func.entry, rv)
             for ((np, _) <- calls) {
-              doEdge(np2str(np), np2str(entry), REACH, "")
+              doEdge(np2str(np), np2str(entry), REACH, s"label=<call>")
             }
           }
         }

@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.{ CFG_DIR, LOG }
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
@@ -18,6 +19,7 @@ class AbsTransfer(
   usePrune: Boolean = false
 ) {
   import sem.cfg._
+  analyzer.transfer = this
 
   // result of abstract transfer
   val monad = new StateMonad[AbsState]
@@ -43,7 +45,7 @@ class AbsTransfer(
         case e: Throwable =>
           printlnColor(RED)(s"[Error] An exception is thrown.")
           println(sem.getString(cp, CYAN, true))
-          dumpCFG(Some(cp), focus = true)
+          dumpCFG(Some(cp), depth = Some(5))
           throw e
       }
       stat.iter += 1
@@ -125,14 +127,22 @@ class AbsTransfer(
   def interact(cp: ControlPoint): Unit = {
     println(sem.getString(cp, CYAN, true))
     println
+    read(cp)
+  }
+  def read(cp: ControlPoint): Unit = {
     while (scala.io.StdIn.readLine() match {
-      case null | "q" | "quit" | "exit" =>
+      case null =>
         interactMode = false; false
-      case "g" | "graph" =>
-        dumpCFG(Some(cp)); true
-      case "d" | "debug" =>
-        error("stop for debugging")
-      case _ => false
+      case str => str.split("\\s+").toList match {
+        case ("q" | "quit" | "exit") :: _ =>
+          interactMode = false; false
+        case ("g" | "graph") :: args =>
+          val depth = optional(args.head.toInt)
+          dumpCFG(Some(cp), depth = depth); true
+        case ("d" | "debug") :: _ =>
+          error("stop for debugging")
+        case _ => false
+      }
     }) {}
   }
 
@@ -140,9 +150,9 @@ class AbsTransfer(
   def dumpCFG(
     cp: Option[ControlPoint] = None,
     pdf: Boolean = true,
-    focus: Boolean = false
+    depth: Option[Int] = None
   ): Unit = {
-    val dot = (new DotPrinter)(sem, cp, focus).toString
+    val dot = (new DotPrinter)(sem, cp, depth).toString
     dumpFile(dot, s"$CFG_DIR.dot")
     if (pdf) {
       executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")

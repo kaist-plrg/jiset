@@ -8,9 +8,14 @@ package object analyzer {
   // initialize
   mkdir(ANALYZE_LOG_DIR)
   val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
+
+  // transfer
+  var transfer: AbsTransfer = null
+
   // alarm
   var alarmCP: ControlPoint = null
   var alarmCPStr: String = ""
+
   private var alarmMap: Map[ControlPoint, Set[String]] = Map()
   def alarm(msg: String): Unit = {
     val set = alarmMap.getOrElse(alarmCP, Set())
@@ -19,10 +24,7 @@ package object analyzer {
       val errMsg = s"[Bug] $msg @ $alarmCPStr"
       Console.err.println(setColor(RED)(errMsg))
       if (LOG) nfAlarms.println(errMsg)
-      if (CHECK_ALARM) scala.io.StdIn.readLine() match {
-        case "d" | "debug" => error("stop for debugging")
-        case _ => println("PASS")
-      }
+      if (CHECK_ALARM) transfer.read(alarmCP)
     }
   }
 }
