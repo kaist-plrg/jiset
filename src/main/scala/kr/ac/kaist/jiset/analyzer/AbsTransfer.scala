@@ -16,7 +16,8 @@ import scala.annotation.tailrec
 class AbsTransfer(
   sem: AbsSemantics,
   var interactMode: Boolean = false,
-  usePrune: Boolean = true
+  usePrune: Boolean = true,
+  break: Option[String] = None
 ) {
   import sem.cfg._
   analyzer.transfer = this
@@ -39,7 +40,7 @@ class AbsTransfer(
   final def compute: Unit = worklist.next match {
     case Some(cp) =>
       try {
-        if (interactMode) interact(cp)
+        if (interactMode || isBreak(cp)) interact(cp)
         apply(cp)
       } catch {
         case e: Throwable =>
@@ -55,6 +56,13 @@ class AbsTransfer(
       if (LOG) stat.dump()
       stat.close()
       nfAlarms.close()
+  }
+
+  // check break point of control point
+  def isBreak(cp: ControlPoint): Boolean = (cp, break) match {
+    case (NodePoint(entry: Entry, _), Some(pattern)) =>
+      pattern.r.matches(funcOf(entry).name)
+    case _ => false
   }
 
   // transfer function for control points
@@ -125,6 +133,7 @@ class AbsTransfer(
 
   // interactive mode
   def interact(cp: ControlPoint): Unit = {
+    interactMode = true
     println(sem.getString(cp, CYAN, true))
     println
     read(cp)
@@ -136,6 +145,9 @@ class AbsTransfer(
       case str => str.split("\\s+").toList match {
         case ("q" | "quit" | "exit") :: _ =>
           interactMode = false; false
+        case ("l" | "log") :: args =>
+          stat.dump()
+          true
         case ("g" | "graph") :: args =>
           val depth = optional(args.head.toInt)
           dumpCFG(Some(cp), depth = depth); true
