@@ -163,7 +163,7 @@ class AbsTransfer(
     cp: Option[ControlPoint] = None,
     pdf: Boolean = true,
     depth: Option[Int] = None
-  ): Unit = {
+  ): Unit = try {
     val dot = (new DotPrinter)(sem, cp, depth).toString
     dumpFile(dot, s"$CFG_DIR.dot")
     if (pdf) {
@@ -171,6 +171,8 @@ class AbsTransfer(
       executeCmd(s"""dot -Tpdf "${CFG_DIR}_trans.dot" -o "$CFG_DIR.pdf"""")
       println(s"Dumped CFG to $CFG_DIR.pdf")
     } else println(s"Dumped CFG to $CFG_DIR.dot")
+  } catch {
+    case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
 
   private class Helper(ret: ReturnPoint) {
