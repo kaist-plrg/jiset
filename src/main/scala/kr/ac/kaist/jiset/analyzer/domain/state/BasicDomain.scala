@@ -170,7 +170,7 @@ object BasicDomain extends state.Domain {
             else list.value
           strV ⊔ intV
         case SymbolElem(desc) =>
-          alarm(s"access of the property ${beautify(prop)} for a symbol @$desc")
+          alarm(s"access of the property ${beautify(prop)} for a symbol @${beautify(desc)}")
           AbsValue.Bot
         case AbsObj.Top =>
           alarm(s"access of the property ${beautify(prop)} for the top object")
@@ -222,7 +222,7 @@ object BasicDomain extends state.Domain {
     ): (AbsPure, Elem) = {
       import AbsObj._
       val addr = DynamicAddr(asite)
-      val obj: AbsObj = SymbolElem(desc)
+      val obj: AbsObj = SymbolElem(AbsStr(desc))
       (AbsPure(addr), copy(heap = heap + (addr -> obj)))
     }
 

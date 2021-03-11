@@ -322,6 +322,7 @@ class AbsSemantics(
       st.lookup(this, addr) match {
         case MapElem(Some(ty), _) => Some(NameT(ty))
         case ListElem(_) => Some(ListT)
+        case SymbolElem(_) => Some(SymbolT)
         case Bot =>
           alarm(s"no objects for ${beautify(addr)} @ AbsSemantics.getType")
           None

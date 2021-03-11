@@ -86,7 +86,7 @@ class BeautifierTinyTest extends AnalyzerTest {
     )
 
     test("Abstract Objects")(
-      AbsObj(SymbolObj("has")) -> "@has",
+      AbsObj(SymbolObj("has")) -> """@"has"""",
       AbsObj(
         MapObj(Ty("Object"), "x" -> true, "y" -> 2),
         MapObj(Ty("Object"), "x" -> "a", "z" -> Null),
@@ -107,7 +107,7 @@ class BeautifierTinyTest extends AnalyzerTest {
     ))
     test("Abstract Heaps")(
       heap -> """{
-      |  #Global -> @has
+      |  #Global -> @"has"
       |  #42 -> Record {}
       |}""".stripMargin,
     )
@@ -136,7 +136,7 @@ class BeautifierTinyTest extends AnalyzerTest {
       |    z -> ? null
       |  }
       |  heap: {
-      |    #Global -> @has
+      |    #Global -> @"has"
       |    #42 -> Record {}
       |  }
       |}""".stripMargin,

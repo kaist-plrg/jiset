@@ -15,6 +15,7 @@ trait Type {
     case NullT => "null"
     case AbsentT => "?"
     case ListT => "list"
+    case SymbolT => "symbol"
   }
 }
 
@@ -29,6 +30,9 @@ case class ConstT(name: String) extends Type
 
 // list types
 case object ListT extends Type
+
+// symbol types
+case object SymbolT extends Type
 
 // primitive types
 case object NumT extends Type

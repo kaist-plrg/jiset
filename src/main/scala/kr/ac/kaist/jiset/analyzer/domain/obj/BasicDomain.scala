@@ -17,7 +17,7 @@ object BasicDomain extends obj.Domain {
 
   // abstraction function
   def alpha(obj: Obj): Elem = obj match {
-    case SymbolObj(desc) => SymbolElem(desc)
+    case SymbolObj(desc) => SymbolElem(AbsStr(desc))
     case MapObj(Ty(name), props) => MapElem(parent = Some(name), map = MapD(props))
     case ListObj(values) => ListElem(list = ListD(values))
   }
@@ -29,7 +29,7 @@ object BasicDomain extends obj.Domain {
   object Top extends Elem
 
   // symbol objects
-  case class SymbolElem(desc: String) extends Elem
+  case class SymbolElem(desc: AbsStr) extends Elem
 
   // map objects
   case class MapElem(parent: Option[String], map: MapD) extends Elem
@@ -42,7 +42,7 @@ object BasicDomain extends obj.Domain {
     def ⊑(that: Elem): Boolean = (this, that) match {
       case (Bot, _) | (_, Top) => true
       case (Top, _) | (_, Bot) => false
-      case (SymbolElem(l), SymbolElem(r)) => l == r
+      case (SymbolElem(l), SymbolElem(r)) => l ⊑ r
       case (MapElem(lparent, lmap), MapElem(rparent, rmap)) =>
         lparent == rparent & lmap ⊑ rmap
       case (ListElem(l), ListElem(r)) => l ⊑ r
@@ -53,7 +53,7 @@ object BasicDomain extends obj.Domain {
     def ⊔(that: Elem): Elem = (this, that) match {
       case (Bot, _) | (_, Top) => that
       case (Top, _) | (_, Bot) => this
-      case (SymbolElem(l), SymbolElem(r)) if l == r => this
+      case (SymbolElem(l), SymbolElem(r)) => SymbolElem(l ⊔ r)
       case (MapElem(lp, lmap), MapElem(rp, rmap)) if lp == rp =>
         MapElem(lp, lmap ⊔ rmap)
       case (ListElem(l), ListElem(r)) => ListElem(l ⊔ r)
@@ -64,7 +64,7 @@ object BasicDomain extends obj.Domain {
     def ⊓(that: Elem): Elem = (this, that) match {
       case (Bot, _) | (_, Top) => this
       case (Top, _) | (_, Bot) => that
-      case (SymbolElem(l), SymbolElem(r)) if l == r => this
+      case (SymbolElem(l), SymbolElem(r)) => SymbolElem(l ⊓ r)
       case (MapElem(lp, lmap), MapElem(rp, rmap)) if lp == rp =>
         MapElem(lp, lmap ⊓ rmap)
       case (ListElem(l), ListElem(r)) => ListElem(l ⊓ r)
