@@ -275,7 +275,7 @@ AsyncGeneratorExpression[0,1].HasName:[☊(AsyncGeneratorExpression), ☊(Bindin
 AsyncGeneratorExpression[0,1].IsFunctionDefinition:[☊(AsyncGeneratorExpression), ?, ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
   env: {
     this -> ! ☊(AsyncGeneratorExpression)
-    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    BindingIdentifier -> ! ?
     FormalParameters -> ! ☊(FormalParameters)
     AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
   }
@@ -283,7 +283,7 @@ AsyncGeneratorExpression[0,1].IsFunctionDefinition:[☊(AsyncGeneratorExpression
 AsyncGeneratorExpression[0,1].IsFunctionDefinition:[☊(AsyncGeneratorExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
   env: {
     this -> ! ☊(AsyncGeneratorExpression)
-    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    BindingIdentifier -> ! ☊(BindingIdentifier)
     FormalParameters -> ! ☊(FormalParameters)
     AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
   }
@@ -501,14 +501,14 @@ ClassExpression[0,1].HasName:[☊(ClassExpression), ☊(BindingIdentifier), ☊(
 ClassExpression[0,1].IsFunctionDefinition:[☊(ClassExpression), ?, ☊(ClassTail)]: {
   env: {
     this -> ! ☊(ClassExpression)
-    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    BindingIdentifier -> ! ?
     ClassTail -> ! ☊(ClassTail)
   }
 } ---> N(true)
 ClassExpression[0,1].IsFunctionDefinition:[☊(ClassExpression), ☊(BindingIdentifier), ☊(ClassTail)]: {
   env: {
     this -> ! ☊(ClassExpression)
-    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    BindingIdentifier -> ! ☊(BindingIdentifier)
     ClassTail -> ! ☊(ClassTail)
   }
 } ---> N(true)
@@ -731,7 +731,7 @@ FunctionDeclaration[1,0].IsConstantDeclaration:[☊(FunctionDeclaration), ☊(Fo
     FunctionBody -> ! ☊(FunctionBody)
   }
 } ---> N(false)
-FunctionEnvironmentRecord.GetThisBinding:[EnvironmentRecord]: {
+FunctionEnvironmentRecord.GetThisBinding:[Normal(EnvironmentRecord)]: {
   env: {
     envRec -> ! N(EnvironmentRecord)
   }
@@ -764,7 +764,7 @@ FunctionExpression[0,1].HasName:[☊(FunctionExpression), ☊(BindingIdentifier)
 FunctionExpression[0,1].IsFunctionDefinition:[☊(FunctionExpression), ?, ☊(FormalParameters), ☊(FunctionBody)]: {
   env: {
     this -> ! ☊(FunctionExpression)
-    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    BindingIdentifier -> ! ?
     FormalParameters -> ! ☊(FormalParameters)
     FunctionBody -> ! ☊(FunctionBody)
   }
@@ -772,7 +772,7 @@ FunctionExpression[0,1].IsFunctionDefinition:[☊(FunctionExpression), ?, ☊(Fo
 FunctionExpression[0,1].IsFunctionDefinition:[☊(FunctionExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(FunctionBody)]: {
   env: {
     this -> ! ☊(FunctionExpression)
-    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    BindingIdentifier -> ! ☊(BindingIdentifier)
     FormalParameters -> ! ☊(FormalParameters)
     FunctionBody -> ! ☊(FunctionBody)
   }
@@ -810,7 +810,7 @@ GeneratorExpression[0,1].HasName:[☊(GeneratorExpression), ☊(BindingIdentifie
 GeneratorExpression[0,1].IsFunctionDefinition:[☊(GeneratorExpression), ?, ☊(FormalParameters), ☊(GeneratorBody)]: {
   env: {
     this -> ! ☊(GeneratorExpression)
-    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    BindingIdentifier -> ! ?
     FormalParameters -> ! ☊(FormalParameters)
     GeneratorBody -> ! ☊(GeneratorBody)
   }
@@ -818,13 +818,13 @@ GeneratorExpression[0,1].IsFunctionDefinition:[☊(GeneratorExpression), ?, ☊(
 GeneratorExpression[0,1].IsFunctionDefinition:[☊(GeneratorExpression), ☊(BindingIdentifier), ☊(FormalParameters), ☊(GeneratorBody)]: {
   env: {
     this -> ! ☊(GeneratorExpression)
-    BindingIdentifier -> ! ☊(BindingIdentifier) | ?
+    BindingIdentifier -> ! ☊(BindingIdentifier)
     FormalParameters -> ! ☊(FormalParameters)
     GeneratorBody -> ! ☊(GeneratorBody)
   }
 } ---> N(true)
 GetThisEnvironment:[]: ɛ ---> N(EnvironmentRecord)
-GlobalEnvironmentRecord.GetThisBinding:[EnvironmentRecord]: {
+GlobalEnvironmentRecord.GetThisBinding:[Normal(EnvironmentRecord)]: {
   env: {
     envRec -> ! N(EnvironmentRecord)
   }
@@ -1230,7 +1230,7 @@ MethodDefinition[5,0].SpecialMethod:[☊(MethodDefinition), ☊(PropertyName), �
     FunctionBody -> ! ☊(FunctionBody)
   }
 } ---> N(true)
-ModuleEnvironmentRecord.GetThisBinding:[EnvironmentRecord]: {
+ModuleEnvironmentRecord.GetThisBinding:[Normal(EnvironmentRecord)]: {
   env: {
     envRec -> ! N(EnvironmentRecord)
   }

@@ -71,6 +71,9 @@ object BasicDomain extends comp.Domain {
     def apply(ty: CompletionType): (AbsPure, AbsPure) =
       map.getOrElse(ty, (AbsPure.Bot, AbsPure.Bot))
 
+    // get only normal completion
+    def normal: Elem = Elem(Map(CompNormal -> map(CompNormal)))
+
     // get only abrupt completion
     def abrupt: Elem = Elem(map - CompNormal)
 

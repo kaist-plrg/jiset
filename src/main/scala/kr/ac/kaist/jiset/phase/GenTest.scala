@@ -27,6 +27,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     jisetConfig: JISETConfig,
     config: GenTestConfig
   ): Unit = {
+    TEST_MODE = true
     val parsedMap = (for (version <- VERSIONS) yield time(s"parse $version", {
       val input = ECMAScriptParser.preprocess(version)
       val spec = ECMAScriptParser(input, "", false, false)

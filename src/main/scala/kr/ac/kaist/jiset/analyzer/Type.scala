@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-trait Type {
+sealed trait Type {
   // conversion to string
   override def toString: String = this match {
     case NameT(name) => s"$name"
@@ -16,30 +16,39 @@ trait Type {
     case AbsentT => "?"
     case ListT => "list"
     case SymbolT => "symbol"
+    case NormalT(t) => s"Normal($t)"
+    case AbruptT => s"Abrupt"
   }
 }
 
+// completion types
+case class NormalT(value: PureType) extends Type
+case object AbruptT extends Type
+
+// pure types
+sealed trait PureType extends Type
+
 // norminal types
-case class NameT(name: String) extends Type
+case class NameT(name: String) extends PureType
 
 // AST types
-case class AstT(name: String) extends Type
+case class AstT(name: String) extends PureType
 
 // constant types
-case class ConstT(name: String) extends Type
+case class ConstT(name: String) extends PureType
 
 // list types
-case object ListT extends Type
+case object ListT extends PureType
 
 // symbol types
-case object SymbolT extends Type
+case object SymbolT extends PureType
 
 // primitive types
-case object NumT extends Type
-case object INumT extends Type
-case object BigINumT extends Type
-case object StrT extends Type
-case object BoolT extends Type
-case object UndefT extends Type
-case object NullT extends Type
-case object AbsentT extends Type
+case object NumT extends PureType
+case object INumT extends PureType
+case object BigINumT extends PureType
+case object StrT extends PureType
+case object BoolT extends PureType
+case object UndefT extends PureType
+case object NullT extends PureType
+case object AbsentT extends PureType

@@ -102,7 +102,8 @@ class AbsSemantics(
     args: List[AbsValue],
     retVar: String
   ): Unit = for {
-    ts <- getTypes(st, args)
+    pairs <- getTypes(st, args)
+    (ts, vs) = pairs.unzip
     view = View(ts)
     pair <- f
   } {
@@ -111,7 +112,7 @@ class AbsSemantics(
     // TODO consider variadic
     val params = func.algo.params
     if (params.exists(_.kind == Param.Kind.Variadic)) ???
-    val pairs = getEnv(call, params, args)
+    val pairs = getEnv(call, params, vs)
     val np = NodePoint(func.entry, view)
     val (newSt, root) = pairs.foldLeft((AbsState.Empty, AbsValue.Bot)) {
       case ((st, root), (x, v)) => (st + (x -> v), root ⊔ v)
@@ -322,42 +323,62 @@ class AbsSemantics(
   }
 
   // get types from abstract values
-  private def getTypes(st: AbsState, vs: List[AbsValue]): List[List[Type]] = {
-    vs.foldRight(List(List[Type]())) {
+  private def getTypes(
+    st: AbsState,
+    vs: List[AbsValue]
+  ): List[List[(Type, AbsValue)]] = {
+    vs.foldRight(List(List[(Type, AbsValue)]())) {
       case (v, tysList) => for {
         tys <- tysList
-        ty <- getType(st, v.escaped)
+        ty <- getType(st, v)
       } yield ty :: tys
     }
   }
-  private def getType(st: AbsState, v: AbsPure): Set[Type] = {
-    var tys = Set[Type]()
-    if (!v.ty.isBottom) tys ++= v.ty.toSet.map(t => NameT(t.name))
-    if (!v.addr.isBottom) tys ++= v.addr.toSet.flatMap(addr => {
-      import AbsObj._
-      st.lookup(this, addr) match {
-        case MapElem(Some(ty), _) => Some(NameT(ty))
-        case ListElem(_) => Some(ListT)
-        case SymbolElem(_) => Some(SymbolT)
-        case Bot =>
-          alarm(s"no objects for ${beautify(addr)} @ AbsSemantics.getType")
-          None
-        case _ =>
-          ???
-      }
-    })
-    if (!v.const.isBottom) tys ++= v.const.toSet.map(c => ConstT(c.const))
+  private def getType(st: AbsState, v: AbsValue): Map[Type, AbsValue] = {
+    val AbsValue(pure, comp) = v
+    var tys: Map[Type, AbsValue] = Map()
+    for ((t, v) <- getPureType(st, pure)) tys += t -> v
+    val (normalV, _) = comp(CompNormal)
+    if (!normalV.isBottom) for ((t, v) <- getPureType(st, normalV)) {
+      tys += NormalT(t) -> comp.normal
+    }
+    val abrupt = comp.abrupt
+    if (!abrupt.isBottom) tys += AbruptT -> abrupt
+    tys
+  }
+  private def getPureType(st: AbsState, v: AbsPure): Map[PureType, AbsValue] = {
+    import AbsObj._
+    var tys = Map[PureType, AbsValue]()
+    def add(ty: PureType, value: AbsValue): Unit =
+      tys += ty -> (tys.getOrElse(ty, AbsValue.Bot) ⊔ value)
+    if (!v.ty.isBottom) for (Ty(name) <- v.ty.toSet) {
+      add(NameT(name), AbsTy(name))
+    }
+    if (!v.addr.isBottom) for (addr <- v.addr.toSet) st.lookup(this, addr) match {
+      case MapElem(Some(ty), _) => add(NameT(ty), AbsValue(addr))
+      case ListElem(_) => add(ListT, AbsValue(addr))
+      case SymbolElem(_) => add(SymbolT, AbsValue(addr))
+      case Bot =>
+        alarm(s"no objects for ${beautify(addr)} @ AbsSemantics.getPureType")
+      case _ =>
+        ???
+    }
+    if (!v.const.isBottom) for (Const(c) <- v.const.toSet) {
+      add(ConstT(c), AbsConst(c))
+    }
     if (!v.clo.isBottom) ???
     if (!v.cont.isBottom) ???
-    if (!v.ast.isBottom) tys ++= v.ast.toSet.map(ast => AstT(ast.name))
-    if (!v.num.isBottom) tys += NumT
-    if (!v.int.isBottom) tys += INumT
-    if (!v.bigint.isBottom) tys += BigINumT
-    if (!v.str.isBottom) tys += StrT
-    if (!v.bool.isBottom) tys += BoolT
-    if (!v.undef.isBottom) tys += UndefT
-    if (!v.nullval.isBottom) tys += NullT
-    if (!v.absent.isBottom) tys += AbsentT
+    if (!v.ast.isBottom) for (ast <- v.ast.toSet) {
+      add(AstT(ast.name), AbsValue(ast))
+    }
+    if (!v.num.isBottom) add(NumT, v.num)
+    if (!v.int.isBottom) add(INumT, v.int)
+    if (!v.bigint.isBottom) add(BigINumT, v.bigint)
+    if (!v.str.isBottom) add(StrT, v.str)
+    if (!v.bool.isBottom) add(BoolT, v.bool)
+    if (!v.undef.isBottom) add(UndefT, v.undef)
+    if (!v.nullval.isBottom) add(NullT, v.nullval)
+    if (!v.absent.isBottom) add(AbsentT, v.absent)
     tys
   }
 }
