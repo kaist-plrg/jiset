@@ -568,12 +568,7 @@ Declaration[2,0].DeclarationPart:[☊(Declaration), ☊(LexicalDeclaration)]: {
 } ---> N(☊(LexicalDeclaration))
 DeclarativeEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
   env: {
-    envRec -> ! EnvironmentRecord | null
-  }
-} ---> N(false)
-DeclarativeEnvironmentRecord.HasThisBinding:[null]: {
-  env: {
-    envRec -> ! EnvironmentRecord | null
+    envRec -> ! EnvironmentRecord
   }
 } ---> N(false)
 EqualityExpression[1,0].AssignmentTargetType:[☊(EqualityExpression), ☊(EqualityExpression), ☊(RelationalExpression)]: {
@@ -738,17 +733,7 @@ FunctionDeclaration[1,0].IsConstantDeclaration:[☊(FunctionDeclaration), ☊(Fo
 } ---> N(false)
 FunctionEnvironmentRecord.GetThisBinding:[EnvironmentRecord]: {
   env: {
-    envRec -> ! N(EnvironmentRecord | null)
-  }
-} ---> N(Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
-  #122 -> OrdinaryObject {
-    Prototype -> ! #Global.ReferenceError.prototype
-    ErrorData -> ! undef
-  }
-}
-FunctionEnvironmentRecord.GetThisBinding:[null]: {
-  env: {
-    envRec -> ! N(EnvironmentRecord | null)
+    envRec -> ! N(EnvironmentRecord)
   }
 } ---> N(Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
   #122 -> OrdinaryObject {
@@ -758,12 +743,7 @@ FunctionEnvironmentRecord.GetThisBinding:[null]: {
 }
 FunctionEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
   env: {
-    envRec -> ! EnvironmentRecord | null
-  }
-} ---> N(bool)
-FunctionEnvironmentRecord.HasThisBinding:[null]: {
-  env: {
-    envRec -> ! EnvironmentRecord | null
+    envRec -> ! EnvironmentRecord
   }
 } ---> N(bool)
 FunctionExpression[0,0].HasName:[☊(FunctionExpression), ☊(FormalParameters), ☊(FunctionBody)]: {
@@ -843,25 +823,15 @@ GeneratorExpression[0,1].IsFunctionDefinition:[☊(GeneratorExpression), ☊(Bin
     GeneratorBody -> ! ☊(GeneratorBody)
   }
 } ---> N(true)
-GetThisEnvironment:[]: ɛ ---> N(EnvironmentRecord | null)
+GetThisEnvironment:[]: ɛ ---> N(EnvironmentRecord)
 GlobalEnvironmentRecord.GetThisBinding:[EnvironmentRecord]: {
   env: {
-    envRec -> ! N(EnvironmentRecord | null)
-  }
-} ---> N(#Global)
-GlobalEnvironmentRecord.GetThisBinding:[null]: {
-  env: {
-    envRec -> ! N(EnvironmentRecord | null)
+    envRec -> ! N(EnvironmentRecord)
   }
 } ---> N(#Global)
 GlobalEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
   env: {
-    envRec -> ! EnvironmentRecord | null
-  }
-} ---> N(true)
-GlobalEnvironmentRecord.HasThisBinding:[null]: {
-  env: {
-    envRec -> ! EnvironmentRecord | null
+    envRec -> ! EnvironmentRecord
   }
 } ---> N(true)
 HoistableDeclaration[0,0].DeclarationPart:[☊(HoistableDeclaration), ☊(FunctionDeclaration)]: {
@@ -1262,22 +1232,12 @@ MethodDefinition[5,0].SpecialMethod:[☊(MethodDefinition), ☊(PropertyName), �
 } ---> N(true)
 ModuleEnvironmentRecord.GetThisBinding:[EnvironmentRecord]: {
   env: {
-    envRec -> ! N(EnvironmentRecord | null)
-  }
-} ---> N(undef)
-ModuleEnvironmentRecord.GetThisBinding:[null]: {
-  env: {
-    envRec -> ! N(EnvironmentRecord | null)
+    envRec -> ! N(EnvironmentRecord)
   }
 } ---> N(undef)
 ModuleEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
   env: {
-    envRec -> ! EnvironmentRecord | null
-  }
-} ---> N(true)
-ModuleEnvironmentRecord.HasThisBinding:[null]: {
-  env: {
-    envRec -> ! EnvironmentRecord | null
+    envRec -> ! EnvironmentRecord
   }
 } ---> N(true)
 ModuleItem[1,0].ImportEntries:[☊(ModuleItem), ☊(ExportDeclaration)]: {
@@ -1361,12 +1321,7 @@ ObjectBindingPattern[1,0].ContainsExpression:[☊(ObjectBindingPattern), ☊(Bin
 } ---> N(false)
 ObjectEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
   env: {
-    envRec -> ! EnvironmentRecord | null
-  }
-} ---> N(false)
-ObjectEnvironmentRecord.HasThisBinding:[null]: {
-  env: {
-    envRec -> ! EnvironmentRecord | null
+    envRec -> ! EnvironmentRecord
   }
 } ---> N(false)
 ParenthesizedExpression[0,0].AssignmentTargetType:[☊(ParenthesizedExpression), ☊(Expression)]: {

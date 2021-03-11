@@ -14,7 +14,8 @@ import scala.util.matching.Regex
 
 class AbsSemantics(
   val cfg: CFG,
-  val target: Option[String] = None
+  val target: Option[String] = None,
+  val useGC: Boolean = true
 ) {
   // ECMAScript
   lazy val spec: ECMAScript = cfg.spec
@@ -110,7 +111,7 @@ class AbsSemantics(
     }
 
     // garbage collection
-    val newHeap = GC(st.heap, root)
+    val newHeap = if (useGC) GC(st.heap, root) else st.heap
     this += np -> newSt.copy(heap = newHeap)
 
     val rp = ReturnPoint(func, view)

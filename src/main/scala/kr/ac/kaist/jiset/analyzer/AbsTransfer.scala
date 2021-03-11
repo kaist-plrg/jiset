@@ -16,7 +16,7 @@ import scala.annotation.tailrec
 class AbsTransfer(
   sem: AbsSemantics,
   var interactMode: Boolean = false,
-  usePrune: Boolean = false
+  usePrune: Boolean = true
 ) {
   import sem.cfg._
   analyzer.transfer = this
