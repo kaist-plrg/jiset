@@ -216,6 +216,22 @@ class Model(cfg: CFG) {
     "%Array.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
     )),
+    "%AggregateError%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error%")),
+      "Call" -> getClo("AggregateError"),
+      "Construct" -> getClo("AggregateError"),
+    )),
+    "%AggregateError.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error.prototype%")),
+    )),
+    "%ArrayBuffer%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("ArrayBuffer"),
+      "Construct" -> getClo("ArrayBuffer"),
+    )),
+    "%ArrayBuffer.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
   )
 
   // TODO more manual modelings
