@@ -146,6 +146,7 @@ class Model(cfg: CFG) {
       "Configurable" -> AbsBool.Top,
     ),
   )
+
   // TODO more manual modelings
   private def manualEnv: Map[String, AbsValue] = Map(
     "GLOBAL_context" -> AbsValue(Ty("ExecutionContext")),
@@ -160,6 +161,7 @@ class Model(cfg: CFG) {
     "Number" -> AbsValue("Number"),
     "BigInt" -> AbsValue("BigInt"),
   )
+
   // TODO more manual modelings
   private def manualMaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
     "Global" -> (Some("OrdinaryObject"), Map()),
@@ -207,6 +209,7 @@ class Model(cfg: CFG) {
       "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
     )),
   )
+
   // TODO more manual modelings
   private def manualLists: Map[String, AbsValue] = Map(
     "ExecutionStack" -> AbsValue(Ty("ExecutionContext")),

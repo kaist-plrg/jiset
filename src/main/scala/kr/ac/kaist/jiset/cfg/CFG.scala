@@ -31,19 +31,32 @@ class CFG(val spec: ECMAScript) {
   //////////////////////////////////////////////////////////////////////////////
   // initial global variables and heaps
   def getGlobal: (Map[String, Value], Map[Addr, Obj]) = {
-    var globalVars = globalMethods
-    val (consts, intrinsics) = getNames
-    for (x <- consts) globalVars += {
-      x -> Const(x.substring("CONST_".length))
+    var env = globalMethods
+    var heap = Map[Addr, Obj]()
+
+    val (consts, intrinsics, symbols) = getNames
+
+    // constants
+    for (x <- consts) {
+      val const = Const(x.substring("CONST_".length))
+      env += x -> const
     }
-    for (x <- intrinsics) globalVars += {
+
+    // intrinsics
+    for (x <- intrinsics) {
       val name = x.substring("INTRINSIC_".length).replaceAll("_", ".")
-      x -> NamedAddr(s"%$name%")
+      env += x -> NamedAddr(s"%$name%")
     }
 
-    val heaps = Map[Addr, Obj]()
+    // symbols
+    for (x <- symbols) {
+      val desc = x.substring("SYMBOL_".length).replaceAll("_", ".")
+      val addr = NamedAddr(s"@$desc")
+      env += x -> addr
+      heap += addr -> SymbolObj(desc)
+    }
 
-    (globalVars, heaps)
+    (env, heap)
   }
 
   // get fids of syntax-directed algorithms
@@ -64,16 +77,18 @@ class CFG(val spec: ECMAScript) {
   } yield name -> Clo(func.uid)).toMap
 
   // get constant names
-  private def getNames: (Set[String], Set[String]) = {
+  private def getNames: (Set[String], Set[String], Set[String]) = {
     var consts: Set[String] = Set()
     var intrinsics: Set[String] = Set()
+    var symbols: Set[String] = Set()
     object ConstExtractor extends UnitWalker {
       override def walk(id: Id) = {
         if (id.name startsWith "CONST_") consts += id.name
         if (id.name startsWith "INTRINSIC_") intrinsics += id.name
+        if (id.name startsWith "SYMBOL_") symbols += id.name
       }
     }
     for (algo <- spec.algos) ConstExtractor.walk(algo.rawBody)
-    (consts, intrinsics)
+    (consts, intrinsics, symbols)
   }
 }
