@@ -8,6 +8,7 @@ package object algorithm {
   val ENV_PARAM = "envRec"
   val OBJ_PARAM = "O"
   val COMP_PARAMS = List("x", "y").map(Param(_))
+  val REL_COMP_PARAMS = COMP_PARAMS ++ List(Param("LeftFirst", Param.Kind.Optional))
 
   // constant
   val OBJECT = "Object"

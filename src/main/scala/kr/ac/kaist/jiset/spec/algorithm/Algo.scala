@@ -40,6 +40,10 @@ case class Algo(head: Head, rawBody: Inst, code: Iterable[String]) {
           Parser.parseInst(s"app ${x.name} = (GetArgument $ARGS_LIST ${i}i)")
       }
       prepend(prefix, rawBody)
+    // handle abstract relational comparison
+    case (head: NormalHead) if head.name == "AbstractRelationalComparison" =>
+      val inst = Parser.parseInst(s"""if (= LeftFirst absent) { LeftFirst = true } else { }""")
+      prepend(List(inst), rawBody)
     case _ => rawBody
   }
 

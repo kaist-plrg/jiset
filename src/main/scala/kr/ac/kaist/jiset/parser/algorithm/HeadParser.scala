@@ -41,7 +41,10 @@ object HeadParser extends HeadParsers {
 
     // extract parameters
     val params =
-      if (isComparison(name)) COMP_PARAMS
+      if (isComparison(name)) name match {
+        case "AbstractRelationalComparison" => REL_COMP_PARAMS
+        case _ => COMP_PARAMS
+      }
       else if (from == -1) Nil
       else parse(paramList, str.substring(from)).get
 
