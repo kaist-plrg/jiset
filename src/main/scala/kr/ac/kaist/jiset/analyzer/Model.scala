@@ -376,6 +376,14 @@ class Model(cfg: CFG) {
     "%ForInIteratorPrototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%IteratorPrototype%")),
     )),
+    "%isFinite%" -> (Some("OrdinaryObject"), Map(
+      "Call" -> getClo("isFinite"),
+    )),
+    "%isNaN%" -> (Some("OrdinaryObject"), Map(
+      "Call" -> getClo("isNaN"),
+    )),
+    // TODO model following remaining intrinsics (ommitted some cases that seems unnecessary)
+    // %IteratorPrototype% %JSON% %Map% %MapIteratorPrototype% %Math% %Number% %parseFloat% %parseInt% %Promise% %Proxy% %Reflect% %RegExp% %RegExpStringIteratorPrototype% %Set% %SetIteratorPrototype% %String% %StringIteratorPrototype% %Symbol% %TypedArray% %Uint8Array% %Uint8ClampedArray% %Uint16Array% %Uint32Array%
   )
 
   // TODO more manual modelings

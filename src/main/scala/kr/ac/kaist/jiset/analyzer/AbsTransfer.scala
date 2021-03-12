@@ -164,7 +164,7 @@ class AbsTransfer(
       } yield sem.doReturn(ret -> (st.heap, v.escaped.toCompletion))
       case ithrow @ IThrow(x) => for {
         addr <- id(_.allocMap(ithrow.asite, "OrdinaryObject", Map(
-          "Prototype" -> AbsValue(NamedAddr(s"Global.$x.prototype")),
+          "Prototype" -> AbsValue(NamedAddr(s"%$x.prototype%")),
           "ErrorData" -> AbsUndef.Top,
         )))
         comp = AbsComp(CompThrow -> ((addr, emptyConst)))
