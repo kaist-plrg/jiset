@@ -319,6 +319,70 @@ class Model(cfg: CFG) {
     "%DataView.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
     )),
+    "%GeneratorFunction%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function%")),
+      "Call" -> getClo("GeneratorFunction"),
+      "Construct" -> getClo("GeneratorFunction"),
+    )),
+    "%GeneratorFunction.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+    )),
+    "%Error%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("Error"),
+      "Construct" -> getClo("Error"),
+    )),
+    "%Error.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.Prototype%")),
+    )),
+    "%EvalError%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error%")),
+      "Call" -> getClo("EvalError"),
+      "Construct" -> getClo("EvalError"),
+    )),
+    "%EvalError.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error.prototype%")),
+    )),
+    "%RangeError%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error%")),
+      "Call" -> getClo("RangeError"),
+      "Construct" -> getClo("RangeError"),
+    )),
+    "%RangeError.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error.prototype%")),
+    )),
+    "%ReferenceError%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error%")),
+      "Call" -> getClo("ReferenceError"),
+      "Construct" -> getClo("ReferenceError"),
+    )),
+    "%ReferenceError.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error.prototype%")),
+    )),
+    "%SyntaxError%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error%")),
+      "Call" -> getClo("SyntaxError"),
+      "Construct" -> getClo("SyntaxError"),
+    )),
+    "%SyntaxError.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error.prototype%")),
+    )),
+    "%TypeError%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error%")),
+      "Call" -> getClo("TypeError"),
+      "Construct" -> getClo("TypeError"),
+    )),
+    "%TypeError.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error.prototype%")),
+    )),
+    "%URIError%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error%")),
+      "Call" -> getClo("URIError"),
+      "Construct" -> getClo("URIError"),
+    )),
+    "%URIError.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Error.prototype%")),
+    )),
   )
 
   // TODO more manual modelings
