@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.{ CFG_DIR, LOG, LINE_SEP }
+import kr.ac.kaist.jiset.{ CFG_DIR, LOG }
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer
@@ -9,15 +9,6 @@ import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
-import org.jline.builtins.Completers.TreeCompleter
-import org.jline.builtins.Completers.TreeCompleter.{ Node => CNode, node }
-import org.jline.reader._
-import org.jline.reader.impl._
-import org.jline.terminal._
-import org.jline.utils.InfoCmp.Capability
-import org.jline.utils._
-import scala.util.matching.Regex
-import scala.collection.mutable.ArrayBuffer
 import scala.Console._
 import scala.annotation.tailrec
 
@@ -43,6 +34,9 @@ class AbsTransfer(
   // stats
   val stat = sem.stat
 
+  // repl
+  val REPL = new AnalyzeREPL(sem)
+
   // fixpoint computation
   @tailrec
   final def compute: Unit = worklist.next match {
@@ -54,7 +48,7 @@ class AbsTransfer(
         case e: Throwable =>
           printlnColor(RED)(s"[Error] An exception is thrown.")
           println(sem.getString(cp, CYAN, true))
-          dumpCFG(Some(cp), depth = Some(5))
+          dumpCFG(sem, Some(cp), depth = Some(5))
           throw e
       }
       stat.iter += 1
@@ -130,98 +124,6 @@ class AbsTransfer(
         sem += nextNP -> newSt
       }
     }
-  }
-
-  // repl
-  object REPL {
-    // breakpoints
-    private var continue = false
-    private var breakpoints = ArrayBuffer[Regex]()
-
-    // jline
-    private val terminal: Terminal = TerminalBuilder.builder().build()
-    private val completer: TreeCompleter = new TreeCompleter(
-      node("log"),
-      node("continue"),
-      node("break"),
-      node("break-list"),
-      node("break-rm"),
-      node("graph"),
-      node("debug"),
-      node("quit"),
-      node("exit")
-    )
-    private val reader: LineReader = LineReaderBuilder.builder()
-      .terminal(terminal)
-      .completer(completer)
-      .build()
-    private val prompt: String = LINE_SEP + s"${MAGENTA}analyzer>${RESET} "
-    // check break point of control point
-    private def isBreak(cp: ControlPoint): Boolean = cp match {
-      case NodePoint(entry: Entry, _) =>
-        breakpoints.exists(_.matches(funcOf(entry).name))
-      case _ => false
-    }
-
-    // run repl
-    def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) {
-      println(sem.getString(cp, CYAN, true))
-      try {
-        while (reader.readLine(prompt) match {
-          case null =>
-            continue = true; false
-          case line => line.split("\\s+").toList match {
-            case ("quit" | "exit") :: _ =>
-              breakpoints.clear()
-              continue = true
-              false
-            case "log" :: _ =>
-              stat.dump(); true
-            case "continue" :: _ =>
-              continue = true; false
-            case "debug" :: _ => error("stop for debugging")
-            case "break" :: args =>
-              args.headOption match {
-                case None => ???
-                case Some(bp) => breakpoints += bp.r
-              }; true
-            case "break-rm" :: args =>
-              args.headOption match {
-                case None => ???
-                case Some(idx) => breakpoints.remove(idx.toInt)
-              }; true
-            case "break-list" :: _ =>
-              breakpoints.zipWithIndex.foreach {
-                case (bp, i) => println(s"$i: $bp")
-              }; true
-            case "graph" :: args =>
-              val depth = optional(args.head.toInt)
-              dumpCFG(Some(cp), depth = depth); true
-            case _ => continue = false; false
-          }
-        }) {}
-      } catch {
-        case e: EndOfFileException => error("stop analyze-repl")
-        case e: Throwable =>
-      }
-    }
-  }
-
-  // dump CFG in DOT/PDF format
-  def dumpCFG(
-    cp: Option[ControlPoint] = None,
-    pdf: Boolean = true,
-    depth: Option[Int] = None
-  ): Unit = try {
-    val dot = (new DotPrinter)(sem, cp, depth).toString
-    dumpFile(dot, s"$CFG_DIR.dot")
-    if (pdf) {
-      executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")
-      executeCmd(s"""dot -Tpdf "${CFG_DIR}_trans.dot" -o "$CFG_DIR.pdf"""")
-      println(s"Dumped CFG to $CFG_DIR.pdf")
-    } else println(s"Dumped CFG to $CFG_DIR.dot")
-  } catch {
-    case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
 
   private class Helper(ret: ReturnPoint) {
