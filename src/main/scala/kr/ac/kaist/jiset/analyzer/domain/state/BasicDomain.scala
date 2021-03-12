@@ -96,6 +96,7 @@ object BasicDomain extends state.Domain {
     def update(obj: AbsObj, prop: AbsPure, value: AbsValue): AbsObj = {
       import AbsObj._
       obj match {
+        case MapElem(Some("SubMap"), _) => obj // TODO to be more precise
         case MapElem(ty, map) => prop.getSingle match {
           case Zero => AbsObj.Bot
           case One(Str(p)) => MapElem(ty, map + (p -> value))
