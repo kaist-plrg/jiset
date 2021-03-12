@@ -1,6 +1,6 @@
 {
   let idText = (get-syntax IdentifierName)
-  ??? "Let id:{idTextUnescaped} be the result of replacing any occurrences of code:{\\\\} nt:{UnicodeEscapeSequence} in id:{idText} with the code point represented by the nt:{UnicodeEscapeSequence} ."
+  let idTextUnescaped = AnyString
   app __x0__ = (UTF16Encode idTextUnescaped)
   return [! __x0__]
 }

@@ -1,5 +1,5 @@
 {
   if (= GLOBAL_executionStack.length 0i) return null else {}
-  ??? "Let id:{ec} be the topmost execution context on the execution context stack whose ScriptOrModule component is not value:{null} ."
+  let ec = GLOBAL_executionStack[(- GLOBAL_executionStack 1i)]
   ??? "If no such execution context exists , return value:{null} . Otherwise , return id:{ec} ' s ScriptOrModule component ."
 }

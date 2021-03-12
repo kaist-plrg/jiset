@@ -288,6 +288,37 @@ AsyncGeneratorExpression[0,1].IsFunctionDefinition:[☊(AsyncGeneratorExpression
     AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
   }
 } ---> N(true)
+AsyncGeneratorMethod[0,0].PropName:[☊(AsyncGeneratorMethod), ☊(PropertyName), ☊(UniqueFormalParameters), ☊(AsyncGeneratorBody)]: {
+  env: {
+    this -> ! ☊(AsyncGeneratorMethod)
+    PropertyName -> ! ☊(PropertyName)
+    UniqueFormalParameters -> ! ☊(UniqueFormalParameters)
+    AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
+  }
+} ---> N(~empty~ | str)
+AsyncMethod[0,0].PropName:[☊(AsyncMethod), ☊(PropertyName), ☊(UniqueFormalParameters), ☊(AsyncFunctionBody)]: {
+  env: {
+    this -> ! ☊(AsyncMethod)
+    PropertyName -> ! ☊(PropertyName)
+    UniqueFormalParameters -> ! ☊(UniqueFormalParameters)
+    AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
+  }
+} ---> N(~empty~ | str)
+BigInt::toString:[bigint]: {
+  env: {
+    x -> ! bigint
+  }
+} ---> N(str)
+BigInt::toString:[int]: {
+  env: {
+    x -> ! int
+  }
+} ---> N(str)
+BigInt::toString:[num]: {
+  env: {
+    x -> ! num
+  }
+} ---> N(str)
 BindingElement[1,0].HasInitializer:[☊(BindingElement), ☊(BindingPattern)]: {
   env: {
     this -> ! ☊(BindingElement)
@@ -325,8 +356,8 @@ BindingIdentifier[1,0].BoundNames:[☊(BindingIdentifier)]: {
   env: {
     this -> ! ☊(BindingIdentifier)
   }
-} ---> N(#350) @ {
-  #350 -> ["yield"]
+} ---> N(#344) @ {
+  #344 -> ["yield"]
 }
 BindingRestElement[0,0].ContainsExpression:[☊(BindingRestElement), ☊(BindingIdentifier)]: {
   env: {
@@ -463,6 +494,11 @@ ClassElement[2,0].IsStatic:[☊(ClassElement)]: {
     this -> ! ☊(ClassElement)
   }
 } ---> N(false)
+ClassElement[2,0].PropName:[☊(ClassElement)]: {
+  env: {
+    this -> ! ☊(ClassElement)
+  }
+} ---> N(~empty~)
 ClassEscape[0,0].IsCharacterClass:[☊(ClassEscape)]: {
   env: {
     this -> ! ☊(ClassEscape)
@@ -526,6 +562,12 @@ CoalesceExpression[0,0].IsFunctionDefinition:[☊(CoalesceExpression), ☊(Coale
     BitwiseORExpression -> ! ☊(BitwiseORExpression)
   }
 } ---> N(false)
+ComputedPropertyName[0,0].PropName:[☊(ComputedPropertyName), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(ComputedPropertyName)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(~empty~)
 ConciseBody[0,0].ContainsUseStrict:[☊(ConciseBody), ☊(ExpressionBody)]: {
   env: {
     this -> ! ☊(ConciseBody)
@@ -735,8 +777,8 @@ FunctionEnvironmentRecord.GetThisBinding:[Normal(EnvironmentRecord)]: {
   env: {
     envRec -> ! N(EnvironmentRecord)
   }
-} ---> N(Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
-  #122 -> OrdinaryObject {
+} ---> N(Object | num | int | bigint | str | bool | undef | null) | T(#120) @ {
+  #120 -> OrdinaryObject {
     Prototype -> ! #Global.ReferenceError.prototype
     ErrorData -> ! undef
   }
@@ -823,6 +865,14 @@ GeneratorExpression[0,1].IsFunctionDefinition:[☊(GeneratorExpression), ☊(Bin
     GeneratorBody -> ! ☊(GeneratorBody)
   }
 } ---> N(true)
+GeneratorMethod[0,0].PropName:[☊(GeneratorMethod), ☊(PropertyName), ☊(UniqueFormalParameters), ☊(GeneratorBody)]: {
+  env: {
+    this -> ! ☊(GeneratorMethod)
+    PropertyName -> ! ☊(PropertyName)
+    UniqueFormalParameters -> ! ☊(UniqueFormalParameters)
+    GeneratorBody -> ! ☊(GeneratorBody)
+  }
+} ---> N(~empty~ | str)
 GetThisEnvironment:[]: ɛ ---> N(EnvironmentRecord)
 GlobalEnvironmentRecord.GetThisBinding:[Normal(EnvironmentRecord)]: {
   env: {
@@ -873,8 +923,8 @@ IdentifierReference[1,0].EarlyErrors:[☊(IdentifierReference)]: {
   env: {
     this -> ! ☊(IdentifierReference)
   }
-} ---> T(#1610) @ {
-  #1610 -> OrdinaryObject {
+} ---> T(#1604) @ {
+  #1604 -> OrdinaryObject {
     Prototype -> ! #Global.SyntaxError.prototype
     ErrorData -> ! undef
   }
@@ -905,8 +955,8 @@ ImportDeclaration[1,0].ImportEntries:[☊(ImportDeclaration), ☊(ModuleSpecifie
     this -> ! ☊(ImportDeclaration)
     ModuleSpecifier -> ! ☊(ModuleSpecifier)
   }
-} ---> N(#772) @ {
-  #772 -> []
+} ---> N(#766) @ {
+  #766 -> []
 }
 ImportMeta[0,0].AssignmentTargetType:[☊(ImportMeta)]: {
   env: {
@@ -965,6 +1015,12 @@ LetOrConst[1,0].IsConstantDeclaration:[☊(LetOrConst)]: {
     this -> ! ☊(LetOrConst)
   }
 } ---> N(true)
+LiteralPropertyName[0,0].PropName:[☊(LiteralPropertyName), ☊(IdentifierName)]: {
+  env: {
+    this -> ! ☊(LiteralPropertyName)
+    IdentifierName -> ! ☊(IdentifierName)
+  }
+} ---> N(str)
 LiteralPropertyName[1,0].Evaluation:[☊(LiteralPropertyName), ☊(StringLiteral)]: {
   env: {
     this -> ! ☊(LiteralPropertyName)
@@ -975,6 +1031,12 @@ LiteralPropertyName[1,0].PropName:[☊(LiteralPropertyName), ☊(StringLiteral)]
   env: {
     this -> ! ☊(LiteralPropertyName)
     StringLiteral -> ! ☊(StringLiteral)
+  }
+} ---> N(str)
+LiteralPropertyName[2,0].PropName:[☊(LiteralPropertyName), ☊(NumericLiteral)]: {
+  env: {
+    this -> ! ☊(LiteralPropertyName)
+    NumericLiteral -> ! ☊(NumericLiteral)
   }
 } ---> N(str)
 Literal[0,0].Evaluation:[☊(Literal), ☊(NullLiteral)]: {
@@ -1189,6 +1251,14 @@ MemberExpression[6,0].IsIdentifierRef:[☊(MemberExpression), ☊(MemberExpressi
     Arguments -> ! ☊(Arguments)
   }
 } ---> N(false)
+MethodDefinition[0,0].PropName:[☊(MethodDefinition), ☊(PropertyName), ☊(UniqueFormalParameters), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(MethodDefinition)
+    PropertyName -> ! ☊(PropertyName)
+    UniqueFormalParameters -> ! ☊(UniqueFormalParameters)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(~empty~ | str)
 MethodDefinition[0,0].SpecialMethod:[☊(MethodDefinition), ☊(PropertyName), ☊(UniqueFormalParameters), ☊(FunctionBody)]: {
   env: {
     this -> ! ☊(MethodDefinition)
@@ -1215,6 +1285,13 @@ MethodDefinition[3,0].SpecialMethod:[☊(MethodDefinition), ☊(AsyncGeneratorMe
     AsyncGeneratorMethod -> ! ☊(AsyncGeneratorMethod)
   }
 } ---> N(true)
+MethodDefinition[4,0].PropName:[☊(MethodDefinition), ☊(PropertyName), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(MethodDefinition)
+    PropertyName -> ! ☊(PropertyName)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(~empty~ | str)
 MethodDefinition[4,0].SpecialMethod:[☊(MethodDefinition), ☊(PropertyName), ☊(FunctionBody)]: {
   env: {
     this -> ! ☊(MethodDefinition)
@@ -1222,6 +1299,14 @@ MethodDefinition[4,0].SpecialMethod:[☊(MethodDefinition), ☊(PropertyName), �
     FunctionBody -> ! ☊(FunctionBody)
   }
 } ---> N(true)
+MethodDefinition[5,0].PropName:[☊(MethodDefinition), ☊(PropertyName), ☊(PropertySetParameterList), ☊(FunctionBody)]: {
+  env: {
+    this -> ! ☊(MethodDefinition)
+    PropertyName -> ! ☊(PropertyName)
+    PropertySetParameterList -> ! ☊(PropertySetParameterList)
+    FunctionBody -> ! ☊(FunctionBody)
+  }
+} ---> N(~empty~ | str)
 MethodDefinition[5,0].SpecialMethod:[☊(MethodDefinition), ☊(PropertyName), ☊(PropertySetParameterList), ☊(FunctionBody)]: {
   env: {
     this -> ! ☊(MethodDefinition)
@@ -1245,23 +1330,23 @@ ModuleItem[1,0].ImportEntries:[☊(ModuleItem), ☊(ExportDeclaration)]: {
     this -> ! ☊(ModuleItem)
     ExportDeclaration -> ! ☊(ExportDeclaration)
   }
-} ---> N(#725) @ {
-  #725 -> []
+} ---> N(#719) @ {
+  #719 -> []
 }
 ModuleItem[2,0].ImportEntries:[☊(ModuleItem), ☊(StatementListItem)]: {
   env: {
     this -> ! ☊(ModuleItem)
     StatementListItem -> ! ☊(StatementListItem)
   }
-} ---> N(#725) @ {
-  #725 -> []
+} ---> N(#719) @ {
+  #719 -> []
 }
 Module[0,0].ImportEntries:[☊(Module)]: {
   env: {
     this -> ! ☊(Module)
   }
-} ---> N(#723) @ {
-  #723 -> []
+} ---> N(#717) @ {
+  #717 -> []
 }
 MultiplicativeExpression[1,0].AssignmentTargetType:[☊(MultiplicativeExpression), ☊(MultiplicativeExpression), ☊(MultiplicativeOperator), ☊(ExponentiationExpression)]: {
   env: {
@@ -1308,6 +1393,16 @@ NewTarget[0,0].AssignmentTargetType:[☊(NewTarget)]: {
     this -> ! ☊(NewTarget)
   }
 } ---> N(~invalid~)
+Number::toString:[int]: {
+  env: {
+    x -> ! int
+  }
+} ---> N(str)
+Number::toString:[num]: {
+  env: {
+    x -> ! num
+  }
+} ---> N(str)
 ObjectBindingPattern[0,0].ContainsExpression:[☊(ObjectBindingPattern)]: {
   env: {
     this -> ! ☊(ObjectBindingPattern)
@@ -1345,8 +1440,8 @@ PrimaryExpression[0,0].Evaluation:[☊(PrimaryExpression)]: {
   env: {
     this -> ! ☊(PrimaryExpression)
   }
-} ---> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
-  #122 -> OrdinaryObject {
+} ---> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#120) @ {
+  #120 -> OrdinaryObject {
     Prototype -> ! #Global.ReferenceError.prototype
     ErrorData -> ! undef
   }
@@ -1558,12 +1653,25 @@ PropertyDefinition[1,0].EarlyErrors:[☊(PropertyDefinition), ☊(CoverInitializ
     this -> ! ☊(PropertyDefinition)
     CoverInitializedName -> ! ☊(CoverInitializedName)
   }
-} ---> T(#1630) @ {
-  #1630 -> OrdinaryObject {
+} ---> T(#1624) @ {
+  #1624 -> OrdinaryObject {
     Prototype -> ! #Global.SyntaxError.prototype
     ErrorData -> ! undef
   }
 }
+PropertyDefinition[2,0].PropName:[☊(PropertyDefinition), ☊(PropertyName), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(PropertyDefinition)
+    PropertyName -> ! ☊(PropertyName)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(~empty~ | str)
+PropertyDefinition[4,0].PropName:[☊(PropertyDefinition), ☊(AssignmentExpression)]: {
+  env: {
+    this -> ! ☊(PropertyDefinition)
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+  }
+} ---> N(~empty~)
 PropertyName[0,0].IsComputedPropertyKey:[☊(PropertyName), ☊(LiteralPropertyName)]: {
   env: {
     this -> ! ☊(PropertyName)
@@ -1660,8 +1768,8 @@ RelationalExpression[6,0].IsFunctionDefinition:[☊(RelationalExpression), ☊(R
     ShiftExpression -> ! ☊(ShiftExpression)
   }
 } ---> N(false)
-ResolveThisBinding:[]: ɛ ---> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#122) @ {
-  #122 -> OrdinaryObject {
+ResolveThisBinding:[]: ɛ ---> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#120) @ {
+  #120 -> OrdinaryObject {
     Prototype -> ! #Global.ReferenceError.prototype
     ErrorData -> ! undef
   }
@@ -1747,6 +1855,21 @@ SingleNameBinding[0,1].IsSimpleParameterList:[☊(SingleNameBinding), ☊(Bindin
     Initializer -> ! ☊(Initializer)
   }
 } ---> N(false)
+ToString:[bigint]: {
+  env: {
+    argument -> ! bigint
+  }
+} ---> N(str)
+ToString:[int]: {
+  env: {
+    argument -> ! int
+  }
+} ---> N(str)
+ToString:[num]: {
+  env: {
+    argument -> ! num
+  }
+} ---> N(str)
 UnaryExpression[1,0].AssignmentTargetType:[☊(UnaryExpression), ☊(UnaryExpression)]: {
   env: {
     this -> ! ☊(UnaryExpression)
