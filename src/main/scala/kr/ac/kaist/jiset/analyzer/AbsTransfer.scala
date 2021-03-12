@@ -322,7 +322,10 @@ class AbsTransfer(
         rv <- transfer(ref)
         v <- transfer(rv)
         newV <- returnIfAbrupt(v, check)
-        _ <- modify(_.update(sem, rv, newV))
+        _ <- {
+          if (newV.isBottom) put(AbsState.Bot)
+          else modify(_.update(sem, rv, newV))
+        }
       } yield newV
       case EReturnIfAbrupt(expr, check) => for {
         v <- transfer(expr)

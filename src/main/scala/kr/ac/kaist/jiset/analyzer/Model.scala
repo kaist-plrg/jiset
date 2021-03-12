@@ -131,7 +131,8 @@ class Model(cfg: CFG) {
     "Number" -> AbsValue("Number"),
     "BigInt" -> AbsValue("BigInt"),
     "PRIMITIVE" -> AbsValue(NamedAddr("PRIMITIVE")),
-    "AnyString" -> AbsStr.Top
+    "AnyStr" -> AbsStr.Top,
+    "AnyBool" -> AbsBool.Top,
   )
 
   // TODO more manual modelings

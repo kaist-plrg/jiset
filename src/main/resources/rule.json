@@ -1,11 +1,11 @@
 [
   {
     "tokens": "Let id:{idTextUnescaped} be the result of replacing any occurrences of code:{\\\\} nt:{UnicodeEscapeSequence} in id:{idText} with the code point represented by the nt:{UnicodeEscapeSequence} .",
-    "inst": "let idTextUnescaped = AnyString"
+    "inst": "let idTextUnescaped = AnyStr"
   },
   {
     "tokens": "Let id:{idTextUnescaped} be the result of replacing any occurrences of code:{\\\\} nt:{RegExpUnicodeEscapeSequence} in id:{idText} with the code point represented by the nt:{RegExpUnicodeEscapeSequence} .",
-    "inst": "let idTextUnescaped = AnyString"
+    "inst": "let idTextUnescaped = AnyStr"
   },
   {
     "tokens": "If no such execution context exists , return value:{null} . Otherwise , return id:{ec} ' s ScriptOrModule .",
@@ -17,7 +17,7 @@
   },
   {
     "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-ecmascript-function-objects} .",
-    "inst": "let internalSlotsList = (new [AnyString])"
+    "inst": "let internalSlotsList = (new [AnyStr])"
   },
   {
     "tokens": "Let id:{ec} be the topmost execution context on the execution context stack whose ScriptOrModule component is not value:{null} .",
@@ -29,10 +29,22 @@
   },
   {
     "tokens": "Return the source text that was recognized as nt:{RegularExpressionBody} .",
-    "inst": "return AnyString"
+    "inst": "return AnyStr"
   },
   {
     "tokens": "Return the source text that was recognized as nt:{RegularExpressionFlags} .",
-    "inst": "return AnyString"
+    "inst": "return AnyStr"
+  },
+  {
+    "tokens": "If FlagText of id:{literal} contains any code points other than code:{g} , code:{i} , code:{m} , code:{s} , code:{u} , or code:{y} , or if it contains the same code point more than once , return value:{false} .",
+    "inst": "if AnyBool return false else {}"
+  },
+  {
+    "tokens": "Let id:{constructorText} be the source text in:{} out:{}",
+    "inst": "let constructorText = AnyStr"
+  },
+  {
+    "tokens": "Set id:{constructor} to ParseText ( id:{constructorText} , | MethodDefinition [ ~ Yield , ~ Await ] | ) .",
+    "inst": "constructor = (parse-syntax constructorText \"MethodDefinition\" (new [false, false]))"
   }
 ]
