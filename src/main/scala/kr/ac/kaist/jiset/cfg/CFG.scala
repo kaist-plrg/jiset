@@ -9,9 +9,9 @@ import kr.ac.kaist.jiset.util.UIdGen
 class CFG(val spec: ECMAScript) {
   val fidGen: UIdGen = new UIdGen
   val nidGen: UIdGen = new UIdGen
-  val funcs: Set[Function] = spec.algos.map(Translator(_, fidGen, nidGen)).toSet
-  val nodes: Set[Node] = funcs.flatMap(_.nodes)
-  val edges: Set[Edge] = funcs.flatMap(_.edges)
+  val funcs: List[Function] = spec.algos.map(Translator(_, fidGen, nidGen))
+  val nodes: List[Node] = funcs.flatMap(_.nodes)
+  val edges: List[Edge] = funcs.flatMap(_.edges)
   val funcOf: Map[Node, Function] = funcs.flatMap(f => f.nodes.map(_ -> f)).toMap
   val next: Map[Linear, Node] =
     (edges.collect { case LinearEdge(x, y) => x -> y }).toMap

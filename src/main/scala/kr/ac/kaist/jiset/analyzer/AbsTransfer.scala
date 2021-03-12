@@ -227,14 +227,10 @@ class AbsTransfer(
   private class Helper(ret: ReturnPoint) {
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = inst match {
-      case IExpr(expr @ ENotSupported(msg)) =>
-        import model._
-        st => manualSemantics.get(msg) match {
-          case Some(f) => f(expr.asite, sem, ret, st)
-          case None =>
-            alarm(expr.beautified)
-            st
-        }
+      case IExpr(expr @ ENotSupported(msg)) => st => {
+        alarm(expr.beautified)
+        st
+      }
       case IExpr(expr) => transfer(expr)
       case ILet(Id(x), expr) => for {
         v <- transfer(expr)
@@ -461,6 +457,10 @@ class AbsTransfer(
     // transfer function for binary operators
     // TODO more precise abstract semantics
     def transfer(bop: BOp): (AbsPure, AbsPure) => AbsValue = (l, r) => bop match {
+      case OPlus =>
+        if (l.isBottom || r.isBottom) AbsValue.Bot
+        else if (l ⊑ l.str && r ⊑ r.str) AbsStr.Top
+        else arithTop
       case OPlus => arithTop
       case OSub => arithTop
       case OMul => arithTop

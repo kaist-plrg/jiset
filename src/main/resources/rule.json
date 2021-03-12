@@ -1,0 +1,26 @@
+[
+  {
+    "tokens": "Let id:{idTextUnescaped} be the result of replacing any occurrences of code:{\\\\} nt:{UnicodeEscapeSequence} in id:{idText} with the code point represented by the nt:{UnicodeEscapeSequence} .",
+    "inst": "let idTextUnescaped = AnyString"
+  },
+  {
+    "tokens": "If no such execution context exists , return value:{null} . Otherwise , return id:{ec} ' s ScriptOrModule .",
+    "inst": "return ec.ScriptOrModule"
+  },
+  {
+    "tokens": "Create an immutable binding in id:{envRec} for id:{N} and record that it is uninitialized . If id:{S} is value:{true} , record that the newly created binding is a strict binding .",
+    "inst": "envRec.SubMap[N] = absent"
+  },
+  {
+    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-ecmascript-function-objects} .",
+    "inst": "let internalSlotsList = (new [AnyString])"
+  },
+  {
+    "tokens": "Let id:{ec} be the topmost execution context on the execution context stack whose ScriptOrModule component is not value:{null} .",
+    "inst": "let ec = GLOBAL_executionStack[(- GLOBAL_executionStack 1i)]"
+  },
+  {
+    "tokens": "Return the String value consisting of the code units of the digits of the decimal representation of id:{x} .",
+    "inst": "return (convert x num2str)"
+  }
+]

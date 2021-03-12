@@ -20,10 +20,6 @@ class Model(cfg: CFG) {
   lazy val typeMap: Map[String, TyInfo] =
     typeInfos.map(info => info.name -> info).toMap
 
-  // manual modeling of semantics
-  type Meaning = (Int, AbsSemantics, ReturnPoint, AbsState) => AbsState
-  lazy val manualSemantics: Map[String, Meaning] = meanings
-
   //////////////////////////////////////////////////////////////////////////////
   // Private Helper Functions
   //////////////////////////////////////////////////////////////////////////////
@@ -50,32 +46,6 @@ class Model(cfg: CFG) {
 
     (globalEnv, globalHeap)
   }
-
-  // meaning of not yet compiled lines
-  private val ignore: Meaning = (_, _, _, st) => st
-  private def meanings: Map[String, Meaning] = Map(
-    "Create an immutable binding in id:{envRec} for id:{N} and record that it is uninitialized . If id:{S} is value:{true} , record that the newly created binding is a strict binding ." -> ignore,
-    "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-ecmascript-function-objects} ." -> ((asite, _, _, st) => {
-      val (addr, s0) = st.allocList(asite, List(AbsStr.Top))
-      s0 + ("internalSlotsList" -> addr)
-    }),
-    "Let id:{ec} be the topmost execution context on the execution context stack whose ScriptOrModule component is not value:{null} ." -> ((_, _, _, st) => {
-      st + ("ec" -> AbsValue(Ty("ExecutionContext")))
-    }),
-    "If no such execution context exists , return value:{null} . Otherwise , return id:{ec} ' s ScriptOrModule ." -> ((_, sem, ret, st) => {
-      val v = st.lookup(sem, "GLOBAL_executionStack", "length").escaped
-      var res = AbsValue.Bot
-      (v =^= AbsINum(0)).toSet.foreach {
-        case true => res ⊔= AbsNull.Top
-        case false => res ⊔= st.lookup(sem, "ec", "ScriptOrModule")
-      }
-      sem.doReturn(ret -> (st.heap, res))
-      AbsState.Bot
-    }),
-    "Let id:{idTextUnescaped} be the result of replacing any occurrences of code:{\\\\} nt:{UnicodeEscapeSequence} in id:{idText} with the code point represented by the nt:{UnicodeEscapeSequence} ." -> ((_, _, _, st) => {
-      st + ("idTextUnescaped" -> AbsStr.Top)
-    }),
-  )
 
   // TODO more manual modelings
   private def typeInfos: List[TyInfo] = List(
@@ -161,6 +131,7 @@ class Model(cfg: CFG) {
     "Number" -> AbsValue("Number"),
     "BigInt" -> AbsValue("BigInt"),
     "PRIMITIVE" -> AbsValue(NamedAddr("PRIMITIVE")),
+    "AnyString" -> AbsStr.Top
   )
 
   // TODO more manual modelings
@@ -395,7 +366,7 @@ class Model(cfg: CFG) {
     func <- cfg.funcs.toSet
     if pattern.matches(func.name)
   } yield (Clo(func.uid, Env()): Value))
-  private val cloMap: Map[String, AbsValue] =
+  private lazy val cloMap: Map[String, AbsValue] =
     (for (func <- cfg.funcs) yield func.name -> AbsValue(Clo(func.uid))).toMap
   private def getClo(name: String): AbsValue = cloMap.getOrElse(name, {
     alarm(s"unknown function name: $name")

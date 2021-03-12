@@ -238,8 +238,7 @@ class AbsSemantics(
     """StringLiteral[1,1].StringValue""".r,
     """StringLiteral[1,1].StringValue""".r,
     // PropName
-    """PropertyDefinition\[0,0\].PropName""".r,
-    """LiteralPropertyName\[1,0\].PropName""".r,
+    """.*.PropName""".r,
     // EarlyErrors
     """PropertyDefinition\[1,0\].EarlyErrors""".r,
     """IdentifierReference\[1,0\].EarlyErrors""".r,

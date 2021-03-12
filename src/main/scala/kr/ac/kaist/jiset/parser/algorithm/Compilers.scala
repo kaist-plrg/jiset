@@ -1,11 +1,15 @@
 package kr.ac.kaist.jiset.parser.algorithm
 
+import kr.ac.kaist.jiset.RESOURCE_DIR
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
+import scala.Console.RED
+import spray.json._
 
 trait Compilers extends TokenListParsers {
-  import kr.ac.kaist.jiset.ir.Parser._
   import kr.ac.kaist.jiset.ir._
+  import kr.ac.kaist.jiset.ir.Parser._
+  import kr.ac.kaist.jiset.ir.JsonProtocol._
 
   // instructions
   val stmt: P[Inst]
@@ -35,9 +39,22 @@ trait Compilers extends TokenListParsers {
     case tss ~ k =>
       val tokens = tss.flatten
       failed += k -> tokens
-      val failedInst = IExpr(ENotSupported(tokens.mkString(" ")))
+      val str = tokens.mkString(" ")
+      val failedInst = manualSteps.getOrElse(str, IExpr(ENotSupported(str)))
       failedInst.line = k
       failedInst
+  }
+
+  // manual steps
+  private case class Pair(tokens: String, inst: Inst)
+  val manualSteps: Map[String, Inst] = try {
+    implicit lazy val PairProtocol = jsonFormat2(Pair)
+    val pairs = readJson[List[Pair]](s"$RESOURCE_DIR/rule.json")
+    (for (Pair(str, inst) <- pairs) yield str -> inst).toMap
+  } catch {
+    case e: Throwable =>
+      printlnColor(RED)(s"* Failed to load $RESOURCE_DIR/rule.json: ${e.getMessage}")
+      Map()
   }
 
   // word for camel cases
