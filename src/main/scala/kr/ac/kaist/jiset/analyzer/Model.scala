@@ -354,6 +354,28 @@ class Model(cfg: CFG) {
     "%URIError.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Error.prototype%")),
     )),
+    "%Date%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("Call"),
+      "Construct" -> getClo("Call"),
+    )),
+    "%Date.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
+    "%eval%" -> (Some("OrdinaryObject"), Map(
+      "Call" -> getClo("eval"),
+    )),
+    "%FinalizationRegistry%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("FinalizationRegistry"),
+      "Construct" -> getClo("FinalizationRegistry"),
+    )),
+    "%FinalizationRegistry.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
+    "%ForInIteratorPrototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%IteratorPrototype%")),
+    )),
   )
 
   // TODO more manual modelings
