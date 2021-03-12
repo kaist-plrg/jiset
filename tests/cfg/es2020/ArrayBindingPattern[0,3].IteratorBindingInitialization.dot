@@ -1,24 +1,24 @@
 digraph {
-  node6868 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6872 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:[? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6873 [shape=cds, label=<<font color="black">2:access __x1__ = (BindingRestElement &quot;IteratorBindingInitialization&quot; iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
-  node6869 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6870 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
-  node6871 [shape=cds, label=<<font color="black">1:access __x0__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot; iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
-  node6874 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">2:access __x1__ = (BindingRestElement &quot;IteratorBindingInitialization&quot; iteratorRecord environment)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6874 -> node6869 [ color="black"]
-  node6868 -> node6870 [ color="black"]
-  node6870 -> node6871 [label=<<font color="black">true</font>> color="black"]
-  node6870 -> node6873 [label=<<font color="black">false</font>> color="black"]
-  node6871 -> node6872 [ color="black"]
-  node6872 -> node6873 [ color="black"]
-  node6873 -> node6874 [ color="black"]
+  node2 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">1:access __x0__ = (Elision &quot;IteratorDestructuringAssignmentEvaluation&quot; iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:[? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node5 [label=<<font color="black">false</font>> color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

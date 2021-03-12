@@ -1,8 +1,19 @@
 digraph {
-  node16784 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16789 [shape=cds, label=<<font color="black">2:app __x2__ = (ToInteger value)</font>> color="black" fillcolor="white" style=filled]
-  node16785 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
-  node16790 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let i = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x2__ = (ToInteger value)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let v = [? __x2__]</td></tr>
       <tr><td align="left">3:let arrayTypeName = typedArray.TypedArrayName</td></tr>
@@ -12,31 +23,20 @@ digraph {
       <tr><td align="left">7:let indexedPosition = (+ (* i elementSize) offset)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16783 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16786 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16787 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
-  node16791 [shape=cds, label=<<font color="black">8:app __x3__ = (GetModifySetValueInBuffer buffer indexedPosition elementType v op)</font>> color="black" fillcolor="white" style=filled]
-  node16788 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let i = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16792 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:return __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16789 -> node16790 [ color="black"]
-  node16790 -> node16791 [ color="black"]
-  node16792 -> node16784 [ color="black"]
-  node16786 -> node16787 [ color="black"]
-  node16785 -> node16786 [ color="black"]
-  node16783 -> node16785 [ color="black"]
-  node16787 -> node16788 [ color="black"]
-  node16791 -> node16792 [ color="black"]
-  node16788 -> node16789 [ color="black"]
+  node8 [shape=cds, label=<<font color="black">8:app __x3__ = (GetModifySetValueInBuffer buffer indexedPosition elementType v op)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

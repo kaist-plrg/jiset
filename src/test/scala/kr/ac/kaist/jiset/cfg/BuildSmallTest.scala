@@ -14,11 +14,10 @@ class BuildSmallTest extends CFGTest {
     for (version <- VERSIONS) check(version, {
       val baseDir = s"$CFG_TEST_DIR/$version"
       val fidGen = new UIdGen
-      val nidGen = new UIdGen
       val spec = getSpec(version)
       var map = Map[String, String]() // XXX remove resolving duplicated cases
       for (algo <- spec.algos) {
-        map += algo.name -> Translator(algo, fidGen, nidGen).toDot
+        map += algo.name -> Translator(algo, fidGen).toDot
       }
       for ((name, result) <- map) {
         val answer = readFile(s"$baseDir/$name.dot")

@@ -1,89 +1,89 @@
 digraph {
-  node3248 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">2:app __x0__ = (Type handler)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:let newObj = [? __x5__]</td></tr>
+      <tr><td align="left">5:let trap = [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3231 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3243 [shape=cds, label=<<font color="black">7:app __x3__ = (Construct target argumentsList newTarget)</font>> color="black" fillcolor="white" style=filled]
-  node3237 [shape=none, margin=0, label=<<font color="black">
+  node14 [shape=cds, label=<<font color="black">8:app __x4__ = (CreateArrayFromList argumentsList)</font>> color="black" fillcolor="white" style=filled]
+  node20 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (= __x0__ Object)</td></tr>
       <tr><td align="left">3:let target = O.ProxyTarget</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3241 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:let trap = [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3246 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:let argArray = __x4__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3232 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3236 [shape=cds, label=<<font color="black">2:app __x0__ = (Type handler)</font>> color="black" fillcolor="white" style=filled]
-  node3249 [shape=cds, label=<<font color="black">10:app __x6__ = (Type newObj)</font>> color="black" fillcolor="white" style=filled]
-  node3239 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:assert (= __x1__ true)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3233 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let handler = O.ProxyHandler</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3250 [shape=diamond, label=<<font color="black">(! (= __x6__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node3242 [shape=diamond, label=<<font color="black">(= trap undefined)</font>> color="black" fillcolor="white" style=filled]
-  node3247 [shape=cds, label=<<font color="black">9:app __x5__ = (Call trap handler (new [target, argArray, newTarget]))</font>> color="black" fillcolor="white" style=filled]
-  node3234 [shape=diamond, label=<<font color="black">(= handler null)</font>> color="black" fillcolor="white" style=filled]
-  node3240 [shape=cds, label=<<font color="black">5:app __x2__ = (GetMethod handler &quot;construct&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3251 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3238 [shape=cds, label=<<font color="black">4:app __x1__ = (IsConstructor target)</font>> color="black" fillcolor="white" style=filled]
-  node3235 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3252 [shape=none, margin=0, label=<<font color="black">
+  node21 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">11:return newObj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3244 [shape=none, margin=0, label=<<font color="black">
+  node9 [shape=cds, label=<<font color="black">5:app __x2__ = (GetMethod handler &quot;construct&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node13 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:return [? __x3__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3245 [shape=cds, label=<<font color="black">8:app __x4__ = (CreateArrayFromList argumentsList)</font>> color="black" fillcolor="white" style=filled]
-  node3252 -> node3232 [ color="black"]
-  node3240 -> node3241 [ color="black"]
-  node3251 -> node3252 [ color="black"]
-  node3245 -> node3246 [ color="black"]
-  node3231 -> node3233 [ color="black"]
-  node3241 -> node3242 [ color="black"]
-  node3238 -> node3239 [ color="black"]
-  node3237 -> node3238 [ color="black"]
-  node3244 -> node3245 [ color="black"]
-  node3246 -> node3247 [ color="black"]
-  node3249 -> node3250 [ color="black"]
-  node3243 -> node3244 [ color="black"]
-  node3233 -> node3234 [ color="black"]
-  node3247 -> node3248 [ color="black"]
-  node3235 -> node3236 [ color="black"]
-  node3242 -> node3243 [label=<<font color="black">true</font>> color="black"]
-  node3242 -> node3245 [label=<<font color="black">false</font>> color="black"]
-  node3234 -> node3235 [label=<<font color="black">true</font>> color="black"]
-  node3234 -> node3236 [label=<<font color="black">false</font>> color="black"]
-  node3248 -> node3249 [ color="black"]
-  node3239 -> node3240 [ color="black"]
-  node3250 -> node3251 [label=<<font color="black">true</font>> color="black"]
-  node3250 -> node3252 [label=<<font color="black">false</font>> color="black"]
-  node3236 -> node3237 [ color="black"]
+  node2 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let handler = O.ProxyHandler</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node17 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let newObj = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node12 [shape=cds, label=<<font color="black">7:app __x3__ = (Construct target argumentsList newTarget)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">4:app __x1__ = (IsConstructor target)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=diamond, label=<<font color="black">(= handler null)</font>> color="black" fillcolor="white" style=filled]
+  node18 [shape=cds, label=<<font color="black">10:app __x6__ = (Type newObj)</font>> color="black" fillcolor="white" style=filled]
+  node16 [shape=cds, label=<<font color="black">9:app __x5__ = (Call trap handler (new [target, argArray, newTarget]))</font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=diamond, label=<<font color="black">(= trap undefined)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:assert (= __x1__ true)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19 [shape=diamond, label=<<font color="black">(! (= __x6__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node15 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let argArray = __x4__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5 -> node6 [ color="black"]
+  node13 -> node14 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node14 -> node15 [ color="black"]
+  node21 -> node1 [ color="black"]
+  node10 -> node11 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node20 -> node21 [ color="black"]
+  node16 -> node17 [ color="black"]
+  node17 -> node18 [ color="black"]
+  node7 -> node8 [ color="black"]
+  node18 -> node19 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
+  node15 -> node16 [ color="black"]
+  node12 -> node13 [ color="black"]
+  node11 -> node12 [label=<<font color="black">true</font>> color="black"]
+  node11 -> node14 [label=<<font color="black">false</font>> color="black"]
+  node0 -> node2 [ color="black"]
+  node19 -> node20 [label=<<font color="black">true</font>> color="black"]
+  node19 -> node21 [label=<<font color="black">false</font>> color="black"]
 }

@@ -1,60 +1,60 @@
 digraph {
-  node1522 [shape=diamond, label=<<font color="black">(! (= next false))</font>> color="black" fillcolor="white" style=filled]
-  node1518 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let iteratorRecord = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1514 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1519 [shape=cds, label=<<font color="black">3:app __x1__ = (GetIterator items CONST_sync)</font>> color="black" fillcolor="white" style=filled]
-  node1525 [shape=diamond, label=<<font color="black">(! (= next false))</font>> color="black" fillcolor="white" style=filled]
-  node1515 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1520 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let iteratorRecord = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1524 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">3:app __x1__ = (GetIterator items CONST_sync)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:next = [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1528 [shape=none, margin=0, label=<<font color="black">
+  node14 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">11:return values</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1516 [shape=diamond, label=<<font color="black">(! (= method absent))</font>> color="black" fillcolor="white" style=filled]
-  node1517 [shape=cds, label=<<font color="black">1:app __x0__ = (GetIterator items CONST_sync method)</font>> color="black" fillcolor="white" style=filled]
-  node1523 [shape=cds, label=<<font color="black">7:app __x2__ = (IteratorStep iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
-  node1527 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let iteratorRecord = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=cds, label=<<font color="black">7:app __x2__ = (IteratorStep iteratorRecord)</font>> color="black" fillcolor="white" style=filled]
+  node13 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">9:let nextValue = [? __x3__]</td></tr>
       <tr><td align="left">10:append nextValue -&gt; values</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1526 [shape=cds, label=<<font color="black">9:app __x3__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
-  node1521 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=diamond, label=<<font color="black">(! (= method absent))</font>> color="black" fillcolor="white" style=filled]
+  node12 [shape=cds, label=<<font color="black">9:app __x3__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:let values = (new [])</td></tr>
       <tr><td align="left">5:let next = true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1528 -> node1515 [ color="black"]
-  node1519 -> node1520 [ color="black"]
-  node1520 -> node1521 [ color="black"]
-  node1525 -> node1526 [label=<<font color="black">true</font>> color="black"]
-  node1525 -> node1522 [label=<<font color="black">false</font>> color="black"]
-  node1517 -> node1518 [ color="black"]
-  node1521 -> node1522 [ color="black"]
-  node1524 -> node1525 [ color="black"]
-  node1522 -> node1523 [label=<<font color="black">true</font>> color="black"]
-  node1522 -> node1528 [label=<<font color="black">false</font>> color="black"]
-  node1523 -> node1524 [ color="black"]
-  node1514 -> node1516 [ color="black"]
-  node1526 -> node1527 [ color="black"]
-  node1516 -> node1517 [label=<<font color="black">true</font>> color="black"]
-  node1516 -> node1519 [label=<<font color="black">false</font>> color="black"]
-  node1527 -> node1522 [ color="black"]
-  node1518 -> node1521 [ color="black"]
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (GetIterator items CONST_sync method)</font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=diamond, label=<<font color="black">(! (= next false))</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=diamond, label=<<font color="black">(! (= next false))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let iteratorRecord = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8 -> node9 [label=<<font color="black">true</font>> color="black"]
+  node8 -> node14 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node8 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node10 -> node11 [ color="black"]
+  node13 -> node8 [ color="black"]
+  node11 -> node12 [label=<<font color="black">true</font>> color="black"]
+  node11 -> node8 [label=<<font color="black">false</font>> color="black"]
+  node4 -> node7 [ color="black"]
+  node14 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node5 [label=<<font color="black">false</font>> color="black"]
+  node12 -> node13 [ color="black"]
 }

@@ -1,38 +1,38 @@
 digraph {
-  node4528 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(= __x1__ Reference)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:val = [? __x3__]</td></tr>
       <tr><td align="left">4:??? &quot;Return a String according to link:{unhandled: table-35} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4524 [shape=cds, label=<<font color="black">2:app __x2__ = (IsUnresolvableReference val)</font>> color="black" fillcolor="white" style=filled]
-  node4519 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4521 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x2__ = (IsUnresolvableReference val)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=cds, label=<<font color="black">3:app __x3__ = (GetValue val)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (UnaryExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=diamond, label=<<font color="black">(= __x2__ true)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let val = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4525 [shape=diamond, label=<<font color="black">(= __x2__ true)</font>> color="black" fillcolor="white" style=filled]
-  node4518 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4526 [shape=none, margin=0, label=<<font color="black">
+  node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return &quot;undefined&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4522 [shape=cds, label=<<font color="black">1:app __x1__ = (Type val)</font>> color="black" fillcolor="white" style=filled]
-  node4527 [shape=cds, label=<<font color="black">3:app __x3__ = (GetValue val)</font>> color="black" fillcolor="white" style=filled]
-  node4523 [shape=diamond, label=<<font color="black">(= __x1__ Reference)</font>> color="black" fillcolor="white" style=filled]
-  node4520 [shape=cds, label=<<font color="black">0:access __x0__ = (UnaryExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4524 -> node4525 [ color="black"]
-  node4526 -> node4527 [ color="black"]
-  node4520 -> node4521 [ color="black"]
-  node4521 -> node4522 [ color="black"]
-  node4523 -> node4524 [label=<<font color="black">true</font>> color="black"]
-  node4523 -> node4527 [label=<<font color="black">false</font>> color="black"]
-  node4525 -> node4526 [label=<<font color="black">true</font>> color="black"]
-  node4525 -> node4527 [label=<<font color="black">false</font>> color="black"]
-  node4522 -> node4523 [ color="black"]
-  node4518 -> node4520 [ color="black"]
-  node4528 -> node4519 [ color="black"]
-  node4527 -> node4528 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (Type val)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node7 -> node8 [label=<<font color="black">true</font>> color="black"]
+  node7 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node6 -> node7 [ color="black"]
 }

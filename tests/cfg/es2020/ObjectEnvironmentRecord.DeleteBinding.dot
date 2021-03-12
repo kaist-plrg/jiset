@@ -1,19 +1,19 @@
 digraph {
-  node1608 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1604 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1605 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1607 [shape=cds, label=<<font color="black">2:app __x0__ = (bindings.Delete bindings N)</font>> color="black" fillcolor="white" style=filled]
-  node1606 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let bindings = envRec.BindingObject</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1604 -> node1606 [ color="black"]
-  node1606 -> node1607 [ color="black"]
-  node1607 -> node1608 [ color="black"]
-  node1608 -> node1605 [ color="black"]
+  node3 [shape=cds, label=<<font color="black">2:app __x0__ = (bindings.Delete bindings N)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

@@ -1,41 +1,41 @@
 digraph {
-  node2216 [shape=cds, label=<<font color="black">2:app __x1__ = (Get constructor &quot;prototype&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node2217 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let proto = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2222 [shape=none, margin=0, label=<<font color="black">
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:return proto</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2213 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2221 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">3:app __x2__ = (Type proto)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:let realm = [? __x3__]</td></tr>
       <tr><td align="left">5:??? &quot;Set id:{proto} to id:{realm} ' s intrinsic object named id:{intrinsicDefaultProto} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2220 [shape=cds, label=<<font color="black">4:app __x3__ = (GetFunctionRealm constructor)</font>> color="black" fillcolor="white" style=filled]
-  node2214 [shape=cds, label=<<font color="black">1:app __x0__ = (IsCallable constructor)</font>> color="black" fillcolor="white" style=filled]
-  node2212 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2219 [shape=diamond, label=<<font color="black">(! (= __x2__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node2215 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=cds, label=<<font color="black">1:app __x0__ = (IsCallable constructor)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=diamond, label=<<font color="black">(! (= __x2__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= __x0__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2218 [shape=cds, label=<<font color="black">3:app __x2__ = (Type proto)</font>> color="black" fillcolor="white" style=filled]
-  node2216 -> node2217 [ color="black"]
-  node2221 -> node2222 [ color="black"]
-  node2214 -> node2215 [ color="black"]
-  node2217 -> node2218 [ color="black"]
-  node2218 -> node2219 [ color="black"]
-  node2219 -> node2220 [label=<<font color="black">true</font>> color="black"]
-  node2219 -> node2222 [label=<<font color="black">false</font>> color="black"]
-  node2222 -> node2213 [ color="black"]
-  node2215 -> node2216 [ color="black"]
-  node2212 -> node2214 [ color="black"]
-  node2220 -> node2221 [ color="black"]
+  node8 [shape=cds, label=<<font color="black">4:app __x3__ = (GetFunctionRealm constructor)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">2:app __x1__ = (Get constructor &quot;prototype&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [label=<<font color="black">true</font>> color="black"]
+  node7 -> node10 [label=<<font color="black">false</font>> color="black"]
+  node2 -> node3 [ color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

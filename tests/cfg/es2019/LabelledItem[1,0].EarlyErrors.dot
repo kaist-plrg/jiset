@@ -1,20 +1,20 @@
 digraph {
-  node18667 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw SyntaxError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18664 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18668 [shape=none, margin=0, label=<<font color="black">
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18665 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18666 [shape=diamond, label=<<font color="black">true</font>> color="black" fillcolor="white" style=filled]
-  node18664 -> node18666 [ color="black"]
-  node18666 -> node18667 [label=<<font color="black">true</font>> color="black"]
-  node18666 -> node18668 [label=<<font color="black">false</font>> color="black"]
-  node18667 -> node18665 [ color="black"]
-  node18668 -> node18665 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node4 [label=<<font color="black">false</font>> color="black"]
+  node3 -> node1 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

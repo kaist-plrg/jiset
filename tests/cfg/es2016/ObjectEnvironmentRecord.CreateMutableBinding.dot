@@ -1,34 +1,34 @@
 digraph {
-  node1105 [shape=diamond, label=<<font color="black">(= D true)</font>> color="black" fillcolor="white" style=filled]
-  node1109 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1104 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let bindings = envRec.BindingObject</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1106 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let configValue = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1103 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1107 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let configValue = false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1102 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1108 [shape=cds, label=<<font color="black">3:app __x0__ = (DefinePropertyOrThrow bindings N (new PropertyDescriptor(&quot;Value&quot; -&gt; undefined, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; true, &quot;Configurable&quot; -&gt; configValue)))</font>> color="black" fillcolor="white" style=filled]
-  node1105 -> node1106 [label=<<font color="black">true</font>> color="black"]
-  node1105 -> node1107 [label=<<font color="black">false</font>> color="black"]
-  node1107 -> node1108 [ color="black"]
-  node1104 -> node1105 [ color="black"]
-  node1109 -> node1103 [ color="black"]
-  node1108 -> node1109 [ color="black"]
-  node1106 -> node1108 [ color="black"]
-  node1102 -> node1104 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">3:app __x0__ = (DefinePropertyOrThrow bindings N (new PropertyDescriptor(&quot;Value&quot; -&gt; undefined, &quot;Writable&quot; -&gt; true, &quot;Enumerable&quot; -&gt; true, &quot;Configurable&quot; -&gt; configValue)))</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let bindings = envRec.BindingObject</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=diamond, label=<<font color="black">(= D true)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let configValue = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5 -> node6 [ color="black"]
+  node4 -> node6 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

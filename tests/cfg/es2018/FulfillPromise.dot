@@ -1,14 +1,15 @@
 digraph {
-  node17290 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node17289 [shape=cds, label=<<font color="black">app promise = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node17293 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">6:app __x0__ = (TriggerPromiseReactions reactions value)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:return __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17292 [shape=cds, label=<<font color="black">6:app __x0__ = (TriggerPromiseReactions reactions value)</font>> color="black" fillcolor="white" style=filled]
-  node17287 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17291 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=cds, label=<<font color="black">app promise = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= promise.PromiseState &quot;pending&quot;)</td></tr>
       <tr><td align="left">1:let reactions = promise.PromiseFulfillReactions</td></tr>
@@ -18,11 +19,10 @@ digraph {
       <tr><td align="left">5:promise.PromiseState = &quot;fulfilled&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17288 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17293 -> node17288 [ color="black"]
-  node17290 -> node17291 [ color="black"]
-  node17292 -> node17293 [ color="black"]
-  node17287 -> node17289 [ color="black"]
-  node17289 -> node17290 [ color="black"]
-  node17291 -> node17292 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

@@ -1,37 +1,37 @@
 digraph {
-  node16424 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(! (= promiseCapability.Reject undefined))</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16420 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let promiseCapability = F.Capability</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16423 [shape=diamond, label=<<font color="black">(! (= promiseCapability.Reject undefined))</font>> color="black" fillcolor="white" style=filled]
-  node16419 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16422 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16425 [shape=none, margin=0, label=<<font color="black">
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:promiseCapability.Resolve = resolve</td></tr>
       <tr><td align="left">5:promiseCapability.Reject = reject</td></tr>
       <tr><td align="left">6:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16418 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16421 [shape=diamond, label=<<font color="black">(! (= promiseCapability.Resolve undefined))</font>> color="black" fillcolor="white" style=filled]
-  node16420 -> node16421 [ color="black"]
-  node16421 -> node16422 [label=<<font color="black">true</font>> color="black"]
-  node16421 -> node16423 [label=<<font color="black">false</font>> color="black"]
-  node16425 -> node16419 [ color="black"]
-  node16423 -> node16424 [label=<<font color="black">true</font>> color="black"]
-  node16423 -> node16425 [label=<<font color="black">false</font>> color="black"]
-  node16422 -> node16423 [ color="black"]
-  node16418 -> node16420 [ color="black"]
-  node16424 -> node16425 [ color="black"]
+  node3 [shape=diamond, label=<<font color="black">(! (= promiseCapability.Resolve undefined))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

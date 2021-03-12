@@ -1,38 +1,38 @@
 digraph {
-  node4539 [shape=cds, label=<<font color="black">2:app __x2__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
-  node4536 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let propertyNameReference = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4540 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let bv = [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4535 [shape=cds, label=<<font color="black">0:access __x0__ = (expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4537 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue propertyNameReference)</font>> color="black" fillcolor="white" style=filled]
-  node4541 [shape=cds, label=<<font color="black">3:app __x3__ = (ToPropertyKey propertyNameValue)</font>> color="black" fillcolor="white" style=filled]
-  node4534 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4538 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let propertyNameValue = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4542 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x2__ = (RequireObjectCoercible baseValue)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let propertyKey = [? __x3__]</td></tr>
       <tr><td align="left">4:return (new ReferenceRecord(&quot;Base&quot; -&gt; bv, &quot;ReferencedName&quot; -&gt; propertyKey, &quot;Strict&quot; -&gt; strict, &quot;ThisValue&quot; -&gt; CONST_empty))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4533 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4540 -> node4541 [ color="black"]
-  node4542 -> node4534 [ color="black"]
-  node4538 -> node4539 [ color="black"]
-  node4536 -> node4537 [ color="black"]
-  node4535 -> node4536 [ color="black"]
-  node4541 -> node4542 [ color="black"]
-  node4537 -> node4538 [ color="black"]
-  node4533 -> node4535 [ color="black"]
-  node4539 -> node4540 [ color="black"]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let bv = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let propertyNameReference = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=cds, label=<<font color="black">3:app __x3__ = (ToPropertyKey propertyNameValue)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue propertyNameReference)</font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

@@ -1,20 +1,20 @@
 digraph {
-  node11841 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let s = this</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11843 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (thisSymbolValue s)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let sym = [? __x0__]</td></tr>
       <tr><td align="left">2:return sym.Description</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11839 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11842 [shape=cds, label=<<font color="black">1:app __x0__ = (thisSymbolValue s)</font>> color="black" fillcolor="white" style=filled]
-  node11840 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11839 -> node11841 [ color="black"]
-  node11841 -> node11842 [ color="black"]
-  node11842 -> node11843 [ color="black"]
-  node11843 -> node11840 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

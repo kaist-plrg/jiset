@@ -1,5 +1,7 @@
 digraph {
-  node16118 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let iterator = __x1__</td></tr>
       <tr><td align="left">3:iterator.IteratedSet = set</td></tr>
@@ -8,34 +10,32 @@ digraph {
       <tr><td align="left">6:return iterator</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16114 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16109 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16108 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16112 [shape=cds, label=<<font color="black">0:app __x0__ = (Type set)</font>> color="black" fillcolor="white" style=filled]
-  node16115 [shape=diamond, label=<<font color="black">(= set.SetData absent)</font>> color="black" fillcolor="white" style=filled]
-  node16117 [shape=cds, label=<<font color="black">2:app __x1__ = (ObjectCreate INTRINSIC_SetIteratorPrototype (new [&quot;IteratedSet&quot;, &quot;SetNextIndex&quot;, &quot;SetIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node16113 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node16110 [shape=cds, label=<<font color="black">app set = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node16116 [shape=none, margin=0, label=<<font color="black">
+  node9 [shape=cds, label=<<font color="black">2:app __x1__ = (ObjectCreate INTRINSIC_SetIteratorPrototype (new [&quot;IteratedSet&quot;, &quot;SetNextIndex&quot;, &quot;SetIterationKind&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">app set = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=diamond, label=<<font color="black">(= set.SetData absent)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16111 [shape=cds, label=<<font color="black">app kind = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node16116 -> node16117 [ color="black"]
-  node16118 -> node16109 [ color="black"]
-  node16114 -> node16115 [ color="black"]
-  node16110 -> node16111 [ color="black"]
-  node16115 -> node16116 [label=<<font color="black">true</font>> color="black"]
-  node16115 -> node16117 [label=<<font color="black">false</font>> color="black"]
-  node16112 -> node16113 [ color="black"]
-  node16113 -> node16114 [label=<<font color="black">true</font>> color="black"]
-  node16113 -> node16115 [label=<<font color="black">false</font>> color="black"]
-  node16108 -> node16110 [ color="black"]
-  node16117 -> node16118 [ color="black"]
-  node16111 -> node16112 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">0:app __x0__ = (Type set)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node7 -> node8 [label=<<font color="black">true</font>> color="black"]
+  node7 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node7 [label=<<font color="black">false</font>> color="black"]
 }

@@ -1,47 +1,47 @@
 digraph {
-  node101 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x 0i) (= y -0.0))</font>> color="black" fillcolor="white" style=filled]
-  node106 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node102 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node97 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node105 [shape=diamond, label=<<font color="black">(= x y)</font>> color="black" fillcolor="white" style=filled]
-  node98 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node103 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x -0.0) (= y 0i))</font>> color="black" fillcolor="white" style=filled]
-  node107 [shape=none, margin=0, label=<<font color="black">
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node100 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x -0.0) (= y 0i))</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node99 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x NaN) (= y NaN))</font>> color="black" fillcolor="white" style=filled]
-  node104 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x NaN) (= y NaN))</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node104 -> node105 [ color="black"]
-  node101 -> node102 [label=<<font color="black">true</font>> color="black"]
-  node101 -> node103 [label=<<font color="black">false</font>> color="black"]
-  node99 -> node100 [label=<<font color="black">true</font>> color="black"]
-  node99 -> node101 [label=<<font color="black">false</font>> color="black"]
-  node102 -> node103 [ color="black"]
-  node103 -> node104 [label=<<font color="black">true</font>> color="black"]
-  node103 -> node105 [label=<<font color="black">false</font>> color="black"]
-  node97 -> node99 [ color="black"]
-  node105 -> node106 [label=<<font color="black">true</font>> color="black"]
-  node105 -> node107 [label=<<font color="black">false</font>> color="black"]
-  node107 -> node98 [ color="black"]
-  node100 -> node101 [ color="black"]
-  node106 -> node107 [ color="black"]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=diamond, label=<<font color="black">(= x y)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x 0i) (= y -0.0))</font>> color="black" fillcolor="white" style=filled]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node4 [label=<<font color="black">false</font>> color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node8 -> node9 [label=<<font color="black">true</font>> color="black"]
+  node8 -> node10 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
+  node6 -> node8 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node8 [ color="black"]
 }

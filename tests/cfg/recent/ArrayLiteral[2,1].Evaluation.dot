@@ -1,40 +1,40 @@
 digraph {
-  node3962 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:return array</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3959 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
-  node3955 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
-  node3958 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let nextIndex = __x1__</td></tr>
       <tr><td align="left">2:[? nextIndex]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3954 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3957 [shape=cds, label=<<font color="black">1:access __x1__ = (ElementList &quot;ArrayAccumulation&quot; array 0i)</font>> color="black" fillcolor="white" style=filled]
-  node3953 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3961 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=diamond, label=<<font color="black">(! (= Elision absent))</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return array</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (ArrayCreate 0i)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">4:access __x2__ = (Elision &quot;ArrayAccumulation&quot; array nextIndex)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let array = [! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:let len = __x2__</td></tr>
       <tr><td align="left">5:[? len]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3956 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let array = [! __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3960 [shape=cds, label=<<font color="black">4:access __x2__ = (Elision &quot;ArrayAccumulation&quot; array nextIndex)</font>> color="black" fillcolor="white" style=filled]
-  node3958 -> node3959 [ color="black"]
-  node3953 -> node3955 [ color="black"]
-  node3962 -> node3954 [ color="black"]
-  node3960 -> node3961 [ color="black"]
-  node3957 -> node3958 [ color="black"]
-  node3959 -> node3960 [label=<<font color="black">true</font>> color="black"]
-  node3959 -> node3962 [label=<<font color="black">false</font>> color="black"]
-  node3956 -> node3957 [ color="black"]
-  node3955 -> node3956 [ color="black"]
-  node3961 -> node3962 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">1:access __x1__ = (ElementList &quot;ArrayAccumulation&quot; array 0i)</font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
+  node6 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

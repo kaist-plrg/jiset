@@ -1,6 +1,7 @@
 digraph {
-  node3588 [shape=cds, label=<<font color="black">11:app __x0__ = (UTF16SurrogatePairToCodePoint first second)</font>> color="black" fillcolor="white" style=filled]
-  node3587 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let size = string.length</td></tr>
       <tr><td align="left">1:assert (&amp;&amp; (! (&lt; position 0i)) (&lt; position size))</td></tr>
@@ -12,16 +13,15 @@ digraph {
       <tr><td align="left">9:??? &quot;If id:{second} is not a link:{unhandled: trailing-surrogate} , then in:{} out:{}&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3586 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3589 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">11:app __x0__ = (UTF16SurrogatePairToCodePoint first second)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">11:cp = [! __x0__]</td></tr>
       <tr><td align="left">12:return (new Record(&quot;CodePoint&quot; -&gt; cp, &quot;CodeUnitCount&quot; -&gt; 2i, &quot;IsUnpairedSurrogate&quot; -&gt; false))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3585 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3585 -> node3587 [ color="black"]
-  node3587 -> node3588 [ color="black"]
-  node3588 -> node3589 [ color="black"]
-  node3589 -> node3586 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

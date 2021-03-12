@@ -1,21 +1,22 @@
 digraph {
-  node18050 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">5:app __x0__ = (Call promiseCapability.Reject undefined (new [exception]))</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:[! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">app generator = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">6:app __x1__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">app exception = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:[! __x1__]</td></tr>
       <tr><td align="left">7:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18043 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18047 [shape=cds, label=<<font color="black">5:app __x0__ = (Call promiseCapability.Reject undefined (new [exception]))</font>> color="black" fillcolor="white" style=filled]
-  node18044 [shape=cds, label=<<font color="black">app generator = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node18049 [shape=cds, label=<<font color="black">6:app __x1__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
-  node18048 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:[! __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18045 [shape=cds, label=<<font color="black">app exception = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node18046 [shape=none, margin=0, label=<<font color="black">
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let queue = generator.AsyncGeneratorQueue</td></tr>
       <tr><td align="left">2:assert (&lt; 0i queue.length)</td></tr>
@@ -23,13 +24,12 @@ digraph {
       <tr><td align="left">4:let promiseCapability = next.Capability</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18042 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18050 -> node18043 [ color="black"]
-  node18042 -> node18044 [ color="black"]
-  node18047 -> node18048 [ color="black"]
-  node18049 -> node18050 [ color="black"]
-  node18046 -> node18047 [ color="black"]
-  node18044 -> node18045 [ color="black"]
-  node18045 -> node18046 [ color="black"]
-  node18048 -> node18049 [ color="black"]
+  node7 -> node8 [ color="black"]
+  node8 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

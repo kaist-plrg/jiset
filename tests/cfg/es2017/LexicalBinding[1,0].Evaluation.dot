@@ -1,30 +1,30 @@
 digraph {
-  node5683 [shape=cds, label=<<font color="black">3:access __x2__ = (BindingPattern &quot;BindingInitialization&quot; value env)</font>> color="black" fillcolor="white" style=filled]
-  node5679 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node5678 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5684 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5677 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5681 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
-  node5682 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let value = [? __x1__]</td></tr>
       <tr><td align="left">2:let env = GLOBAL_context.LexicalEnvironment</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5680 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">3:access __x2__ = (BindingPattern &quot;BindingInitialization&quot; value env)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (Initializer &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let rhs = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5681 -> node5682 [ color="black"]
-  node5677 -> node5679 [ color="black"]
-  node5679 -> node5680 [ color="black"]
-  node5683 -> node5684 [ color="black"]
-  node5684 -> node5678 [ color="black"]
-  node5682 -> node5683 [ color="black"]
-  node5680 -> node5681 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue rhs)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

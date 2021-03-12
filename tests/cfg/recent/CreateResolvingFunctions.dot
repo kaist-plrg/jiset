@@ -1,13 +1,8 @@
 digraph {
-  node18571 [shape=cds, label=<<font color="black">6:app __x1__ = (CreateBuiltinFunction stepsReject (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node18569 [shape=cds, label=<<font color="black">2:app __x0__ = (CreateBuiltinFunction stepsResolve (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node18568 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let alreadyResolved = (new Record(&quot;Value&quot; -&gt; false))</td></tr>
-      <tr><td align="left">1:let stepsResolve = PromiseResolveFunctions</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18572 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">6:app __x1__ = (CreateBuiltinFunction stepsReject (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let reject = [! __x1__]</td></tr>
       <tr><td align="left">7:reject.Promise = promise</td></tr>
@@ -15,7 +10,14 @@ digraph {
       <tr><td align="left">9:return (new Record(&quot;Resolve&quot; -&gt; resolve, &quot;Reject&quot; -&gt; reject))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18570 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let alreadyResolved = (new Record(&quot;Value&quot; -&gt; false))</td></tr>
+      <tr><td align="left">1:let stepsResolve = PromiseResolveFunctions</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">2:app __x0__ = (CreateBuiltinFunction stepsResolve (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let resolve = [! __x0__]</td></tr>
       <tr><td align="left">3:resolve.Promise = promise</td></tr>
@@ -23,12 +25,10 @@ digraph {
       <tr><td align="left">5:let stepsReject = PromiseRejectFunctions</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18567 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18566 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18568 -> node18569 [ color="black"]
-  node18572 -> node18567 [ color="black"]
-  node18566 -> node18568 [ color="black"]
-  node18570 -> node18571 [ color="black"]
-  node18571 -> node18572 [ color="black"]
-  node18569 -> node18570 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

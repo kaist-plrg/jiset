@@ -1,25 +1,25 @@
 digraph {
-  node18069 [shape=cds, label=<<font color="black">2:app __x0__ = (AtomicReadModifyWrite typedArray index value or)</font>> color="black" fillcolor="white" style=filled]
-  node18065 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node18063 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18068 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:??? &quot;Let id:{or} be a new read - modify - write modification function with parameters ( id:{xBytes} , id:{yBytes} ) that captures nothing and performs the following steps atomically when called : in:{} out:{}&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18064 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18067 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
-  node18066 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node18070 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x0__ = (AtomicReadModifyWrite typedArray index value or)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18068 -> node18069 [ color="black"]
-  node18070 -> node18064 [ color="black"]
-  node18069 -> node18070 [ color="black"]
-  node18067 -> node18068 [ color="black"]
-  node18063 -> node18065 [ color="black"]
-  node18066 -> node18067 [ color="black"]
-  node18065 -> node18066 [ color="black"]
+  node3 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

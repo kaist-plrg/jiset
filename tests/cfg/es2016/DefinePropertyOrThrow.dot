@@ -1,44 +1,44 @@
 digraph {
-  node715 [shape=cds, label=<<font color="black">1:app __x1__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
-  node719 [shape=diamond, label=<<font color="black">(= success false)</font>> color="black" fillcolor="white" style=filled]
-  node714 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node721 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:return success</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node718 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let success = [? __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node711 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node713 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
-  node712 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node717 [shape=cds, label=<<font color="black">2:app __x2__ = (O.DefineOwnProperty O P desc)</font>> color="black" fillcolor="white" style=filled]
-  node716 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= __x1__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node720 [shape=none, margin=0, label=<<font color="black">
+  node10 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return success</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x2__ = (O.DefineOwnProperty O P desc)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node716 -> node717 [ color="black"]
-  node711 -> node713 [ color="black"]
-  node713 -> node714 [ color="black"]
-  node714 -> node715 [ color="black"]
-  node715 -> node716 [ color="black"]
-  node719 -> node720 [label=<<font color="black">true</font>> color="black"]
-  node719 -> node721 [label=<<font color="black">false</font>> color="black"]
-  node720 -> node721 [ color="black"]
-  node718 -> node719 [ color="black"]
-  node717 -> node718 [ color="black"]
-  node721 -> node712 [ color="black"]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let success = [? __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=diamond, label=<<font color="black">(= success false)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node8 -> node9 [label=<<font color="black">true</font>> color="black"]
+  node8 -> node10 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

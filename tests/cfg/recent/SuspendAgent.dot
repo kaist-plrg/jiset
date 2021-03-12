@@ -1,24 +1,24 @@
 digraph {
-  node17929 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:__x1__</td></tr>
       <tr><td align="left">6:??? &quot;If id:{W} was notified explicitly by another agent calling NotifyWaiter ( id:{WL} , id:{W} ) , return value:{true} .&quot;</td></tr>
       <tr><td align="left">7:return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17928 [shape=cds, label=<<font color="black">5:app __x1__ = (EnterCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
-  node17926 [shape=cds, label=<<font color="black">3:app __x0__ = (AgentCanSuspend)</font>> color="black" fillcolor="white" style=filled]
-  node17927 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">3:app __x0__ = (AgentCanSuspend)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:assert (= __x0__ true)</td></tr>
       <tr><td align="left">4:??? &quot;Perform LeaveCriticalSection ( id:{WL} ) and suspend id:{W} for up to id:{timeout} milliseconds , performing the combined operation in such a way that a notification that arrives after the critical section is exited but before the suspension takes effect is not lost . id:{W} can notify either because the timeout expired or because it was notified explicitly by another agent calling NotifyWaiter ( id:{WL} , id:{W} ) , and not for any other reasons at all .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17924 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17925 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17924 -> node17926 [ color="black"]
-  node17928 -> node17929 [ color="black"]
-  node17927 -> node17928 [ color="black"]
-  node17929 -> node17925 [ color="black"]
-  node17926 -> node17927 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">5:app __x1__ = (EnterCriticalSection WL)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }

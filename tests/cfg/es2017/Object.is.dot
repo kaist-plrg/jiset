@@ -1,17 +1,17 @@
 digraph {
-  node10765 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10770 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:return __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10766 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10769 [shape=cds, label=<<font color="black">0:app __x0__ = (SameValue value1 value2)</font>> color="black" fillcolor="white" style=filled]
-  node10767 [shape=cds, label=<<font color="black">app value1 = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node10768 [shape=cds, label=<<font color="black">app value2 = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node10767 -> node10768 [ color="black"]
-  node10765 -> node10767 [ color="black"]
-  node10768 -> node10769 [ color="black"]
-  node10769 -> node10770 [ color="black"]
-  node10770 -> node10766 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">app value1 = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">app value2 = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">0:app __x0__ = (SameValue value1 value2)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }

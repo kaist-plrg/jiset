@@ -1,28 +1,28 @@
 digraph {
-  node1623 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1628 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:envRec.ThisValue = V</td></tr>
       <tr><td align="left">3:envRec.ThisBindingStatus = CONST_initialized</td></tr>
       <tr><td align="left">4:return V</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1624 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1627 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw ReferenceError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1626 [shape=diamond, label=<<font color="black">(= envRec.ThisBindingStatus CONST_initialized)</font>> color="black" fillcolor="white" style=filled]
-  node1625 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (! (= envRec.ThisBindingStatus CONST_lexical))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1628 -> node1624 [ color="black"]
-  node1626 -> node1627 [label=<<font color="black">true</font>> color="black"]
-  node1626 -> node1628 [label=<<font color="black">false</font>> color="black"]
-  node1625 -> node1626 [ color="black"]
-  node1623 -> node1625 [ color="black"]
-  node1627 -> node1628 [ color="black"]
+  node3 [shape=diamond, label=<<font color="black">(= envRec.ThisBindingStatus CONST_initialized)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw ReferenceError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
 }

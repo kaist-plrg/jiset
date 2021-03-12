@@ -1,147 +1,147 @@
 digraph {
-  node16027 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16039 [shape=cds, label=<<font color="black">9:app __x4__ = (Get source P)</font>> color="black" fillcolor="white" style=filled]
-  node16035 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:let P = [! __x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16028 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16044 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">12:let shouldFlatten = false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16059 [shape=cds, label=<<font color="black">22:app __x10__ = (CreateDataPropertyOrThrow target [! __x9__] element)</font>> color="black" fillcolor="white" style=filled]
-  node16040 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:let element = [? __x4__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16036 [shape=cds, label=<<font color="black">7:app __x3__ = (HasProperty source P)</font>> color="black" fillcolor="white" style=filled]
-  node16048 [shape=diamond, label=<<font color="black">(= shouldFlatten true)</font>> color="black" fillcolor="white" style=filled]
-  node16043 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">11:element = [? __x5__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16037 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:let exists = [? __x3__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16056 [shape=diamond, label=<<font color="black">(! (&lt; targetIndex (- (** 2.0 53i) 1i)))</font>> color="black" fillcolor="white" style=filled]
-  node16032 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= __x1__ Object)</td></tr>
       <tr><td align="left">3:let targetIndex = start</td></tr>
       <tr><td align="left">4:let sourceIndex = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16047 [shape=none, margin=0, label=<<font color="black">
+  node10 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:let exists = [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14 [shape=diamond, label=<<font color="black">(! (= mapperFunction absent))</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=diamond, label=<<font color="black">(&lt; sourceIndex sourceLen)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=cds, label=<<font color="black">7:app __x3__ = (HasProperty source P)</font>> color="black" fillcolor="white" style=filled]
+  node13 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let element = [? __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node12 [shape=cds, label=<<font color="black">9:app __x4__ = (Get source P)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">6:app __x2__ = (ToString sourceIndex)</font>> color="black" fillcolor="white" style=filled]
+  node18 [shape=diamond, label=<<font color="black">(&lt; 0i depth)</font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=diamond, label=<<font color="black">(= exists true)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let P = [! __x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (Type source)</font>> color="black" fillcolor="white" style=filled]
+  node15 [shape=cds, label=<<font color="black">11:app __x5__ = (Call mapperFunction thisArg (new [element, sourceIndex, source]))</font>> color="black" fillcolor="white" style=filled]
+  node24 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let newDepth = (- depth 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node25 [shape=cds, label=<<font color="black">18:app __x7__ = (LengthOfArrayLike element)</font>> color="black" fillcolor="white" style=filled]
+  node20 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">14:shouldFlatten = [? __x6__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16034 [shape=cds, label=<<font color="black">6:app __x2__ = (ToString sourceIndex)</font>> color="black" fillcolor="white" style=filled]
-  node16053 [shape=none, margin=0, label=<<font color="black">
+  node29 [shape=diamond, label=<<font color="black">(! (&lt; targetIndex (- (** 2.0 53i) 1i)))</font>> color="black" fillcolor="white" style=filled]
+  node28 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">18:let elementLen = [? __x7__]</td></tr>
+      <tr><td align="left">19:targetIndex = [? __x8__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16038 [shape=diamond, label=<<font color="black">(= exists true)</font>> color="black" fillcolor="white" style=filled]
-  node16041 [shape=diamond, label=<<font color="black">(! (= mapperFunction absent))</font>> color="black" fillcolor="white" style=filled]
-  node16061 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">24:sourceIndex = (+ sourceIndex 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16046 [shape=cds, label=<<font color="black">14:app __x6__ = (IsArray element)</font>> color="black" fillcolor="white" style=filled]
-  node16054 [shape=cds, label=<<font color="black">19:app __x8__ = (FlattenIntoArray target element elementLen targetIndex newDepth)</font>> color="black" fillcolor="white" style=filled]
-  node16060 [shape=none, margin=0, label=<<font color="black">
+  node21 [shape=diamond, label=<<font color="black">(= shouldFlatten true)</font>> color="black" fillcolor="white" style=filled]
+  node33 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">22:[? __x10__]</td></tr>
       <tr><td align="left">23:targetIndex = (+ targetIndex 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16050 [shape=none, margin=0, label=<<font color="black">
+  node17 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let newDepth = Infinity</td></tr>
+      <tr><td align="left">12:let shouldFlatten = false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16045 [shape=diamond, label=<<font color="black">(&lt; 0i depth)</font>> color="black" fillcolor="white" style=filled]
-  node16031 [shape=cds, label=<<font color="black">1:app __x1__ = (Type source)</font>> color="black" fillcolor="white" style=filled]
-  node16055 [shape=none, margin=0, label=<<font color="black">
+  node32 [shape=cds, label=<<font color="black">22:app __x10__ = (CreateDataPropertyOrThrow target [! __x9__] element)</font>> color="black" fillcolor="white" style=filled]
+  node34 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">19:targetIndex = [? __x8__]</td></tr>
+      <tr><td align="left">24:sourceIndex = (+ sourceIndex 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16051 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let newDepth = (- depth 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16058 [shape=cds, label=<<font color="black">22:app __x9__ = (ToString targetIndex)</font>> color="black" fillcolor="white" style=filled]
-  node16033 [shape=diamond, label=<<font color="black">(&lt; sourceIndex sourceLen)</font>> color="black" fillcolor="white" style=filled]
-  node16030 [shape=none, margin=0, label=<<font color="black">
+  node22 [shape=diamond, label=<<font color="black">(= depth Infinity)</font>> color="black" fillcolor="white" style=filled]
+  node27 [shape=cds, label=<<font color="black">19:app __x8__ = (FlattenIntoArray target element elementLen targetIndex newDepth)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16057 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16062 [shape=none, margin=0, label=<<font color="black">
+  node35 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">25:return targetIndex</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16052 [shape=cds, label=<<font color="black">18:app __x7__ = (LengthOfArrayLike element)</font>> color="black" fillcolor="white" style=filled]
-  node16042 [shape=cds, label=<<font color="black">11:app __x5__ = (Call mapperFunction thisArg (new [element, sourceIndex, source]))</font>> color="black" fillcolor="white" style=filled]
-  node16049 [shape=diamond, label=<<font color="black">(= depth Infinity)</font>> color="black" fillcolor="white" style=filled]
-  node16029 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
-  node16042 -> node16043 [ color="black"]
-  node16027 -> node16029 [ color="black"]
-  node16048 -> node16049 [label=<<font color="black">true</font>> color="black"]
-  node16048 -> node16056 [label=<<font color="black">false</font>> color="black"]
-  node16052 -> node16053 [ color="black"]
-  node16059 -> node16060 [ color="black"]
-  node16045 -> node16046 [label=<<font color="black">true</font>> color="black"]
-  node16045 -> node16048 [label=<<font color="black">false</font>> color="black"]
-  node16056 -> node16057 [label=<<font color="black">true</font>> color="black"]
-  node16056 -> node16058 [label=<<font color="black">false</font>> color="black"]
-  node16053 -> node16054 [ color="black"]
-  node16034 -> node16035 [ color="black"]
-  node16057 -> node16058 [ color="black"]
-  node16060 -> node16061 [ color="black"]
-  node16054 -> node16055 [ color="black"]
-  node16040 -> node16041 [ color="black"]
-  node16062 -> node16028 [ color="black"]
-  node16031 -> node16032 [ color="black"]
-  node16043 -> node16044 [ color="black"]
-  node16051 -> node16052 [ color="black"]
-  node16033 -> node16034 [label=<<font color="black">true</font>> color="black"]
-  node16033 -> node16062 [label=<<font color="black">false</font>> color="black"]
-  node16029 -> node16030 [ color="black"]
-  node16044 -> node16045 [ color="black"]
-  node16037 -> node16038 [ color="black"]
-  node16049 -> node16050 [label=<<font color="black">true</font>> color="black"]
-  node16049 -> node16051 [label=<<font color="black">false</font>> color="black"]
-  node16030 -> node16031 [ color="black"]
-  node16032 -> node16033 [ color="black"]
-  node16046 -> node16047 [ color="black"]
-  node16047 -> node16048 [ color="black"]
-  node16036 -> node16037 [ color="black"]
-  node16041 -> node16042 [label=<<font color="black">true</font>> color="black"]
-  node16041 -> node16044 [label=<<font color="black">false</font>> color="black"]
-  node16058 -> node16059 [ color="black"]
-  node16038 -> node16039 [label=<<font color="black">true</font>> color="black"]
-  node16038 -> node16061 [label=<<font color="black">false</font>> color="black"]
-  node16035 -> node16036 [ color="black"]
-  node16061 -> node16033 [ color="black"]
-  node16050 -> node16052 [ color="black"]
-  node16039 -> node16040 [ color="black"]
-  node16055 -> node16061 [ color="black"]
+  node16 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">11:element = [? __x5__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node31 [shape=cds, label=<<font color="black">22:app __x9__ = (ToString targetIndex)</font>> color="black" fillcolor="white" style=filled]
+  node26 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">18:let elementLen = [? __x7__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node23 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let newDepth = Infinity</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node30 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node19 [shape=cds, label=<<font color="black">14:app __x6__ = (IsArray element)</font>> color="black" fillcolor="white" style=filled]
+  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
+  node6 -> node35 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node8 [ color="black"]
+  node22 -> node23 [label=<<font color="black">true</font>> color="black"]
+  node22 -> node24 [label=<<font color="black">false</font>> color="black"]
+  node12 -> node13 [ color="black"]
+  node27 -> node28 [ color="black"]
+  node31 -> node32 [ color="black"]
+  node26 -> node27 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node25 -> node26 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node23 -> node25 [ color="black"]
+  node16 -> node17 [ color="black"]
+  node29 -> node30 [label=<<font color="black">true</font>> color="black"]
+  node29 -> node31 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node15 -> node16 [ color="black"]
+  node19 -> node20 [ color="black"]
+  node13 -> node14 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node11 -> node12 [label=<<font color="black">true</font>> color="black"]
+  node11 -> node34 [label=<<font color="black">false</font>> color="black"]
+  node14 -> node15 [label=<<font color="black">true</font>> color="black"]
+  node14 -> node17 [label=<<font color="black">false</font>> color="black"]
+  node9 -> node10 [ color="black"]
+  node28 -> node34 [ color="black"]
+  node30 -> node31 [ color="black"]
+  node21 -> node22 [label=<<font color="black">true</font>> color="black"]
+  node21 -> node29 [label=<<font color="black">false</font>> color="black"]
+  node10 -> node11 [ color="black"]
+  node35 -> node1 [ color="black"]
+  node20 -> node21 [ color="black"]
+  node24 -> node25 [ color="black"]
+  node18 -> node19 [label=<<font color="black">true</font>> color="black"]
+  node18 -> node21 [label=<<font color="black">false</font>> color="black"]
+  node32 -> node33 [ color="black"]
+  node17 -> node18 [ color="black"]
+  node33 -> node34 [ color="black"]
+  node34 -> node6 [ color="black"]
 }

@@ -1,38 +1,38 @@
 digraph {
-  node5893 [shape=cds, label=<<font color="black">4:app __x3__ = (PutValue lref restObj)</font>> color="black" fillcolor="white" style=filled]
-  node5889 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
-  node5887 [shape=cds, label=<<font color="black">0:access __x0__ = (DestructuringAssignmentTarget &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node5891 [shape=cds, label=<<font color="black">3:app __x2__ = (CopyDataProperties restObj value excludedNames)</font>> color="black" fillcolor="white" style=filled]
-  node5892 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let restObj = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">3:app __x2__ = (CopyDataProperties restObj value excludedNames)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:return __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (DestructuringAssignmentTarget &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:[? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5888 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let lref = __x0__</td></tr>
       <tr><td align="left">1:[? lref]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5894 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:return __x3__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5885 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5890 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let restObj = __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5886 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5887 -> node5888 [ color="black"]
-  node5891 -> node5892 [ color="black"]
-  node5888 -> node5889 [ color="black"]
-  node5890 -> node5891 [ color="black"]
-  node5892 -> node5893 [ color="black"]
-  node5889 -> node5890 [ color="black"]
-  node5893 -> node5894 [ color="black"]
-  node5894 -> node5886 [ color="black"]
-  node5885 -> node5887 [ color="black"]
+  node8 [shape=cds, label=<<font color="black">4:app __x3__ = (PutValue lref restObj)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

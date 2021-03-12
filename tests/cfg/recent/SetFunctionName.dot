@@ -1,77 +1,77 @@
 digraph {
-  node2388 [shape=diamond, label=<<font color="black">(= description undefined)</font>> color="black" fillcolor="white" style=filled]
-  node2392 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">F.InitialName = name</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2382 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2396 [shape=diamond, label=<<font color="black">randBool</font>> color="black" fillcolor="white" style=filled]
-  node2387 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(= __x1__ Symbol)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=diamond, label=<<font color="black">(! (= F.InitialName absent))</font>> color="black" fillcolor="white" style=filled]
+  node14 [shape=diamond, label=<<font color="black">(! (= F.InitialName absent))</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:let description = name.Description</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2391 [shape=diamond, label=<<font color="black">(! (= F.InitialName absent))</font>> color="black" fillcolor="white" style=filled]
-  node2383 [shape=cds, label=<<font color="black">1:app __x0__ = (Type name)</font>> color="black" fillcolor="white" style=filled]
-  node2390 [shape=none, margin=0, label=<<font color="black">
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">name = (+ (+ &quot;[&quot; description) &quot;]&quot;)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2385 [shape=cds, label=<<font color="black">3:app __x1__ = (Type name)</font>> color="black" fillcolor="white" style=filled]
-  node2381 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2395 [shape=diamond, label=<<font color="black">(! (= F.InitialName absent))</font>> color="black" fillcolor="white" style=filled]
-  node2393 [shape=diamond, label=<<font color="black">(! (= prefix absent))</font>> color="black" fillcolor="white" style=filled]
-  node2398 [shape=cds, label=<<font color="black">13:app __x2__ = (DefinePropertyOrThrow F &quot;name&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; name, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
-  node2397 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">F.InitialName = name</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2386 [shape=diamond, label=<<font color="black">(= __x1__ Symbol)</font>> color="black" fillcolor="white" style=filled]
-  node2389 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">name = &quot;&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2394 [shape=none, margin=0, label=<<font color="black">
+  node13 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">10:name = (+ (+ prefix &quot; &quot;) name)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2384 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=cds, label=<<font color="black">1:app __x0__ = (Type name)</font>> color="black" fillcolor="white" style=filled]
+  node17 [shape=cds, label=<<font color="black">13:app __x2__ = (DefinePropertyOrThrow F &quot;name&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; name, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node12 [shape=diamond, label=<<font color="black">(! (= prefix absent))</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=diamond, label=<<font color="black">(= description undefined)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (|| (= __x0__ Symbol) (= __x0__ String))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2399 [shape=none, margin=0, label=<<font color="black">
+  node18 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">13:return [! __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2399 -> node2382 [ color="black"]
-  node2386 -> node2387 [label=<<font color="black">true</font>> color="black"]
-  node2386 -> node2391 [label=<<font color="black">false</font>> color="black"]
-  node2387 -> node2388 [ color="black"]
-  node2398 -> node2399 [ color="black"]
-  node2392 -> node2393 [ color="black"]
-  node2384 -> node2385 [ color="black"]
-  node2396 -> node2397 [label=<<font color="black">true</font>> color="black"]
-  node2396 -> node2398 [label=<<font color="black">false</font>> color="black"]
-  node2394 -> node2395 [ color="black"]
-  node2390 -> node2391 [ color="black"]
-  node2393 -> node2394 [label=<<font color="black">true</font>> color="black"]
-  node2393 -> node2398 [label=<<font color="black">false</font>> color="black"]
-  node2388 -> node2389 [label=<<font color="black">true</font>> color="black"]
-  node2388 -> node2390 [label=<<font color="black">false</font>> color="black"]
-  node2397 -> node2398 [ color="black"]
-  node2391 -> node2392 [label=<<font color="black">true</font>> color="black"]
-  node2391 -> node2393 [label=<<font color="black">false</font>> color="black"]
-  node2383 -> node2384 [ color="black"]
-  node2385 -> node2386 [ color="black"]
-  node2389 -> node2391 [ color="black"]
-  node2381 -> node2383 [ color="black"]
-  node2395 -> node2396 [label=<<font color="black">true</font>> color="black"]
-  node2395 -> node2398 [label=<<font color="black">false</font>> color="black"]
+  node16 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">F.InitialName = name</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">F.InitialName = name</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">name = &quot;&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">3:app __x1__ = (Type name)</font>> color="black" fillcolor="white" style=filled]
+  node15 [shape=diamond, label=<<font color="black">randBool</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node10 -> node11 [label=<<font color="black">true</font>> color="black"]
+  node10 -> node12 [label=<<font color="black">false</font>> color="black"]
+  node2 -> node3 [ color="black"]
+  node11 -> node12 [ color="black"]
+  node7 -> node8 [label=<<font color="black">true</font>> color="black"]
+  node7 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node13 -> node14 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node8 -> node10 [ color="black"]
+  node12 -> node13 [label=<<font color="black">true</font>> color="black"]
+  node12 -> node17 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node10 [label=<<font color="black">false</font>> color="black"]
+  node4 -> node5 [ color="black"]
+  node16 -> node17 [ color="black"]
+  node15 -> node16 [label=<<font color="black">true</font>> color="black"]
+  node15 -> node17 [label=<<font color="black">false</font>> color="black"]
+  node14 -> node15 [label=<<font color="black">true</font>> color="black"]
+  node14 -> node17 [label=<<font color="black">false</font>> color="black"]
+  node9 -> node10 [ color="black"]
+  node18 -> node1 [ color="black"]
+  node17 -> node18 [ color="black"]
 }

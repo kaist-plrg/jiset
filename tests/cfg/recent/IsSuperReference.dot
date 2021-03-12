@@ -1,26 +1,26 @@
 digraph {
-  node297 [shape=diamond, label=<<font color="black">(! (= V.ThisValue CONST_empty))</font>> color="black" fillcolor="white" style=filled]
-  node299 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node295 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node294 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node298 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node296 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= (typeof V) &quot;ReferenceRecord&quot;)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node297 -> node298 [label=<<font color="black">true</font>> color="black"]
-  node297 -> node299 [label=<<font color="black">false</font>> color="black"]
-  node296 -> node297 [ color="black"]
-  node294 -> node296 [ color="black"]
-  node298 -> node295 [ color="black"]
-  node299 -> node295 [ color="black"]
+  node3 [shape=diamond, label=<<font color="black">(! (= V.ThisValue CONST_empty))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node5 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
 }

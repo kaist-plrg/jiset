@@ -1,27 +1,27 @@
 digraph {
-  node2356 [shape=cds, label=<<font color="black">3:app __x1__ = (DefinePropertyOrThrow F &quot;arguments&quot; (new PropertyDescriptor(&quot;Get&quot; -&gt; thrower, &quot;Set&quot; -&gt; thrower, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
-  node2355 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:[! __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2354 [shape=cds, label=<<font color="black">2:app __x0__ = (DefinePropertyOrThrow F &quot;caller&quot; (new PropertyDescriptor(&quot;Get&quot; -&gt; thrower, &quot;Set&quot; -&gt; thrower, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
-  node2357 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">3:app __x1__ = (DefinePropertyOrThrow F &quot;arguments&quot; (new PropertyDescriptor(&quot;Get&quot; -&gt; thrower, &quot;Set&quot; -&gt; thrower, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:return [! __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2352 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2353 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let thrower = realm.Intrinsics.INTRINSIC_ThrowTypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2351 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2351 -> node2353 [ color="black"]
-  node2357 -> node2352 [ color="black"]
-  node2355 -> node2356 [ color="black"]
-  node2356 -> node2357 [ color="black"]
-  node2354 -> node2355 [ color="black"]
-  node2353 -> node2354 [ color="black"]
+  node3 [shape=cds, label=<<font color="black">2:app __x0__ = (DefinePropertyOrThrow F &quot;caller&quot; (new PropertyDescriptor(&quot;Get&quot; -&gt; thrower, &quot;Set&quot; -&gt; thrower, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; true)))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:[! __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

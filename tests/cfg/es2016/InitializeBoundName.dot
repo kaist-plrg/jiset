@@ -1,47 +1,47 @@
 digraph {
-  node3098 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3103 [shape=cds, label=<<font color="black">6:app __x2__ = (ResolveBinding name)</font>> color="black" fillcolor="white" style=filled]
-  node3099 [shape=diamond, label=<<font color="black">(! (= environment undefined))</font>> color="black" fillcolor="white" style=filled]
-  node3097 [shape=cds, label=<<font color="black">0:app __x0__ = (Type name)</font>> color="black" fillcolor="white" style=filled]
-  node3095 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3104 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:let lhs = __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3100 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let env = environment.EnvironmentRecord</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3096 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3105 [shape=cds, label=<<font color="black">7:app __x3__ = (PutValue lhs value)</font>> color="black" fillcolor="white" style=filled]
-  node3102 [shape=none, margin=0, label=<<font color="black">
+  node10 [shape=cds, label=<<font color="black">7:app __x3__ = (PutValue lhs value)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">3:app __x1__ = (env.InitializeBinding env name value)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let lhs = __x2__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (Type name)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:__x1__</td></tr>
       <tr><td align="left">4:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3101 [shape=cds, label=<<font color="black">3:app __x1__ = (env.InitializeBinding env name value)</font>> color="black" fillcolor="white" style=filled]
-  node3106 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:return [? __x3__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3105 -> node3106 [ color="black"]
-  node3100 -> node3101 [ color="black"]
-  node3098 -> node3099 [ color="black"]
-  node3101 -> node3102 [ color="black"]
-  node3106 -> node3096 [ color="black"]
-  node3095 -> node3097 [ color="black"]
-  node3103 -> node3104 [ color="black"]
-  node3097 -> node3098 [ color="black"]
-  node3104 -> node3105 [ color="black"]
-  node3099 -> node3100 [label=<<font color="black">true</font>> color="black"]
-  node3099 -> node3103 [label=<<font color="black">false</font>> color="black"]
-  node3102 -> node3096 [ color="black"]
+  node8 [shape=cds, label=<<font color="black">6:app __x2__ = (ResolveBinding name)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(! (= environment undefined))</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node11 -> node1 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node8 [label=<<font color="black">false</font>> color="black"]
+  node10 -> node11 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

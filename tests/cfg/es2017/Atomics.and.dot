@@ -1,19 +1,19 @@
 digraph {
-  node15889 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15893 [shape=cds, label=<<font color="black">0:app __x0__ = (AtomicReadModifyWrite typedArray index value ??? &quot;and&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node15892 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
-  node15891 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node15888 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15890 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node15894 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">0:app __x0__ = (AtomicReadModifyWrite typedArray index value ??? &quot;and&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:return [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15892 -> node15893 [ color="black"]
-  node15894 -> node15889 [ color="black"]
-  node15891 -> node15892 [ color="black"]
-  node15893 -> node15894 [ color="black"]
-  node15890 -> node15891 [ color="black"]
-  node15888 -> node15890 [ color="black"]
+  node2 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

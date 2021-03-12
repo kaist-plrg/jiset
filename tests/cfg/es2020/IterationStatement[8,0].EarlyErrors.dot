@@ -1,22 +1,22 @@
 digraph {
-  node19236 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19233 [shape=cds, label=<<font color="black">0:app __x0__ = (IsLabelledFunction Statement)</font>> color="black" fillcolor="white" style=filled]
-  node19231 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19235 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (IsLabelledFunction Statement)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=diamond, label=<<font color="black">(= __x0__ true)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw SyntaxError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19234 [shape=diamond, label=<<font color="black">(= __x0__ true)</font>> color="black" fillcolor="white" style=filled]
-  node19232 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19236 -> node19232 [ color="black"]
-  node19234 -> node19235 [label=<<font color="black">true</font>> color="black"]
-  node19234 -> node19236 [label=<<font color="black">false</font>> color="black"]
-  node19231 -> node19233 [ color="black"]
-  node19235 -> node19232 [ color="black"]
-  node19233 -> node19234 [ color="black"]
+  node4 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node5 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
 }

@@ -1,5 +1,7 @@
 digraph {
-  node16982 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
       <tr><td align="left">2:let constructorName = O.TypedArrayName</td></tr>
@@ -7,8 +9,8 @@ digraph {
       <tr><td align="left">4:let byteLength = (* elementSize length)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16981 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16984 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">5:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:let data = [? __x0__]</td></tr>
       <tr><td align="left">6:O.ViewedArrayBuffer = data</td></tr>
@@ -18,10 +20,8 @@ digraph {
       <tr><td align="left">10:return O</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16980 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16983 [shape=cds, label=<<font color="black">5:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node16980 -> node16982 [ color="black"]
-  node16982 -> node16983 [ color="black"]
-  node16983 -> node16984 [ color="black"]
-  node16984 -> node16981 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

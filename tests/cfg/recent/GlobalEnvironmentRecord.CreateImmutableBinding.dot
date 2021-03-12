@@ -1,30 +1,30 @@
 digraph {
-  node1677 [shape=diamond, label=<<font color="black">(= __x0__ true)</font>> color="black" fillcolor="white" style=filled]
-  node1676 [shape=cds, label=<<font color="black">1:app __x0__ = (DclRec.HasBinding DclRec N)</font>> color="black" fillcolor="white" style=filled]
-  node1680 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1675 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let DclRec = envRec.DeclarativeRecord</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1679 [shape=cds, label=<<font color="black">2:app __x1__ = (DclRec.CreateImmutableBinding DclRec N S)</font>> color="black" fillcolor="white" style=filled]
-  node1674 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1678 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1673 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1676 -> node1677 [ color="black"]
-  node1677 -> node1678 [label=<<font color="black">true</font>> color="black"]
-  node1677 -> node1679 [label=<<font color="black">false</font>> color="black"]
-  node1679 -> node1680 [ color="black"]
-  node1673 -> node1675 [ color="black"]
-  node1678 -> node1679 [ color="black"]
-  node1680 -> node1674 [ color="black"]
-  node1675 -> node1676 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x1__ = (DclRec.CreateImmutableBinding DclRec N S)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let DclRec = envRec.DeclarativeRecord</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (DclRec.HasBinding DclRec N)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(= __x0__ true)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

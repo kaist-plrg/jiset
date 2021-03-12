@@ -1,20 +1,20 @@
 digraph {
-  node19887 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19883 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19886 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=diamond, label=<<font color="black">(|| (is-instance-of DestructuringAssignmentTarget ArrayLiteral) (is-instance-of DestructuringAssignmentTarget ObjectLiteral))</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw SyntaxError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19885 [shape=diamond, label=<<font color="black">(|| (is-instance-of DestructuringAssignmentTarget ArrayLiteral) (is-instance-of DestructuringAssignmentTarget ObjectLiteral))</font>> color="black" fillcolor="white" style=filled]
-  node19884 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19883 -> node19885 [ color="black"]
-  node19885 -> node19886 [label=<<font color="black">true</font>> color="black"]
-  node19885 -> node19887 [label=<<font color="black">false</font>> color="black"]
-  node19886 -> node19884 [ color="black"]
-  node19887 -> node19884 [ color="black"]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node4 [label=<<font color="black">false</font>> color="black"]
+  node3 -> node1 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

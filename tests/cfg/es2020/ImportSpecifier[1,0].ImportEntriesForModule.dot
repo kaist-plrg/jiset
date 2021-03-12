@@ -1,23 +1,23 @@
 digraph {
-  node11331 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let localName = __x1__</td></tr>
       <tr><td align="left">2:let entry = (new ImportEntryRecord(&quot;ModuleRequest&quot; -&gt; module, &quot;ImportName&quot; -&gt; importName, &quot;LocalName&quot; -&gt; localName))</td></tr>
       <tr><td align="left">3:return (new [entry])</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11328 [shape=cds, label=<<font color="black">0:access __x0__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node11326 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11330 [shape=cds, label=<<font color="black">1:access __x1__ = (ImportedBinding &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node11329 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let importName = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11327 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11328 -> node11329 [ color="black"]
-  node11326 -> node11328 [ color="black"]
-  node11330 -> node11331 [ color="black"]
-  node11329 -> node11330 [ color="black"]
-  node11331 -> node11327 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">1:access __x1__ = (ImportedBinding &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }

@@ -1,22 +1,22 @@
 digraph {
-  node1576 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1577 [shape=cds, label=<<font color="black">0:app __x0__ = (O.GetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
-  node1580 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1579 [shape=cds, label=<<font color="black">2:app __x1__ = (ValidateAndApplyPropertyDescriptor O P extensible Desc current)</font>> color="black" fillcolor="white" style=filled]
-  node1575 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1578 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (O.GetOwnProperty O P)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let current = [? __x0__]</td></tr>
       <tr><td align="left">1:let extensible = O.Extensible</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1580 -> node1576 [ color="black"]
-  node1579 -> node1580 [ color="black"]
-  node1575 -> node1577 [ color="black"]
-  node1578 -> node1579 [ color="black"]
-  node1577 -> node1578 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">2:app __x1__ = (ValidateAndApplyPropertyDescriptor O P extensible Desc current)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }

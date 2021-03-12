@@ -1,23 +1,23 @@
 digraph {
-  node7008 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let keyResult = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node7004 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node7005 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node7010 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">1:app __x2__ = (ForInOfBodyEvaluation ForDeclaration Statement keyResult CONST_iterate CONST_lexicalBinding labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:return [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7006 [shape=cds, label=<<font color="black">0:access __x0__ = (ForDeclaration &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node7009 [shape=cds, label=<<font color="black">1:app __x2__ = (ForInOfBodyEvaluation ForDeclaration Statement keyResult CONST_iterate CONST_lexicalBinding labelSet)</font>> color="black" fillcolor="white" style=filled]
-  node7007 [shape=cds, label=<<font color="black">0:app __x1__ = (ForInOfHeadEvaluation __x0__ AssignmentExpression CONST_iterate)</font>> color="black" fillcolor="white" style=filled]
-  node7006 -> node7007 [ color="black"]
-  node7009 -> node7010 [ color="black"]
-  node7010 -> node7005 [ color="black"]
-  node7004 -> node7006 [ color="black"]
-  node7008 -> node7009 [ color="black"]
-  node7007 -> node7008 [ color="black"]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (ForDeclaration &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">0:app __x1__ = (ForInOfHeadEvaluation __x0__ AssignmentExpression CONST_iterate)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let keyResult = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

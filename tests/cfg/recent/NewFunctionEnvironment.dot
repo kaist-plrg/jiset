@@ -1,38 +1,38 @@
 digraph {
-  node1847 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">env.ThisBindingStatus = CONST_uninitialized</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1843 [shape=cds, label=<<font color="black">1:app __x0__ = (Type newTarget)</font>> color="black" fillcolor="white" style=filled]
-  node1842 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1846 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">env.ThisBindingStatus = CONST_lexical</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1841 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1845 [shape=diamond, label=<<font color="black">(= F.ThisMode CONST_lexical)</font>> color="black" fillcolor="white" style=filled]
-  node1844 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:assert (|| (= __x0__ Undefined) (= __x0__ Object))</td></tr>
-      <tr><td align="left">2:let env = (new FunctionEnvironmentRecord(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
-      <tr><td align="left">3:env.FunctionObject = F</td></tr>
+      <tr><td align="left">env.ThisBindingStatus = CONST_uninitialized</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1848 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=cds, label=<<font color="black">1:app __x0__ = (Type newTarget)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:env.NewTarget = newTarget</td></tr>
       <tr><td align="left">7:env.OuterEnv = F.Environment</td></tr>
       <tr><td align="left">8:return env</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1844 -> node1845 [ color="black"]
-  node1845 -> node1846 [label=<<font color="black">true</font>> color="black"]
-  node1845 -> node1847 [label=<<font color="black">false</font>> color="black"]
-  node1841 -> node1843 [ color="black"]
-  node1848 -> node1842 [ color="black"]
-  node1843 -> node1844 [ color="black"]
-  node1846 -> node1848 [ color="black"]
-  node1847 -> node1848 [ color="black"]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (|| (= __x0__ Undefined) (= __x0__ Object))</td></tr>
+      <tr><td align="left">2:let env = (new FunctionEnvironmentRecord(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
+      <tr><td align="left">3:env.FunctionObject = F</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(= F.ThisMode CONST_lexical)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node7 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

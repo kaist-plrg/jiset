@@ -1,11 +1,14 @@
 digraph {
-  node19299 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">7:app __x2__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:[! __x1__]</td></tr>
+      <tr><td align="left">7:[! __x2__]</td></tr>
+      <tr><td align="left">8:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19300 [shape=cds, label=<<font color="black">7:app __x2__ = (AsyncGeneratorResumeNext generator)</font>> color="black" fillcolor="white" style=filled]
-  node19297 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let queue = generator.AsyncGeneratorQueue</td></tr>
       <tr><td align="left">2:assert (&lt; 0i queue.length)</td></tr>
@@ -14,19 +17,16 @@ digraph {
       <tr><td align="left">5:let promiseCapability = next.Capability</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19295 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19298 [shape=cds, label=<<font color="black">6:app __x1__ = (Call promiseCapability.Reject undefined (new [exception]))</font>> color="black" fillcolor="white" style=filled]
-  node19301 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">6:app __x1__ = (Call promiseCapability.Reject undefined (new [exception]))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:[! __x2__]</td></tr>
-      <tr><td align="left">8:return undefined</td></tr>
+      <tr><td align="left">6:[! __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19296 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19295 -> node19297 [ color="black"]
-  node19297 -> node19298 [ color="black"]
-  node19300 -> node19301 [ color="black"]
-  node19299 -> node19300 [ color="black"]
-  node19301 -> node19296 [ color="black"]
-  node19298 -> node19299 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

@@ -1,11 +1,26 @@
 digraph {
-  node17955 [shape=diamond, label=<<font color="black">(= op &quot;&amp;&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node17958 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(= op &quot;&amp;&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let resultByte = (^ xByte yByte)</td></tr>
+      <tr><td align="left">11:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17952 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let resultByte = (&amp; xByte yByte)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:??? &quot;Else , id:{op} is code:{|} . Let id:{resultByte} be the result of applying the bitwise inclusive OR operation to id:{xByte} and id:{yByte} .&quot;</td></tr>
+      <tr><td align="left">9:i = (+ i 1i)</td></tr>
+      <tr><td align="left">10:append resultByte -&gt; result</td></tr>
+      <tr><td align="left">__x1__ = (+ __x1__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (|| (|| (= op &quot;&amp;&quot;) (= op &quot;^&quot;)) (= op &quot;|&quot;))</td></tr>
       <tr><td align="left">2:let result = (new [])</td></tr>
@@ -14,45 +29,30 @@ digraph {
       <tr><td align="left">4:let __x1__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17957 [shape=diamond, label=<<font color="black">(= op &quot;^&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node17953 [shape=diamond, label=<<font color="black">(&lt; __x1__ __x0__.length)</font>> color="black" fillcolor="white" style=filled]
-  node17956 [shape=none, margin=0, label=<<font color="black">
+  node7 [shape=diamond, label=<<font color="black">(= op &quot;^&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=diamond, label=<<font color="black">(&lt; __x1__ __x0__.length)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let resultByte = (&amp; xByte yByte)</td></tr>
+      <tr><td align="left">let resultByte = (^ xByte yByte)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17954 [shape=none, margin=0, label=<<font color="black">
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let xByte = __x0__[__x1__]</td></tr>
       <tr><td align="left">5:let yByte = yBytes[i]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17959 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:??? &quot;Else , id:{op} is code:{|} . Let id:{resultByte} be the result of applying the bitwise inclusive OR operation to id:{xByte} and id:{yByte} .&quot;</td></tr>
-      <tr><td align="left">9:i = (+ i 1i)</td></tr>
-      <tr><td align="left">10:append resultByte -&gt; result</td></tr>
-      <tr><td align="left">__x1__ = (+ __x1__ 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17950 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17960 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">11:return result</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17951 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17953 -> node17954 [label=<<font color="black">true</font>> color="black"]
-  node17953 -> node17960 [label=<<font color="black">false</font>> color="black"]
-  node17960 -> node17951 [ color="black"]
-  node17956 -> node17959 [ color="black"]
-  node17952 -> node17953 [ color="black"]
-  node17954 -> node17955 [ color="black"]
-  node17959 -> node17953 [ color="black"]
-  node17958 -> node17959 [ color="black"]
-  node17950 -> node17952 [ color="black"]
-  node17955 -> node17956 [label=<<font color="black">true</font>> color="black"]
-  node17955 -> node17957 [label=<<font color="black">false</font>> color="black"]
-  node17957 -> node17958 [label=<<font color="black">true</font>> color="black"]
-  node17957 -> node17959 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node8 [label=<<font color="black">true</font>> color="black"]
+  node7 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node10 [label=<<font color="black">false</font>> color="black"]
+  node6 -> node9 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node9 -> node3 [ color="black"]
 }

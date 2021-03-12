@@ -1,21 +1,21 @@
 digraph {
-  node3290 [shape=cds, label=<<font color="black">1:access __x1__ = (expr &quot;IsValidSimpleAssignmentTarget&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3286 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3289 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let expr = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3287 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3288 [shape=cds, label=<<font color="black">0:access __x0__ = (CoverParenthesizedExpressionAndArrowParameterList &quot;CoveredParenthesizedExpression&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3291 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:return __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3288 -> node3289 [ color="black"]
-  node3289 -> node3290 [ color="black"]
-  node3290 -> node3291 [ color="black"]
-  node3291 -> node3287 [ color="black"]
-  node3286 -> node3288 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (CoverParenthesizedExpressionAndArrowParameterList &quot;CoveredParenthesizedExpression&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let expr = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:access __x1__ = (expr &quot;IsValidSimpleAssignmentTarget&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }

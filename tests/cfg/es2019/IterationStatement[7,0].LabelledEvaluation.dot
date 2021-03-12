@@ -1,23 +1,23 @@
 digraph {
-  node6996 [shape=cds, label=<<font color="black">0:app __x1__ = (ForInOfHeadEvaluation __x0__ Expression CONST_enumerate)</font>> color="black" fillcolor="white" style=filled]
-  node6995 [shape=cds, label=<<font color="black">0:access __x0__ = (ForDeclaration &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6999 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">1:app __x2__ = (ForInOfBodyEvaluation ForDeclaration Statement keyResult CONST_enumerate CONST_lexicalBinding labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:return [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6998 [shape=cds, label=<<font color="black">1:app __x2__ = (ForInOfBodyEvaluation ForDeclaration Statement keyResult CONST_enumerate CONST_lexicalBinding labelSet)</font>> color="black" fillcolor="white" style=filled]
-  node6994 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6997 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (ForDeclaration &quot;BoundNames&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">0:app __x1__ = (ForInOfHeadEvaluation __x0__ Expression CONST_enumerate)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let keyResult = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6993 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6998 -> node6999 [ color="black"]
-  node6995 -> node6996 [ color="black"]
-  node6999 -> node6994 [ color="black"]
-  node6993 -> node6995 [ color="black"]
-  node6996 -> node6997 [ color="black"]
-  node6997 -> node6998 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

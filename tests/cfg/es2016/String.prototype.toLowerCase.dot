@@ -1,14 +1,6 @@
 digraph {
-  node12264 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
-  node12265 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let O = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12263 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12266 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
-  node12262 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12267 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let S = [? __x1__]</td></tr>
       <tr><td align="left">2:??? &quot;Let id:{cpList} be a List containing in order the code points as defined in link:{unhandled: sec-ecmascript-language-types-string-type} of id:{S} , starting at the first element of id:{S} .&quot;</td></tr>
@@ -19,9 +11,17 @@ digraph {
       <tr><td align="left">7:return L</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12264 -> node12265 [ color="black"]
-  node12266 -> node12267 [ color="black"]
-  node12267 -> node12263 [ color="black"]
-  node12265 -> node12266 [ color="black"]
-  node12262 -> node12264 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible this)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let O = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (ToString O)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }

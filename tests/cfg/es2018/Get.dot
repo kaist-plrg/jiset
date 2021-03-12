@@ -1,29 +1,29 @@
 digraph {
-  node762 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node766 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= __x1__ true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node761 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node765 [shape=cds, label=<<font color="black">1:app __x1__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
-  node764 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node768 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x2__ = (O.Get O P O)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node763 [shape=cds, label=<<font color="black">0:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
-  node767 [shape=cds, label=<<font color="black">2:app __x2__ = (O.Get O P O)</font>> color="black" fillcolor="white" style=filled]
-  node763 -> node764 [ color="black"]
-  node761 -> node763 [ color="black"]
-  node765 -> node766 [ color="black"]
-  node767 -> node768 [ color="black"]
-  node764 -> node765 [ color="black"]
-  node766 -> node767 [ color="black"]
-  node768 -> node762 [ color="black"]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (IsPropertyKey P)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

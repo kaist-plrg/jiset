@@ -1,20 +1,8 @@
 digraph {
-  node16481 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16480 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16484 [shape=cds, label=<<font color="black">6:app __x1__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node16483 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:assert (= [! __x0__] true)</td></tr>
-      <tr><td align="left">3:let constructorName = O.TypedArrayName</td></tr>
-      <tr><td align="left">4:??? &quot;Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{constructorName} .&quot;</td></tr>
-      <tr><td align="left">5:let byteLength = (* elementSize length)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16485 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">6:app __x1__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let data = [? __x1__]</td></tr>
       <tr><td align="left">7:O.ViewedArrayBuffer = data</td></tr>
@@ -24,12 +12,24 @@ digraph {
       <tr><td align="left">11:return O</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16482 [shape=cds, label=<<font color="black">2:app __x0__ = (IsNonNegativeInteger length)</font>> color="black" fillcolor="white" style=filled]
-  node16479 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16485 -> node16480 [ color="black"]
-  node16481 -> node16482 [ color="black"]
-  node16479 -> node16481 [ color="black"]
-  node16482 -> node16483 [ color="black"]
-  node16483 -> node16484 [ color="black"]
-  node16484 -> node16485 [ color="black"]
+  node2 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">2:app __x0__ = (IsNonNegativeInteger length)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:assert (= [! __x0__] true)</td></tr>
+      <tr><td align="left">3:let constructorName = O.TypedArrayName</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{constructorName} .&quot;</td></tr>
+      <tr><td align="left">5:let byteLength = (* elementSize length)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

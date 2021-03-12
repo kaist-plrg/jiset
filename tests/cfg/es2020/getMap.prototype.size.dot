@@ -1,13 +1,35 @@
 digraph {
-  node16658 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:return count</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16651 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireInternalSlot M &quot;MapData&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node16655 [shape=diamond, label=<<font color="black">(! (= p.Key CONST_empty))</font>> color="black" fillcolor="white" style=filled]
-  node16648 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16652 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let p = __x1__[__x2__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let M = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=diamond, label=<<font color="black">(! (= p.Key CONST_empty))</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireInternalSlot M &quot;MapData&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">count = (+ count 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:[? __x0__]</td></tr>
       <tr><td align="left">2:let entries = M.MapData</td></tr>
@@ -16,38 +38,16 @@ digraph {
       <tr><td align="left">4:let __x2__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16649 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16653 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
-  node16650 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let M = this</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16654 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let p = __x1__[__x2__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16657 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16656 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">count = (+ count 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16648 -> node16650 [ color="black"]
-  node16653 -> node16654 [label=<<font color="black">true</font>> color="black"]
-  node16653 -> node16658 [label=<<font color="black">false</font>> color="black"]
-  node16658 -> node16649 [ color="black"]
-  node16651 -> node16652 [ color="black"]
-  node16656 -> node16657 [ color="black"]
-  node16652 -> node16653 [ color="black"]
-  node16654 -> node16655 [ color="black"]
-  node16655 -> node16656 [label=<<font color="black">true</font>> color="black"]
-  node16655 -> node16657 [label=<<font color="black">false</font>> color="black"]
-  node16657 -> node16653 [ color="black"]
-  node16650 -> node16651 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node7 -> node8 [label=<<font color="black">true</font>> color="black"]
+  node7 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node9 -> node5 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node10 [label=<<font color="black">false</font>> color="black"]
+  node4 -> node5 [ color="black"]
+  node8 -> node9 [ color="black"]
 }

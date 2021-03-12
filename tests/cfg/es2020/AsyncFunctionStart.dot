@@ -1,6 +1,9 @@
 digraph {
-  node18635 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18639 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">app promiseCapability = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">app asyncFunctionBody = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let runningContext = GLOBAL_context</td></tr>
       <tr><td align="left">1:let asyncContext = (copy-obj runningContext)</td></tr>
@@ -11,11 +14,8 @@ digraph {
       <tr><td align="left">19:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18636 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18637 [shape=cds, label=<<font color="black">app promiseCapability = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node18638 [shape=cds, label=<<font color="black">app asyncFunctionBody = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node18635 -> node18637 [ color="black"]
-  node18637 -> node18638 [ color="black"]
-  node18638 -> node18639 [ color="black"]
-  node18639 -> node18636 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

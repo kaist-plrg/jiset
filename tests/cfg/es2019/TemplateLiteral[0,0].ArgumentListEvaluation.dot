@@ -1,20 +1,20 @@
 digraph {
-  node3840 [shape=cds, label=<<font color="black">1:app __x0__ = (GetTemplateObject templateLiteral)</font>> color="black" fillcolor="white" style=filled]
-  node3841 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let templateLiteral = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (GetTemplateObject templateLiteral)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let siteObj = __x0__</td></tr>
       <tr><td align="left">2:return (new [siteObj])</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3839 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let templateLiteral = this</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3838 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3837 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3837 -> node3839 [ color="black"]
-  node3839 -> node3840 [ color="black"]
-  node3840 -> node3841 [ color="black"]
-  node3841 -> node3838 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

@@ -1,21 +1,21 @@
 digraph {
-  node7028 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let keyResult = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node7027 [shape=cds, label=<<font color="black">0:app __x0__ = (ForInOfHeadEvaluation (new []) AssignmentExpression CONST_asyncDASHiterate)</font>> color="black" fillcolor="white" style=filled]
-  node7030 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:return [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7026 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node7029 [shape=cds, label=<<font color="black">1:app __x1__ = (ForInOfBodyEvaluation ForBinding Statement keyResult CONST_iterate CONST_varBinding labelSet CONST_async)</font>> color="black" fillcolor="white" style=filled]
-  node7025 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node7025 -> node7027 [ color="black"]
-  node7027 -> node7028 [ color="black"]
-  node7029 -> node7030 [ color="black"]
-  node7028 -> node7029 [ color="black"]
-  node7030 -> node7026 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (ForInOfHeadEvaluation (new []) AssignmentExpression CONST_asyncDASHiterate)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let keyResult = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (ForInOfBodyEvaluation ForBinding Statement keyResult CONST_iterate CONST_varBinding labelSet CONST_async)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }

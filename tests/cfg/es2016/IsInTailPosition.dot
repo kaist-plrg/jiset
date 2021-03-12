@@ -1,6 +1,7 @@
 digraph {
-  node8586 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8587 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:??? &quot;If the source code matching id:{nonterminal} is not strict code , return value:{false} .&quot;</td></tr>
       <tr><td align="left">2:??? &quot;If id:{nonterminal} is not contained within a nt:{FunctionBody} or nt:{ConciseBody} , return value:{false} .&quot;</td></tr>
@@ -8,15 +9,14 @@ digraph {
       <tr><td align="left">4:??? &quot;If id:{body} is the nt:{FunctionBody} of a nt:{GeneratorBody} , return value:{false} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8588 [shape=cds, label=<<font color="black">5:access __x0__ = (body &quot;HasProductionInTailPosition&quot; nonterminal)</font>> color="black" fillcolor="white" style=filled]
-  node8589 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">5:access __x0__ = (body &quot;HasProductionInTailPosition&quot; nonterminal)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:return __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node8585 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node8585 -> node8587 [ color="black"]
-  node8587 -> node8588 [ color="black"]
-  node8588 -> node8589 [ color="black"]
-  node8589 -> node8586 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

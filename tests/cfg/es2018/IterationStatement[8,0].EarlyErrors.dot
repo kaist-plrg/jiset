@@ -1,51 +1,51 @@
 digraph {
-  node18279 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(= absent (parse-syntax LeftHandSideExpression &quot;AssignmentPattern&quot; (new [])))</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let __x1__ = false</td></tr>
+      <tr><td align="left">return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18284 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x1__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw SyntaxError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18283 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
-  node18276 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18280 [shape=diamond, label=<<font color="black">(= absent (parse-syntax LeftHandSideExpression &quot;AssignmentPattern&quot; (new [])))</font>> color="black" fillcolor="white" style=filled]
-  node18282 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">__x0__ = __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18277 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let __x0__ = true</td></tr>
       <tr><td align="left">0:__x0__ = (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18275 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18281 [shape=none, margin=0, label=<<font color="black">
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">__x1__ = true</td></tr>
+      <tr><td align="left">__x0__ = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18278 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
-  node18285 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
+      <tr><td align="left">let __x1__ = false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18278 -> node18279 [label=<<font color="black">true</font>> color="black"]
-  node18278 -> node18283 [label=<<font color="black">false</font>> color="black"]
-  node18282 -> node18283 [ color="black"]
-  node18285 -> node18276 [ color="black"]
-  node18284 -> node18276 [ color="black"]
-  node18281 -> node18282 [ color="black"]
-  node18277 -> node18278 [ color="black"]
-  node18275 -> node18277 [ color="black"]
-  node18283 -> node18284 [label=<<font color="black">true</font>> color="black"]
-  node18283 -> node18285 [label=<<font color="black">false</font>> color="black"]
-  node18279 -> node18280 [ color="black"]
-  node18280 -> node18281 [label=<<font color="black">true</font>> color="black"]
-  node18280 -> node18282 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node8 [label=<<font color="black">false</font>> color="black"]
+  node4 -> node5 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node8 -> node9 [label=<<font color="black">true</font>> color="black"]
+  node8 -> node10 [label=<<font color="black">false</font>> color="black"]
 }

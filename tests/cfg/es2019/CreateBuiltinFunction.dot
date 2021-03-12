@@ -1,16 +1,14 @@
 digraph {
-  node2250 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2254 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(= prototype absent)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:assert (= (typeof realm) &quot;RealmRecord&quot;)</td></tr>
+      <tr><td align="left">prototype = realm.Intrinsics.INTRINSIC_FunctionPrototype</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2253 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">realm = REALM</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2257 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=diamond, label=<<font color="black">(= realm absent)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:??? &quot;Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} . The initial value of each of those internal slots is value:{undefined} .&quot;</td></tr>
       <tr><td align="left">5:func.Realm = realm</td></tr>
@@ -20,21 +18,23 @@ digraph {
       <tr><td align="left">9:return func</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2252 [shape=diamond, label=<<font color="black">(= realm absent)</font>> color="black" fillcolor="white" style=filled]
-  node2256 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">prototype = realm.Intrinsics.INTRINSIC_FunctionPrototype</td></tr>
+      <tr><td align="left">realm = REALM</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2251 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2255 [shape=diamond, label=<<font color="black">(= prototype absent)</font>> color="black" fillcolor="white" style=filled]
-  node2257 -> node2251 [ color="black"]
-  node2252 -> node2253 [label=<<font color="black">true</font>> color="black"]
-  node2252 -> node2254 [label=<<font color="black">false</font>> color="black"]
-  node2255 -> node2256 [label=<<font color="black">true</font>> color="black"]
-  node2255 -> node2257 [label=<<font color="black">false</font>> color="black"]
-  node2253 -> node2254 [ color="black"]
-  node2256 -> node2257 [ color="black"]
-  node2254 -> node2255 [ color="black"]
-  node2250 -> node2252 [ color="black"]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:assert (= (typeof realm) &quot;RealmRecord&quot;)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node4 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

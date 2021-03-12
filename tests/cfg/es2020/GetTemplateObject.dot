@@ -1,31 +1,56 @@
 digraph {
-  node4201 [shape=diamond, label=<<font color="black">(&lt; index count)</font>> color="black" fillcolor="white" style=filled]
-  node4198 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:let template = [! __x4__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4194 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let e = __x1__[__x2__]</td></tr>
       <tr><td align="left">4:??? &quot;If id:{e} . [ [ Site ] ] is the same Parse Node as id:{templateLiteral} , then in:{} out:{}&quot;</td></tr>
       <tr><td align="left">__x2__ = (+ __x2__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4205 [shape=none, margin=0, label=<<font color="black">
+  node10 [shape=cds, label=<<font color="black">10:app __x5__ = (ArrayCreate count)</font>> color="black" fillcolor="white" style=filled]
+  node24 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">15:__x7__</td></tr>
-      <tr><td align="left">16:let rawValue = rawStrings[index]</td></tr>
+      <tr><td align="left">21:__x11__</td></tr>
+      <tr><td align="left">22:append (new Record(&quot;Site&quot; -&gt; templateLiteral, &quot;Array&quot; -&gt; template)) -&gt; templateRegistry</td></tr>
+      <tr><td align="left">23:return template</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4211 [shape=none, margin=0, label=<<font color="black">
+  node14 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">13:let prop = [! __x6__]</td></tr>
+      <tr><td align="left">14:let cookedValue = cookedStrings[index]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node20 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">19:__x9__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">6:access __x3__ = (templateLiteral &quot;TemplateStrings&quot; false)</font>> color="black" fillcolor="white" style=filled]
+  node21 [shape=cds, label=<<font color="black">20:app __x10__ = (template.DefineOwnProperty template &quot;raw&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; rawObj, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let template = [! __x4__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node13 [shape=cds, label=<<font color="black">13:app __x6__ = (ToString index)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (templateLiteral &quot;TemplateStrings&quot; true)</font>> color="black" fillcolor="white" style=filled]
+  node17 [shape=cds, label=<<font color="black">17:app __x8__ = (rawObj.DefineOwnProperty rawObj prop (new PropertyDescriptor(&quot;Value&quot; -&gt; rawValue, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; true, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node22 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">20:__x10__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4199 [shape=cds, label=<<font color="black">10:app __x5__ = (ArrayCreate count)</font>> color="black" fillcolor="white" style=filled]
-  node4204 [shape=cds, label=<<font color="black">15:app __x7__ = (template.DefineOwnProperty template prop (new PropertyDescriptor(&quot;Value&quot; -&gt; cookedValue, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; true, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
-  node4192 [shape=none, margin=0, label=<<font color="black">
+  node12 [shape=diamond, label=<<font color="black">(&lt; index count)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let cookedStrings = __x3__</td></tr>
+      <tr><td align="left">7:let count = cookedStrings.length</td></tr>
+      <tr><td align="left">8:assert (! (&lt; (- (** 2.0 32i) 1i) count))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let rawStrings = __x0__</td></tr>
       <tr><td align="left">1:let realm = REALM</td></tr>
@@ -34,78 +59,53 @@ digraph {
       <tr><td align="left">3:let __x2__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4191 [shape=cds, label=<<font color="black">0:access __x0__ = (templateLiteral &quot;TemplateStrings&quot; true)</font>> color="black" fillcolor="white" style=filled]
-  node4213 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">21:__x11__</td></tr>
-      <tr><td align="left">22:append (new Record(&quot;Site&quot; -&gt; templateLiteral, &quot;Array&quot; -&gt; template)) -&gt; templateRegistry</td></tr>
-      <tr><td align="left">23:return template</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4207 [shape=none, margin=0, label=<<font color="black">
+  node18 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">17:__x8__</td></tr>
       <tr><td align="left">18:index = (+ index 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4200 [shape=none, margin=0, label=<<font color="black">
+  node16 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:__x7__</td></tr>
+      <tr><td align="left">16:let rawValue = rawStrings[index]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">10:let rawObj = [! __x5__]</td></tr>
       <tr><td align="left">11:let index = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4190 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4202 [shape=cds, label=<<font color="black">13:app __x6__ = (ToString index)</font>> color="black" fillcolor="white" style=filled]
-  node4197 [shape=cds, label=<<font color="black">9:app __x4__ = (ArrayCreate count)</font>> color="black" fillcolor="white" style=filled]
-  node4206 [shape=cds, label=<<font color="black">17:app __x8__ = (rawObj.DefineOwnProperty rawObj prop (new PropertyDescriptor(&quot;Value&quot; -&gt; rawValue, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; true, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
-  node4189 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4195 [shape=cds, label=<<font color="black">6:access __x3__ = (templateLiteral &quot;TemplateStrings&quot; false)</font>> color="black" fillcolor="white" style=filled]
-  node4212 [shape=cds, label=<<font color="black">21:app __x11__ = (SetIntegrityLevel template CONST_frozen)</font>> color="black" fillcolor="white" style=filled]
-  node4203 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">13:let prop = [! __x6__]</td></tr>
-      <tr><td align="left">14:let cookedValue = cookedStrings[index]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4208 [shape=cds, label=<<font color="black">19:app __x9__ = (SetIntegrityLevel rawObj CONST_frozen)</font>> color="black" fillcolor="white" style=filled]
-  node4196 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:let cookedStrings = __x3__</td></tr>
-      <tr><td align="left">7:let count = cookedStrings.length</td></tr>
-      <tr><td align="left">8:assert (! (&lt; (- (** 2.0 32i) 1i) count))</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4209 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">19:__x9__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4210 [shape=cds, label=<<font color="black">20:app __x10__ = (template.DefineOwnProperty template &quot;raw&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; rawObj, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
-  node4193 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
-  node4195 -> node4196 [ color="black"]
-  node4199 -> node4200 [ color="black"]
-  node4212 -> node4213 [ color="black"]
-  node4211 -> node4212 [ color="black"]
-  node4210 -> node4211 [ color="black"]
-  node4196 -> node4197 [ color="black"]
-  node4206 -> node4207 [ color="black"]
-  node4200 -> node4201 [ color="black"]
-  node4209 -> node4210 [ color="black"]
-  node4194 -> node4193 [ color="black"]
-  node4205 -> node4206 [ color="black"]
-  node4204 -> node4205 [ color="black"]
-  node4213 -> node4190 [ color="black"]
-  node4208 -> node4209 [ color="black"]
-  node4198 -> node4199 [ color="black"]
-  node4189 -> node4191 [ color="black"]
-  node4193 -> node4194 [label=<<font color="black">true</font>> color="black"]
-  node4193 -> node4195 [label=<<font color="black">false</font>> color="black"]
-  node4202 -> node4203 [ color="black"]
-  node4192 -> node4193 [ color="black"]
-  node4191 -> node4192 [ color="black"]
-  node4207 -> node4201 [ color="black"]
-  node4197 -> node4198 [ color="black"]
-  node4203 -> node4204 [ color="black"]
-  node4201 -> node4202 [label=<<font color="black">true</font>> color="black"]
-  node4201 -> node4208 [label=<<font color="black">false</font>> color="black"]
+  node23 [shape=cds, label=<<font color="black">21:app __x11__ = (SetIntegrityLevel template CONST_frozen)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=cds, label=<<font color="black">9:app __x4__ = (ArrayCreate count)</font>> color="black" fillcolor="white" style=filled]
+  node19 [shape=cds, label=<<font color="black">19:app __x9__ = (SetIntegrityLevel rawObj CONST_frozen)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(&lt; __x2__ __x1__.length)</font>> color="black" fillcolor="white" style=filled]
+  node15 [shape=cds, label=<<font color="black">15:app __x7__ = (template.DefineOwnProperty template prop (new PropertyDescriptor(&quot;Value&quot; -&gt; cookedValue, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; true, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node18 -> node12 [ color="black"]
+  node7 -> node8 [ color="black"]
+  node11 -> node12 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node10 -> node11 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node20 -> node21 [ color="black"]
+  node16 -> node17 [ color="black"]
+  node17 -> node18 [ color="black"]
+  node5 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node15 -> node16 [ color="black"]
+  node19 -> node20 [ color="black"]
+  node13 -> node14 [ color="black"]
+  node22 -> node23 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node12 -> node13 [label=<<font color="black">true</font>> color="black"]
+  node12 -> node19 [label=<<font color="black">false</font>> color="black"]
+  node24 -> node1 [ color="black"]
+  node23 -> node24 [ color="black"]
+  node14 -> node15 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node21 -> node22 [ color="black"]
 }

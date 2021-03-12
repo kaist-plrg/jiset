@@ -1,45 +1,45 @@
 digraph {
-  node1828 [shape=cds, label=<<font color="black">2:app __x0__ = (env.HasBinding env name)</font>> color="black" fillcolor="white" style=filled]
-  node1824 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1833 [shape=cds, label=<<font color="black">7:app __x1__ = (GetIdentifierReference outer name strict)</font>> color="black" fillcolor="white" style=filled]
-  node1830 [shape=diamond, label=<<font color="black">(= exists true)</font>> color="black" fillcolor="white" style=filled]
-  node1834 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1826 [shape=diamond, label=<<font color="black">(= env null)</font>> color="black" fillcolor="white" style=filled]
-  node1832 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:let outer = env.OuterEnv</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1825 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1831 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return (new ReferenceRecord(&quot;Base&quot; -&gt; env, &quot;ReferencedName&quot; -&gt; name, &quot;Strict&quot; -&gt; strict, &quot;ThisValue&quot; -&gt; CONST_empty))</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1829 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let exists = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1827 [shape=none, margin=0, label=<<font color="black">
+  node10 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=diamond, label=<<font color="black">(= exists true)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=cds, label=<<font color="black">7:app __x1__ = (GetIdentifierReference outer name strict)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=diamond, label=<<font color="black">(= env null)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return (new ReferenceRecord(&quot;Base&quot; -&gt; env, &quot;ReferencedName&quot; -&gt; name, &quot;Strict&quot; -&gt; strict, &quot;ThisValue&quot; -&gt; CONST_empty))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return (new ReferenceRecord(&quot;Base&quot; -&gt; CONST_unresolvable, &quot;ReferencedName&quot; -&gt; name, &quot;Strict&quot; -&gt; strict, &quot;ThisValue&quot; -&gt; CONST_empty))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1827 -> node1828 [ color="black"]
-  node1828 -> node1829 [ color="black"]
-  node1831 -> node1825 [ color="black"]
-  node1833 -> node1834 [ color="black"]
-  node1826 -> node1827 [label=<<font color="black">true</font>> color="black"]
-  node1826 -> node1828 [label=<<font color="black">false</font>> color="black"]
-  node1834 -> node1825 [ color="black"]
-  node1832 -> node1833 [ color="black"]
-  node1829 -> node1830 [ color="black"]
-  node1824 -> node1826 [ color="black"]
-  node1830 -> node1831 [label=<<font color="black">true</font>> color="black"]
-  node1830 -> node1832 [label=<<font color="black">false</font>> color="black"]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:let outer = env.OuterEnv</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">2:app __x0__ = (env.HasBinding env name)</font>> color="black" fillcolor="white" style=filled]
+  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
+  node6 -> node8 [label=<<font color="black">false</font>> color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node4 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node1 [ color="black"]
 }

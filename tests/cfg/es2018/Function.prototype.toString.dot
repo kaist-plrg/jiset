@@ -1,21 +1,21 @@
 digraph {
-  node11667 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11670 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=diamond, label=<<font color="black">(= (typeof func) &quot;BoundFunctionExoticObject&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">??? &quot;Return an implementation - dependent String source code representation of id:{func} . The representation must conform to the rules below . It is implementation - dependent whether the representation includes bound function information or information about the target function .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11671 [shape=none, margin=0, label=<<font color="black">
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:??? &quot;If Type ( id:{func} ) is Object and is either a built - in function object or has an [ [ ECMAScriptCode ] ] internal slot , then in:{} out:{}&quot;</td></tr>
       <tr><td align="left">4:throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11669 [shape=diamond, label=<<font color="black">(= (typeof func) &quot;BoundFunctionExoticObject&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node11668 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11667 -> node11669 [ color="black"]
-  node11669 -> node11670 [label=<<font color="black">true</font>> color="black"]
-  node11669 -> node11671 [label=<<font color="black">false</font>> color="black"]
-  node11670 -> node11671 [ color="black"]
-  node11671 -> node11668 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node4 [label=<<font color="black">false</font>> color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

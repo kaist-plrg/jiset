@@ -1,41 +1,41 @@
 digraph {
-  node3717 [shape=cds, label=<<font color="black">6:app __x3__ = (PutValue lhs value)</font>> color="black" fillcolor="white" style=filled]
-  node3713 [shape=cds, label=<<font color="black">2:app __x1__ = (environment.InitializeBinding environment name value)</font>> color="black" fillcolor="white" style=filled]
-  node3708 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3712 [shape=diamond, label=<<font color="black">(! (= environment undefined))</font>> color="black" fillcolor="white" style=filled]
-  node3711 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3718 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">2:app __x1__ = (environment.InitializeBinding environment name value)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:return [? __x3__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3714 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:__x1__</td></tr>
       <tr><td align="left">3:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3710 [shape=cds, label=<<font color="black">0:app __x0__ = (Type name)</font>> color="black" fillcolor="white" style=filled]
-  node3715 [shape=cds, label=<<font color="black">5:app __x2__ = (ResolveBinding name)</font>> color="black" fillcolor="white" style=filled]
-  node3709 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3716 [shape=none, margin=0, label=<<font color="black">
+  node9 [shape=cds, label=<<font color="black">6:app __x3__ = (PutValue lhs value)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (Type name)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">5:app __x2__ = (ResolveBinding name)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:let lhs = __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3710 -> node3711 [ color="black"]
-  node3716 -> node3717 [ color="black"]
-  node3711 -> node3712 [ color="black"]
-  node3714 -> node3709 [ color="black"]
-  node3712 -> node3713 [label=<<font color="black">true</font>> color="black"]
-  node3712 -> node3715 [label=<<font color="black">false</font>> color="black"]
-  node3717 -> node3718 [ color="black"]
-  node3715 -> node3716 [ color="black"]
-  node3708 -> node3710 [ color="black"]
-  node3713 -> node3714 [ color="black"]
-  node3718 -> node3709 [ color="black"]
+  node4 [shape=diamond, label=<<font color="black">(! (= environment undefined))</font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

@@ -1,35 +1,35 @@
 digraph {
-  node20130 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
-  node20128 [shape=diamond, label=<<font color="black">(= absent (parse-syntax ContinueStatement &quot;IterationStatement&quot; (new [])))</font>> color="black" fillcolor="white" style=filled]
-  node20129 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">__x0__ = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node20125 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node20132 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node20126 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node20131 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">__x0__</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw SyntaxError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node20127 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let __x0__ = false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node20128 -> node20129 [label=<<font color="black">true</font>> color="black"]
-  node20128 -> node20130 [label=<<font color="black">false</font>> color="black"]
-  node20131 -> node20126 [ color="black"]
-  node20132 -> node20126 [ color="black"]
-  node20127 -> node20128 [ color="black"]
-  node20130 -> node20131 [label=<<font color="black">true</font>> color="black"]
-  node20130 -> node20132 [label=<<font color="black">false</font>> color="black"]
-  node20125 -> node20127 [ color="black"]
-  node20129 -> node20130 [ color="black"]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=diamond, label=<<font color="black">(= absent (parse-syntax ContinueStatement &quot;IterationStatement&quot; (new [])))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">__x0__ = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node0 -> node2 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node6 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
 }

@@ -1,27 +1,27 @@
 digraph {
-  node18442 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireInternalSlot weakRef &quot;WeakRefTarget&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node18445 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">2:app __x1__ = (WeakRefDeref weakRef)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return [! __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18441 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let weakRef = this</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18444 [shape=cds, label=<<font color="black">2:app __x1__ = (WeakRefDeref weakRef)</font>> color="black" fillcolor="white" style=filled]
-  node18439 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18443 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (RequireInternalSlot weakRef &quot;WeakRefTarget&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:[? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18440 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18445 -> node18440 [ color="black"]
-  node18442 -> node18443 [ color="black"]
-  node18444 -> node18445 [ color="black"]
-  node18441 -> node18442 [ color="black"]
-  node18443 -> node18444 [ color="black"]
-  node18439 -> node18441 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

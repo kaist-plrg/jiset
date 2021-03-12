@@ -1,41 +1,41 @@
 digraph {
-  node1426 [shape=cds, label=<<font color="black">1:app __x0__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator)</font>> color="black" fillcolor="white" style=filled]
-  node1430 [shape=cds, label=<<font color="black">4:app __x2__ = (Type result)</font>> color="black" fillcolor="white" style=filled]
-  node1433 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">3:app __x1__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator (new [value]))</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1423 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1425 [shape=diamond, label=<<font color="black">(= value absent)</font>> color="black" fillcolor="white" style=filled]
-  node1424 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1429 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let result = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1428 [shape=cds, label=<<font color="black">3:app __x1__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator (new [value]))</font>> color="black" fillcolor="white" style=filled]
-  node1432 [shape=none, margin=0, label=<<font color="black">
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1427 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=diamond, label=<<font color="black">(= value absent)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">4:app __x2__ = (Type result)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=diamond, label=<<font color="black">(! (= __x2__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let result = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1431 [shape=diamond, label=<<font color="black">(! (= __x2__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node1431 -> node1432 [label=<<font color="black">true</font>> color="black"]
-  node1431 -> node1433 [label=<<font color="black">false</font>> color="black"]
-  node1430 -> node1431 [ color="black"]
-  node1423 -> node1425 [ color="black"]
-  node1428 -> node1429 [ color="black"]
-  node1427 -> node1430 [ color="black"]
-  node1425 -> node1426 [label=<<font color="black">true</font>> color="black"]
-  node1425 -> node1428 [label=<<font color="black">false</font>> color="black"]
-  node1433 -> node1424 [ color="black"]
-  node1429 -> node1430 [ color="black"]
-  node1432 -> node1433 [ color="black"]
-  node1426 -> node1427 [ color="black"]
+  node7 -> node8 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node7 [ color="black"]
+  node8 -> node9 [label=<<font color="black">true</font>> color="black"]
+  node8 -> node10 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node5 [label=<<font color="black">false</font>> color="black"]
+  node10 -> node1 [ color="black"]
 }

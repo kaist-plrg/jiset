@@ -1,22 +1,22 @@
 digraph {
-  node4037 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let obj = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4038 [shape=cds, label=<<font color="black">1:access __x1__ = (PropertyDefinitionList &quot;PropertyDefinitionEvaluation&quot; obj true)</font>> color="black" fillcolor="white" style=filled]
-  node4036 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
-  node4035 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4039 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:[? __x1__]</td></tr>
       <tr><td align="left">2:return obj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4034 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4038 -> node4039 [ color="black"]
-  node4036 -> node4037 [ color="black"]
-  node4034 -> node4036 [ color="black"]
-  node4039 -> node4035 [ color="black"]
-  node4037 -> node4038 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let obj = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:access __x1__ = (PropertyDefinitionList &quot;PropertyDefinitionEvaluation&quot; obj true)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }

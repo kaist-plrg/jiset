@@ -1,19 +1,19 @@
 digraph {
-  node12770 [shape=cds, label=<<font color="black">1:app __x0__ = (thisTimeValue O)</font>> color="black" fillcolor="white" style=filled]
-  node12767 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12773 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">7:app __x1__ = (TimeString tv)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:return (+ (+ (+ (+ (+ (+ (+ (+ (+ weekday &quot;,&quot;) &quot; &quot;) day) &quot; &quot;) month) &quot; &quot;) year) &quot; &quot;) __x1__)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12769 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let O = this</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12768 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12772 [shape=cds, label=<<font color="black">7:app __x1__ = (TimeString tv)</font>> color="black" fillcolor="white" style=filled]
-  node12771 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (thisTimeValue O)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let tv = [? __x0__]</td></tr>
       <tr><td align="left">2:??? &quot;If id:{tv} is value:{NaN} , return ` \&quot; Invalid Date \&quot; ` .&quot;</td></tr>
@@ -23,10 +23,10 @@ digraph {
       <tr><td align="left">6:??? &quot;Let id:{year} be the String representation of YearFromTime ( id:{tv} ) , formatted as a decimal number of at least four digits , padded to the left with zeroes if necessary .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12769 -> node12770 [ color="black"]
-  node12770 -> node12771 [ color="black"]
-  node12772 -> node12773 [ color="black"]
-  node12771 -> node12772 [ color="black"]
-  node12767 -> node12769 [ color="black"]
-  node12773 -> node12768 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

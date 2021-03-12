@@ -1,26 +1,26 @@
 digraph {
-  node16845 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16849 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node16848 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
-  node16850 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16847 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node16851 [shape=cds, label=<<font color="black">1:app __x1__ = (target.IsExtensible target)</font>> color="black" fillcolor="white" style=filled]
-  node16846 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16852 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">1:app __x1__ = (target.IsExtensible target)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">app target = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:return [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16848 -> node16849 [ color="black"]
-  node16845 -> node16847 [ color="black"]
-  node16847 -> node16848 [ color="black"]
-  node16849 -> node16850 [label=<<font color="black">true</font>> color="black"]
-  node16849 -> node16851 [label=<<font color="black">false</font>> color="black"]
-  node16851 -> node16852 [ color="black"]
-  node16852 -> node16846 [ color="black"]
-  node16850 -> node16851 [ color="black"]
+  node3 [shape=cds, label=<<font color="black">0:app __x0__ = (Type target)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

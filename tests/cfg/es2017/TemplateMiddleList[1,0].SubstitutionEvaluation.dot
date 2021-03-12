@@ -1,32 +1,32 @@
 digraph {
-  node3676 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let nextRef = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3671 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3675 [shape=cds, label=<<font color="black">2:access __x1__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3678 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">3:app __x2__ = (GetValue nextRef)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (TemplateMiddleList &quot;SubstitutionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let next = [? __x2__]</td></tr>
       <tr><td align="left">4:append next -&gt; preceding</td></tr>
       <tr><td align="left">5:return preceding</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3674 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let preceding = __x0__</td></tr>
       <tr><td align="left">1:[? preceding]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3672 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3677 [shape=cds, label=<<font color="black">3:app __x2__ = (GetValue nextRef)</font>> color="black" fillcolor="white" style=filled]
-  node3673 [shape=cds, label=<<font color="black">0:access __x0__ = (TemplateMiddleList &quot;SubstitutionEvaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3676 -> node3677 [ color="black"]
-  node3671 -> node3673 [ color="black"]
-  node3674 -> node3675 [ color="black"]
-  node3678 -> node3672 [ color="black"]
-  node3675 -> node3676 [ color="black"]
-  node3673 -> node3674 [ color="black"]
-  node3677 -> node3678 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">2:access __x1__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

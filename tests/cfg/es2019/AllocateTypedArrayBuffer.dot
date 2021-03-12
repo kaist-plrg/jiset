@@ -1,5 +1,7 @@
 digraph {
-  node15735 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= O.ViewedArrayBuffer undefined)</td></tr>
       <tr><td align="left">2:assert (! (&lt; length 0i))</td></tr>
@@ -8,10 +10,8 @@ digraph {
       <tr><td align="left">5:let byteLength = (* elementSize length)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15734 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15733 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node15736 [shape=cds, label=<<font color="black">6:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node15737 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">6:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">6:let data = [? __x0__]</td></tr>
       <tr><td align="left">7:O.ViewedArrayBuffer = data</td></tr>
@@ -21,8 +21,8 @@ digraph {
       <tr><td align="left">11:return O</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node15733 -> node15735 [ color="black"]
-  node15735 -> node15736 [ color="black"]
-  node15736 -> node15737 [ color="black"]
-  node15737 -> node15734 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

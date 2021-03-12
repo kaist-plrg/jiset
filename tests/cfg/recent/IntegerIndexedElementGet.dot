@@ -1,20 +1,6 @@
 digraph {
-  node3021 [shape=cds, label=<<font color="black">7:app __x1__ = (GetValueFromBuffer O.ViewedArrayBuffer indexedPosition elementType true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
-  node3017 [shape=cds, label=<<font color="black">1:app __x0__ = (IsValidIntegerIndex O index)</font>> color="black" fillcolor="white" style=filled]
-  node3022 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3018 [shape=diamond, label=<<font color="black">(= [! __x0__] false)</font>> color="black" fillcolor="white" style=filled]
-  node3016 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3019 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3015 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3020 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let offset = O.ByteOffset</td></tr>
       <tr><td align="left">3:let arrayTypeName = O.TypedArrayName</td></tr>
@@ -23,12 +9,26 @@ digraph {
       <tr><td align="left">6:??? &quot;Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3019 -> node3020 [ color="black"]
-  node3017 -> node3018 [ color="black"]
-  node3020 -> node3021 [ color="black"]
-  node3022 -> node3016 [ color="black"]
-  node3015 -> node3017 [ color="black"]
-  node3021 -> node3022 [ color="black"]
-  node3018 -> node3019 [label=<<font color="black">true</font>> color="black"]
-  node3018 -> node3020 [label=<<font color="black">false</font>> color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">7:app __x1__ = (GetValueFromBuffer O.ViewedArrayBuffer indexedPosition elementType true CONST_Unordered)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">1:app __x0__ = (IsValidIntegerIndex O index)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=diamond, label=<<font color="black">(= [! __x0__] false)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node5 -> node6 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

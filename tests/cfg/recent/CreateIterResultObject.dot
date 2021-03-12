@@ -1,38 +1,38 @@
 digraph {
-  node1501 [shape=cds, label=<<font color="black">0:app __x0__ = (Type done)</font>> color="black" fillcolor="white" style=filled]
-  node1507 [shape=cds, label=<<font color="black">3:app __x3__ = (CreateDataPropertyOrThrow obj &quot;done&quot; done)</font>> color="black" fillcolor="white" style=filled]
-  node1502 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ Boolean)</td></tr>
+      <tr><td align="left">1:let obj = [! __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1503 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
-  node1499 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1508 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x2__ = (CreateDataPropertyOrThrow obj &quot;value&quot; value)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:[! __x3__]</td></tr>
       <tr><td align="left">4:return obj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1506 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (Type done)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:[! __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1504 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let obj = [! __x1__]</td></tr>
+      <tr><td align="left">0:assert (= __x0__ Boolean)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1500 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1505 [shape=cds, label=<<font color="black">2:app __x2__ = (CreateDataPropertyOrThrow obj &quot;value&quot; value)</font>> color="black" fillcolor="white" style=filled]
-  node1507 -> node1508 [ color="black"]
-  node1508 -> node1500 [ color="black"]
-  node1502 -> node1503 [ color="black"]
-  node1504 -> node1505 [ color="black"]
-  node1503 -> node1504 [ color="black"]
-  node1499 -> node1501 [ color="black"]
-  node1506 -> node1507 [ color="black"]
-  node1501 -> node1502 [ color="black"]
-  node1505 -> node1506 [ color="black"]
+  node8 [shape=cds, label=<<font color="black">3:app __x3__ = (CreateDataPropertyOrThrow obj &quot;done&quot; done)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

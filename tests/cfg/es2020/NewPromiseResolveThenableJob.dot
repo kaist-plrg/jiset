@@ -1,40 +1,40 @@
 digraph {
-  node18265 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(&amp;&amp; (is-completion getThenRealmResult) (= getThenRealmResult.Type CONST_normal))</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let thenRealm = getThenRealmResult.Value</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18264 [shape=diamond, label=<<font color="black">(&amp;&amp; (is-completion getThenRealmResult) (= getThenRealmResult.Type CONST_normal))</font>> color="black" fillcolor="white" style=filled]
-  node18260 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18261 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:??? &quot;Let id:{job} be a new Job abstract closure with no parameters that captures id:{promiseToResolve} , id:{thenable} , and id:{then} and performs the following steps when called : in:{} out:{}&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18262 [shape=cds, label=<<font color="black">7:app __x0__ = (GetFunctionRealm then)</font>> color="black" fillcolor="white" style=filled]
-  node18267 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">10:return (new Record(&quot;Job&quot; -&gt; job, &quot;Realm&quot; -&gt; thenRealm))</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18266 [shape=none, margin=0, label=<<font color="black">
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let thenRealm = null</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18263 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">7:app __x0__ = (GetFunctionRealm then)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:return (new Record(&quot;Job&quot; -&gt; job, &quot;Realm&quot; -&gt; thenRealm))</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:let getThenRealmResult = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18259 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18265 -> node18267 [ color="black"]
-  node18259 -> node18261 [ color="black"]
-  node18263 -> node18264 [ color="black"]
-  node18262 -> node18263 [ color="black"]
-  node18264 -> node18265 [label=<<font color="black">true</font>> color="black"]
-  node18264 -> node18266 [label=<<font color="black">false</font>> color="black"]
-  node18267 -> node18260 [ color="black"]
-  node18261 -> node18262 [ color="black"]
-  node18266 -> node18267 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node8 [ color="black"]
+  node8 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node6 -> node8 [ color="black"]
 }

@@ -1,44 +1,44 @@
 digraph {
-  node18667 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">1:app __x2__ = (NewPromiseReactionJob reaction argument)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:__x3__</td></tr>
-      <tr><td align="left">__x1__ = (+ __x1__ 1i)</td></tr>
+      <tr><td align="left">1:let job = __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18661 [shape=none, margin=0, label=<<font color="black">
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let __x0__ = reactions</td></tr>
       <tr><td align="left">0:let __x1__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18659 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18664 [shape=cds, label=<<font color="black">1:app __x2__ = (NewPromiseReactionJob reaction argument)</font>> color="black" fillcolor="white" style=filled]
-  node18668 [shape=none, margin=0, label=<<font color="black">
+  node7 [shape=cds, label=<<font color="black">2:app __x3__ = (HostEnqueuePromiseJob job.Job job.Realm)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=diamond, label=<<font color="black">(&lt; __x1__ __x0__.length)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return undefined</td></tr>
+      <tr><td align="left">2:__x3__</td></tr>
+      <tr><td align="left">__x1__ = (+ __x1__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18663 [shape=none, margin=0, label=<<font color="black">
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let reaction = __x0__[__x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18665 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let job = __x2__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18666 [shape=cds, label=<<font color="black">2:app __x3__ = (HostEnqueuePromiseJob job.Job job.Realm)</font>> color="black" fillcolor="white" style=filled]
-  node18662 [shape=diamond, label=<<font color="black">(&lt; __x1__ __x0__.length)</font>> color="black" fillcolor="white" style=filled]
-  node18660 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18665 -> node18666 [ color="black"]
-  node18668 -> node18660 [ color="black"]
-  node18667 -> node18662 [ color="black"]
-  node18663 -> node18664 [ color="black"]
-  node18664 -> node18665 [ color="black"]
-  node18659 -> node18661 [ color="black"]
-  node18666 -> node18667 [ color="black"]
-  node18661 -> node18662 [ color="black"]
-  node18662 -> node18663 [label=<<font color="black">true</font>> color="black"]
-  node18662 -> node18668 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node6 [ color="black"]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node8 -> node3 [ color="black"]
 }

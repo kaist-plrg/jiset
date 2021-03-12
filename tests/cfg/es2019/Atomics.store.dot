@@ -1,23 +1,7 @@
 digraph {
-  node16865 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16866 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16867 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node16868 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
-  node16877 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:__x3__</td></tr>
-      <tr><td align="left">9:return v</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16873 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let i = [? __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node16872 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
-  node16869 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
-  node16876 [shape=cds, label=<<font color="black">8:app __x3__ = (SetValueInBuffer buffer indexedPosition elementType v true &quot;SeqCst&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node16875 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let v = [? __x2__]</td></tr>
       <tr><td align="left">3:let arrayTypeName = typedArray.TypedArrayName</td></tr>
@@ -27,23 +11,39 @@ digraph {
       <tr><td align="left">7:let indexedPosition = (+ (* i elementSize) offset)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16870 [shape=cds, label=<<font color="black">0:app __x0__ = (ValidateSharedIntegerTypedArray typedArray)</font>> color="black" fillcolor="white" style=filled]
-  node16871 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let buffer = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16874 [shape=cds, label=<<font color="black">2:app __x2__ = (ToInteger value)</font>> color="black" fillcolor="white" style=filled]
-  node16876 -> node16877 [ color="black"]
-  node16865 -> node16867 [ color="black"]
-  node16872 -> node16873 [ color="black"]
-  node16871 -> node16872 [ color="black"]
-  node16873 -> node16874 [ color="black"]
-  node16877 -> node16866 [ color="black"]
-  node16868 -> node16869 [ color="black"]
-  node16869 -> node16870 [ color="black"]
-  node16867 -> node16868 [ color="black"]
-  node16870 -> node16871 [ color="black"]
-  node16874 -> node16875 [ color="black"]
-  node16875 -> node16876 [ color="black"]
+  node9 [shape=cds, label=<<font color="black">2:app __x2__ = (ToInteger value)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">app typedArray = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node12 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:__x3__</td></tr>
+      <tr><td align="left">9:return v</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">1:app __x1__ = (ValidateAtomicAccess typedArray index)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">app index = (GetArgument argumentsList 1i)</font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=cds, label=<<font color="black">8:app __x3__ = (SetValueInBuffer buffer indexedPosition elementType v true &quot;SeqCst&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let i = [? __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 2i)</font>> color="black" fillcolor="white" style=filled]
+  node12 -> node1 [ color="black"]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node11 -> node12 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node10 -> node11 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

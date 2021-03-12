@@ -1,23 +1,23 @@
 digraph {
-  node16765 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">20:return [! __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16762 [shape=cds, label=<<font color="black">0:app __x0__ = (Type array)</font>> color="black" fillcolor="white" style=filled]
-  node16761 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16764 [shape=cds, label=<<font color="black">20:app __x1__ = (CreateIteratorFromClosure closure &quot;%ArrayIteratorPrototype%&quot; INTRINSIC_ArrayIteratorPrototype)</font>> color="black" fillcolor="white" style=filled]
-  node16763 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (Type array)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
       <tr><td align="left">1:assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))</td></tr>
       <tr><td align="left">2:??? &quot;Let id:{closure} be a new Abstract Closure with no parameters that captures id:{kind} and id:{array} and performs the following steps when called : in:{} out:{}&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16760 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16760 -> node16762 [ color="black"]
-  node16765 -> node16761 [ color="black"]
-  node16763 -> node16764 [ color="black"]
-  node16764 -> node16765 [ color="black"]
-  node16762 -> node16763 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">20:app __x1__ = (CreateIteratorFromClosure closure &quot;%ArrayIteratorPrototype%&quot; INTRINSIC_ArrayIteratorPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }

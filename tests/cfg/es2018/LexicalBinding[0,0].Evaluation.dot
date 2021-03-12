@@ -1,23 +1,23 @@
 digraph {
-  node5883 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let lhs = __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5879 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5882 [shape=cds, label=<<font color="black">0:app __x1__ = (ResolveBinding __x0__)</font>> color="black" fillcolor="white" style=filled]
-  node5880 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5885 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">1:app __x2__ = (InitializeReferencedBinding lhs undefined)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:return __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5881 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node5884 [shape=cds, label=<<font color="black">1:app __x2__ = (InitializeReferencedBinding lhs undefined)</font>> color="black" fillcolor="white" style=filled]
-  node5883 -> node5884 [ color="black"]
-  node5879 -> node5881 [ color="black"]
-  node5885 -> node5880 [ color="black"]
-  node5881 -> node5882 [ color="black"]
-  node5882 -> node5883 [ color="black"]
-  node5884 -> node5885 [ color="black"]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">0:app __x1__ = (ResolveBinding __x0__)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let lhs = __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

@@ -1,5 +1,13 @@
 digraph {
-  node3001 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let internalSlotsList = (new [&quot;Prototype&quot;, &quot;Extensible&quot;, &quot;ViewedArrayBuffer&quot;, &quot;TypedArrayName&quot;, &quot;ContentType&quot;, &quot;ByteLength&quot;, &quot;ByteOffset&quot;, &quot;ArrayLength&quot;])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (MakeBasicObject internalSlotsList)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let A = [! __x0__]</td></tr>
       <tr><td align="left">2:A.GetOwnProperty = IntegerIndexedExoticObjectDOTGetOwnProperty</td></tr>
@@ -13,16 +21,8 @@ digraph {
       <tr><td align="left">10:return A</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3000 [shape=cds, label=<<font color="black">1:app __x0__ = (MakeBasicObject internalSlotsList)</font>> color="black" fillcolor="white" style=filled]
-  node2999 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let internalSlotsList = (new [&quot;Prototype&quot;, &quot;Extensible&quot;, &quot;ViewedArrayBuffer&quot;, &quot;TypedArrayName&quot;, &quot;ContentType&quot;, &quot;ByteLength&quot;, &quot;ByteOffset&quot;, &quot;ArrayLength&quot;])</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node2997 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2998 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2997 -> node2999 [ color="black"]
-  node2999 -> node3000 [ color="black"]
-  node3000 -> node3001 [ color="black"]
-  node3001 -> node2998 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

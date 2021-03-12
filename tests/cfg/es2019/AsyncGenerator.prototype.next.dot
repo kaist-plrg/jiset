@@ -1,29 +1,29 @@
 digraph {
-  node17307 [shape=cds, label=<<font color="black">1:app __x0__ = (NormalCompletion value)</font>> color="black" fillcolor="white" style=filled]
-  node17310 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:return [! __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17303 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17306 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let generator = this</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17305 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node17308 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let completion = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17309 [shape=cds, label=<<font color="black">2:app __x1__ = (AsyncGeneratorEnqueue generator completion)</font>> color="black" fillcolor="white" style=filled]
-  node17304 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17305 -> node17306 [ color="black"]
-  node17303 -> node17305 [ color="black"]
-  node17309 -> node17310 [ color="black"]
-  node17310 -> node17304 [ color="black"]
-  node17306 -> node17307 [ color="black"]
-  node17307 -> node17308 [ color="black"]
-  node17308 -> node17309 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x1__ = (AsyncGeneratorEnqueue generator completion)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">app value = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:return [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let generator = this</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:app __x0__ = (NormalCompletion value)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

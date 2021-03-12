@@ -1,17 +1,31 @@
 digraph {
-  node17976 [shape=cds, label=<<font color="black">0:app __x0__ = (GeneratorValidate generator)</font>> color="black" fillcolor="white" style=filled]
-  node17983 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17979 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:generator.GeneratorState = CONST_completed</td></tr>
       <tr><td align="left">4:state = CONST_completed</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17985 [shape=none, margin=0, label=<<font color="black">
+  node10 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:return abruptCompletion</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=diamond, label=<<font color="black">(= state CONST_completed)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (GeneratorValidate generator)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=diamond, label=<<font color="black">(= abruptCompletion.Type CONST_return)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let state = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">9:assert (= state CONST_suspendedYield)</td></tr>
       <tr><td align="left">10:let genContext = generator.GeneratorContext</td></tr>
@@ -24,34 +38,20 @@ digraph {
       <tr><td align="left">17:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17984 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:return abruptCompletion</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17974 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17977 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let state = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17981 [shape=diamond, label=<<font color="black">(= abruptCompletion.Type CONST_return)</font>> color="black" fillcolor="white" style=filled]
-  node17978 [shape=diamond, label=<<font color="black">(= state CONST_suspendedStart)</font>> color="black" fillcolor="white" style=filled]
-  node17982 [shape=cds, label=<<font color="black">7:app __x1__ = (CreateIterResultObject abruptCompletion.Value true)</font>> color="black" fillcolor="white" style=filled]
-  node17975 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17980 [shape=diamond, label=<<font color="black">(= state CONST_completed)</font>> color="black" fillcolor="white" style=filled]
-  node17981 -> node17982 [label=<<font color="black">true</font>> color="black"]
-  node17981 -> node17984 [label=<<font color="black">false</font>> color="black"]
-  node17979 -> node17980 [ color="black"]
-  node17978 -> node17979 [label=<<font color="black">true</font>> color="black"]
-  node17978 -> node17980 [label=<<font color="black">false</font>> color="black"]
-  node17974 -> node17976 [ color="black"]
-  node17982 -> node17983 [ color="black"]
-  node17985 -> node17975 [ color="black"]
-  node17976 -> node17977 [ color="black"]
-  node17980 -> node17981 [label=<<font color="black">true</font>> color="black"]
-  node17980 -> node17985 [label=<<font color="black">false</font>> color="black"]
-  node17983 -> node17984 [ color="black"]
-  node17977 -> node17978 [ color="black"]
-  node17984 -> node17985 [ color="black"]
+  node8 [shape=cds, label=<<font color="black">7:app __x1__ = (CreateIterResultObject abruptCompletion.Value true)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(= state CONST_suspendedStart)</font>> color="black" fillcolor="white" style=filled]
+  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
+  node6 -> node11 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node8 [label=<<font color="black">true</font>> color="black"]
+  node7 -> node10 [label=<<font color="black">false</font>> color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node11 -> node1 [ color="black"]
+  node10 -> node11 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

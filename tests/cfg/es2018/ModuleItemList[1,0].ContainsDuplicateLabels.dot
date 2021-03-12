@@ -1,30 +1,30 @@
 digraph {
-  node9960 [shape=cds, label=<<font color="black">2:access __x1__ = (ModuleItem &quot;ContainsDuplicateLabels&quot; labelSet)</font>> color="black" fillcolor="white" style=filled]
-  node9957 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let hasDuplicates = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node9958 [shape=diamond, label=<<font color="black">(= hasDuplicates true)</font>> color="black" fillcolor="white" style=filled]
-  node9955 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9959 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9954 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9956 [shape=cds, label=<<font color="black">0:access __x0__ = (ModuleItemList &quot;ContainsDuplicateLabels&quot; labelSet)</font>> color="black" fillcolor="white" style=filled]
-  node9961 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:access __x1__ = (ModuleItem &quot;ContainsDuplicateLabels&quot; labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (ModuleItemList &quot;ContainsDuplicateLabels&quot; labelSet)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9960 -> node9961 [ color="black"]
-  node9956 -> node9957 [ color="black"]
-  node9957 -> node9958 [ color="black"]
-  node9959 -> node9960 [ color="black"]
-  node9961 -> node9955 [ color="black"]
-  node9958 -> node9959 [label=<<font color="black">true</font>> color="black"]
-  node9958 -> node9960 [label=<<font color="black">false</font>> color="black"]
-  node9954 -> node9956 [ color="black"]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let hasDuplicates = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(= hasDuplicates true)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

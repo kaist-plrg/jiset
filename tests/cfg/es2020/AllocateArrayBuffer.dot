@@ -1,11 +1,14 @@
 digraph {
-  node16982 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16985 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
+      <tr><td align="left">1:assert (= [! __x1__] true)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16989 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x2__ = (CreateByteDataBlock byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryCreateFromConstructor constructor &quot;%ArrayBuffer.prototype%&quot; (new [&quot;ArrayBufferData&quot;, &quot;ArrayBufferByteLength&quot;, &quot;ArrayBufferDetachKey&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let block = [? __x2__]</td></tr>
       <tr><td align="left">3:obj.ArrayBufferData = block</td></tr>
@@ -13,20 +16,17 @@ digraph {
       <tr><td align="left">5:return obj</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16986 [shape=cds, label=<<font color="black">1:app __x1__ = (IsNonNegativeInteger byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node16984 [shape=cds, label=<<font color="black">0:app __x0__ = (OrdinaryCreateFromConstructor constructor &quot;%ArrayBuffer.prototype%&quot; (new [&quot;ArrayBufferData&quot;, &quot;ArrayBufferByteLength&quot;, &quot;ArrayBufferDetachKey&quot;]))</font>> color="black" fillcolor="white" style=filled]
-  node16987 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:assert (= [! __x1__] true)</td></tr>
+      <tr><td align="left">0:let obj = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16988 [shape=cds, label=<<font color="black">2:app __x2__ = (CreateByteDataBlock byteLength)</font>> color="black" fillcolor="white" style=filled]
-  node16983 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node16985 -> node16986 [ color="black"]
-  node16982 -> node16984 [ color="black"]
-  node16984 -> node16985 [ color="black"]
-  node16989 -> node16983 [ color="black"]
-  node16987 -> node16988 [ color="black"]
-  node16988 -> node16989 [ color="black"]
-  node16986 -> node16987 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (IsNonNegativeInteger byteLength)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

@@ -1,31 +1,31 @@
 digraph {
-  node9907 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:let F = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">2:app __x2__ = (SetFunctionName F name)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:[! __x2__]</td></tr>
       <tr><td align="left">3:F.SourceText = (get-syntax AsyncFunctionDeclaration)</td></tr>
       <tr><td align="left">4:return F</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9901 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9904 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
-  node9900 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9903 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let name = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9905 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let F = [! __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node9902 [shape=cds, label=<<font color="black">0:access __x0__ = (BindingIdentifier &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node9906 [shape=cds, label=<<font color="black">2:app __x2__ = (SetFunctionName F name)</font>> color="black" fillcolor="white" style=filled]
-  node9905 -> node9906 [ color="black"]
-  node9903 -> node9904 [ color="black"]
-  node9907 -> node9901 [ color="black"]
-  node9902 -> node9903 [ color="black"]
-  node9906 -> node9907 [ color="black"]
-  node9904 -> node9905 [ color="black"]
-  node9900 -> node9902 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

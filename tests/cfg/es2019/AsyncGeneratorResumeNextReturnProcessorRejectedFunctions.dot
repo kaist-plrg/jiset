@@ -1,20 +1,20 @@
 digraph {
-  node17390 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let F = GLOBAL_context.Function</td></tr>
       <tr><td align="left">1:F.Generator.AsyncGeneratorState = &quot;completed&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17389 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17392 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">2:app __x0__ = (AsyncGeneratorReject F.Generator reason)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:return [! __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node17388 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node17391 [shape=cds, label=<<font color="black">2:app __x0__ = (AsyncGeneratorReject F.Generator reason)</font>> color="black" fillcolor="white" style=filled]
-  node17388 -> node17390 [ color="black"]
-  node17390 -> node17391 [ color="black"]
-  node17391 -> node17392 [ color="black"]
-  node17392 -> node17389 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

@@ -1,38 +1,38 @@
 digraph {
-  node4775 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4771 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let baseReference = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4776 [shape=cds, label=<<font color="black">4:access __x2__ = (OptionalChain &quot;ChainEvaluation&quot; baseValue baseReference)</font>> color="black" fillcolor="white" style=filled]
-  node4772 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue baseReference)</font>> color="black" fillcolor="white" style=filled]
-  node4769 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4773 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let baseValue = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4768 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4770 [shape=cds, label=<<font color="black">0:access __x0__ = (CallExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node4774 [shape=diamond, label=<<font color="black">(|| (= baseValue undefined) (= baseValue null))</font>> color="black" fillcolor="white" style=filled]
-  node4777 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=diamond, label=<<font color="black">(|| (= baseValue undefined) (= baseValue null))</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:return __x2__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4768 -> node4770 [ color="black"]
-  node4777 -> node4769 [ color="black"]
-  node4774 -> node4775 [label=<<font color="black">true</font>> color="black"]
-  node4774 -> node4776 [label=<<font color="black">false</font>> color="black"]
-  node4770 -> node4771 [ color="black"]
-  node4775 -> node4776 [ color="black"]
-  node4772 -> node4773 [ color="black"]
-  node4773 -> node4774 [ color="black"]
-  node4771 -> node4772 [ color="black"]
-  node4776 -> node4777 [ color="black"]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (CallExpression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let baseReference = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=cds, label=<<font color="black">4:access __x2__ = (OptionalChain &quot;ChainEvaluation&quot; baseValue baseReference)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:app __x1__ = (GetValue baseReference)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
+  node6 -> node8 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node8 [ color="black"]
 }

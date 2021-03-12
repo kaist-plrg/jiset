@@ -1,45 +1,45 @@
 digraph {
-  node1855 [shape=diamond, label=<<font color="black">(! (= kind CONST_Normal))</font>> color="black" fillcolor="white" style=filled]
-  node1860 [shape=cds, label=<<font color="black">5:app __x1__ = (FunctionInitialize F kind ParameterList Body Scope)</font>> color="black" fillcolor="white" style=filled]
-  node1858 [shape=cds, label=<<font color="black">4:app __x0__ = (FunctionAllocate prototype Strict allocKind)</font>> color="black" fillcolor="white" style=filled]
-  node1852 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1857 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let allocKind = &quot;normal&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1853 [shape=diamond, label=<<font color="black">(= prototype absent)</font>> color="black" fillcolor="white" style=filled]
-  node1854 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let prototype = INTRINSIC_FunctionPrototype</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1861 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:return __x1__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1859 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let F = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1851 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1856 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let allocKind = &quot;non-constructor&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1853 -> node1854 [label=<<font color="black">true</font>> color="black"]
-  node1853 -> node1855 [label=<<font color="black">false</font>> color="black"]
-  node1855 -> node1856 [label=<<font color="black">true</font>> color="black"]
-  node1855 -> node1857 [label=<<font color="black">false</font>> color="black"]
-  node1857 -> node1858 [ color="black"]
-  node1858 -> node1859 [ color="black"]
-  node1856 -> node1858 [ color="black"]
-  node1861 -> node1852 [ color="black"]
-  node1860 -> node1861 [ color="black"]
-  node1854 -> node1855 [ color="black"]
-  node1851 -> node1853 [ color="black"]
-  node1859 -> node1860 [ color="black"]
+  node10 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return __x1__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let allocKind = &quot;normal&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=cds, label=<<font color="black">5:app __x1__ = (FunctionInitialize F kind ParameterList Body Scope)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=diamond, label=<<font color="black">(= prototype absent)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">4:app __x0__ = (FunctionAllocate prototype Strict allocKind)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let prototype = INTRINSIC_FunctionPrototype</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let F = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(! (= kind CONST_Normal))</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node7 -> node8 [ color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node7 [ color="black"]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node4 [label=<<font color="black">false</font>> color="black"]
+  node6 -> node7 [ color="black"]
 }

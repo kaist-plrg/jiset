@@ -1,36 +1,36 @@
 digraph {
-  node10764 [shape=cds, label=<<font color="black">0:access __x0__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10765 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let sourceName = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10766 [shape=diamond, label=<<font color="black">(= module null)</font>> color="black" fillcolor="white" style=filled]
-  node10762 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10769 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:return (new [(new ExportEntryRecord(&quot;ModuleRequest&quot; -&gt; module, &quot;ImportName&quot; -&gt; importName, &quot;LocalName&quot; -&gt; localName, &quot;ExportName&quot; -&gt; sourceName))])</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10767 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let localName = sourceName</td></tr>
       <tr><td align="left">3:let importName = null</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10763 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10768 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:let localName = null</td></tr>
       <tr><td align="left">6:let importName = sourceName</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10762 -> node10764 [ color="black"]
-  node10766 -> node10767 [label=<<font color="black">true</font>> color="black"]
-  node10766 -> node10768 [label=<<font color="black">false</font>> color="black"]
-  node10765 -> node10766 [ color="black"]
-  node10767 -> node10769 [ color="black"]
-  node10768 -> node10769 [ color="black"]
-  node10764 -> node10765 [ color="black"]
-  node10769 -> node10763 [ color="black"]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (IdentifierName &quot;StringValue&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">7:return (new [(new ExportEntryRecord(&quot;ModuleRequest&quot; -&gt; module, &quot;ImportName&quot; -&gt; importName, &quot;LocalName&quot; -&gt; localName, &quot;ExportName&quot; -&gt; sourceName))])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let sourceName = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(= module null)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node5 -> node7 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

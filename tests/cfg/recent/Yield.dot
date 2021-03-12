@@ -1,34 +1,34 @@
 digraph {
-  node19238 [shape=diamond, label=<<font color="black">(= generatorKind CONST_async)</font>> color="black" fillcolor="white" style=filled]
-  node19235 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19241 [shape=cds, label=<<font color="black">app __x2__ = (CreateIterResultObject value false)</font>> color="black" fillcolor="white" style=filled]
-  node19234 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node19239 [shape=cds, label=<<font color="black">app __x1__ = (AsyncGeneratorYield value)</font>> color="black" fillcolor="white" style=filled]
-  node19243 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return [? __x3__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19240 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">app __x1__ = (AsyncGeneratorYield value)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19237 [shape=none, margin=0, label=<<font color="black">
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return [? __x3__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (GetGeneratorKind)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">app __x2__ = (CreateIterResultObject value false)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let generatorKind = [! __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node19236 [shape=cds, label=<<font color="black">0:app __x0__ = (GetGeneratorKind)</font>> color="black" fillcolor="white" style=filled]
-  node19242 [shape=cds, label=<<font color="black">app __x3__ = (GeneratorYield [! __x2__])</font>> color="black" fillcolor="white" style=filled]
-  node19234 -> node19236 [ color="black"]
-  node19242 -> node19243 [ color="black"]
-  node19236 -> node19237 [ color="black"]
-  node19241 -> node19242 [ color="black"]
-  node19240 -> node19235 [ color="black"]
-  node19239 -> node19240 [ color="black"]
-  node19243 -> node19235 [ color="black"]
-  node19237 -> node19238 [ color="black"]
-  node19238 -> node19239 [label=<<font color="black">true</font>> color="black"]
-  node19238 -> node19241 [label=<<font color="black">false</font>> color="black"]
+  node8 [shape=cds, label=<<font color="black">app __x3__ = (GeneratorYield [! __x2__])</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(= generatorKind CONST_async)</font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node0 -> node2 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

@@ -1,36 +1,36 @@
 digraph {
-  node212 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x 1i) (= y 0i))</font>> color="black" fillcolor="white" style=filled]
-  node213 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x 0i) (= y 1i))</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return 1i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node209 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node214 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x 0i) (= y 1i))</font>> color="black" fillcolor="white" style=filled]
-  node210 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node215 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return 1i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node216 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return 0i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node211 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (|| (= x 0i) (= x 1i))</td></tr>
       <tr><td align="left">1:assert (|| (= y 0i) (= y 1i))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node211 -> node212 [ color="black"]
-  node209 -> node211 [ color="black"]
-  node213 -> node210 [ color="black"]
-  node214 -> node215 [label=<<font color="black">true</font>> color="black"]
-  node214 -> node216 [label=<<font color="black">false</font>> color="black"]
-  node216 -> node210 [ color="black"]
-  node212 -> node213 [label=<<font color="black">true</font>> color="black"]
-  node212 -> node214 [label=<<font color="black">false</font>> color="black"]
-  node215 -> node210 [ color="black"]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=diamond, label=<<font color="black">(&amp;&amp; (= x 1i) (= y 0i))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return 1i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node6 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
 }

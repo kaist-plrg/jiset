@@ -1,40 +1,40 @@
 digraph {
-  node3915 [shape=cds, label=<<font color="black">0:access __x0__ = (TemplateMiddleList &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3919 [shape=cds, label=<<font color="black">3:access __x2__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3916 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let rest = __x0__</td></tr>
-      <tr><td align="left">1:[? rest]</td></tr>
+      <tr><td align="left">2:let middle = __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3922 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">3:access __x2__ = (Expression &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:let last = [? __x3__]</td></tr>
       <tr><td align="left">6:??? &quot;Return the sequence of code units consisting of the elements of id:{rest} followed by the code units of id:{middle} followed by the elements of id:{last} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3920 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (TemplateMiddleList &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let sub = __x2__</td></tr>
       <tr><td align="left">4:[? sub]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3917 [shape=cds, label=<<font color="black">2:access __x1__ = (TemplateMiddle &quot;TV&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3921 [shape=cds, label=<<font color="black">5:app __x3__ = (ToString sub)</font>> color="black" fillcolor="white" style=filled]
-  node3913 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3914 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node3918 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let middle = __x1__</td></tr>
+      <tr><td align="left">0:let rest = __x0__</td></tr>
+      <tr><td align="left">1:[? rest]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3918 -> node3919 [ color="black"]
-  node3915 -> node3916 [ color="black"]
-  node3921 -> node3922 [ color="black"]
-  node3916 -> node3917 [ color="black"]
-  node3913 -> node3915 [ color="black"]
-  node3917 -> node3918 [ color="black"]
-  node3919 -> node3920 [ color="black"]
-  node3920 -> node3921 [ color="black"]
-  node3922 -> node3914 [ color="black"]
+  node8 [shape=cds, label=<<font color="black">5:app __x3__ = (ToString sub)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">2:access __x1__ = (TemplateMiddle &quot;TV&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

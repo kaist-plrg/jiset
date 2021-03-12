@@ -1,12 +1,20 @@
 digraph {
-  node1924 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">8:__x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1919 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1921 [shape=cds, label=<<font color="black">0:app __x0__ = (CreateRealm)</font>> color="black" fillcolor="white" style=filled]
-  node1922 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">9:app __x2__ = (SetDefaultGlobalBindings realm)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (CreateRealm)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:let globalObj = [? __x2__]</td></tr>
+      <tr><td align="left">11:return CONST_empty</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let realm = __x0__</td></tr>
       <tr><td align="left">1:let newContext = (new ExecutionContext(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
@@ -19,20 +27,12 @@ digraph {
       <tr><td align="left">7:??? &quot;If the host requires that the code:{this} binding in id:{realm} ' s global scope return an object other than the global object , let id:{thisValue} be such an object created in an implementation - defined manner . Otherwise , let id:{thisValue} be value:{undefined} , indicating that id:{realm} ' s global code:{this} binding should be the global object .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1920 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1926 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:let globalObj = [? __x2__]</td></tr>
-      <tr><td align="left">11:return CONST_empty</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1923 [shape=cds, label=<<font color="black">8:app __x1__ = (SetRealmGlobalObject realm global thisValue)</font>> color="black" fillcolor="white" style=filled]
-  node1925 [shape=cds, label=<<font color="black">9:app __x2__ = (SetDefaultGlobalBindings realm)</font>> color="black" fillcolor="white" style=filled]
-  node1923 -> node1924 [ color="black"]
-  node1924 -> node1925 [ color="black"]
-  node1922 -> node1923 [ color="black"]
-  node1925 -> node1926 [ color="black"]
-  node1921 -> node1922 [ color="black"]
-  node1926 -> node1920 [ color="black"]
-  node1919 -> node1921 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">8:app __x1__ = (SetRealmGlobalObject realm global thisValue)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

@@ -1,13 +1,7 @@
 digraph {
-  node18614 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18617 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:return __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node18613 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node18616 [shape=cds, label=<<font color="black">6:app __x0__ = (TriggerPromiseReactions reactions value)</font>> color="black" fillcolor="white" style=filled]
-  node18615 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (= promise.PromiseState CONST_pending)</td></tr>
       <tr><td align="left">1:let reactions = promise.PromiseFulfillReactions</td></tr>
@@ -17,8 +11,14 @@ digraph {
       <tr><td align="left">5:promise.PromiseState = CONST_fulfilled</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18613 -> node18615 [ color="black"]
-  node18615 -> node18616 [ color="black"]
-  node18616 -> node18617 [ color="black"]
-  node18617 -> node18614 [ color="black"]
+  node3 [shape=cds, label=<<font color="black">6:app __x0__ = (TriggerPromiseReactions reactions value)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node0 -> node2 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

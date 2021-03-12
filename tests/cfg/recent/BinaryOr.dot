@@ -1,27 +1,27 @@
 digraph {
-  node206 [shape=diamond, label=<<font color="black">(|| (= x 1i) (= y 1i))</font>> color="black" fillcolor="white" style=filled]
-  node205 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">return 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (|| (= x 0i) (= x 1i))</td></tr>
       <tr><td align="left">1:assert (|| (= y 0i) (= y 1i))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node204 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node208 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">return 0i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node203 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node207 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=diamond, label=<<font color="black">(|| (= x 1i) (= y 1i))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return 1i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node205 -> node206 [ color="black"]
-  node203 -> node205 [ color="black"]
-  node207 -> node204 [ color="black"]
-  node208 -> node204 [ color="black"]
-  node206 -> node207 [label=<<font color="black">true</font>> color="black"]
-  node206 -> node208 [label=<<font color="black">false</font>> color="black"]
+  node4 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node5 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
 }

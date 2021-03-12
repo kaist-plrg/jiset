@@ -1,30 +1,30 @@
 digraph {
-  node12865 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(|| (|| (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) (= n Infinity)) (= n -Infinity))</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return n</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12864 [shape=diamond, label=<<font color="black">(|| (|| (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) (= n Infinity)) (= n -Infinity))</font>> color="black" fillcolor="white" style=filled]
-  node12860 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12859 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node12862 [shape=cds, label=<<font color="black">0:app __x0__ = (ToNumber x)</font>> color="black" fillcolor="white" style=filled]
-  node12861 [shape=cds, label=<<font color="black">app x = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node12866 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=cds, label=<<font color="black">app x = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:??? &quot;Return an implementation - approximated value representing the result of the cube root of ℝ ( id:{n} ) .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12863 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">0:app __x0__ = (ToNumber x)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let n = [? __x0__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12865 -> node12866 [ color="black"]
-  node12862 -> node12863 [ color="black"]
-  node12866 -> node12860 [ color="black"]
-  node12861 -> node12862 [ color="black"]
-  node12859 -> node12861 [ color="black"]
-  node12864 -> node12865 [label=<<font color="black">true</font>> color="black"]
-  node12864 -> node12866 [label=<<font color="black">false</font>> color="black"]
-  node12863 -> node12864 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node7 -> node1 [ color="black"]
+  node6 -> node7 [ color="black"]
 }

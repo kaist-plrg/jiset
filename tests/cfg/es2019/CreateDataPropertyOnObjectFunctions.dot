@@ -1,36 +1,36 @@
 digraph {
-  node11357 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">3:app __x1__ = (ToPropertyKey key)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let propertyKey = [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11356 [shape=cds, label=<<font color="black">3:app __x1__ = (ToPropertyKey key)</font>> color="black" fillcolor="white" style=filled]
-  node11355 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:assert (= __x0__ Object)</td></tr>
+      <tr><td align="left">0:let O = this</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11359 [shape=none, margin=0, label=<<font color="black">
+  node7 [shape=cds, label=<<font color="black">4:app __x2__ = (CreateDataPropertyOrThrow O propertyKey value)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:[! __x2__]</td></tr>
       <tr><td align="left">5:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11358 [shape=cds, label=<<font color="black">4:app __x2__ = (CreateDataPropertyOrThrow O propertyKey value)</font>> color="black" fillcolor="white" style=filled]
-  node11352 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11353 [shape=none, margin=0, label=<<font color="black">
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let O = this</td></tr>
+      <tr><td align="left">1:assert (= __x0__ Object)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11354 [shape=cds, label=<<font color="black">1:app __x0__ = (Type O)</font>> color="black" fillcolor="white" style=filled]
-  node11351 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node11351 -> node11353 [ color="black"]
-  node11357 -> node11358 [ color="black"]
-  node11354 -> node11355 [ color="black"]
-  node11359 -> node11352 [ color="black"]
-  node11356 -> node11357 [ color="black"]
-  node11353 -> node11354 [ color="black"]
-  node11355 -> node11356 [ color="black"]
-  node11358 -> node11359 [ color="black"]
+  node7 -> node8 [ color="black"]
+  node8 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

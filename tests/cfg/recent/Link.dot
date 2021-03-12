@@ -1,21 +1,15 @@
 digraph {
-  node10827 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10833 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">3:app __x1__ = (IsAbruptCompletion result)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let __x2__ = stack</td></tr>
-      <tr><td align="left">4:let __x3__ = 0i</td></tr>
+      <tr><td align="left">10:assert (= module.Status CONST_unlinked)</td></tr>
+      <tr><td align="left">11:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10831 [shape=cds, label=<<font color="black">3:app __x1__ = (IsAbruptCompletion result)</font>> color="black" fillcolor="white" style=filled]
-  node10826 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10830 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let result = __x0__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10834 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
-  node10829 [shape=cds, label=<<font color="black">2:app __x0__ = (InnerModuleLinking module stack 0i)</font>> color="black" fillcolor="white" style=filled]
-  node10835 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let m = __x2__[__x3__]</td></tr>
       <tr><td align="left">5:assert (= m.Status CONST_linking)</td></tr>
@@ -26,37 +20,43 @@ digraph {
       <tr><td align="left">__x3__ = (+ __x3__ 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10828 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (! (|| (= module.Status CONST_linking) (= module.Status CONST_evaluating)))</td></tr>
       <tr><td align="left">1:let stack = (new [])</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10836 [shape=none, margin=0, label=<<font color="black">
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">10:assert (= module.Status CONST_unlinked)</td></tr>
-      <tr><td align="left">11:return result</td></tr>
+      <tr><td align="left">4:let __x2__ = stack</td></tr>
+      <tr><td align="left">4:let __x3__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10832 [shape=diamond, label=<<font color="black">__x1__</font>> color="black" fillcolor="white" style=filled]
-  node10837 [shape=none, margin=0, label=<<font color="black">
+  node3 [shape=cds, label=<<font color="black">2:app __x0__ = (InnerModuleLinking module stack 0i)</font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">12:assert (|| (= module.Status CONST_linked) (= module.Status CONST_evaluated))</td></tr>
       <tr><td align="left">13:assert (= stack.length 0i)</td></tr>
       <tr><td align="left">14:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10834 -> node10835 [label=<<font color="black">true</font>> color="black"]
-  node10834 -> node10836 [label=<<font color="black">false</font>> color="black"]
-  node10830 -> node10831 [ color="black"]
-  node10826 -> node10828 [ color="black"]
-  node10836 -> node10837 [ color="black"]
-  node10835 -> node10834 [ color="black"]
-  node10832 -> node10833 [label=<<font color="black">true</font>> color="black"]
-  node10832 -> node10837 [label=<<font color="black">false</font>> color="black"]
-  node10829 -> node10830 [ color="black"]
-  node10828 -> node10829 [ color="black"]
-  node10831 -> node10832 [ color="black"]
-  node10833 -> node10834 [ color="black"]
-  node10837 -> node10827 [ color="black"]
+  node8 [shape=diamond, label=<<font color="black">(&lt; __x3__ __x2__.length)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let result = __x0__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node7 -> node8 [ color="black"]
+  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
+  node6 -> node11 [label=<<font color="black">false</font>> color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node11 -> node1 [ color="black"]
+  node10 -> node11 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node8 -> node9 [label=<<font color="black">true</font>> color="black"]
+  node8 -> node10 [label=<<font color="black">false</font>> color="black"]
+  node9 -> node8 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

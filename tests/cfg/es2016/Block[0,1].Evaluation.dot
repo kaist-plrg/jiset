@@ -1,38 +1,38 @@
 digraph {
-  node5518 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">2:app __x1__ = (BlockDeclarationInstantiation StatementList blockEnv)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:__x1__</td></tr>
+      <tr><td align="left">3:GLOBAL_context.LexicalEnvironment = blockEnv</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let oldEnv = GLOBAL_context.LexicalEnvironment</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5521 [shape=cds, label=<<font color="black">2:app __x1__ = (BlockDeclarationInstantiation StatementList blockEnv)</font>> color="black" fillcolor="white" style=filled]
-  node5519 [shape=cds, label=<<font color="black">1:app __x0__ = (NewDeclarativeEnvironment oldEnv)</font>> color="black" fillcolor="white" style=filled]
-  node5524 [shape=none, margin=0, label=<<font color="black">
+  node7 [shape=cds, label=<<font color="black">4:access __x2__ = (StatementList &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (NewDeclarativeEnvironment oldEnv)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:let blockValue = __x2__</td></tr>
       <tr><td align="left">5:GLOBAL_context.LexicalEnvironment = oldEnv</td></tr>
       <tr><td align="left">6:return blockValue</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5520 [shape=none, margin=0, label=<<font color="black">
+  node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let blockEnv = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node5516 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5523 [shape=cds, label=<<font color="black">4:access __x2__ = (StatementList &quot;Evaluation&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node5517 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5522 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:__x1__</td></tr>
-      <tr><td align="left">3:GLOBAL_context.LexicalEnvironment = blockEnv</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node5523 -> node5524 [ color="black"]
-  node5518 -> node5519 [ color="black"]
-  node5524 -> node5517 [ color="black"]
-  node5516 -> node5518 [ color="black"]
-  node5519 -> node5520 [ color="black"]
-  node5520 -> node5521 [ color="black"]
-  node5521 -> node5522 [ color="black"]
-  node5522 -> node5523 [ color="black"]
+  node7 -> node8 [ color="black"]
+  node8 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

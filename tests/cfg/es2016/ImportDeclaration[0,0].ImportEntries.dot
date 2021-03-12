@@ -1,21 +1,21 @@
 digraph {
-  node9604 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9607 [shape=cds, label=<<font color="black">1:access __x1__ = (ImportClause &quot;ImportEntriesForModule&quot; module)</font>> color="black" fillcolor="white" style=filled]
-  node9606 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let module = __x0__[0i]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node9605 [shape=cds, label=<<font color="black">0:access __x0__ = (FromClause &quot;ModuleRequests&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node9608 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:return __x1__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9603 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node9608 -> node9604 [ color="black"]
-  node9605 -> node9606 [ color="black"]
-  node9606 -> node9607 [ color="black"]
-  node9603 -> node9605 [ color="black"]
-  node9607 -> node9608 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (FromClause &quot;ModuleRequests&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let module = __x0__[0i]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:access __x1__ = (ImportClause &quot;ImportEntriesForModule&quot; module)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }

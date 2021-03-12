@@ -1,45 +1,45 @@
 digraph {
-  node1290 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw ReferenceError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1287 [shape=diamond, label=<<font color="black">(= value false)</font>> color="black" fillcolor="white" style=filled]
-  node1283 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1291 [shape=cds, label=<<font color="black">5:app __x1__ = (Get bindings N)</font>> color="black" fillcolor="white" style=filled]
-  node1292 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(= value false)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:return [? __x1__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1286 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let value = [? __x0__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1282 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node1285 [shape=cds, label=<<font color="black">2:app __x0__ = (HasProperty bindings N)</font>> color="black" fillcolor="white" style=filled]
-  node1284 [shape=none, margin=0, label=<<font color="black">
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=diamond, label=<<font color="black">(= S false)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=cds, label=<<font color="black">5:app __x1__ = (Get bindings N)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let bindings = envRec.BindingObject</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1289 [shape=none, margin=0, label=<<font color="black">
+  node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1288 [shape=diamond, label=<<font color="black">(= S false)</font>> color="black" fillcolor="white" style=filled]
-  node1288 -> node1289 [label=<<font color="black">true</font>> color="black"]
-  node1288 -> node1290 [label=<<font color="black">false</font>> color="black"]
-  node1284 -> node1285 [ color="black"]
-  node1291 -> node1292 [ color="black"]
-  node1282 -> node1284 [ color="black"]
-  node1292 -> node1283 [ color="black"]
-  node1285 -> node1286 [ color="black"]
-  node1287 -> node1288 [label=<<font color="black">true</font>> color="black"]
-  node1287 -> node1291 [label=<<font color="black">false</font>> color="black"]
-  node1290 -> node1291 [ color="black"]
-  node1289 -> node1291 [ color="black"]
-  node1286 -> node1287 [ color="black"]
+  node3 [shape=cds, label=<<font color="black">2:app __x0__ = (HasProperty bindings N)</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw ReferenceError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">2:let value = [? __x0__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
+  node6 -> node8 [label=<<font color="black">false</font>> color="black"]
+  node2 -> node3 [ color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node7 -> node9 [ color="black"]
+  node8 -> node9 [ color="black"]
 }

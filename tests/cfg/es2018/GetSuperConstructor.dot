@@ -1,40 +1,40 @@
 digraph {
-  node4279 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">4:let superConstructor = [! __x1__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">5:app __x2__ = (IsConstructor superConstructor)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">6:return superConstructor</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (GetThisEnvironment)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=diamond, label=<<font color="black">(= __x2__ false)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let envRec = __x0__</td></tr>
       <tr><td align="left">1:assert (= (typeof envRec) &quot;FunctionEnvironmentRecord&quot;)</td></tr>
       <tr><td align="left">2:let activeFunction = envRec.FunctionObject</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4285 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:return superConstructor</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4284 [shape=none, margin=0, label=<<font color="black">
+  node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4280 [shape=cds, label=<<font color="black">4:app __x1__ = (activeFunction.GetPrototypeOf activeFunction)</font>> color="black" fillcolor="white" style=filled]
-  node4276 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4283 [shape=diamond, label=<<font color="black">(= __x2__ false)</font>> color="black" fillcolor="white" style=filled]
-  node4277 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node4282 [shape=cds, label=<<font color="black">5:app __x2__ = (IsConstructor superConstructor)</font>> color="black" fillcolor="white" style=filled]
-  node4278 [shape=cds, label=<<font color="black">0:app __x0__ = (GetThisEnvironment)</font>> color="black" fillcolor="white" style=filled]
-  node4281 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let superConstructor = [! __x1__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node4284 -> node4285 [ color="black"]
-  node4285 -> node4277 [ color="black"]
-  node4283 -> node4284 [label=<<font color="black">true</font>> color="black"]
-  node4283 -> node4285 [label=<<font color="black">false</font>> color="black"]
-  node4279 -> node4280 [ color="black"]
-  node4278 -> node4279 [ color="black"]
-  node4280 -> node4281 [ color="black"]
-  node4281 -> node4282 [ color="black"]
-  node4282 -> node4283 [ color="black"]
-  node4276 -> node4278 [ color="black"]
+  node4 [shape=cds, label=<<font color="black">4:app __x1__ = (activeFunction.GetPrototypeOf activeFunction)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [ color="black"]
+  node7 -> node8 [label=<<font color="black">true</font>> color="black"]
+  node7 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

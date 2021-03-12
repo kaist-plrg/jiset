@@ -1,25 +1,25 @@
 digraph {
-  node6370 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:return (new [])</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node6368 [shape=cds, label=<<font color="black">1:access __x0__ = (HoistableDeclaration &quot;DeclarationPart&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6367 [shape=cds, label=<<font color="black">access HoistableDeclaration = (Declaration &quot;HoistableDeclaration&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node6369 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let declaration = __x0__</td></tr>
       <tr><td align="left">2:return (new [declaration])</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node6366 [shape=diamond, label=<<font color="black">(is-instance-of Declaration Declaration0)</font>> color="black" fillcolor="white" style=filled]
-  node6365 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6364 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6370 -> node6365 [ color="black"]
-  node6366 -> node6367 [label=<<font color="black">true</font>> color="black"]
-  node6366 -> node6370 [label=<<font color="black">false</font>> color="black"]
-  node6367 -> node6368 [ color="black"]
-  node6368 -> node6369 [ color="black"]
-  node6364 -> node6366 [ color="black"]
-  node6369 -> node6370 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return (new [])</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=diamond, label=<<font color="black">(is-instance-of Declaration Declaration0)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">access HoistableDeclaration = (Declaration &quot;HoistableDeclaration&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">1:access __x0__ = (HoistableDeclaration &quot;DeclarationPart&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node2 -> node3 [label=<<font color="black">true</font>> color="black"]
+  node2 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node6 -> node1 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

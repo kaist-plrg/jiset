@@ -1,32 +1,25 @@
 digraph {
-  node1999 [shape=cds, label=<<font color="black">0:app __x0__ = (Type functionPrototype)</font>> color="black" fillcolor="white" style=filled]
-  node2007 [shape=diamond, label=<<font color="black">(= needsConstruct true)</font>> color="black" fillcolor="white" style=filled]
-  node2002 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let needsConstruct = true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2000 [shape=none, margin=0, label=<<font color="black">
+  node10 [shape=diamond, label=<<font color="black">(= needsConstruct true)</font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
+      <tr><td align="left">let needsConstruct = false</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2006 [shape=none, margin=0, label=<<font color="black">
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">5:??? &quot;Let id:{F} be a newly created ECMAScript function object with the internal slots listed in link:{unhandled: table-27} . All of those internal slots are initialized to value:{undefined} .&quot;</td></tr>
       <tr><td align="left">7:F.Call = ECMAScriptFunctionObjectDOTCall</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2001 [shape=diamond, label=<<font color="black">(= functionKind &quot;normal&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node1997 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2005 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">functionKind = &quot;normal&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node1998 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2004 [shape=diamond, label=<<font color="black">(= functionKind &quot;non-constructor&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node2009 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (Type functionPrototype)</font>> color="black" fillcolor="white" style=filled]
+  node12 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">11:F.Strict = strict</td></tr>
       <tr><td align="left">12:F.FunctionKind = functionKind</td></tr>
@@ -36,30 +29,37 @@ digraph {
       <tr><td align="left">16:return F</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2003 [shape=none, margin=0, label=<<font color="black">
+  node7 [shape=diamond, label=<<font color="black">(= functionKind &quot;non-constructor&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let needsConstruct = false</td></tr>
+      <tr><td align="left">0:assert (= __x0__ Object)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2008 [shape=none, margin=0, label=<<font color="black">
+  node11 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">9:F.Construct = ECMAScriptFunctionObjectDOTConstruct</td></tr>
       <tr><td align="left">10:F.ConstructorKind = &quot;base&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2009 -> node1998 [ color="black"]
-  node2001 -> node2002 [label=<<font color="black">true</font>> color="black"]
-  node2001 -> node2003 [label=<<font color="black">false</font>> color="black"]
-  node2005 -> node2006 [ color="black"]
-  node2003 -> node2004 [ color="black"]
-  node1999 -> node2000 [ color="black"]
-  node2004 -> node2005 [label=<<font color="black">true</font>> color="black"]
-  node2004 -> node2006 [label=<<font color="black">false</font>> color="black"]
-  node1997 -> node1999 [ color="black"]
-  node2006 -> node2007 [ color="black"]
-  node2007 -> node2008 [label=<<font color="black">true</font>> color="black"]
-  node2007 -> node2009 [label=<<font color="black">false</font>> color="black"]
-  node2002 -> node2004 [ color="black"]
-  node2008 -> node2009 [ color="black"]
-  node2000 -> node2001 [ color="black"]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">functionKind = &quot;normal&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=diamond, label=<<font color="black">(= functionKind &quot;normal&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node12 -> node1 [ color="black"]
+  node10 -> node11 [label=<<font color="black">true</font>> color="black"]
+  node10 -> node12 [label=<<font color="black">false</font>> color="black"]
+  node2 -> node3 [ color="black"]
+  node11 -> node12 [ color="black"]
+  node7 -> node8 [label=<<font color="black">true</font>> color="black"]
+  node7 -> node9 [label=<<font color="black">false</font>> color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
+  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
+  node8 -> node9 [ color="black"]
+  node5 -> node7 [ color="black"]
 }

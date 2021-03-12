@@ -62,9 +62,8 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
       val baseDir = s"$CFG_TEST_DIR/$version"
       mkdir(baseDir)
       val fidGen = new UIdGen
-      val nidGen = new UIdGen
       spec.algos.foreach(algo => {
-        val func = Translator(algo, fidGen, nidGen).toDot
+        val func = Translator(algo, fidGen).toDot
         dumpFile(func, s"$baseDir/${algo.name}.dot")
       })
     }

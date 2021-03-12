@@ -1,24 +1,24 @@
 digraph {
-  node10093 [shape=cds, label=<<font color="black">0:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10094 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let scope = __x0__</td></tr>
-      <tr><td align="left">1:let parameters = AsyncArrowBindingIdentifier</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node10091 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10095 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype parameters AsyncConciseBody CONST_lexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
-  node10092 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node10096 [shape=none, margin=0, label=<<font color="black">
+  node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let closure = [! __x1__]</td></tr>
       <tr><td align="left">3:closure.SourceText = (get-syntax AsyncArrowFunction)</td></tr>
       <tr><td align="left">4:return closure</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10091 -> node10093 [ color="black"]
-  node10096 -> node10092 [ color="black"]
-  node10095 -> node10096 [ color="black"]
-  node10094 -> node10095 [ color="black"]
-  node10093 -> node10094 [ color="black"]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node2 [shape=cds, label=<<font color="black">0:access __x0__ = (GLOBAL_context &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">0:let scope = __x0__</td></tr>
+      <tr><td align="left">1:let parameters = AsyncArrowBindingIdentifier</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">2:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype parameters AsyncConciseBody CONST_lexicalDASHthis scope)</font>> color="black" fillcolor="white" style=filled]
+  node3 -> node4 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node1 [ color="black"]
 }
