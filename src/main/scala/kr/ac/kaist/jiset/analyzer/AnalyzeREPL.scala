@@ -25,17 +25,8 @@ class AnalyzeREPL(sem: AbsSemantics) {
 
   // jline
   private val terminal: Terminal = TerminalBuilder.builder().build()
-  private val completer: TreeCompleter = new TreeCompleter(
-    node("log"),
-    node("continue"),
-    node("break"),
-    node("break-list"),
-    node("break-rm"),
-    node("graph"),
-    node("debug"),
-    node("quit"),
-    node("exit")
-  )
+  private val completer: TreeCompleter =
+    new TreeCompleter(Command.commands.map(x => node(x.name)): _*)
   private val reader: LineReader = LineReaderBuilder.builder()
     .terminal(terminal)
     .completer(completer)
@@ -53,35 +44,39 @@ class AnalyzeREPL(sem: AbsSemantics) {
 
   // run repl
   def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) {
+    Command.help
+    println
     println(sem.getString(cp, CYAN, true))
     try while (reader.readLine(prompt) match {
       case null =>
         quit(); false
       case line => line.split("\\s+").toList match {
-        case ("quit" | "exit") :: _ =>
-          quit(); false
-        case "log" :: _ =>
-          sem.stat.dump(); true
-        case "continue" :: _ =>
+        case CmdHelp.name :: _ =>
+          Command.help; true
+        case CmdContinue.name :: _ =>
           continue = true; false
-        case "debug" :: _ => error("stop for debugging")
-        case "break" :: args =>
+        case CmdBreak.name :: args =>
           args.headOption match {
             case None => ???
             case Some(bp) => breakpoints += bp.r
           }; true
-        case "break-rm" :: args =>
+        case CmdBreakList.name :: _ =>
+          breakpoints.zipWithIndex.foreach {
+            case (bp, i) => println(s"$i: $bp")
+          }; true
+        case CmdBreakRm.name :: args =>
           args.headOption match {
             case None => ???
             case Some(idx) => breakpoints.remove(idx.toInt)
           }; true
-        case "break-list" :: _ =>
-          breakpoints.zipWithIndex.foreach {
-            case (bp, i) => println(s"$i: $bp")
-          }; true
-        case "graph" :: args =>
+        case CmdLog.name :: _ =>
+          sem.stat.dump(); true
+        case CmdGraph.name :: args =>
           val depth = optional(args.head.toInt)
           dumpCFG(sem, Some(cp), depth = depth); true
+        case CmdDebug.name :: _ => error("stop for debugging")
+        case CmdExit.name :: _ =>
+          quit(); false
         case _ => continue = false; false
       }
     }) {}
@@ -90,3 +85,48 @@ class AnalyzeREPL(sem: AbsSemantics) {
     }
   }
 }
+
+// command
+abstract class Command(
+  val name: String,
+  val info: String = ""
+)
+
+object Command {
+  val commands: List[Command] = List(
+    CmdHelp,
+    CmdContinue,
+    CmdBreak,
+    CmdBreakList,
+    CmdBreakRm,
+    CmdLog,
+    CmdGraph,
+    CmdDebug,
+    CmdExit,
+  )
+  val cmdMap: Map[String, Command] = commands.map(cmd => (cmd.name, cmd)).toMap
+
+  def help = {
+    println
+    println("command list:")
+    for (cmd <- commands) println(s"- ${cmd.name}    ${cmd.info}")
+  }
+}
+
+case object CmdHelp extends Command("help")
+
+case object CmdContinue extends Command("continue", "Continue the analysis.")
+
+case object CmdBreak extends Command("break", "Add a break point.")
+
+case object CmdBreakList extends Command("break-list", "Show the list of break points.")
+
+case object CmdBreakRm extends Command("break-rm", "Remove a break point.")
+
+case object CmdLog extends Command("log", "Dump the state.")
+
+case object CmdGraph extends Command("graph", "Dump the current control graph.")
+
+case object CmdDebug extends Command("debug", "Stop the analysis.")
+
+case object CmdExit extends Command("exit", "Exit the repl.")
