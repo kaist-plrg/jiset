@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.{ CFG_DIR, LOG }
+import kr.ac.kaist.jiset.{ CFG_DIR, LOG, LINE_SEP }
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer
@@ -9,6 +9,13 @@ import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
+import org.jline.builtins.Completers.TreeCompleter
+import org.jline.builtins.Completers.TreeCompleter.{ Node => CNode, node }
+import org.jline.reader._
+import org.jline.reader.impl._
+import org.jline.terminal._
+import org.jline.utils.InfoCmp.Capability
+import org.jline.utils._
 import scala.Console._
 import scala.annotation.tailrec
 
@@ -17,7 +24,8 @@ class AbsTransfer(
   sem: AbsSemantics,
   var interactMode: Boolean = false,
   usePrune: Boolean = true,
-  break: Option[String] = None
+  break: Option[String] = None,
+  var replMode: Boolean = false
 ) {
   import sem.cfg._
   analyzer.transfer = this
@@ -41,6 +49,7 @@ class AbsTransfer(
     case Some(cp) =>
       try {
         if (interactMode || isBreak(cp)) interact(cp)
+        if (replMode) repl(cp)
         apply(cp)
       } catch {
         case e: Throwable =>
@@ -156,6 +165,49 @@ class AbsTransfer(
         case _ => false
       }
     }) {}
+  }
+
+  // repl
+  val terminal: Terminal = TerminalBuilder.builder().build()
+  val completer: TreeCompleter = new TreeCompleter(
+    node("log"),
+    node("graph"),
+    node("debug"),
+    node("quit"),
+    node("exit")
+  )
+  val reader: LineReader = LineReaderBuilder.builder()
+    .terminal(terminal)
+    .completer(completer)
+    .build()
+  def prompt: String = LINE_SEP + s"${MAGENTA}analyzer>${RESET} "
+
+  def repl(cp: ControlPoint): Unit = {
+    println(sem.getString(cp, CYAN, true))
+    try {
+      while (reader.readLine(prompt) match {
+        case null =>
+          replMode = false; false
+        case line => line.split("\\s+").toList match {
+          case ("quit" | "exit") :: _ =>
+            replMode = false; false
+          case "log" :: args =>
+            stat.dump()
+            true
+          case "graph" :: args =>
+            val depth = optional(args.head.toInt)
+            dumpCFG(Some(cp), depth = depth); true
+          case "debug" :: _ =>
+            error("stop for debugging")
+          case _ =>
+            println(line)
+            false
+        }
+      }) {}
+    } catch {
+      case e: EndOfFileException => error("stop analyze-repl")
+      case e: Throwable => 
+    }
   }
 
   // dump CFG in DOT/PDF format
