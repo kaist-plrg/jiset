@@ -356,8 +356,8 @@ class Model(cfg: CFG) {
     )),
     "%Date%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
-      "Call" -> getClo("Call"),
-      "Construct" -> getClo("Call"),
+      "Call" -> getClo("Date"),
+      "Construct" -> getClo("Date"),
     )),
     "%Date.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
@@ -382,8 +382,16 @@ class Model(cfg: CFG) {
     "%isNaN%" -> (Some("OrdinaryObject"), Map(
       "Call" -> getClo("isNaN"),
     )),
+    "%RegExp%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.Prototype%")),
+      "Call" -> getClo("RegExp"),
+      "Construct" -> getClo("RegExp"),
+    )),
+    "%RegExp.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.Prototype%")),
+    )),
   // TODO model following remaining intrinsics (ommitted some cases that seems unnecessary)
-  // %IteratorPrototype% %JSON% %Map% %MapIteratorPrototype% %Math% %Number% %parseFloat% %parseInt% %Promise% %Proxy% %Reflect% %RegExp% %RegExpStringIteratorPrototype% %Set% %SetIteratorPrototype% %String% %StringIteratorPrototype% %Symbol% %TypedArray% %Uint8Array% %Uint8ClampedArray% %Uint16Array% %Uint32Array%
+  // %IteratorPrototype% %JSON% %Map% %MapIteratorPrototype% %Math% %Number% %parseFloat% %parseInt% %Promise% %Proxy% %Reflect% %RegExpStringIteratorPrototype% %Set% %SetIteratorPrototype% %String% %StringIteratorPrototype% %Symbol% %TypedArray% %Uint8Array% %Uint8ClampedArray% %Uint16Array% %Uint32Array%
   )
 
   // TODO more manual modelings

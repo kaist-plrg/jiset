@@ -40,7 +40,11 @@ object BasicDomain extends env.Domain {
     def gamma: concrete.Set[Env] = Infinite
 
     // conversion to flat domain
-    def getSingle: concrete.Flat[Env] = Many
+    def getSingle: concrete.Flat[Env] = this match {
+      case Bot => Zero
+      case Empty => One(Env())
+      case _ => Many
+    }
 
     // lookup identifiers
     def apply(name: String): (AbsValue, AbsAbsent) = {

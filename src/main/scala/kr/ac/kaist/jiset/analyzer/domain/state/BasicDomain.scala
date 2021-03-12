@@ -344,29 +344,5 @@ object BasicDomain extends state.Domain {
 
     // check whether lists contains elements
     def contains(list: AbsPure, v: AbsPure): AbsValue = AbsBool.Top // TODO
-
-    // check variables in env, list/map objects in heap has bottoms
-    def checkBottoms: Unit = {
-      import AbsObj._
-      // first check env : for each variable, check absValue
-      for ((varName, absVOpt) <- env.map.map) {
-        if (absVOpt.value.isBottom && absVOpt.absent.isBottom)
-          alarm(s"Bottom result found: variable $varName, ")
-      }
-      // second check heap
-      for ((addr, obj) <- heap.map.map) obj match {
-        case MapElem(_, map) => {
-          for ((varName, absVal) <- map.map) {
-            if (absVal.isBottom)
-              alarm(s"Bottom result found: mapObj @ addr ${addr}")
-          }
-        }
-        case ListElem(l) => {
-          if (l.value.isBottom)
-            alarm(s"Bottom result found: listObj @ addr ${addr}")
-        }
-        case _ =>
-      }
-    }
   }
 }
