@@ -42,10 +42,15 @@ class AnalyzeREPL(sem: AbsSemantics) {
   // quit
   private def quit(): Unit = { breakpoints.clear(); continue = true }
 
-  // run repl
-  def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) {
+  // help
+  lazy val help = {
     Command.help
     println
+  }
+
+  // run repl
+  def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) {
+    help
     println(sem.getString(cp, CYAN, true))
     try while (reader.readLine(prompt) match {
       case null =>
