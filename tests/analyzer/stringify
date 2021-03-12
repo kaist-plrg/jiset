@@ -1053,6 +1053,12 @@ LetOrConst[1,0].IsConstantDeclaration:[☊(LetOrConst)]: {
     this -> ! ☊(LetOrConst)
   }
 } ---> N(true)
+LiteralPropertyName[0,0].Evaluation:[☊(LiteralPropertyName), ☊(IdentifierName)]: {
+  env: {
+    this -> ! ☊(LiteralPropertyName)
+    IdentifierName -> ! ☊(IdentifierName)
+  }
+} ---> N(str)
 LiteralPropertyName[0,0].PropName:[☊(LiteralPropertyName), ☊(IdentifierName)]: {
   env: {
     this -> ! ☊(LiteralPropertyName)
@@ -1069,6 +1075,12 @@ LiteralPropertyName[1,0].PropName:[☊(LiteralPropertyName), ☊(StringLiteral)]
   env: {
     this -> ! ☊(LiteralPropertyName)
     StringLiteral -> ! ☊(StringLiteral)
+  }
+} ---> N(str)
+LiteralPropertyName[2,0].Evaluation:[☊(LiteralPropertyName), ☊(NumericLiteral)]: {
+  env: {
+    this -> ! ☊(LiteralPropertyName)
+    NumericLiteral -> ! ☊(NumericLiteral)
   }
 } ---> N(str)
 LiteralPropertyName[2,0].PropName:[☊(LiteralPropertyName), ☊(NumericLiteral)]: {

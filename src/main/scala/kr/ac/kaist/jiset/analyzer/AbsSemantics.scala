@@ -214,24 +214,20 @@ class AbsSemantics(
 
   // target algorithms
   private def successPatterns = List(
-    // Success
-    """Literal\[.*""".r,
-    // """PrimaryExpression.*IsIdentifierRef""".r,
-    // IsIdentifierRef
+    // algorithms
     """.*.IsIdentifierRef""".r,
-    // .IsFunctionDefinition
     """.*.IsFunctionDefinition""".r,
-    // AssignmentTargetType
     """.*.AssignmentTargetType""".r,
-    // String Value : success except algorithms with not-yet-compiled instructions
     """.*.StringValue""".r,
-    // PropName
     """.*.PropName""".r,
+    // syntax
+    """Literal\[.*""".r,
+    """LiteralPropertyName\[.*""".r,
+    """PropertyName\[.*""".r,
     // EarlyErrors
     """PropertyDefinition\[1,0\].EarlyErrors""".r,
     """IdentifierReference\[1,0\].EarlyErrors""".r,
     // Evaluation
-    """LiteralPropertyName\[1,0\].Evaluation""".r,
     """PrimaryExpression\[0,0\].Evaluation""".r,
     // CoveredParenthesizedExpression
     """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
