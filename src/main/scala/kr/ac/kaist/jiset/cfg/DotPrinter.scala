@@ -11,7 +11,7 @@ class DotPrinter {
   // for pure cfg
   def apply(func: Function): DotPrinter = {
     this >> "digraph {"
-    func.nodes.foreach(doNode(_, (REACH, NORMAL)))
+    func.nodes.foreach(doNode(_, (REACH, NORMAL), false))
     func.edges.foreach(doEdge(_))
     this >> "}"
   }
@@ -145,29 +145,43 @@ class DotPrinter {
       else if (!sem(np).isBottom) (REACH, NORMAL)
       else (NON_REACH, NORMAL)
     }
-    doNode(node, np2str(np), colors)
+    doNode(node, np2str(np), colors, true)
   }
-  def doNode(node: Node, colors: (String, String)): DotPrinter =
-    doNode(node, node2str(node), colors)
-  def doNode(node: Node, name: String, colors: (String, String)): DotPrinter = {
+  def doNode(
+    node: Node,
+    colors: (String, String),
+    useUId: Boolean
+  ): DotPrinter =
+    doNode(node, node2str(node), colors, useUId)
+  def doNode(
+    node: Node,
+    name: String,
+    colors: (String, String),
+    useUId: Boolean
+  ): DotPrinter = {
     val (color, bgColor) = colors
+    if (useUId) {
+      this >> s"""  ${name}_name [shape=none, label=<<font color=$color>$node</font>>]"""
+      this >> s"""  ${name}_name -> $name [arrowhead=none, color=$color, style=dashed]"""
+    }
+
     node match {
       case Entry(_) =>
         this >> s"""  $name [shape=circle label=" " color=$color fillcolor=$bgColor style=filled]"""
       case Exit(_) =>
         this >> s"""  $name [shape=circle label=" " color=$color fillcolor=$bgColor style=filled]"""
       case Block(_, insts) =>
-        this >> s"""  $name [shape=none, margin=0, label=<<font color=$color>""" >>
-          s"""    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">"""
+        this >> s"""  $name [shape=none, margin=0, label=<<font color=$color>"""
+        this >> s"""    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">"""
         insts.foreach(inst => {
-          this >> s"""      <tr><td align="left">${norm(inst)}</td></tr>"""
+          this >> s"""      <tr><td align="left">${norm(inst, useUId)}</td></tr>"""
         })
         this >> s"""    </table>""" >>
           s"""  </font>> color=$color fillcolor=$bgColor style=filled]"""
       case Call(_, inst) =>
-        this >> s"""  $name [shape=cds, label=<<font color=$color>${norm(inst)}</font>> color=$color fillcolor=$bgColor style=filled]"""
+        this >> s"""  $name [shape=cds, label=<<font color=$color>${norm(inst, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
       case Branch(_, cond) =>
-        this >> s"""  $name [shape=diamond, label=<<font color=$color>${norm(cond)}</font>> color=$color fillcolor=$bgColor style=filled]"""
+        this >> s"""  $name [shape=diamond, label=<<font color=$color>${norm(cond, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
     }
   }
 
@@ -179,7 +193,9 @@ class DotPrinter {
   override def toString: String = app.toString
 
   // normalize beautified ir nodes
-  private def norm(node: IRNode): String = escapeHtml(node.beautified(index = true))
+
+  private def norm(node: IRNode, useUId: Boolean): String =
+    escapeHtml(node.beautified(index = !useUId))
   // normalize beautified view
   private val normPattern = """[\[\](),\s~?]""".r
   private def norm(view: View): String = normPattern.replaceAllIn(view.toString, "")
