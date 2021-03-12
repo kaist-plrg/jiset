@@ -24,7 +24,7 @@ package object analyzer {
       val errMsg = s"[Bug] $msg @ $alarmCPStr"
       Console.err.println(setColor(RED)(errMsg))
       if (LOG) nfAlarms.println(errMsg)
-      if (CHECK_ALARM) transfer.repl(alarmCP)
+      if (CHECK_ALARM) transfer.REPL.run(alarmCP)
     }
   }
 }
