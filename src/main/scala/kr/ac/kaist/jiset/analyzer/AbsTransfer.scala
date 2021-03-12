@@ -191,9 +191,9 @@ class AbsTransfer(
 
     // transfer function for call instructions
     def transfer(call: Call, view: View): Updater = call.inst match {
-      case IApp(Id(x), ERef(RefId(Id("Type"))), List(arg)) => for {
+      case IApp(Id(x), ERef(RefId(Id(name))), List(arg)) if unaryAlgos contains name => for {
         v <- transfer(arg)
-        ty <- get(_.typeOf(sem, v.escaped))
+        ty <- get(unaryAlgos(name)(_, v.escaped))
         _ <- modify(_ + (x -> ty))
       } yield ()
       case IApp(Id(x), fexpr, args) => for {
@@ -214,6 +214,13 @@ class AbsTransfer(
         }
       } yield ()
     }
+
+    // unary algorithms
+    type UnaryAlgo = (AbsState, AbsPure) => AbsValue
+    val unaryAlgos: Map[String, UnaryAlgo] = Map(
+      "Type" -> ((st, v) => st.typeOf(sem, v)),
+      "floor" -> ((st, v) => AbsINum.Top),
+    )
 
     // transfer function for expressions
     // TODO consider the completion records
@@ -337,7 +344,7 @@ class AbsTransfer(
         rv <- transfer(ref)
         b <- transfer(rv)
         p <- transfer(expr)
-        r <- AbsRefValue.Prop(b, p.escaped.str)
+        r <- AbsRefValue.Prop(b, p.escaped)
       } yield r // TODO handle non-string properties
     }
 
@@ -361,7 +368,9 @@ class AbsTransfer(
     def transfer(bop: BOp): (AbsPure, AbsPure) => AbsValue = (l, r) => bop match {
       case OPlus =>
         if (l.isBottom || r.isBottom) AbsValue.Bot
-        else if (l ⊑ l.str && r ⊑ r.str) AbsStr.Top
+        else if (l ⊑ strTop && r ⊑ strTop) strTop
+        else if (l ⊑ intTop && r ⊑ intTop) intTop
+        else if (l ⊑ numTop && r ⊑ numTop) numTop
         else arithTop
       case OSub => arithTop
       case OMul => arithTop

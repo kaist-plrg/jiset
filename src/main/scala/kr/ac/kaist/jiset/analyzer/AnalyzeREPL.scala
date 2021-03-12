@@ -87,7 +87,6 @@ class AnalyzeREPL(sem: AbsSemantics) {
     }) {}
     catch {
       case e: EndOfFileException => quit()
-      case e: Throwable =>
     }
   }
 }

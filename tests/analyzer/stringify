@@ -359,6 +359,16 @@ BindingIdentifier[1,0].BoundNames:[☊(BindingIdentifier)]: {
 } ---> N(#344) @ {
   #344 -> ["yield"]
 }
+BindingIdentifier[1,0].StringValue:[☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(BindingIdentifier)
+  }
+} ---> N("yield")
+BindingIdentifier[2,0].StringValue:[☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(BindingIdentifier)
+  }
+} ---> N("await")
 BindingRestElement[0,0].ContainsExpression:[☊(BindingRestElement), ☊(BindingIdentifier)]: {
   env: {
     this -> ! ☊(BindingRestElement)
@@ -562,6 +572,11 @@ CoalesceExpression[0,0].IsFunctionDefinition:[☊(CoalesceExpression), ☊(Coale
     BitwiseORExpression -> ! ☊(BitwiseORExpression)
   }
 } ---> N(false)
+CodePointsToString:[str]: {
+  env: {
+    x -> ! str
+  }
+} ---> N(str)
 ComputedPropertyName[0,0].PropName:[☊(ComputedPropertyName), ☊(AssignmentExpression)]: {
   env: {
     this -> ! ☊(ComputedPropertyName)
@@ -908,6 +923,19 @@ HoistableDeclaration[3,0].DeclarationPart:[☊(HoistableDeclaration), ☊(AsyncG
     AsyncGeneratorDeclaration -> ! ☊(AsyncGeneratorDeclaration)
   }
 } ---> N(☊(AsyncGeneratorDeclaration))
+IdentifierName[0,0].StringValue:[☊(IdentifierName), ☊(IdentifierStart)]: {
+  env: {
+    this -> ! ☊(IdentifierName)
+    IdentifierStart -> ! ☊(IdentifierStart)
+  }
+} ---> N(str)
+IdentifierName[1,0].StringValue:[☊(IdentifierName), ☊(IdentifierName), ☊(IdentifierPart)]: {
+  env: {
+    this -> ! ☊(IdentifierName)
+    IdentifierName -> ! ☊(IdentifierName)
+    IdentifierPart -> ! ☊(IdentifierPart)
+  }
+} ---> N(str)
 IdentifierReference[0,0].AssignmentTargetType:[☊(IdentifierReference), ☊(Identifier)]: {
   env: {
     this -> ! ☊(IdentifierReference)
@@ -923,8 +951,8 @@ IdentifierReference[1,0].EarlyErrors:[☊(IdentifierReference)]: {
   env: {
     this -> ! ☊(IdentifierReference)
   }
-} ---> T(#1604) @ {
-  #1604 -> OrdinaryObject {
+} ---> T(#1602) @ {
+  #1602 -> OrdinaryObject {
     Prototype -> ! #%SyntaxError.prototype%
     ErrorData -> ! undef
   }
@@ -963,6 +991,16 @@ ImportMeta[0,0].AssignmentTargetType:[☊(ImportMeta)]: {
     this -> ! ☊(ImportMeta)
   }
 } ---> N(~invalid~)
+LabelIdentifier[1,0].StringValue:[☊(LabelIdentifier)]: {
+  env: {
+    this -> ! ☊(LabelIdentifier)
+  }
+} ---> N("yield")
+LabelIdentifier[2,0].StringValue:[☊(LabelIdentifier)]: {
+  env: {
+    this -> ! ☊(LabelIdentifier)
+  }
+} ---> N("await")
 LeftHandSideExpression[1,0].IsDestructuring:[☊(LeftHandSideExpression), ☊(CallExpression)]: {
   env: {
     this -> ! ☊(LeftHandSideExpression)
@@ -1653,8 +1691,8 @@ PropertyDefinition[1,0].EarlyErrors:[☊(PropertyDefinition), ☊(CoverInitializ
     this -> ! ☊(PropertyDefinition)
     CoverInitializedName -> ! ☊(CoverInitializedName)
   }
-} ---> T(#1624) @ {
-  #1624 -> OrdinaryObject {
+} ---> T(#1622) @ {
+  #1622 -> OrdinaryObject {
     Prototype -> ! #%SyntaxError.prototype%
     ErrorData -> ! undef
   }
@@ -1684,6 +1722,19 @@ PropertyName[1,0].IsComputedPropertyKey:[☊(PropertyName), ☊(ComputedProperty
     ComputedPropertyName -> ! ☊(ComputedPropertyName)
   }
 } ---> N(true)
+RegExpIdentifierName[0,0].StringValue:[☊(RegExpIdentifierName), ☊(RegExpIdentifierStart)]: {
+  env: {
+    this -> ! ☊(RegExpIdentifierName)
+    RegExpIdentifierStart -> ! ☊(RegExpIdentifierStart)
+  }
+} ---> N(str)
+RegExpIdentifierName[1,0].StringValue:[☊(RegExpIdentifierName), ☊(RegExpIdentifierName), ☊(RegExpIdentifierPart)]: {
+  env: {
+    this -> ! ☊(RegExpIdentifierName)
+    RegExpIdentifierName -> ! ☊(RegExpIdentifierName)
+    RegExpIdentifierPart -> ! ☊(RegExpIdentifierPart)
+  }
+} ---> N(str)
 RelationalExpression[1,0].AssignmentTargetType:[☊(RelationalExpression), ☊(RelationalExpression), ☊(ShiftExpression)]: {
   env: {
     this -> ! ☊(RelationalExpression)
@@ -1855,6 +1906,30 @@ SingleNameBinding[0,1].IsSimpleParameterList:[☊(SingleNameBinding), ☊(Bindin
     Initializer -> ! ☊(Initializer)
   }
 } ---> N(false)
+StringLiteral[0,1].StringValue:[☊(StringLiteral), ?]: {
+  env: {
+    this -> ! ☊(StringLiteral)
+    DoubleStringCharacters -> ! ?
+  }
+} ---> N(str)
+StringLiteral[0,1].StringValue:[☊(StringLiteral), ☊(DoubleStringCharacters)]: {
+  env: {
+    this -> ! ☊(StringLiteral)
+    DoubleStringCharacters -> ! ☊(DoubleStringCharacters)
+  }
+} ---> N(str)
+StringLiteral[1,1].StringValue:[☊(StringLiteral), ?]: {
+  env: {
+    this -> ! ☊(StringLiteral)
+    SingleStringCharacters -> ! ?
+  }
+} ---> N(str)
+StringLiteral[1,1].StringValue:[☊(StringLiteral), ☊(SingleStringCharacters)]: {
+  env: {
+    this -> ! ☊(StringLiteral)
+    SingleStringCharacters -> ! ☊(SingleStringCharacters)
+  }
+} ---> N(str)
 ToString:[bigint]: {
   env: {
     argument -> ! bigint

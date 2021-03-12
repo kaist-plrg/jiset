@@ -138,10 +138,20 @@ object BasicDomain extends state.Domain {
       base: AbsValue,
       prop: AbsPure
     ): AbsValue = {
+      var v = AbsValue.Bot
       val pure = base.escaped
-      val tyV = pure.ty.toSet.toList.map(ty => lookup(sem, ty.name, prop.str))
-      val addrV = pure.addr.toSet.toList.map(lookup(sem, _, prop))
-      (tyV ++ addrV).foldLeft(AbsValue.Bot)(_ ⊔ _)
+      for (ty <- pure.ty) v ⊔= lookup(sem, ty.name, prop.str)
+      for (addr <- pure.addr) v ⊔= lookup(sem, addr, prop)
+      v ⊔= lookup(pure.str, prop)
+      v
+    }
+
+    // lookup strings
+    def lookup(str: AbsStr, prop: AbsPure): AbsValue = {
+      var v = AbsValue.Bot
+      if (!prop.int.isBottom) v ⊔= AbsStr.Top
+      if (AbsValue("length") ⊑ prop.str) v ⊔= AbsINum.Top
+      v
     }
 
     // lookup objects
