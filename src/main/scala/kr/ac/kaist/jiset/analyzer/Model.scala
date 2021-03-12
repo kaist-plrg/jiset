@@ -383,7 +383,7 @@ class Model(cfg: CFG) {
       "Call" -> getClo("isNaN"),
     )),
     "%RegExp%" -> (Some("OrdinaryObject"), Map(
-      "Prototype" -> AbsValue(NamedAddr("%Function.Prototype%")),
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
       "Call" -> getClo("RegExp"),
       "Construct" -> getClo("RegExp"),
     )),

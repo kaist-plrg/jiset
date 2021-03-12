@@ -196,23 +196,25 @@ object BasicDomain extends state.Domain {
     }
 
     // lookup type properties
-    def lookup(sem: AbsSemantics, ty: String, prop: AbsStr): AbsValue =
+    def lookup(sem: AbsSemantics, ty: String, prop: String): AbsValue = {
       sem.typeMap.get(ty) match {
         case Some(info) =>
           val props = info.props
-          prop.gamma match {
-            case Infinite => AbsValue.Top
-            case Finite(ps) =>
-              // TODO follow ancestors
-              ps.toList.foldLeft(AbsValue.Bot) {
-                case (v, Str(p)) => v ⊔ props.getOrElse(p, AbsValue.Bot)
-              }
-          }
+          props.getOrElse(prop, info.parent.fold(AbsValue.Bot)(lookup(sem, _, prop)))
         case None if (ty == "SubMap") => AbsAbsent.Top // TODO unsound
         case None =>
           alarm(s"unknown type: $ty")
           AbsValue.Bot
       }
+    }
+    def lookup(sem: AbsSemantics, ty: String, prop: AbsStr): AbsValue = {
+      prop.gamma match {
+        case Infinite => AbsValue.Top
+        case Finite(ps) => ps.toList.foldLeft(AbsValue.Bot) {
+          case (v, Str(prop)) => v ⊔ lookup(sem, ty, prop)
+        }
+      }
+    }
 
     // lookup properties
     def lookup(sem: AbsSemantics, addr: Addr, prop: AbsPure): AbsValue = {
