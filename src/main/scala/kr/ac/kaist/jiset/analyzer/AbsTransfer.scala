@@ -41,6 +41,15 @@ class AbsTransfer(
   @tailrec
   final def compute: Unit = worklist.next match {
     case Some(cp) =>
+      // alarm for weirdly-bottom'ed vars and objects
+      val currentState = cp match {
+        case np: NodePoint[_] => sem(np)
+        case rp: ReturnPoint => {
+          val (resH, resV) = sem(rp)
+          AbsState(heap = resH)
+        }
+      }
+      currentState.checkBottoms
       try {
         if (replMode) REPL.run(cp)
         apply(cp)
