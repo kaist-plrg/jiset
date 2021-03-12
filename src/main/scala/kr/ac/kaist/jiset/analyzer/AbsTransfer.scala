@@ -461,7 +461,6 @@ class AbsTransfer(
         if (l.isBottom || r.isBottom) AbsValue.Bot
         else if (l ⊑ l.str && r ⊑ r.str) AbsStr.Top
         else arithTop
-      case OPlus => arithTop
       case OSub => arithTop
       case OMul => arithTop
       case OPow => numTop
