@@ -38,8 +38,8 @@
     let constructor = __x9__
   }
   if (= constructor CONST_empty) {
-    if (! (= ClassHeritage absent)) ??? "Let id:{constructorText} be the source text in:{} out:{}" else ??? "Let id:{constructorText} be the source text in:{} out:{}"
-    ??? "Set id:{constructor} to ParseText ( id:{constructorText} , | MethodDefinition [ ~ Yield , ~ Await ] | ) ."
+    if (! (= ClassHeritage absent)) let constructorText = AnyStr else let constructorText = AnyStr
+    constructor = (parse-syntax constructorText "MethodDefinition" (new [false, false]))
   } else {}
   GLOBAL_context.LexicalEnvironment = classScope
   access __x10__ = (constructor "DefineMethod" proto constructorParent)

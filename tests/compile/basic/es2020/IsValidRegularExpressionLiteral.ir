@@ -1,6 +1,6 @@
 {
   assert (is-instance-of literal RegularExpressionLiteral)
-  ??? "If FlagText of id:{literal} contains any code points other than code:{g} , code:{i} , code:{m} , code:{s} , code:{u} , or code:{y} , or if it contains the same code point more than once , return value:{false} ."
+  if AnyBool return false else {}
   access __x0__ = (literal "BodyText")
   let P = __x0__
   access __x1__ = (literal "FlagText")
