@@ -114,7 +114,7 @@ object Command {
   def help = {
     println
     println("command list:")
-    for (cmd <- commands) println(s"- ${cmd.name}    ${cmd.info}")
+    for (cmd <- commands) println("- %-25s%s".format(cmd.name, cmd.info))
   }
 }
 

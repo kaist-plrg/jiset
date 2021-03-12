@@ -11,7 +11,7 @@ object SetDomain extends clo.Domain {
   type SetD = SetD.Elem
 
   // abstraction function
-  def alpha(clo: Clo): Elem = Elem(SetD(Pair(clo.fid, AbsEnv(clo.env))))
+  def alpha(clo: Clo): Elem = this(Pair(clo.fid, AbsEnv(clo.env)))
 
   // bottom value
   val Bot: Elem = Elem(SetD.Bot)
@@ -21,6 +21,7 @@ object SetDomain extends clo.Domain {
 
   // constructor
   def apply(set: SetD): Elem = Elem(set)
+  def apply(pair: Pair): Elem = Elem(SetD(pair))
 
   // extractor
   def unapply(elem: Elem): Option[SetD] = Some(elem.set)

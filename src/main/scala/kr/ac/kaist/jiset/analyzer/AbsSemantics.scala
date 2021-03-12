@@ -353,7 +353,9 @@ class AbsSemantics(
     if (!v.const.isBottom) for (Const(c) <- v.const.toSet) {
       add(ConstT(c), AbsConst(c))
     }
-    if (!v.clo.isBottom) ???
+    if (!v.clo.isBottom) for (clo <- v.clo) {
+      add(CloT(clo.fid), AbsClo(clo))
+    }
     if (!v.cont.isBottom) ???
     if (!v.ast.isBottom) for (ast <- v.ast.toSet) {
       add(AstT(ast.name), AbsValue(ast))

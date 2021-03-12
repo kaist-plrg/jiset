@@ -6,6 +6,7 @@ sealed trait Type {
     case NameT(name) => s"$name"
     case AstT(name) => s"☊($name)"
     case ConstT(name) => s"~$name~"
+    case CloT(fid) => s"λ[$fid]"
     case NumT => "num"
     case INumT => "int"
     case BigINumT => "bigint"
@@ -36,6 +37,9 @@ case class AstT(name: String) extends PureType
 
 // constant types
 case class ConstT(name: String) extends PureType
+
+// closure types
+case class CloT(fid: Int) extends PureType
 
 // list types
 case object ListT extends PureType
