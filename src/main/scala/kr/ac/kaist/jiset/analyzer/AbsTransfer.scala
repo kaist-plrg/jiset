@@ -16,16 +16,16 @@ import org.jline.reader.impl._
 import org.jline.terminal._
 import org.jline.utils.InfoCmp.Capability
 import org.jline.utils._
+import scala.util.matching.Regex
+import scala.collection.mutable.ArrayBuffer
 import scala.Console._
 import scala.annotation.tailrec
 
 // abstract transfer function
 class AbsTransfer(
   sem: AbsSemantics,
-  var interactMode: Boolean = false,
   usePrune: Boolean = true,
-  break: Option[String] = None,
-  var replMode: Boolean = false
+  replMode: Boolean = false
 ) {
   import sem.cfg._
   analyzer.transfer = this
@@ -43,12 +43,15 @@ class AbsTransfer(
   // stats
   val stat = sem.stat
 
+  // breakpoints
+  private var continue = false
+  private var breakpoints = ArrayBuffer[Regex]()
+
   // fixpoint computation
   @tailrec
   final def compute: Unit = worklist.next match {
     case Some(cp) =>
       try {
-        if (interactMode || isBreak(cp)) interact(cp)
         if (replMode) repl(cp)
         apply(cp)
       } catch {
@@ -68,9 +71,9 @@ class AbsTransfer(
   }
 
   // check break point of control point
-  def isBreak(cp: ControlPoint): Boolean = (cp, break) match {
-    case (NodePoint(entry: Entry, _), Some(pattern)) =>
-      pattern.r.matches(funcOf(entry).name)
+  def isBreak(cp: ControlPoint): Boolean = cp match {
+    case NodePoint(entry: Entry, _) =>
+      breakpoints.exists(_.matches(funcOf(entry).name))
     case _ => false
   }
 
@@ -140,37 +143,14 @@ class AbsTransfer(
     }
   }
 
-  // interactive mode
-  def interact(cp: ControlPoint): Unit = {
-    interactMode = true
-    println(sem.getString(cp, CYAN, true))
-    println
-    read(cp)
-  }
-  def read(cp: ControlPoint): Unit = {
-    while (scala.io.StdIn.readLine() match {
-      case null =>
-        interactMode = false; false
-      case str => str.split("\\s+").toList match {
-        case ("q" | "quit" | "exit") :: _ =>
-          interactMode = false; false
-        case ("l" | "log") :: args =>
-          stat.dump()
-          true
-        case ("g" | "graph") :: args =>
-          val depth = optional(args.head.toInt)
-          dumpCFG(Some(cp), depth = depth); true
-        case ("d" | "debug") :: _ =>
-          error("stop for debugging")
-        case _ => false
-      }
-    }) {}
-  }
-
   // repl
   val terminal: Terminal = TerminalBuilder.builder().build()
   val completer: TreeCompleter = new TreeCompleter(
     node("log"),
+    node("continue"),
+    node("break"),
+    node("break-list"),
+    node("break-rm"),
     node("graph"),
     node("debug"),
     node("quit"),
@@ -180,33 +160,47 @@ class AbsTransfer(
     .terminal(terminal)
     .completer(completer)
     .build()
-  def prompt: String = LINE_SEP + s"${MAGENTA}analyzer>${RESET} "
+  val prompt: String = LINE_SEP + s"${MAGENTA}analyzer>${RESET} "
 
-  def repl(cp: ControlPoint): Unit = {
+  def repl(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) {
     println(sem.getString(cp, CYAN, true))
     try {
       while (reader.readLine(prompt) match {
         case null =>
-          replMode = false; false
+          continue = true; false
         case line => line.split("\\s+").toList match {
           case ("quit" | "exit") :: _ =>
-            replMode = false; false
-          case "log" :: args =>
-            stat.dump()
-            true
+            breakpoints.clear()
+            continue = true
+            false
+          case "log" :: _ =>
+            stat.dump(); true
+          case "continue" :: _ =>
+            continue = true; false
+          case "debug" :: _ => error("stop for debugging")
+          case "break" :: args =>
+            args.headOption match {
+              case None => ???
+              case Some(bp) => breakpoints += bp.r
+            }; true
+          case "break-rm" :: args =>
+            args.headOption match {
+              case None => ???
+              case Some(idx) => breakpoints.remove(idx.toInt)
+            }; true
+          case "break-list" :: _ =>
+            breakpoints.zipWithIndex.foreach {
+              case (bp, i) => println(s"$i: $bp")
+            }; true
           case "graph" :: args =>
             val depth = optional(args.head.toInt)
             dumpCFG(Some(cp), depth = depth); true
-          case "debug" :: _ =>
-            error("stop for debugging")
-          case _ =>
-            println(line)
-            false
+          case _ => continue = false; false
         }
       }) {}
     } catch {
       case e: EndOfFileException => error("stop analyze-repl")
-      case e: Throwable => 
+      case e: Throwable =>
     }
   }
 

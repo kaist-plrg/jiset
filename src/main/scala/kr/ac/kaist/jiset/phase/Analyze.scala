@@ -18,9 +18,9 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
     jisetConfig: JISETConfig,
     config: AnalyzeConfig
   ): AbsSemantics = {
-    val AnalyzeConfig(interact, dot, pdf, prune, gc, target, break, repl) = config
+    val AnalyzeConfig(dot, pdf, prune, gc, target, repl) = config
     val sem = new AbsSemantics(cfg, target, gc)
-    val transfer = new AbsTransfer(sem, interact, prune, break, repl)
+    val transfer = new AbsTransfer(sem, prune, repl)
     transfer.compute
     if (dot) transfer.dumpCFG(pdf = pdf)
 
@@ -29,8 +29,6 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
 
   def defaultConfig: AnalyzeConfig = AnalyzeConfig()
   val options: List[PhaseOption[AnalyzeConfig]] = List(
-    ("interact", BoolOption(c => c.interact = true),
-      "progress one step on every enter input"),
     ("dot", BoolOption(c => c.dot = true),
       "dump the analyzed cfg in a dot format"),
     ("pdf", BoolOption(c => { c.dot = true; c.pdf = true }),
@@ -43,8 +41,6 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
       "perform pruning"),
     ("target", StrOption((c, s) => c.target = Some(s)),
       "set the target of analysis"),
-    ("break", StrOption((c, s) => c.break = Some(s)),
-      "set the break point"),
     ("repl", BoolOption(c => c.repl = true),
       "use analyze-repl"),
   )
@@ -52,12 +48,10 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
 
 // Analyze phase config
 case class AnalyzeConfig(
-  var interact: Boolean = false,
   var dot: Boolean = false,
   var pdf: Boolean = false,
   var prune: Boolean = true,
   var gc: Boolean = true,
   var target: Option[String] = None,
-  var break: Option[String] = None,
   var repl: Boolean = false
 ) extends Config
