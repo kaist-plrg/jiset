@@ -49,6 +49,7 @@ class Model(cfg: CFG) {
 
   // TODO more manual modelings
   private def typeInfos: List[TyInfo] = List(
+    // modules
     TyInfo(
       name = "ScriptRecord",
       "Realm" -> AbsValue(Ty("RealmRecord")) ⊔ AbsUndef.Top,
@@ -58,12 +59,53 @@ class Model(cfg: CFG) {
     ),
     TyInfo(
       name = "ModuleRecord",
+      "Realm" -> AbsValue(Ty("RealmRecord")) ⊔ AbsUndef.Top,
+      "Environment" -> AbsValue(Ty("EnvironmentRecord")) ⊔ AbsUndef.Top,
+      "Namespace" -> AbsValue(Ty("Object")) ⊔ AbsUndef.Top,
+      "HostDefined" -> emptyConst,
+    ),
+    TyInfo(
+      name = "CyclicModuleRecord",
+      parent = "ModuleRecord",
       "Status" -> (AbsConst("unlinked", "linking", "linked", "evaluating", "evaluated"): AbsValue),
       "EvaluationError" -> AbsValue(Undef) ⊔ AbsComp.Top.abrupt,
       "DFSIndex" -> AbsValue(Undef) ⊔ AbsINum.Top,
       "DFSAncestorIndex" -> AbsValue(Undef) ⊔ AbsINum.Top,
       "RequestedModules" -> AbsValue(NamedAddr("StringList")),
     ),
+    TyInfo(
+      name = "SourceTextModuleRecord",
+      parent = "CyclicModuleRecord",
+      "ECMAScriptCode" -> AbsValue(ASTVal("AnyNode")),
+      "Context" -> AbsValue(Ty("ExecutionContext")),
+      "ImportMeta" -> AbsValue(Ty("Object")),
+      "ImportEntries" -> AbsValue(NamedAddr("ImportEntries")),
+      "LocalExportEntries" -> AbsValue(NamedAddr("ExportEntries")),
+      "IndirectExportEntries" -> AbsValue(NamedAddr("ExportEntries")),
+      "StarExportEntries" -> AbsValue(NamedAddr("ExportEntries")),
+    ),
+    TyInfo(
+      name = "ImportEntryRecord",
+      "ModuleRequest" -> AbsValue(AbsStr.Top),
+      "ImportName" -> AbsValue(AbsStr.Top),
+      "LocalName" -> AbsValue(AbsStr.Top),
+    ),
+    TyInfo(
+      name = "ExportEntryRecord",
+      "ExportName" -> AbsValue(AbsStr.Top) ⊔ AbsNull.Top,
+      "ModuleRequest" -> AbsValue(AbsStr.Top) ⊔ AbsNull.Top,
+      "ImportName" -> AbsValue(AbsStr.Top) ⊔ AbsNull.Top,
+      "LocalName" -> AbsValue(AbsStr.Top) ⊔ AbsNull.Top,
+    ),
+    TyInfo(
+      name = "SourceTextModuleRecord",
+      "Status" -> (AbsConst("unlinked", "linking", "linked", "evaluating", "evaluated"): AbsValue),
+      "EvaluationError" -> AbsValue(Undef) ⊔ AbsComp.Top.abrupt,
+      "DFSIndex" -> AbsValue(Undef) ⊔ AbsINum.Top,
+      "DFSAncestorIndex" -> AbsValue(Undef) ⊔ AbsINum.Top,
+      "RequestedModules" -> AbsValue(NamedAddr("StringList")),
+    ),
+    // execution contexts
     TyInfo(
       name = "ExecutionContext",
       "LexicalEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
@@ -72,6 +114,7 @@ class Model(cfg: CFG) {
       "Realm" -> AbsValue(Ty("RealmRecord")),
       "ScriptOrModule" -> AbsTy(Ty("ScriptRecord"), Ty("ModuleRecord")),
     ),
+    // environment records
     TyInfo(
       name = "EnvironmentRecord",
       "HasThisBinding" -> getClos(""".*\.HasThisBinding""".r),
@@ -83,8 +126,10 @@ class Model(cfg: CFG) {
     ),
     TyInfo(
       name = "DeclarativeEnvironmentRecord",
+      parent = "EnvironmentRecord",
       "CreateImmutableBinding" -> getClos("""DeclarativeEnvironmentRecord.CreateImmutableBinding""".r),
     ),
+    // objects
     TyInfo(
       name = "Object",
       "SubMap" -> AbsValue(Ty("SubMap")),
@@ -106,6 +151,7 @@ class Model(cfg: CFG) {
       "Extensible" -> AbsBool.Top,
       "InitialName" -> AbsValue(Null, Absent) ⊔ AbsStr.Top
     ),
+    // property descriptor
     TyInfo(
       name = "PropertyDescriptor",
       "Value" -> ESValue ⊔ AbsAbsent.Top,
@@ -399,6 +445,8 @@ class Model(cfg: CFG) {
   private def manualLists: Map[String, AbsValue] = Map(
     "ExecutionStack" -> AbsValue(Ty("ExecutionContext")),
     "StringList" -> AbsStr.Top,
+    "ImportEntries" -> AbsValue(Ty("ImportEntryRecord")),
+    "ExportEntries" -> AbsValue(Ty("ExportEntryRecord")),
   )
 
   private def getClos(pattern: Regex): AbsValue = AbsValue(for {
