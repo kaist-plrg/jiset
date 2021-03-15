@@ -1,20 +1,23 @@
-while true {
-  app __x0__ = (IteratorStep iteratorRecord.Iterator)
-  let next = __x0__
-  app __x1__ = (IsAbruptCompletion next)
-  if __x1__ iteratorRecord.Done = true else {}
-  [? next]
-  if (= next false) {
-    iteratorRecord.Done = true
-    return resultCapability.Promise
-  } else {}
-  app __x2__ = (IteratorValue next)
-  let nextValue = __x2__
-  app __x3__ = (IsAbruptCompletion nextValue)
-  if __x3__ iteratorRecord.Done = true else {}
-  [? nextValue]
-  app __x4__ = (Invoke constructor "resolve" (new [nextValue]))
-  let nextPromise = [? __x4__]
-  app __x5__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, resultCapability.Reject]))
-  [? __x5__]
+{
+  assert (= (typeof resultCapability) "PromiseCapabilityRecord")
+  while true {
+    app __x0__ = (IteratorStep iteratorRecord.Iterator)
+    let next = __x0__
+    app __x1__ = (IsAbruptCompletion next)
+    if __x1__ iteratorRecord.Done = true else {}
+    [? next]
+    if (= next false) {
+      iteratorRecord.Done = true
+      return resultCapability.Promise
+    } else {}
+    app __x2__ = (IteratorValue next)
+    let nextValue = __x2__
+    app __x3__ = (IsAbruptCompletion nextValue)
+    if __x3__ iteratorRecord.Done = true else {}
+    [? nextValue]
+    app __x4__ = (Invoke constructor "resolve" (new [nextValue]))
+    let nextPromise = [? __x4__]
+    app __x5__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, resultCapability.Reject]))
+    [? __x5__]
+  }
 }

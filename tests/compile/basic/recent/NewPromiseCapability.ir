@@ -1,7 +1,7 @@
 {
   app __x0__ = (IsConstructor C)
   if (= __x0__ false) throw TypeError else {}
-  ??? "Let id:{promiseCapability} be the PromiseCapability Record { [ [ Promise ] ] : value:{undefined} , [ [ Resolve ] ] : value:{undefined} , [ [ Reject ] ] : value:{undefined} } ."
+  let promiseCapability = (new PromiseCapabilityRecord("Promise" -> undefined, "Resolve" -> undefined, "Reject" -> undefined))
   let steps = GetCapabilitiesExecutorFunctions
   app __x1__ = (CreateBuiltinFunction steps (new ["Capability"]))
   let executor = [! __x1__]

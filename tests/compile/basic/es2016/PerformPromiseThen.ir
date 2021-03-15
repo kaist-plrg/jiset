@@ -1,6 +1,7 @@
 {
   app __x0__ = (IsPromise promise)
   assert (= __x0__ true)
+  assert (= (typeof resultCapability) "PromiseCapabilityRecord")
   app __x1__ = (IsCallable onFulfilled)
   if (= __x1__ false) let onFulfilled = "Identity" else {}
   app __x2__ = (IsCallable onRejected)

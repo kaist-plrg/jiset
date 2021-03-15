@@ -41,10 +41,7 @@ object HeadParser extends HeadParsers {
 
     // extract parameters
     val params =
-      if (isComparison(name)) name match {
-        case "AbstractRelationalComparison" => REL_COMP_PARAMS
-        case _ => COMP_PARAMS
-      }
+      if (manualParams.contains(name)) manualParams(name)
       else if (from == -1) Nil
       else parse(paramList, str.substring(from)).get
 
@@ -291,6 +288,14 @@ object HeadParser extends HeadParsers {
 
   // substring
   def strip(str: String, n: Int) = str.slice(n, str.length - n)
+
+  // manual parameters
+  lazy val manualParams: Map[String, List[Param]] = Map(
+    "AbstractEqualityComparison" -> COMP_PARAMS,
+    "StrictEqualityComparison" -> COMP_PARAMS,
+    "AbstractRelationalComparison" -> REL_COMP_PARAMS,
+    "Await" -> toParams(AWAIT_PARAM),
+  )
 }
 trait HeadParsers extends Parsers {
   import ir._

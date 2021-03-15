@@ -720,7 +720,7 @@ object Compiler extends Compilers {
 
   // new expressions
   lazy val newExpr: P[I[Expr]] = (
-    ("a new" | "a newly created") ~> ty ~ opt(("with" | "that" | "containing") ~> extraFields) ^^ {
+    ("a new" | "a newly created" | "the") ~> ty ~ opt(("with" | "that" | "containing") ~> extraFields) ^^ {
       case t ~ fs =>
         pair(Nil, EMap(t, (EStr("SubMap") -> EMap(Ty("SubMap"), Nil)) :: fs.getOrElse(Nil)))
     } ||| "a newly created" ~> valueValue <~ "object" ^^ {
@@ -1396,6 +1396,7 @@ object Compiler extends Compilers {
     "ExportEntry Record" ^^^ "ExportEntryRecord" |||
     "ImportEntry Record" ^^^ "ImportEntryRecord" |||
     "PromiseCapability" ^^^ "PromiseCapability" |||
+    "PromiseCapability Record" ^^^ "PromiseCapabilityRecord" |||
     "ResolvedBinding Record" ^^^ "ResolvedBindingRecord" |||
     "PromiseReaction" ^^^ "PromiseReaction" |||
     "Data Block" ^^^ "DataBlock" |||
