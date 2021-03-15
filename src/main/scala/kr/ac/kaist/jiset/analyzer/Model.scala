@@ -351,7 +351,7 @@ class Model(cfg: CFG) {
       "Construct" -> getClo("Error"),
     )),
     "%Error.prototype%" -> (Some("OrdinaryObject"), Map(
-      "Prototype" -> AbsValue(NamedAddr("%Object.Prototype%")),
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
     )),
     "%EvalError%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Error%")),
@@ -435,7 +435,7 @@ class Model(cfg: CFG) {
       "Construct" -> getClo("RegExp"),
     )),
     "%RegExp.prototype%" -> (Some("OrdinaryObject"), Map(
-      "Prototype" -> AbsValue(NamedAddr("%Object.Prototype%")),
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
     )),
   // TODO model following remaining intrinsics (ommitted some cases that seems unnecessary)
   // %IteratorPrototype% %JSON% %Map% %MapIteratorPrototype% %Math% %Number% %parseFloat% %parseInt% %Promise% %Proxy% %Reflect% %RegExpStringIteratorPrototype% %Set% %SetIteratorPrototype% %String% %StringIteratorPrototype% %Symbol% %TypedArray% %Uint8Array% %Uint8ClampedArray% %Uint16Array% %Uint32Array%
