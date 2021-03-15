@@ -46,13 +46,21 @@ class AnalyzeREPL(sem: AbsSemantics) {
   lazy val help = { Command.help; println }
 
   // info
-  private def info(uid: Option[Int] = None): Unit = uid match {
-    case None => println(s"unknown uid: $uid")
-    case Some(uid) => sem(uid).foreach(np => {
-      println(sem.getString(np, CYAN, true))
-      println
-    })
-  }
+  private def info(arg: Option[String] = None): Unit = arg match {
+    case None => println(s"need arguments")
+    case Some(arg) => optional(arg.toInt) match {
+      // return point
+      case None => sem(arg).foreach(rp => {
+        println(sem.getString(rp, CYAN, true))
+        println
+      })
+      // uid
+      case Some(uid) => sem(uid).foreach(np => {
+        println(sem.getString(np, CYAN, true))
+        println
+      })
+    }
+  }; println
 
   // run repl
   def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) {
@@ -89,8 +97,8 @@ class AnalyzeREPL(sem: AbsSemantics) {
         case CmdExit.name :: _ =>
           quit(); false
         case CmdInfo.name :: args =>
-          val uid = optional(args.head.toInt)
-          info(uid = uid); true
+          // TODO handle options
+          info(optional(args.head)); true
         case _ => continue = false; false
       }
     }) {}

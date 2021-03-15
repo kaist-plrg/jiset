@@ -50,6 +50,8 @@ class AbsSemantics(
     npMap.keys.filter {
       case NodePoint(node, _) => node.uid == uid
     }.toList
+  def apply(fname: String): List[ReturnPoint] =
+    rpMap.keys.filter(_.func.name == fname).toList
   def apply(np: NodePoint[_]): AbsState = npMap.getOrElse(np, AbsState.Bot)
   def apply(rp: ReturnPoint): (AbsHeap, AbsValue) =
     rpMap.getOrElse(rp, (AbsHeap.Bot, AbsValue.Bot))
