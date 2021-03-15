@@ -43,9 +43,15 @@ class AnalyzeREPL(sem: AbsSemantics) {
   private def quit(): Unit = { breakpoints.clear(); continue = true }
 
   // help
-  lazy val help = {
-    Command.help
-    println
+  lazy val help = { Command.help; println }
+
+  // info
+  private def info(uid: Option[Int] = None): Unit = uid match {
+    case None => println(s"unknown uid: $uid")
+    case Some(uid) => sem(uid).foreach(np => {
+      println(sem.getString(np, CYAN, true))
+      println
+    })
   }
 
   // run repl
@@ -82,6 +88,9 @@ class AnalyzeREPL(sem: AbsSemantics) {
         case CmdDebug.name :: _ => error("stop for debugging")
         case CmdExit.name :: _ =>
           quit(); false
+        case CmdInfo.name :: args =>
+          val uid = optional(args.head.toInt)
+          info(uid = uid); true
         case _ => continue = false; false
       }
     }) {}
@@ -108,6 +117,7 @@ object Command {
     CmdGraph,
     CmdDebug,
     CmdExit,
+    CmdInfo,
   )
   val cmdMap: Map[String, Command] = commands.map(cmd => (cmd.name, cmd)).toMap
 
@@ -135,3 +145,5 @@ case object CmdGraph extends Command("graph", "Dump the current control graph.")
 case object CmdDebug extends Command("debug", "Stop the analysis.")
 
 case object CmdExit extends Command("exit", "Exit the repl.")
+
+case object CmdInfo extends Command("info", "Show abstract state of node")
