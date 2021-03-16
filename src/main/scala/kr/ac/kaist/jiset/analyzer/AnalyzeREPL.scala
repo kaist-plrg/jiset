@@ -23,12 +23,20 @@ class AnalyzeREPL(sem: AbsSemantics) {
   private var continue = false
   private val breakpoints = ArrayBuffer[(CmdOption, Regex)]()
 
+  // completer
+  private val completer: TreeCompleter =
+    new TreeCompleter(Command.commands.map(optionNode(_)): _*)
+  private def optionNode(cmd: Command) =
+    node(cmd.name :: cmd.options.map(argNode(_)): _*)
+  private def argNode(opt: CmdOption) =
+    node(s"-${opt.name}" :: getArgNodes(opt): _*)
+  private def getArgNodes(opt: CmdOption): List[TreeCompleter.Node] = opt match {
+    case CmdBreak.FuncTarget => funcs.map(x => node(x.name))
+    case _ => Nil
+  }
+
   // jline
   private val terminal: Terminal = TerminalBuilder.builder().build()
-  private def parseNode(cmd: Command) =
-    node(cmd.name :: cmd.options.map(x => node(s"-${x.name}")): _*)
-  private val completer: TreeCompleter =
-    new TreeCompleter(Command.commands.map(parseNode(_)): _*)
   private val reader: LineReader = LineReaderBuilder.builder()
     .terminal(terminal)
     .completer(completer)
