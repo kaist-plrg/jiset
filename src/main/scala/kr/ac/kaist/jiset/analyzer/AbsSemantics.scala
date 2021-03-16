@@ -227,6 +227,15 @@ class AbsSemantics(
     """.*.StringValue""".r,
     """.*.PropName""".r,
     """.*.BoundNames""".r,
+    """.*.DeclarationPart""".r,
+    """.*.IsDestructuring""".r,
+    """.*.HasName""".r,
+    """.*.ExportEntries""".r,
+    """.*.ExportedNames""".r,
+    """.*.ExportedBindings""".r,
+    """.*.ExportEntriesForModule""".r,
+    """.*.IsConstantDeclaration""".r,
+    """.*.ModuleRequests""".r,
     // syntax
     """Literal\[.*""".r,
     """LiteralPropertyName\[.*""".r,
@@ -238,16 +247,10 @@ class AbsSemantics(
     """PrimaryExpression\[0,0\].Evaluation""".r,
     // CoveredParenthesizedExpression
     """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
-    // DeclarationPart - only 6 cases, all pass
-    """.*.DeclarationPart""".r,
     // ImportEntries
     """Module\[0,0\].ImportEntries""".r,
     """ModuleItem\[.*.ImportEntries""".r,
     """ImportDeclaration\[1,0\].ImportEntries""".r,
-    // IsDestructuring
-    """.*.IsDestructuring""".r,
-    // .HasName
-    """.*.HasName""".r,
   )
 
   private def failedPatterns = List(

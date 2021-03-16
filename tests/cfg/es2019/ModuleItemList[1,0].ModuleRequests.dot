@@ -3,21 +3,38 @@ digraph {
   node5 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let additionalNames = __x1__</td></tr>
-      <tr><td align="left">2:??? &quot;Append to id:{moduleNames} each element of id:{additionalNames} that is not already an element of id:{moduleNames} .&quot;</td></tr>
-      <tr><td align="left">3:return moduleNames</td></tr>
+      <tr><td align="left">2:let __i__ = 0i</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=diamond, label=<<font color="black">(&lt; __i__ additionalNames.length)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:return moduleNames</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
   node2 [shape=cds, label=<<font color="black">0:access __x0__ = (ModuleItemList &quot;ModuleRequests&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=diamond, label=<<font color="black">(contains moduleNames additionalNames[__i__])</font>> color="black" fillcolor="white" style=filled]
   node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let moduleNames = __x0__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">append additionalNames[__i__] -&gt; moduleNames</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
   node4 [shape=cds, label=<<font color="black">1:access __x1__ = (ModuleItem &quot;ModuleRequests&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node3 -> node4 [ color="black"]
   node2 -> node3 [ color="black"]
+  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
+  node6 -> node9 [label=<<font color="black">false</font>> color="black"]
   node0 -> node2 [ color="black"]
+  node7 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node7 -> node8 [label=<<font color="black">false</font>> color="black"]
   node4 -> node5 [ color="black"]
-  node5 -> node1 [ color="black"]
+  node9 -> node1 [ color="black"]
+  node8 -> node6 [ color="black"]
+  node5 -> node6 [ color="black"]
+  node3 -> node4 [ color="black"]
 }

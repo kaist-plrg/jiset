@@ -1057,8 +1057,67 @@ ExportDeclaration[0,0].BoundNames:[☊(ExportDeclaration), ☊(ExportFromClause)
     FromClause -> ! ☊(FromClause)
     this -> ! ☊(ExportDeclaration)
   }
-} ---> N(#773) @ {
-  #773 -> []
+} ---> N(#772) @ {
+  #772 -> []
+}
+ExportDeclaration[0,0].ExportEntries:[☊(ExportDeclaration), ☊(ExportFromClause), ☊(FromClause)]: {
+  env: {
+    ExportFromClause -> ! ☊(ExportFromClause)
+    FromClause -> ! ☊(FromClause)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#797 | #799 | #800 | #801 | #803)) @ {
+  #796 -> ExportEntryRecord {
+    ExportName -> ! null
+    ImportName -> ! "*"
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+  #797 -> [#796]
+  #798 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! "*"
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+  #799 -> [#798]
+  #800 -> []
+  #801 -> [(#802 | #804) | str]
+  #802 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! str
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+  #803 -> [(#802 | #804) | str]
+  #804 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! str
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+}
+ExportDeclaration[0,0].ExportedBindings:[☊(ExportDeclaration), ☊(ExportFromClause), ☊(FromClause)]: {
+  env: {
+    ExportFromClause -> ! ☊(ExportFromClause)
+    FromClause -> ! ☊(FromClause)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#774) @ {
+  #774 -> []
+}
+ExportDeclaration[0,0].ExportedNames:[☊(ExportDeclaration), ☊(ExportFromClause), ☊(FromClause)]: {
+  env: {
+    ExportFromClause -> ! ☊(ExportFromClause)
+    FromClause -> ! ☊(FromClause)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#778 | #779 | #783 | #784 | #785)) @ {
+  #778 -> []
+  #779 -> [str]
+  #783 -> []
+  #784 -> [str]
+  #785 -> [str]
 }
 ExportDeclaration[0,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(ExportFromClause), ☊(FromClause)]: {
   env: {
@@ -1067,13 +1126,54 @@ ExportDeclaration[0,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(Export
     this -> ! ☊(ExportDeclaration)
   }
 } ---> N(false)
+ExportDeclaration[0,0].ModuleRequests:[☊(ExportDeclaration), ☊(ExportFromClause), ☊(FromClause)]: {
+  env: {
+    ExportFromClause -> ! ☊(ExportFromClause)
+    FromClause -> ! ☊(FromClause)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#770) @ {
+  #770 -> [str]
+}
 ExportDeclaration[1,0].BoundNames:[☊(ExportDeclaration), ☊(NamedExports)]: {
   env: {
     NamedExports -> ! ☊(NamedExports)
     this -> ! ☊(ExportDeclaration)
   }
-} ---> N(#773) @ {
-  #773 -> []
+} ---> N(#772) @ {
+  #772 -> []
+}
+ExportDeclaration[1,0].ExportEntries:[☊(ExportDeclaration), ☊(NamedExports)]: {
+  env: {
+    NamedExports -> ! ☊(NamedExports)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#800 | #801 | #803)) @ {
+  #800 -> []
+  #801 -> [(#802 | #804) | str]
+  #802 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! null
+    LocalName -> ! str
+    ModuleRequest -> ! null
+  }
+  #803 -> [(#802 | #804) | str]
+  #804 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! null
+    LocalName -> ! str
+    ModuleRequest -> ! null
+  }
+}
+ExportDeclaration[1,0].ExportedBindings:[☊(ExportDeclaration), ☊(NamedExports)]: {
+  env: {
+    NamedExports -> ! ☊(NamedExports)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#775 | #776 | #777)) @ {
+  #775 -> []
+  #776 -> [str]
+  #777 -> [str]
 }
 ExportDeclaration[1,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(NamedExports)]: {
   env: {
@@ -1081,6 +1181,14 @@ ExportDeclaration[1,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(NamedE
     this -> ! ☊(ExportDeclaration)
   }
 } ---> N(false)
+ExportDeclaration[1,0].ModuleRequests:[☊(ExportDeclaration), ☊(NamedExports)]: {
+  env: {
+    NamedExports -> ! ☊(NamedExports)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#817) @ {
+  #817 -> []
+}
 ExportDeclaration[2,0].BoundNames:[☊(ExportDeclaration), ☊(VariableStatement)]: {
   env: {
     VariableStatement -> ! ☊(VariableStatement)
@@ -1092,6 +1200,52 @@ ExportDeclaration[2,0].BoundNames:[☊(ExportDeclaration), ☊(VariableStatement
   #343 -> [str]
   #474 -> [str]
   #475 -> [str]
+}
+ExportDeclaration[2,0].ExportEntries:[☊(ExportDeclaration), ☊(VariableStatement)]: {
+  env: {
+    VariableStatement -> ! ☊(VariableStatement)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#786) @ {
+  #786 -> [#787]
+  #787 -> ExportEntryRecord {
+    ExportName -> ! str | N(str)
+    ImportName -> ! null
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! null
+  }
+}
+ExportDeclaration[2,0].ExportedBindings:[☊(ExportDeclaration), ☊(VariableStatement)]: {
+  env: {
+    VariableStatement -> ! ☊(VariableStatement)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [str | N(str)]
+  #342 -> [str]
+  #343 -> [str]
+  #474 -> [str]
+  #475 -> [str]
+}
+ExportDeclaration[2,0].ExportedNames:[☊(ExportDeclaration), ☊(VariableStatement)]: {
+  env: {
+    VariableStatement -> ! ☊(VariableStatement)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [str | N(str)]
+  #342 -> [str]
+  #343 -> [str]
+  #474 -> [str]
+  #475 -> [str]
+}
+ExportDeclaration[2,0].ModuleRequests:[☊(ExportDeclaration), ☊(VariableStatement)]: {
+  env: {
+    VariableStatement -> ! ☊(VariableStatement)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#817) @ {
+  #817 -> []
 }
 ExportDeclaration[3,0].BoundNames:[☊(ExportDeclaration), ☊(Declaration)]: {
   env: {
@@ -1110,6 +1264,62 @@ ExportDeclaration[3,0].BoundNames:[☊(ExportDeclaration), ☊(Declaration)]: {
   #644 -> ["*default*"]
   #656 -> ["*default*"]
 }
+ExportDeclaration[3,0].ExportEntries:[☊(ExportDeclaration), ☊(Declaration)]: {
+  env: {
+    Declaration -> ! ☊(Declaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#788) @ {
+  #788 -> [#789]
+  #789 -> ExportEntryRecord {
+    ExportName -> ! str | N(str)
+    ImportName -> ! null
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! null
+  }
+}
+ExportDeclaration[3,0].ExportedBindings:[☊(ExportDeclaration), ☊(Declaration)]: {
+  env: {
+    Declaration -> ! ☊(Declaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475 | #590 | #617 | #635 | #644 | #656)) @ {
+  #341 -> [str | N(str)]
+  #342 -> [str]
+  #343 -> [str]
+  #474 -> [str]
+  #475 -> [str]
+  #590 -> ["*default*"]
+  #617 -> ["*default*"]
+  #635 -> ["*default*"]
+  #644 -> ["*default*"]
+  #656 -> ["*default*"]
+}
+ExportDeclaration[3,0].ExportedNames:[☊(ExportDeclaration), ☊(Declaration)]: {
+  env: {
+    Declaration -> ! ☊(Declaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475 | #590 | #617 | #635 | #644 | #656)) @ {
+  #341 -> [str | N(str)]
+  #342 -> [str]
+  #343 -> [str]
+  #474 -> [str]
+  #475 -> [str]
+  #590 -> ["*default*"]
+  #617 -> ["*default*"]
+  #635 -> ["*default*"]
+  #644 -> ["*default*"]
+  #656 -> ["*default*"]
+}
+ExportDeclaration[3,0].ModuleRequests:[☊(ExportDeclaration), ☊(Declaration)]: {
+  env: {
+    Declaration -> ! ☊(Declaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#817) @ {
+  #817 -> []
+}
 ExportDeclaration[4,0].BoundNames:[☊(ExportDeclaration), ☊(HoistableDeclaration)]: {
   env: {
     HoistableDeclaration -> ! ☊(HoistableDeclaration)
@@ -1124,6 +1334,55 @@ ExportDeclaration[4,0].BoundNames:[☊(ExportDeclaration), ☊(HoistableDeclarat
   #635 -> ["*default*"]
   #656 -> ["*default*"]
 }
+ExportDeclaration[4,0].ExportEntries:[☊(ExportDeclaration), ☊(HoistableDeclaration)]: {
+  env: {
+    HoistableDeclaration -> ! ☊(HoistableDeclaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#790) @ {
+  #790 -> [#791]
+  #791 -> ExportEntryRecord {
+    ExportName -> ! "default"
+    ImportName -> ! null
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! null
+  }
+}
+ExportDeclaration[4,0].ExportedBindings:[☊(ExportDeclaration), ☊(HoistableDeclaration)]: {
+  env: {
+    HoistableDeclaration -> ! ☊(HoistableDeclaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475 | #590 | #617 | #635 | #644 | #656 | #772 | #773)) @ {
+  #341 -> [str | N(str)]
+  #342 -> [str]
+  #343 -> [str]
+  #474 -> [str]
+  #475 -> [str]
+  #590 -> ["*default*"]
+  #617 -> ["*default*"]
+  #635 -> ["*default*"]
+  #644 -> ["*default*"]
+  #656 -> ["*default*"]
+  #772 -> []
+  #773 -> ["*default*"]
+}
+ExportDeclaration[4,0].ExportedNames:[☊(ExportDeclaration), ☊(HoistableDeclaration)]: {
+  env: {
+    HoistableDeclaration -> ! ☊(HoistableDeclaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#782) @ {
+  #782 -> ["default"]
+}
+ExportDeclaration[4,0].ModuleRequests:[☊(ExportDeclaration), ☊(HoistableDeclaration)]: {
+  env: {
+    HoistableDeclaration -> ! ☊(HoistableDeclaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#817) @ {
+  #817 -> []
+}
 ExportDeclaration[5,0].BoundNames:[☊(ExportDeclaration), ☊(ClassDeclaration)]: {
   env: {
     ClassDeclaration -> ! ☊(ClassDeclaration)
@@ -1135,13 +1394,103 @@ ExportDeclaration[5,0].BoundNames:[☊(ExportDeclaration), ☊(ClassDeclaration)
   #343 -> [str]
   #644 -> ["*default*"]
 }
+ExportDeclaration[5,0].ExportEntries:[☊(ExportDeclaration), ☊(ClassDeclaration)]: {
+  env: {
+    ClassDeclaration -> ! ☊(ClassDeclaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#792) @ {
+  #792 -> [#793]
+  #793 -> ExportEntryRecord {
+    ExportName -> ! "default"
+    ImportName -> ! null
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! null
+  }
+}
+ExportDeclaration[5,0].ExportedBindings:[☊(ExportDeclaration), ☊(ClassDeclaration)]: {
+  env: {
+    ClassDeclaration -> ! ☊(ClassDeclaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475 | #590 | #617 | #635 | #644 | #656 | #772 | #773)) @ {
+  #341 -> [str | N(str)]
+  #342 -> [str]
+  #343 -> [str]
+  #474 -> [str]
+  #475 -> [str]
+  #590 -> ["*default*"]
+  #617 -> ["*default*"]
+  #635 -> ["*default*"]
+  #644 -> ["*default*"]
+  #656 -> ["*default*"]
+  #772 -> []
+  #773 -> ["*default*"]
+}
+ExportDeclaration[5,0].ExportedNames:[☊(ExportDeclaration), ☊(ClassDeclaration)]: {
+  env: {
+    ClassDeclaration -> ! ☊(ClassDeclaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#782) @ {
+  #782 -> ["default"]
+}
+ExportDeclaration[5,0].ModuleRequests:[☊(ExportDeclaration), ☊(ClassDeclaration)]: {
+  env: {
+    ClassDeclaration -> ! ☊(ClassDeclaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#817) @ {
+  #817 -> []
+}
 ExportDeclaration[6,0].BoundNames:[☊(ExportDeclaration), ☊(AssignmentExpression)]: {
   env: {
     AssignmentExpression -> ! ☊(AssignmentExpression)
     this -> ! ☊(ExportDeclaration)
   }
-} ---> N(#774) @ {
-  #774 -> ["*default*"]
+} ---> N(#773) @ {
+  #773 -> ["*default*"]
+}
+ExportDeclaration[6,0].ExportEntries:[☊(ExportDeclaration), ☊(AssignmentExpression)]: {
+  env: {
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#795) @ {
+  #794 -> ExportEntryRecord {
+    ExportName -> ! "default"
+    ImportName -> ! null
+    LocalName -> ! "*default*"
+    ModuleRequest -> ! null
+  }
+  #795 -> [#794]
+}
+ExportDeclaration[6,0].ExportedBindings:[☊(ExportDeclaration), ☊(AssignmentExpression)]: {
+  env: {
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475 | #590 | #617 | #635 | #644 | #656 | #772 | #773)) @ {
+  #341 -> [str | N(str)]
+  #342 -> [str]
+  #343 -> [str]
+  #474 -> [str]
+  #475 -> [str]
+  #590 -> ["*default*"]
+  #617 -> ["*default*"]
+  #635 -> ["*default*"]
+  #644 -> ["*default*"]
+  #656 -> ["*default*"]
+  #772 -> []
+  #773 -> ["*default*"]
+}
+ExportDeclaration[6,0].ExportedNames:[☊(ExportDeclaration), ☊(AssignmentExpression)]: {
+  env: {
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#782) @ {
+  #782 -> ["default"]
 }
 ExportDeclaration[6,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(AssignmentExpression)]: {
   env: {
@@ -1149,6 +1498,230 @@ ExportDeclaration[6,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(Assign
     this -> ! ☊(ExportDeclaration)
   }
 } ---> N(false)
+ExportDeclaration[6,0].ModuleRequests:[☊(ExportDeclaration), ☊(AssignmentExpression)]: {
+  env: {
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#817) @ {
+  #817 -> []
+}
+ExportFromClause[0,0].ExportEntriesForModule:[☊(ExportFromClause), str]: {
+  env: {
+    module -> ! str
+    this -> ! ☊(ExportFromClause)
+  }
+} ---> N(#797) @ {
+  #796 -> ExportEntryRecord {
+    ExportName -> ! null
+    ImportName -> ! "*"
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+  #797 -> [#796]
+}
+ExportFromClause[0,0].ExportedNames:[☊(ExportFromClause)]: {
+  env: {
+    this -> ! ☊(ExportFromClause)
+  }
+} ---> N(#778) @ {
+  #778 -> []
+}
+ExportFromClause[1,0].ExportEntriesForModule:[☊(ExportFromClause), ☊(IdentifierName), str]: {
+  env: {
+    IdentifierName -> ! ☊(IdentifierName)
+    module -> ! str
+    this -> ! ☊(ExportFromClause)
+  }
+} ---> N(#799) @ {
+  #798 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! "*"
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+  #799 -> [#798]
+}
+ExportFromClause[1,0].ExportedNames:[☊(ExportFromClause), ☊(IdentifierName)]: {
+  env: {
+    IdentifierName -> ! ☊(IdentifierName)
+    this -> ! ☊(ExportFromClause)
+  }
+} ---> N(#779) @ {
+  #779 -> [str]
+}
+ExportFromClause[2,0].ExportedNames:[☊(ExportFromClause), ☊(NamedExports)]: {
+  env: {
+    NamedExports -> ! ☊(NamedExports)
+    this -> ! ☊(ExportFromClause)
+  }
+} ---> N((#783 | #784 | #785)) @ {
+  #783 -> []
+  #784 -> [str]
+  #785 -> [str]
+}
+ExportSpecifier[0,0].ExportEntriesForModule:[☊(ExportSpecifier), ☊(IdentifierName), null]: {
+  env: {
+    IdentifierName -> ! ☊(IdentifierName)
+    module -> ! null
+    this -> ! ☊(ExportSpecifier)
+  }
+} ---> N(#801) @ {
+  #801 -> [#802]
+  #802 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! null
+    LocalName -> ! str
+    ModuleRequest -> ! null
+  }
+}
+ExportSpecifier[0,0].ExportEntriesForModule:[☊(ExportSpecifier), ☊(IdentifierName), str]: {
+  env: {
+    IdentifierName -> ! ☊(IdentifierName)
+    module -> ! str
+    this -> ! ☊(ExportSpecifier)
+  }
+} ---> N(#801) @ {
+  #801 -> [#802]
+  #802 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! str
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+}
+ExportSpecifier[0,0].ExportedBindings:[☊(ExportSpecifier), ☊(IdentifierName)]: {
+  env: {
+    IdentifierName -> ! ☊(IdentifierName)
+    this -> ! ☊(ExportSpecifier)
+  }
+} ---> N(#776) @ {
+  #776 -> [str]
+}
+ExportSpecifier[0,0].ExportedNames:[☊(ExportSpecifier), ☊(IdentifierName)]: {
+  env: {
+    IdentifierName -> ! ☊(IdentifierName)
+    this -> ! ☊(ExportSpecifier)
+  }
+} ---> N(#784) @ {
+  #784 -> [str]
+}
+ExportSpecifier[1,0].ExportEntriesForModule:[☊(ExportSpecifier), ☊(IdentifierName), ☊(IdentifierName), null]: {
+  env: {
+    IdentifierName0 -> ! ☊(IdentifierName)
+    IdentifierName1 -> ! ☊(IdentifierName)
+    module -> ! null
+    this -> ! ☊(ExportSpecifier)
+  }
+} ---> N(#803) @ {
+  #803 -> [#804]
+  #804 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! null
+    LocalName -> ! str
+    ModuleRequest -> ! null
+  }
+}
+ExportSpecifier[1,0].ExportEntriesForModule:[☊(ExportSpecifier), ☊(IdentifierName), ☊(IdentifierName), str]: {
+  env: {
+    IdentifierName0 -> ! ☊(IdentifierName)
+    IdentifierName1 -> ! ☊(IdentifierName)
+    module -> ! str
+    this -> ! ☊(ExportSpecifier)
+  }
+} ---> N(#803) @ {
+  #803 -> [#804]
+  #804 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! str
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+}
+ExportSpecifier[1,0].ExportedBindings:[☊(ExportSpecifier), ☊(IdentifierName), ☊(IdentifierName)]: {
+  env: {
+    IdentifierName0 -> ! ☊(IdentifierName)
+    IdentifierName1 -> ! ☊(IdentifierName)
+    this -> ! ☊(ExportSpecifier)
+  }
+} ---> N(#777) @ {
+  #777 -> [str]
+}
+ExportSpecifier[1,0].ExportedNames:[☊(ExportSpecifier), ☊(IdentifierName), ☊(IdentifierName)]: {
+  env: {
+    IdentifierName0 -> ! ☊(IdentifierName)
+    IdentifierName1 -> ! ☊(IdentifierName)
+    this -> ! ☊(ExportSpecifier)
+  }
+} ---> N(#785) @ {
+  #785 -> [str]
+}
+ExportsList[1,0].ExportEntriesForModule:[☊(ExportsList), ☊(ExportsList), ☊(ExportSpecifier), null]: {
+  env: {
+    ExportSpecifier -> ! ☊(ExportSpecifier)
+    ExportsList -> ! ☊(ExportsList)
+    module -> ! null
+    this -> ! ☊(ExportsList)
+  }
+} ---> N((#801 | #803)) @ {
+  #801 -> [(#802 | #804) | str]
+  #802 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! null
+    LocalName -> ! str
+    ModuleRequest -> ! null
+  }
+  #803 -> [(#802 | #804) | str]
+  #804 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! null
+    LocalName -> ! str
+    ModuleRequest -> ! null
+  }
+}
+ExportsList[1,0].ExportEntriesForModule:[☊(ExportsList), ☊(ExportsList), ☊(ExportSpecifier), str]: {
+  env: {
+    ExportSpecifier -> ! ☊(ExportSpecifier)
+    ExportsList -> ! ☊(ExportsList)
+    module -> ! str
+    this -> ! ☊(ExportsList)
+  }
+} ---> N((#801 | #803)) @ {
+  #801 -> [(#802 | #804) | str]
+  #802 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! str
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+  #803 -> [(#802 | #804) | str]
+  #804 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! str
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+}
+ExportsList[1,0].ExportedBindings:[☊(ExportsList), ☊(ExportsList), ☊(ExportSpecifier)]: {
+  env: {
+    ExportSpecifier -> ! ☊(ExportSpecifier)
+    ExportsList -> ! ☊(ExportsList)
+    this -> ! ☊(ExportsList)
+  }
+} ---> N((#776 | #777)) @ {
+  #776 -> [str]
+  #777 -> [str]
+}
+ExportsList[1,0].ExportedNames:[☊(ExportsList), ☊(ExportsList), ☊(ExportSpecifier)]: {
+  env: {
+    ExportSpecifier -> ! ☊(ExportSpecifier)
+    ExportsList -> ! ☊(ExportsList)
+    this -> ! ☊(ExportsList)
+  }
+} ---> N((#784 | #785)) @ {
+  #784 -> [str]
+  #785 -> [str]
+}
 Expression[1,0].AssignmentTargetType:[☊(Expression), ☊(Expression), ☊(AssignmentExpression)]: {
   env: {
     AssignmentExpression -> ! ☊(AssignmentExpression)
@@ -1471,8 +2044,8 @@ IdentifierReference[1,0].EarlyErrors:[☊(IdentifierReference)]: {
   env: {
     this -> ! ☊(IdentifierReference)
   }
-} ---> T(#1595) @ {
-  #1595 -> OrdinaryObject {
+} ---> T(#1594) @ {
+  #1594 -> OrdinaryObject {
     ErrorData -> ! undef
     Prototype -> ! #%SyntaxError.prototype%
   }
@@ -1526,27 +2099,36 @@ ImportDeclaration[0,0].BoundNames:[☊(ImportDeclaration), ☊(ImportClause), �
     ImportClause -> ! ☊(ImportClause)
     this -> ! ☊(ImportDeclaration)
   }
-} ---> N((#341 | #342 | #343 | #760)) @ {
+} ---> N((#341 | #342 | #343 | #759)) @ {
   #341 -> [str | N(str)]
   #342 -> [str]
   #343 -> [str]
-  #760 -> []
+  #759 -> []
+}
+ImportDeclaration[0,0].ModuleRequests:[☊(ImportDeclaration), ☊(ImportClause), ☊(FromClause)]: {
+  env: {
+    FromClause -> ! ☊(FromClause)
+    ImportClause -> ! ☊(ImportClause)
+    this -> ! ☊(ImportDeclaration)
+  }
+} ---> N(#770) @ {
+  #770 -> [str]
 }
 ImportDeclaration[1,0].BoundNames:[☊(ImportDeclaration), ☊(ModuleSpecifier)]: {
   env: {
     ModuleSpecifier -> ! ☊(ModuleSpecifier)
     this -> ! ☊(ImportDeclaration)
   }
-} ---> N(#759) @ {
-  #759 -> []
+} ---> N(#758) @ {
+  #758 -> []
 }
 ImportDeclaration[1,0].ImportEntries:[☊(ImportDeclaration), ☊(ModuleSpecifier)]: {
   env: {
     ModuleSpecifier -> ! ☊(ModuleSpecifier)
     this -> ! ☊(ImportDeclaration)
   }
-} ---> N(#761) @ {
-  #761 -> []
+} ---> N(#760) @ {
+  #760 -> []
 }
 ImportMeta[0,0].AssignmentTargetType:[☊(ImportMeta)]: {
   env: {
@@ -1685,6 +2267,13 @@ LexicalDeclaration[0,0].BoundNames:[☊(LexicalDeclaration), ☊(LetOrConst), �
   #474 -> [str]
   #475 -> [str]
 }
+LexicalDeclaration[0,0].IsConstantDeclaration:[☊(LexicalDeclaration), ☊(LetOrConst), ☊(BindingList)]: {
+  env: {
+    BindingList -> ! ☊(BindingList)
+    LetOrConst -> ! ☊(LetOrConst)
+    this -> ! ☊(LexicalDeclaration)
+  }
+} ---> N(bool)
 LiteralPropertyName[0,0].Evaluation:[☊(LiteralPropertyName), ☊(IdentifierName)]: {
   env: {
     IdentifierName -> ! ☊(IdentifierName)
@@ -2007,6 +2596,197 @@ ModuleEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
     envRec -> ! EnvironmentRecord
   }
 } ---> N(true)
+ModuleItemList[0,0].ModuleRequests:[☊(ModuleItemList), ☊(ModuleItem)]: {
+  env: {
+    ModuleItem -> ! ☊(ModuleItem)
+    this -> ! ☊(ModuleItemList)
+  }
+} ---> N((#717 | #770 | #817)) @ {
+  #717 -> []
+  #770 -> [str]
+  #817 -> []
+}
+ModuleItemList[1,0].ExportEntries:[☊(ModuleItemList), ☊(ModuleItemList), ☊(ModuleItem)]: {
+  env: {
+    ModuleItem -> ! ☊(ModuleItem)
+    ModuleItemList -> ! ☊(ModuleItemList)
+    this -> ! ☊(ModuleItemList)
+  }
+} ---> N((#711 | #786 | #788 | #790 | #792 | #795 | #797 | #799 | #800 | #801 | #803)) @ {
+  #711 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #786 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #787 -> ExportEntryRecord {
+    ExportName -> ! str | N(str)
+    ImportName -> ! null
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! null
+  }
+  #788 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #789 -> ExportEntryRecord {
+    ExportName -> ! str | N(str)
+    ImportName -> ! null
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! null
+  }
+  #790 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #791 -> ExportEntryRecord {
+    ExportName -> ! "default"
+    ImportName -> ! null
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! null
+  }
+  #792 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #793 -> ExportEntryRecord {
+    ExportName -> ! "default"
+    ImportName -> ! null
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! null
+  }
+  #794 -> ExportEntryRecord {
+    ExportName -> ! "default"
+    ImportName -> ! null
+    LocalName -> ! "*default*"
+    ModuleRequest -> ! null
+  }
+  #795 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #796 -> ExportEntryRecord {
+    ExportName -> ! null
+    ImportName -> ! "*"
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+  #797 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #798 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! "*"
+    LocalName -> ! null
+    ModuleRequest -> ! str
+  }
+  #799 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #800 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #801 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #802 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! str | null
+    LocalName -> ! str | null
+    ModuleRequest -> ! str | null
+  }
+  #803 -> [(#787 | #789 | #791 | #793 | #794 | #796 | #798 | #802 | #804) | str]
+  #804 -> ExportEntryRecord {
+    ExportName -> ! str
+    ImportName -> ! str | null
+    LocalName -> ! str | null
+    ModuleRequest -> ! str | null
+  }
+}
+ModuleItemList[1,0].ExportedBindings:[☊(ModuleItemList), ☊(ModuleItemList), ☊(ModuleItem)]: {
+  env: {
+    ModuleItem -> ! ☊(ModuleItem)
+    ModuleItemList -> ! ☊(ModuleItemList)
+    this -> ! ☊(ModuleItemList)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475 | #590 | #617 | #635 | #644 | #656 | #706 | #772 | #773 | #774 | #775 | #776 | #777)) @ {
+  #341 -> [str | N(str)]
+  #342 -> [str]
+  #343 -> [str]
+  #474 -> [str]
+  #475 -> [str]
+  #590 -> [str]
+  #617 -> [str]
+  #635 -> [str]
+  #644 -> [str]
+  #656 -> [str]
+  #706 -> [str]
+  #772 -> [str]
+  #773 -> [str]
+  #774 -> [str]
+  #775 -> [str]
+  #776 -> [str]
+  #777 -> [str]
+}
+ModuleItemList[1,0].ExportedNames:[☊(ModuleItemList), ☊(ModuleItemList), ☊(ModuleItem)]: {
+  env: {
+    ModuleItem -> ! ☊(ModuleItem)
+    ModuleItemList -> ! ☊(ModuleItemList)
+    this -> ! ☊(ModuleItemList)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475 | #590 | #617 | #635 | #644 | #656 | #708 | #778 | #779 | #782 | #783 | #784 | #785)) @ {
+  #341 -> [str | N(str)]
+  #342 -> [str]
+  #343 -> [str]
+  #474 -> [str]
+  #475 -> [str]
+  #590 -> [str]
+  #617 -> [str]
+  #635 -> [str]
+  #644 -> [str]
+  #656 -> [str]
+  #708 -> [str]
+  #778 -> [str]
+  #779 -> [str]
+  #782 -> [str]
+  #783 -> [str]
+  #784 -> [str]
+  #785 -> [str]
+}
+ModuleItemList[1,0].ModuleRequests:[☊(ModuleItemList), ☊(ModuleItemList), ☊(ModuleItem)]: {
+  env: {
+    ModuleItem -> ! ☊(ModuleItem)
+    ModuleItemList -> ! ☊(ModuleItemList)
+    this -> ! ☊(ModuleItemList)
+  }
+} ---> N((#717 | #770 | #817)) @ {
+  #717 -> [str]
+  #770 -> [str]
+  #817 -> [str]
+}
+ModuleItem[0,0].ExportEntries:[☊(ModuleItem), ☊(ImportDeclaration)]: {
+  env: {
+    ImportDeclaration -> ! ☊(ImportDeclaration)
+    this -> ! ☊(ModuleItem)
+  }
+} ---> N(#711) @ {
+  #711 -> []
+}
+ModuleItem[0,0].ExportedBindings:[☊(ModuleItem), ☊(ImportDeclaration)]: {
+  env: {
+    ImportDeclaration -> ! ☊(ImportDeclaration)
+    this -> ! ☊(ModuleItem)
+  }
+} ---> N(#706) @ {
+  #706 -> []
+}
+ModuleItem[0,0].ExportedNames:[☊(ModuleItem), ☊(ImportDeclaration)]: {
+  env: {
+    ImportDeclaration -> ! ☊(ImportDeclaration)
+    this -> ! ☊(ModuleItem)
+  }
+} ---> N(#708) @ {
+  #708 -> []
+}
+ModuleItem[1,0].ExportedNames:[☊(ModuleItem), ☊(ExportDeclaration)]: {
+  env: {
+    ExportDeclaration -> ! ☊(ExportDeclaration)
+    this -> ! ☊(ModuleItem)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475 | #590 | #617 | #635 | #644 | #656 | #778 | #779 | #782 | #783 | #784 | #785)) @ {
+  #341 -> [str | N(str)]
+  #342 -> [str]
+  #343 -> [str]
+  #474 -> [str]
+  #475 -> [str]
+  #590 -> ["*default*"]
+  #617 -> ["*default*"]
+  #635 -> ["*default*"]
+  #644 -> ["*default*"]
+  #656 -> ["*default*"]
+  #778 -> []
+  #779 -> [str]
+  #782 -> ["default"]
+  #783 -> []
+  #784 -> [str]
+  #785 -> [str]
+}
 ModuleItem[1,0].ImportEntries:[☊(ModuleItem), ☊(ExportDeclaration)]: {
   env: {
     ExportDeclaration -> ! ☊(ExportDeclaration)
@@ -2014,6 +2794,30 @@ ModuleItem[1,0].ImportEntries:[☊(ModuleItem), ☊(ExportDeclaration)]: {
   }
 } ---> N(#714) @ {
   #714 -> []
+}
+ModuleItem[2,0].ExportEntries:[☊(ModuleItem), ☊(StatementListItem)]: {
+  env: {
+    StatementListItem -> ! ☊(StatementListItem)
+    this -> ! ☊(ModuleItem)
+  }
+} ---> N(#711) @ {
+  #711 -> []
+}
+ModuleItem[2,0].ExportedBindings:[☊(ModuleItem), ☊(StatementListItem)]: {
+  env: {
+    StatementListItem -> ! ☊(StatementListItem)
+    this -> ! ☊(ModuleItem)
+  }
+} ---> N(#706) @ {
+  #706 -> []
+}
+ModuleItem[2,0].ExportedNames:[☊(ModuleItem), ☊(StatementListItem)]: {
+  env: {
+    StatementListItem -> ! ☊(StatementListItem)
+    this -> ! ☊(ModuleItem)
+  }
+} ---> N(#708) @ {
+  #708 -> []
 }
 ModuleItem[2,0].ImportEntries:[☊(ModuleItem), ☊(StatementListItem)]: {
   env: {
@@ -2023,12 +2827,42 @@ ModuleItem[2,0].ImportEntries:[☊(ModuleItem), ☊(StatementListItem)]: {
 } ---> N(#714) @ {
   #714 -> []
 }
+ModuleItem[2,0].ModuleRequests:[☊(ModuleItem), ☊(StatementListItem)]: {
+  env: {
+    StatementListItem -> ! ☊(StatementListItem)
+    this -> ! ☊(ModuleItem)
+  }
+} ---> N(#717) @ {
+  #717 -> []
+}
+ModuleSpecifier[0,0].ModuleRequests:[☊(ModuleSpecifier), ☊(StringLiteral)]: {
+  env: {
+    StringLiteral -> ! ☊(StringLiteral)
+    this -> ! ☊(ModuleSpecifier)
+  }
+} ---> N(#770) @ {
+  #770 -> [str]
+}
+Module[0,0].ExportEntries:[☊(Module)]: {
+  env: {
+    this -> ! ☊(Module)
+  }
+} ---> N(#709) @ {
+  #709 -> []
+}
 Module[0,0].ImportEntries:[☊(Module)]: {
   env: {
     this -> ! ☊(Module)
   }
 } ---> N(#712) @ {
   #712 -> []
+}
+Module[0,0].ModuleRequests:[☊(Module)]: {
+  env: {
+    this -> ! ☊(Module)
+  }
+} ---> N(#716) @ {
+  #716 -> []
 }
 MultiplicativeExpression[1,0].AssignmentTargetType:[☊(MultiplicativeExpression), ☊(MultiplicativeExpression), ☊(MultiplicativeOperator), ☊(ExponentiationExpression)]: {
   env: {
@@ -2046,12 +2880,42 @@ MultiplicativeExpression[1,0].IsFunctionDefinition:[☊(MultiplicativeExpression
     this -> ! ☊(MultiplicativeExpression)
   }
 } ---> N(false)
+NamedExports[0,0].ExportEntriesForModule:[☊(NamedExports), null]: {
+  env: {
+    module -> ! null
+    this -> ! ☊(NamedExports)
+  }
+} ---> N(#800) @ {
+  #800 -> []
+}
+NamedExports[0,0].ExportEntriesForModule:[☊(NamedExports), str]: {
+  env: {
+    module -> ! str
+    this -> ! ☊(NamedExports)
+  }
+} ---> N(#800) @ {
+  #800 -> []
+}
+NamedExports[0,0].ExportedBindings:[☊(NamedExports)]: {
+  env: {
+    this -> ! ☊(NamedExports)
+  }
+} ---> N(#775) @ {
+  #775 -> []
+}
+NamedExports[0,0].ExportedNames:[☊(NamedExports)]: {
+  env: {
+    this -> ! ☊(NamedExports)
+  }
+} ---> N(#783) @ {
+  #783 -> []
+}
 NamedImports[0,0].BoundNames:[☊(NamedImports)]: {
   env: {
     this -> ! ☊(NamedImports)
   }
-} ---> N(#760) @ {
-  #760 -> []
+} ---> N(#759) @ {
+  #759 -> []
 }
 NewExpression[1,0].AssignmentTargetType:[☊(NewExpression), ☊(NewExpression)]: {
   env: {
@@ -2362,8 +3226,8 @@ PropertyDefinition[1,0].EarlyErrors:[☊(PropertyDefinition), ☊(CoverInitializ
     CoverInitializedName -> ! ☊(CoverInitializedName)
     this -> ! ☊(PropertyDefinition)
   }
-} ---> T(#1615) @ {
-  #1615 -> OrdinaryObject {
+} ---> T(#1614) @ {
+  #1614 -> OrdinaryObject {
     ErrorData -> ! undef
     Prototype -> ! #%SyntaxError.prototype%
   }

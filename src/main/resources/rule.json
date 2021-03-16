@@ -50,5 +50,9 @@
   {
     "tokens": "If id:{declarationNames} does not include the element value:{\"*default*\"} , append value:{\"*default*\"} to id:{declarationNames} .",
     "inst": "if (contains declarationNames \"*default*\") {} else append \"*default*\" -> declarationNames"
+  },
+  {
+    "tokens": "Append to id:{moduleNames} each element of id:{additionalNames} that is not already an element of id:{moduleNames} .",
+    "inst": "{ let __i__ = 0i while (< __i__ additionalNames.length) if (contains moduleNames additionalNames[__i__]) {} else append additionalNames[__i__] -> moduleNames }"
   }
 ]
