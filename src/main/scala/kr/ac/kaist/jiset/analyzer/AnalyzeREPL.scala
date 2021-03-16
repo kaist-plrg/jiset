@@ -21,27 +21,36 @@ class AnalyzeREPL(sem: AbsSemantics) {
 
   // breakpoints
   private var continue = false
-  private val breakpoints = ArrayBuffer[Regex]()
+  private val breakpoints = ArrayBuffer[(CmdOption, Regex)]()
 
   // jline
   private val terminal: Terminal = TerminalBuilder.builder().build()
+  private def parseNode(cmd: Command) =
+    node(cmd.name :: cmd.options.map(x => node(s"-${x.name}")): _*)
   private val completer: TreeCompleter =
-    new TreeCompleter(Command.commands.map(x => node(x.name)): _*)
+    new TreeCompleter(Command.commands.map(parseNode(_)): _*)
   private val reader: LineReader = LineReaderBuilder.builder()
     .terminal(terminal)
     .completer(completer)
     .build()
   private val prompt: String = LINE_SEP + s"${MAGENTA}analyzer>${RESET} "
-  // check break point of control point
+
+  // helper for break
   private def isBreak(cp: ControlPoint): Boolean = cp match {
-    case NodePoint(node: Entry, _) =>
-      breakpoints.exists(x => optional(x.toString.toInt) match {
-        case Some(uid) => node.uid == uid
-        case None => x.matches(funcOf(node).name)
-      })
-    case NodePoint(node, _) => breakpoints.exists(x =>
-      optional(x.toString.toInt) contains node.uid)
+    case NodePoint(node: Entry, _) => breakpoints.exists {
+      case (CmdBreak.FuncTarget, name) => name.matches(funcOf(node).name)
+      case (CmdBreak.BlockTarget, uid) => uid.toString.toInt == node.uid
+      case _ => ???
+    }
+    case NodePoint(node, _) => breakpoints.exists {
+      case (CmdBreak.BlockTarget, uid) => uid.toString.toInt == node.uid
+      case _ => false
+    }
     case _ => false
+  }
+  private def addBreak(opt: CmdOption, bp: List[String]): Unit = bp match {
+    case Nil => println("need arguments")
+    case str :: _ => breakpoints += (opt -> str.r)
   }
 
   // stop
@@ -80,13 +89,15 @@ class AnalyzeREPL(sem: AbsSemantics) {
         case CmdContinue.name :: _ =>
           continue = true; false
         case CmdBreak.name :: args =>
-          args.headOption match {
-            case None => println("need arguments")
-            case Some(bp) => breakpoints += bp.r
+          import CmdBreak._
+          args match {
+            case s"-${ FuncTarget.name }" :: bp => addBreak(FuncTarget, bp)
+            case s"-${ BlockTarget.name }" :: bp => addBreak(BlockTarget, bp)
+            case _ => println("Inappropriate option")
           }; true
         case CmdBreakList.name :: _ =>
           breakpoints.zipWithIndex.foreach {
-            case (bp, i) => println(s"$i: $bp")
+            case (bp, i) => println("%s: %-15s %s".format(i, bp._1, bp._2))
           }; true
         case CmdBreakRm.name :: args =>
           args.headOption match {
@@ -117,7 +128,10 @@ class AnalyzeREPL(sem: AbsSemantics) {
 abstract class Command(
   val name: String,
   val info: String = ""
-)
+) { val options = List[CmdOption]() }
+
+// option
+abstract class CmdOption(val name: String)
 
 object Command {
   val commands: List[Command] = List(
@@ -145,7 +159,14 @@ case object CmdHelp extends Command("help")
 
 case object CmdContinue extends Command("continue", "Continue the analysis.")
 
-case object CmdBreak extends Command("break", "Add a break point.")
+case object CmdBreak extends Command("break", "Add a break point.") {
+
+  case object FuncTarget extends CmdOption("func")
+
+  case object BlockTarget extends CmdOption("block")
+
+  override val options = List(FuncTarget, BlockTarget)
+}
 
 case object CmdBreakList extends Command("break-list", "Show the list of break points.")
 
