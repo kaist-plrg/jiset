@@ -14,6 +14,7 @@ import org.jline.utils._
 import scala.Console._
 import scala.collection.mutable.ArrayBuffer
 import scala.util.matching.Regex
+import scala.util.Try
 
 // analyze repl
 class AnalyzeREPL(sem: AbsSemantics) {
@@ -21,7 +22,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
 
   // breakpoints
   private var continue = false
-  private var breakpoints = ArrayBuffer[Regex]()
+  private val breakpoints = ArrayBuffer[Regex]()
 
   // jline
   private val terminal: Terminal = TerminalBuilder.builder().build()
@@ -34,8 +35,12 @@ class AnalyzeREPL(sem: AbsSemantics) {
   private val prompt: String = LINE_SEP + s"${MAGENTA}analyzer>${RESET} "
   // check break point of control point
   private def isBreak(cp: ControlPoint): Boolean = cp match {
-    case NodePoint(entry: Entry, _) =>
-      breakpoints.exists(_.matches(funcOf(entry).name))
+    case NodePoint(node: Entry, _) =>
+      breakpoints.exists(x => Try(x.toString.toInt).toOption match {
+        case Some(uid) => node.uid == uid
+        case None => x.matches(funcOf(node).name)
+      })
+    case NodePoint(node, _) => breakpoints contains node.uid
     case _ => false
   }
 
@@ -76,7 +81,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
           continue = true; false
         case CmdBreak.name :: args =>
           args.headOption match {
-            case None => ???
+            case None => println("need arguments")
             case Some(bp) => breakpoints += bp.r
           }; true
         case CmdBreakList.name :: _ =>
@@ -85,7 +90,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
           }; true
         case CmdBreakRm.name :: args =>
           args.headOption match {
-            case None => ???
+            case None => println("need arguments")
             case Some(idx) => breakpoints.remove(idx.toInt)
           }; true
         case CmdLog.name :: _ =>
