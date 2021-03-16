@@ -26,6 +26,22 @@ AdditiveExpression[2,0].IsFunctionDefinition:[☊(AdditiveExpression), ☊(Addit
     this -> ! ☊(AdditiveExpression)
   }
 } ---> N(false)
+ArrayBindingPattern[0,2].BoundNames:[☊(ArrayBindingPattern), ?]: {
+  env: {
+    Elision -> ! ?
+    this -> ! ☊(ArrayBindingPattern)
+  }
+} ---> N(#475) @ {
+  #475 -> []
+}
+ArrayBindingPattern[0,2].BoundNames:[☊(ArrayBindingPattern), ☊(Elision)]: {
+  env: {
+    Elision -> ! ☊(Elision)
+    this -> ! ☊(ArrayBindingPattern)
+  }
+} ---> N(#475) @ {
+  #475 -> []
+}
 ArrayBindingPattern[0,2].ContainsExpression:[☊(ArrayBindingPattern), ?]: {
   env: {
     Elision -> ! ?
@@ -38,6 +54,32 @@ ArrayBindingPattern[0,2].ContainsExpression:[☊(ArrayBindingPattern), ☊(Elisi
     this -> ! ☊(ArrayBindingPattern)
   }
 } ---> N(false)
+ArrayBindingPattern[2,2].BoundNames:[☊(ArrayBindingPattern), ☊(BindingElementList), ?]: {
+  env: {
+    BindingElementList -> ! ☊(BindingElementList)
+    Elision -> ! ?
+    this -> ! ☊(ArrayBindingPattern)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
+ArrayBindingPattern[2,2].BoundNames:[☊(ArrayBindingPattern), ☊(BindingElementList), ☊(Elision)]: {
+  env: {
+    BindingElementList -> ! ☊(BindingElementList)
+    Elision -> ! ☊(Elision)
+    this -> ! ☊(ArrayBindingPattern)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
 ArrowFunction[0,0].HasName:[☊(ArrowFunction), ☊(ArrowParameters), ☊(ConciseBody)]: {
   env: {
     ArrowParameters -> ! ☊(ArrowParameters)
@@ -197,6 +239,18 @@ AsyncConciseBody[0,0].ContainsUseStrict:[☊(AsyncConciseBody), ☊(ExpressionBo
     this -> ! ☊(AsyncConciseBody)
   }
 } ---> N(false)
+AsyncFunctionDeclaration[0,0].BoundNames:[☊(AsyncFunctionDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncFunctionBody)]: {
+  env: {
+    AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    this -> ! ☊(AsyncFunctionDeclaration)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
 AsyncFunctionDeclaration[0,0].IsConstantDeclaration:[☊(AsyncFunctionDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncFunctionBody)]: {
   env: {
     AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
@@ -205,6 +259,15 @@ AsyncFunctionDeclaration[0,0].IsConstantDeclaration:[☊(AsyncFunctionDeclaratio
     this -> ! ☊(AsyncFunctionDeclaration)
   }
 } ---> N(false)
+AsyncFunctionDeclaration[1,0].BoundNames:[☊(AsyncFunctionDeclaration), ☊(FormalParameters), ☊(AsyncFunctionBody)]: {
+  env: {
+    AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
+    FormalParameters -> ! ☊(FormalParameters)
+    this -> ! ☊(AsyncFunctionDeclaration)
+  }
+} ---> N(#656) @ {
+  #656 -> ["*default*"]
+}
 AsyncFunctionDeclaration[1,0].IsConstantDeclaration:[☊(AsyncFunctionDeclaration), ☊(FormalParameters), ☊(AsyncFunctionBody)]: {
   env: {
     AsyncFunctionBody -> ! ☊(AsyncFunctionBody)
@@ -242,6 +305,18 @@ AsyncFunctionExpression[1,0].IsFunctionDefinition:[☊(AsyncFunctionExpression),
     this -> ! ☊(AsyncFunctionExpression)
   }
 } ---> N(true)
+AsyncGeneratorDeclaration[0,0].BoundNames:[☊(AsyncGeneratorDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
+  env: {
+    AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    this -> ! ☊(AsyncGeneratorDeclaration)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
 AsyncGeneratorDeclaration[0,0].IsConstantDeclaration:[☊(AsyncGeneratorDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
   env: {
     AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
@@ -250,6 +325,15 @@ AsyncGeneratorDeclaration[0,0].IsConstantDeclaration:[☊(AsyncGeneratorDeclarat
     this -> ! ☊(AsyncGeneratorDeclaration)
   }
 } ---> N(false)
+AsyncGeneratorDeclaration[1,0].BoundNames:[☊(AsyncGeneratorDeclaration), ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
+  env: {
+    AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
+    FormalParameters -> ! ☊(FormalParameters)
+    this -> ! ☊(AsyncGeneratorDeclaration)
+  }
+} ---> N(#635) @ {
+  #635 -> ["*default*"]
+}
 AsyncGeneratorDeclaration[1,0].IsConstantDeclaration:[☊(AsyncGeneratorDeclaration), ☊(FormalParameters), ☊(AsyncGeneratorBody)]: {
   env: {
     AsyncGeneratorBody -> ! ☊(AsyncGeneratorBody)
@@ -319,6 +403,19 @@ BigInt::toString:[num]: {
     x -> ! num
   }
 } ---> N(str)
+BindingElementList[1,0].BoundNames:[☊(BindingElementList), ☊(BindingElementList), ☊(BindingElisionElement)]: {
+  env: {
+    BindingElementList -> ! ☊(BindingElementList)
+    BindingElisionElement -> ! ☊(BindingElisionElement)
+    this -> ! ☊(BindingElementList)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
 BindingElement[1,0].HasInitializer:[☊(BindingElement), ☊(BindingPattern)]: {
   env: {
     BindingPattern -> ! ☊(BindingPattern)
@@ -331,6 +428,32 @@ BindingElement[1,0].IsSimpleParameterList:[☊(BindingElement), ☊(BindingPatte
     this -> ! ☊(BindingElement)
   }
 } ---> N(false)
+BindingElement[1,1].BoundNames:[☊(BindingElement), ☊(BindingPattern), ?]: {
+  env: {
+    BindingPattern -> ! ☊(BindingPattern)
+    Initializer -> ! ?
+    this -> ! ☊(BindingElement)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
+BindingElement[1,1].BoundNames:[☊(BindingElement), ☊(BindingPattern), ☊(Initializer)]: {
+  env: {
+    BindingPattern -> ! ☊(BindingPattern)
+    Initializer -> ! ☊(Initializer)
+    this -> ! ☊(BindingElement)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
 BindingElement[1,1].ContainsExpression:[☊(BindingElement), ☊(BindingPattern), ☊(Initializer)]: {
   env: {
     BindingPattern -> ! ☊(BindingPattern)
@@ -352,6 +475,40 @@ BindingElement[1,1].IsSimpleParameterList:[☊(BindingElement), ☊(BindingPatte
     this -> ! ☊(BindingElement)
   }
 } ---> N(false)
+BindingElisionElement[0,1].BoundNames:[☊(BindingElisionElement), ?, ☊(BindingElement)]: {
+  env: {
+    BindingElement -> ! ☊(BindingElement)
+    Elision -> ! ?
+    this -> ! ☊(BindingElisionElement)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
+BindingElisionElement[0,1].BoundNames:[☊(BindingElisionElement), ☊(Elision), ☊(BindingElement)]: {
+  env: {
+    BindingElement -> ! ☊(BindingElement)
+    Elision -> ! ☊(Elision)
+    this -> ! ☊(BindingElisionElement)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
+BindingIdentifier[0,0].BoundNames:[☊(BindingIdentifier), ☊(Identifier)]: {
+  env: {
+    Identifier -> ! ☊(Identifier)
+    this -> ! ☊(BindingIdentifier)
+  }
+} ---> N(#341) @ {
+  #341 -> [N(str)]
+}
 BindingIdentifier[1,0].BoundNames:[☊(BindingIdentifier)]: {
   env: {
     this -> ! ☊(BindingIdentifier)
@@ -364,11 +521,57 @@ BindingIdentifier[1,0].StringValue:[☊(BindingIdentifier)]: {
     this -> ! ☊(BindingIdentifier)
   }
 } ---> N("yield")
+BindingIdentifier[2,0].BoundNames:[☊(BindingIdentifier)]: {
+  env: {
+    this -> ! ☊(BindingIdentifier)
+  }
+} ---> N(#343) @ {
+  #343 -> ["await"]
+}
 BindingIdentifier[2,0].StringValue:[☊(BindingIdentifier)]: {
   env: {
     this -> ! ☊(BindingIdentifier)
   }
 } ---> N("await")
+BindingList[1,0].BoundNames:[☊(BindingList), ☊(BindingList), ☊(LexicalBinding)]: {
+  env: {
+    BindingList -> ! ☊(BindingList)
+    LexicalBinding -> ! ☊(LexicalBinding)
+    this -> ! ☊(BindingList)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
+BindingPropertyList[1,0].BoundNames:[☊(BindingPropertyList), ☊(BindingPropertyList), ☊(BindingProperty)]: {
+  env: {
+    BindingProperty -> ! ☊(BindingProperty)
+    BindingPropertyList -> ! ☊(BindingPropertyList)
+    this -> ! ☊(BindingPropertyList)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
+BindingProperty[1,0].BoundNames:[☊(BindingProperty), ☊(PropertyName), ☊(BindingElement)]: {
+  env: {
+    BindingElement -> ! ☊(BindingElement)
+    PropertyName -> ! ☊(PropertyName)
+    this -> ! ☊(BindingProperty)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
 BindingRestElement[0,0].ContainsExpression:[☊(BindingRestElement), ☊(BindingIdentifier)]: {
   env: {
     BindingIdentifier -> ! ☊(BindingIdentifier)
@@ -474,6 +677,17 @@ ClassAtom[0,0].IsCharacterClass:[☊(ClassAtom)]: {
     this -> ! ☊(ClassAtom)
   }
 } ---> N(false)
+ClassDeclaration[0,0].BoundNames:[☊(ClassDeclaration), ☊(BindingIdentifier), ☊(ClassTail)]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    ClassTail -> ! ☊(ClassTail)
+    this -> ! ☊(ClassDeclaration)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
 ClassDeclaration[0,0].IsConstantDeclaration:[☊(ClassDeclaration), ☊(BindingIdentifier), ☊(ClassTail)]: {
   env: {
     BindingIdentifier -> ! ☊(BindingIdentifier)
@@ -481,6 +695,14 @@ ClassDeclaration[0,0].IsConstantDeclaration:[☊(ClassDeclaration), ☊(BindingI
     this -> ! ☊(ClassDeclaration)
   }
 } ---> N(false)
+ClassDeclaration[1,0].BoundNames:[☊(ClassDeclaration), ☊(ClassTail)]: {
+  env: {
+    ClassTail -> ! ☊(ClassTail)
+    this -> ! ☊(ClassDeclaration)
+  }
+} ---> N(#644) @ {
+  #644 -> ["*default*"]
+}
 ClassDeclaration[1,0].IsConstantDeclaration:[☊(ClassDeclaration), ☊(ClassTail)]: {
   env: {
     ClassTail -> ! ☊(ClassTail)
@@ -605,12 +827,62 @@ ConditionalExpression[1,0].IsFunctionDefinition:[☊(ConditionalExpression), ☊
     this -> ! ☊(ConditionalExpression)
   }
 } ---> N(false)
+CoverCallExpressionAndAsyncArrowHead[0,0].CoveredAsyncArrowHead:[☊(CoverCallExpressionAndAsyncArrowHead), ☊(MemberExpression), ☊(Arguments)]: {
+  env: {
+    Arguments -> ! ☊(Arguments)
+    MemberExpression -> ! ☊(MemberExpression)
+    this -> ! ☊(CoverCallExpressionAndAsyncArrowHead)
+  }
+} ---> N(☊(AsyncArrowHead))
+CoverParenthesizedExpressionAndArrowParameterList[0,0].CoveredFormalsList:[☊(CoverParenthesizedExpressionAndArrowParameterList), ☊(Expression)]: {
+  env: {
+    Expression -> ! ☊(Expression)
+    this -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N(☊(ArrowFormalParameters))
 CoverParenthesizedExpressionAndArrowParameterList[0,0].CoveredParenthesizedExpression:[☊(CoverParenthesizedExpressionAndArrowParameterList), ☊(Expression)]: {
   env: {
     Expression -> ! ☊(Expression)
     this -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
   }
 } ---> N(☊(ParenthesizedExpression))
+CoverParenthesizedExpressionAndArrowParameterList[1,0].CoveredFormalsList:[☊(CoverParenthesizedExpressionAndArrowParameterList), ☊(Expression)]: {
+  env: {
+    Expression -> ! ☊(Expression)
+    this -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N(☊(ArrowFormalParameters))
+CoverParenthesizedExpressionAndArrowParameterList[2,0].CoveredFormalsList:[☊(CoverParenthesizedExpressionAndArrowParameterList)]: {
+  env: {
+    this -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N(☊(ArrowFormalParameters))
+CoverParenthesizedExpressionAndArrowParameterList[3,0].CoveredFormalsList:[☊(CoverParenthesizedExpressionAndArrowParameterList), ☊(BindingIdentifier)]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    this -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N(☊(ArrowFormalParameters))
+CoverParenthesizedExpressionAndArrowParameterList[4,0].CoveredFormalsList:[☊(CoverParenthesizedExpressionAndArrowParameterList), ☊(BindingPattern)]: {
+  env: {
+    BindingPattern -> ! ☊(BindingPattern)
+    this -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N(☊(ArrowFormalParameters))
+CoverParenthesizedExpressionAndArrowParameterList[5,0].CoveredFormalsList:[☊(CoverParenthesizedExpressionAndArrowParameterList), ☊(Expression), ☊(BindingIdentifier)]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    Expression -> ! ☊(Expression)
+    this -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N(☊(ArrowFormalParameters))
+CoverParenthesizedExpressionAndArrowParameterList[6,0].CoveredFormalsList:[☊(CoverParenthesizedExpressionAndArrowParameterList), ☊(Expression), ☊(BindingPattern)]: {
+  env: {
+    BindingPattern -> ! ☊(BindingPattern)
+    Expression -> ! ☊(Expression)
+    this -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+  }
+} ---> N(☊(ArrowFormalParameters))
 Declaration[1,0].DeclarationPart:[☊(Declaration), ☊(ClassDeclaration)]: {
   env: {
     ClassDeclaration -> ! ☊(ClassDeclaration)
@@ -698,6 +970,15 @@ ExponentiationExpression[1,0].IsFunctionDefinition:[☊(ExponentiationExpression
     this -> ! ☊(ExponentiationExpression)
   }
 } ---> N(false)
+ExportDeclaration[0,0].BoundNames:[☊(ExportDeclaration), ☊(ExportFromClause), ☊(FromClause)]: {
+  env: {
+    ExportFromClause -> ! ☊(ExportFromClause)
+    FromClause -> ! ☊(FromClause)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#773) @ {
+  #773 -> []
+}
 ExportDeclaration[0,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(ExportFromClause), ☊(FromClause)]: {
   env: {
     ExportFromClause -> ! ☊(ExportFromClause)
@@ -705,12 +986,70 @@ ExportDeclaration[0,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(Export
     this -> ! ☊(ExportDeclaration)
   }
 } ---> N(false)
+ExportDeclaration[1,0].BoundNames:[☊(ExportDeclaration), ☊(NamedExports)]: {
+  env: {
+    NamedExports -> ! ☊(NamedExports)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#773) @ {
+  #773 -> []
+}
 ExportDeclaration[1,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(NamedExports)]: {
   env: {
     NamedExports -> ! ☊(NamedExports)
     this -> ! ☊(ExportDeclaration)
   }
 } ---> N(false)
+ExportDeclaration[3,0].BoundNames:[☊(ExportDeclaration), ☊(Declaration)]: {
+  env: {
+    Declaration -> ! ☊(Declaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475 | #590 | #617 | #635 | #644 | #656)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+  #590 -> ["*default*"]
+  #617 -> ["*default*"]
+  #635 -> ["*default*"]
+  #644 -> ["*default*"]
+  #656 -> ["*default*"]
+}
+ExportDeclaration[4,0].BoundNames:[☊(ExportDeclaration), ☊(HoistableDeclaration)]: {
+  env: {
+    HoistableDeclaration -> ! ☊(HoistableDeclaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #590 | #617 | #635 | #656)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #590 -> ["*default*"]
+  #617 -> ["*default*"]
+  #635 -> ["*default*"]
+  #656 -> ["*default*"]
+}
+ExportDeclaration[5,0].BoundNames:[☊(ExportDeclaration), ☊(ClassDeclaration)]: {
+  env: {
+    ClassDeclaration -> ! ☊(ClassDeclaration)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #644)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #644 -> ["*default*"]
+}
+ExportDeclaration[6,0].BoundNames:[☊(ExportDeclaration), ☊(AssignmentExpression)]: {
+  env: {
+    AssignmentExpression -> ! ☊(AssignmentExpression)
+    this -> ! ☊(ExportDeclaration)
+  }
+} ---> N(#774) @ {
+  #774 -> ["*default*"]
+}
 ExportDeclaration[6,0].IsConstantDeclaration:[☊(ExportDeclaration), ☊(AssignmentExpression)]: {
   env: {
     AssignmentExpression -> ! ☊(AssignmentExpression)
@@ -743,6 +1082,19 @@ ForBinding[1,0].IsDestructuring:[☊(ForBinding), ☊(BindingPattern)]: {
     this -> ! ☊(ForBinding)
   }
 } ---> N(true)
+ForDeclaration[0,0].BoundNames:[☊(ForDeclaration), ☊(LetOrConst), ☊(ForBinding)]: {
+  env: {
+    ForBinding -> ! ☊(ForBinding)
+    LetOrConst -> ! ☊(LetOrConst)
+    this -> ! ☊(ForDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
 ForDeclaration[0,0].IsDestructuring:[☊(ForDeclaration), ☊(LetOrConst), ☊(ForBinding)]: {
   env: {
     ForBinding -> ! ☊(ForBinding)
@@ -750,6 +1102,26 @@ ForDeclaration[0,0].IsDestructuring:[☊(ForDeclaration), ☊(LetOrConst), ☊(F
     this -> ! ☊(ForDeclaration)
   }
 } ---> N(bool)
+FormalParameterList[1,0].BoundNames:[☊(FormalParameterList), ☊(FormalParameterList), ☊(FormalParameter)]: {
+  env: {
+    FormalParameter -> ! ☊(FormalParameter)
+    FormalParameterList -> ! ☊(FormalParameterList)
+    this -> ! ☊(FormalParameterList)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
+FormalParameters[0,0].BoundNames:[☊(FormalParameters)]: {
+  env: {
+    this -> ! ☊(FormalParameters)
+  }
+} ---> N(#591) @ {
+  #591 -> []
+}
 FormalParameters[0,0].ContainsExpression:[☊(FormalParameters)]: {
   env: {
     this -> ! ☊(FormalParameters)
@@ -773,6 +1145,18 @@ FormalParameters[4,0].IsSimpleParameterList:[☊(FormalParameters), ☊(FormalPa
     this -> ! ☊(FormalParameters)
   }
 } ---> N(false)
+FunctionDeclaration[0,0].BoundNames:[☊(FunctionDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(FunctionBody)]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    FunctionBody -> ! ☊(FunctionBody)
+    this -> ! ☊(FunctionDeclaration)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
 FunctionDeclaration[0,0].IsConstantDeclaration:[☊(FunctionDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(FunctionBody)]: {
   env: {
     BindingIdentifier -> ! ☊(BindingIdentifier)
@@ -781,6 +1165,15 @@ FunctionDeclaration[0,0].IsConstantDeclaration:[☊(FunctionDeclaration), ☊(Bi
     this -> ! ☊(FunctionDeclaration)
   }
 } ---> N(false)
+FunctionDeclaration[1,0].BoundNames:[☊(FunctionDeclaration), ☊(FormalParameters), ☊(FunctionBody)]: {
+  env: {
+    FormalParameters -> ! ☊(FormalParameters)
+    FunctionBody -> ! ☊(FunctionBody)
+    this -> ! ☊(FunctionDeclaration)
+  }
+} ---> N(#590) @ {
+  #590 -> ["*default*"]
+}
 FunctionDeclaration[1,0].IsConstantDeclaration:[☊(FunctionDeclaration), ☊(FormalParameters), ☊(FunctionBody)]: {
   env: {
     FormalParameters -> ! ☊(FormalParameters)
@@ -834,6 +1227,18 @@ FunctionExpression[0,1].IsFunctionDefinition:[☊(FunctionExpression), ☊(Bindi
     this -> ! ☊(FunctionExpression)
   }
 } ---> N(true)
+GeneratorDeclaration[0,0].BoundNames:[☊(GeneratorDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(GeneratorBody)]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    FormalParameters -> ! ☊(FormalParameters)
+    GeneratorBody -> ! ☊(GeneratorBody)
+    this -> ! ☊(GeneratorDeclaration)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
 GeneratorDeclaration[0,0].IsConstantDeclaration:[☊(GeneratorDeclaration), ☊(BindingIdentifier), ☊(FormalParameters), ☊(GeneratorBody)]: {
   env: {
     BindingIdentifier -> ! ☊(BindingIdentifier)
@@ -842,6 +1247,15 @@ GeneratorDeclaration[0,0].IsConstantDeclaration:[☊(GeneratorDeclaration), ☊(
     this -> ! ☊(GeneratorDeclaration)
   }
 } ---> N(false)
+GeneratorDeclaration[1,0].BoundNames:[☊(GeneratorDeclaration), ☊(FormalParameters), ☊(GeneratorBody)]: {
+  env: {
+    FormalParameters -> ! ☊(FormalParameters)
+    GeneratorBody -> ! ☊(GeneratorBody)
+    this -> ! ☊(GeneratorDeclaration)
+  }
+} ---> N(#617) @ {
+  #617 -> ["*default*"]
+}
 GeneratorDeclaration[1,0].IsConstantDeclaration:[☊(GeneratorDeclaration), ☊(FormalParameters), ☊(GeneratorBody)]: {
   env: {
     FormalParameters -> ! ☊(FormalParameters)
@@ -978,6 +1392,37 @@ Identifier[0,0].StringValue:[☊(Identifier), ☊(IdentifierName)]: {
     this -> ! ☊(Identifier)
   }
 } ---> N(str)
+ImportClause[4,0].BoundNames:[☊(ImportClause), ☊(ImportedDefaultBinding), ☊(NamedImports)]: {
+  env: {
+    ImportedDefaultBinding -> ! ☊(ImportedDefaultBinding)
+    NamedImports -> ! ☊(NamedImports)
+    this -> ! ☊(ImportClause)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
+ImportDeclaration[0,0].BoundNames:[☊(ImportDeclaration), ☊(ImportClause), ☊(FromClause)]: {
+  env: {
+    FromClause -> ! ☊(FromClause)
+    ImportClause -> ! ☊(ImportClause)
+    this -> ! ☊(ImportDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #760)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #760 -> []
+}
+ImportDeclaration[1,0].BoundNames:[☊(ImportDeclaration), ☊(ModuleSpecifier)]: {
+  env: {
+    ModuleSpecifier -> ! ☊(ModuleSpecifier)
+    this -> ! ☊(ImportDeclaration)
+  }
+} ---> N(#759) @ {
+  #759 -> []
+}
 ImportDeclaration[1,0].ImportEntries:[☊(ImportDeclaration), ☊(ModuleSpecifier)]: {
   env: {
     ModuleSpecifier -> ! ☊(ModuleSpecifier)
@@ -991,6 +1436,28 @@ ImportMeta[0,0].AssignmentTargetType:[☊(ImportMeta)]: {
     this -> ! ☊(ImportMeta)
   }
 } ---> N(~invalid~)
+ImportSpecifier[1,0].BoundNames:[☊(ImportSpecifier), ☊(IdentifierName), ☊(ImportedBinding)]: {
+  env: {
+    IdentifierName -> ! ☊(IdentifierName)
+    ImportedBinding -> ! ☊(ImportedBinding)
+    this -> ! ☊(ImportSpecifier)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
+ImportsList[1,0].BoundNames:[☊(ImportsList), ☊(ImportsList), ☊(ImportSpecifier)]: {
+  env: {
+    ImportSpecifier -> ! ☊(ImportSpecifier)
+    ImportsList -> ! ☊(ImportsList)
+    this -> ! ☊(ImportsList)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
 LabelIdentifier[1,0].StringValue:[☊(LabelIdentifier)]: {
   env: {
     this -> ! ☊(LabelIdentifier)
@@ -1053,6 +1520,54 @@ LetOrConst[1,0].IsConstantDeclaration:[☊(LetOrConst)]: {
     this -> ! ☊(LetOrConst)
   }
 } ---> N(true)
+LexicalBinding[0,1].BoundNames:[☊(LexicalBinding), ☊(BindingIdentifier), ?]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    Initializer -> ! ?
+    this -> ! ☊(LexicalBinding)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
+LexicalBinding[0,1].BoundNames:[☊(LexicalBinding), ☊(BindingIdentifier), ☊(Initializer)]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    Initializer -> ! ☊(Initializer)
+    this -> ! ☊(LexicalBinding)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
+LexicalBinding[1,0].BoundNames:[☊(LexicalBinding), ☊(BindingPattern), ☊(Initializer)]: {
+  env: {
+    BindingPattern -> ! ☊(BindingPattern)
+    Initializer -> ! ☊(Initializer)
+    this -> ! ☊(LexicalBinding)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
+LexicalDeclaration[0,0].BoundNames:[☊(LexicalDeclaration), ☊(LetOrConst), ☊(BindingList)]: {
+  env: {
+    BindingList -> ! ☊(BindingList)
+    LetOrConst -> ! ☊(LetOrConst)
+    this -> ! ☊(LexicalDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
 LiteralPropertyName[0,0].Evaluation:[☊(LiteralPropertyName), ☊(IdentifierName)]: {
   env: {
     IdentifierName -> ! ☊(IdentifierName)
@@ -1414,6 +1929,13 @@ MultiplicativeExpression[1,0].IsFunctionDefinition:[☊(MultiplicativeExpression
     this -> ! ☊(MultiplicativeExpression)
   }
 } ---> N(false)
+NamedImports[0,0].BoundNames:[☊(NamedImports)]: {
+  env: {
+    this -> ! ☊(NamedImports)
+  }
+} ---> N(#760) @ {
+  #760 -> []
+}
 NewExpression[1,0].AssignmentTargetType:[☊(NewExpression), ☊(NewExpression)]: {
   env: {
     NewExpression -> ! ☊(NewExpression)
@@ -1453,6 +1975,13 @@ Number::toString:[num]: {
     x -> ! num
   }
 } ---> N(str)
+ObjectBindingPattern[0,0].BoundNames:[☊(ObjectBindingPattern)]: {
+  env: {
+    this -> ! ☊(ObjectBindingPattern)
+  }
+} ---> N(#474) @ {
+  #474 -> []
+}
 ObjectBindingPattern[0,0].ContainsExpression:[☊(ObjectBindingPattern)]: {
   env: {
     this -> ! ☊(ObjectBindingPattern)
@@ -1897,6 +2426,28 @@ SingleNameBinding[0,0].IsSimpleParameterList:[☊(SingleNameBinding), ☊(Bindin
     this -> ! ☊(SingleNameBinding)
   }
 } ---> N(true)
+SingleNameBinding[0,1].BoundNames:[☊(SingleNameBinding), ☊(BindingIdentifier), ?]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    Initializer -> ! ?
+    this -> ! ☊(SingleNameBinding)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
+SingleNameBinding[0,1].BoundNames:[☊(SingleNameBinding), ☊(BindingIdentifier), ☊(Initializer)]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    Initializer -> ! ☊(Initializer)
+    this -> ! ☊(SingleNameBinding)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
 SingleNameBinding[0,1].ContainsExpression:[☊(SingleNameBinding), ☊(BindingIdentifier), ☊(Initializer)]: {
   env: {
     BindingIdentifier -> ! ☊(BindingIdentifier)
@@ -2101,3 +2652,51 @@ UpdateExpression[4,0].IsFunctionDefinition:[☊(UpdateExpression), ☊(UnaryExpr
     this -> ! ☊(UpdateExpression)
   }
 } ---> N(false)
+VariableDeclarationList[1,0].BoundNames:[☊(VariableDeclarationList), ☊(VariableDeclarationList), ☊(VariableDeclaration)]: {
+  env: {
+    VariableDeclaration -> ! ☊(VariableDeclaration)
+    VariableDeclarationList -> ! ☊(VariableDeclarationList)
+    this -> ! ☊(VariableDeclarationList)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}
+VariableDeclaration[0,1].BoundNames:[☊(VariableDeclaration), ☊(BindingIdentifier), ?]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    Initializer -> ! ?
+    this -> ! ☊(VariableDeclaration)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
+VariableDeclaration[0,1].BoundNames:[☊(VariableDeclaration), ☊(BindingIdentifier), ☊(Initializer)]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    Initializer -> ! ☊(Initializer)
+    this -> ! ☊(VariableDeclaration)
+  }
+} ---> N((#341 | #342 | #343)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+}
+VariableDeclaration[1,0].BoundNames:[☊(VariableDeclaration), ☊(BindingPattern), ☊(Initializer)]: {
+  env: {
+    BindingPattern -> ! ☊(BindingPattern)
+    Initializer -> ! ☊(Initializer)
+    this -> ! ☊(VariableDeclaration)
+  }
+} ---> N((#341 | #342 | #343 | #474 | #475)) @ {
+  #341 -> [N(str)]
+  #342 -> ["yield"]
+  #343 -> ["await"]
+  #474 -> []
+  #475 -> []
+}

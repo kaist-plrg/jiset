@@ -226,6 +226,7 @@ class AbsSemantics(
     """.*.AssignmentTargetType""".r,
     """.*.StringValue""".r,
     """.*.PropName""".r,
+    """.*.BoundNames""".r,
     // syntax
     """Literal\[.*""".r,
     """LiteralPropertyName\[.*""".r,
@@ -237,8 +238,6 @@ class AbsSemantics(
     """PrimaryExpression\[0,0\].Evaluation""".r,
     // CoveredParenthesizedExpression
     """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
-    // BoundNames
-    """BindingIdentifier\[1,0\].BoundNames""".r,
     // DeclarationPart - only 6 cases, all pass
     """.*.DeclarationPart""".r,
     // ImportEntries

@@ -60,7 +60,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
         println
       })
     }
-  }; println
+  }
 
   // run repl
   def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) {
