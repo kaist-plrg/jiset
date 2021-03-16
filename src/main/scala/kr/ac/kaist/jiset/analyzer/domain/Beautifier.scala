@@ -28,6 +28,7 @@ object Beautifier {
   implicit lazy val astApp: App[ASTVal] = (app, ast) => app >> "☊(" >> ast.name >> ")"
   implicit lazy val addrApp: App[Addr] = (app, addr) => app >> "#" >> (addr match {
     case NamedAddr(name) => name
+    case DynamicAddr(k, -1) => s"$k"
     case DynamicAddr(k, fid) => s"$k:$fid"
   })
   implicit lazy val tyApp: App[Ty] = (app, ty) => app >> ty.name
