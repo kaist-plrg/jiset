@@ -291,7 +291,7 @@ object BasicDomain extends state.Domain {
       import AbsObj._
       copy(heap = addr.toSet.foldLeft(heap) {
         case (h, a: DynamicAddr) => h(a) match {
-          case ListElem(list) => h + (a -> ListElem(ListD(list.value)))
+          case ListElem(list) => h + (a -> ListElem(ListD(list.value ⊔ v)))
           case _ => ???
         }
         case _ => ???
