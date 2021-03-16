@@ -49,15 +49,15 @@ class BeautifierTinyTest extends AnalyzerTest {
       AbsValue(123, "abc", Undef, Null, Absent) -> "123i | \"abc\" | undef | null | ?",
       AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)) -> "num | int | bigint",
       AbsValue("a", "b", true, false) -> "str | bool",
-      AbsValue(42, NamedAddr("Global"), DynamicAddr(432)) -> "(#Global | #432) | 42i",
+      AbsValue(42, NamedAddr("Global"), DynamicAddr(432)) -> "(#432 | #Global) | 42i",
       (AbsValue(42, Const("empty")) ⊔ AbsValue(Ty("Object"))) -> "Object | ~empty~ | 42i",
       (AbsValue(true, Cont()) ⊔ AbsClo(Clo(42))) -> "λ(42) | κ | true",
       AbsValue(Clo(42, Env("x" -> Bool(true), "y" -> Num(42)))) -> """λ(42)[{
       |  x -> ! true
       |  y -> ! 42.0
       |}]""".stripMargin,
-      AbsValue(ASTVal("Literal"), ASTVal("Identifier")) -> "(☊(Literal) | ☊(Identifier))",
-      AbsValue(Const("invalid"), Const("empty")) -> "(~invalid~ | ~empty~)",
+      AbsValue(ASTVal("Literal"), ASTVal("Identifier")) -> "(☊(Identifier) | ☊(Literal))",
+      AbsValue(Const("invalid"), Const("empty")) -> "(~empty~ | ~invalid~)",
       AbsValue(Completion(CompNormal, 42, Const("empty"))) -> "N(42i)",
       AbsValue(
         Completion(CompNormal, 42, Const("empty")),
@@ -107,8 +107,8 @@ class BeautifierTinyTest extends AnalyzerTest {
     ))
     test("Abstract Heaps")(
       heap -> """{
-      |  #Global -> @"has"
       |  #42 -> Record {}
+      |  #Global -> @"has"
       |}""".stripMargin,
     )
 
@@ -136,8 +136,8 @@ class BeautifierTinyTest extends AnalyzerTest {
       |    z -> ? null
       |  }
       |  heap: {
-      |    #Global -> @"has"
       |    #42 -> Record {}
+      |    #Global -> @"has"
       |  }
       |}""".stripMargin,
       AbsState.Empty.copy(env = env) -> """{
