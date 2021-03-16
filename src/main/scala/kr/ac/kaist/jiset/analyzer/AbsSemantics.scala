@@ -241,7 +241,8 @@ class AbsSemantics(
     """.*.CoveredFormalsList""".r,
     // PrimaryExpression.Evaluation
     """PrimaryExpression\[0,0\].Evaluation""".r,
-    """IdentifierReference\[.*.Evaluation.Evaluation""".r,
+    """IdentifierReference\[.*.Evaluation""".r,
+    """Literal\[.*.Evaluation""".r,
     // syntax
     """Literal\[.*""".r,
     """LiteralPropertyName\[.*""".r,

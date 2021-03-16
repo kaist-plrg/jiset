@@ -2016,17 +2016,97 @@ GeneratorMethod[0,0].PropName:[☊(GeneratorMethod), ☊(PropertyName), ☊(Uniq
     this -> ! ☊(GeneratorMethod)
   }
 } ---> N(~empty~ | str)
+GetIdentifierReference:[EnvironmentRecord, Normal(str), bool]: {
+  env: {
+    env -> ! EnvironmentRecord
+    name -> ! N(str)
+    strict -> ! true
+  }
+} ---> N(#0:168) @ {
+  #0:168 -> ReferenceRecord {
+    Base -> ! ~unresolvable~
+    ReferencedName -> ! N(str)
+    Strict -> ! true
+    ThisValue -> ! ~empty~
+  }
+}
+GetIdentifierReference:[EnvironmentRecord, str, bool]: {
+  env: {
+    env -> ! EnvironmentRecord
+    name -> ! str
+    strict -> ! true
+  }
+} ---> N(#0:168) @ {
+  #0:168 -> ReferenceRecord {
+    Base -> ! ~unresolvable~
+    ReferencedName -> ! str
+    Strict -> ! true
+    ThisValue -> ! ~empty~
+  }
+}
+GetIdentifierReference:[null, Normal(str), bool]: {
+  env: {
+    env -> ! null
+    name -> ! N(str)
+    strict -> ! true
+  }
+} ---> N(#0:168) @ {
+  #0:168 -> ReferenceRecord {
+    Base -> ! ~unresolvable~
+    ReferencedName -> ! N(str)
+    Strict -> ! true
+    ThisValue -> ! ~empty~
+  }
+}
+GetIdentifierReference:[null, str, bool]: {
+  env: {
+    env -> ! null
+    name -> ! str
+    strict -> ! true
+  }
+} ---> N(#0:168) @ {
+  #0:168 -> ReferenceRecord {
+    Base -> ! ~unresolvable~
+    ReferencedName -> ! str
+    Strict -> ! true
+    ThisValue -> ! ~empty~
+  }
+}
 GetThisEnvironment:[]: ɛ ---> N(EnvironmentRecord)
 GlobalEnvironmentRecord.GetThisBinding:[Normal(EnvironmentRecord)]: {
   env: {
     envRec -> ! N(EnvironmentRecord)
   }
 } ---> N(#Global)
+GlobalEnvironmentRecord.HasBinding:[EnvironmentRecord, Normal(str)]: {
+  env: {
+    N -> ! N(str)
+    envRec -> ! EnvironmentRecord
+  }
+} ---> N(false)
+GlobalEnvironmentRecord.HasBinding:[EnvironmentRecord, str]: {
+  env: {
+    N -> ! str
+    envRec -> ! EnvironmentRecord
+  }
+} ---> N(false)
 GlobalEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
   env: {
     envRec -> ! EnvironmentRecord
   }
 } ---> N(true)
+HasProperty:[OrdinaryObject, Normal(str)]: {
+  env: {
+    O -> ! OrdinaryObject
+    P -> ! N(str)
+  }
+} ---> N(false)
+HasProperty:[OrdinaryObject, str]: {
+  env: {
+    O -> ! OrdinaryObject
+    P -> ! str
+  }
+} ---> N(false)
 HoistableDeclaration[0,0].DeclarationPart:[☊(HoistableDeclaration), ☊(FunctionDeclaration)]: {
   env: {
     FunctionDeclaration -> ! ☊(FunctionDeclaration)
@@ -2070,6 +2150,19 @@ IdentifierReference[0,0].AssignmentTargetType:[☊(IdentifierReference), ☊(Ide
     this -> ! ☊(IdentifierReference)
   }
 } ---> N((~invalid~ | ~simple~))
+IdentifierReference[0,0].Evaluation:[☊(IdentifierReference), ☊(Identifier)]: {
+  env: {
+    Identifier -> ! ☊(Identifier)
+    this -> ! ☊(IdentifierReference)
+  }
+} ---> N(#0:168) @ {
+  #0:168 -> ReferenceRecord {
+    Base -> ! ~unresolvable~
+    ReferencedName -> ! N(str)
+    Strict -> ! true
+    ThisValue -> ! ~empty~
+  }
+}
 IdentifierReference[1,0].AssignmentTargetType:[☊(IdentifierReference)]: {
   env: {
     this -> ! ☊(IdentifierReference)
@@ -2085,6 +2178,18 @@ IdentifierReference[1,0].EarlyErrors:[☊(IdentifierReference)]: {
     Prototype -> ! #%SyntaxError.prototype%
   }
 }
+IdentifierReference[1,0].Evaluation:[☊(IdentifierReference)]: {
+  env: {
+    this -> ! ☊(IdentifierReference)
+  }
+} ---> N(#0:168) @ {
+  #0:168 -> ReferenceRecord {
+    Base -> ! ~unresolvable~
+    ReferencedName -> ! str
+    Strict -> ! true
+    ThisValue -> ! ~empty~
+  }
+}
 IdentifierReference[1,0].StringValue:[☊(IdentifierReference)]: {
   env: {
     this -> ! ☊(IdentifierReference)
@@ -2095,6 +2200,18 @@ IdentifierReference[2,0].AssignmentTargetType:[☊(IdentifierReference)]: {
     this -> ! ☊(IdentifierReference)
   }
 } ---> N(~simple~)
+IdentifierReference[2,0].Evaluation:[☊(IdentifierReference)]: {
+  env: {
+    this -> ! ☊(IdentifierReference)
+  }
+} ---> N(#0:168) @ {
+  #0:168 -> ReferenceRecord {
+    Base -> ! ~unresolvable~
+    ReferencedName -> ! str
+    Strict -> ! true
+    ThisValue -> ! ~empty~
+  }
+}
 IdentifierReference[2,0].StringValue:[☊(IdentifierReference)]: {
   env: {
     this -> ! ☊(IdentifierReference)
@@ -2334,6 +2451,16 @@ ImportsList[1,0].ImportEntriesForModule:[☊(ImportsList), ☊(ImportsList), ☊
   #1:1524 -> [(#0:1524 | #0:1525)]
   #1:1525 -> [(#0:1524 | #0:1525)]
 }
+IsPropertyKey:[Normal(str)]: {
+  env: {
+    argument -> ! N(str)
+  }
+} ---> N(true)
+IsPropertyKey:[str]: {
+  env: {
+    argument -> ! str
+  }
+} ---> N(true)
 LabelIdentifier[1,0].StringValue:[☊(LabelIdentifier)]: {
   env: {
     this -> ! ☊(LabelIdentifier)
@@ -3240,9 +3367,79 @@ ObjectBindingPattern[3,1].BoundNames:[☊(ObjectBindingPattern), ☊(BindingProp
   #0:801 -> [str]
   #0:803 -> [str]
 }
+ObjectEnvironmentRecord.HasBinding:[EnvironmentRecord, Normal(str)]: {
+  env: {
+    N -> ! N(str)
+    envRec -> ! EnvironmentRecord
+  }
+} ---> N(false)
+ObjectEnvironmentRecord.HasBinding:[EnvironmentRecord, str]: {
+  env: {
+    N -> ! str
+    envRec -> ! EnvironmentRecord
+  }
+} ---> N(false)
 ObjectEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
   env: {
     envRec -> ! EnvironmentRecord
+  }
+} ---> N(false)
+OrdinaryGetOwnProperty:[OrdinaryObject, Normal(str)]: {
+  env: {
+    O -> ! OrdinaryObject
+    P -> ! N(str)
+  }
+} ---> N(undef)
+OrdinaryGetOwnProperty:[OrdinaryObject, str]: {
+  env: {
+    O -> ! OrdinaryObject
+    P -> ! str
+  }
+} ---> N(undef)
+OrdinaryGetPrototypeOf:[OrdinaryObject]: {
+  env: {
+    O -> ! OrdinaryObject
+  }
+} ---> N(Object | null)
+OrdinaryHasProperty:[OrdinaryObject, Normal(str)]: {
+  env: {
+    O -> ! OrdinaryObject
+    P -> ! N(str)
+  }
+} ---> N(false)
+OrdinaryHasProperty:[OrdinaryObject, str]: {
+  env: {
+    O -> ! OrdinaryObject
+    P -> ! str
+  }
+} ---> N(false)
+OrdinaryObject.GetOwnProperty:[OrdinaryObject, Normal(str)]: {
+  env: {
+    O -> ! OrdinaryObject
+    P -> ! N(str)
+  }
+} ---> N(undef)
+OrdinaryObject.GetOwnProperty:[OrdinaryObject, str]: {
+  env: {
+    O -> ! OrdinaryObject
+    P -> ! str
+  }
+} ---> N(undef)
+OrdinaryObject.GetPrototypeOf:[OrdinaryObject]: {
+  env: {
+    O -> ! OrdinaryObject
+  }
+} ---> N(Object | null)
+OrdinaryObject.HasProperty:[OrdinaryObject, Normal(str)]: {
+  env: {
+    O -> ! OrdinaryObject
+    P -> ! N(str)
+  }
+} ---> N(false)
+OrdinaryObject.HasProperty:[OrdinaryObject, str]: {
+  env: {
+    O -> ! OrdinaryObject
+    P -> ! str
   }
 } ---> N(false)
 ParenthesizedExpression[0,0].AssignmentTargetType:[☊(ParenthesizedExpression), ☊(Expression)]: {
@@ -3607,6 +3804,32 @@ RelationalExpression[6,0].IsFunctionDefinition:[☊(RelationalExpression), ☊(R
     this -> ! ☊(RelationalExpression)
   }
 } ---> N(false)
+ResolveBinding:[Normal(str)]: {
+  env: {
+    env -> ! ?
+    name -> ! N(str)
+  }
+} ---> N(#0:168) @ {
+  #0:168 -> ReferenceRecord {
+    Base -> ! ~unresolvable~
+    ReferencedName -> ! N(str)
+    Strict -> ! true
+    ThisValue -> ! ~empty~
+  }
+}
+ResolveBinding:[str]: {
+  env: {
+    env -> ! ?
+    name -> ! str
+  }
+} ---> N(#0:168) @ {
+  #0:168 -> ReferenceRecord {
+    Base -> ! ~unresolvable~
+    ReferencedName -> ! str
+    Strict -> ! true
+    ThisValue -> ! ~empty~
+  }
+}
 ResolveThisBinding:[]: ɛ ---> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#0:144) @ {
   #0:144 -> OrdinaryObject {
     ErrorData -> ! undef
