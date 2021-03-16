@@ -44,8 +44,8 @@ class AnalyzeREPL(sem: AbsSemantics) {
     case _ => false
   }
 
-  // quit
-  private def quit(): Unit = { breakpoints.clear(); continue = true }
+  // stop
+  private def stop(): Unit = { breakpoints.clear(); continue = true }
 
   // help
   lazy val help = { Command.help; println }
@@ -73,7 +73,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
     println(sem.getString(cp, CYAN, true))
     try while (reader.readLine(prompt) match {
       case null =>
-        quit(); false
+        stop(); false
       case line => line.split("\\s+").toList match {
         case CmdHelp.name :: _ =>
           Command.help; true
@@ -98,9 +98,9 @@ class AnalyzeREPL(sem: AbsSemantics) {
         case CmdGraph.name :: args =>
           val depth = optional(args.head.toInt)
           dumpCFG(sem, Some(cp), depth = depth); true
-        case CmdDebug.name :: _ => error("stop for debugging")
-        case CmdExit.name :: _ =>
-          quit(); false
+        case CmdExit.name :: _ => error("stop for debugging")
+        case CmdStop.name :: _ =>
+          stop(); false
         case CmdInfo.name :: args =>
           // TODO handle options
           info(optional(args.head)); true
@@ -108,7 +108,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
       }
     }) {}
     catch {
-      case e: EndOfFileException => quit()
+      case e: EndOfFileException => stop()
     }
   }
 }
@@ -128,8 +128,8 @@ object Command {
     CmdBreakRm,
     CmdLog,
     CmdGraph,
-    CmdDebug,
     CmdExit,
+    CmdStop,
     CmdInfo,
   )
   val cmdMap: Map[String, Command] = commands.map(cmd => (cmd.name, cmd)).toMap
@@ -155,8 +155,8 @@ case object CmdLog extends Command("log", "Dump the state.")
 
 case object CmdGraph extends Command("graph", "Dump the current control graph.")
 
-case object CmdDebug extends Command("debug", "Stop the analysis.")
+case object CmdExit extends Command("exit", "Exit the analysis.")
 
-case object CmdExit extends Command("exit", "Exit the repl.")
+case object CmdStop extends Command("stop", "Stop the repl.")
 
 case object CmdInfo extends Command("info", "Show abstract state of node")
