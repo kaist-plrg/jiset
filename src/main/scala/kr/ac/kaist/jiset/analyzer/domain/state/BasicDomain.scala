@@ -212,7 +212,7 @@ object BasicDomain extends state.Domain {
     }
     def lookup(sem: AbsSemantics, ty: String, prop: AbsStr): AbsValue = {
       // TODO SubMap types
-      if (ty == "SubMap") AbsValue.Bot else prop.gamma match {
+      if (ty == "SubMap") AbsAbsent.Top /* TODO unsound */ else prop.gamma match {
         case Infinite => AbsValue.Top
         case Finite(ps) => ps.toList.foldLeft(AbsValue.Bot) {
           case (v, Str(prop)) => v ⊔ lookup(sem, ty, prop)
@@ -332,7 +332,9 @@ object BasicDomain extends state.Domain {
           case _ => ???
         })
       }
-      if (!v.ty.isBottom) set ++= v.ty.toSet.map(t => Str(t.name))
+      if (!v.ty.isBottom) set ++= v.ty.toSet.map(t => Str {
+        if (t.name endsWith "Object") "Object" else t.name
+      })
       if (!v.const.isBottom) ???
       if (!v.clo.isBottom) ???
       if (!v.cont.isBottom) ???

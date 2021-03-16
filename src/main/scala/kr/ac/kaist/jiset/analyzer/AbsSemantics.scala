@@ -239,6 +239,9 @@ class AbsSemantics(
     """.*.ModuleRequests""".r,
     """.*.IsSimpleParameterList""".r,
     """.*.CoveredFormalsList""".r,
+    // PrimaryExpression.Evaluation
+    """PrimaryExpression\[0,0\].Evaluation""".r,
+    """IdentifierReference\[.*.Evaluation.Evaluation""".r,
     // syntax
     """Literal\[.*""".r,
     """LiteralPropertyName\[.*""".r,
@@ -246,8 +249,6 @@ class AbsSemantics(
     // EarlyErrors
     """PropertyDefinition\[1,0\].EarlyErrors""".r,
     """IdentifierReference\[1,0\].EarlyErrors""".r,
-    // Evaluation
-    """PrimaryExpression\[0,0\].Evaluation""".r,
     // CoveredParenthesizedExpression
     """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
     // ImportEntries
