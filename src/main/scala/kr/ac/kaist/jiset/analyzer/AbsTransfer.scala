@@ -132,6 +132,10 @@ class AbsTransfer(
   }
 
   private class Helper(ret: ReturnPoint) {
+    // function
+    val func = ret.func
+    val fid = func.uid
+
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = inst match {
       case IExpr(expr @ ENotSupported(msg)) => st => {
@@ -168,7 +172,7 @@ class AbsTransfer(
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> (st.heap, v.escaped.toCompletion))
       case ithrow @ IThrow(x) => for {
-        addr <- id(_.allocMap(ithrow.asite, "OrdinaryObject", Map(
+        addr <- id(_.allocMap(fid, ithrow.asite, "OrdinaryObject", Map(
           "Prototype" -> AbsValue(NamedAddr(s"%$x.prototype%")),
           "ErrorData" -> AbsUndef.Top,
         )))
@@ -246,15 +250,15 @@ class AbsTransfer(
           } yield k -> v
         })
         asite = expr.asite
-        a <- id(_.allocMap(asite, ty, vs.toMap))
+        a <- id(_.allocMap(fid, asite, ty, vs.toMap))
       } yield a
       case expr @ EList(exprs) => for {
         vs <- join(exprs.map(transfer))
-        a <- id(_.allocList(expr.asite, vs.toList))
+        a <- id(_.allocList(fid, expr.asite, vs.toList))
       } yield a
       case expr @ ESymbol(desc) => for {
         // TODO handling non-string descriptions
-        a <- id(_.allocSymbol(expr.asite, desc.to[EStr](???).str))
+        a <- id(_.allocSymbol(fid, expr.asite, desc.to[EStr](???).str))
       } yield a
       case EPop(list, idx) => for {
         l <- transfer(list)
@@ -337,7 +341,7 @@ class AbsTransfer(
       } yield newV
       case expr @ ECopy(obj) => for {
         v <- transfer(obj)
-        a <- id(_.copyOf(sem, expr.asite, v.escaped))
+        a <- id(_.copyOf(sem, fid, expr.asite, v.escaped))
       } yield a
       case EKeys(obj) => for {
         v <- transfer(obj)

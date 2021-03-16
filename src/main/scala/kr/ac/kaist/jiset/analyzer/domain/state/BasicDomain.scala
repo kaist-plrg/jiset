@@ -237,17 +237,19 @@ object BasicDomain extends state.Domain {
 
     // allocate a new symbol
     def allocSymbol(
+      fid: Int,
       asite: Int,
       desc: String
     ): (AbsPure, Elem) = {
       import AbsObj._
-      val addr = DynamicAddr(asite)
+      val addr = DynamicAddr(asite, fid)
       val obj: AbsObj = SymbolElem(AbsStr(desc))
       (AbsPure(addr), copy(heap = heap + (addr -> obj)))
     }
 
     // allocate a new map
     def allocMap(
+      fid: Int,
       asite: Int,
       ty: String,
       props: Map[String, AbsValue]
@@ -256,19 +258,20 @@ object BasicDomain extends state.Domain {
       val map: MapD = MapD(props.map {
         case (k, v) => k -> MapD.AbsVOpt(v)
       }, MapD.AbsVOpt(None))
-      val addr = DynamicAddr(asite)
+      val addr = DynamicAddr(asite, fid)
       val obj: AbsObj = MapElem(Some(ty), map)
       (AbsPure(addr), copy(heap = heap + (addr -> obj)))
     }
 
     // allocate a new list
     def allocList(
+      fid: Int,
       asite: Int,
       vs: List[AbsValue]
     ): (AbsPure, Elem) = {
       import AbsObj._
       val list: ListD = ListD(vs.foldLeft(AbsValue.Bot)(_ ⊔ _))
-      val addr = DynamicAddr(asite)
+      val addr = DynamicAddr(asite, fid)
       val obj: AbsObj = ListElem(list)
       (AbsPure(addr), copy(heap = heap + (addr -> obj)))
     }
@@ -305,10 +308,15 @@ object BasicDomain extends state.Domain {
     def prepend(v: AbsValue, addr: AbsAddr): Elem = ???
 
     // copy an object
-    def copyOf(sem: AbsSemantics, asite: Int, pure: AbsPure): (AbsPure, Elem) = {
+    def copyOf(
+      sem: AbsSemantics,
+      fid: Int,
+      asite: Int,
+      pure: AbsPure
+    ): (AbsPure, Elem) = {
       val objs = pure.addr.toList.map(lookup(sem, _))
       val obj = objs.foldLeft[AbsObj](AbsObj.Bot)(_ ⊔ _)
-      val addr = DynamicAddr(asite)
+      val addr = DynamicAddr(asite, fid)
       (AbsPure(addr), copy(heap = heap + (addr -> obj)))
     }
 

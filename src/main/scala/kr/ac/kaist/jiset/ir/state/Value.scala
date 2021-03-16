@@ -32,7 +32,7 @@ sealed trait PureValue extends Value
 // addresses
 sealed trait Addr extends PureValue
 case class NamedAddr(name: String) extends Addr
-case class DynamicAddr(long: Long) extends Addr
+case class DynamicAddr(k: Int, fid: Int = -1) extends Addr
 
 // constants
 case class Const(const: String) extends PureValue

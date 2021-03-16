@@ -14,8 +14,7 @@ object AlgoParser {
     parsedHead: (Element, List[Head]),
     secIds: Map[String, Name],
     useCount: Boolean,
-    detail: Boolean,
-    asiteWalker: ASiteWalker
+    detail: Boolean
   )(
     implicit
     lines: Array[String],
@@ -45,7 +44,7 @@ object AlgoParser {
         println(s"--------------------------------------------------")
         heads.foreach(println(_))
         println("====>")
-        println(rawBody.beautified(index = true)) // TODO print asite, currently generated later so all -1
+        println(rawBody.beautified)
       }
 
       heads.map(Algo(_, rawBody, code))
@@ -58,7 +57,7 @@ object AlgoParser {
         Nil
     }
     if (detail) println(s"==================================================")
-    result.foreach(algo => asiteWalker.walk(algo.rawBody))
+    result.foreach(algo => (new ASiteWalker).walk(algo.rawBody))
     result
   }
 }

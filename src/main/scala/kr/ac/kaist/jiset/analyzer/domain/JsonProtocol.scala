@@ -14,15 +14,15 @@ object JsonProtocol extends BasicJsonProtocol {
   implicit lazy val strFormat = jsonFormat1(Str)
   implicit lazy val boolFormat = jsonFormat1(Bool)
   implicit lazy val astFormat = jsonFormat1(ASTVal)
+  implicit lazy val dynamicAddrFormat = jsonFormat2(DynamicAddr)
   implicit object addrFormat extends RootJsonFormat[Addr] {
     def read(json: JsValue): Addr = json match {
       case JsString(str) => NamedAddr(str)
-      case JsNumber(num) => DynamicAddr(num.toLong)
-      case _ => deserializationError(s"unknown address: $json")
+      case _ => dynamicAddrFormat.read(json)
     }
     def write(addr: Addr): JsValue = addr match {
       case NamedAddr(name) => JsString(name)
-      case DynamicAddr(long) => JsNumber(long)
+      case (x: DynamicAddr) => dynamicAddrFormat.write(x)
     }
   }
   implicit lazy val tyFormat = jsonFormat1(Ty)

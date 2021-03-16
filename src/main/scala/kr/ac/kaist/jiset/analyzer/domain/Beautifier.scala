@@ -28,7 +28,7 @@ object Beautifier {
   implicit lazy val astApp: App[ASTVal] = (app, ast) => app >> "☊(" >> ast.name >> ")"
   implicit lazy val addrApp: App[Addr] = (app, addr) => app >> "#" >> (addr match {
     case NamedAddr(name) => name
-    case DynamicAddr(k) => k.toString
+    case DynamicAddr(k, fid) => s"$k:$fid"
   })
   implicit lazy val tyApp: App[Ty] = (app, ty) => app >> ty.name
   implicit lazy val constApp: App[Const] =
@@ -59,8 +59,8 @@ object Beautifier {
       app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
     })
   implicit lazy val addrOrdering: Ordering[Addr] = Ordering.by(_ match {
-    case NamedAddr(name) => (name, 0L)
-    case DynamicAddr(long) => ("", long)
+    case NamedAddr(name) => (name, -1, -1)
+    case DynamicAddr(k, fid) => ("", k, fid)
   })
   implicit lazy val aaddrApp: App[AbsAddr] = setDomainApp(AbsAddr)
   implicit lazy val tyOrdering: Ordering[Ty] = Ordering.by(_.name)

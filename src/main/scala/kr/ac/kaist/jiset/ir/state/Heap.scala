@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.util.Useful._
 // heaps
 case class Heap(
   map: Map[Addr, Obj],
-  size: Long = 0L
+  size: Int = 0
 ) {
   // getter
   def get(addr: Addr): Option[Obj] = map.get(addr)
