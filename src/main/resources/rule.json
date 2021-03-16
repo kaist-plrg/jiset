@@ -46,5 +46,9 @@
   {
     "tokens": "Set id:{constructor} to ParseText ( id:{constructorText} , | MethodDefinition [ ~ Yield , ~ Await ] | ) .",
     "inst": "constructor = (parse-syntax constructorText \"MethodDefinition\" (new [false, false]))"
+  },
+  {
+    "tokens": "If id:{declarationNames} does not include the element value:{\"*default*\"} , append value:{\"*default*\"} to id:{declarationNames} .",
+    "inst": "if (contains declarationNames \"*default*\") {} else append \"*default*\" -> declarationNames"
   }
 ]

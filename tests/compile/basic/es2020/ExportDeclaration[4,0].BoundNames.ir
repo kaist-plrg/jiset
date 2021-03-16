@@ -1,6 +1,6 @@
 {
   access __x0__ = (HoistableDeclaration "BoundNames")
   let declarationNames = __x0__
-  ??? "If id:{declarationNames} does not include the element value:{\"*default*\"} , append value:{\"*default*\"} to id:{declarationNames} ."
+  if (contains declarationNames "*default*") {} else append "*default*" -> declarationNames
   return declarationNames
 }

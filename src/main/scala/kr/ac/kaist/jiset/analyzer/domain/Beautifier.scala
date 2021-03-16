@@ -58,9 +58,16 @@ object Beautifier {
       if (!absent.isBottom) udts :+= { _ >> absent }
       app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
     })
+  implicit lazy val addrOrdering: Ordering[Addr] = Ordering.by(_ match {
+    case NamedAddr(name) => (name, 0L)
+    case DynamicAddr(long) => ("", long)
+  })
   implicit lazy val aaddrApp: App[AbsAddr] = setDomainApp(AbsAddr)
+  implicit lazy val tyOrdering: Ordering[Ty] = Ordering.by(_.name)
   implicit lazy val atyApp: App[AbsTy] = setDomainApp(AbsTy)
+  implicit lazy val constOrdering: Ordering[Const] = Ordering.by(_.const)
   implicit lazy val aconstApp: App[AbsConst] = setDomainApp(AbsConst)
+  implicit lazy val cloOrdering: Ordering[AbsClo.Pair] = Ordering.by(_.fid)
   implicit lazy val acloApp: App[AbsClo] = {
     import AbsClo._
     implicit val pairApp: App[Pair] = (app, pair) => {
@@ -73,6 +80,7 @@ object Beautifier {
     _ >> _.set
   }
   implicit lazy val acontApp: App[AbsCont] = simpleDomainApp(AbsCont, "κ")
+  implicit lazy val astOrdering: Ordering[ASTVal] = Ordering.by(_.name)
   implicit lazy val aastApp: App[AbsAST] = setDomainApp(AbsAST)
   implicit lazy val apureApp: App[AbsPure] =
     domainApp(AbsPure)((app, v) => {
@@ -171,7 +179,8 @@ object Beautifier {
   // SetDomain appender
   def setDomainApp[V](domain: SetDomain[V], name: String = "⊤")(
     implicit
-    vFormat: App[V]
+    vFormat: App[V],
+    vOrdering: Ordering[V]
   ): App[domain.Elem] = {
     import domain._
     (app, elem) => elem match {
@@ -179,7 +188,7 @@ object Beautifier {
       case VSet(set) if set.isEmpty => app >> "ɛ"
       case VSet(set) if set.size == 1 => app >> set.head
       case VSet(set) =>
-        app >> "(" >> set.map[Update](v => _ >> v)
+        app >> "(" >> set.toList.sorted.map[Update](v => _ >> v)
           .reduce((x, y) => _ >> x >> " | " >> y) >> ")"
     }
   }
@@ -196,13 +205,15 @@ object Beautifier {
   def mapDomainApp[K, V](domain: MapDomain[K, V, _])(
     implicit
     kFormat: App[K],
-    avFormat: App[domain.AbsV]
+    avFormat: App[domain.AbsV],
+    kOrdering: Ordering[K]
   ): App[domain.Elem] = {
     import domain._
     domainApp(domain)((app, elem) => {
       if (elem.map.size == 0 && elem.default.isBottom) app >> "{}"
       else app.wrap {
-        for ((k, v) <- elem.map) app :> k >> " -> " >> v >> endl
+        for ((k, v) <- elem.map.toSeq.sortBy(_._1))
+          app :> k >> " -> " >> v >> endl
         if (!elem.default.isBottom)
           app :> "_ -> " >> elem.default >> endl
       }
@@ -213,14 +224,16 @@ object Beautifier {
   def pmapDomainApp[K, V](domain: PMapDomain[K, V, _])(
     implicit
     kFormat: App[K],
-    avFormat: App[domain.AbsV]
+    avFormat: App[domain.AbsV],
+    kOrdering: Ordering[K]
   ): App[domain.Elem] = {
     import domain._
     implicit val avoptApp = optionDomainApp(AbsVOpt)
     domainApp(domain)((app, elem) => {
       if (elem.map.size == 0 && elem.default.isAbsent) app >> "{}"
       else app.wrap {
-        for ((k, v) <- elem.map) app :> k >> " -> " >> v >> endl
+        for ((k, v) <- elem.map.toSeq.sortBy(_._1))
+          app :> k >> " -> " >> v >> endl
         if (!elem.default.isAbsent)
           app :> "_ -> " >> elem.default >> endl
       }
