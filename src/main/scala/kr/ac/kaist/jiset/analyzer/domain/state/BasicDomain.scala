@@ -152,12 +152,12 @@ object BasicDomain extends state.Domain {
     }
 
     // lookup strings
-    def lookup(str: AbsStr, prop: AbsPure): AbsValue = {
+    def lookup(str: AbsStr, prop: AbsPure): AbsValue = if (!str.isBottom) {
       var v = AbsValue.Bot
       if (!prop.int.isBottom) v ⊔= AbsStr.Top
       if (AbsValue("length") ⊑ prop.str) v ⊔= AbsINum.Top
       v
-    }
+    } else AbsValue.Bot
 
     // lookup objects
     def lookup(sem: AbsSemantics, obj: AbsObj, prop: AbsPure): AbsValue = {
