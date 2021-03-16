@@ -39,7 +39,8 @@ class AnalyzeREPL(sem: AbsSemantics) {
         case Some(uid) => node.uid == uid
         case None => x.matches(funcOf(node).name)
       })
-    case NodePoint(node, _) => breakpoints.exists(_.toString.toInt == node.uid)
+    case NodePoint(node, _) => breakpoints.exists(x =>
+      optional(x.toString.toInt) contains node.uid)
     case _ => false
   }
 
