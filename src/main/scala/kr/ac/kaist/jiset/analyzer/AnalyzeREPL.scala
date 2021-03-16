@@ -108,7 +108,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
       }
     }) {}
     catch {
-      case e: EndOfFileException => stop()
+      case e: EndOfFileException => error("stop for debugging")
     }
   }
 }
