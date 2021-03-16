@@ -20,8 +20,9 @@ case class ECMAScript(
     algos.collect { case algo @ Algo(normal: NormalHead, _, _) => algo }
 
   // syntax-directed algorithms
-  lazy val syntaxAlgos: List[Algo] =
-    algos.collect { case algo @ Algo(head: SyntaxDirectedHead, _, _) => algo }
+  lazy val syntaxAlgos: List[(Algo, SyntaxDirectedHead)] = algos.collect {
+    case algo @ Algo(head: SyntaxDirectedHead, _, _) => (algo, head)
+  }
 
   // global names
   lazy val globals: Set[String] = (
@@ -42,28 +43,35 @@ case class ECMAScript(
 
   // get syntax directed algos
   def getSyntaxAlgo(lhs: String, method: String): Set[String] = {
-    // exclude index
-    var excludes = Set[Int]()
-    val rhsList = grammar.nameMap(lhs).rhsList
-    // direct
-    val direct = syntaxAlgos.filter {
-      case Algo(head: SyntaxDirectedHead, _, _) =>
-        val isTarget =
-          head.lhsName == lhs && head.methodName == method
-        if (isTarget) excludes += head.idx
-        isTarget
-      case _ => ??? // impossible
-    }.map(_.name).toSet
+    var names = Set[String]()
+    var visited = Set[String]()
+    def aux(lhs: String): Unit = if (!(visited contains lhs)) {
+      visited += lhs
+      val rhsList = grammar.nameMap(lhs).rhsList
+      var excludes = Set[Int]()
 
-    // chain
-    val chain: Set[String] = (for {
-      idx <- 0 until rhsList.length
-      if !excludes.contains(idx)
-      rhs = rhsList(idx)
-      if rhs.isSingleNT
-    } yield getSyntaxAlgo(rhs.name, method)).flatten.toSet
+      // direct
+      for ((algo, head) <- syntaxAlgos) {
+        if (head.lhsName == lhs && head.methodName == method) {
+          excludes += head.idx
+          names += algo.name
+        }
+      }
 
-    direct ++ chain
+      // chain
+      for {
+        idx <- 0 until rhsList.length
+        if !(excludes contains idx)
+        rhs = rhsList(idx)
+        nt <- rhs.toNTs match {
+          case List(nt) => Some(nt)
+          case _ => None
+        }
+      } aux(nt.name)
+    }
+
+    aux(lhs)
+    names
   }
 }
 

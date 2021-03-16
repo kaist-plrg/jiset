@@ -3,10 +3,10 @@ package kr.ac.kaist.jiset.spec.grammar
 // ECMAScript grammar tokens
 trait Token {
   // normalize tokens
-  def norm: Option[Token] = this match {
+  def norm: Option[NonTerminal] = this match {
     case ButNot(base, _) => base.norm
-    case EmptyToken | Lookahead(_, _) => None
-    case t => Some(t)
+    case (t: NonTerminal) => Some(t)
+    case _ => None
   }
 
   // filter non-terminals

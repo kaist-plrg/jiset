@@ -27,11 +27,8 @@ case class Rhs(
   // get non-terminals
   def getNTs: List[NonTerminal] = tokens.flatMap(_.getNT)
 
-  // check whehter if tokens is a single nonterminal
-  def isSingleNT: Boolean = tokens.flatMap(_.norm) match {
-    case List(_: NonTerminal) => true
-    case _ => false
-  }
+  // get non-terminals
+  def toNTs: List[NonTerminal] = tokens.flatMap(_.norm)
 
   // check non terminal
   def check(f: String => Boolean, init: Boolean, op: (Boolean, Boolean) => Boolean) =
