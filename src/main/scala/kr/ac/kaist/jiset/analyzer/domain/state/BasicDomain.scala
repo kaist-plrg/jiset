@@ -62,35 +62,38 @@ object BasicDomain extends state.Domain {
     // conversion to flat domain
     def getSingle: concrete.Flat[State] = Many
 
+    private def checkBot(st: => Elem): Elem = if (isBottom) this else st
+
     // define variable
-    def +(pair: (String, AbsValue)): Elem = copy(env = env + pair)
+    def +(pair: (String, AbsValue)): Elem = checkBot(copy(env = env + pair))
 
     // update references
-    def update(sem: AbsSemantics, refv: AbsRefValue, v: AbsValue): Elem = refv match {
-      case AbsRefValue.Id(x) =>
-        val (localV, absent) = env(x)
-        if (!localV.isBottom) {
-          if (absent.isTop) alarm(s"unknown local variable: $x")
-          this + (x -> v)
-        } else if (absent.isTop) sem.globalEnv.get(x) match {
-          case Some(globalV) =>
-            if (!(v ⊑ globalV))
-              alarm(s"wrong update of global variable $x with ${beautify(v)}")
-            this
-          case None =>
-            alarm(s"unknown global variable: $x")
-            this
-        }
-        else Bot
-      case AbsRefValue.Prop(base, prop) =>
-        copy(heap = base.escaped.addr.toSet.foldLeft(heap) {
-          case (h, a: DynamicAddr) =>
-            val obj = update(heap(a), prop, v)
-            h + (a -> obj)
-          case _ => ???
-        })
-      case _ => ???
-    }
+    def update(sem: AbsSemantics, refv: AbsRefValue, v: AbsValue): Elem =
+      checkBot(refv match {
+        case AbsRefValue.Id(x) =>
+          val (localV, absent) = env(x)
+          if (!localV.isBottom) {
+            if (absent.isTop) alarm(s"unknown local variable: $x")
+            this + (x -> v)
+          } else if (absent.isTop) sem.globalEnv.get(x) match {
+            case Some(globalV) =>
+              if (!(v ⊑ globalV))
+                alarm(s"wrong update of global variable $x with ${beautify(v)}")
+              this
+            case None =>
+              alarm(s"unknown global variable: $x")
+              this
+          }
+          else Bot
+        case AbsRefValue.Prop(base, prop) =>
+          copy(heap = base.escaped.addr.toSet.foldLeft(heap) {
+            case (h, a: DynamicAddr) =>
+              val obj = update(heap(a), prop, v)
+              h + (a -> obj)
+            case _ => ???
+          })
+        case _ => ???
+      })
 
     // update
     def update(obj: AbsObj, prop: AbsPure, value: AbsValue): AbsObj = {
@@ -107,7 +110,7 @@ object BasicDomain extends state.Domain {
     }
 
     // update references
-    def delete(sem: AbsSemantics, refv: AbsRefValue): Elem = ???
+    def delete(sem: AbsSemantics, refv: AbsRefValue): Elem = checkBot(???)
 
     // lookup helper
     def lookup(sem: AbsSemantics, base: String, props: String*): AbsValue = {

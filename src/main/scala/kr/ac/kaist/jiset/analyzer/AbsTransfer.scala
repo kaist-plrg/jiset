@@ -330,6 +330,10 @@ class AbsTransfer(
       case EReturnIfAbrupt(expr, check) => for {
         v <- transfer(expr)
         newV <- returnIfAbrupt(v, check)
+        _ <- {
+          if (newV.isBottom) put(AbsState.Bot)
+          else pure(())
+        }
       } yield newV
       case expr @ ECopy(obj) => for {
         v <- transfer(obj)
@@ -505,8 +509,10 @@ class AbsTransfer(
       case ("IdentifierName", "StringValue") => strTop
       case ("NumericLiteral", "NumericValue") => numTop
       case ("StringLiteral", "StringValue" | "SV") => strTop
+      case ("TemplateHead", "TV" | "TRV") => strTop
       case _ =>
         val fids = getSyntaxFids(ast, name)
+        if (fids.isEmpty) alarm(s"$ast.$name does not exist")
         val pairs = fids.toList.flatMap[AbsClo.Pair](fid => {
           val func = fidMap(fid)
           func.algo.head match {
