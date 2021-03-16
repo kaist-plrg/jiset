@@ -147,6 +147,12 @@ ArrowParameters[0,0].ContainsExpression:[☊(ArrowParameters), ☊(BindingIdenti
     this -> ! ☊(ArrowParameters)
   }
 } ---> N(false)
+ArrowParameters[0,0].CoveredFormalsList:[☊(ArrowParameters), ☊(BindingIdentifier)]: {
+  env: {
+    BindingIdentifier -> ! ☊(BindingIdentifier)
+    this -> ! ☊(ArrowParameters)
+  }
+} ---> N(☊(ArrowParameters))
 ArrowParameters[0,0].IsSimpleParameterList:[☊(ArrowParameters), ☊(BindingIdentifier)]: {
   env: {
     BindingIdentifier -> ! ☊(BindingIdentifier)
@@ -166,6 +172,12 @@ ArrowParameters[1,0].BoundNames:[☊(ArrowParameters), ☊(CoverParenthesizedExp
   #475 -> [str]
   #591 -> []
 }
+ArrowParameters[1,0].IsSimpleParameterList:[☊(ArrowParameters), ☊(CoverParenthesizedExpressionAndArrowParameterList)]: {
+  env: {
+    CoverParenthesizedExpressionAndArrowParameterList -> ! ☊(CoverParenthesizedExpressionAndArrowParameterList)
+    this -> ! ☊(ArrowParameters)
+  }
+} ---> N(bool)
 AssignmentExpression[1,0].AssignmentTargetType:[☊(AssignmentExpression), ☊(YieldExpression)]: {
   env: {
     YieldExpression -> ! ☊(YieldExpression)
@@ -915,6 +927,13 @@ CoverCallExpressionAndAsyncArrowHead[0,0].CoveredAsyncArrowHead:[☊(CoverCallEx
     this -> ! ☊(CoverCallExpressionAndAsyncArrowHead)
   }
 } ---> N(☊(AsyncArrowHead))
+CoverCallExpressionAndAsyncArrowHead[0,0].IsSimpleParameterList:[☊(CoverCallExpressionAndAsyncArrowHead), ☊(MemberExpression), ☊(Arguments)]: {
+  env: {
+    Arguments -> ! ☊(Arguments)
+    MemberExpression -> ! ☊(MemberExpression)
+    this -> ! ☊(CoverCallExpressionAndAsyncArrowHead)
+  }
+} ---> N(bool)
 CoverParenthesizedExpressionAndArrowParameterList[0,0].CoveredFormalsList:[☊(CoverParenthesizedExpressionAndArrowParameterList), ☊(Expression)]: {
   env: {
     Expression -> ! ☊(Expression)
@@ -1781,6 +1800,19 @@ FormalParameterList[1,0].BoundNames:[☊(FormalParameterList), ☊(FormalParamet
   #474 -> [str]
   #475 -> [str]
 }
+FormalParameterList[1,0].IsSimpleParameterList:[☊(FormalParameterList), ☊(FormalParameterList), ☊(FormalParameter)]: {
+  env: {
+    FormalParameter -> ! ☊(FormalParameter)
+    FormalParameterList -> ! ☊(FormalParameterList)
+    this -> ! ☊(FormalParameterList)
+  }
+} ---> N(bool)
+FormalParameter[0,0].IsSimpleParameterList:[☊(FormalParameter), ☊(BindingElement)]: {
+  env: {
+    BindingElement -> ! ☊(BindingElement)
+    this -> ! ☊(FormalParameter)
+  }
+} ---> N(bool)
 FormalParameters[0,0].BoundNames:[☊(FormalParameters)]: {
   env: {
     this -> ! ☊(FormalParameters)
@@ -2082,6 +2114,26 @@ ImportClause[3,0].BoundNames:[☊(ImportClause), ☊(ImportedDefaultBinding), �
   #342 -> [str]
   #343 -> [str]
 }
+ImportClause[3,0].ImportEntriesForModule:[☊(ImportClause), ☊(ImportedDefaultBinding), ☊(NameSpaceImport), str]: {
+  env: {
+    ImportedDefaultBinding -> ! ☊(ImportedDefaultBinding)
+    NameSpaceImport -> ! ☊(NameSpaceImport)
+    module -> ! str
+    this -> ! ☊(ImportClause)
+  }
+} ---> N(#762) @ {
+  #761 -> ImportEntryRecord {
+    ImportName -> ! "default"
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! str
+  }
+  #762 -> [(#761 | #763)]
+  #763 -> ImportEntryRecord {
+    ImportName -> ! "*"
+    LocalName -> ! N(str)
+    ModuleRequest -> ! str
+  }
+}
 ImportClause[4,0].BoundNames:[☊(ImportClause), ☊(ImportedDefaultBinding), ☊(NamedImports)]: {
   env: {
     ImportedDefaultBinding -> ! ☊(ImportedDefaultBinding)
@@ -2092,6 +2144,31 @@ ImportClause[4,0].BoundNames:[☊(ImportClause), ☊(ImportedDefaultBinding), �
   #341 -> [str | N(str)]
   #342 -> [str]
   #343 -> [str]
+}
+ImportClause[4,0].ImportEntriesForModule:[☊(ImportClause), ☊(ImportedDefaultBinding), ☊(NamedImports), str]: {
+  env: {
+    ImportedDefaultBinding -> ! ☊(ImportedDefaultBinding)
+    NamedImports -> ! ☊(NamedImports)
+    module -> ! str
+    this -> ! ☊(ImportClause)
+  }
+} ---> N(#762) @ {
+  #761 -> ImportEntryRecord {
+    ImportName -> ! "default"
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! str
+  }
+  #762 -> [(#761 | #766 | #768)]
+  #766 -> ImportEntryRecord {
+    ImportName -> ! str | N(str)
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! str
+  }
+  #768 -> ImportEntryRecord {
+    ImportName -> ! str
+    LocalName -> ! N(str)
+    ModuleRequest -> ! str
+  }
 }
 ImportDeclaration[0,0].BoundNames:[☊(ImportDeclaration), ☊(ImportClause), ☊(FromClause)]: {
   env: {
@@ -2104,6 +2181,39 @@ ImportDeclaration[0,0].BoundNames:[☊(ImportDeclaration), ☊(ImportClause), �
   #342 -> [str]
   #343 -> [str]
   #759 -> []
+}
+ImportDeclaration[0,0].ImportEntries:[☊(ImportDeclaration), ☊(ImportClause), ☊(FromClause)]: {
+  env: {
+    FromClause -> ! ☊(FromClause)
+    ImportClause -> ! ☊(ImportClause)
+    this -> ! ☊(ImportDeclaration)
+  }
+} ---> N((#762 | #764 | #765 | #767 | #769)) @ {
+  #761 -> ImportEntryRecord {
+    ImportName -> ! "default"
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! str
+  }
+  #762 -> [(#761 | #763 | #766 | #768)]
+  #763 -> ImportEntryRecord {
+    ImportName -> ! "*"
+    LocalName -> ! N(str)
+    ModuleRequest -> ! str
+  }
+  #764 -> [#763]
+  #765 -> []
+  #766 -> ImportEntryRecord {
+    ImportName -> ! str | N(str)
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! str
+  }
+  #767 -> [(#766 | #768)]
+  #768 -> ImportEntryRecord {
+    ImportName -> ! str
+    LocalName -> ! N(str)
+    ModuleRequest -> ! str
+  }
+  #769 -> [(#766 | #768)]
 }
 ImportDeclaration[0,0].ModuleRequests:[☊(ImportDeclaration), ☊(ImportClause), ☊(FromClause)]: {
   env: {
@@ -2135,6 +2245,20 @@ ImportMeta[0,0].AssignmentTargetType:[☊(ImportMeta)]: {
     this -> ! ☊(ImportMeta)
   }
 } ---> N(~invalid~)
+ImportSpecifier[0,0].ImportEntriesForModule:[☊(ImportSpecifier), ☊(ImportedBinding), str]: {
+  env: {
+    ImportedBinding -> ! ☊(ImportedBinding)
+    module -> ! str
+    this -> ! ☊(ImportSpecifier)
+  }
+} ---> N(#767) @ {
+  #766 -> ImportEntryRecord {
+    ImportName -> ! str | N(str)
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! str
+  }
+  #767 -> [#766]
+}
 ImportSpecifier[1,0].BoundNames:[☊(ImportSpecifier), ☊(IdentifierName), ☊(ImportedBinding)]: {
   env: {
     IdentifierName -> ! ☊(IdentifierName)
@@ -2146,6 +2270,35 @@ ImportSpecifier[1,0].BoundNames:[☊(ImportSpecifier), ☊(IdentifierName), ☊(
   #342 -> ["yield"]
   #343 -> ["await"]
 }
+ImportSpecifier[1,0].ImportEntriesForModule:[☊(ImportSpecifier), ☊(IdentifierName), ☊(ImportedBinding), str]: {
+  env: {
+    IdentifierName -> ! ☊(IdentifierName)
+    ImportedBinding -> ! ☊(ImportedBinding)
+    module -> ! str
+    this -> ! ☊(ImportSpecifier)
+  }
+} ---> N(#769) @ {
+  #768 -> ImportEntryRecord {
+    ImportName -> ! str
+    LocalName -> ! N(str)
+    ModuleRequest -> ! str
+  }
+  #769 -> [#768]
+}
+ImportedDefaultBinding[0,0].ImportEntriesForModule:[☊(ImportedDefaultBinding), ☊(ImportedBinding), str]: {
+  env: {
+    ImportedBinding -> ! ☊(ImportedBinding)
+    module -> ! str
+    this -> ! ☊(ImportedDefaultBinding)
+  }
+} ---> N(#762) @ {
+  #761 -> ImportEntryRecord {
+    ImportName -> ! "default"
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! str
+  }
+  #762 -> [#761]
+}
 ImportsList[1,0].BoundNames:[☊(ImportsList), ☊(ImportsList), ☊(ImportSpecifier)]: {
   env: {
     ImportSpecifier -> ! ☊(ImportSpecifier)
@@ -2156,6 +2309,27 @@ ImportsList[1,0].BoundNames:[☊(ImportsList), ☊(ImportsList), ☊(ImportSpeci
   #341 -> [str | N(str)]
   #342 -> [str]
   #343 -> [str]
+}
+ImportsList[1,0].ImportEntriesForModule:[☊(ImportsList), ☊(ImportsList), ☊(ImportSpecifier), str]: {
+  env: {
+    ImportSpecifier -> ! ☊(ImportSpecifier)
+    ImportsList -> ! ☊(ImportsList)
+    module -> ! str
+    this -> ! ☊(ImportsList)
+  }
+} ---> N((#767 | #769)) @ {
+  #766 -> ImportEntryRecord {
+    ImportName -> ! str | N(str)
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! str
+  }
+  #767 -> [(#766 | #768)]
+  #768 -> ImportEntryRecord {
+    ImportName -> ! str
+    LocalName -> ! N(str)
+    ModuleRequest -> ! str
+  }
+  #769 -> [(#766 | #768)]
 }
 LabelIdentifier[1,0].StringValue:[☊(LabelIdentifier)]: {
   env: {
@@ -2729,6 +2903,41 @@ ModuleItemList[1,0].ExportedNames:[☊(ModuleItemList), ☊(ModuleItemList), ☊
   #784 -> [str]
   #785 -> [str]
 }
+ModuleItemList[1,0].ImportEntries:[☊(ModuleItemList), ☊(ModuleItemList), ☊(ModuleItem)]: {
+  env: {
+    ModuleItem -> ! ☊(ModuleItem)
+    ModuleItemList -> ! ☊(ModuleItemList)
+    this -> ! ☊(ModuleItemList)
+  }
+} ---> N((#714 | #760 | #762 | #764 | #765 | #767 | #769)) @ {
+  #714 -> [(#761 | #763 | #766 | #768)]
+  #760 -> [(#761 | #763 | #766 | #768)]
+  #761 -> ImportEntryRecord {
+    ImportName -> ! "default"
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! str
+  }
+  #762 -> [(#761 | #763 | #766 | #768)]
+  #763 -> ImportEntryRecord {
+    ImportName -> ! "*"
+    LocalName -> ! N(str)
+    ModuleRequest -> ! str
+  }
+  #764 -> [(#761 | #763 | #766 | #768)]
+  #765 -> [(#761 | #763 | #766 | #768)]
+  #766 -> ImportEntryRecord {
+    ImportName -> ! str | N(str)
+    LocalName -> ! str | N(str)
+    ModuleRequest -> ! str
+  }
+  #767 -> [(#761 | #763 | #766 | #768)]
+  #768 -> ImportEntryRecord {
+    ImportName -> ! str
+    LocalName -> ! N(str)
+    ModuleRequest -> ! str
+  }
+  #769 -> [(#761 | #763 | #766 | #768)]
+}
 ModuleItemList[1,0].ModuleRequests:[☊(ModuleItemList), ☊(ModuleItemList), ☊(ModuleItem)]: {
   env: {
     ModuleItem -> ! ☊(ModuleItem)
@@ -2880,6 +3089,20 @@ MultiplicativeExpression[1,0].IsFunctionDefinition:[☊(MultiplicativeExpression
     this -> ! ☊(MultiplicativeExpression)
   }
 } ---> N(false)
+NameSpaceImport[0,0].ImportEntriesForModule:[☊(NameSpaceImport), ☊(ImportedBinding), str]: {
+  env: {
+    ImportedBinding -> ! ☊(ImportedBinding)
+    module -> ! str
+    this -> ! ☊(NameSpaceImport)
+  }
+} ---> N(#764) @ {
+  #763 -> ImportEntryRecord {
+    ImportName -> ! "*"
+    LocalName -> ! N(str)
+    ModuleRequest -> ! str
+  }
+  #764 -> [#763]
+}
 NamedExports[0,0].ExportEntriesForModule:[☊(NamedExports), null]: {
   env: {
     module -> ! null
@@ -2916,6 +3139,14 @@ NamedImports[0,0].BoundNames:[☊(NamedImports)]: {
   }
 } ---> N(#759) @ {
   #759 -> []
+}
+NamedImports[0,0].ImportEntriesForModule:[☊(NamedImports), str]: {
+  env: {
+    module -> ! str
+    this -> ! ☊(NamedImports)
+  }
+} ---> N(#765) @ {
+  #765 -> []
 }
 NewExpression[1,0].AssignmentTargetType:[☊(NewExpression), ☊(NewExpression)]: {
   env: {
