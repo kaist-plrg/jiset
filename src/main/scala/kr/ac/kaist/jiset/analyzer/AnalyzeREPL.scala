@@ -14,7 +14,6 @@ import org.jline.utils._
 import scala.Console._
 import scala.collection.mutable.ArrayBuffer
 import scala.util.matching.Regex
-import scala.util.Try
 
 // analyze repl
 class AnalyzeREPL(sem: AbsSemantics) {
@@ -36,11 +35,11 @@ class AnalyzeREPL(sem: AbsSemantics) {
   // check break point of control point
   private def isBreak(cp: ControlPoint): Boolean = cp match {
     case NodePoint(node: Entry, _) =>
-      breakpoints.exists(x => Try(x.toString.toInt).toOption match {
+      breakpoints.exists(x => optional(x.toString.toInt) match {
         case Some(uid) => node.uid == uid
         case None => x.matches(funcOf(node).name)
       })
-    case NodePoint(node, _) => breakpoints contains node.uid
+    case NodePoint(node, _) => breakpoints.exists(_.toString.toInt == node.uid)
     case _ => false
   }
 
