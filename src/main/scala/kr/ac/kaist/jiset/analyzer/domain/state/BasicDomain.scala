@@ -268,10 +268,21 @@ object BasicDomain extends state.Domain {
       prop: AbsPure
     ): AbsValue = {
       var v = AbsValue.Bot
-      val pure = base.escaped
+      val pure = prop.str.getSingle match {
+        case One(Str("Type")) =>
+          v ⊔= AbsConst(base.comp.map.keySet.map(t => Const(t.toString)))
+          base.pure
+        case One(Str("Value")) =>
+          for ((x, _) <- base.comp.map.values) v ⊔= x
+          base.pure
+        case One(Str("Target")) =>
+          for ((_, t) <- base.comp.map.values) v ⊔= t
+          base.pure
+        case _ => base.escaped
+      }
       for (ty <- pure.ty) v ⊔= lookup(sem, ty.name, prop.str)
       for (addr <- pure.addr) v ⊔= lookup(sem, addr, prop)
-      v ⊔= lookup(pure.str, prop)
+      if (!pure.str.isBottom) v ⊔= lookup(pure.str, prop)
       v
     }
 
