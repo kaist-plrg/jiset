@@ -467,21 +467,6 @@ AsyncMethod[0,0].PropName:[☊(AsyncMethod), ☊(PropertyName), ☊(UniqueFormal
     this -> ! ☊(AsyncMethod)
   }
 } ---> N(~empty~ | str)
-BigInt::toString:[bigint]: {
-  env: {
-    x -> ! bigint
-  }
-} ---> N(str)
-BigInt::toString:[int]: {
-  env: {
-    x -> ! int
-  }
-} ---> N(str)
-BigInt::toString:[num]: {
-  env: {
-    x -> ! num
-  }
-} ---> N(str)
 BindingElementList[1,0].BoundNames:[☊(BindingElementList), ☊(BindingElementList), ☊(BindingElisionElement)]: {
   env: {
     BindingElementList -> ! ☊(BindingElementList)
@@ -2631,7 +2616,7 @@ Literal[2,0].Evaluation:[☊(Literal), ☊(NumericLiteral)]: {
     NumericLiteral -> ! ☊(NumericLiteral)
     this -> ! ☊(Literal)
   }
-} ---> N(num | int | bigint)
+} ---> N(num | int)
 Literal[3,0].Evaluation:[☊(Literal), ☊(StringLiteral)]: {
   env: {
     StringLiteral -> ! ☊(StringLiteral)
@@ -3961,11 +3946,6 @@ StringLiteral[1,1].StringValue:[☊(StringLiteral), ☊(SingleStringCharacters)]
   env: {
     SingleStringCharacters -> ! ☊(SingleStringCharacters)
     this -> ! ☊(StringLiteral)
-  }
-} ---> N(str)
-ToString:[bigint]: {
-  env: {
-    argument -> ! bigint
   }
 } ---> N(str)
 ToString:[int]: {

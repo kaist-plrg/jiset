@@ -374,7 +374,7 @@ class AbsTransfer(
     // transfer function for unary operators
     // TODO more precise abstract semantics
     def transfer(uop: UOp): AbsPure => AbsValue = v => uop match {
-      case ONeg => numTop
+      case ONeg => numericTop
       case ONot => !v.escaped.bool
       case OBNot => intTop
     }
@@ -393,10 +393,10 @@ class AbsTransfer(
         else arithTop
       case OSub => arithTop
       case OMul => arithTop
-      case OPow => numTop
-      case ODiv => numTop
-      case OUMod => numTop
-      case OMod => numTop
+      case OPow => numericTop
+      case ODiv => numericTop
+      case OUMod => numericTop
+      case OMod => numericTop
       case OLt => boolTop
       case OEq => l =^= r
       case OEqual => boolTop
@@ -534,7 +534,7 @@ class AbsTransfer(
       case ("IdentifierName", "StringValue") => strTop
       case ("NumericLiteral", "NumericValue") => numTop
       case ("StringLiteral", "StringValue" | "SV") => strTop
-      case ("TemplateHead", "TV" | "TRV") => strTop
+      case (_, "MV") => AbsNum.Top
       case _ =>
         val fids = getSyntaxFids(ast, name)
         if (fids.isEmpty) alarm(s"$ast.$name does not exist")
@@ -566,14 +566,20 @@ class AbsTransfer(
     // all integers
     private val intTop: AbsValue = AbsPrim(
       int = AbsINum.Top,
-      bigint = AbsBigINum.Top
+      bigint = AbsBigINum.Top,
     )
 
     // all numbers
     private val numTop: AbsValue = AbsPrim(
       num = AbsNum.Top,
       int = AbsINum.Top,
-      bigint = AbsBigINum.Top
+    )
+
+    // all numeric values
+    private val numericTop: AbsValue = AbsPrim(
+      num = AbsNum.Top,
+      int = AbsINum.Top,
+      bigint = AbsBigINum.Top,
     )
 
     // all strings
@@ -584,7 +590,7 @@ class AbsTransfer(
       num = AbsNum.Top,
       int = AbsINum.Top,
       bigint = AbsBigINum.Top,
-      str = AbsStr.Top
+      str = AbsStr.Top,
     )
   }
 }

@@ -58,5 +58,17 @@
   {
     "tokens": "If id:{envRec} has a binding for the name that is the value of id:{N} , return value:{true} .",
     "inst": "if (= envRec.SubMap[N] absent) {} else return true"
+  },
+  {
+    "tokens": "Let id:{n} be the number of code points in nt:{DecimalDigits} , excluding all occurrences of nt:{NumericLiteralSeparator} .",
+    "inst": "let n = AnyInt"
+  },
+  {
+    "tokens": "Let id:{mv} be ( the MV of nt:{NonZeroDigit} × 10 ) plus the MV of nt:{DecimalDigits} .",
+    "inst": "{ access __nzd__ = (NonZeroDigit \"MV\") access __dds__ = (DecimalDigits \"MV\") let mv = (+ (* __nzd__ 10) __dds__) }"
+  },
+  {
+    "tokens": "Return the Number value that results from rounding the MV of nt:{NonDecimalIntegerLiteral} as described below .",
+    "inst": "return AnyNum"
   }
 ]

@@ -202,6 +202,8 @@ class Model(cfg: CFG) {
     "PRIMITIVE" -> AbsValue(NamedAddr("PRIMITIVE")),
     "AnyStr" -> AbsStr.Top,
     "AnyBool" -> AbsBool.Top,
+    "AnyInt" -> AbsINum.Top,
+    "AnyNum" -> AbsValue.Bot ⊔ AbsNum.Top ⊔ AbsINum.Top,
   )
 
   // TODO more manual modelings
