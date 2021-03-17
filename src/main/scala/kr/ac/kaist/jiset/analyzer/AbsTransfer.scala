@@ -229,6 +229,7 @@ class AbsTransfer(
     type UnaryAlgo = (AbsState, AbsPure) => AbsValue
     val unaryAlgos: Map[String, UnaryAlgo] = Map(
       "Type" -> ((st, v) => st.typeOf(sem, v)),
+      "IsDuplicate" -> ((st, v) => AbsBool.Top),
       "floor" -> ((st, v) => AbsNum.Top),
     )
 
@@ -264,7 +265,7 @@ class AbsTransfer(
       case EPop(list, idx) => for {
         l <- transfer(list)
         k <- transfer(idx)
-        a <- id(_.pop(l.escaped, k.escaped))
+        a <- id(_.pop(sem, l.escaped, k.escaped))
       } yield a
       case ERef(ref) => for {
         refv <- transfer(ref)
@@ -385,19 +386,13 @@ class AbsTransfer(
     // transfer function for binary operators
     // TODO more precise abstract semantics
     def transfer(bop: BOp): (AbsPure, AbsPure) => AbsValue = (l, r) => bop match {
-      case OPlus =>
-        if (l.isBottom || r.isBottom) AbsValue.Bot
-        else if (l ⊑ strTop && r ⊑ strTop) strTop
-        else if (l ⊑ numTop && r ⊑ numTop) numTop
-        else if (l ⊑ bigintTop && r ⊑ bigintTop) bigintTop
-        else if (l ⊑ numericTop && r ⊑ numericTop) numericTop
-        else arithTop
-      case OSub => arithTop
-      case OMul => arithTop
-      case OPow => numericTop
-      case ODiv => numericTop
-      case OUMod => numericTop
-      case OMod => numericTop
+      case OPlus => arithBOp(l, r)
+      case OSub => arithBOp(l, r)
+      case OMul => arithBOp(l, r)
+      case OPow => numericBOp(l, r)
+      case ODiv => numericBOp(l, r)
+      case OUMod => numericBOp(l, r)
+      case OMod => numericBOp(l, r)
       case OLt => boolTop
       case OEq => l =^= r
       case OEqual => boolTop
@@ -409,8 +404,22 @@ class AbsTransfer(
       case OBXOr => numTop
       case OLShift => numTop
       case OSRShift => numTop
-      case OURShift => AbsNum.Top
+      case OURShift => numTop
     }
+
+    private def arithBOp(l: AbsPure, r: AbsPure): AbsValue =
+      if (l.isBottom || r.isBottom) AbsValue.Bot
+      else if (l ⊑ strTop && r ⊑ strTop) strTop
+      else if (l ⊑ numTop && r ⊑ numTop) numTop
+      else if (l ⊑ bigintTop && r ⊑ bigintTop) bigintTop
+      else if (l ⊑ numericTop && r ⊑ numericTop) numericTop
+      else arithTop
+
+    private def numericBOp(l: AbsPure, r: AbsPure): AbsValue =
+      if (l.isBottom || r.isBottom) AbsValue.Bot
+      else if (l ⊑ numTop && r ⊑ numTop) numTop
+      else if (l ⊑ bigintTop && r ⊑ bigintTop) bigintTop
+      else numericTop
 
     // TODO pruning abstract states using conditions
     case class PruneValue(
@@ -538,19 +547,26 @@ class AbsTransfer(
       case (_, "MV") => AbsNum.Top
       case _ =>
         val fids = getSyntaxFids(ast, name)
-        if (fids.isEmpty) alarm(s"$ast.$name does not exist")
-        val pairs = fids.toList.flatMap[AbsClo.Pair](fid => {
-          val func = fidMap(fid)
-          func.algo.head match {
-            case (head: SyntaxDirectedHead) =>
-              val baseArgs = sem.getArgs(head)
-              sem.doCall(call, view, st, AbsClo(Clo(fid)), baseArgs ++ args, x)
-              None
-            case _ => None
+        if (fids.isEmpty) {
+          if (name == "Contains") AbsBool.Top
+          else {
+            alarm(s"$ast.$name does not exist")
+            AbsValue.Bot
           }
-        })
-        val v: AbsValue = AbsClo(AbsClo.SetD(pairs: _*))
-        v
+        } else {
+          val pairs = fids.toList.flatMap[AbsClo.Pair](fid => {
+            val func = fidMap(fid)
+            func.algo.head match {
+              case (head: SyntaxDirectedHead) =>
+                val baseArgs = sem.getArgs(head)
+                sem.doCall(call, view, st, AbsClo(Clo(fid)), baseArgs ++ args, x)
+                None
+              case _ => None
+            }
+          })
+          val v: AbsValue = AbsClo(AbsClo.SetD(pairs: _*))
+          v
+        }
     }
 
     // handle this value for syntax-directed algorithms

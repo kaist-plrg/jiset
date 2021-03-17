@@ -97,22 +97,15 @@ class Model(cfg: CFG) {
       "ImportName" -> AbsValue(AbsStr.Top) ⊔ AbsNull.Top,
       "LocalName" -> AbsValue(AbsStr.Top) ⊔ AbsNull.Top,
     ),
-    TyInfo(
-      name = "SourceTextModuleRecord",
-      "Status" -> (AbsConst("unlinked", "linking", "linked", "evaluating", "evaluated"): AbsValue),
-      "EvaluationError" -> AbsValue(Undef) ⊔ AbsComp.Top.abrupt,
-      "DFSIndex" -> AbsValue(Undef) ⊔ AbsNum.Top,
-      "DFSAncestorIndex" -> AbsValue(Undef) ⊔ AbsNum.Top,
-      "RequestedModules" -> AbsValue(NamedAddr("StringList")),
-    ),
     // execution contexts
     TyInfo(
       name = "ExecutionContext",
-      "LexicalEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
-      "VariableEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
       "Function" -> AbsValue(Ty("Object")) ⊔ AbsNull.Top,
       "Realm" -> AbsValue(Ty("RealmRecord")),
       "ScriptOrModule" -> AbsTy(Ty("ScriptRecord"), Ty("ModuleRecord")),
+      "Generator" -> AbsTy(Ty("OrdinaryObject")),
+      "LexicalEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
+      "VariableEnvironment" -> AbsValue(Ty("EnvironmentRecord")),
     ),
     // environment records
     TyInfo(

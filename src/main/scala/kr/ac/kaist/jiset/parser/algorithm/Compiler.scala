@@ -799,8 +799,8 @@ object Compiler extends Compilers {
     opt("the result of") ~> ((id | nt) <~ camelWord.filter(_ == "Contains")) ~ (nt ^^ { EStr(_) } | id ^^ { toERef(_) }) ^^ {
       case x ~ y =>
         // `Contains` static semantics
-        val x = getTempId
-        pair(List(IAccess(x, toERef(x), EStr("Contains"), List(y))), toERef(x))
+        val tempId = getTempId
+        pair(List(IAccess(tempId, toERef(x), EStr("Contains"), List(y))), toERef(tempId))
     }
 
   // ex. Let _assignmentPattern_ be the |AssignmentPattern| that is covered by |LeftHandSideExpression|

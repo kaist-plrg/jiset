@@ -461,7 +461,23 @@ object BasicDomain extends state.Domain {
     def keysOf(v: AbsValue): (AbsValue, Elem) = ???
 
     // pop a value from a list
-    def pop(list: AbsValue, idx: AbsValue): (AbsValue, Elem) = ???
+    def pop(
+      sem: AbsSemantics,
+      list: AbsPure,
+      idx: AbsValue
+    ): (AbsValue, Elem) = {
+      val newV = list.addr.toList.foldLeft(AbsValue.Bot) {
+        case (value, addr) =>
+          val obj = lookup(sem, addr)
+          obj match {
+            case AbsObj.ListElem(list) => value ⊔ list.value
+            case _ =>
+              alarm(s"try to pop from a non-list object: ${beautify(obj)}")
+              value
+          }
+      }
+      if (newV.isBottom) (AbsValue.Bot, Bot) else (newV, this)
+    }
 
     // get type of pure values
     def typeOf(sem: AbsSemantics, v: AbsPure): AbsValue = {
