@@ -50,6 +50,7 @@ class AbsTransfer(
         apply(cp)
       } catch {
         case e: Throwable =>
+          if (LOG) stat.dump()
           printlnColor(RED)(s"[Error] An exception is thrown.")
           println(sem.getString(cp, CYAN, true))
           dumpCFG(sem, Some(cp), depth = Some(5))
