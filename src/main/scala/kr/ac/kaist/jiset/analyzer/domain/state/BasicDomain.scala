@@ -67,6 +67,130 @@ object BasicDomain extends state.Domain {
     // define variable
     def +(pair: (String, AbsValue)): Elem = checkBot(copy(env = env + pair))
 
+    // exists
+    def exists(sem: AbsSemantics, ref: AbsRefValue): AbsBool = ref match {
+      case AbsRefValue.Id(x) =>
+        val (localV, absent) = env(x)
+        (localV.isBottom, absent.isTop) match {
+          case (true, true) => AbsBool(sem.globalEnv.contains(x))
+          case (true, false) => AbsBool.Bot // infeasible?
+          case (false, true) => AbsBool.Top
+          case (false, false) => AT
+        }
+      case AbsRefValue.Prop(base, prop) =>
+        var b: AbsBool = AbsBool.Bot
+        val pure = base.escaped
+        val astr = pure.str
+        // ty
+        // TODO consider not string ty prop?
+        for (ty <- pure.ty) b = b ⊔ existsTy(sem, ty.name, prop.str)
+        // addr
+        for (addr <- pure.addr) b = b ⊔ existsAddr(sem, addr, prop)
+        // string
+        if (!astr.isBottom) b ⊔= existsStr(astr, prop)
+        // TODO consider other cases?
+        b
+    }
+
+    // exists ty property
+    private def existsTy(
+      sem: AbsSemantics,
+      ty: String,
+      prop: String
+    ): AbsBool = sem.typeMap.get(ty) match {
+      case Some(TyInfo(_, parent, props)) =>
+        if (props.contains(prop)) AT
+        else parent.fold(AF)(existsTy(sem, _, prop))
+      case None if (ty == "SubMap") => ???
+      case None => ???
+    }
+    private def existsTy(
+      sem: AbsSemantics,
+      ty: String,
+      aprop: AbsStr
+    ): AbsBool =
+      if (ty == "SubMap") AbsBool.Top // TODO unsound
+      else if (aprop.isBottom) AbsBool.Bot
+      else aprop.gamma match {
+        case Infinite => ???
+        case Finite(ps) => ps.foldLeft(AbsBool.Bot: AbsBool) {
+          case (b, Str(prop)) => b ⊔ existsTy(sem, ty, prop)
+        }
+      }
+
+    // exists addr property
+    private def existsAddr(
+      sem: AbsSemantics,
+      addr: Addr,
+      aprop: AbsPure
+    ): AbsBool = {
+      import AbsObj._
+      // get object
+      val aobj = addr match {
+        case (_: NamedAddr) if sem.globalHeap.contains(addr) => sem.globalHeap(addr)
+        case (_: DynamicAddr) if heap.keySet.contains(addr) => heap(addr)
+        case _ => ???
+      }
+      // check prop existence
+      aobj match {
+        case MapElem(Some("SubMap"), _) => AbsBool.Top // TODO unsound
+        case MapElem(ty, map) => aprop.str.gamma match {
+          case Infinite => ???
+          case Finite(props) => props.foldLeft(AbsBool.Bot: AbsBool) {
+            case (b, Str(prop)) =>
+              val aopt = map(prop)
+              (aopt.value.isBottom, aopt.absent.isTop) match {
+                case (true, true) => ty.fold(AF)(existsTy(sem, _, prop))
+                case (true, false) => AbsBool.Bot // infeasible?
+                case (false, true) => AbsBool.Top
+                case (false, false) => AT
+              }
+          }
+        }
+        case ListElem(list) =>
+          val isLength = aprop.str.getSingle match {
+            case One(Str("length")) => AT
+            case _ => ???
+          }
+          val isInt =
+            if (aprop.int.isBottom || list.length.isBottom) AbsBool.Bot
+            else if (aprop.int ⊑ list.length) AT
+            else if ((aprop.int ⊓ list.length).isBottom) AF
+            else AbsBool.Top
+          // other prop
+          val alistProp = AbsPure(
+            prim = AbsPrim(str = AbsStr.Top, int = AbsINum.Top)
+          )
+          if (aprop !⊑ alistProp) ???
+          isLength ⊔ isInt
+        case SymbolElem(desc) => ???
+        case AbsObj.Top => ???
+        case AbsObj.Bot => ???
+      }
+    }
+
+    // exists string property
+    private def existsStr(astr: AbsStr, prop: AbsPure): AbsBool = {
+      // int
+      val isInt =
+        if (prop.int.isBottom) AbsBool.Bot
+        else (astr.getSingle, prop.int.getSingle) match {
+          case (One(Str(str)), One(INum(long))) => AbsBool(long < str.length)
+          case _ => ???
+        }
+      // length
+      val isLength = prop.str.getSingle match {
+        case One(Str("length")) => AT
+        case _ => ???
+      }
+      // other prop
+      val astrProp = AbsPure(
+        prim = AbsPrim(str = AbsStr.Top, int = AbsINum.Top)
+      )
+      if (prop !⊑ astrProp) ???
+      isInt ⊔ isLength
+    }
+
     // update references
     def update(sem: AbsSemantics, refv: AbsRefValue, v: AbsValue): Elem =
       checkBot(refv match {

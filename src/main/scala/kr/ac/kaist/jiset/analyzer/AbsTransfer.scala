@@ -271,6 +271,8 @@ class AbsTransfer(
       } yield v
       // TODO after discussing the continuations
       case ECont(params, body) => ???
+      case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => isAbsent(ref, true)
+      case EBOp(OEq, ERef(ref), EAbsent) => isAbsent(ref)
       case EUOp(uop, expr) => for {
         v <- transfer(expr)
         u = transfer(uop)(v.escaped)
@@ -433,6 +435,12 @@ class AbsTransfer(
         List((refv, Bool(true), true)),
         List((refv, Bool(false), false))
       )
+      case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => for {
+        v <- isAbsent(ref, true)
+      } yield PruneValue(v)
+      case EBOp(OEq, ERef(ref), EAbsent) => for {
+        v <- isAbsent(ref)
+      } yield PruneValue(v)
       case EUOp(ONot, cexpr) => for {
         pv <- pruneTransfer(cexpr)
       } yield pv.negate
@@ -455,6 +463,18 @@ class AbsTransfer(
       case _ => for {
         v <- transfer(expr)
       } yield PruneValue(v)
+    }
+
+    // check if ref is absent
+    def isAbsent(ref: Ref, negated: Boolean = false): Result[AbsValue] = for {
+      refv <- transfer(ref)
+      v <- get(_.exists(sem, refv))
+      st <- get
+    } yield v.toSet.foldLeft(AbsBool.Bot: AbsBool) {
+      case (b, true) =>
+        val isAbsent = AbsAbsent.Top =^= st.lookup(sem, refv).escaped
+        b ⊔ (if (!negated) isAbsent else !isAbsent)
+      case (b, false) => b ⊔ (if (!negated) AT else AF)
     }
 
     // return if abrupt completion
