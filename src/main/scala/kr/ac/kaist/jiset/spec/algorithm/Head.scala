@@ -42,6 +42,7 @@ object Head {
   val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
   val prefixPattern = ".*Semantics:".r
   val withParamPattern = "_\\w+_".r
+  val optionalParamPattern = "optional parameter(s?).*".r
   val normPattern = "[\\s|-]".r
   val thisValuePattern = "this\\w+Value".r
   val letEnvRecPattern = "1. Let ([_\\w]+) be the \\w+ Environment Record.*".r

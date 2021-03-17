@@ -111,8 +111,13 @@ object HeadParser extends HeadParsers {
       val text = prevElem.text
       val isParams = "[wW]ith (parameter|argument).*".r.matches(text)
       if (!isParagraph || !isParams) Nil
-      else withParamPattern.findAllMatchIn(text).toList.map(trimParam)
-    }.map(Param(_))
+      else {
+        val optionalParamText: String = optionalParamPattern.findFirstIn(text).getOrElse("")
+        val optionalParams: List[String] = withParamPattern.findAllMatchIn(optionalParamText).toList.map(trimParam)
+        val normalParams: List[String] = withParamPattern.findAllMatchIn(text).toList.map(trimParam) diff optionalParams
+        normalParams.map(Param(_, Param.Kind.Normal)) ++ optionalParams.map(Param(_, Param.Kind.Optional))
+      }
+    }
 
     // extract emu-grammar
     val target =
