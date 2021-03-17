@@ -19,7 +19,7 @@ class AddrNormalizer(heap: AbsHeap) {
 
   // list of NamedAddr of parents, closer ancestor in front (1st: addr itself)
   def addrParents(addr: Addr): List[Addr] = heap(addr) match {
-    case MapElem(p, _) => addr :: p.map(s => addrParents(NamedAddr(s))).getOrElse(Nil)
+    case MapElem(pnameOpt, _) => addr :: pnameOpt.map(pname => addrParents(NamedAddr(pname))).getOrElse(Nil)
     case _ => ??? //TODO : throw some error, must point to MapElem
   }
 
