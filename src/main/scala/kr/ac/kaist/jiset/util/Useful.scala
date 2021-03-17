@@ -17,9 +17,11 @@ import scala.util.Random.shuffle
 import spray.json._
 
 object Useful {
+  val ENC = "utf8"
+
   // file reader
   def fileReader(filename: String): Reader =
-    Source.fromFile(filename).bufferedReader
+    Source.fromFile(filename, ENC).bufferedReader
 
   // indentation
   def indentation(s: StringBuilder, str: String, indent: Int): Unit = {
@@ -92,7 +94,7 @@ object Useful {
 
   // read file
   def readFile(filename: String): String =
-    Source.fromFile(filename).mkString
+    Source.fromFile(filename, ENC).mkString
 
   // read JSON
   def readJson[T](filename: String)(implicit reader: JsonReader[T]): T =
