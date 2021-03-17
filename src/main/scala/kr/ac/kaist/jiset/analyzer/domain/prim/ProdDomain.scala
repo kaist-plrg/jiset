@@ -7,7 +7,7 @@ object ProdDomain extends prim.Domain {
   // abstraction functions
   def alpha(v: Prim): Elem = v match {
     case num: Num => Elem(num = AbsNum(num))
-    case int: INum => Elem(int = AbsINum(int))
+    case int: INum => Elem(num = AbsNum(int.long))
     case bigint: BigINum => Elem(bigint = AbsBigINum(bigint))
     case str: Str => Elem(str = AbsStr(str))
     case bool: Bool => Elem(bool = AbsBool(bool))
@@ -22,7 +22,6 @@ object ProdDomain extends prim.Domain {
   // top value
   val Top: Elem = Elem(
     AbsNum.Top,
-    AbsINum.Top,
     AbsBigINum.Top,
     AbsStr.Top,
     AbsBool.Top,
@@ -34,22 +33,19 @@ object ProdDomain extends prim.Domain {
   // constructor
   def apply(
     num: AbsNum = AbsNum.Bot,
-    int: AbsINum = AbsINum.Bot,
     bigint: AbsBigINum = AbsBigINum.Bot,
     str: AbsStr = AbsStr.Bot,
     bool: AbsBool = AbsBool.Bot,
     undef: AbsUndef = AbsUndef.Bot,
     nullval: AbsNull = AbsNull.Bot,
     absent: AbsAbsent = AbsAbsent.Bot
-  ): Elem = Elem(num, int, bigint, str, bool, undef, nullval, absent)
+  ): Elem = Elem(num, bigint, str, bool, undef, nullval, absent)
 
   // extractor
-  def unapply(elem: Elem): Option[(AbsNum, AbsINum, AbsBigINum, AbsStr, AbsBool, AbsUndef, AbsNull, AbsAbsent)] =
-    Some((elem.num, elem.int, elem.bigint, elem.str, elem.bool, elem.undef, elem.nullval, elem.absent))
+  def unapply(elem: Elem) = Elem.unapply(elem)
 
   case class Elem(
     num: AbsNum = AbsNum.Bot,
-    int: AbsINum = AbsINum.Bot,
     bigint: AbsBigINum = AbsBigINum.Bot,
     str: AbsStr = AbsStr.Bot,
     bool: AbsBool = AbsBool.Bot,
@@ -60,7 +56,6 @@ object ProdDomain extends prim.Domain {
     // partial order
     def ⊑(that: Elem): Boolean = (
       this.num ⊑ that.num &&
-      this.int ⊑ that.int &&
       this.bigint ⊑ that.bigint &&
       this.str ⊑ that.str &&
       this.bool ⊑ that.bool &&
@@ -72,7 +67,6 @@ object ProdDomain extends prim.Domain {
     // join operator
     def ⊔(that: Elem): Elem = Elem(
       this.num ⊔ that.num,
-      this.int ⊔ that.int,
       this.bigint ⊔ that.bigint,
       this.str ⊔ that.str,
       this.bool ⊔ that.bool,
@@ -84,7 +78,6 @@ object ProdDomain extends prim.Domain {
     // meet operator
     def ⊓(that: Elem): Elem = Elem(
       this.num ⊓ that.num,
-      this.int ⊓ that.int,
       this.bigint ⊓ that.bigint,
       this.str ⊓ that.str,
       this.bool ⊓ that.bool,
@@ -96,7 +89,7 @@ object ProdDomain extends prim.Domain {
     // prune
     def prune(v: Prim): Elem = v match {
       case n: Num => copy(num = num.prune(n))
-      case i: INum => copy(int = int.prune(i))
+      case i: INum => copy(num = num.prune(Num(i.long)))
       case bi: BigINum => copy(bigint = bigint.prune(bi))
       case s: Str => copy(str = str.prune(s))
       case b: Bool => copy(bool = bool.prune(b))
@@ -108,7 +101,6 @@ object ProdDomain extends prim.Domain {
     // concretization function
     def gamma: concrete.Set[Prim] = (
       this.num.gamma ++
-      this.int.gamma ++
       this.bigint.gamma ++
       this.str.gamma ++
       this.bool.gamma ++
@@ -120,7 +112,6 @@ object ProdDomain extends prim.Domain {
     // conversion to flat domain
     def getSingle: concrete.Flat[Prim] = (
       this.num.getSingle ++
-      this.int.getSingle ++
       this.bigint.getSingle ++
       this.str.getSingle ++
       this.bool.getSingle ++

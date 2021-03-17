@@ -370,7 +370,6 @@ class AbsSemantics(
       add(AstT(ast.name), AbsValue(ast))
     }
     if (!v.num.isBottom) add(NumT, v.num)
-    if (!v.int.isBottom) add(INumT, v.int)
     if (!v.bigint.isBottom) add(BigINumT, v.bigint)
     if (!v.str.isBottom) add(StrT, v.str)
     if (!v.bool.isBottom) add(BoolT, v.bool)

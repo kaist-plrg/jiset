@@ -2,7 +2,6 @@ package kr.ac.kaist.jiset.analyzer
 
 import scala.concurrent.duration._
 import kr.ac.kaist.jiset.ir.Beautifier._
-import kr.ac.kaist.jiset.analyzer.INumT
 import kr.ac.kaist.jiset.ir.util.ESValueParser
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.StateMonad

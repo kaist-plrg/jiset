@@ -152,17 +152,17 @@ object BasicDomain extends state.Domain {
             case One(Str("length")) => AT
             case _ => ???
           }
-          val isInt =
-            if (aprop.int.isBottom || list.length.isBottom) AbsBool.Bot
-            else if (aprop.int ⊑ list.length) AT
-            else if ((aprop.int ⊓ list.length).isBottom) AF
+          val isNum =
+            if (aprop.num.isBottom || list.length.isBottom) AbsBool.Bot
+            else if (aprop.num ⊑ list.length) AT
+            else if ((aprop.num ⊓ list.length).isBottom) AF
             else AbsBool.Top
           // other prop
           val alistProp = AbsPure(
-            prim = AbsPrim(str = AbsStr.Top, int = AbsINum.Top)
+            prim = AbsPrim(str = AbsStr.Top, num = AbsNum.Top)
           )
           if (aprop !⊑ alistProp) ???
-          isLength ⊔ isInt
+          isLength ⊔ isNum
         case SymbolElem(desc) => ???
         case AbsObj.Top => ???
         case AbsObj.Bot => ???
@@ -171,11 +171,11 @@ object BasicDomain extends state.Domain {
 
     // exists string property
     private def existsStr(astr: AbsStr, prop: AbsPure): AbsBool = {
-      // int
-      val isInt =
-        if (prop.int.isBottom) AbsBool.Bot
-        else (astr.getSingle, prop.int.getSingle) match {
-          case (One(Str(str)), One(INum(long))) => AbsBool(long < str.length)
+      // number
+      val isNum =
+        if (prop.num.isBottom) AbsBool.Bot
+        else (astr.getSingle, prop.num.getSingle) match {
+          case (One(Str(str)), One(Num(len))) => AbsBool(len < str.length)
           case _ => ???
         }
       // length
@@ -185,10 +185,10 @@ object BasicDomain extends state.Domain {
       }
       // other prop
       val astrProp = AbsPure(
-        prim = AbsPrim(str = AbsStr.Top, int = AbsINum.Top)
+        prim = AbsPrim(str = AbsStr.Top, num = AbsNum.Top)
       )
       if (prop !⊑ astrProp) ???
-      isInt ⊔ isLength
+      isNum ⊔ isLength
     }
 
     // update references
@@ -278,8 +278,8 @@ object BasicDomain extends state.Domain {
     // lookup strings
     def lookup(str: AbsStr, prop: AbsPure): AbsValue = if (!str.isBottom) {
       var v = AbsValue.Bot
-      if (!prop.int.isBottom) v ⊔= AbsStr.Top
-      if (AbsValue("length") ⊑ prop.str) v ⊔= AbsINum.Top
+      if (!prop.num.isBottom) v ⊔= AbsStr.Top
+      if (AbsValue("length") ⊑ prop.str) v ⊔= AbsNum.Top
       v
     } else AbsValue.Bot
 
@@ -306,10 +306,10 @@ object BasicDomain extends state.Domain {
             case One(Str("length")) | Many => list.length
             case _ => AbsValue.Bot
           }
-          val intV =
-            if (prop.int.isBottom) AbsValue.Bot
+          val numV =
+            if (prop.num.isBottom) AbsValue.Bot
             else list.value
-          strV ⊔ intV
+          strV ⊔ numV
         case SymbolElem(desc) =>
           alarm(s"access of the property ${beautify(prop)} for a symbol @${beautify(desc)}")
           AbsValue.Bot
@@ -481,7 +481,6 @@ object BasicDomain extends state.Domain {
       if (!v.cont.isBottom) alarm(s"try to get types of continuation: ${beautify(v.cont)}")
       if (!v.ast.isBottom) alarm(s"try to get types of AST: ${beautify(v.ast)}")
       if (!v.num.isBottom) set += Str("Number")
-      if (!v.int.isBottom) set += Str("Number")
       if (!v.bigint.isBottom) set += Str("BigInt")
       if (!v.str.isBottom) set += Str("String")
       if (!v.bool.isBottom) set += Str("Boolean")

@@ -46,11 +46,11 @@ class BeautifierTinyTest extends AnalyzerTest {
 
     test("Abstract Values")(
       AbsValue(42.34, BigInt(24), true) -> "42.34 | 24n | true",
-      AbsValue(123, "abc", Undef, Null, Absent) -> "123i | \"abc\" | undef | null | ?",
-      AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)) -> "num | int | bigint",
+      AbsValue(123, "abc", Undef, Null, Absent) -> "123.0 | \"abc\" | undef | null | ?",
+      AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)) -> "num | bigint",
       AbsValue("a", "b", true, false) -> "str | bool",
-      AbsValue(42, NamedAddr("Global"), DynamicAddr(432)) -> "(#432 | #Global) | 42i",
-      (AbsValue(42, Const("empty")) ⊔ AbsValue(Ty("Object"))) -> "Object | ~empty~ | 42i",
+      AbsValue(42, NamedAddr("Global"), DynamicAddr(432)) -> "(#432 | #Global) | 42.0",
+      (AbsValue(42, Const("empty")) ⊔ AbsValue(Ty("Object"))) -> "Object | ~empty~ | 42.0",
       (AbsValue(true, Cont()) ⊔ AbsClo(Clo(42))) -> "λ(42) | κ | true",
       AbsValue(Clo(42, Env("x" -> Bool(true), "y" -> Num(42)))) -> """λ(42)[{
       |  x -> ! true
@@ -58,15 +58,15 @@ class BeautifierTinyTest extends AnalyzerTest {
       |}]""".stripMargin,
       AbsValue(ASTVal("Literal"), ASTVal("Identifier")) -> "(☊(Identifier) | ☊(Literal))",
       AbsValue(Const("invalid"), Const("empty")) -> "(~empty~ | ~invalid~)",
-      AbsValue(Completion(CompNormal, 42, Const("empty"))) -> "N(42i)",
+      AbsValue(Completion(CompNormal, 42, Const("empty"))) -> "N(42.0)",
       AbsValue(
         Completion(CompNormal, 42, Const("empty")),
         Completion(CompNormal, true, Const("empty")),
-      ) -> "N(42i | true)",
+      ) -> "N(42.0 | true)",
       AbsValue(
         Completion(CompThrow, 42, Const("empty")),
         Completion(CompNormal, true, Const("empty")),
-      ) -> "N(true) | T(42i)",
+      ) -> "N(true) | T(42.0)",
     )
 
     val id = RefValueId("x")
@@ -92,12 +92,12 @@ class BeautifierTinyTest extends AnalyzerTest {
         MapObj(Ty("Object"), "x" -> "a", "z" -> Null),
       ) -> """Object {
       |  x -> ! "a" | true
-      |  y -> ? 2i
+      |  y -> ? 2.0
       |  z -> ? null
       |}""".stripMargin,
       AbsObj(ListObj()) -> "[]",
-      AbsObj(ListObj(Undef, true, 42)) -> "[42i | true | undef]",
-      AbsObj(ListObj(0, 1, 2, 3)) -> "[int]",
+      AbsObj(ListObj(Undef, true, 42)) -> "[42.0 | true | undef]",
+      AbsObj(ListObj(0, 1, 2, 3)) -> "[num]",
       AbsObj.Top -> "⊤",
     )
 
@@ -121,7 +121,7 @@ class BeautifierTinyTest extends AnalyzerTest {
     ))
     test("Abstract Environments")(
       env -> """{
-      |  x -> ! 42i
+      |  x -> ! 42.0
       |  y -> ? true
       |  z -> ? null
       |}""".stripMargin,
@@ -131,7 +131,7 @@ class BeautifierTinyTest extends AnalyzerTest {
     test("Abstract State")(
       st -> """{
       |  env: {
-      |    x -> ! 42i
+      |    x -> ! 42.0
       |    y -> ? true
       |    z -> ? null
       |  }
@@ -142,7 +142,7 @@ class BeautifierTinyTest extends AnalyzerTest {
       |}""".stripMargin,
       AbsState.Empty.copy(env = env) -> """{
       |  env: {
-      |    x -> ! 42i
+      |    x -> ! 42.0
       |    y -> ? true
       |    z -> ? null
       |  }

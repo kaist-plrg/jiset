@@ -9,10 +9,10 @@ trait Domain extends AbsDomain[Str] {
   def add(left: Elem, right: Elem): Elem
 
   // drop right (-)
-  def sub(left: Elem, right: AbsINum): Elem
+  def sub(left: Elem, right: AbsNum): Elem
 
   // string multiplication (*)
-  def mul(left: Elem, right: AbsINum): Elem
+  def mul(left: Elem, right: AbsNum): Elem
 
   // string comparison (<)
   def lt(left: Elem, right: Elem): AbsBool

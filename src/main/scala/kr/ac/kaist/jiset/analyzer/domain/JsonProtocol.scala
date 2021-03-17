@@ -30,14 +30,13 @@ object JsonProtocol extends BasicJsonProtocol {
 
   // abstract value JSON format
   implicit lazy val anumFormat = flatDomainFormat(AbsNum)
-  implicit lazy val ainumFormat = flatDomainFormat(AbsINum)
   implicit lazy val abiginumFormat = flatDomainFormat(AbsBigINum)
   implicit lazy val astrFormat = flatDomainFormat(AbsStr)
   implicit lazy val aboolFormat = flatDomainFormat(AbsBool)
   implicit lazy val aundefFormat = simpleDomainFormat(AbsUndef)
   implicit lazy val anullFormat = simpleDomainFormat(AbsNull)
   implicit lazy val aabsentFormat = simpleDomainFormat(AbsAbsent)
-  implicit lazy val aprimFormat = jsonFormat8(AbsPrim.Elem)
+  implicit lazy val aprimFormat = jsonFormat7(AbsPrim.Elem)
   implicit lazy val aastFormat = setDomainFormat(AbsAST)
   implicit lazy val acloFormat = new RootJsonFormat[AbsClo] {
     implicit val pairFormat: JsonFormat[AbsClo.Pair] = jsonFormat2(AbsClo.Pair)

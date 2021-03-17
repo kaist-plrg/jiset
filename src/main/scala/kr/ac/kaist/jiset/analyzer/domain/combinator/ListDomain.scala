@@ -61,11 +61,11 @@ class ListDomain[V, VD <: AbsDomain[V]](
     }
 
     // get length
-    def length: AbsINum = this match {
-      case Bot => AbsINum.Bot
+    def length: AbsNum = this match {
+      case Bot => AbsNum.Bot
       case ListElem(v) =>
-        if (v.isBottom) AbsINum(0)
-        else AbsINum.Top
+        if (v.isBottom) AbsNum(0)
+        else AbsNum.Top
     }
   }
 }

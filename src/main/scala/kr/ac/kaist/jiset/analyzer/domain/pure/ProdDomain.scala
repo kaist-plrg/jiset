@@ -136,7 +136,6 @@ object ProdDomain extends pure.Domain {
 
     // accessors for primitive values
     def num: AbsNum = prim.num
-    def int: AbsINum = prim.int
     def bigint: AbsBigINum = prim.bigint
     def str: AbsStr = prim.str
     def bool: AbsBool = prim.bool

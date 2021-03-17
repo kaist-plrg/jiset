@@ -82,10 +82,6 @@ package object domain {
   lazy val AbsNum = num.FlatDomain
   type AbsNum = AbsNum.Elem
 
-  // abstract integers
-  lazy val AbsINum = inum.FlatDomain
-  type AbsINum = AbsINum.Elem
-
   // abstract big integers
   lazy val AbsBigINum = biginum.FlatDomain
   type AbsBigINum = AbsBigINum.Elem
@@ -137,8 +133,6 @@ package object domain {
   implicit def boolean2bool(x: Boolean): Bool = Bool(x)
   implicit def str2string(x: Str): StringOps = x.str
   implicit def string2str(x: String): Str = Str(x)
-  implicit def long2inum(x: Long): INum = INum(x)
-  implicit def inum2long(x: INum): Long = x.long
   implicit def bigint2biginum(x: BigInt): BigINum = BigINum(x)
   implicit def biginum2bigint(x: BigINum): BigInt = x.bigint
   implicit def double2num(x: Double): Num = Num(x)
@@ -146,8 +140,6 @@ package object domain {
 
   implicit def num2prim[T](x: T)(implicit ev: T => AbsNum) =
     AbsPrim(num = x)
-  implicit def int2prim[T](x: T)(implicit ev: T => AbsINum) =
-    AbsPrim(int = x)
   implicit def bigint2prim[T](x: T)(implicit ev: T => AbsBigINum) =
     AbsPrim(bigint = x)
   implicit def str2prim[T](x: T)(implicit ev: T => AbsStr) =

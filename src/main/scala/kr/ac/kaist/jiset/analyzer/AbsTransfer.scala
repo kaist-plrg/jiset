@@ -229,7 +229,7 @@ class AbsTransfer(
     type UnaryAlgo = (AbsState, AbsPure) => AbsValue
     val unaryAlgos: Map[String, UnaryAlgo] = Map(
       "Type" -> ((st, v) => st.typeOf(sem, v)),
-      "floor" -> ((st, v) => AbsINum.Top),
+      "floor" -> ((st, v) => AbsNum.Top),
     )
 
     // transfer function for expressions
@@ -316,7 +316,7 @@ class AbsTransfer(
         case CStrToNum => AbsNum.Top
         case CStrToBigInt => AbsBigINum.Top
         case CNumToStr => AbsStr.Top
-        case CNumToInt => AbsINum.Top
+        case CNumToInt => AbsNum.Top
         case CNumToBigInt => AbsBigINum.Top
         case CBigIntToNum => AbsNum.Top
       }
@@ -376,7 +376,7 @@ class AbsTransfer(
     def transfer(uop: UOp): AbsPure => AbsValue = v => uop match {
       case ONeg => numericTop
       case ONot => !v.escaped.bool
-      case OBNot => intTop
+      case OBNot => numTop
     }
 
     // all booleans
@@ -388,8 +388,9 @@ class AbsTransfer(
       case OPlus =>
         if (l.isBottom || r.isBottom) AbsValue.Bot
         else if (l ⊑ strTop && r ⊑ strTop) strTop
-        else if (l ⊑ intTop && r ⊑ intTop) intTop
         else if (l ⊑ numTop && r ⊑ numTop) numTop
+        else if (l ⊑ bigintTop && r ⊑ bigintTop) bigintTop
+        else if (l ⊑ numericTop && r ⊑ numericTop) numericTop
         else arithTop
       case OSub => arithTop
       case OMul => arithTop
@@ -403,12 +404,12 @@ class AbsTransfer(
       case OAnd => l.bool && r.bool
       case OOr => l.bool || r.bool
       case OXor => l.bool ^ r.bool
-      case OBAnd => intTop
-      case OBOr => intTop
-      case OBXOr => intTop
-      case OLShift => intTop
-      case OSRShift => intTop
-      case OURShift => AbsINum.Top
+      case OBAnd => numTop
+      case OBOr => numTop
+      case OBXOr => numTop
+      case OLShift => numTop
+      case OSRShift => numTop
+      case OURShift => AbsNum.Top
     }
 
     // TODO pruning abstract states using conditions
@@ -563,22 +564,15 @@ class AbsTransfer(
       }
     }
 
-    // all integers
-    private val intTop: AbsValue = AbsPrim(
-      int = AbsINum.Top,
-      bigint = AbsBigINum.Top,
-    )
-
     // all numbers
-    private val numTop: AbsValue = AbsPrim(
-      num = AbsNum.Top,
-      int = AbsINum.Top,
-    )
+    private val numTop: AbsValue = AbsNum.Top
+
+    // all big integers
+    private val bigintTop: AbsValue = AbsBigINum.Top
 
     // all numeric values
     private val numericTop: AbsValue = AbsPrim(
       num = AbsNum.Top,
-      int = AbsINum.Top,
       bigint = AbsBigINum.Top,
     )
 
@@ -588,7 +582,6 @@ class AbsTransfer(
     // all arithmetic values
     private val arithTop: AbsValue = AbsPrim(
       num = AbsNum.Top,
-      int = AbsINum.Top,
       bigint = AbsBigINum.Top,
       str = AbsStr.Top,
     )

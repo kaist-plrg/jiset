@@ -8,7 +8,6 @@ sealed trait Type {
     case ConstT(name) => s"~$name~"
     case CloT(fid) => s"λ[$fid]"
     case NumT => "num"
-    case INumT => "int"
     case BigINumT => "bigint"
     case StrT => "str"
     case BoolT => "bool"
@@ -49,7 +48,6 @@ case object SymbolT extends PureType
 
 // primitive types
 case object NumT extends PureType
-case object INumT extends PureType
 case object BigINumT extends PureType
 case object StrT extends PureType
 case object BoolT extends PureType

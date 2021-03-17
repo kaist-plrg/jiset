@@ -1884,7 +1884,7 @@ FunctionEnvironmentRecord.GetThisBinding:[Normal(EnvironmentRecord)]: {
   env: {
     envRec -> ! N(EnvironmentRecord)
   }
-} ---> N(Object | num | int | bigint | str | bool | undef | null) | T(#0:144) @ {
+} ---> N(Object | num | bigint | str | bool | undef | null) | T(#0:144) @ {
   #0:144 -> OrdinaryObject {
     ErrorData -> ! undef
     Prototype -> ! #%ReferenceError.prototype%
@@ -2616,7 +2616,7 @@ Literal[2,0].Evaluation:[☊(Literal), ☊(NumericLiteral)]: {
     NumericLiteral -> ! ☊(NumericLiteral)
     this -> ! ☊(Literal)
   }
-} ---> N(num | int)
+} ---> N(num)
 Literal[3,0].Evaluation:[☊(Literal), ☊(StringLiteral)]: {
   env: {
     StringLiteral -> ! ☊(StringLiteral)
@@ -3311,11 +3311,6 @@ NewTarget[0,0].AssignmentTargetType:[☊(NewTarget)]: {
     this -> ! ☊(NewTarget)
   }
 } ---> N(~invalid~)
-Number::toString:[int]: {
-  env: {
-    x -> ! int
-  }
-} ---> N(str)
 Number::toString:[num]: {
   env: {
     x -> ! num
@@ -3448,7 +3443,7 @@ PrimaryExpression[0,0].Evaluation:[☊(PrimaryExpression)]: {
   env: {
     this -> ! ☊(PrimaryExpression)
   }
-} ---> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#0:144) @ {
+} ---> N(#Global | Object | num | bigint | str | bool | undef | null) | T(#0:144) @ {
   #0:144 -> OrdinaryObject {
     ErrorData -> ! undef
     Prototype -> ! #%ReferenceError.prototype%
@@ -3815,7 +3810,7 @@ ResolveBinding:[str]: {
     ThisValue -> ! ~empty~
   }
 }
-ResolveThisBinding:[]: ɛ ---> N(#Global | Object | num | int | bigint | str | bool | undef | null) | T(#0:144) @ {
+ResolveThisBinding:[]: ɛ ---> N(#Global | Object | num | bigint | str | bool | undef | null) | T(#0:144) @ {
   #0:144 -> OrdinaryObject {
     ErrorData -> ! undef
     Prototype -> ! #%ReferenceError.prototype%
@@ -3946,11 +3941,6 @@ StringLiteral[1,1].StringValue:[☊(StringLiteral), ☊(SingleStringCharacters)]
   env: {
     SingleStringCharacters -> ! ☊(SingleStringCharacters)
     this -> ! ☊(StringLiteral)
-  }
-} ---> N(str)
-ToString:[int]: {
-  env: {
-    argument -> ! int
   }
 } ---> N(str)
 ToString:[num]: {

@@ -69,8 +69,8 @@ class Model(cfg: CFG) {
       parent = "ModuleRecord",
       "Status" -> (AbsConst("unlinked", "linking", "linked", "evaluating", "evaluated"): AbsValue),
       "EvaluationError" -> AbsValue(Undef) ⊔ AbsComp.Top.abrupt,
-      "DFSIndex" -> AbsValue(Undef) ⊔ AbsINum.Top,
-      "DFSAncestorIndex" -> AbsValue(Undef) ⊔ AbsINum.Top,
+      "DFSIndex" -> AbsValue(Undef) ⊔ AbsNum.Top,
+      "DFSAncestorIndex" -> AbsValue(Undef) ⊔ AbsNum.Top,
       "RequestedModules" -> AbsValue(NamedAddr("StringList")),
     ),
     TyInfo(
@@ -101,8 +101,8 @@ class Model(cfg: CFG) {
       name = "SourceTextModuleRecord",
       "Status" -> (AbsConst("unlinked", "linking", "linked", "evaluating", "evaluated"): AbsValue),
       "EvaluationError" -> AbsValue(Undef) ⊔ AbsComp.Top.abrupt,
-      "DFSIndex" -> AbsValue(Undef) ⊔ AbsINum.Top,
-      "DFSAncestorIndex" -> AbsValue(Undef) ⊔ AbsINum.Top,
+      "DFSIndex" -> AbsValue(Undef) ⊔ AbsNum.Top,
+      "DFSAncestorIndex" -> AbsValue(Undef) ⊔ AbsNum.Top,
       "RequestedModules" -> AbsValue(NamedAddr("StringList")),
     ),
     // execution contexts
@@ -202,8 +202,7 @@ class Model(cfg: CFG) {
     "PRIMITIVE" -> AbsValue(NamedAddr("PRIMITIVE")),
     "AnyStr" -> AbsStr.Top,
     "AnyBool" -> AbsBool.Top,
-    "AnyInt" -> AbsINum.Top,
-    "AnyNum" -> AbsValue.Bot ⊔ AbsNum.Top ⊔ AbsINum.Top,
+    "AnyNum" -> AbsNum.Top,
   )
 
   // TODO more manual modelings

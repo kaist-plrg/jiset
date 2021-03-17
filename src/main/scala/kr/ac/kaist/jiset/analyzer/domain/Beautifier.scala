@@ -37,7 +37,6 @@ object Beautifier {
 
   // abstract value appender
   implicit lazy val anumApp: App[AbsNum] = flatDomainApp(AbsNum, "num")
-  implicit lazy val ainumApp: App[AbsINum] = flatDomainApp(AbsINum, "int")
   implicit lazy val abiginumApp: App[AbsBigINum] = flatDomainApp(AbsBigINum, "bigint")
   implicit lazy val astrApp: App[AbsStr] = flatDomainApp(AbsStr, "str")
   implicit lazy val aboolApp: App[AbsBool] = flatDomainApp(AbsBool, "bool")
@@ -46,11 +45,9 @@ object Beautifier {
   implicit lazy val aabsentApp: App[AbsAbsent] = simpleDomainApp(AbsAbsent, "?")
   implicit lazy val aprimApp: App[AbsPrim] =
     domainApp(AbsPrim)((app, v) => {
-      val AbsPrim(num, int, bigint,
-        str, bool, undef, nullval, absent) = v
+      val AbsPrim(num, bigint, str, bool, undef, nullval, absent) = v
       var udts = Vector[Update]()
       if (!num.isBottom) udts :+= { _ >> num }
-      if (!int.isBottom) udts :+= { _ >> int }
       if (!bigint.isBottom) udts :+= { _ >> bigint }
       if (!str.isBottom) udts :+= { _ >> str }
       if (!bool.isBottom) udts :+= { _ >> bool }
