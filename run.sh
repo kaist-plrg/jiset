@@ -2,7 +2,7 @@
 
 prev=logs/analyze
 log=$prev/log
-filename="$prev_$(date '+%y%m%d_%I:%M')"
+filename="$prev-$(date '+%y%m%d-%I:%M')"
 mkdir -p $prev
 rm -f $log
 
