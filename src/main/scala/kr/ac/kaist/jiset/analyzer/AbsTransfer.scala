@@ -165,7 +165,7 @@ class AbsTransfer(
       case IPrepend(expr, list) => for {
         v <- transfer(expr)
         l <- transfer(list)
-        _ <- modify(_.prepend(v.escaped, l.escaped.addr))
+        _ <- modify(_.prepend(sem, v.escaped, l.escaped.addr))
       } yield ()
       case IReturn(expr) => for {
         v <- transfer(expr)

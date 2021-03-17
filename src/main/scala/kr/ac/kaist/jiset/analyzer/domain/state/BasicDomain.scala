@@ -417,19 +417,28 @@ object BasicDomain extends state.Domain {
     }
 
     // append an element to a list
-    def append(sem: AbsSemantics, v: AbsValue, addr: AbsAddr): Elem = {
-      import AbsObj._
-      copy(heap = addr.toSet.foldLeft(heap) {
-        case (h, a: DynamicAddr) => h(a) match {
-          case ListElem(list) => h + (a -> ListElem(ListD(list.value ⊔ v)))
-          case _ => ???
-        }
-        case _ => ???
-      })
-    }
+    def append(sem: AbsSemantics, v: AbsValue, addr: AbsAddr): Elem =
+      insert(sem, v, addr)
 
     // prepend an element to a list
-    def prepend(v: AbsValue, addr: AbsAddr): Elem = ???
+    def prepend(sem: AbsSemantics, v: AbsValue, addr: AbsAddr): Elem =
+      insert(sem, v, addr)
+
+    // insert (prepend or append)
+    private def insert(sem: AbsSemantics, v: AbsValue, addr: AbsAddr): Elem = {
+      import AbsObj._
+      copy(heap = addr.toSet.foldLeft(heap) {
+        case (heap, addr: DynamicAddr) => heap(addr) match {
+          case ListElem(list) => heap + (addr -> ListElem(ListD(list.value ⊔ v)))
+          case obj =>
+            alarm(s"try to insert ${beautify(v)} to ${beautify(obj)}")
+            heap
+        }
+        case (heap, addr) =>
+          alarm(s"try to insert ${beautify(v)} to named address ${beautify(addr)}")
+          heap
+      })
+    }
 
     // copy an object
     def copyOf(
