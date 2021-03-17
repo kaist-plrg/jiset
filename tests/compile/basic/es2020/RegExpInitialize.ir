@@ -7,12 +7,12 @@
     app __x1__ = (ToString flags)
     let F = [? __x1__]
   }
-  ??? "If id:{F} contains any code unit other than value:{\"g\"} , value:{\"i\"} , value:{\"m\"} , value:{\"s\"} , value:{\"u\"} , or value:{\"y\"} or if it contains the same code unit more than once , throw a value:{SyntaxError} exception ."
+  if AnyBool throw SyntaxError else {}
   if (contains F "u") let BMP = false else let BMP = true
   if (= BMP true) {
     ??? "Let id:{pText} be the sequence of code points resulting from interpreting each of the 16 - bit elements of id:{P} as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements ."
     ??? "Parse id:{pText} using the grammars in link:{unhandled: sec-patterns} . The goal symbol for the parse is | Pattern [ ~ U , ~ N ] | . If the result of parsing contains a nt:{GroupName} , reparse with the goal symbol | Pattern [ ~ U , + N ] | and use this result instead . Throw a value:{SyntaxError} exception if id:{pText} did not conform to the grammar , if any elements of id:{pText} were not matched by the parse , or if any Early Error conditions exist ."
-    ??? "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} ."
+    let patternCharacters = (new [AnyStr])
   } else {
     app __x2__ = (UTF16DecodeString P)
     let pText = [! __x2__]

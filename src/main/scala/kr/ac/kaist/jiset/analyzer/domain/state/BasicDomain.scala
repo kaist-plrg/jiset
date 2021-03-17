@@ -401,17 +401,21 @@ object BasicDomain extends state.Domain {
     }
 
     // prune
-    def prune(refv: AbsRefValue, v: PureValue, cond: Boolean): Elem = refv match {
+    def prune(
+      sem: AbsSemantics,
+      refv: AbsRefValue,
+      v: PureValue,
+      cond: Boolean
+    ): Elem = refv match {
       case AbsRefValue.Id(x) =>
         val (localV, absent) = env(x)
-        if (absent.isTop) alarm(s"unknown variable: $x")
         if (!localV.isBottom) {
           val newV =
             if (cond) localV ⊓ AbsValue(AbsPure.alpha(v), AbsComp.alpha(v))
             else localV.prune(v)
           // normalize
           if (newV.escaped.isBottom) Bot else this + (x -> newV)
-        } else Bot
+        } else if (sem.globalEnv contains x) this else Bot
       case AbsRefValue.Prop(base, prop) => this // TODO
       case _ => ???
     }

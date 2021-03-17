@@ -190,6 +190,7 @@ class Model(cfg: CFG) {
   private def manualEnv: Map[String, AbsValue] = Map(
     "GLOBAL_context" -> AbsValue(Ty("ExecutionContext")),
     "GLOBAL_executionStack" -> AbsValue(NamedAddr("ExecutionStack")),
+    "GLOBAL_intrinsic" -> AbsValue(NamedAddr("IntrinsicMap")),
     "REALM" -> AbsValue(Ty("RealmRecord")),
     "Object" -> AbsValue("Object"),
     "String" -> AbsValue("String"),
@@ -208,6 +209,11 @@ class Model(cfg: CFG) {
   // TODO more manual modelings
   private def manualMaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
     "Global" -> (Some("OrdinaryObject"), Map()),
+    "IntrinsicMap" -> (None, Map(
+      // TODO automatic insertion from specification
+      "%String.prototype%" -> AbsValue(NamedAddr("%String.prototype%")),
+      "%RegExp.prototype%" -> AbsValue(NamedAddr("%RegExp.prototype%")),
+    )),
     // primitive object for numeric values
     "PRIMITIVE" -> (None, Map(
       "Number" -> AbsValue(NamedAddr("PRIMITIVE.Number")),

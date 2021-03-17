@@ -9,13 +9,13 @@ digraph {
   node2 [shape=diamond, label=<<font color="black">(= u true)</font>> color="black" fillcolor="white" style=filled]
   node3 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">??? &quot;Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ + U , + N ] | ) .&quot;</td></tr>
+      <tr><td align="left">let parseResult = (parse-syntax patternText &quot;Pattern&quot; (new [true, true]))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:??? &quot;Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ ~ U , ~ N ] | ) .&quot;</td></tr>
-      <tr><td align="left">4:??? &quot;If id:{parseResult} is a Parse Node and id:{parseResult} contains a nt:{GroupName} , then in:{} out:{}&quot;</td></tr>
+      <tr><td align="left">3:let parseResult = (parse-syntax patternText &quot;Pattern&quot; (new [false, false]))</td></tr>
+      <tr><td align="left">4:parseResult = (parse-syntax patternText &quot;Pattern&quot; (new [false, true]))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node0 -> node2 [ color="black"]

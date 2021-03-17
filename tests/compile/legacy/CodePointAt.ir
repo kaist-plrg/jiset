@@ -2,7 +2,7 @@
   let size = string.length
   assert (&& (! (< position 0i)) (< position size))
   let first = string[position]
-  ??? "Let id:{cp} be the code point whose numeric value is that of id:{first} ."
+  let cp = AnyNum
   ??? "If id:{first} is not a leading surrogate or trailing surrogate , then in:{} out:{}"
   ??? "If id:{first} is a trailing surrogate or id:{position} + 1 = id:{size} , then in:{} out:{}"
   let second = string[(+ position 1i)]

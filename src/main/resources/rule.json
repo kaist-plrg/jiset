@@ -70,5 +70,77 @@
   {
     "tokens": "Return the Number value that results from rounding the MV of nt:{NonDecimalIntegerLiteral} as described below .",
     "inst": "return AnyNum"
+  },
+  {
+    "tokens": "Set id:{proto} to id:{realm} ' s intrinsic object named id:{intrinsicDefaultProto} .",
+    "inst": "proto = GLOBAL_intrinsic[intrinsicDefaultProto]"
+  },
+  {
+    "tokens": "If id:{F} contains any code unit other than value:{\"g\"} , value:{\"i\"} , value:{\"m\"} , value:{\"s\"} , value:{\"u\"} , or value:{\"y\"} or if it contains the same code unit more than once , throw a value:{SyntaxError} exception .",
+    "inst": "if AnyBool throw SyntaxError else {}"
+  },
+  {
+    "tokens": "Let id:{patternText} be the result of interpreting each of id:{P} ' s 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements .",
+    "inst": "let patternText = AnyStr"
+  },
+  {
+    "tokens": "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} .",
+    "inst": "let patternCharacters = (new [AnyStr])"
+  },
+  {
+    "tokens": "Let id:{patternCharacters} be a List whose elements are the code points of id:{patternText} .",
+    "inst": "let patternCharacters = (new [AnyStr])"
+  },
+  {
+    "tokens": "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ ~ U , ~ N ] | ) .",
+    "inst": "let parseResult = (parse-syntax patternText \"Pattern\" (new [false, false]))"
+  },
+  {
+    "tokens": "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ + U , + N ] | ) .",
+    "inst": "let parseResult = (parse-syntax patternText \"Pattern\" (new [true, true]))"
+  },
+  {
+    "tokens": "If id:{parseResult} is a Parse Node and id:{parseResult} contains a nt:{GroupName} , then in:{} out:{}",
+    "inst": "parseResult = (parse-syntax patternText \"Pattern\" (new [false, true]))"
+  },
+  {
+    "tokens": "If id:{parseResult} is a non - empty List of value:{SyntaxError} objects , throw a value:{SyntaxError} exception .",
+    "inst": "if AnyBool throw SyntaxError else {}"
+  },
+  {
+    "tokens": "Let id:{cp} be the code point whose numeric value is that of id:{first} .",
+    "inst": "let cp = AnyNum"
+  },
+  {
+    "tokens": "If id:{first} is not a link:{unhandled: leading-surrogate} or link:{unhandled: trailing-surrogate} , then in:{} out:{}",
+    "inst": "if AnyBool return (new Record(\"CodePoint\" -> cp, \"CodeUnitCount\" -> 1i, \"IsUnpairedSurrogate\" -> false)) else {}"
+  },
+  {
+    "tokens": "If id:{first} is a link:{unhandled: trailing-surrogate} or id:{position} + 1 = id:{size} , then in:{} out:{}",
+    "inst": "if AnyBool return (new Record(\"CodePoint\" -> cp, \"CodeUnitCount\" -> 1i, \"IsUnpairedSurrogate\" -> true)) else {}"
+  },
+  {
+    "tokens": "If id:{second} is not a link:{unhandled: trailing-surrogate} , then in:{} out:{}",
+    "inst": "if AnyBool return (new Record(\"CodePoint\" -> cp, \"CodeUnitCount\" -> 1i, \"IsUnpairedSurrogate\" -> true)) else {}"
+  },
+  {
+    "tokens": "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > .",
+    "inst": "if (= O undefined) {} else {}"
+  },
+  {
+    "tokens": "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > .",
+    "inst": "if (= O undefined) {} else {}"
+  },
+  {
+    "tokens": "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from an accessor property to a data property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > .",
+    "inst": "if (= O undefined) {} else {}"
+  },
+  {
+    "tokens": "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from a data property to an accessor property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > .",
+    "inst": "if (= O undefined) {} else {}"
+  },
+  {
+    "tokens": "Set id:{obj} . [ [ RegExpMatcher ] ] to the Abstract Closure that evaluates id:{parseResult} by applying the semantics provided in link:{unhandled: sec-pattern-semantics} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters .",
+    "inst": "obj.RegExpMatcher = null"
   }
 ]

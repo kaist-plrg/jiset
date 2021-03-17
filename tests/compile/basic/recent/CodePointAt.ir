@@ -2,11 +2,11 @@
   let size = string.length
   assert (&& (! (< position 0i)) (< position size))
   let first = string[position]
-  ??? "Let id:{cp} be the code point whose numeric value is that of id:{first} ."
-  ??? "If id:{first} is not a link:{unhandled: leading-surrogate} or link:{unhandled: trailing-surrogate} , then in:{} out:{}"
-  ??? "If id:{first} is a link:{unhandled: trailing-surrogate} or id:{position} + 1 = id:{size} , then in:{} out:{}"
+  let cp = AnyNum
+  if AnyBool return (new Record("CodePoint" -> cp, "CodeUnitCount" -> 1i, "IsUnpairedSurrogate" -> false)) else {}
+  if AnyBool return (new Record("CodePoint" -> cp, "CodeUnitCount" -> 1i, "IsUnpairedSurrogate" -> true)) else {}
   let second = string[(+ position 1i)]
-  ??? "If id:{second} is not a link:{unhandled: trailing-surrogate} , then in:{} out:{}"
+  if AnyBool return (new Record("CodePoint" -> cp, "CodeUnitCount" -> 1i, "IsUnpairedSurrogate" -> true)) else {}
   app __x0__ = (UTF16SurrogatePairToCodePoint first second)
   cp = [! __x0__]
   return (new Record("CodePoint" -> cp, "CodeUnitCount" -> 2i, "IsUnpairedSurrogate" -> false))

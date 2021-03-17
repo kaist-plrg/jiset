@@ -422,7 +422,7 @@ class AbsTransfer(
       private def prune(b: Boolean): Updater = {
         val pruneList = if (b) tlists else flists
         st => pruneList.foldLeft(st) {
-          case (newSt, (refv, v, cond)) => newSt.prune(refv, v, cond)
+          case (newSt, (refv, v, cond)) => newSt.prune(sem, refv, v, cond)
         }
       }
       def pruneT: Updater = prune(true)
@@ -435,7 +435,7 @@ class AbsTransfer(
       } yield PruneValue(
         v,
         List((refv, Bool(true), true)),
-        List((refv, Bool(false), false))
+        List((refv, Bool(false), true))
       )
       case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => for {
         v <- isAbsent(ref, true)

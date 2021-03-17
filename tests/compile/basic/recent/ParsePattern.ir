@@ -1,7 +1,7 @@
 {
-  if (= u true) ??? "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ + U , + N ] | ) ." else {
-    ??? "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ ~ U , ~ N ] | ) ."
-    ??? "If id:{parseResult} is a Parse Node and id:{parseResult} contains a nt:{GroupName} , then in:{} out:{}"
+  if (= u true) let parseResult = (parse-syntax patternText "Pattern" (new [true, true])) else {
+    let parseResult = (parse-syntax patternText "Pattern" (new [false, false]))
+    parseResult = (parse-syntax patternText "Pattern" (new [false, true]))
   }
   return parseResult
 }
