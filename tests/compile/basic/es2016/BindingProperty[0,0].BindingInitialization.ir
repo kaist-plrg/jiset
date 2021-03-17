@@ -1,5 +1,6 @@
 {
-  ??? "Let id:{name} be the string that is the only element of BoundNames of nt:{SingleNameBinding} ."
+  access __snb__ = (SingleNameBinding "BoundNames")
+  let name = __snb__[0i]
   access __x0__ = (SingleNameBinding "KeyedBindingInitialization" value environment name)
   return __x0__
 }
