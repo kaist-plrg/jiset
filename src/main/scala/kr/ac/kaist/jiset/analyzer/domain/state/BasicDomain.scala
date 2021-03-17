@@ -467,10 +467,10 @@ object BasicDomain extends state.Domain {
       if (!v.ty.isBottom) set ++= v.ty.toSet.map(t => Str {
         if (t.name endsWith "Object") "Object" else t.name
       })
-      if (!v.const.isBottom) ???
-      if (!v.clo.isBottom) ???
-      if (!v.cont.isBottom) ???
-      if (!v.ast.isBottom) ???
+      if (!v.const.isBottom) alarm(s"try to get types of constant: ${beautify(v.const)}")
+      if (!v.clo.isBottom) alarm(s"try to get types of closure: ${beautify(v.clo)}")
+      if (!v.cont.isBottom) alarm(s"try to get types of continuation: ${beautify(v.cont)}")
+      if (!v.ast.isBottom) alarm(s"try to get types of AST: ${beautify(v.ast)}")
       if (!v.num.isBottom) set += Str("Number")
       if (!v.int.isBottom) set += Str("Number")
       if (!v.bigint.isBottom) set += Str("BigInt")
