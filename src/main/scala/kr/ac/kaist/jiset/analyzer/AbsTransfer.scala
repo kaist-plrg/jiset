@@ -171,7 +171,7 @@ class AbsTransfer(
         v <- transfer(expr)
         st <- get
         _ <- put(AbsState.Bot)
-      } yield sem.doReturn(ret -> (st.heap, v.escaped.toCompletion))
+      } yield sem.doReturn(ret -> (st.heap, v.toCompletion))
       case ithrow @ IThrow(x) => for {
         addr <- id(_.allocMap(fid, ithrow.asite, "OrdinaryObject", Map(
           "Prototype" -> AbsValue(NamedAddr(s"%$x.prototype%")),
@@ -496,7 +496,7 @@ class AbsTransfer(
         case false =>
           val abrupt = comp.abrupt
           if (check) sem.doReturn(ret -> (st.heap, abrupt))
-          else alarm(s"Unchecked abrupt completions: ${beautify(abrupt)}")
+          // XXX else alarm(s"Unchecked abrupt completions: ${beautify(abrupt)}")
           AbsPure.Bot
       }.foldLeft(AbsPure.Bot)(_ ⊔ _)
       val newV: AbsValue = pure ⊔ compV

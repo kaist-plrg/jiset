@@ -73,6 +73,9 @@ object ProdDomain extends value.Domain {
     )
 
     // escape completions
-    def escaped: AbsPure = pure ⊔ comp.value
+    def escaped: AbsPure = pure ⊔ comp.escaped
+
+    // conversion to normal completion
+    def toCompletion: AbsComp = pure.toCompletion ⊔ comp
   }
 }

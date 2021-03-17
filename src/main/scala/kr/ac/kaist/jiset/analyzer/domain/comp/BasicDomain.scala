@@ -1,7 +1,10 @@
 package kr.ac.kaist.jiset.analyzer.domain.comp
 
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
+import kr.ac.kaist.jiset.util.Useful._
 
 object BasicDomain extends comp.Domain {
   // abstraction functions
@@ -72,7 +75,10 @@ object BasicDomain extends comp.Domain {
       map.getOrElse(ty, (AbsPure.Bot, AbsPure.Bot))
 
     // get only normal completion
-    def normal: Elem = Elem(Map(CompNormal -> map(CompNormal)))
+    def normal: Elem = map.get(CompNormal) match {
+      case Some(pair) => Elem(Map(CompNormal -> pair))
+      case None => Bot
+    }
 
     // get only abrupt completion
     def abrupt: Elem = Elem(map - CompNormal)
@@ -83,7 +89,15 @@ object BasicDomain extends comp.Domain {
       case _ => false
     }
 
-    // get value
-    def value: AbsPure = map.foldLeft(AbsPure.Bot) { case (l, (_, (r, _))) => l ⊔ r }
+    // escape completions
+    def escaped: AbsPure = {
+      val abrupt = this.abrupt
+      if (!abrupt.isBottom)
+        alarm(s"Unchecked abrupt completions: ${beautify(abrupt)}")
+      map.get(CompNormal) match {
+        case Some((v, _)) => v
+        case _ => AbsPure.Bot
+      }
+    }
   }
 }
