@@ -132,6 +132,12 @@ class AbsTransfer(
     }
   }
 
+  private def pruneValue(
+    v: AbsValue,
+    tlists: List[PruneCase] = List(),
+    flists: List[PruneCase] = List()
+  ): PruneValue = PruneValue(sem, v, tlists, flists)
+
   private class Helper(ret: ReturnPoint) {
     // function
     val func = ret.func
@@ -228,7 +234,7 @@ class AbsTransfer(
     // unary algorithms
     type UnaryAlgo = (AbsState, AbsPure) => AbsValue
     val unaryAlgos: Map[String, UnaryAlgo] = Map(
-      "Type" -> ((st, v) => st.typeOf(sem, v)),
+      "Type" -> ((st, v) => AbsStr(st.typeOf(sem, v))),
       "IsDuplicate" -> ((st, v) => AbsBool.Top),
       "floor" -> ((st, v) => AbsNum.Top),
     )
@@ -286,8 +292,8 @@ class AbsTransfer(
       } yield v
       case ETypeOf(expr) => for {
         v <- transfer(expr)
-        t <- get(_.typeOf(sem, v.escaped))
-      } yield t
+        set <- get(_.typeOf(sem, v.escaped))
+      } yield AbsStr(set)
       case EIsCompletion(expr) => for {
         v <- transfer(expr)
       } yield {
@@ -422,36 +428,21 @@ class AbsTransfer(
       else numericTop
 
     // TODO pruning abstract states using conditions
-    case class PruneValue(
-      v: AbsValue,
-      tlists: List[(AbsRefValue, PureValue, Boolean)] = List(),
-      flists: List[(AbsRefValue, PureValue, Boolean)] = List()
-    ) {
-      def negate: PruneValue = PruneValue(transfer(ONot)(v.escaped), flists, tlists)
-      private def prune(b: Boolean): Updater = {
-        val pruneList = if (b) tlists else flists
-        st => pruneList.foldLeft(st) {
-          case (newSt, (refv, v, cond)) => newSt.prune(sem, refv, v, cond)
-        }
-      }
-      def pruneT: Updater = prune(true)
-      def pruneF: Updater = prune(false)
-    }
     def pruneTransfer(expr: Expr): Result[PruneValue] = expr match {
       case ERef(ref) => for {
         refv <- transfer(ref)
         v <- get(_.lookup(sem, refv))
-      } yield PruneValue(
+      } yield pruneValue(
         v,
-        List((refv, Bool(true), true)),
-        List((refv, Bool(false), true))
+        List(PruneCase(refv, PruneSingle(true), true)),
+        List(PruneCase(refv, PruneSingle(false), true))
       )
       case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => for {
         v <- isAbsent(ref, true)
-      } yield PruneValue(v)
+      } yield pruneValue(v)
       case EBOp(OEq, ERef(ref), EAbsent) => for {
         v <- isAbsent(ref)
-      } yield PruneValue(v)
+      } yield pruneValue(v)
       case EUOp(ONot, cexpr) => for {
         pv <- pruneTransfer(cexpr)
       } yield pv.negate
@@ -460,20 +451,34 @@ class AbsTransfer(
         v <- transfer(refv)
         rv <- transfer(rexpr)
       } yield {
-        val condv = v.escaped =^= rv.escaped
+        val condv = transfer(OEq)(v.escaped, rv.escaped)
         rv.escaped.getSingle match {
-          case One(pv) => PruneValue(
+          case One(pv) => pruneValue(
             condv,
-            List((refv, pv, true)),
-            List((refv, pv, false))
+            List(PruneCase(refv, PruneSingle(pv), true)),
+            List(PruneCase(refv, PruneSingle(pv), false))
           )
-          case _ => PruneValue(condv)
+          case _ => pruneValue(condv)
         }
+      }
+      case EBOp(OEq, ETypeOf(ERef(ref)), EStr(name)) => for {
+        refv <- transfer(ref)
+        v <- transfer(refv)
+        set <- get(_.typeOf(sem, v.escaped))
+      } yield {
+        var condv: AbsBool = AbsBool.Bot
+        if (set contains name) condv ⊔= AT
+        if (!(set - Str(name)).isEmpty) condv ⊔= AF
+        pruneValue(
+          condv,
+          List(PruneCase(refv, PruneType(name), true)),
+          List(PruneCase(refv, PruneType(name), false))
+        )
       }
       // TODO do more pruning
       case _ => for {
         v <- transfer(expr)
-      } yield PruneValue(v)
+      } yield pruneValue(v)
     }
 
     // check if ref is absent

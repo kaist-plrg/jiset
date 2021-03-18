@@ -431,6 +431,33 @@ object BasicDomain extends state.Domain {
       case _ => ???
     }
 
+    def prune(
+      sem: AbsSemantics,
+      refv: AbsRefValue,
+      target: PruneTarget,
+      cond: Boolean
+    ): Elem = refv match {
+      case AbsRefValue.Id(x) =>
+        val (localV, absent) = env(x)
+        if (!localV.isBottom) {
+          val newV: AbsValue = target match {
+            case PruneSingle(pv) =>
+              if (cond) localV ⊓ AbsValue(AbsPure.alpha(pv), AbsComp.alpha(pv))
+              else localV.prune(pv)
+            case PruneType(name) =>
+              val map = groupByType(sem, localV.escaped)
+              val pure =
+                if (cond) map.getOrElse(name, AbsPure.Bot)
+                else (map - name).values.foldLeft(AbsPure.Bot)(_ ⊔ _)
+              pure
+          }
+          // normalize
+          if (newV.escaped.isBottom) Bot else this + (x -> newV)
+        } else if (sem.globalEnv contains x) this else Bot
+      case AbsRefValue.Prop(base, prop) => this // TODO
+      case _ => ???
+    }
+
     // append an element to a list
     def append(sem: AbsSemantics, v: AbsValue, addr: AbsAddr): Elem =
       insert(sem, v, addr)
@@ -491,34 +518,40 @@ object BasicDomain extends state.Domain {
     }
 
     // get type of pure values
-    def typeOf(sem: AbsSemantics, v: AbsPure): AbsValue = {
+    def typeOf(sem: AbsSemantics, v: AbsPure): Set[Str] =
+      groupByType(sem, v).keySet.map(Str(_))
+    def groupByType(sem: AbsSemantics, pv: AbsPure): Map[String, AbsPure] = {
       import AbsObj._
-      var set = Set[Str]()
-      if (!v.addr.isBottom) for (addr <- v.addr.toSet) {
-        set += Str(lookup(sem, addr) match {
+      var map = Map[String, AbsPure]()
+      def add(name: String, pure: AbsPure): Unit =
+        map += name -> (map.getOrElse(name, AbsPure.Bot) ⊔ pure)
+      if (!pv.addr.isBottom) for (addr <- pv.addr) add(
+        lookup(sem, addr) match {
           case SymbolElem(_) => "Symbol"
           case MapElem(Some(parent), _) =>
             if (parent endsWith "Object") "Object" else parent
           case MapElem(None, _) => "Record"
           case ListElem(_) => "List"
           case _ => ???
-        })
-      }
-      if (!v.ty.isBottom) set ++= v.ty.toSet.map(t => Str {
-        if (t.name endsWith "Object") "Object" else t.name
-      })
-      if (!v.const.isBottom) alarm(s"try to get types of constant: ${beautify(v.const)}")
-      if (!v.clo.isBottom) alarm(s"try to get types of closure: ${beautify(v.clo)}")
-      if (!v.cont.isBottom) alarm(s"try to get types of continuation: ${beautify(v.cont)}")
-      if (!v.ast.isBottom) alarm(s"try to get types of AST: ${beautify(v.ast)}")
-      if (!v.num.isBottom) set += Str("Number")
-      if (!v.bigint.isBottom) set += Str("BigInt")
-      if (!v.str.isBottom) set += Str("String")
-      if (!v.bool.isBottom) set += Str("Boolean")
-      if (!v.undef.isBottom) set += Str("Undefined")
-      if (!v.nullval.isBottom) set += Str("Null")
-      if (!v.absent.isBottom) set += Str("Absent")
-      AbsStr(set)
+        },
+        AbsPure(addr)
+      )
+      if (!pv.ty.isBottom) for (ty <- pv.ty) add(
+        if (ty.name endsWith "Object") "Object" else ty.name,
+        AbsTy(ty)
+      )
+      if (!pv.const.isBottom) alarm(s"try to get types of constant: ${beautify(pv.const)}")
+      if (!pv.clo.isBottom) alarm(s"try to get types of closure: ${beautify(pv.clo)}")
+      if (!pv.cont.isBottom) alarm(s"try to get types of continuation: ${beautify(pv.cont)}")
+      if (!pv.ast.isBottom) alarm(s"try to get types of AST: ${beautify(pv.ast)}")
+      if (!pv.num.isBottom) add("Number", pv.num)
+      if (!pv.bigint.isBottom) add("BigInt", pv.bigint)
+      if (!pv.str.isBottom) add("String", pv.str)
+      if (!pv.bool.isBottom) add("Boolean", pv.bool)
+      if (!pv.undef.isBottom) add("Undefined", pv.undef)
+      if (!pv.nullval.isBottom) add("Null", pv.nullval)
+      if (!pv.absent.isBottom) add("Absent", pv.absent)
+      map
     }
 
     // check whether lists contains elements
