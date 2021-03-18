@@ -15,7 +15,7 @@ package object jiset {
   // Specification directory
   val ECMA262_DIR = s"$BASE_DIR/ecma262"
   val SPEC_HTML = s"$ECMA262_DIR/spec.html"
-  val RECENT_VERSION = "52bfd9f5775e368c57b8793d678fee6121797354"
+  val RECENT_VERSION = "fc85c50181b2b8d7d75f034800528d87fda6b654"
 
   // Tests directory root
   val TEST_DIR = s"$BASE_DIR/tests"
@@ -35,7 +35,8 @@ package object jiset {
 
   // ECMAScript model
   val VERSIONS = List(
-    "es2016", "es2017", "es2018", "es2019", "es2020", "recent"
+    // "es2016", "es2017", "es2018", "es2019", "es2020",
+    "recent"
   )
 
   // Resource directory
