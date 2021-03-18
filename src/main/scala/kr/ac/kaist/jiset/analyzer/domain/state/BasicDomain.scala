@@ -525,21 +525,19 @@ object BasicDomain extends state.Domain {
       var map = Map[String, AbsPure]()
       def add(name: String, pure: AbsPure): Unit =
         map += name -> (map.getOrElse(name, AbsPure.Bot) ⊔ pure)
-      if (!pv.addr.isBottom) for (addr <- pv.addr) add(
-        lookup(sem, addr) match {
-          case SymbolElem(_) => "Symbol"
-          case MapElem(Some(parent), _) =>
-            if (parent endsWith "Object") "Object" else parent
-          case MapElem(None, _) => "Record"
-          case ListElem(_) => "List"
-          case _ => ???
-        },
-        AbsPure(addr)
-      )
-      if (!pv.ty.isBottom) for (ty <- pv.ty) add(
-        if (ty.name endsWith "Object") "Object" else ty.name,
-        AbsTy(ty)
-      )
+      if (!pv.addr.isBottom) for (addr <- pv.addr) lookup(sem, addr) match {
+        case SymbolElem(_) =>
+          add("Symbol", AbsPure(addr))
+        case MapElem(Some(parent), _) if parent endsWith "Object" =>
+          add("Object", AbsPure(addr))
+        case obj =>
+          alarm(s"try to get types of object: ${beautify(obj)}")
+      }
+      if (!pv.ty.isBottom) for (ty <- pv.ty) {
+        val name = ty.name
+        if (name endsWith "Object") add("Object", AbsTy(ty))
+        else alarm(s"try to get types of type: ${beautify(name)}")
+      }
       if (!pv.const.isBottom) alarm(s"try to get types of constant: ${beautify(pv.const)}")
       if (!pv.clo.isBottom) alarm(s"try to get types of closure: ${beautify(pv.clo)}")
       if (!pv.cont.isBottom) alarm(s"try to get types of continuation: ${beautify(pv.cont)}")

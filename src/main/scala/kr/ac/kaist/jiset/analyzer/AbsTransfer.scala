@@ -234,7 +234,6 @@ class AbsTransfer(
     // unary algorithms
     type UnaryAlgo = (AbsState, AbsPure) => AbsValue
     val unaryAlgos: Map[String, UnaryAlgo] = Map(
-      "Type" -> ((st, v) => AbsStr(st.typeOf(sem, v))),
       "IsDuplicate" -> ((st, v) => AbsBool.Top),
       "floor" -> ((st, v) => AbsNum.Top),
     )
@@ -461,20 +460,21 @@ class AbsTransfer(
           case _ => pruneValue(condv)
         }
       }
-      case EBOp(OEq, ETypeOf(ERef(ref)), EStr(name)) => for {
-        refv <- transfer(ref)
-        v <- transfer(refv)
-        set <- get(_.typeOf(sem, v.escaped))
-      } yield {
-        var condv: AbsBool = AbsBool.Bot
-        if (set contains name) condv ⊔= AT
-        if (!(set - Str(name)).isEmpty) condv ⊔= AF
-        pruneValue(
-          condv,
-          List(PruneCase(refv, PruneType(name), true)),
-          List(PruneCase(refv, PruneType(name), false))
-        )
-      }
+      // TODO revert as EIsInstanceOf
+      // case EBOp(OEq, ETypeOf(ERef(ref)), EStr(name)) => for {
+      //   refv <- transfer(ref)
+      //   v <- transfer(refv)
+      //   set <- get(_.typeOf(sem, v.escaped))
+      // } yield {
+      //   var condv: AbsBool = AbsBool.Bot
+      //   if (set contains name) condv ⊔= AT
+      //   if (!(set - Str(name)).isEmpty) condv ⊔= AF
+      //   pruneValue(
+      //     condv,
+      //     List(PruneCase(refv, PruneType(name), true)),
+      //     List(PruneCase(refv, PruneType(name), false))
+      //   )
+      // }
       // TODO do more pruning
       case _ => for {
         v <- transfer(expr)
