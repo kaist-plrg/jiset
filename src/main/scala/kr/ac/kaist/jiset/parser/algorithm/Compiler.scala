@@ -694,7 +694,10 @@ object Compiler extends Compilers {
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
     callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
-      case b ~ as => getCallExpr(b, as)
+      case (i0 ~ RefId(IRId("Type"))) ~ List(i1 ~ a) =>
+        pair(i0 ++ i1, ETypeOf(a))
+      case b ~ as =>
+        getCallExpr(b, as)
     } ||| {
       "the result of" ~ (rep(not("comparison") ~ word) ~ "comparison") ~>
         expr ~ compOp ~ expr ~ opt("with" ~ id ~ "equal to" ~> expr)
@@ -1261,7 +1264,7 @@ object Compiler extends Compilers {
     opt("a" | "an") ~> nt ^^ { case x => (e: Expr) => pair(Nil, EIsInstanceOf(e, x)) }
   )
   lazy val rhsType: P[Expr => I[Expr]] = (
-    ty.filter(_ != Ty("Completion")) ^^ { case t => (e: Expr) => pair(Nil, isEq(ETypeOf(e), EStr(t.name))) }
+    ty.filter(_ != Ty("Completion")) ^^ { case t => (e: Expr) => pair(Nil, EIsInstanceOf(e, t.name)) }
   )
   lazy val callName: P[String] = ("a" | "an") ~> (
     "array index" ^^^ "IsArrayIndex" |||
