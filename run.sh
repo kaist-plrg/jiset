@@ -7,12 +7,12 @@ mkdir -p $prev
 rm -f $log
 
 echo "update..."
-git pull &>> $log
-git submodule update &>> $log
+git pull 2>&1 >> $log
+git submodule update 2>&1 >> $log
 echo "build project..."
-sbt assembly &>> $log
+sbt assembly 2>&1 >> $log
 echo "run analyze..."
-jiset analyze -log -analyze:target=.* &>> $log
+jiset analyze -log -analyze:target=.* 2>&1 >> $log
 mv $prev $filename
 if [ -f "cfg.pdf" ]; then
   mv cfg.dot cfg_trans.dot cfg.pdf $filename
