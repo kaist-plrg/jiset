@@ -8,6 +8,7 @@ rm -f $log
 
 echo "update..."
 git pull &>> $log
+git submodule update &>> $log
 echo "build project..."
 sbt assembly &>> $log
 echo "run analyze..."
