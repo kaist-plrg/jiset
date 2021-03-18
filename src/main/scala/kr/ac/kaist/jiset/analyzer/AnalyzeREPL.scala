@@ -86,6 +86,13 @@ class AnalyzeREPL(sem: AbsSemantics) {
       })
   }
 
+  private def getFuncName(args: List[String]): String = args.lastIndexOf("@") match {
+    case n if n != -1 && n < args.size - 1 =>
+      val funcInfo = args(n + 1)
+      funcInfo.slice(0, funcInfo.indexOf(":"))
+    case _ => ""
+  }
+
   // run repl
   def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) {
     help
@@ -130,6 +137,14 @@ class AnalyzeREPL(sem: AbsSemantics) {
             case s"-${ BlockTarget.name }" :: bp => printInfo(BlockTarget, bp)
             case _ => println("Inappropriate option")
           }; true
+        case CmdBug.name :: args =>
+          getFuncName(args) match {
+            case "" => println("Inappropriate argument")
+            case funcName => 
+              println(s"$funcName")
+              breakpoints += CmdBreak.FuncTarget -> funcName.r
+          }
+          true
         case _ => continue = false; false
       }
     }) {}
@@ -160,6 +175,7 @@ private object Command {
     CmdExit,
     CmdStop,
     CmdInfo,
+    CmdBug,
   )
   val cmdMap: Map[String, Command] = commands.map(cmd => (cmd.name, cmd)).toMap
 
@@ -203,3 +219,5 @@ private case object CmdInfo extends Command("info", "Show abstract state of node
 
   override val options = List(RetTarget, BlockTarget)
 }
+
+private case object CmdBug extends Command("[Bug]", "Reproduce the bug")
