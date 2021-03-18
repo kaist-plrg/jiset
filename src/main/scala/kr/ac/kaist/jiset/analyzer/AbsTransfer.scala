@@ -186,6 +186,7 @@ class AbsTransfer(
         )))
         comp = AbsComp(CompThrow -> ((addr, emptyConst)))
         st <- get
+        _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> ((st.heap, comp)))
       case IAssert(expr) if usePrune => for {
         pv <- pruneTransfer(expr)
