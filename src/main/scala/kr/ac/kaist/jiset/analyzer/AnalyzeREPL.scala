@@ -143,6 +143,9 @@ class AnalyzeREPL(sem: AbsSemantics) {
               breakpoints += CmdBreak.FuncTarget -> funcName.r
           }
           true
+        case CmdWorklist.name :: args =>
+          sem.worklist.foreach(println(_))
+          true
         case _ => continue = false; false
       }
     }) {}
@@ -174,6 +177,7 @@ private object Command {
     CmdStop,
     CmdInfo,
     CmdBug,
+    CmdWorklist,
   )
   val cmdMap: Map[String, Command] = commands.map(cmd => (cmd.name, cmd)).toMap
 
@@ -219,3 +223,5 @@ private case object CmdInfo extends Command("info", "Show abstract state of node
 }
 
 private case object CmdBug extends Command("[Bug]", "Reproduce the bug")
+
+private case object CmdWorklist extends Command("worklist", "Show all the control points in the worklist")
