@@ -140,7 +140,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
         case CmdBug.name :: args =>
           getFuncName(args) match {
             case "" => println("Inappropriate argument")
-            case funcName => 
+            case funcName =>
               println(s"$funcName")
               breakpoints += CmdBreak.FuncTarget -> funcName.r
           }
