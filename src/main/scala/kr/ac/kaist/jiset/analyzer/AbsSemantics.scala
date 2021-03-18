@@ -60,6 +60,8 @@ class AbsSemantics(
     retEdges.getOrElse(rp, Set())
   def getControlPoints: Set[ControlPoint] =
     npMap.keySet ++ rpMap.keySet
+  def getNpMap = npMap
+  def getRpMap = rpMap
 
   def size: Int = npMap.size + rpMap.size
 

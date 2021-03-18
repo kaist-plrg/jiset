@@ -24,7 +24,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
   private val breakpoints = ArrayBuffer[(CmdOption, Regex)]()
 
   // completer
-  private val completer: TreeCompleter =
+  private def completer: TreeCompleter =
     new TreeCompleter(Command.commands.map(optionNode(_)): _*)
   private def optionNode(cmd: Command) =
     node(cmd.name :: cmd.options.map(argNode(_)): _*)
@@ -32,12 +32,17 @@ class AnalyzeREPL(sem: AbsSemantics) {
     node(s"-${opt.name}" :: getArgNodes(opt): _*)
   private def getArgNodes(opt: CmdOption): List[TreeCompleter.Node] = opt match {
     case CmdBreak.FuncTarget => funcs.map(x => node(x.name))
+    case CmdBreak.BlockTarget => (0 until nidGen.size).map(x => node(x.toString)).toList
+    case CmdInfo.RetTarget => sem.getRpMap.keys.map(x => node(x.func.name)).toList
+    case CmdInfo.BlockTarget => sem.getNpMap.keys.map {
+      case NodePoint(node, _) => TreeCompleter.node(node.uid.toString)
+    }.toList
     case _ => Nil
   }
 
   // jline
   private val terminal: Terminal = TerminalBuilder.builder().build()
-  private val reader: LineReader = LineReaderBuilder.builder()
+  private def reader: LineReader = LineReaderBuilder.builder()
     .terminal(terminal)
     .completer(completer)
     .build()
@@ -65,23 +70,20 @@ class AnalyzeREPL(sem: AbsSemantics) {
   private def stop(): Unit = { breakpoints.clear(); continue = true }
 
   // help
-  lazy val help = { Command.help; println }
+  private lazy val help = { Command.help; println }
 
   // info
-  private def info(arg: Option[String] = None): Unit = arg match {
-    case None => println(s"need arguments")
-    case Some(arg) => optional(arg.toInt) match {
-      // return point
-      case None => sem(arg).foreach(rp => {
-        println(sem.getString(rp, CYAN, true))
+  private def printInfo(opt: CmdOption, args: List[String]): Unit = args match {
+    case Nil => println("need arguments")
+    case str :: _ =>
+      val info = opt match {
+        case CmdInfo.RetTarget => sem(str)
+        case CmdInfo.BlockTarget => sem(str.toInt)
+      }
+      info.foreach(cp => {
+        println(sem.getString(cp, CYAN, true))
         println
       })
-      // uid
-      case Some(uid) => sem(uid).foreach(np => {
-        println(sem.getString(np, CYAN, true))
-        println
-      })
-    }
   }
 
   // run repl
@@ -122,8 +124,12 @@ class AnalyzeREPL(sem: AbsSemantics) {
         case CmdStop.name :: _ =>
           stop(); false
         case CmdInfo.name :: args =>
-          // TODO handle options
-          info(optional(args.head)); true
+          import CmdInfo._
+          args match {
+            case s"-${ RetTarget.name }" :: bp => printInfo(RetTarget, bp)
+            case s"-${ BlockTarget.name }" :: bp => printInfo(BlockTarget, bp)
+            case _ => println("Inappropriate option")
+          }; true
         case _ => continue = false; false
       }
     }) {}
@@ -134,15 +140,15 @@ class AnalyzeREPL(sem: AbsSemantics) {
 }
 
 // command
-abstract class Command(
+private abstract class Command(
   val name: String,
   val info: String = ""
 ) { val options = List[CmdOption]() }
 
 // option
-abstract class CmdOption(val name: String)
+private abstract class CmdOption(val name: String)
 
-object Command {
+private object Command {
   val commands: List[Command] = List(
     CmdHelp,
     CmdContinue,
@@ -164,11 +170,11 @@ object Command {
   }
 }
 
-case object CmdHelp extends Command("help")
+private case object CmdHelp extends Command("help")
 
-case object CmdContinue extends Command("continue", "Continue the analysis.")
+private case object CmdContinue extends Command("continue", "Continue the analysis.")
 
-case object CmdBreak extends Command("break", "Add a break point.") {
+private case object CmdBreak extends Command("break", "Add a break point.") {
 
   case object FuncTarget extends CmdOption("func")
 
@@ -177,16 +183,23 @@ case object CmdBreak extends Command("break", "Add a break point.") {
   override val options = List(FuncTarget, BlockTarget)
 }
 
-case object CmdBreakList extends Command("break-list", "Show the list of break points.")
+private case object CmdBreakList extends Command("break-list", "Show the list of break points.")
 
-case object CmdBreakRm extends Command("break-rm", "Remove a break point.")
+private case object CmdBreakRm extends Command("break-rm", "Remove a break point.")
 
-case object CmdLog extends Command("log", "Dump the state.")
+private case object CmdLog extends Command("log", "Dump the state.")
 
-case object CmdGraph extends Command("graph", "Dump the current control graph.")
+private case object CmdGraph extends Command("graph", "Dump the current control graph.")
 
-case object CmdExit extends Command("exit", "Exit the analysis.")
+private case object CmdExit extends Command("exit", "Exit the analysis.")
 
-case object CmdStop extends Command("stop", "Stop the repl.")
+private case object CmdStop extends Command("stop", "Stop the repl.")
 
-case object CmdInfo extends Command("info", "Show abstract state of node")
+private case object CmdInfo extends Command("info", "Show abstract state of node") {
+
+  case object RetTarget extends CmdOption("ret")
+
+  case object BlockTarget extends CmdOption("block")
+
+  override val options = List(RetTarget, BlockTarget)
+}
