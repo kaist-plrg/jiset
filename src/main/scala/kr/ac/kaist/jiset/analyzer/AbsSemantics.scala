@@ -266,15 +266,12 @@ class AbsSemantics(
     """Literal\[.*""".r,
     """LiteralPropertyName\[.*""".r,
     """PropertyName\[.*""".r,
+    """ImportMeta\[.*""".r,
     // EarlyErrors
     """PropertyDefinition\[1,0\].EarlyErrors""".r,
     """IdentifierReference\[1,0\].EarlyErrors""".r,
     // CoveredParenthesizedExpression
     """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
-    // ImportEntries
-    """Module\[0,0\].ImportEntries""".r,
-    """ModuleItem\[.*.ImportEntries""".r,
-    """ImportDeclaration\[1,0\].ImportEntries""".r,
   )
 
   private def failedPatterns = List(

@@ -581,21 +581,11 @@ object BasicDomain extends state.Domain {
       def add(name: String, pure: AbsPure): Unit =
         map += name -> (map.getOrElse(name, AbsPure.Bot) ⊔ pure)
       if (!pv.addr.isBottom) for (addr <- pv.addr) lookup(sem, addr) match {
-        case AbsObj.MapElem(Some(parent), _) =>
-          add(parent, AbsPure(addr))
+        case AbsObj.MapElem(Some(parent), _) => add(parent, AbsPure(addr))
         case obj =>
-          alarm(s"try to get instance of object: ${beautify(obj)}")
       }
       if (!pv.ty.isBottom) for (ty <- pv.ty) add(ty.name, AbsTy(ty))
-      if (!pv.const.isBottom)
-        alarm(s"try to get instance of constant: ${beautify(pv.const)}")
-      if (!pv.clo.isBottom)
-        alarm(s"try to get instance of closure: ${beautify(pv.clo)}")
-      if (!pv.cont.isBottom)
-        alarm(s"try to get instance of continuation: ${beautify(pv.cont)}")
       if (!pv.ast.isBottom) for (ast <- pv.ast) add(ast.name, AbsAST(ast))
-      if (!pv.prim.isBottom)
-        alarm(s"try to get instance of primitive: ${beautify(pv.prim)}")
       map
     }
 

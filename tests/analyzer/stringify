@@ -2002,6 +2002,7 @@ GeneratorMethod[0,0].PropName:[☊(GeneratorMethod), ☊(PropertyName), ☊(Uniq
     this -> ! ☊(GeneratorMethod)
   }
 } ---> N(~empty~ | str)
+GetActiveScriptOrModule:[]: ɛ ---> N((ModuleRecord | ScriptRecord) | null)
 GetIdentifierReference:[EnvironmentRecord, Normal(str), bool]: {
   env: {
     env -> ! EnvironmentRecord
@@ -2117,6 +2118,34 @@ HoistableDeclaration[3,0].DeclarationPart:[☊(HoistableDeclaration), ☊(AsyncG
     this -> ! ☊(HoistableDeclaration)
   }
 } ---> N(☊(AsyncGeneratorDeclaration))
+HostFinalizeImportMeta:[OrdinaryObject, SourceTextModuleRecord]: {
+  env: {
+    importMeta -> ! #0:92
+    moduleRecord -> ! SourceTextModuleRecord
+  }
+  heap: {
+    #0:92 -> OrdinaryObject {
+      Extensible -> ? true
+      Prototype -> ! null
+      SubMap -> ! #1:92
+    }
+    #1:92 -> SubMap {}
+  }
+} ---> N(~empty~) @ {
+  #0:92 -> OrdinaryObject {
+    Extensible -> ? true
+    Prototype -> ! null
+    SubMap -> ! #1:92
+  }
+  #1:92 -> SubMap {}
+}
+HostGetImportMetaProperties:[SourceTextModuleRecord]: {
+  env: {
+    moduleRecord -> ! SourceTextModuleRecord
+  }
+} ---> N(#-1:2284) @ {
+  #-1:2284 -> []
+}
 IdentifierName[0,0].StringValue:[☊(IdentifierName), ☊(IdentifierStart)]: {
   env: {
     IdentifierStart -> ! ☊(IdentifierStart)
@@ -2351,6 +2380,23 @@ ImportMeta[0,0].AssignmentTargetType:[☊(ImportMeta)]: {
     this -> ! ☊(ImportMeta)
   }
 } ---> N(~invalid~)
+ImportMeta[0,0].EarlyErrors:[☊(ImportMeta)]: {
+  env: {
+    this -> ! ☊(ImportMeta)
+  }
+} ---> N(undef)
+ImportMeta[0,0].Evaluation:[☊(ImportMeta)]: {
+  env: {
+    this -> ! ☊(ImportMeta)
+  }
+} ---> N(#0:92 | Object) @ {
+  #0:92 -> OrdinaryObject {
+    Extensible -> ? true
+    Prototype -> ! null
+    SubMap -> ! #1:92
+  }
+  #1:92 -> SubMap {}
+}
 ImportSpecifier[0,0].ImportEntriesForModule:[☊(ImportSpecifier), ☊(ImportedBinding), str]: {
   env: {
     ImportedBinding -> ! ☊(ImportedBinding)
@@ -2652,6 +2698,21 @@ LogicalORExpression[1,0].IsFunctionDefinition:[☊(LogicalORExpression), ☊(Log
     this -> ! ☊(LogicalORExpression)
   }
 } ---> N(false)
+MakeBasicObject:[list]: {
+  env: {
+    internalSlotsList -> ! #0:831
+  }
+  heap: {
+    #0:831 -> [str]
+  }
+} ---> N(#0:92) @ {
+  #0:92 -> OrdinaryObject {
+    Extensible -> ? true
+    SubMap -> ! #1:92
+  }
+  #0:831 -> [str]
+  #1:92 -> SubMap {}
+}
 MemberExpression[0,0].IsDestructuring:[☊(MemberExpression), ☊(PrimaryExpression)]: {
   env: {
     PrimaryExpression -> ! ☊(PrimaryExpression)
@@ -3423,6 +3484,19 @@ OrdinaryObject.HasProperty:[OrdinaryObject, str]: {
     P -> ! str
   }
 } ---> N(false)
+OrdinaryObjectCreate:[null]: {
+  env: {
+    additionalInternalSlotsList -> ! ?
+    proto -> ! null
+  }
+} ---> N(#0:92) @ {
+  #0:92 -> OrdinaryObject {
+    Extensible -> ? true
+    Prototype -> ! null
+    SubMap -> ! #1:92
+  }
+  #1:92 -> SubMap {}
+}
 PrimaryExpression[0,0].AssignmentTargetType:[☊(PrimaryExpression)]: {
   env: {
     this -> ! ☊(PrimaryExpression)
