@@ -1,4 +1,7 @@
 {
-  ??? "If nt:{ExportDeclaration} is code:{export} nt:{VariableStatement} , return VarScopedDeclarations of nt:{VariableStatement} ."
+  if AnyBool {
+    access __vs__ = (VariableStatement "VarScopedDeclarations")
+    return __vs__
+  } else {}
   return (new [])
 }

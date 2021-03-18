@@ -146,5 +146,13 @@
   {
     "tokens": "Let id:{name} be the string that is the only element of BoundNames of nt:{SingleNameBinding} .",
     "inst": "{ access __snb__ = (SingleNameBinding \"BoundNames\") let name = __snb__[0i] }"
+  },
+  {
+    "tokens": "If nt:{ExportDeclaration} is code:{export} nt:{VariableStatement} , return VarScopedDeclarations of nt:{VariableStatement} .",
+    "inst": "if AnyBool { access __vs__ = (VariableStatement \"VarScopedDeclarations\") return __vs__ } else {}"
+  },
+  {
+    "tokens": "If id:{symbol} is the nt:{ReservedWord} code:{super} , return value:{true} .",
+    "inst": "if AnyBool return true else {}"
   }
 ]

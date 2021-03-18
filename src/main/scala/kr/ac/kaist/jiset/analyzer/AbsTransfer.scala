@@ -103,7 +103,7 @@ class AbsTransfer(
         val newSt = handleThisValue(func, st)
         sem += NodePoint(next(entry), view) -> newSt
       case (exit: Exit) =>
-        alarm("may be no return")
+        if (!funcOf(exit).name.endsWith("EarlyErrors")) alarm("may be no return")
       case (block: Block) =>
         val newSt = join(block.insts.map(transfer))(st)
         sem += NodePoint(next(block), view) -> newSt
@@ -545,7 +545,8 @@ class AbsTransfer(
       case ("IdentifierName", "StringValue") => strTop
       case ("NumericLiteral", "NumericValue") => numTop
       case ("StringLiteral", "StringValue" | "SV") => strTop
-      case (_, "MV") => AbsNum.Top
+      case (_, "TV") => strTop
+      case (_, "MV") => numTop
       case _ =>
         val fids = getSyntaxFids(ast, name)
         if (fids.isEmpty) {
