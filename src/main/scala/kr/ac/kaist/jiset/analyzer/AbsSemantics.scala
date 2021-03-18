@@ -46,23 +46,37 @@ class AbsSemantics(
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
   // lookup
-  def apply(uid: Int): List[NodePoint[_]] =
-    npMap.keys.filter {
-      case NodePoint(node, _) => node.uid == uid
-    }.toList
+  def apply(uid: Int): List[NodePoint[_]] = npMap.keys.filter {
+    case NodePoint(node, _) => node.uid == uid
+  }.toList
   def apply(fname: String): List[ReturnPoint] =
     rpMap.keys.filter(_.func.name == fname).toList
   def apply(np: NodePoint[_]): AbsState = npMap.getOrElse(np, AbsState.Bot)
   def apply(rp: ReturnPoint): (AbsHeap, AbsValue) =
     rpMap.getOrElse(rp, (AbsHeap.Bot, AbsValue.Bot))
-  def _getRetEdges = retEdges
+
+  // get return edges
+  def getAllRetEdges = retEdges
   def getRetEdges(rp: ReturnPoint): Set[(NodePoint[Call], String)] =
     retEdges.getOrElse(rp, Set())
+
+  // get all control points
   def getControlPoints: Set[ControlPoint] =
     npMap.keySet ++ rpMap.keySet
+
+  // get node point map
   def getNpMap = npMap
+
+  // get return point map
   def getRpMap = rpMap
 
+  // get type ancestors
+  def getTypes(name: String): Set[String] = (for {
+    info <- typeMap.get(name)
+    parent <- info.parent
+  } yield getTypes(parent)).getOrElse(Set()) + name
+
+  // get size
   def size: Int = npMap.size + rpMap.size
 
   // update internal map

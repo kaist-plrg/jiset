@@ -78,7 +78,7 @@ class Model(cfg: CFG) {
       parent = "CyclicModuleRecord",
       "ECMAScriptCode" -> AbsValue(ASTVal("AnyNode")),
       "Context" -> AbsValue(Ty("ExecutionContext")),
-      "ImportMeta" -> AbsValue(Ty("Object")),
+      "ImportMeta" -> AbsValue(Ty("Object")) ⊔ emptyConst,
       "ImportEntries" -> AbsValue(NamedAddr("ImportEntries")),
       "LocalExportEntries" -> AbsValue(NamedAddr("ExportEntries")),
       "IndirectExportEntries" -> AbsValue(NamedAddr("ExportEntries")),

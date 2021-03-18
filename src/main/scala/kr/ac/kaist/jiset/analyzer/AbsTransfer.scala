@@ -102,7 +102,8 @@ class AbsTransfer(
       case (entry: Entry) =>
         val newSt = handleThisValue(func, st)
         sem += NodePoint(next(entry), view) -> newSt
-      case (exit: Exit) => // TODO detect missing return
+      case (exit: Exit) =>
+        alarm("may be no return")
       case (block: Block) =>
         val newSt = join(block.insts.map(transfer))(st)
         sem += NodePoint(next(block), view) -> newSt
@@ -460,21 +461,15 @@ class AbsTransfer(
           case _ => pruneValue(condv)
         }
       }
-      // TODO revert as EIsInstanceOf
-      // case EBOp(OEq, ETypeOf(ERef(ref)), EStr(name)) => for {
-      //   refv <- transfer(ref)
-      //   v <- transfer(refv)
-      //   set <- get(_.typeOf(sem, v.escaped))
-      // } yield {
-      //   var condv: AbsBool = AbsBool.Bot
-      //   if (set contains name) condv ⊔= AT
-      //   if (!(set - Str(name)).isEmpty) condv ⊔= AF
-      //   pruneValue(
-      //     condv,
-      //     List(PruneCase(refv, PruneType(name), true)),
-      //     List(PruneCase(refv, PruneType(name), false))
-      //   )
-      // }
+      case EIsInstanceOf(ERef(ref), name) => for {
+        refv <- transfer(ref)
+        v <- transfer(refv)
+        condv <- get(_.isInstanceOf(sem, v.escaped, name))
+      } yield pruneValue(
+        condv,
+        List(PruneCase(refv, PruneInstance(name), true)),
+        List(PruneCase(refv, PruneInstance(name), false))
+      )
       // TODO do more pruning
       case _ => for {
         v <- transfer(expr)

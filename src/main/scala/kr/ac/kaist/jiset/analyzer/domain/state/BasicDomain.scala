@@ -65,7 +65,11 @@ object BasicDomain extends state.Domain {
     private def checkBot(st: => Elem): Elem = if (isBottom) this else st
 
     // define variable
-    def +(pair: (String, AbsValue)): Elem = checkBot(copy(env = env + pair))
+    def +(pair: (String, AbsValue)): Elem = {
+      val (_, v) = pair
+      if (v.isBottom) Bot
+      else checkBot(copy(env = env + pair))
+    }
 
     // exists
     def exists(sem: AbsSemantics, ref: AbsRefValue): AbsBool = ref match {
@@ -338,7 +342,10 @@ object BasicDomain extends state.Domain {
       sem.typeMap.get(ty) match {
         case Some(info) =>
           val props = info.props
-          props.getOrElse(prop, info.parent.fold(AbsValue.Bot)(lookup(sem, _, prop)))
+          props.getOrElse(prop, info.parent.fold({
+            alarm(s"unknown property: ${prop} @ ${ty}")
+            AbsValue.Bot
+          })(lookup(sem, _, prop)))
         case None if (ty == "SubMap") => AbsAbsent.Top // TODO unsound
         case None =>
           alarm(s"unknown type: $ty")
@@ -444,12 +451,13 @@ object BasicDomain extends state.Domain {
             case PruneSingle(pv) =>
               if (cond) localV ⊓ AbsValue(AbsPure.alpha(pv), AbsComp.alpha(pv))
               else localV.prune(pv)
-            case PruneType(name) =>
-              val map = groupByType(sem, localV.escaped)
-              val pure =
-                if (cond) map.getOrElse(name, AbsPure.Bot)
-                else (map - name).values.foldLeft(AbsPure.Bot)(_ ⊔ _)
-              pure
+            case PruneInstance(name) =>
+              val map = groupByInstance(sem, localV.escaped)
+              val set = sem.getTypes(name)
+              val pure = (map -- (map.keySet -- set))
+                .values.foldLeft(AbsPure.Bot)(_ ⊔ _)
+              if (pure.ty.isBottom) pure
+              else pure.copy(ty = AbsTy(name))
           }
           // normalize
           if (newV.escaped.isBottom) Bot else this + (x -> newV)
@@ -518,8 +526,8 @@ object BasicDomain extends state.Domain {
     }
 
     // get type of pure values
-    def typeOf(sem: AbsSemantics, v: AbsPure): Set[Str] =
-      groupByType(sem, v).keySet.map(Str(_))
+    def typeOf(sem: AbsSemantics, pv: AbsPure): Set[Str] =
+      groupByType(sem, pv).keySet.map(Str(_))
     def groupByType(sem: AbsSemantics, pv: AbsPure): Map[String, AbsPure] = {
       import AbsObj._
       var map = Map[String, AbsPure]()
@@ -549,6 +557,45 @@ object BasicDomain extends state.Domain {
       if (!pv.undef.isBottom) add("Undefined", pv.undef)
       if (!pv.nullval.isBottom) add("Null", pv.nullval)
       if (!pv.absent.isBottom) add("Absent", pv.absent)
+      map
+    }
+
+    // check instances
+    def isInstanceOf(
+      sem: AbsSemantics,
+      pv: AbsPure,
+      name: String
+    ): AbsBool = {
+      val set = sem.getTypes(name)
+      val names = groupByInstance(sem, pv).keySet
+      var bool: AbsBool = AbsBool.Bot
+      if (!(set intersect names).isEmpty) bool ⊔= AT
+      if (!(names - name).isEmpty) bool ⊔= AF
+      bool
+    }
+    def groupByInstance(
+      sem: AbsSemantics,
+      pv: AbsPure
+    ): Map[String, AbsPure] = {
+      var map = Map[String, AbsPure]()
+      def add(name: String, pure: AbsPure): Unit =
+        map += name -> (map.getOrElse(name, AbsPure.Bot) ⊔ pure)
+      if (!pv.addr.isBottom) for (addr <- pv.addr) lookup(sem, addr) match {
+        case AbsObj.MapElem(Some(parent), _) =>
+          add(parent, AbsPure(addr))
+        case obj =>
+          alarm(s"try to get instance of object: ${beautify(obj)}")
+      }
+      if (!pv.ty.isBottom) for (ty <- pv.ty) add(ty.name, AbsTy(ty))
+      if (!pv.const.isBottom)
+        alarm(s"try to get instance of constant: ${beautify(pv.const)}")
+      if (!pv.clo.isBottom)
+        alarm(s"try to get instance of closure: ${beautify(pv.clo)}")
+      if (!pv.cont.isBottom)
+        alarm(s"try to get instance of continuation: ${beautify(pv.cont)}")
+      if (!pv.ast.isBottom) for (ast <- pv.ast) add(ast.name, AbsAST(ast))
+      if (!pv.prim.isBottom)
+        alarm(s"try to get instance of primitive: ${beautify(pv.prim)}")
       map
     }
 

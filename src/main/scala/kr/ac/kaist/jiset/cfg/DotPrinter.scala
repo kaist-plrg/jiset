@@ -58,7 +58,7 @@ class DotPrinter {
         funcs.foreach(doCluster(_, sem, cur))
 
         // print call edges
-        sem._getRetEdges.foreach {
+        sem.getAllRetEdges.foreach {
           case (ReturnPoint(func, rv), calls) => {
             val entry = NodePoint(func.entry, rv)
             for ((np, _) <- calls) {

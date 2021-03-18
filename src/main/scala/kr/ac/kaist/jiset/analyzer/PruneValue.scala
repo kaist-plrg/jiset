@@ -30,4 +30,4 @@ case class PruneCase(
 
 sealed trait PruneTarget
 case class PruneSingle(pure: PureValue) extends PruneTarget
-case class PruneType(name: String) extends PruneTarget
+case class PruneInstance(name: String) extends PruneTarget
