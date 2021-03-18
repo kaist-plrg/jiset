@@ -49,6 +49,19 @@ class Model(cfg: CFG) {
 
   // TODO more manual modelings
   private def typeInfos: List[TyInfo] = List(
+    TyInfo(
+      name = "RealmRecord",
+      "Intrinsics" -> AbsValue(NamedAddr("Intrinsics")),
+      "GlobalObject" -> AbsValue(NamedAddr("Global")),
+      "GlobalEnv" -> AbsTy("EnvironmentRecord"),
+      "TemplateMap" -> AbsValue(NamedAddr("TemplateMap")),
+      "HostDefined" -> AbsUndef.Top,
+    ),
+    TyInfo(
+      name = "TemplatePair",
+      "Site" -> AbsValue(ASTVal("TemplateLiteral")),
+      "Array" -> AbsValue(Ty("Object"))
+    ),
     // modules
     TyInfo(
       name = "ScriptRecord",
@@ -184,7 +197,6 @@ class Model(cfg: CFG) {
   private def manualEnv: Map[String, AbsValue] = Map(
     "GLOBAL_context" -> AbsValue(Ty("ExecutionContext")),
     "GLOBAL_executionStack" -> AbsValue(NamedAddr("ExecutionStack")),
-    "GLOBAL_intrinsic" -> AbsValue(NamedAddr("IntrinsicMap")),
     "REALM" -> AbsValue(Ty("RealmRecord")),
     "Object" -> AbsValue("Object"),
     "String" -> AbsValue("String"),
@@ -203,7 +215,7 @@ class Model(cfg: CFG) {
   // TODO more manual modelings
   private def manualMaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
     "Global" -> (Some("OrdinaryObject"), Map()),
-    "IntrinsicMap" -> (None, Map(
+    "Intrinsics" -> (None, Map(
       // TODO automatic insertion from specification
       "%String.prototype%" -> AbsValue(NamedAddr("%String.prototype%")),
       "%RegExp.prototype%" -> AbsValue(NamedAddr("%RegExp.prototype%")),
@@ -471,6 +483,7 @@ class Model(cfg: CFG) {
     "StringList" -> AbsStr.Top,
     "ImportEntries" -> AbsValue(Ty("ImportEntryRecord")),
     "ExportEntries" -> AbsValue(Ty("ExportEntryRecord")),
+    "TemplateMap" -> AbsValue(Ty("TemplatePair")),
   )
 
   private def getClos(pattern: Regex): AbsValue = AbsValue(for {

@@ -237,6 +237,18 @@ class AbsTransfer(
     type UnaryAlgo = (AbsState, AbsPure) => AbsValue
     val unaryAlgos: Map[String, UnaryAlgo] = Map(
       "IsDuplicate" -> ((st, v) => AbsBool.Top),
+      "IsArrayIndex" -> ((st, v) => AbsBool.Top),
+      "ThrowCompletion" -> ((st, v) => {
+        AbsComp(CompThrow -> (v.escaped, emptyConst))
+      }),
+      "NormalCompletion" -> ((st, v) => v.toCompletion),
+      "IsAbruptCompletion" -> ((st, v) => {
+        var res: AbsBool = AbsBool.Bot
+        if (!v.comp.abrupt.isBottom) res ⊔= AT
+        if (!v.comp.normal.isBottom) res ⊔= AF
+        if (!v.pure.isBottom) res ⊔= AF
+        res
+      }),
       "floor" -> ((st, v) => AbsNum.Top),
     )
 

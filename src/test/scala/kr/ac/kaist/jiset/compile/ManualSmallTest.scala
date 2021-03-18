@@ -53,12 +53,12 @@ class ManualSmallTest extends CompileTest {
     )
 
     test("Optionally, ~", InstsTarget)(
-      "Optionally, perform ! HostEnqueueFinalizationRegistryCleanupJob(_fg_)." -> """if randBool {
+      "Optionally, perform ! HostEnqueueFinalizationRegistryCleanupJob(_fg_)." -> """if AnyBool {
         app __x0__ = (HostEnqueueFinalizationRegistryCleanupJob fg)
         [! __x0__]
       } else {}""",
       "Optionally, set _F_.[[InitialName]] to _name_." ->
-        """if randBool F.InitialName = name else {}"""
+        """if AnyBool F.InitialName = name else {}"""
     )
 
     test("Return `value` if `cond`", InstsTarget)(

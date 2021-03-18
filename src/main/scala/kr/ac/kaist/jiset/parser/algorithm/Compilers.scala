@@ -431,5 +431,5 @@ trait Compilers extends TokenListParsers {
   val retcont = "__ret__"
 
   // predefined variables
-  val RAND_BOOL = "randBool"
+  val ANY_BOOL = "AnyBool"
 }

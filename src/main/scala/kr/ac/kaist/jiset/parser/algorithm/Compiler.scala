@@ -373,7 +373,7 @@ object Compiler extends Compilers {
 
   // optional statements
   lazy val optionalStmt: P[Inst] = ("optionally" ~ opt(",")) ~> stmt ^^ {
-    case i => IIf(toERef(RAND_BOOL), i, emptyInst)
+    case i => IIf(toERef(ANY_BOOL), i, emptyInst)
   }
 
   // assignment statements

@@ -7,7 +7,7 @@
   if (! (= F.InitialName absent)) F.InitialName = name else {}
   if (! (= prefix absent)) {
     name = (+ (+ prefix " ") name)
-    if (! (= F.InitialName absent)) if randBool F.InitialName = name else {} else {}
+    if (! (= F.InitialName absent)) if AnyBool F.InitialName = name else {} else {}
   } else {}
   app __x0__ = (DefinePropertyOrThrow F "name" (new PropertyDescriptor("Value" -> name, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
   return [! __x0__]

@@ -11,7 +11,7 @@ object BasicDomain extends comp.Domain {
   def alpha(comp: Completion): Elem =
     Elem(Map(comp.ty -> (AbsPure(comp.value), AbsPure(comp.target))))
   def alpha(v: PureValue): Elem =
-    Elem(Map(CompNormal -> (AbsPure(v), AbsPure.Top)))
+    Elem(Map(CompNormal -> (AbsPure(v), emptyConst)))
 
   // list of types
   val tys: List[CompletionType] = CompletionType.all
