@@ -102,7 +102,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
           algo <- spec.algos
           if algo.code != Nil
         } {
-          val Algo(head, rawBody, code) = algo
+          val Algo(head, ids, rawBody, code) = algo
           // file name
           val filename = s"$baseDir/${algo.name}"
           // dump code

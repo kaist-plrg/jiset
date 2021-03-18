@@ -20,7 +20,7 @@ class Semantics(
 
   // globals
   var globals: Map[String, Value] = algos.map {
-    case Algo(NormalHead(name, params), body, _) =>
+    case Algo(NormalHead(name, params), _, _, _) =>
       name -> Clo(algo2fid(name))
     case _ => ??? // TODO
   }.toMap
@@ -45,7 +45,7 @@ class Semantics(
 
   // handle call
   def doCall(fid: Int, args: List[Value], id: Id): State = fid2algo(fid) match {
-    case Algo(NormalHead(_, params), body, _) =>
+    case Algo(NormalHead(_, params), _, body, _) =>
       // set init state of new context
       val env =
         if (params.length != args.length) error(s"arity mismatch")

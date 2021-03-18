@@ -99,7 +99,7 @@ object JsonProtocol extends BasicJsonProtocol {
   implicit lazy val BuiltinHeadFormat =
     jsonFormat(BuiltinHead.apply, "ref", "origParams")
   implicit lazy val AlgoFormat =
-    jsonFormat(Algo.apply, "head", "rawBody", "code")
+    jsonFormat(Algo.apply, "head", "ids", "rawBody", "code")
 
   // sections
   implicit lazy val SectionFormat: JsonFormat[Section] = lazyFormat(jsonFormat2(Section.apply))

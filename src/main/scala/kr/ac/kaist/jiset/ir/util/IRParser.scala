@@ -28,7 +28,7 @@ object IRParser extends Parser {
 
   // algorithm
   lazy val algo: Parser[Algo] = "def" ~> head ~ ("=" ~> inst) ^^ {
-    case h ~ body => Algo(h, body, Nil)
+    case h ~ body => Algo(h, Nil, body, Nil)
   }
 
   // head

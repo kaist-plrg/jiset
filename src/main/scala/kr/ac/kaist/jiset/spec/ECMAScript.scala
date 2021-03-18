@@ -17,11 +17,11 @@ case class ECMAScript(
 ) {
   // normal algorithm names
   lazy val normalAlgos: List[Algo] =
-    algos.collect { case algo @ Algo(normal: NormalHead, _, _) => algo }
+    algos.collect { case algo @ Algo(normal: NormalHead, _, _, _) => algo }
 
   // syntax-directed algorithms
   lazy val syntaxAlgos: List[(Algo, SyntaxDirectedHead)] = algos.collect {
-    case algo @ Algo(head: SyntaxDirectedHead, _, _) => (algo, head)
+    case algo @ Algo(head: SyntaxDirectedHead, _, _, _) => (algo, head)
   }
 
   // global names

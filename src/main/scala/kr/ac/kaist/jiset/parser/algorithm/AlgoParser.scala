@@ -23,6 +23,7 @@ object AlgoParser {
     document: Document
   ): List[Algo] = {
     val (elem, heads) = parsedHead
+    val ids: List[String] = getIds(elem)
     if (detail) println(s"==================================================")
     val result = try {
       val (start, end) = getRange(elem).get
@@ -47,7 +48,7 @@ object AlgoParser {
         println(rawBody.beautified)
       }
 
-      heads.map(Algo(_, rawBody, code))
+      heads.map(Algo(_, ids, rawBody, code))
     } catch {
       case e: Throwable =>
         if (detail) {
@@ -59,5 +60,14 @@ object AlgoParser {
     if (detail) println(s"==================================================")
     result.foreach(algo => (new ASiteWalker).walk(algo.rawBody))
     result
+  }
+
+  // get ancestor ids
+  def getIds(elem: Element): List[String] = {
+    val ids =
+      if (elem.parent == null) Nil
+      else getIds(elem.parent)
+    if (elem.id == "") ids
+    else elem.id :: ids
   }
 }
