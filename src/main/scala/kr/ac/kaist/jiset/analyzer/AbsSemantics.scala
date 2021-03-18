@@ -164,13 +164,16 @@ class AbsSemantics(
   override def toString: String = getString("")
   def getInfo: String = {
     val app = new Appender
-    val numRp = rpMap.size
-    val numFunc = rpMap.keySet.map(_.func).toSet.size
-    app >> numFunc >> " out of " >> spec.algos.length >> " functions analyzed with "
+    val (numFunc, numAlgo, numRp) = numOfFuncAlgoRp
+    app >> numFunc >> " out of " >> numAlgo >> " functions analyzed with "
     app >> numRp >> " return points" >> LINE_SEP
     app >> "# of iterations: " >> stat.iter
     app.toString
   }
+  def numOfFuncAlgoRp: (Int, Int, Int) = (
+    rpMap.keySet.map(_.func).toSet.size,
+    spec.algos.length, rpMap.size
+  )
 
   // get string for result of control points
   def getString(color: String): String = rpMap.keySet.toList.map(rp => {

@@ -13,7 +13,7 @@ class Stat(sem: AbsSemantics) {
 
   // initalize
   mkdir(ANALYZE_LOG_DIR)
-  private val nf = getPrintWriter(s"$ANALYZE_LOG_DIR/summary")
+  private val nf = getPrintWriter(s"$ANALYZE_LOG_DIR/summary.tsv")
 
   // time
   private val startTime = System.currentTimeMillis
@@ -25,16 +25,26 @@ class Stat(sem: AbsSemantics) {
     cp
   }
 
+  // Abbreviation
+  log("WL", "The number of control points in worklist")
+  log("CP", "The number of analyzed control points")
+  log("AU", "The avarage number of updates for control points")
+  log("RP", "The number of analyzed return points")
+  log("AF", "The number of analyzed functions")
+  log("TF", "The number of total functions")
+  log()
+
   // header
-  log("", "", "", "", "#Update")
-  log("#", "time (ms)", "|WL|", "|CP|", "min", "max", "avg.", "median")
+  log("#", "time (ms)", "WL", "CP", "AU", "RP", "AF", "TF")
 
   // dump stats
   def dump(): Unit = {
     val worklist = sem.worklist
 
+    val (numFunc, numAlgo, numRp) = sem.numOfFuncAlgoRp
+
     // dump summary
-    log(f"$iter%,3d", f"$time%,3d", worklist.size, sem.size, min, max, f"$avg%.2f", median.toInt)
+    log(f"$iter%,3d", f"$time%,3d", worklist.size, sem.size, f"$avg%.2f", numRp, numFunc, numAlgo)
 
     // dump worklist
     val wapp = new Appender
