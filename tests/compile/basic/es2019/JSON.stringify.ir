@@ -3,63 +3,50 @@
   let indent = ""
   let PropertyList = undefined
   let ReplacerFunction = undefined
-  app __x0__ = (Type replacer)
-  if (= __x0__ Object) {
-    app __x1__ = (IsCallable replacer)
-    if (= __x1__ true) ReplacerFunction = replacer else {
-      app __x2__ = (IsArray replacer)
-      let isArray = [? __x2__]
+  if (= (typeof replacer) Object) {
+    app __x0__ = (IsCallable replacer)
+    if (= __x0__ true) ReplacerFunction = replacer else {
+      app __x1__ = (IsArray replacer)
+      let isArray = [? __x1__]
       if (= isArray true) {
         PropertyList = (new [])
-        app __x3__ = (Get replacer "length")
-        app __x4__ = (ToLength [? __x3__])
-        let len = [? __x4__]
+        app __x2__ = (Get replacer "length")
+        app __x3__ = (ToLength [? __x2__])
+        let len = [? __x3__]
         let k = 0i
         while (< k len) {
-          app __x5__ = (ToString k)
-          app __x6__ = (Get replacer [! __x5__])
-          let v = [? __x6__]
+          app __x4__ = (ToString k)
+          app __x5__ = (Get replacer [! __x4__])
+          let v = [? __x5__]
           let item = undefined
-          app __x7__ = (Type v)
-          if (= __x7__ String) item = v else {
-            app __x8__ = (Type v)
-            if (= __x8__ Number) {
-              app __x9__ = (ToString v)
-              item = [! __x9__]
-            } else {
-              app __x10__ = (Type v)
-              if (= __x10__ Object) ??? "If id:{v} has a [ [ StringData ] ] or [ [ NumberData ] ] internal slot , set id:{item} to ? ToString ( id:{v} ) ." else {}
-            }
-          }
+          if (= (typeof v) String) item = v else if (= (typeof v) Number) {
+            app __x6__ = (ToString v)
+            item = [! __x6__]
+          } else if (= (typeof v) Object) ??? "If id:{v} has a [ [ StringData ] ] or [ [ NumberData ] ] internal slot , set id:{item} to ? ToString ( id:{v} ) ." else {}
           ??? "If id:{item} is not value:{undefined} and id:{item} is not currently an element of id:{PropertyList} , then in:{} out:{}"
           k = (+ k 1i)
         }
       } else {}
     }
   } else {}
-  app __x11__ = (Type space)
-  if (= __x11__ Object) if (! (= space.NumberData absent)) {
-    app __x12__ = (ToNumber space)
-    space = [? __x12__]
+  if (= (typeof space) Object) if (! (= space.NumberData absent)) {
+    app __x7__ = (ToNumber space)
+    space = [? __x7__]
   } else if (! (= space.StringData absent)) {
-    app __x13__ = (ToString space)
-    space = [? __x13__]
+    app __x8__ = (ToString space)
+    space = [? __x8__]
   } else {} else {}
-  app __x14__ = (Type space)
-  if (= __x14__ Number) {
-    app __x15__ = (ToInteger space)
-    app __x16__ = (min 10i [! __x15__])
-    space = __x16__
+  if (= (typeof space) Number) {
+    app __x9__ = (ToInteger space)
+    app __x10__ = (min 10i [! __x9__])
+    space = __x10__
     ??? "Let id:{gap} be the String value containing id:{space} occurrences of the code unit 0x0020 ( SPACE ) . This will be the empty String if id:{space} is less than 1 ."
-  } else {
-    app __x17__ = (Type space)
-    if (= __x17__ String) ??? "If the length of id:{space} is 10 or less , let id:{gap} be id:{space} ; otherwise let id:{gap} be the String value consisting of the first 10 code units of id:{space} ." else let gap = ""
-  }
-  app __x18__ = (ObjectCreate INTRINSIC_ObjectPrototype)
-  let wrapper = __x18__
-  app __x19__ = (CreateDataProperty wrapper "" value)
-  let status = __x19__
+  } else if (= (typeof space) String) ??? "If the length of id:{space} is 10 or less , let id:{gap} be id:{space} ; otherwise let id:{gap} be the String value consisting of the first 10 code units of id:{space} ." else let gap = ""
+  app __x11__ = (ObjectCreate INTRINSIC_ObjectPrototype)
+  let wrapper = __x11__
+  app __x12__ = (CreateDataProperty wrapper "" value)
+  let status = __x12__
   assert (= status true)
-  app __x20__ = (SerializeJSONProperty "" wrapper)
-  return [? __x20__]
+  app __x13__ = (SerializeJSONProperty "" wrapper)
+  return [? __x13__]
 }

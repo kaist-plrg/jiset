@@ -15,33 +15,32 @@
     if (= next false) return target else {}
     app __x6__ = (IteratorValue next)
     let nextItem = [? __x6__]
-    app __x7__ = (Type nextItem)
-    if (! (= __x7__ Object)) {
-      app __x8__ = (ThrowCompletion ??? "TypeError")
-      let error = __x8__
-      app __x9__ = (IteratorClose iteratorRecord error)
-      return [? __x9__]
+    if (! (= (typeof nextItem) Object)) {
+      app __x7__ = (ThrowCompletion ??? "TypeError")
+      let error = __x7__
+      app __x8__ = (IteratorClose iteratorRecord error)
+      return [? __x8__]
     } else {}
-    app __x10__ = (Get nextItem "0")
-    let k = __x10__
-    app __x11__ = (IsAbruptCompletion k)
-    if __x11__ {
-      app __x12__ = (IteratorClose iteratorRecord k)
-      return [? __x12__]
+    app __x9__ = (Get nextItem "0")
+    let k = __x9__
+    app __x10__ = (IsAbruptCompletion k)
+    if __x10__ {
+      app __x11__ = (IteratorClose iteratorRecord k)
+      return [? __x11__]
     } else {}
-    app __x13__ = (Get nextItem "1")
-    let v = __x13__
-    app __x14__ = (IsAbruptCompletion v)
-    if __x14__ {
-      app __x15__ = (IteratorClose iteratorRecord v)
-      return [? __x15__]
+    app __x12__ = (Get nextItem "1")
+    let v = __x12__
+    app __x13__ = (IsAbruptCompletion v)
+    if __x13__ {
+      app __x14__ = (IteratorClose iteratorRecord v)
+      return [? __x14__]
     } else {}
-    app __x16__ = (Call adder target (new [k.Value, v.Value]))
-    let status = __x16__
-    app __x17__ = (IsAbruptCompletion status)
-    if __x17__ {
-      app __x18__ = (IteratorClose iteratorRecord status)
-      return [? __x18__]
+    app __x15__ = (Call adder target (new [k.Value, v.Value]))
+    let status = __x15__
+    app __x16__ = (IsAbruptCompletion status)
+    if __x16__ {
+      app __x17__ = (IteratorClose iteratorRecord status)
+      return [? __x17__]
     } else {}
   }
 }

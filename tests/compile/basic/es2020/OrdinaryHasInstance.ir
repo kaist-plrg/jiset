@@ -6,17 +6,15 @@
     app __x1__ = (InstanceofOperator O BC)
     return [? __x1__]
   } else {}
-  app __x2__ = (Type O)
-  if (! (= __x2__ Object)) return false else {}
-  app __x3__ = (Get C "prototype")
-  let P = [? __x3__]
-  app __x4__ = (Type P)
-  if (! (= __x4__ Object)) throw TypeError else {}
+  if (! (= (typeof O) Object)) return false else {}
+  app __x2__ = (Get C "prototype")
+  let P = [? __x2__]
+  if (! (= (typeof P) Object)) throw TypeError else {}
   while true {
-    app __x5__ = (O.GetPrototypeOf O)
-    O = [? __x5__]
+    app __x3__ = (O.GetPrototypeOf O)
+    O = [? __x3__]
     if (= O null) return false else {}
-    app __x6__ = (SameValue P O)
-    if (= __x6__ true) return true else {}
+    app __x4__ = (SameValue P O)
+    if (= __x4__ true) return true else {}
   }
 }

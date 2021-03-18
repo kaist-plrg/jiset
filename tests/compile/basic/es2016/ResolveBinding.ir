@@ -1,6 +1,6 @@
 {
   if (|| (= env absent) (= env undefined)) let env = GLOBAL_context.LexicalEnvironment else {}
-  assert (= (typeof env) "LexicalEnvironment")
+  assert (is-instance-of env LexicalEnvironment)
   if true let strict = true else let strict = false
   app __x0__ = (GetIdentifierReference env name strict)
   return [? __x0__]

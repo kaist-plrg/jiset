@@ -24,38 +24,36 @@
     if (! (= throw undefined)) {
       app __x9__ = (Call throw iterator (new [received.Value]))
       let innerResult = [? __x9__]
-      app __x10__ = (Type innerResult)
-      if (! (= __x10__ Object)) throw TypeError else {}
-      app __x11__ = (IteratorComplete innerResult)
-      let done = [? __x11__]
+      if (! (= (typeof innerResult) Object)) throw TypeError else {}
+      app __x10__ = (IteratorComplete innerResult)
+      let done = [? __x10__]
       if (= done true) {
-        app __x12__ = (IteratorValue innerResult)
-        return [? __x12__]
+        app __x11__ = (IteratorValue innerResult)
+        return [? __x11__]
       } else {}
-      app __x13__ = (GeneratorYield innerResult)
-      received = __x13__
+      app __x12__ = (GeneratorYield innerResult)
+      received = __x12__
     } else {
-      app __x14__ = (IteratorClose iterator (new Completion("Type" -> CONST_normal, "Value" -> CONST_empty, "Target" -> CONST_empty)))
-      [? __x14__]
+      app __x13__ = (IteratorClose iterator (new Completion("Type" -> CONST_normal, "Value" -> CONST_empty, "Target" -> CONST_empty)))
+      [? __x13__]
       throw TypeError
     }
   } else {
     assert (= received.Type CONST_return)
-    app __x15__ = (GetMethod iterator "return")
-    let return = [? __x15__]
+    app __x14__ = (GetMethod iterator "return")
+    let return = [? __x14__]
     if (= return undefined) return received else {}
-    app __x16__ = (Call return iterator (new [received.Value]))
-    let innerReturnResult = [? __x16__]
-    app __x17__ = (Type innerReturnResult)
-    if (! (= __x17__ Object)) throw TypeError else {}
-    app __x18__ = (IteratorComplete innerReturnResult)
-    let done = [? __x18__]
+    app __x15__ = (Call return iterator (new [received.Value]))
+    let innerReturnResult = [? __x15__]
+    if (! (= (typeof innerReturnResult) Object)) throw TypeError else {}
+    app __x16__ = (IteratorComplete innerReturnResult)
+    let done = [? __x16__]
     if (= done true) {
-      app __x19__ = (IteratorValue innerReturnResult)
-      let value = [? __x19__]
+      app __x17__ = (IteratorValue innerReturnResult)
+      let value = [? __x17__]
       return (new Completion("Type" -> CONST_return, "Value" -> value, "Target" -> CONST_empty))
     } else {}
-    app __x20__ = (GeneratorYield innerReturnResult)
-    received = __x20__
+    app __x18__ = (GeneratorYield innerReturnResult)
+    received = __x18__
   }
 }

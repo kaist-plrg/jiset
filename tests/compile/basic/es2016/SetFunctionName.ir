@@ -1,12 +1,10 @@
 {
-  app __x0__ = (Type name)
-  assert (|| (= __x0__ Symbol) (= __x0__ String))
-  app __x1__ = (Type name)
-  if (= __x1__ Symbol) {
+  assert (|| (= (typeof name) Symbol) (= (typeof name) String))
+  if (= (typeof name) Symbol) {
     let description = name.Description
     if (= description undefined) let name = "" else let name = (+ (+ "[" description) "]")
   } else {}
   if (! (= prefix absent)) let name = (+ (+ prefix " ") name) else {}
-  app __x2__ = (DefinePropertyOrThrow F "name" (new PropertyDescriptor("Value" -> name, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
-  return [! __x2__]
+  app __x0__ = (DefinePropertyOrThrow F "name" (new PropertyDescriptor("Value" -> name, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
+  return [! __x0__]
 }

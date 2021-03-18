@@ -1,6 +1,5 @@
 {
-  app __x0__ = (Type value)
-  assert (= __x0__ String)
+  assert (= (typeof value) String)
   let S = (new StringExoticObject("SubMap" -> (new SubMap())))
   S.StringData = value
   S.GetOwnProperty = StringExoticObjectDOTGetOwnProperty
@@ -9,7 +8,7 @@
   S.Prototype = prototype
   S.Extensible = true
   let length = value.length
-  app __x1__ = (DefinePropertyOrThrow S "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false)))
-  [! __x1__]
+  app __x0__ = (DefinePropertyOrThrow S "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false)))
+  [! __x0__]
   return S
 }

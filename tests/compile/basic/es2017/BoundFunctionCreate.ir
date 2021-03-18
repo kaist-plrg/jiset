@@ -1,8 +1,7 @@
 {
-  app __x0__ = (Type targetFunction)
-  assert (= __x0__ Object)
-  app __x1__ = (targetFunction.GetPrototypeOf targetFunction)
-  let proto = [? __x1__]
+  assert (= (typeof targetFunction) Object)
+  app __x0__ = (targetFunction.GetPrototypeOf targetFunction)
+  let proto = [? __x0__]
   let obj = (new OrdinaryObject("SubMap" -> (new SubMap())))
   obj.Call = BoundFunctionExoticObjectDOTCall
   if (! (= targetFunction.Construct absent)) obj.Construct = BoundFunctionExoticObjectDOTConstruct else {}

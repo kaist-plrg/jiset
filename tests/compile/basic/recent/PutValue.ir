@@ -1,7 +1,7 @@
 {
   [? V]
   [? W]
-  if (! (= (typeof V) "ReferenceRecord")) throw ReferenceError else {}
+  if (! (is-instance-of V ReferenceRecord)) throw ReferenceError else {}
   app __x0__ = (IsUnresolvableReference V)
   if (= __x0__ true) {
     if (= V.Strict true) throw ReferenceError else {}

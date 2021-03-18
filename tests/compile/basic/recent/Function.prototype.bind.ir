@@ -10,23 +10,21 @@
   if (= targetHasLength true) {
     app __x3__ = (Get Target "length")
     let targetLen = [? __x3__]
-    app __x4__ = (Type targetLen)
-    if (= __x4__ Number) if (= targetLen Infinity) L = Infinity else if (= targetLen -Infinity) L = 0i else {
-      app __x5__ = (ToIntegerOrInfinity targetLen)
-      let targetLenAsInt = [! __x5__]
+    if (= (typeof targetLen) Number) if (= targetLen Infinity) L = Infinity else if (= targetLen -Infinity) L = 0i else {
+      app __x4__ = (ToIntegerOrInfinity targetLen)
+      let targetLenAsInt = [! __x4__]
       assert (! (|| (= targetLenAsInt Infinity) (= targetLenAsInt -Infinity)))
       let argCount = args.length
-      app __x6__ = (max (- targetLenAsInt argCount) 0i)
-      L = __x6__
+      app __x5__ = (max (- targetLenAsInt argCount) 0i)
+      L = __x5__
     } else {}
   } else {}
-  app __x7__ = (SetFunctionLength F L)
-  [! __x7__]
-  app __x8__ = (Get Target "name")
-  let targetName = [? __x8__]
-  app __x9__ = (Type targetName)
-  if (! (= __x9__ String)) targetName = "" else {}
-  app __x10__ = (SetFunctionName F targetName "bound")
-  __x10__
+  app __x6__ = (SetFunctionLength F L)
+  [! __x6__]
+  app __x7__ = (Get Target "name")
+  let targetName = [? __x7__]
+  if (! (= (typeof targetName) String)) targetName = "" else {}
+  app __x8__ = (SetFunctionName F targetName "bound")
+  __x8__
   return F
 }

@@ -1,19 +1,17 @@
 {
-  app __x0__ = (Type S)
-  assert (= __x0__ String)
-  let __x1__ = true
-  __x1__ = (&& (! (< index 0i)) (! (< (- (** 2.0 53i) 1i) index)))
-  if __x1__ {
-    app __x2__ = (IsInteger index)
-    __x1__ = (= [! __x2__] true)
+  assert (= (typeof S) String)
+  let __x0__ = true
+  __x0__ = (&& (! (< index 0i)) (! (< (- (** 2.0 53i) 1i) index)))
+  if __x0__ {
+    app __x1__ = (IsInteger index)
+    __x0__ = (= [! __x1__] true)
   } else {}
-  assert __x1__
-  app __x3__ = (Type unicode)
-  assert (= __x3__ Boolean)
+  assert __x0__
+  assert (= (typeof unicode) Boolean)
   if (= unicode false) return (+ index 1i) else {}
   let length = S.length
   if (! (< (+ index 1i) length)) return (+ index 1i) else {}
-  app __x4__ = (CodePointAt S index)
-  let cp = [! __x4__]
+  app __x2__ = (CodePointAt S index)
+  let cp = [! __x2__]
   return (+ index cp.CodeUnitCount)
 }

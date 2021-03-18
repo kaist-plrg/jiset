@@ -1,7 +1,7 @@
 {
   [? V]
   [? W]
-  assert (= (typeof V) "ReferenceRecord")
+  assert (is-instance-of V ReferenceRecord)
   app __x0__ = (IsUnresolvableReference V)
   assert (= __x0__ false)
   let base = V.Base

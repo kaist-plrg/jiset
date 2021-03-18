@@ -1,38 +1,36 @@
 {
-  app __x0__ = (Type target)
-  assert (= __x0__ Object)
-  app __x1__ = (Type source)
-  assert (= __x1__ Object)
+  assert (= (typeof target) Object)
+  assert (= (typeof source) Object)
   let targetIndex = start
   let sourceIndex = 0i
   while (< sourceIndex sourceLen) {
-    app __x2__ = (ToString sourceIndex)
-    let P = [! __x2__]
-    app __x3__ = (HasProperty source P)
-    let exists = [? __x3__]
+    app __x0__ = (ToString sourceIndex)
+    let P = [! __x0__]
+    app __x1__ = (HasProperty source P)
+    let exists = [? __x1__]
     if (= exists true) {
-      app __x4__ = (Get source P)
-      let element = [? __x4__]
+      app __x2__ = (Get source P)
+      let element = [? __x2__]
       if (! (= mapperFunction absent)) {
-        app __x5__ = (Call mapperFunction thisArg (new [element, sourceIndex, source]))
-        element = [? __x5__]
+        app __x3__ = (Call mapperFunction thisArg (new [element, sourceIndex, source]))
+        element = [? __x3__]
       } else {}
       let shouldFlatten = false
       if (< 0i depth) {
-        app __x6__ = (IsArray element)
-        shouldFlatten = [? __x6__]
+        app __x4__ = (IsArray element)
+        shouldFlatten = [? __x4__]
       } else {}
       if (= shouldFlatten true) {
         if (= depth Infinity) let newDepth = Infinity else let newDepth = (- depth 1i)
-        app __x7__ = (LengthOfArrayLike element)
-        let elementLen = [? __x7__]
-        app __x8__ = (FlattenIntoArray target element elementLen targetIndex newDepth)
-        targetIndex = [? __x8__]
+        app __x5__ = (LengthOfArrayLike element)
+        let elementLen = [? __x5__]
+        app __x6__ = (FlattenIntoArray target element elementLen targetIndex newDepth)
+        targetIndex = [? __x6__]
       } else {
         if (! (< targetIndex (- (** 2.0 53i) 1i))) throw TypeError else {}
-        app __x9__ = (ToString targetIndex)
-        app __x10__ = (CreateDataPropertyOrThrow target [! __x9__] element)
-        [? __x10__]
+        app __x7__ = (ToString targetIndex)
+        app __x8__ = (CreateDataPropertyOrThrow target [! __x7__] element)
+        [? __x8__]
         targetIndex = (+ targetIndex 1i)
       }
     } else {}

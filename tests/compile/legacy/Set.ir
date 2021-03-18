@@ -1,12 +1,10 @@
 {
-  app __x0__ = (Type O)
-  assert (= __x0__ Object)
-  app __x1__ = (IsPropertyKey P)
-  assert (= __x1__ true)
-  app __x2__ = (Type Throw)
-  assert (= __x2__ Boolean)
-  app __x3__ = (O.Set O P V O)
-  let success = [? __x3__]
+  assert (= (typeof O) Object)
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  assert (= (typeof Throw) Boolean)
+  app __x1__ = (O.Set O P V O)
+  let success = [? __x1__]
   if (&& (= success false) (= Throw true)) throw TypeError else {}
   return success
 }

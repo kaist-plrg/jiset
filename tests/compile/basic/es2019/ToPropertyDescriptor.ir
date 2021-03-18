@@ -1,54 +1,53 @@
 {
-  app __x0__ = (Type Obj)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof Obj) Object)) throw TypeError else {}
   let desc = (new PropertyDescriptor("SubMap" -> (new SubMap())))
-  app __x1__ = (HasProperty Obj "enumerable")
-  let hasEnumerable = [? __x1__]
+  app __x0__ = (HasProperty Obj "enumerable")
+  let hasEnumerable = [? __x0__]
   if (= hasEnumerable true) {
-    app __x2__ = (Get Obj "enumerable")
-    app __x3__ = (ToBoolean [? __x2__])
-    let enumerable = __x3__
+    app __x1__ = (Get Obj "enumerable")
+    app __x2__ = (ToBoolean [? __x1__])
+    let enumerable = __x2__
     desc.Enumerable = enumerable
   } else {}
-  app __x4__ = (HasProperty Obj "configurable")
-  let hasConfigurable = [? __x4__]
+  app __x3__ = (HasProperty Obj "configurable")
+  let hasConfigurable = [? __x3__]
   if (= hasConfigurable true) {
-    app __x5__ = (Get Obj "configurable")
-    app __x6__ = (ToBoolean [? __x5__])
-    let configurable = __x6__
+    app __x4__ = (Get Obj "configurable")
+    app __x5__ = (ToBoolean [? __x4__])
+    let configurable = __x5__
     desc.Configurable = configurable
   } else {}
-  app __x7__ = (HasProperty Obj "value")
-  let hasValue = [? __x7__]
+  app __x6__ = (HasProperty Obj "value")
+  let hasValue = [? __x6__]
   if (= hasValue true) {
-    app __x8__ = (Get Obj "value")
-    let value = [? __x8__]
+    app __x7__ = (Get Obj "value")
+    let value = [? __x7__]
     desc.Value = value
   } else {}
-  app __x9__ = (HasProperty Obj "writable")
-  let hasWritable = [? __x9__]
+  app __x8__ = (HasProperty Obj "writable")
+  let hasWritable = [? __x8__]
   if (= hasWritable true) {
-    app __x10__ = (Get Obj "writable")
-    app __x11__ = (ToBoolean [? __x10__])
-    let writable = __x11__
+    app __x9__ = (Get Obj "writable")
+    app __x10__ = (ToBoolean [? __x9__])
+    let writable = __x10__
     desc.Writable = writable
   } else {}
-  app __x12__ = (HasProperty Obj "get")
-  let hasGet = [? __x12__]
+  app __x11__ = (HasProperty Obj "get")
+  let hasGet = [? __x11__]
   if (= hasGet true) {
-    app __x13__ = (Get Obj "get")
-    let getter = [? __x13__]
-    app __x14__ = (IsCallable getter)
-    if (&& (= __x14__ false) (! (= getter undefined))) throw TypeError else {}
+    app __x12__ = (Get Obj "get")
+    let getter = [? __x12__]
+    app __x13__ = (IsCallable getter)
+    if (&& (= __x13__ false) (! (= getter undefined))) throw TypeError else {}
     desc.Get = getter
   } else {}
-  app __x15__ = (HasProperty Obj "set")
-  let hasSet = [? __x15__]
+  app __x14__ = (HasProperty Obj "set")
+  let hasSet = [? __x14__]
   if (= hasSet true) {
-    app __x16__ = (Get Obj "set")
-    let setter = [? __x16__]
-    app __x17__ = (IsCallable setter)
-    if (&& (= __x17__ false) (! (= setter undefined))) throw TypeError else {}
+    app __x15__ = (Get Obj "set")
+    let setter = [? __x15__]
+    app __x16__ = (IsCallable setter)
+    if (&& (= __x16__ false) (! (= setter undefined))) throw TypeError else {}
     desc.Set = setter
   } else {}
   if (|| (! (= desc.Get absent)) (! (= desc.Set absent))) if (|| (! (= desc.Value absent)) (! (= desc.Writable absent))) throw TypeError else {} else {}

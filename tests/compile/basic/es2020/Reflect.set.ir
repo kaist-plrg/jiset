@@ -1,9 +1,8 @@
 {
-  app __x0__ = (Type target)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (ToPropertyKey propertyKey)
-  let key = [? __x1__]
+  if (! (= (typeof target) Object)) throw TypeError else {}
+  app __x0__ = (ToPropertyKey propertyKey)
+  let key = [? __x0__]
   if (= receiver absent) receiver = target else {}
-  app __x2__ = (target.Set target key V receiver)
-  return [? __x2__]
+  app __x1__ = (target.Set target key V receiver)
+  return [? __x1__]
 }

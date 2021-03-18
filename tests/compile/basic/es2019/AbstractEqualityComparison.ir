@@ -1,71 +1,39 @@
 {
-  app __x0__ = (Type x)
-  app __x1__ = (Type y)
-  if (= __x0__ __x1__) {
-    app __x2__ = (StrictEqualityComparison x y)
-    return __x2__
+  if (= (typeof x) (typeof y)) {
+    app __x0__ = (StrictEqualityComparison x y)
+    return __x0__
   } else {}
   if (&& (= x null) (= y undefined)) return true else {}
   if (&& (= x undefined) (= y null)) return true else {}
-  let __x3__ = true
-  app __x4__ = (Type x)
-  __x3__ = (= __x4__ Number)
-  if __x3__ {
-    app __x5__ = (Type y)
-    __x3__ = (= __x5__ String)
+  if (&& (= (typeof x) Number) (= (typeof y) String)) {
+    app __x1__ = (ToNumber y)
+    app __x2__ = (AbstractEqualityComparison x [! __x1__])
+    return __x2__
   } else {}
-  if __x3__ {
-    app __x6__ = (ToNumber y)
-    app __x7__ = (AbstractEqualityComparison x [! __x6__])
-    return __x7__
+  if (&& (= (typeof x) String) (= (typeof y) Number)) {
+    app __x3__ = (ToNumber x)
+    app __x4__ = (AbstractEqualityComparison [! __x3__] y)
+    return __x4__
   } else {}
-  let __x8__ = true
-  app __x9__ = (Type x)
-  __x8__ = (= __x9__ String)
-  if __x8__ {
-    app __x10__ = (Type y)
-    __x8__ = (= __x10__ Number)
+  if (= (typeof x) Boolean) {
+    app __x5__ = (ToNumber x)
+    app __x6__ = (AbstractEqualityComparison [! __x5__] y)
+    return __x6__
   } else {}
-  if __x8__ {
-    app __x11__ = (ToNumber x)
-    app __x12__ = (AbstractEqualityComparison [! __x11__] y)
+  if (= (typeof y) Boolean) {
+    app __x7__ = (ToNumber y)
+    app __x8__ = (AbstractEqualityComparison x [! __x7__])
+    return __x8__
+  } else {}
+  if (&& (|| (|| (= (typeof x) String) (= (typeof x) Number)) (= (typeof x) Symbol)) (= (typeof y) Object)) {
+    app __x9__ = (ToPrimitive y)
+    app __x10__ = (AbstractEqualityComparison x __x9__)
+    return __x10__
+  } else {}
+  if (&& (= (typeof x) Object) (|| (|| (= (typeof y) String) (= (typeof y) Number)) (= (typeof y) Symbol))) {
+    app __x11__ = (ToPrimitive x)
+    app __x12__ = (AbstractEqualityComparison __x11__ y)
     return __x12__
-  } else {}
-  app __x13__ = (Type x)
-  if (= __x13__ Boolean) {
-    app __x14__ = (ToNumber x)
-    app __x15__ = (AbstractEqualityComparison [! __x14__] y)
-    return __x15__
-  } else {}
-  app __x16__ = (Type y)
-  if (= __x16__ Boolean) {
-    app __x17__ = (ToNumber y)
-    app __x18__ = (AbstractEqualityComparison x [! __x17__])
-    return __x18__
-  } else {}
-  let __x19__ = true
-  app __x20__ = (Type x)
-  __x19__ = (|| (|| (= __x20__ String) (= __x20__ Number)) (= __x20__ Symbol))
-  if __x19__ {
-    app __x21__ = (Type y)
-    __x19__ = (= __x21__ Object)
-  } else {}
-  if __x19__ {
-    app __x22__ = (ToPrimitive y)
-    app __x23__ = (AbstractEqualityComparison x __x22__)
-    return __x23__
-  } else {}
-  let __x24__ = true
-  app __x25__ = (Type x)
-  __x24__ = (= __x25__ Object)
-  if __x24__ {
-    app __x26__ = (Type y)
-    __x24__ = (|| (|| (= __x26__ String) (= __x26__ Number)) (= __x26__ Symbol))
-  } else {}
-  if __x24__ {
-    app __x27__ = (ToPrimitive x)
-    app __x28__ = (AbstractEqualityComparison __x27__ y)
-    return __x28__
   } else {}
   return false
 }

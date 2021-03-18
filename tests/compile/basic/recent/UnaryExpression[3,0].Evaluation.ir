@@ -1,7 +1,7 @@
 {
   access __x0__ = (UnaryExpression "Evaluation")
   let val = __x0__
-  if (= (typeof val) "ReferenceRecord") {
+  if (is-instance-of val ReferenceRecord) {
     app __x1__ = (IsUnresolvableReference val)
     if (= __x1__ true) return "undefined" else {}
   } else {}

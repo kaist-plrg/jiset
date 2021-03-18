@@ -1,7 +1,7 @@
 {
   app __x0__ = (GetThisEnvironment)
   let envRec = __x0__
-  assert (= (typeof envRec) "FunctionEnvironmentRecord")
+  assert (is-instance-of envRec FunctionEnvironmentRecord)
   let activeFunction = envRec.FunctionObject
   app __x1__ = (activeFunction.GetPrototypeOf activeFunction)
   let superConstructor = [! __x1__]

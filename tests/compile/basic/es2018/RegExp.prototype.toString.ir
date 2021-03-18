@@ -1,13 +1,12 @@
 {
   let R = this
-  app __x0__ = (Type R)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (Get R "source")
-  app __x2__ = (ToString [? __x1__])
-  let pattern = [? __x2__]
-  app __x3__ = (Get R "flags")
-  app __x4__ = (ToString [? __x3__])
-  let flags = [? __x4__]
+  if (! (= (typeof R) Object)) throw TypeError else {}
+  app __x0__ = (Get R "source")
+  app __x1__ = (ToString [? __x0__])
+  let pattern = [? __x1__]
+  app __x2__ = (Get R "flags")
+  app __x3__ = (ToString [? __x2__])
+  let flags = [? __x3__]
   let result = (+ (+ (+ "/" pattern) "/") flags)
   return result
 }

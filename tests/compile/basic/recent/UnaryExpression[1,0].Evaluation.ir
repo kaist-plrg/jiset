@@ -2,7 +2,7 @@
   access __x0__ = (UnaryExpression "Evaluation")
   let ref = __x0__
   [? ref]
-  if (! (= (typeof ref) "ReferenceRecord")) return true else {}
+  if (! (is-instance-of ref ReferenceRecord)) return true else {}
   app __x1__ = (IsUnresolvableReference ref)
   if (= __x1__ true) {
     assert (= ref.Strict false)

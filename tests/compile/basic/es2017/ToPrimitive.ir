@@ -1,21 +1,19 @@
 {
-  app __x0__ = (Type input)
-  if (= __x0__ Object) {
+  if (= (typeof input) Object) {
     if (= PreferredType absent) let hint = "default" else {}
     ??? "Else if id:{PreferredType} is hint String , let id:{hint} be code:{\"string\"} ."
     ??? "Else id:{PreferredType} is hint Number , let id:{hint} be code:{\"number\"} ."
-    app __x1__ = (GetMethod input SYMBOL_toPrimitive)
-    let exoticToPrim = [? __x1__]
+    app __x0__ = (GetMethod input SYMBOL_toPrimitive)
+    let exoticToPrim = [? __x0__]
     if (! (= exoticToPrim undefined)) {
-      app __x2__ = (Call exoticToPrim input (new [hint]))
-      let result = [? __x2__]
-      app __x3__ = (Type result)
-      if (! (= __x3__ Object)) return result else {}
+      app __x1__ = (Call exoticToPrim input (new [hint]))
+      let result = [? __x1__]
+      if (! (= (typeof result) Object)) return result else {}
       throw TypeError
     } else {}
     if (= hint "default") hint = "number" else {}
-    app __x4__ = (OrdinaryToPrimitive input hint)
-    return [? __x4__]
+    app __x2__ = (OrdinaryToPrimitive input hint)
+    return [? __x2__]
   } else {}
   return input
 }

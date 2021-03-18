@@ -1,107 +1,106 @@
 {
   let rx = this
-  app __x0__ = (Type rx)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (ToString string)
-  let S = [? __x1__]
+  if (! (= (typeof rx) Object)) throw TypeError else {}
+  app __x0__ = (ToString string)
+  let S = [? __x0__]
   let lengthS = S.length
-  app __x2__ = (IsCallable replaceValue)
-  let functionalReplace = __x2__
+  app __x1__ = (IsCallable replaceValue)
+  let functionalReplace = __x1__
   if (= functionalReplace false) {
-    app __x3__ = (ToString replaceValue)
-    let replaceValue = [? __x3__]
+    app __x2__ = (ToString replaceValue)
+    let replaceValue = [? __x2__]
   } else {}
-  app __x4__ = (Get rx "global")
-  app __x5__ = (ToBoolean [? __x4__])
-  let global = __x5__
+  app __x3__ = (Get rx "global")
+  app __x4__ = (ToBoolean [? __x3__])
+  let global = __x4__
   if (= global true) {
-    app __x6__ = (Get rx "unicode")
-    app __x7__ = (ToBoolean [? __x6__])
-    let fullUnicode = __x7__
-    app __x8__ = (Set rx "lastIndex" 0i true)
-    [? __x8__]
+    app __x5__ = (Get rx "unicode")
+    app __x6__ = (ToBoolean [? __x5__])
+    let fullUnicode = __x6__
+    app __x7__ = (Set rx "lastIndex" 0i true)
+    [? __x7__]
   } else {}
   let results = (new [])
   let done = false
   while (= done false) {
-    app __x9__ = (RegExpExec rx S)
-    let result = [? __x9__]
+    app __x8__ = (RegExpExec rx S)
+    let result = [? __x8__]
     if (= result null) done = true else {
       append result -> results
       if (= global false) done = true else {
-        app __x10__ = (Get result "0")
-        app __x11__ = (ToString [? __x10__])
-        let matchStr = [? __x11__]
+        app __x9__ = (Get result "0")
+        app __x10__ = (ToString [? __x9__])
+        let matchStr = [? __x10__]
         if (= matchStr "") {
-          app __x12__ = (Get rx "lastIndex")
-          app __x13__ = (ToLength [? __x12__])
-          let thisIndex = [? __x13__]
-          app __x14__ = (AdvanceStringIndex S thisIndex fullUnicode)
-          let nextIndex = __x14__
-          app __x15__ = (Set rx "lastIndex" nextIndex true)
-          [? __x15__]
+          app __x11__ = (Get rx "lastIndex")
+          app __x12__ = (ToLength [? __x11__])
+          let thisIndex = [? __x12__]
+          app __x13__ = (AdvanceStringIndex S thisIndex fullUnicode)
+          let nextIndex = __x13__
+          app __x14__ = (Set rx "lastIndex" nextIndex true)
+          [? __x14__]
         } else {}
       }
     }
   }
   let accumulatedResult = ""
   let nextSourcePosition = 0i
-  let __x16__ = results
-  let __x17__ = 0i
-  while (< __x17__ __x16__.length) {
-    let result = __x16__[__x17__]
-    app __x18__ = (Get result "length")
-    app __x19__ = (ToLength [? __x18__])
-    let nCaptures = [? __x19__]
-    app __x20__ = (max (- nCaptures 1i) 0i)
-    let nCaptures = __x20__
-    app __x21__ = (Get result "0")
-    app __x22__ = (ToString [? __x21__])
-    let matched = [? __x22__]
+  let __x15__ = results
+  let __x16__ = 0i
+  while (< __x16__ __x15__.length) {
+    let result = __x15__[__x16__]
+    app __x17__ = (Get result "length")
+    app __x18__ = (ToLength [? __x17__])
+    let nCaptures = [? __x18__]
+    app __x19__ = (max (- nCaptures 1i) 0i)
+    let nCaptures = __x19__
+    app __x20__ = (Get result "0")
+    app __x21__ = (ToString [? __x20__])
+    let matched = [? __x21__]
     let matchLength = matched.length
-    app __x23__ = (Get result "index")
-    app __x24__ = (ToInteger [? __x23__])
-    let position = [? __x24__]
-    app __x25__ = (min position lengthS)
-    app __x26__ = (max __x25__ 0i)
-    let position = __x26__
+    app __x22__ = (Get result "index")
+    app __x23__ = (ToInteger [? __x22__])
+    let position = [? __x23__]
+    app __x24__ = (min position lengthS)
+    app __x25__ = (max __x24__ 0i)
+    let position = __x25__
     let n = 1i
     let captures = (new [])
     while (! (< nCaptures n)) {
-      app __x27__ = (ToString n)
-      app __x28__ = (Get result [! __x27__])
-      let capN = [? __x28__]
+      app __x26__ = (ToString n)
+      app __x27__ = (Get result [! __x26__])
+      let capN = [? __x27__]
       if (! (= capN undefined)) {
-        app __x29__ = (ToString capN)
-        let capN = [? __x29__]
+        app __x28__ = (ToString capN)
+        let capN = [? __x28__]
       } else {}
       append capN -> captures
       let n = (+ n 1i)
     }
     if (= functionalReplace true) {
       let replacerArgs = (new [matched])
-      let __x30__ = captures
-      let __x31__ = 0i
-      while (< __x31__ __x30__.length) {
-        let __x32__ = __x30__[__x31__]
-        append __x32__ -> replacerArgs
-        __x31__ = (+ __x31__ 1i)
+      let __x29__ = captures
+      let __x30__ = 0i
+      while (< __x30__ __x29__.length) {
+        let __x31__ = __x29__[__x30__]
+        append __x31__ -> replacerArgs
+        __x30__ = (+ __x30__ 1i)
       }
       append position -> replacerArgs
       append S -> replacerArgs
-      app __x33__ = (Call replaceValue undefined replacerArgs)
-      let replValue = [? __x33__]
-      app __x34__ = (ToString replValue)
-      let replacement = [? __x34__]
+      app __x32__ = (Call replaceValue undefined replacerArgs)
+      let replValue = [? __x32__]
+      app __x33__ = (ToString replValue)
+      let replacement = [? __x33__]
     } else {
-      app __x35__ = (GetSubstitution matched S position captures replaceValue)
-      let replacement = __x35__
+      app __x34__ = (GetSubstitution matched S position captures replaceValue)
+      let replacement = __x34__
     }
     if (! (< position nextSourcePosition)) {
       ??? "Let id:{accumulatedResult} be the String formed by concatenating the code units of the current value of id:{accumulatedResult} with the substring of id:{S} consisting of the code units from id:{nextSourcePosition} ( inclusive ) up to id:{position} ( exclusive ) and with the code units of id:{replacement} ."
       let nextSourcePosition = (+ position matchLength)
     } else {}
-    __x17__ = (+ __x17__ 1i)
+    __x16__ = (+ __x16__ 1i)
   }
   if (! (< nextSourcePosition lengthS)) return accumulatedResult else {}
   ??? "Return the String formed by concatenating the code units of id:{accumulatedResult} with the substring of id:{S} consisting of the code units from id:{nextSourcePosition} ( inclusive ) up through the final code unit of id:{S} ( inclusive ) ."

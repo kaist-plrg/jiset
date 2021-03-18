@@ -1,10 +1,7 @@
 {
-  app __x0__ = (Type value)
-  if (= __x0__ BigInt) return value else {}
-  app __x1__ = (Type value)
-  if (&& (= __x1__ Object) (! (= value.BigIntData absent))) {
-    app __x2__ = (Type value.BigIntData)
-    assert (= __x2__ BigInt)
+  if (= (typeof value) BigInt) return value else {}
+  if (&& (= (typeof value) Object) (! (= value.BigIntData absent))) {
+    assert (= (typeof value.BigIntData) BigInt)
     return value.BigIntData
   } else {}
   throw TypeError

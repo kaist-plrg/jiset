@@ -1,16 +1,15 @@
 {
-  app __x0__ = (Type S)
-  assert (= __x0__ String)
+  assert (= (typeof S) String)
   let length = S.length
-  app __x1__ = (Get R "lastIndex")
-  app __x2__ = (ToLength [? __x1__])
-  let lastIndex = [? __x2__]
-  app __x3__ = (Get R "global")
-  app __x4__ = (ToBoolean [? __x3__])
-  let global = __x4__
-  app __x5__ = (Get R "sticky")
-  app __x6__ = (ToBoolean [? __x5__])
-  let sticky = __x6__
+  app __x0__ = (Get R "lastIndex")
+  app __x1__ = (ToLength [? __x0__])
+  let lastIndex = [? __x1__]
+  app __x2__ = (Get R "global")
+  app __x3__ = (ToBoolean [? __x2__])
+  let global = __x3__
+  app __x4__ = (Get R "sticky")
+  app __x5__ = (ToBoolean [? __x4__])
+  let sticky = __x5__
   if (&& (= global false) (= sticky false)) let lastIndex = 0i else {}
   let matcher = R.RegExpMatcher
   let flags = R.OriginalFlags
@@ -18,20 +17,20 @@
   let matchSucceeded = false
   while (= matchSucceeded false) {
     if (< length lastIndex) {
-      app __x7__ = (Set R "lastIndex" 0i true)
-      [? __x7__]
+      app __x6__ = (Set R "lastIndex" 0i true)
+      [? __x6__]
       return null
     } else {}
-    app __x8__ = (matcher S lastIndex)
-    let r = __x8__
+    app __x7__ = (matcher S lastIndex)
+    let r = __x7__
     if (= r CONST_failure) {
       if (= sticky true) {
-        app __x9__ = (Set R "lastIndex" 0i true)
-        [? __x9__]
+        app __x8__ = (Set R "lastIndex" 0i true)
+        [? __x8__]
         return null
       } else {}
-      app __x10__ = (AdvanceStringIndex S lastIndex fullUnicode)
-      let lastIndex = __x10__
+      app __x9__ = (AdvanceStringIndex S lastIndex fullUnicode)
+      let lastIndex = __x9__
     } else matchSucceeded = true
   }
   let e = r.endIndex
@@ -40,29 +39,29 @@
     let e = eUTF
   } else {}
   if (|| (= global true) (= sticky true)) {
-    app __x11__ = (Set R "lastIndex" e true)
-    [? __x11__]
+    app __x10__ = (Set R "lastIndex" e true)
+    [? __x10__]
   } else {}
   ??? "Let id:{n} be the length of id:{r} ' s id:{captures} List . ( This is the same value as link:{unhandled: sec-notation} ' s id:{NcapturingParens} . )"
-  app __x12__ = (ArrayCreate (+ n 1i))
-  let A = __x12__
+  app __x11__ = (ArrayCreate (+ n 1i))
+  let A = __x11__
   let matchIndex = lastIndex
-  app __x13__ = (CreateDataProperty A "index" matchIndex)
+  app __x12__ = (CreateDataProperty A "index" matchIndex)
+  [! __x12__]
+  app __x13__ = (CreateDataProperty A "input" S)
   [! __x13__]
-  app __x14__ = (CreateDataProperty A "input" S)
-  [! __x14__]
   ??? "Let id:{matchedSubstr} be the matched substring ( i . e . the portion of id:{S} between offset id:{lastIndex} inclusive and offset id:{e} exclusive ) ."
-  app __x15__ = (CreateDataProperty A "0" matchedSubstr)
-  [! __x15__]
+  app __x14__ = (CreateDataProperty A "0" matchedSubstr)
+  [! __x14__]
   let i = (+ 0i 1i)
-  let __x16__ = (+ n 1i)
-  while (< i __x16__) {
+  let __x15__ = (+ n 1i)
+  while (< i __x15__) {
     ??? "Let id:{captureI} be id:{i} sup:{th} element of id:{r} ' s id:{captures} List ."
     if (= captureI undefined) let capturedValue = undefined else if (= fullUnicode true) ??? "Let id:{capturedValue} be a string whose code units are the UTF16Encoding of the code points of id:{captureI} ." else {}
     ??? "Else , id:{fullUnicode} is value:{false} , in:{} out:{}"
-    app __x17__ = (ToString i)
-    app __x18__ = (CreateDataProperty A [! __x17__] capturedValue)
-    [! __x18__]
+    app __x16__ = (ToString i)
+    app __x17__ = (CreateDataProperty A [! __x16__] capturedValue)
+    [! __x17__]
   }
   return A
 }

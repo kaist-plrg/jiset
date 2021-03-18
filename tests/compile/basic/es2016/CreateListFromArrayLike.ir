@@ -1,19 +1,17 @@
 {
   if (= elementTypes absent) let elementTypes = (new [Undefined, Null, Boolean, String, Symbol, Number, Object]) else {}
-  app __x0__ = (Type obj)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (Get obj "length")
-  app __x2__ = (ToLength [? __x1__])
-  let len = [? __x2__]
+  if (! (= (typeof obj) Object)) throw TypeError else {}
+  app __x0__ = (Get obj "length")
+  app __x1__ = (ToLength [? __x0__])
+  let len = [? __x1__]
   let list = (new [])
   let index = 0i
   while (< index len) {
-    app __x3__ = (ToString index)
-    let indexName = [! __x3__]
-    app __x4__ = (Get obj indexName)
-    let next = [? __x4__]
-    app __x5__ = (Type next)
-    if (! (contains elementTypes __x5__)) throw TypeError else {}
+    app __x2__ = (ToString index)
+    let indexName = [! __x2__]
+    app __x3__ = (Get obj indexName)
+    let next = [? __x3__]
+    if (! (contains elementTypes (typeof next))) throw TypeError else {}
     append next -> list
     index = (+ index 1i)
   }

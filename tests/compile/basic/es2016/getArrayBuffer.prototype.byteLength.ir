@@ -1,10 +1,9 @@
 {
   let O = this
-  app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof O) Object)) throw TypeError else {}
   if (= O.ArrayBufferData absent) throw TypeError else {}
-  app __x1__ = (IsDetachedBuffer O)
-  if (= __x1__ true) throw TypeError else {}
+  app __x0__ = (IsDetachedBuffer O)
+  if (= __x0__ true) throw TypeError else {}
   let length = O.ArrayBufferByteLength
   return length
 }

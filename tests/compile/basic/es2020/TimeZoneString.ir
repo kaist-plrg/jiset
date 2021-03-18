@@ -1,9 +1,8 @@
 {
-  app __x0__ = (Type tv)
-  assert (= __x0__ Number)
+  assert (= (typeof tv) Number)
   assert (! (= tv NaN))
-  app __x1__ = (LocalTZA tv true)
-  let offset = __x1__
+  app __x0__ = (LocalTZA tv true)
+  let offset = __x0__
   if (! (< offset 0i)) let offsetSign = "+" else let offsetSign = "-"
   ??? "Let id:{offsetMin} be the String representation of MinFromTime ( abs ( id:{offset} ) ) , formatted as a two - digit decimal number , padded to the left with a zero if necessary ."
   ??? "Let id:{offsetHour} be the String representation of HourFromTime ( abs ( id:{offset} ) ) , formatted as a two - digit decimal number , padded to the left with a zero if necessary ."

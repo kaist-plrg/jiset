@@ -1,6 +1,5 @@
 {
-  app __x0__ = (Type target)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (target.IsExtensible target)
-  return [? __x1__]
+  if (! (= (typeof target) Object)) throw TypeError else {}
+  app __x0__ = (target.IsExtensible target)
+  return [? __x0__]
 }

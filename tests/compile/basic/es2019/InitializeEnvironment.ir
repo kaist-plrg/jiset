@@ -7,7 +7,7 @@
     app __x2__ = (module.ResolveExport module e.ExportName (new []))
     let resolution = [? __x2__]
     if (|| (= resolution null) (= resolution "ambiguous")) throw SyntaxError else {}
-    assert (= (typeof resolution) "ResolvedBindingRecord")
+    assert (is-instance-of resolution ResolvedBindingRecord)
     __x1__ = (+ __x1__ 1i)
   }
   let realm = module.Realm

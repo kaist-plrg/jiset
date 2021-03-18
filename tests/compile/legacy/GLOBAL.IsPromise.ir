@@ -1,8 +1,7 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let x = __x0__
-  app __x1__ = (Type x)
-  if (! (= __x1__ Object)) return false else {}
+  if (! (= (typeof x) Object)) return false else {}
   if (= x.PromiseState absent) return false else {}
   return true
 }

@@ -10,7 +10,7 @@
   app __x4__ = (GetValue ref)
   let func = [? __x4__]
   let __x5__ = true
-  __x5__ = (= (typeof ref) "ReferenceRecord")
+  __x5__ = (is-instance-of ref ReferenceRecord)
   if __x5__ {
     app __x6__ = (IsPropertyReference ref)
     __x5__ = (= __x6__ false)

@@ -1,8 +1,7 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let O = __x0__
-  app __x1__ = (Type O)
-  if (! (= __x1__ Object)) return true else {}
-  app __x2__ = (TestIntegrityLevel O CONST_frozen)
-  return [? __x2__]
+  if (! (= (typeof O) Object)) return true else {}
+  app __x1__ = (TestIntegrityLevel O CONST_frozen)
+  return [? __x1__]
 }

@@ -1,10 +1,9 @@
 {
-  app __x0__ = (Type target)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (ToPropertyKey propertyKey)
-  let key = [? __x1__]
-  app __x2__ = (ToPropertyDescriptor attributes)
-  let desc = [? __x2__]
-  app __x3__ = (target.DefineOwnProperty target key desc)
-  return [? __x3__]
+  if (! (= (typeof target) Object)) throw TypeError else {}
+  app __x0__ = (ToPropertyKey propertyKey)
+  let key = [? __x0__]
+  app __x1__ = (ToPropertyDescriptor attributes)
+  let desc = [? __x1__]
+  app __x2__ = (target.DefineOwnProperty target key desc)
+  return [? __x2__]
 }

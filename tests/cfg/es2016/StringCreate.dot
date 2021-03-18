@@ -1,16 +1,9 @@
 digraph {
   node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:[! __x1__]</td></tr>
-      <tr><td align="left">10:return S</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (Type value)</font>> color="black" fillcolor="white" style=filled]
-  node3 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ String)</td></tr>
+      <tr><td align="left">0:assert (= (typeof value) String)</td></tr>
       <tr><td align="left">1:let S = (new StringExoticObject(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
       <tr><td align="left">2:S.StringData = value</td></tr>
       <tr><td align="left">4:S.GetOwnProperty = StringExoticObjectDOTGetOwnProperty</td></tr>
@@ -20,10 +13,15 @@ digraph {
       <tr><td align="left">8:let length = value.length</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4 [shape=cds, label=<<font color="black">9:app __x1__ = (DefinePropertyOrThrow S &quot;length&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; length, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
-  node3 -> node4 [ color="black"]
-  node2 -> node3 [ color="black"]
+  node3 [shape=cds, label=<<font color="black">9:app __x0__ = (DefinePropertyOrThrow S &quot;length&quot; (new PropertyDescriptor(&quot;Value&quot; -&gt; length, &quot;Writable&quot; -&gt; false, &quot;Enumerable&quot; -&gt; false, &quot;Configurable&quot; -&gt; false)))</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">9:[! __x0__]</td></tr>
+      <tr><td align="left">10:return S</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
   node0 -> node2 [ color="black"]
-  node4 -> node5 [ color="black"]
-  node5 -> node1 [ color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [ color="black"]
+  node4 -> node1 [ color="black"]
 }

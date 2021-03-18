@@ -1,10 +1,9 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let O = __x0__
-  app __x1__ = (Type O)
-  if (! (= __x1__ Object)) return O else {}
-  app __x2__ = (SetIntegrityLevel O CONST_frozen)
-  let status = [? __x2__]
+  if (! (= (typeof O) Object)) return O else {}
+  app __x1__ = (SetIntegrityLevel O CONST_frozen)
+  let status = [? __x1__]
   if (= status false) throw TypeError else {}
   return O
 }

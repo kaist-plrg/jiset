@@ -1,9 +1,7 @@
 {
-  app __x0__ = (Type sym)
-  assert (= __x0__ Symbol)
+  assert (= (typeof sym) Symbol)
   let desc = sym.Description
   if (= desc undefined) let desc = "" else {}
-  app __x1__ = (Type desc)
-  assert (= __x1__ String)
+  assert (= (typeof desc) String)
   return (+ (+ "Symbol(" desc) ")")
 }

@@ -1,7 +1,6 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let number = __x0__
-  app __x1__ = (Type number)
-  if (! (= __x1__ Number)) return false else {}
+  if (! (= (typeof number) Number)) return false else {}
   if (= number NaN) return true else return false
 }

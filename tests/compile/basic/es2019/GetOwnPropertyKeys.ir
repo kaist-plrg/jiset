@@ -8,10 +8,9 @@
   let __x3__ = 0i
   while (< __x3__ __x2__.length) {
     let nextKey = __x2__[__x3__]
-    app __x4__ = (Type nextKey)
-    if (= __x4__ type) append nextKey -> nameList else {}
+    if (= (typeof nextKey) type) append nextKey -> nameList else {}
     __x3__ = (+ __x3__ 1i)
   }
-  app __x5__ = (CreateArrayFromList nameList)
-  return __x5__
+  app __x4__ = (CreateArrayFromList nameList)
+  return __x4__
 }

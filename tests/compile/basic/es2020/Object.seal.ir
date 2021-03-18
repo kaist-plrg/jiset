@@ -1,8 +1,7 @@
 {
-  app __x0__ = (Type O)
-  if (! (= __x0__ Object)) return O else {}
-  app __x1__ = (SetIntegrityLevel O CONST_sealed)
-  let status = [? __x1__]
+  if (! (= (typeof O) Object)) return O else {}
+  app __x0__ = (SetIntegrityLevel O CONST_sealed)
+  let status = [? __x0__]
   if (= status false) throw TypeError else {}
   return O
 }

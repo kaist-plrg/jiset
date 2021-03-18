@@ -1,6 +1,5 @@
 {
-  app __x0__ = (Type functionPrototype)
-  assert (= __x0__ Object)
+  assert (= (typeof functionPrototype) Object)
   if (= functionKind "normal") let needsConstruct = true else let needsConstruct = false
   if (= functionKind "non-constructor") functionKind = "normal" else {}
   ??? "Let id:{F} be a newly created ECMAScript function object with the internal slots listed in link:{unhandled: table-27} . All of those internal slots are initialized to value:{undefined} ."

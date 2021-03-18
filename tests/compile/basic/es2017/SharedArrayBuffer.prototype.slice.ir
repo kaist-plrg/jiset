@@ -1,45 +1,44 @@
 {
   let O = this
-  app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof O) Object)) throw TypeError else {}
   if (= O.ArrayBufferData absent) throw TypeError else {}
-  app __x1__ = (IsSharedArrayBuffer O)
-  if (= __x1__ false) throw TypeError else {}
+  app __x0__ = (IsSharedArrayBuffer O)
+  if (= __x0__ false) throw TypeError else {}
   let len = O.ArrayBufferByteLength
-  app __x2__ = (ToInteger start)
-  let relativeStart = [? __x2__]
+  app __x1__ = (ToInteger start)
+  let relativeStart = [? __x1__]
   if (< relativeStart 0i) {
-    app __x3__ = (max (+ len relativeStart) 0i)
-    let first = __x3__
+    app __x2__ = (max (+ len relativeStart) 0i)
+    let first = __x2__
   } else {
-    app __x4__ = (min relativeStart len)
-    let first = __x4__
+    app __x3__ = (min relativeStart len)
+    let first = __x3__
   }
   if (= end undefined) let relativeEnd = len else {
-    app __x5__ = (ToInteger end)
-    let relativeEnd = [? __x5__]
+    app __x4__ = (ToInteger end)
+    let relativeEnd = [? __x4__]
   }
   if (< relativeEnd 0i) {
-    app __x6__ = (max (+ len relativeEnd) 0i)
-    let final = __x6__
+    app __x5__ = (max (+ len relativeEnd) 0i)
+    let final = __x5__
   } else {
-    app __x7__ = (min relativeEnd len)
-    let final = __x7__
+    app __x6__ = (min relativeEnd len)
+    let final = __x6__
   }
-  app __x8__ = (max (- final first) 0i)
-  let newLen = __x8__
-  app __x9__ = (SpeciesConstructor O INTRINSIC_SharedArrayBuffer)
-  let ctor = [? __x9__]
-  app __x10__ = (Construct ctor (new [newLen]))
-  let new = [? __x10__]
+  app __x7__ = (max (- final first) 0i)
+  let newLen = __x7__
+  app __x8__ = (SpeciesConstructor O INTRINSIC_SharedArrayBuffer)
+  let ctor = [? __x8__]
+  app __x9__ = (Construct ctor (new [newLen]))
+  let new = [? __x9__]
   if (= new.ArrayBufferData absent) throw TypeError else {}
-  app __x11__ = (IsSharedArrayBuffer new)
-  if (= __x11__ false) throw TypeError else {}
+  app __x10__ = (IsSharedArrayBuffer new)
+  if (= __x10__ false) throw TypeError else {}
   if (= new.ArrayBufferData O.ArrayBufferData) throw TypeError else {}
   if (< new.ArrayBufferByteLength newLen) throw TypeError else {}
   let fromBuf = O.ArrayBufferData
   let toBuf = new.ArrayBufferData
-  app __x12__ = (CopyDataBlockBytes toBuf 0i fromBuf first newLen)
-  __x12__
+  app __x11__ = (CopyDataBlockBytes toBuf 0i fromBuf first newLen)
+  __x11__
   return new
 }

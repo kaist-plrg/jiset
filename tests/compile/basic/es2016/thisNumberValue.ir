@@ -1,7 +1,5 @@
 {
-  app __x0__ = (Type value)
-  if (= __x0__ Number) return value else {}
-  app __x1__ = (Type value)
-  if (&& (= __x1__ Object) (! (= value.NumberData absent))) return value.NumberData else {}
+  if (= (typeof value) Number) return value else {}
+  if (&& (= (typeof value) Object) (! (= value.NumberData absent))) return value.NumberData else {}
   throw TypeError
 }

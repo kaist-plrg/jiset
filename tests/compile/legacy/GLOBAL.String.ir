@@ -2,21 +2,15 @@
   app __x0__ = (GetArgument argumentsList 0i)
   let value = __x0__
   if (= argumentsList[0i] absent) let s = "" else {
-    let __x1__ = true
-    __x1__ = (= NewTarget undefined)
-    if __x1__ {
-      app __x2__ = (Type value)
-      __x1__ = (= __x2__ Symbol)
+    if (&& (= NewTarget undefined) (= (typeof value) Symbol)) {
+      app __x1__ = (SymbolDescriptiveString value)
+      return __x1__
     } else {}
-    if __x1__ {
-      app __x3__ = (SymbolDescriptiveString value)
-      return __x3__
-    } else {}
-    app __x4__ = (ToString value)
-    let s = [? __x4__]
+    app __x2__ = (ToString value)
+    let s = [? __x2__]
   }
   if (= NewTarget undefined) return s else {}
-  app __x5__ = (GetPrototypeFromConstructor NewTarget "%String.prototype%")
-  app __x6__ = (StringCreate s [? __x5__])
-  return [! __x6__]
+  app __x3__ = (GetPrototypeFromConstructor NewTarget "%String.prototype%")
+  app __x4__ = (StringCreate s [? __x3__])
+  return [! __x4__]
 }

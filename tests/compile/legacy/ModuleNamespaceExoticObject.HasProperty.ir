@@ -1,8 +1,7 @@
 {
-  app __x0__ = (Type P)
-  if (= __x0__ Symbol) {
-    app __x1__ = (OrdinaryHasProperty O P)
-    return __x1__
+  if (= (typeof P) Symbol) {
+    app __x0__ = (OrdinaryHasProperty O P)
+    return __x0__
   } else {}
   let exports = O.Exports
   if (contains exports P) return true else {}

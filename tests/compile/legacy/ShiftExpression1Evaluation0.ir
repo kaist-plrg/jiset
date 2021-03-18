@@ -11,11 +11,8 @@
   let lnum = [? __x4__]
   app __x5__ = (ToNumeric rval)
   let rnum = [? __x5__]
-  app __x6__ = (Type lnum)
-  app __x7__ = (Type rnum)
-  if (! (= __x6__ __x7__)) throw TypeError else {}
-  app __x8__ = (Type lnum)
-  let T = __x8__
-  app __x9__ = (PRIMITIVE[T].leftShift lnum rnum)
-  return __x9__
+  if (! (= (typeof lnum) (typeof rnum))) throw TypeError else {}
+  let T = (typeof lnum)
+  app __x6__ = (PRIMITIVE[T].leftShift lnum rnum)
+  return __x6__
 }

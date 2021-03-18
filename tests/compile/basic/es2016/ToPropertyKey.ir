@@ -1,8 +1,7 @@
 {
   app __x0__ = (ToPrimitive argument String)
   let key = [? __x0__]
-  app __x1__ = (Type key)
-  if (= __x1__ Symbol) return key else {}
-  app __x2__ = (ToString key)
-  return [! __x2__]
+  if (= (typeof key) Symbol) return key else {}
+  app __x1__ = (ToString key)
+  return [! __x1__]
 }

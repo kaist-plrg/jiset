@@ -3,13 +3,12 @@
   let O = __x0__
   app __x1__ = (GetArgument argumentsList 1i)
   let Properties = __x1__
-  app __x2__ = (Type O)
-  if (! (|| (= __x2__ Object) (= __x2__ Null))) throw TypeError else {}
-  app __x3__ = (OrdinaryObjectCreate O)
-  let obj = __x3__
+  if (! (|| (= (typeof O) Object) (= (typeof O) Null))) throw TypeError else {}
+  app __x2__ = (OrdinaryObjectCreate O)
+  let obj = __x2__
   if (! (= Properties undefined)) {
-    app __x4__ = (ObjectDefineProperties obj Properties)
-    return [? __x4__]
+    app __x3__ = (ObjectDefineProperties obj Properties)
+    return [? __x3__]
   } else {}
   return obj
 }

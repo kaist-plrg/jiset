@@ -10,82 +10,39 @@
     app __x3__ = (ToPrimitive x CONST_number)
     let px = [? __x3__]
   }
-  let __x4__ = true
-  app __x5__ = (Type px)
-  __x4__ = (= __x5__ String)
-  if __x4__ {
-    app __x6__ = (Type py)
-    __x4__ = (= __x6__ String)
-  } else {}
-  if __x4__ {
-    app __x7__ = (IsStringPrefix py px)
-    if (= __x7__ true) return false else {}
-    app __x8__ = (IsStringPrefix px py)
-    if (= __x8__ true) return true else {}
+  if (&& (= (typeof px) String) (= (typeof py) String)) {
+    app __x4__ = (IsStringPrefix py px)
+    if (= __x4__ true) return false else {}
+    app __x5__ = (IsStringPrefix px py)
+    if (= __x5__ true) return true else {}
     ??? "Let id:{k} be the smallest non - negative integer such that the code unit at index id:{k} within id:{px} is different from the code unit at index id:{k} within id:{py} . ( There must be such a id:{k} , for neither String is a prefix of the other . )"
     ??? "Let id:{m} be the integer that is the numeric value of the code unit at index id:{k} within id:{px} ."
     ??? "Let id:{n} be the integer that is the numeric value of the code unit at index id:{k} within id:{py} ."
     if (< m n) return true else return false
   } else {
-    let __x9__ = true
-    app __x10__ = (Type px)
-    __x9__ = (= __x10__ BigInt)
-    if __x9__ {
-      app __x11__ = (Type py)
-      __x9__ = (= __x11__ String)
-    } else {}
-    if __x9__ {
-      app __x12__ = (StringToBigInt py)
-      let ny = [! __x12__]
+    if (&& (= (typeof px) BigInt) (= (typeof py) String)) {
+      app __x6__ = (StringToBigInt py)
+      let ny = [! __x6__]
       if (= ny NaN) return undefined else {}
-      app __x13__ = (PRIMITIVE[BigInt].lessThan px ny)
-      return __x13__
+      app __x7__ = (PRIMITIVE[BigInt].lessThan px ny)
+      return __x7__
     } else {}
-    let __x14__ = true
-    app __x15__ = (Type px)
-    __x14__ = (= __x15__ String)
-    if __x14__ {
-      app __x16__ = (Type py)
-      __x14__ = (= __x16__ BigInt)
-    } else {}
-    if __x14__ {
-      app __x17__ = (StringToBigInt px)
-      let nx = [! __x17__]
+    if (&& (= (typeof px) String) (= (typeof py) BigInt)) {
+      app __x8__ = (StringToBigInt px)
+      let nx = [! __x8__]
       if (= nx NaN) return undefined else {}
-      app __x18__ = (PRIMITIVE[BigInt].lessThan nx py)
-      return __x18__
+      app __x9__ = (PRIMITIVE[BigInt].lessThan nx py)
+      return __x9__
     } else {}
-    app __x19__ = (ToNumeric px)
-    let nx = [! __x19__]
-    app __x20__ = (ToNumeric py)
-    let ny = [! __x20__]
-    app __x21__ = (Type nx)
-    app __x22__ = (Type ny)
-    if (= __x21__ __x22__) {
-      app __x23__ = (Type nx)
-      app __x24__ = (PRIMITIVE[__x23__].lessThan nx ny)
-      return __x24__
+    app __x10__ = (ToNumeric px)
+    let nx = [! __x10__]
+    app __x11__ = (ToNumeric py)
+    let ny = [! __x11__]
+    if (= (typeof nx) (typeof ny)) {
+      app __x12__ = (PRIMITIVE[(typeof nx)].lessThan nx ny)
+      return __x12__
     } else {}
-    let __x25__ = true
-    app __x26__ = (Type nx)
-    __x25__ = (= __x26__ BigInt)
-    if __x25__ {
-      let __x27__ = true
-      app __x28__ = (Type ny)
-      __x27__ = (= __x28__ Number)
-      if __x27__ {} else {
-        let __x29__ = true
-        app __x30__ = (Type nx)
-        __x29__ = (= __x30__ Number)
-        if __x29__ {
-          app __x31__ = (Type ny)
-          __x29__ = (= __x31__ BigInt)
-        } else {}
-        __x27__ = __x29__
-      }
-      __x25__ = __x27__
-    } else {}
-    assert __x25__
+    assert (&& (= (typeof nx) BigInt) (|| (= (typeof ny) Number) (&& (= (typeof nx) Number) (= (typeof ny) BigInt))))
     if (|| (= nx NaN) (= ny NaN)) return undefined else {}
     if (|| (= nx -Infinity) (= ny Infinity)) return true else {}
     if (|| (= nx Infinity) (= ny -Infinity)) return false else {}

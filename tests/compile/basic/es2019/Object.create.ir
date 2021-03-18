@@ -1,11 +1,10 @@
 {
-  app __x0__ = (Type O)
-  if (! (|| (= __x0__ Object) (= __x0__ Null))) throw TypeError else {}
-  app __x1__ = (ObjectCreate O)
-  let obj = __x1__
+  if (! (|| (= (typeof O) Object) (= (typeof O) Null))) throw TypeError else {}
+  app __x0__ = (ObjectCreate O)
+  let obj = __x0__
   if (! (= Properties undefined)) {
-    app __x2__ = (ObjectDefineProperties obj Properties)
-    return [? __x2__]
+    app __x1__ = (ObjectDefineProperties obj Properties)
+    return [? __x1__]
   } else {}
   return obj
 }

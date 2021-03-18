@@ -1,7 +1,7 @@
 {
   app __x0__ = (IsConstructor constructor)
   assert (= __x0__ true)
-  assert (= (typeof resultCapability) "PromiseCapabilityRecord")
+  assert (is-instance-of resultCapability PromiseCapabilityRecord)
   app __x1__ = (Get constructor "resolve")
   let promiseResolve = [? __x1__]
   app __x2__ = (IsCallable promiseResolve)

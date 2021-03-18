@@ -1,16 +1,9 @@
 {
-  app __x0__ = (Type argument)
-  if (= __x0__ Undefined) throw TypeError else {}
-  app __x1__ = (Type argument)
-  if (= __x1__ Null) throw TypeError else {}
-  app __x2__ = (Type argument)
-  if (= __x2__ Boolean) ??? "Return a new Boolean object whose [ [ BooleanData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-boolean-objects} for a description of Boolean objects ." else {}
-  app __x3__ = (Type argument)
-  if (= __x3__ Number) ??? "Return a new Number object whose [ [ NumberData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-number-objects} for a description of Number objects ." else {}
-  app __x4__ = (Type argument)
-  if (= __x4__ String) ??? "Return a new String object whose [ [ StringData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-string-objects} for a description of String objects ." else {}
-  app __x5__ = (Type argument)
-  if (= __x5__ Symbol) ??? "Return a new Symbol object whose [ [ SymbolData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-symbol-objects} for a description of Symbol objects ." else {}
-  app __x6__ = (Type argument)
-  if (= __x6__ Object) return argument else {}
+  if (= (typeof argument) Undefined) throw TypeError else {}
+  if (= (typeof argument) Null) throw TypeError else {}
+  if (= (typeof argument) Boolean) ??? "Return a new Boolean object whose [ [ BooleanData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-boolean-objects} for a description of Boolean objects ." else {}
+  if (= (typeof argument) Number) ??? "Return a new Number object whose [ [ NumberData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-number-objects} for a description of Number objects ." else {}
+  if (= (typeof argument) String) ??? "Return a new String object whose [ [ StringData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-string-objects} for a description of String objects ." else {}
+  if (= (typeof argument) Symbol) ??? "Return a new Symbol object whose [ [ SymbolData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-symbol-objects} for a description of Symbol objects ." else {}
+  if (= (typeof argument) Object) return argument else {}
 }

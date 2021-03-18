@@ -4,24 +4,23 @@
   let S = this
   app __x1__ = (RequireInternalSlot S "WeakSetData")
   [? __x1__]
-  app __x2__ = (Type value)
-  if (! (= __x2__ Object)) return false else {}
+  if (! (= (typeof value) Object)) return false else {}
   let entries = S.WeakSetData
-  let __x3__ = entries
-  let __x4__ = 0i
-  while (< __x4__ __x3__.length) {
-    let e = __x3__[__x4__]
-    let __x5__ = true
-    __x5__ = (! (= e CONST_empty))
-    if __x5__ {
-      app __x6__ = (SameValue e value)
-      __x5__ = (= __x6__ true)
+  let __x2__ = entries
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let e = __x2__[__x3__]
+    let __x4__ = true
+    __x4__ = (! (= e CONST_empty))
+    if __x4__ {
+      app __x5__ = (SameValue e value)
+      __x4__ = (= __x5__ true)
     } else {}
-    if __x5__ {
+    if __x4__ {
       ??? "Replace the element of id:{entries} whose value is id:{e} with an element whose value is const:{empty} ."
       return true
     } else {}
-    __x4__ = (+ __x4__ 1i)
+    __x3__ = (+ __x3__ 1i)
   }
   return false
 }

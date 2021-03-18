@@ -1,15 +1,14 @@
 {
   let S = this
-  app __x0__ = (Type S)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof S) Object)) throw TypeError else {}
   if (= S.SetData absent) throw TypeError else {}
   let entries = S.SetData
-  let __x1__ = entries
-  let __x2__ = 0i
-  while (< __x2__ __x1__.length) {
-    let e = __x1__[__x2__]
+  let __x0__ = entries
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let e = __x0__[__x1__]
     ??? "Replace the element of id:{entries} whose value is id:{e} with an element whose value is const:{empty} ."
-    __x2__ = (+ __x2__ 1i)
+    __x1__ = (+ __x1__ 1i)
   }
   return undefined
 }

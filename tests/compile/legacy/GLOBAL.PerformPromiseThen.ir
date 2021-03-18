@@ -9,7 +9,7 @@
   let resultCapability = __x3__
   app __x4__ = (IsPromise promise)
   assert (= __x4__ true)
-  if (! (= argumentsList[3i] absent)) assert (= (typeof resultCapability) "PromiseCapabilityRecord") else resultCapability = undefined
+  if (! (= argumentsList[3i] absent)) assert (is-instance-of resultCapability PromiseCapabilityRecord) else resultCapability = undefined
   app __x5__ = (IsCallable onFulfilled)
   if (= __x5__ false) onFulfilled = undefined else {}
   app __x6__ = (IsCallable onRejected)

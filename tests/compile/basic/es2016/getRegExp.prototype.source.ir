@@ -1,11 +1,10 @@
 {
   let R = this
-  app __x0__ = (Type R)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof R) Object)) throw TypeError else {}
   if (= R.OriginalSource absent) throw TypeError else {}
   if (= R.OriginalFlags absent) throw TypeError else {}
   let src = R.OriginalSource
   let flags = R.OriginalFlags
-  app __x1__ = (EscapeRegExpPattern src flags)
-  return __x1__
+  app __x0__ = (EscapeRegExpPattern src flags)
+  return __x0__
 }

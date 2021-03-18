@@ -1,7 +1,7 @@
 {
   app __x0__ = (IsPromise promise)
   assert (= __x0__ true)
-  if (! (= resultCapability absent)) assert (= (typeof resultCapability) "PromiseCapabilityRecord") else resultCapability = undefined
+  if (! (= resultCapability absent)) assert (is-instance-of resultCapability PromiseCapabilityRecord) else resultCapability = undefined
   app __x1__ = (IsCallable onFulfilled)
   if (= __x1__ false) onFulfilled = undefined else {}
   app __x2__ = (IsCallable onRejected)

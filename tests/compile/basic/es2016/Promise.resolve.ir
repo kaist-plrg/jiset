@@ -1,17 +1,16 @@
 {
   let C = this
-  app __x0__ = (Type C)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (IsPromise x)
-  if (= __x1__ true) {
-    app __x2__ = (Get x "constructor")
-    let xConstructor = [? __x2__]
-    app __x3__ = (SameValue xConstructor C)
-    if (= __x3__ true) return x else {}
+  if (! (= (typeof C) Object)) throw TypeError else {}
+  app __x0__ = (IsPromise x)
+  if (= __x0__ true) {
+    app __x1__ = (Get x "constructor")
+    let xConstructor = [? __x1__]
+    app __x2__ = (SameValue xConstructor C)
+    if (= __x2__ true) return x else {}
   } else {}
-  app __x4__ = (NewPromiseCapability C)
-  let promiseCapability = [? __x4__]
-  app __x5__ = (Call promiseCapability.Resolve undefined (new [x]))
-  [? __x5__]
+  app __x3__ = (NewPromiseCapability C)
+  let promiseCapability = [? __x3__]
+  app __x4__ = (Call promiseCapability.Resolve undefined (new [x]))
+  [? __x4__]
   return promiseCapability.Promise
 }

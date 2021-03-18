@@ -4,13 +4,12 @@
   app __x1__ = (OrdinaryGetOwnProperty S P)
   let desc = __x1__
   if (! (= desc undefined)) return desc else {}
-  app __x2__ = (Type P)
-  if (! (= __x2__ String)) return undefined else {}
-  app __x3__ = (CanonicalNumericIndexString P)
-  let index = [! __x3__]
+  if (! (= (typeof P) String)) return undefined else {}
+  app __x2__ = (CanonicalNumericIndexString P)
+  let index = [! __x2__]
   if (= index undefined) return undefined else {}
-  app __x4__ = (IsInteger index)
-  if (= __x4__ false) return undefined else {}
+  app __x3__ = (IsInteger index)
+  if (= __x3__ false) return undefined else {}
   if (== index -0.0) return undefined else {}
   let str = S.StringData
   let len = str.length

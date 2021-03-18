@@ -8,21 +8,9 @@
   let __x3__ = 0i
   while (< __x3__ __x2__.length) {
     let nextKey = __x2__[__x3__]
-    let __x4__ = true
-    app __x5__ = (Type nextKey)
-    __x4__ = (= __x5__ Symbol)
-    if __x4__ {
-      let __x6__ = true
-      __x6__ = (= type CONST_symbol)
-      if __x6__ {} else {
-        app __x7__ = (Type nextKey)
-        __x6__ = (&& (= __x7__ String) (= type CONST_string))
-      }
-      __x4__ = __x6__
-    } else {}
-    if __x4__ append nextKey -> nameList else {}
+    if (&& (= (typeof nextKey) Symbol) (|| (= type CONST_symbol) (&& (= (typeof nextKey) String) (= type CONST_string)))) append nextKey -> nameList else {}
     __x3__ = (+ __x3__ 1i)
   }
-  app __x8__ = (CreateArrayFromList nameList)
-  return __x8__
+  app __x4__ = (CreateArrayFromList nameList)
+  return __x4__
 }

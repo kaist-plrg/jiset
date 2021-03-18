@@ -1,13 +1,12 @@
 {
-  app __x0__ = (Type sym)
-  if (! (= __x0__ Symbol)) throw TypeError else {}
-  let __x1__ = GLOBAL_symbolRegistry
-  let __x2__ = 0i
-  while (< __x2__ __x1__.length) {
-    let e = __x1__[__x2__]
-    app __x3__ = (SameValue e.Symbol sym)
-    if (= __x3__ true) return e.Key else {}
-    __x2__ = (+ __x2__ 1i)
+  if (! (= (typeof sym) Symbol)) throw TypeError else {}
+  let __x0__ = GLOBAL_symbolRegistry
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let e = __x0__[__x1__]
+    app __x2__ = (SameValue e.Symbol sym)
+    if (= __x2__ true) return e.Key else {}
+    __x1__ = (+ __x1__ 1i)
   }
   return undefined
 }

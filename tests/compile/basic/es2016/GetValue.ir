@@ -1,26 +1,25 @@
 {
   [? V]
-  app __x0__ = (Type V)
-  if (! (= __x0__ Reference)) return V else {}
-  app __x1__ = (GetBase V)
-  let base = __x1__
-  app __x2__ = (IsUnresolvableReference V)
-  if (= __x2__ true) throw ReferenceError else {}
-  app __x3__ = (IsPropertyReference V)
-  if (= __x3__ true) {
-    app __x4__ = (HasPrimitiveBase V)
-    if (= __x4__ true) {
-      app __x5__ = (ToObject base)
-      let base = __x5__
+  if (! (= (typeof V) Reference)) return V else {}
+  app __x0__ = (GetBase V)
+  let base = __x0__
+  app __x1__ = (IsUnresolvableReference V)
+  if (= __x1__ true) throw ReferenceError else {}
+  app __x2__ = (IsPropertyReference V)
+  if (= __x2__ true) {
+    app __x3__ = (HasPrimitiveBase V)
+    if (= __x3__ true) {
+      app __x4__ = (ToObject base)
+      let base = __x4__
     } else {}
-    app __x6__ = (GetReferencedName V)
-    app __x7__ = (GetThisValue V)
-    app __x8__ = (base.Get base __x6__ __x7__)
-    return [? __x8__]
+    app __x5__ = (GetReferencedName V)
+    app __x6__ = (GetThisValue V)
+    app __x7__ = (base.Get base __x5__ __x6__)
+    return [? __x7__]
   } else {
-    app __x9__ = (GetReferencedName V)
-    app __x10__ = (IsStrictReference V)
-    app __x11__ = (base.GetBindingValue base __x9__ __x10__)
-    return [? __x11__]
+    app __x8__ = (GetReferencedName V)
+    app __x9__ = (IsStrictReference V)
+    app __x10__ = (base.GetBindingValue base __x8__ __x9__)
+    return [? __x10__]
   }
 }

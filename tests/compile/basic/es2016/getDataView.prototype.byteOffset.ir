@@ -1,11 +1,10 @@
 {
   let O = this
-  app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof O) Object)) throw TypeError else {}
   if (= O.ViewedArrayBuffer absent) throw TypeError else {}
   let buffer = O.ViewedArrayBuffer
-  app __x1__ = (IsDetachedBuffer buffer)
-  if (= __x1__ true) throw TypeError else {}
+  app __x0__ = (IsDetachedBuffer buffer)
+  if (= __x0__ true) throw TypeError else {}
   let offset = O.ByteOffset
   return offset
 }

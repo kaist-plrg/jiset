@@ -17,18 +17,17 @@
       if (= __x5__ true) C = undefined else {}
     } else {}
   } else {}
-  app __x6__ = (Type C)
-  if (= __x6__ Object) {
-    app __x7__ = (Get C SYMBOL_species)
-    C = [? __x7__]
+  if (= (typeof C) Object) {
+    app __x6__ = (Get C SYMBOL_species)
+    C = [? __x6__]
     if (= C null) C = undefined else {}
   } else {}
   if (= C undefined) {
-    app __x8__ = (ArrayCreate length)
-    return [? __x8__]
+    app __x7__ = (ArrayCreate length)
+    return [? __x7__]
   } else {}
-  app __x9__ = (IsConstructor C)
-  if (= __x9__ false) throw TypeError else {}
-  app __x10__ = (Construct C (new [length]))
-  return [? __x10__]
+  app __x8__ = (IsConstructor C)
+  if (= __x8__ false) throw TypeError else {}
+  app __x9__ = (Construct C (new [length]))
+  return [? __x9__]
 }

@@ -1,8 +1,7 @@
 {
   let keys = (new [])
   let str = O.StringData
-  app __x0__ = (Type str)
-  assert (= __x0__ String)
+  assert (= (typeof str) String)
   let len = str.length
   ??? "For each non - negative integer id:{i} starting with 0 such that id:{i} < id:{len} , in ascending order , do in:{} out:{}"
   ??? "For each own property key id:{P} of id:{O} such that id:{P} is an array index and ! ToIntegerOrInfinity ( id:{P} ) ≥ id:{len} , in ascending numeric index order , do in:{} out:{}"

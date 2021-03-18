@@ -1,19 +1,18 @@
 {
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
-  app __x1__ = (Type P)
-  if (= __x1__ String) {
-    app __x2__ = (CanonicalNumericIndexString P)
-    let numericIndex = [! __x2__]
+  if (= (typeof P) String) {
+    app __x1__ = (CanonicalNumericIndexString P)
+    let numericIndex = [! __x1__]
     if (! (= numericIndex undefined)) {
       let buffer = O.ViewedArrayBuffer
-      app __x3__ = (IsDetachedBuffer buffer)
-      if (= __x3__ true) throw TypeError else {}
-      app __x4__ = (IsValidIntegerIndex O numericIndex)
-      if (= [! __x4__] false) return false else {}
+      app __x2__ = (IsDetachedBuffer buffer)
+      if (= __x2__ true) throw TypeError else {}
+      app __x3__ = (IsValidIntegerIndex O numericIndex)
+      if (= [! __x3__] false) return false else {}
       return true
     } else {}
   } else {}
-  app __x5__ = (OrdinaryHasProperty O P)
-  return [? __x5__]
+  app __x4__ = (OrdinaryHasProperty O P)
+  return [? __x4__]
 }

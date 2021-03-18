@@ -1,9 +1,8 @@
 digraph {
   node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2 [shape=cds, label=<<font color="black">0:app __x0__ = (Type tv)</font>> color="black" fillcolor="white" style=filled]
-  node3 [shape=none, margin=0, label=<<font color="black">
+  node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:assert (= __x0__ Number)</td></tr>
+      <tr><td align="left">0:assert (= (typeof tv) Number)</td></tr>
       <tr><td align="left">1:assert (! (= tv NaN))</td></tr>
       <tr><td align="left">2:??? &quot;Let id:{hour} be the String representation of HourFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary .&quot;</td></tr>
       <tr><td align="left">3:??? &quot;Let id:{minute} be the String representation of MinFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary .&quot;</td></tr>
@@ -13,6 +12,5 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
   node0 -> node2 [ color="black"]
-  node2 -> node3 [ color="black"]
-  node3 -> node1 [ color="black"]
+  node2 -> node1 [ color="black"]
 }

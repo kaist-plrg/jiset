@@ -1,29 +1,27 @@
 {
-  app __x0__ = (Type O)
-  assert (= __x0__ Object)
-  app __x1__ = (O.OwnPropertyKeys O)
-  let ownKeys = [? __x1__]
+  assert (= (typeof O) Object)
+  app __x0__ = (O.OwnPropertyKeys O)
+  let ownKeys = [? __x0__]
   let properties = (new [])
-  let __x2__ = ownKeys
-  let __x3__ = 0i
-  while (< __x3__ __x2__.length) {
-    let key = __x2__[__x3__]
-    app __x4__ = (Type key)
-    if (= __x4__ String) {
-      app __x5__ = (O.GetOwnProperty O key)
-      let desc = [? __x5__]
+  let __x1__ = ownKeys
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let key = __x1__[__x2__]
+    if (= (typeof key) String) {
+      app __x3__ = (O.GetOwnProperty O key)
+      let desc = [? __x3__]
       if (&& (! (= desc undefined)) (= desc.Enumerable true)) if (= kind CONST_key) append key -> properties else {
-        app __x6__ = (Get O key)
-        let value = [? __x6__]
+        app __x4__ = (Get O key)
+        let value = [? __x4__]
         if (= kind CONST_value) append value -> properties else {
           assert (= kind CONST_keyPLUSvalue)
-          app __x7__ = (CreateArrayFromList (new [key, value]))
-          let entry = [! __x7__]
+          app __x5__ = (CreateArrayFromList (new [key, value]))
+          let entry = [! __x5__]
           append entry -> properties
         }
       } else {}
     } else {}
-    __x3__ = (+ __x3__ 1i)
+    __x2__ = (+ __x2__ 1i)
   }
   return properties
 }

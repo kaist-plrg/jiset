@@ -16,35 +16,34 @@ if (== argumentsList.length 0i) {
   let proto = [? __x3__]
   app __x4__ = (ArrayCreate 0i proto)
   let array = [! __x4__]
-  app __x5__ = (Type len)
-  if (! (= __x5__ Number)) {
-    app __x6__ = (CreateDataPropertyOrThrow array "0" len)
-    [! __x6__]
+  if (! (= (typeof len) Number)) {
+    app __x5__ = (CreateDataPropertyOrThrow array "0" len)
+    [! __x5__]
     let intLen = 1i
   } else {
-    app __x7__ = (ToUint32 len)
-    let intLen = __x7__
+    app __x6__ = (ToUint32 len)
+    let intLen = __x6__
     if (! (== intLen len)) throw RangeError else {}
   }
-  app __x8__ = (Set array "length" intLen true)
-  [! __x8__]
+  app __x7__ = (Set array "length" intLen true)
+  [! __x7__]
   return array
 } else {
   let numberOfArgs = argumentsList.length
   assert (! (< numberOfArgs 2i))
   if (= NewTarget undefined) let newTarget = GLOBAL_context.Function else let newTarget = NewTarget
-  app __x9__ = (GetPrototypeFromConstructor newTarget "%Array.prototype%")
-  let proto = [? __x9__]
-  app __x10__ = (ArrayCreate numberOfArgs proto)
-  let array = [? __x10__]
+  app __x8__ = (GetPrototypeFromConstructor newTarget "%Array.prototype%")
+  let proto = [? __x8__]
+  app __x9__ = (ArrayCreate numberOfArgs proto)
+  let array = [? __x9__]
   let k = 0i
   ??? "Let id:{items} be a zero - origined List containing the argument items in order ."
   while (< k numberOfArgs) {
-    app __x11__ = (ToString k)
-    let Pk = [! __x11__]
+    app __x10__ = (ToString k)
+    let Pk = [! __x10__]
     let itemK = items[k]
-    app __x12__ = (CreateDataPropertyOrThrow array Pk itemK)
-    [! __x12__]
+    app __x11__ = (CreateDataPropertyOrThrow array Pk itemK)
+    [! __x11__]
     k = (+ k 1i)
   }
   return array

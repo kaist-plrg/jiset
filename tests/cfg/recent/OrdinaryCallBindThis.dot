@@ -8,7 +8,7 @@ digraph {
   node10 [shape=diamond, label=<<font color="black">(|| (= thisArgument undefined) (= thisArgument null))</font>> color="black" fillcolor="white" style=filled]
   node14 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">13:assert (= (typeof localEnv) &quot;FunctionEnvironmentRecord&quot;)</td></tr>
+      <tr><td align="left">13:assert (is-instance-of localEnv FunctionEnvironmentRecord)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
@@ -43,7 +43,7 @@ digraph {
   node11 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:let globalEnv = calleeRealm.GlobalEnv</td></tr>
-      <tr><td align="left">8:assert (= (typeof globalEnv) &quot;GlobalEnvironmentRecord&quot;)</td></tr>
+      <tr><td align="left">8:assert (is-instance-of globalEnv GlobalEnvironmentRecord)</td></tr>
       <tr><td align="left">9:let thisValue = globalEnv.GlobalThisValue</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]

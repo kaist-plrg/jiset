@@ -11,32 +11,31 @@
   app __x4__ = (GetValue ref)
   let func = [? __x4__]
   let __x5__ = true
-  app __x6__ = (Type ref)
-  __x5__ = (= __x6__ Reference)
+  __x5__ = (= (typeof ref) Reference)
   if __x5__ {
-    app __x7__ = (IsPropertyReference ref)
-    __x5__ = (= __x7__ false)
+    app __x6__ = (IsPropertyReference ref)
+    __x5__ = (= __x6__ false)
     if __x5__ {
-      app __x8__ = (GetReferencedName ref)
-      __x5__ = (= __x8__ "eval")
+      app __x7__ = (GetReferencedName ref)
+      __x5__ = (= __x7__ "eval")
     } else {}
   } else {}
   if __x5__ {
-    app __x9__ = (SameValue func INTRINSIC_eval)
-    if (= __x9__ true) {
-      access __x10__ = (arguments "ArgumentListEvaluation")
-      let argList = [? __x10__]
+    app __x8__ = (SameValue func INTRINSIC_eval)
+    if (= __x8__ true) {
+      access __x9__ = (arguments "ArgumentListEvaluation")
+      let argList = [? __x9__]
       if (= argList.length 0i) return undefined else {}
       let evalArg = argList[0i]
       if true let strictCaller = true else let strictCaller = false
       let evalRealm = REALM
-      app __x11__ = (PerformEval evalArg evalRealm strictCaller true)
-      return [? __x11__]
+      app __x10__ = (PerformEval evalArg evalRealm strictCaller true)
+      return [? __x10__]
     } else {}
   } else {}
   let thisCall = this
-  app __x12__ = (IsInTailPosition thisCall)
-  let tailCall = __x12__
-  app __x13__ = (EvaluateCall func ref arguments tailCall)
-  return [? __x13__]
+  app __x11__ = (IsInTailPosition thisCall)
+  let tailCall = __x11__
+  app __x12__ = (EvaluateCall func ref arguments tailCall)
+  return [? __x12__]
 }

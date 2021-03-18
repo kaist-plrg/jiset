@@ -3,18 +3,17 @@
   let C = __x0__
   app __x1__ = (GetArgument argumentsList 1i)
   let x = __x1__
-  app __x2__ = (Type C)
-  assert (= __x2__ Object)
-  app __x3__ = (IsPromise x)
-  if (= __x3__ true) {
-    app __x4__ = (Get x "constructor")
-    let xConstructor = [? __x4__]
-    app __x5__ = (SameValue xConstructor C)
-    if (= __x5__ true) return x else {}
+  assert (= (typeof C) Object)
+  app __x2__ = (IsPromise x)
+  if (= __x2__ true) {
+    app __x3__ = (Get x "constructor")
+    let xConstructor = [? __x3__]
+    app __x4__ = (SameValue xConstructor C)
+    if (= __x4__ true) return x else {}
   } else {}
-  app __x6__ = (NewPromiseCapability C)
-  let promiseCapability = [? __x6__]
-  app __x7__ = (Call promiseCapability.Resolve undefined (new [x]))
-  [? __x7__]
+  app __x5__ = (NewPromiseCapability C)
+  let promiseCapability = [? __x5__]
+  app __x6__ = (Call promiseCapability.Resolve undefined (new [x]))
+  [? __x6__]
   return promiseCapability.Promise
 }

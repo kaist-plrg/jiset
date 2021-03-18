@@ -10,30 +10,29 @@
     let len = values[0i]
     app __x2__ = (ArrayCreate 0i proto)
     let array = [! __x2__]
-    app __x3__ = (Type len)
-    if (! (= __x3__ Number)) {
-      app __x4__ = (CreateDataPropertyOrThrow array "0" len)
-      [! __x4__]
+    if (! (= (typeof len) Number)) {
+      app __x3__ = (CreateDataPropertyOrThrow array "0" len)
+      [! __x3__]
       let intLen = 1i
     } else {
-      app __x5__ = (ToUint32 len)
-      let intLen = [! __x5__]
+      app __x4__ = (ToUint32 len)
+      let intLen = [! __x4__]
       if (! (= intLen len)) throw RangeError else {}
     }
-    app __x6__ = (Set array "length" intLen true)
-    [! __x6__]
+    app __x5__ = (Set array "length" intLen true)
+    [! __x5__]
     return array
   } else {
     assert (! (< numberOfArgs 2i))
-    app __x7__ = (ArrayCreate numberOfArgs proto)
-    let array = [? __x7__]
+    app __x6__ = (ArrayCreate numberOfArgs proto)
+    let array = [? __x6__]
     let k = 0i
     while (< k numberOfArgs) {
-      app __x8__ = (ToString k)
-      let Pk = [! __x8__]
+      app __x7__ = (ToString k)
+      let Pk = [! __x7__]
       let itemK = values[k]
-      app __x9__ = (CreateDataPropertyOrThrow array Pk itemK)
-      [! __x9__]
+      app __x8__ = (CreateDataPropertyOrThrow array Pk itemK)
+      [! __x8__]
       k = (+ k 1i)
     }
     return array

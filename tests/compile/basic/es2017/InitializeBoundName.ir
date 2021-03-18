@@ -1,15 +1,14 @@
 {
-  app __x0__ = (Type name)
-  assert (= __x0__ String)
+  assert (= (typeof name) String)
   if (! (= environment undefined)) {
     let env = environment.EnvironmentRecord
-    app __x1__ = (env.InitializeBinding env name value)
-    __x1__
+    app __x0__ = (env.InitializeBinding env name value)
+    __x0__
     return undefined
   } else {
-    app __x2__ = (ResolveBinding name)
-    let lhs = __x2__
-    app __x3__ = (PutValue lhs value)
-    return [? __x3__]
+    app __x1__ = (ResolveBinding name)
+    let lhs = __x1__
+    app __x2__ = (PutValue lhs value)
+    return [? __x2__]
   }
 }

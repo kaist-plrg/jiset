@@ -3,21 +3,20 @@
   assert (= __x0__ true)
   let handler = O.ProxyHandler
   if (= handler null) throw TypeError else {}
-  app __x1__ = (Type handler)
-  assert (= __x1__ Object)
+  assert (= (typeof handler) Object)
   let target = O.ProxyTarget
-  app __x2__ = (GetMethod handler "deleteProperty")
-  let trap = [? __x2__]
+  app __x1__ = (GetMethod handler "deleteProperty")
+  let trap = [? __x1__]
   if (= trap undefined) {
-    app __x3__ = (target.Delete target P)
-    return [? __x3__]
+    app __x2__ = (target.Delete target P)
+    return [? __x2__]
   } else {}
-  app __x4__ = (Call trap handler (new [target, P]))
-  app __x5__ = (ToBoolean [? __x4__])
-  let booleanTrapResult = __x5__
+  app __x3__ = (Call trap handler (new [target, P]))
+  app __x4__ = (ToBoolean [? __x3__])
+  let booleanTrapResult = __x4__
   if (= booleanTrapResult false) return false else {}
-  app __x6__ = (target.GetOwnProperty target P)
-  let targetDesc = [? __x6__]
+  app __x5__ = (target.GetOwnProperty target P)
+  let targetDesc = [? __x5__]
   if (= targetDesc undefined) return true else {}
   if (= targetDesc.Configurable false) throw TypeError else {}
   return true

@@ -1,9 +1,8 @@
 {
-  app __x0__ = (Type O)
-  assert (= __x0__ Object)
-  app __x1__ = (IsPropertyKey P)
-  assert (= __x1__ true)
+  assert (= (typeof O) Object)
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
   let newDesc = (new PropertyDescriptor("Value" -> V, "Writable" -> true, "Enumerable" -> true, "Configurable" -> true))
-  app __x2__ = (O.DefineOwnProperty O P newDesc)
-  return [? __x2__]
+  app __x1__ = (O.DefineOwnProperty O P newDesc)
+  return [? __x1__]
 }

@@ -27,7 +27,7 @@ digraph {
       <tr><td align="left">14:assert (|| (|| (= requiredModule.Status &quot;instantiating&quot;) (= requiredModule.Status &quot;instantiated&quot;)) (= requiredModule.Status &quot;evaluated&quot;))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2 [shape=diamond, label=<<font color="black">(! (= (typeof module) &quot;CyclicModuleRecord&quot;))</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=diamond, label=<<font color="black">(! (is-instance-of module CyclicModuleRecord))</font>> color="black" fillcolor="white" style=filled]
   node17 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">18:module.DFSAncestorIndex = __x5__</td></tr>
@@ -68,7 +68,7 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node15 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">17:assert (= (typeof requiredModule) &quot;CyclicModuleRecord&quot;)</td></tr>
+      <tr><td align="left">17:assert (is-instance-of requiredModule CyclicModuleRecord)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node24 [shape=none, margin=0, label=<<font color="black">

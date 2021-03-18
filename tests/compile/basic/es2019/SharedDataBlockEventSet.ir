@@ -5,7 +5,7 @@
   let __x2__ = 0i
   while (< __x2__ __x1__.length) {
     let E = __x1__[__x2__]
-    if (|| (|| (= (typeof E) "ReadSharedMemory") (= (typeof E) "WriteSharedMemory")) (= (typeof E) "ReadModifyWriteSharedMemory")) append E -> events else {}
+    if (|| (|| (is-instance-of E ReadSharedMemory) (is-instance-of E WriteSharedMemory)) (is-instance-of E ReadModifyWriteSharedMemory)) append E -> events else {}
     __x2__ = (+ __x2__ 1i)
   }
   return events

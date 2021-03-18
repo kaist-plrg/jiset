@@ -1,8 +1,7 @@
 {
-  app __x0__ = (Type length)
-  assert (= __x0__ Number)
-  app __x1__ = (IsNonNegativeInteger length)
-  assert (= [! __x1__] true)
-  app __x2__ = (DefinePropertyOrThrow F "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
-  return [! __x2__]
+  assert (= (typeof length) Number)
+  app __x0__ = (IsNonNegativeInteger length)
+  assert (= [! __x0__] true)
+  app __x1__ = (DefinePropertyOrThrow F "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
+  return [! __x1__]
 }

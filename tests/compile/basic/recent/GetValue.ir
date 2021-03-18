@@ -1,6 +1,6 @@
 {
   [? V]
-  if (! (= (typeof V) "ReferenceRecord")) return V else {}
+  if (! (is-instance-of V ReferenceRecord)) return V else {}
   app __x0__ = (IsUnresolvableReference V)
   if (= __x0__ true) throw ReferenceError else {}
   app __x1__ = (IsPropertyReference V)

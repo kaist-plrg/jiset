@@ -10,49 +10,47 @@
   app __x4__ = (GetValue ref)
   let func = [? __x4__]
   let __x5__ = true
-  app __x6__ = (Type ref)
-  __x5__ = (= __x6__ Reference)
+  __x5__ = (= (typeof ref) Reference)
   if __x5__ {
-    let __x7__ = true
-    app __x8__ = (IsPropertyReference ref)
-    __x7__ = (= __x8__ false)
-    if __x7__ {
-      app __x9__ = (GetReferencedName ref)
-      __x7__ = (= __x9__ "eval")
+    let __x6__ = true
+    app __x7__ = (IsPropertyReference ref)
+    __x6__ = (= __x7__ false)
+    if __x6__ {
+      app __x8__ = (GetReferencedName ref)
+      __x6__ = (= __x8__ "eval")
     } else {}
-    __x5__ = __x7__
+    __x5__ = __x6__
   } else {}
   if __x5__ {
-    app __x10__ = (SameValue func INTRINSIC_eval)
-    if (= __x10__ true) {
-      app __x11__ = (ArgumentListEvaluation arguments)
-      let argList = [? __x11__]
+    app __x9__ = (SameValue func INTRINSIC_eval)
+    if (= __x9__ true) {
+      app __x10__ = (ArgumentListEvaluation arguments)
+      let argList = [? __x10__]
       if (= argList.length 0i) return undefined else {}
       let evalText = argList[0i]
       if true let strictCaller = true else let strictCaller = false
       let evalRealm = REALM
-      app __x12__ = (HostEnsureCanCompileStrings evalRealm evalRealm)
-      [? __x12__]
-      app __x13__ = (PerformEval evalText evalRealm strictCaller true)
-      return [? __x13__]
+      app __x11__ = (HostEnsureCanCompileStrings evalRealm evalRealm)
+      [? __x11__]
+      app __x12__ = (PerformEval evalText evalRealm strictCaller true)
+      return [? __x12__]
     } else {}
   } else {}
-  app __x14__ = (Type ref)
-  if (= __x14__ Reference) {
-    app __x15__ = (IsPropertyReference ref)
-    if (= __x15__ true) {
-      app __x16__ = (GetThisValue ref)
-      let thisValue = __x16__
+  if (= (typeof ref) Reference) {
+    app __x13__ = (IsPropertyReference ref)
+    if (= __x13__ true) {
+      app __x14__ = (GetThisValue ref)
+      let thisValue = __x14__
     } else {
-      app __x17__ = (GetBase ref)
-      let refEnv = __x17__
-      app __x18__ = (refEnv.WithBaseObject refEnv)
-      let thisValue = __x18__
+      app __x15__ = (GetBase ref)
+      let refEnv = __x15__
+      app __x16__ = (refEnv.WithBaseObject refEnv)
+      let thisValue = __x16__
     }
   } else let thisValue = undefined
   let thisCall = this
-  app __x19__ = (IsInTailPosition thisCall)
-  let tailCall = __x19__
-  app __x20__ = (EvaluateDirectCall func thisValue arguments tailCall)
-  return [? __x20__]
+  app __x17__ = (IsInTailPosition thisCall)
+  let tailCall = __x17__
+  app __x18__ = (EvaluateDirectCall func thisValue arguments tailCall)
+  return [? __x18__]
 }

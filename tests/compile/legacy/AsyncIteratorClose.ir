@@ -1,20 +1,18 @@
 {
-  app __x0__ = (Type iteratorRecord.Iterator)
-  assert (= __x0__ Object)
+  assert (= (typeof iteratorRecord.Iterator) Object)
   assert (is-completion completion)
   let iterator = iteratorRecord.Iterator
-  app __x1__ = (GetMethod iterator "return")
-  let return = [? __x1__]
+  app __x0__ = (GetMethod iterator "return")
+  let return = [? __x0__]
   if (= return undefined) return completion else {}
-  app __x2__ = (Call return iterator)
-  let innerResult = __x2__
+  app __x1__ = (Call return iterator)
+  let innerResult = __x1__
   if (= innerResult.Type CONST_normal) {
-    app __x3__ = (Await innerResult.Value)
-    innerResult = __x3__
+    app __x2__ = (Await innerResult.Value)
+    innerResult = __x2__
   } else {}
   if (= completion.Type CONST_throw) return completion else {}
   if (= innerResult.Type CONST_throw) return innerResult else {}
-  app __x4__ = (Type innerResult.Value)
-  if (! (= __x4__ Object)) throw TypeError else {}
+  if (! (= (typeof innerResult.Value) Object)) throw TypeError else {}
   return completion
 }

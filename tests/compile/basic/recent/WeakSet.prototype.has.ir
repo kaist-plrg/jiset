@@ -3,20 +3,19 @@
   app __x0__ = (RequireInternalSlot S "WeakSetData")
   [? __x0__]
   let entries = S.WeakSetData
-  app __x1__ = (Type value)
-  if (! (= __x1__ Object)) return false else {}
-  let __x2__ = entries
-  let __x3__ = 0i
-  while (< __x3__ __x2__.length) {
-    let e = __x2__[__x3__]
-    let __x4__ = true
-    __x4__ = (! (= e CONST_empty))
-    if __x4__ {
-      app __x5__ = (SameValue e value)
-      __x4__ = (= __x5__ true)
+  if (! (= (typeof value) Object)) return false else {}
+  let __x1__ = entries
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let e = __x1__[__x2__]
+    let __x3__ = true
+    __x3__ = (! (= e CONST_empty))
+    if __x3__ {
+      app __x4__ = (SameValue e value)
+      __x3__ = (= __x4__ true)
     } else {}
-    if __x4__ return true else {}
-    __x3__ = (+ __x3__ 1i)
+    if __x3__ return true else {}
+    __x2__ = (+ __x2__ 1i)
   }
   return false
 }

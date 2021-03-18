@@ -2,40 +2,38 @@
   app __x0__ = (GetArgument argumentsList 0i)
   let value = __x0__
   let O = this
-  app __x1__ = (Type O)
-  assert (&& (= __x1__ Object) (! (= O.SyncIteratorRecord absent)))
-  app __x2__ = (NewPromiseCapability INTRINSIC_Promise)
-  let promiseCapability = [! __x2__]
+  assert (&& (= (typeof O) Object) (! (= O.SyncIteratorRecord absent)))
+  app __x1__ = (NewPromiseCapability INTRINSIC_Promise)
+  let promiseCapability = [! __x1__]
   let syncIterator = O.SyncIteratorRecord.Iterator
-  app __x3__ = (GetMethod syncIterator "return")
-  let return = __x3__
+  app __x2__ = (GetMethod syncIterator "return")
+  let return = __x2__
   if (is-completion return) if (= return.Type CONST_normal) return = return.Value else {
-    app __x4__ = (Call promiseCapability.Reject undefined (new [return.Value]))
-    if (&& (is-completion __x4__) (! (= __x4__.Type CONST_normal))) return __x4__ else {}
+    app __x3__ = (Call promiseCapability.Reject undefined (new [return.Value]))
+    if (&& (is-completion __x3__) (! (= __x3__.Type CONST_normal))) return __x3__ else {}
     return promiseCapability.Promise
   } else {}
   return
   if (= return undefined) {
-    app __x5__ = (CreateIterResultObject value true)
-    let iterResult = [! __x5__]
-    app __x6__ = (Call promiseCapability.Resolve undefined (new [iterResult]))
-    [! __x6__]
+    app __x4__ = (CreateIterResultObject value true)
+    let iterResult = [! __x4__]
+    app __x5__ = (Call promiseCapability.Resolve undefined (new [iterResult]))
+    [! __x5__]
     return promiseCapability.Promise
   } else {}
-  app __x7__ = (Call return syncIterator (new [value]))
-  let result = __x7__
+  app __x6__ = (Call return syncIterator (new [value]))
+  let result = __x6__
   if (is-completion result) if (= result.Type CONST_normal) result = result.Value else {
-    app __x8__ = (Call promiseCapability.Reject undefined (new [result.Value]))
-    if (&& (is-completion __x8__) (! (= __x8__.Type CONST_normal))) return __x8__ else {}
+    app __x7__ = (Call promiseCapability.Reject undefined (new [result.Value]))
+    if (&& (is-completion __x7__) (! (= __x7__.Type CONST_normal))) return __x7__ else {}
     return promiseCapability.Promise
   } else {}
   result
-  app __x9__ = (Type result)
-  if (! (= __x9__ Object)) {
-    app __x10__ = (Call promiseCapability.Reject undefined (new [??? "TypeError"]))
-    [! __x10__]
+  if (! (= (typeof result) Object)) {
+    app __x8__ = (Call promiseCapability.Reject undefined (new [??? "TypeError"]))
+    [! __x8__]
     return promiseCapability.Promise
   } else {}
-  app __x11__ = (AsyncFromSyncIteratorContinuation result promiseCapability)
-  return [! __x11__]
+  app __x9__ = (AsyncFromSyncIteratorContinuation result promiseCapability)
+  return [! __x9__]
 }

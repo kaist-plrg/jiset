@@ -1,11 +1,10 @@
 {
-  app __x0__ = (Type done)
-  assert (= __x0__ Boolean)
-  app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
-  let obj = __x1__
-  app __x2__ = (CreateDataPropertyOrThrow obj "value" value)
+  assert (= (typeof done) Boolean)
+  app __x0__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+  let obj = __x0__
+  app __x1__ = (CreateDataPropertyOrThrow obj "value" value)
+  [! __x1__]
+  app __x2__ = (CreateDataPropertyOrThrow obj "done" done)
   [! __x2__]
-  app __x3__ = (CreateDataPropertyOrThrow obj "done" done)
-  [! __x3__]
   return obj
 }

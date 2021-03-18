@@ -1,7 +1,5 @@
 {
-  app __x0__ = (Type value)
-  if (= __x0__ Boolean) return value else {}
-  app __x1__ = (Type value)
-  if (&& (= __x1__ Object) (! (= value.BooleanData absent))) return value.BooleanData else {}
+  if (= (typeof value) Boolean) return value else {}
+  if (&& (= (typeof value) Object) (! (= value.BooleanData absent))) return value.BooleanData else {}
   throw TypeError
 }

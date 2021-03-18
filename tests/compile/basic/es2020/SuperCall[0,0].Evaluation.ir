@@ -1,18 +1,17 @@
 {
   app __x0__ = (GetNewTarget)
   let newTarget = __x0__
-  app __x1__ = (Type newTarget)
-  assert (= __x1__ Object)
-  app __x2__ = (GetSuperConstructor)
-  let func = [! __x2__]
-  access __x3__ = (Arguments "ArgumentListEvaluation")
-  let argList = [? __x3__]
-  app __x4__ = (IsConstructor func)
-  if (= __x4__ false) throw TypeError else {}
-  app __x5__ = (Construct func argList newTarget)
-  let result = [? __x5__]
-  app __x6__ = (GetThisEnvironment)
-  let thisER = __x6__
-  app __x7__ = (thisER.BindThisValue thisER result)
-  return [? __x7__]
+  assert (= (typeof newTarget) Object)
+  app __x1__ = (GetSuperConstructor)
+  let func = [! __x1__]
+  access __x2__ = (Arguments "ArgumentListEvaluation")
+  let argList = [? __x2__]
+  app __x3__ = (IsConstructor func)
+  if (= __x3__ false) throw TypeError else {}
+  app __x4__ = (Construct func argList newTarget)
+  let result = [? __x4__]
+  app __x5__ = (GetThisEnvironment)
+  let thisER = __x5__
+  app __x6__ = (thisER.BindThisValue thisER result)
+  return [? __x6__]
 }

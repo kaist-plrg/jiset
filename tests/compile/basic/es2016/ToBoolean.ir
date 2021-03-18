@@ -1,16 +1,9 @@
 {
-  app __x0__ = (Type argument)
-  if (= __x0__ Undefined) return false else {}
-  app __x1__ = (Type argument)
-  if (= __x1__ Null) return false else {}
-  app __x2__ = (Type argument)
-  if (= __x2__ Boolean) return argument else {}
-  app __x3__ = (Type argument)
-  if (= __x3__ Number) ??? "Return value:{false} if id:{argument} is value:{+0} , value:{-0} , or value:{NaN} ; otherwise return value:{true} ." else {}
-  app __x4__ = (Type argument)
-  if (= __x4__ String) ??? "Return value:{false} if id:{argument} is the empty String ( its length is zero ) ; otherwise return value:{true} ." else {}
-  app __x5__ = (Type argument)
-  if (= __x5__ Symbol) return true else {}
-  app __x6__ = (Type argument)
-  if (= __x6__ Object) return true else {}
+  if (= (typeof argument) Undefined) return false else {}
+  if (= (typeof argument) Null) return false else {}
+  if (= (typeof argument) Boolean) return argument else {}
+  if (= (typeof argument) Number) ??? "Return value:{false} if id:{argument} is value:{+0} , value:{-0} , or value:{NaN} ; otherwise return value:{true} ." else {}
+  if (= (typeof argument) String) ??? "Return value:{false} if id:{argument} is the empty String ( its length is zero ) ; otherwise return value:{true} ." else {}
+  if (= (typeof argument) Symbol) return true else {}
+  if (= (typeof argument) Object) return true else {}
 }

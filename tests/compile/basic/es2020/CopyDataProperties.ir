@@ -1,35 +1,34 @@
 {
-  app __x0__ = (Type target)
-  assert (= __x0__ Object)
+  assert (= (typeof target) Object)
   if (|| (= source undefined) (= source null)) return target else {}
-  app __x1__ = (ToObject source)
-  let from = [! __x1__]
-  app __x2__ = (from.OwnPropertyKeys from)
-  let keys = [? __x2__]
-  let __x3__ = keys
-  let __x4__ = 0i
-  while (< __x4__ __x3__.length) {
-    let nextKey = __x3__[__x4__]
+  app __x0__ = (ToObject source)
+  let from = [! __x0__]
+  app __x1__ = (from.OwnPropertyKeys from)
+  let keys = [? __x1__]
+  let __x2__ = keys
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let nextKey = __x2__[__x3__]
     let excluded = false
-    let __x5__ = excludedItems
-    let __x6__ = 0i
-    while (< __x6__ __x5__.length) {
-      let e = __x5__[__x6__]
-      app __x7__ = (SameValue e nextKey)
-      if (= __x7__ true) excluded = true else {}
-      __x6__ = (+ __x6__ 1i)
+    let __x4__ = excludedItems
+    let __x5__ = 0i
+    while (< __x5__ __x4__.length) {
+      let e = __x4__[__x5__]
+      app __x6__ = (SameValue e nextKey)
+      if (= __x6__ true) excluded = true else {}
+      __x5__ = (+ __x5__ 1i)
     }
     if (= excluded false) {
-      app __x8__ = (from.GetOwnProperty from nextKey)
-      let desc = [? __x8__]
+      app __x7__ = (from.GetOwnProperty from nextKey)
+      let desc = [? __x7__]
       if (&& (! (= desc undefined)) (= desc.Enumerable true)) {
-        app __x9__ = (Get from nextKey)
-        let propValue = [? __x9__]
-        app __x10__ = (CreateDataPropertyOrThrow target nextKey propValue)
-        [! __x10__]
+        app __x8__ = (Get from nextKey)
+        let propValue = [? __x8__]
+        app __x9__ = (CreateDataPropertyOrThrow target nextKey propValue)
+        [! __x9__]
       } else {}
     } else {}
-    __x4__ = (+ __x4__ 1i)
+    __x3__ = (+ __x3__ 1i)
   }
   return target
 }

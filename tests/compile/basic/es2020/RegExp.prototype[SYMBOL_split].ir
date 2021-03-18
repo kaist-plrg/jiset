@@ -1,74 +1,73 @@
 {
   let rx = this
-  app __x0__ = (Type rx)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (ToString string)
-  let S = [? __x1__]
-  app __x2__ = (SpeciesConstructor rx INTRINSIC_RegExp)
-  let C = [? __x2__]
-  app __x3__ = (Get rx "flags")
-  app __x4__ = (ToString [? __x3__])
-  let flags = [? __x4__]
+  if (! (= (typeof rx) Object)) throw TypeError else {}
+  app __x0__ = (ToString string)
+  let S = [? __x0__]
+  app __x1__ = (SpeciesConstructor rx INTRINSIC_RegExp)
+  let C = [? __x1__]
+  app __x2__ = (Get rx "flags")
+  app __x3__ = (ToString [? __x2__])
+  let flags = [? __x3__]
   if (contains flags "u") let unicodeMatching = true else let unicodeMatching = false
   if (contains flags "y") let newFlags = flags else let newFlags = (+ flags "y")
-  app __x5__ = (Construct C (new [rx, newFlags]))
-  let splitter = [? __x5__]
-  app __x6__ = (ArrayCreate 0i)
-  let A = [! __x6__]
+  app __x4__ = (Construct C (new [rx, newFlags]))
+  let splitter = [? __x4__]
+  app __x5__ = (ArrayCreate 0i)
+  let A = [! __x5__]
   let lengthA = 0i
   if (= limit undefined) let lim = (- (** 2.0 32i) 1i) else {
-    app __x7__ = (ToUint32 limit)
-    let lim = [? __x7__]
+    app __x6__ = (ToUint32 limit)
+    let lim = [? __x6__]
   }
   let size = S.length
   let p = 0i
   if (== lim 0i) return A else {}
   if (== size 0i) {
-    app __x8__ = (RegExpExec splitter S)
-    let z = [? __x8__]
+    app __x7__ = (RegExpExec splitter S)
+    let z = [? __x7__]
     if (! (= z null)) return A else {}
-    app __x9__ = (CreateDataPropertyOrThrow A "0" S)
-    [! __x9__]
+    app __x8__ = (CreateDataPropertyOrThrow A "0" S)
+    [! __x8__]
     return A
   } else {}
   let q = p
   while (< q size) {
-    app __x10__ = (Set splitter "lastIndex" q true)
-    [? __x10__]
-    app __x11__ = (RegExpExec splitter S)
-    let z = [? __x11__]
+    app __x9__ = (Set splitter "lastIndex" q true)
+    [? __x9__]
+    app __x10__ = (RegExpExec splitter S)
+    let z = [? __x10__]
     if (= z null) {
-      app __x12__ = (AdvanceStringIndex S q unicodeMatching)
-      q = __x12__
+      app __x11__ = (AdvanceStringIndex S q unicodeMatching)
+      q = __x11__
     } else {
-      app __x13__ = (Get splitter "lastIndex")
-      app __x14__ = (ToLength [? __x13__])
-      let e = [? __x14__]
-      app __x15__ = (min e size)
-      e = __x15__
+      app __x12__ = (Get splitter "lastIndex")
+      app __x13__ = (ToLength [? __x12__])
+      let e = [? __x13__]
+      app __x14__ = (min e size)
+      e = __x14__
       if (== e p) {
-        app __x16__ = (AdvanceStringIndex S q unicodeMatching)
-        q = __x16__
+        app __x15__ = (AdvanceStringIndex S q unicodeMatching)
+        q = __x15__
       } else {
         ??? "Let id:{T} be the String value equal to the substring of id:{S} consisting of the code units at indices id:{p} ( inclusive ) through id:{q} ( exclusive ) ."
-        app __x17__ = (ToString lengthA)
-        app __x18__ = (CreateDataPropertyOrThrow A [! __x17__] T)
-        [! __x18__]
+        app __x16__ = (ToString lengthA)
+        app __x17__ = (CreateDataPropertyOrThrow A [! __x16__] T)
+        [! __x17__]
         lengthA = (+ lengthA 1i)
         if (== lengthA lim) return A else {}
         p = e
-        app __x19__ = (LengthOfArrayLike z)
-        let numberOfCaptures = [? __x19__]
-        app __x20__ = (max (- numberOfCaptures 1i) 0i)
-        numberOfCaptures = __x20__
+        app __x18__ = (LengthOfArrayLike z)
+        let numberOfCaptures = [? __x18__]
+        app __x19__ = (max (- numberOfCaptures 1i) 0i)
+        numberOfCaptures = __x19__
         let i = 1i
         while (! (< numberOfCaptures i)) {
-          app __x21__ = (ToString i)
-          app __x22__ = (Get z [! __x21__])
-          let nextCapture = [? __x22__]
-          app __x23__ = (ToString lengthA)
-          app __x24__ = (CreateDataPropertyOrThrow A [! __x23__] nextCapture)
-          [! __x24__]
+          app __x20__ = (ToString i)
+          app __x21__ = (Get z [! __x20__])
+          let nextCapture = [? __x21__]
+          app __x22__ = (ToString lengthA)
+          app __x23__ = (CreateDataPropertyOrThrow A [! __x22__] nextCapture)
+          [! __x23__]
           i = (+ i 1i)
           lengthA = (+ lengthA 1i)
           if (== lengthA lim) return A else {}
@@ -78,8 +77,8 @@
     }
   }
   ??? "Let id:{T} be the String value equal to the substring of id:{S} consisting of the code units at indices id:{p} ( inclusive ) through id:{size} ( exclusive ) ."
-  app __x25__ = (ToString lengthA)
-  app __x26__ = (CreateDataPropertyOrThrow A [! __x25__] T)
-  [! __x26__]
+  app __x24__ = (ToString lengthA)
+  app __x25__ = (CreateDataPropertyOrThrow A [! __x24__] T)
+  [! __x25__]
   return A
 }

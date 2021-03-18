@@ -1,21 +1,19 @@
 {
   let O = this
-  app __x0__ = (Type O)
-  assert (= __x0__ Object)
+  assert (= (typeof O) Object)
   let object = O.Object
   let visited = O.VisitedKeys
   let remaining = O.RemainingKeys
   while true {
     if (= O.ObjectWasVisited false) {
-      app __x1__ = (object.OwnPropertyKeys object)
-      let keys = [? __x1__]
-      let __x2__ = keys
-      let __x3__ = 0i
-      while (< __x3__ __x2__.length) {
-        let key = __x2__[__x3__]
-        app __x4__ = (Type key)
-        if (= __x4__ String) append key -> remaining else {}
-        __x3__ = (+ __x3__ 1i)
+      app __x0__ = (object.OwnPropertyKeys object)
+      let keys = [? __x0__]
+      let __x1__ = keys
+      let __x2__ = 0i
+      while (< __x2__ __x1__.length) {
+        let key = __x1__[__x2__]
+        if (= (typeof key) String) append key -> remaining else {}
+        __x2__ = (+ __x2__ 1i)
       }
       O.ObjectWasVisited = true
     } else {}
@@ -23,13 +21,13 @@
       let r = (pop remaining 0i)
       ??? "If there does not exist an element id:{v} of id:{visited} such that SameValue ( id:{r} , id:{v} ) is value:{true} , then in:{} out:{}"
     }
-    app __x5__ = (object.GetPrototypeOf object)
-    object = [? __x5__]
+    app __x3__ = (object.GetPrototypeOf object)
+    object = [? __x3__]
     O.Object = object
     O.ObjectWasVisited = false
     if (= object null) {
-      app __x6__ = (CreateIterResultObject undefined true)
-      return __x6__
+      app __x4__ = (CreateIterResultObject undefined true)
+      return __x4__
     } else {}
   }
 }

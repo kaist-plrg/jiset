@@ -1,117 +1,52 @@
 {
-  app __x0__ = (Type x)
-  app __x1__ = (Type y)
-  if (= __x0__ __x1__) {
-    app __x2__ = (StrictEqualityComparison x y)
-    return __x2__
+  if (= (typeof x) (typeof y)) {
+    app __x0__ = (StrictEqualityComparison x y)
+    return __x0__
   } else {}
   if (&& (= x null) (= y undefined)) return true else {}
   if (&& (= x undefined) (= y null)) return true else {}
-  let __x3__ = true
-  app __x4__ = (Type x)
-  __x3__ = (= __x4__ Number)
-  if __x3__ {
-    app __x5__ = (Type y)
-    __x3__ = (= __x5__ String)
+  if (&& (= (typeof x) Number) (= (typeof y) String)) {
+    app __x1__ = (ToNumber y)
+    app __x2__ = (AbstractEqualityComparison x [! __x1__])
+    return __x2__
   } else {}
-  if __x3__ {
-    app __x6__ = (ToNumber y)
-    app __x7__ = (AbstractEqualityComparison x [! __x6__])
+  if (&& (= (typeof x) String) (= (typeof y) Number)) {
+    app __x3__ = (ToNumber x)
+    app __x4__ = (AbstractEqualityComparison [! __x3__] y)
+    return __x4__
+  } else {}
+  if (&& (= (typeof x) BigInt) (= (typeof y) String)) {
+    app __x5__ = (StringToBigInt y)
+    let n = [! __x5__]
+    if (= n NaN) return false else {}
+    app __x6__ = (AbstractEqualityComparison x n)
+    return __x6__
+  } else {}
+  if (&& (= (typeof x) String) (= (typeof y) BigInt)) {
+    app __x7__ = (AbstractEqualityComparison y x)
     return __x7__
   } else {}
-  let __x8__ = true
-  app __x9__ = (Type x)
-  __x8__ = (= __x9__ String)
-  if __x8__ {
-    app __x10__ = (Type y)
-    __x8__ = (= __x10__ Number)
+  if (= (typeof x) Boolean) {
+    app __x8__ = (ToNumber x)
+    app __x9__ = (AbstractEqualityComparison [! __x8__] y)
+    return __x9__
   } else {}
-  if __x8__ {
-    app __x11__ = (ToNumber x)
-    app __x12__ = (AbstractEqualityComparison [! __x11__] y)
-    return __x12__
+  if (= (typeof y) Boolean) {
+    app __x10__ = (ToNumber y)
+    app __x11__ = (AbstractEqualityComparison x [! __x10__])
+    return __x11__
   } else {}
-  let __x13__ = true
-  app __x14__ = (Type x)
-  __x13__ = (= __x14__ BigInt)
-  if __x13__ {
-    app __x15__ = (Type y)
-    __x13__ = (= __x15__ String)
+  if (&& (|| (|| (|| (= (typeof x) String) (= (typeof x) Number)) (= (typeof x) BigInt)) (= (typeof x) Symbol)) (= (typeof y) Object)) {
+    app __x12__ = (ToPrimitive y)
+    app __x13__ = (AbstractEqualityComparison x [? __x12__])
+    return __x13__
   } else {}
-  if __x13__ {
-    app __x16__ = (StringToBigInt y)
-    let n = [! __x16__]
-    if (= n NaN) return false else {}
-    app __x17__ = (AbstractEqualityComparison x n)
-    return __x17__
+  if (&& (= (typeof x) Object) (|| (|| (|| (= (typeof y) String) (= (typeof y) Number)) (= (typeof y) BigInt)) (= (typeof y) Symbol))) {
+    app __x14__ = (ToPrimitive x)
+    app __x15__ = (AbstractEqualityComparison [? __x14__] y)
+    return __x15__
   } else {}
-  let __x18__ = true
-  app __x19__ = (Type x)
-  __x18__ = (= __x19__ String)
-  if __x18__ {
-    app __x20__ = (Type y)
-    __x18__ = (= __x20__ BigInt)
-  } else {}
-  if __x18__ {
-    app __x21__ = (AbstractEqualityComparison y x)
-    return __x21__
-  } else {}
-  app __x22__ = (Type x)
-  if (= __x22__ Boolean) {
-    app __x23__ = (ToNumber x)
-    app __x24__ = (AbstractEqualityComparison [! __x23__] y)
-    return __x24__
-  } else {}
-  app __x25__ = (Type y)
-  if (= __x25__ Boolean) {
-    app __x26__ = (ToNumber y)
-    app __x27__ = (AbstractEqualityComparison x [! __x26__])
-    return __x27__
-  } else {}
-  let __x28__ = true
-  app __x29__ = (Type x)
-  __x28__ = (|| (|| (|| (= __x29__ String) (= __x29__ Number)) (= __x29__ BigInt)) (= __x29__ Symbol))
-  if __x28__ {
-    app __x30__ = (Type y)
-    __x28__ = (= __x30__ Object)
-  } else {}
-  if __x28__ {
-    app __x31__ = (ToPrimitive y)
-    app __x32__ = (AbstractEqualityComparison x [? __x31__])
-    return __x32__
-  } else {}
-  let __x33__ = true
-  app __x34__ = (Type x)
-  __x33__ = (= __x34__ Object)
-  if __x33__ {
-    app __x35__ = (Type y)
-    __x33__ = (|| (|| (|| (= __x35__ String) (= __x35__ Number)) (= __x35__ BigInt)) (= __x35__ Symbol))
-  } else {}
-  if __x33__ {
-    app __x36__ = (ToPrimitive x)
-    app __x37__ = (AbstractEqualityComparison [? __x36__] y)
-    return __x37__
-  } else {}
-  let __x38__ = true
-  app __x39__ = (Type x)
-  __x38__ = (= __x39__ BigInt)
-  if __x38__ {
-    let __x40__ = true
-    app __x41__ = (Type y)
-    __x40__ = (= __x41__ Number)
-    if __x40__ {} else {
-      let __x42__ = true
-      app __x43__ = (Type x)
-      __x42__ = (= __x43__ Number)
-      if __x42__ {
-        app __x44__ = (Type y)
-        __x42__ = (= __x44__ BigInt)
-      } else {}
-      __x40__ = __x42__
-    }
-    __x38__ = __x40__
-  } else {}
-  if __x38__ {
+  if (&& (= (typeof x) BigInt) (|| (= (typeof y) Number) (&& (= (typeof x) Number) (= (typeof y) BigInt)))) {
     if (|| (|| (|| (= x NaN) (= x Infinity)) (= x -Infinity)) (|| (|| (= y NaN) (= y Infinity)) (= y -Infinity))) return false else {}
     if (== x y) return true else return false
   } else {}

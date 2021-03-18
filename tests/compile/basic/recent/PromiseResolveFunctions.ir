@@ -10,29 +10,28 @@
     app __x1__ = (RejectPromise promise selfResolutionError)
     return __x1__
   } else {}
-  app __x2__ = (Type resolution)
-  if (! (= __x2__ Object)) {
-    app __x3__ = (FulfillPromise promise resolution)
-    return __x3__
+  if (! (= (typeof resolution) Object)) {
+    app __x2__ = (FulfillPromise promise resolution)
+    return __x2__
   } else {}
-  app __x4__ = (Get resolution "then")
-  let then = __x4__
-  app __x5__ = (IsAbruptCompletion then)
-  if __x5__ {
-    app __x6__ = (RejectPromise promise then.Value)
-    return __x6__
+  app __x3__ = (Get resolution "then")
+  let then = __x3__
+  app __x4__ = (IsAbruptCompletion then)
+  if __x4__ {
+    app __x5__ = (RejectPromise promise then.Value)
+    return __x5__
   } else {}
   let thenAction = then.Value
-  app __x7__ = (IsCallable thenAction)
-  if (= __x7__ false) {
-    app __x8__ = (FulfillPromise promise resolution)
-    return __x8__
+  app __x6__ = (IsCallable thenAction)
+  if (= __x6__ false) {
+    app __x7__ = (FulfillPromise promise resolution)
+    return __x7__
   } else {}
-  app __x9__ = (HostMakeJobCallback thenAction)
-  let thenJobCallback = __x9__
-  app __x10__ = (NewPromiseResolveThenableJob promise resolution thenJobCallback)
-  let job = __x10__
-  app __x11__ = (HostEnqueuePromiseJob job.Job job.Realm)
-  __x11__
+  app __x8__ = (HostMakeJobCallback thenAction)
+  let thenJobCallback = __x8__
+  app __x9__ = (NewPromiseResolveThenableJob promise resolution thenJobCallback)
+  let job = __x9__
+  app __x10__ = (HostEnqueuePromiseJob job.Job job.Realm)
+  __x10__
   return undefined
 }

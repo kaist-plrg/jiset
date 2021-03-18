@@ -9,7 +9,7 @@ digraph {
   node14 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">14:let envRec = localEnv.EnvironmentRecord</td></tr>
-      <tr><td align="left">15:assert (= (typeof envRec) &quot;FunctionEnvironmentRecord&quot;)</td></tr>
+      <tr><td align="left">15:assert (is-instance-of envRec FunctionEnvironmentRecord)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
@@ -45,7 +45,7 @@ digraph {
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">7:let globalEnv = calleeRealm.GlobalEnv</td></tr>
       <tr><td align="left">8:let globalEnvRec = globalEnv.EnvironmentRecord</td></tr>
-      <tr><td align="left">9:assert (= (typeof globalEnvRec) &quot;GlobalEnvironmentRecord&quot;)</td></tr>
+      <tr><td align="left">9:assert (is-instance-of globalEnvRec GlobalEnvironmentRecord)</td></tr>
       <tr><td align="left">10:let thisValue = globalEnvRec.GlobalThisValue</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]

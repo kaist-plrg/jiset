@@ -1,14 +1,13 @@
 {
   let O = this
-  app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof O) Object)) throw TypeError else {}
   ??? "If id:{O} does not have all of the internal slots of a Map Iterator Instance ( 23 . 1 . 5 . 3 ) , throw a value:{TypeError} exception ."
   let m = O.IteratedMap
   let index = O.MapNextIndex
   let itemKind = O.MapIterationKind
   if (= m undefined) {
-    app __x1__ = (CreateIterResultObject undefined true)
-    return __x1__
+    app __x0__ = (CreateIterResultObject undefined true)
+    return __x0__
   } else {}
   assert (! (= m.MapData absent))
   let entries = m.MapData
@@ -20,14 +19,14 @@
     if (! (= e.Key CONST_empty)) {
       if (= itemKind CONST_key) let result = e.Key else if (= itemKind CONST_value) let result = e.Value else {
         assert (= itemKind CONST_keyPLUSvalue)
-        app __x2__ = (CreateArrayFromList (new [e.Key, e.Value]))
-        let result = [! __x2__]
+        app __x1__ = (CreateArrayFromList (new [e.Key, e.Value]))
+        let result = [! __x1__]
       }
-      app __x3__ = (CreateIterResultObject result false)
-      return __x3__
+      app __x2__ = (CreateIterResultObject result false)
+      return __x2__
     } else {}
   }
   O.IteratedMap = undefined
-  app __x4__ = (CreateIterResultObject undefined true)
-  return __x4__
+  app __x3__ = (CreateIterResultObject undefined true)
+  return __x3__
 }

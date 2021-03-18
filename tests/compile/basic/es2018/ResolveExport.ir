@@ -48,7 +48,7 @@
     let resolution = [? __x16__]
     if (= resolution "ambiguous") return "ambiguous" else {}
     if (! (= resolution null)) {
-      assert (= (typeof resolution) "ResolvedBindingRecord")
+      assert (is-instance-of resolution ResolvedBindingRecord)
       if (= starResolution null) starResolution = resolution else {
         let __x17__ = true
         __x17__ = (! (= resolution.Module starResolution.Module))

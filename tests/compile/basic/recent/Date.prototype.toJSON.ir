@@ -3,8 +3,7 @@
   let O = [? __x0__]
   app __x1__ = (ToPrimitive O CONST_number)
   let tv = [? __x1__]
-  app __x2__ = (Type tv)
-  if (&& (= __x2__ Number) (|| (= tv Infinity) (= tv -Infinity))) return null else {}
-  app __x3__ = (Invoke O "toISOString")
-  return [? __x3__]
+  if (&& (= (typeof tv) Number) (|| (= tv Infinity) (= tv -Infinity))) return null else {}
+  app __x2__ = (Invoke O "toISOString")
+  return [? __x2__]
 }

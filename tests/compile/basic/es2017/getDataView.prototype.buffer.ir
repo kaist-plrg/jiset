@@ -1,7 +1,6 @@
 {
   let O = this
-  app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof O) Object)) throw TypeError else {}
   if (= O.DataView absent) throw TypeError else {}
   assert (! (= O.ViewedArrayBuffer absent))
   let buffer = O.ViewedArrayBuffer

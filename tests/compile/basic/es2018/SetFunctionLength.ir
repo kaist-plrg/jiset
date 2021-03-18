@@ -1,13 +1,12 @@
 {
-  app __x0__ = (Type length)
-  assert (= __x0__ Number)
-  let __x1__ = true
-  __x1__ = (! (< length 0i))
-  if __x1__ {
-    app __x2__ = (ToInteger length)
-    __x1__ = (= [! __x2__] length)
+  assert (= (typeof length) Number)
+  let __x0__ = true
+  __x0__ = (! (< length 0i))
+  if __x0__ {
+    app __x1__ = (ToInteger length)
+    __x0__ = (= [! __x1__] length)
   } else {}
-  assert __x1__
-  app __x3__ = (DefinePropertyOrThrow F "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
-  return [! __x3__]
+  assert __x0__
+  app __x2__ = (DefinePropertyOrThrow F "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
+  return [! __x2__]
 }

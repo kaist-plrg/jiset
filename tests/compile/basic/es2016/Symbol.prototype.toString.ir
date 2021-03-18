@@ -1,12 +1,10 @@
 {
   let s = this
-  app __x0__ = (Type s)
-  if (= __x0__ Symbol) let sym = s else {
-    app __x1__ = (Type s)
-    if (! (= __x1__ Object)) throw TypeError else {}
+  if (= (typeof s) Symbol) let sym = s else {
+    if (! (= (typeof s) Object)) throw TypeError else {}
     if (= s.SymbolData absent) throw TypeError else {}
     let sym = s.SymbolData
   }
-  app __x2__ = (SymbolDescriptiveString sym)
-  return __x2__
+  app __x0__ = (SymbolDescriptiveString sym)
+  return __x0__
 }

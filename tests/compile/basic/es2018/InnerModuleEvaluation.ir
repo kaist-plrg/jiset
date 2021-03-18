@@ -1,5 +1,5 @@
 {
-  if (! (= (typeof module) "SourceTextModuleRecord")) {
+  if (! (is-instance-of module SourceTextModuleRecord)) {
     app __x0__ = (module.Evaluate module)
     [? __x0__]
     return index
@@ -22,7 +22,7 @@
     index = [? __x4__]
     assert (|| (= requiredModule.Status "evaluating") (= requiredModule.Status "evaluated"))
     if (= requiredModule.Status "evaluating") {
-      assert (= (typeof requiredModule) "SourceTextModuleRecord")
+      assert (is-instance-of requiredModule SourceTextModuleRecord)
       app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
       module.DFSAncestorIndex = __x5__
     } else {}

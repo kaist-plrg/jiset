@@ -1,10 +1,9 @@
 {
-  app __x0__ = (Type O)
-  assert (= __x0__ Object)
-  app __x1__ = (IsPropertyKey P)
-  assert (= __x1__ true)
-  app __x2__ = (O.Delete O P)
-  let success = [? __x2__]
+  assert (= (typeof O) Object)
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  app __x1__ = (O.Delete O P)
+  let success = [? __x1__]
   if (= success false) throw TypeError else {}
   return success
 }

@@ -7,14 +7,14 @@
   if (= thisMode CONST_strict) let thisValue = thisArgument else if (|| (= thisArgument undefined) (= thisArgument null)) {
     let globalEnv = calleeRealm.GlobalEnv
     let globalEnvRec = globalEnv.EnvironmentRecord
-    assert (= (typeof globalEnvRec) "GlobalEnvironmentRecord")
+    assert (is-instance-of globalEnvRec GlobalEnvironmentRecord)
     let thisValue = globalEnvRec.GlobalThisValue
   } else {
     app __x1__ = (ToObject thisArgument)
     let thisValue = [! __x1__]
   }
   let envRec = localEnv.EnvironmentRecord
-  assert (= (typeof envRec) "FunctionEnvironmentRecord")
+  assert (is-instance-of envRec FunctionEnvironmentRecord)
   app __x2__ = (envRec.BindThisValue envRec thisValue)
   return __x2__
 }

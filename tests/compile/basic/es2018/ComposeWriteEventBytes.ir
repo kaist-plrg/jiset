@@ -6,8 +6,8 @@
   while (< __x1__ __x0__.length) {
     let W = __x0__[__x1__]
     let payloadIndex = (- byteLocation W.ByteIndex)
-    if (= (typeof W) "WriteSharedMemory") let byte = W.Payload[payloadIndex] else {
-      assert (= (typeof W) "ReadModifyWriteSharedMemory")
+    if (is-instance-of W WriteSharedMemory) let byte = W.Payload[payloadIndex] else {
+      assert (is-instance-of W ReadModifyWriteSharedMemory)
       app __x2__ = (ValueOfReadEvent execution W)
       let bytes = __x2__
       app __x3__ = (W.ModifyOp W bytes W.Payload)

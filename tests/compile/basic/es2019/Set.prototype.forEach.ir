@@ -1,21 +1,20 @@
 {
   let S = this
-  app __x0__ = (Type S)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof S) Object)) throw TypeError else {}
   if (= S.SetData absent) throw TypeError else {}
-  app __x1__ = (IsCallable callbackfn)
-  if (= __x1__ false) throw TypeError else {}
+  app __x0__ = (IsCallable callbackfn)
+  if (= __x0__ false) throw TypeError else {}
   if (! (= thisArg absent)) let T = thisArg else let T = undefined
   let entries = S.SetData
-  let __x2__ = entries
-  let __x3__ = 0i
-  while (< __x3__ __x2__.length) {
-    let e = __x2__[__x3__]
+  let __x1__ = entries
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let e = __x1__[__x2__]
     if (! (= e CONST_empty)) {
-      app __x4__ = (Call callbackfn T (new [e, e, S]))
-      [? __x4__]
+      app __x3__ = (Call callbackfn T (new [e, e, S]))
+      [? __x3__]
     } else {}
-    __x3__ = (+ __x3__ 1i)
+    __x2__ = (+ __x2__ 1i)
   }
   return undefined
 }

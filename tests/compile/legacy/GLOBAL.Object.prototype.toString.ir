@@ -8,7 +8,6 @@
   if (= isArray true) let builtinTag = "Array" else if (! (= O.ParameterMap absent)) let builtinTag = "Arguments" else if (! (= O.Call absent)) let builtinTag = "Function" else if (! (= O.ErrorData absent)) let builtinTag = "Error" else if (! (= O.BooleanData absent)) let builtinTag = "Boolean" else if (! (= O.NumberData absent)) let builtinTag = "Number" else if (! (= O.StringData absent)) let builtinTag = "String" else if (! (= O.DateValue absent)) let builtinTag = "Date" else if (! (= O.RegExpMatcher absent)) let builtinTag = "RegExp" else let builtinTag = "Object"
   app __x2__ = (Get O SYMBOL_toStringTag)
   let tag = [? __x2__]
-  app __x3__ = (Type tag)
-  if (! (= __x3__ String)) tag = builtinTag else {}
+  if (! (= (typeof tag) String)) tag = builtinTag else {}
   return (+ (+ "[object " tag) "]")
 }

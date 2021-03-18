@@ -1,12 +1,9 @@
 {
-  app __x0__ = (Type S)
-  assert (= __x0__ String)
-  app __x1__ = (Type global)
-  assert (= __x1__ Boolean)
-  app __x2__ = (Type fullUnicode)
-  assert (= __x2__ Boolean)
-  app __x3__ = (OrdinaryObjectCreate INTRINSIC_RegExpStringIteratorPrototype (new ["IteratingRegExp", "IteratedString", "Global", "Unicode", "Done"]))
-  let iterator = __x3__
+  assert (= (typeof S) String)
+  assert (= (typeof global) Boolean)
+  assert (= (typeof fullUnicode) Boolean)
+  app __x0__ = (OrdinaryObjectCreate INTRINSIC_RegExpStringIteratorPrototype (new ["IteratingRegExp", "IteratedString", "Global", "Unicode", "Done"]))
+  let iterator = __x0__
   iterator.IteratingRegExp = R
   iterator.IteratedString = S
   iterator.Global = global

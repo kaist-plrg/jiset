@@ -1,35 +1,34 @@
 {
-  app __x0__ = (Type O)
-  assert (= __x0__ Object)
+  assert (= (typeof O) Object)
   assert (|| (= level "sealed") (= level "frozen"))
-  app __x1__ = (O.PreventExtensions O)
-  let status = [? __x1__]
+  app __x0__ = (O.PreventExtensions O)
+  let status = [? __x0__]
   if (= status false) return false else {}
-  app __x2__ = (O.OwnPropertyKeys O)
-  let keys = [? __x2__]
+  app __x1__ = (O.OwnPropertyKeys O)
+  let keys = [? __x1__]
   if (= level "sealed") {
-    let __x3__ = keys
-    let __x4__ = 0i
-    while (< __x4__ __x3__.length) {
-      let k = __x3__[__x4__]
-      app __x5__ = (DefinePropertyOrThrow O k (new PropertyDescriptor("Configurable" -> false)))
-      [? __x5__]
-      __x4__ = (+ __x4__ 1i)
+    let __x2__ = keys
+    let __x3__ = 0i
+    while (< __x3__ __x2__.length) {
+      let k = __x2__[__x3__]
+      app __x4__ = (DefinePropertyOrThrow O k (new PropertyDescriptor("Configurable" -> false)))
+      [? __x4__]
+      __x3__ = (+ __x3__ 1i)
     }
   } else {
-    let __x6__ = keys
-    let __x7__ = 0i
-    while (< __x7__ __x6__.length) {
-      let k = __x6__[__x7__]
-      app __x8__ = (O.GetOwnProperty O k)
-      let currentDesc = [? __x8__]
+    let __x5__ = keys
+    let __x6__ = 0i
+    while (< __x6__ __x5__.length) {
+      let k = __x5__[__x6__]
+      app __x7__ = (O.GetOwnProperty O k)
+      let currentDesc = [? __x7__]
       if (! (= currentDesc undefined)) {
-        app __x9__ = (IsAccessorDescriptor currentDesc)
-        if (= __x9__ true) let desc = (new PropertyDescriptor("Configurable" -> false)) else let desc = (new PropertyDescriptor("Configurable" -> false, "Writable" -> false))
-        app __x10__ = (DefinePropertyOrThrow O k desc)
-        [? __x10__]
+        app __x8__ = (IsAccessorDescriptor currentDesc)
+        if (= __x8__ true) let desc = (new PropertyDescriptor("Configurable" -> false)) else let desc = (new PropertyDescriptor("Configurable" -> false, "Writable" -> false))
+        app __x9__ = (DefinePropertyOrThrow O k desc)
+        [? __x9__]
       } else {}
-      __x7__ = (+ __x7__ 1i)
+      __x6__ = (+ __x6__ 1i)
     }
   }
   return true

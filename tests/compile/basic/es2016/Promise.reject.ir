@@ -1,10 +1,9 @@
 {
   let C = this
-  app __x0__ = (Type C)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (NewPromiseCapability C)
-  let promiseCapability = [? __x1__]
-  app __x2__ = (Call promiseCapability.Reject undefined (new [r]))
-  [? __x2__]
+  if (! (= (typeof C) Object)) throw TypeError else {}
+  app __x0__ = (NewPromiseCapability C)
+  let promiseCapability = [? __x0__]
+  app __x1__ = (Call promiseCapability.Reject undefined (new [r]))
+  [? __x1__]
   return promiseCapability.Promise
 }

@@ -1,26 +1,25 @@
 {
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
-  app __x1__ = (Type P)
-  if (= __x1__ Symbol) {
-    app __x2__ = (OrdinaryGet O P Receiver)
-    return [? __x2__]
+  if (= (typeof P) Symbol) {
+    app __x1__ = (OrdinaryGet O P Receiver)
+    return [? __x1__]
   } else {}
   let exports = O.Exports
   if (! (contains exports P)) return undefined else {}
   let m = O.Module
-  app __x3__ = (m.ResolveExport m P)
-  let binding = [! __x3__]
-  assert (= (typeof binding) "ResolvedBindingRecord")
+  app __x2__ = (m.ResolveExport m P)
+  let binding = [! __x2__]
+  assert (is-instance-of binding ResolvedBindingRecord)
   let targetModule = binding.Module
   assert (! (= targetModule undefined))
   if (= binding.BindingName "*namespace*") {
-    app __x4__ = (GetModuleNamespace targetModule)
-    return [? __x4__]
+    app __x3__ = (GetModuleNamespace targetModule)
+    return [? __x3__]
   } else {}
   let targetEnv = targetModule.Environment
   if (= targetEnv undefined) throw ReferenceError else {}
   let targetEnvRec = targetEnv.EnvironmentRecord
-  app __x5__ = (targetEnvRec.GetBindingValue targetEnvRec binding.BindingName true)
-  return [? __x5__]
+  app __x4__ = (targetEnvRec.GetBindingValue targetEnvRec binding.BindingName true)
+  return [? __x4__]
 }

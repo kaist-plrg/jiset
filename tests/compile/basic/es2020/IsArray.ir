@@ -1,12 +1,11 @@
 {
-  app __x0__ = (Type argument)
-  if (! (= __x0__ Object)) return false else {}
-  if (= (typeof argument) "ArrayExoticObject") return true else {}
-  if (= (typeof argument) "ProxyExoticObject") {
+  if (! (= (typeof argument) Object)) return false else {}
+  if (is-instance-of argument ArrayExoticObject) return true else {}
+  if (is-instance-of argument ProxyExoticObject) {
     if (= argument.ProxyHandler null) throw TypeError else {}
     let target = argument.ProxyTarget
-    app __x1__ = (IsArray target)
-    return [? __x1__]
+    app __x0__ = (IsArray target)
+    return [? __x0__]
   } else {}
   return false
 }

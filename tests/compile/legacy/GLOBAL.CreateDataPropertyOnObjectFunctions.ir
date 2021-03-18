@@ -1,10 +1,9 @@
 {
   let O = this
-  app __x0__ = (Type O)
-  assert (= __x0__ Object)
-  app __x1__ = (ToPropertyKey key)
-  let propertyKey = [? __x1__]
-  app __x2__ = (CreateDataPropertyOrThrow O propertyKey value)
-  [! __x2__]
+  assert (= (typeof O) Object)
+  app __x0__ = (ToPropertyKey key)
+  let propertyKey = [? __x0__]
+  app __x1__ = (CreateDataPropertyOrThrow O propertyKey value)
+  [! __x1__]
   return undefined
 }

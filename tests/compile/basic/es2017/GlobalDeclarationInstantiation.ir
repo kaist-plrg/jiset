@@ -1,6 +1,6 @@
 {
   let envRec = env.EnvironmentRecord
-  assert (= (typeof envRec) "GlobalEnvironmentRecord")
+  assert (is-instance-of envRec GlobalEnvironmentRecord)
   access __x0__ = (script "LexicallyDeclaredNames")
   let lexNames = __x0__
   access __x1__ = (script "VarDeclaredNames")

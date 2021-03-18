@@ -1,42 +1,41 @@
 {
   let O = this
-  app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof O) Object)) throw TypeError else {}
   ??? "If id:{O} does not have all of the internal slots of an Array Iterator Instance ( 22 . 1 . 5 . 3 ) , throw a value:{TypeError} exception ."
   let a = O.IteratedArrayLike
   if (= a undefined) {
-    app __x1__ = (CreateIterResultObject undefined true)
-    return __x1__
+    app __x0__ = (CreateIterResultObject undefined true)
+    return __x0__
   } else {}
   let index = O.ArrayLikeNextIndex
   let itemKind = O.ArrayLikeIterationKind
   if (! (= a.TypedArrayName absent)) {
-    app __x2__ = (IsDetachedBuffer a.ViewedArrayBuffer)
-    if (= __x2__ true) throw TypeError else {}
+    app __x1__ = (IsDetachedBuffer a.ViewedArrayBuffer)
+    if (= __x1__ true) throw TypeError else {}
     let len = a.ArrayLength
   } else {
-    app __x3__ = (LengthOfArrayLike a)
-    let len = [? __x3__]
+    app __x2__ = (LengthOfArrayLike a)
+    let len = [? __x2__]
   }
   if (! (< index len)) {
     O.IteratedArrayLike = undefined
-    app __x4__ = (CreateIterResultObject undefined true)
-    return __x4__
+    app __x3__ = (CreateIterResultObject undefined true)
+    return __x3__
   } else {}
   O.ArrayLikeNextIndex = (+ index 1i)
   if (= itemKind CONST_key) {
-    app __x5__ = (CreateIterResultObject index false)
-    return __x5__
+    app __x4__ = (CreateIterResultObject index false)
+    return __x4__
   } else {}
-  app __x6__ = (ToString index)
-  let elementKey = [! __x6__]
-  app __x7__ = (Get a elementKey)
-  let elementValue = [? __x7__]
+  app __x5__ = (ToString index)
+  let elementKey = [! __x5__]
+  app __x6__ = (Get a elementKey)
+  let elementValue = [? __x6__]
   if (= itemKind CONST_value) let result = elementValue else {
     assert (= itemKind CONST_keyPLUSvalue)
-    app __x8__ = (CreateArrayFromList (new [index, elementValue]))
-    let result = [! __x8__]
+    app __x7__ = (CreateArrayFromList (new [index, elementValue]))
+    let result = [! __x7__]
   }
-  app __x9__ = (CreateIterResultObject result false)
-  return __x9__
+  app __x8__ = (CreateIterResultObject result false)
+  return __x8__
 }

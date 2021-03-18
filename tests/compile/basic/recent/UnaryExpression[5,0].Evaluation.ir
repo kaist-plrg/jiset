@@ -4,8 +4,7 @@
   app __x1__ = (GetValue expr)
   app __x2__ = (ToNumeric [? __x1__])
   let oldValue = [? __x2__]
-  app __x3__ = (Type oldValue)
-  let T = __x3__
-  app __x4__ = (PRIMITIVE[T].unaryMinus oldValue)
-  return [! __x4__]
+  let T = (typeof oldValue)
+  app __x3__ = (PRIMITIVE[T].unaryMinus oldValue)
+  return [! __x3__]
 }

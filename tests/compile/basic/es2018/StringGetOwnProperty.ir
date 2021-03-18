@@ -1,13 +1,12 @@
 {
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
-  app __x1__ = (Type P)
-  if (! (= __x1__ String)) return undefined else {}
-  app __x2__ = (CanonicalNumericIndexString P)
-  let index = [! __x2__]
+  if (! (= (typeof P) String)) return undefined else {}
+  app __x1__ = (CanonicalNumericIndexString P)
+  let index = [! __x1__]
   if (= index undefined) return undefined else {}
-  app __x3__ = (IsInteger index)
-  if (= __x3__ false) return undefined else {}
+  app __x2__ = (IsInteger index)
+  if (= __x2__ false) return undefined else {}
   if (== index -0.0) return undefined else {}
   let str = S.StringData
   let len = str.length

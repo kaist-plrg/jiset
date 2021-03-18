@@ -1,10 +1,9 @@
 {
-  app __x0__ = (Type argument)
-  if (! (= __x0__ Number)) return false else {}
+  if (! (= (typeof argument) Number)) return false else {}
   if (|| (|| (= argument NaN) (= argument Infinity)) (= argument -Infinity)) return false else {}
-  app __x1__ = (abs argument)
-  app __x2__ = (floor __x1__)
-  app __x3__ = (abs argument)
-  if (! (== __x2__ __x3__)) return false else {}
+  app __x0__ = (abs argument)
+  app __x1__ = (floor __x0__)
+  app __x2__ = (abs argument)
+  if (! (== __x1__ __x2__)) return false else {}
   return true
 }

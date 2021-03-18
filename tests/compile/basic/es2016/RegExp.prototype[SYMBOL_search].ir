@@ -1,18 +1,17 @@
 {
   let rx = this
-  app __x0__ = (Type rx)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (ToString string)
-  let S = [? __x1__]
-  app __x2__ = (Get rx "lastIndex")
-  let previousLastIndex = [? __x2__]
-  app __x3__ = (Set rx "lastIndex" 0i true)
-  [? __x3__]
-  app __x4__ = (RegExpExec rx S)
-  let result = [? __x4__]
-  app __x5__ = (Set rx "lastIndex" previousLastIndex true)
-  [? __x5__]
+  if (! (= (typeof rx) Object)) throw TypeError else {}
+  app __x0__ = (ToString string)
+  let S = [? __x0__]
+  app __x1__ = (Get rx "lastIndex")
+  let previousLastIndex = [? __x1__]
+  app __x2__ = (Set rx "lastIndex" 0i true)
+  [? __x2__]
+  app __x3__ = (RegExpExec rx S)
+  let result = [? __x3__]
+  app __x4__ = (Set rx "lastIndex" previousLastIndex true)
+  [? __x4__]
   if (= result null) return -1i else {}
-  app __x6__ = (Get result "index")
-  return [? __x6__]
+  app __x5__ = (Get result "index")
+  return [? __x5__]
 }

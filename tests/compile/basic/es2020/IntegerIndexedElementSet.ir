@@ -1,24 +1,23 @@
 {
-  app __x0__ = (Type index)
-  assert (= __x0__ Number)
+  assert (= (typeof index) Number)
   if (= O.ContentType CONST_BigInt) {
-    app __x1__ = (ToBigInt value)
-    let numValue = [? __x1__]
+    app __x0__ = (ToBigInt value)
+    let numValue = [? __x0__]
   } else {
-    app __x2__ = (ToNumber value)
-    let numValue = [? __x2__]
+    app __x1__ = (ToNumber value)
+    let numValue = [? __x1__]
   }
   let buffer = O.ViewedArrayBuffer
-  app __x3__ = (IsDetachedBuffer buffer)
-  if (= __x3__ true) throw TypeError else {}
-  app __x4__ = (IsValidIntegerIndex O index)
-  if (= [! __x4__] false) return false else {}
+  app __x2__ = (IsDetachedBuffer buffer)
+  if (= __x2__ true) throw TypeError else {}
+  app __x3__ = (IsValidIntegerIndex O index)
+  if (= [! __x3__] false) return false else {}
   let offset = O.ByteOffset
   let arrayTypeName = O.TypedArrayName
   ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
   let indexedPosition = (+ (* index elementSize) offset)
   ??? "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
-  app __x5__ = (SetValueInBuffer buffer indexedPosition elementType numValue true CONST_Unordered)
-  __x5__
+  app __x4__ = (SetValueInBuffer buffer indexedPosition elementType numValue true CONST_Unordered)
+  __x4__
   return true
 }

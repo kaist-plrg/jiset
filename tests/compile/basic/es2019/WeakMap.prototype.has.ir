@@ -1,23 +1,21 @@
 {
   let M = this
-  app __x0__ = (Type M)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof M) Object)) throw TypeError else {}
   if (= M.WeakMapData absent) throw TypeError else {}
   let entries = M.WeakMapData
-  app __x1__ = (Type key)
-  if (! (= __x1__ Object)) return false else {}
-  let __x2__ = entries
-  let __x3__ = 0i
-  while (< __x3__ __x2__.length) {
-    let p = __x2__[__x3__]
-    let __x4__ = true
-    __x4__ = (! (= p.Key CONST_empty))
-    if __x4__ {
-      app __x5__ = (SameValue p.Key key)
-      __x4__ = (= __x5__ true)
+  if (! (= (typeof key) Object)) return false else {}
+  let __x0__ = entries
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let p = __x0__[__x1__]
+    let __x2__ = true
+    __x2__ = (! (= p.Key CONST_empty))
+    if __x2__ {
+      app __x3__ = (SameValue p.Key key)
+      __x2__ = (= __x3__ true)
     } else {}
-    if __x4__ return true else {}
-    __x3__ = (+ __x3__ 1i)
+    if __x2__ return true else {}
+    __x1__ = (+ __x1__ 1i)
   }
   return false
 }

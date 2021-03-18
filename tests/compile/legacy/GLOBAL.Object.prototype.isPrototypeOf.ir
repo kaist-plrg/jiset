@@ -1,15 +1,14 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let V = __x0__
-  app __x1__ = (Type V)
-  if (! (= __x1__ Object)) return false else {}
-  app __x2__ = (ToObject this)
-  let O = [? __x2__]
+  if (! (= (typeof V) Object)) return false else {}
+  app __x1__ = (ToObject this)
+  let O = [? __x1__]
   while true {
-    app __x3__ = (V.GetPrototypeOf V)
-    V = [? __x3__]
+    app __x2__ = (V.GetPrototypeOf V)
+    V = [? __x2__]
     if (= V null) return false else {}
-    app __x4__ = (SameValue O V)
-    if (= __x4__ true) return true else {}
+    app __x3__ = (SameValue O V)
+    if (= __x3__ true) return true else {}
   }
 }

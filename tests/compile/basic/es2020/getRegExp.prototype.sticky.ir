@@ -1,10 +1,9 @@
 {
   let R = this
-  app __x0__ = (Type R)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof R) Object)) throw TypeError else {}
   if (= R.OriginalFlags absent) {
-    app __x1__ = (SameValue R INTRINSIC_RegExp_prototype)
-    if (= __x1__ true) return undefined else throw TypeError
+    app __x0__ = (SameValue R INTRINSIC_RegExp_prototype)
+    if (= __x0__ true) return undefined else throw TypeError
   } else {}
   let flags = R.OriginalFlags
   if (contains flags "y") return true else {}

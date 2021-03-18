@@ -1,8 +1,7 @@
 {
   let home = envRec.FunctionObject.HomeObject
   if (= home undefined) return undefined else {}
-  app __x0__ = (Type home)
-  assert (= __x0__ Object)
-  app __x1__ = (home.GetPrototypeOf home)
-  return [? __x1__]
+  assert (= (typeof home) Object)
+  app __x0__ = (home.GetPrototypeOf home)
+  return [? __x0__]
 }

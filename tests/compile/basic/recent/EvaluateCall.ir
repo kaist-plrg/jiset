@@ -1,5 +1,5 @@
 {
-  if (= (typeof ref) "ReferenceRecord") {
+  if (is-instance-of ref ReferenceRecord) {
     app __x0__ = (IsPropertyReference ref)
     if (= __x0__ true) {
       app __x1__ = (GetThisValue ref)
@@ -12,15 +12,14 @@
   } else let thisValue = undefined
   access __x3__ = (arguments "ArgumentListEvaluation")
   let argList = [? __x3__]
-  app __x4__ = (Type func)
-  if (! (= __x4__ Object)) throw TypeError else {}
-  app __x5__ = (IsCallable func)
-  if (= __x5__ false) throw TypeError else {}
+  if (! (= (typeof func) Object)) throw TypeError else {}
+  app __x4__ = (IsCallable func)
+  if (= __x4__ false) throw TypeError else {}
   if (= tailPosition true) {
-    app __x6__ = (PrepareForTailCall)
-    __x6__
+    app __x5__ = (PrepareForTailCall)
+    __x5__
   } else {}
-  app __x7__ = (Call func thisValue argList)
-  let result = __x7__
+  app __x6__ = (Call func thisValue argList)
+  let result = __x6__
   return result
 }

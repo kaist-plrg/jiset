@@ -1,10 +1,9 @@
 {
   let R = this
-  app __x0__ = (Type R)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (ToString S)
-  let string = [? __x1__]
-  app __x2__ = (RegExpExec R string)
-  let match = [? __x2__]
+  if (! (= (typeof R) Object)) throw TypeError else {}
+  app __x0__ = (ToString S)
+  let string = [? __x0__]
+  app __x1__ = (RegExpExec R string)
+  let match = [? __x1__]
   if (! (= match null)) return true else return false
 }

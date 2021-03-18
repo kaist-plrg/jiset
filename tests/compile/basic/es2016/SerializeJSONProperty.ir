@@ -1,57 +1,52 @@
 {
   app __x0__ = (Get holder key)
   let value = [? __x0__]
-  app __x1__ = (Type value)
-  if (= __x1__ Object) {
-    app __x2__ = (Get value "toJSON")
-    let toJSON = [? __x2__]
-    app __x3__ = (IsCallable toJSON)
-    if (= __x3__ true) {
-      app __x4__ = (Call toJSON value (new [key]))
-      let value = [? __x4__]
+  if (= (typeof value) Object) {
+    app __x1__ = (Get value "toJSON")
+    let toJSON = [? __x1__]
+    app __x2__ = (IsCallable toJSON)
+    if (= __x2__ true) {
+      app __x3__ = (Call toJSON value (new [key]))
+      let value = [? __x3__]
     } else {}
   } else {}
   if (! (= ReplacerFunction undefined)) {
-    app __x5__ = (Call ReplacerFunction holder (new [key, value]))
-    let value = [? __x5__]
+    app __x4__ = (Call ReplacerFunction holder (new [key, value]))
+    let value = [? __x4__]
   } else {}
-  app __x6__ = (Type value)
-  if (= __x6__ Object) if (! (= value.NumberData absent)) {
-    app __x7__ = (ToNumber value)
-    let value = [? __x7__]
+  if (= (typeof value) Object) if (! (= value.NumberData absent)) {
+    app __x5__ = (ToNumber value)
+    let value = [? __x5__]
   } else if (! (= value.StringData absent)) {
-    app __x8__ = (ToString value)
-    let value = [? __x8__]
+    app __x6__ = (ToString value)
+    let value = [? __x6__]
   } else if (! (= value.BooleanData absent)) let value = value.BooleanData else {} else {}
   if (= value null) return "null" else {}
   if (= value true) return "true" else {}
   if (= value false) return "false" else {}
-  app __x9__ = (Type value)
-  if (= __x9__ String) {
-    app __x10__ = (QuoteJSONString value)
-    return __x10__
+  if (= (typeof value) String) {
+    app __x7__ = (QuoteJSONString value)
+    return __x7__
   } else {}
-  app __x11__ = (Type value)
-  if (= __x11__ Number) if (! (|| (= value Infinity) (= value -Infinity))) {
-    app __x12__ = (ToString value)
-    return [! __x12__]
+  if (= (typeof value) Number) if (! (|| (= value Infinity) (= value -Infinity))) {
+    app __x8__ = (ToString value)
+    return [! __x8__]
   } else return "null" else {}
-  let __x13__ = true
-  app __x14__ = (Type value)
-  __x13__ = (= __x14__ Object)
-  if __x13__ {
-    app __x15__ = (IsCallable value)
-    __x13__ = (= __x15__ false)
+  let __x9__ = true
+  __x9__ = (= (typeof value) Object)
+  if __x9__ {
+    app __x10__ = (IsCallable value)
+    __x9__ = (= __x10__ false)
   } else {}
-  if __x13__ {
-    app __x16__ = (IsArray value)
-    let isArray = [? __x16__]
+  if __x9__ {
+    app __x11__ = (IsArray value)
+    let isArray = [? __x11__]
     if (= isArray true) {
-      app __x17__ = (SerializeJSONArray value)
-      return [? __x17__]
+      app __x12__ = (SerializeJSONArray value)
+      return [? __x12__]
     } else {
-      app __x18__ = (SerializeJSONObject value)
-      return [? __x18__]
+      app __x13__ = (SerializeJSONObject value)
+      return [? __x13__]
     }
   } else {}
   return undefined

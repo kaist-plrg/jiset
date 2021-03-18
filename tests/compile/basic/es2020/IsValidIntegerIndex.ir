@@ -1,8 +1,7 @@
 {
-  app __x0__ = (Type index)
-  assert (= __x0__ Number)
-  app __x1__ = (IsInteger index)
-  if (= [! __x1__] false) return false else {}
+  assert (= (typeof index) Number)
+  app __x0__ = (IsInteger index)
+  if (= [! __x0__] false) return false else {}
   if (= index -0.0) return false else {}
   if (|| (< index 0i) (! (< index O.ArrayLength))) return false else {}
   return true

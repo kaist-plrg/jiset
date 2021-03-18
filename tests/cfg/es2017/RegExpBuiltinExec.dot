@@ -1,269 +1,267 @@
 digraph {
   node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5 [shape=cds, label=<<font color="black">3:app __x2__ = (ToLength [? __x1__])</font>> color="black" fillcolor="white" style=filled]
+  node5 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">3:let lastIndex = [? __x1__]</td></tr>
+      <tr><td align="left">4:let flags = R.OriginalFlags</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node2 [shape=cds, label=<<font color="black">1:app __x0__ = (Type S)</font>> color="black" fillcolor="white" style=filled]
-  node4 [shape=cds, label=<<font color="black">3:app __x1__ = (Get R &quot;lastIndex&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node10 [shape=diamond, label=<<font color="black">(contains flags &quot;y&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node56 [shape=none, margin=0, label=<<font color="black">
+  node6 [shape=diamond, label=<<font color="black">(contains flags &quot;g&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">1:assert (= (typeof S) String)</td></tr>
+      <tr><td align="left">2:let length = S.length</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=cds, label=<<font color="black">3:app __x1__ = (ToLength [? __x0__])</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let sticky = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node56 [shape=cds, label=<<font color="black">app __x12__ = (ToString i)</font>> color="black" fillcolor="white" style=filled]
+  node42 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">32:let A = [! __x7__]</td></tr>
+      <tr><td align="left">34:let matchIndex = lastIndex</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node24 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">15:return null</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node37 [shape=diamond, label=<<font color="black">(|| (= global true) (= sticky true))</font>> color="black" fillcolor="white" style=filled]
+  node25 [shape=cds, label=<<font color="black">16:app __x3__ = (matcher S lastIndex)</font>> color="black" fillcolor="white" style=filled]
+  node52 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let capturedValue = undefined</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node14 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">8:let matcher = R.RegExpMatcher</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node20 [shape=diamond, label=<<font color="black">(&lt; length lastIndex)</font>> color="black" fillcolor="white" style=filled]
+  node46 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">36:[! __x9__]</td></tr>
+      <tr><td align="left">37:??? &quot;Let id:{matchedSubstr} be the matched substring ( i . e . the portion of id:{S} between offset id:{lastIndex} inclusive and offset id:{e} exclusive ) .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node57 [shape=cds, label=<<font color="black">app __x13__ = (CreateDataProperty A [! __x12__] capturedValue)</font>> color="black" fillcolor="white" style=filled]
+  node29 [shape=cds, label=<<font color="black">19:app __x4__ = (Set R &quot;lastIndex&quot; 0i true)</font>> color="black" fillcolor="white" style=filled]
+  node21 [shape=diamond, label=<<font color="black">(|| (= global true) (= sticky true))</font>> color="black" fillcolor="white" style=filled]
+  node33 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">matchSucceeded = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node28 [shape=diamond, label=<<font color="black">(= sticky true)</font>> color="black" fillcolor="white" style=filled]
+  node38 [shape=cds, label=<<font color="black">30:app __x6__ = (Set R &quot;lastIndex&quot; e true)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=diamond, label=<<font color="black">(contains flags &quot;y&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node53 [shape=diamond, label=<<font color="black">(= fullUnicode true)</font>> color="black" fillcolor="white" style=filled]
+  node13 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">lastIndex = 0i</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node41 [shape=cds, label=<<font color="black">32:app __x7__ = (ArrayCreate (+ n 1i))</font>> color="black" fillcolor="white" style=filled]
+  node45 [shape=cds, label=<<font color="black">36:app __x9__ = (CreateDataProperty A &quot;input&quot; S)</font>> color="black" fillcolor="white" style=filled]
+  node17 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let fullUnicode = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node32 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">21:lastIndex = __x5__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node34 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">25:let e = r.endIndex</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node22 [shape=cds, label=<<font color="black">14:app __x2__ = (Set R &quot;lastIndex&quot; 0i true)</font>> color="black" fillcolor="white" style=filled]
+  node44 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">35:[! __x8__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node59 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">49:return A</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node27 [shape=diamond, label=<<font color="black">(= r CONST_failure)</font>> color="black" fillcolor="white" style=filled]
+  node12 [shape=diamond, label=<<font color="black">(&amp;&amp; (= global false) (= sticky false))</font>> color="black" fillcolor="white" style=filled]
+  node54 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">??? &quot;Let id:{capturedValue} be a String value whose code units are the UTF16Encoding of the code points of id:{captureI} .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node49 [shape=diamond, label=<<font color="black">(&lt; i __x11__)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let global = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node39 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">30:[? __x6__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">3:app __x0__ = (Get R &quot;lastIndex&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node35 [shape=diamond, label=<<font color="black">(= fullUnicode true)</font>> color="black" fillcolor="white" style=filled]
+  node48 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">38:[! __x10__]</td></tr>
+      <tr><td align="left">39:let i = (+ 0i 1i)</td></tr>
+      <tr><td align="left">39:let __x11__ = (+ n 1i)</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node18 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">10:let matchSucceeded = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node50 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">??? &quot;Let id:{captureI} be id:{i} sup:{th} element of id:{r} ' s id:{captures} List .&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node16 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let fullUnicode = true</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node31 [shape=cds, label=<<font color="black">21:app __x5__ = (AdvanceStringIndex S lastIndex fullUnicode)</font>> color="black" fillcolor="white" style=filled]
+  node11 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let sticky = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node43 [shape=cds, label=<<font color="black">35:app __x8__ = (CreateDataProperty A &quot;index&quot; matchIndex)</font>> color="black" fillcolor="white" style=filled]
+  node40 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">31:??? &quot;Let id:{n} be the length of id:{r} ' s id:{captures} List . ( This is the same value as link:{unhandled: sec-notation} ' s id:{NcapturingParens} . )&quot;</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node26 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">16:let r = __x3__</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node55 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">let capturedValue = captureI</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node42 [shape=cds, label=<<font color="black">32:app __x8__ = (ArrayCreate (+ n 1i))</font>> color="black" fillcolor="white" style=filled]
-  node24 [shape=none, margin=0, label=<<font color="black">
+  node23 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">14:[? __x3__]</td></tr>
+      <tr><td align="left">14:[? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node37 [shape=none, margin=0, label=<<font color="black">
+  node8 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">let global = false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node58 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">[! __x13__]</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node36 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">27:??? &quot;id:{e} is an index into the id:{Input} character list , derived from id:{S} , matched by id:{matcher} . Let id:{eUTF} be the smallest index into id:{S} that corresponds to the character at element id:{e} of id:{Input} . If id:{e} is greater than or equal to the length of id:{Input} , then id:{eUTF} is the number of code units in id:{S} .&quot;</td></tr>
       <tr><td align="left">28:e = eUTF</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node25 [shape=none, margin=0, label=<<font color="black">
+  node30 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">15:return null</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node52 [shape=diamond, label=<<font color="black">(= captureI undefined)</font>> color="black" fillcolor="white" style=filled]
-  node14 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">lastIndex = 0i</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node20 [shape=diamond, label=<<font color="black">(= matchSucceeded false)</font>> color="black" fillcolor="white" style=filled]
-  node46 [shape=cds, label=<<font color="black">36:app __x10__ = (CreateDataProperty A &quot;input&quot; S)</font>> color="black" fillcolor="white" style=filled]
-  node57 [shape=cds, label=<<font color="black">app __x13__ = (ToString i)</font>> color="black" fillcolor="white" style=filled]
-  node29 [shape=diamond, label=<<font color="black">(= sticky true)</font>> color="black" fillcolor="white" style=filled]
-  node6 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let lastIndex = [? __x2__]</td></tr>
-      <tr><td align="left">4:let flags = R.OriginalFlags</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node60 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">49:return A</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node21 [shape=diamond, label=<<font color="black">(&lt; length lastIndex)</font>> color="black" fillcolor="white" style=filled]
-  node33 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">21:lastIndex = __x6__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node28 [shape=diamond, label=<<font color="black">(= r CONST_failure)</font>> color="black" fillcolor="white" style=filled]
-  node38 [shape=diamond, label=<<font color="black">(|| (= global true) (= sticky true))</font>> color="black" fillcolor="white" style=filled]
-  node9 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let global = false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node53 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let capturedValue = undefined</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node13 [shape=diamond, label=<<font color="black">(&amp;&amp; (= global false) (= sticky false))</font>> color="black" fillcolor="white" style=filled]
-  node41 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">31:??? &quot;Let id:{n} be the length of id:{r} ' s id:{captures} List . ( This is the same value as link:{unhandled: sec-notation} ' s id:{NcapturingParens} . )&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node45 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">35:[! __x9__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node17 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let fullUnicode = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node32 [shape=cds, label=<<font color="black">21:app __x6__ = (AdvanceStringIndex S lastIndex fullUnicode)</font>> color="black" fillcolor="white" style=filled]
-  node34 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">matchSucceeded = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node22 [shape=diamond, label=<<font color="black">(|| (= global true) (= sticky true))</font>> color="black" fillcolor="white" style=filled]
-  node44 [shape=cds, label=<<font color="black">35:app __x9__ = (CreateDataProperty A &quot;index&quot; matchIndex)</font>> color="black" fillcolor="white" style=filled]
-  node59 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">[! __x14__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node27 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">16:let r = __x4__</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node12 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let sticky = false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node54 [shape=diamond, label=<<font color="black">(= fullUnicode true)</font>> color="black" fillcolor="white" style=filled]
-  node49 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">38:[! __x11__]</td></tr>
-      <tr><td align="left">39:let i = (+ 0i 1i)</td></tr>
-      <tr><td align="left">39:let __x12__ = (+ n 1i)</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node7 [shape=diamond, label=<<font color="black">(contains flags &quot;g&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node39 [shape=cds, label=<<font color="black">30:app __x7__ = (Set R &quot;lastIndex&quot; e true)</font>> color="black" fillcolor="white" style=filled]
-  node3 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:assert (= __x0__ String)</td></tr>
-      <tr><td align="left">2:let length = S.length</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node35 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">25:let e = r.endIndex</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node48 [shape=cds, label=<<font color="black">38:app __x11__ = (CreateDataProperty A &quot;0&quot; matchedSubstr)</font>> color="black" fillcolor="white" style=filled]
-  node18 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let fullUnicode = false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node50 [shape=diamond, label=<<font color="black">(&lt; i __x12__)</font>> color="black" fillcolor="white" style=filled]
-  node16 [shape=diamond, label=<<font color="black">(contains flags &quot;u&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node31 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">19:[? __x5__]</td></tr>
+      <tr><td align="left">19:[? __x4__]</td></tr>
       <tr><td align="left">20:return null</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node11 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let sticky = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node43 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">32:let A = [! __x8__]</td></tr>
-      <tr><td align="left">34:let matchIndex = lastIndex</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node40 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">30:[? __x7__]</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node26 [shape=cds, label=<<font color="black">16:app __x4__ = (matcher S lastIndex)</font>> color="black" fillcolor="white" style=filled]
-  node55 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">??? &quot;Let id:{capturedValue} be a String value whose code units are the UTF16Encoding of the code points of id:{captureI} .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node23 [shape=cds, label=<<font color="black">14:app __x3__ = (Set R &quot;lastIndex&quot; 0i true)</font>> color="black" fillcolor="white" style=filled]
-  node8 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let global = true</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node58 [shape=cds, label=<<font color="black">app __x14__ = (CreateDataProperty A [! __x13__] capturedValue)</font>> color="black" fillcolor="white" style=filled]
-  node36 [shape=diamond, label=<<font color="black">(= fullUnicode true)</font>> color="black" fillcolor="white" style=filled]
-  node30 [shape=cds, label=<<font color="black">19:app __x5__ = (Set R &quot;lastIndex&quot; 0i true)</font>> color="black" fillcolor="white" style=filled]
-  node51 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">??? &quot;Let id:{captureI} be id:{i} sup:{th} element of id:{r} ' s id:{captures} List .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node19 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">10:let matchSucceeded = false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node47 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">36:[! __x10__]</td></tr>
-      <tr><td align="left">37:??? &quot;Let id:{matchedSubstr} be the matched substring ( i . e . the portion of id:{S} between offset id:{lastIndex} inclusive and offset id:{e} exclusive ) .&quot;</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node15 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:let matcher = R.RegExpMatcher</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node53 -> node57 [ color="black"]
-  node12 -> node13 [ color="black"]
-  node6 -> node7 [ color="black"]
-  node26 -> node27 [ color="black"]
-  node4 -> node5 [ color="black"]
-  node60 -> node1 [ color="black"]
+  node51 [shape=diamond, label=<<font color="black">(= captureI undefined)</font>> color="black" fillcolor="white" style=filled]
+  node19 [shape=diamond, label=<<font color="black">(= matchSucceeded false)</font>> color="black" fillcolor="white" style=filled]
+  node47 [shape=cds, label=<<font color="black">38:app __x10__ = (CreateDataProperty A &quot;0&quot; matchedSubstr)</font>> color="black" fillcolor="white" style=filled]
+  node15 [shape=diamond, label=<<font color="black">(contains flags &quot;u&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node29 -> node30 [ color="black"]
+  node16 -> node18 [ color="black"]
+  node51 -> node52 [label=<<font color="black">true</font>> color="black"]
+  node51 -> node53 [label=<<font color="black">false</font>> color="black"]
+  node53 -> node54 [label=<<font color="black">true</font>> color="black"]
+  node53 -> node55 [label=<<font color="black">false</font>> color="black"]
+  node28 -> node29 [label=<<font color="black">true</font>> color="black"]
+  node28 -> node31 [label=<<font color="black">false</font>> color="black"]
+  node47 -> node48 [ color="black"]
+  node8 -> node9 [ color="black"]
+  node46 -> node47 [ color="black"]
   node48 -> node49 [ color="black"]
-  node49 -> node50 [ color="black"]
-  node32 -> node33 [ color="black"]
   node5 -> node6 [ color="black"]
   node3 -> node4 [ color="black"]
   node39 -> node40 [ color="black"]
-  node59 -> node50 [ color="black"]
-  node42 -> node43 [ color="black"]
+  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
+  node6 -> node8 [label=<<font color="black">false</font>> color="black"]
+  node19 -> node20 [label=<<font color="black">true</font>> color="black"]
+  node19 -> node34 [label=<<font color="black">false</font>> color="black"]
+  node54 -> node56 [ color="black"]
   node18 -> node19 [ color="black"]
-  node17 -> node19 [ color="black"]
-  node10 -> node11 [label=<<font color="black">true</font>> color="black"]
-  node10 -> node12 [label=<<font color="black">false</font>> color="black"]
-  node13 -> node14 [label=<<font color="black">true</font>> color="black"]
-  node13 -> node15 [label=<<font color="black">false</font>> color="black"]
-  node36 -> node37 [label=<<font color="black">true</font>> color="black"]
-  node36 -> node38 [label=<<font color="black">false</font>> color="black"]
-  node54 -> node55 [label=<<font color="black">true</font>> color="black"]
-  node54 -> node56 [label=<<font color="black">false</font>> color="black"]
+  node42 -> node43 [ color="black"]
+  node34 -> node35 [ color="black"]
   node2 -> node3 [ color="black"]
-  node15 -> node16 [ color="black"]
-  node52 -> node53 [label=<<font color="black">true</font>> color="black"]
-  node52 -> node54 [label=<<font color="black">false</font>> color="black"]
-  node28 -> node29 [label=<<font color="black">true</font>> color="black"]
-  node28 -> node34 [label=<<font color="black">false</font>> color="black"]
-  node7 -> node8 [label=<<font color="black">true</font>> color="black"]
-  node7 -> node9 [label=<<font color="black">false</font>> color="black"]
-  node34 -> node20 [ color="black"]
-  node19 -> node20 [ color="black"]
-  node21 -> node22 [label=<<font color="black">true</font>> color="black"]
-  node21 -> node26 [label=<<font color="black">false</font>> color="black"]
-  node35 -> node36 [ color="black"]
+  node55 -> node56 [ color="black"]
+  node32 -> node19 [ color="black"]
+  node11 -> node12 [ color="black"]
+  node9 -> node10 [label=<<font color="black">true</font>> color="black"]
+  node9 -> node11 [label=<<font color="black">false</font>> color="black"]
+  node59 -> node1 [ color="black"]
+  node20 -> node21 [label=<<font color="black">true</font>> color="black"]
+  node20 -> node25 [label=<<font color="black">false</font>> color="black"]
+  node35 -> node36 [label=<<font color="black">true</font>> color="black"]
+  node35 -> node37 [label=<<font color="black">false</font>> color="black"]
+  node13 -> node14 [ color="black"]
   node57 -> node58 [ color="black"]
-  node22 -> node23 [label=<<font color="black">true</font>> color="black"]
-  node22 -> node25 [label=<<font color="black">false</font>> color="black"]
   node45 -> node46 [ color="black"]
   node0 -> node2 [ color="black"]
+  node36 -> node37 [ color="black"]
+  node22 -> node23 [ color="black"]
+  node15 -> node16 [label=<<font color="black">true</font>> color="black"]
+  node15 -> node17 [label=<<font color="black">false</font>> color="black"]
   node43 -> node44 [ color="black"]
-  node9 -> node10 [ color="black"]
-  node11 -> node13 [ color="black"]
-  node20 -> node21 [label=<<font color="black">true</font>> color="black"]
-  node20 -> node35 [label=<<font color="black">false</font>> color="black"]
   node44 -> node45 [ color="black"]
-  node27 -> node28 [ color="black"]
-  node37 -> node38 [ color="black"]
-  node8 -> node10 [ color="black"]
-  node33 -> node20 [ color="black"]
+  node49 -> node50 [label=<<font color="black">true</font>> color="black"]
+  node49 -> node59 [label=<<font color="black">false</font>> color="black"]
   node23 -> node24 [ color="black"]
   node14 -> node15 [ color="black"]
   node31 -> node32 [ color="black"]
   node40 -> node41 [ color="black"]
   node30 -> node31 [ color="black"]
-  node38 -> node39 [label=<<font color="black">true</font>> color="black"]
-  node38 -> node41 [label=<<font color="black">false</font>> color="black"]
-  node29 -> node30 [label=<<font color="black">true</font>> color="black"]
-  node29 -> node32 [label=<<font color="black">false</font>> color="black"]
-  node16 -> node17 [label=<<font color="black">true</font>> color="black"]
-  node16 -> node18 [label=<<font color="black">false</font>> color="black"]
-  node47 -> node48 [ color="black"]
-  node51 -> node52 [ color="black"]
+  node37 -> node38 [label=<<font color="black">true</font>> color="black"]
+  node37 -> node40 [label=<<font color="black">false</font>> color="black"]
+  node21 -> node22 [label=<<font color="black">true</font>> color="black"]
+  node21 -> node24 [label=<<font color="black">false</font>> color="black"]
+  node26 -> node27 [ color="black"]
+  node33 -> node19 [ color="black"]
+  node50 -> node51 [ color="black"]
+  node4 -> node5 [ color="black"]
   node25 -> node26 [ color="black"]
+  node7 -> node9 [ color="black"]
   node24 -> node25 [ color="black"]
-  node50 -> node51 [label=<<font color="black">true</font>> color="black"]
-  node50 -> node60 [label=<<font color="black">false</font>> color="black"]
   node56 -> node57 [ color="black"]
-  node46 -> node47 [ color="black"]
-  node58 -> node59 [ color="black"]
+  node38 -> node39 [ color="black"]
+  node10 -> node12 [ color="black"]
+  node27 -> node28 [label=<<font color="black">true</font>> color="black"]
+  node27 -> node33 [label=<<font color="black">false</font>> color="black"]
+  node58 -> node49 [ color="black"]
+  node17 -> node18 [ color="black"]
+  node52 -> node56 [ color="black"]
+  node12 -> node13 [label=<<font color="black">true</font>> color="black"]
+  node12 -> node14 [label=<<font color="black">false</font>> color="black"]
   node41 -> node42 [ color="black"]
-  node55 -> node57 [ color="black"]
 }

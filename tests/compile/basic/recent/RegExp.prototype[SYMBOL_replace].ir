@@ -1,118 +1,117 @@
 {
   let rx = this
-  app __x0__ = (Type rx)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (ToString string)
-  let S = [? __x1__]
+  if (! (= (typeof rx) Object)) throw TypeError else {}
+  app __x0__ = (ToString string)
+  let S = [? __x0__]
   let lengthS = S.length
-  app __x2__ = (IsCallable replaceValue)
-  let functionalReplace = __x2__
+  app __x1__ = (IsCallable replaceValue)
+  let functionalReplace = __x1__
   if (= functionalReplace false) {
-    app __x3__ = (ToString replaceValue)
-    replaceValue = [? __x3__]
+    app __x2__ = (ToString replaceValue)
+    replaceValue = [? __x2__]
   } else {}
-  app __x4__ = (Get rx "global")
-  app __x5__ = (ToBoolean [? __x4__])
-  let global = [! __x5__]
+  app __x3__ = (Get rx "global")
+  app __x4__ = (ToBoolean [? __x3__])
+  let global = [! __x4__]
   if (= global true) {
-    app __x6__ = (Get rx "unicode")
-    app __x7__ = (ToBoolean [? __x6__])
-    let fullUnicode = [! __x7__]
-    app __x8__ = (Set rx "lastIndex" 0i true)
-    [? __x8__]
+    app __x5__ = (Get rx "unicode")
+    app __x6__ = (ToBoolean [? __x5__])
+    let fullUnicode = [! __x6__]
+    app __x7__ = (Set rx "lastIndex" 0i true)
+    [? __x7__]
   } else {}
   let results = (new [])
   let done = false
   while (= done false) {
-    app __x9__ = (RegExpExec rx S)
-    let result = [? __x9__]
+    app __x8__ = (RegExpExec rx S)
+    let result = [? __x8__]
     if (= result null) done = true else {
       append result -> results
       if (= global false) done = true else {
-        app __x10__ = (Get result "0")
-        app __x11__ = (ToString [? __x10__])
-        let matchStr = [? __x11__]
+        app __x9__ = (Get result "0")
+        app __x10__ = (ToString [? __x9__])
+        let matchStr = [? __x10__]
         if (= matchStr "") {
-          app __x12__ = (Get rx "lastIndex")
-          app __x13__ = (ToLength [? __x12__])
-          let thisIndex = [? __x13__]
-          app __x14__ = (AdvanceStringIndex S thisIndex fullUnicode)
-          let nextIndex = __x14__
-          app __x15__ = (Set rx "lastIndex" nextIndex true)
-          [? __x15__]
+          app __x11__ = (Get rx "lastIndex")
+          app __x12__ = (ToLength [? __x11__])
+          let thisIndex = [? __x12__]
+          app __x13__ = (AdvanceStringIndex S thisIndex fullUnicode)
+          let nextIndex = __x13__
+          app __x14__ = (Set rx "lastIndex" nextIndex true)
+          [? __x14__]
         } else {}
       }
     }
   }
   let accumulatedResult = ""
   let nextSourcePosition = 0i
-  let __x16__ = results
-  let __x17__ = 0i
-  while (< __x17__ __x16__.length) {
-    let result = __x16__[__x17__]
-    app __x18__ = (LengthOfArrayLike result)
-    let resultLength = [? __x18__]
-    app __x19__ = (max (- resultLength 1i) 0i)
-    let nCaptures = __x19__
-    app __x20__ = (Get result "0")
-    app __x21__ = (ToString [? __x20__])
-    let matched = [? __x21__]
+  let __x15__ = results
+  let __x16__ = 0i
+  while (< __x16__ __x15__.length) {
+    let result = __x15__[__x16__]
+    app __x17__ = (LengthOfArrayLike result)
+    let resultLength = [? __x17__]
+    app __x18__ = (max (- resultLength 1i) 0i)
+    let nCaptures = __x18__
+    app __x19__ = (Get result "0")
+    app __x20__ = (ToString [? __x19__])
+    let matched = [? __x20__]
     let matchLength = matched.length
-    app __x22__ = (Get result "index")
-    app __x23__ = (ToIntegerOrInfinity [? __x22__])
-    let position = [? __x23__]
+    app __x21__ = (Get result "index")
+    app __x22__ = (ToIntegerOrInfinity [? __x21__])
+    let position = [? __x22__]
     ??? "Set id:{position} to the result of clamping id:{position} between 0 and id:{lengthS} ."
     let n = 1i
     let captures = (new [])
     while (! (< nCaptures n)) {
-      app __x24__ = (ToString n)
-      app __x25__ = (Get result [! __x24__])
-      let capN = [? __x25__]
+      app __x23__ = (ToString n)
+      app __x24__ = (Get result [! __x23__])
+      let capN = [? __x24__]
       if (! (= capN undefined)) {
-        app __x26__ = (ToString capN)
-        capN = [? __x26__]
+        app __x25__ = (ToString capN)
+        capN = [? __x25__]
       } else {}
       append capN -> captures
       n = (+ n 1i)
     }
-    app __x27__ = (Get result "groups")
-    let namedCaptures = [? __x27__]
+    app __x26__ = (Get result "groups")
+    let namedCaptures = [? __x26__]
     if (= functionalReplace true) {
       let replacerArgs = (new [matched])
-      let __x28__ = captures
-      let __x29__ = 0i
-      while (< __x29__ __x28__.length) {
-        let __x30__ = __x28__[__x29__]
-        append __x30__ -> replacerArgs
-        __x29__ = (+ __x29__ 1i)
+      let __x27__ = captures
+      let __x28__ = 0i
+      while (< __x28__ __x27__.length) {
+        let __x29__ = __x27__[__x28__]
+        append __x29__ -> replacerArgs
+        __x28__ = (+ __x28__ 1i)
       }
       append position -> replacerArgs
       append S -> replacerArgs
       if (! (= namedCaptures undefined)) append namedCaptures -> replacerArgs else {}
-      app __x31__ = (Call replaceValue undefined replacerArgs)
-      let replValue = [? __x31__]
-      app __x32__ = (ToString replValue)
-      let replacement = [? __x32__]
+      app __x30__ = (Call replaceValue undefined replacerArgs)
+      let replValue = [? __x30__]
+      app __x31__ = (ToString replValue)
+      let replacement = [? __x31__]
     } else {
       if (! (= namedCaptures undefined)) {
-        app __x33__ = (ToObject namedCaptures)
-        namedCaptures = [? __x33__]
+        app __x32__ = (ToObject namedCaptures)
+        namedCaptures = [? __x32__]
       } else {}
-      app __x34__ = (GetSubstitution matched S position captures namedCaptures replaceValue)
-      let replacement = [? __x34__]
+      app __x33__ = (GetSubstitution matched S position captures namedCaptures replaceValue)
+      let replacement = [? __x33__]
     }
     if (! (< position nextSourcePosition)) {
-      let __x35__ = ""
-      let __x36__ = nextSourcePosition
-      while (< __x36__ (+ position 1i)) {
-        access __x37__ = (S __x36__)
-        __x35__ = (+ __x35__ __x37__)
-        __x36__ = (+ __x36__ 1i)
+      let __x34__ = ""
+      let __x35__ = nextSourcePosition
+      while (< __x35__ (+ position 1i)) {
+        access __x36__ = (S __x35__)
+        __x34__ = (+ __x34__ __x36__)
+        __x35__ = (+ __x35__ 1i)
       }
-      accumulatedResult = (+ (+ accumulatedResult __x35__) replacement)
+      accumulatedResult = (+ (+ accumulatedResult __x34__) replacement)
       nextSourcePosition = (+ position matchLength)
     } else {}
-    __x17__ = (+ __x17__ 1i)
+    __x16__ = (+ __x16__ 1i)
   }
   if (! (< nextSourcePosition lengthS)) return accumulatedResult else {}
   ??? "Return the string - concatenation of id:{accumulatedResult} and the substring of id:{S} from id:{nextSourcePosition} ."

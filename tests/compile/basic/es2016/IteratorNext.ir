@@ -6,7 +6,6 @@
     app __x1__ = (Invoke iterator "next" (new [value]))
     let result = [? __x1__]
   }
-  app __x2__ = (Type result)
-  if (! (= __x2__ Object)) throw TypeError else {}
+  if (! (= (typeof result) Object)) throw TypeError else {}
   return result
 }

@@ -1,15 +1,14 @@
 {
-  app __x0__ = (Type C)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (GetMethod C SYMBOL_hasInstance)
-  let instOfHandler = [? __x1__]
+  if (! (= (typeof C) Object)) throw TypeError else {}
+  app __x0__ = (GetMethod C SYMBOL_hasInstance)
+  let instOfHandler = [? __x0__]
   if (! (= instOfHandler undefined)) {
-    app __x2__ = (Call instOfHandler C (new [O]))
-    app __x3__ = (ToBoolean [? __x2__])
-    return __x3__
+    app __x1__ = (Call instOfHandler C (new [O]))
+    app __x2__ = (ToBoolean [? __x1__])
+    return __x2__
   } else {}
-  app __x4__ = (IsCallable C)
-  if (= __x4__ false) throw TypeError else {}
-  app __x5__ = (OrdinaryHasInstance C O)
-  return [? __x5__]
+  app __x3__ = (IsCallable C)
+  if (= __x3__ false) throw TypeError else {}
+  app __x4__ = (OrdinaryHasInstance C O)
+  return [? __x4__]
 }

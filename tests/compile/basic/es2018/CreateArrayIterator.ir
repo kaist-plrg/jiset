@@ -1,8 +1,7 @@
 {
-  app __x0__ = (Type array)
-  assert (= __x0__ Object)
-  app __x1__ = (ObjectCreate INTRINSIC_ArrayIteratorPrototype (new ["IteratedObject", "ArrayIteratorNextIndex", "ArrayIterationKind"]))
-  let iterator = __x1__
+  assert (= (typeof array) Object)
+  app __x0__ = (ObjectCreate INTRINSIC_ArrayIteratorPrototype (new ["IteratedObject", "ArrayIteratorNextIndex", "ArrayIterationKind"]))
+  let iterator = __x0__
   iterator.IteratedObject = array
   iterator.ArrayIteratorNextIndex = 0i
   iterator.ArrayIterationKind = kind

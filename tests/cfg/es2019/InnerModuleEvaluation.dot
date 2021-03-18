@@ -15,7 +15,7 @@ digraph {
       <tr><td align="left">let required = __x1__[__x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node2 [shape=diamond, label=<<font color="black">(! (= (typeof module) &quot;CyclicModuleRecord&quot;))</font>> color="black" fillcolor="white" style=filled]
+  node2 [shape=diamond, label=<<font color="black">(! (is-instance-of module CyclicModuleRecord))</font>> color="black" fillcolor="white" style=filled]
   node17 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">16:index = [? __x4__]</td></tr>
@@ -104,7 +104,7 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node19 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">20:assert (= (typeof requiredModule) &quot;CyclicModuleRecord&quot;)</td></tr>
+      <tr><td align="left">20:assert (is-instance-of requiredModule CyclicModuleRecord)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node3 -> node4 [ color="black"]

@@ -4,16 +4,16 @@
   ??? "Let id:{toSize} be the number of bytes in id:{toBlock} ."
   assert (! (< toSize (+ toIndex count)))
   while (< 0i count) {
-    if (= (typeof fromBlock) "SharedDataBlock") {
+    if (is-instance-of fromBlock SharedDataBlock) {
       let execution = GLOBAL_agent.CandidateExecution
       ??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
       ??? "Let id:{bytes} be a List of length 1 that contains a nondeterministically chosen byte value ."
       let readEvent = (new ReadSharedMemory("Order" -> CONST_Unordered, "NoTear" -> true, "Block" -> fromBlock, "ByteIndex" -> fromIndex, "ElementSize" -> 1i))
       append readEvent -> eventList
       append (new ChosenValueRecord("Event" -> readEvent, "ChosenValue" -> bytes)) -> execution.ChosenValues
-      if (= (typeof toBlock) "SharedDataBlock") append (new WriteSharedMemory("Order" -> CONST_Unordered, "NoTear" -> true, "Block" -> toBlock, "ByteIndex" -> toIndex, "ElementSize" -> 1i, "Payload" -> bytes)) -> eventList else toBlock[toIndex] = bytes[0i]
+      if (is-instance-of toBlock SharedDataBlock) append (new WriteSharedMemory("Order" -> CONST_Unordered, "NoTear" -> true, "Block" -> toBlock, "ByteIndex" -> toIndex, "ElementSize" -> 1i, "Payload" -> bytes)) -> eventList else toBlock[toIndex] = bytes[0i]
     } else {
-      assert (! (= (typeof toBlock) "SharedDataBlock"))
+      assert (! (is-instance-of toBlock SharedDataBlock))
       toBlock[toIndex] = fromBlock[fromIndex]
     }
     toIndex = (+ toIndex 1i)

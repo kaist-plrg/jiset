@@ -1,18 +1,22 @@
 digraph {
   node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5 [shape=none, margin=0, label=<<font color="black">
+  node5 [shape=diamond, label=<<font color="black">(= R.OriginalFlags absent)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">5:return false</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
+  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
+  node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10 [shape=none, margin=0, label=<<font color="black">
+  node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">return true</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6 [shape=diamond, label=<<font color="black">(= R.OriginalFlags absent)</font>> color="black" fillcolor="white" style=filled]
-  node9 [shape=diamond, label=<<font color="black">(contains flags &quot;m&quot;)</font>> color="black" fillcolor="white" style=filled]
   node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let R = this</td></tr>
@@ -20,33 +24,27 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">throw TypeError</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node3 [shape=cds, label=<<font color="black">1:app __x0__ = (Type R)</font>> color="black" fillcolor="white" style=filled]
-  node11 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:return false</td></tr>
-    </table>
-  </font>> color="black" fillcolor="white" style=filled]
-  node8 [shape=none, margin=0, label=<<font color="black">
-    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let flags = R.OriginalFlags</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node4 [shape=diamond, label=<<font color="black">(! (= __x0__ Object))</font>> color="black" fillcolor="white" style=filled]
-  node2 -> node3 [ color="black"]
-  node9 -> node10 [label=<<font color="black">true</font>> color="black"]
-  node9 -> node11 [label=<<font color="black">false</font>> color="black"]
-  node0 -> node2 [ color="black"]
-  node11 -> node1 [ color="black"]
-  node10 -> node11 [ color="black"]
-  node4 -> node5 [label=<<font color="black">true</font>> color="black"]
-  node4 -> node6 [label=<<font color="black">false</font>> color="black"]
-  node8 -> node9 [ color="black"]
-  node5 -> node6 [ color="black"]
-  node3 -> node4 [ color="black"]
-  node6 -> node7 [label=<<font color="black">true</font>> color="black"]
-  node6 -> node8 [label=<<font color="black">false</font>> color="black"]
+  node3 [shape=diamond, label=<<font color="black">(! (= (typeof R) Object))</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=diamond, label=<<font color="black">(contains flags &quot;m&quot;)</font>> color="black" fillcolor="white" style=filled]
+  node4 [shape=none, margin=0, label=<<font color="black">
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td align="left">throw TypeError</td></tr>
+    </table>
+  </font>> color="black" fillcolor="white" style=filled]
   node7 -> node8 [ color="black"]
+  node10 -> node1 [ color="black"]
+  node0 -> node2 [ color="black"]
+  node6 -> node7 [ color="black"]
+  node9 -> node10 [ color="black"]
+  node4 -> node5 [ color="black"]
+  node5 -> node6 [label=<<font color="black">true</font>> color="black"]
+  node5 -> node7 [label=<<font color="black">false</font>> color="black"]
+  node8 -> node9 [label=<<font color="black">true</font>> color="black"]
+  node8 -> node10 [label=<<font color="black">false</font>> color="black"]
+  node2 -> node3 [ color="black"]
+  node3 -> node4 [label=<<font color="black">true</font>> color="black"]
+  node3 -> node5 [label=<<font color="black">false</font>> color="black"]
 }

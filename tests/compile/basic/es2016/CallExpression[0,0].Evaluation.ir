@@ -4,43 +4,41 @@
   app __x1__ = (GetValue ref)
   let func = [? __x1__]
   let __x2__ = true
-  app __x3__ = (Type ref)
-  __x2__ = (= __x3__ Reference)
+  __x2__ = (= (typeof ref) Reference)
   if __x2__ {
-    let __x4__ = true
-    app __x5__ = (IsPropertyReference ref)
-    __x4__ = (= __x5__ false)
-    if __x4__ {
-      app __x6__ = (GetReferencedName ref)
-      __x4__ = (= __x6__ "eval")
+    let __x3__ = true
+    app __x4__ = (IsPropertyReference ref)
+    __x3__ = (= __x4__ false)
+    if __x3__ {
+      app __x5__ = (GetReferencedName ref)
+      __x3__ = (= __x5__ "eval")
     } else {}
-    __x2__ = __x4__
+    __x2__ = __x3__
   } else {}
   if __x2__ {
-    app __x7__ = (SameValue func INTRINSIC_eval)
-    if (= __x7__ true) {
-      app __x8__ = (ArgumentListEvaluation Arguments)
-      let argList = [? __x8__]
+    app __x6__ = (SameValue func INTRINSIC_eval)
+    if (= __x6__ true) {
+      app __x7__ = (ArgumentListEvaluation Arguments)
+      let argList = [? __x7__]
       if (= argList.length 0i) return undefined else {}
       let evalText = argList[0i]
       ??? "If the source code matching this nt:{CallExpression} is strict code , let id:{strictCaller} be value:{true} . Otherwise let id:{strictCaller} be value:{false} ."
       let evalRealm = REALM
-      app __x9__ = (PerformEval evalText evalRealm strictCaller true)
-      return [? __x9__]
+      app __x8__ = (PerformEval evalText evalRealm strictCaller true)
+      return [? __x8__]
     } else {}
   } else {}
-  app __x10__ = (Type ref)
-  if (= __x10__ Reference) {
-    app __x11__ = (IsPropertyReference ref)
-    if (= __x11__ true) {
-      app __x12__ = (GetThisValue ref)
-      let thisValue = __x12__
+  if (= (typeof ref) Reference) {
+    app __x9__ = (IsPropertyReference ref)
+    if (= __x9__ true) {
+      app __x10__ = (GetThisValue ref)
+      let thisValue = __x10__
     } else {}
     ??? "Else , the base of id:{ref} is an Environment Record in:{} out:{}"
   } else let thisValue = undefined
   let thisCall = this
-  app __x13__ = (IsInTailPosition thisCall)
-  let tailCall = __x13__
-  app __x14__ = (EvaluateDirectCall func thisValue Arguments tailCall)
-  return [? __x14__]
+  app __x11__ = (IsInTailPosition thisCall)
+  let tailCall = __x11__
+  app __x12__ = (EvaluateDirectCall func thisValue Arguments tailCall)
+  return [? __x12__]
 }

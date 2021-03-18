@@ -1,6 +1,5 @@
 {
-  app __x0__ = (Type functionPrototype)
-  assert (= __x0__ Object)
+  assert (= (typeof functionPrototype) Object)
   assert (|| (|| (|| (= functionKind "normal") (= functionKind "non-constructor")) (= functionKind "generator")) (= functionKind "async"))
   if (= functionKind "normal") let needsConstruct = true else let needsConstruct = false
   if (= functionKind "non-constructor") functionKind = "normal" else {}

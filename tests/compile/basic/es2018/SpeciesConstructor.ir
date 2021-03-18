@@ -1,15 +1,13 @@
 {
-  app __x0__ = (Type O)
-  assert (= __x0__ Object)
-  app __x1__ = (Get O "constructor")
-  let C = [? __x1__]
+  assert (= (typeof O) Object)
+  app __x0__ = (Get O "constructor")
+  let C = [? __x0__]
   if (= C undefined) return defaultConstructor else {}
-  app __x2__ = (Type C)
-  if (! (= __x2__ Object)) throw TypeError else {}
-  app __x3__ = (Get C SYMBOL_species)
-  let S = [? __x3__]
+  if (! (= (typeof C) Object)) throw TypeError else {}
+  app __x1__ = (Get C SYMBOL_species)
+  let S = [? __x1__]
   if (|| (= S undefined) (= S null)) return defaultConstructor else {}
-  app __x4__ = (IsConstructor S)
-  if (= __x4__ true) return S else {}
+  app __x2__ = (IsConstructor S)
+  if (= __x2__ true) return S else {}
   throw TypeError
 }

@@ -10,20 +10,18 @@
   if (= targetHasLength true) {
     app __x3__ = (Get Target "length")
     let targetLen = [? __x3__]
-    app __x4__ = (Type targetLen)
-    if (! (= __x4__ Number)) let L = 0i else {
-      app __x5__ = (ToInteger targetLen)
-      let targetLen = __x5__
+    if (! (= (typeof targetLen) Number)) let L = 0i else {
+      app __x4__ = (ToInteger targetLen)
+      let targetLen = __x4__
       ??? "Let id:{L} be the larger of 0 and the result of id:{targetLen} minus the number of elements of id:{args} ."
     }
   } else let L = 0i
-  app __x6__ = (SetFunctionLength F L)
-  [! __x6__]
-  app __x7__ = (Get Target "name")
-  let targetName = [? __x7__]
-  app __x8__ = (Type targetName)
-  if (! (= __x8__ String)) let targetName = "" else {}
-  app __x9__ = (SetFunctionName F targetName "bound")
-  __x9__
+  app __x5__ = (SetFunctionLength F L)
+  [! __x5__]
+  app __x6__ = (Get Target "name")
+  let targetName = [? __x6__]
+  if (! (= (typeof targetName) String)) let targetName = "" else {}
+  app __x7__ = (SetFunctionName F targetName "bound")
+  __x7__
   return F
 }

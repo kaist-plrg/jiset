@@ -1,11 +1,11 @@
 {
   if (! (= obj.Realm absent)) return obj.Realm else {}
-  if (= (typeof obj) "BoundFunctionExoticObject") {
+  if (is-instance-of obj BoundFunctionExoticObject) {
     let target = obj.BoundTargetFunction
     app __x0__ = (GetFunctionRealm target)
     return [? __x0__]
   } else {}
-  if (= (typeof obj) "ProxyExoticObject") {
+  if (is-instance-of obj ProxyExoticObject) {
     if (= obj.ProxyHandler null) throw TypeError else {}
     let proxyTarget = obj.ProxyTarget
     app __x1__ = (GetFunctionRealm proxyTarget)

@@ -1,19 +1,18 @@
 {
   app __x0__ = (GetValue ref)
   let func = [? __x0__]
-  app __x1__ = (Type ref)
-  if (= __x1__ Reference) {
-    app __x2__ = (IsPropertyReference ref)
-    if (= __x2__ true) {
-      app __x3__ = (GetThisValue ref)
-      let thisValue = __x3__
+  if (= (typeof ref) Reference) {
+    app __x1__ = (IsPropertyReference ref)
+    if (= __x1__ true) {
+      app __x2__ = (GetThisValue ref)
+      let thisValue = __x2__
     } else {
-      app __x4__ = (GetBase ref)
-      let refEnv = __x4__
-      app __x5__ = (refEnv.WithBaseObject refEnv)
-      let thisValue = __x5__
+      app __x3__ = (GetBase ref)
+      let refEnv = __x3__
+      app __x4__ = (refEnv.WithBaseObject refEnv)
+      let thisValue = __x4__
     }
   } else let thisValue = undefined
-  app __x6__ = (EvaluateDirectCall func thisValue arguments tailPosition)
-  return [? __x6__]
+  app __x5__ = (EvaluateDirectCall func thisValue arguments tailPosition)
+  return [? __x5__]
 }

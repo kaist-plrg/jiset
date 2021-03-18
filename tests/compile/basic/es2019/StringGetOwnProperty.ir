@@ -1,17 +1,15 @@
 {
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
-  app __x1__ = (Type P)
-  if (! (= __x1__ String)) return undefined else {}
-  app __x2__ = (CanonicalNumericIndexString P)
-  let index = [! __x2__]
+  if (! (= (typeof P) String)) return undefined else {}
+  app __x1__ = (CanonicalNumericIndexString P)
+  let index = [! __x1__]
   if (= index undefined) return undefined else {}
-  app __x3__ = (IsInteger index)
-  if (= __x3__ false) return undefined else {}
+  app __x2__ = (IsInteger index)
+  if (= __x2__ false) return undefined else {}
   if (== index -0.0) return undefined else {}
   let str = S.StringData
-  app __x4__ = (Type str)
-  assert (= __x4__ String)
+  assert (= (typeof str) String)
   let len = str.length
   if (|| (< index 0i) (! (< index len))) return undefined else {}
   ??? "Let id:{resultStr} be the String value of length 1 , containing one code unit from id:{str} , specifically the code unit at index id:{index} ."

@@ -59,11 +59,10 @@
       app __x20__ = (ToString [? __x19__])
       let replacement = [? __x20__]
     } else {
-      app __x21__ = (Type replaceValue)
-      assert (= __x21__ String)
+      assert (= (typeof replaceValue) String)
       let captures = (new [])
-      app __x22__ = (GetSubstitution searchString string p captures undefined replaceValue)
-      let replacement = [! __x22__]
+      app __x21__ = (GetSubstitution searchString string p captures undefined replaceValue)
+      let replacement = [! __x21__]
     }
     result = (+ (+ result preserved) replacement)
     endOfLastMatch = (+ p searchLength)

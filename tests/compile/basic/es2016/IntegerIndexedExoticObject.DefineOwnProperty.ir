@@ -1,31 +1,30 @@
 {
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
-  app __x1__ = (Type P)
-  if (= __x1__ String) {
-    app __x2__ = (CanonicalNumericIndexString P)
-    let numericIndex = [! __x2__]
+  if (= (typeof P) String) {
+    app __x1__ = (CanonicalNumericIndexString P)
+    let numericIndex = [! __x1__]
     if (! (= numericIndex undefined)) {
-      app __x3__ = (IsInteger numericIndex)
-      if (= __x3__ false) return false else {}
+      app __x2__ = (IsInteger numericIndex)
+      if (= __x2__ false) return false else {}
       let intIndex = numericIndex
       if (== intIndex -0.0) return false else {}
       if (< intIndex 0i) return false else {}
       let length = O.ArrayLength
       if (! (< intIndex length)) return false else {}
-      app __x4__ = (IsAccessorDescriptor Desc)
-      if (= __x4__ true) return false else {}
+      app __x3__ = (IsAccessorDescriptor Desc)
+      if (= __x3__ true) return false else {}
       if (&& (! (= Desc.Configurable absent)) (= Desc.Configurable true)) return false else {}
       if (&& (! (= Desc.Enumerable absent)) (= Desc.Enumerable false)) return false else {}
       if (&& (! (= Desc.Writable absent)) (= Desc.Writable false)) return false else {}
       if (! (= Desc.Value absent)) {
         let value = Desc.Value
-        app __x5__ = (IntegerIndexedElementSet O intIndex value)
-        return [? __x5__]
+        app __x4__ = (IntegerIndexedElementSet O intIndex value)
+        return [? __x4__]
       } else {}
       return true
     } else {}
   } else {}
-  app __x6__ = (OrdinaryDefineOwnProperty O P Desc)
-  return __x6__
+  app __x5__ = (OrdinaryDefineOwnProperty O P Desc)
+  return __x5__
 }

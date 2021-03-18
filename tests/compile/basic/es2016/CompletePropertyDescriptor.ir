@@ -1,5 +1,5 @@
 {
-  assert (= (typeof Desc) "PropertyDescriptor")
+  assert (is-instance-of Desc PropertyDescriptor)
   let like = (new Record("Value" -> undefined, "Writable" -> false, "Get" -> undefined, "Set" -> undefined, "Enumerable" -> false, "Configurable" -> false))
   app __x0__ = (IsGenericDescriptor Desc)
   app __x1__ = (IsDataDescriptor Desc)

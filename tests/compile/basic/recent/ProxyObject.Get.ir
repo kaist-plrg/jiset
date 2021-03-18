@@ -3,27 +3,26 @@
   assert (= __x0__ true)
   let handler = O.ProxyHandler
   if (= handler null) throw TypeError else {}
-  app __x1__ = (Type handler)
-  assert (= __x1__ Object)
+  assert (= (typeof handler) Object)
   let target = O.ProxyTarget
-  app __x2__ = (GetMethod handler "get")
-  let trap = [? __x2__]
+  app __x1__ = (GetMethod handler "get")
+  let trap = [? __x1__]
   if (= trap undefined) {
-    app __x3__ = (target.Get target P Receiver)
-    return [? __x3__]
+    app __x2__ = (target.Get target P Receiver)
+    return [? __x2__]
   } else {}
-  app __x4__ = (Call trap handler (new [target, P, Receiver]))
-  let trapResult = [? __x4__]
-  app __x5__ = (target.GetOwnProperty target P)
-  let targetDesc = [? __x5__]
+  app __x3__ = (Call trap handler (new [target, P, Receiver]))
+  let trapResult = [? __x3__]
+  app __x4__ = (target.GetOwnProperty target P)
+  let targetDesc = [? __x4__]
   if (&& (! (= targetDesc undefined)) (= targetDesc.Configurable false)) {
-    app __x6__ = (IsDataDescriptor targetDesc)
-    if (&& (= __x6__ true) (= targetDesc.Writable false)) {
-      app __x7__ = (SameValue trapResult targetDesc.Value)
-      if (= __x7__ false) throw TypeError else {}
+    app __x5__ = (IsDataDescriptor targetDesc)
+    if (&& (= __x5__ true) (= targetDesc.Writable false)) {
+      app __x6__ = (SameValue trapResult targetDesc.Value)
+      if (= __x6__ false) throw TypeError else {}
     } else {}
-    app __x8__ = (IsAccessorDescriptor targetDesc)
-    if (&& (= __x8__ true) (= targetDesc.Get undefined)) if (! (= trapResult undefined)) throw TypeError else {} else {}
+    app __x7__ = (IsAccessorDescriptor targetDesc)
+    if (&& (= __x7__ true) (= targetDesc.Get undefined)) if (! (= trapResult undefined)) throw TypeError else {} else {}
   } else {}
   return trapResult
 }

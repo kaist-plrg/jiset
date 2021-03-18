@@ -36,11 +36,10 @@
     app __x12__ = (ToString [? __x11__])
     let replacement = [? __x12__]
   } else {
-    app __x13__ = (Type replaceValue)
-    assert (= __x13__ String)
+    assert (= (typeof replaceValue) String)
     let captures = (new [])
-    app __x14__ = (GetSubstitution searchString string position captures undefined replaceValue)
-    let replacement = [! __x14__]
+    app __x13__ = (GetSubstitution searchString string position captures undefined replaceValue)
+    let replacement = [! __x13__]
   }
   ??? "Return the string - concatenation of id:{preserved} , id:{replacement} , and the substring of id:{string} from id:{position} + id:{searchLength} ."
 }

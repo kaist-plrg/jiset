@@ -12,8 +12,7 @@
   app __x5__ = (ToNumeric rval)
   let rnum = [? __x5__]
   return (| lnum rnum)
-  app __x6__ = (Type lnum)
-  let T = __x6__
+  let T = (typeof lnum)
   ??? "If @ is code:{&} , return id:{T} : : bitwiseAND ( id:{lnum} , id:{rnum} ) ."
   ??? "If @ is code:{|} , return id:{T} : : bitwiseOR ( id:{lnum} , id:{rnum} ) ."
   ??? "Else , in:{} out:{}"

@@ -1,5 +1,5 @@
 {
-  if (! (= (typeof module) "CyclicModuleRecord")) {
+  if (! (is-instance-of module CyclicModuleRecord)) {
     app __x0__ = (module.Instantiate module)
     [? __x0__]
     return index
@@ -21,7 +21,7 @@
     index = [? __x4__]
     assert (|| (|| (= requiredModule.Status "instantiating") (= requiredModule.Status "instantiated")) (= requiredModule.Status "evaluated"))
     if (= requiredModule.Status "instantiating") {
-      assert (= (typeof requiredModule) "CyclicModuleRecord")
+      assert (is-instance-of requiredModule CyclicModuleRecord)
       app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
       module.DFSAncestorIndex = __x5__
     } else {}

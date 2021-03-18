@@ -1,15 +1,14 @@
 {
-  app __x0__ = (Type value)
-  assert (= __x0__ String)
-  app __x1__ = (MakeBasicObject (new ["Prototype", "Extensible", "StringData"]))
-  let S = [! __x1__]
+  assert (= (typeof value) String)
+  app __x0__ = (MakeBasicObject (new ["Prototype", "Extensible", "StringData"]))
+  let S = [! __x0__]
   S.Prototype = prototype
   S.StringData = value
   ??? "Set id:{S} . [ [ GetOwnProperty ] ] as specified in 9 . 4 . 3 . 1 ."
   ??? "Set id:{S} . [ [ DefineOwnProperty ] ] as specified in 9 . 4 . 3 . 2 ."
   ??? "Set id:{S} . [ [ OwnPropertyKeys ] ] as specified in 9 . 4 . 3 . 3 ."
   let length = value.length
-  app __x2__ = (DefinePropertyOrThrow S "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false)))
-  [! __x2__]
+  app __x1__ = (DefinePropertyOrThrow S "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false)))
+  [! __x1__]
   return S
 }

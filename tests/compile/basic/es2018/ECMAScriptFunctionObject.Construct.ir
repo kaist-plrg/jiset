@@ -1,34 +1,32 @@
 {
-  app __x0__ = (Type newTarget)
-  assert (= __x0__ Object)
+  assert (= (typeof newTarget) Object)
   let callerContext = GLOBAL_context
   let kind = F.ConstructorKind
   if (= kind "base") {
-    app __x1__ = (OrdinaryCreateFromConstructor newTarget INTRINSIC_ObjectPrototype)
-    let thisArgument = [? __x1__]
+    app __x0__ = (OrdinaryCreateFromConstructor newTarget INTRINSIC_ObjectPrototype)
+    let thisArgument = [? __x0__]
   } else {}
-  app __x2__ = (PrepareForOrdinaryCall F newTarget)
-  let calleeContext = __x2__
+  app __x1__ = (PrepareForOrdinaryCall F newTarget)
+  let calleeContext = __x1__
   if (= kind "base") {
-    app __x3__ = (OrdinaryCallBindThis F calleeContext thisArgument)
-    __x3__
+    app __x2__ = (OrdinaryCallBindThis F calleeContext thisArgument)
+    __x2__
   } else {}
-  access __x4__ = (calleeContext "LexicalEnvironment")
-  let constructorEnv = __x4__
+  access __x3__ = (calleeContext "LexicalEnvironment")
+  let constructorEnv = __x3__
   let envRec = constructorEnv.EnvironmentRecord
-  app __x5__ = (OrdinaryCallEvaluateBody F argumentsList)
-  let result = __x5__
+  app __x4__ = (OrdinaryCallEvaluateBody F argumentsList)
+  let result = __x4__
   if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext) {
-    let __x6__ = (- GLOBAL_executionStack.length 1i)
-    (pop GLOBAL_executionStack __x6__)
+    let __x5__ = (- GLOBAL_executionStack.length 1i)
+    (pop GLOBAL_executionStack __x5__)
   } else {}
   GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
   if (= result.Type CONST_return) {
-    app __x7__ = (Type result.Value)
-    if (= __x7__ Object) return result.Value else {}
+    if (= (typeof result.Value) Object) return result.Value else {}
     if (= kind "base") return thisArgument else {}
     if (! (= result.Value undefined)) throw TypeError else {}
   } else [? result]
-  app __x8__ = (envRec.GetThisBinding envRec)
-  return [? __x8__]
+  app __x6__ = (envRec.GetThisBinding envRec)
+  return [? __x6__]
 }

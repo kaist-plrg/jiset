@@ -7,11 +7,10 @@
   if (= envRec.withEnvironment false) return true else {}
   app __x1__ = (Get bindings SYMBOL_unscopables)
   let unscopables = [? __x1__]
-  app __x2__ = (Type unscopables)
-  if (= __x2__ Object) {
-    app __x3__ = (Get unscopables N)
-    app __x4__ = (ToBoolean [? __x3__])
-    let blocked = [! __x4__]
+  if (= (typeof unscopables) Object) {
+    app __x2__ = (Get unscopables N)
+    app __x3__ = (ToBoolean [? __x2__])
+    let blocked = [! __x3__]
     if (= blocked true) return false else {}
   } else {}
   return true

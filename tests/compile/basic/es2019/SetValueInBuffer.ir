@@ -1,15 +1,14 @@
 {
   app __x0__ = (IsDetachedBuffer arrayBuffer)
   assert (= __x0__ false)
-  app __x1__ = (Type value)
-  assert (= __x1__ Number)
+  assert (= (typeof value) Number)
   let block = arrayBuffer.ArrayBufferData
   ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{unhandled: table-49} for Element Type id:{type} ."
   if (= isLittleEndian absent) isLittleEndian = GLOBAL_agent.LittleEndian else {}
-  app __x2__ = (NumberToRawBytes type value isLittleEndian)
-  let rawBytes = __x2__
-  app __x3__ = (IsSharedArrayBuffer arrayBuffer)
-  if (= __x3__ true) {
+  app __x1__ = (NumberToRawBytes type value isLittleEndian)
+  let rawBytes = __x1__
+  app __x2__ = (IsSharedArrayBuffer arrayBuffer)
+  if (= __x2__ true) {
     let execution = GLOBAL_agent.CandidateExecution
     ??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
     if (&& (= isTypedArray true) (|| (|| (|| (|| (|| (= type "Int8") (= type "Uint8")) (= type "Int16")) (= type "Uint16")) (= type "Int32")) (= type "Uint32"))) let noTear = true else let noTear = false

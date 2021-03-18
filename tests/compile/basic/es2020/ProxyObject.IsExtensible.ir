@@ -1,21 +1,20 @@
 {
   let handler = O.ProxyHandler
   if (= handler null) throw TypeError else {}
-  app __x0__ = (Type handler)
-  assert (= __x0__ Object)
+  assert (= (typeof handler) Object)
   let target = O.ProxyTarget
-  app __x1__ = (GetMethod handler "isExtensible")
-  let trap = [? __x1__]
+  app __x0__ = (GetMethod handler "isExtensible")
+  let trap = [? __x0__]
   if (= trap undefined) {
-    app __x2__ = (IsExtensible target)
-    return [? __x2__]
+    app __x1__ = (IsExtensible target)
+    return [? __x1__]
   } else {}
-  app __x3__ = (Call trap handler (new [target]))
-  app __x4__ = (ToBoolean [? __x3__])
-  let booleanTrapResult = [! __x4__]
-  app __x5__ = (IsExtensible target)
-  let targetResult = [? __x5__]
-  app __x6__ = (SameValue booleanTrapResult targetResult)
-  if (= __x6__ false) throw TypeError else {}
+  app __x2__ = (Call trap handler (new [target]))
+  app __x3__ = (ToBoolean [? __x2__])
+  let booleanTrapResult = [! __x3__]
+  app __x4__ = (IsExtensible target)
+  let targetResult = [? __x4__]
+  app __x5__ = (SameValue booleanTrapResult targetResult)
+  if (= __x5__ false) throw TypeError else {}
   return booleanTrapResult
 }

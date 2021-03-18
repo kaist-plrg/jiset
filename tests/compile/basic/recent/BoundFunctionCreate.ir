@@ -1,15 +1,14 @@
 {
-  app __x0__ = (Type targetFunction)
-  assert (= __x0__ Object)
-  app __x1__ = (targetFunction.GetPrototypeOf targetFunction)
-  let proto = [? __x1__]
+  assert (= (typeof targetFunction) Object)
+  app __x0__ = (targetFunction.GetPrototypeOf targetFunction)
+  let proto = [? __x0__]
   ??? "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-bound-function-exotic-objects} , plus [ [ Prototype ] ] and [ [ Extensible ] ] ."
-  app __x2__ = (MakeBasicObject internalSlotsList)
-  let obj = [! __x2__]
+  app __x1__ = (MakeBasicObject internalSlotsList)
+  let obj = [! __x1__]
   obj.Prototype = proto
   obj.Call = BoundFunctionExoticObjectDOTCall
-  app __x3__ = (IsConstructor targetFunction)
-  if (= __x3__ true) obj.Construct = BoundFunctionExoticObjectDOTConstruct else {}
+  app __x2__ = (IsConstructor targetFunction)
+  if (= __x2__ true) obj.Construct = BoundFunctionExoticObjectDOTConstruct else {}
   obj.BoundTargetFunction = targetFunction
   obj.BoundThis = boundThis
   obj.BoundArguments = boundArgs

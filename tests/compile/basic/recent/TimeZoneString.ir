@@ -1,9 +1,8 @@
 {
-  app __x0__ = (Type tv)
-  assert (= __x0__ Number)
+  assert (= (typeof tv) Number)
   assert (! (= tv NaN))
-  app __x1__ = (LocalTZA tv true)
-  let offset = __x1__
+  app __x0__ = (LocalTZA tv true)
+  let offset = __x0__
   if (! (< offset 0i)) {
     let offsetSign = "+"
     let absOffset = offset

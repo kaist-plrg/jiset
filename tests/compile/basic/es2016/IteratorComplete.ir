@@ -1,7 +1,6 @@
 {
-  app __x0__ = (Type iterResult)
-  assert (= __x0__ Object)
-  app __x1__ = (Get iterResult "done")
-  app __x2__ = (ToBoolean [? __x1__])
-  return __x2__
+  assert (= (typeof iterResult) Object)
+  app __x0__ = (Get iterResult "done")
+  app __x1__ = (ToBoolean [? __x0__])
+  return __x1__
 }

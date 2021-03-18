@@ -1,44 +1,43 @@
 {
   [? V]
   [? W]
-  app __x0__ = (Type V)
-  if (! (= __x0__ Reference)) throw ReferenceError else {}
-  app __x1__ = (GetBase V)
-  let base = __x1__
-  app __x2__ = (IsUnresolvableReference V)
-  if (= __x2__ true) {
-    app __x3__ = (IsStrictReference V)
-    if (= __x3__ true) throw ReferenceError else {}
-    app __x4__ = (GetGlobalObject)
-    let globalObj = __x4__
-    app __x5__ = (GetReferencedName V)
-    app __x6__ = (Set globalObj __x5__ W false)
-    return [? __x6__]
+  if (! (= (typeof V) Reference)) throw ReferenceError else {}
+  app __x0__ = (GetBase V)
+  let base = __x0__
+  app __x1__ = (IsUnresolvableReference V)
+  if (= __x1__ true) {
+    app __x2__ = (IsStrictReference V)
+    if (= __x2__ true) throw ReferenceError else {}
+    app __x3__ = (GetGlobalObject)
+    let globalObj = __x3__
+    app __x4__ = (GetReferencedName V)
+    app __x5__ = (Set globalObj __x4__ W false)
+    return [? __x5__]
   } else {
-    app __x7__ = (IsPropertyReference V)
-    if (= __x7__ true) {
-      app __x8__ = (HasPrimitiveBase V)
-      if (= __x8__ true) {
-        app __x9__ = (ToObject base)
-        base = __x9__
+    app __x6__ = (IsPropertyReference V)
+    if (= __x6__ true) {
+      app __x7__ = (HasPrimitiveBase V)
+      if (= __x7__ true) {
+        app __x8__ = (ToObject base)
+        base = __x8__
       } else {}
-      app __x10__ = (GetReferencedName V)
-      app __x11__ = (GetThisValue V)
-      app __x12__ = (base.Set base __x10__ W __x11__)
-      let succeeded = [? __x12__]
-      let __x13__ = true
-      __x13__ = (= succeeded false)
-      if __x13__ {
-        app __x14__ = (IsStrictReference V)
-        __x13__ = (= __x14__ true)
+      app __x9__ = (GetReferencedName V)
+      app __x10__ = (GetThisValue V)
+      app __x11__ = (base.Set base __x9__ W __x10__)
+      let succeeded = [? __x11__]
+      let __x12__ = true
+      __x12__ = (= succeeded false)
+      if __x12__ {
+        app __x13__ = (IsStrictReference V)
+        __x12__ = (= __x13__ true)
       } else {}
-      if __x13__ throw TypeError else {}
+      if __x12__ throw TypeError else {}
       return undefined
     } else {
-      app __x15__ = (GetReferencedName V)
-      app __x16__ = (IsStrictReference V)
-      app __x17__ = (base.SetMutableBinding base __x15__ W __x16__)
-      return [? __x17__]
+      app __x14__ = (GetReferencedName V)
+      app __x15__ = (IsStrictReference V)
+      app __x16__ = (base.SetMutableBinding base __x14__ W __x15__)
+      return [? __x16__]
     }
   }
 }

@@ -1,11 +1,8 @@
 {
-  app __x0__ = (Type value)
-  if (= __x0__ String) return value else {}
-  app __x1__ = (Type value)
-  if (&& (= __x1__ Object) (! (= value.StringData absent))) {
+  if (= (typeof value) String) return value else {}
+  if (&& (= (typeof value) Object) (! (= value.StringData absent))) {
     let s = value.StringData
-    app __x2__ = (Type s)
-    assert (= __x2__ String)
+    assert (= (typeof s) String)
     return s
   } else {}
   throw TypeError

@@ -1,13 +1,12 @@
 {
   [? V]
   [? W]
-  app __x0__ = (Type V)
-  assert (= __x0__ Reference)
-  app __x1__ = (IsUnresolvableReference V)
-  assert (= __x1__ false)
-  app __x2__ = (GetBase V)
-  let base = __x2__
-  app __x3__ = (GetReferencedName V)
-  app __x4__ = (base.InitializeBinding base __x3__ W)
-  return __x4__
+  assert (= (typeof V) Reference)
+  app __x0__ = (IsUnresolvableReference V)
+  assert (= __x0__ false)
+  app __x1__ = (GetBase V)
+  let base = __x1__
+  app __x2__ = (GetReferencedName V)
+  app __x3__ = (base.InitializeBinding base __x2__ W)
+  return __x3__
 }

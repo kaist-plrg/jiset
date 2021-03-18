@@ -1,12 +1,11 @@
 {
   access __x0__ = (UnaryExpression "Evaluation")
   let val = __x0__
-  app __x1__ = (Type val)
-  if (= __x1__ Reference) {
-    app __x2__ = (IsUnresolvableReference val)
-    if (= __x2__ true) return "undefined" else {}
+  if (= (typeof val) Reference) {
+    app __x1__ = (IsUnresolvableReference val)
+    if (= __x1__ true) return "undefined" else {}
   } else {}
-  app __x3__ = (GetValue val)
-  val = [? __x3__]
+  app __x2__ = (GetValue val)
+  val = [? __x2__]
   ??? "Return a String according to link:{unhandled: table-35} ."
 }

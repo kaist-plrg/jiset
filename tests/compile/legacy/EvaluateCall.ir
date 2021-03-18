@@ -1,29 +1,27 @@
 {
   [? ref]
-  app __x0__ = (Type ref)
-  if (= __x0__ Reference) {
-    app __x1__ = (IsPropertyReference ref)
-    if (= __x1__ true) {
-      app __x2__ = (GetThisValue ref)
-      let thisValue = __x2__
+  if (= (typeof ref) Reference) {
+    app __x0__ = (IsPropertyReference ref)
+    if (= __x0__ true) {
+      app __x1__ = (GetThisValue ref)
+      let thisValue = __x1__
     } else {
-      app __x3__ = (GetBase ref)
-      let refEnv = __x3__
-      app __x4__ = (refEnv.WithBaseObject refEnv)
-      let thisValue = __x4__
+      app __x2__ = (GetBase ref)
+      let refEnv = __x2__
+      app __x3__ = (refEnv.WithBaseObject refEnv)
+      let thisValue = __x3__
     }
   } else let thisValue = undefined
-  access __x5__ = (arguments "ArgumentListEvaluation")
-  let argList = [? __x5__]
-  app __x6__ = (Type func)
-  if (! (= __x6__ Object)) throw TypeError else {}
-  app __x7__ = (IsCallable func)
-  if (= __x7__ false) throw TypeError else {}
+  access __x4__ = (arguments "ArgumentListEvaluation")
+  let argList = [? __x4__]
+  if (! (= (typeof func) Object)) throw TypeError else {}
+  app __x5__ = (IsCallable func)
+  if (= __x5__ false) throw TypeError else {}
   if (= tailPosition true) {
-    app __x8__ = (PrepareForTailCall)
-    __x8__
+    app __x6__ = (PrepareForTailCall)
+    __x6__
   } else {}
-  app __x9__ = (Call func thisValue argList)
-  let result = __x9__
+  app __x7__ = (Call func thisValue argList)
+  let result = __x7__
   return result
 }

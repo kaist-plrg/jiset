@@ -4,11 +4,9 @@
   app __x1__ = (GetValue expr)
   app __x2__ = (ToNumeric [? __x1__])
   let oldValue = [? __x2__]
-  app __x3__ = (Type oldValue)
-  app __x4__ = (Type oldValue)
-  app __x5__ = (PRIMITIVE[__x3__].add oldValue PRIMITIVE[__x4__].unit)
-  let newValue = [! __x5__]
-  app __x6__ = (PutValue expr newValue)
-  [? __x6__]
+  app __x3__ = (PRIMITIVE[(typeof oldValue)].add oldValue PRIMITIVE[(typeof oldValue)].unit)
+  let newValue = [! __x3__]
+  app __x4__ = (PutValue expr newValue)
+  [? __x4__]
   return newValue
 }

@@ -1,9 +1,8 @@
 {
-  app __x0__ = (Type map)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof map) Object)) throw TypeError else {}
   if (= map.MapData absent) throw TypeError else {}
-  app __x1__ = (ObjectCreate INTRINSIC_MapIteratorPrototype (new ["Map", "MapNextIndex", "MapIterationKind"]))
-  let iterator = __x1__
+  app __x0__ = (ObjectCreate INTRINSIC_MapIteratorPrototype (new ["Map", "MapNextIndex", "MapIterationKind"]))
+  let iterator = __x0__
   iterator.Map = map
   iterator.MapNextIndex = 0i
   iterator.MapIterationKind = kind

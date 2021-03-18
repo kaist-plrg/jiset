@@ -1,12 +1,11 @@
 {
-  app __x0__ = (Type P)
-  if (= __x0__ Symbol) {
-    app __x1__ = (OrdinaryGetOwnProperty O P)
-    return __x1__
+  if (= (typeof P) Symbol) {
+    app __x0__ = (OrdinaryGetOwnProperty O P)
+    return __x0__
   } else {}
   let exports = O.Exports
   if (! (contains exports P)) return undefined else {}
-  app __x2__ = (O.Get O P O)
-  let value = [? __x2__]
+  app __x1__ = (O.Get O P O)
+  let value = [? __x1__]
   return (new PropertyDescriptor("Value" -> value, "Writable" -> true, "Enumerable" -> true, "Configurable" -> false))
 }

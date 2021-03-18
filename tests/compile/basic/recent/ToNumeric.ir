@@ -1,8 +1,7 @@
 {
   app __x0__ = (ToPrimitive value CONST_number)
   let primValue = [? __x0__]
-  app __x1__ = (Type primValue)
-  if (= __x1__ BigInt) return primValue else {}
-  app __x2__ = (ToNumber primValue)
-  return [? __x2__]
+  if (= (typeof primValue) BigInt) return primValue else {}
+  app __x1__ = (ToNumber primValue)
+  return [? __x1__]
 }

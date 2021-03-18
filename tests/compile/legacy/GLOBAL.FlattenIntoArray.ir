@@ -13,45 +13,43 @@
   let mapperFunction = __x5__
   app __x6__ = (GetArgument argumentsList 6i)
   let thisArg = __x6__
-  app __x7__ = (Type target)
-  assert (= __x7__ Object)
-  app __x8__ = (Type source)
-  assert (= __x8__ Object)
-  app __x9__ = (IsNonNegativeInteger sourceLen)
-  assert (= [! __x9__] true)
-  app __x10__ = (IsNonNegativeInteger start)
-  assert (= [! __x10__] true)
-  app __x11__ = (IsInteger depth)
-  assert (|| (= [! __x11__] true) (|| (= depth Infinity) (= depth -Infinity)))
+  assert (= (typeof target) Object)
+  assert (= (typeof source) Object)
+  app __x7__ = (IsNonNegativeInteger sourceLen)
+  assert (= [! __x7__] true)
+  app __x8__ = (IsNonNegativeInteger start)
+  assert (= [! __x8__] true)
+  app __x9__ = (IsInteger depth)
+  assert (|| (= [! __x9__] true) (|| (= depth Infinity) (= depth -Infinity)))
   let targetIndex = start
   let sourceIndex = 0i
   while (< sourceIndex sourceLen) {
-    app __x12__ = (ToString sourceIndex)
-    let P = [! __x12__]
-    app __x13__ = (HasProperty source P)
-    let exists = [? __x13__]
+    app __x10__ = (ToString sourceIndex)
+    let P = [! __x10__]
+    app __x11__ = (HasProperty source P)
+    let exists = [? __x11__]
     if (= exists true) {
-      app __x14__ = (Get source P)
-      let element = [? __x14__]
+      app __x12__ = (Get source P)
+      let element = [? __x12__]
       if (! (= mapperFunction absent)) {
-        app __x15__ = (Call mapperFunction thisArg (new [element, sourceIndex, source]))
-        element = [? __x15__]
+        app __x13__ = (Call mapperFunction thisArg (new [element, sourceIndex, source]))
+        element = [? __x13__]
       } else {}
       let shouldFlatten = false
       if (< 0i depth) {
-        app __x16__ = (IsArray element)
-        shouldFlatten = [? __x16__]
+        app __x14__ = (IsArray element)
+        shouldFlatten = [? __x14__]
       } else {}
       if (= shouldFlatten true) {
-        app __x17__ = (LengthOfArrayLike element)
-        let elementLen = [? __x17__]
-        app __x18__ = (FlattenIntoArray target element elementLen targetIndex (- depth 1i))
-        targetIndex = [? __x18__]
+        app __x15__ = (LengthOfArrayLike element)
+        let elementLen = [? __x15__]
+        app __x16__ = (FlattenIntoArray target element elementLen targetIndex (- depth 1i))
+        targetIndex = [? __x16__]
       } else {
         if (! (< targetIndex (- (** 2.0 53i) 1i))) throw TypeError else {}
-        app __x19__ = (ToString targetIndex)
-        app __x20__ = (CreateDataPropertyOrThrow target [! __x19__] element)
-        [? __x20__]
+        app __x17__ = (ToString targetIndex)
+        app __x18__ = (CreateDataPropertyOrThrow target [! __x17__] element)
+        [? __x18__]
         targetIndex = (+ targetIndex 1i)
       }
     } else {}

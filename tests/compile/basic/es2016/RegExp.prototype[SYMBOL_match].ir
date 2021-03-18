@@ -1,43 +1,42 @@
 {
   let rx = this
-  app __x0__ = (Type rx)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  app __x1__ = (ToString string)
-  let S = [? __x1__]
-  app __x2__ = (Get rx "global")
-  app __x3__ = (ToBoolean [? __x2__])
-  let global = __x3__
+  if (! (= (typeof rx) Object)) throw TypeError else {}
+  app __x0__ = (ToString string)
+  let S = [? __x0__]
+  app __x1__ = (Get rx "global")
+  app __x2__ = (ToBoolean [? __x1__])
+  let global = __x2__
   if (= global false) {
-    app __x4__ = (RegExpExec rx S)
-    return [? __x4__]
+    app __x3__ = (RegExpExec rx S)
+    return [? __x3__]
   } else {
-    app __x5__ = (Get rx "unicode")
-    app __x6__ = (ToBoolean [? __x5__])
-    let fullUnicode = __x6__
-    app __x7__ = (Set rx "lastIndex" 0i true)
-    [? __x7__]
-    app __x8__ = (ArrayCreate 0i)
-    let A = __x8__
+    app __x4__ = (Get rx "unicode")
+    app __x5__ = (ToBoolean [? __x4__])
+    let fullUnicode = __x5__
+    app __x6__ = (Set rx "lastIndex" 0i true)
+    [? __x6__]
+    app __x7__ = (ArrayCreate 0i)
+    let A = __x7__
     let n = 0i
     while true {
-      app __x9__ = (RegExpExec rx S)
-      let result = [? __x9__]
+      app __x8__ = (RegExpExec rx S)
+      let result = [? __x8__]
       if (= result null) if (== n 0i) return null else return A else {
-        app __x10__ = (Get result "0")
-        app __x11__ = (ToString [? __x10__])
-        let matchStr = [? __x11__]
-        app __x12__ = (ToString n)
-        app __x13__ = (CreateDataProperty A [! __x12__] matchStr)
-        let status = __x13__
+        app __x9__ = (Get result "0")
+        app __x10__ = (ToString [? __x9__])
+        let matchStr = [? __x10__]
+        app __x11__ = (ToString n)
+        app __x12__ = (CreateDataProperty A [! __x11__] matchStr)
+        let status = __x12__
         assert (= status true)
         if (= matchStr "") {
-          app __x14__ = (Get rx "lastIndex")
-          app __x15__ = (ToLength [? __x14__])
-          let thisIndex = [? __x15__]
-          app __x16__ = (AdvanceStringIndex S thisIndex fullUnicode)
-          let nextIndex = __x16__
-          app __x17__ = (Set rx "lastIndex" nextIndex true)
-          [? __x17__]
+          app __x13__ = (Get rx "lastIndex")
+          app __x14__ = (ToLength [? __x13__])
+          let thisIndex = [? __x14__]
+          app __x15__ = (AdvanceStringIndex S thisIndex fullUnicode)
+          let nextIndex = __x15__
+          app __x16__ = (Set rx "lastIndex" nextIndex true)
+          [? __x16__]
         } else {}
         n = (+ n 1i)
       }

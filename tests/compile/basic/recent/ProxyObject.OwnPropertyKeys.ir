@@ -1,56 +1,55 @@
 {
   let handler = O.ProxyHandler
   if (= handler null) throw TypeError else {}
-  app __x0__ = (Type handler)
-  assert (= __x0__ Object)
+  assert (= (typeof handler) Object)
   let target = O.ProxyTarget
-  app __x1__ = (GetMethod handler "ownKeys")
-  let trap = [? __x1__]
+  app __x0__ = (GetMethod handler "ownKeys")
+  let trap = [? __x0__]
   if (= trap undefined) {
-    app __x2__ = (target.OwnPropertyKeys target)
-    return [? __x2__]
+    app __x1__ = (target.OwnPropertyKeys target)
+    return [? __x1__]
   } else {}
-  app __x3__ = (Call trap handler (new [target]))
-  let trapResultArray = [? __x3__]
-  app __x4__ = (CreateListFromArrayLike trapResultArray (new [String, Symbol]))
-  let trapResult = [? __x4__]
-  app __x5__ = (IsDuplicate trapResult)
-  if __x5__ throw TypeError else {}
-  app __x6__ = (IsExtensible target)
-  let extensibleTarget = [? __x6__]
-  app __x7__ = (target.OwnPropertyKeys target)
-  let targetKeys = [? __x7__]
+  app __x2__ = (Call trap handler (new [target]))
+  let trapResultArray = [? __x2__]
+  app __x3__ = (CreateListFromArrayLike trapResultArray (new [String, Symbol]))
+  let trapResult = [? __x3__]
+  app __x4__ = (IsDuplicate trapResult)
+  if __x4__ throw TypeError else {}
+  app __x5__ = (IsExtensible target)
+  let extensibleTarget = [? __x5__]
+  app __x6__ = (target.OwnPropertyKeys target)
+  let targetKeys = [? __x6__]
   let targetConfigurableKeys = (new [])
   let targetNonconfigurableKeys = (new [])
-  let __x8__ = targetKeys
-  let __x9__ = 0i
-  while (< __x9__ __x8__.length) {
-    let key = __x8__[__x9__]
-    app __x10__ = (target.GetOwnProperty target key)
-    let desc = [? __x10__]
+  let __x7__ = targetKeys
+  let __x8__ = 0i
+  while (< __x8__ __x7__.length) {
+    let key = __x7__[__x8__]
+    app __x9__ = (target.GetOwnProperty target key)
+    let desc = [? __x9__]
     if (&& (! (= desc undefined)) (= desc.Configurable false)) append key -> targetNonconfigurableKeys else append key -> targetConfigurableKeys
-    __x9__ = (+ __x9__ 1i)
+    __x8__ = (+ __x8__ 1i)
   }
   if (&& (= extensibleTarget true) (= targetNonconfigurableKeys.length 0i)) return trapResult else {}
   ??? "Let id:{uncheckedResultKeys} be a List whose elements are the elements of id:{trapResult} ."
-  let __x11__ = targetNonconfigurableKeys
-  let __x12__ = 0i
-  while (< __x12__ __x11__.length) {
-    let key = __x11__[__x12__]
+  let __x10__ = targetNonconfigurableKeys
+  let __x11__ = 0i
+  while (< __x11__ __x10__.length) {
+    let key = __x10__[__x11__]
     if (! (contains uncheckedResultKeys key)) throw TypeError else {}
-    let __x13__ = 0i
-    while (< __x13__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x13__] key) (pop uncheckedResultKeys __x13__) else __x13__ = (+ __x13__ 1i)
-    __x12__ = (+ __x12__ 1i)
+    let __x12__ = 0i
+    while (< __x12__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x12__] key) (pop uncheckedResultKeys __x12__) else __x12__ = (+ __x12__ 1i)
+    __x11__ = (+ __x11__ 1i)
   }
   if (= extensibleTarget true) return trapResult else {}
-  let __x14__ = targetConfigurableKeys
-  let __x15__ = 0i
-  while (< __x15__ __x14__.length) {
-    let key = __x14__[__x15__]
+  let __x13__ = targetConfigurableKeys
+  let __x14__ = 0i
+  while (< __x14__ __x13__.length) {
+    let key = __x13__[__x14__]
     if (! (contains uncheckedResultKeys key)) throw TypeError else {}
-    let __x16__ = 0i
-    while (< __x16__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x16__] key) (pop uncheckedResultKeys __x16__) else __x16__ = (+ __x16__ 1i)
-    __x15__ = (+ __x15__ 1i)
+    let __x15__ = 0i
+    while (< __x15__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x15__] key) (pop uncheckedResultKeys __x15__) else __x15__ = (+ __x15__ 1i)
+    __x14__ = (+ __x14__ 1i)
   }
   if (< 0i uncheckedResultKeys.length) throw TypeError else {}
   return trapResult

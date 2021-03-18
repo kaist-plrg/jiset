@@ -1,16 +1,14 @@
 {
-  app __x0__ = (Type target)
-  if (! (= __x0__ Object)) throw TypeError else {}
-  if (&& (= (typeof target) "ProxyExoticObject") (= target.ProxyHandler null)) throw TypeError else {}
-  app __x1__ = (Type handler)
-  if (! (= __x1__ Object)) throw TypeError else {}
-  if (&& (= (typeof handler) "ProxyExoticObject") (= handler.ProxyHandler null)) throw TypeError else {}
+  if (! (= (typeof target) Object)) throw TypeError else {}
+  if (&& (is-instance-of target ProxyExoticObject) (= target.ProxyHandler null)) throw TypeError else {}
+  if (! (= (typeof handler) Object)) throw TypeError else {}
+  if (&& (is-instance-of handler ProxyExoticObject) (= handler.ProxyHandler null)) throw TypeError else {}
   let P = (new OrdinaryObject("SubMap" -> (new SubMap())))
-  app __x2__ = (IsCallable target)
-  if (= __x2__ true) {
+  app __x0__ = (IsCallable target)
+  if (= __x0__ true) {
     P.Call = ProxyObjectDOTCall
-    app __x3__ = (IsConstructor target)
-    if (= __x3__ true) P.Construct = ProxyObjectDOTConstruct else {}
+    app __x1__ = (IsConstructor target)
+    if (= __x1__ true) P.Construct = ProxyObjectDOTConstruct else {}
   } else {}
   P.ProxyTarget = target
   P.ProxyHandler = handler

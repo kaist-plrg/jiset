@@ -2,11 +2,10 @@
   assert (is-completion completion)
   app __x0__ = (NewPromiseCapability INTRINSIC_Promise)
   let promiseCapability = [! __x0__]
-  app __x1__ = (Type generator)
-  if (|| (! (= __x1__ Object)) (= generator.AsyncGeneratorState absent)) {
+  if (|| (! (= (typeof generator) Object)) (= generator.AsyncGeneratorState absent)) {
     let badGeneratorError = ??? "TypeError"
-    app __x2__ = (Call promiseCapability.Reject undefined (new [badGeneratorError]))
-    [! __x2__]
+    app __x1__ = (Call promiseCapability.Reject undefined (new [badGeneratorError]))
+    [! __x1__]
     return promiseCapability.Promise
   } else {}
   let queue = generator.AsyncGeneratorQueue
@@ -14,8 +13,8 @@
   append request -> queue
   let state = generator.AsyncGeneratorState
   if (! (= state CONST_executing)) {
-    app __x3__ = (AsyncGeneratorResumeNext generator)
-    [! __x3__]
+    app __x2__ = (AsyncGeneratorResumeNext generator)
+    [! __x2__]
   } else {}
   return promiseCapability.Promise
 }

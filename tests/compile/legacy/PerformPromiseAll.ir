@@ -1,7 +1,7 @@
 {
   app __x0__ = (IsConstructor constructor)
   assert (= __x0__ true)
-  assert (= (typeof resultCapability) "PromiseCapabilityRecord")
+  assert (is-instance-of resultCapability PromiseCapabilityRecord)
   let values = (new [])
   let remainingElementsCount = (new Record("Value" -> 1i))
   app __x1__ = (Get constructor "resolve")

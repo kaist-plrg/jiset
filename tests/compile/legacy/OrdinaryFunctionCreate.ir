@@ -1,9 +1,8 @@
 {
-  app __x0__ = (Type functionPrototype)
-  assert (= __x0__ Object)
+  assert (= (typeof functionPrototype) Object)
   ??? "Let id:{internalSlotsList} be the internal slots listed in Table 27 ."
-  app __x1__ = (OrdinaryObjectCreate functionPrototype internalSlotsList)
-  let F = [! __x1__]
+  app __x0__ = (OrdinaryObjectCreate functionPrototype internalSlotsList)
+  let F = [! __x0__]
   ??? "Set id:{F} . [ [ Call ] ] to the definition specified in 9 . 2 . 1 ."
   F.FormalParameters = ParameterList
   F.ECMAScriptCode = Body
@@ -12,13 +11,13 @@
   if (= thisMode CONST_lexicalDASHthis) F.ThisMode = CONST_lexical else if (= Strict true) F.ThisMode = CONST_strict else F.ThisMode = CONST_global
   F.IsClassConstructor = false
   F.Environment = Scope
-  app __x2__ = (GetActiveScriptOrModule)
-  F.ScriptOrModule = __x2__
+  app __x1__ = (GetActiveScriptOrModule)
+  F.ScriptOrModule = __x1__
   F.Realm = REALM
   F.HomeObject = undefined
-  access __x3__ = (ParameterList "ExpectedArgumentCount")
-  let len = __x3__
-  app __x4__ = (SetFunctionLength F len)
-  [! __x4__]
+  access __x2__ = (ParameterList "ExpectedArgumentCount")
+  let len = __x2__
+  app __x3__ = (SetFunctionLength F len)
+  [! __x3__]
   return F
 }

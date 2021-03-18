@@ -1,15 +1,14 @@
 {
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
-  app __x1__ = (Type P)
-  if (= __x1__ String) {
-    app __x2__ = (CanonicalNumericIndexString P)
-    let numericIndex = [! __x2__]
+  if (= (typeof P) String) {
+    app __x1__ = (CanonicalNumericIndexString P)
+    let numericIndex = [! __x1__]
     if (! (= numericIndex undefined)) {
-      app __x3__ = (IsValidIntegerIndex O numericIndex)
-      if (= [! __x3__] false) return true else return false
+      app __x2__ = (IsValidIntegerIndex O numericIndex)
+      if (= [! __x2__] false) return true else return false
     } else {}
   } else {}
-  app __x4__ = (OrdinaryDelete O P)
-  return [? __x4__]
+  app __x3__ = (OrdinaryDelete O P)
+  return [? __x3__]
 }

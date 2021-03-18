@@ -12,27 +12,26 @@
   app __x3__ = (IsDataDescriptor ownDesc)
   if (= __x3__ true) {
     if (= ownDesc.Writable false) return false else {}
-    app __x4__ = (Type Receiver)
-    if (! (= __x4__ Object)) return false else {}
-    app __x5__ = (Receiver.GetOwnProperty Receiver P)
-    let existingDescriptor = [? __x5__]
+    if (! (= (typeof Receiver) Object)) return false else {}
+    app __x4__ = (Receiver.GetOwnProperty Receiver P)
+    let existingDescriptor = [? __x4__]
     if (! (= existingDescriptor undefined)) {
-      app __x6__ = (IsAccessorDescriptor existingDescriptor)
-      if (= __x6__ true) return false else {}
+      app __x5__ = (IsAccessorDescriptor existingDescriptor)
+      if (= __x5__ true) return false else {}
       if (= existingDescriptor.Writable false) return false else {}
       let valueDesc = (new PropertyDescriptor("Value" -> V))
-      app __x7__ = (Receiver.DefineOwnProperty Receiver P valueDesc)
-      return [? __x7__]
+      app __x6__ = (Receiver.DefineOwnProperty Receiver P valueDesc)
+      return [? __x6__]
     } else {
-      app __x8__ = (CreateDataProperty Receiver P V)
-      return [? __x8__]
+      app __x7__ = (CreateDataProperty Receiver P V)
+      return [? __x7__]
     }
   } else {}
-  app __x9__ = (IsAccessorDescriptor ownDesc)
-  assert (= __x9__ true)
+  app __x8__ = (IsAccessorDescriptor ownDesc)
+  assert (= __x8__ true)
   let setter = ownDesc.Set
   if (= setter undefined) return false else {}
-  app __x10__ = (Call setter Receiver (new [V]))
-  [? __x10__]
+  app __x9__ = (Call setter Receiver (new [V]))
+  [? __x9__]
   return true
 }

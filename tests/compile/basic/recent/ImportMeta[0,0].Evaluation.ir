@@ -1,7 +1,7 @@
 {
   app __x0__ = (GetActiveScriptOrModule)
   let module = [! __x0__]
-  assert (= (typeof module) "SourceTextModuleRecord")
+  assert (is-instance-of module SourceTextModuleRecord)
   let importMeta = module.ImportMeta
   if (= importMeta CONST_empty) {
     app __x1__ = (OrdinaryObjectCreate null)
@@ -21,8 +21,7 @@
     module.ImportMeta = importMeta
     return importMeta
   } else {
-    app __x7__ = (Type importMeta)
-    assert (= __x7__ Object)
+    assert (= (typeof importMeta) Object)
     return importMeta
   }
 }

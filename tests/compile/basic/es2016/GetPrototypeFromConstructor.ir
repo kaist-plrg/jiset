@@ -3,10 +3,9 @@
   assert (= __x0__ true)
   app __x1__ = (Get constructor "prototype")
   let proto = [? __x1__]
-  app __x2__ = (Type proto)
-  if (! (= __x2__ Object)) {
-    app __x3__ = (GetFunctionRealm constructor)
-    let realm = [? __x3__]
+  if (! (= (typeof proto) Object)) {
+    app __x2__ = (GetFunctionRealm constructor)
+    let realm = [? __x2__]
     ??? "Let id:{proto} be id:{realm} ' s intrinsic object named id:{intrinsicDefaultProto} ."
   } else {}
   return proto

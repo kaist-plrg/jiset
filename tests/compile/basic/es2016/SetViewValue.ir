@@ -1,24 +1,23 @@
 {
-  app __x0__ = (Type view)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof view) Object)) throw TypeError else {}
   if (= view.DataView absent) throw TypeError else {}
-  app __x1__ = (ToNumber requestIndex)
-  let numberIndex = [? __x1__]
-  app __x2__ = (ToInteger numberIndex)
-  let getIndex = __x2__
+  app __x0__ = (ToNumber requestIndex)
+  let numberIndex = [? __x0__]
+  app __x1__ = (ToInteger numberIndex)
+  let getIndex = __x1__
   if (|| (! (== numberIndex getIndex)) (< getIndex 0i)) throw RangeError else {}
-  app __x3__ = (ToNumber value)
-  let numberValue = [? __x3__]
-  app __x4__ = (ToBoolean isLittleEndian)
-  let isLittleEndian = __x4__
+  app __x2__ = (ToNumber value)
+  let numberValue = [? __x2__]
+  app __x3__ = (ToBoolean isLittleEndian)
+  let isLittleEndian = __x3__
   let buffer = view.ViewedArrayBuffer
-  app __x5__ = (IsDetachedBuffer buffer)
-  if (= __x5__ true) throw TypeError else {}
+  app __x4__ = (IsDetachedBuffer buffer)
+  if (= __x4__ true) throw TypeError else {}
   let viewOffset = view.ByteOffset
   let viewSize = view.ByteLength
   ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{unhandled: table-49} for Element Type id:{type} ."
   if (< viewSize (+ getIndex elementSize)) throw RangeError else {}
   let bufferIndex = (+ getIndex viewOffset)
-  app __x6__ = (SetValueInBuffer buffer bufferIndex type numberValue isLittleEndian)
-  return __x6__
+  app __x5__ = (SetValueInBuffer buffer bufferIndex type numberValue isLittleEndian)
+  return __x5__
 }

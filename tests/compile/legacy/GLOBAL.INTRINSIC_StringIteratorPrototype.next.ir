@@ -1,24 +1,23 @@
 {
   let O = this
-  app __x0__ = (Type O)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof O) Object)) throw TypeError else {}
   ??? "If id:{O} does not have all of the internal slots of a String Iterator Instance ( 21 . 1 . 5 . 3 ) , throw a value:{TypeError} exception ."
   let s = O.IteratedString
   if (= s undefined) {
-    app __x1__ = (CreateIterResultObject undefined true)
-    return __x1__
+    app __x0__ = (CreateIterResultObject undefined true)
+    return __x0__
   } else {}
   let position = O.StringNextIndex
   let len = s.length
   if (! (< position len)) {
     O.IteratedString = undefined
-    app __x2__ = (CreateIterResultObject undefined true)
-    return __x2__
+    app __x1__ = (CreateIterResultObject undefined true)
+    return __x1__
   } else {}
-  app __x3__ = (CodePointAt s position)
-  let cp = [! __x3__]
+  app __x2__ = (CodePointAt s position)
+  let cp = [! __x2__]
   ??? "Let id:{resultString} be the String value containing id:{cp} . [ [ CodeUnitCount ] ] consecutive code units from id:{s} beginning with the code unit at index id:{position} ."
   O.StringNextIndex = (+ position cp.CodeUnitCount)
-  app __x4__ = (CreateIterResultObject resultString false)
-  return __x4__
+  app __x3__ = (CreateIterResultObject resultString false)
+  return __x3__
 }

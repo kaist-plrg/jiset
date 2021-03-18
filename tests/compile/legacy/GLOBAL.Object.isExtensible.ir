@@ -1,8 +1,7 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let O = __x0__
-  app __x1__ = (Type O)
-  if (! (= __x1__ Object)) return false else {}
-  app __x2__ = (IsExtensible O)
-  return [? __x2__]
+  if (! (= (typeof O) Object)) return false else {}
+  app __x1__ = (IsExtensible O)
+  return [? __x1__]
 }

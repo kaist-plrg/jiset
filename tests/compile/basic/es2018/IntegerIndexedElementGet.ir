@@ -1,11 +1,10 @@
 {
-  app __x0__ = (Type index)
-  assert (= __x0__ Number)
+  assert (= (typeof index) Number)
   let buffer = O.ViewedArrayBuffer
-  app __x1__ = (IsDetachedBuffer buffer)
-  if (= __x1__ true) throw TypeError else {}
-  app __x2__ = (IsInteger index)
-  if (= __x2__ false) return undefined else {}
+  app __x0__ = (IsDetachedBuffer buffer)
+  if (= __x0__ true) throw TypeError else {}
+  app __x1__ = (IsInteger index)
+  if (= __x1__ false) return undefined else {}
   if (== index -0.0) return undefined else {}
   let length = O.ArrayLength
   if (|| (< index 0i) (! (< index length))) return undefined else {}
@@ -14,6 +13,6 @@
   ??? "Let id:{elementSize} be the Number value of the Element Size value specified in link:{unhandled: table-49} for id:{arrayTypeName} ."
   let indexedPosition = (+ (* index elementSize) offset)
   ??? "Let id:{elementType} be the String value of the Element Type value in link:{unhandled: table-49} for id:{arrayTypeName} ."
-  app __x3__ = (GetValueFromBuffer buffer indexedPosition elementType true "Unordered")
-  return __x3__
+  app __x2__ = (GetValueFromBuffer buffer indexedPosition elementType true "Unordered")
+  return __x2__
 }

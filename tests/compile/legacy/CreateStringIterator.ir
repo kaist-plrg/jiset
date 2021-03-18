@@ -1,8 +1,7 @@
 {
-  app __x0__ = (Type string)
-  assert (= __x0__ String)
-  app __x1__ = (OrdinaryObjectCreate INTRINSIC_StringIteratorPrototype (new ["IteratedString", "StringNextIndex"]))
-  let iterator = __x1__
+  assert (= (typeof string) String)
+  app __x0__ = (OrdinaryObjectCreate INTRINSIC_StringIteratorPrototype (new ["IteratedString", "StringNextIndex"]))
+  let iterator = __x0__
   iterator.IteratedString = string
   iterator.StringNextIndex = 0i
   return iterator

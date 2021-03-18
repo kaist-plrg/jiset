@@ -1,10 +1,9 @@
 {
   app __x0__ = (IsPropertyKey P)
   assert (= __x0__ true)
-  app __x1__ = (Type P)
-  if (= __x1__ Symbol) {
-    app __x2__ = (OrdinaryDelete O P)
-    return [? __x2__]
+  if (= (typeof P) Symbol) {
+    app __x1__ = (OrdinaryDelete O P)
+    return [? __x1__]
   } else {}
   let exports = O.Exports
   if (contains exports P) return false else {}

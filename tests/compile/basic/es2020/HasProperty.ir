@@ -1,8 +1,7 @@
 {
-  app __x0__ = (Type O)
-  assert (= __x0__ Object)
-  app __x1__ = (IsPropertyKey P)
-  assert (= __x1__ true)
-  app __x2__ = (O.HasProperty O P)
-  return [? __x2__]
+  assert (= (typeof O) Object)
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  app __x1__ = (O.HasProperty O P)
+  return [? __x1__]
 }

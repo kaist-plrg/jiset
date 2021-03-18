@@ -1,50 +1,49 @@
 {
   app __x0__ = (Get holder name)
   let val = [? __x0__]
-  app __x1__ = (Type val)
-  if (= __x1__ Object) {
-    app __x2__ = (IsArray val)
-    let isArray = [? __x2__]
+  if (= (typeof val) Object) {
+    app __x1__ = (IsArray val)
+    let isArray = [? __x1__]
     if (= isArray true) {
       let I = 0i
-      app __x3__ = (Get val "length")
-      app __x4__ = (ToLength [? __x3__])
-      let len = [? __x4__]
+      app __x2__ = (Get val "length")
+      app __x3__ = (ToLength [? __x2__])
+      let len = [? __x3__]
       while (< I len) {
-        app __x5__ = (ToString I)
-        app __x6__ = (InternalizeJSONProperty val [! __x5__])
-        let newElement = [? __x6__]
+        app __x4__ = (ToString I)
+        app __x5__ = (InternalizeJSONProperty val [! __x4__])
+        let newElement = [? __x5__]
         if (= newElement undefined) {
-          app __x7__ = (ToString I)
-          app __x8__ = (val.Delete val [! __x7__])
-          [? __x8__]
+          app __x6__ = (ToString I)
+          app __x7__ = (val.Delete val [! __x6__])
+          [? __x7__]
         } else {
-          app __x9__ = (ToString I)
-          app __x10__ = (CreateDataProperty val [! __x9__] newElement)
-          [? __x10__]
+          app __x8__ = (ToString I)
+          app __x9__ = (CreateDataProperty val [! __x8__] newElement)
+          [? __x9__]
         }
         append 1i -> I
       }
     } else {
-      app __x11__ = (EnumerableOwnProperties val "key")
-      let keys = [? __x11__]
-      let __x12__ = keys
-      let __x13__ = 0i
-      while (< __x13__ __x12__.length) {
-        let P = __x12__[__x13__]
-        app __x14__ = (InternalizeJSONProperty val P)
-        let newElement = [? __x14__]
+      app __x10__ = (EnumerableOwnProperties val "key")
+      let keys = [? __x10__]
+      let __x11__ = keys
+      let __x12__ = 0i
+      while (< __x12__ __x11__.length) {
+        let P = __x11__[__x12__]
+        app __x13__ = (InternalizeJSONProperty val P)
+        let newElement = [? __x13__]
         if (= newElement undefined) {
-          app __x15__ = (val.Delete val P)
-          [? __x15__]
+          app __x14__ = (val.Delete val P)
+          [? __x14__]
         } else {
-          app __x16__ = (CreateDataProperty val P newElement)
-          [? __x16__]
+          app __x15__ = (CreateDataProperty val P newElement)
+          [? __x15__]
         }
-        __x13__ = (+ __x13__ 1i)
+        __x12__ = (+ __x12__ 1i)
       }
     }
   } else {}
-  app __x17__ = (Call reviver holder (new [name, val]))
-  return [? __x17__]
+  app __x16__ = (Call reviver holder (new [name, val]))
+  return [? __x16__]
 }

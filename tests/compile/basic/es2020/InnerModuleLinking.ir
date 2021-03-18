@@ -1,5 +1,5 @@
 {
-  if (! (= (typeof module) "CyclicModuleRecord")) {
+  if (! (is-instance-of module CyclicModuleRecord)) {
     app __x0__ = (module.Link module)
     [? __x0__]
     return index
@@ -19,7 +19,7 @@
     let requiredModule = [? __x3__]
     app __x4__ = (InnerModuleLinking requiredModule stack index)
     index = [? __x4__]
-    if (= (typeof requiredModule) "CyclicModuleRecord") {
+    if (is-instance-of requiredModule CyclicModuleRecord) {
       assert (|| (|| (= requiredModule.Status CONST_linking) (= requiredModule.Status CONST_linked)) (= requiredModule.Status CONST_evaluated))
       if (= requiredModule.Status CONST_linking) {
         app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
@@ -36,7 +36,7 @@
     while (= done false) {
       let requiredModule = stack[(- stack.length 1i)]
       (pop stack (- stack.length 1i))
-      assert (= (typeof requiredModule) "CyclicModuleRecord")
+      assert (is-instance-of requiredModule CyclicModuleRecord)
       requiredModule.Status = CONST_linked
       if (= requiredModule module) done = true else {}
     }

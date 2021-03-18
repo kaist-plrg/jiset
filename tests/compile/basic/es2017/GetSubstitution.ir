@@ -1,13 +1,10 @@
 {
-  app __x0__ = (Type matched)
-  assert (= __x0__ String)
+  assert (= (typeof matched) String)
   let matchLength = matched.length
-  app __x1__ = (Type str)
-  assert (= __x1__ String)
+  assert (= (typeof str) String)
   let stringLength = str.length
   assert (! (< stringLength position))
-  app __x2__ = (Type replacement)
-  assert (= __x2__ String)
+  assert (= (typeof replacement) String)
   let tailPos = (+ position matchLength)
   let m = captures.length
   ??? "Let id:{result} be a String value derived from id:{replacement} by copying code unit elements from id:{replacement} to id:{result} while performing replacements as specified in link:{unhandled: table-45} . These code:{$} replacements are done left - to - right , and , once such a replacement is performed , the new replacement text is not subject to further replacements ."

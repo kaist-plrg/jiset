@@ -1,18 +1,10 @@
 {
-  app __x0__ = (Type x)
-  assert (! (|| (= __x0__ Number) (= __x0__ BigInt)))
-  app __x1__ = (Type x)
-  app __x2__ = (Type y)
-  assert (= __x1__ __x2__)
-  app __x3__ = (Type x)
-  if (= __x3__ Undefined) return true else {}
-  app __x4__ = (Type x)
-  if (= __x4__ Null) return true else {}
-  app __x5__ = (Type x)
-  if (= __x5__ String) ??? "If id:{x} and id:{y} are exactly the same sequence of code units ( same length and same code units at corresponding indices ) , return value:{true} ; otherwise , return value:{false} ." else {}
-  app __x6__ = (Type x)
-  if (= __x6__ Boolean) if (|| (&& (= x true) (= y true)) (&& (= x false) (= y false))) return true else return false else {}
-  app __x7__ = (Type x)
-  if (= __x7__ Symbol) if (= x y) return true else return false else {}
+  assert (! (|| (= (typeof x) Number) (= (typeof x) BigInt)))
+  assert (= (typeof x) (typeof y))
+  if (= (typeof x) Undefined) return true else {}
+  if (= (typeof x) Null) return true else {}
+  if (= (typeof x) String) ??? "If id:{x} and id:{y} are exactly the same sequence of code units ( same length and same code units at corresponding indices ) , return value:{true} ; otherwise , return value:{false} ." else {}
+  if (= (typeof x) Boolean) if (|| (&& (= x true) (= y true)) (&& (= x false) (= y false))) return true else return false else {}
+  if (= (typeof x) Symbol) if (= x y) return true else return false else {}
   if (= x y) return true else return false
 }

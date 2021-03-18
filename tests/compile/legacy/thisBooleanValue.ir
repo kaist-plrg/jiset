@@ -1,11 +1,8 @@
 {
-  app __x0__ = (Type value)
-  if (= __x0__ Boolean) return value else {}
-  app __x1__ = (Type value)
-  if (&& (= __x1__ Object) (! (= value.BooleanData absent))) {
+  if (= (typeof value) Boolean) return value else {}
+  if (&& (= (typeof value) Object) (! (= value.BooleanData absent))) {
     let b = value.BooleanData
-    app __x2__ = (Type b)
-    assert (= __x2__ Boolean)
+    assert (= (typeof b) Boolean)
     return b
   } else {}
   throw TypeError

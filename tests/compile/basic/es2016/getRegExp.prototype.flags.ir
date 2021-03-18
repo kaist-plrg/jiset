@@ -1,27 +1,26 @@
 {
   let R = this
-  app __x0__ = (Type R)
-  if (! (= __x0__ Object)) throw TypeError else {}
+  if (! (= (typeof R) Object)) throw TypeError else {}
   let result = ""
-  app __x1__ = (Get R "global")
-  app __x2__ = (ToBoolean [? __x1__])
-  let global = __x2__
+  app __x0__ = (Get R "global")
+  app __x1__ = (ToBoolean [? __x0__])
+  let global = __x1__
   if (= global true) let result = (+ result "g") else {}
-  app __x3__ = (Get R "ignoreCase")
-  app __x4__ = (ToBoolean [? __x3__])
-  let ignoreCase = __x4__
+  app __x2__ = (Get R "ignoreCase")
+  app __x3__ = (ToBoolean [? __x2__])
+  let ignoreCase = __x3__
   if (= ignoreCase true) let result = (+ result "i") else {}
-  app __x5__ = (Get R "multiline")
-  app __x6__ = (ToBoolean [? __x5__])
-  let multiline = __x6__
+  app __x4__ = (Get R "multiline")
+  app __x5__ = (ToBoolean [? __x4__])
+  let multiline = __x5__
   if (= multiline true) let result = (+ result "m") else {}
-  app __x7__ = (Get R "unicode")
-  app __x8__ = (ToBoolean [? __x7__])
-  let unicode = __x8__
+  app __x6__ = (Get R "unicode")
+  app __x7__ = (ToBoolean [? __x6__])
+  let unicode = __x7__
   if (= unicode true) let result = (+ result "u") else {}
-  app __x9__ = (Get R "sticky")
-  app __x10__ = (ToBoolean [? __x9__])
-  let sticky = __x10__
+  app __x8__ = (Get R "sticky")
+  app __x9__ = (ToBoolean [? __x8__])
+  let sticky = __x9__
   if (= sticky true) let result = (+ result "y") else {}
   return result
 }

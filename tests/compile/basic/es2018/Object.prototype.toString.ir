@@ -5,10 +5,9 @@
   let O = [! __x0__]
   app __x1__ = (IsArray O)
   let isArray = [? __x1__]
-  if (= isArray true) let builtinTag = "Array" else if (= (typeof O) "StringExoticObject") let builtinTag = "String" else if (! (= O.ParameterMap absent)) let builtinTag = "Arguments" else if (! (= O.Call absent)) let builtinTag = "Function" else if (! (= O.ErrorData absent)) let builtinTag = "Error" else if (! (= O.BooleanData absent)) let builtinTag = "Boolean" else if (! (= O.NumberData absent)) let builtinTag = "Number" else if (! (= O.DateValue absent)) let builtinTag = "Date" else if (! (= O.RegExpMatcher absent)) let builtinTag = "RegExp" else let builtinTag = "Object"
+  if (= isArray true) let builtinTag = "Array" else if (is-instance-of O StringExoticObject) let builtinTag = "String" else if (! (= O.ParameterMap absent)) let builtinTag = "Arguments" else if (! (= O.Call absent)) let builtinTag = "Function" else if (! (= O.ErrorData absent)) let builtinTag = "Error" else if (! (= O.BooleanData absent)) let builtinTag = "Boolean" else if (! (= O.NumberData absent)) let builtinTag = "Number" else if (! (= O.DateValue absent)) let builtinTag = "Date" else if (! (= O.RegExpMatcher absent)) let builtinTag = "RegExp" else let builtinTag = "Object"
   app __x2__ = (Get O SYMBOL_toStringTag)
   let tag = [? __x2__]
-  app __x3__ = (Type tag)
-  if (! (= __x3__ String)) let tag = builtinTag else {}
+  if (! (= (typeof tag) String)) let tag = builtinTag else {}
   ??? "Return the string - concatenation of ` \" [ object \" ` , id:{tag} , and code:{\"]\"} ."
 }

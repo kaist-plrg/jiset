@@ -16,19 +16,18 @@
         if (= __x4__ true) let C = undefined else {}
       } else {}
     } else {}
-    app __x5__ = (Type C)
-    if (= __x5__ Object) {
-      app __x6__ = (Get C SYMBOL_species)
-      let C = [? __x6__]
+    if (= (typeof C) Object) {
+      app __x5__ = (Get C SYMBOL_species)
+      let C = [? __x5__]
       if (= C null) let C = undefined else {}
     } else {}
   } else {}
   if (= C undefined) {
-    app __x7__ = (ArrayCreate length)
-    return [? __x7__]
+    app __x6__ = (ArrayCreate length)
+    return [? __x6__]
   } else {}
-  app __x8__ = (IsConstructor C)
-  if (= __x8__ false) throw TypeError else {}
-  app __x9__ = (Construct C (new [length]))
-  return [? __x9__]
+  app __x7__ = (IsConstructor C)
+  if (= __x7__ false) throw TypeError else {}
+  app __x8__ = (Construct C (new [length]))
+  return [? __x8__]
 }

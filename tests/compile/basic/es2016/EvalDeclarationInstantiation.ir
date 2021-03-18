@@ -6,7 +6,7 @@
   let lexEnvRec = lexEnv.EnvironmentRecord
   let varEnvRec = varEnv.EnvironmentRecord
   if (= strict false) {
-    if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
+    if (is-instance-of varEnvRec GlobalEnvironmentRecord) {
       let __x2__ = varNames
       let __x3__ = 0i
       while (< __x3__ __x2__.length) {
@@ -19,7 +19,7 @@
     let thisLex = lexEnv
     while (! (= thisLex varEnv)) {
       let thisEnvRec = thisLex.EnvironmentRecord
-      if (! (= (typeof thisEnvRec) "ObjectEnvironmentRecord")) {
+      if (! (is-instance-of thisEnvRec ObjectEnvironmentRecord)) {
         let __x5__ = varNames
         let __x6__ = 0i
         while (< __x6__ __x5__.length) {
@@ -44,7 +44,7 @@
       access __x10__ = (d "BoundNames")
       let fn = __x10__[0i]
       if (! (contains declaredFunctionNames fn)) {
-        if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
+        if (is-instance-of varEnvRec GlobalEnvironmentRecord) {
           app __x11__ = (varEnvRec.CanDeclareGlobalFunction varEnvRec fn)
           let fnDefinable = [? __x11__]
           if (= fnDefinable false) throw TypeError else {}
@@ -66,7 +66,7 @@
       while (< __x16__ __x15__.length) {
         let vn = __x15__[__x16__]
         if (! (contains declaredFunctionNames vn)) {
-          if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
+          if (is-instance-of varEnvRec GlobalEnvironmentRecord) {
             app __x17__ = (varEnvRec.CanDeclareGlobalVar varEnvRec vn)
             let vnDefinable = [? __x17__]
             if (= vnDefinable false) throw TypeError else {}
@@ -109,7 +109,7 @@
     let fn = __x29__[0i]
     access __x30__ = (f "InstantiateFunctionObject" lexEnv)
     let fo = __x30__
-    if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
+    if (is-instance-of varEnvRec GlobalEnvironmentRecord) {
       app __x31__ = (varEnvRec.CreateGlobalFunctionBinding varEnvRec fn fo true)
       [? __x31__]
     } else {
@@ -131,7 +131,7 @@
   let __x37__ = 0i
   while (< __x37__ __x36__.length) {
     let vn = __x36__[__x37__]
-    if (= (typeof varEnvRec) "GlobalEnvironmentRecord") {
+    if (is-instance-of varEnvRec GlobalEnvironmentRecord) {
       app __x38__ = (varEnvRec.CreateGlobalVarBinding varEnvRec vn true)
       [? __x38__]
     } else {

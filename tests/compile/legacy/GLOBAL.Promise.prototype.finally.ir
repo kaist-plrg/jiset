@@ -2,28 +2,27 @@
   app __x0__ = (GetArgument argumentsList 0i)
   let onFinally = __x0__
   let promise = this
-  app __x1__ = (Type promise)
-  if (! (= __x1__ Object)) throw TypeError else {}
-  app __x2__ = (SpeciesConstructor promise INTRINSIC_Promise)
-  let C = [? __x2__]
-  app __x3__ = (IsConstructor C)
-  assert (= __x3__ true)
-  app __x4__ = (IsCallable onFinally)
-  if (= __x4__ false) {
+  if (! (= (typeof promise) Object)) throw TypeError else {}
+  app __x1__ = (SpeciesConstructor promise INTRINSIC_Promise)
+  let C = [? __x1__]
+  app __x2__ = (IsConstructor C)
+  assert (= __x2__ true)
+  app __x3__ = (IsCallable onFinally)
+  if (= __x3__ false) {
     let thenFinally = onFinally
     let catchFinally = onFinally
   } else {
     ??? "Let id:{stepsThenFinally} be the algorithm steps defined in Then Finally Functions ."
-    app __x5__ = (CreateBuiltinFunction stepsThenFinally (new ["Constructor", "OnFinally"]))
-    let thenFinally = [! __x5__]
+    app __x4__ = (CreateBuiltinFunction stepsThenFinally (new ["Constructor", "OnFinally"]))
+    let thenFinally = [! __x4__]
     thenFinally.Constructor = C
     thenFinally.OnFinally = onFinally
     ??? "Let id:{stepsCatchFinally} be the algorithm steps defined in Catch Finally Functions ."
-    app __x6__ = (CreateBuiltinFunction stepsCatchFinally (new ["Constructor", "OnFinally"]))
-    let catchFinally = [! __x6__]
+    app __x5__ = (CreateBuiltinFunction stepsCatchFinally (new ["Constructor", "OnFinally"]))
+    let catchFinally = [! __x5__]
     catchFinally.Constructor = C
     catchFinally.OnFinally = onFinally
   }
-  app __x7__ = (Invoke promise "then" (new [thenFinally, catchFinally]))
-  return [? __x7__]
+  app __x6__ = (Invoke promise "then" (new [thenFinally, catchFinally]))
+  return [? __x6__]
 }

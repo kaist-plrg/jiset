@@ -1,21 +1,14 @@
 {
-  app __x0__ = (Type argument)
-  if (= __x0__ Undefined) return NaN else {}
-  app __x1__ = (Type argument)
-  if (= __x1__ Null) return 0i else {}
-  app __x2__ = (Type argument)
-  if (= __x2__ Boolean) ??? "Return 1 if id:{argument} is value:{true} . Return value:{+0} if id:{argument} is value:{false} ." else {}
-  app __x3__ = (Type argument)
-  if (= __x3__ Number) return argument else {}
-  app __x4__ = (Type argument)
-  if (= __x4__ String) {} else {}
-  app __x5__ = (Type argument)
-  if (= __x5__ Symbol) throw TypeError else {}
-  app __x6__ = (Type argument)
-  if (= __x6__ Object) {
-    app __x7__ = (ToPrimitive argument Number)
-    let primValue = [? __x7__]
-    app __x8__ = (ToNumber primValue)
-    return [? __x8__]
+  if (= (typeof argument) Undefined) return NaN else {}
+  if (= (typeof argument) Null) return 0i else {}
+  if (= (typeof argument) Boolean) ??? "Return 1 if id:{argument} is value:{true} . Return value:{+0} if id:{argument} is value:{false} ." else {}
+  if (= (typeof argument) Number) return argument else {}
+  if (= (typeof argument) String) {} else {}
+  if (= (typeof argument) Symbol) throw TypeError else {}
+  if (= (typeof argument) Object) {
+    app __x0__ = (ToPrimitive argument Number)
+    let primValue = [? __x0__]
+    app __x1__ = (ToNumber primValue)
+    return [? __x1__]
   } else {}
 }

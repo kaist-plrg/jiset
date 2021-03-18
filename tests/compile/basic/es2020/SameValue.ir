@@ -1,13 +1,9 @@
 {
-  app __x0__ = (Type x)
-  app __x1__ = (Type y)
-  if (! (= __x0__ __x1__)) return false else {}
-  app __x2__ = (Type x)
-  if (|| (= __x2__ Number) (= __x2__ BigInt)) {
-    app __x3__ = (Type x)
-    app __x4__ = (PRIMITIVE[__x3__].sameValue x y)
-    return [! __x4__]
+  if (! (= (typeof x) (typeof y))) return false else {}
+  if (|| (= (typeof x) Number) (= (typeof x) BigInt)) {
+    app __x0__ = (PRIMITIVE[(typeof x)].sameValue x y)
+    return [! __x0__]
   } else {}
-  app __x5__ = (SameValueNonNumeric x y)
-  return [! __x5__]
+  app __x1__ = (SameValueNonNumeric x y)
+  return [! __x1__]
 }

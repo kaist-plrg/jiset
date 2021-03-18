@@ -11,23 +11,16 @@
   let lprim = [? __x4__]
   app __x5__ = (ToPrimitive rval)
   let rprim = [? __x5__]
-  let __x6__ = true
-  app __x7__ = (Type lprim)
-  __x6__ = (= __x7__ String)
-  if __x6__ {} else {
-    app __x8__ = (Type rprim)
-    __x6__ = (= __x8__ String)
-  }
-  if __x6__ {
-    app __x9__ = (ToString lprim)
-    let lstr = [? __x9__]
-    app __x10__ = (ToString rprim)
-    let rstr = [? __x10__]
+  if (|| (= (typeof lprim) String) (= (typeof rprim) String)) {
+    app __x6__ = (ToString lprim)
+    let lstr = [? __x6__]
+    app __x7__ = (ToString rprim)
+    let rstr = [? __x7__]
     return (+ lstr rstr)
   } else {}
-  app __x11__ = (ToNumber lprim)
-  let lnum = [? __x11__]
-  app __x12__ = (ToNumber rprim)
-  let rnum = [? __x12__]
+  app __x8__ = (ToNumber lprim)
+  let lnum = [? __x8__]
+  app __x9__ = (ToNumber rprim)
+  let rnum = [? __x9__]
   return (+ lnum rnum)
 }

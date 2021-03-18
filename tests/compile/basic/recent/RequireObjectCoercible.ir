@@ -1,18 +1,10 @@
 {
-  app __x0__ = (Type argument)
-  if (= __x0__ Undefined) throw TypeError else {}
-  app __x1__ = (Type argument)
-  if (= __x1__ Null) throw TypeError else {}
-  app __x2__ = (Type argument)
-  if (= __x2__ Boolean) return argument else {}
-  app __x3__ = (Type argument)
-  if (= __x3__ Number) return argument else {}
-  app __x4__ = (Type argument)
-  if (= __x4__ String) return argument else {}
-  app __x5__ = (Type argument)
-  if (= __x5__ Symbol) return argument else {}
-  app __x6__ = (Type argument)
-  if (= __x6__ BigInt) return argument else {}
-  app __x7__ = (Type argument)
-  if (= __x7__ Object) return argument else {}
+  if (= (typeof argument) Undefined) throw TypeError else {}
+  if (= (typeof argument) Null) throw TypeError else {}
+  if (= (typeof argument) Boolean) return argument else {}
+  if (= (typeof argument) Number) return argument else {}
+  if (= (typeof argument) String) return argument else {}
+  if (= (typeof argument) Symbol) return argument else {}
+  if (= (typeof argument) BigInt) return argument else {}
+  if (= (typeof argument) Object) return argument else {}
 }
