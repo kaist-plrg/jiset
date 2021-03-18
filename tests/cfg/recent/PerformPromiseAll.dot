@@ -55,18 +55,19 @@ digraph {
       <tr><td align="left">15:return resultCapability.Promise</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node29 [shape=cds, label=<<font color="black">22:app __x9__ = (CreateBuiltinFunction steps (new [&quot;AlreadyCalled&quot;, &quot;Index&quot;, &quot;Values&quot;, &quot;Capability&quot;, &quot;RemainingElements&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node29 [shape=cds, label=<<font color="black">23:app __x9__ = (CreateBuiltinFunction steps length &quot;&quot; (new [&quot;AlreadyCalled&quot;, &quot;Index&quot;, &quot;Values&quot;, &quot;Capability&quot;, &quot;RemainingElements&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node28 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">20:let nextPromise = [? __x8__]</td></tr>
       <tr><td align="left">21:??? &quot;Let id:{steps} be the algorithm steps defined in link:{unhandled: sec-promise.all-resolve-element-functions} .&quot;</td></tr>
+      <tr><td align="left">22:??? &quot;Let id:{length} be the number of non - optional parameters of the function definition in link:{unhandled: sec-promise.all-resolve-element-functions} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node21 [shape=cds, label=<<font color="black">16:app __x6__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
   node32 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">29:[? __x10__]</td></tr>
-      <tr><td align="left">30:index = (+ index 1i)</td></tr>
+      <tr><td align="left">30:[? __x10__]</td></tr>
+      <tr><td align="left">31:index = (+ index 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node17 [shape=none, margin=0, label=<<font color="black">
@@ -81,7 +82,7 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node27 [shape=cds, label=<<font color="black">20:app __x8__ = (Call promiseResolve constructor (new [nextValue]))</font>> color="black" fillcolor="white" style=filled]
   node16 [shape=cds, label=<<font color="black">13:app __x4__ = (CreateArrayFromList values)</font>> color="black" fillcolor="white" style=filled]
-  node31 [shape=cds, label=<<font color="black">29:app __x10__ = (Invoke nextPromise &quot;then&quot; (new [resolveElement, resultCapability.Reject]))</font>> color="black" fillcolor="white" style=filled]
+  node31 [shape=cds, label=<<font color="black">30:app __x10__ = (Invoke nextPromise &quot;then&quot; (new [onFulfilled, resultCapability.Reject]))</font>> color="black" fillcolor="white" style=filled]
   node26 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">18:[? nextValue]</td></tr>
@@ -91,13 +92,13 @@ digraph {
   node23 [shape=cds, label=<<font color="black">17:app __x7__ = (IsAbruptCompletion nextValue)</font>> color="black" fillcolor="white" style=filled]
   node30 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">22:let resolveElement = [! __x9__]</td></tr>
-      <tr><td align="left">23:resolveElement.AlreadyCalled = false</td></tr>
-      <tr><td align="left">24:resolveElement.Index = index</td></tr>
-      <tr><td align="left">25:resolveElement.Values = values</td></tr>
-      <tr><td align="left">26:resolveElement.Capability = resultCapability</td></tr>
-      <tr><td align="left">27:resolveElement.RemainingElements = remainingElementsCount</td></tr>
-      <tr><td align="left">28:remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)</td></tr>
+      <tr><td align="left">23:let onFulfilled = [! __x9__]</td></tr>
+      <tr><td align="left">24:onFulfilled.AlreadyCalled = false</td></tr>
+      <tr><td align="left">25:onFulfilled.Index = index</td></tr>
+      <tr><td align="left">26:onFulfilled.Values = values</td></tr>
+      <tr><td align="left">27:onFulfilled.Capability = resultCapability</td></tr>
+      <tr><td align="left">28:onFulfilled.RemainingElements = remainingElementsCount</td></tr>
+      <tr><td align="left">29:remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node19 [shape=none, margin=0, label=<<font color="black">

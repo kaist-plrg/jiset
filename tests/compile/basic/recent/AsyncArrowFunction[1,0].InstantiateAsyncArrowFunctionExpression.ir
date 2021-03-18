@@ -1,0 +1,15 @@
+{
+  if (= name absent) name = "" else {}
+  access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  let scope = __x0__
+  let sourceText = (get-syntax AsyncArrowFunction)
+  access __x1__ = (CoverCallExpressionAndAsyncArrowHead "CoveredAsyncArrowHead")
+  let head = __x1__
+  access __x2__ = (head "ArrowFormalParameters")
+  let parameters = __x2__
+  app __x3__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype sourceText parameters AsyncConciseBody CONST_lexicalDASHthis scope)
+  let closure = [! __x3__]
+  app __x4__ = (SetFunctionName closure name)
+  __x4__
+  return closure
+}

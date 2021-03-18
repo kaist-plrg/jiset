@@ -32,15 +32,16 @@
     app __x8__ = (Call promiseResolve constructor (new [nextValue]))
     let nextPromise = [? __x8__]
     ??? "Let id:{steps} be the algorithm steps defined in link:{unhandled: sec-promise.all-resolve-element-functions} ."
-    app __x9__ = (CreateBuiltinFunction steps (new ["AlreadyCalled", "Index", "Values", "Capability", "RemainingElements"]))
-    let resolveElement = [! __x9__]
-    resolveElement.AlreadyCalled = false
-    resolveElement.Index = index
-    resolveElement.Values = values
-    resolveElement.Capability = resultCapability
-    resolveElement.RemainingElements = remainingElementsCount
+    ??? "Let id:{length} be the number of non - optional parameters of the function definition in link:{unhandled: sec-promise.all-resolve-element-functions} ."
+    app __x9__ = (CreateBuiltinFunction steps length "" (new ["AlreadyCalled", "Index", "Values", "Capability", "RemainingElements"]))
+    let onFulfilled = [! __x9__]
+    onFulfilled.AlreadyCalled = false
+    onFulfilled.Index = index
+    onFulfilled.Values = values
+    onFulfilled.Capability = resultCapability
+    onFulfilled.RemainingElements = remainingElementsCount
     remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)
-    app __x10__ = (Invoke nextPromise "then" (new [resolveElement, resultCapability.Reject]))
+    app __x10__ = (Invoke nextPromise "then" (new [onFulfilled, resultCapability.Reject]))
     [? __x10__]
     index = (+ index 1i)
   }

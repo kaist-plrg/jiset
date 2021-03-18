@@ -1,7 +1,22 @@
-          1. Perform an implementation-defined sequence of calls to the Get, <emu-xref href="#sec-set-o-p-v-throw">Set</emu-xref>, DeletePropertyOrThrow, and HasOwnProperty abstract operation with _obj_ as the first argument, and to SortCompare (described below), such that:
-            * The property key argument for each call to Get, <emu-xref href="#sec-set-o-p-v-throw">Set</emu-xref>, HasOwnProperty, or DeletePropertyOrThrow is the string representation of a non-negative integer less than _len_.
-            * The `Throw` argument for every call to <emu-xref href="#sec-set-o-p-v-throw">Set</emu-xref> is *true*.
-            * The arguments for calls to SortCompare are values returned by a previous call to the Get abstract operation, unless the properties accessed by those previous calls did not exist according to HasOwnProperty. If both prospective arguments to SortCompare correspond to non-existent properties, use *+0*<sub>𝔽</sub> instead of calling SortCompare. If only the first prospective argument is non-existent, use *1*<sub>𝔽</sub>. If only the second prospective argument is non-existent, use *-1*<sub>𝔽</sub>.
-            * If _obj_ is not sparse then DeletePropertyOrThrow must not be called.
-            * If an abrupt completion is returned from any of these operations, it is immediately returned as the value of this function.
+          1. [id="step-array-sort-comparefn"] If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
+          1. Let _obj_ be ? ToObject(*this* value).
+          1. [id="step-array-sort-len"] Let _len_ be ? LengthOfArrayLike(_obj_).
+          1. Let _items_ be a new empty List.
+          1. Let _k_ be 0.
+          1. Repeat, while _k_ < _len_,
+            1. Let _Pk_ be ! ToString(𝔽(_k_)).
+            1. Let _kPresent_ be ? HasProperty(_obj_, _Pk_).
+            1. If _kPresent_ is *true*, then
+              1. Let _kValue_ be ? Get(_obj_, _Pk_).
+              1. Append _kValue_ to _items_.
+            1. Set _k_ to _k_ + 1.
+          1. Let _itemCount_ be the number of elements in _items_.
+          1. [id="step-array-sort"] Sort _items_ using an implementation-defined sequence of calls to SortCompare. If any such call returns an abrupt completion, stop before performing any further calls to SortCompare or steps in this algorithm and return that completion.
+          1. Let _j_ be 0.
+          1. Repeat, while _j_ < _itemCount_,
+            1. Perform ? Set(_obj_, ! ToString(𝔽(_j_)), _items_[_j_], *true*).
+            1. Set _j_ to _j_ + 1.
+          1. Repeat, while _j_ < _len_,
+            1. Perform ? DeletePropertyOrThrow(_obj_, ! ToString(𝔽(_j_))).
+            1. Set _j_ to _j_ + 1.
           1. Return _obj_.

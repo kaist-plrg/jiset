@@ -1,1 +1,1 @@
-          1. Return ContainsExpression of |BindingPropertyList|.
+        1. Return ContainsExpression of |BindingPropertyList|.

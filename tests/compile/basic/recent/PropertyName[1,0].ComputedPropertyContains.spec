@@ -1,1 +1,1 @@
-          1. Return the result of |ComputedPropertyName| Contains _symbol_.
+        1. Return the result of |ComputedPropertyName| Contains _symbol_.

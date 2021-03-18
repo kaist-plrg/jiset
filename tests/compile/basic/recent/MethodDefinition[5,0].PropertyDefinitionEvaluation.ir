@@ -1,16 +1,4 @@
 {
-  access __x0__ = (PropertyName "Evaluation")
-  let propKey = __x0__
-  [? propKey]
-  let scope = GLOBAL_context.LexicalEnvironment
-  let sourceText = (get-syntax MethodDefinition)
-  app __x1__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype sourceText PropertySetParameterList FunctionBody CONST_nonDASHlexicalDASHthis scope)
-  let closure = __x1__
-  app __x2__ = (MakeMethod closure object)
-  __x2__
-  app __x3__ = (SetFunctionName closure propKey "set")
-  __x3__
-  let desc = (new PropertyDescriptor("Set" -> closure, "Enumerable" -> enumerable, "Configurable" -> true))
-  app __x4__ = (DefinePropertyOrThrow object propKey desc)
-  return [? __x4__]
+  access __x0__ = (MethodDefinition "MethodDefinitionEvaluation" object enumerable)
+  return [? __x0__]
 }

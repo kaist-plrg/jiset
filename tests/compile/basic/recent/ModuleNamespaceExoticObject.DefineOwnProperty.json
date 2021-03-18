@@ -24,9 +24,9 @@
   "value": "false"
 }, ".", {
   "k": 2
-}, "If", "IsAccessorDescriptor", "(", {
+}, "If", {
   "id": "Desc"
-}, ")", "is", {
+}, ".", "[", "[", "Configurable", "]", "]", "is", "present", "and", "has", "value", {
   "value": "true"
 }, ",", "return", {
   "value": "false"
@@ -34,24 +34,24 @@
   "k": 3
 }, "If", {
   "id": "Desc"
-}, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", "has", "value", {
+}, ".", "[", "[", "Enumerable", "]", "]", "is", "present", "and", "has", "value", {
   "value": "false"
 }, ",", "return", {
   "value": "false"
 }, ".", {
   "k": 4
-}, "If", {
+}, "If", "!", "IsAccessorDescriptor", "(", {
   "id": "Desc"
-}, ".", "[", "[", "Enumerable", "]", "]", "is", "present", "and", "has", "value", {
-  "value": "false"
+}, ")", "is", {
+  "value": "true"
 }, ",", "return", {
   "value": "false"
 }, ".", {
   "k": 5
 }, "If", {
   "id": "Desc"
-}, ".", "[", "[", "Configurable", "]", "]", "is", "present", "and", "has", "value", {
-  "value": "true"
+}, ".", "[", "[", "Writable", "]", "]", "is", "present", "and", "has", "value", {
+  "value": "false"
 }, ",", "return", {
   "value": "false"
 }, ".", {

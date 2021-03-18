@@ -1,28 +1,30 @@
 digraph {
   node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5 [shape=cds, label=<<font color="black">6:app __x1__ = (CreateBuiltinFunction stepsReject (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">8:app __x1__ = (CreateBuiltinFunction stepsReject lengthReject &quot;&quot; (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
   node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:let reject = [! __x1__]</td></tr>
-      <tr><td align="left">7:reject.Promise = promise</td></tr>
-      <tr><td align="left">8:reject.AlreadyResolved = alreadyResolved</td></tr>
-      <tr><td align="left">9:return (new Record(&quot;Resolve&quot; -&gt; resolve, &quot;Reject&quot; -&gt; reject))</td></tr>
+      <tr><td align="left">8:let reject = [! __x1__]</td></tr>
+      <tr><td align="left">9:reject.Promise = promise</td></tr>
+      <tr><td align="left">10:reject.AlreadyResolved = alreadyResolved</td></tr>
+      <tr><td align="left">11:return (new Record(&quot;Resolve&quot; -&gt; resolve, &quot;Reject&quot; -&gt; reject))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:let alreadyResolved = (new Record(&quot;Value&quot; -&gt; false))</td></tr>
       <tr><td align="left">1:let stepsResolve = PromiseResolveFunctions</td></tr>
+      <tr><td align="left">2:??? &quot;Let id:{lengthResolve} be the number of non - optional parameters of the function definition in PromiseResolveFunctions .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node3 [shape=cds, label=<<font color="black">2:app __x0__ = (CreateBuiltinFunction stepsResolve (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node3 [shape=cds, label=<<font color="black">3:app __x0__ = (CreateBuiltinFunction stepsResolve lengthResolve &quot;&quot; (new [&quot;Promise&quot;, &quot;AlreadyResolved&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">2:let resolve = [! __x0__]</td></tr>
-      <tr><td align="left">3:resolve.Promise = promise</td></tr>
-      <tr><td align="left">4:resolve.AlreadyResolved = alreadyResolved</td></tr>
-      <tr><td align="left">5:let stepsReject = PromiseRejectFunctions</td></tr>
+      <tr><td align="left">3:let resolve = [! __x0__]</td></tr>
+      <tr><td align="left">4:resolve.Promise = promise</td></tr>
+      <tr><td align="left">5:resolve.AlreadyResolved = alreadyResolved</td></tr>
+      <tr><td align="left">6:let stepsReject = PromiseRejectFunctions</td></tr>
+      <tr><td align="left">7:??? &quot;Let id:{lengthReject} be the number of non - optional parameters of the function definition in PromiseRejectFunctions .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node2 -> node3 [ color="black"]

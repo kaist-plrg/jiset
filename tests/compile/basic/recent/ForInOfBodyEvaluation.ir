@@ -29,7 +29,7 @@
       assert (is-instance-of lhs ForDeclaration)
       app __x6__ = (NewDeclarativeEnvironment oldEnv)
       let iterationEnv = __x6__
-      access __x7__ = (lhs "BindingInstantiation" iterationEnv)
+      access __x7__ = (lhs "ForDeclarationBindingInstantiation" iterationEnv)
       __x7__
       GLOBAL_context.LexicalEnvironment = iterationEnv
       if (= destructuring false) {
@@ -58,7 +58,7 @@
     } else {
       assert (= lhsKind CONST_lexicalBinding)
       assert (is-instance-of lhs ForDeclaration)
-      access __x15__ = (lhs "BindingInitialization" nextValue iterationEnv)
+      access __x15__ = (lhs "ForDeclarationBindingInitialization" nextValue iterationEnv)
       let status = __x15__
     }
     app __x16__ = (IsAbruptCompletion status)

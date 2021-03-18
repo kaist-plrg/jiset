@@ -1,1 +1,1 @@
-          1. Return a List whose sole element is the StringValue of |StringLiteral|.
+          1. Return a List whose sole element is the SV of |StringLiteral|.

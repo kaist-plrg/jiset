@@ -63,23 +63,23 @@ digraph {
       <tr><td align="left">15:return __x6__</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node33 [shape=cds, label=<<font color="black">30:app __x11__ = (Invoke nextPromise &quot;then&quot; (new [resultCapability.Resolve, rejectElement]))</font>> color="black" fillcolor="white" style=filled]
+  node33 [shape=cds, label=<<font color="black">31:app __x11__ = (Invoke nextPromise &quot;then&quot; (new [resultCapability.Resolve, onRejected]))</font>> color="black" fillcolor="white" style=filled]
   node17 [shape=cds, label=<<font color="black">14:app __x4__ = (CreateArrayFromList errors)</font>> color="black" fillcolor="white" style=filled]
   node32 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">23:let rejectElement = [! __x10__]</td></tr>
-      <tr><td align="left">24:rejectElement.AlreadyCalled = false</td></tr>
-      <tr><td align="left">25:rejectElement.Index = index</td></tr>
-      <tr><td align="left">26:rejectElement.Errors = errors</td></tr>
-      <tr><td align="left">27:rejectElement.Capability = resultCapability</td></tr>
-      <tr><td align="left">28:rejectElement.RemainingElements = remainingElementsCount</td></tr>
-      <tr><td align="left">29:remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)</td></tr>
+      <tr><td align="left">24:let onRejected = [! __x10__]</td></tr>
+      <tr><td align="left">25:onRejected.AlreadyCalled = false</td></tr>
+      <tr><td align="left">26:onRejected.Index = index</td></tr>
+      <tr><td align="left">27:onRejected.Errors = errors</td></tr>
+      <tr><td align="left">28:onRejected.Capability = resultCapability</td></tr>
+      <tr><td align="left">29:onRejected.RemainingElements = remainingElementsCount</td></tr>
+      <tr><td align="left">30:remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node34 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">30:[? __x11__]</td></tr>
-      <tr><td align="left">31:index = (+ index 1i)</td></tr>
+      <tr><td align="left">31:[? __x11__]</td></tr>
+      <tr><td align="left">32:index = (+ index 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node22 [shape=none, margin=0, label=<<font color="black">
@@ -97,13 +97,14 @@ digraph {
       <tr><td align="left">13:??? &quot;Let id:{error} be a newly created code:{AggregateError} object .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node31 [shape=cds, label=<<font color="black">23:app __x10__ = (CreateBuiltinFunction steps (new [&quot;AlreadyCalled&quot;, &quot;Index&quot;, &quot;Errors&quot;, &quot;Capability&quot;, &quot;RemainingElements&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node31 [shape=cds, label=<<font color="black">24:app __x10__ = (CreateBuiltinFunction stepsRejected lengthRejected &quot;&quot; (new [&quot;AlreadyCalled&quot;, &quot;Index&quot;, &quot;Errors&quot;, &quot;Capability&quot;, &quot;RemainingElements&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node26 [shape=diamond, label=<<font color="black">__x8__</font>> color="black" fillcolor="white" style=filled]
   node23 [shape=cds, label=<<font color="black">17:app __x7__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
   node30 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">21:let nextPromise = [? __x9__]</td></tr>
-      <tr><td align="left">22:??? &quot;Let id:{steps} be the algorithm steps defined in link:{unhandled: sec-promise.any-reject-element-functions} .&quot;</td></tr>
+      <tr><td align="left">22:??? &quot;Let id:{stepsRejected} be the algorithm steps defined in link:{unhandled: sec-promise.any-reject-element-functions} .&quot;</td></tr>
+      <tr><td align="left">23:??? &quot;Let id:{lengthRejected} be the number of non - optional parameters of the function definition in link:{unhandled: sec-promise.any-reject-element-functions} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node19 [shape=none, margin=0, label=<<font color="black">

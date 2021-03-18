@@ -1,1 +1,1 @@
-          1. Return LexicallyDeclaredNames of |StatementListItem|.
+        1. Return LexicallyDeclaredNames of |StatementListItem|.

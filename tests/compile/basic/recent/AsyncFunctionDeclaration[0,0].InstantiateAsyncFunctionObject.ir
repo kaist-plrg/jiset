@@ -1,0 +1,10 @@
+{
+  access __x0__ = (BindingIdentifier "StringValue")
+  let name = __x0__
+  let sourceText = (get-syntax AsyncFunctionDeclaration)
+  app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype sourceText FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)
+  let F = [! __x1__]
+  app __x2__ = (SetFunctionName F name)
+  [! __x2__]
+  return F
+}

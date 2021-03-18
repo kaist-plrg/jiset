@@ -1,1 +1,1 @@
-          1. Return a List whose sole element is |VariableDeclaration|.
+        1. Return a List whose sole element is |VariableDeclaration|.

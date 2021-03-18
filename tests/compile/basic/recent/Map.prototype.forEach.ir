@@ -5,6 +5,15 @@
   app __x1__ = (IsCallable callbackfn)
   if (= __x1__ false) throw TypeError else {}
   let entries = M.MapData
-  ??? "For each Record { [ [ Key ] ] , [ [ Value ] ] } id:{e} of id:{entries} , in original key insertion order , do in:{} out:{}"
+  let __x2__ = entries
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let e = __x2__[__x3__]
+    if (! (= e.Key CONST_empty)) {
+      app __x4__ = (Call callbackfn thisArg (new [e.Value, e.Key, M]))
+      [? __x4__]
+    } else {}
+    __x3__ = (+ __x3__ 1i)
+  }
   return undefined
 }

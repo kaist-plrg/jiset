@@ -2,7 +2,8 @@
           1. NOTE: _C_ is assumed to be a constructor function that supports the parameter conventions of the Promise constructor (see <emu-xref href="#sec-promise-executor"></emu-xref>).
           1. Let _promiseCapability_ be the PromiseCapability Record { [[Promise]]: *undefined*, [[Resolve]]: *undefined*, [[Reject]]: *undefined* }.
           1. Let _steps_ be the algorithm steps defined in <emu-xref href="#sec-getcapabilitiesexecutor-functions" title></emu-xref>.
-          1. Let _executor_ be ! CreateBuiltinFunction(_steps_, « [[Capability]] »).
+          1. Let _length_ be the number of non-optional parameters of the function definition in <emu-xref href="#sec-getcapabilitiesexecutor-functions" title></emu-xref>.
+          1. Let _executor_ be ! CreateBuiltinFunction(_steps_, _length_, *""*, « [[Capability]] »).
           1. Set _executor_.[[Capability]] to _promiseCapability_.
           1. Let _promise_ be ? Construct(_C_, « _executor_ »).
           1. If IsCallable(_promiseCapability_.[[Resolve]]) is *false*, throw a *TypeError* exception.

@@ -1,74 +1,9 @@
-["Let", {
-  "id": "propKey"
-}, "be", "the", "result", "of", "evaluating", {
-  "nt": "PropertyName"
+["Return", "?", "MethodDefinitionEvaluation", "of", {
+  "nt": "MethodDefinition"
+}, "with", "arguments", {
+  "id": "object"
+}, "and", {
+  "id": "enumerable"
 }, ".", {
   "k": 0
-}, "ReturnIfAbrupt", "(", {
-  "id": "propKey"
-}, ")", ".", {
-  "k": 1
-}, "Let", {
-  "id": "scope"
-}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
-  "k": 2
-}, "Let", {
-  "id": "sourceText"
-}, "be", "the", "source", "text", "matched", "by", {
-  "nt": "MethodDefinition"
-}, ".", {
-  "k": 3
-}, "Let", {
-  "id": "formalParameterList"
-}, "be", "an", "instance", "of", "the", "production", {
-  "grammar": "FormalParameters0",
-  "subs": []
-}, ".", {
-  "k": 4
-}, "Let", {
-  "id": "closure"
-}, "be", "OrdinaryFunctionCreate", "(", "%", "Function", ".", "prototype", "%", ",", {
-  "id": "sourceText"
-}, ",", {
-  "id": "formalParameterList"
-}, ",", {
-  "nt": "FunctionBody"
-}, ",", {
-  "const": "non-lexical-this"
-}, ",", {
-  "id": "scope"
-}, ")", ".", {
-  "k": 5
-}, "Perform", "MakeMethod", "(", {
-  "id": "closure"
-}, ",", {
-  "id": "object"
-}, ")", ".", {
-  "k": 6
-}, "Perform", "SetFunctionName", "(", {
-  "id": "closure"
-}, ",", {
-  "id": "propKey"
-}, ",", {
-  "value": "\"get\""
-}, ")", ".", {
-  "k": 7
-}, "Let", {
-  "id": "desc"
-}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Get", "]", "]", ":", {
-  "id": "closure"
-}, ",", "[", "[", "Enumerable", "]", "]", ":", {
-  "id": "enumerable"
-}, ",", "[", "[", "Configurable", "]", "]", ":", {
-  "value": "true"
-}, "}", ".", {
-  "k": 8
-}, "Return", "?", "DefinePropertyOrThrow", "(", {
-  "id": "object"
-}, ",", {
-  "id": "propKey"
-}, ",", {
-  "id": "desc"
-}, ")", ".", {
-  "k": 9
 }]

@@ -142,64 +142,38 @@
   "nt": "ClassBody"
 }, ".", {
   "k": 22
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "classScope"
+}, ".", {
+  "k": 23
 }, "If", {
   "id": "constructor"
 }, "is", {
   "const": "empty"
 }, ",", "then", {
   "in": null
-}, "If", {
-  "nt": "ClassHeritage"
-}, "is", "present", ",", "then", {
-  "in": null
 }, "Let", {
-  "id": "constructorText"
-}, "be", "the", "source", "text", {
-  "in": null
-}, "<", "pre", ">", "<", "code", "class", "=", "\"", "javascript", "\"", ">", "constructor", "(", ".", ".", ".", "args", ")", "{", "super", "(", ".", ".", ".", "args", ")", ";", "}", "<", "/", "code", ">", "<", "/", "pre", ">", {
-  "k": 26
-}, {
-  "out": null
-}, {
+  "id": "steps"
+}, "be", "the", "algorithm", "steps", "defined", "in", "DefaultConstructorFunctions", ".", {
   "k": 25
+}, "Let", {
+  "id": "F"
+}, "be", "!", "CreateBuiltinFunction", "(", {
+  "id": "steps"
+}, ",", "0", ",", {
+  "id": "className"
+}, ",", "«", "[", "[", "ConstructorKind", "]", "]", ",", "[", "[", "SourceText", "]", "]", "»", ",", {
+  "const": "empty"
+}, ",", {
+  "id": "constructorParent"
+}, ")", ".", {
+  "k": 26
 }, {
   "out": null
 }, {
   "k": 24
 }, "Else", ",", {
   "in": null
-}, "Let", {
-  "id": "constructorText"
-}, "be", "the", "source", "text", {
-  "in": null
-}, "<", "pre", ">", "<", "code", "class", "=", "\"", "javascript", "\"", ">", "constructor", "(", ")", "{", "}", "<", "/", "code", ">", "<", "/", "pre", ">", {
-  "k": 29
-}, {
-  "out": null
-}, {
-  "k": 28
-}, {
-  "out": null
-}, {
-  "k": 27
-}, "Set", {
-  "id": "constructor"
-}, "to", "ParseText", "(", {
-  "id": "constructorText"
-}, ",", "|", "MethodDefinition", "[", "~", "Yield", ",", "~", "Await", "]", "|", ")", ".", {
-  "k": 30
-}, "Assert", ":", {
-  "id": "constructor"
-}, "is", "a", "Parse", "Node", ".", {
-  "k": 31
-}, {
-  "out": null
-}, {
-  "k": 23
-}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
-  "id": "classScope"
-}, ".", {
-  "k": 32
 }, "Let", {
   "id": "constructorInfo"
 }, "be", "!", "DefineMethod", "of", {
@@ -209,27 +183,35 @@
 }, "and", {
   "id": "constructorParent"
 }, ".", {
-  "k": 33
+  "k": 28
 }, "Let", {
   "id": "F"
 }, "be", {
   "id": "constructorInfo"
 }, ".", "[", "[", "Closure", "]", "]", ".", {
-  "k": 34
-}, "Perform", "SetFunctionName", "(", {
+  "k": 29
+}, "Perform", "!", "MakeClassConstructor", "(", {
+  "id": "F"
+}, ")", ".", {
+  "k": 30
+}, "Perform", "!", "SetFunctionName", "(", {
   "id": "F"
 }, ",", {
   "id": "className"
 }, ")", ".", {
-  "k": 35
-}, "Perform", "MakeConstructor", "(", {
+  "k": 31
+}, {
+  "out": null
+}, {
+  "k": 27
+}, "Perform", "!", "MakeConstructor", "(", {
   "id": "F"
 }, ",", {
   "value": "false"
 }, ",", {
   "id": "proto"
 }, ")", ".", {
-  "k": 36
+  "k": 32
 }, "If", {
   "nt": "ClassHeritage"
 }, "is", "present", ",", "set", {
@@ -237,31 +219,27 @@
 }, ".", "[", "[", "ConstructorKind", "]", "]", "to", {
   "const": "derived"
 }, ".", {
-  "k": 37
-}, "Perform", "MakeClassConstructor", "(", {
-  "id": "F"
-}, ")", ".", {
-  "k": 38
-}, "Perform", "CreateMethodProperty", "(", {
+  "k": 33
+}, "Perform", "!", "CreateMethodProperty", "(", {
   "id": "proto"
 }, ",", {
   "value": "\"constructor\""
 }, ",", {
   "id": "F"
 }, ")", ".", {
-  "k": 39
+  "k": 34
 }, "If", {
   "nt": "ClassBody"
 }, "is", "not", "present", ",", "let", {
   "id": "methods"
 }, "be", "a", "new", "empty", "List", ".", {
-  "k": 40
+  "k": 35
 }, "Else", ",", "let", {
   "id": "methods"
 }, "be", "NonConstructorMethodDefinitions", "of", {
   "nt": "ClassBody"
 }, ".", {
-  "k": 41
+  "k": 36
 }, "For", "each", {
   "nt": "ClassElement"
 }, {
@@ -285,11 +263,11 @@
 }, "and", {
   "value": "false"
 }, ".", {
-  "k": 44
+  "k": 39
 }, {
   "out": null
 }, {
-  "k": 43
+  "k": 38
 }, "Else", ",", {
   "in": null
 }, "Let", {
@@ -301,11 +279,11 @@
 }, "and", {
   "value": "false"
 }, ".", {
-  "k": 46
+  "k": 41
 }, {
   "out": null
 }, {
-  "k": 45
+  "k": 40
 }, "If", {
   "id": "status"
 }, "is", "an", "abrupt", "completion", ",", "then", {
@@ -313,23 +291,23 @@
 }, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "env"
 }, ".", {
-  "k": 48
+  "k": 43
 }, "Return", "Completion", "(", {
   "id": "status"
 }, ")", ".", {
-  "k": 49
-}, {
-  "out": null
-}, {
-  "k": 47
+  "k": 44
 }, {
   "out": null
 }, {
   "k": 42
+}, {
+  "out": null
+}, {
+  "k": 37
 }, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
   "id": "env"
 }, ".", {
-  "k": 50
+  "k": 45
 }, "If", {
   "id": "classBinding"
 }, "is", "not", {
@@ -343,13 +321,13 @@
 }, ",", {
   "id": "F"
 }, ")", ".", {
-  "k": 52
+  "k": 47
 }, {
   "out": null
 }, {
-  "k": 51
+  "k": 46
 }, "Return", {
   "id": "F"
 }, ".", {
-  "k": 53
+  "k": 48
 }]

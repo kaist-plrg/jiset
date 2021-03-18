@@ -135,53 +135,63 @@
 }, "»", ")", ".", {
   "k": 21
 }, "Let", {
-  "id": "steps"
+  "id": "stepsRejected"
 }, "be", "the", "algorithm", "steps", "defined", "in", {
   "link": "unhandled: sec-promise.any-reject-element-functions"
 }, ".", {
   "k": 22
 }, "Let", {
-  "id": "rejectElement"
-}, "be", "!", "CreateBuiltinFunction", "(", {
-  "id": "steps"
-}, ",", "«", "[", "[", "AlreadyCalled", "]", "]", ",", "[", "[", "Index", "]", "]", ",", "[", "[", "Errors", "]", "]", ",", "[", "[", "Capability", "]", "]", ",", "[", "[", "RemainingElements", "]", "]", "»", ")", ".", {
+  "id": "lengthRejected"
+}, "be", "the", "number", "of", "non", "-", "optional", "parameters", "of", "the", "function", "definition", "in", {
+  "link": "unhandled: sec-promise.any-reject-element-functions"
+}, ".", {
   "k": 23
+}, "Let", {
+  "id": "onRejected"
+}, "be", "!", "CreateBuiltinFunction", "(", {
+  "id": "stepsRejected"
+}, ",", {
+  "id": "lengthRejected"
+}, ",", {
+  "value": "\"\""
+}, ",", "«", "[", "[", "AlreadyCalled", "]", "]", ",", "[", "[", "Index", "]", "]", ",", "[", "[", "Errors", "]", "]", ",", "[", "[", "Capability", "]", "]", ",", "[", "[", "RemainingElements", "]", "]", "»", ")", ".", {
+  "k": 24
 }, "Set", {
-  "id": "rejectElement"
+  "id": "onRejected"
 }, ".", "[", "[", "AlreadyCalled", "]", "]", "to", {
   "value": "false"
 }, ".", {
-  "k": 24
+  "k": 25
 }, "Set", {
-  "id": "rejectElement"
+  "id": "onRejected"
 }, ".", "[", "[", "Index", "]", "]", "to", {
   "id": "index"
 }, ".", {
-  "k": 25
+  "k": 26
 }, "Set", {
-  "id": "rejectElement"
+  "id": "onRejected"
 }, ".", "[", "[", "Errors", "]", "]", "to", {
   "id": "errors"
 }, ".", {
-  "k": 26
+  "k": 27
 }, "Set", {
-  "id": "rejectElement"
+  "id": "onRejected"
 }, ".", "[", "[", "Capability", "]", "]", "to", {
   "id": "resultCapability"
 }, ".", {
-  "k": 27
+  "k": 28
 }, "Set", {
-  "id": "rejectElement"
+  "id": "onRejected"
 }, ".", "[", "[", "RemainingElements", "]", "]", "to", {
   "id": "remainingElementsCount"
 }, ".", {
-  "k": 28
+  "k": 29
 }, "Set", {
   "id": "remainingElementsCount"
 }, ".", "[", "[", "Value", "]", "]", "to", {
   "id": "remainingElementsCount"
 }, ".", "[", "[", "Value", "]", "]", "+", "1", ".", {
-  "k": 29
+  "k": 30
 }, "Perform", "?", "Invoke", "(", {
   "id": "nextPromise"
 }, ",", {
@@ -189,15 +199,15 @@
 }, ",", "«", {
   "id": "resultCapability"
 }, ".", "[", "[", "Resolve", "]", "]", ",", {
-  "id": "rejectElement"
+  "id": "onRejected"
 }, "»", ")", ".", {
-  "k": 30
+  "k": 31
 }, "Set", {
   "id": "index"
 }, "to", {
   "id": "index"
 }, "+", "1", ".", {
-  "k": 31
+  "k": 32
 }, {
   "out": null
 }, {

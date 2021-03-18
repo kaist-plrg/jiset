@@ -1,1 +1,1 @@
-          1. Return NormalCompletion(~empty~).
+        1. Return NormalCompletion(~empty~).

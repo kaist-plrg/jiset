@@ -1,2 +1,1 @@
-        1. Perform ? FunctionDeclarationInstantiation(_functionObject_, _argumentsList_).
-        1. Return the result of evaluating |ExpressionBody|.
+          1. Return ? EvaluateConciseBody of |ConciseBody| with arguments _functionObject_ and _argumentsList_.

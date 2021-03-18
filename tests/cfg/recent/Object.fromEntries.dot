@@ -3,7 +3,7 @@ digraph {
   node5 [shape=cds, label=<<font color="black">1:app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)</font>> color="black" fillcolor="white" style=filled]
   node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:return [? __x3__]</td></tr>
+      <tr><td align="left">6:return [? __x3__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
@@ -11,15 +11,16 @@ digraph {
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let obj = [! __x1__]</td></tr>
       <tr><td align="left">3:let stepsDefine = CreateDataPropertyOnObjectFunctions</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{lengthDefine} be the number of non - optional parameters of the function definition in CreateDataPropertyOnObjectFunctions .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9 [shape=cds, label=<<font color="black">5:app __x3__ = (AddEntriesFromIterable obj iterable adder)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=cds, label=<<font color="black">6:app __x3__ = (AddEntriesFromIterable obj iterable adder)</font>> color="black" fillcolor="white" style=filled]
   node2 [shape=cds, label=<<font color="black">app iterable = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
-  node7 [shape=cds, label=<<font color="black">4:app __x2__ = (CreateBuiltinFunction stepsDefine (new []))</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">5:app __x2__ = (CreateBuiltinFunction stepsDefine lengthDefine &quot;&quot; (new []))</font>> color="black" fillcolor="white" style=filled]
   node3 [shape=cds, label=<<font color="black">0:app __x0__ = (RequireObjectCoercible iterable)</font>> color="black" fillcolor="white" style=filled]
   node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let adder = [! __x2__]</td></tr>
+      <tr><td align="left">5:let adder = [! __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node4 [shape=none, margin=0, label=<<font color="black">

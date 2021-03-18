@@ -1,4 +1,3 @@
-            1. Assert: Type(_R_) is String.
             1. Let _r_ be the number of code units in _R_.
             1. Let _s_ be the number of code units in _S_.
             1. If _q_ + _r_ > _s_, return ~not-matched~.

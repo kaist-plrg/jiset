@@ -1,2 +1,2 @@
-          1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
-          1. Return the result of performing NamedEvaluation for _expr_ with argument _name_.
+        1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
+        1. Return the result of performing NamedEvaluation for _expr_ with argument _name_.

@@ -1,0 +1,15 @@
+{
+  if (= NewTarget undefined) throw TypeError else {}
+  let F = GLOBAL_context.Function
+  if (= F.ConstructorKind CONST_derived) {
+    app __x0__ = (F.GetPrototypeOf F)
+    let func = [! __x0__]
+    app __x1__ = (IsConstructor func)
+    if (= __x1__ false) throw TypeError else {}
+    app __x2__ = (Construct func args NewTarget)
+    return [? __x2__]
+  } else {
+    app __x3__ = (OrdinaryCreateFromConstructor NewTarget "%Object.prototype%")
+    return [? __x3__]
+  }
+}

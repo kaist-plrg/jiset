@@ -1,0 +1,49 @@
+["If", {
+  "id": "name"
+}, "is", "not", "present", ",", "set", {
+  "id": "name"
+}, "to", {
+  "value": "\"\""
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "scope"
+}, "be", "the", "LexicalEnvironment", "of", "the", "running", "execution", "context", ".", {
+  "k": 1
+}, "Let", {
+  "id": "sourceText"
+}, "be", "the", "source", "text", "matched", "by", {
+  "nt": "ArrowFunction"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "parameters"
+}, "be", "CoveredFormalsList", "of", {
+  "nt": "ArrowParameters"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "closure"
+}, "be", "OrdinaryFunctionCreate", "(", "%", "Function", ".", "prototype", "%", ",", {
+  "id": "sourceText"
+}, ",", {
+  "id": "parameters"
+}, ",", {
+  "nt": "ConciseBody"
+}, ",", {
+  "const": "lexical-this"
+}, ",", {
+  "id": "scope"
+}, ")", ".", {
+  "k": 4
+}, "Perform", "SetFunctionName", "(", {
+  "id": "closure"
+}, ",", {
+  "id": "name"
+}, ")", ".", {
+  "k": 5
+}, "Return", {
+  "id": "closure"
+}, ".", {
+  "k": 6
+}]

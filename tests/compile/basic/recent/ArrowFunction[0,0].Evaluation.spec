@@ -1,1 +1,1 @@
-        1. Return the result of performing NamedEvaluation for this |ArrowFunction| with argument *""*.
+        1. Return InstantiateArrowFunctionExpression of |ArrowFunction|.

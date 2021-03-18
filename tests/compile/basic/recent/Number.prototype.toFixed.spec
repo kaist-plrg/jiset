@@ -12,7 +12,7 @@
           1. If _x_ ≥ 10<sup>21</sup>, then
             1. Let _m_ be ! ToString(𝔽(_x_)).
           1. Else,
-            1. Let _n_ be an integer for which _n_ ÷ 10<sup>_f_</sup> - _x_ is as close to zero as possible. If there are two such _n_, pick the larger _n_.
+            1. Let _n_ be an integer for which _n_ / 10<sup>_f_</sup> - _x_ is as close to zero as possible. If there are two such _n_, pick the larger _n_.
             1. If _n_ = 0, let _m_ be the String *"0"*. Otherwise, let _m_ be the String value consisting of the digits of the decimal representation of _n_ (in order, with no leading zeroes).
             1. If _f_ ≠ 0, then
               1. Let _k_ be the length of _m_.

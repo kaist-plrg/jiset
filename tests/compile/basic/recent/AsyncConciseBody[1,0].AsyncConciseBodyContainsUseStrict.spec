@@ -1,0 +1,1 @@
+        1. Return FunctionBodyContainsUseStrict of |AsyncFunctionBody|.

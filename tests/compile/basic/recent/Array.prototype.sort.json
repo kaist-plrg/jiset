@@ -1,37 +1,155 @@
-["Perform", "an", "implementation", "-", "defined", "sequence", "of", "calls", "to", "the", "Get", ",", "<", "emu", "-", "xref", "href", "=", "\"", "#", "sec", "-", "set", "-", "o", "-", "p", "-", "v", "-", "throw", "\"", ">", "Set", "<", "/", "emu", "-", "xref", ">", ",", "DeletePropertyOrThrow", ",", "and", "HasOwnProperty", "abstract", "operation", "with", {
+["If", {
+  "id": "comparefn"
+}, "is", "not", {
+  "value": "undefined"
+}, "and", "IsCallable", "(", {
+  "id": "comparefn"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
   "id": "obj"
-}, "as", "the", "first", "argument", ",", "and", "to", "SortCompare", "(", "described", "below", ")", ",", "such", "that", ":", {
-  "in": null
-}, "The", "property", "key", "argument", "for", "each", "call", "to", "Get", ",", "<", "emu", "-", "xref", "href", "=", "\"", "#", "sec", "-", "set", "-", "o", "-", "p", "-", "v", "-", "throw", "\"", ">", "Set", "<", "/", "emu", "-", "xref", ">", ",", "HasOwnProperty", ",", "or", "DeletePropertyOrThrow", "is", "the", "string", "representation", "of", "a", "non", "-", "negative", "integer", "less", "than", {
-  "id": "len"
-}, ".", {
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
   "k": 1
-}, "The", {
-  "code": "Throw"
-}, "argument", "for", "every", "call", "to", "<", "emu", "-", "xref", "href", "=", "\"", "#", "sec", "-", "set", "-", "o", "-", "p", "-", "v", "-", "throw", "\"", ">", "Set", "<", "/", "emu", "-", "xref", ">", "is", {
-  "value": "true"
-}, ".", {
-  "k": 2
-}, "The", "arguments", "for", "calls", "to", "SortCompare", "are", "values", "returned", "by", "a", "previous", "call", "to", "the", "Get", "abstract", "operation", ",", "unless", "the", "properties", "accessed", "by", "those", "previous", "calls", "did", "not", "exist", "according", "to", "HasOwnProperty", ".", "If", "both", "prospective", "arguments", "to", "SortCompare", "correspond", "to", "non", "-", "existent", "properties", ",", "use", {
-  "value": "+0"
-}, "instead", "of", "calling", "SortCompare", ".", "If", "only", "the", "first", "prospective", "argument", "is", "non", "-", "existent", ",", "use", {
-  "value": "1"
-}, ".", "If", "only", "the", "second", "prospective", "argument", "is", "non", "-", "existent", ",", "use", {
-  "value": "-1"
-}, ".", {
-  "k": 3
-}, "If", {
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
   "id": "obj"
-}, "is", "not", "sparse", "then", "DeletePropertyOrThrow", "must", "not", "be", "called", ".", {
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "items"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 3
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
   "k": 4
-}, "If", "an", "abrupt", "completion", "is", "returned", "from", "any", "of", "these", "operations", ",", "it", "is", "immediately", "returned", "as", "the", "value", "of", "this", "function", ".", {
-  "k": 5
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, ",", {
+  "in": null
+}, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "kPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "obj"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "kPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "kValue"
+}, "be", "?", "Get", "(", {
+  "id": "obj"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 9
+}, "Append", {
+  "id": "kValue"
+}, "to", {
+  "id": "items"
+}, ".", {
+  "k": 10
 }, {
   "out": null
 }, {
-  "k": 0
+  "k": 8
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "Let", {
+  "id": "itemCount"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "items"
+}, ".", {
+  "k": 12
+}, "Sort", {
+  "id": "items"
+}, "using", "an", "implementation", "-", "defined", "sequence", "of", "calls", "to", "SortCompare", ".", "If", "any", "such", "call", "returns", "an", "abrupt", "completion", ",", "stop", "before", "performing", "any", "further", "calls", "to", "SortCompare", "or", "steps", "in", "this", "algorithm", "and", "return", "that", "completion", ".", {
+  "k": 13
+}, "Let", {
+  "id": "j"
+}, "be", "0", ".", {
+  "k": 14
+}, "Repeat", ",", "while", {
+  "id": "j"
+}, "<", {
+  "id": "itemCount"
+}, ",", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
+  "id": "obj"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "j"
+}, ")", ")", ",", {
+  "id": "items"
+}, "[", {
+  "id": "j"
+}, "]", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 16
+}, "Set", {
+  "id": "j"
+}, "to", {
+  "id": "j"
+}, "+", "1", ".", {
+  "k": 17
+}, {
+  "out": null
+}, {
+  "k": 15
+}, "Repeat", ",", "while", {
+  "id": "j"
+}, "<", {
+  "id": "len"
+}, ",", {
+  "in": null
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "j"
+}, ")", ")", ")", ".", {
+  "k": 19
+}, "Set", {
+  "id": "j"
+}, "to", {
+  "id": "j"
+}, "+", "1", ".", {
+  "k": 20
+}, {
+  "out": null
+}, {
+  "k": 18
 }, "Return", {
   "id": "obj"
 }, ".", {
-  "k": 6
+  "k": 21
 }]

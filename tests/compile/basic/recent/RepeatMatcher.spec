@@ -6,7 +6,7 @@
               1. If _max_ is +∞, let _max2_ be +∞; otherwise let _max2_ be _max_ - 1.
               1. Return ! RepeatMatcher(_m_, _min2_, _max2_, _greedy_, _y_, _c_, _parenIndex_, _parenCount_).
             1. Let _cap_ be a copy of _x_'s _captures_ List.
-            1. [id="step-repeatmatcher-clear-captures"] For each integer _k_ that satisfies _parenIndex_ < _k_ and _k_ ≤ _parenIndex_ + _parenCount_, set _cap_[_k_] to *undefined*.
+            1. [id="step-repeatmatcher-clear-captures"] For each integer _k_ such that _parenIndex_ < _k_ and _k_ ≤ _parenIndex_ + _parenCount_, set _cap_[_k_] to *undefined*.
             1. Let _e_ be _x_'s _endIndex_.
             1. Let _xr_ be the State (_e_, _cap_).
             1. If _min_ ≠ 0, return _m_(_xr_, _d_).

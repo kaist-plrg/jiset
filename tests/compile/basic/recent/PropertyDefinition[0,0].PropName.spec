@@ -1,1 +1,1 @@
-          1. Return StringValue of |IdentifierReference|.
+        1. Return StringValue of |IdentifierReference|.

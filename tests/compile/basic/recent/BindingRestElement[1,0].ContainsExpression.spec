@@ -1,1 +1,1 @@
-          1. Return ContainsExpression of |BindingPattern|.
+        1. Return ContainsExpression of |BindingPattern|.

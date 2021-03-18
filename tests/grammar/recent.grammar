@@ -657,8 +657,7 @@ AsyncFunctionDeclaration[Yield, Await, Default]:
   [+Default] `async` [no LineTerminator here] `function` `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
 
 AsyncFunctionExpression:
-  `async` [no LineTerminator here] `function` `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
-  `async` [no LineTerminator here] `function` BindingIdentifier[~Yield, +Await] `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
+  `async` [no LineTerminator here] `function` BindingIdentifier[~Yield, +Await]? `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
 
 AsyncGeneratorBody:
   FunctionBody[+Yield, +Await]
@@ -973,6 +972,9 @@ Disjunction[U, N]:
   Alternative[?U, ?N]
   Alternative[?U, ?N] `|` Disjunction[?U, ?N]
 
+DoWhileStatement[Yield, Await, Return]:
+  `do` Statement[?Yield, ?Await, ?Return] `while` `(` Expression[+In, ?Yield, ?Await] `)` `;`
+
 ElementList[Yield, Await]:
   Elision? AssignmentExpression[+In, ?Yield, ?Await]
   Elision? SpreadElement[?Yield, ?Await]
@@ -1038,6 +1040,11 @@ ForBinding[Yield, Await]:
 
 ForDeclaration[Yield, Await]:
   LetOrConst ForBinding[?Yield, ?Await]
+
+ForStatement[Yield, Await, Return]:
+  `for` `(` [lookahead <! {`let` `[`}] Expression[~In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return]
+  `for` `(` `var` VariableDeclarationList[~In, ?Yield, ?Await] `;` Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return]
+  `for` `(` LexicalDeclaration[~In, ?Yield, ?Await] Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return]
 
 FormalParameter[Yield, Await]:
   BindingElement[?Yield, ?Await]
@@ -1159,20 +1166,10 @@ Initializer[In, Yield, Await]:
   `=` AssignmentExpression[?In, ?Yield, ?Await]
 
 IterationStatement[Yield, Await, Return]:
-  `do` Statement[?Yield, ?Await, ?Return] `while` `(` Expression[+In, ?Yield, ?Await] `)` `;`
-  `while` `(` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` [lookahead <! {`let` `[`}] Expression[~In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` `var` VariableDeclarationList[~In, ?Yield, ?Await] `;` Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` LexicalDeclaration[~In, ?Yield, ?Await] Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` [lookahead <! {`let` `[`}] LeftHandSideExpression[?Yield, ?Await] `in` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` `var` ForBinding[?Yield, ?Await] `in` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` ForDeclaration[?Yield, ?Await] `in` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` [lookahead <! {`let`}] LeftHandSideExpression[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` `var` ForBinding[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` ForDeclaration[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  [+Await] `for` `await` `(` [lookahead <! {`let`}] LeftHandSideExpression[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  [+Await] `for` `await` `(` `var` ForBinding[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  [+Await] `for` `await` `(` ForDeclaration[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
+  DoWhileStatement[?Yield, ?Await, ?Return]
+  WhileStatement[?Yield, ?Await, ?Return]
+  ForStatement[?Yield, ?Await, ?Return]
+  ForInOfStatement[?Yield, ?Await, ?Return]
 
 LabelIdentifier[Yield, Await]:
   Identifier
@@ -1615,6 +1612,9 @@ VariableDeclarationList[In, Yield, Await]:
 
 VariableStatement[Yield, Await]:
   `var` VariableDeclarationList[+In, ?Yield, ?Await] `;`
+
+WhileStatement[Yield, Await, Return]:
+  `while` `(` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
 
 WithStatement[Yield, Await, Return]:
   `with` `(` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]

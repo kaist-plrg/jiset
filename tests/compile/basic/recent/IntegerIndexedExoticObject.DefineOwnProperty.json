@@ -34,14 +34,6 @@
   "value": "false"
 }, ".", {
   "k": 5
-}, "If", "IsAccessorDescriptor", "(", {
-  "id": "Desc"
-}, ")", "is", {
-  "value": "true"
-}, ",", "return", {
-  "value": "false"
-}, ".", {
-  "k": 6
 }, "If", {
   "id": "Desc"
 }, "has", "a", "[", "[", "Configurable", "]", "]", "field", "and", "if", {
@@ -51,13 +43,21 @@
 }, ",", "return", {
   "value": "false"
 }, ".", {
-  "k": 7
+  "k": 6
 }, "If", {
   "id": "Desc"
 }, "has", "an", "[", "[", "Enumerable", "]", "]", "field", "and", "if", {
   "id": "Desc"
 }, ".", "[", "[", "Enumerable", "]", "]", "is", {
   "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 7
+}, "If", "!", "IsAccessorDescriptor", "(", {
+  "id": "Desc"
+}, ")", "is", {
+  "value": "true"
 }, ",", "return", {
   "value": "false"
 }, ".", {

@@ -11,7 +11,7 @@
             1. Let _k_ be _len_ + _n_.
             1. If _k_ < 0, set _k_ to 0.
           1. Repeat, while _k_ < _len_,
-            1. Let _elementK_ be the result of ? Get(_O_, ! ToString(𝔽(_k_))).
+            1. Let _elementK_ be ? Get(_O_, ! ToString(𝔽(_k_))).
             1. If SameValueZero(_searchElement_, _elementK_) is *true*, return *true*.
             1. Set _k_ to _k_ + 1.
           1. Return *false*.

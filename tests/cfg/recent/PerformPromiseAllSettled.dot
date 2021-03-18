@@ -55,15 +55,16 @@ digraph {
       <tr><td align="left">15:return resultCapability.Promise</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node29 [shape=cds, label=<<font color="black">22:app __x9__ = (CreateBuiltinFunction steps (new [&quot;AlreadyCalled&quot;, &quot;Index&quot;, &quot;Values&quot;, &quot;Capability&quot;, &quot;RemainingElements&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node29 [shape=cds, label=<<font color="black">23:app __x9__ = (CreateBuiltinFunction stepsFulfilled lengthFulfilled &quot;&quot; (new [&quot;AlreadyCalled&quot;, &quot;Index&quot;, &quot;Values&quot;, &quot;Capability&quot;, &quot;RemainingElements&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node28 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">20:let nextPromise = [? __x8__]</td></tr>
-      <tr><td align="left">21:??? &quot;Let id:{steps} be the algorithm steps defined in link:{unhandled: sec-promise.allsettled-resolve-element-functions} .&quot;</td></tr>
+      <tr><td align="left">21:??? &quot;Let id:{stepsFulfilled} be the algorithm steps defined in link:{unhandled: sec-promise.allsettled-resolve-element-functions} .&quot;</td></tr>
+      <tr><td align="left">22:??? &quot;Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in link:{unhandled: sec-promise.allsettled-resolve-element-functions} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node21 [shape=cds, label=<<font color="black">16:app __x6__ = (IteratorValue next)</font>> color="black" fillcolor="white" style=filled]
-  node33 [shape=cds, label=<<font color="black">37:app __x11__ = (Invoke nextPromise &quot;then&quot; (new [resolveElement, rejectElement]))</font>> color="black" fillcolor="white" style=filled]
+  node33 [shape=cds, label=<<font color="black">39:app __x11__ = (Invoke nextPromise &quot;then&quot; (new [onFulfilled, onRejected]))</font>> color="black" fillcolor="white" style=filled]
   node17 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">13:let valuesArray = [! __x4__]</td></tr>
@@ -71,19 +72,19 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node32 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">30:let rejectElement = [! __x10__]</td></tr>
-      <tr><td align="left">31:rejectElement.AlreadyCalled = alreadyCalled</td></tr>
-      <tr><td align="left">32:rejectElement.Index = index</td></tr>
-      <tr><td align="left">33:rejectElement.Values = values</td></tr>
-      <tr><td align="left">34:rejectElement.Capability = resultCapability</td></tr>
-      <tr><td align="left">35:rejectElement.RemainingElements = remainingElementsCount</td></tr>
-      <tr><td align="left">36:remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)</td></tr>
+      <tr><td align="left">32:let onRejected = [! __x10__]</td></tr>
+      <tr><td align="left">33:onRejected.AlreadyCalled = alreadyCalled</td></tr>
+      <tr><td align="left">34:onRejected.Index = index</td></tr>
+      <tr><td align="left">35:onRejected.Values = values</td></tr>
+      <tr><td align="left">36:onRejected.Capability = resultCapability</td></tr>
+      <tr><td align="left">37:onRejected.RemainingElements = remainingElementsCount</td></tr>
+      <tr><td align="left">38:remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node34 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">37:[? __x11__]</td></tr>
-      <tr><td align="left">38:index = (+ index 1i)</td></tr>
+      <tr><td align="left">39:[? __x11__]</td></tr>
+      <tr><td align="left">40:index = (+ index 1i)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node22 [shape=none, margin=0, label=<<font color="black">
@@ -93,7 +94,7 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node27 [shape=cds, label=<<font color="black">20:app __x8__ = (Call promiseResolve constructor (new [nextValue]))</font>> color="black" fillcolor="white" style=filled]
   node16 [shape=cds, label=<<font color="black">13:app __x4__ = (CreateArrayFromList values)</font>> color="black" fillcolor="white" style=filled]
-  node31 [shape=cds, label=<<font color="black">30:app __x10__ = (CreateBuiltinFunction rejectSteps (new [&quot;AlreadyCalled&quot;, &quot;Index&quot;, &quot;Values&quot;, &quot;Capability&quot;, &quot;RemainingElements&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node31 [shape=cds, label=<<font color="black">32:app __x10__ = (CreateBuiltinFunction stepsRejected lengthRejected &quot;&quot; (new [&quot;AlreadyCalled&quot;, &quot;Index&quot;, &quot;Values&quot;, &quot;Capability&quot;, &quot;RemainingElements&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node26 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">18:[? nextValue]</td></tr>
@@ -103,14 +104,15 @@ digraph {
   node23 [shape=cds, label=<<font color="black">17:app __x7__ = (IsAbruptCompletion nextValue)</font>> color="black" fillcolor="white" style=filled]
   node30 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">22:let resolveElement = [! __x9__]</td></tr>
-      <tr><td align="left">23:let alreadyCalled = (new Record(&quot;Value&quot; -&gt; false))</td></tr>
-      <tr><td align="left">24:resolveElement.AlreadyCalled = alreadyCalled</td></tr>
-      <tr><td align="left">25:resolveElement.Index = index</td></tr>
-      <tr><td align="left">26:resolveElement.Values = values</td></tr>
-      <tr><td align="left">27:resolveElement.Capability = resultCapability</td></tr>
-      <tr><td align="left">28:resolveElement.RemainingElements = remainingElementsCount</td></tr>
-      <tr><td align="left">29:??? &quot;Let id:{rejectSteps} be the algorithm steps defined in link:{unhandled: sec-promise.allsettled-reject-element-functions} .&quot;</td></tr>
+      <tr><td align="left">23:let onFulfilled = [! __x9__]</td></tr>
+      <tr><td align="left">24:let alreadyCalled = (new Record(&quot;Value&quot; -&gt; false))</td></tr>
+      <tr><td align="left">25:onFulfilled.AlreadyCalled = alreadyCalled</td></tr>
+      <tr><td align="left">26:onFulfilled.Index = index</td></tr>
+      <tr><td align="left">27:onFulfilled.Values = values</td></tr>
+      <tr><td align="left">28:onFulfilled.Capability = resultCapability</td></tr>
+      <tr><td align="left">29:onFulfilled.RemainingElements = remainingElementsCount</td></tr>
+      <tr><td align="left">30:??? &quot;Let id:{stepsRejected} be the algorithm steps defined in link:{unhandled: sec-promise.allsettled-reject-element-functions} .&quot;</td></tr>
+      <tr><td align="left">31:??? &quot;Let id:{lengthRejected} be the number of non - optional parameters of the function definition in link:{unhandled: sec-promise.allsettled-reject-element-functions} .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node19 [shape=none, margin=0, label=<<font color="black">

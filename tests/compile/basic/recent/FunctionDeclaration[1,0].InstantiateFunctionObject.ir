@@ -1,10 +1,4 @@
 {
-  let sourceText = (get-syntax FunctionDeclaration)
-  app __x0__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype sourceText FormalParameters FunctionBody CONST_nonDASHlexicalDASHthis scope)
-  let F = __x0__
-  app __x1__ = (SetFunctionName F "default")
-  __x1__
-  app __x2__ = (MakeConstructor F)
-  __x2__
-  return F
+  access __x0__ = (FunctionDeclaration "InstantiateOrdinaryFunctionObject" scope)
+  return [? __x0__]
 }

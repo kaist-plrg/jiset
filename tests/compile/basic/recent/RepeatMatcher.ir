@@ -5,25 +5,23 @@
   } else {}
   ??? "Let id:{d} be a new Continuation with parameters ( id:{y} ) that captures id:{m} , id:{min} , id:{max} , id:{greedy} , id:{x} , id:{c} , id:{parenIndex} , and id:{parenCount} and performs the following steps when called : in:{} out:{}"
   let cap = (copy-obj x.captures)
-  let k = (+ parenIndex 1i)
-  let __x1__ = (+ (+ parenIndex parenCount) 1i)
-  while (< k __x1__) cap[k] = undefined
+  ??? "For each integer id:{k} such that id:{parenIndex} < id:{k} and id:{k} ≤ id:{parenIndex} + id:{parenCount} , set id:{cap} [ id:{k} ] to value:{undefined} ."
   let e = x.endIndex
   let xr = (new [e, cap])
   if (! (== min 0i)) {
-    app __x2__ = (m xr d)
-    return __x2__
+    app __x1__ = (m xr d)
+    return __x1__
   } else {}
   if (= greedy false) {
-    app __x3__ = (c x)
-    let z = __x3__
+    app __x2__ = (c x)
+    let z = __x2__
     if (! (= z CONST_failure)) return z else {}
-    app __x4__ = (m xr d)
-    return __x4__
+    app __x3__ = (m xr d)
+    return __x3__
   } else {}
-  app __x5__ = (m xr d)
-  let z = __x5__
+  app __x4__ = (m xr d)
+  let z = __x4__
   if (! (= z CONST_failure)) return z else {}
-  app __x6__ = (c x)
-  return __x6__
+  app __x5__ = (c x)
+  return __x5__
 }

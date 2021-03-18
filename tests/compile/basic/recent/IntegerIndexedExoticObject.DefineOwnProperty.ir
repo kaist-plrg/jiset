@@ -7,10 +7,10 @@
     if (! (= numericIndex undefined)) {
       app __x2__ = (IsValidIntegerIndex O numericIndex)
       if (= [! __x2__] false) return false else {}
-      app __x3__ = (IsAccessorDescriptor Desc)
-      if (= __x3__ true) return false else {}
       if (&& (! (= Desc.Configurable absent)) (= Desc.Configurable false)) return false else {}
       if (&& (! (= Desc.Enumerable absent)) (= Desc.Enumerable false)) return false else {}
+      app __x3__ = (IsAccessorDescriptor Desc)
+      if (= [! __x3__] true) return false else {}
       if (&& (! (= Desc.Writable absent)) (= Desc.Writable false)) return false else {}
       if (! (= Desc.Value absent)) {
         app __x4__ = (IntegerIndexedElementSet O numericIndex Desc.Value)

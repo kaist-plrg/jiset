@@ -1,10 +1,12 @@
           1. Let _asyncContext_ be the running execution context.
           1. Let _promise_ be ? PromiseResolve(%Promise%, _value_).
           1. Let _stepsFulfilled_ be the algorithm steps defined in <emu-xref href="#await-fulfilled" title></emu-xref>.
-          1. Let _onFulfilled_ be ! CreateBuiltinFunction(_stepsFulfilled_, « [[AsyncContext]] »).
+          1. Let _lengthFulfilled_ be the number of non-optional parameters of the function definition in <emu-xref href="#await-fulfilled" title></emu-xref>.
+          1. Let _onFulfilled_ be ! CreateBuiltinFunction(_stepsFulfilled_, _lengthFulfilled_, *""*, « [[AsyncContext]] »).
           1. Set _onFulfilled_.[[AsyncContext]] to _asyncContext_.
           1. Let _stepsRejected_ be the algorithm steps defined in <emu-xref href="#await-rejected" title></emu-xref>.
-          1. Let _onRejected_ be ! CreateBuiltinFunction(_stepsRejected_, « [[AsyncContext]] »).
+          1. Let _lengthRejected_ be the number of non-optional parameters of the function definition in <emu-xref href="#await-rejected" title></emu-xref>.
+          1. Let _onRejected_ be ! CreateBuiltinFunction(_stepsRejected_, _lengthRejected_, *""*, « [[AsyncContext]] »).
           1. Set _onRejected_.[[AsyncContext]] to _asyncContext_.
           1. Perform ! PerformPromiseThen(_promise_, _onFulfilled_, _onRejected_).
           1. Remove _asyncContext_ from the execution context stack and restore the execution context that is at the top of the execution context stack as the running execution context.

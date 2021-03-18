@@ -19,7 +19,7 @@
               1. Assert: _lhsKind_ is ~lexicalBinding~.
               1. Assert: _lhs_ is a |ForDeclaration|.
               1. Let _iterationEnv_ be NewDeclarativeEnvironment(_oldEnv_).
-              1. Perform BindingInstantiation for _lhs_ passing _iterationEnv_ as the argument.
+              1. Perform ForDeclarationBindingInstantiation for _lhs_ passing _iterationEnv_ as the argument.
               1. Set the running execution context's LexicalEnvironment to _iterationEnv_.
               1. If _destructuring_ is *false*, then
                 1. Assert: _lhs_ binds a single name.
@@ -41,7 +41,7 @@
               1. Else,
                 1. Assert: _lhsKind_ is ~lexicalBinding~.
                 1. Assert: _lhs_ is a |ForDeclaration|.
-                1. Let _status_ be BindingInitialization of _lhs_ with arguments _nextValue_ and _iterationEnv_.
+                1. Let _status_ be ForDeclarationBindingInitialization of _lhs_ with arguments _nextValue_ and _iterationEnv_.
             1. If _status_ is an abrupt completion, then
               1. Set the running execution context's LexicalEnvironment to _oldEnv_.
               1. If _iteratorKind_ is ~async~, return ? AsyncIteratorClose(_iteratorRecord_, _status_).

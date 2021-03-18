@@ -1,0 +1,241 @@
+["If", {
+  "id": "exponent"
+}, "is", {
+  "value": "NaN"
+}, ",", "return", {
+  "value": "NaN"
+}, ".", {
+  "k": 0
+}, "If", {
+  "id": "exponent"
+}, "is", {
+  "value": "+0"
+}, "or", {
+  "id": "exponent"
+}, "is", {
+  "value": "-0"
+}, ",", "return", {
+  "value": "1"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "base"
+}, "is", {
+  "value": "NaN"
+}, ",", "return", {
+  "value": "NaN"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "base"
+}, "is", {
+  "value": "+∞"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "exponent"
+}, ">", {
+  "value": "+0"
+}, ",", "return", {
+  "value": "+∞"
+}, ".", "Otherwise", ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 4
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "If", {
+  "id": "base"
+}, "is", {
+  "value": "-∞"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "exponent"
+}, ">", {
+  "value": "+0"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "exponent"
+}, "is", "an", "odd", "integral", "Number", ",", "return", {
+  "value": "-∞"
+}, ".", "Otherwise", ",", "return", {
+  "value": "+∞"
+}, ".", {
+  "k": 7
+}, {
+  "out": null
+}, {
+  "k": 6
+}, "Else", ",", {
+  "in": null
+}, "If", {
+  "id": "exponent"
+}, "is", "an", "odd", "integral", "Number", ",", "return", {
+  "value": "-0"
+}, ".", "Otherwise", ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "If", {
+  "id": "base"
+}, "is", {
+  "value": "+0"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "exponent"
+}, ">", {
+  "value": "+0"
+}, ",", "return", {
+  "value": "+0"
+}, ".", "Otherwise", ",", "return", {
+  "value": "+∞"
+}, ".", {
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 10
+}, "If", {
+  "id": "base"
+}, "is", {
+  "value": "-0"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "exponent"
+}, ">", {
+  "value": "+0"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "exponent"
+}, "is", "an", "odd", "integral", "Number", ",", "return", {
+  "value": "-0"
+}, ".", "Otherwise", ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 13
+}, "Else", ",", {
+  "in": null
+}, "If", {
+  "id": "exponent"
+}, "is", "an", "odd", "integral", "Number", ",", "return", {
+  "value": "-∞"
+}, ".", "Otherwise", ",", "return", {
+  "value": "+∞"
+}, ".", {
+  "k": 16
+}, {
+  "out": null
+}, {
+  "k": 15
+}, {
+  "out": null
+}, {
+  "k": 12
+}, "Assert", ":", {
+  "id": "base"
+}, "is", "finite", "and", "is", "neither", {
+  "value": "+0"
+}, "nor", {
+  "value": "-0"
+}, ".", {
+  "k": 17
+}, "If", {
+  "id": "exponent"
+}, "is", {
+  "value": "+∞"
+}, ",", "then", {
+  "in": null
+}, "If", "abs", "(", "ℝ", "(", {
+  "id": "base"
+}, ")", ")", ">", "1", ",", "return", {
+  "value": "+∞"
+}, ".", {
+  "k": 19
+}, "If", "abs", "(", "ℝ", "(", {
+  "id": "base"
+}, ")", ")", "is", "1", ",", "return", {
+  "value": "NaN"
+}, ".", {
+  "k": 20
+}, "If", "abs", "(", "ℝ", "(", {
+  "id": "base"
+}, ")", ")", "<", "1", ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 21
+}, {
+  "out": null
+}, {
+  "k": 18
+}, "If", {
+  "id": "exponent"
+}, "is", {
+  "value": "-∞"
+}, ",", "then", {
+  "in": null
+}, "If", "abs", "(", "ℝ", "(", {
+  "id": "base"
+}, ")", ")", ">", "1", ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 23
+}, "If", "abs", "(", "ℝ", "(", {
+  "id": "base"
+}, ")", ")", "is", "1", ",", "return", {
+  "value": "NaN"
+}, ".", {
+  "k": 24
+}, "If", "abs", "(", "ℝ", "(", {
+  "id": "base"
+}, ")", ")", "<", "1", ",", "return", {
+  "value": "+∞"
+}, ".", {
+  "k": 25
+}, {
+  "out": null
+}, {
+  "k": 22
+}, "Assert", ":", {
+  "id": "exponent"
+}, "is", "finite", "and", "is", "neither", {
+  "value": "+0"
+}, "nor", {
+  "value": "-0"
+}, ".", {
+  "k": 26
+}, "If", {
+  "id": "base"
+}, "<", {
+  "value": "+0"
+}, "and", {
+  "id": "exponent"
+}, "is", "not", "an", "integral", "Number", ",", "return", {
+  "value": "NaN"
+}, ".", {
+  "k": 27
+}, "Return", "an", "implementation", "-", "approximated", "value", "representing", "the", "result", "of", "raising", "ℝ", "(", {
+  "id": "base"
+}, ")", "to", "the", "ℝ", "(", {
+  "id": "exponent"
+}, ")", "power", ".", {
+  "k": 28
+}]

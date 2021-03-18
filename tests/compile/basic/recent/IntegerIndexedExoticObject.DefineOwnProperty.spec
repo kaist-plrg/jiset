@@ -4,9 +4,9 @@
             1. Let _numericIndex_ be ! CanonicalNumericIndexString(_P_).
             1. If _numericIndex_ is not *undefined*, then
               1. If ! IsValidIntegerIndex(_O_, _numericIndex_) is *false*, return *false*.
-              1. If IsAccessorDescriptor(_Desc_) is *true*, return *false*.
               1. If _Desc_ has a [[Configurable]] field and if _Desc_.[[Configurable]] is *false*, return *false*.
               1. If _Desc_ has an [[Enumerable]] field and if _Desc_.[[Enumerable]] is *false*, return *false*.
+              1. If ! IsAccessorDescriptor(_Desc_) is *true*, return *false*.
               1. If _Desc_ has a [[Writable]] field and if _Desc_.[[Writable]] is *false*, return *false*.
               1. If _Desc_ has a [[Value]] field, perform ? IntegerIndexedElementSet(_O_, _numericIndex_, _Desc_.[[Value]]).
               1. Return *true*.

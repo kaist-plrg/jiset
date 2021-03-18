@@ -2,18 +2,10 @@
   "id": "F"
 }, "is", "an", "ECMAScript", "function", "object", ".", {
   "k": 0
-}, "If", {
-  "id": "F"
-}, ".", "[", "[", "IsClassConstructor", "]", "]", "is", {
-  "value": "true"
-}, ",", "throw", "a", {
-  "value": "TypeError"
-}, "exception", ".", {
-  "k": 1
 }, "Let", {
   "id": "callerContext"
 }, "be", "the", "running", "execution", "context", ".", {
-  "k": 2
+  "k": 1
 }, "Let", {
   "id": "calleeContext"
 }, "be", "PrepareForOrdinaryCall", "(", {
@@ -21,10 +13,44 @@
 }, ",", {
   "value": "undefined"
 }, ")", ".", {
-  "k": 3
+  "k": 2
 }, "Assert", ":", {
   "id": "calleeContext"
 }, "is", "now", "the", "running", "execution", "context", ".", {
+  "k": 3
+}, "If", {
+  "id": "F"
+}, ".", "[", "[", "IsClassConstructor", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "error"
+}, "be", "a", "newly", "created", {
+  "value": "TypeError"
+}, "object", ".", {
+  "k": 5
+}, "NOTE", ":", {
+  "id": "error"
+}, "is", "created", "in", {
+  "id": "calleeContext"
+}, "with", {
+  "id": "F"
+}, "'", "s", "associated", "Realm", "Record", ".", {
+  "k": 6
+}, "Remove", {
+  "id": "calleeContext"
+}, "from", "the", "execution", "context", "stack", "and", "restore", {
+  "id": "callerContext"
+}, "as", "the", "running", "execution", "context", ".", {
+  "k": 7
+}, "Return", "ThrowCompletion", "(", {
+  "id": "error"
+}, ")", ".", {
+  "k": 8
+}, {
+  "out": null
+}, {
   "k": 4
 }, "Perform", "OrdinaryCallBindThis", "(", {
   "id": "F"
@@ -33,7 +59,7 @@
 }, ",", {
   "id": "thisArgument"
 }, ")", ".", {
-  "k": 5
+  "k": 9
 }, "Let", {
   "id": "result"
 }, "be", "OrdinaryCallEvaluateBody", "(", {
@@ -41,13 +67,13 @@
 }, ",", {
   "id": "argumentsList"
 }, ")", ".", {
-  "k": 6
+  "k": 10
 }, "Remove", {
   "id": "calleeContext"
 }, "from", "the", "execution", "context", "stack", "and", "restore", {
   "id": "callerContext"
 }, "as", "the", "running", "execution", "context", ".", {
-  "k": 7
+  "k": 11
 }, "If", {
   "id": "result"
 }, ".", "[", "[", "Type", "]", "]", "is", {
@@ -55,13 +81,13 @@
 }, ",", "return", "NormalCompletion", "(", {
   "id": "result"
 }, ".", "[", "[", "Value", "]", "]", ")", ".", {
-  "k": 8
+  "k": 12
 }, "ReturnIfAbrupt", "(", {
   "id": "result"
 }, ")", ".", {
-  "k": 9
+  "k": 13
 }, "Return", "NormalCompletion", "(", {
   "value": "undefined"
 }, ")", ".", {
-  "k": 10
+  "k": 14
 }]

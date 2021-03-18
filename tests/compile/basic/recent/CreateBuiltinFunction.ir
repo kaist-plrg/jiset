@@ -1,5 +1,5 @@
 {
-  if (= realm absent) realm = REALM else {}
+  if (|| (= realm absent) (= realm CONST_empty)) realm = REALM else {}
   assert (is-instance-of realm RealmRecord)
   if (= prototype absent) prototype = realm.Intrinsics.INTRINSIC_Function_prototype else {}
   ??? "Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} , and an [ [ InitialName ] ] internal slot ."
@@ -7,5 +7,14 @@
   func.Prototype = prototype
   func.Extensible = true
   func.InitialName = null
+  app __x0__ = (SetFunctionLength func length)
+  [! __x0__]
+  if (= prefix absent) {
+    app __x1__ = (SetFunctionName func name)
+    [! __x1__]
+  } else {
+    app __x2__ = (SetFunctionName func name prefix)
+    [! __x2__]
+  }
   return func
 }

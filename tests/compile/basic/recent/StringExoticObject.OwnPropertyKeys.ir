@@ -3,7 +3,12 @@
   let str = O.StringData
   assert (= (typeof str) String)
   let len = str.length
-  ??? "For each non - negative integer id:{i} starting with 0 such that id:{i} < id:{len} , in ascending order , do in:{} out:{}"
+  let i = (+ 0i 0i)
+  let __x0__ = (+ len 0i)
+  while (< i __x0__) {
+    app __x1__ = (ToString i)
+    append [! __x1__] -> keys
+  }
   ??? "For each own property key id:{P} of id:{O} such that id:{P} is an array index and ! ToIntegerOrInfinity ( id:{P} ) ≥ id:{len} , in ascending numeric index order , do in:{} out:{}"
   ??? "For each own property key id:{P} of id:{O} such that Type ( id:{P} ) is String and id:{P} is not an array index , in ascending chronological order of property creation , do in:{} out:{}"
   ??? "For each own property key id:{P} of id:{O} such that Type ( id:{P} ) is Symbol , in ascending chronological order of property creation , do in:{} out:{}"

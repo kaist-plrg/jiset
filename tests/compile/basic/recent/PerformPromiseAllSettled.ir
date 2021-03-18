@@ -31,25 +31,27 @@
     append undefined -> values
     app __x8__ = (Call promiseResolve constructor (new [nextValue]))
     let nextPromise = [? __x8__]
-    ??? "Let id:{steps} be the algorithm steps defined in link:{unhandled: sec-promise.allsettled-resolve-element-functions} ."
-    app __x9__ = (CreateBuiltinFunction steps (new ["AlreadyCalled", "Index", "Values", "Capability", "RemainingElements"]))
-    let resolveElement = [! __x9__]
+    ??? "Let id:{stepsFulfilled} be the algorithm steps defined in link:{unhandled: sec-promise.allsettled-resolve-element-functions} ."
+    ??? "Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in link:{unhandled: sec-promise.allsettled-resolve-element-functions} ."
+    app __x9__ = (CreateBuiltinFunction stepsFulfilled lengthFulfilled "" (new ["AlreadyCalled", "Index", "Values", "Capability", "RemainingElements"]))
+    let onFulfilled = [! __x9__]
     let alreadyCalled = (new Record("Value" -> false))
-    resolveElement.AlreadyCalled = alreadyCalled
-    resolveElement.Index = index
-    resolveElement.Values = values
-    resolveElement.Capability = resultCapability
-    resolveElement.RemainingElements = remainingElementsCount
-    ??? "Let id:{rejectSteps} be the algorithm steps defined in link:{unhandled: sec-promise.allsettled-reject-element-functions} ."
-    app __x10__ = (CreateBuiltinFunction rejectSteps (new ["AlreadyCalled", "Index", "Values", "Capability", "RemainingElements"]))
-    let rejectElement = [! __x10__]
-    rejectElement.AlreadyCalled = alreadyCalled
-    rejectElement.Index = index
-    rejectElement.Values = values
-    rejectElement.Capability = resultCapability
-    rejectElement.RemainingElements = remainingElementsCount
+    onFulfilled.AlreadyCalled = alreadyCalled
+    onFulfilled.Index = index
+    onFulfilled.Values = values
+    onFulfilled.Capability = resultCapability
+    onFulfilled.RemainingElements = remainingElementsCount
+    ??? "Let id:{stepsRejected} be the algorithm steps defined in link:{unhandled: sec-promise.allsettled-reject-element-functions} ."
+    ??? "Let id:{lengthRejected} be the number of non - optional parameters of the function definition in link:{unhandled: sec-promise.allsettled-reject-element-functions} ."
+    app __x10__ = (CreateBuiltinFunction stepsRejected lengthRejected "" (new ["AlreadyCalled", "Index", "Values", "Capability", "RemainingElements"]))
+    let onRejected = [! __x10__]
+    onRejected.AlreadyCalled = alreadyCalled
+    onRejected.Index = index
+    onRejected.Values = values
+    onRejected.Capability = resultCapability
+    onRejected.RemainingElements = remainingElementsCount
     remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)
-    app __x11__ = (Invoke nextPromise "then" (new [resolveElement, rejectElement]))
+    app __x11__ = (Invoke nextPromise "then" (new [onFulfilled, onRejected]))
     [? __x11__]
     index = (+ index 1i)
   }

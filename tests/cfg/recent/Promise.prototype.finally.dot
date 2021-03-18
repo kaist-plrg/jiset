@@ -6,7 +6,7 @@ digraph {
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node10 [shape=cds, label=<<font color="black">7:app __x2__ = (IsCallable onFinally)</font>> color="black" fillcolor="white" style=filled]
-  node14 [shape=cds, label=<<font color="black">9:app __x3__ = (CreateBuiltinFunction stepsThenFinally (new [&quot;Constructor&quot;, &quot;OnFinally&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node14 [shape=cds, label=<<font color="black">10:app __x3__ = (CreateBuiltinFunction stepsThenFinally lengthThenFinally &quot;&quot; (new [&quot;Constructor&quot;, &quot;OnFinally&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
   node6 [shape=cds, label=<<font color="black">2:app __x0__ = (SpeciesConstructor promise INTRINSIC_Promise)</font>> color="black" fillcolor="white" style=filled]
   node9 [shape=none, margin=0, label=<<font color="black">
@@ -17,14 +17,15 @@ digraph {
   node13 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">8:let stepsThenFinally = ThenFinallyFunctions</td></tr>
+      <tr><td align="left">9:??? &quot;Let id:{lengthThenFinally} be the number of non - optional parameters of the function definition in ThenFinallyFunctions .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node2 [shape=cds, label=<<font color="black">app onFinally = (GetArgument argumentsList 0i)</font>> color="black" fillcolor="white" style=filled]
   node17 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">13:let catchFinally = [! __x4__]</td></tr>
-      <tr><td align="left">14:catchFinally.Constructor = C</td></tr>
-      <tr><td align="left">15:catchFinally.OnFinally = onFinally</td></tr>
+      <tr><td align="left">15:let catchFinally = [! __x4__]</td></tr>
+      <tr><td align="left">16:catchFinally.Constructor = C</td></tr>
+      <tr><td align="left">17:catchFinally.OnFinally = onFinally</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node12 [shape=none, margin=0, label=<<font color="black">
@@ -43,22 +44,23 @@ digraph {
       <tr><td align="left">0:let promise = this</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node18 [shape=cds, label=<<font color="black">16:app __x5__ = (Invoke promise &quot;then&quot; (new [thenFinally, catchFinally]))</font>> color="black" fillcolor="white" style=filled]
-  node16 [shape=cds, label=<<font color="black">13:app __x4__ = (CreateBuiltinFunction stepsCatchFinally (new [&quot;Constructor&quot;, &quot;OnFinally&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node18 [shape=cds, label=<<font color="black">18:app __x5__ = (Invoke promise &quot;then&quot; (new [thenFinally, catchFinally]))</font>> color="black" fillcolor="white" style=filled]
+  node16 [shape=cds, label=<<font color="black">15:app __x4__ = (CreateBuiltinFunction stepsCatchFinally lengthCatchFinally &quot;&quot; (new [&quot;Constructor&quot;, &quot;OnFinally&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node11 [shape=diamond, label=<<font color="black">(= __x2__ false)</font>> color="black" fillcolor="white" style=filled]
   node8 [shape=cds, label=<<font color="black">3:app __x1__ = (IsConstructor C)</font>> color="black" fillcolor="white" style=filled]
   node19 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">16:return [? __x5__]</td></tr>
+      <tr><td align="left">18:return [? __x5__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node4 [shape=diamond, label=<<font color="black">(! (= (typeof promise) Object))</font>> color="black" fillcolor="white" style=filled]
   node15 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:let thenFinally = [! __x3__]</td></tr>
-      <tr><td align="left">10:thenFinally.Constructor = C</td></tr>
-      <tr><td align="left">11:thenFinally.OnFinally = onFinally</td></tr>
-      <tr><td align="left">12:let stepsCatchFinally = CatchFinallyFunctions</td></tr>
+      <tr><td align="left">10:let thenFinally = [! __x3__]</td></tr>
+      <tr><td align="left">11:thenFinally.Constructor = C</td></tr>
+      <tr><td align="left">12:thenFinally.OnFinally = onFinally</td></tr>
+      <tr><td align="left">13:let stepsCatchFinally = CatchFinallyFunctions</td></tr>
+      <tr><td align="left">14:??? &quot;Let id:{lengthCatchFinally} be the number of non - optional parameters of the function definition in CatchFinallyFunctions .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node11 -> node12 [label=<<font color="black">true</font>> color="black"]

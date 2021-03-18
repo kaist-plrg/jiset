@@ -45,7 +45,7 @@
               1. If _parameters_ is a List of errors, throw a *SyntaxError* exception.
               1. Let _body_ be ParseText(! StringToCodePoints(_bodyString_), _goal_).
               1. If _body_ is a List of errors, throw a *SyntaxError* exception.
-              1. Let _strict_ be ContainsUseStrict of _body_.
+              1. Let _strict_ be FunctionBodyContainsUseStrict of _body_.
               1. If _strict_ is *true*, apply the early error rules for <emu-grammar>UniqueFormalParameters : FormalParameters</emu-grammar> to _parameters_.
               1. If _strict_ is *true* and IsSimpleParameterList of _parameters_ is *false*, throw a *SyntaxError* exception.
               1. If any element of the BoundNames of _parameters_ also occurs in the LexicallyDeclaredNames of _body_, throw a *SyntaxError* exception.

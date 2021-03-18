@@ -21,23 +21,18 @@
         1. Let _proto_ be ! OrdinaryObjectCreate(_protoParent_).
         1. If |ClassBody_opt| is not present, let _constructor_ be ~empty~.
         1. Else, let _constructor_ be ConstructorMethod of |ClassBody|.
-        1. If _constructor_ is ~empty~, then
-          1. If |ClassHeritage_opt| is present, then
-            1. Let _constructorText_ be the source text
-              <pre><code class="javascript">constructor(...args) { super(...args); }</code></pre>
-          1. Else,
-            1. Let _constructorText_ be the source text
-              <pre><code class="javascript">constructor() {}</code></pre>
-          1. Set _constructor_ to ParseText(_constructorText_, |MethodDefinition[~Yield, ~Await]|).
-          1. Assert: _constructor_ is a Parse Node.
         1. Set the running execution context's LexicalEnvironment to _classScope_.
-        1. Let _constructorInfo_ be ! DefineMethod of _constructor_ with arguments _proto_ and _constructorParent_.
-        1. Let _F_ be _constructorInfo_.[[Closure]].
-        1. Perform SetFunctionName(_F_, _className_).
-        1. Perform MakeConstructor(_F_, *false*, _proto_).
+        1. If _constructor_ is ~empty~, then
+          1. Let _steps_ be the algorithm steps defined in <emu-xref href="#sec-default-constructor-functions" title></emu-xref>.
+          1. Let _F_ be ! CreateBuiltinFunction(_steps_, 0, _className_, « [[ConstructorKind]], [[SourceText]] », ~empty~, _constructorParent_).
+        1. Else,
+          1. Let _constructorInfo_ be ! DefineMethod of _constructor_ with arguments _proto_ and _constructorParent_.
+          1. Let _F_ be _constructorInfo_.[[Closure]].
+          1. Perform ! MakeClassConstructor(_F_).
+          1. Perform ! SetFunctionName(_F_, _className_).
+        1. Perform ! MakeConstructor(_F_, *false*, _proto_).
         1. If |ClassHeritage_opt| is present, set _F_.[[ConstructorKind]] to ~derived~.
-        1. Perform MakeClassConstructor(_F_).
-        1. Perform CreateMethodProperty(_proto_, *"constructor"*, _F_).
+        1. Perform ! CreateMethodProperty(_proto_, *"constructor"*, _F_).
         1. If |ClassBody_opt| is not present, let _methods_ be a new empty List.
         1. Else, let _methods_ be NonConstructorMethodDefinitions of |ClassBody|.
         1. For each |ClassElement| _m_ of _methods_, do

@@ -17,11 +17,13 @@
       app __x1__ = (PromiseResolve INTRINSIC_Promise completion.Value)
       let promise = [? __x1__]
       let stepsFulfilled = AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions
-      app __x2__ = (CreateBuiltinFunction stepsFulfilled (new ["Generator"]))
+      ??? "Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions ."
+      app __x2__ = (CreateBuiltinFunction stepsFulfilled lengthFulfilled "" (new ["Generator"]))
       let onFulfilled = [! __x2__]
       onFulfilled.Generator = generator
       let stepsRejected = AsyncGeneratorResumeNextReturnProcessorRejectedFunctions
-      app __x3__ = (CreateBuiltinFunction stepsRejected (new ["Generator"]))
+      ??? "Let id:{lengthRejected} be the number of non - optional parameters of the function definition in AsyncGeneratorResumeNextReturnProcessorRejectedFunctions ."
+      app __x3__ = (CreateBuiltinFunction stepsRejected lengthRejected "" (new ["Generator"]))
       let onRejected = [! __x3__]
       onRejected.Generator = generator
       app __x4__ = (PerformPromiseThen promise onFulfilled onRejected)

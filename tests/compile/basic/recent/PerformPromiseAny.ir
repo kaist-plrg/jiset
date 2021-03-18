@@ -33,16 +33,17 @@
     append undefined -> errors
     app __x9__ = (Call promiseResolve constructor (new [nextValue]))
     let nextPromise = [? __x9__]
-    ??? "Let id:{steps} be the algorithm steps defined in link:{unhandled: sec-promise.any-reject-element-functions} ."
-    app __x10__ = (CreateBuiltinFunction steps (new ["AlreadyCalled", "Index", "Errors", "Capability", "RemainingElements"]))
-    let rejectElement = [! __x10__]
-    rejectElement.AlreadyCalled = false
-    rejectElement.Index = index
-    rejectElement.Errors = errors
-    rejectElement.Capability = resultCapability
-    rejectElement.RemainingElements = remainingElementsCount
+    ??? "Let id:{stepsRejected} be the algorithm steps defined in link:{unhandled: sec-promise.any-reject-element-functions} ."
+    ??? "Let id:{lengthRejected} be the number of non - optional parameters of the function definition in link:{unhandled: sec-promise.any-reject-element-functions} ."
+    app __x10__ = (CreateBuiltinFunction stepsRejected lengthRejected "" (new ["AlreadyCalled", "Index", "Errors", "Capability", "RemainingElements"]))
+    let onRejected = [! __x10__]
+    onRejected.AlreadyCalled = false
+    onRejected.Index = index
+    onRejected.Errors = errors
+    onRejected.Capability = resultCapability
+    onRejected.RemainingElements = remainingElementsCount
     remainingElementsCount.Value = (+ remainingElementsCount.Value 1i)
-    app __x11__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, rejectElement]))
+    app __x11__ = (Invoke nextPromise "then" (new [resultCapability.Resolve, onRejected]))
     [? __x11__]
     index = (+ index 1i)
   }

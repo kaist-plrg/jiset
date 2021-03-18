@@ -1,14 +1,4 @@
 {
-  access __x0__ = (BindingIdentifier "StringValue")
-  let name = __x0__
-  let sourceText = (get-syntax AsyncGeneratorDeclaration)
-  app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGeneratorFunction_prototype sourceText FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
-  let F = [! __x1__]
-  app __x2__ = (SetFunctionName F name)
-  [! __x2__]
-  app __x3__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
-  let prototype = [! __x3__]
-  app __x4__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
-  [! __x4__]
-  return F
+  access __x0__ = (AsyncGeneratorDeclaration "InstantiateAsyncGeneratorFunctionObject" scope)
+  return [? __x0__]
 }

@@ -20,12 +20,13 @@
               1. Append *undefined* to _values_.
               1. Let _nextPromise_ be ? Call(_promiseResolve_, _constructor_, « _nextValue_ »).
               1. Let _steps_ be the algorithm steps defined in <emu-xref href="#sec-promise.all-resolve-element-functions" title></emu-xref>.
-              1. Let _resolveElement_ be ! CreateBuiltinFunction(_steps_, « [[AlreadyCalled]], [[Index]], [[Values]], [[Capability]], [[RemainingElements]] »).
-              1. Set _resolveElement_.[[AlreadyCalled]] to *false*.
-              1. Set _resolveElement_.[[Index]] to _index_.
-              1. Set _resolveElement_.[[Values]] to _values_.
-              1. Set _resolveElement_.[[Capability]] to _resultCapability_.
-              1. Set _resolveElement_.[[RemainingElements]] to _remainingElementsCount_.
+              1. Let _length_ be the number of non-optional parameters of the function definition in <emu-xref href="#sec-promise.all-resolve-element-functions" title></emu-xref>.
+              1. Let _onFulfilled_ be ! CreateBuiltinFunction(_steps_, _length_, *""*, « [[AlreadyCalled]], [[Index]], [[Values]], [[Capability]], [[RemainingElements]] »).
+              1. Set _onFulfilled_.[[AlreadyCalled]] to *false*.
+              1. Set _onFulfilled_.[[Index]] to _index_.
+              1. Set _onFulfilled_.[[Values]] to _values_.
+              1. Set _onFulfilled_.[[Capability]] to _resultCapability_.
+              1. Set _onFulfilled_.[[RemainingElements]] to _remainingElementsCount_.
               1. Set _remainingElementsCount_.[[Value]] to _remainingElementsCount_.[[Value]] + 1.
-              1. Perform ? Invoke(_nextPromise_, *"then"*, « _resolveElement_, _resultCapability_.[[Reject]] »).
+              1. Perform ? Invoke(_nextPromise_, *"then"*, « _onFulfilled_, _resultCapability_.[[Reject]] »).
               1. Set _index_ to _index_ + 1.

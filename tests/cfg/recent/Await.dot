@@ -1,25 +1,26 @@
 digraph {
   node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5 [shape=cds, label=<<font color="black">3:app __x1__ = (CreateBuiltinFunction stepsFulfilled (new [&quot;AsyncContext&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node5 [shape=cds, label=<<font color="black">4:app __x1__ = (CreateBuiltinFunction stepsFulfilled lengthFulfilled &quot;&quot; (new [&quot;AsyncContext&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node10 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">8:[! __x3__]</td></tr>
+      <tr><td align="left">10:[! __x3__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
   node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">3:let onFulfilled = [! __x1__]</td></tr>
-      <tr><td align="left">4:onFulfilled.AsyncContext = asyncContext</td></tr>
-      <tr><td align="left">5:let stepsRejected = AwaitRejectedFunctions</td></tr>
+      <tr><td align="left">4:let onFulfilled = [! __x1__]</td></tr>
+      <tr><td align="left">5:onFulfilled.AsyncContext = asyncContext</td></tr>
+      <tr><td align="left">6:let stepsRejected = AwaitRejectedFunctions</td></tr>
+      <tr><td align="left">7:??? &quot;Let id:{lengthRejected} be the number of non - optional parameters of the function definition in AwaitRejectedFunctions .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node9 [shape=cds, label=<<font color="black">8:app __x3__ = (PerformPromiseThen promise onFulfilled onRejected)</font>> color="black" fillcolor="white" style=filled]
+  node9 [shape=cds, label=<<font color="black">10:app __x3__ = (PerformPromiseThen promise onFulfilled onRejected)</font>> color="black" fillcolor="white" style=filled]
   node13 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
-      <tr><td align="left">10:??? &quot;Set the code evaluation state of id:{asyncContext} such that when evaluation is resumed with a Completion id:{completion} , the following steps of the algorithm that invoked Await will be performed , with id:{completion} available .&quot;</td></tr>
-      <tr><td align="left">11:return undefined</td></tr>
+      <tr><td align="left">11:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">12:??? &quot;Set the code evaluation state of id:{asyncContext} such that when evaluation is resumed with a Completion id:{completion} , the following steps of the algorithm that invoked Await will be performed , with id:{completion} available .&quot;</td></tr>
+      <tr><td align="left">13:return undefined</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node2 [shape=none, margin=0, label=<<font color="black">
@@ -33,19 +34,20 @@ digraph {
       <tr><td align="left">(pop GLOBAL_executionStack __x4__)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node7 [shape=cds, label=<<font color="black">6:app __x2__ = (CreateBuiltinFunction stepsRejected (new [&quot;AsyncContext&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=cds, label=<<font color="black">8:app __x2__ = (CreateBuiltinFunction stepsRejected lengthRejected &quot;&quot; (new [&quot;AsyncContext&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node3 [shape=cds, label=<<font color="black">1:app __x0__ = (PromiseResolve INTRINSIC_Promise value)</font>> color="black" fillcolor="white" style=filled]
   node11 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] asyncContext)</font>> color="black" fillcolor="white" style=filled]
   node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:let onRejected = [! __x2__]</td></tr>
-      <tr><td align="left">7:onRejected.AsyncContext = asyncContext</td></tr>
+      <tr><td align="left">8:let onRejected = [! __x2__]</td></tr>
+      <tr><td align="left">9:onRejected.AsyncContext = asyncContext</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:let promise = [? __x0__]</td></tr>
       <tr><td align="left">2:let stepsFulfilled = AwaitFulfilledFunctions</td></tr>
+      <tr><td align="left">3:??? &quot;Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in AwaitFulfilledFunctions .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node7 -> node8 [ color="black"]

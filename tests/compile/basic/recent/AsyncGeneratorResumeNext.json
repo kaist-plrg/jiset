@@ -105,33 +105,49 @@
 }, "be", "the", "algorithm", "steps", "defined", "in", "AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions", ".", {
   "k": 17
 }, "Let", {
+  "id": "lengthFulfilled"
+}, "be", "the", "number", "of", "non", "-", "optional", "parameters", "of", "the", "function", "definition", "in", "AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions", ".", {
+  "k": 18
+}, "Let", {
   "id": "onFulfilled"
 }, "be", "!", "CreateBuiltinFunction", "(", {
   "id": "stepsFulfilled"
+}, ",", {
+  "id": "lengthFulfilled"
+}, ",", {
+  "value": "\"\""
 }, ",", "«", "[", "[", "Generator", "]", "]", "»", ")", ".", {
-  "k": 18
+  "k": 19
 }, "Set", {
   "id": "onFulfilled"
 }, ".", "[", "[", "Generator", "]", "]", "to", {
   "id": "generator"
 }, ".", {
-  "k": 19
+  "k": 20
 }, "Let", {
   "id": "stepsRejected"
 }, "be", "the", "algorithm", "steps", "defined", "in", "AsyncGeneratorResumeNextReturnProcessorRejectedFunctions", ".", {
-  "k": 20
+  "k": 21
+}, "Let", {
+  "id": "lengthRejected"
+}, "be", "the", "number", "of", "non", "-", "optional", "parameters", "of", "the", "function", "definition", "in", "AsyncGeneratorResumeNextReturnProcessorRejectedFunctions", ".", {
+  "k": 22
 }, "Let", {
   "id": "onRejected"
 }, "be", "!", "CreateBuiltinFunction", "(", {
   "id": "stepsRejected"
+}, ",", {
+  "id": "lengthRejected"
+}, ",", {
+  "value": "\"\""
 }, ",", "«", "[", "[", "Generator", "]", "]", "»", ")", ".", {
-  "k": 21
+  "k": 23
 }, "Set", {
   "id": "onRejected"
 }, ".", "[", "[", "Generator", "]", "]", "to", {
   "id": "generator"
 }, ".", {
-  "k": 22
+  "k": 24
 }, "Perform", "!", "PerformPromiseThen", "(", {
   "id": "promise"
 }, ",", {
@@ -139,11 +155,11 @@
 }, ",", {
   "id": "onRejected"
 }, ")", ".", {
-  "k": 23
+  "k": 25
 }, "Return", {
   "value": "undefined"
 }, ".", {
-  "k": 24
+  "k": 26
 }, {
   "out": null
 }, {
@@ -155,21 +171,21 @@
 }, ".", "[", "[", "Type", "]", "]", "is", {
   "const": "throw"
 }, ".", {
-  "k": 26
+  "k": 28
 }, "Perform", "!", "AsyncGeneratorReject", "(", {
   "id": "generator"
 }, ",", {
   "id": "completion"
 }, ".", "[", "[", "Value", "]", "]", ")", ".", {
-  "k": 27
+  "k": 29
 }, "Return", {
   "value": "undefined"
 }, ".", {
-  "k": 28
+  "k": 30
 }, {
   "out": null
 }, {
-  "k": 25
+  "k": 27
 }, {
   "out": null
 }, {
@@ -189,7 +205,7 @@
 }, ",", {
   "value": "true"
 }, ")", ".", {
-  "k": 29
+  "k": 31
 }, "Assert", ":", {
   "id": "state"
 }, "is", "either", {
@@ -197,33 +213,33 @@
 }, "or", {
   "const": "suspendedYield"
 }, ".", {
-  "k": 30
+  "k": 32
 }, "Let", {
   "id": "genContext"
 }, "be", {
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorContext", "]", "]", ".", {
-  "k": 31
+  "k": 33
 }, "Let", {
   "id": "callerContext"
 }, "be", "the", "running", "execution", "context", ".", {
-  "k": 32
+  "k": 34
 }, "Suspend", {
   "id": "callerContext"
 }, ".", {
-  "k": 33
+  "k": 35
 }, "Set", {
   "id": "generator"
 }, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
   "const": "executing"
 }, ".", {
-  "k": 34
+  "k": 36
 }, "Push", {
   "id": "genContext"
 }, "onto", "the", "execution", "context", "stack", ";", {
   "id": "genContext"
 }, "is", "now", "the", "running", "execution", "context", ".", {
-  "k": 35
+  "k": 37
 }, "Resume", "the", "suspended", "evaluation", "of", {
   "id": "genContext"
 }, "using", {
@@ -231,19 +247,19 @@
 }, "as", "the", "result", "of", "the", "operation", "that", "suspended", "it", ".", "Let", {
   "id": "result"
 }, "be", "the", "completion", "record", "returned", "by", "the", "resumed", "computation", ".", {
-  "k": 36
+  "k": 38
 }, "Assert", ":", {
   "id": "result"
 }, "is", "never", "an", "abrupt", "completion", ".", {
-  "k": 37
+  "k": 39
 }, "Assert", ":", "When", "we", "return", "here", ",", {
   "id": "genContext"
 }, "has", "already", "been", "removed", "from", "the", "execution", "context", "stack", "and", {
   "id": "callerContext"
 }, "is", "the", "currently", "running", "execution", "context", ".", {
-  "k": 38
+  "k": 40
 }, "Return", {
   "value": "undefined"
 }, ".", {
-  "k": 39
+  "k": 41
 }]

@@ -1,1 +1,1 @@
-          1. Return the SV of |StringLiteral|.
+        1. Return the SV of |StringLiteral|.

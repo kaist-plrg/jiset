@@ -1,8 +1,4 @@
 {
-  let sourceText = (get-syntax AsyncFunctionDeclaration)
-  app __x0__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype sourceText FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)
-  let F = [! __x0__]
-  app __x1__ = (SetFunctionName F "default")
-  [! __x1__]
-  return F
+  access __x0__ = (AsyncFunctionDeclaration "InstantiateAsyncFunctionObject" scope)
+  return [? __x0__]
 }

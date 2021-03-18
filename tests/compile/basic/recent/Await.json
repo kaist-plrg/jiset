@@ -13,33 +13,49 @@
 }, "be", "the", "algorithm", "steps", "defined", "in", "AwaitFulfilledFunctions", ".", {
   "k": 2
 }, "Let", {
+  "id": "lengthFulfilled"
+}, "be", "the", "number", "of", "non", "-", "optional", "parameters", "of", "the", "function", "definition", "in", "AwaitFulfilledFunctions", ".", {
+  "k": 3
+}, "Let", {
   "id": "onFulfilled"
 }, "be", "!", "CreateBuiltinFunction", "(", {
   "id": "stepsFulfilled"
+}, ",", {
+  "id": "lengthFulfilled"
+}, ",", {
+  "value": "\"\""
 }, ",", "«", "[", "[", "AsyncContext", "]", "]", "»", ")", ".", {
-  "k": 3
+  "k": 4
 }, "Set", {
   "id": "onFulfilled"
 }, ".", "[", "[", "AsyncContext", "]", "]", "to", {
   "id": "asyncContext"
 }, ".", {
-  "k": 4
+  "k": 5
 }, "Let", {
   "id": "stepsRejected"
 }, "be", "the", "algorithm", "steps", "defined", "in", "AwaitRejectedFunctions", ".", {
-  "k": 5
+  "k": 6
+}, "Let", {
+  "id": "lengthRejected"
+}, "be", "the", "number", "of", "non", "-", "optional", "parameters", "of", "the", "function", "definition", "in", "AwaitRejectedFunctions", ".", {
+  "k": 7
 }, "Let", {
   "id": "onRejected"
 }, "be", "!", "CreateBuiltinFunction", "(", {
   "id": "stepsRejected"
+}, ",", {
+  "id": "lengthRejected"
+}, ",", {
+  "value": "\"\""
 }, ",", "«", "[", "[", "AsyncContext", "]", "]", "»", ")", ".", {
-  "k": 6
+  "k": 8
 }, "Set", {
   "id": "onRejected"
 }, ".", "[", "[", "AsyncContext", "]", "]", "to", {
   "id": "asyncContext"
 }, ".", {
-  "k": 7
+  "k": 9
 }, "Perform", "!", "PerformPromiseThen", "(", {
   "id": "promise"
 }, ",", {
@@ -47,11 +63,11 @@
 }, ",", {
   "id": "onRejected"
 }, ")", ".", {
-  "k": 8
+  "k": 10
 }, "Remove", {
   "id": "asyncContext"
 }, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
-  "k": 9
+  "k": 11
 }, "Set", "the", "code", "evaluation", "state", "of", {
   "id": "asyncContext"
 }, "such", "that", "when", "evaluation", "is", "resumed", "with", "a", "Completion", {
@@ -59,11 +75,11 @@
 }, ",", "the", "following", "steps", "of", "the", "algorithm", "that", "invoked", "Await", "will", "be", "performed", ",", "with", {
   "id": "completion"
 }, "available", ".", {
-  "k": 10
+  "k": 12
 }, "Return", ".", {
-  "k": 11
+  "k": 13
 }, "NOTE", ":", "This", "returns", "to", "the", "evaluation", "of", "the", "operation", "that", "had", "most", "previously", "resumed", "evaluation", "of", {
   "id": "asyncContext"
 }, ".", {
-  "k": 12
+  "k": 14
 }]

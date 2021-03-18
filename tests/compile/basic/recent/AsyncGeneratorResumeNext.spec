@@ -16,10 +16,12 @@
                 1. Set _generator_.[[AsyncGeneratorState]] to ~awaiting-return~.
                 1. Let _promise_ be ? PromiseResolve(%Promise%, _completion_.[[Value]]).
                 1. Let _stepsFulfilled_ be the algorithm steps defined in <emu-xref href="#async-generator-resume-next-return-processor-fulfilled" title></emu-xref>.
-                1. Let _onFulfilled_ be ! CreateBuiltinFunction(_stepsFulfilled_, « [[Generator]] »).
+                1. Let _lengthFulfilled_ be the number of non-optional parameters of the function definition in <emu-xref href="#async-generator-resume-next-return-processor-fulfilled" title></emu-xref>.
+                1. Let _onFulfilled_ be ! CreateBuiltinFunction(_stepsFulfilled_, _lengthFulfilled_, *""*, « [[Generator]] »).
                 1. Set _onFulfilled_.[[Generator]] to _generator_.
                 1. Let _stepsRejected_ be the algorithm steps defined in <emu-xref href="#async-generator-resume-next-return-processor-rejected" title></emu-xref>.
-                1. Let _onRejected_ be ! CreateBuiltinFunction(_stepsRejected_, « [[Generator]] »).
+                1. Let _lengthRejected_ be the number of non-optional parameters of the function definition in <emu-xref href="#async-generator-resume-next-return-processor-rejected" title></emu-xref>.
+                1. Let _onRejected_ be ! CreateBuiltinFunction(_stepsRejected_, _lengthRejected_, *""*, « [[Generator]] »).
                 1. Set _onRejected_.[[Generator]] to _generator_.
                 1. Perform ! PerformPromiseThen(_promise_, _onFulfilled_, _onRejected_).
                 1. Return *undefined*.

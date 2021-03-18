@@ -1,3 +1,4 @@
+        1. Assert: _opText_ is present in the table in step <emu-xref href="#step-applystringornumericbinaryoperator-operations-table"></emu-xref>.
         1. If _opText_ is `+`, then
           1. [id="step-binary-op-toprimitive-lval"] Let _lprim_ be ? ToPrimitive(_lval_).
           1. [id="step-binary-op-toprimitive-rval"] Let _rprim_ be ? ToPrimitive(_rval_).
@@ -12,7 +13,7 @@
         1. Let _rnum_ be ? ToNumeric(_rval_).
         1. If Type(_lnum_) is different from Type(_rnum_), throw a *TypeError* exception.
         1. Let _T_ be Type(_lnum_).
-        1. Let _operation_ be the abstract operation associated with _opText_ in the following table:
+        1. [id="step-applystringornumericbinaryoperator-operations-table"] Let _operation_ be the abstract operation associated with _opText_ in the following table:
           <figure>
             <table class="lightweight-table">
               <tbody>

@@ -4,7 +4,11 @@
   "k": 0
 }, "If", {
   "id": "realm"
-}, "is", "not", "present", ",", "set", {
+}, "is", "not", "present", "or", {
+  "id": "realm"
+}, "is", {
+  "const": "empty"
+}, ",", "set", {
   "id": "realm"
 }, "to", "the", "current", "Realm", "Record", ".", {
   "k": 1
@@ -52,8 +56,42 @@
   "value": "null"
 }, ".", {
   "k": 8
+}, "Perform", "!", "SetFunctionLength", "(", {
+  "id": "func"
+}, ",", {
+  "id": "length"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "prefix"
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "Perform", "!", "SetFunctionName", "(", {
+  "id": "func"
+}, ",", {
+  "id": "name"
+}, ")", ".", {
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 10
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", "SetFunctionName", "(", {
+  "id": "func"
+}, ",", {
+  "id": "name"
+}, ",", {
+  "id": "prefix"
+}, ")", ".", {
+  "k": 13
+}, {
+  "out": null
+}, {
+  "k": 12
 }, "Return", {
   "id": "func"
 }, ".", {
-  "k": 9
+  "k": 14
 }]

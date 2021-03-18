@@ -4,18 +4,19 @@ digraph {
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:let promiseCapability = (new PromiseCapabilityRecord(&quot;Promise&quot; -&gt; undefined, &quot;Resolve&quot; -&gt; undefined, &quot;Reject&quot; -&gt; undefined))</td></tr>
       <tr><td align="left">3:let steps = GetCapabilitiesExecutorFunctions</td></tr>
+      <tr><td align="left">4:??? &quot;Let id:{length} be the number of non - optional parameters of the function definition in GetCapabilitiesExecutorFunctions .&quot;</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node10 [shape=cds, label=<<font color="black">7:app __x3__ = (IsCallable promiseCapability.Resolve)</font>> color="black" fillcolor="white" style=filled]
+  node10 [shape=cds, label=<<font color="black">8:app __x3__ = (IsCallable promiseCapability.Resolve)</font>> color="black" fillcolor="white" style=filled]
   node14 [shape=diamond, label=<<font color="black">(= __x4__ false)</font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node6 [shape=cds, label=<<font color="black">4:app __x1__ = (CreateBuiltinFunction steps (new [&quot;Capability&quot;]))</font>> color="black" fillcolor="white" style=filled]
+  node6 [shape=cds, label=<<font color="black">5:app __x1__ = (CreateBuiltinFunction steps length &quot;&quot; (new [&quot;Capability&quot;]))</font>> color="black" fillcolor="white" style=filled]
   node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">6:let promise = [? __x2__]</td></tr>
+      <tr><td align="left">7:let promise = [? __x2__]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node13 [shape=cds, label=<<font color="black">8:app __x4__ = (IsCallable promiseCapability.Reject)</font>> color="black" fillcolor="white" style=filled]
+  node13 [shape=cds, label=<<font color="black">9:app __x4__ = (IsCallable promiseCapability.Reject)</font>> color="black" fillcolor="white" style=filled]
   node2 [shape=cds, label=<<font color="black">0:app __x0__ = (IsConstructor C)</font>> color="black" fillcolor="white" style=filled]
   node12 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
@@ -24,19 +25,19 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">4:let executor = [! __x1__]</td></tr>
-      <tr><td align="left">5:executor.Capability = promiseCapability</td></tr>
+      <tr><td align="left">5:let executor = [! __x1__]</td></tr>
+      <tr><td align="left">6:executor.Capability = promiseCapability</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node3 [shape=diamond, label=<<font color="black">(= __x0__ false)</font>> color="black" fillcolor="white" style=filled]
   node16 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">9:promiseCapability.Promise = promise</td></tr>
-      <tr><td align="left">10:return promiseCapability</td></tr>
+      <tr><td align="left">10:promiseCapability.Promise = promise</td></tr>
+      <tr><td align="left">11:return promiseCapability</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node11 [shape=diamond, label=<<font color="black">(= __x3__ false)</font>> color="black" fillcolor="white" style=filled]
-  node8 [shape=cds, label=<<font color="black">6:app __x2__ = (Construct C (new [executor]))</font>> color="black" fillcolor="white" style=filled]
+  node8 [shape=cds, label=<<font color="black">7:app __x2__ = (Construct C (new [executor]))</font>> color="black" fillcolor="white" style=filled]
   node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>

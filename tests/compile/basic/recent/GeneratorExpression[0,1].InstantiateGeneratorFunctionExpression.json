@@ -1,0 +1,85 @@
+["Assert", ":", {
+  "id": "name"
+}, "is", "not", "present", ".", {
+  "k": 0
+}, "Set", {
+  "id": "name"
+}, "to", "StringValue", "of", {
+  "nt": "BindingIdentifier"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "scope"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 2
+}, "Let", {
+  "id": "funcEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "scope"
+}, ")", ".", {
+  "k": 3
+}, "Perform", {
+  "id": "funcEnv"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "name"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "sourceText"
+}, "be", "the", "source", "text", "matched", "by", {
+  "nt": "GeneratorExpression"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "closure"
+}, "be", "OrdinaryFunctionCreate", "(", "%", "GeneratorFunction", ".", "prototype", "%", ",", {
+  "id": "sourceText"
+}, ",", {
+  "nt": "FormalParameters"
+}, ",", {
+  "nt": "GeneratorBody"
+}, ",", {
+  "const": "non-lexical-this"
+}, ",", {
+  "id": "funcEnv"
+}, ")", ".", {
+  "k": 6
+}, "Perform", "SetFunctionName", "(", {
+  "id": "closure"
+}, ",", {
+  "id": "name"
+}, ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "prototype"
+}, "be", "!", "OrdinaryObjectCreate", "(", "%", "GeneratorFunction", ".", "prototype", ".", "prototype", "%", ")", ".", {
+  "k": 8
+}, "Perform", "DefinePropertyOrThrow", "(", {
+  "id": "closure"
+}, ",", {
+  "value": "\"prototype\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "prototype"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 9
+}, "Perform", {
+  "id": "funcEnv"
+}, ".", "InitializeBinding", "(", {
+  "id": "name"
+}, ",", {
+  "id": "closure"
+}, ")", ".", {
+  "k": 10
+}, "Return", {
+  "id": "closure"
+}, ".", {
+  "k": 11
+}]

@@ -1,1 +1,1 @@
-          1. Return ContainsExpression of |BindingRestElement|.
+        1. Return ContainsExpression of |BindingRestElement|.

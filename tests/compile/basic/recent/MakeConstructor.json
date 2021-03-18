@@ -1,29 +1,37 @@
 ["Assert", ":", {
   "id": "F"
-}, "is", "an", "ECMAScript", "function", "object", ".", {
+}, "is", "an", "ECMAScript", "function", "object", "or", "a", "built", "-", "in", "function", "object", ".", {
   "k": 0
+}, "If", {
+  "id": "F"
+}, "is", "an", "ECMAScript", "function", "object", ",", "then", {
+  "in": null
 }, "Assert", ":", "IsConstructor", "(", {
   "id": "F"
 }, ")", "is", {
   "value": "false"
 }, ".", {
-  "k": 1
+  "k": 2
 }, "Assert", ":", {
   "id": "F"
 }, "is", "an", "extensible", "object", "that", "does", "not", "have", "a", {
   "value": "\"prototype\""
 }, "own", "property", ".", {
-  "k": 2
+  "k": 3
 }, "Set", {
   "id": "F"
 }, ".", "[", "[", "Construct", "]", "]", "to", "the", "definition", "specified", "in", "ECMAScriptFunctionObjectDOTConstruct", ".", {
-  "k": 3
+  "k": 4
+}, {
+  "out": null
+}, {
+  "k": 1
 }, "Set", {
   "id": "F"
 }, ".", "[", "[", "ConstructorKind", "]", "]", "to", {
   "const": "base"
 }, ".", {
-  "k": 4
+  "k": 5
 }, "If", {
   "id": "writablePrototype"
 }, "is", "not", "present", ",", "set", {
@@ -31,7 +39,7 @@
 }, "to", {
   "value": "true"
 }, ".", {
-  "k": 5
+  "k": 6
 }, "If", {
   "id": "prototype"
 }, "is", "not", "present", ",", "then", {
@@ -39,7 +47,7 @@
 }, "Set", {
   "id": "prototype"
 }, "to", "!", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", ".", {
-  "k": 7
+  "k": 8
 }, "Perform", "!", "DefinePropertyOrThrow", "(", {
   "id": "prototype"
 }, ",", {
@@ -53,11 +61,11 @@
 }, ",", "[", "[", "Configurable", "]", "]", ":", {
   "value": "true"
 }, "}", ")", ".", {
-  "k": 8
+  "k": 9
 }, {
   "out": null
 }, {
-  "k": 6
+  "k": 7
 }, "Perform", "!", "DefinePropertyOrThrow", "(", {
   "id": "F"
 }, ",", {
@@ -71,9 +79,9 @@
 }, ",", "[", "[", "Configurable", "]", "]", ":", {
   "value": "false"
 }, "}", ")", ".", {
-  "k": 9
+  "k": 10
 }, "Return", "NormalCompletion", "(", {
   "value": "undefined"
 }, ")", ".", {
-  "k": 10
+  "k": 11
 }]

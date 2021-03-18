@@ -19,21 +19,23 @@
               1. ReturnIfAbrupt(_nextValue_).
               1. Append *undefined* to _values_.
               1. Let _nextPromise_ be ? Call(_promiseResolve_, _constructor_, « _nextValue_ »).
-              1. Let _steps_ be the algorithm steps defined in <emu-xref href="#sec-promise.allsettled-resolve-element-functions" title></emu-xref>.
-              1. Let _resolveElement_ be ! CreateBuiltinFunction(_steps_, « [[AlreadyCalled]], [[Index]], [[Values]], [[Capability]], [[RemainingElements]] »).
+              1. Let _stepsFulfilled_ be the algorithm steps defined in <emu-xref href="#sec-promise.allsettled-resolve-element-functions" title></emu-xref>.
+              1. Let _lengthFulfilled_ be the number of non-optional parameters of the function definition in <emu-xref href="#sec-promise.allsettled-resolve-element-functions" title></emu-xref>.
+              1. Let _onFulfilled_ be ! CreateBuiltinFunction(_stepsFulfilled_, _lengthFulfilled_, *""*, « [[AlreadyCalled]], [[Index]], [[Values]], [[Capability]], [[RemainingElements]] »).
               1. Let _alreadyCalled_ be the Record { [[Value]]: *false* }.
-              1. Set _resolveElement_.[[AlreadyCalled]] to _alreadyCalled_.
-              1. Set _resolveElement_.[[Index]] to _index_.
-              1. Set _resolveElement_.[[Values]] to _values_.
-              1. Set _resolveElement_.[[Capability]] to _resultCapability_.
-              1. Set _resolveElement_.[[RemainingElements]] to _remainingElementsCount_.
-              1. Let _rejectSteps_ be the algorithm steps defined in <emu-xref href="#sec-promise.allsettled-reject-element-functions" title></emu-xref>.
-              1. Let _rejectElement_ be ! CreateBuiltinFunction(_rejectSteps_, « [[AlreadyCalled]], [[Index]], [[Values]], [[Capability]], [[RemainingElements]] »).
-              1. Set _rejectElement_.[[AlreadyCalled]] to _alreadyCalled_.
-              1. Set _rejectElement_.[[Index]] to _index_.
-              1. Set _rejectElement_.[[Values]] to _values_.
-              1. Set _rejectElement_.[[Capability]] to _resultCapability_.
-              1. Set _rejectElement_.[[RemainingElements]] to _remainingElementsCount_.
+              1. Set _onFulfilled_.[[AlreadyCalled]] to _alreadyCalled_.
+              1. Set _onFulfilled_.[[Index]] to _index_.
+              1. Set _onFulfilled_.[[Values]] to _values_.
+              1. Set _onFulfilled_.[[Capability]] to _resultCapability_.
+              1. Set _onFulfilled_.[[RemainingElements]] to _remainingElementsCount_.
+              1. Let _stepsRejected_ be the algorithm steps defined in <emu-xref href="#sec-promise.allsettled-reject-element-functions" title></emu-xref>.
+              1. Let _lengthRejected_ be the number of non-optional parameters of the function definition in <emu-xref href="#sec-promise.allsettled-reject-element-functions" title></emu-xref>.
+              1. Let _onRejected_ be ! CreateBuiltinFunction(_stepsRejected_, _lengthRejected_, *""*, « [[AlreadyCalled]], [[Index]], [[Values]], [[Capability]], [[RemainingElements]] »).
+              1. Set _onRejected_.[[AlreadyCalled]] to _alreadyCalled_.
+              1. Set _onRejected_.[[Index]] to _index_.
+              1. Set _onRejected_.[[Values]] to _values_.
+              1. Set _onRejected_.[[Capability]] to _resultCapability_.
+              1. Set _onRejected_.[[RemainingElements]] to _remainingElementsCount_.
               1. Set _remainingElementsCount_.[[Value]] to _remainingElementsCount_.[[Value]] + 1.
-              1. Perform ? Invoke(_nextPromise_, *"then"*, « _resolveElement_, _rejectElement_ »).
+              1. Perform ? Invoke(_nextPromise_, *"then"*, « _onFulfilled_, _onRejected_ »).
               1. Set _index_ to _index_ + 1.

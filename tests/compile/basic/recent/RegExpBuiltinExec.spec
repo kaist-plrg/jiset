@@ -54,6 +54,6 @@
                 1. Let _capturedValue_ be the String value consisting of the code units of _captureI_.
               1. Perform ! CreateDataPropertyOrThrow(_A_, ! ToString(𝔽(_i_)), _capturedValue_).
               1. If the _i_<sup>th</sup> capture of _R_ was defined with a |GroupName|, then
-                1. Let _s_ be the StringValue of the corresponding |RegExpIdentifierName|.
+                1. Let _s_ be the CapturingGroupName of the corresponding |RegExpIdentifierName|.
                 1. Perform ! CreateDataPropertyOrThrow(_groups_, _s_, _capturedValue_).
             1. Return _A_.

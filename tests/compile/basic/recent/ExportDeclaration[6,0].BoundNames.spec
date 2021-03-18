@@ -1,1 +1,1 @@
-          1. Return « *"\*default\*"* ».
+        1. Return « *"\*default\*"* ».
