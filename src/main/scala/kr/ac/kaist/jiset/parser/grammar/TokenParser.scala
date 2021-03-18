@@ -13,11 +13,10 @@ trait TokenParsers extends Parsers {
   }
 
   // lookahead tokens
-  lazy val containsSymbol = ("!=" | "<!" | "==" | "<") ^^ {
-    case "!=" | "<!" => false
-    case "==" | "<" => true
-    case _ => ??? // impossible
-  }
+  lazy val containsSymbol = (
+    ("==" | "<" | "∈") ^^^ true |||
+    ("!=" | "<!" | "∉") ^^^ false
+  )
   lazy val laElem: Parser[List[Token]] = rep(token)
   lazy val laList = opt("{") ~> repsep(laElem, ",") <~ opt("}")
   lazy val lookahead = "[lookahead " ~> containsSymbol ~ laList <~ "]" ^^ {

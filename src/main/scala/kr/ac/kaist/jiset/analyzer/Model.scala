@@ -138,6 +138,7 @@ class Model(cfg: CFG) {
       "CreateGlobalFunctionBinding" -> getClos(""".*\.CreateGlobalFunctionBinding""".r),
       "CreateImportBinding" -> getClos(""".*\.CreateImportBinding""".r),
       "BindingObject" -> AbsTy("OrdinaryObject"),
+      "SubMap" -> AbsValue(Ty("SubMap")),
     ),
     TyInfo(
       name = "DeclarativeEnvironmentRecord",
@@ -150,10 +151,6 @@ class Model(cfg: CFG) {
       "SubMap" -> AbsValue(Ty("SubMap")),
       "Prototype" -> AbsValue(Ty("Object")) ⊔ AbsNull.Top,
       "Extensible" -> AbsBool.Top,
-    ),
-    TyInfo(
-      name = "OrdinaryObject",
-      parent = "Object",
       "GetPrototypeOf" -> getClos("""OrdinaryObject.GetPrototypeOf""".r),
       "SetPrototypeOf" -> getClos("""OrdinaryObject.SetPrototypeOf""".r),
       "IsExtensible" -> getClos("""OrdinaryObject.IsExtensible""".r),
@@ -166,6 +163,10 @@ class Model(cfg: CFG) {
       "Delete" -> getClos("""OrdinaryObject.Delete""".r),
       "OwnPropertyKeys" -> getClos("""OrdinaryObject.OwnPropertyKeys""".r),
       "InitialName" -> AbsValue(Null, Absent) ⊔ AbsStr.Top
+    ),
+    TyInfo(
+      name = "OrdinaryObject",
+      parent = "Object",
     ),
     // property descriptor
     TyInfo(
