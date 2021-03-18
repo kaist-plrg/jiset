@@ -110,7 +110,8 @@ class AnalyzeREPL(sem: AbsSemantics) {
         case CmdBreakRm.name :: args =>
           args.headOption match {
             case None => println("need arguments")
-            case Some(idx) => breakpoints.remove(idx.toInt)
+            case Some(idx) if idx.toInt < breakpoints.size => breakpoints.remove(idx.toInt)
+            case Some(idx) => println(s"out of index: $idx")
           }; true
         case CmdLog.name :: _ =>
           sem.stat.dump(); true
