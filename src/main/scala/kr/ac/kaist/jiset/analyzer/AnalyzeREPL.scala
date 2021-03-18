@@ -24,7 +24,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
   private val breakpoints = ArrayBuffer[(CmdOption, Regex)]()
 
   // completer
-  private def completer: TreeCompleter =
+  private val completer: TreeCompleter =
     new TreeCompleter(Command.commands.map(optionNode(_)): _*)
   private def optionNode(cmd: Command) =
     node(cmd.name :: cmd.options.map(argNode(_)): _*)
@@ -33,16 +33,14 @@ class AnalyzeREPL(sem: AbsSemantics) {
   private def getArgNodes(opt: CmdOption): List[TreeCompleter.Node] = opt match {
     case CmdBreak.FuncTarget => funcs.map(x => node(x.name))
     case CmdBreak.BlockTarget => (0 until nidGen.size).map(x => node(x.toString)).toList
-    case CmdInfo.RetTarget => sem.getRpMap.keys.map(x => node(x.func.name)).toList
-    case CmdInfo.BlockTarget => sem.getNpMap.keys.map {
-      case NodePoint(node, _) => TreeCompleter.node(node.uid.toString)
-    }.toList
+    case CmdInfo.RetTarget => funcs.map(x => node(x.name))
+    case CmdInfo.BlockTarget => (0 until nidGen.size).map(x => node(x.toString)).toList
     case _ => Nil
   }
 
   // jline
   private val terminal: Terminal = TerminalBuilder.builder().build()
-  private def reader: LineReader = LineReaderBuilder.builder()
+  private val reader: LineReader = LineReaderBuilder.builder()
     .terminal(terminal)
     .completer(completer)
     .build()
