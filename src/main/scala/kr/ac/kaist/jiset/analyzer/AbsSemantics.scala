@@ -366,7 +366,7 @@ class AbsSemantics(
     if (!v.ty.isBottom) for (Ty(name) <- v.ty.toSet) {
       add(NameT(name), AbsTy(name))
     }
-    if (!v.loc.isBottom) for (loc <- v.loc.toSet) st.lookup(this, loc) match {
+    if (!v.loc.isBottom) for (loc <- v.loc.toSet) st.lookupLoc(this, loc) match {
       case MapElem(Some(ty), _) => add(NameT(ty), AbsValue(loc))
       case ListElem(_) => add(ListT, AbsValue(loc))
       case SymbolElem(_) => add(SymbolT, AbsValue(loc))

@@ -149,7 +149,7 @@
   },
   {
     "tokens": "If nt:{ExportDeclaration} is code:{export} nt:{VariableStatement} , return VarScopedDeclarations of nt:{VariableStatement} .",
-    "inst": "if AnyBool { access __vs__ = (VariableStatement \"VarScopedDeclarations\") return __vs__ } else {}"
+    "inst": "if AnyBool { let VariableStatement = ExportDeclaration.VariableStatement access __vs__ = (VariableStatement \"VarScopedDeclarations\") return __vs__ } else {}"
   },
   {
     "tokens": "If id:{symbol} is the nt:{ReservedWord} code:{super} , return value:{true} .",
@@ -158,5 +158,9 @@
   {
     "tokens": "If id:{argument} is value:{true} , return value:{1} . If id:{argument} is value:{false} , return value:{+0} .",
     "inst": "{if (= argument true) return 1i else {} if (= argument false) return 0i else {}}"
+  },
+  {
+    "tokens": "If an implementation - defined debugging facility is available and enabled , then in:{} out:{}",
+    "inst": "if AnyBool let result = CONST_empty else let result = CONST_empty"
   }
 ]

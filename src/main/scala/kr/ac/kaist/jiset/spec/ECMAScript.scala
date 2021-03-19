@@ -41,6 +41,9 @@ case class ECMAScript(
   lazy val (completedAlgos, incompletedAlgos): (List[Algo], List[Algo]) =
     algos.partition(_.isComplete)
 
+  // get nonterminal names in rhs of lhs
+  def getRhsNT(lhs: String): Set[String] = grammar.nameMap(lhs).getRhsNT
+
   // get syntax directed algos
   def getSyntaxAlgo(lhs: String, method: String): Set[String] = {
     var names = Set[String]()

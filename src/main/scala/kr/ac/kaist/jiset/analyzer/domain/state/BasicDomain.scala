@@ -285,14 +285,26 @@ object BasicDomain extends state.Domain {
           base.pure
         case _ => base.escaped
       }
-      for (ty <- pure.ty) v ⊔= lookup(sem, ty.name, prop.str)
-      for (loc <- pure.loc) v ⊔= lookup(sem, loc, prop)
-      if (!pure.str.isBottom) v ⊔= lookup(pure.str, prop)
+      for (ast <- pure.ast) v ⊔= lookupAST(sem, ast.name, prop.str)
+      for (ty <- pure.ty) v ⊔= lookupTy(sem, ty.name, prop.str)
+      for (loc <- pure.loc) v ⊔= lookupLoc(sem, loc, prop)
+      if (!pure.str.isBottom) v ⊔= lookupStr(pure.str, prop)
       v
     }
 
+    // lookup AST
+    def lookupAST(sem: AbsSemantics, lhs: String, prop: AbsStr): AbsValue =
+      if (prop.isBottom) AbsValue.Bot
+      else prop.getSingle match {
+        case One(Str(rhs)) =>
+          val rhsSet = sem.spec.getRhsNT(lhs)
+          if (rhsSet contains rhs) AbsAST(ASTVal(rhs))
+          else AbsValue.Bot
+        case _ => ???
+      }
+
     // lookup strings
-    def lookup(str: AbsStr, prop: AbsPure): AbsValue = if (!str.isBottom) {
+    def lookupStr(str: AbsStr, prop: AbsPure): AbsValue = if (!str.isBottom) {
       var v = AbsValue.Bot
       if (!prop.num.isBottom) v ⊔= AbsStr.Top
       if (AbsValue("length") ⊑ prop.str) v ⊔= AbsNum.Top
@@ -300,7 +312,7 @@ object BasicDomain extends state.Domain {
     } else AbsValue.Bot
 
     // lookup objects
-    def lookup(sem: AbsSemantics, obj: AbsObj, prop: AbsPure): AbsValue = {
+    def lookupObj(sem: AbsSemantics, obj: AbsObj, prop: AbsPure): AbsValue = {
       import AbsObj._
       obj match {
         case MapElem(Some("SubMap"), _) => AbsAbsent.Top // TODO
@@ -308,7 +320,7 @@ object BasicDomain extends state.Domain {
           case Finite(set) =>
             val vopt = set.foldLeft[MapD.AbsVOpt](MapD.AbsVOpt.Bot)(_ ⊔ _)
             val typeV = if (vopt.absent.isTop) {
-              val typeV = ty.fold(AbsValue.Bot)(lookup(sem, _, prop.str))
+              val typeV = ty.fold(AbsValue.Bot)(lookupTy(sem, _, prop.str))
               if (typeV.isBottom) alarm(s"unknown property: ${beautify(prop)} @ ${beautify(obj)}")
               typeV
             } else AbsValue.Bot
@@ -339,38 +351,38 @@ object BasicDomain extends state.Domain {
     }
 
     // lookup type properties
-    def lookup(sem: AbsSemantics, ty: String, prop: String): AbsValue = {
+    def lookupTy(sem: AbsSemantics, ty: String, prop: String): AbsValue = {
       sem.typeMap.get(ty) match {
         case Some(info) =>
           val props = info.props
           props.getOrElse(prop, info.parent.fold({
             alarm(s"unknown property: ${prop} @ ${ty}")
             AbsValue.Bot
-          })(lookup(sem, _, prop)))
+          })(lookupTy(sem, _, prop)))
         case None if (ty == "SubMap") => AbsAbsent.Top // TODO unsound
         case None =>
           alarm(s"unknown type: $ty")
           AbsValue.Bot
       }
     }
-    def lookup(sem: AbsSemantics, ty: String, prop: AbsStr): AbsValue = {
+    def lookupTy(sem: AbsSemantics, ty: String, prop: AbsStr): AbsValue = {
       // TODO SubMap types
       if (ty == "SubMap") AbsAbsent.Top /* TODO unsound */ else prop.gamma match {
         case Infinite => AbsValue.Top
         case Finite(ps) => ps.toList.foldLeft(AbsValue.Bot) {
-          case (v, Str(prop)) => v ⊔ lookup(sem, ty, prop)
+          case (v, Str(prop)) => v ⊔ lookupTy(sem, ty, prop)
         }
       }
     }
 
     // lookup properties
-    def lookup(sem: AbsSemantics, loc: Loc, prop: AbsPure): AbsValue = {
-      val obj = lookup(sem, loc)
-      lookup(sem, obj, prop)
+    def lookupLoc(sem: AbsSemantics, loc: Loc, prop: AbsPure): AbsValue = {
+      val obj = lookupLoc(sem, loc)
+      lookupObj(sem, obj, prop)
     }
 
     // lookup locations
-    def lookup(sem: AbsSemantics, loc: Loc): AbsObj = loc match {
+    def lookupLoc(sem: AbsSemantics, loc: Loc): AbsObj = loc match {
       case (_: NamedAddr) => sem.globalHeap.getOrElse(loc, {
         alarm(s"unknown locations: ${beautify(loc)}")
         AbsObj.Bot
@@ -498,7 +510,7 @@ object BasicDomain extends state.Domain {
       asite: Int,
       pure: AbsPure
     ): (AbsPure, Elem) = {
-      val objs = pure.loc.toList.map(lookup(sem, _))
+      val objs = pure.loc.toList.map(lookupLoc(sem, _))
       val obj = objs.foldLeft[AbsObj](AbsObj.Bot)(_ ⊔ _)
       val loc = AllocSite(fid, asite)
       (AbsPure(loc), copy(heap = heap + (loc -> obj)))
@@ -515,7 +527,7 @@ object BasicDomain extends state.Domain {
     ): (AbsValue, Elem) = {
       val newV = list.loc.toList.foldLeft(AbsValue.Bot) {
         case (value, loc) =>
-          val obj = lookup(sem, loc)
+          val obj = lookupLoc(sem, loc)
           obj match {
             case AbsObj.ListElem(list) => value ⊔ list.value
             case _ =>
@@ -534,7 +546,7 @@ object BasicDomain extends state.Domain {
       var map = Map[String, AbsPure]()
       def add(name: String, pure: AbsPure): Unit =
         map += name -> (map.getOrElse(name, AbsPure.Bot) ⊔ pure)
-      if (!pv.loc.isBottom) for (loc <- pv.loc) lookup(sem, loc) match {
+      if (!pv.loc.isBottom) for (loc <- pv.loc) lookupLoc(sem, loc) match {
         case SymbolElem(_) =>
           add("Symbol", AbsPure(loc))
         case MapElem(Some(parent), _) if parent endsWith "Object" =>
@@ -581,7 +593,7 @@ object BasicDomain extends state.Domain {
       var map = Map[String, AbsPure]()
       def add(name: String, pure: AbsPure): Unit =
         map += name -> (map.getOrElse(name, AbsPure.Bot) ⊔ pure)
-      if (!pv.loc.isBottom) for (loc <- pv.loc) lookup(sem, loc) match {
+      if (!pv.loc.isBottom) for (loc <- pv.loc) lookupLoc(sem, loc) match {
         case AbsObj.MapElem(Some(parent), _) => add(parent, AbsPure(loc))
         case obj =>
       }

@@ -8,6 +8,9 @@ case class Production(
   lhs: Lhs,
   rhsList: List[Rhs]
 ) {
+  // get nonterminal names in rhs of lhs
+  def getRhsNT: Set[String] = rhsList.flatMap(_.toNTs).map(_.name).toSet
+
   // get index map
   def getIdxMap: Map[String, (Int, Int)] = (for {
     (rhs, i) <- rhsList.zipWithIndex
