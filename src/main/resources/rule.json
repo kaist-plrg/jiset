@@ -154,5 +154,9 @@
   {
     "tokens": "If id:{symbol} is the nt:{ReservedWord} code:{super} , return value:{true} .",
     "inst": "if AnyBool return true else {}"
+  },
+  {
+    "tokens": "If id:{argument} is value:{true} , return value:{1} . If id:{argument} is value:{false} , return value:{+0} .",
+    "inst": "{if (= argument true) return 1i else {} if (= argument false) return 0i else {}}"
   }
 ]
