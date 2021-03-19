@@ -6,7 +6,8 @@ import kr.ac.kaist.jiset.analyzer.domain._
 object ProdDomain extends pure.Domain {
   // abstraction functions
   def alpha(v: PureValue): Elem = v match {
-    case addr: Addr => Elem(addr = AbsAddr(addr))
+    case loc: Loc => Elem(loc = AbsLoc(loc))
+    case addr: Addr => Elem(loc = AbsLoc(addr.toLoc))
     case const: Const => Elem(const = AbsConst(const))
     case clo: Clo => Elem(clo = AbsClo(clo))
     case cont: Cont => Elem(cont = AbsCont(cont))
@@ -19,7 +20,7 @@ object ProdDomain extends pure.Domain {
 
   // top value
   val Top: Elem = Elem(
-    AbsAddr.Top,
+    AbsLoc.Top,
     AbsTy.Top,
     AbsConst.Top,
     AbsClo.Top,
@@ -30,24 +31,24 @@ object ProdDomain extends pure.Domain {
 
   // constructor
   def apply(
-    addr: AbsAddr = AbsAddr.Bot,
+    loc: AbsLoc = AbsLoc.Bot,
     ty: AbsTy = AbsTy.Bot,
     const: AbsConst = AbsConst.Bot,
     clo: AbsClo = AbsClo.Bot,
     cont: AbsCont = AbsCont.Bot,
     ast: AbsAST = AbsAST.Bot,
     prim: AbsPrim = AbsPrim.Bot
-  ): Elem = Elem(addr, ty, const, clo, cont, ast, prim)
+  ): Elem = Elem(loc, ty, const, clo, cont, ast, prim)
 
   // constructor for types
   def apply(ty: Ty): Elem = Elem(ty = AbsTy(ty))
 
   // extractor
-  def unapply(elem: Elem): Option[(AbsAddr, AbsTy, AbsConst, AbsClo, AbsCont, AbsAST, AbsPrim)] =
-    Some((elem.addr, elem.ty, elem.const, elem.clo, elem.cont, elem.ast, elem.prim))
+  def unapply(elem: Elem): Option[(AbsLoc, AbsTy, AbsConst, AbsClo, AbsCont, AbsAST, AbsPrim)] =
+    Some((elem.loc, elem.ty, elem.const, elem.clo, elem.cont, elem.ast, elem.prim))
 
   case class Elem(
-    addr: AbsAddr = AbsAddr.Bot,
+    loc: AbsLoc = AbsLoc.Bot,
     ty: AbsTy = AbsTy.Bot,
     const: AbsConst = AbsConst.Bot,
     clo: AbsClo = AbsClo.Bot,
@@ -57,7 +58,7 @@ object ProdDomain extends pure.Domain {
   ) extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (
-      this.addr ⊑ that.addr &&
+      this.loc ⊑ that.loc &&
       this.ty ⊑ that.ty &&
       this.const ⊑ that.const &&
       this.clo ⊑ that.clo &&
@@ -68,7 +69,7 @@ object ProdDomain extends pure.Domain {
 
     // join operator
     def ⊔(that: Elem): Elem = Elem(
-      this.addr ⊔ that.addr,
+      this.loc ⊔ that.loc,
       this.ty ⊔ that.ty,
       this.const ⊔ that.const,
       this.clo ⊔ that.clo,
@@ -79,7 +80,7 @@ object ProdDomain extends pure.Domain {
 
     // meet operator
     def ⊓(that: Elem): Elem = Elem(
-      this.addr ⊓ that.addr,
+      this.loc ⊓ that.loc,
       this.ty ⊓ that.ty,
       this.const ⊓ that.const,
       this.clo ⊓ that.clo,
@@ -90,7 +91,7 @@ object ProdDomain extends pure.Domain {
 
     // prune
     def prune(v: PureValue): Elem = v match {
-      case addr: Addr => copy(addr = this.addr.prune(addr))
+      case loc: Loc => copy(loc = this.loc.prune(loc))
       case const: Const => copy(const = this.const.prune(const))
       case clo: Clo => copy(clo = this.clo.prune(clo))
       case cont: Cont => copy(cont = this.cont.prune(cont))
@@ -101,7 +102,7 @@ object ProdDomain extends pure.Domain {
 
     // concretization clotion
     def gamma: concrete.Set[PureValue] = (
-      this.addr.gamma ++
+      this.loc.gamma ++
       (if (this.ty.isBottom) Finite() else Infinite) ++
       this.const.gamma ++
       this.clo.gamma ++
@@ -112,7 +113,7 @@ object ProdDomain extends pure.Domain {
 
     // conversion to flat domain
     def getSingle: concrete.Flat[PureValue] = (
-      this.addr.getSingle ++
+      this.loc.getSingle ++
       (if (this.ty.isBottom) Zero else Many) ++
       this.const.getSingle ++
       this.clo.getSingle ++

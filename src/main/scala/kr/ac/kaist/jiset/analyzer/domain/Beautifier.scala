@@ -26,11 +26,7 @@ object Beautifier {
     case Absent => "absent"
   })
   implicit lazy val astApp: App[ASTVal] = (app, ast) => app >> "☊(" >> ast.name >> ")"
-  implicit lazy val addrApp: App[Addr] = (app, addr) => app >> "#" >> (addr match {
-    case NamedAddr(name) => name
-    case DynamicAddr(k, -1) => s"$k"
-    case DynamicAddr(k, fid) => s"$k:$fid"
-  })
+  implicit lazy val locApp: App[Loc] = (app, loc) => app >> "#" >> loc.toString
   implicit lazy val tyApp: App[Ty] = (app, ty) => app >> ty.name
   implicit lazy val constApp: App[Const] =
     (app, const) => app >> "~" >> const.const >> "~"
@@ -56,11 +52,8 @@ object Beautifier {
       if (!absent.isBottom) udts :+= { _ >> absent }
       app >> udts.reduce((x, y) => _ >> x >> " | " >> y)
     })
-  implicit lazy val addrOrdering: Ordering[Addr] = Ordering.by(_ match {
-    case NamedAddr(name) => (name, -1, -1)
-    case DynamicAddr(k, fid) => ("", k, fid)
-  })
-  implicit lazy val aaddrApp: App[AbsAddr] = setDomainApp(AbsAddr)
+  implicit lazy val locOrdering: Ordering[Loc] = Ordering.by(_.getOrder)
+  implicit lazy val alocApp: App[AbsLoc] = setDomainApp(AbsLoc)
   implicit lazy val tyOrdering: Ordering[Ty] = Ordering.by(_.name)
   implicit lazy val atyApp: App[AbsTy] = setDomainApp(AbsTy)
   implicit lazy val constOrdering: Ordering[Const] = Ordering.by(_.const)
@@ -82,9 +75,9 @@ object Beautifier {
   implicit lazy val aastApp: App[AbsAST] = setDomainApp(AbsAST)
   implicit lazy val apureApp: App[AbsPure] =
     domainApp(AbsPure)((app, v) => {
-      val AbsPure(addr, ty, const, clo, cont, ast, prim) = v
+      val AbsPure(loc, ty, const, clo, cont, ast, prim) = v
       var udts = Vector[Update]()
-      if (!addr.isBottom) udts :+= { _ >> addr }
+      if (!loc.isBottom) udts :+= { _ >> loc }
       if (!ty.isBottom) udts :+= { _ >> ty }
       if (!const.isBottom) udts :+= { _ >> const }
       if (!clo.isBottom) udts :+= { _ >> clo }

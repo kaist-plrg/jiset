@@ -14,15 +14,26 @@ object JsonProtocol extends BasicJsonProtocol {
   implicit lazy val strFormat = jsonFormat1(Str)
   implicit lazy val boolFormat = jsonFormat1(Bool)
   implicit lazy val astFormat = jsonFormat1(ASTVal)
-  implicit lazy val dynamicAddrFormat = jsonFormat2(DynamicAddr)
-  implicit object addrFormat extends RootJsonFormat[Addr] {
-    def read(json: JsValue): Addr = json match {
-      case JsString(str) => NamedAddr(str)
-      case _ => dynamicAddrFormat.read(json)
+  implicit lazy val namedAddrFormat = jsonFormat1(NamedAddr)
+  implicit lazy val allocSiteFormat = jsonFormat2(AllocSite)
+  implicit lazy val locTypeFormat = jsonFormat1(LocType)
+  implicit lazy val callSiteFormat = jsonFormat3(CallSite)
+  implicit object locFormat extends RootJsonFormat[Loc] {
+    def read(json: JsValue): Loc = json match {
+      case v =>
+        val discrimator = List("name", "asite", "csite")
+          .map(d => v.asJsObject.fields.contains(d))
+        discrimator.indexOf(true) match {
+          case 0 => namedAddrFormat.read(v)
+          case 1 => allocSiteFormat.read(v)
+          case 2 => callSiteFormat.read(v)
+          case _ => deserializationError(s"unknown location: $v")
+        }
     }
-    def write(addr: Addr): JsValue = addr match {
-      case NamedAddr(name) => JsString(name)
-      case (x: DynamicAddr) => dynamicAddrFormat.write(x)
+    def write(loc: Loc): JsValue = loc match {
+      case (x: NamedAddr) => namedAddrFormat.write(x)
+      case (x: AllocSite) => allocSiteFormat.write(x)
+      case (x: CallSite) => callSiteFormat.write(x)
     }
   }
   implicit lazy val tyFormat = jsonFormat1(Ty)
@@ -45,7 +56,7 @@ object JsonProtocol extends BasicJsonProtocol {
     def write(clo: AbsClo): JsValue = setFormat.write(clo.set)
   }
   implicit lazy val acontFormat = simpleDomainFormat(AbsCont)
-  implicit lazy val aaddrFormat = setDomainFormat(AbsAddr)
+  implicit lazy val alocFormat = setDomainFormat(AbsLoc)
   implicit lazy val atyFormat = setDomainFormat(AbsTy)
   implicit lazy val aconstFormat = setDomainFormat(AbsConst)
   implicit lazy val apureFormat = jsonFormat7(AbsPure.Elem)

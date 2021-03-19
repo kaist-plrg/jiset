@@ -14,7 +14,7 @@ import scala.util.matching.Regex
 // TODO more manual modelings
 class Model(cfg: CFG) {
   // global variables and heaps
-  lazy val global: (Map[String, AbsValue], Map[Addr, AbsObj]) = getGlobal
+  lazy val global: (Map[String, AbsValue], Map[Loc, AbsObj]) = getGlobal
 
   // type map
   lazy val typeMap: Map[String, TyInfo] =

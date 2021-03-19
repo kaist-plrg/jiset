@@ -21,10 +21,10 @@ class CheckBottoms(sem: AbsSemantics) {
   }
   def apply(heap: AbsHeap): Unit = {
     import AbsObj._
-    for ((addr, obj) <- heap.map.map) obj match {
+    for ((loc, obj) <- heap.map.map) obj match {
       case MapElem(_, map) => for ((x, vOpt) <- map.map) {
         if (vOpt.absent.isBottom)
-          this(vOpt.value, s"a map object @ ${beautify(addr)}")
+          this(vOpt.value, s"a map object @ ${beautify(loc)}")
       }
       case _ =>
     }

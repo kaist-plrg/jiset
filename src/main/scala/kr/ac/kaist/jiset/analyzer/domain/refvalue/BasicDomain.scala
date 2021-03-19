@@ -9,7 +9,7 @@ object BasicDomain extends refvalue.Domain {
   // abstraction function
   def alpha(refVal: RefValue): Elem = refVal match {
     case RefValueId(name) => Id(name)
-    case RefValueProp(addr, name) => Prop(AbsValue(addr), AbsPure(name))
+    case RefValueProp(addr, name) => Prop(AbsValue(addr.toLoc), AbsPure(name))
     case RefValueString(str, name) => Prop(AbsValue(str), AbsPure(name))
   }
 

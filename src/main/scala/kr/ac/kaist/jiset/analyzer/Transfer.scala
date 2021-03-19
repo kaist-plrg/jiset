@@ -381,6 +381,7 @@ class Transfer(
       case _: SymbolObj => "Symbol"
       case MapObj(ty, _) => ty.name
     }
+    case _: Loc => ???
     case ASTVal(_) => "AST"
     case Cont() => "Continuation"
     case Clo(_, _) => "Closure"

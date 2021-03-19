@@ -54,9 +54,9 @@ package object domain {
   lazy val AbsPure = pure.ProdDomain
   type AbsPure = AbsPure.Elem
 
-  // abstract addresses
-  lazy val AbsAddr = addr.SetDomain
-  type AbsAddr = AbsAddr.Elem
+  // abstract locations
+  lazy val AbsLoc = loc.SetDomain
+  type AbsLoc = AbsLoc.Elem
 
   // abstract types
   lazy val AbsTy = ty.SetDomain
@@ -154,8 +154,8 @@ package object domain {
     AbsPrim(absent = x)
   implicit def const2pure[T](x: T)(implicit f: T => AbsConst) =
     AbsPure(const = x)
-  implicit def addr2pure[T](x: T)(implicit f: T => AbsAddr) =
-    AbsPure(addr = x)
+  implicit def loc2pure[T](x: T)(implicit f: T => AbsLoc) =
+    AbsPure(loc = x)
   implicit def ty2pure[T](x: T)(implicit f: T => AbsTy) =
     AbsPure(ty = x)
   implicit def clo2pure[T](x: T)(implicit f: T => AbsClo) =

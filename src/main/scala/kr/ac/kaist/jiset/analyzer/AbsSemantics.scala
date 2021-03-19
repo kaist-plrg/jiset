@@ -366,12 +366,12 @@ class AbsSemantics(
     if (!v.ty.isBottom) for (Ty(name) <- v.ty.toSet) {
       add(NameT(name), AbsTy(name))
     }
-    if (!v.addr.isBottom) for (addr <- v.addr.toSet) st.lookup(this, addr) match {
-      case MapElem(Some(ty), _) => add(NameT(ty), AbsValue(addr))
-      case ListElem(_) => add(ListT, AbsValue(addr))
-      case SymbolElem(_) => add(SymbolT, AbsValue(addr))
+    if (!v.loc.isBottom) for (loc <- v.loc.toSet) st.lookup(this, loc) match {
+      case MapElem(Some(ty), _) => add(NameT(ty), AbsValue(loc))
+      case ListElem(_) => add(ListT, AbsValue(loc))
+      case SymbolElem(_) => add(SymbolT, AbsValue(loc))
       case Bot =>
-        alarm(s"no objects for ${beautify(addr)} @ AbsSemantics.getPureType")
+        alarm(s"no objects for ${beautify(loc)} @ AbsSemantics.getPureType")
       case _ =>
         ???
     }

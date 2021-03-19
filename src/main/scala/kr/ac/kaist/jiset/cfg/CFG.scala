@@ -30,9 +30,9 @@ class CFG(val spec: ECMAScript) {
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
   // initial global variables and heaps
-  def getGlobal: (Map[String, Value], Map[Addr, Obj]) = {
+  def getGlobal: (Map[String, Value], Map[Loc, Obj]) = {
     var env = globalMethods
-    var heap = Map[Addr, Obj]()
+    var heap = Map[Loc, Obj]()
 
     val (consts, intrinsics, symbols) = getNames
 
@@ -51,9 +51,9 @@ class CFG(val spec: ECMAScript) {
     // symbols
     for (x <- symbols) {
       val desc = x.substring("SYMBOL_".length).replaceAll("_", ".")
-      val addr = NamedAddr(s"@$desc")
-      env += x -> addr
-      heap += addr -> SymbolObj(desc)
+      val loc = NamedAddr(s"@$desc")
+      env += x -> loc
+      heap += loc -> SymbolObj(desc)
     }
 
     (env, heap)

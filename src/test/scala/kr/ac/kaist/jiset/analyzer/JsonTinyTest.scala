@@ -33,7 +33,7 @@ class JsonTinyTest extends AnalyzerTest {
       AbsValue(123, "abc", Undef, Null, Absent),
       AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)),
       AbsValue("a", "b", true, false),
-      AbsValue(42, NamedAddr("Global"), DynamicAddr(432)),
+      AbsValue(42, NamedAddr("Global"), AllocSite(432, 42)),
       (AbsValue(42, Const("empty")) ⊔ AbsValue(Ty("Object"))),
       (AbsValue(true, Cont()) ⊔ AbsClo.Top),
       AbsValue(ASTVal("Literal"), ASTVal("Identifier")),
@@ -50,14 +50,14 @@ class JsonTinyTest extends AnalyzerTest {
     )
 
     val id = RefValueId("x")
-    val prop = RefValueProp(DynamicAddr(42), "p")
+    val prop = RefValueProp(NamedAddr("Global"), "p")
     val string = RefValueString("abc", "length")
     test("Abstract Reference Values")(
       AbsRefValue.Bot,
       AbsRefValue(id),
       AbsRefValue.Prop(AbsTy("Object"), AbsStr("p")),
       AbsRefValue.Prop(
-        AbsValue(DynamicAddr(42)) ⊔ AbsTy("Object"),
+        AbsValue(AllocSite(1, 2)) ⊔ AbsTy("Object"),
         AbsStr("p")
       ),
       AbsRefValue(prop),
@@ -79,7 +79,7 @@ class JsonTinyTest extends AnalyzerTest {
 
     val heap = AbsHeap(Heap(
       NamedAddr("Global") -> SymbolObj("has"),
-      DynamicAddr(42) -> MapObj(Ty("Record")),
+      NamedAddr("A") -> MapObj(Ty("Record")),
     ))
     test("Abstract Heaps")(heap)
 

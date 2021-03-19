@@ -39,9 +39,10 @@ class BeautifierTinyTest extends AnalyzerTest {
 
     test("AST values")(ASTVal("Literal") -> "☊(Literal)")
 
-    test("Addresses")(
+    test("Locations")(
       NamedAddr("Global") -> "#Global",
-      DynamicAddr(432) -> "#432",
+      AllocSite(432, 42) -> "#432:42",
+      CallSite(432, 42, LocType("A")) -> "#432:42:A",
     )
 
     test("Abstract Values")(
@@ -49,7 +50,7 @@ class BeautifierTinyTest extends AnalyzerTest {
       AbsValue(123, "abc", Undef, Null, Absent) -> "123.0 | \"abc\" | undef | null | ?",
       AbsValue(1.2, 2.3, 3, 4, BigInt(2), BigInt(3)) -> "num | bigint",
       AbsValue("a", "b", true, false) -> "str | bool",
-      AbsValue(42, NamedAddr("Global"), DynamicAddr(432)) -> "(#432 | #Global) | 42.0",
+      AbsValue(42, NamedAddr("Global"), AllocSite(432, 42)) -> "(#Global | #432:42) | 42.0",
       (AbsValue(42, Const("empty")) ⊔ AbsValue(Ty("Object"))) -> "Object | ~empty~ | 42.0",
       (AbsValue(true, Cont()) ⊔ AbsClo(Clo(42))) -> "λ(42) | κ | true",
       AbsValue(Clo(42, Env("x" -> Bool(true), "y" -> Num(42)))) -> """λ(42)[{
@@ -70,17 +71,17 @@ class BeautifierTinyTest extends AnalyzerTest {
     )
 
     val id = RefValueId("x")
-    val prop = RefValueProp(DynamicAddr(42), "p")
+    val prop = RefValueProp(NamedAddr("Global"), "p")
     val string = RefValueString("abc", "length")
     test("Abstract Reference Values")(
       AbsRefValue.Bot -> "⊥",
       AbsRefValue(id) -> "x",
       AbsRefValue.Prop(AbsTy("Object"), AbsStr("p")) -> """(Object)["p"]""",
       AbsRefValue.Prop(
-        AbsValue(DynamicAddr(42)) ⊔ AbsTy("Object"),
+        AbsValue(AllocSite(1, 2)) ⊔ AbsTy("Object"),
         AbsStr("p")
-      ) -> """(#42 | Object)["p"]""",
-      AbsRefValue(prop) -> """(#42)["p"]""",
+      ) -> """(#1:2 | Object)["p"]""",
+      AbsRefValue(prop) -> """(#Global)["p"]""",
       AbsRefValue(string) -> """("abc")["length"]""",
       AbsRefValue(id, prop, string) -> "⊤",
     )
@@ -103,11 +104,11 @@ class BeautifierTinyTest extends AnalyzerTest {
 
     val heap = AbsHeap(Heap(
       NamedAddr("Global") -> SymbolObj("has"),
-      DynamicAddr(42) -> MapObj(Ty("Record")),
+      NamedAddr("A") -> MapObj(Ty("Record")),
     ))
     test("Abstract Heaps")(
       heap -> """{
-      |  #42 -> Record {}
+      |  #A -> Record {}
       |  #Global -> @"has"
       |}""".stripMargin,
     )
@@ -136,7 +137,7 @@ class BeautifierTinyTest extends AnalyzerTest {
       |    z -> ? null
       |  }
       |  heap: {
-      |    #42 -> Record {}
+      |    #A -> Record {}
       |    #Global -> @"has"
       |  }
       |}""".stripMargin,

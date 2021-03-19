@@ -88,8 +88,8 @@ object BasicDomain extends state.Domain {
         // ty
         // TODO consider not string ty prop?
         for (ty <- pure.ty) b = b ⊔ existsTy(sem, ty.name, prop.str)
-        // addr
-        for (addr <- pure.addr) b = b ⊔ existsAddr(sem, addr, prop)
+        // loc
+        for (loc <- pure.loc) b = b ⊔ existsLoc(sem, loc, prop)
         // string
         if (!astr.isBottom) b ⊔= existsStr(astr, prop)
         // TODO consider other cases?
@@ -122,17 +122,17 @@ object BasicDomain extends state.Domain {
         }
       }
 
-    // exists addr property
-    private def existsAddr(
+    // exists location property
+    private def existsLoc(
       sem: AbsSemantics,
-      addr: Addr,
+      loc: Loc,
       aprop: AbsPure
     ): AbsBool = {
       import AbsObj._
       // get object
-      val aobj = addr match {
-        case (_: NamedAddr) if sem.globalHeap.contains(addr) => sem.globalHeap(addr)
-        case (_: DynamicAddr) if heap.keySet.contains(addr) => heap(addr)
+      val aobj = loc match {
+        case (_: NamedAddr) if sem.globalHeap.contains(loc) => sem.globalHeap(loc)
+        case _ if heap.keySet.contains(loc) => heap(loc)
         case _ => ???
       }
       // check prop existence
@@ -214,10 +214,11 @@ object BasicDomain extends state.Domain {
           }
           else Bot
         case AbsRefValue.Prop(base, prop) =>
-          copy(heap = base.escaped.addr.toSet.foldLeft(heap) {
-            case (h, a: DynamicAddr) =>
-              val obj = update(heap(a), prop, v)
-              h + (a -> obj)
+          copy(heap = base.escaped.loc.toSet.foldLeft(heap) {
+            case (h, l: NamedAddr) => ???
+            case (h, l: Loc) =>
+              val obj = update(heap(l), prop, v)
+              h + (l -> obj)
             case _ => ???
           })
         case _ => ???
@@ -285,7 +286,7 @@ object BasicDomain extends state.Domain {
         case _ => base.escaped
       }
       for (ty <- pure.ty) v ⊔= lookup(sem, ty.name, prop.str)
-      for (addr <- pure.addr) v ⊔= lookup(sem, addr, prop)
+      for (loc <- pure.loc) v ⊔= lookup(sem, loc, prop)
       if (!pure.str.isBottom) v ⊔= lookup(pure.str, prop)
       v
     }
@@ -363,18 +364,18 @@ object BasicDomain extends state.Domain {
     }
 
     // lookup properties
-    def lookup(sem: AbsSemantics, addr: Addr, prop: AbsPure): AbsValue = {
-      val obj = lookup(sem, addr)
+    def lookup(sem: AbsSemantics, loc: Loc, prop: AbsPure): AbsValue = {
+      val obj = lookup(sem, loc)
       lookup(sem, obj, prop)
     }
 
-    // lookup addresses
-    def lookup(sem: AbsSemantics, addr: Addr): AbsObj = addr match {
-      case (_: NamedAddr) => sem.globalHeap.getOrElse(addr, {
-        alarm(s"unknown address: ${beautify(addr)}")
+    // lookup locations
+    def lookup(sem: AbsSemantics, loc: Loc): AbsObj = loc match {
+      case (_: NamedAddr) => sem.globalHeap.getOrElse(loc, {
+        alarm(s"unknown locations: ${beautify(loc)}")
         AbsObj.Bot
       })
-      case (_: DynamicAddr) => heap(addr)
+      case _ => heap(loc)
     }
 
     // allocate a new symbol
@@ -384,9 +385,9 @@ object BasicDomain extends state.Domain {
       desc: String
     ): (AbsPure, Elem) = {
       import AbsObj._
-      val addr = DynamicAddr(asite, fid)
+      val loc = AllocSite(fid, asite)
       val obj: AbsObj = SymbolElem(AbsStr(desc))
-      (AbsPure(addr), copy(heap = heap + (addr -> obj)))
+      (AbsPure(loc), copy(heap = heap + (loc -> obj)))
     }
 
     // allocate a new map
@@ -400,9 +401,9 @@ object BasicDomain extends state.Domain {
       val map: MapD = MapD(props.map {
         case (k, v) => k -> MapD.AbsVOpt(v)
       }, MapD.AbsVOpt(None))
-      val addr = DynamicAddr(asite, fid)
+      val loc = AllocSite(fid, asite)
       val obj: AbsObj = MapElem(Some(ty), map)
-      (AbsPure(addr), copy(heap = heap + (addr -> obj)))
+      (AbsPure(loc), copy(heap = heap + (loc -> obj)))
     }
 
     // allocate a new list
@@ -413,9 +414,9 @@ object BasicDomain extends state.Domain {
     ): (AbsPure, Elem) = {
       import AbsObj._
       val list: ListD = ListD(vs.foldLeft(AbsValue.Bot)(_ ⊔ _))
-      val addr = DynamicAddr(asite, fid)
+      val loc = AllocSite(fid, asite)
       val obj: AbsObj = ListElem(list)
-      (AbsPure(addr), copy(heap = heap + (addr -> obj)))
+      (AbsPure(loc), copy(heap = heap + (loc -> obj)))
     }
 
     // prune
@@ -467,26 +468,26 @@ object BasicDomain extends state.Domain {
     }
 
     // append an element to a list
-    def append(sem: AbsSemantics, v: AbsValue, addr: AbsAddr): Elem =
-      insert(sem, v, addr)
+    def append(sem: AbsSemantics, v: AbsValue, loc: AbsLoc): Elem =
+      insert(sem, v, loc)
 
     // prepend an element to a list
-    def prepend(sem: AbsSemantics, v: AbsValue, addr: AbsAddr): Elem =
-      insert(sem, v, addr)
+    def prepend(sem: AbsSemantics, v: AbsValue, loc: AbsLoc): Elem =
+      insert(sem, v, loc)
 
     // insert (prepend or append)
-    private def insert(sem: AbsSemantics, v: AbsValue, addr: AbsAddr): Elem = {
+    private def insert(sem: AbsSemantics, v: AbsValue, loc: AbsLoc): Elem = {
       import AbsObj._
-      copy(heap = addr.toSet.foldLeft(heap) {
-        case (heap, addr: DynamicAddr) => heap(addr) match {
-          case ListElem(list) => heap + (addr -> ListElem(ListD(list.value ⊔ v)))
+      copy(heap = loc.toSet.foldLeft(heap) {
+        case (heap, loc: NamedAddr) =>
+          alarm(s"try to insert ${beautify(v)} to named locess ${beautify(loc)}")
+          heap
+        case (heap, loc) => heap(loc) match {
+          case ListElem(list) => heap + (loc -> ListElem(ListD(list.value ⊔ v)))
           case obj =>
             alarm(s"try to insert ${beautify(v)} to ${beautify(obj)}")
             heap
         }
-        case (heap, addr) =>
-          alarm(s"try to insert ${beautify(v)} to named address ${beautify(addr)}")
-          heap
       })
     }
 
@@ -497,10 +498,10 @@ object BasicDomain extends state.Domain {
       asite: Int,
       pure: AbsPure
     ): (AbsPure, Elem) = {
-      val objs = pure.addr.toList.map(lookup(sem, _))
+      val objs = pure.loc.toList.map(lookup(sem, _))
       val obj = objs.foldLeft[AbsObj](AbsObj.Bot)(_ ⊔ _)
-      val addr = DynamicAddr(asite, fid)
-      (AbsPure(addr), copy(heap = heap + (addr -> obj)))
+      val loc = AllocSite(fid, asite)
+      (AbsPure(loc), copy(heap = heap + (loc -> obj)))
     }
 
     // get keys of an object
@@ -512,9 +513,9 @@ object BasicDomain extends state.Domain {
       list: AbsPure,
       idx: AbsValue
     ): (AbsValue, Elem) = {
-      val newV = list.addr.toList.foldLeft(AbsValue.Bot) {
-        case (value, addr) =>
-          val obj = lookup(sem, addr)
+      val newV = list.loc.toList.foldLeft(AbsValue.Bot) {
+        case (value, loc) =>
+          val obj = lookup(sem, loc)
           obj match {
             case AbsObj.ListElem(list) => value ⊔ list.value
             case _ =>
@@ -533,11 +534,11 @@ object BasicDomain extends state.Domain {
       var map = Map[String, AbsPure]()
       def add(name: String, pure: AbsPure): Unit =
         map += name -> (map.getOrElse(name, AbsPure.Bot) ⊔ pure)
-      if (!pv.addr.isBottom) for (addr <- pv.addr) lookup(sem, addr) match {
+      if (!pv.loc.isBottom) for (loc <- pv.loc) lookup(sem, loc) match {
         case SymbolElem(_) =>
-          add("Symbol", AbsPure(addr))
+          add("Symbol", AbsPure(loc))
         case MapElem(Some(parent), _) if parent endsWith "Object" =>
-          add("Object", AbsPure(addr))
+          add("Object", AbsPure(loc))
         case obj =>
           alarm(s"try to get types of object: ${beautify(obj)}")
       }
@@ -580,8 +581,8 @@ object BasicDomain extends state.Domain {
       var map = Map[String, AbsPure]()
       def add(name: String, pure: AbsPure): Unit =
         map += name -> (map.getOrElse(name, AbsPure.Bot) ⊔ pure)
-      if (!pv.addr.isBottom) for (addr <- pv.addr) lookup(sem, addr) match {
-        case AbsObj.MapElem(Some(parent), _) => add(parent, AbsPure(addr))
+      if (!pv.loc.isBottom) for (loc <- pv.loc) lookup(sem, loc) match {
+        case AbsObj.MapElem(Some(parent), _) => add(parent, AbsPure(loc))
         case obj =>
       }
       if (!pv.ty.isBottom) for (ty <- pv.ty) add(ty.name, AbsTy(ty))

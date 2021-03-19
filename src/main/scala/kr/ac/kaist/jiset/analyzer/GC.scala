@@ -14,7 +14,7 @@ private class GC(heap: AbsHeap, root: AbsValue) {
     heap -- unreachable
   }
 
-  private var visited = Set[Addr]()
+  private var visited = Set[Loc]()
 
   private def visit(value: AbsValue): Unit = {
     visit(value.pure)
@@ -30,18 +30,18 @@ private class GC(heap: AbsHeap, root: AbsValue) {
     case _ => Set()
   }
 
-  private def visit(pure: AbsPure): Unit = visit(pure.addr)
+  private def visit(pure: AbsPure): Unit = visit(pure.loc)
 
   private def visit(comp: AbsComp): Unit = for ((_, (value, target)) <- comp.map) {
     visit(value)
     visit(target)
   }
 
-  private def visit(addr: AbsAddr): Unit = for (a <- addr) visit(a)
+  private def visit(loc: AbsLoc): Unit = for (a <- loc) visit(a)
 
-  private def visit(addr: Addr): Unit = if (!(visited contains addr)) {
-    visited += addr
-    visit(heap(addr))
+  private def visit(loc: Loc): Unit = if (!(visited contains loc)) {
+    visited += loc
+    visit(heap(loc))
   }
 }
 object GC {

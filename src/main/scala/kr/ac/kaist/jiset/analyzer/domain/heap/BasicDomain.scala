@@ -5,11 +5,13 @@ import kr.ac.kaist.jiset.analyzer.domain._
 
 object BasicDomain extends heap.Domain {
   // map domain
-  val MapD = combinator.MapDomain[Addr, Obj, AbsObj.type](AbsObj)
+  val MapD = combinator.MapDomain[Loc, Obj, AbsObj.type](AbsObj)
   type MapD = MapD.Elem
 
   // abstraction function
-  def alpha(heap: Heap): Elem = Elem(MapD(heap.map))
+  def alpha(heap: Heap): Elem = Elem(MapD(heap.map.map {
+    case (addr, obj) => addr.toLoc -> obj
+  }))
 
   // bottom value
   val Bot: Elem = Elem(MapD.Bot)
@@ -43,21 +45,18 @@ object BasicDomain extends heap.Domain {
     def getSingle: concrete.Flat[Heap] = Many
 
     // lookup
-    def apply(addr: Addr): AbsObj = map(addr)
+    def apply(loc: Loc): AbsObj = map(loc)
 
     // update
-    def +(pair: (Addr, AbsObj)): Elem = copy(map = map + pair)
+    def +(pair: (Loc, AbsObj)): Elem = copy(map = map + pair)
 
     // get size
     def size: Int = map.size
 
-    // get addresses
-    def keySet: Set[Addr] = map.keySet
+    // get locations
+    def keySet: Set[Loc] = map.keySet
 
-    // remove addresses
-    def --(set: Set[Addr]): Elem = copy(map = map -- set)
-
-    // normalize addresses
-    def normAddr(set: Set[Addr]): Set[Addr] = (new AddrNormalizer(this))(set)
+    // remove locations
+    def --(set: Set[Loc]): Elem = copy(map = map -- set)
   }
 }

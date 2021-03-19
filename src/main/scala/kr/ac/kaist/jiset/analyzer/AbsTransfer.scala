@@ -167,12 +167,12 @@ class AbsTransfer(
       case IAppend(expr, list) => for {
         v <- transfer(expr)
         l <- transfer(list)
-        _ <- modify(_.append(sem, v.escaped, l.escaped.addr))
+        _ <- modify(_.append(sem, v.escaped, l.escaped.loc))
       } yield ()
       case IPrepend(expr, list) => for {
         v <- transfer(expr)
         l <- transfer(list)
-        _ <- modify(_.prepend(sem, v.escaped, l.escaped.addr))
+        _ <- modify(_.prepend(sem, v.escaped, l.escaped.loc))
       } yield ()
       case IReturn(expr) => for {
         v <- transfer(expr)
@@ -180,11 +180,11 @@ class AbsTransfer(
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> (st.heap, v.toCompletion))
       case ithrow @ IThrow(x) => for {
-        addr <- id(_.allocMap(fid, ithrow.asite, "OrdinaryObject", Map(
+        loc <- id(_.allocMap(fid, ithrow.asite, "OrdinaryObject", Map(
           "Prototype" -> AbsValue(NamedAddr(s"%$x.prototype%")),
           "ErrorData" -> AbsUndef.Top,
         )))
-        comp = AbsComp(CompThrow -> ((addr, emptyConst)))
+        comp = AbsComp(CompThrow -> ((loc, emptyConst)))
         st <- get
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> ((st.heap, comp)))

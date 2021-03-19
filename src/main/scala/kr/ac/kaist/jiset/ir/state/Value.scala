@@ -29,10 +29,37 @@ case object CompReturn extends CompletionType("return")
 // pure values
 sealed trait PureValue extends Value
 
+// locations
+sealed trait Loc extends PureValue {
+  override def toString: String = this match {
+    case NamedAddr(name) => name
+    case AllocSite(fid, k) => s"$fid:$k"
+    case CallSite(fid, k, ty) => s"$fid:$k:$ty"
+  }
+
+  def getOrder: (Int, Int, Int, String) = this match {
+    case NamedAddr(name) => (0, 0, 0, name)
+    case AllocSite(fid, k) => (1, fid, k, "")
+    case CallSite(fid, k, ty) => (2, fid, k, ty.toString)
+  }
+}
+case class AllocSite(fid: Int, asite: Int) extends Loc
+case class CallSite(fid: Int, csite: Int, ty: LocType) extends Loc
+
+// TODO location types
+case class LocType(name: String) {
+  override def toString: String = name
+}
+
 // addresses
-sealed trait Addr extends PureValue
-case class NamedAddr(name: String) extends Addr
-case class DynamicAddr(k: Int, fid: Int = -1) extends Addr
+sealed trait Addr extends PureValue {
+  def toLoc: Loc = this match {
+    case (x: NamedAddr) => x
+    case (_: DynamicAddr) => ???
+  }
+}
+case class NamedAddr(name: String) extends Addr with Loc
+case class DynamicAddr(k: Int) extends Addr
 
 // constants
 case class Const(const: String) extends PureValue
