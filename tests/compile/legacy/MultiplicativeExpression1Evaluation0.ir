@@ -13,15 +13,15 @@
   let rnum = [? __x5__]
   if (! (= (typeof lnum) (typeof rnum))) throw TypeError else {}
   let T = (typeof lnum)
-  if (= MultiplicativeOperator ??? "*") {
+  if (= MultiplicativeOperator "*") {
     app __x6__ = (PRIMITIVE[T].multiply lnum rnum)
     return __x6__
   } else {}
-  if (= MultiplicativeOperator ??? "/") {
+  if (= MultiplicativeOperator "/") {
     app __x7__ = (PRIMITIVE[T].divide lnum rnum)
     return __x7__
   } else {
-    assert (= MultiplicativeOperator ??? "%")
+    assert (= MultiplicativeOperator "%")
     app __x8__ = (PRIMITIVE[T].remainder lnum rnum)
     return __x8__
   }
