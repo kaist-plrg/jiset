@@ -731,17 +731,6 @@ CallExpression[6,0].AssignmentTargetType:[☊(CallExpression), ☊(CallExpressio
     this -> ! ☊(CallExpression)
   }
 } ---> N(~invalid~)
-ClassAtomNoDash[0,0].IsCharacterClass:[☊(ClassAtomNoDash), ☊(SourceCharacter)]: {
-  env: {
-    SourceCharacter -> ! ☊(SourceCharacter)
-    this -> ! ☊(ClassAtomNoDash)
-  }
-} ---> N(false)
-ClassAtom[0,0].IsCharacterClass:[☊(ClassAtom)]: {
-  env: {
-    this -> ! ☊(ClassAtom)
-  }
-} ---> N(false)
 ClassDeclaration[0,0].BoundNames:[☊(ClassDeclaration), ☊(BindingIdentifier), ☊(ClassTail)]: {
   env: {
     BindingIdentifier -> ! ☊(BindingIdentifier)
@@ -796,28 +785,6 @@ ClassElement[2,0].PropName:[☊(ClassElement)]: {
     this -> ! ☊(ClassElement)
   }
 } ---> N(~empty~)
-ClassEscape[0,0].IsCharacterClass:[☊(ClassEscape)]: {
-  env: {
-    this -> ! ☊(ClassEscape)
-  }
-} ---> N(false)
-ClassEscape[1,0].IsCharacterClass:[☊(ClassEscape)]: {
-  env: {
-    this -> ! ☊(ClassEscape)
-  }
-} ---> N(false)
-ClassEscape[2,0].IsCharacterClass:[☊(ClassEscape), ☊(CharacterClassEscape)]: {
-  env: {
-    CharacterClassEscape -> ! ☊(CharacterClassEscape)
-    this -> ! ☊(ClassEscape)
-  }
-} ---> N(true)
-ClassEscape[3,0].IsCharacterClass:[☊(ClassEscape), ☊(CharacterEscape)]: {
-  env: {
-    CharacterEscape -> ! ☊(CharacterEscape)
-    this -> ! ☊(ClassEscape)
-  }
-} ---> N(false)
 ClassExpression[0,0].HasName:[☊(ClassExpression), ☊(ClassTail)]: {
   env: {
     ClassTail -> ! ☊(ClassTail)
