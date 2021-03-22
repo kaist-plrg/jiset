@@ -570,10 +570,16 @@ object BasicDomain extends state.Domain {
         map += name -> (map.getOrElse(name, AbsPure.Bot) ⊔ pure)
       if (!pv.loc.isBottom) for (loc <- pv.loc) lookupLoc(sem, loc) match {
         case AbsObj.MapElem(Some(parent), _) => add(parent, AbsPure(loc))
-        case obj =>
+        case obj => add("_", AbsPure(loc))
       }
       if (!pv.ty.isBottom) for (ty <- pv.ty) add(ty.name, AbsTy(ty))
       if (!pv.ast.isBottom) for (ast <- pv.ast) add(ast.name, AbsAST(ast))
+      val remain = pv.copy(
+        loc = AbsLoc.Bot,
+        ty = AbsTy.Bot,
+        ast = AbsAST.Bot,
+      )
+      if (!remain.isBottom) add("_", remain)
       map
     }
 
