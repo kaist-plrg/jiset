@@ -3,7 +3,7 @@
   if (= __x0__ false) throw TypeError else {}
   let promiseCapability = (new PromiseCapabilityRecord("Promise" -> undefined, "Resolve" -> undefined, "Reject" -> undefined))
   let steps = GetCapabilitiesExecutorFunctions
-  ??? "Let id:{length} be the number of non - optional parameters of the function definition in GetCapabilitiesExecutorFunctions ."
+  let length = AnyNum
   app __x1__ = (CreateBuiltinFunction steps length "" (new ["Capability"]))
   let executor = [! __x1__]
   executor.Capability = promiseCapability
