@@ -49,17 +49,17 @@ class Stat(sem: AbsSemantics) {
     // dump worklist
     val wapp = new Appender
     worklist.foreach(wapp >> _.toString >> LINE_SEP)
-    dumpFile("worklist", wapp, s"$ANALYZE_LOG_DIR/worklist")
+    dumpFile(wapp, s"$ANALYZE_LOG_DIR/worklist")
 
     // dump update
     val uapp = new Appender
     counter.foreach {
       case (cp, cnt) => uapp >> cnt >> "\t" >> cp.toString >> LINE_SEP
     }
-    dumpFile("update", uapp, s"$ANALYZE_LOG_DIR/update")
+    dumpFile(uapp, s"$ANALYZE_LOG_DIR/update")
 
     // dump result
-    dumpFile("analysis result", sem.getString(CYAN), s"$ANALYZE_LOG_DIR/result.log")
+    dumpFile(sem.getString(CYAN), s"$ANALYZE_LOG_DIR/result.log")
   }
 
   // close
