@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer.domain.AbsObj._
 
-private class CallSiteMerger(mergeMap: Map[Loc, CallSite]) {
+class CallSiteMerger(mergeMap: Map[Loc, CallSite]) {
   def apply(heap: AbsHeap): AbsHeap = {
     var resHeap: AbsHeap = AbsHeap.Bot
     for ((loc, absVal) <- heap.map.map) {
