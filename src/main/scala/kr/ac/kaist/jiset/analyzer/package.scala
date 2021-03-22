@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset
 
 import scala.Console.RED
 import kr.ac.kaist.jiset.CHECK_ALARM
-import kr.ac.kaist.jiset.cfg.DotPrinter
+import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.util.Useful._
 
 package object analyzer {
@@ -17,11 +17,15 @@ package object analyzer {
   var alarmCP: ControlPoint = null
   var alarmCPStr: String = ""
 
-  private var alarmMap: Map[ControlPoint, Set[String]] = Map()
+  private var alarmMap: Map[String, Set[String]] = Map()
   def alarm(msg: String): Unit = if (!TEST_MODE) {
-    val set = alarmMap.getOrElse(alarmCP, Set())
+    val key = alarmCP match {
+      case NodePoint(node, _) => s"node${node.uid}"
+      case ReturnPoint(func, _) => s"func${func.uid}"
+    }
+    val set = alarmMap.getOrElse(key, Set())
     if (!(set contains msg)) {
-      alarmMap += alarmCP -> (set + msg)
+      alarmMap += key -> (set + msg)
       val errMsg = s"[Bug] $msg @ $alarmCPStr"
       Console.err.println(setColor(RED)(errMsg))
       if (LOG) nfAlarms.println(errMsg)
