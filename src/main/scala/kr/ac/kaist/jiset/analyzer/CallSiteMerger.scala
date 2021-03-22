@@ -5,44 +5,48 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer.domain.AbsObj._
 
 private class CallSiteMerger(heap: AbsHeap, mergeMap: Map[Loc, CallSite]) {
-  private var resHeap: AbsHeap = AbsHeap.Bot 
+  private var resHeap: AbsHeap = AbsHeap.Bot
 
   private def result: AbsHeap = {
     for ((loc, absVal) <- heap.map.map) {
       val newLoc = visit(loc)
       val newVal = visit(absVal)
-      if (resHeap contains newLoc) {
+      if (resHeap.map.map contains newLoc) {
         val oldVal = resHeap(newLoc)
-        resHeap += (newLoc, oldVal ⊔ newVal) 
+        resHeap += (newLoc, oldVal ⊔ newVal)
       } else {
         resHeap += (newLoc, newVal)
-      }  
+      }
     }
     resHeap
   }
 
-  private def visit(value: AbsValue): AbsValue = value.copy(pure = visit(value.pure), comp = visit(value.comp)) 
+  private def visit(value: AbsValue): AbsValue = value.copy(pure = visit(value.pure), comp = visit(value.comp))
 
   private def visit(obj: AbsObj): AbsObj = obj match {
     case AbsObj.Top => AbsObj.Top
-    case AbsObj.MapElem(p, map) => obj.copy(map = map.map.map((s, v) => (s, visit(v))))   
-    case AbsObj.ListElem(list) => obj.copy(list = visit(list.value))
+    case mobj: AbsObj.MapElem =>
+      MapElem(mobj.parent, MapD(mobj.map.map.map({ case (s, v) => (s, visit(v)) }), mobj.map.default))
+    case lobj: AbsObj.ListElem =>
+      ListElem(ListD(visit(lobj.list.value)))
     case _ => obj
   }
 
+  private def visit(vopt: MapD.AbsVOpt): MapD.AbsVOpt.Elem = vopt.copy(value = visit(vopt.value))
+
   private def visit(pure: AbsPure): AbsPure = pure.copy(
     loc = visit(pure.loc) //TODO is this enough?
-  ) 
-  
-  private def visit(comp: AbsComp): AbsComp = comp.copy(
-    map = comp.map.map({
-       case ((ty, (value, target))) => (ty, (visit(value), visit(target)))
-    })  
   )
 
-  private def visit(loc: AbsLoc): AbsLoc = loc.map(a => mergeMap.getOrElse(a, a)) // ASSUME: set auto-merges identical Loc 
+  private def visit(comp: AbsComp): AbsComp = comp.copy(
+    map = comp.map.map({
+      case ((ty, (value, target))) => (ty, (visit(value), visit(target)))
+    })
+  )
 
-  private def visit(loc: Loc): Loc = mergeMap.getOrelse(loc, loc)
+  private def visit(loc: AbsLoc): AbsLoc = loc.map(a => mergeMap.getOrElse(a, a)) // ASSUME: set auto-merges identical Loc
+
+  private def visit(loc: Loc): Loc = mergeMap.getOrElse(loc, loc)
 }
 
 object CallSiteMerger {
