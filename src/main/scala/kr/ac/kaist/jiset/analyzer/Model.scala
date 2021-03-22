@@ -197,7 +197,7 @@ class Model(cfg: CFG) {
       "IsClassConstructor" -> AbsBool.Top,
       // call & construct
       "Call" -> getClos("""ECMAScriptFunctionObject.Call""".r),
-      "Construct" -> getClos("""ECMAScriptFunctionObject.Construct"""),
+      "Construct" -> getClos("""ECMAScriptFunctionObject.Construct""".r),
       // prototype, extensible
       "Prototype" -> AbsValue(Ty("Object")) ⊔ AbsNull.Top,
       "Extensible" -> AbsBool.Top,
@@ -220,7 +220,7 @@ class Model(cfg: CFG) {
       "InitialName" -> AbsStr.Top ⊔ AbsValue(Null),
       // call & construct
       "Call" -> getClos("""BuiltinFunctionObject.Call""".r),
-      "Construct" -> getClos("""BuiltinFunctionObject.Construct"""),
+      "Construct" -> getClos("""BuiltinFunctionObject.Construct""".r),
       // prototype, extensible, realm
       "Prototype" -> AbsValue(Ty("Object")) ⊔ AbsNull.Top,
       "Extensible" -> AbsBool.Top,
