@@ -55,25 +55,28 @@ trait Parser extends JavaTokenParsers with RegexParsers {
     ("append " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IAppend(e, l) } |
     ("prepend " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPrepend(e, l) } |
     "return " ~> expr ^^ { case e => IReturn(e) } |
-    opt("(" ~> integer <~ ")") ~ ("throw " ~> ident) ^^ {
-      case k ~ x =>
-        val ithrow = IThrow(x)
-        ithrow.asite = k.fold(-1)(_.toInt)
-        ithrow
-    } |
+    throwInst |
     ("if " ~> expr) ~ inst ~ ("else" ~> inst) ^^ { case c ~ t ~ e => IIf(c, t, e) } |
     ("while " ~> expr) ~ inst ^^ { case c ~ b => IWhile(c, b) } |
     "{" ~> rep(inst) <~ "}" ^^ { case seq => ISeq(seq) } |
     "assert " ~> expr ^^ { case e => IAssert(e) } |
     "print " ~> expr ^^ { case e => IPrint(e) } |
     ("let " ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
-    ("app " ~> id <~ "=") ~ ("(" ~> expr) ~ (rep(expr) <~ ")") ^^ { case x ~ f ~ as => IApp(x, f, as) } |
-    ("access " ~> id <~ "=") ~ ("(" ~> expr) ~ expr ~ (rep(expr) <~ ")") ^^ { case x ~ e1 ~ e2 ~ e3 => IAccess(x, e1, e2, e3) } |
+    callInst |
     ("withcont " ~> id) ~ ("(" ~> repsep(id, ",") <~ ")" <~ "=") ~ inst ^^ { case x ~ ps ~ b => IWithCont(x, ps, b) } |
     ("set-type " ~> expr ~ ty) ^^ { case e ~ t => ISetType(e, t) } |
     (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
     expr ^^ { case e => IExpr(e) }
   ) ^^ { case k ~ i => i.line = k.fold(-1)(_.toInt); i }
+
+  lazy val throwInst: Parser[IThrow] = opt("(" ~> integer <~ ")") ~ (
+    "throw " ~> ident ^^ { case x => IThrow(x) }
+  ) ^^ { case k ~ i => i.asite = k.fold(-1)(_.toInt); i }
+
+  lazy val callInst: Parser[CallInst] = opt("(" ~> integer <~ ")") ~ (
+    ("app " ~> id <~ "=") ~ ("(" ~> expr) ~ (rep(expr) <~ ")") ^^ { case x ~ f ~ as => IApp(x, f, as) } |
+    ("access " ~> id <~ "=") ~ ("(" ~> expr) ~ expr ~ (rep(expr) <~ ")") ^^ { case x ~ e1 ~ e2 ~ e3 => IAccess(x, e1, e2, e3) }
+  ) ^^ { case k ~ i => i.csite = k.fold(-1)(_.toInt); i }
 
   // expressions
   lazy private val expr: Parser[Expr] = opt("(" ~> integer <~ ")") ~ (

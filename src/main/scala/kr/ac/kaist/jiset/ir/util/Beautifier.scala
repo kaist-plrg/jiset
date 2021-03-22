@@ -56,12 +56,16 @@ class Beautifier(
         else app.wrap { insts.foreach(app :> _ >> LINE_SEP) }
       case IAssert(expr) => app >> "assert " >> expr
       case IPrint(expr) => app >> "print " >> expr
-      case IApp(id, fexpr, args) =>
+      case iapp @ IApp(id, fexpr, args) =>
         implicit val l = ListApp[Expr](sep = " ")
+        if (asite && iapp.csite != -1)
+          app >> s"(" >> iapp.csite >> ") "
         app >> "app " >> id >> " = (" >> fexpr
         if (!args.isEmpty) app >> " " >> args
         app >> ")"
-      case IAccess(id, bexpr, expr, args) =>
+      case iaccess @ IAccess(id, bexpr, expr, args) =>
+        if (asite && iaccess.csite != -1)
+          app >> s"(" >> iaccess.csite >> ") "
         implicit val l = ListApp[Expr](sep = " ")
         app >> "access " >> id >> " = (" >> bexpr >> " " >> expr
         if (!args.isEmpty) app >> " " >> args
