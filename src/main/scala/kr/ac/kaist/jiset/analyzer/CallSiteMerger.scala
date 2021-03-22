@@ -22,7 +22,7 @@ class CallSiteMerger(mergeMap: Map[Loc, CallSite]) {
 
   def apply(env: AbsEnv): AbsEnv = {
     val origMap: AbsEnv.MapD = env.map
-    var newMap: AbsEnv.MapD = AbsEnv.MapD.Bot
+    var newMap: AbsEnv.MapD = AbsEnv.MapD.Empty
     origMap.map.foreach({
       case (s, vopt) =>
         val newVal: AbsValue = visit(vopt.value)
@@ -41,7 +41,7 @@ class CallSiteMerger(mergeMap: Map[Loc, CallSite]) {
     case mobj: AbsObj.MapElem =>
       MapElem(
         mobj.parent,
-        MapD(mobj.map.map.map({ case (s, v) => (s, visit(v)) }), mobj.map.default)
+        MapD(mobj.map.map.map({ case (s, v) => (s, visit(v)) }), visit(mobj.map.default))
       )
     case lobj: AbsObj.ListElem =>
       ListElem(ListD(visit(lobj.list.value)))

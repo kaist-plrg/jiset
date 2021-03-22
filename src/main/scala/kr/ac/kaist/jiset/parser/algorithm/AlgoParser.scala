@@ -58,7 +58,7 @@ object AlgoParser {
         Nil
     }
     if (detail) println(s"==================================================")
-    result.foreach(algo => (new ASiteWalker).walk(algo.rawBody))
+    result.foreach(algo => (new LocWalker).walk(algo.rawBody))
     result
   }
 
