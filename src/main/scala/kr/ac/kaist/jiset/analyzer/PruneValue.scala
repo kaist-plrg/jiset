@@ -2,7 +2,9 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.util.Useful._
 
 case class PruneValue(
   sem: AbsSemantics,

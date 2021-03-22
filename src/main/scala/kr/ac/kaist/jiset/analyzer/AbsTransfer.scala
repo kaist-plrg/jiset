@@ -478,11 +478,13 @@ class AbsTransfer(
         refv <- transfer(ref)
         v <- transfer(refv)
         condv <- get(_.isInstanceOf(sem, v.escaped, name))
-      } yield pruneValue(
-        condv,
-        List(PruneCase(refv, PruneInstance(name), true)),
-        List(PruneCase(refv, PruneInstance(name), false))
-      )
+      } yield {
+        pruneValue(
+          condv,
+          List(PruneCase(refv, PruneInstance(name), true)),
+          List(PruneCase(refv, PruneInstance(name), false))
+        )
+      }
       // TODO do more pruning
       case _ => for {
         v <- transfer(expr)

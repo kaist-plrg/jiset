@@ -431,26 +431,6 @@ object BasicDomain extends state.Domain {
       (AbsPure(loc), copy(heap = heap + (loc -> obj)))
     }
 
-    // prune
-    def prune(
-      sem: AbsSemantics,
-      refv: AbsRefValue,
-      v: PureValue,
-      cond: Boolean
-    ): Elem = refv match {
-      case AbsRefValue.Id(x) =>
-        val (localV, absent) = env(x)
-        if (!localV.isBottom) {
-          val newV =
-            if (cond) localV ⊓ AbsValue(AbsPure.alpha(v), AbsComp.alpha(v))
-            else localV.prune(v)
-          // normalize
-          if (newV.escaped.isBottom) Bot else this + (x -> newV)
-        } else if (sem.globalEnv contains x) this else Bot
-      case AbsRefValue.Prop(base, prop) => this // TODO
-      case _ => ???
-    }
-
     def prune(
       sem: AbsSemantics,
       refv: AbsRefValue,
@@ -467,7 +447,8 @@ object BasicDomain extends state.Domain {
             case PruneInstance(name) =>
               val map = groupByInstance(sem, localV.escaped)
               val set = sem.getTypes(name)
-              val pure = (map -- (map.keySet -- set))
+              val exclude = if (cond) map.keySet -- set else set
+              val pure = (map -- exclude)
                 .values.foldLeft(AbsPure.Bot)(_ ⊔ _)
               if (pure.ty.isBottom) pure
               else pure.copy(ty = AbsTy(name))
