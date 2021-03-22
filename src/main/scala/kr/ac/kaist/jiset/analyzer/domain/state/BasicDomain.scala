@@ -444,7 +444,7 @@ object BasicDomain extends state.Domain {
               val exclude = if (cond) map.keySet -- set else set
               val pure = (map -- exclude)
                 .values.foldLeft(AbsPure.Bot)(_ ⊔ _)
-              if (pure.ty.isBottom) pure
+              if (pure.ty.isBottom || !cond) pure
               else pure.copy(ty = AbsTy(name))
           }
           // normalize
