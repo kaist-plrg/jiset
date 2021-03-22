@@ -67,7 +67,14 @@ class CallSiteMerger(mergeMap: Map[Loc, CallSite]) {
 
 object CallSiteMerger {
   def getLocType(heap: AbsHeap, loc: Loc): Option[LocType] = heap(loc) match {
-    case MapElem(Some(p), map) => Some(LocType(p))
+    case MapElem(Some(p), map) => Some(LocNameType(p))
+    case ListElem(l) =>
+      val pure = l.value.escaped
+      if (!pure.copy(loc = AbsLoc.Bot).isBottom) None
+      else pure.loc.toSet.map(getLocType(heap, _)).toList match {
+        case List(Some(lty)) => Some(LocListType(lty))
+        case _ => None
+      }
     case _ => None
   }
 

@@ -349,23 +349,23 @@ class AbsSemantics(
     vs.foldRight(List(List[(Type, AbsValue)]())) {
       case (v, tysList) => for {
         tys <- tysList
-        ty <- getType(st, v)
+        ty <- getType(st.heap, v)
       } yield ty :: tys
     }
   }
-  private def getType(st: AbsState, v: AbsValue): Map[Type, AbsValue] = {
+  def getType(heap: AbsHeap, v: AbsValue): Map[Type, AbsValue] = {
     val AbsValue(pure, comp) = v
     var tys: Map[Type, AbsValue] = Map()
-    for ((t, v) <- getPureType(st, pure)) tys += t -> v
+    for ((t, v) <- getPureType(heap, pure)) tys += t -> v
     val (normalV, _) = comp(CompNormal)
-    if (!normalV.isBottom) for ((t, v) <- getPureType(st, normalV)) {
+    if (!normalV.isBottom) for ((t, v) <- getPureType(heap, normalV)) {
       tys += NormalT(t) -> comp.normal
     }
     val abrupt = comp.abrupt
     if (!abrupt.isBottom) tys += AbruptT -> abrupt
     tys
   }
-  private def getPureType(st: AbsState, v: AbsPure): Map[PureType, AbsValue] = {
+  private def getPureType(heap: AbsHeap, v: AbsPure): Map[PureType, AbsValue] = {
     import AbsObj._
     var tys = Map[PureType, AbsValue]()
     def add(ty: PureType, value: AbsValue): Unit =
@@ -373,7 +373,7 @@ class AbsSemantics(
     if (!v.ty.isBottom) for (Ty(name) <- v.ty.toSet) {
       add(NameT(name), AbsTy(name))
     }
-    if (!v.loc.isBottom) for (loc <- v.loc.toSet) st.lookupLoc(this, loc) match {
+    if (!v.loc.isBottom) for (loc <- v.loc.toSet) heap.lookupLoc(this, loc) match {
       case MapElem(Some(ty), _) => add(NameT(ty), AbsValue(loc))
       case ListElem(_) => add(ListT, AbsValue(loc))
       case SymbolElem(_) => add(SymbolT, AbsValue(loc))

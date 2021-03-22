@@ -46,10 +46,16 @@ sealed trait Loc extends PureValue {
 case class AllocSite(fid: Int, asite: Int) extends Loc
 case class CallSite(fid: Int, csite: Int, ty: LocType) extends Loc
 
-// TODO location types
-case class LocType(name: String) {
-  override def toString: String = name
+// location types
+trait LocType {
+  // conversion to string
+  override def toString: String = this match {
+    case LocNameType(name) => name
+    case LocListType(element) => s"[$element]"
+  }
 }
+case class LocNameType(name: String) extends LocType
+case class LocListType(element: LocType) extends LocType
 
 // addresses
 sealed trait Addr extends PureValue {

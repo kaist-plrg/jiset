@@ -16,7 +16,8 @@ import scala.annotation.tailrec
 class AbsTransfer(
   sem: AbsSemantics,
   usePrune: Boolean = true,
-  replMode: Boolean = false
+  replMode: Boolean = false,
+  useMerge: Boolean = false
 ) {
   import sem.cfg._
   analyzer.transfer = this
@@ -125,9 +126,18 @@ class AbsTransfer(
     val (h, v) = sem(rp)
     if (!v.isBottom) {
       for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
+        val (newH, newV) = if (useMerge) {
+          val fid = funcOf(call).uid
+          val csite = call.inst.csite
+          val entryNP = NodePoint(rp.func.entry, rp.view)
+          val entryH = sem(entryNP).heap
+          val mergeMap = CallSiteMerger.mergeMap(h, fid, csite, entryH.keySet)
+          val merger = new CallSiteMerger(mergeMap)
+          (merger(h), merger(v))
+        } else (h, v)
         val nextNP = np.copy(node = next(call))
         val st = sem(np)
-        val newSt = AbsState(st.env + (x -> v), st.heap ⊔ h)
+        val newSt = AbsState(st.env + (x -> newV), st.heap ⊔ newH)
         sem += nextNP -> newSt
       }
     }

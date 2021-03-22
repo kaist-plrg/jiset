@@ -1,7 +1,10 @@
 package kr.ac.kaist.jiset.analyzer.domain.heap
 
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
+import kr.ac.kaist.jiset.util.Useful._
 
 object BasicDomain extends heap.Domain {
   // map domain
@@ -58,5 +61,14 @@ object BasicDomain extends heap.Domain {
 
     // remove locations
     def --(set: Set[Loc]): Elem = copy(map = map -- set)
+
+    // lookup locations
+    def lookupLoc(sem: AbsSemantics, loc: Loc): AbsObj = loc match {
+      case (_: NamedAddr) => sem.globalHeap.getOrElse(loc, {
+        alarm(s"unknown locations: ${beautify(loc)}")
+        AbsObj.Bot
+      })
+      case _ => this(loc)
+    }
   }
 }

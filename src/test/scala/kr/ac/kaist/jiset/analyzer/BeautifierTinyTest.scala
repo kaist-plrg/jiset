@@ -42,7 +42,7 @@ class BeautifierTinyTest extends AnalyzerTest {
     test("Locations")(
       NamedAddr("Global") -> "#Global",
       AllocSite(432, 42) -> "#432:42",
-      CallSite(432, 42, LocType("A")) -> "#432:42:A",
+      CallSite(432, 42, LocNameType("A")) -> "#432:42:A",
     )
 
     test("Abstract Values")(

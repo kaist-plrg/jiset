@@ -16,7 +16,24 @@ object JsonProtocol extends BasicJsonProtocol {
   implicit lazy val astFormat = jsonFormat1(ASTVal)
   implicit lazy val namedAddrFormat = jsonFormat1(NamedAddr)
   implicit lazy val allocSiteFormat = jsonFormat2(AllocSite)
-  implicit lazy val locTypeFormat = jsonFormat1(LocType)
+  implicit object locTypeFormat extends RootJsonFormat[LocType] {
+    def read(json: JsValue): LocType = json match {
+      case v =>
+        val discrimator = List("name", "element")
+          .map(d => v.asJsObject.fields.contains(d))
+        discrimator.indexOf(true) match {
+          case 0 => locNameTypeFormat.read(v)
+          case 1 => locListTypeFormat.read(v)
+          case _ => deserializationError(s"unknown location type: $v")
+        }
+    }
+    def write(loc: LocType): JsValue = loc match {
+      case (x: LocNameType) => locNameTypeFormat.write(x)
+      case (x: LocListType) => locListTypeFormat.write(x)
+    }
+  }
+  implicit lazy val locNameTypeFormat = jsonFormat1(LocNameType)
+  implicit lazy val locListTypeFormat = jsonFormat1(LocListType)
   implicit lazy val callSiteFormat = jsonFormat3(CallSite)
   implicit object locFormat extends RootJsonFormat[Loc] {
     def read(json: JsValue): Loc = json match {

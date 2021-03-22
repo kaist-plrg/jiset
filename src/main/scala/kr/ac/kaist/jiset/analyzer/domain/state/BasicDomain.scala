@@ -382,13 +382,7 @@ object BasicDomain extends state.Domain {
     }
 
     // lookup locations
-    def lookupLoc(sem: AbsSemantics, loc: Loc): AbsObj = loc match {
-      case (_: NamedAddr) => sem.globalHeap.getOrElse(loc, {
-        alarm(s"unknown locations: ${beautify(loc)}")
-        AbsObj.Bot
-      })
-      case _ => heap(loc)
-    }
+    def lookupLoc(sem: AbsSemantics, loc: Loc): AbsObj = heap.lookupLoc(sem, loc)
 
     // allocate a new symbol
     def allocSymbol(
