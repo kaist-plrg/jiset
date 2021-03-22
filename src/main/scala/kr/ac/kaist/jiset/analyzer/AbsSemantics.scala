@@ -301,6 +301,11 @@ class AbsSemantics(
     """AsyncFunctionExpression\[1,0\].Evaluation""".r,
   )
 
+  private def excludePatterns = List(
+    // 22.2 RegExp
+    """sec-regexp-regular-expression-objects""".r
+  )
+
   private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
     head.withParams.isEmpty && (target match {
       case Some(pattern) => pattern.r.matches(head.printName)
@@ -317,22 +322,24 @@ class AbsSemantics(
   }
 
   // initial abstract state for syntax-directed algorithms
-  private def getTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
-    case (head: SyntaxDirectedHead) if isTarget(head, algo.rawBody) =>
-      head.optional.subsets.map(opt => {
-        var st = AbsState.Empty
-        val types: List[Type] = head.types.map {
-          case (name, _) if opt contains name =>
-            st += name -> AbsAbsent.Top
-            AbsentT
-          case (name, astName) =>
-            st += name -> AbsAST(ASTVal(astName))
-            AstT(astName)
-        }
-        (types, st)
-      }).toList
-    case _ => Nil
-  }
+  private def getTypes(algo: Algo): List[(List[Type], AbsState)] =
+    if (algo.isExcluded(excludePatterns)) Nil
+    else algo.head match {
+      case (head: SyntaxDirectedHead) if isTarget(head, algo.rawBody) =>
+        head.optional.subsets.map(opt => {
+          var st = AbsState.Empty
+          val types: List[Type] = head.types.map {
+            case (name, _) if opt contains name =>
+              st += name -> AbsAbsent.Top
+              AbsentT
+            case (name, astName) =>
+              st += name -> AbsAST(ASTVal(astName))
+              AstT(astName)
+          }
+          (types, st)
+        }).toList
+      case _ => Nil
+    }
 
   // get types from abstract values
   private def getTypes(

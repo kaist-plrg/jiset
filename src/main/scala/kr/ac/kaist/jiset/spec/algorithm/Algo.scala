@@ -1,13 +1,14 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
-import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.LINE_SEP
+import kr.ac.kaist.jiset.ir.Beautifier._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.{ InfNum, PInf }
 import org.jsoup.nodes._
+import scala.util.matching.Regex
 
 // ECMASCript abstract algorithms
 case class Algo(
@@ -66,6 +67,11 @@ case class Algo(
     }
     Walker.walk(rawBody)
     l
+  }
+
+  // exclusion check
+  def isExcluded(excluded: List[Regex]): Boolean = excluded.foldLeft(false) {
+    case (b, pat) => b || ids.exists(pat.matches(_))
   }
 
   // completion check (not containing ??? or !!! in the algorithm body)
