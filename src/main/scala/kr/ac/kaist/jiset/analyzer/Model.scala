@@ -473,6 +473,14 @@ class Model(cfg: CFG) {
     "%RegExp.prototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
     )),
+    "%GeneratorFunction.prototype.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%IteratorPrototype%")),
+    // TODO ??? has properties that are indirectly inherited by all Generator instances.
+    )),
+    "%AsyncGeneratorFunction.prototype.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%AsyncIteratorPrototype%")),
+    // TODO ??? has properties that are indirectly inherited by all AsyncGenerator instances.
+    )),
   // TODO model following remaining intrinsics (ommitted some cases that seems unnecessary)
   // %IteratorPrototype% %JSON% %Map% %MapIteratorPrototype% %Math% %Number% %parseFloat% %parseInt% %Promise% %Proxy% %Reflect% %RegExpStringIteratorPrototype% %Set% %SetIteratorPrototype% %String% %StringIteratorPrototype% %Symbol% %TypedArray% %Uint8Array% %Uint8ClampedArray% %Uint16Array% %Uint32Array%
   )

@@ -3,7 +3,7 @@
   let propKey = __x0__
   [? propKey]
   let scope = GLOBAL_context.LexicalEnvironment
-  ??? "Let id:{formalParameterList} be an instance of the production grammar:{FormalParameters0, []} ."
+  let formalParameterList = (parse-syntax AnyStr "FormalParameters" (new []))
   app __x1__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype formalParameterList FunctionBody CONST_nonDASHlexicalDASHthis scope)
   let closure = __x1__
   app __x2__ = (MakeMethod closure object)
