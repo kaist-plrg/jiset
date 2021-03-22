@@ -1,0 +1,12 @@
+- [Bug] unknown variable: body @ IsInTailPosition:Branch[10358]:[☊(OptionalChain)]
+- [Bug] unknown variable: body @ IsInTailPosition:Branch[10358]:[☊(CallExpression)]
+- [Bug] unknown variable: body @ IsInTailPosition:Branch[10358]:[☊(MemberExpression)]
+  - access p = (AbsAST "parent") 에 대한 구현 필요
+
+- [Bug] unknown variable: func @ CreateBuiltinFunction:Block[5523]:[λ[1389], num, Normal(str), list, ~empty~, OrdinaryObject]
+- [Bug] unknown variable: func @ CreateBuiltinFunction:Call[5524]:[λ[1389], num, Normal(str), list, ~empty~, OrdinaryObject]
+- [Bug] unknown variable: func @ CreateBuiltinFunction:Block[5523]:[λ[1389], num, str, list, ~empty~, OrdinaryObject]
+- [Bug] unknown variable: func @ CreateBuiltinFunction:Call[5524]:[λ[1389], num, str, list, ~empty~, OrdinaryObject]
+  - ??? "Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} , and an [ [ InitialName ] ] internal slot ." 에 대한 IR instruction 필요
+  - how to handle internalSlotsList?
+  - where to store steps?

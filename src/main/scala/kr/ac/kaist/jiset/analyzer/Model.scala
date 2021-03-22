@@ -181,6 +181,63 @@ class Model(cfg: CFG) {
       name = "OrdinaryObject",
       parent = "Object",
     ),
+    TyInfo(
+      name = "ECMAScriptFunctionObject",
+      // internal slots
+      "Environment" -> AbsValue(Ty("EnvironmentRecord")),
+      "FormalParameters" -> AbsValue(ASTVal("FormalParameters")),
+      "ECMAScriptCode" -> AbsValue(ASTVal("AnyNode")),
+      "ConstructorKind" -> getConsts("base", "derived"),
+      "Realm" -> AbsValue(Ty("RealmRecord")),
+      "ScriptOrModule" -> AbsTy(Ty("ScriptRecord"), Ty("ModuleRecord")),
+      "ThisMode" -> getConsts("lexical", "strict", "global"),
+      "Strict" -> AbsBool.Top,
+      "HomeObject" -> AbsValue(Ty("Object")),
+      "SourceText" -> AbsStr.Top,
+      "IsClassConstructor" -> AbsBool.Top,
+      // call & construct
+      "Call" -> getClos("""ECMAScriptFunctionObject.Call""".r),
+      "Construct" -> getClos("""ECMAScriptFunctionObject.Construct"""),
+      // prototype, extensible
+      "Prototype" -> AbsValue(Ty("Object")) ⊔ AbsNull.Top,
+      "Extensible" -> AbsBool.Top,
+      // ordinary object method
+      "GetPrototypeOf" -> getClos("""OrdinaryObject.GetPrototypeOf""".r),
+      "SetPrototypeOf" -> getClos("""OrdinaryObject.SetPrototypeOf""".r),
+      "IsExtensible" -> getClos("""OrdinaryObject.IsExtensible""".r),
+      "PreventExtensions" -> getClos("""OrdinaryObject.PreventExtensions""".r),
+      "GetOwnProperty" -> getClos("""OrdinaryObject.GetOwnProperty""".r),
+      "DefineOwnProperty" -> getClos("""OrdinaryObject.DefineOwnProperty""".r),
+      "HasProperty" -> getClos("""OrdinaryObject.HasProperty""".r),
+      "Get" -> getClos("""OrdinaryObject.Get""".r),
+      "Set" -> getClos("""OrdinaryObject.Set""".r),
+      "Delete" -> getClos("""OrdinaryObject.Delete""".r),
+      "OwnPropertyKeys" -> getClos("""OrdinaryObject.OwnPropertyKeys""".r),
+    ),
+    TyInfo(
+      name = "BuiltinFunctionObject",
+      // internal slots
+      "InitialName" -> AbsStr.Top ⊔ AbsValue(Null),
+      // call & construct
+      "Call" -> getClos("""BuiltinFunctionObject.Call""".r),
+      "Construct" -> getClos("""BuiltinFunctionObject.Construct"""),
+      // prototype, extensible, realm
+      "Prototype" -> AbsValue(Ty("Object")) ⊔ AbsNull.Top,
+      "Extensible" -> AbsBool.Top,
+      "Realm" -> AbsValue(Ty("RealmRecord")),
+      // ordinary object method
+      "GetPrototypeOf" -> getClos("""OrdinaryObject.GetPrototypeOf""".r),
+      "SetPrototypeOf" -> getClos("""OrdinaryObject.SetPrototypeOf""".r),
+      "IsExtensible" -> getClos("""OrdinaryObject.IsExtensible""".r),
+      "PreventExtensions" -> getClos("""OrdinaryObject.PreventExtensions""".r),
+      "GetOwnProperty" -> getClos("""OrdinaryObject.GetOwnProperty""".r),
+      "DefineOwnProperty" -> getClos("""OrdinaryObject.DefineOwnProperty""".r),
+      "HasProperty" -> getClos("""OrdinaryObject.HasProperty""".r),
+      "Get" -> getClos("""OrdinaryObject.Get""".r),
+      "Set" -> getClos("""OrdinaryObject.Set""".r),
+      "Delete" -> getClos("""OrdinaryObject.Delete""".r),
+      "OwnPropertyKeys" -> getClos("""OrdinaryObject.OwnPropertyKeys""".r),
+    ),
     // property descriptor
     TyInfo(
       name = "PropertyDescriptor",
@@ -342,6 +399,9 @@ class Model(cfg: CFG) {
     "%AsyncFromSyncIteratorPrototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%AsyncIteratorPrototype%")),
     )),
+    "%IteratorPrototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
     "%AsyncIteratorPrototype%" -> (Some("OrdinaryObject"), Map(
       "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
     )),
@@ -482,7 +542,7 @@ class Model(cfg: CFG) {
     // TODO ??? has properties that are indirectly inherited by all AsyncGenerator instances.
     )),
   // TODO model following remaining intrinsics (ommitted some cases that seems unnecessary)
-  // %IteratorPrototype% %JSON% %Map% %MapIteratorPrototype% %Math% %Number% %parseFloat% %parseInt% %Promise% %Proxy% %Reflect% %RegExpStringIteratorPrototype% %Set% %SetIteratorPrototype% %String% %StringIteratorPrototype% %Symbol% %TypedArray% %Uint8Array% %Uint8ClampedArray% %Uint16Array% %Uint32Array%
+  // %JSON% %Map% %MapIteratorPrototype% %Math% %Number% %parseFloat% %parseInt% %Promise% %Proxy% %Reflect% %RegExpStringIteratorPrototype% %Set% %SetIteratorPrototype% %String% %StringIteratorPrototype% %Symbol% %TypedArray% %Uint8Array% %Uint8ClampedArray% %Uint16Array% %Uint32Array%
   )
 
   // TODO more manual modelings
