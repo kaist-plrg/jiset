@@ -4,10 +4,9 @@ import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer.domain.AbsObj._
 
-private class CallSiteMerger(heap: AbsHeap, mergeMap: Map[Loc, CallSite]) {
-  private var resHeap: AbsHeap = AbsHeap.Bot
-
-  private def result: AbsHeap = {
+private class CallSiteMerger(mergeMap: Map[Loc, CallSite]) {
+  def apply(heap: AbsHeap): AbsHeap = {
+    var resHeap: AbsHeap = AbsHeap.Bot
     for ((loc, absVal) <- heap.map.map) {
       val newLoc = visit(loc)
       val newVal = visit(absVal)
@@ -21,12 +20,29 @@ private class CallSiteMerger(heap: AbsHeap, mergeMap: Map[Loc, CallSite]) {
     resHeap
   }
 
+  def apply(env: AbsEnv): AbsEnv = {
+    val origMap: AbsEnv.MapD = env.map
+    var newMap: AbsEnv.MapD = AbsEnv.MapD.Bot
+    origMap.map.foreach({
+      case (s, vopt) =>
+        val newVal: AbsValue = visit(vopt.value)
+        newMap += (s, newVal)
+    })
+    AbsEnv(newMap)
+  }
+
+  def apply(value: AbsValue): AbsValue = visit(value)
+
+  // Helper functions, recursively visits sub-AbsValue and change Loc into CallSite according to mergeMap
   private def visit(value: AbsValue): AbsValue = value.copy(pure = visit(value.pure), comp = visit(value.comp))
 
   private def visit(obj: AbsObj): AbsObj = obj match {
     case AbsObj.Top => AbsObj.Top
     case mobj: AbsObj.MapElem =>
-      MapElem(mobj.parent, MapD(mobj.map.map.map({ case (s, v) => (s, visit(v)) }), mobj.map.default))
+      MapElem(
+        mobj.parent,
+        MapD(mobj.map.map.map({ case (s, v) => (s, visit(v)) }), mobj.map.default)
+      )
     case lobj: AbsObj.ListElem =>
       ListElem(ListD(visit(lobj.list.value)))
     case _ => obj
