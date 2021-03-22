@@ -238,6 +238,23 @@ class Model(cfg: CFG) {
       "Delete" -> getClos("""OrdinaryObject.Delete""".r),
       "OwnPropertyKeys" -> getClos("""OrdinaryObject.OwnPropertyKeys""".r),
     ),
+    TyInfo(
+      name = "StringExoticObject",
+      // TODO add "length" property to SubMap
+      // GetOwnProperty && DefineOwnProperty && OwnPropertyKeys
+      "GetOwnProperty" -> getClos("""StringExoticObject.GetOwnProperty""".r),
+      "DefineOwnProperty" -> getClos("""StringExoticObject.DefineOwnProperty""".r),
+      "OwnPropertyKeys" -> getClos("""StringExoticObject.OwnPropertyKeys""".r),
+      // ordinary object method
+      "GetPrototypeOf" -> getClos("""OrdinaryObject.GetPrototypeOf""".r),
+      "SetPrototypeOf" -> getClos("""OrdinaryObject.SetPrototypeOf""".r),
+      "IsExtensible" -> getClos("""OrdinaryObject.IsExtensible""".r),
+      "PreventExtensions" -> getClos("""OrdinaryObject.PreventExtensions""".r),
+      "HasProperty" -> getClos("""OrdinaryObject.HasProperty""".r),
+      "Get" -> getClos("""OrdinaryObject.Get""".r),
+      "Set" -> getClos("""OrdinaryObject.Set""".r),
+      "Delete" -> getClos("""OrdinaryObject.Delete""".r),
+    ),
     // property descriptor
     TyInfo(
       name = "PropertyDescriptor",
@@ -248,6 +265,14 @@ class Model(cfg: CFG) {
       "Enumerable" -> AbsBool.Top,
       "Configurable" -> AbsBool.Top,
     ),
+    // reference record
+    TyInfo(
+      name = "ReferenceRecord",
+      "Value" -> (ESValue ⊓ AbsUndef.Bot ⊓ AbsNull.Bot) ⊔ AbsValue(Ty("EnvironmentRecord")) ⊔ getConsts("unresolvable"),
+      "ReferencedName" -> AbsStr.Top,
+      "Strict" -> AbsBool.Top,
+      "ThisValue" -> ESValue ⊔ getConsts("emtpy"),
+    )
   )
 
   // TODO more manual modelings

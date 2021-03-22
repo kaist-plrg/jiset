@@ -555,11 +555,12 @@ class AbsTransfer(
       name: String,
       args: List[AbsValue],
       st: AbsState
-    ): AbsValue = (ast, name) match {
+    ): AbsValue = if (sem.spec.getRhsNT(ast) contains name) AbsValue.Bot
+    else (ast, name) match {
       case ("IdentifierName", "StringValue") => strTop
       case ("NumericLiteral", "NumericValue") => numTop
       case ("StringLiteral", "StringValue" | "SV") => strTop
-      case (_, "TV") => strTop
+      case (_, "TV" | "TRV") => strTop
       case (_, "MV") => numTop
       case _ =>
         val fids = getSyntaxFids(ast, name)
