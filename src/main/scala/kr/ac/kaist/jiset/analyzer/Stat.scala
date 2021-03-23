@@ -54,7 +54,9 @@ class Stat(sem: AbsSemantics) {
     // dump update
     val uapp = new Appender
     counter.foreach {
-      case (cp, cnt) => uapp >> cnt >> "\t" >> cp.toString >> LINE_SEP
+      case (cp, cnt) =>
+        val func = sem.funcOf(cp)
+        uapp >> cnt >> "\t" >> s"$cp @ [${func.uid}] ${func.name}" >> LINE_SEP
     }
     dumpFile(uapp, s"$ANALYZE_LOG_DIR/update")
 
