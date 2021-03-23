@@ -52,7 +52,7 @@ trait Compilers extends TokenListParsers {
   private case class Pair(tokens: String, inst: Inst)
   val manualSteps: Map[String, Inst] = try {
     implicit lazy val PairProtocol = jsonFormat2(Pair)
-    val pairs = readJson[List[Pair]](s"$RESOURCE_DIR/$version/rule.json")
+    val pairs = readJson[List[Pair]](s"$RESOURCE_DIR/rule.json")
     (for (Pair(str, inst) <- pairs) yield str -> inst).toMap
   } catch { case e: Throwable => Map() }
 

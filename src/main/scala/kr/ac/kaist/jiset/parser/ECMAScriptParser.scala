@@ -257,7 +257,7 @@ object ECMAScriptParser {
 
   // parse manual algorithms
   def manualAlgos(version: String): Iterable[Algo] = for {
-    file <- walkTree(s"$RESOURCE_DIR/$version")
+    file <- walkTree(s"$RESOURCE_DIR/algo")
     filename = file.toString
     if irFilter(filename)
   } yield IRParser.parseAlgo(readFile(file.toString))
