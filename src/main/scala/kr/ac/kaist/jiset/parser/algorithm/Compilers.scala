@@ -54,11 +54,7 @@ trait Compilers extends TokenListParsers {
     implicit lazy val PairProtocol = jsonFormat2(Pair)
     val pairs = readJson[List[Pair]](s"$RESOURCE_DIR/$version/rule.json")
     (for (Pair(str, inst) <- pairs) yield str -> inst).toMap
-  } catch {
-    case e: Throwable =>
-      printlnColor(RED)(s"* Failed to load $RESOURCE_DIR/$version/rule.json: ${e.getMessage}")
-      Map()
-  }
+  } catch { case e: Throwable => Map() }
 
   // word for camel cases
   def camelWord: P[String] = word.filter(_.head.isUpper)
