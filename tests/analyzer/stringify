@@ -1864,12 +1864,7 @@ FunctionEnvironmentRecord.GetThisBinding:[Normal(EnvironmentRecord)]: {
   env: {
     envRec -> ! N(EnvironmentRecord)
   }
-} ---> N(Object | num | bigint | str | bool | undef | null) | T(#802:0) @ {
-  #802:0 -> OrdinaryObject {
-    ErrorData -> ! undef
-    Prototype -> ! #%ReferenceError.prototype%
-  }
-}
+} ---> N(Object | num | bigint | str | bool | undef | null) | T(#ReferenceError)
 FunctionEnvironmentRecord.HasThisBinding:[EnvironmentRecord]: {
   env: {
     envRec -> ! EnvironmentRecord
@@ -3528,12 +3523,7 @@ PrimaryExpression[0,0].Evaluation:[☊(PrimaryExpression)]: {
   env: {
     this -> ! ☊(PrimaryExpression)
   }
-} ---> N(#Global | Object | num | bigint | str | bool | undef | null) | T(#802:0) @ {
-  #802:0 -> OrdinaryObject {
-    ErrorData -> ! undef
-    Prototype -> ! #%ReferenceError.prototype%
-  }
-}
+} ---> N(#Global | Object | num | bigint | str | bool | undef | null) | T(#ReferenceError)
 PrimaryExpression[0,0].IsFunctionDefinition:[☊(PrimaryExpression)]: {
   env: {
     this -> ! ☊(PrimaryExpression)
@@ -3871,12 +3861,7 @@ ResolveBinding:[str]: {
     ThisValue -> ! ~empty~
   }
 }
-ResolveThisBinding:[]: ɛ ---> N(#Global | Object | num | bigint | str | bool | undef | null) | T(#802:0) @ {
-  #802:0 -> OrdinaryObject {
-    ErrorData -> ! undef
-    Prototype -> ! #%ReferenceError.prototype%
-  }
-}
+ResolveThisBinding:[]: ɛ ---> N(#Global | Object | num | bigint | str | bool | undef | null) | T(#ReferenceError)
 ShiftExpression[1,0].AssignmentTargetType:[☊(ShiftExpression), ☊(ShiftExpression), ☊(AdditiveExpression)]: {
   env: {
     AdditiveExpression -> ! ☊(AdditiveExpression)

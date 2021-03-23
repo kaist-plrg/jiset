@@ -190,12 +190,8 @@ class AbsTransfer(
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> (st.heap, v.toCompletion))
       case ithrow @ IThrow(x) => for {
-        loc <- id(_.allocMap(fid, ithrow.asite, "OrdinaryObject", Map(
-          "Prototype" -> AbsValue(NamedAddr(s"%$x.prototype%")),
-          "ErrorData" -> AbsUndef.Top,
-        )))
-        comp = AbsComp(CompThrow -> ((loc, emptyConst)))
         st <- get
+        comp = AbsComp(CompThrow -> ((AbsPure(NamedAddr(x)), emptyConst)))
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret -> ((st.heap, comp)))
       case IAssert(expr) if usePrune => for {

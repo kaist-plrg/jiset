@@ -300,6 +300,26 @@ class Model(cfg: CFG) {
   // TODO more manual modelings
   private def manualMaps: Map[String, (Option[String], Map[String, AbsValue])] = Map(
     "Global" -> (Some("OrdinaryObject"), Map()),
+    "RangeError" -> (Some("OrdinaryObject"), Map(
+      "ErrorData" -> AbsUndef.Top,
+      "Prototype" -> AbsValue(NamedAddr("%RangeError.prototype%")),
+    )),
+    "ReferenceError" -> (Some("OrdinaryObject"), Map(
+      "ErrorData" -> AbsUndef.Top,
+      "Prototype" -> AbsValue(NamedAddr("%ReferenceError.prototype%")),
+    )),
+    "SyntaxError" -> (Some("OrdinaryObject"), Map(
+      "ErrorData" -> AbsUndef.Top,
+      "Prototype" -> AbsValue(NamedAddr("%SyntaxError.prototype%")),
+    )),
+    "TypeError" -> (Some("OrdinaryObject"), Map(
+      "ErrorData" -> AbsUndef.Top,
+      "Prototype" -> AbsValue(NamedAddr("%TypeError.prototype%")),
+    )),
+    "URIError" -> (Some("OrdinaryObject"), Map(
+      "ErrorData" -> AbsUndef.Top,
+      "Prototype" -> AbsValue(NamedAddr("%URIError.prototype%")),
+    )),
     "Intrinsics" -> (None, Map(
       // TODO automatic insertion from specification
       "%String.prototype%" -> AbsValue(NamedAddr("%String.prototype%")),
