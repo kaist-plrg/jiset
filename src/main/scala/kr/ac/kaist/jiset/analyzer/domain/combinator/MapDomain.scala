@@ -70,6 +70,9 @@ class MapDomain[K, V, VD <: AbsDomain[V]](
     def +(pair: (K, AbsV)): Elem = update(pair._1, pair._2)
     def update(k: K, v: AbsV): Elem =
       copy(map = map + (k -> v))
+    def <<(that: Elem): Elem =
+      if (this.default == that.default) copy(map = map ++ that.map)
+      else this ⊔ that
 
     // get size
     def size: Int = map.size

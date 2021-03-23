@@ -52,6 +52,8 @@ object BasicDomain extends heap.Domain {
 
     // update
     def +(pair: (Loc, AbsObj)): Elem = copy(map = map + pair)
+    def update(loc: Loc, obj: AbsObj): Elem = copy(map = map.update(loc, obj))
+    def <<(that: Elem): Elem = copy(map = this.map << that.map)
 
     // get size
     def size: Int = map.size

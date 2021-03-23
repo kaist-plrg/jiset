@@ -137,7 +137,7 @@ class AbsTransfer(
         } else (h, v)
         val nextNP = np.copy(node = next(call))
         val st = sem(np)
-        val newSt = AbsState(st.env + (x -> newV), st.heap ⊔ newH)
+        val newSt = AbsState(st.env + (x -> newV), st.heap << newH)
         sem += nextNP -> newSt
       }
     }
