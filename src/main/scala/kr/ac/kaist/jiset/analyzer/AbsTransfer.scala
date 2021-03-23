@@ -61,9 +61,11 @@ class AbsTransfer(
       if (LOG && stat.iter % 10000 == 0) stat.dump()
       compute
     case None =>
+      sem.noReturnCheck
       if (LOG) stat.dump()
       stat.close()
       nfAlarms.close()
+      nfErrors.close()
   }
 
   // transfer function for control points

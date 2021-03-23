@@ -70,6 +70,12 @@ class AbsSemantics(
   // get return point map
   def getRpMap = rpMap
 
+  // no return check
+  def noReturnCheck: Unit = {
+    val set = npMap.keySet.map(funcOf(_)) -- rpMap.keySet.map(funcOf(_))
+    for (func <- set) printlnColor(RED)(s"no return: [${func.uid}] ${func.name}")
+  }
+
   // get type ancestors
   def getTypes(name: String): Set[String] = (for {
     info <- typeMap.get(name)
