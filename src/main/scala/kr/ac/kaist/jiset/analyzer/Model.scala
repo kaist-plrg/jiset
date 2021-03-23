@@ -279,6 +279,7 @@ class Model(cfg: CFG) {
   private def manualEnv: Map[String, AbsValue] = Map(
     "GLOBAL_context" -> AbsValue(Ty("ExecutionContext")),
     "GLOBAL_executionStack" -> AbsValue(NamedAddr("ExecutionStack")),
+    "INTRINSICS" -> AbsValue(NamedAddr("Intrinsics")),
     "REALM" -> AbsValue(Ty("RealmRecord")),
     "Object" -> AbsValue("Object"),
     "String" -> AbsValue("String"),

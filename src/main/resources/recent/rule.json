@@ -73,7 +73,7 @@
   },
   {
     "tokens": "Set id:{proto} to id:{realm} ' s intrinsic object named id:{intrinsicDefaultProto} .",
-    "inst": "proto = GLOBAL_intrinsic[intrinsicDefaultProto]"
+    "inst": "proto = INTRINSICS[intrinsicDefaultProto]"
   },
   {
     "tokens": "If id:{F} contains any code unit other than value:{\"g\"} , value:{\"i\"} , value:{\"m\"} , value:{\"s\"} , value:{\"u\"} , or value:{\"y\"} or if it contains the same code unit more than once , throw a value:{SyntaxError} exception .",
@@ -230,5 +230,25 @@
   {
     "tokens": "If id:{body} is the nt:{FunctionBody} of an nt:{AsyncGeneratorBody} , return value:{false} .",
     "inst": "if AnyBool return false else {}"
+  },
+  {
+    "tokens": "Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} , and an [ [ InitialName ] ] internal slot .",
+    "inst": "let func = (new OrdinaryObject(\"InitialName\" -> AnyStr))"
+  },
+  {
+    "tokens": "Let id:{opText} be the sequence of Unicode code points associated with id:{assignmentOpText} in the following table : in:{} out:{}",
+    "inst": "let opText = AnyStr"
+  },
+  {
+    "tokens": "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{list} and performs the following steps when called : in:{} out:{}",
+    "inst": "let closure = Lambda"
+  },
+  {
+    "tokens": "Let id:{r} be the BigInt defined by the mathematical relation id:{r} = id:{n} - ( id:{d} × id:{q} ) where id:{q} is a BigInt that is negative only if id:{n} / id:{d} is negative and positive only if id:{n} / id:{d} is positive , and whose magnitude is as large as possible without exceeding the magnitude of the true mathematical quotient of id:{n} and id:{d} .",
+    "inst": "let r = (% n d)"
+  },
+  {
+    "tokens": "Let id:{resultStr} be the String value of length 1 , containing one code unit from id:{str} , specifically the code unit at index ℝ ( id:{index} ) .",
+    "inst": "let resultStr = AnyStr"
   }
 ]

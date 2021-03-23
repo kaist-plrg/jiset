@@ -8,7 +8,7 @@
   app __x3__ = (GetValue rref)
   let rval = [? __x3__]
   let assignmentOpText = (get-syntax AssignmentOperator)
-  ??? "Let id:{opText} be the sequence of Unicode code points associated with id:{assignmentOpText} in the following table : in:{} out:{}"
+  let opText = AnyStr
   app __x4__ = (ApplyStringOrNumericBinaryOperator lval opText rval)
   let r = __x4__
   app __x5__ = (PutValue lref r)

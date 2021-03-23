@@ -205,12 +205,16 @@ class AbsTransfer(
         v <- transfer(expr)
         _ = printlnColor(GREEN)(s"[PRINT] ${beautify(v)}")
       } yield ()
-      case IWithCont(id, params, bodyInst) => st => ???
+      case IWithCont(id, params, bodyInst) => st => {
+        alarm(s"not yet implemented: ${inst.beautified}")
+        st
+      }
       case ISetType(expr, ty) => for {
         v <- transfer(expr)
         p = v.escaped
-      } yield ???
-      case _ => st => ???
+      } yield {
+        alarm(s"not yet implemented: ${inst.beautified}")
+      }
     }
 
     // transfer function for call instructions
@@ -256,6 +260,7 @@ class AbsTransfer(
         res
       }),
       "floor" -> ((st, v) => AbsNum.Top),
+      "abs" -> ((st, v) => AbsNum.Top),
     )
 
     // transfer function for expressions
@@ -297,7 +302,10 @@ class AbsTransfer(
         v <- get(_.lookup(sem, refv))
       } yield v
       // TODO after discussing the continuations
-      case ECont(params, body) => ???
+      case ECont(params, body) => st => {
+        alarm(s"not yet implemented: ${expr.beautified}")
+        (AbsValue.Bot, st)
+      }
       case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => isAbsent(ref, true)
       case EBOp(OEq, ERef(ref), EAbsent) => isAbsent(ref)
       case EUOp(uop, expr) => for {
@@ -327,7 +335,10 @@ class AbsTransfer(
       case EGetElems(base, name) => for {
         v <- transfer(expr)
         p = v.escaped
-      } yield ??? // TODO need discussion
+      } yield {
+        alarm(s"not yet implemented: ${expr.beautified}")
+        AbsValue.Bot
+      } // TODO need discussion
       case EGetSyntax(base) => strTop // TODO handling non-AST values
       case EParseSyntax(code, rule, flags) => for {
         r <- transfer(rule)
@@ -500,7 +511,8 @@ class AbsTransfer(
     // check if ref is absent
     def isAbsent(ref: Ref, negated: Boolean = false): Result[AbsValue] = for {
       refv <- transfer(ref)
-      v <- get(_.exists(sem, refv))
+      // v <- get(_.exists(sem, refv))
+      v = AbsBool.Top
       st <- get
     } yield v.toSet.foldLeft(AbsBool.Bot: AbsBool) {
       case (b, true) =>

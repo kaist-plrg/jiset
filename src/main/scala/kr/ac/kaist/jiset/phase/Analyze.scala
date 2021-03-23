@@ -39,6 +39,8 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
       "no garbage collection"),
     ("merge", BoolOption(c => c.merge = true),
       "merge locations in return points"),
+    ("insens", BoolOption(c => USE_VIEW = false),
+      "not use type sensitivity for parameters"),
     ("check-alarm", BoolOption(c => CHECK_ALARM = true),
       "perform pruning"),
     ("target", StrOption((c, s) => c.target = Some(s)),

@@ -18,10 +18,23 @@ case class NodePoint[T <: Node](node: T, view: View) extends ControlPoint
 case class ReturnPoint(func: Function, view: View) extends ControlPoint
 
 // view abstraction
-case class View(tys: List[Type]) {
+class View(val tys: List[Type]) {
   // conversion to string
-  override def toString: String = tys.mkString("[", ", ", "]")
+  override def toString: String =
+    if (USE_VIEW) tys.mkString("[", ", ", "]") else "I"
+
+  // equality check
+  override def equals(any: Any): Boolean = any match {
+    case (that: View) => this.tys == that.tys
+    case _ => false
+  }
+
+  // hash code
+  override def hashCode: Int = tys.hashCode
 }
 object View {
-  def apply(seq: Type*): View = View(seq.toList)
+  def apply(seq: Type*): View =
+    if (USE_VIEW) new View(seq.toList) else new View(Nil)
+  def apply(tys: List[Type]): View =
+    if (USE_VIEW) new View(tys) else new View(Nil)
 }

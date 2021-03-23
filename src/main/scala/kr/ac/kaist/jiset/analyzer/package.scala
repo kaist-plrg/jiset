@@ -6,6 +6,9 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.util.Useful._
 
 package object analyzer {
+  // type sensitivity
+  var USE_VIEW = true
+
   // initialize
   mkdir(ANALYZE_LOG_DIR)
   val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
@@ -58,5 +61,4 @@ package object analyzer {
   } catch {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
-
 }
