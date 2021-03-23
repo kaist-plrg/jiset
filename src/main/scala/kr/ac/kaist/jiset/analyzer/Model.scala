@@ -566,8 +566,38 @@ class Model(cfg: CFG) {
       "Prototype" -> AbsValue(NamedAddr("%AsyncIteratorPrototype%")),
     // TODO ??? has properties that are indirectly inherited by all AsyncGenerator instances.
     )),
+    "%AsyncGeneratorFunction.prototype.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%AsyncIteratorPrototype%")),
+    // TODO ??? has properties that are indirectly inherited by all AsyncGenerator instances.
+    )),
+    "%Number%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("Number"),
+      "Construct" -> getClo("Number"),
+    )),
+    "%Number.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+      "NumberData" -> AbsValue(0),
+    )),
+    "%String%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("String"),
+      "Construct" -> getClo("String"),
+    )),
+    "%String.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+      "StringData" -> AbsValue(""),
+    )),
+    "%Symbol%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Function.prototype%")),
+      "Call" -> getClo("Symbol"),
+      "Construct" -> getClo("Symbol"),
+    )),
+    "%Symbol.prototype%" -> (Some("OrdinaryObject"), Map(
+      "Prototype" -> AbsValue(NamedAddr("%Object.prototype%")),
+    )),
   // TODO model following remaining intrinsics (ommitted some cases that seems unnecessary)
-  // %JSON% %Map% %MapIteratorPrototype% %Math% %Number% %parseFloat% %parseInt% %Promise% %Proxy% %Reflect% %RegExpStringIteratorPrototype% %Set% %SetIteratorPrototype% %String% %StringIteratorPrototype% %Symbol% %TypedArray% %Uint8Array% %Uint8ClampedArray% %Uint16Array% %Uint32Array%
+  // %JSON% %Map% %MapIteratorPrototype% %Math% %parseFloat% %parseInt% %Promise% %Proxy% %Reflect% %RegExpStringIteratorPrototype% %Set% %SetIteratorPrototype% %StringIteratorPrototype% %TypedArray% %Uint8Array% %Uint8ClampedArray% %Uint16Array% %Uint32Array%
   )
 
   // TODO more manual modelings
