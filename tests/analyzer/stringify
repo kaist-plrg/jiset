@@ -2162,16 +2162,6 @@ IdentifierReference[1,0].AssignmentTargetType:[☊(IdentifierReference)]: {
     this -> ! ☊(IdentifierReference)
   }
 } ---> N(~simple~)
-IdentifierReference[1,0].EarlyErrors:[☊(IdentifierReference)]: {
-  env: {
-    this -> ! ☊(IdentifierReference)
-  }
-} ---> T(#2226:0) @ {
-  #2226:0 -> OrdinaryObject {
-    ErrorData -> ! undef
-    Prototype -> ! #%SyntaxError.prototype%
-  }
-}
 IdentifierReference[1,0].Evaluation:[☊(IdentifierReference)]: {
   env: {
     this -> ! ☊(IdentifierReference)
@@ -2359,11 +2349,6 @@ ImportMeta[0,0].AssignmentTargetType:[☊(ImportMeta)]: {
     this -> ! ☊(ImportMeta)
   }
 } ---> N(~invalid~)
-ImportMeta[0,0].EarlyErrors:[☊(ImportMeta)]: {
-  env: {
-    this -> ! ☊(ImportMeta)
-  }
-} ---> N(undef)
 ImportMeta[0,0].Evaluation:[☊(ImportMeta)]: {
   env: {
     this -> ! ☊(ImportMeta)
@@ -3751,17 +3736,6 @@ PropertyDefinition[0,0].PropName:[☊(PropertyDefinition), ☊(IdentifierReferen
     this -> ! ☊(PropertyDefinition)
   }
 } ---> N(str)
-PropertyDefinition[1,0].EarlyErrors:[☊(PropertyDefinition), ☊(CoverInitializedName)]: {
-  env: {
-    CoverInitializedName -> ! ☊(CoverInitializedName)
-    this -> ! ☊(PropertyDefinition)
-  }
-} ---> T(#2239:0) @ {
-  #2239:0 -> OrdinaryObject {
-    ErrorData -> ! undef
-    Prototype -> ! #%SyntaxError.prototype%
-  }
-}
 PropertyDefinition[2,0].PropName:[☊(PropertyDefinition), ☊(PropertyName), ☊(AssignmentExpression)]: {
   env: {
     AssignmentExpression -> ! ☊(AssignmentExpression)

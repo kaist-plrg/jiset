@@ -70,9 +70,7 @@ case class Algo(
   }
 
   // exclusion check
-  def isExcluded(excluded: List[Regex]): Boolean = excluded.foldLeft(false) {
-    case (b, pat) => b || ids.exists(pat.matches(_))
-  }
+  def isParent(id: String): Boolean = ids contains id
 
   // completion check (not containing ??? or !!! in the algorithm body)
   def isComplete: Boolean = {

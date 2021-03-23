@@ -267,79 +267,55 @@ class AbsSemantics(
     """LiteralPropertyName\[.*""".r,
     """PropertyName\[.*""".r,
     """ImportMeta\[.*""".r,
-    // EarlyErrors
-    """PropertyDefinition\[1,0\].EarlyErrors""".r,
-    """IdentifierReference\[1,0\].EarlyErrors""".r,
     // CoveredParenthesizedExpression
     """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
+  // TODO EarlyErrors
+  // """PropertyDefinition\[1,0\].EarlyErrors""".r,
+  // """IdentifierReference\[1,0\].EarlyErrors""".r,
   )
 
-  private def failedPatterns = List(
-    // has parameter
-    """TemplateSpans\[0,0\].SubstitutionEvaluation""".r,
-    """TemplateLiteral\[0,0\].TemplateStrings""".r,
-    """BreakableStatement\[0,0\].ContainsUndefinedContinueTarget""".r,
-    // not implemented: EIsInstanceOf
-    """IfStatement\[0,0\].EarlyErrors""".r,
-    // Unknown property #Ty(ExecutionContext)."Generator" (@GetGeneratorKind)
-    """YieldExpression\[0,0\].Evaluation""".r,
-    // unknown variable: Type (@ToString)
-    """LiteralPropertyName\[2,0\].Evaluation""".r,
-    // not impelemented: transfer for `EParseSyntax`
-    """IdentifierReference\[2,0\].EarlyErrors""".r,
-    // EIsInstanceOf @EvaluateNew
-    """NewExpression\[1,0\].Evaluation""".r,
-    //  not detected in target
-    """ImportDeclaration\[0,0\].ImportEntries""".r,
-    // instead, targetted in this query
-    """ModuleItemList\[1,0\].ImportEntries""".r,
-    // not implemented access
-    """AsyncFunctionExpression\[0,0\].Evaluation""".r,
-    // not implemented access: "Contains"
-    """ArrowFunction\[0,0\].EarlyErrors""".r,
-    // unknown property: "CreateImmutableBinding"
-    """AsyncFunctionExpression\[1,0\].Evaluation""".r,
-  )
-
-  private def excludePatterns = List(
-    // 22.2 RegExp
-    """sec-regexp-regular-expression-objects""".r
-  )
-
-  private def isTarget(head: SyntaxDirectedHead, inst: Inst): Boolean = (
+  private def isTarget(head: SyntaxDirectedHead, algo: Algo): Boolean = (
     head.withParams.isEmpty && (target match {
-      case Some(pattern) => pattern.r.matches(head.printName)
+      case Some(pattern) => pattern.r.matches(algo.name)
       case None => (
-        successPatterns.exists(_.matches(head.printName)) ||
-        isSimple(inst)
+        (isSuccess(algo) || isSimple(algo)) &&
+        !isRegex(algo) &&
+        !isEarlyErrors(algo)
       )
     })
   )
 
-  private def isSimple(inst: Inst): Boolean = inst match {
+  private def isSuccess(algo: Algo): Boolean =
+    successPatterns.exists(_.matches(algo.name))
+
+  private def isSimple(algo: Algo): Boolean = algo.rawBody match {
     case IReturn(EBool(_)) => true
     case _ => false
   }
 
+  private def isRegex(algo: Algo): Boolean =
+    algo.isParent("sec-regexp-regular-expression-objects") // 22.2 RegExp
+
+  private def isEarlyErrors(algo: Algo): Boolean =
+    algo.name.endsWith("EarlyErrors")
+
   // initial abstract state for syntax-directed algorithms
-  private def getTypes(algo: Algo): List[(List[Type], AbsState)] =
-    if (algo.isExcluded(excludePatterns)) Nil
-    else algo.head match {
-      case (head: SyntaxDirectedHead) if isTarget(head, algo.rawBody) =>
-        head.optional.subsets.map(opt => {
-          var st = AbsState.Empty
-          val types: List[Type] = head.types.map {
-            case (name, _) if opt contains name =>
-              st += name -> AbsAbsent.Top
-              AbsentT
-            case (name, astName) =>
-              st += name -> AbsAST(ASTVal(astName))
-              AstT(astName)
-          }
-          (types, st)
-        }).toList
-      case _ => Nil
-    }
+  private def getTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
+    case (head: SyntaxDirectedHead) if isTarget(head, algo) =>
+      head.optional.subsets.map(opt => {
+        var st = AbsState.Empty
+        val types: List[Type] = head.types.map {
+          case (name, _) if opt contains name =>
+            st += name -> AbsAbsent.Top
+            AbsentT
+          case (name, astName) =>
+            st += name -> AbsAST(ASTVal(astName))
+            AstT(astName)
+        }
+        (types, st)
+      }).toList
+    case _ => Nil
+  }
 
   // get types from abstract values
   private def getTypes(
