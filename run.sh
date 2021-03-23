@@ -6,6 +6,9 @@ filename="$prev-$(date '+%y%m%d-%H:%M')"
 mkdir -p $prev
 rm -f $log
 
+echo "./run.sh $@"
+echo "./run.sh $@" >> $log
+
 echo "update..."
 git pull 2>> $log 1>> $log
 git submodule update 2>> $log 1>> $log
