@@ -76,8 +76,8 @@ class AnalyzeREPL(sem: AbsSemantics) {
     case Nil => println("need arguments")
     case str :: _ =>
       val info = opt match {
-        case CmdInfo.RetTarget => sem(str)
-        case CmdInfo.BlockTarget => sem(str.toInt)
+        case CmdInfo.RetTarget => sem.getReturnPointByName(str)
+        case CmdInfo.BlockTarget => sem.getNodePointsById(str.toInt)
       }
       info.foreach(cp => {
         println(sem.getString(cp, CYAN, true))

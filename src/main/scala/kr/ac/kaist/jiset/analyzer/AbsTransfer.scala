@@ -4,8 +4,6 @@ import kr.ac.kaist.jiset.{ CFG_DIR, LOG }
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer
-import kr.ac.kaist.jiset.analyzer.domain._
-import kr.ac.kaist.jiset.analyzer.domain.Beautifier._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
@@ -15,9 +13,8 @@ import scala.annotation.tailrec
 // abstract transfer function
 class AbsTransfer(
   val sem: AbsSemantics,
-  usePrune: Boolean = true,
-  replMode: Boolean = false,
-  useMerge: Boolean = false
+  usePrune: Boolean = false,
+  replMode: Boolean = false
 ) {
   import sem.cfg._
   analyzer.transfer = this
@@ -25,9 +22,6 @@ class AbsTransfer(
   // result of abstract transfer
   val monad = new StateMonad[AbsState]
   import monad._
-
-  // manual semantics
-  val model = sem.model
 
   // worklist
   val worklist = sem.worklist
@@ -86,70 +80,43 @@ class AbsTransfer(
     val func = funcOf(node)
     val helper = new Helper(ReturnPoint(func, view))
 
-    // transfer branch
-    def transferBranch(
-      branch: Branch,
-      v: AbsValue,
-      newSt: AbsState,
-      pruneT: Updater,
-      pruneF: Updater
-    ): Unit = v.escaped.bool.toSet.foreach {
-      case true =>
-        sem += NodePoint(thenNext(branch), view) -> pruneT(newSt)
-      case false =>
-        sem += NodePoint(elseNext(branch), view) -> pruneF(newSt)
-    }
-
     import helper._
     node match {
       case (entry: Entry) =>
-        val newSt = handleThisValue(func, st)
+        val newSt = handleThis(func, st)
         sem += NodePoint(next(entry), view) -> newSt
-      case (exit: Exit) =>
-        if (!funcOf(exit).name.endsWith("EarlyErrors")) alarm("may be no return")
+      case (exit: Exit) => alarm("may be no return")
       case (block: Block) =>
         val newSt = join(block.insts.map(transfer))(st)
         sem += NodePoint(next(block), view) -> newSt
       case (call: Call) =>
         val newSt = transfer(call, view)(st)
         sem += NodePoint(next(call), view) -> newSt
-      case branch @ Branch(_, expr) if usePrune =>
-        val (pv, newSt) = pruneTransfer(expr)(st)
-        transferBranch(branch, pv.v, newSt, pv.pruneT, pv.pruneF)
       case branch @ Branch(_, expr) =>
-        val (v, newSt) = transfer(expr)(st)
-        val ident: Updater = st => st
-        transferBranch(branch, v, newSt, ident, ident)
+        val (_, newSt) = transfer(expr)(st)
+        sem += NodePoint(thenNext(branch), view) -> newSt
+        sem += NodePoint(elseNext(branch), view) -> newSt
     }
+  }
+
+  // handle this value for syntax-directed algorithms
+  def handleThis(func: Function, st: AbsState): AbsState = func.algo.head match {
+    case (head: SyntaxDirectedHead) =>
+      val lhsName = head.lhsName
+      if (head.params.map(_.name) contains lhsName) st
+      else st + (lhsName -> st("this"))
+    case _ => st
   }
 
   // transfer function for return points
   def apply(rp: ReturnPoint): Unit = {
-    val (h, v) = sem(rp)
-    if (!v.isBottom) {
-      for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
-        val (newH, newV) = if (useMerge) {
-          val fid = funcOf(call).uid
-          val csite = call.inst.csite
-          val entryNP = NodePoint(rp.func.entry, rp.view)
-          val entryH = sem(entryNP).heap
-          val mergeMap = CallSiteMerger.mergeMap(h, fid, csite, entryH.keySet)
-          val merger = new CallSiteMerger(mergeMap)
-          (merger(h), merger(v))
-        } else (h, v)
-        val nextNP = np.copy(node = next(call))
-        val st = sem(np)
-        val newSt = AbsState(st.env + (x -> newV), st.heap << newH)
-        sem += nextNP -> newSt
-      }
+    val newT = sem(rp)
+    for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
+      val nextNP = np.copy(node = next(call))
+      val newSt = sem(np) + (x -> newT)
+      sem += nextNP -> newSt
     }
   }
-
-  private def pruneValue(
-    v: AbsValue,
-    tlists: List[PruneCase] = List(),
-    flists: List[PruneCase] = List()
-  ): PruneValue = PruneValue(sem, v, tlists, flists)
 
   private class Helper(ret: ReturnPoint) {
     // function
@@ -157,486 +124,400 @@ class AbsTransfer(
     val fid = func.uid
 
     // transfer function for normal instructions
-    def transfer(inst: NormalInst): Updater = inst match {
-      case IExpr(expr @ ENotSupported(msg)) => st => {
-        alarm(expr.beautified)
-        st
-      }
-      case IExpr(expr) => transfer(expr)
-      case ILet(Id(x), expr) => for {
-        v <- transfer(expr)
-        _ <- modify(_ + (x -> v))
-      } yield ()
-      case IAssign(ref, expr) => for {
-        refv <- transfer(ref)
-        v <- transfer(expr)
-        _ <- modify(_.update(sem, refv, v))
-      } yield ()
-      case IDelete(ref) => for {
-        refv <- transfer(ref)
-        _ <- modify(_.delete(sem, refv))
-      } yield ()
-      case IAppend(expr, list) => for {
-        v <- transfer(expr)
-        l <- transfer(list)
-        _ <- modify(_.append(sem, v.escaped, l.escaped.loc))
-      } yield ()
-      case IPrepend(expr, list) => for {
-        v <- transfer(expr)
-        l <- transfer(list)
-        _ <- modify(_.prepend(sem, v.escaped, l.escaped.loc))
-      } yield ()
-      case IReturn(expr) => for {
-        v <- transfer(expr)
-        st <- get
-        _ <- put(AbsState.Bot)
-      } yield sem.doReturn(ret -> (st.heap, v.toCompletion))
-      case ithrow @ IThrow(x) => for {
-        st <- get
-        comp = AbsComp(CompThrow -> ((AbsPure(NamedAddr(x)), emptyConst)))
-        _ <- put(AbsState.Bot)
-      } yield sem.doReturn(ret -> ((st.heap, comp)))
-      case IAssert(expr) if usePrune => for {
-        pv <- pruneTransfer(expr)
-        _ <- modify(pv.pruneT)
-      } yield assert(pv.v, expr)
-      case IAssert(expr) => for {
-        v <- transfer(expr)
-      } yield assert(v, expr)
-      case IPrint(expr) => for {
-        v <- transfer(expr)
-        _ = printlnColor(GREEN)(s"[PRINT] ${beautify(v)}")
-      } yield ()
-      case IWithCont(id, params, bodyInst) => st => {
-        alarm(s"not yet implemented: ${inst.beautified}")
-        st
-      }
-      case ISetType(expr, ty) => for {
-        v <- transfer(expr)
-        p = v.escaped
-      } yield {
-        alarm(s"not yet implemented: ${inst.beautified}")
-      }
-    }
+    def transfer(inst: NormalInst): Updater = ???
+    // def transfer(inst: NormalInst): Updater = inst match {
+    //   case IExpr(expr @ ENotSupported(msg)) => st => {
+    //     alarm(expr.beautified)
+    //     st
+    //   }
+    //   case IExpr(expr) => transfer(expr)
+    //   case ILet(Id(x), expr) => for {
+    //     v <- transfer(expr)
+    //     _ <- modify(_ + (x -> v))
+    //   } yield ()
+    //   case IAssign(ref, expr) => for {
+    //     refv <- transfer(ref)
+    //     v <- transfer(expr)
+    //     _ <- modify(_.update(sem, refv, v))
+    //   } yield ()
+    //   case IDelete(ref) => for {
+    //     refv <- transfer(ref)
+    //     _ <- modify(_.delete(sem, refv))
+    //   } yield ()
+    //   case IAppend(expr, list) => for {
+    //     v <- transfer(expr)
+    //     l <- transfer(list)
+    //     _ <- modify(_.append(sem, v.escaped, l.escaped.loc))
+    //   } yield ()
+    //   case IPrepend(expr, list) => for {
+    //     v <- transfer(expr)
+    //     l <- transfer(list)
+    //     _ <- modify(_.prepend(sem, v.escaped, l.escaped.loc))
+    //   } yield ()
+    //   case IReturn(expr) => for {
+    //     v <- transfer(expr)
+    //     st <- get
+    //     _ <- put(AbsState.Bot)
+    //   } yield sem.doReturn(ret -> (st.heap, v.toCompletion))
+    //   case ithrow @ IThrow(x) => for {
+    //     st <- get
+    //     comp = AbsComp(CompThrow -> ((AbsType(NamedAddr(x)), emptyConst)))
+    //     _ <- put(AbsState.Bot)
+    //   } yield sem.doReturn(ret -> ((st.heap, comp)))
+    //   case IAssert(expr) if usePrune => for {
+    //     pv <- pruneTransfer(expr)
+    //     _ <- modify(pv.pruneT)
+    //   } yield assert(pv.v, expr)
+    //   case IAssert(expr) => for {
+    //     v <- transfer(expr)
+    //   } yield assert(v, expr)
+    //   case IPrint(expr) => for {
+    //     v <- transfer(expr)
+    //     _ = printlnColor(GREEN)(s"[PRINT] ${beautify(v)}")
+    //   } yield ()
+    //   case IWithCont(id, params, bodyInst) => st => {
+    //     alarm(s"not yet implemented: ${inst.beautified}")
+    //     st
+    //   }
+    //   case ISetType(expr, ty) => for {
+    //     v <- transfer(expr)
+    //     p = v.escaped
+    //   } yield {
+    //     alarm(s"not yet implemented: ${inst.beautified}")
+    //   }
+    // }
 
     // transfer function for call instructions
-    def transfer(call: Call, view: View): Updater = call.inst match {
-      case IApp(Id(x), ERef(RefId(Id(name))), List(arg)) if unaryAlgos contains name => for {
-        v <- transfer(arg)
-        ty <- get(unaryAlgos(name)(_, v.escaped))
-        _ <- modify(_ + (x -> ty))
-      } yield ()
-      case IApp(Id(x), fexpr, args) => for {
-        f <- transfer(fexpr)
-        vs <- join(args.map(arg => transfer(arg)))
-        st <- get
-        _ <- put(AbsState.Bot)
-      } yield sem.doCall(call, view, st, f.escaped.clo, vs, x)
-      case IAccess(Id(x), bexpr, expr, args) => for {
-        b <- transfer(bexpr)
-        p <- transfer(expr)
-        vs <- join(args.map(arg => transfer(arg)))
-        st <- get
-        v = access(call, view, x, b.escaped, p.escaped.str, vs, st)
-        _ <- {
-          if (v.isBottom) put(AbsState.Bot)
-          else modify(_ + (x -> v))
-        }
-      } yield ()
-    }
+    def transfer(call: Call, view: View): Updater = ???
+    // def transfer(call: Call, view: View): Updater = call.inst match {
+    //   case IApp(Id(x), ERef(RefId(Id(name))), List(arg)) if unaryAlgos contains name => for {
+    //     v <- transfer(arg)
+    //     ty <- get(unaryAlgos(name)(_, v.escaped))
+    //     _ <- modify(_ + (x -> ty))
+    //   } yield ()
+    //   case IApp(Id(x), fexpr, args) => for {
+    //     f <- transfer(fexpr)
+    //     vs <- join(args.map(arg => transfer(arg)))
+    //     st <- get
+    //     _ <- put(AbsState.Bot)
+    //   } yield sem.doCall(call, view, st, f.escaped.clo, vs, x)
+    //   case IAccess(Id(x), bexpr, expr, args) => for {
+    //     b <- transfer(bexpr)
+    //     p <- transfer(expr)
+    //     vs <- join(args.map(arg => transfer(arg)))
+    //     st <- get
+    //     v = access(call, view, x, b.escaped, p.escaped.str, vs, st)
+    //     _ <- {
+    //       if (v.isBottom) put(AbsState.Bot)
+    //       else modify(_ + (x -> v))
+    //     }
+    //   } yield ()
+    // }
 
     // unary algorithms
-    type UnaryAlgo = (AbsState, AbsPure) => AbsValue
-    val unaryAlgos: Map[String, UnaryAlgo] = Map(
-      "IsDuplicate" -> ((st, v) => AbsBool.Top),
-      "IsArrayIndex" -> ((st, v) => AbsBool.Top),
-      "ThrowCompletion" -> ((st, v) => {
-        AbsComp(CompThrow -> (v.escaped, emptyConst))
-      }),
-      "NormalCompletion" -> ((st, v) => v.toCompletion),
-      "IsAbruptCompletion" -> ((st, v) => {
-        var res: AbsBool = AbsBool.Bot
-        if (!v.comp.abrupt.isBottom) res ⊔= AT
-        if (!v.comp.normal.isBottom) res ⊔= AF
-        if (!v.pure.isBottom) res ⊔= AF
-        res
-      }),
-      "floor" -> ((st, v) => AbsNum.Top),
-      "abs" -> ((st, v) => AbsNum.Top),
-    )
+    type UnaryAlgo = (AbsState, AbsType) => AbsType
+    val unaryAlgos: Map[String, UnaryAlgo] = ???
+    // val unaryAlgos: Map[String, UnaryAlgo] = Map(
+    //   "IsDuplicate" -> ((st, v) => AbsBool.Top),
+    //   "IsArrayIndex" -> ((st, v) => AbsBool.Top),
+    //   "ThrowCompletion" -> ((st, v) => {
+    //     AbsComp(CompThrow -> (v.escaped, emptyConst))
+    //   }),
+    //   "NormalCompletion" -> ((st, v) => v.toCompletion),
+    //   "IsAbruptCompletion" -> ((st, v) => {
+    //     var res: AbsBool = AbsBool.Bot
+    //     if (!v.comp.abrupt.isBottom) res ⊔= AT
+    //     if (!v.comp.normal.isBottom) res ⊔= AF
+    //     if (!v.pure.isBottom) res ⊔= AF
+    //     res
+    //   }),
+    //   "floor" -> ((st, v) => AbsNum.Top),
+    //   "abs" -> ((st, v) => AbsNum.Top),
+    // )
 
     // transfer function for expressions
     // TODO consider the completion records
-    def transfer(expr: Expr): Result[AbsValue] = expr match {
-      case ENum(n) => AbsValue(n)
-      case EINum(n) => AbsValue(n)
-      case EBigINum(b) => AbsValue(b)
-      case EStr(str) => AbsValue(str)
-      case EBool(b) => AbsValue(b)
-      case EUndef => AbsValue(Undef)
-      case ENull => AbsValue(Null)
-      case EAbsent => AbsValue(Absent)
-      case expr @ EMap(Ty(ty), props) => for {
-        vs <- join(props.map {
-          case (kexpr, vexpr) => for {
-            v <- transfer(vexpr)
-            k = kexpr.to[EStr](???).str
-          } yield k -> v
-        })
-        asite = expr.asite
-        a <- id(_.allocMap(fid, asite, ty, vs.toMap))
-      } yield a
-      case expr @ EList(exprs) => for {
-        vs <- join(exprs.map(transfer))
-        a <- id(_.allocList(fid, expr.asite, vs.toList))
-      } yield a
-      case expr @ ESymbol(desc) => for {
-        // TODO handling non-string descriptions
-        a <- id(_.allocSymbol(fid, expr.asite, desc.to[EStr](???).str))
-      } yield a
-      case EPop(list, idx) => for {
-        l <- transfer(list)
-        k <- transfer(idx)
-        a <- id(_.pop(sem, l.escaped, k.escaped))
-      } yield a
-      case ERef(ref) => for {
-        refv <- transfer(ref)
-        v <- get(_.lookup(sem, refv))
-      } yield v
-      // TODO after discussing the continuations
-      case ECont(params, body) => st => {
-        alarm(s"not yet implemented: ${expr.beautified}")
-        (AbsValue.Bot, st)
-      }
-      case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => isAbsent(ref, true)
-      case EBOp(OEq, ERef(ref), EAbsent) => isAbsent(ref)
-      case EUOp(uop, expr) => for {
-        v <- transfer(expr)
-        u = transfer(uop)(v.escaped)
-      } yield u
-      case EBOp(bop, left, right) => for {
-        l <- transfer(left)
-        r <- transfer(right)
-        v = transfer(bop)(l.escaped, r.escaped)
-      } yield v
-      case ETypeOf(expr) => for {
-        v <- transfer(expr)
-        set <- get(_.typeOf(sem, v.escaped))
-      } yield AbsStr(set)
-      case EIsCompletion(expr) => for {
-        v <- transfer(expr)
-      } yield {
-        var res = AbsValue.Bot
-        if (!v.comp.isBottom) res ⊔= AT
-        if (!v.pure.isBottom) res ⊔= AF
-        res
-      }
-      case EIsInstanceOf(base, name) => for {
-        v <- transfer(base)
-      } yield boolTop // TODO more precise
-      case EGetElems(base, name) => for {
-        v <- transfer(expr)
-        p = v.escaped
-      } yield {
-        alarm(s"not yet implemented: ${expr.beautified}")
-        AbsValue.Bot
-      } // TODO need discussion
-      case EGetSyntax(base) => strTop // TODO handling non-AST values
-      case EParseSyntax(code, rule, flags) => for {
-        r <- transfer(rule)
-        ast = r.escaped.str.gamma match {
-          case Infinite => AbsAST.Top
-          case Finite(set) => AbsAST.alpha(set.map(str => ASTVal(str.str)))
-        }
-      } yield ast
-      case EConvert(source, cop, flags) => for {
-        v <- transfer(source)
-      } yield cop match {
-        case CStrToNum => AbsNum.Top
-        case CStrToBigInt => AbsBigINum.Top
-        case CNumToStr => AbsStr.Top
-        case CNumToInt => AbsNum.Top
-        case CNumToBigInt => AbsBigINum.Top
-        case CBigIntToNum => AbsNum.Top
-      }
-      case EContains(list, elem) => for {
-        l <- transfer(list)
-        e <- transfer(elem)
-        c <- get(_.contains(l.escaped, e.escaped))
-      } yield c
-      case EReturnIfAbrupt(ERef(ref), check) => for {
-        rv <- transfer(ref)
-        v <- transfer(rv)
-        newV <- returnIfAbrupt(v, check)
-        _ <- {
-          if (newV.isBottom) put(AbsState.Bot)
-          else modify(_.update(sem, rv, newV))
-        }
-      } yield newV
-      case EReturnIfAbrupt(expr, check) => for {
-        v <- transfer(expr)
-        newV <- returnIfAbrupt(v, check)
-        _ <- {
-          if (newV.isBottom) put(AbsState.Bot)
-          else pure(())
-        }
-      } yield newV
-      case expr @ ECopy(obj) => for {
-        v <- transfer(obj)
-        a <- id(_.copyOf(sem, fid, expr.asite, v.escaped))
-      } yield a
-      case EKeys(obj) => for {
-        v <- transfer(obj)
-        a <- id(_.keysOf(v.escaped))
-      } yield a
-      case expr @ ENotSupported(msg) => st => {
-        alarm(expr.beautified)
-        (AbsValue(Absent), st)
-      }
-    }
+    def transfer(expr: Expr): Result[AbsType] = ???
+    // def transfer(expr: Expr): Result[AbsType] = expr match {
+    //   case ENum(n) => AbsType(n)
+    //   case EINum(n) => AbsType(n)
+    //   case EBigINum(b) => AbsType(b)
+    //   case EStr(str) => AbsType(str)
+    //   case EBool(b) => AbsType(b)
+    //   case EUndef => AbsType(Undef)
+    //   case ENull => AbsType(Null)
+    //   case EAbsent => AbsType(Absent)
+    //   case expr @ EMap(Ty(ty), props) => for {
+    //     vs <- join(props.map {
+    //       case (kexpr, vexpr) => for {
+    //         v <- transfer(vexpr)
+    //         k = kexpr.to[EStr](???).str
+    //       } yield k -> v
+    //     })
+    //     asite = expr.asite
+    //     a <- id(_.allocMap(fid, asite, ty, vs.toMap))
+    //   } yield a
+    //   case expr @ EList(exprs) => for {
+    //     vs <- join(exprs.map(transfer))
+    //     a <- id(_.allocList(fid, expr.asite, vs.toList))
+    //   } yield a
+    //   case expr @ ESymbol(desc) => for {
+    //     // TODO handling non-string descriptions
+    //     a <- id(_.allocSymbol(fid, expr.asite, desc.to[EStr](???).str))
+    //   } yield a
+    //   case EPop(list, idx) => for {
+    //     l <- transfer(list)
+    //     k <- transfer(idx)
+    //     a <- id(_.pop(sem, l.escaped, k.escaped))
+    //   } yield a
+    //   case ERef(ref) => for {
+    //     refv <- transfer(ref)
+    //     v <- get(_.lookup(sem, refv))
+    //   } yield v
+    //   // TODO after discussing the continuations
+    //   case ECont(params, body) => st => {
+    //     alarm(s"not yet implemented: ${expr.beautified}")
+    //     (AbsType.Bot, st)
+    //   }
+    //   case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => isAbsent(ref, true)
+    //   case EBOp(OEq, ERef(ref), EAbsent) => isAbsent(ref)
+    //   case EUOp(uop, expr) => for {
+    //     v <- transfer(expr)
+    //     u = transfer(uop)(v.escaped)
+    //   } yield u
+    //   case EBOp(bop, left, right) => for {
+    //     l <- transfer(left)
+    //     r <- transfer(right)
+    //     v = transfer(bop)(l.escaped, r.escaped)
+    //   } yield v
+    //   case ETypeOf(expr) => for {
+    //     v <- transfer(expr)
+    //     set <- get(_.typeOf(sem, v.escaped))
+    //   } yield AbsStr(set)
+    //   case EIsCompletion(expr) => for {
+    //     v <- transfer(expr)
+    //   } yield {
+    //     var res = AbsType.Bot
+    //     if (!v.comp.isBottom) res ⊔= AT
+    //     if (!v.pure.isBottom) res ⊔= AF
+    //     res
+    //   }
+    //   case EIsInstanceOf(base, name) => for {
+    //     v <- transfer(base)
+    //   } yield boolTop // TODO more precise
+    //   case EGetElems(base, name) => for {
+    //     v <- transfer(expr)
+    //     p = v.escaped
+    //   } yield {
+    //     alarm(s"not yet implemented: ${expr.beautified}")
+    //     AbsType.Bot
+    //   } // TODO need discussion
+    //   case EGetSyntax(base) => strTop // TODO handling non-AST values
+    //   case EParseSyntax(code, rule, flags) => for {
+    //     r <- transfer(rule)
+    //     ast = r.escaped.str.gamma match {
+    //       case Infinite => AbsAST.Top
+    //       case Finite(set) => AbsAST.alpha(set.map(str => ASTVal(str.str)))
+    //     }
+    //   } yield ast
+    //   case EConvert(source, cop, flags) => for {
+    //     v <- transfer(source)
+    //   } yield cop match {
+    //     case CStrToNum => AbsNum.Top
+    //     case CStrToBigInt => AbsBigINum.Top
+    //     case CNumToStr => AbsStr.Top
+    //     case CNumToInt => AbsNum.Top
+    //     case CNumToBigInt => AbsBigINum.Top
+    //     case CBigIntToNum => AbsNum.Top
+    //   }
+    //   case EContains(list, elem) => for {
+    //     l <- transfer(list)
+    //     e <- transfer(elem)
+    //     c <- get(_.contains(l.escaped, e.escaped))
+    //   } yield c
+    //   case EReturnIfAbrupt(ERef(ref), check) => for {
+    //     rv <- transfer(ref)
+    //     v <- transfer(rv)
+    //     newV <- returnIfAbrupt(v, check)
+    //     _ <- {
+    //       if (newV.isBottom) put(AbsState.Bot)
+    //       else modify(_.update(sem, rv, newV))
+    //     }
+    //   } yield newV
+    //   case EReturnIfAbrupt(expr, check) => for {
+    //     v <- transfer(expr)
+    //     newV <- returnIfAbrupt(v, check)
+    //     _ <- {
+    //       if (newV.isBottom) put(AbsState.Bot)
+    //       else pure(())
+    //     }
+    //   } yield newV
+    //   case expr @ ECopy(obj) => for {
+    //     v <- transfer(obj)
+    //     a <- id(_.copyOf(sem, fid, expr.asite, v.escaped))
+    //   } yield a
+    //   case EKeys(obj) => for {
+    //     v <- transfer(obj)
+    //     a <- id(_.keysOf(v.escaped))
+    //   } yield a
+    //   case expr @ ENotSupported(msg) => st => {
+    //     alarm(expr.beautified)
+    //     (AbsType(Absent), st)
+    //   }
+    // }
 
     // transfer function for reference values
-    def transfer(ref: Ref): Result[AbsRefValue] = ref match {
-      case RefId(id) => AbsRefValue.Id(id.name)
-      case RefProp(ref, expr) => for {
-        rv <- transfer(ref)
-        b <- transfer(rv)
-        p <- transfer(expr)
-        r <- AbsRefValue.Prop(b, p.escaped)
-      } yield r // TODO handle non-string properties
-    }
+    def transfer(ref: Ref): Result[AbsRef] = ???
+    // def transfer(ref: Ref): Result[AbsRef] = ref match {
+    //   case RefId(id) => AbsRef.Id(id.name)
+    //   case RefProp(ref, expr) => for {
+    //     rv <- transfer(ref)
+    //     b <- transfer(rv)
+    //     p <- transfer(expr)
+    //     r <- AbsRef.Prop(b, p.escaped)
+    //   } yield r // TODO handle non-string properties
+    // }
 
     // transfer function for reference values
-    def transfer(refv: AbsRefValue): Result[AbsValue] =
-      st => (st.lookup(sem, refv), st)
+    def transfer(refv: AbsRef): Result[AbsType] = ???
+    // def transfer(refv: AbsRef): Result[AbsType] =
+    //   st => (st.lookup(sem, refv), st)
 
     // transfer function for unary operators
-    // TODO more precise abstract semantics
-    def transfer(uop: UOp): AbsPure => AbsValue = v => uop match {
-      case ONeg => numericTop
-      case ONot => !v.escaped.bool
-      case OBNot => numTop
-    }
-
-    // all booleans
-    val boolTop: AbsValue = AbsBool.Top
+    def transfer(uop: UOp): AbsType => AbsType = ???
+    // def transfer(uop: UOp): AbsType => AbsType = v => uop match {
+    //   case ONeg => numericTop
+    //   case ONot => !v.escaped.bool
+    //   case OBNot => numTop
+    // }
 
     // transfer function for binary operators
-    // TODO more precise abstract semantics
-    def transfer(bop: BOp): (AbsPure, AbsPure) => AbsValue = (l, r) => bop match {
-      case OPlus => arithBOp(l, r)
-      case OSub => arithBOp(l, r)
-      case OMul => arithBOp(l, r)
-      case OPow => numericBOp(l, r)
-      case ODiv => numericBOp(l, r)
-      case OUMod => numericBOp(l, r)
-      case OMod => numericBOp(l, r)
-      case OLt => boolTop
-      case OEq => l =^= r
-      case OEqual => boolTop
-      case OAnd => l.bool && r.bool
-      case OOr => l.bool || r.bool
-      case OXor => l.bool ^ r.bool
-      case OBAnd => numTop
-      case OBOr => numTop
-      case OBXOr => numTop
-      case OLShift => numTop
-      case OSRShift => numTop
-      case OURShift => numTop
-    }
+    def transfer(bop: BOp): (AbsType, AbsType) => AbsType = ???
+    // def transfer(bop: BOp): (AbsType, AbsType) => AbsType = (l, r) => bop match {
+    //   case OPlus => arithBOp(l, r)
+    //   case OSub => arithBOp(l, r)
+    //   case OMul => arithBOp(l, r)
+    //   case OPow => numericBOp(l, r)
+    //   case ODiv => numericBOp(l, r)
+    //   case OUMod => numericBOp(l, r)
+    //   case OMod => numericBOp(l, r)
+    //   case OLt => boolTop
+    //   case OEq => l =^= r
+    //   case OEqual => boolTop
+    //   case OAnd => l.bool && r.bool
+    //   case OOr => l.bool || r.bool
+    //   case OXor => l.bool ^ r.bool
+    //   case OBAnd => numTop
+    //   case OBOr => numTop
+    //   case OBXOr => numTop
+    //   case OLShift => numTop
+    //   case OSRShift => numTop
+    //   case OURShift => numTop
+    // }
 
-    private def arithBOp(l: AbsPure, r: AbsPure): AbsValue =
-      if (l.isBottom || r.isBottom) AbsValue.Bot
-      else if (l ⊑ strTop && r ⊑ strTop) strTop
-      else if (l ⊑ numTop && r ⊑ numTop) numTop
-      else if (l ⊑ bigintTop && r ⊑ bigintTop) bigintTop
-      else if (l ⊑ numericTop && r ⊑ numericTop) numericTop
-      else arithTop
+    // // return if abrupt completion
+    // def returnIfAbrupt(v: AbsType, check: Boolean): Result[AbsType] = st => {
+    //   val AbsType(pure, comp) = v
+    //   val compV: AbsType = comp.isNormal.map {
+    //     case true => comp(CompNormal)._1
+    //     case false =>
+    //       val abrupt = comp.abrupt
+    //       if (check) sem.doReturn(ret -> (st.heap, abrupt))
+    //       else alarm(s"Unchecked abrupt completions: ${beautify(abrupt)}")
+    //       AbsType.Bot
+    //   }.foldLeft(AbsType.Bot)(_ ⊔ _)
+    //   val newV: AbsType = pure ⊔ compV
+    //   (newV, st)
+    // }
 
-    private def numericBOp(l: AbsPure, r: AbsPure): AbsValue =
-      if (l.isBottom || r.isBottom) AbsValue.Bot
-      else if (l ⊑ numTop && r ⊑ numTop) numTop
-      else if (l ⊑ bigintTop && r ⊑ bigintTop) bigintTop
-      else numericTop
+    // // alarm if assertion fails
+    // def assert(v: AbsType, expr: Expr) =
+    //   if (!(AT ⊑ v.escaped.bool)) alarm(s"assertion failed: ${expr.beautified}")
 
-    // TODO pruning abstract states using conditions
-    def pruneTransfer(expr: Expr): Result[PruneValue] = expr match {
-      case ERef(ref) => for {
-        refv <- transfer(ref)
-        v <- get(_.lookup(sem, refv))
-      } yield pruneValue(
-        v,
-        List(PruneCase(refv, PruneSingle(true), true)),
-        List(PruneCase(refv, PruneSingle(false), true))
-      )
-      case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => for {
-        v <- isAbsent(ref, true)
-      } yield pruneValue(v)
-      case EBOp(OEq, ERef(ref), EAbsent) => for {
-        v <- isAbsent(ref)
-      } yield pruneValue(v)
-      case EUOp(ONot, cexpr) => for {
-        pv <- pruneTransfer(cexpr)
-      } yield pv.negate
-      case EBOp(OEq, ERef(ref), rexpr) => for {
-        refv <- transfer(ref)
-        v <- transfer(refv)
-        rv <- transfer(rexpr)
-      } yield {
-        val condv = transfer(OEq)(v.escaped, rv.escaped)
-        rv.escaped.getSingle match {
-          case One(pv) => pruneValue(
-            condv,
-            List(PruneCase(refv, PruneSingle(pv), true)),
-            List(PruneCase(refv, PruneSingle(pv), false))
-          )
-          case _ => pruneValue(condv)
-        }
-      }
-      case EIsInstanceOf(ERef(ref), name) => for {
-        refv <- transfer(ref)
-        v <- transfer(refv)
-        condv <- get(_.isInstanceOf(sem, v.escaped, name))
-      } yield {
-        pruneValue(
-          condv,
-          List(PruneCase(refv, PruneInstance(name), true)),
-          List(PruneCase(refv, PruneInstance(name), false))
-        )
-      }
-      // TODO do more pruning
-      case _ => for {
-        v <- transfer(expr)
-      } yield pruneValue(v)
-    }
+    // // access semantics
+    // def access(
+    //   call: Call,
+    //   view: View,
+    //   x: String,
+    //   value: AbsType,
+    //   prop: AbsStr,
+    //   args: List[AbsType],
+    //   st: AbsState
+    // ): AbsType = {
+    //   var v = AbsType.Bot
 
-    // check if ref is absent
-    def isAbsent(ref: Ref, negated: Boolean = false): Result[AbsValue] = for {
-      refv <- transfer(ref)
-      // v <- get(_.exists(sem, refv))
-      v = AbsBool.Top
-      st <- get
-    } yield v.toSet.foldLeft(AbsBool.Bot: AbsBool) {
-      case (b, true) =>
-        val isAbsent = AbsAbsent.Top =^= st.lookup(sem, refv).escaped
-        b ⊔ (if (!negated) isAbsent else !isAbsent)
-      case (b, false) => b ⊔ (if (!negated) AT else AF)
-    }
+    //   // AST cases
+    //   for {
+    //     ASTVal(ast) <- value.ast.gamma
+    //     Str(name) <- prop.gamma
+    //   } v ⊔= accessAST(call, view, x, ast, name, args, st)
 
-    // return if abrupt completion
-    def returnIfAbrupt(v: AbsValue, check: Boolean): Result[AbsValue] = st => {
-      val AbsValue(pure, comp) = v
-      val compV: AbsPure = comp.isNormal.map {
-        case true => comp(CompNormal)._1
-        case false =>
-          val abrupt = comp.abrupt
-          if (check) sem.doReturn(ret -> (st.heap, abrupt))
-          else alarm(s"Unchecked abrupt completions: ${beautify(abrupt)}")
-          AbsPure.Bot
-      }.foldLeft(AbsPure.Bot)(_ ⊔ _)
-      val newV: AbsValue = pure ⊔ compV
-      (newV, st)
-    }
+    //   // reference cases
+    //   v ⊔= st.lookup(sem, AbsRef.Prop(value, prop))
 
-    // alarm if assertion fails
-    def assert(v: AbsValue, expr: Expr) =
-      if (!(AT ⊑ v.escaped.bool)) alarm(s"assertion failed: ${expr.beautified}")
+    //   v
+    // }
 
-    // access semantics
-    def access(
-      call: Call,
-      view: View,
-      x: String,
-      value: AbsPure,
-      prop: AbsStr,
-      args: List[AbsValue],
-      st: AbsState
-    ): AbsValue = {
-      var v = AbsValue.Bot
+    // // access of AST values
+    // def accessAST(
+    //   call: Call,
+    //   view: View,
+    //   x: String,
+    //   ast: String,
+    //   name: String,
+    //   args: List[AbsType],
+    //   st: AbsState
+    // ): AbsType = if (sem.spec.getRhsNT(ast) contains name) AbsType.Bot
+    // else (ast, name) match {
+    //   case ("IdentifierName", "StringValue") => strTop
+    //   case ("NumericLiteral", "NumericValue") => numTop
+    //   case ("StringLiteral", "StringValue" | "SV") => strTop
+    //   case (_, "TV" | "TRV") => strTop
+    //   case (_, "MV") => numTop
+    //   case _ =>
+    //     val fids = getSyntaxFids(ast, name)
+    //     if (fids.isEmpty) {
+    //       if (name == "Contains") AbsBool.Top
+    //       else {
+    //         alarm(s"$ast.$name does not exist")
+    //         AbsType.Bot
+    //       }
+    //     } else {
+    //       val pairs = fids.toList.flatMap[AbsClo.Pair](fid => {
+    //         val func = fidMap(fid)
+    //         func.algo.head match {
+    //           case (head: SyntaxDirectedHead) =>
+    //             val baseArgs = sem.getArgs(head)
+    //             sem.doCall(call, view, st, AbsClo(Clo(fid)), baseArgs ++ args, x)
+    //             None
+    //           case _ => None
+    //         }
+    //       })
+    //       val v: AbsType = AbsClo(AbsClo.SetD(pairs: _*))
+    //       v
+    //     }
+    // }
 
-      // AST cases
-      for {
-        ASTVal(ast) <- value.ast.gamma
-        Str(name) <- prop.gamma
-      } v ⊔= accessAST(call, view, x, ast, name, args, st)
+    // // all numbers
+    // private val numTop: AbsType = AbsNum.Top
 
-      // reference cases
-      v ⊔= st.lookup(sem, AbsRefValue.Prop(value, prop))
+    // // all big integers
+    // private val bigintTop: AbsType = AbsBigINum.Top
 
-      v
-    }
+    // // all numeric values
+    // private val numericTop: AbsType = AbsPrim(
+    //   num = AbsNum.Top,
+    //   bigint = AbsBigINum.Top,
+    // )
 
-    // access of AST values
-    def accessAST(
-      call: Call,
-      view: View,
-      x: String,
-      ast: String,
-      name: String,
-      args: List[AbsValue],
-      st: AbsState
-    ): AbsValue = if (sem.spec.getRhsNT(ast) contains name) AbsValue.Bot
-    else (ast, name) match {
-      case ("IdentifierName", "StringValue") => strTop
-      case ("NumericLiteral", "NumericValue") => numTop
-      case ("StringLiteral", "StringValue" | "SV") => strTop
-      case (_, "TV" | "TRV") => strTop
-      case (_, "MV") => numTop
-      case _ =>
-        val fids = getSyntaxFids(ast, name)
-        if (fids.isEmpty) {
-          if (name == "Contains") AbsBool.Top
-          else {
-            alarm(s"$ast.$name does not exist")
-            AbsValue.Bot
-          }
-        } else {
-          val pairs = fids.toList.flatMap[AbsClo.Pair](fid => {
-            val func = fidMap(fid)
-            func.algo.head match {
-              case (head: SyntaxDirectedHead) =>
-                val baseArgs = sem.getArgs(head)
-                sem.doCall(call, view, st, AbsClo(Clo(fid)), baseArgs ++ args, x)
-                None
-              case _ => None
-            }
-          })
-          val v: AbsValue = AbsClo(AbsClo.SetD(pairs: _*))
-          v
-        }
-    }
+    // // all strings
+    // private val strTop: AbsType = AbsStr.Top
 
-    // handle this value for syntax-directed algorithms
-    def handleThisValue(func: Function, st: AbsState): AbsState = {
-      func.algo.head match {
-        case (head: SyntaxDirectedHead) =>
-          val lhsName = head.lhsName
-          if (head.params.map(_.name) contains lhsName) st
-          else st + (lhsName -> st.env("this")._1)
-        case _ => st
-      }
-    }
-
-    // all numbers
-    private val numTop: AbsValue = AbsNum.Top
-
-    // all big integers
-    private val bigintTop: AbsValue = AbsBigINum.Top
-
-    // all numeric values
-    private val numericTop: AbsValue = AbsPrim(
-      num = AbsNum.Top,
-      bigint = AbsBigINum.Top,
-    )
-
-    // all strings
-    private val strTop: AbsValue = AbsStr.Top
-
-    // all arithmetic values
-    private val arithTop: AbsValue = AbsPrim(
-      num = AbsNum.Top,
-      bigint = AbsBigINum.Top,
-      str = AbsStr.Top,
-    )
+    // // all arithmetic values
+    // private val arithTop: AbsType = AbsPrim(
+    //   num = AbsNum.Top,
+    //   bigint = AbsBigINum.Top,
+    //   str = AbsStr.Top,
+    // )
   }
 }

@@ -6,6 +6,9 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.util.Useful._
 
 package object analyzer {
+  // absent abstract type
+  val ABSENT = AbsType.Absent
+
   // type sensitivity
   var USE_VIEW = true
 

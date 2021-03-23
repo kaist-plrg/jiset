@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.cfg._
-import domain._
 
 // control points
 trait ControlPoint {

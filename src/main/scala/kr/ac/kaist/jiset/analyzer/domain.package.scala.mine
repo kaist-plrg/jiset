@@ -1,0 +1,82 @@
+package kr.ac.kaist.jiset.analyzer
+
+import scala.collection.immutable.StringOps
+import kr.ac.kaist.jiset.ir._
+
+package object domain {
+  // import generator._
+  // import combinator._
+
+  // // extensible abstract domain
+  // type EAbsDomain[T] = AbsDomain[T] with Singleton
+
+  // //////////////////////////////////////////////////////////////////////////////
+  // // concrete domain
+  // //////////////////////////////////////////////////////////////////////////////
+  // lazy val Infinite = concrete.Infinite
+  // lazy val Finite = concrete.Finite
+  // lazy val Zero = concrete.Zero
+  // lazy val One = concrete.One
+  // lazy val Many = concrete.Many
+
+  // //////////////////////////////////////////////////////////////////////////////
+  // // helpers
+  // //////////////////////////////////////////////////////////////////////////////
+  // lazy val AT = AbsBool(true)
+  // lazy val AF = AbsBool(false)
+  // lazy val emptyConst: AbsPure = AbsConst("empty")
+  // lazy val ABSENT: AbsValue = AbsAbsent.Top
+  // lazy val ESValue: AbsValue = {
+  //   val prim = AbsPrim.Top.copy(absent = AbsAbsent.Bot)
+  //   AbsPure(ty = AbsTy("Object"), prim = prim)
+  // }
+
+  // // abstract Scala strings
+  // lazy val StrFlat = new FlatDomain[String]
+  // type StrFlat = StrFlat.Elem
+
+  // //////////////////////////////////////////////////////////////////////////////
+  // // implicit conversions
+  // //////////////////////////////////////////////////////////////////////////////
+  // implicit def bool2boolean(x: Bool): Boolean = x.bool
+  // implicit def boolean2bool(x: Boolean): Bool = Bool(x)
+  // implicit def str2string(x: Str): StringOps = x.str
+  // implicit def string2str(x: String): Str = Str(x)
+  // implicit def bigint2biginum(x: BigInt): BigINum = BigINum(x)
+  // implicit def biginum2bigint(x: BigINum): BigInt = x.bigint
+  // implicit def double2num(x: Double): Num = Num(x)
+  // implicit def num2double(x: Num): Double = x.double
+
+  // implicit def num2prim[T](x: T)(implicit ev: T => AbsNum) =
+  //   AbsPrim(num = x)
+  // implicit def bigint2prim[T](x: T)(implicit ev: T => AbsBigINum) =
+  //   AbsPrim(bigint = x)
+  // implicit def str2prim[T](x: T)(implicit ev: T => AbsStr) =
+  //   AbsPrim(str = x)
+  // implicit def bool2prim[T](x: T)(implicit ev: T => AbsBool) =
+  //   AbsPrim(bool = x)
+  // implicit def undef2prim[T](x: T)(implicit ev: T => AbsUndef) =
+  //   AbsPrim(undef = x)
+  // implicit def null2prim[T](x: T)(implicit ev: T => AbsNull) =
+  //   AbsPrim(nullval = x)
+  // implicit def absent2prim[T](x: T)(implicit f: T => AbsAbsent) =
+  //   AbsPrim(absent = x)
+  // implicit def const2pure[T](x: T)(implicit f: T => AbsConst) =
+  //   AbsPure(const = x)
+  // implicit def loc2pure[T](x: T)(implicit f: T => AbsLoc) =
+  //   AbsPure(loc = x)
+  // implicit def ty2pure[T](x: T)(implicit f: T => AbsTy) =
+  //   AbsPure(ty = x)
+  // implicit def clo2pure[T](x: T)(implicit f: T => AbsClo) =
+  //   AbsPure(clo = x)
+  // implicit def cont2pure[T](x: T)(implicit f: T => AbsCont) =
+  //   AbsPure(cont = x)
+  // implicit def ast2pure[T](x: T)(implicit f: T => AbsAST) =
+  //   AbsPure(ast = x)
+  // implicit def prim2pure[T](x: T)(implicit f: T => AbsPrim) =
+  //   AbsPure(prim = x)
+  // implicit def pure2value[T](x: T)(implicit f: T => AbsPure) =
+  //   AbsValue(pure = x)
+  // implicit def comp2value[T](x: T)(implicit f: T => AbsComp) =
+  //   AbsValue(comp = x)
+}

@@ -54,7 +54,7 @@ class DotPrinter {
         showPrev(sem, rp, depth)
       case _ =>
         val funcs: Set[(Function, View)] =
-          sem.getControlPoints.map(cp => (sem.funcOf(cp), cp.view))
+          sem.getAllControlPoints.map(cp => (sem.funcOf(cp), cp.view))
         funcs.foreach(doCluster(_, sem, cur))
 
         // print call edges
