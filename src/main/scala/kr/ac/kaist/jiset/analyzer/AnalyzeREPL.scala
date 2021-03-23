@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import org.jline.builtins.Completers.TreeCompleter
 import org.jline.builtins.Completers.TreeCompleter.{ Node => CNode, node }
 import org.jline.reader._
@@ -84,12 +85,33 @@ class AnalyzeREPL(sem: AbsSemantics) {
       })
   }
 
-  private def getFuncName(args: List[String]): String = args.lastIndexOf("@") match {
-    case n if n != -1 && n < args.size - 1 =>
-      val funcInfo = args(n + 1)
-      funcInfo.slice(0, funcInfo.indexOf(":"))
-    case _ => ""
+  // entry
+  var visited: Set[ReturnPoint] = Set()
+
+  private def getEntryFunc(cp: ControlPoint): Set[String] = {
+    val rp = getRpOf(cp)
+    if (visited contains rp) Set()
+    else {
+      visited += rp
+      rp.func.algo.head match {
+        case head @ SyntaxDirectedHead(_, _, _, _, _, withParam) if withParam.isEmpty =>
+          Set(rp.func.name)
+        case _ => getCallNodes(rp).flatMap(getEntryFunc(_))
+      }
+    }
   }
+
+  private def getRpOf(cp: ControlPoint): ReturnPoint = cp match {
+    case rp @ ReturnPoint(_, _) => rp
+    case NodePoint(node, view) =>
+      funcs.find(x => x.nodes.exists(x => x.uid == node.uid)) match {
+        case None => ???
+        case Some(f) => ReturnPoint(f, view)
+      }
+  }
+
+  private def getCallNodes(rp: ReturnPoint): Set[NodePoint[Call]] =
+    sem.getRetEdges(rp).map(_._1)
 
   // run repl
   def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) {
@@ -135,13 +157,9 @@ class AnalyzeREPL(sem: AbsSemantics) {
             case s"-${ BlockTarget.name }" :: bp => printInfo(BlockTarget, bp)
             case _ => println("Inappropriate option")
           }; true
-        case CmdBug.name :: args =>
-          getFuncName(args) match {
-            case "" => println("Inappropriate argument")
-            case funcName =>
-              println(s"$funcName")
-              breakpoints += CmdBreak.FuncTarget -> funcName.r
-          }
+        case CmdEntry.name :: _ =>
+          visited = Set()
+          getEntryFunc(cp).foreach(println(_))
           true
         case CmdWorklist.name :: args =>
           sem.worklist.foreach(println(_))
@@ -176,7 +194,7 @@ private object Command {
     CmdExit,
     CmdStop,
     CmdInfo,
-    CmdBug,
+    CmdEntry,
     CmdWorklist,
   )
   val cmdMap: Map[String, Command] = commands.map(cmd => (cmd.name, cmd)).toMap
@@ -222,6 +240,6 @@ private case object CmdInfo extends Command("info", "Show abstract state of node
   override val options = List(RetTarget, BlockTarget)
 }
 
-private case object CmdBug extends Command("[Bug]", "Reproduce the bug")
+private case object CmdEntry extends Command("entry", "Show the set of entry functions of current function")
 
 private case object CmdWorklist extends Command("worklist", "Show all the control points in the worklist")
