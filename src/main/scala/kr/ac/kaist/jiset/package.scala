@@ -34,6 +34,7 @@ package object jiset {
   val CUR_DIR = System.getProperty("user.dir")
 
   // ECMAScript model
+  val LEGACY_COMPILER_VERSION = "recent"
   val VERSIONS = List(
     // "es2016", "es2017", "es2018", "es2019", "es2020",
     "recent"

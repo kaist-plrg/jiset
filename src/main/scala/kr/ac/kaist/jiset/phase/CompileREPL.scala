@@ -27,7 +27,7 @@ case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {
     val (secIds, _) =
       time("parse algorithm heads", ECMAScriptParser.parseHeads())
 
-    REPL.run(secIds)
+    REPL.run(version, secIds)
   }
 
   def defaultConfig: CompileREPLConfig = CompileREPLConfig()

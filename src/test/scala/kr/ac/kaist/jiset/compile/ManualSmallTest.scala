@@ -15,6 +15,8 @@ import org.scalatest._
 
 class ManualSmallTest extends CompileTest {
   val name: String = "compileManualTest"
+  val compileTarget = CompileTargets(LEGACY_COMPILER_VERSION)
+  import compileTarget._
 
   implicit val (lines, grammar, document, region): (Array[String], Grammar, Document, Region) = {
     implicit val (lines, document, region) = getInfo("recent")

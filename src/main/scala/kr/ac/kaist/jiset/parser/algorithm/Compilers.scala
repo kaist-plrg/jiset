@@ -11,6 +11,9 @@ trait Compilers extends TokenListParsers {
   import kr.ac.kaist.jiset.ir.Parser._
   import kr.ac.kaist.jiset.ir.JsonProtocol._
 
+  // version
+  val version: String
+
   // instructions
   val stmt: P[Inst]
 
@@ -49,11 +52,11 @@ trait Compilers extends TokenListParsers {
   private case class Pair(tokens: String, inst: Inst)
   val manualSteps: Map[String, Inst] = try {
     implicit lazy val PairProtocol = jsonFormat2(Pair)
-    val pairs = readJson[List[Pair]](s"$RESOURCE_DIR/rule.json")
+    val pairs = readJson[List[Pair]](s"$RESOURCE_DIR/$version/rule.json")
     (for (Pair(str, inst) <- pairs) yield str -> inst).toMap
   } catch {
     case e: Throwable =>
-      printlnColor(RED)(s"* Failed to load $RESOURCE_DIR/rule.json: ${e.getMessage}")
+      printlnColor(RED)(s"* Failed to load $RESOURCE_DIR/$version/rule.json: ${e.getMessage}")
       Map()
   }
 

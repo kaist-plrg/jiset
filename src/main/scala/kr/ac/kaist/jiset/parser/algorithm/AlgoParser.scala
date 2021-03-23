@@ -11,6 +11,7 @@ import org.jsoup.nodes._
 object AlgoParser {
   // get algorithms
   def apply(
+    version: String,
     parsedHead: (Element, List[Head]),
     secIds: Map[String, Name],
     useCount: Boolean,
@@ -34,7 +35,7 @@ object AlgoParser {
       // get body
       val rawBody =
         if (useCount) ??? // TODO compiler with counters
-        else Compiler(tokens, start)
+        else Compiler(version)(tokens, start)
 
       // print detail
       if (detail) {

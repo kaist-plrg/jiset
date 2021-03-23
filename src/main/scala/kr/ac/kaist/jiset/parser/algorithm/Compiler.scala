@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.util.{ Try, Success, Failure }
 
-object Compiler extends Compilers {
+class Compiler private (val version: String) extends Compilers {
   def apply(tokens: List[Token], start: Int = 0): Inst =
     postProcess(ISeq(parseAll(stmts, tokens).getOrElse(Nil)))
 
@@ -1592,3 +1592,13 @@ object Compiler extends Compilers {
     case i ~ r => ISeq(i :+ IExpr(ERef(r)))
   }
 }
+
+object Compiler {
+  private var versionMap: Map[String, Compiler] = Map()
+  def apply(version: String): Compiler = versionMap.getOrElse(version, {
+    var compiler = new Compiler(version)
+    versionMap += version -> compiler
+    compiler
+  })
+}
+

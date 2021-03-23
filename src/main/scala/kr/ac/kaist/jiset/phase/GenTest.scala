@@ -77,7 +77,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
       if (jsonFilter(filename)) {
         val jsonName = file.toString
         val tokens = readJson[List[Token]](jsonName)
-        val inst = Compiler(tokens)
+        val inst = Compiler(LEGACY_COMPILER_VERSION)(tokens)
 
         val irName = json2ir(jsonName)
         dumpFile(inst.beautified(index = false, asite = false), irName)

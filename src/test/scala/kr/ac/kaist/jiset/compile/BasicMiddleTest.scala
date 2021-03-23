@@ -43,7 +43,7 @@ class BasicMiddleTest extends CompileTest {
 
           // check compile
           val answer = Parser.fileToInst(irName)
-          val result = Compiler(tokens)
+          val result = Compiler(version)(tokens)
           difftest(name, result, answer)
         }
       }

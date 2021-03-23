@@ -25,7 +25,7 @@ class LegacySmallTest extends CompileTest {
 
         lazy val tokens = readJson[List[Token]](jsonName)
         lazy val answer = Parser.parseInst(readFile(irName))
-        lazy val result = Compiler(tokens)
+        lazy val result = Compiler(LEGACY_COMPILER_VERSION)(tokens)
 
         difftest(filename, result, answer)
       }

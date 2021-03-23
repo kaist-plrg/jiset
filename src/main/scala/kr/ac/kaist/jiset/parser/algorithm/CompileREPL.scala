@@ -18,11 +18,12 @@ import org.jsoup.nodes.Document
 import scala.Console.{ RESET, RED, YELLOW, GREEN, CYAN }
 
 object CompileREPL {
-  def run(secIds: Map[String, Name])(
+  def run(version: String, secIds: Map[String, Name])(
     implicit
     grammar: Grammar,
     document: Document
   ): Unit = {
+    // jline
     val builder: TerminalBuilder = TerminalBuilder.builder()
     val terminal: Terminal = builder.build()
     def parseNode(cmd: String) = node(
@@ -50,6 +51,10 @@ object CompileREPL {
     def prompt: String = LINE_SEP + s"${CYAN}jiset>${RESET} "
 
     var keep: Boolean = true
+
+    // get compile target
+    val compileTarget = CompileTargets(version)
+    import compileTarget._
 
     // get target
     def getTarget(words: List[String]): (CompileTarget, List[String]) = words match {

@@ -36,8 +36,8 @@ object ECMAScriptParser {
 
     // parse algorithm
     val algos = (
-      if (query == "") parseAlgo(document, useCount, detail)
-      else getElems(document, query).toList.flatMap(parseAlgo(_, useCount, detail))
+      if (query == "") parseAlgo(version, document, useCount, detail)
+      else getElems(document, query).toList.flatMap(parseAlgo(version, _, useCount, detail))
     ) ++ manualAlgos(version)
 
     // intrinsic object names
@@ -203,6 +203,7 @@ object ECMAScriptParser {
 
   // parse spec.html to Algo
   def parseAlgo(
+    version: String,
     target: Element,
     useCount: Boolean,
     detail: Boolean
@@ -222,7 +223,7 @@ object ECMAScriptParser {
     // algorithms
     val (atime, passed) = time(for {
       parsedHead <- parsedHeads
-      algos = AlgoParser(parsedHead, secIds, useCount, detail)
+      algos = AlgoParser(version, parsedHead, secIds, useCount, detail)
       if !algos.isEmpty
     } yield algos)
     if (detail) println(s"# successful algorithm parsing: ${passed.size} ($atime ms)")
