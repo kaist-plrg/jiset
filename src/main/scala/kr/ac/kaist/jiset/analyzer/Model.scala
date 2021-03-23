@@ -295,9 +295,13 @@ class Model(cfg: CFG) {
     "AnyStr" -> AbsStr.Top,
     "AnyBool" -> AbsBool.Top,
     "AnyNum" -> AbsNum.Top,
+    // AST values
     "FunctionBody" -> AbsValue(ASTVal("FunctionBody")),
     "ConciseBody" -> AbsValue(ASTVal("ConciseBody")),
     "AsyncConciseBody" -> AbsValue(ASTVal("AsyncConciseBody")),
+    "FormalParameters" -> AbsValue(ASTVal("FormalParameters")),
+    "Script" -> AbsValue(ASTVal("Script")),
+    "ScriptBody" -> AbsValue(ASTVal("ScriptBody")),
   )
 
   // TODO more manual modelings
