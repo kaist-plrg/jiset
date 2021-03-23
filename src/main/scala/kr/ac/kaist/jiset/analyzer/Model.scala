@@ -84,7 +84,7 @@ class Model(cfg: CFG) {
       "EvaluationError" -> AbsValue(Undef) ⊔ AbsComp.Top.abrupt,
       "DFSIndex" -> AbsValue(Undef) ⊔ AbsNum.Top,
       "DFSAncestorIndex" -> AbsValue(Undef) ⊔ AbsNum.Top,
-      "RequestedModules" -> AbsValue(NamedAddr("StringList")),
+      "RequestedModules" -> AbsValue(NamedAddr("StrList")),
     ),
     TyInfo(
       name = "SourceTextModuleRecord",
@@ -141,7 +141,7 @@ class Model(cfg: CFG) {
       "ObjectRecord" -> AbsTy("EnvironmentRecord"),
       "GlobalThisValue" -> AbsValue(NamedAddr("Global")),
       "DeclarativeRecord" -> AbsTy("EnvironmentRecord"),
-      "VarNames" -> AbsValue(NamedAddr("StringList")),
+      "VarNames" -> AbsValue(NamedAddr("StrList")),
       "HasVarDeclaration" -> getClos(""".*\.HasVarDeclaration""".r),
       "HasLexicalDeclaration" -> getClos(""".*\.HasLexicalDeclaration""".r),
       "HasRestrictedGlobalProperty" -> getClos(""".*\.HasRestrictedGlobalProperty""".r),
@@ -287,9 +287,11 @@ class Model(cfg: CFG) {
     "Undefined" -> AbsValue("Undefined"),
     "Null" -> AbsValue("Null"),
     "Boolean" -> AbsValue("Boolean"),
+    "Reference" -> AbsValue("Reference"),
     "Number" -> AbsValue("Number"),
     "BigInt" -> AbsValue("BigInt"),
     "PRIMITIVE" -> AbsValue(NamedAddr("PRIMITIVE")),
+    "StrList" -> AbsValue(NamedAddr("StrList")),
     "AnyStr" -> AbsStr.Top,
     "AnyBool" -> AbsBool.Top,
     "AnyNum" -> AbsNum.Top,
@@ -627,7 +629,7 @@ class Model(cfg: CFG) {
   // TODO more manual modelings
   private def manualLists: Map[String, AbsValue] = Map(
     "ExecutionStack" -> AbsValue(Ty("ExecutionContext")),
-    "StringList" -> AbsStr.Top,
+    "StrList" -> AbsStr.Top,
     "ImportEntries" -> AbsValue(Ty("ImportEntryRecord")),
     "ExportEntries" -> AbsValue(Ty("ExportEntryRecord")),
     "TemplateMap" -> AbsValue(Ty("TemplatePair")),

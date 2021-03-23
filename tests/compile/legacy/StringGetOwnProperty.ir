@@ -12,6 +12,6 @@
   assert (= (typeof str) String)
   let len = str.length
   if (|| (< index 0i) (! (< index len))) return undefined else {}
-  ??? "Let id:{resultStr} be the String value of length 1 , containing one code unit from id:{str} , specifically the code unit at index id:{index} ."
+  let resultStr = AnyStr
   return (new PropertyDescriptor("Value" -> resultStr, "Writable" -> false, "Enumerable" -> true, "Configurable" -> false))
 }

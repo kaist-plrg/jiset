@@ -17,7 +17,11 @@
   },
   {
     "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-ecmascript-function-objects} .",
-    "inst": "let internalSlotsList = (new [AnyStr])"
+    "inst": "let internalSlotsList = StrList"
+  },
+  {
+    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-27} .",
+    "inst": "let internalSlotsList = StrList"
   },
   {
     "tokens": "Let id:{ec} be the topmost execution context on the execution context stack whose ScriptOrModule component is not value:{null} .",
@@ -85,11 +89,11 @@
   },
   {
     "tokens": "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} .",
-    "inst": "let patternCharacters = (new [AnyStr])"
+    "inst": "let patternCharacters = StrList"
   },
   {
     "tokens": "Let id:{patternCharacters} be a List whose elements are the code points of id:{patternText} .",
-    "inst": "let patternCharacters = (new [AnyStr])"
+    "inst": "let patternCharacters = StrList"
   },
   {
     "tokens": "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ ~ U , ~ N ] | ) .",
@@ -249,6 +253,18 @@
   },
   {
     "tokens": "Let id:{resultStr} be the String value of length 1 , containing one code unit from id:{str} , specifically the code unit at index ℝ ( id:{index} ) .",
+    "inst": "let resultStr = AnyStr"
+  },
+  {
+    "tokens": "Else if id:{PreferredType} is hint String , let id:{hint} be value:{\"string\"} .",
+    "inst": "let hint = AnyStr"
+  },
+  {
+    "tokens": "Let id:{mv} be ( the MV of nt:{NonZeroDigit} × 10 sub:{ℝ} sup:{id:{n}} ) plus the MV of nt:{DecimalDigits} .",
+    "inst": "let mv = AnyNum"
+  },
+  {
+    "tokens": "Let id:{resultStr} be the String value of length 1 , containing one code unit from id:{str} , specifically the code unit at index id:{index} .",
     "inst": "let resultStr = AnyStr"
   }
 ]

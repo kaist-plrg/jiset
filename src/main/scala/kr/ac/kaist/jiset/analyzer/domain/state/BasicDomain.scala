@@ -312,7 +312,7 @@ object BasicDomain extends state.Domain {
     } else AbsValue.Bot
 
     // lookup objects
-    def lookupObj(sem: AbsSemantics, obj: AbsObj, prop: AbsPure): AbsValue = {
+    def lookupObj(loc: Loc, sem: AbsSemantics, obj: AbsObj, prop: AbsPure): AbsValue = {
       import AbsObj._
       obj match {
         case MapElem(Some("SubMap"), _) => AbsAbsent.Top // TODO
@@ -321,12 +321,12 @@ object BasicDomain extends state.Domain {
             val vopt = set.foldLeft[MapD.AbsVOpt](MapD.AbsVOpt.Bot)(_ ⊔ _)
             val typeV = if (vopt.absent.isTop) {
               val typeV = ty.fold(AbsValue.Bot)(lookupTy(sem, _, prop.str))
-              if (typeV.isBottom) alarm(s"unknown property: ${beautify(prop)} @ ${beautify(obj)}")
+              if (typeV.isBottom) alarm(s"unknown property: ${beautify(loc)}.${beautify(prop)}}")
               typeV
             } else AbsValue.Bot
             vopt.value ⊔ typeV
           case Infinite =>
-            alarm(s"top string property @ ${beautify(obj)}")
+            alarm(s"top string property of ${beautify(loc)}")
             AbsValue.Bot
         }
         case ListElem(list) =>
@@ -378,7 +378,7 @@ object BasicDomain extends state.Domain {
     // lookup properties
     def lookupLoc(sem: AbsSemantics, loc: Loc, prop: AbsPure): AbsValue = {
       val obj = lookupLoc(sem, loc)
-      lookupObj(sem, obj, prop)
+      lookupObj(loc, sem, obj, prop)
     }
 
     // lookup locations
@@ -472,7 +472,7 @@ object BasicDomain extends state.Domain {
         case (heap, loc) => heap(loc) match {
           case ListElem(list) => heap + (loc -> ListElem(ListD(list.value ⊔ v)))
           case obj =>
-            alarm(s"try to insert ${beautify(v)} to ${beautify(obj)}")
+            alarm(s"try to insert ${beautify(v)} to ${beautify(loc)}")
             heap
         }
       })
@@ -506,7 +506,7 @@ object BasicDomain extends state.Domain {
           obj match {
             case AbsObj.ListElem(list) => value ⊔ list.value
             case _ =>
-              alarm(s"try to pop from a non-list object: ${beautify(obj)}")
+              alarm(s"try to pop from a non-list object: ${beautify(loc)}")
               value
           }
       }
@@ -527,7 +527,7 @@ object BasicDomain extends state.Domain {
         case MapElem(Some(parent), _) if parent endsWith "Object" =>
           add("Object", AbsPure(loc))
         case obj =>
-          alarm(s"try to get types of object: ${beautify(obj)}")
+          alarm(s"try to get types of object: ${beautify(loc)}")
       }
       if (!pv.ty.isBottom) for (ty <- pv.ty) {
         val name = ty.name

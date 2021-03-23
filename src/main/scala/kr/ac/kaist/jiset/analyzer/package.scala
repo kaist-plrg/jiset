@@ -22,6 +22,7 @@ package object analyzer {
   var alarmCPStr: String = ""
 
   private var alarmMap: Map[String, Set[String]] = Map()
+  private var errorMap: Map[Int, Set[String]] = Map()
   def alarm(msg: String, error: Boolean = false): Unit = if (!TEST_MODE) {
     val key = alarmCP match {
       case NodePoint(node, _) => s"node${node.uid}"
@@ -32,9 +33,14 @@ package object analyzer {
       alarmMap += key -> (set + msg)
       val errMsg = s"[Bug] $msg @ $alarmCPStr"
       if (error) {
-        Console.err.println(setColor(RED)(errMsg))
-        nfErrors.println(errMsg)
-        nfErrors.flush()
+        val key = transfer.sem.funcOf(alarmCP).uid
+        val set = errorMap.getOrElse(key, Set())
+        if (!(set contains msg)) {
+          errorMap += key -> (set + msg)
+          Console.err.println(setColor(RED)(errMsg))
+          nfErrors.println(errMsg)
+          nfErrors.flush()
+        }
       }
       if (LOG) {
         nfAlarms.println(errMsg)

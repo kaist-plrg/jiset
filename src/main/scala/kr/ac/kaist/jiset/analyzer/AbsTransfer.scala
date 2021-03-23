@@ -14,7 +14,7 @@ import scala.annotation.tailrec
 
 // abstract transfer function
 class AbsTransfer(
-  sem: AbsSemantics,
+  val sem: AbsSemantics,
   usePrune: Boolean = true,
   replMode: Boolean = false,
   useMerge: Boolean = false
@@ -529,7 +529,7 @@ class AbsTransfer(
         case false =>
           val abrupt = comp.abrupt
           if (check) sem.doReturn(ret -> (st.heap, abrupt))
-          // XXX else alarm(s"Unchecked abrupt completions: ${beautify(abrupt)}")
+          else alarm(s"Unchecked abrupt completions: ${beautify(abrupt)}")
           AbsPure.Bot
       }.foldLeft(AbsPure.Bot)(_ ⊔ _)
       val newV: AbsValue = pure ⊔ compV
