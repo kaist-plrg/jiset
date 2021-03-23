@@ -9,6 +9,7 @@ package object analyzer {
   // initialize
   mkdir(ANALYZE_LOG_DIR)
   val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
+  val nfErrors = getPrintWriter(s"$ANALYZE_LOG_DIR/errors")
 
   // transfer
   var transfer: AbsTransfer = null
@@ -18,7 +19,7 @@ package object analyzer {
   var alarmCPStr: String = ""
 
   private var alarmMap: Map[String, Set[String]] = Map()
-  def alarm(msg: String): Unit = if (!TEST_MODE) {
+  def alarm(msg: String, error: Boolean = false): Unit = if (!TEST_MODE) {
     val key = alarmCP match {
       case NodePoint(node, _) => s"node${node.uid}"
       case ReturnPoint(func, _) => s"func${func.uid}"
@@ -27,8 +28,15 @@ package object analyzer {
     if (!(set contains msg)) {
       alarmMap += key -> (set + msg)
       val errMsg = s"[Bug] $msg @ $alarmCPStr"
-      Console.err.println(setColor(RED)(errMsg))
-      if (LOG) nfAlarms.println(errMsg)
+      if (error) {
+        Console.err.println(setColor(RED)(errMsg))
+        nfErrors.println(errMsg)
+        nfErrors.flush()
+      }
+      if (LOG) {
+        nfAlarms.println(errMsg)
+        nfAlarms.flush()
+      }
       if (CHECK_ALARM) transfer.REPL.run(alarmCP)
     }
   }
