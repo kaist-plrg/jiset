@@ -275,13 +275,12 @@ class AbsSemantics(
   )
 
   private def isTarget(head: SyntaxDirectedHead, algo: Algo): Boolean = (
-    head.withParams.isEmpty && (target match {
+    head.withParams.isEmpty &&
+    !isRegex(algo) &&
+    !isEarlyErrors(algo) &&
+    (target match {
       case Some(pattern) => pattern.r.matches(algo.name)
-      case None => (
-        (isSuccess(algo) || isSimple(algo)) &&
-        !isRegex(algo) &&
-        !isEarlyErrors(algo)
-      )
+      case None => isSuccess(algo) || isSimple(algo)
     })
   )
 

@@ -20,7 +20,8 @@
   let rnum = [? __x5__]
   if (! (= (typeof lnum) (typeof rnum))) throw TypeError else {}
   let T = (typeof lnum)
-  ??? "Let id:{operation} be the abstract operation associated with id:{opText} in the following table : in:{} out:{}"
+  let m = PRIMITIVE[T]
+  if (= opText "**") let operation = m.exponentiate else if (= opText "*") let operation = m.multiply else if (= opText "/") let operation = m.divide else if (= opText "%") let operation = m.remainder else if (= opText "+") let operation = m.add else if (= opText "-") let operation = m.subtract else if (= opText "<<") let operation = m.leftShift else if (= opText ">>") let operation = m.signedRightShift else if (= opText ">>>") let operation = m.unsignedRightShift else if (= opText "&") let operation = m.bitwiseAND else if (= opText "^") let operation = m.bitwiseXOR else if (= opText "|") let operation = m.bitwiseOR else return 0i
   app __x6__ = (operation lnum rnum)
   return [? __x6__]
 }

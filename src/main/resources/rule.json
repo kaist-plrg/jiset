@@ -190,5 +190,45 @@
   {
     "tokens": "Return a new BigInt object whose [ [ BigIntData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-bigint-objects} for a description of BigInt objects .",
     "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_BigInt_prototype, \"BigIntData\" -> argument)) return obj}"
+  },
+  {
+    "tokens": "Let id:{operation} be the abstract operation associated with id:{opText} in the following table : in:{} out:{}",
+    "inst": "{ let m = PRIMITIVE[T] if (= opText \"**\") let operation = m.exponentiate else if (= opText \"*\") let operation = m.multiply else if (= opText \"/\") let operation = m.divide else if (= opText \"%\") let operation = m.remainder else if (= opText \"+\") let operation = m.add else if (= opText \"-\") let operation = m.subtract else if (= opText \"<<\") let operation = m.leftShift else if (= opText \">>\") let operation = m.signedRightShift else if (= opText \">>>\") let operation = m.unsignedRightShift else if (= opText \"&\") let operation = m.bitwiseAND else if (= opText \"^\") let operation = m.bitwiseXOR else if (= opText \"|\") let operation = m.bitwiseOR else return 0i }"
+  },
+  {
+    "tokens": "Let id:{lbits} be the 32 - bit two ' s complement bit string representing ℝ ( id:{lnum} ) .",
+    "inst": "let lbits = lnum"
+  },
+  {
+    "tokens": "Let id:{rbits} be the 32 - bit two ' s complement bit string representing ℝ ( id:{rnum} ) .",
+    "inst": "let rbits = rnum"
+  },
+  {
+    "tokens": "Else , id:{op} is code:{|} . Let id:{result} be the result of applying the bitwise inclusive OR operation to id:{lbits} and id:{rbits} .",
+    "inst": "if (= op \"|\") let result = (| lbits rbits) else let result = 0i"
+  },
+  {
+    "tokens": "Return the Number value for the integer represented by the 32 - bit two ' s complement bit string id:{result} .",
+    "inst": "return result"
+  },
+  {
+    "tokens": "If id:{call} is not contained within a nt:{FunctionBody} , nt:{ConciseBody} , or nt:{AsyncConciseBody} , return value:{false} .",
+    "inst": "if AnyBool return false else {}"
+  },
+  {
+    "tokens": "Let id:{body} be the nt:{FunctionBody} , nt:{ConciseBody} , or nt:{AsyncConciseBody} that most closely contains id:{call} .",
+    "inst": "if AnyBool let body = FunctionBody else if AnyBool let body = ConciseBody else let body = AsyncConciseBody"
+  },
+  {
+    "tokens": "If id:{body} is the nt:{FunctionBody} of a nt:{GeneratorBody} , return value:{false} .",
+    "inst": "if AnyBool return false else {}"
+  },
+  {
+    "tokens": "If id:{body} is the nt:{FunctionBody} of an nt:{AsyncFunctionBody} , return value:{false} .",
+    "inst": "if AnyBool return false else {}"
+  },
+  {
+    "tokens": "If id:{body} is the nt:{FunctionBody} of an nt:{AsyncGeneratorBody} , return value:{false} .",
+    "inst": "if AnyBool return false else {}"
   }
 ]
