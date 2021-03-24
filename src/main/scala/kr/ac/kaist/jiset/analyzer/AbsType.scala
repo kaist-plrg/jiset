@@ -22,13 +22,13 @@ case class AbsType private (
   def !⊑(that: AbsType): Boolean = !(this ⊑ that)
 
   // join operator
-  def ⊔(that: AbsType): AbsType = (new AbsType(this.set ++ that.set)).norm
+  def ⊔(that: AbsType): AbsType = new AbsType(this.set ++ that.set).norm
 
   // conversion to normal completion
-  def toComp: AbsType = (new AbsType(set.map(_.toComp: Type))).norm
+  def toComp: AbsType = new AbsType(set.map(_.toComp: Type)).norm
 
   // escape completions
-  def escaped: AbsType = (new AbsType(set.flatMap(_.escaped: Option[Type]))).norm
+  def escaped: AbsType = new AbsType(set.flatMap(_.escaped: Option[Type])).norm
   def escapedSet: Set[PureType] = set.flatMap(_.escaped)
 
   // closure set
@@ -44,6 +44,13 @@ case class AbsType private (
       case _ => BoolT.abs
     }
   }
+
+  // get boolean set
+  def bool: Set[Boolean] =
+    if (set contains BoolT) Set(true, false)
+    else if (set contains T) Set(true)
+    else if (set contains F) Set(false)
+    else Set()
 
   // remove types
   def -(t: Type): AbsType = new AbsType(set - t)
@@ -84,10 +91,20 @@ case class AbsType private (
   })
 
   // abstract boolean negation
-  def unary_!(): AbsType = new AbsType(set.collect {
-    case BoolT => BoolT
-    case Bool(b) => Bool(!b)
-  })
+  def unary_!(): AbsType = new AbsType(bool.map(b => Bool(!b))).norm
+
+  // abstract boolean binary operations
+  def &&(that: AbsType): AbsType = boolBOp(this, that, _ && _)
+  def ||(that: AbsType): AbsType = boolBOp(this, that, _ || _)
+  def ^(that: AbsType): AbsType = boolBOp(this, that, _ ^ _)
+  private def boolBOp(
+    left: AbsType,
+    right: AbsType,
+    bop: (Boolean, Boolean) => Boolean
+  ): AbsType = new AbsType(for {
+    l <- left.bool
+    r <- right.bool
+  } yield bop(l, r)).norm
 
   // conversion to string
   override def toString: String = {
@@ -104,7 +121,7 @@ object AbsType {
   def apply(set: Set[Type]): AbsType = set.size match {
     case 0 => Bot
     case 1 => new AbsType(set)
-    case _ => (new AbsType(set)).norm
+    case _ => new AbsType(set).norm
   }
   def apply(seq: Type*): AbsType = AbsType(seq.toSet)
 }

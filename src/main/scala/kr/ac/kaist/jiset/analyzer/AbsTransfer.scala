@@ -204,6 +204,8 @@ object AbsTransfer {
 
     // transfer function for expressions
     def transfer(expr: Expr): Result[AbsType] = expr match {
+      case ExistCheck(x) => x
+      case ShortCircuit(x) => x
       case ENum(n) => Num(n).abs
       case EINum(n) => Num(n).abs
       case EBigINum(b) => BigInt(b).abs
@@ -231,18 +233,10 @@ object AbsTransfer {
         r <- transfer(ref)
         t <- get(_.lookup(r))
       } yield t
-      case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => for {
-        r <- transfer(ref)
-        t <- get(_.lookup(r, check = false))
-      } yield !t.isAbsent
       case EUOp(uop, expr) => for {
         v <- transfer(expr)
         t = transfer(uop)(v.escaped)
       } yield t
-      case EBOp(OEq, ERef(ref), EAbsent) => for {
-        r <- transfer(ref)
-        t <- get(_.lookup(r, check = false))
-      } yield t.isAbsent
       case EBOp(bop, left, right) => for {
         l <- transfer(left)
         r <- transfer(right)
@@ -308,6 +302,40 @@ object AbsTransfer {
       }
     }
 
+    // existence check
+    object ExistCheck {
+      def unapply(expr: Expr): Option[Result[AbsType]] = optional(expr match {
+        case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => for {
+          r <- transfer(ref)
+          t <- get(_.lookup(r, check = false))
+        } yield !t.isAbsent
+        case EBOp(OEq, ERef(ref), EAbsent) => for {
+          r <- transfer(ref)
+          t <- get(_.lookup(r, check = false))
+        } yield t.isAbsent
+        case _ => error("not existence check")
+      })
+    }
+
+    // short circuit
+    object ShortCircuit {
+      def unapply(expr: Expr): Option[Result[AbsType]] = optional(expr match {
+        case EBOp(OOr, left, right) => for {
+          l <- transfer(left)
+          le = l.escaped
+          r <- if (le == AT) pure(AT) else transfer(right)
+          re = r.escaped
+        } yield l || r
+        case EBOp(OAnd, left, right) => for {
+          l <- transfer(left)
+          le = l.escaped
+          r <- if (le == AF) pure(AF) else transfer(right)
+          re = r.escaped
+        } yield l && r
+        case _ => error("not existence check")
+      })
+    }
+
     // transfer function for reference values
     def transfer(ref: Ref): Result[AbsRef] = ref match {
       case RefId(id) => AbsId(id.name)
@@ -346,9 +374,9 @@ object AbsTransfer {
       case OLt => BoolT
       case OEq => l =^= r
       case OEqual => BoolT
-      case OAnd => BoolT
-      case OOr => BoolT
-      case OXor => BoolT
+      case OAnd => l && r
+      case OOr => l || r
+      case OXor => l ^ r
       case OBAnd => NumT
       case OBOr => NumT
       case OBXOr => NumT
