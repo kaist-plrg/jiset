@@ -1,21 +1,33 @@
 package kr.ac.kaist.jiset
 
 import scala.Console.RED
-import kr.ac.kaist.jiset.CHECK_ALARM
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.Useful._
 
 package object analyzer {
-  // type sensitivity
-  var USE_VIEW = true
+  // inputs
+  lazy val cfg: CFG = _cfg
+  lazy val worklist: Worklist[ControlPoint] =
+    new StackWorklist(AbsSemantics.npMap.keySet)
+
+  // initialization
+  private var _cfg: CFG = null
+  def init(cfg: CFG): Unit = _cfg = cfg
+
+  // options
+  var TARGET: Option[String] = None
+  var USE_VIEW: Boolean = true
+  var PRUNE: Boolean = false
+  var CHECK_ALARM: Boolean = false
+  var REPL: Boolean = false
+  var DOT: Boolean = false
+  var PDF: Boolean = false
 
   // initialize
   mkdir(ANALYZE_LOG_DIR)
   val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
   val nfErrors = getPrintWriter(s"$ANALYZE_LOG_DIR/errors")
-
-  // transfer
-  var transfer: AbsTransfer = null
 
   // alarm
   var alarmCP: ControlPoint = null
@@ -23,7 +35,10 @@ package object analyzer {
 
   private var alarmMap: Map[String, Set[String]] = Map()
   private var errorMap: Map[Int, Set[String]] = Map()
-  def alarm(msg: String, error: Boolean = false): Unit = if (!TEST_MODE) {
+  def alarm(msg: String, error: Boolean = true): Unit = if (TEST_MODE) {
+  } else if (alarmCP == null) {
+    Console.err.println(setColor(RED)(msg))
+  } else {
     val key = alarmCP match {
       case NodePoint(node, _) => s"node${node.uid}"
       case ReturnPoint(func, _) => s"func${func.uid}"
@@ -33,7 +48,7 @@ package object analyzer {
       alarmMap += key -> (set + msg)
       val errMsg = s"[Bug] $msg @ $alarmCPStr"
       if (error) {
-        val key = transfer.sem.funcOf(alarmCP).uid
+        val key = AbsSemantics.funcOf(alarmCP).uid
         val set = errorMap.getOrElse(key, Set())
         if (!(set contains msg)) {
           errorMap += key -> (set + msg)
@@ -46,18 +61,17 @@ package object analyzer {
         nfAlarms.println(errMsg)
         nfAlarms.flush()
       }
-      if (CHECK_ALARM) transfer.REPL.run(alarmCP)
+      if (CHECK_ALARM) AnalyzeREPL.run(alarmCP)
     }
   }
 
   // dump CFG in DOT/PDF format
   def dumpCFG(
-    sem: AbsSemantics,
     cp: Option[ControlPoint] = None,
     pdf: Boolean = true,
     depth: Option[Int] = None
   ): Unit = try {
-    val dot = (new DotPrinter)(sem, cp, depth).toString
+    val dot = (new DotPrinter)(cp, depth).toString
     dumpFile(dot, s"$CFG_DIR.dot")
     if (pdf) {
       executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")
@@ -67,6 +81,22 @@ package object analyzer {
   } catch {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
+
+  // constants
+  val EMPTY = ConstT("empty")
+  val UNRESOLVABLE = ConstT("unresolvable")
+  val LEXICAL = ConstT("lexical")
+  val INITIALIZED = ConstT("initialized")
+  val UNINITIALIZED = ConstT("uninitialized")
+  val BASE = ConstT("base")
+  val DERIVED = ConstT("derived")
+  val STRICT = ConstT("strict")
+  val GLOBAL = ConstT("global")
+  val UNLINKED = ConstT("unlinked")
+  val LINKING = ConstT("linking")
+  val LINKED = ConstT("linked")
+  val EVALUATING = ConstT("evaluating")
+  val EVALUATED = ConstT("evaluated")
 
   // singleton types
   type Null = Null.type
@@ -78,4 +108,5 @@ package object analyzer {
   implicit def bigint2bigint(x: scala.BigInt) = BigInt(x)
   implicit def string2str(x: String) = Str(x)
   implicit def boolean2bool(x: Boolean) = Bool(x)
+  implicit def type2atype[T](t: T)(implicit f: T => Type) = AbsType(t)
 }

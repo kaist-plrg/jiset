@@ -131,9 +131,8 @@ object JISETTest {
   lazy val analysisResult = {
     val spec = specs("recent")
     val cfg = new CFG(spec)
-    val sem = new AbsSemantics(cfg)
-    val transfer = new AbsTransfer(sem)
-    transfer.compute
-    sem
+    init(cfg)
+    AbsTransfer.compute
+    AbsSemantics
   }
 }

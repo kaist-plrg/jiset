@@ -1,12 +1,13 @@
 package kr.ac.kaist.jiset.analyzer
 
+import kr.ac.kaist.jiset.analyzer.AbsSemantics._
 import kr.ac.kaist.jiset.{ LINE_SEP, LOG, ANALYZE_LOG_DIR }
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console._
 import java.io.PrintWriter
 
-class Stat(sem: AbsSemantics) {
+object Stat {
   // iteration
   var iter = 0
   private var counter: Map[ControlPoint, Int] = Map()
@@ -39,12 +40,10 @@ class Stat(sem: AbsSemantics) {
 
   // dump stats
   def dump(): Unit = {
-    val worklist = sem.worklist
-
-    val (numFunc, numAlgo, numRp) = sem.numOfFuncAlgoRp
+    val (numFunc, numAlgo, numRp) = numOfFuncAlgoRp
 
     // dump summary
-    log(f"$iter%,3d", f"$time%,3d", worklist.size, sem.size, f"$avg%.2f", numRp, numFunc, numAlgo)
+    log(f"$iter%,3d", f"$time%,3d", worklist.size, AbsSemantics.size, f"$avg%.2f", numRp, numFunc, numAlgo)
 
     // dump worklist
     val wapp = new Appender
@@ -55,13 +54,13 @@ class Stat(sem: AbsSemantics) {
     val uapp = new Appender
     counter.foreach {
       case (cp, cnt) =>
-        val func = sem.funcOf(cp)
+        val func = funcOf(cp)
         uapp >> cnt >> "\t" >> s"$cp @ [${func.uid}] ${func.name}" >> LINE_SEP
     }
     dumpFile(uapp, s"$ANALYZE_LOG_DIR/update")
 
     // dump result
-    dumpFile(sem.getString(CYAN), s"$ANALYZE_LOG_DIR/result.log")
+    dumpFile(getString(CYAN), s"$ANALYZE_LOG_DIR/result.log")
   }
 
   // close

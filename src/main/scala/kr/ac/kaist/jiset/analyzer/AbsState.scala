@@ -59,21 +59,65 @@ case class AbsState(
   })
 
   // lookup references
-  def lookup(x: String)(implicit model: Model): AbsType = norm {
+  def lookupVar(x: String): AbsType = norm {
     val AbsType(ts) = this(x)
     val local = ts - Absent
-    val global = if (ts contains Absent) model(x).set else Set()
-    AbsType(local ++ global)
+    val global = if (ts contains Absent) Global(x).set else Set()
+    val t = AbsType(local ++ global)
+    if (t.isMustAbsent) alarm(s"unknown variable: $x")
+    t
   }
-  def lookup(ref: AbsRef)(implicit model: Model): AbsType = norm(ref match {
-    case AbsId(x) => lookup(x)
+  def lookupStrProp(base: Type, prop: String): AbsType = base match {
+    case AstT(_) => AbsType.Bot
+    case (nameT: NameT) =>
+      val t = nameT(prop)
+      if (t.isMustAbsent) alarm(s"unknown property: $base.$prop")
+      t
+    case Absent => AbsType.Bot
     case _ => ???
+  }
+  def lookupGeneralProp(base: Type, prop: AbsType): AbsType = base match {
+    case MapT(t) => t
+    case _ => ???
+  }
+  def lookup(ref: AbsRef): AbsType = norm(ref match {
+    case AbsId(x) => lookupVar(x)
+    case AbsStrProp(base, prop) =>
+      base.set.map(lookupStrProp(_, prop)).foldLeft(AbsType.Bot)(_ ⊔ _)
+    case AbsGeneralProp(base, prop) =>
+      base.set.map(lookupGeneralProp(_, prop)).foldLeft(AbsType.Bot)(_ ⊔ _)
   })
 
   // update reference
-  def update(ref: AbsRef, t: AbsType)(implicit model: Model): AbsState = norm(ref match {
+  def update(ref: AbsRef, t: AbsType): AbsState = norm(ref match {
+    case AbsId(x) => define(x, t)
     case _ => ???
   })
+
+  // contains operation
+  def contains(list: AbsType, t: AbsType): AbsType = norm {
+    BoolT.abs
+  }
+
+  // append operation
+  def append(t: AbsType, list: AbsType): AbsState = norm {
+    this // TODO
+  }
+
+  // typeof operation
+  def typeof(t: AbsType): AbsType = norm {
+    AbsType(t.set.map(_ match {
+      case NameT(name) if name endsWith "Object" => "Object"
+      case NameT("ReferenceRecord") => "Reference"
+      case NumT | Num(_) => "Number"
+      case BigIntT | BigInt(_) => "BigInt"
+      case StrT | Str(_) => "String"
+      case BoolT | Bool(_) => "Boolean"
+      case Undef => "Undefined"
+      case Null => "Null"
+      case _ => ???
+    }).map(Str(_): Type))
+  }
 
   // conversion to string
   override def toString: String = {

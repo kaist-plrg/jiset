@@ -11,30 +11,16 @@ import scala.Console._
 import scala.util.matching.Regex
 import scala.annotation.tailrec
 
-class AbsSemantics(
-  val cfg: CFG,
-  val target: Option[String] = None
-) {
+object AbsSemantics {
   // ECMAScript
-  lazy val spec: ECMAScript = cfg.spec
-
   type NP = NodePoint[_ <: Node]
 
   // internal map from control points to abstract states
-  private var npMap: Map[NP, AbsState] = initNpMap
-  private var rpMap: Map[ReturnPoint, AbsType] = Map()
+  var npMap: Map[NP, AbsState] = initNpMap
+  var rpMap: Map[ReturnPoint, AbsType] = Map()
 
   // internal map for return edges
-  private var retEdges: Map[ReturnPoint, Set[(NodePoint[Call], String)]] = Map()
-
-  // worklist
-  lazy val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
-
-  // model
-  lazy val model = new Model(cfg)
-
-  // statistics
-  lazy val stat = new Stat(this)
+  var retEdges: Map[ReturnPoint, Set[(NodePoint[Call], String)]] = Map()
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
@@ -51,9 +37,6 @@ class AbsSemantics(
   def apply(np: NP): AbsState = npMap.getOrElse(np, AbsState.Bot)
   def apply(rp: ReturnPoint): AbsType = rpMap.getOrElse(rp, AbsType.Bot)
 
-  // get all return edges
-  def getAllRetEdges = retEdges
-
   // get return edges
   def getRetEdges(rp: ReturnPoint): Set[(NodePoint[Call], String)] =
     retEdges.getOrElse(rp, Set())
@@ -61,12 +44,6 @@ class AbsSemantics(
   // get all control points
   def getAllControlPoints: Set[ControlPoint] =
     npMap.keySet ++ rpMap.keySet
-
-  // get node point map
-  def getNpMap = npMap
-
-  // get return point map
-  def getRpMap = rpMap
 
   // no return check
   def noReturnCheck: Unit = {
@@ -83,7 +60,7 @@ class AbsSemantics(
     val oldSt = this(np)
     if (!(newSt ⊑ oldSt)) {
       npMap += np -> (oldSt ⊔ newSt)
-      worklist += stat.inc(np)
+      worklist += Stat.inc(np)
       true
     }
     false
@@ -149,7 +126,7 @@ class AbsSemantics(
     val oldT = this(rp)
     if (newT !⊑ oldT) {
       rpMap += rp -> (oldT ⊔ newT)
-      worklist += stat.inc(rp)
+      worklist += Stat.inc(rp)
     }
   }
 
@@ -166,12 +143,12 @@ class AbsSemantics(
     val (numFunc, numAlgo, numRp) = numOfFuncAlgoRp
     app >> numFunc >> " out of " >> numAlgo >> " functions analyzed with "
     app >> numRp >> " return points" >> LINE_SEP
-    app >> "# of iterations: " >> stat.iter
+    app >> "# of iterations: " >> Stat.iter
     app.toString
   }
   def numOfFuncAlgoRp: (Int, Int, Int) = (
     rpMap.keySet.map(_.func).toSet.size,
-    spec.algos.length,
+    cfg.spec.algos.length,
     rpMap.size
   )
 
@@ -256,7 +233,7 @@ class AbsSemantics(
     head.withParams.isEmpty &&
     !isRegex(algo) &&
     !isEarlyErrors(algo) &&
-    (target match {
+    (TARGET match {
       case Some(pattern) => pattern.r.matches(algo.name)
       case None => isSuccess(algo) || isSimple(algo)
     })
@@ -295,11 +272,12 @@ class AbsSemantics(
   }
 
   // get types from abstract values
-  private def getTypes(args: List[AbsType]): List[List[Type]] =
+  private def getTypes(args: List[AbsType]): List[List[Type]] = {
     args.foldRight(List(List[Type]())) {
       case (aty, tysList) => for {
         tys <- tysList
-        ty <- aty.set
+        ty <- aty.mergeForCall
       } yield ty :: tys
     }
+  }
 }

@@ -37,7 +37,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     genCFGTest(parsedMap)
     genLegacyTest
     genBasicTest(parsedMap)
-    genAnalyzerStringifyTest(parsedMap)
+    // genAnalyzerStringifyTest(parsedMap)
   }
 
   // util
@@ -121,10 +121,9 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     time(s"generate analyzer stringify test", {
       val (_, spec) = parsedMap("recent")
       val cfg = new CFG(spec)
-      val sem = new AbsSemantics(cfg)
-      val transfer = new AbsTransfer(sem)
-      transfer.compute
-      dumpFile(sem, s"$ANALYZER_DIR/stringify")
+      init(cfg)
+      AbsTransfer.compute
+      dumpFile(AbsSemantics, s"$ANALYZER_DIR/stringify")
     })
 
   def defaultConfig: GenTestConfig = GenTestConfig()

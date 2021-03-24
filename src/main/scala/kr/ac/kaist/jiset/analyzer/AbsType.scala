@@ -26,9 +26,24 @@ case class AbsType(
   // conversion to normal completion
   def toComp: AbsType = AbsType(set.map(_.toComp: Type))
 
+  // escape completions
+  def escaped: AbsType = AbsType(set.flatMap(_.escaped: Option[Type]))
+  def escapedSet: Set[PureType] = set.flatMap(_.escaped)
+
   // absent check
   def isMustAbsent: Boolean = set == Set(Absent)
   def isAbsent: Set[Boolean] = set.map(_ == Absent)
+
+  // remove types
+  def -(t: Type): AbsType = AbsType(set - t)
+  def --(ts: Iterable[Type]): AbsType = AbsType(set -- ts)
+
+  // merge for calling functions
+  def mergeForCall: Set[PureType] = (escapedSet - Absent).map {
+    case (t: SingleT) => t.upcast
+    case ListT(t: SingleT) => ListT(t.upcast)
+    case t => t
+  }
 
   // conversion to string
   override def toString: String = {

@@ -46,9 +46,6 @@ package object jiset {
   // Debugging mode
   var DEBUG: Boolean = false
 
-  // Checking alarm
-  var CHECK_ALARM: Boolean = false
-
   // Logging mode
   var LOG: Boolean = false
 

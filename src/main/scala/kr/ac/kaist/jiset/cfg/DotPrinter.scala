@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.cfg
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.analyzer.AbsSemantics._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
@@ -16,16 +17,16 @@ class DotPrinter {
     this >> "}"
   }
 
-  def showPrev(sem: AbsSemantics, rp: ReturnPoint, depth: Int): Unit = {
+  def showPrev(rp: ReturnPoint, depth: Int): Unit = {
     var visited = Set[(Function, View)]()
     def aux(rp: ReturnPoint, depth: Int): Unit = if (depth > 0) {
       val entry = NodePoint(rp.func.entry, rp.view)
-      for ((np, _) <- sem.getRetEdges(rp)) {
-        val func = sem.funcOf(np)
+      for ((np, _) <- getRetEdges(rp)) {
+        val func = funcOf(np)
         val pair = (func, np.view)
         if (!(visited contains pair)) {
           visited += pair
-          doCluster(pair, sem, None)
+          doCluster(pair, None)
           aux(ReturnPoint(func, np.view), depth - 1)
         }
         doEdge(np2str(np), np2str(entry), REACH, s"label=<call>")
@@ -36,7 +37,6 @@ class DotPrinter {
 
   // for debugging analysis
   def apply(
-    sem: AbsSemantics,
     cur: Option[ControlPoint],
     depth: Option[Int] = None
   ): DotPrinter = {
@@ -45,20 +45,20 @@ class DotPrinter {
     // print functions
     (cur, depth) match {
       case (Some(cp), Some(depth)) =>
-        val func = sem.funcOf(cp)
+        val func = funcOf(cp)
         val view = cp.view
-        doCluster((func, view), sem, cur)
+        doCluster((func, view), cur)
 
         // print call edges only for one call depth
         val rp = ReturnPoint(func, view)
-        showPrev(sem, rp, depth)
+        showPrev(rp, depth)
       case _ =>
         val funcs: Set[(Function, View)] =
-          sem.getAllControlPoints.map(cp => (sem.funcOf(cp), cp.view))
-        funcs.foreach(doCluster(_, sem, cur))
+          getAllControlPoints.map(cp => (funcOf(cp), cp.view))
+        funcs.foreach(doCluster(_, cur))
 
         // print call edges
-        sem.getAllRetEdges.foreach {
+        retEdges.foreach {
           case (ReturnPoint(func, rv), calls) => {
             val entry = NodePoint(func.entry, rv)
             for ((np, _) <- calls) {
@@ -81,22 +81,22 @@ class DotPrinter {
   // print cluster
   def doCluster(
     pair: (Function, View),
-    sem: AbsSemantics,
     cur: Option[ControlPoint] = None
   ): DotPrinter = {
     val (func, view) = pair
+    val viewName = view.toString.replaceAll("\"", "\\\\\"")
     this >> s"""  subgraph cluster${func.uid}_${norm(view)} {"""
-    this >> s"""    label = "${func.name}:$view""""
+    this >> s"""    label = "${func.name}:$viewName""""
     this >> s"""    style = rounded"""
-    func.nodes.foreach(doNode(_, view, sem, cur))
-    func.edges.foreach(doEdge(_, Some(sem))(Some(view)))
+    func.nodes.foreach(doNode(_, view, cur))
+    func.edges.foreach(doEdge(_, true)(Some(view)))
     this >> s"""  }"""
   }
 
   // print edges
   def doEdge(
     edge: Edge,
-    sem: Option[AbsSemantics] = None
+    analysis: Boolean = false
   )(
     implicit
     view: Option[View] = None
@@ -107,12 +107,12 @@ class DotPrinter {
       case Some(v) => np2str(NodePoint(n, v))
     }
 
-    def color(from: Node, to: Node): String = (sem, view) match {
-      case (None, _) | (_, None) => REACH
-      case (Some(sem), Some(view)) =>
+    def color(from: Node, to: Node): String = (analysis, view) match {
+      case (false, _) | (_, None) => REACH
+      case (true, Some(view)) =>
         val fromNP = NodePoint(from, view)
         val toNP = NodePoint(to, view)
-        if (sem(fromNP).isBottom || sem(toNP).isBottom) NON_REACH
+        if (AbsSemantics(fromNP).isBottom || AbsSemantics(toNP).isBottom) NON_REACH
         else REACH
     }
 
@@ -135,14 +135,13 @@ class DotPrinter {
   def doNode(
     node: Node,
     view: View,
-    sem: AbsSemantics,
     cur: Option[ControlPoint] = None
   ): DotPrinter = {
     val np = NodePoint(node, view)
     val colors = {
       if (Some(np) == cur) (REACH, CURRENT)
-      else if (sem.worklist has np) (REACH, IN_WORKLIST)
-      else if (!sem(np).isBottom) (REACH, NORMAL)
+      else if (worklist has np) (REACH, IN_WORKLIST)
+      else if (!AbsSemantics(np).isBottom) (REACH, NORMAL)
       else (NON_REACH, NORMAL)
     }
     doNode(node, np2str(np), colors, true)
@@ -197,7 +196,7 @@ class DotPrinter {
   private def norm(node: IRNode, useUId: Boolean): String =
     escapeHtml(node.beautified(index = !useUId))
   // normalize beautified view
-  private val normPattern = """[\[\](),\s~?]""".r
+  private val normPattern = """[\[\](),\s~?"]""".r
   private def norm(view: View): String = normPattern.replaceAllIn(view.toString, "")
 
   // implicit convertion from Node to String

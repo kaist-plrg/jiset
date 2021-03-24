@@ -3,7 +3,6 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.{ CFG_DIR, LOG }
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
@@ -11,31 +10,13 @@ import scala.Console._
 import scala.annotation.tailrec
 
 // abstract transfer function
-class AbsTransfer(
-  val sem: AbsSemantics,
-  usePrune: Boolean = false,
-  replMode: Boolean = false
-) {
-  import sem.cfg._
-  analyzer.transfer = this
-
-  implicit val model = sem.model
-
+object AbsTransfer {
   // result of abstract transfer
   val monad = new StateMonad[AbsState]
   import monad._
 
-  // worklist
-  val worklist = sem.worklist
-
-  // stats
-  val stat = sem.stat
-
-  // repl
-  val REPL = new AnalyzeREPL(sem)
-
-  // bottom checker
-  val checkBottoms = new CheckBottoms(sem)
+  // abstract semantics
+  val sem = AbsSemantics
 
   // fixpoint computation
   @tailrec
@@ -43,23 +24,23 @@ class AbsTransfer(
     case Some(cp) =>
       // alarm for weirdly-bottom'ed vars and objects
       try {
-        if (replMode) REPL.run(cp)
+        if (REPL) AnalyzeREPL.run(cp)
         apply(cp)
       } catch {
         case e: Throwable =>
-          if (LOG) stat.dump()
+          if (LOG) Stat.dump()
           printlnColor(RED)(s"[Error] An exception is thrown.")
           println(sem.getString(cp, CYAN, true))
-          dumpCFG(sem, Some(cp), depth = Some(5))
+          dumpCFG(Some(cp), depth = Some(5))
           throw e
       }
-      stat.iter += 1
-      if (LOG && stat.iter % 10000 == 0) stat.dump()
+      Stat.iter += 1
+      if (LOG && Stat.iter % 10000 == 0) Stat.dump()
       compute
     case None =>
       sem.noReturnCheck
-      if (LOG) stat.dump()
-      stat.close()
+      if (LOG) Stat.dump()
+      Stat.close()
       nfAlarms.close()
       nfErrors.close()
   }
@@ -68,7 +49,7 @@ class AbsTransfer(
   def apply(cp: ControlPoint): Unit = {
     alarmCP = cp
     alarmCPStr = sem.getString(cp, "", false)
-    checkBottoms(cp)
+    CheckBottoms(cp)
     cp match {
       case (np: NodePoint[_]) => this(np)
       case (rp: ReturnPoint) => this(rp)
@@ -79,25 +60,25 @@ class AbsTransfer(
   def apply[T <: Node](np: NodePoint[T]): Unit = {
     val st = sem(np)
     val NodePoint(node, view) = np
-    val func = funcOf(node)
+    val func = cfg.funcOf(node)
     val helper = new Helper(ReturnPoint(func, view))
 
     import helper._
     node match {
       case (entry: Entry) =>
         val newSt = handleThis(func, st)
-        sem += NodePoint(next(entry), view) -> newSt
+        sem += NodePoint(cfg.next(entry), view) -> newSt
       case (exit: Exit) => alarm("may be no return")
       case (block: Block) =>
         val newSt = join(block.insts.map(transfer))(st)
-        sem += NodePoint(next(block), view) -> newSt
+        sem += NodePoint(cfg.next(block), view) -> newSt
       case (call: Call) =>
         val newSt = transfer(call, view)(st)
-        sem += NodePoint(next(call), view) -> newSt
+        sem += NodePoint(cfg.next(call), view) -> newSt
       case branch @ Branch(_, expr) =>
         val (_, newSt) = transfer(expr)(st)
-        sem += NodePoint(thenNext(branch), view) -> newSt
-        sem += NodePoint(elseNext(branch), view) -> newSt
+        sem += NodePoint(cfg.thenNext(branch), view) -> newSt
+        sem += NodePoint(cfg.elseNext(branch), view) -> newSt
     }
   }
 
@@ -106,7 +87,7 @@ class AbsTransfer(
     case (head: SyntaxDirectedHead) =>
       val lhsName = head.lhsName
       if (head.params.map(_.name) contains lhsName) st
-      else st.define(lhsName, st.lookup("this"))
+      else st.define(lhsName, st.lookupVar("this"))
     case _ => st
   }
 
@@ -114,7 +95,7 @@ class AbsTransfer(
   def apply(rp: ReturnPoint): Unit = {
     val newT = sem(rp)
     for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
-      val nextNP = np.copy(node = next(call))
+      val nextNP = np.copy(node = cfg.next(call))
       val newSt = sem(np).define(x, newT)
       sem += nextNP -> newSt
     }
@@ -145,11 +126,11 @@ class AbsTransfer(
       //   refv <- transfer(ref)
       //   _ <- modify(_.delete(sem, refv))
       // } yield ()
-      // case IAppend(expr, list) => for {
-      //   v <- transfer(expr)
-      //   l <- transfer(list)
-      //   _ <- modify(_.append(sem, v.escaped, l.escaped.loc))
-      // } yield ()
+      case IAppend(expr, list) => for {
+        v <- transfer(expr)
+        l <- transfer(list)
+        _ <- modify(_.append(v, l))
+      } yield ()
       // case IPrepend(expr, list) => for {
       //   v <- transfer(expr)
       //   l <- transfer(list)
@@ -164,13 +145,9 @@ class AbsTransfer(
       //   comp = AbsComp(CompThrow -> ((AbsType(NamedAddr(x)), emptyConst)))
       //   _ <- put(AbsState.Bot)
       // } yield sem.doReturn(ret -> ((st.heap, comp)))
-      // case IAssert(expr) if usePrune => for {
-      //   pv <- pruneTransfer(expr)
-      //   _ <- modify(pv.pruneT)
-      // } yield assert(pv.v, expr)
-      // case IAssert(expr) => for {
-      //   v <- transfer(expr)
-      // } yield assert(v, expr)
+      case IAssert(expr) => for {
+        t <- transfer(expr)
+      } yield assert(t, expr)
       // case IPrint(expr) => for {
       //   v <- transfer(expr)
       //   _ = printlnColor(GREEN)(s"[PRINT] ${beautify(v)}")
@@ -189,54 +166,59 @@ class AbsTransfer(
     }
 
     // transfer function for call instructions
-    def transfer(call: Call, view: View): Updater = ???
-    // def transfer(call: Call, view: View): Updater = call.inst match {
-    //   case IApp(Id(x), ERef(RefId(Id(name))), List(arg)) if unaryAlgos contains name => for {
-    //     v <- transfer(arg)
-    //     ty <- get(unaryAlgos(name)(_, v.escaped))
-    //     _ <- modify(_ + (x -> ty))
-    //   } yield ()
-    //   case IApp(Id(x), fexpr, args) => for {
-    //     f <- transfer(fexpr)
-    //     vs <- join(args.map(arg => transfer(arg)))
-    //     st <- get
-    //     _ <- put(AbsState.Bot)
-    //   } yield sem.doCall(call, view, st, f.escaped.clo, vs, x)
-    //   case IAccess(Id(x), bexpr, expr, args) => for {
-    //     b <- transfer(bexpr)
-    //     p <- transfer(expr)
-    //     vs <- join(args.map(arg => transfer(arg)))
-    //     st <- get
-    //     v = access(call, view, x, b.escaped, p.escaped.str, vs, st)
-    //     _ <- {
-    //       if (v.isBottom) put(AbsState.Bot)
-    //       else modify(_ + (x -> v))
-    //     }
-    //   } yield ()
-    // }
+    def transfer(call: Call, view: View): Updater = call.inst match {
+      case IApp(Id(x), ERef(RefId(Id(name))), List(arg)) if unaryAlgos contains name => for {
+        a <- transfer(arg)
+        ty <- get(unaryAlgos(name)(_, a))
+        _ <- modify(_.define(x, ty))
+      } yield ()
+      case IApp(Id(x), fexpr, args) => for {
+        f <- transfer(fexpr)
+        as <- join(args.map(arg => transfer(arg)))
+        _ <- put(AbsState.Bot)
+      } yield f.set.foreach {
+        case CloT(fid) =>
+          val func = cfg.fidMap(fid)
+          sem.doCall(call, view, func, as, x)
+        case _ => alarm("no function")
+      }
+      case IAccess(Id(x), bexpr, EStr(prop), args) => for {
+        b <- transfer(bexpr)
+        ts <- join(args.map(arg => transfer(arg)))
+        st <- get
+        t = b.escapedSet
+          .map(access(call, view, x, _, prop, ts, st))
+          .foldLeft(AbsType.Bot)(_ ⊔ _)
+        _ <- {
+          if (t.isBottom) put(AbsState.Bot)
+          else modify(_.define(x, t))
+        }
+      } yield ()
+      case _ => ???
+    }
 
     // unary algorithms
     type UnaryAlgo = (AbsState, AbsType) => AbsType
     val unaryAlgos: Map[String, UnaryAlgo] = Map(
-      "IsDuplicate" -> ((st, ty) => BoolT.abs),
-      "IsArrayIndex" -> ((st, ty) => BoolT.abs),
-      "ThrowCompletion" -> ((st, ty) => AbruptT.abs),
+      "IsDuplicate" -> ((st, ty) => BoolT),
+      "IsArrayIndex" -> ((st, ty) => BoolT),
+      "ThrowCompletion" -> ((st, ty) => AbruptT),
       "NormalCompletion" -> ((st, ty) => ty.toComp),
-      "IsAbruptCompletion" -> ((st, ty) => BoolT.abs),
-      "floor" -> ((st, ty) => NumT.abs),
-      "abs" -> ((st, ty) => NumT.abs),
+      "IsAbruptCompletion" -> ((st, ty) => BoolT),
+      "floor" -> ((st, ty) => NumT),
+      "abs" -> ((st, ty) => NumT),
     )
 
     // transfer function for expressions
     def transfer(expr: Expr): Result[AbsType] = expr match {
-      // case ENum(n) => AbsType(n)
-      // case EINum(n) => AbsType(n)
-      // case EBigINum(b) => AbsType(b)
-      // case EStr(str) => AbsType(str)
-      // case EBool(b) => AbsType(b)
-      // case EUndef => AbsType(Undef)
-      // case ENull => AbsType(Null)
-      // case EAbsent => AbsType(Absent)
+      case ENum(n) => Num(n).abs
+      case EINum(n) => Num(n).abs
+      case EBigINum(b) => BigInt(b).abs
+      case EStr(str) => Str(str).abs
+      case EBool(b) => Bool(b).abs
+      case EUndef => Undef.abs
+      case ENull => Null.abs
+      case EAbsent => Absent.abs
       // case expr @ EMap(Ty(ty), props) => for {
       //   vs <- join(props.map {
       //     case (kexpr, vexpr) => for {
@@ -247,10 +229,14 @@ class AbsTransfer(
       //   asite = expr.asite
       //   a <- id(_.allocMap(fid, asite, ty, vs.toMap))
       // } yield a
-      // case expr @ EList(exprs) => for {
-      //   vs <- join(exprs.map(transfer))
-      //   a <- id(_.allocList(fid, expr.asite, vs.toList))
-      // } yield a
+      case EList(exprs) => for {
+        ts <- join(exprs.map(transfer))
+        set = ts.foldLeft(AbsType.Bot)(_ ⊔ _).escapedSet
+      } yield (set.size match {
+        case 0 => NilT
+        case 1 => ListT(set.head)
+        case _ => ListT(set.head)
+      })
       // case expr @ ESymbol(desc) => for {
       //   // TODO handling non-string descriptions
       //   a <- id(_.allocSymbol(fid, expr.asite, desc.to[EStr](???).str))
@@ -266,19 +252,19 @@ class AbsTransfer(
       } yield t
       // case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => isAbsent(ref, true)
       // case EBOp(OEq, ERef(ref), EAbsent) => isAbsent(ref)
-      // case EUOp(uop, expr) => for {
-      //   v <- transfer(expr)
-      //   u = transfer(uop)(v.escaped)
-      // } yield u
-      // case EBOp(bop, left, right) => for {
-      //   l <- transfer(left)
-      //   r <- transfer(right)
-      //   v = transfer(bop)(l.escaped, r.escaped)
-      // } yield v
-      // case ETypeOf(expr) => for {
-      //   v <- transfer(expr)
-      //   set <- get(_.typeOf(sem, v.escaped))
-      // } yield AbsStr(set)
+      case EUOp(uop, expr) => for {
+        v <- transfer(expr)
+        t = transfer(uop)(v.escaped)
+      } yield t
+      case EBOp(bop, left, right) => for {
+        l <- transfer(left)
+        r <- transfer(right)
+        t = transfer(bop)(l.escaped, r.escaped)
+      } yield t
+      case ETypeOf(expr) => for {
+        v <- transfer(expr)
+        t <- get(_.typeof(v.escaped))
+      } yield t
       // case EIsCompletion(expr) => for {
       //   v <- transfer(expr)
       // } yield {
@@ -289,15 +275,9 @@ class AbsTransfer(
       // }
       // case EIsInstanceOf(base, name) => for {
       //   v <- transfer(base)
-      // } yield boolTop // TODO more precise
-      // case EGetSyntax(base) => strTop // TODO handling non-AST values
-      // case EParseSyntax(code, rule, flags) => for {
-      //   r <- transfer(rule)
-      //   ast = r.escaped.str.gamma match {
-      //     case Infinite => AbsAST.Top
-      //     case Finite(set) => AbsAST.alpha(set.map(str => ASTVal(str.str)))
-      //   }
-      // } yield ast
+      // } yield BoolT // TODO more precise
+      // case EGetSyntax(base) => StrT // TODO handling non-AST values
+      case EParseSyntax(code, EStr(rule), flags) => AstT(rule).abs
       // case EConvert(source, cop, flags) => for {
       //   v <- transfer(source)
       // } yield cop match {
@@ -308,11 +288,11 @@ class AbsTransfer(
       //   case CNumToBigInt => AbsBigINum.Top
       //   case CBigIntToNum => AbsNum.Top
       // }
-      // case EContains(list, elem) => for {
-      //   l <- transfer(list)
-      //   e <- transfer(elem)
-      //   c <- get(_.contains(l.escaped, e.escaped))
-      // } yield c
+      case EContains(list, elem) => for {
+        l <- transfer(list)
+        e <- transfer(elem)
+        c <- get(_.contains(l, e))
+      } yield c
       // case EReturnIfAbrupt(ERef(ref), check) => for {
       //   rv <- transfer(ref)
       //   v <- transfer(rv)
@@ -342,10 +322,7 @@ class AbsTransfer(
       //   alarm(expr.beautified)
       //   (AbsType(Absent), st)
       // }
-      case _ => st => {
-        alarm(s"not yet implemented: ${expr.beautified}")
-        (Absent.abs, st)
-      }
+      case _ => ???
     }
 
     // transfer function for reference values
@@ -355,51 +332,67 @@ class AbsTransfer(
         r <- transfer(base)
         b <- transfer(r)
       } yield AbsStrProp(b, str)
-      case _ => ???
-      // case RefProp(ref, expr) => for {
-      //   rv <- transfer(ref)
-      //   b <- transfer(rv)
-      //   p <- transfer(expr)
-      //   r <- AbsRef.Prop(b, p.escaped)
-      // } yield r // TODO handle non-string properties
+      case RefProp(ref, expr) => for {
+        rv <- transfer(ref)
+        b <- transfer(rv)
+        p <- transfer(expr)
+      } yield AbsGeneralProp(b, p)
     }
 
     // transfer function for reference values
-    def transfer(refv: AbsRef): Result[AbsType] = ???
-    // def transfer(refv: AbsRef): Result[AbsType] =
-    //   st => (st.lookup(sem, refv), st)
+    def transfer(ref: AbsRef): Result[AbsType] = st => {
+      (st.lookup(ref), st)
+    }
 
     // transfer function for unary operators
-    def transfer(uop: UOp): AbsType => AbsType = ???
-    // def transfer(uop: UOp): AbsType => AbsType = v => uop match {
-    //   case ONeg => numericTop
-    //   case ONot => !v.escaped.bool
-    //   case OBNot => numTop
-    // }
+    def transfer(uop: UOp): AbsType => AbsType = t => uop match {
+      case ONeg if t ⊑ NumT => NumT
+      case ONeg if t ⊑ BigIntT => BigIntT
+      case ONeg => AbsType(NumT, BigIntT)
+      case ONot if t.set == Set(Bool(true)) => Bool(false)
+      case ONot if t.set == Set(Bool(false)) => Bool(true)
+      case ONot => BoolT
+      case OBNot => NumT
+    }
 
     // transfer function for binary operators
-    def transfer(bop: BOp): (AbsType, AbsType) => AbsType = ???
-    // def transfer(bop: BOp): (AbsType, AbsType) => AbsType = (l, r) => bop match {
-    //   case OPlus => arithBOp(l, r)
-    //   case OSub => arithBOp(l, r)
-    //   case OMul => arithBOp(l, r)
-    //   case OPow => numericBOp(l, r)
-    //   case ODiv => numericBOp(l, r)
-    //   case OUMod => numericBOp(l, r)
-    //   case OMod => numericBOp(l, r)
-    //   case OLt => boolTop
-    //   case OEq => l =^= r
-    //   case OEqual => boolTop
-    //   case OAnd => l.bool && r.bool
-    //   case OOr => l.bool || r.bool
-    //   case OXor => l.bool ^ r.bool
-    //   case OBAnd => numTop
-    //   case OBOr => numTop
-    //   case OBXOr => numTop
-    //   case OLShift => numTop
-    //   case OSRShift => numTop
-    //   case OURShift => numTop
-    // }
+    def transfer(bop: BOp): (AbsType, AbsType) => AbsType = (l, r) => bop match {
+      case OPlus => arithBOp(l, r)
+      case OSub => arithBOp(l, r)
+      case OMul => arithBOp(l, r)
+      case OPow => numericBOp(l, r)
+      case ODiv => numericBOp(l, r)
+      case OUMod => numericBOp(l, r)
+      case OMod => numericBOp(l, r)
+      case OLt => BoolT
+      case OEq => BoolT
+      case OEqual => BoolT
+      case OAnd => BoolT
+      case OOr => BoolT
+      case OXor => BoolT
+      case OBAnd => NumT
+      case OBOr => NumT
+      case OBXOr => NumT
+      case OLShift => NumT
+      case OSRShift => NumT
+      case OURShift => NumT
+    }
+    private def arithBOp(l: AbsType, r: AbsType): AbsType =
+      if (l.isBottom || r.isBottom) AbsType.Bot
+      else if (l ⊑ StrT && r ⊑ StrT) StrT
+      else if (l ⊑ NumT && r ⊑ NumT) NumT
+      else if (l ⊑ BigIntT && r ⊑ BigIntT) BigIntT
+      else if (l ⊑ NumericT && r ⊑ NumericT) NumericT
+      else ArithT
+    private def numericBOp(l: AbsType, r: AbsType): AbsType =
+      if (l.isBottom || r.isBottom) AbsType.Bot
+      else if (l ⊑ NumT && r ⊑ NumT) NumT
+      else if (l ⊑ BigIntT && r ⊑ BigIntT) BigIntT
+      else NumericT
+
+    // predefined values
+    val NumericT = AbsType(NumT, BigIntT)
+    val ArithT = AbsType(NumT, BigIntT, StrT)
 
     // // return if abrupt completion
     // def returnIfAbrupt(v: AbsType, check: Boolean): Result[AbsType] = st => {
@@ -416,94 +409,54 @@ class AbsTransfer(
     //   (newV, st)
     // }
 
-    // // alarm if assertion fails
-    // def assert(v: AbsType, expr: Expr) =
-    //   if (!(AT ⊑ v.escaped.bool)) alarm(s"assertion failed: ${expr.beautified}")
+    // alarm if assertion fails
+    def assert(v: AbsType, expr: Expr) = {
+      if (!(Bool(true) ⊑ v)) alarm(s"assertion failed: ${expr.beautified}")
+    }
 
-    // // access semantics
-    // def access(
-    //   call: Call,
-    //   view: View,
-    //   x: String,
-    //   value: AbsType,
-    //   prop: AbsStr,
-    //   args: List[AbsType],
-    //   st: AbsState
-    // ): AbsType = {
-    //   var v = AbsType.Bot
+    // access semantics
+    def access(
+      call: Call,
+      view: View,
+      x: String,
+      base: PureType,
+      prop: String,
+      args: List[AbsType],
+      st: AbsState
+    ): AbsType = base match {
+      case AstT(name) => accessAST(call, view, x, name, prop, args)
+      case _ => st.lookup(AbsStrProp(base, prop))
+    }
 
-    //   // AST cases
-    //   for {
-    //     ASTVal(ast) <- value.ast.gamma
-    //     Str(name) <- prop.gamma
-    //   } v ⊔= accessAST(call, view, x, ast, name, args, st)
-
-    //   // reference cases
-    //   v ⊔= st.lookup(sem, AbsRef.Prop(value, prop))
-
-    //   v
-    // }
-
-    // // access of AST values
-    // def accessAST(
-    //   call: Call,
-    //   view: View,
-    //   x: String,
-    //   ast: String,
-    //   name: String,
-    //   args: List[AbsType],
-    //   st: AbsState
-    // ): AbsType = if (sem.spec.getRhsNT(ast) contains name) AbsType.Bot
-    // else (ast, name) match {
-    //   case ("IdentifierName", "StringValue") => strTop
-    //   case ("NumericLiteral", "NumericValue") => numTop
-    //   case ("StringLiteral", "StringValue" | "SV") => strTop
-    //   case (_, "TV" | "TRV") => strTop
-    //   case (_, "MV") => numTop
-    //   case _ =>
-    //     val fids = getSyntaxFids(ast, name)
-    //     if (fids.isEmpty) {
-    //       if (name == "Contains") AbsBool.Top
-    //       else {
-    //         alarm(s"$ast.$name does not exist")
-    //         AbsType.Bot
-    //       }
-    //     } else {
-    //       val pairs = fids.toList.flatMap[AbsClo.Pair](fid => {
-    //         val func = fidMap(fid)
-    //         func.algo.head match {
-    //           case (head: SyntaxDirectedHead) =>
-    //             val baseArgs = sem.getArgs(head)
-    //             sem.doCall(call, view, st, AbsClo(Clo(fid)), baseArgs ++ args, x)
-    //             None
-    //           case _ => None
-    //         }
-    //       })
-    //       val v: AbsType = AbsClo(AbsClo.SetD(pairs: _*))
-    //       v
-    //     }
-    // }
-
-    // // all numbers
-    // private val numTop: AbsType = AbsNum.Top
-
-    // // all big integers
-    // private val bigintTop: AbsType = AbsBigINum.Top
-
-    // // all numeric values
-    // private val numericTop: AbsType = AbsPrim(
-    //   num = AbsNum.Top,
-    //   bigint = AbsBigINum.Top,
-    // )
-
-    // // all strings
-    // private val strTop: AbsType = AbsStr.Top
-
-    // // all arithmetic values
-    // private val arithTop: AbsType = AbsPrim(
-    //   num = AbsNum.Top,
-    //   bigint = AbsBigINum.Top,
-    //   str = AbsStr.Top,
-    // )
+    // access of AST values
+    def accessAST(
+      call: Call,
+      view: View,
+      x: String,
+      name: String,
+      prop: String,
+      args: List[AbsType]
+    ): AbsType = (name, prop) match {
+      case ("IdentifierName", "StringValue") => StrT
+      case ("NumericLiteral", "NumericValue") => NumT
+      case ("StringLiteral", "StringValue" | "SV") => StrT
+      case (_, "TV" | "TRV") => StrT
+      case (_, "MV") => NumT
+      case _ =>
+        val fids = cfg.getSyntaxFids(name, prop)
+        if (fids.isEmpty) if (prop == "Contains") BoolT else {
+          alarm(s"$name.$prop does not exist")
+        }
+        fids.foreach(fid => {
+          val func = cfg.fidMap(fid)
+          func.algo.head match {
+            case (head: SyntaxDirectedHead) =>
+              val baseArgs = sem.getArgs(head)
+              sem.doCall(call, view, func, baseArgs ++ args, x)
+            case _ =>
+          }
+        })
+        AbsType.Bot
+    }
   }
 }

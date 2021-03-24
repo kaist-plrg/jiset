@@ -2,7 +2,6 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import org.jline.builtins.Completers.TreeCompleter
@@ -17,8 +16,8 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.matching.Regex
 
 // analyze repl
-class AnalyzeREPL(sem: AbsSemantics) {
-  import sem.cfg._
+object AnalyzeREPL {
+  val sem = AbsSemantics
 
   // breakpoints
   private var continue = false
@@ -32,10 +31,10 @@ class AnalyzeREPL(sem: AbsSemantics) {
   private def argNode(opt: CmdOption) =
     node(s"-${opt.name}" :: getArgNodes(opt): _*)
   private def getArgNodes(opt: CmdOption): List[TreeCompleter.Node] = opt match {
-    case CmdBreak.FuncTarget => funcs.map(x => node(x.name))
-    case CmdBreak.BlockTarget => (0 until nidGen.size).map(x => node(x.toString)).toList
-    case CmdInfo.RetTarget => funcs.map(x => node(x.name))
-    case CmdInfo.BlockTarget => (0 until nidGen.size).map(x => node(x.toString)).toList
+    case CmdBreak.FuncTarget => cfg.funcs.map(x => node(x.name))
+    case CmdBreak.BlockTarget => (0 until cfg.nidGen.size).map(x => node(x.toString)).toList
+    case CmdInfo.RetTarget => cfg.funcs.map(x => node(x.name))
+    case CmdInfo.BlockTarget => (0 until cfg.nidGen.size).map(x => node(x.toString)).toList
     case _ => Nil
   }
 
@@ -50,7 +49,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
   // helper for break
   private def isBreak(cp: ControlPoint): Boolean = cp match {
     case NodePoint(node: Entry, _) => breakpoints.exists {
-      case (CmdBreak.FuncTarget, name) => name.matches(funcOf(node).name)
+      case (CmdBreak.FuncTarget, name) => name.matches(cfg.funcOf(node).name)
       case (CmdBreak.BlockTarget, uid) => uid.toString.toInt == node.uid
       case _ => ???
     }
@@ -104,7 +103,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
   private def getRpOf(cp: ControlPoint): ReturnPoint = cp match {
     case rp @ ReturnPoint(_, _) => rp
     case NodePoint(node, view) =>
-      funcs.find(x => x.nodes.exists(x => x.uid == node.uid)) match {
+      cfg.funcs.find(x => x.nodes.exists(x => x.uid == node.uid)) match {
         case None => ???
         case Some(f) => ReturnPoint(f, view)
       }
@@ -143,10 +142,10 @@ class AnalyzeREPL(sem: AbsSemantics) {
             case Some(idx) => println(s"out of index: $idx")
           }; true
         case CmdLog.name :: _ =>
-          sem.stat.dump(); true
+          Stat.dump(); true
         case CmdGraph.name :: args =>
           val depth = optional(args.head.toInt)
-          dumpCFG(sem, Some(cp), depth = depth); true
+          dumpCFG(Some(cp), depth = depth); true
         case CmdExit.name :: _ => error("stop for debugging")
         case CmdStop.name :: _ =>
           stop(); false
@@ -162,7 +161,7 @@ class AnalyzeREPL(sem: AbsSemantics) {
           getEntryFunc(cp).foreach(println(_))
           true
         case CmdWorklist.name :: args =>
-          sem.worklist.foreach(println(_))
+          worklist.foreach(println(_))
           true
         case _ => continue = false; false
       }

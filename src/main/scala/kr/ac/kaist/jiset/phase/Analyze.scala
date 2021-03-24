@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.phase
 
-import kr.ac.kaist.jiset.{ JISETConfig, CHECK_ALARM }
+import kr.ac.kaist.jiset.JISETConfig
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.util.Useful._
@@ -9,7 +9,7 @@ import kr.ac.kaist.jiset._
 import scala.Console._
 
 // Analyze phase
-case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
+case object Analyze extends PhaseObj[CFG, AnalyzeConfig, Unit] {
   val name = "analyze"
   val help = "performs static anaysis for specifications."
 
@@ -17,40 +17,29 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, AbsSemantics] {
     cfg: CFG,
     jisetConfig: JISETConfig,
     config: AnalyzeConfig
-  ): AbsSemantics = {
-    val AnalyzeConfig(dot, pdf, prune, target, repl) = config
-    val sem = new AbsSemantics(cfg, target)
-    val transfer = new AbsTransfer(sem, prune, repl)
-    transfer.compute
-    if (dot) dumpCFG(sem, pdf = pdf)
-
-    sem
+  ): Unit = {
+    init(cfg)
+    AbsTransfer.compute
   }
 
   def defaultConfig: AnalyzeConfig = AnalyzeConfig()
   val options: List[PhaseOption[AnalyzeConfig]] = List(
-    ("dot", BoolOption(c => c.dot = true),
+    ("dot", BoolOption(c => DOT = true),
       "dump the analyzed cfg in a dot format"),
-    ("pdf", BoolOption(c => { c.dot = true; c.pdf = true }),
+    ("pdf", BoolOption(c => { DOT = true; PDF = true }),
       "dump the analyze cfg in a dot and pdf format"),
-    ("no-prune", BoolOption(c => c.prune = false),
+    ("no-prune", BoolOption(c => PRUNE = false),
       "no abstract state pruning"),
     ("insens", BoolOption(c => USE_VIEW = false),
       "not use type sensitivity for parameters"),
     ("check-alarm", BoolOption(c => CHECK_ALARM = true),
       "perform pruning"),
-    ("target", StrOption((c, s) => c.target = Some(s)),
+    ("target", StrOption((c, s) => TARGET = Some(s)),
       "set the target of analysis"),
-    ("repl", BoolOption(c => c.repl = true),
+    ("repl", BoolOption(c => REPL = true),
       "use analyze-repl"),
   )
 }
 
 // Analyze phase config
-case class AnalyzeConfig(
-  var dot: Boolean = false,
-  var pdf: Boolean = false,
-  var prune: Boolean = true,
-  var target: Option[String] = None,
-  var repl: Boolean = false
-) extends Config
+case class AnalyzeConfig() extends Config

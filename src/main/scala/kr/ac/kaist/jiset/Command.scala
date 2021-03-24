@@ -71,9 +71,9 @@ case object CmdBuildCFG extends CommandObj("build-cfg", CmdParse >> BuildCFG)
 
 // analyze
 case object CmdAnalyze extends CommandObj("analyze", CmdBuildCFG >> Analyze) {
-  override def display(sem: AbsSemantics): Unit = {
-    println(sem.getString(CYAN))
-    println(sem.getInfo)
+  override def display(unit: Unit): Unit = {
+    println(AbsSemantics.getString(CYAN))
+    println(AbsSemantics.getInfo)
   }
 }
 

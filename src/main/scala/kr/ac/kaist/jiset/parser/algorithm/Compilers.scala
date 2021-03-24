@@ -420,13 +420,13 @@ trait Compilers extends TokenListParsers {
   }
 
   // execution context stack string
-  val executionStack = "GLOBAL_executionStack"
-  val context = "GLOBAL_context"
-  val typedArrayInfo = "GLOBAL_typedArrayInfo"
-  val agent = "GLOBAL_agent"
-  val symbolRegistry = "GLOBAL_symbolRegistry"
+  val executionStack = "EXECUTION_STACK"
+  val context = "CONTEXT"
+  val typedArrayInfo = "TYPED_ARRAY_INFO"
+  val agent = "AGENT"
+  val symbolRegistry = "SYMBOL_REGISTRY"
   val realm = "REALM"
-  val jobQueue = "GLOBAL_jobQueue"
+  val jobQueue = "JOB_QUEUE"
   val retcont = "__ret__"
 
   // predefined variables
