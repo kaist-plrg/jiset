@@ -48,7 +48,7 @@ object AbsSemantics {
   // no return check
   def noReturnCheck: Unit = {
     val set = npMap.keySet.map(funcOf(_)) -- rpMap.keySet.map(funcOf(_))
-    for (func <- set) printlnColor(RED)(s"no return: [${func.uid}] ${func.name}")
+    for (func <- set) alarm(s"no return: [${func.uid}] ${func.name}")
   }
 
   // get size

@@ -131,7 +131,7 @@ case class AbsState(
   private def notyet(t: AbsType, name: String): (AbsType, AbsState) =
     (t, notyet(name))
   private def notyet(name: String) = norm {
-    alarm(s"not yet implemented: AbsState.$name", error = false)
+    warning(s"not yet implemented: AbsState.$name")
     this
   }
 }
