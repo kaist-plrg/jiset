@@ -36,7 +36,14 @@ case class AbsType private (
 
   // absent check
   def isMustAbsent: Boolean = set == Set(Absent)
-  def isAbsent: Set[Boolean] = set.map(_ == Absent)
+  def isAbsent: AbsType = {
+    val bs = set.map(_ == Absent)
+    bs.size match {
+      case 0 => AbsType.Bot
+      case 1 => Bool(bs.head).abs
+      case _ => BoolT.abs
+    }
+  }
 
   // remove types
   def -(t: Type): AbsType = new AbsType(set - t)
@@ -57,6 +64,30 @@ case class AbsType private (
     aux(Type.mergedPairs)
     set
   }
+
+  // equality between abstract types
+  def =^=(that: AbsType): AbsType = ((this.set.size, that.set.size) match {
+    case (1, 1) => (this.set.head, that.set.head) match {
+      case (l: SingleT, r: SingleT) => Bool(l == r)
+      case _ => BoolT
+    }
+    case _ => BoolT
+  }).abs
+
+  // abstract numeric negation
+  def unary_-(): AbsType = new AbsType(set.collect {
+    case NumericT => NumericT
+    case NumT => NumT
+    case BigIntT => BigIntT
+    case Num(n) => Num(-n)
+    case BigInt(n) => BigInt(-n)
+  })
+
+  // abstract boolean negation
+  def unary_!(): AbsType = new AbsType(set.collect {
+    case BoolT => BoolT
+    case Bool(b) => Bool(!b)
+  })
 
   // conversion to string
   override def toString: String = {

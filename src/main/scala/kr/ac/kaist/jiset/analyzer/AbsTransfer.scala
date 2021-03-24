@@ -76,9 +76,9 @@ object AbsTransfer {
         val newSt = transfer(call, view)(st)
         sem += NodePoint(cfg.next(call), view) -> newSt
       case branch @ Branch(_, expr) =>
-        val (_, newSt) = transfer(expr)(st)
-        sem += NodePoint(cfg.thenNext(branch), view) -> newSt
-        sem += NodePoint(cfg.elseNext(branch), view) -> newSt
+        val (t, newSt) = transfer(expr)(st)
+        if (AT ⊑ t) sem += NodePoint(cfg.thenNext(branch), view) -> newSt
+        if (AF ⊑ t) sem += NodePoint(cfg.elseNext(branch), view) -> newSt
     }
   }
 
@@ -218,8 +218,8 @@ object AbsTransfer {
         set = ts.foldLeft(AbsType.Bot)(_ ⊔ _).escapedSet
       } yield (set.size match {
         case 0 => NilT
-        case 1 => ListT(set.head)
-        case _ => ListT(set.head)
+        case 1 => ListT(set.head.upcast)
+        case _ => ListT(set.head.upcast)
       })
       case ESymbol(desc) => SymbolT.abs
       case EPop(list, idx) => for {
@@ -231,10 +231,18 @@ object AbsTransfer {
         r <- transfer(ref)
         t <- get(_.lookup(r))
       } yield t
+      case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => for {
+        r <- transfer(ref)
+        t <- get(_.lookup(r, check = false))
+      } yield !t.isAbsent
       case EUOp(uop, expr) => for {
         v <- transfer(expr)
         t = transfer(uop)(v.escaped)
       } yield t
+      case EBOp(OEq, ERef(ref), EAbsent) => for {
+        r <- transfer(ref)
+        t <- get(_.lookup(r, check = false))
+      } yield t.isAbsent
       case EBOp(bop, left, right) => for {
         l <- transfer(left)
         r <- transfer(right)
@@ -247,8 +255,8 @@ object AbsTransfer {
       case EIsCompletion(expr) => for {
         t <- transfer(expr)
       } yield AbsType(t.set.map[Type] {
-        case NormalT(_) | AbruptT => Bool(true)
-        case _ => Bool(false)
+        case NormalT(_) | AbruptT => T
+        case _ => F
       })
       case EIsInstanceOf(base, name) => for {
         t <- transfer(base)
@@ -321,12 +329,8 @@ object AbsTransfer {
 
     // transfer function for unary operators
     def transfer(uop: UOp): AbsType => AbsType = t => uop match {
-      case ONeg if t ⊑ NumT => NumT
-      case ONeg if t ⊑ BigIntT => BigIntT
-      case ONeg => AbsType(NumT, BigIntT)
-      case ONot if t.set == Set(Bool(true)) => Bool(false)
-      case ONot if t.set == Set(Bool(false)) => Bool(true)
-      case ONot => BoolT
+      case ONeg => -t
+      case ONot => !t
       case OBNot => NumT
     }
 
@@ -340,7 +344,7 @@ object AbsTransfer {
       case OUMod => numericBOp(l, r)
       case OMod => numericBOp(l, r)
       case OLt => BoolT
-      case OEq => BoolT
+      case OEq => l =^= r
       case OEqual => BoolT
       case OAnd => BoolT
       case OOr => BoolT
@@ -379,7 +383,7 @@ object AbsTransfer {
 
     // alarm if assertion fails
     def assert(t: AbsType, expr: Expr) = {
-      if (!(Bool(true) ⊑ t)) alarm(s"assertion failed: ${expr.beautified}")
+      if (!(AT ⊑ t)) alarm(s"assertion failed: ${expr.beautified}")
     }
 
     // access semantics

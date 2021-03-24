@@ -49,32 +49,46 @@ case class AbsState(
   })
 
   // lookup references
-  def lookupVar(x: String): AbsType = norm {
+  def lookupVar(
+    x: String,
+    check: Boolean = true
+  ): AbsType = norm {
     val AbsType(ts) = this(x)
     val local = ts - Absent
     val global = if (ts contains Absent) Global(x).set else Set()
     val t = AbsType(local ++ global)
-    if (t.isMustAbsent) alarm(s"unknown variable: $x")
+    if (check && t.isMustAbsent) alarm(s"unknown variable: $x")
     t
   }
-  def lookupStrProp(base: Type, prop: String): AbsType = base match {
+  def lookupStrProp(
+    base: Type,
+    prop: String,
+    check: Boolean = true
+  ): AbsType = base match {
     case AstT(_) => AbsType.Bot
     case (nameT: NameT) =>
       val t = nameT(prop)
-      if (t.isMustAbsent) alarm(s"unknown property: $base.$prop")
+      if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")
       t
     case _ => AbsType.Bot
   }
-  def lookupGeneralProp(base: Type, prop: AbsType): AbsType = base match {
+  def lookupGeneralProp(
+    base: Type,
+    prop: AbsType,
+    check: Boolean = true
+  ): AbsType = base match {
     case MapT(t) => t
     case _ => AbsType.Bot
   }
-  def lookup(ref: AbsRef): AbsType = norm(ref match {
-    case AbsId(x) => lookupVar(x)
+  def lookup(
+    ref: AbsRef,
+    check: Boolean = true
+  ): AbsType = norm(ref match {
+    case AbsId(x) => lookupVar(x, check)
     case AbsStrProp(base, prop) =>
-      base.set.map(lookupStrProp(_, prop)).foldLeft(AbsType.Bot)(_ ⊔ _)
+      base.set.map(lookupStrProp(_, prop, check)).foldLeft(AbsType.Bot)(_ ⊔ _)
     case AbsGeneralProp(base, prop) =>
-      base.set.map(lookupGeneralProp(_, prop)).foldLeft(AbsType.Bot)(_ ⊔ _)
+      base.set.map(lookupGeneralProp(_, prop, check)).foldLeft(AbsType.Bot)(_ ⊔ _)
   })
 
   // update reference
@@ -84,8 +98,9 @@ case class AbsState(
   })
 
   // contains operation
-  def contains(list: AbsType, t: AbsType): AbsType = norm {
-    BoolT.abs
+  def contains(list: AbsType, t: AbsType): AbsType = {
+    notyet("contains")
+    BoolT
   }
 
   // TODO not yet defined operations
@@ -116,7 +131,7 @@ case class AbsState(
   private def notyet(t: AbsType, name: String): (AbsType, AbsState) =
     (t, notyet(name))
   private def notyet(name: String) = norm {
-    alarm("not yet implemented: AbsState.delete")
+    alarm(s"not yet implemented: AbsState.$name", error = false)
     this
   }
 }

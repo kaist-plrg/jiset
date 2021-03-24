@@ -82,6 +82,12 @@ package object analyzer {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
 
+  // abstract types
+  val T = Bool(true)
+  val F = Bool(false)
+  val AT = Bool(true).abs
+  val AF = Bool(false).abs
+
   // constants
   val EMPTY = ConstT("empty")
   val UNRESOLVABLE = ConstT("unresolvable")
