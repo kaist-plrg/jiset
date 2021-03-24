@@ -14,7 +14,6 @@ object AlgoParser {
     version: String,
     parsedHead: (Element, List[Head]),
     secIds: Map[String, Name],
-    useCount: Boolean,
     detail: Boolean
   )(
     implicit
@@ -33,9 +32,7 @@ object AlgoParser {
       // get tokens
       val tokens = TokenParser.getTokens(code, secIds)
       // get body
-      val rawBody =
-        if (useCount) ??? // TODO compiler with counters
-        else Compiler(version)(tokens, start)
+      val rawBody = Compiler(version)(tokens, start)
 
       // print detail
       if (detail) {

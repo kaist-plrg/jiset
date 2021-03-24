@@ -42,16 +42,6 @@ case class AbsState(
     }
   )
 
-  // meet operator
-  def ⊓(that: AbsState): AbsState = AbsState(
-    reachable = this.reachable && that.reachable,
-    map = {
-      val keys = this.map.keySet ++ that.map.keySet
-      val map = keys.map(key => key -> (this(key) ⊓ that(key))).toMap
-      map.filter { case (_, v) => !v.isMustAbsent }
-    }
-  ).normalized
-
   // define variable
   def define(x: String, t: AbsType): AbsState = norm({
     if (t.isBottom) Bot
@@ -73,12 +63,11 @@ case class AbsState(
       val t = nameT(prop)
       if (t.isMustAbsent) alarm(s"unknown property: $base.$prop")
       t
-    case Absent => AbsType.Bot
-    case _ => ???
+    case _ => AbsType.Bot
   }
   def lookupGeneralProp(base: Type, prop: AbsType): AbsType = base match {
     case MapT(t) => t
-    case _ => ???
+    case _ => AbsType.Bot
   }
   def lookup(ref: AbsRef): AbsType = norm(ref match {
     case AbsId(x) => lookupVar(x)
@@ -91,7 +80,7 @@ case class AbsState(
   // update reference
   def update(ref: AbsRef, t: AbsType): AbsState = norm(ref match {
     case AbsId(x) => define(x, t)
-    case _ => ???
+    case _ => this
   })
 
   // contains operation
@@ -99,24 +88,15 @@ case class AbsState(
     BoolT.abs
   }
 
-  // append operation
-  def append(t: AbsType, list: AbsType): AbsState = norm {
-    this // TODO
-  }
+  // TODO not yet defined operations
+  def append(t: AbsType, list: AbsType): AbsState = notyet("append")
+  def prepend(t: AbsType, list: AbsType): AbsState = notyet("prepend")
+  def delete(ref: AbsRef): AbsState = notyet("delete")
+  def pop(list: AbsType, k: AbsType): (AbsType, AbsState) = notyet(Absent, "pop")
 
   // typeof operation
   def typeof(t: AbsType): AbsType = norm {
-    AbsType(t.set.map(_ match {
-      case NameT(name) if name endsWith "Object" => "Object"
-      case NameT("ReferenceRecord") => "Reference"
-      case NumT | Num(_) => "Number"
-      case BigIntT | BigInt(_) => "BigInt"
-      case StrT | Str(_) => "String"
-      case BoolT | Bool(_) => "Boolean"
-      case Undef => "Undefined"
-      case Null => "Null"
-      case _ => ???
-    }).map(Str(_): Type))
+    AbsType(t.set.flatMap(_.names).map(Str(_): Type))
   }
 
   // conversion to string
@@ -133,6 +113,12 @@ case class AbsState(
   private def norm(f: => AbsType): AbsType = if (isBottom) AbsType.Bot else f
   private def apply(x: String): AbsType =
     if (reachable) map.getOrElse(x, Absent.abs) else AbsType.Bot
+  private def notyet(t: AbsType, name: String): (AbsType, AbsState) =
+    (t, notyet(name))
+  private def notyet(name: String) = norm {
+    alarm("not yet implemented: AbsState.delete")
+    this
+  }
 }
 object AbsState {
   // bottom value

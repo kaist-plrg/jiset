@@ -35,7 +35,7 @@ package object analyzer {
 
   private var alarmMap: Map[String, Set[String]] = Map()
   private var errorMap: Map[Int, Set[String]] = Map()
-  def alarm(msg: String, error: Boolean = true): Unit = if (TEST_MODE) {
+  def alarm(msg: String, error: Boolean = false): Unit = if (TEST_MODE) {
   } else if (alarmCP == null) {
     Console.err.println(setColor(RED)(msg))
   } else {
@@ -55,13 +55,13 @@ package object analyzer {
           Console.err.println(setColor(RED)(errMsg))
           nfErrors.println(errMsg)
           nfErrors.flush()
+          if (CHECK_ALARM) AnalyzeREPL.run(alarmCP)
         }
       }
       if (LOG) {
         nfAlarms.println(errMsg)
         nfAlarms.flush()
       }
-      if (CHECK_ALARM) AnalyzeREPL.run(alarmCP)
     }
   }
 
@@ -108,5 +108,5 @@ package object analyzer {
   implicit def bigint2bigint(x: scala.BigInt) = BigInt(x)
   implicit def string2str(x: String) = Str(x)
   implicit def boolean2bool(x: Boolean) = Bool(x)
-  implicit def type2atype[T](t: T)(implicit f: T => Type) = AbsType(t)
+  implicit def type2atype[T](t: T)(implicit f: T => Type) = t.abs
 }

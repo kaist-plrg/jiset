@@ -29,7 +29,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
         println(s"version: $version (${getRawVersion(version)})")
         if (query != "") println(s"query: $query")
         time(s"parsing spec.html", {
-          ECMAScriptParser(version, query, config.useCount, config.detail)
+          ECMAScriptParser(version, query, config.detail)
         })
     }
 
@@ -73,8 +73,6 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
       "set the git version of ecma262."),
     ("query", StrOption((c, s) => c.query = Some(s)),
       "set target query."),
-    ("useCount", BoolOption(c => c.useCount = true),
-      "use compiler rule counter."),
     ("load", StrOption((c, s) => c.load = Some(s)),
       "load ECMAScript from JSON."),
     ("json", StrOption((c, s) => c.json = Some(s)),
@@ -88,7 +86,6 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
 case class ParseConfig(
   var version: Option[String] = None,
   var query: Option[String] = None,
-  var useCount: Boolean = false,
   var load: Option[String] = None,
   var json: Option[String] = None,
   var detail: Boolean = false

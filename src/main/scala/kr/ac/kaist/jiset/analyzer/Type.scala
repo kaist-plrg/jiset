@@ -2,23 +2,63 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.ir.doubleEquals
 import kr.ac.kaist.jiset.util.Useful._
+import scala.annotation.tailrec
 
 sealed trait Type {
+  import Type._
+
   // conversion to abstract type
-  def abs: AbsType = AbsType(this)
+  def abs: AbsType = Type.abs(this)
+
+  // get root of type
+  def root: Type = parent.fold(this)(_.root)
 
   // get ancestor types
+  def ancestors: Set[Type] = parent.map(_.ancestors).getOrElse(Set()) + this
+
+  // check sub typing
+  @tailrec
+  final def <(that: Type): Boolean = {
+    if (this == that) true
+    else parent match {
+      case Some(parent) => parent < that
+      case None => false
+    }
+  }
+
+  // get type names
+  def names: Set[String] = this match {
+    case NameT(name) if name endsWith "Object" => Set("Object")
+    case NameT("ReferenceRecord") => Set("Reference")
+    case SymbolT => Set("Symbol")
+    case ArithT => Set("Number", "BigInt", "String")
+    case NumericT => Set("Number", "BigInt")
+    case NumT | Num(_) => Set("Number")
+    case BigIntT | BigInt(_) => Set("BigInt")
+    case StrT | Str(_) => Set("String")
+    case BoolT | Bool(_) => Set("Boolean")
+    case Undef => Set("Undefined")
+    case Null => Set("Null")
+    case t => Set()
+  }
+
+  // get parent types
   def parent: Option[Type] = optional(this match {
     case NormalT(t) => t.parent match {
       case Some(parent: PureType) => NormalT(parent)
       case _ => error("no parent")
     }
-    case NameT(name) => ???
+    case NameT("Object") => ESValueT
+    case NameT(name) => infoMap.get(name) match {
+      case Some(Info(_, Some(parent), _)) => NameT(parent)
+      case _ => error("no parent")
+    }
     case PrimT => ESValueT
-    case NumericT => PrimT
+    case ArithT => PrimT
+    case NumericT => ArithT
     case NumT => NumericT
     case BigIntT => NumericT
-    case StrT => PrimT
+    case StrT => ArithT
     case BoolT => PrimT
     case SymbolT => PrimT
     case Num(n) => NumT
@@ -45,6 +85,13 @@ sealed trait Type {
       None
   }
 
+  // upcast
+  def upcast: Type = this match {
+    case NormalT(t) => NormalT(t.upcast)
+    case p: PureType => p.upcast
+    case _ => this
+  }
+
   // conversion to string
   override def toString: String = this match {
     case NameT(name) => s"$name"
@@ -53,6 +100,7 @@ sealed trait Type {
     case CloT(fid) => s"λ[$fid]"
     case ESValueT => s"ESValue"
     case PrimT => "prim"
+    case ArithT => "arith"
     case NumericT => "numeric"
     case NumT => "num"
     case BigIntT => "bigint"
@@ -73,7 +121,93 @@ sealed trait Type {
     case Absent => "?"
   }
 }
+
+// completion types
+sealed trait CompType extends Type
+case class NormalT(value: PureType) extends CompType
+case object AbruptT extends CompType
+
+// pure types
+sealed trait PureType extends Type {
+  // upcast
+  override def upcast: PureType = this match {
+    case ListT(t) => ListT(t.upcast)
+    case MapT(t) => ListT(t.upcast)
+    case Num(_) => NumT
+    case BigInt(_) => BigIntT
+    case Str(_) => StrT
+    case Bool(_) => BoolT
+    case _ => this
+  }
+}
+
+// ECMAScript value types
+case object ESValueT extends PureType
+
+// norminal types
+case class NameT(name: String) extends PureType {
+  // lookup propertys
+  def apply(prop: String): AbsType =
+    Type.propMap.getOrElse(name, Map()).getOrElse(prop, Absent)
+}
+
+// AST types
+case class AstT(name: String) extends PureType
+
+// constant types
+case class ConstT(name: String) extends PureType
+
+// closure types
+case class CloT(fid: Int) extends PureType
+
+// list types
+case object NilT extends PureType
+case class ListT(elem: PureType) extends PureType
+
+// sub mapping types
+case class MapT(elem: PureType) extends PureType
+
+// symbol types
+case object SymbolT extends PureType
+
+// primitive types
+case object PrimT extends PureType
+case object ArithT extends PureType
+case object NumericT extends PureType
+case object NumT extends PureType
+case object BigIntT extends PureType
+case object StrT extends PureType
+case object BoolT extends PureType
+
+// single concrete type
+sealed trait SingleT extends PureType
+case class Num(double: Double) extends SingleT {
+  override def equals(that: Any): Boolean = that match {
+    case that: Num => doubleEquals(this.double, that.double)
+    case _ => false
+  }
+}
+case class BigInt(bigint: scala.BigInt) extends SingleT
+case class Str(str: String) extends SingleT
+case class Bool(bool: Boolean) extends SingleT
+case object Undef extends SingleT
+case object Null extends SingleT
+case object Absent extends SingleT
+
+// modeling
 object Type {
+  // pre-defined type set
+  val mergedPairs: List[(Set[Type], Type)] = List(
+    Set[Type](Bool(true), Bool(false)) -> BoolT,
+    Set[Type](NumT, BigIntT) -> NumericT,
+    Set[Type](NumericT, StrT) -> ArithT,
+    Set[Type](Null, Undef, BoolT, ArithT, SymbolT) -> PrimT,
+    Set[Type](NameT("Object"), PrimT) -> ESValueT,
+  )
+
+  // abstraction
+  val abs: Type => AbsType = cached(AbsType(_))
+
   // information
   case class Info(
     name: String,
@@ -92,7 +226,77 @@ object Type {
   type PropMap = Map[String, AbsType]
 
   // get type information
-  lazy val all: List[Info] = List(
+  lazy val infos: List[Info] = getInfos
+
+  // type info map
+  lazy val infoMap: Map[String, Info] =
+    infos.map(info => info.name -> info).toMap
+
+  // sub types
+  lazy val subTypes: Map[String, Set[String]] = {
+    var children = Map[String, Set[String]]()
+    for {
+      info <- infos
+      parent <- info.parent
+      set = children.getOrElse(parent, Set())
+    } children += parent -> (set + info.name)
+    children
+  }
+
+  // property map
+  lazy val propMap: Map[String, PropMap] =
+    infos.map(info => info.name -> getPropMap(info.name)).toMap
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Private Helper Functions
+  //////////////////////////////////////////////////////////////////////////////
+  // get property map
+  private def getPropMap(name: String): PropMap = {
+    val upper = getUpperPropMap(name)
+    val lower = getLowerPropMap(name)
+    lower.foldLeft(upper) {
+      case (map, (k, t)) =>
+        val newT = t ⊔ map.getOrElse(k, AbsType.Bot)
+        map + (k -> newT)
+    }
+  }
+
+  // get property map from ancestors
+  private def getUpperPropMap(name: String): PropMap = infoMap.get(name) match {
+    case Some(info) => info.parent.map(getUpperPropMap).getOrElse(Map()) ++ info.props
+    case None => Map()
+  }
+
+  // get property map from ancestors
+  private def getLowerPropMap(name: String): PropMap = subTypes
+    .getOrElse(name, Set())
+    .map(child => {
+      val lower = getLowerPropMap(child)
+      val props = infoMap.get(child).map(_.props).getOrElse(Map())
+      lower ++ props
+    })
+    .reduceOption(weakMerge)
+    .getOrElse(Map())
+
+  // weak merge
+  private def weakMerge(lmap: PropMap, rmap: PropMap): PropMap = {
+    val keys = lmap.keySet ++ rmap.keySet
+    keys.toList.map(k => {
+      k -> (lmap.getOrElse(k, Absent.abs) ⊔ rmap.getOrElse(k, Absent.abs))
+    }).toMap
+  }
+
+  // get function closure by name
+  private lazy val cloMap: Map[String, AbsType] =
+    (for (func <- cfg.funcs) yield func.name -> CloT(func.uid).abs).toMap
+  private def getClo(name: String): AbsType = cloMap.getOrElse(name, {
+    alarm(s"unknown function name: $name")
+    AbsType.Bot
+  })
+
+  // get all type info
+  // TODO extract from specification
+  private def getInfos: List[Info] = List(
     // realm records
     Info("RealmRecord", Map(
       "Intrinsics" -> MapT(NameT("OrdinaryObject")),
@@ -364,141 +568,4 @@ object Type {
       "LocalName" -> AbsType(StrT, Null),
     )),
   )
-
-  // type info map
-  lazy val totalMap: Map[String, Info] =
-    all.map(info => info.name -> info).toMap
-
-  // sub types
-  lazy val subTypes: Map[String, Set[String]] = {
-    var children = Map[String, Set[String]]()
-    for {
-      info <- all
-      parent <- info.parent
-      set = children.getOrElse(parent, Set())
-    } children += parent -> (set + info.name)
-    children
-  }
-
-  // property map
-  lazy val propMap: Map[String, PropMap] =
-    all.map(info => info.name -> getPropMap(info.name)).toMap
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Private Helper Functions
-  //////////////////////////////////////////////////////////////////////////////
-  // get property map
-  private def getPropMap(name: String): PropMap = {
-    val upper = getUpperPropMap(name)
-    val lower = getLowerPropMap(name)
-    lower.foldLeft(upper) {
-      case (map, (k, t)) =>
-        val newT = t ⊔ map.getOrElse(k, AbsType.Bot)
-        map + (k -> newT)
-    }
-  }
-
-  // get property map from ancestors
-  private def getUpperPropMap(name: String): PropMap = totalMap.get(name) match {
-    case Some(info) => info.parent.map(getUpperPropMap).getOrElse(Map()) ++ info.props
-    case None => Map()
-  }
-
-  // get property map from ancestors
-  private def getLowerPropMap(name: String): PropMap = subTypes
-    .getOrElse(name, Set())
-    .map(child => {
-      val lower = getLowerPropMap(child)
-      val props = totalMap.get(child).map(_.props).getOrElse(Map())
-      lower ++ props
-    })
-    .reduceOption(weakMerge)
-    .getOrElse(Map())
-
-  // weak merge
-  private def weakMerge(lmap: PropMap, rmap: PropMap): PropMap = {
-    val keys = lmap.keySet ++ rmap.keySet
-    keys.toList.map(k => {
-      k -> (lmap.getOrElse(k, Absent.abs) ⊔ rmap.getOrElse(k, Absent.abs))
-    }).toMap
-  }
-
-  // get function closure by name
-  private lazy val cloMap: Map[String, AbsType] =
-    (for (func <- cfg.funcs) yield func.name -> CloT(func.uid).abs).toMap
-  private def getClo(name: String): AbsType = cloMap.getOrElse(name, {
-    alarm(s"unknown function name: $name")
-    AbsType.Bot
-  })
 }
-
-// completion types
-sealed trait CompType extends Type
-case class NormalT(value: PureType) extends CompType
-case object AbruptT extends CompType
-
-// pure types
-sealed trait PureType extends Type
-
-// ECMAScript value types
-case object ESValueT extends PureType
-
-// norminal types
-case class NameT(name: String) extends PureType {
-  // lookup propertys
-  def apply(prop: String): AbsType =
-    Type.propMap.getOrElse(name, Map()).getOrElse(prop, Absent)
-}
-
-// AST types
-case class AstT(name: String) extends PureType
-
-// constant types
-case class ConstT(name: String) extends PureType
-
-// closure types
-case class CloT(fid: Int) extends PureType
-
-// list types
-case object NilT extends PureType
-case class ListT(elem: PureType) extends PureType
-
-// sub mapping types
-case class MapT(elem: PureType) extends PureType
-
-// symbol types
-case object SymbolT extends PureType
-
-// primitive types
-case object PrimT extends PureType
-case object NumericT extends PureType
-case object NumT extends PureType
-case object BigIntT extends PureType
-case object StrT extends PureType
-case object BoolT extends PureType
-
-// single concrete type
-sealed trait SingleT extends PureType {
-  // upcast
-  def upcast: PureType = this match {
-    case Num(_) => NumT
-    case BigInt(_) => BigIntT
-    case Str(_) => StrT
-    case Bool(_) => BoolT
-    case Undef => Undef
-    case Null => Null
-    case Absent => Absent
-  }
-}
-case class Num(double: Double) extends SingleT {
-  override def equals(that: Any): Boolean = that match {
-    case that: Num => doubleEquals(this.double, that.double)
-    case _ => false
-  }
-}
-case class BigInt(bigint: scala.BigInt) extends SingleT
-case class Str(str: String) extends SingleT
-case class Bool(bool: Boolean) extends SingleT
-case object Undef extends SingleT
-case object Null extends SingleT
-case object Absent extends SingleT

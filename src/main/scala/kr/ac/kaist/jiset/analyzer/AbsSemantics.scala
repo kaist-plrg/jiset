@@ -76,6 +76,8 @@ object AbsSemantics {
     import Param.Kind._
     @tailrec
     def aux(ps: List[Param], as: List[Type]): Unit = (ps, as) match {
+      case (Param(_, Normal) :: pl, Absent :: al) =>
+        st = AbsState.Bot
       case (param :: pl, arg :: al) =>
         st = st.define(param.name, arg.abs)
         aux(pl, al)
@@ -276,8 +278,8 @@ object AbsSemantics {
     args.foldRight(List(List[Type]())) {
       case (aty, tysList) => for {
         tys <- tysList
-        ty <- aty.mergeForCall
-      } yield ty :: tys
+        ty <- aty.set
+      } yield ty.upcast :: tys
     }
   }
 }

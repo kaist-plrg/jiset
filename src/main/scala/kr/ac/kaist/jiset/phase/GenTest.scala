@@ -30,7 +30,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
     TEST_MODE = true
     val parsedMap = (for (version <- VERSIONS) yield time(s"parse $version", {
       val input = ECMAScriptParser.preprocess(version)
-      val spec = ECMAScriptParser(version, input, "", false, false)
+      val spec = ECMAScriptParser(version, input, "", false)
       version -> (input, spec)
     })).toMap
     genGrammarTest(parsedMap)

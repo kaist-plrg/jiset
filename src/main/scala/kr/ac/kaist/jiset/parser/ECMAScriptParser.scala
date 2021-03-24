@@ -18,15 +18,13 @@ object ECMAScriptParser {
   def apply(
     version: String,
     query: String,
-    useCount: Boolean,
     detail: Boolean
   ): ECMAScript =
-    apply(version, preprocess(version), query, useCount, detail)
+    apply(version, preprocess(version), query, detail)
   def apply(
     version: String,
     input: (Array[String], Document, Region),
     query: String,
-    useCount: Boolean,
     detail: Boolean
   ): ECMAScript = {
     implicit val (lines, document, region) = input
@@ -36,8 +34,8 @@ object ECMAScriptParser {
 
     // parse algorithm
     val algos = (
-      if (query == "") parseAlgo(version, document, useCount, detail)
-      else getElems(document, query).toList.flatMap(parseAlgo(version, _, useCount, detail))
+      if (query == "") parseAlgo(version, document, detail)
+      else getElems(document, query).toList.flatMap(parseAlgo(version, _, detail))
     ) ++ manualAlgos(version)
 
     // intrinsic object names
@@ -205,7 +203,6 @@ object ECMAScriptParser {
   def parseAlgo(
     version: String,
     target: Element,
-    useCount: Boolean,
     detail: Boolean
   )(
     implicit
@@ -223,7 +220,7 @@ object ECMAScriptParser {
     // algorithms
     val (atime, passed) = time(for {
       parsedHead <- parsedHeads
-      algos = AlgoParser(version, parsedHead, secIds, useCount, detail)
+      algos = AlgoParser(version, parsedHead, secIds, detail)
       if !algos.isEmpty
     } yield algos)
     if (detail) println(s"# successful algorithm parsing: ${passed.size} ($atime ms)")
