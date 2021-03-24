@@ -35,7 +35,7 @@ package object analyzer {
 
   private var alarmMap: Map[String, Set[String]] = Map()
   private var errorMap: Map[Int, Set[String]] = Map()
-  def alarm(msg: String, error: Boolean = false): Unit = if (TEST_MODE) {
+  def alarm(msg: String, error: Boolean = true): Unit = if (TEST_MODE) {
   } else if (alarmCP == null) {
     Console.err.println(setColor(RED)(msg))
   } else {
