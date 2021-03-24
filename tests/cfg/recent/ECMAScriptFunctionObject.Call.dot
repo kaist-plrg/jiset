@@ -22,7 +22,7 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node9 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">7:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">7:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node13 [shape=none, margin=0, label=<<font color="black">
@@ -32,24 +32,24 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">1:let callerContext = GLOBAL_context</td></tr>
+      <tr><td align="left">1:let callerContext = CONTEXT</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node17 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let __x5__ = (- GLOBAL_executionStack.length 1i)</td></tr>
-      <tr><td align="left">(pop GLOBAL_executionStack __x5__)</td></tr>
+      <tr><td align="left">let __x5__ = (- EXECUTION_STACK.length 1i)</td></tr>
+      <tr><td align="left">(pop EXECUTION_STACK __x5__)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node12 [shape=cds, label=<<font color="black">9:app __x3__ = (OrdinaryCallBindThis F calleeContext thisArgument)</font>> color="black" fillcolor="white" style=filled]
-  node7 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext)</font>> color="black" fillcolor="white" style=filled]
+  node7 [shape=diamond, label=<<font color="black">(= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext)</font>> color="black" fillcolor="white" style=filled]
   node3 [shape=cds, label=<<font color="black">2:app __x0__ = (PrepareForOrdinaryCall F undefined)</font>> color="black" fillcolor="white" style=filled]
   node18 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">11:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">11:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node16 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext)</font>> color="black" fillcolor="white" style=filled]
+  node16 [shape=diamond, label=<<font color="black">(= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext)</font>> color="black" fillcolor="white" style=filled]
   node11 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">8:return __x2__</td></tr>
@@ -57,8 +57,8 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let __x1__ = (- GLOBAL_executionStack.length 1i)</td></tr>
-      <tr><td align="left">(pop GLOBAL_executionStack __x1__)</td></tr>
+      <tr><td align="left">let __x1__ = (- EXECUTION_STACK.length 1i)</td></tr>
+      <tr><td align="left">(pop EXECUTION_STACK __x1__)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node19 [shape=diamond, label=<<font color="black">(= result.Type CONST_return)</font>> color="black" fillcolor="white" style=filled]

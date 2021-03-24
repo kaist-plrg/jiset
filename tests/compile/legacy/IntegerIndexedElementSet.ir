@@ -14,9 +14,9 @@
   if (= [! __x3__] false) return false else {}
   let offset = O.ByteOffset
   let arrayTypeName = O.TypedArrayName
-  let elementSize = GLOBAL_typedArrayInfo[arrayTypeName].ElementSize
+  let elementSize = TYPED_ARRAY_INFO[arrayTypeName].ElementSize
   let indexedPosition = (+ (* index elementSize) offset)
-  let elementType = GLOBAL_typedArrayInfo[arrayTypeName].ElementType
+  let elementType = TYPED_ARRAY_INFO[arrayTypeName].ElementType
   app __x4__ = (SetValueInBuffer buffer indexedPosition elementType numValue true CONST_Unordered)
   __x4__
   return true

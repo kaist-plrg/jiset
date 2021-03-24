@@ -1,5 +1,5 @@
 {
-  let oldEnv = GLOBAL_context.LexicalEnvironment
+  let oldEnv = CONTEXT.LexicalEnvironment
   app __x0__ = (NewDeclarativeEnvironment oldEnv)
   let loopEnv = __x0__
   let loopEnvRec = loopEnv.EnvironmentRecord
@@ -20,17 +20,17 @@
     }
     __x4__ = (+ __x4__ 1i)
   }
-  GLOBAL_context.LexicalEnvironment = loopEnv
+  CONTEXT.LexicalEnvironment = loopEnv
   access __x7__ = (LexicalDeclaration "Evaluation")
   let forDcl = __x7__
   app __x8__ = (IsAbruptCompletion forDcl)
   if __x8__ {
-    GLOBAL_context.LexicalEnvironment = oldEnv
+    CONTEXT.LexicalEnvironment = oldEnv
     return forDcl
   } else {}
   if (= isConst false) let perIterationLets = boundNames else let perIterationLets = (new [])
   app __x9__ = (ForBodyEvaluation Expression0 Expression1 Statement perIterationLets labelSet)
   let bodyResult = __x9__
-  GLOBAL_context.LexicalEnvironment = oldEnv
+  CONTEXT.LexicalEnvironment = oldEnv
   return bodyResult
 }

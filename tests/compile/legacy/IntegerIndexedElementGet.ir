@@ -7,9 +7,9 @@
   if (= [! __x1__] false) return undefined else {}
   let offset = O.ByteOffset
   let arrayTypeName = O.TypedArrayName
-  let elementSize = GLOBAL_typedArrayInfo[arrayTypeName].ElementSize
+  let elementSize = TYPED_ARRAY_INFO[arrayTypeName].ElementSize
   let indexedPosition = (+ (* index elementSize) offset)
-  let elementType = GLOBAL_typedArrayInfo[arrayTypeName].ElementType
+  let elementType = TYPED_ARRAY_INFO[arrayTypeName].ElementType
   app __x2__ = (GetValueFromBuffer buffer indexedPosition elementType true CONST_Unordered)
   return __x2__
 }

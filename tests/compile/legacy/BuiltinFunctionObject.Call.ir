@@ -1,18 +1,18 @@
 {
-  let callerContext = GLOBAL_context
-  if (= callerContext null) GLOBAL_context = null else {}
+  let callerContext = CONTEXT
+  if (= callerContext null) CONTEXT = null else {}
   let calleeContext = (new ExecutionContext("SubMap" -> (new SubMap())))
   calleeContext.Function = F
   let calleeRealm = F.Realm
   calleeContext.Realm = calleeRealm
   calleeContext.ScriptOrModule = F.ScriptOrModule
-  append calleeContext -> GLOBAL_executionStack
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  append calleeContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   ??? "Let id:{result} be the Completion Record that is the result of evaluating id:{F} in a manner that conforms to the specification of id:{F} . id:{thisArgument} is the value:{this} value , id:{argumentsList} provides the named parameters , and the NewTarget value is value:{undefined} ."
-  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext) {
-    let __x0__ = (- GLOBAL_executionStack.length 1i)
-    (pop GLOBAL_executionStack __x0__)
+  if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) {
+    let __x0__ = (- EXECUTION_STACK.length 1i)
+    (pop EXECUTION_STACK __x0__)
   } else {}
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   return result
 }

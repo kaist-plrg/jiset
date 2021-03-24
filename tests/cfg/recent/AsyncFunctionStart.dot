@@ -2,11 +2,11 @@ digraph {
   node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
   node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:let runningContext = GLOBAL_context</td></tr>
+      <tr><td align="left">0:let runningContext = CONTEXT</td></tr>
       <tr><td align="left">1:let asyncContext = (copy-obj runningContext)</td></tr>
       <tr><td align="left">3:??? &quot;Set the code evaluation state of id:{asyncContext} such that when evaluation is resumed for that execution context the following steps will be performed : in:{} out:{}&quot;</td></tr>
-      <tr><td align="left">15:append asyncContext -&gt; GLOBAL_executionStack</td></tr>
-      <tr><td align="left">15:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">15:append asyncContext -&gt; EXECUTION_STACK</td></tr>
+      <tr><td align="left">15:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
       <tr><td align="left">16:??? &quot;Resume the suspended evaluation of id:{asyncContext} . Let id:{result} be the value returned by the resumed computation .&quot;</td></tr>
       <tr><td align="left">19:return undefined</td></tr>
     </table>

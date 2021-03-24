@@ -1,12 +1,12 @@
 {
-  GLOBAL_context = null
+  CONTEXT = null
   let moduleContext = module.Context
-  append moduleContext -> GLOBAL_executionStack
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  append moduleContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   access __x0__ = (module.ECMAScriptCode "Evaluation")
   let result = __x0__
-  GLOBAL_context = null
-  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] moduleContext) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else {}
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  CONTEXT = null
+  if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] moduleContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   return result
 }

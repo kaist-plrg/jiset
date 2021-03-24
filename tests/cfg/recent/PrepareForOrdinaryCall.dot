@@ -4,13 +4,13 @@ digraph {
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
   node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">GLOBAL_context = null</td></tr>
+      <tr><td align="left">CONTEXT = null</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">0:assert (|| (= (typeof newTarget) Undefined) (= (typeof newTarget) Object))</td></tr>
-      <tr><td align="left">1:let callerContext = GLOBAL_context</td></tr>
+      <tr><td align="left">1:let callerContext = CONTEXT</td></tr>
       <tr><td align="left">2:let calleeContext = (new ExecutionContext(&quot;SubMap&quot; -&gt; (new SubMap())))</td></tr>
       <tr><td align="left">3:calleeContext.Function = F</td></tr>
       <tr><td align="left">4:let calleeRealm = F.Realm</td></tr>
@@ -20,8 +20,8 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">11:append calleeContext -&gt; GLOBAL_executionStack</td></tr>
-      <tr><td align="left">11:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">11:append calleeContext -&gt; EXECUTION_STACK</td></tr>
+      <tr><td align="left">11:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
       <tr><td align="left">13:return calleeContext</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]

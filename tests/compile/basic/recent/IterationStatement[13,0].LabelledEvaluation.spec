@@ -1,2 +1,0 @@
-          1. Let _keyResult_ be ? ForIn/OfHeadEvaluation(BoundNames of |ForDeclaration|, |AssignmentExpression|, ~async-iterate~).
-          1. Return ? ForIn/OfBodyEvaluation(|ForDeclaration|, |Statement|, _keyResult_, ~iterate~, ~lexicalBinding~, _labelSet_, ~async~).

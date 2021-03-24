@@ -2,7 +2,7 @@
   access __x0__ = (PropertyName "Evaluation")
   let propKey = __x0__
   [? propKey]
-  let scope = GLOBAL_context.LexicalEnvironment
+  let scope = CONTEXT.LexicalEnvironment
   if (! (= functionPrototype absent)) let prototype = functionPrototype else let prototype = INTRINSIC_Function_prototype
   app __x1__ = (OrdinaryFunctionCreate prototype UniqueFormalParameters FunctionBody CONST_nonDASHlexicalDASHthis scope)
   let closure = __x1__

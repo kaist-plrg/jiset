@@ -1,7 +1,7 @@
 if (== argumentsList.length 0i) {
   let numberOfArgs = argumentsList.length
   assert (== numberOfArgs 0i)
-  if (= NewTarget undefined) let newTarget = GLOBAL_context.Function else let newTarget = NewTarget
+  if (= NewTarget undefined) let newTarget = CONTEXT.Function else let newTarget = NewTarget
   app __x0__ = (GetPrototypeFromConstructor newTarget "%Array.prototype%")
   let proto = [? __x0__]
   app __x1__ = (ArrayCreate 0i proto)
@@ -11,7 +11,7 @@ if (== argumentsList.length 0i) {
   let len = __x2__
   let numberOfArgs = argumentsList.length
   assert (== numberOfArgs 1i)
-  if (= NewTarget undefined) let newTarget = GLOBAL_context.Function else let newTarget = NewTarget
+  if (= NewTarget undefined) let newTarget = CONTEXT.Function else let newTarget = NewTarget
   app __x3__ = (GetPrototypeFromConstructor newTarget "%Array.prototype%")
   let proto = [? __x3__]
   app __x4__ = (ArrayCreate 0i proto)
@@ -31,7 +31,7 @@ if (== argumentsList.length 0i) {
 } else {
   let numberOfArgs = argumentsList.length
   assert (! (< numberOfArgs 2i))
-  if (= NewTarget undefined) let newTarget = GLOBAL_context.Function else let newTarget = NewTarget
+  if (= NewTarget undefined) let newTarget = CONTEXT.Function else let newTarget = NewTarget
   app __x8__ = (GetPrototypeFromConstructor newTarget "%Array.prototype%")
   let proto = [? __x8__]
   app __x9__ = (ArrayCreate numberOfArgs proto)

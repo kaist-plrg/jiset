@@ -1,7 +1,7 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let message = __x0__
-  if (= NewTarget undefined) let newTarget = GLOBAL_context.Function else let newTarget = NewTarget
+  if (= NewTarget undefined) let newTarget = CONTEXT.Function else let newTarget = NewTarget
   app __x1__ = (OrdinaryCreateFromConstructor newTarget "%Error.prototype%" (new ["ErrorData"]))
   let O = [? __x1__]
   if (! (= message undefined)) {

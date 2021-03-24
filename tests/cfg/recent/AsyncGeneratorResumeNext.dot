@@ -92,11 +92,11 @@ digraph {
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">32:assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))</td></tr>
       <tr><td align="left">33:let genContext = generator.AsyncGeneratorContext</td></tr>
-      <tr><td align="left">34:let callerContext = GLOBAL_context</td></tr>
-      <tr><td align="left">35:GLOBAL_context = null</td></tr>
+      <tr><td align="left">34:let callerContext = CONTEXT</td></tr>
+      <tr><td align="left">35:CONTEXT = null</td></tr>
       <tr><td align="left">36:generator.AsyncGeneratorState = CONST_executing</td></tr>
-      <tr><td align="left">37:append genContext -&gt; GLOBAL_executionStack</td></tr>
-      <tr><td align="left">37:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">37:append genContext -&gt; EXECUTION_STACK</td></tr>
+      <tr><td align="left">37:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
       <tr><td align="left">38:??? &quot;Resume the suspended evaluation of id:{genContext} using id:{completion} as the result of the operation that suspended it . Let id:{result} be the completion record returned by the resumed computation .&quot;</td></tr>
       <tr><td align="left">41:return undefined</td></tr>
     </table>

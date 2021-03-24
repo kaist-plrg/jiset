@@ -3,14 +3,14 @@
   let exprRef = __x0__
   app __x1__ = (GetValue exprRef)
   let switchValue = [? __x1__]
-  let oldEnv = GLOBAL_context.LexicalEnvironment
+  let oldEnv = CONTEXT.LexicalEnvironment
   app __x2__ = (NewDeclarativeEnvironment oldEnv)
   let blockEnv = __x2__
   app __x3__ = (BlockDeclarationInstantiation CaseBlock blockEnv)
   __x3__
-  GLOBAL_context.LexicalEnvironment = blockEnv
+  CONTEXT.LexicalEnvironment = blockEnv
   access __x4__ = (CaseBlock "CaseBlockEvaluation" switchValue)
   let R = __x4__
-  GLOBAL_context.LexicalEnvironment = oldEnv
+  CONTEXT.LexicalEnvironment = oldEnv
   return R
 }

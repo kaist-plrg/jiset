@@ -20,14 +20,14 @@
   if (= __x6__ true) throw TypeError else {}
   ??? "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
   ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for Element Type id:{elementType} ."
-  let isLittleEndian = GLOBAL_agent.LittleEndian
+  let isLittleEndian = AGENT.LittleEndian
   app __x7__ = (NumericToRawBytes elementType expected isLittleEndian)
   let expectedBytes = __x7__
   app __x8__ = (NumericToRawBytes elementType replacement isLittleEndian)
   let replacementBytes = __x8__
   app __x9__ = (IsSharedArrayBuffer buffer)
   if (= __x9__ true) {
-    let execution = GLOBAL_agent.CandidateExecution
+    let execution = AGENT.CandidateExecution
     ??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
     ??? "Let id:{rawBytesRead} be a List of length id:{elementSize} whose elements are nondeterministically chosen byte values ."
     app __x10__ = (ByteListEqual rawBytesRead expectedBytes)

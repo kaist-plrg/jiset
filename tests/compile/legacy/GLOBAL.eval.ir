@@ -1,7 +1,7 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let x = __x0__
-  let callerContext = GLOBAL_executionStack[(- GLOBAL_executionStack.length 2i)]
+  let callerContext = EXECUTION_STACK[(- EXECUTION_STACK.length 2i)]
   let callerRealm = callerContext.Realm
   app __x1__ = (PerformEval x callerRealm false false)
   return [? __x1__]

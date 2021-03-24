@@ -1,5 +1,5 @@
 {
-  access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  access __x0__ = (CONTEXT "LexicalEnvironment")
   let env = __x0__
   app __x1__ = (NewDeclarativeEnvironment env)
   let classScope = __x1__
@@ -11,10 +11,10 @@
     let protoParent = INTRINSIC_Object_prototype
     let constructorParent = INTRINSIC_Function_prototype
   } else {
-    GLOBAL_context.LexicalEnvironment = classScope
+    CONTEXT.LexicalEnvironment = classScope
     access __x3__ = (ClassHeritage "Evaluation")
     let superclassRef = __x3__
-    GLOBAL_context.LexicalEnvironment = env
+    CONTEXT.LexicalEnvironment = env
     app __x4__ = (GetValue superclassRef)
     let superclass = [? __x4__]
     if (= superclass null) {
@@ -36,7 +36,7 @@
     access __x8__ = (ClassBody "ConstructorMethod")
     let constructor = __x8__
   }
-  GLOBAL_context.LexicalEnvironment = classScope
+  CONTEXT.LexicalEnvironment = classScope
   if (= constructor CONST_empty) {
     let steps = DefaultConstructorFunctions
     app __x9__ = (CreateBuiltinFunction steps 0i className (new ["ConstructorKind", "SourceText"]) CONST_empty constructorParent)
@@ -73,12 +73,12 @@
     }
     app __x21__ = (IsAbruptCompletion status)
     if __x21__ {
-      GLOBAL_context.LexicalEnvironment = env
+      CONTEXT.LexicalEnvironment = env
       return status
     } else {}
     __x17__ = (+ __x17__ 1i)
   }
-  GLOBAL_context.LexicalEnvironment = env
+  CONTEXT.LexicalEnvironment = env
   if (! (= classBinding undefined)) {
     app __x22__ = (classScope.InitializeBinding classScope classBinding F)
     __x22__

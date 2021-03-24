@@ -1,5 +1,5 @@
 {
-  let oldEnv = GLOBAL_context.LexicalEnvironment
+  let oldEnv = CONTEXT.LexicalEnvironment
   if (< 0i uninitializedBoundNames.length) {
     app __x0__ = (NewDeclarativeEnvironment oldEnv)
     let newEnv = __x0__
@@ -12,11 +12,11 @@
       [! __x3__]
       __x2__ = (+ __x2__ 1i)
     }
-    GLOBAL_context.LexicalEnvironment = newEnv
+    CONTEXT.LexicalEnvironment = newEnv
   } else {}
   access __x4__ = (expr "Evaluation")
   let exprRef = __x4__
-  GLOBAL_context.LexicalEnvironment = oldEnv
+  CONTEXT.LexicalEnvironment = oldEnv
   app __x5__ = (GetValue exprRef)
   let exprValue = [? __x5__]
   if (= iterationKind CONST_enumerate) {

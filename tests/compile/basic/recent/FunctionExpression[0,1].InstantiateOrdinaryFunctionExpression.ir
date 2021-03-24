@@ -2,7 +2,7 @@
   assert (= name absent)
   access __x0__ = (BindingIdentifier "StringValue")
   name = __x0__
-  let scope = GLOBAL_context.LexicalEnvironment
+  let scope = CONTEXT.LexicalEnvironment
   app __x1__ = (NewDeclarativeEnvironment scope)
   let funcEnv = __x1__
   app __x2__ = (funcEnv.CreateImmutableBinding funcEnv name false)

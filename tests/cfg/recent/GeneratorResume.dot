@@ -12,11 +12,11 @@ digraph {
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">2:assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))</td></tr>
       <tr><td align="left">3:let genContext = generator.GeneratorContext</td></tr>
-      <tr><td align="left">4:let methodContext = GLOBAL_context</td></tr>
-      <tr><td align="left">5:GLOBAL_context = null</td></tr>
+      <tr><td align="left">4:let methodContext = CONTEXT</td></tr>
+      <tr><td align="left">5:CONTEXT = null</td></tr>
       <tr><td align="left">6:generator.GeneratorState = CONST_executing</td></tr>
-      <tr><td align="left">7:append genContext -&gt; GLOBAL_executionStack</td></tr>
-      <tr><td align="left">7:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">7:append genContext -&gt; EXECUTION_STACK</td></tr>
+      <tr><td align="left">7:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
       <tr><td align="left">8:??? &quot;Resume the suspended evaluation of id:{genContext} using NormalCompletion ( id:{value} ) as the result of the operation that suspended it . Let id:{result} be the value returned by the resumed computation .&quot;</td></tr>
       <tr><td align="left">10:return result</td></tr>
     </table>

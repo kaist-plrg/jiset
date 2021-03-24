@@ -4,14 +4,14 @@
   app __x1__ = (GetValue val)
   app __x2__ = (ToObject [? __x1__])
   let obj = [? __x2__]
-  let oldEnv = GLOBAL_context.LexicalEnvironment
+  let oldEnv = CONTEXT.LexicalEnvironment
   app __x3__ = (NewObjectEnvironment obj oldEnv)
   let newEnv = __x3__
   newEnv.withEnvironment = true
-  GLOBAL_context.LexicalEnvironment = newEnv
+  CONTEXT.LexicalEnvironment = newEnv
   access __x4__ = (Statement "Evaluation")
   let C = __x4__
-  GLOBAL_context.LexicalEnvironment = oldEnv
+  CONTEXT.LexicalEnvironment = oldEnv
   app __x5__ = (UpdateEmpty C undefined)
   return __x5__
 }

@@ -1,7 +1,7 @@
 {
   app __x0__ = (ToString key)
   let stringKey = [? __x0__]
-  let __x1__ = GLOBAL_symbolRegistry
+  let __x1__ = SYMBOL_REGISTRY
   let __x2__ = 0i
   while (< __x2__ __x1__.length) {
     let e = __x1__[__x2__]
@@ -10,6 +10,6 @@
     __x2__ = (+ __x2__ 1i)
   }
   ??? "Let id:{newSymbol} be a new unique Symbol value whose [ [ Description ] ] value is id:{stringKey} ."
-  append (new Record("Key" -> stringKey, "Symbol" -> newSymbol)) -> GLOBAL_symbolRegistry
+  append (new Record("Key" -> stringKey, "Symbol" -> newSymbol)) -> SYMBOL_REGISTRY
   return newSymbol
 }

@@ -1,16 +1,16 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let iterNextObj = __x0__
-  let genContext = GLOBAL_context
+  let genContext = CONTEXT
   let generator = genContext.Generator
   app __x1__ = (GetGeneratorKind)
   assert (= __x1__ CONST_sync)
   generator.GeneratorState = CONST_suspendedYield
-  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] genContext) {
-    let __x2__ = (- GLOBAL_executionStack.length 1i)
-    (pop GLOBAL_executionStack __x2__)
+  if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) {
+    let __x2__ = (- EXECUTION_STACK.length 1i)
+    (pop EXECUTION_STACK __x2__)
   } else {}
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : in:{} out:{}"
   return iterNextObj
 }

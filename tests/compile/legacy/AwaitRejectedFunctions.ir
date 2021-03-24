@@ -1,10 +1,10 @@
 {
-  let F = GLOBAL_context.Function
+  let F = CONTEXT.Function
   let asyncContext = F.AsyncContext
-  let prevContext = GLOBAL_context
-  GLOBAL_context = null
-  append asyncContext -> GLOBAL_executionStack
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  let prevContext = CONTEXT
+  CONTEXT = null
+  append asyncContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   ??? "Resume the suspended evaluation of asyncContext using (ThrowCompletion~reason) as the result of the operation that suspended it"
   return undefined
 }

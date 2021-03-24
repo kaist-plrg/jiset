@@ -3,12 +3,12 @@
   assert (= __x0__ false)
   let block = arrayBuffer.ArrayBufferData
   ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for Element Type id:{type} ."
-  if (= isLittleEndian absent) isLittleEndian = GLOBAL_agent.LittleEndian else {}
+  if (= isLittleEndian absent) isLittleEndian = AGENT.LittleEndian else {}
   app __x1__ = (NumericToRawBytes type value isLittleEndian)
   let rawBytes = __x1__
   app __x2__ = (IsSharedArrayBuffer arrayBuffer)
   if (= __x2__ true) {
-    let execution = GLOBAL_agent.CandidateExecution
+    let execution = AGENT.CandidateExecution
     ??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
     let __x3__ = true
     __x3__ = (= isTypedArray true)

@@ -1,1 +1,0 @@
-        1. Return the result of performing NamedEvaluation for this |GeneratorExpression| with argument *""*.

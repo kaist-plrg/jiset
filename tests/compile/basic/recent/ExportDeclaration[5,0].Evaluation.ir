@@ -4,7 +4,7 @@
   access __x1__ = (ClassDeclaration "BoundNames")
   let className = __x1__[0i]
   if (= className "*default*") {
-    let env = GLOBAL_context.LexicalEnvironment
+    let env = CONTEXT.LexicalEnvironment
     app __x2__ = (InitializeBoundName "*default*" value env)
     [? __x2__]
   } else {}

@@ -3,11 +3,11 @@
   let promiseCapability = __x0__
   app __x1__ = (GetArgument argumentsList 1i)
   let asyncFunctionBody = __x1__
-  let runningContext = GLOBAL_context
+  let runningContext = CONTEXT
   let asyncContext = (copy-obj runningContext)
   ??? "Set the code evaluation state of id:{asyncContext} such that when evaluation is resumed for that execution context the following steps will be performed : in:{} out:{}"
-  append asyncContext -> GLOBAL_executionStack
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  append asyncContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   ??? "Resume the suspended evaluation of id:{asyncContext} . Let id:{result} be the value returned by the resumed computation ."
   return undefined
 }

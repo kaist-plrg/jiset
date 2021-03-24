@@ -1,5 +1,5 @@
 {
-  access __x0__ = (GLOBAL_context "LexicalEnvironment")
+  access __x0__ = (CONTEXT "LexicalEnvironment")
   let lex = __x0__
   app __x1__ = (NewDeclarativeEnvironment lex)
   let classScope = __x1__
@@ -12,10 +12,10 @@
     let protoParent = INTRINSIC_Object_prototype
     let constructorParent = INTRINSIC_Function_prototype
   } else {
-    GLOBAL_context.LexicalEnvironment = classScope
+    CONTEXT.LexicalEnvironment = classScope
     access __x3__ = (ClassHeritage "Evaluation")
     let superclassRef = __x3__
-    GLOBAL_context.LexicalEnvironment = lex
+    CONTEXT.LexicalEnvironment = lex
     app __x4__ = (GetValue superclassRef)
     let superclass = [? __x4__]
     if (= superclass null) {
@@ -38,7 +38,7 @@
     let constructor = __x8__
   }
   if (= constructor CONST_empty) if (! (= ClassHeritage absent)) ??? "Set id:{constructor} to the result of parsing the source text code:{constructor(...args) { super(...args); }} using the syntactic grammar with the goal symbol nt:{MethodDefinition} ." else ??? "Set id:{constructor} to the result of parsing the source text code:{constructor() {}} using the syntactic grammar with the goal symbol nt:{MethodDefinition} ." else {}
-  GLOBAL_context.LexicalEnvironment = classScope
+  CONTEXT.LexicalEnvironment = classScope
   access __x9__ = (constructor "DefineMethod" proto constructorParent)
   let constructorInfo = [! __x9__]
   [? constructorInfo]
@@ -72,12 +72,12 @@
     }
     app __x20__ = (IsAbruptCompletion status)
     if __x20__ {
-      GLOBAL_context.LexicalEnvironment = lex
+      CONTEXT.LexicalEnvironment = lex
       return status
     } else {}
     __x16__ = (+ __x16__ 1i)
   }
-  GLOBAL_context.LexicalEnvironment = lex
+  CONTEXT.LexicalEnvironment = lex
   if (! (= classBinding undefined)) {
     app __x21__ = (classScopeEnvRec.InitializeBinding classScopeEnvRec classBinding F)
     __x21__

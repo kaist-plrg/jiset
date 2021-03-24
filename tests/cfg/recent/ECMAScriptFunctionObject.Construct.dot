@@ -28,13 +28,13 @@ digraph {
   node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">1:assert (= (typeof newTarget) Object)</td></tr>
-      <tr><td align="left">2:let callerContext = GLOBAL_context</td></tr>
+      <tr><td align="left">2:let callerContext = CONTEXT</td></tr>
       <tr><td align="left">3:let kind = F.ConstructorKind</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node17 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">11:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">11:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node12 [shape=none, margin=0, label=<<font color="black">
@@ -51,15 +51,15 @@ digraph {
   node18 [shape=diamond, label=<<font color="black">(= result.Type CONST_return)</font>> color="black" fillcolor="white" style=filled]
   node16 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">let __x5__ = (- GLOBAL_executionStack.length 1i)</td></tr>
-      <tr><td align="left">(pop GLOBAL_executionStack __x5__)</td></tr>
+      <tr><td align="left">let __x5__ = (- EXECUTION_STACK.length 1i)</td></tr>
+      <tr><td align="left">(pop EXECUTION_STACK __x5__)</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node11 [shape=cds, label=<<font color="black">9:access __x3__ = (calleeContext &quot;LexicalEnvironment&quot;)</font>> color="black" fillcolor="white" style=filled]
   node8 [shape=diamond, label=<<font color="black">(= kind CONST_base)</font>> color="black" fillcolor="white" style=filled]
   node19 [shape=diamond, label=<<font color="black">(= (typeof result.Value) Object)</font>> color="black" fillcolor="white" style=filled]
   node4 [shape=cds, label=<<font color="black">5:app __x0__ = (OrdinaryCreateFromConstructor newTarget &quot;%Object.prototype%&quot;)</font>> color="black" fillcolor="white" style=filled]
-  node15 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext)</font>> color="black" fillcolor="white" style=filled]
+  node15 [shape=diamond, label=<<font color="black">(= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext)</font>> color="black" fillcolor="white" style=filled]
   node24 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">throw TypeError</td></tr>

@@ -8,8 +8,8 @@ digraph {
   </font>> color="black" fillcolor="white" style=filled]
   node14 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">16:assert (&lt; 0i GLOBAL_executionStack.length)</td></tr>
-      <tr><td align="left">17:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">16:assert (&lt; 0i EXECUTION_STACK.length)</td></tr>
+      <tr><td align="left">17:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
       <tr><td align="left">18:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
@@ -18,7 +18,7 @@ digraph {
   node9 [shape=cds, label=<<font color="black">14:app __x2__ = (NormalCompletion undefined)</font>> color="black" fillcolor="white" style=filled]
   node13 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">(pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i))</td></tr>
+      <tr><td align="left">(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node2 [shape=none, margin=0, label=<<font color="black">
@@ -30,13 +30,13 @@ digraph {
       <tr><td align="left">4:scriptContext.ScriptOrModule = scriptRecord</td></tr>
       <tr><td align="left">5:scriptContext.VariableEnvironment = globalEnv</td></tr>
       <tr><td align="left">6:scriptContext.LexicalEnvironment = globalEnv</td></tr>
-      <tr><td align="left">7:GLOBAL_context = null</td></tr>
-      <tr><td align="left">8:append scriptContext -&gt; GLOBAL_executionStack</td></tr>
-      <tr><td align="left">8:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">7:CONTEXT = null</td></tr>
+      <tr><td align="left">8:append scriptContext -&gt; EXECUTION_STACK</td></tr>
+      <tr><td align="left">8:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
       <tr><td align="left">9:let scriptBody = scriptRecord.ECMAScriptCode</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
-  node12 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] scriptContext)</font>> color="black" fillcolor="white" style=filled]
+  node12 [shape=diamond, label=<<font color="black">(= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] scriptContext)</font>> color="black" fillcolor="white" style=filled]
   node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">12:result = __x1__</td></tr>
@@ -45,7 +45,7 @@ digraph {
   node3 [shape=cds, label=<<font color="black">10:app __x0__ = (GlobalDeclarationInstantiation scriptBody globalEnv)</font>> color="black" fillcolor="white" style=filled]
   node11 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">15:GLOBAL_context = null</td></tr>
+      <tr><td align="left">15:CONTEXT = null</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node8 [shape=diamond, label=<<font color="black">(&amp;&amp; (= result.Type CONST_normal) (= result.Value CONST_empty))</font>> color="black" fillcolor="white" style=filled]

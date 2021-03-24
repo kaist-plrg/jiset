@@ -1,7 +1,7 @@
 {
   app __x0__ = (GetArgument argumentsList 0i)
   let value = __x0__
-  if (! (|| (= NewTarget undefined) (= NewTarget GLOBAL_context.Function))) {
+  if (! (|| (= NewTarget undefined) (= NewTarget CONTEXT.Function))) {
     app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%Object.prototype%")
     return [? __x1__]
   } else {}

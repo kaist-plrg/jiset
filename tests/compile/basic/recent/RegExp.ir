@@ -2,7 +2,7 @@
   app __x0__ = (IsRegExp pattern)
   let patternIsRegExp = [? __x0__]
   if (= NewTarget undefined) {
-    let newTarget = GLOBAL_context.Function
+    let newTarget = CONTEXT.Function
     if (&& (= patternIsRegExp true) (= flags undefined)) {
       app __x1__ = (Get pattern "constructor")
       let patternConstructor = [? __x1__]

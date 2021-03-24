@@ -1,6 +1,6 @@
 {
   assert (= generator.AsyncGeneratorState undefined)
-  let genContext = GLOBAL_context
+  let genContext = CONTEXT
   genContext.Generator = generator
   ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed for that execution context the following steps will be performed : in:{} out:{}"
   generator.AsyncGeneratorContext = genContext

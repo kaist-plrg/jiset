@@ -24,7 +24,7 @@
     access __x3__ = (script "IsStrict")
     let strictEval = __x3__
   }
-  let runningContext = GLOBAL_context
+  let runningContext = CONTEXT
   if (= direct true) {
     app __x4__ = (NewDeclarativeEnvironment runningContext.LexicalEnvironment)
     let lexEnv = __x4__
@@ -35,15 +35,15 @@
     let varEnv = evalRealm.GlobalEnv
   }
   if (= strictEval true) varEnv = lexEnv else {}
-  if (= runningContext null) GLOBAL_context = null else {}
+  if (= runningContext null) CONTEXT = null else {}
   let evalContext = (new ExecutionContext("SubMap" -> (new SubMap())))
   evalContext.Function = null
   evalContext.Realm = evalRealm
   evalContext.ScriptOrModule = runningContext.ScriptOrModule
   evalContext.VariableEnvironment = varEnv
   evalContext.LexicalEnvironment = lexEnv
-  append evalContext -> GLOBAL_executionStack
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  append evalContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   app __x6__ = (EvalDeclarationInstantiation body varEnv lexEnv strictEval)
   let result = __x6__
   if (= result.Type CONST_normal) {
@@ -54,8 +54,8 @@
     app __x8__ = (NormalCompletion undefined)
     result = __x8__
   } else {}
-  GLOBAL_context = null
-  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] evalContext) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else {}
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  CONTEXT = null
+  if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] evalContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   return result
 }

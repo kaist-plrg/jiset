@@ -53,8 +53,8 @@
   moduleContext.VariableEnvironment = module.Environment
   moduleContext.LexicalEnvironment = module.Environment
   module.Context = moduleContext
-  append moduleContext -> GLOBAL_executionStack
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  append moduleContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   let code = module.ECMAScriptCode
   access __x15__ = (code "VarScopedDeclarations")
   let varDeclarations = __x15__

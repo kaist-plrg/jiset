@@ -1,5 +1,5 @@
 {
-  let callerContext = GLOBAL_executionStack[(- GLOBAL_executionStack.length 2i)]
+  let callerContext = EXECUTION_STACK[(- EXECUTION_STACK.length 2i)]
   let callerRealm = callerContext.Realm
   let calleeRealm = REALM
   app __x0__ = (HostEnsureCanCompileStrings callerRealm calleeRealm)

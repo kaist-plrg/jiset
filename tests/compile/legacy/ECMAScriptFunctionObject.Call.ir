@@ -1,17 +1,17 @@
 {
   if (= F.IsClassConstructor true) throw TypeError else {}
-  let callerContext = GLOBAL_context
+  let callerContext = CONTEXT
   app __x0__ = (PrepareForOrdinaryCall F undefined)
   let calleeContext = __x0__
   app __x1__ = (OrdinaryCallBindThis F calleeContext thisArgument)
   __x1__
   app __x2__ = (OrdinaryCallEvaluateBody F argumentsList)
   let result = __x2__
-  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext) {
-    let __x3__ = (- GLOBAL_executionStack.length 1i)
-    (pop GLOBAL_executionStack __x3__)
+  if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) {
+    let __x3__ = (- EXECUTION_STACK.length 1i)
+    (pop EXECUTION_STACK __x3__)
   } else {}
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   if (= result.Type CONST_return) return result.Value else {}
   [? result]
   return undefined

@@ -1,6 +1,6 @@
 {
   assert (|| (= (typeof newTarget) Undefined) (= (typeof newTarget) Object))
-  let callerContext = GLOBAL_context
+  let callerContext = CONTEXT
   let calleeContext = (new ExecutionContext("SubMap" -> (new SubMap())))
   calleeContext.Function = F
   let calleeRealm = F.Realm
@@ -10,8 +10,8 @@
   let localEnv = __x0__
   calleeContext.LexicalEnvironment = localEnv
   calleeContext.VariableEnvironment = localEnv
-  if (= callerContext null) GLOBAL_context = null else {}
-  append calleeContext -> GLOBAL_executionStack
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  if (= callerContext null) CONTEXT = null else {}
+  append calleeContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   return calleeContext
 }

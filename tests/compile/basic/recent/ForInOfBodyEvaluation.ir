@@ -1,6 +1,6 @@
 {
   if (= iteratorKind absent) iteratorKind = CONST_sync else {}
-  let oldEnv = GLOBAL_context.LexicalEnvironment
+  let oldEnv = CONTEXT.LexicalEnvironment
   let V = undefined
   access __x0__ = (lhs "IsDestructuring")
   let destructuring = __x0__
@@ -31,7 +31,7 @@
       let iterationEnv = __x6__
       access __x7__ = (lhs "ForDeclarationBindingInstantiation" iterationEnv)
       __x7__
-      GLOBAL_context.LexicalEnvironment = iterationEnv
+      CONTEXT.LexicalEnvironment = iterationEnv
       if (= destructuring false) {
         access __x8__ = (lhs "BoundNames")
         let lhsName = __x8__[0i]
@@ -63,7 +63,7 @@
     }
     app __x16__ = (IsAbruptCompletion status)
     if __x16__ {
-      GLOBAL_context.LexicalEnvironment = oldEnv
+      CONTEXT.LexicalEnvironment = oldEnv
       if (= iteratorKind CONST_async) {
         app __x17__ = (AsyncIteratorClose iteratorRecord status)
         return [? __x17__]
@@ -76,7 +76,7 @@
     } else {}
     access __x19__ = (stmt "Evaluation")
     let result = __x19__
-    GLOBAL_context.LexicalEnvironment = oldEnv
+    CONTEXT.LexicalEnvironment = oldEnv
     app __x20__ = (LoopContinues result labelSet)
     if (= __x20__ false) if (= iterationKind CONST_enumerate) {
       app __x21__ = (UpdateEmpty result V)

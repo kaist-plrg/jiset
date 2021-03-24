@@ -1,6 +1,6 @@
 {
   ??? "Let id:{type} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{typedArray} . [ [ TypedArrayName ] ] ."
-  let isLittleEndian = GLOBAL_agent.LittleEndian
+  let isLittleEndian = AGENT.LittleEndian
   ??? "Let id:{add} be a new read - modify - write modification function with parameters ( id:{xBytes} , id:{yBytes} ) that captures id:{type} and id:{isLittleEndian} and performs the following steps atomically when called : in:{} out:{}"
   app __x0__ = (AtomicReadModifyWrite typedArray index value add)
   return [? __x0__]

@@ -11,11 +11,11 @@
   } else {}
   assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))
   let genContext = generator.GeneratorContext
-  let methodContext = GLOBAL_context
-  GLOBAL_context = null
+  let methodContext = CONTEXT
+  CONTEXT = null
   generator.GeneratorState = CONST_executing
-  append genContext -> GLOBAL_executionStack
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  append genContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   ??? "Resume the suspended evaluation of id:{genContext} using NormalCompletion ( id:{value} ) as the result of the operation that suspended it . Let id:{result} be the value returned by the resumed computation ."
   return result
 }

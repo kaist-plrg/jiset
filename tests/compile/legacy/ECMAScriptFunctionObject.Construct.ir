@@ -1,6 +1,6 @@
 {
   assert (= (typeof newTarget) Object)
-  let callerContext = GLOBAL_context
+  let callerContext = CONTEXT
   let kind = F.ConstructorKind
   if (= kind CONST_base) {
     app __x0__ = (OrdinaryCreateFromConstructor newTarget "%Object.prototype%")
@@ -17,11 +17,11 @@
   let envRec = constructorEnv.EnvironmentRecord
   app __x4__ = (OrdinaryCallEvaluateBody F argumentsList)
   let result = __x4__
-  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] calleeContext) {
-    let __x5__ = (- GLOBAL_executionStack.length 1i)
-    (pop GLOBAL_executionStack __x5__)
+  if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) {
+    let __x5__ = (- EXECUTION_STACK.length 1i)
+    (pop EXECUTION_STACK __x5__)
   } else {}
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   if (= result.Type CONST_return) {
     if (= (typeof result.Value) Object) return result.Value else {}
     if (= kind CONST_base) return thisArgument else {}

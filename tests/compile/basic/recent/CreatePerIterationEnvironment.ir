@@ -1,6 +1,6 @@
 {
   if (< 0i perIterationBindings.length) {
-    let lastIterationEnv = GLOBAL_context.LexicalEnvironment
+    let lastIterationEnv = CONTEXT.LexicalEnvironment
     let outer = lastIterationEnv.OuterEnv
     assert (! (= outer null))
     app __x0__ = (NewDeclarativeEnvironment outer)
@@ -17,7 +17,7 @@
       __x5__
       __x2__ = (+ __x2__ 1i)
     }
-    GLOBAL_context.LexicalEnvironment = thisIterationEnv
+    CONTEXT.LexicalEnvironment = thisIterationEnv
   } else {}
   return undefined
 }

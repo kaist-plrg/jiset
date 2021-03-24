@@ -4,7 +4,7 @@
   access __x1__ = (ClassTail "ClassDefinitionEvaluation" className className)
   let value = [? __x1__]
   value.SourceText = (get-syntax ClassDeclaration)
-  let env = GLOBAL_context.LexicalEnvironment
+  let env = CONTEXT.LexicalEnvironment
   app __x2__ = (InitializeBoundName className value env)
   [? __x2__]
   return value

@@ -1,23 +1,23 @@
 digraph {
   node0 [shape=circle label=" " color="black" fillcolor="white" style=filled]
-  node5 [shape=diamond, label=<<font color="black">(= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] moduleContext)</font>> color="black" fillcolor="white" style=filled]
+  node5 [shape=diamond, label=<<font color="black">(= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] moduleContext)</font>> color="black" fillcolor="white" style=filled]
   node1 [shape=circle label=" " color="black" fillcolor="white" style=filled]
   node6 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">(pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i))</td></tr>
+      <tr><td align="left">(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node2 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">0:GLOBAL_context = null</td></tr>
+      <tr><td align="left">0:CONTEXT = null</td></tr>
       <tr><td align="left">1:let moduleContext = module.Context</td></tr>
-      <tr><td align="left">2:append moduleContext -&gt; GLOBAL_executionStack</td></tr>
-      <tr><td align="left">2:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">2:append moduleContext -&gt; EXECUTION_STACK</td></tr>
+      <tr><td align="left">2:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node7 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
-      <tr><td align="left">5:GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]</td></tr>
+      <tr><td align="left">5:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]</td></tr>
       <tr><td align="left">6:return result</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
@@ -25,7 +25,7 @@ digraph {
   node4 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">3:let result = __x0__</td></tr>
-      <tr><td align="left">4:GLOBAL_context = null</td></tr>
+      <tr><td align="left">4:CONTEXT = null</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node3 -> node4 [ color="black"]

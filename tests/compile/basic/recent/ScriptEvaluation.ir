@@ -6,9 +6,9 @@
   scriptContext.ScriptOrModule = scriptRecord
   scriptContext.VariableEnvironment = globalEnv
   scriptContext.LexicalEnvironment = globalEnv
-  GLOBAL_context = null
-  append scriptContext -> GLOBAL_executionStack
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  CONTEXT = null
+  append scriptContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   let scriptBody = scriptRecord.ECMAScriptCode
   app __x0__ = (GlobalDeclarationInstantiation scriptBody globalEnv)
   let result = __x0__
@@ -20,9 +20,9 @@
     app __x2__ = (NormalCompletion undefined)
     result = __x2__
   } else {}
-  GLOBAL_context = null
-  if (= GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)] scriptContext) (pop GLOBAL_executionStack (- GLOBAL_executionStack.length 1i)) else {}
-  assert (< 0i GLOBAL_executionStack.length)
-  GLOBAL_context = GLOBAL_executionStack[(- GLOBAL_executionStack.length 1i)]
+  CONTEXT = null
+  if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] scriptContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
+  assert (< 0i EXECUTION_STACK.length)
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   return result
 }

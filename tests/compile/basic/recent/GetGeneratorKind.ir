@@ -1,5 +1,5 @@
 {
-  let genContext = GLOBAL_context
+  let genContext = CONTEXT
   if (= genContext.Generator absent) return CONST_nonDASHgenerator else {}
   let generator = genContext.Generator
   if (! (= generator.AsyncGeneratorState absent)) return CONST_async else return CONST_sync

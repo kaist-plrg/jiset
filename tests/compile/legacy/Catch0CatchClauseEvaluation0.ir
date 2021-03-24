@@ -1,5 +1,5 @@
 {
-  let oldEnv = GLOBAL_context.LexicalEnvironment
+  let oldEnv = CONTEXT.LexicalEnvironment
   app __x0__ = (NewDeclarativeEnvironment oldEnv)
   let catchEnv = __x0__
   let catchEnvRec = catchEnv.EnvironmentRecord
@@ -12,16 +12,16 @@
     [! __x4__]
     __x3__ = (+ __x3__ 1i)
   }
-  GLOBAL_context.LexicalEnvironment = catchEnv
+  CONTEXT.LexicalEnvironment = catchEnv
   access __x5__ = (CatchParameter "BindingInitialization" thrownValue catchEnv)
   let status = __x5__
   app __x6__ = (IsAbruptCompletion status)
   if __x6__ {
-    GLOBAL_context.LexicalEnvironment = oldEnv
+    CONTEXT.LexicalEnvironment = oldEnv
     return status
   } else {}
   access __x7__ = (Block "Evaluation")
   let B = __x7__
-  GLOBAL_context.LexicalEnvironment = oldEnv
+  CONTEXT.LexicalEnvironment = oldEnv
   return B
 }
