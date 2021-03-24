@@ -290,8 +290,8 @@ object Type {
   private lazy val cloMap: Map[String, AbsType] =
     (for (func <- cfg.funcs) yield func.name -> CloT(func.uid).abs).toMap
   private def getClo(name: String): AbsType = cloMap.getOrElse(name, {
-    alarm(s"unknown function name: $name")
-    AbsType.Bot
+    warning(s"unknown function name: $name")
+    Absent
   })
 
   // get all type info
@@ -383,6 +383,11 @@ object Type {
       "Delete" -> getClo("ArgumentsExoticObject.Delete"),
     )),
     Info("IntegerIndexedExoticObject", parent = "Object", Map(
+      "ViewedArrayBuffer" -> NameT("ArrayBufferObject"),
+      "ArrayLength" -> NumT,
+      "ByteOffset" -> NumT,
+      "ContentType" -> AbsType(NUMBER, BIGINT),
+      "TypedArrayName" -> StrT,
       "GetOwnProperty" -> getClo("IntegerIndexedExoticObject.GetOwnProperty"),
       "HasProperty" -> getClo("IntegerIndexedExoticObject.HasProperty"),
       "DefineOwnProperty" -> getClo("IntegerIndexedExoticObject.DefineOwnProperty"),
@@ -423,6 +428,11 @@ object Type {
       "OwnPropertyKeys" -> getClo("ProxyObject.OwnPropertyKeys"),
       "Call" -> getClo("ProxyObject.Call"),
       "Construct" -> getClo("ProxyObject.Construct"),
+    )),
+    Info("ArrayBufferObject", parent = "Object", Map(
+      "ArrayBufferData" -> AbsType(NameT("DataBlock"), Null),
+      "ArrayBufferByteLength" -> NumT,
+      "ArrayBufferDetachKey" -> Undef,
     )),
 
     // reference records
@@ -524,6 +534,16 @@ object Type {
       "CandidateExecution" -> NameT("CandidateExecutionRecord"),
       "KeptAlive" -> ListT(NameT("Object")),
     )),
+    Info("CandidateExecutionRecord", Map(
+      "EventsRecords" -> NilT,
+      "ChosenValues" -> NilT,
+      "AgentOrder" -> Undef,
+      "ReadsBytesFrom" -> Undef,
+      "ReadsFrom" -> Undef,
+      "HostSynchronizesWith" -> Undef,
+      "SynchronizesWith" -> Undef,
+      "HappensBefore" -> Undef,
+    )),
 
     // script records
     Info("ScriptRecord", Map(
@@ -566,6 +586,52 @@ object Type {
       "ModuleRequest" -> AbsType(StrT, Null),
       "ImportName" -> AbsType(StrT, Null),
       "LocalName" -> AbsType(StrT, Null),
+    )),
+    Info("PrimitiveMethod", Map(
+      "Number" -> NameT("NumberMethod"),
+      "BigInt" -> NameT("BigIntMethod"),
+    )),
+    Info("NumberMethod", Map(
+      "unaryMinus" -> getClo("Number::unaryMinus"),
+      "bitwiseNOT" -> getClo("Number::bitwiseNOT"),
+      "exponentiate" -> getClo("Number::exponentiate"),
+      "multiply" -> getClo("Number::multiply"),
+      "divide" -> getClo("Number::divide"),
+      "remainder" -> getClo("Number::remainder"),
+      "add" -> getClo("Number::add"),
+      "subtract" -> getClo("Number::subtract"),
+      "leftShift" -> getClo("Number::leftShift"),
+      "signedRightShift" -> getClo("Number::signedRightShift"),
+      "unsignedRightShift" -> getClo("Number::unsignedRightShift"),
+      "lessThan" -> getClo("Number::lessThan"),
+      "equal" -> getClo("Number::equal"),
+      "sameValue" -> getClo("Number::sameValue"),
+      "sameValueZero" -> getClo("Number::sameValueZero"),
+      "bitwiseAND" -> getClo("Number::bitwiseAND"),
+      "bitwiseXOR" -> getClo("Number::bitwiseXOR"),
+      "bitwiseOR" -> getClo("Number::bitwiseOR"),
+      "toString" -> getClo("Number::toString"),
+    )),
+    Info("BigIntMethod", Map(
+      "unaryMinus" -> getClo("BigInt::unaryMinus"),
+      "bitwiseNOT" -> getClo("BigInt::bitwiseNOT"),
+      "exponentiate" -> getClo("BigInt::exponentiate"),
+      "multiply" -> getClo("BigInt::multiply"),
+      "divide" -> getClo("BigInt::divide"),
+      "remainder" -> getClo("BigInt::remainder"),
+      "add" -> getClo("BigInt::add"),
+      "subtract" -> getClo("BigInt::subtract"),
+      "leftShift" -> getClo("BigInt::leftShift"),
+      "signedRightShift" -> getClo("BigInt::signedRightShift"),
+      "unsignedRightShift" -> getClo("BigInt::unsignedRightShift"),
+      "lessThan" -> getClo("BigInt::lessThan"),
+      "equal" -> getClo("BigInt::equal"),
+      "sameValue" -> getClo("BigInt::sameValue"),
+      "sameValueZero" -> getClo("BigInt::sameValueZero"),
+      "bitwiseAND" -> getClo("BigInt::bitwiseAND"),
+      "bitwiseXOR" -> getClo("BigInt::bitwiseXOR"),
+      "bitwiseOR" -> getClo("BigInt::bitwiseOR"),
+      "toString" -> getClo("BigInt::toString"),
     )),
   )
 }

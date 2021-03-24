@@ -104,6 +104,8 @@ package object analyzer {
   val LINKED = ConstT("linked")
   val EVALUATING = ConstT("evaluating")
   val EVALUATED = ConstT("evaluated")
+  val NUMBER = ConstT("Number")
+  val BIGINT = ConstT("BigInt")
 
   // singleton types
   type Null = Null.type

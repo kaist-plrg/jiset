@@ -76,9 +76,17 @@ case class AbsState(
     base: Type,
     prop: AbsType,
     check: Boolean = true
-  ): AbsType = base match {
-    case MapT(t) => t
-    case _ => AbsType.Bot
+  ): AbsType = {
+    var t = AbsType.Bot
+    prop.set.foreach {
+      case Str(prop) => t ⊔= lookupStrProp(base, prop, check)
+      case _ =>
+    }
+    base match {
+      case MapT(elem) => t ⊔= elem
+      case _ =>
+    }
+    t
   }
   def lookup(
     ref: AbsRef,

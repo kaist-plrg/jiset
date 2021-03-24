@@ -5,7 +5,7 @@
   assert (! (< accessIndex 0i))
   if (! (< accessIndex length)) throw RangeError else {}
   let arrayTypeName = typedArray.TypedArrayName
-  ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
+  let elementSize = AnyNum
   let offset = typedArray.ByteOffset
   return (+ (* accessIndex elementSize) offset)
 }

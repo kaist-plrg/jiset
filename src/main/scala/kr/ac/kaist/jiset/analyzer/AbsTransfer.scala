@@ -18,6 +18,9 @@ object AbsTransfer {
   // abstract semantics
   val sem = AbsSemantics
 
+  // initialize type infos
+  Type.infos
+
   // fixpoint computation
   @tailrec
   final def compute: Unit = worklist.next match {
@@ -109,7 +112,7 @@ object AbsTransfer {
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = inst match {
       case IExpr(expr @ ENotSupported(msg)) => st => {
-        alarm(expr.beautified)
+        warning(expr.beautified)
         st
       }
       case IExpr(expr) => transfer(expr)
@@ -293,7 +296,7 @@ object AbsTransfer {
         t <- transfer(obj)
       } yield ListT(StrT)
       case ENotSupported(msg) => st => {
-        alarm(expr.beautified)
+        warning(expr.beautified)
         (Absent, st)
       }
       case expr => st => {

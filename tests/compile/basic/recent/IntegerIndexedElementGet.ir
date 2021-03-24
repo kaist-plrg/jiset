@@ -3,9 +3,9 @@
   if (= [! __x0__] false) return undefined else {}
   let offset = O.ByteOffset
   let arrayTypeName = O.TypedArrayName
-  ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
+  let elementSize = AnyNum
   let indexedPosition = (+ (* index elementSize) offset)
-  ??? "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
+  let elementType = CONST_Int8
   app __x1__ = (GetValueFromBuffer O.ViewedArrayBuffer indexedPosition elementType true CONST_Unordered)
   return __x1__
 }
