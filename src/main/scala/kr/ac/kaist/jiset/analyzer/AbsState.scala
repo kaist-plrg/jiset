@@ -8,18 +8,20 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // abstract states
 case class AbsState(
+  reachable: Boolean,
   map: Map[String, AbsType] = Map()
 ) {
-  // bottom check
-  def isBottom: Boolean = map.isEmpty
+  import AbsState._
 
-  // lookup
-  def apply(x: String): AbsType = map.getOrElse(x, AbsType.Absent)
+  // bottom check
+  def isBottom: Boolean = !reachable
 
   // normalization
-  def normalized: AbsState =
-    if (map.exists { case (_, v) => v == AbsType.Bot }) AbsState.Bot
+  def normalized: AbsState = {
+    if (!reachable) Bot
+    else if (map.exists { case (_, v) => v.isBottom }) Bot
     else this
+  }
 
   // partial order
   def ⊑(that: AbsState): Boolean = {
@@ -31,25 +33,47 @@ case class AbsState(
   def !⊑(that: AbsState): Boolean = !(this ⊑ that)
 
   // join operator
-  def ⊔(that: AbsState): AbsState = {
-    val keys = this.map.keySet ++ that.map.keySet
-    val map = keys.map(key => key -> (this(key) ⊔ that(key))).toMap
-    AbsState(map.filter { case (_, v) => v != AbsType.Absent })
-  }
+  def ⊔(that: AbsState): AbsState = AbsState(
+    reachable = this.reachable || that.reachable,
+    map = {
+      val keys = this.map.keySet ++ that.map.keySet
+      val map = keys.map(key => key -> (this(key) ⊔ that(key))).toMap
+      map.filter { case (_, v) => !v.isMustAbsent }
+    }
+  )
 
   // meet operator
-  def ⊓(that: AbsState): AbsState = {
-    val keys = this.map.keySet ++ that.map.keySet
-    val map = keys.map(key => key -> (this(key) ⊓ that(key))).toMap
-    AbsState(map.filter { case (_, v) => v != AbsType.Absent }).normalized
-  }
+  def ⊓(that: AbsState): AbsState = AbsState(
+    reachable = this.reachable && that.reachable,
+    map = {
+      val keys = this.map.keySet ++ that.map.keySet
+      val map = keys.map(key => key -> (this(key) ⊓ that(key))).toMap
+      map.filter { case (_, v) => !v.isMustAbsent }
+    }
+  ).normalized
 
-  // variable update
-  def +(pair: (String, AbsType)): AbsState = {
-    val (x, t) = pair
-    if (t.isBottom) AbsState.Bot
-    else AbsState(map = map + (x -> t))
+  // define variable
+  def define(x: String, t: AbsType): AbsState = norm({
+    if (t.isBottom) Bot
+    else copy(map = map + (x -> t))
+  })
+
+  // lookup references
+  def lookup(x: String)(implicit model: Model): AbsType = norm {
+    val AbsType(ts) = this(x)
+    val local = ts - Absent
+    val global = if (ts contains Absent) model(x).set else Set()
+    AbsType(local ++ global)
   }
+  def lookup(ref: AbsRef)(implicit model: Model): AbsType = norm(ref match {
+    case AbsId(x) => lookup(x)
+    case _ => ???
+  })
+
+  // update reference
+  def update(ref: AbsRef, t: AbsType)(implicit model: Model): AbsState = norm(ref match {
+    case _ => ???
+  })
 
   // conversion to string
   override def toString: String = {
@@ -59,8 +83,17 @@ case class AbsState(
     })
     app.toString
   }
+
+  // private helper functions
+  private def norm(f: => AbsState): AbsState = if (isBottom) Bot else f
+  private def norm(f: => AbsType): AbsType = if (isBottom) AbsType.Bot else f
+  private def apply(x: String): AbsType =
+    if (reachable) map.getOrElse(x, Absent.abs) else AbsType.Bot
 }
 object AbsState {
   // bottom value
-  val Bot: AbsState = AbsState()
+  val Bot: AbsState = AbsState(reachable = false)
+
+  // empty value
+  val Empty: AbsState = AbsState(reachable = true)
 }

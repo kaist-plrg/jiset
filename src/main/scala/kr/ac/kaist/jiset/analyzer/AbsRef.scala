@@ -10,5 +10,5 @@ sealed trait AbsRef {
   }
 }
 case class AbsId(name: String) extends AbsRef
-case class AbsStrProp(base: Type, str: String) extends AbsRef
-case class AbsGeneralProp(base: Type, prop: Type) extends AbsRef
+case class AbsStrProp(base: AbsType, str: String) extends AbsRef
+case class AbsGeneralProp(base: AbsType, prop: AbsType) extends AbsRef

@@ -6,9 +6,6 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.util.Useful._
 
 package object analyzer {
-  // absent abstract type
-  val ABSENT = AbsType.Absent
-
   // type sensitivity
   var USE_VIEW = true
 
@@ -70,4 +67,15 @@ package object analyzer {
   } catch {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
+
+  // singleton types
+  type Null = Null.type
+  type Undef = Undef.type
+  type Absent = Absent.type
+
+  // implicit conversion
+  implicit def double2num(x: Double) = Num(x)
+  implicit def bigint2bigint(x: scala.BigInt) = BigInt(x)
+  implicit def string2str(x: String) = Str(x)
+  implicit def boolean2bool(x: Boolean) = Bool(x)
 }

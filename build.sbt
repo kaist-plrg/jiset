@@ -49,7 +49,6 @@ lazy val analyzerStringifyTest = taskKey[Unit]("Launch analyzer stringify tests 
 
 // ir
 lazy val irTest = taskKey[Unit]("Launch ir tests")
-lazy val irBasicTest = taskKey[Unit]("Launch basic ir tests")
 lazy val irBeautifierTest = taskKey[Unit]("Launch beautifier ir tests (small)")
 
 // jiset
@@ -104,6 +103,5 @@ lazy val jiset = (project in file("."))
     analyzerStringifyTest := (testOnly in Test).toTask(" *.analyzer.Stringify*Test").value,
     // ir
     irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
-    irBasicTest := (testOnly in Test).toTask(" *.ir.Basic*Test").value,
 		irBeautifierTest := (testOnly in Test).toTask(" *.ir.Beautifier*Test").value
   )

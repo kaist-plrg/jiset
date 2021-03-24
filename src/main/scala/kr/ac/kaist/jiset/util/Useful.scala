@@ -277,12 +277,4 @@ object Useful {
   // get raw version
   def getRawVersion(version: String): String =
     if (version == "recent") RECENT_VERSION else version
-
-  // conversion to specific type
-  implicit class UnsafeTypeConverter(x: Any) {
-    def to[T]: T = to[T](s"Type conversion failed: $x")
-    def to[T](msg: => String): T = try { x.asInstanceOf[T] } catch {
-      case e: java.lang.ClassCastException => error(msg)
-    }
-  }
 }

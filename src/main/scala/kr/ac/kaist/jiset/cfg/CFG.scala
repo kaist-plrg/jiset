@@ -29,55 +29,12 @@ class CFG(val spec: ECMAScript) {
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
-  // initial global variables and heaps
-  def getGlobal: (Map[String, Value], Map[Loc, Obj]) = {
-    var env = globalMethods
-    var heap = Map[Loc, Obj]()
-
-    val (consts, intrinsics, symbols) = getNames
-
-    // constants
-    for (x <- consts) {
-      val const = Const(x.substring("CONST_".length))
-      env += x -> const
-    }
-
-    // intrinsics
-    for (x <- intrinsics) {
-      val name = x.substring("INTRINSIC_".length).replaceAll("_", ".")
-      env += x -> NamedAddr(s"%$name%")
-    }
-
-    // symbols
-    for (x <- symbols) {
-      val desc = x.substring("SYMBOL_".length).replaceAll("_", ".")
-      val loc = NamedAddr(s"@$desc")
-      env += x -> loc
-      heap += loc -> SymbolObj(desc)
-    }
-
-    (env, heap)
-  }
-
   // get fids of syntax-directed algorithms
   def getSyntaxFids(lhs: String, method: String): Set[Int] =
     spec.getSyntaxAlgo(lhs, method).map(algo2fid(_))
 
-  //////////////////////////////////////////////////////////////////////////////
-  // Private Helper Functions
-  //////////////////////////////////////////////////////////////////////////////
-  // get global methods
-  private def globalMethods: Map[String, Value] = (for {
-    func <- funcs
-    name <- func.algo.head match {
-      case NormalHead(name, _) => Some(name)
-      case MethodHead(base, methodName, _, _) => Some(s"${base}DOT${methodName}")
-      case _ => None
-    }
-  } yield name -> Clo(func.uid)).toMap
-
   // get constant names
-  private def getNames: (Set[String], Set[String], Set[String]) = {
+  def getNames = {
     var consts: Set[String] = Set()
     var intrinsics: Set[String] = Set()
     var symbols: Set[String] = Set()
@@ -89,6 +46,11 @@ class CFG(val spec: ECMAScript) {
       }
     }
     for (algo <- spec.algos) ConstExtractor.walk(algo.rawBody)
-    (consts, intrinsics, symbols)
+    (
+      consts,
+      intrinsics,
+      symbols,
+      spec.grammar.nameMap.keySet
+    )
   }
 }

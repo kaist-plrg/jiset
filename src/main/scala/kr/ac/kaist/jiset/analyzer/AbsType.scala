@@ -23,8 +23,16 @@ case class AbsType(
   // meet operator
   def ⊓(that: AbsType): AbsType = AbsType(this.set intersect that.set)
 
+  // conversion to normal completion
+  def toComp: AbsType = AbsType(set.map(_.toComp: Type))
+
+  // absent check
+  def isMustAbsent: Boolean = set == Set(Absent)
+  def isAbsent: Set[Boolean] = set.map(_ == Absent)
+
   // conversion to string
   override def toString: String = {
+    if (set.size == 0) "⊥"
     if (set.size == 1) set.head.toString
     else set.mkString("(", " | ", ")")
   }
@@ -32,9 +40,6 @@ case class AbsType(
 object AbsType {
   // bottom value
   val Bot: AbsType = AbsType()
-
-  // absent value
-  val Absent: AbsType = AbsType(AbsentT)
 
   // constructor
   def apply(seq: Type*): AbsType = AbsType(seq.toSet)

@@ -30,8 +30,8 @@ class AbsSemantics(
   // worklist
   lazy val worklist: Worklist[ControlPoint] = new StackWorklist(npMap.keySet)
 
-  // global variables
-  lazy val globalVars: Map[String, AbsType] = ???
+  // model
+  lazy val model = new Model(cfg)
 
   // statistics
   lazy val stat = new Stat(this)
@@ -48,7 +48,7 @@ class AbsSemantics(
     rpMap.keySet.filter(_.func.name == fname)
 
   // lookup
-  def apply(np: NP): AbsState = npMap.getOrElse(np, AbsState())
+  def apply(np: NP): AbsState = npMap.getOrElse(np, AbsState.Bot)
   def apply(rp: ReturnPoint): AbsType = rpMap.getOrElse(rp, AbsType.Bot)
 
   // get all return edges
@@ -95,19 +95,19 @@ class AbsSemantics(
     params: List[Param],
     args: List[Type]
   ): AbsState = {
-    var st = AbsState.Bot
+    var st = AbsState.Empty
     import Param.Kind._
     @tailrec
     def aux(ps: List[Param], as: List[Type]): Unit = (ps, as) match {
       case (param :: pl, arg :: al) =>
-        st += param.name -> AbsType(arg)
+        st = st.define(param.name, arg.abs)
         aux(pl, al)
       case (Param(name, Optional) :: tl, Nil) =>
-        st += name -> ABSENT
+        st = st.define(name, Absent.abs)
         aux(tl, Nil)
       case (Param(name, Normal) :: tl, Nil) =>
         alarm(s"arity mismatch (remaining normal parameters): ${params.mkString(", ")}")
-        st += name -> ABSENT
+        st = st.define(name, Absent.abs)
         aux(tl, Nil)
       case (Nil, Nil) =>
       case (Nil, _) =>
@@ -145,8 +145,7 @@ class AbsSemantics(
   }
 
   // update return points
-  def doReturn(pair: (ReturnPoint, AbsType)): Unit = {
-    val (rp, newT) = pair
+  def doReturn(rp: ReturnPoint, newT: AbsType): Unit = {
     val oldT = this(rp)
     if (newT !⊑ oldT) {
       rpMap += rp -> (oldT ⊔ newT)
@@ -200,9 +199,9 @@ class AbsSemantics(
   // get arguments
   def getArgs(head: SyntaxDirectedHead): List[AbsType] = head.types.map {
     case (name, astName) =>
-      val v = AbsType(AstT(astName))
-      if (head.optional contains name) v ⊔ ABSENT
-      else v
+      val ty = AstT(astName).abs
+      if (head.optional contains name) ty ⊔ Absent.abs
+      else ty
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -281,13 +280,13 @@ class AbsSemantics(
   private def getAlgoTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
     case (head: SyntaxDirectedHead) if isTarget(head, algo) =>
       head.optional.subsets.map(opt => {
-        var st = AbsState.Bot
+        var st = AbsState.Empty
         val tys = head.types.map {
           case (name, _) if opt contains name =>
-            st += name -> ABSENT
-            AbsentT
+            st = st.define(name, Absent.abs)
+            Absent
           case (name, astName) =>
-            st += name -> AbsType(AstT(astName))
+            st = st.define(name, AstT(astName).abs)
             AstT(astName)
         }
         (tys, st)

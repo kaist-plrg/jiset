@@ -4,19 +4,60 @@ import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec._
-import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head, SyntaxDirectedHead }
+import kr.ac.kaist.jiset.spec.algorithm.{ NormalHead, MethodHead }
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console._
 import scala.util.matching.Regex
 
 // TODO more manual modelings
 class Model(cfg: CFG) {
-  // // global variables and heaps
-  // lazy val global: (Map[String, AbsValue], Map[Loc, AbsObj]) = getGlobal
+  // global variables
+  def apply(x: String): AbsType = globalVars.getOrElse(x, Absent.abs)
+  private lazy val globalVars: Map[String, AbsType] = (
+    globalMethods ++
+    getPredefs ++
+    Map(
+      "CONTEXT" -> NameT("ExecutionContext").abs,
+      "EXECUTION_STACK" -> ListT(NameT("ExecutionContext")).abs,
+      "INTRINSICS" -> NameT("IntrinsicsMap").abs,
+      "PRIMITIVE" -> NameT("Primitive").abs,
+      "REALM" -> NameT("RealmRecord").abs,
+      "Object" -> "Object".abs,
+      "String" -> "String".abs,
+      "Symbol" -> "Symbol".abs,
+      "Undefined" -> "Undefined".abs,
+      "Null" -> "Null".abs,
+      "Boolean" -> "Boolean".abs,
+      "Reference" -> "Reference".abs,
+      "Number" -> "Number".abs,
+      "BigInt" -> "BigInt".abs,
+      "StrList" -> ListT(StrT).abs,
+      "AnyStr" -> StrT.abs,
+      "AnyBool" -> BoolT.abs,
+      "AnyNum" -> NumT.abs,
+    )
+  )
 
-  // // type map
-  // lazy val typeMap: Map[String, TyInfo] =
-  //   typeInfos.map(info => info.name -> info).toMap
+  // get global methods
+  private def globalMethods: Map[String, AbsType] = (for {
+    func <- cfg.funcs
+    name <- func.algo.head match {
+      case NormalHead(name, _) => Some(name)
+      case MethodHead(base, methodName, _, _) => Some(s"${base}DOT${methodName}")
+      case _ => None
+    }
+  } yield name -> CloT(func.uid).abs).toMap
+
+  // get pre-defined global variables
+  private def getPredefs: Map[String, AbsType] = {
+    var env = Map[String, AbsType]()
+    val (consts, intrinsics, symbols, asts) = cfg.getNames
+    for (x <- consts) env += x -> ConstT(x.substring("CONST_".length)).abs
+    for (x <- intrinsics) env += x -> NameT("Object").abs
+    for (x <- symbols) env += x -> SymbolT.abs
+    for (x <- asts) env += s"AST_$x" -> AstT(x).abs
+    env
+  }
 
   // //////////////////////////////////////////////////////////////////////////////
   // // Private Helper Functions
