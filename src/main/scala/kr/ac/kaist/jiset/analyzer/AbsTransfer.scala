@@ -12,8 +12,7 @@ import scala.annotation.tailrec
 // abstract transfer function
 object AbsTransfer {
   // result of abstract transfer
-  val monad = new StateMonad[AbsState]
-  import monad._
+  import AbsState.monad._
 
   // abstract semantics
   val sem = AbsSemantics
@@ -80,8 +79,14 @@ object AbsTransfer {
         sem += NodePoint(cfg.next(call), view) -> newSt
       case branch @ Branch(_, expr) =>
         val (t, newSt) = transfer(expr)(st)
-        if (AT ⊑ t) sem += NodePoint(cfg.thenNext(branch), view) -> newSt
-        if (AF ⊑ t) sem += NodePoint(cfg.elseNext(branch), view) -> newSt
+        if (AT ⊑ t) {
+          val np = NodePoint(cfg.thenNext(branch), view)
+          sem += np -> prune(st, expr, true)(newSt)
+        }
+        if (AF ⊑ t) {
+          val np = NodePoint(cfg.elseNext(branch), view)
+          sem += np -> prune(st, expr, false)(newSt)
+        }
     }
   }
 
@@ -104,7 +109,7 @@ object AbsTransfer {
     }
   }
 
-  private class Helper(ret: ReturnPoint) {
+  class Helper(ret: ReturnPoint) extends PruneHelper {
     // function
     val func = ret.func
     val fid = func.uid
@@ -147,7 +152,9 @@ object AbsTransfer {
         _ <- put(AbsState.Bot)
       } yield AbruptT
       case IAssert(expr) => for {
+        st <- get
         t <- transfer(expr)
+        _ = modify(prune(st, expr, true))
       } yield assert(t, expr)
       case IPrint(expr) => for {
         t <- transfer(expr)
@@ -192,6 +199,9 @@ object AbsTransfer {
         st
       }
     }
+
+    def bottomCheck(t: AbsType): Result[Unit] =
+      if (t.isBottom) put(AbsState.Bot) else ()
 
     // unary algorithms
     type UnaryAlgo = (AbsState, AbsType) => AbsType
@@ -257,7 +267,14 @@ object AbsTransfer {
       })
       case EIsInstanceOf(base, name) => for {
         t <- transfer(base)
-      } yield BoolT
+        x = NameT(name).abs
+        y = t.escaped
+      } yield {
+        if (y.isBottom) AbsType.Bot
+        else if (x == y) AT
+        else if (x !⊑ y) AF
+        else BoolT
+      }
       case EGetSyntax(base) => StrT.abs
       case EParseSyntax(code, EStr(rule), flags) => AstT(rule).abs
       case EConvert(source, cop, flags) => for {

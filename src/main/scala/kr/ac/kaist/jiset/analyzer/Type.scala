@@ -26,21 +26,34 @@ sealed trait Type {
     }
   }
 
+  // remove types
+  def -(that: Type): Set[Type] =
+    if (this < that) Set() else typeAliasMap.get(this) match {
+      case Some(set) if set contains that => set - that
+      case _ => Set(this)
+    }
+
+  // get base types
+  def bases: Set[Type] = baseMap.getOrElse(this, Set(this))
+
   // get type names
-  def names: Set[String] = this match {
-    case NameT(name) if name endsWith "Object" => Set("Object")
-    case NameT("ReferenceRecord") => Set("Reference")
-    case SymbolT => Set("Symbol")
-    case ArithT => Set("Number", "BigInt", "String")
-    case NumericT => Set("Number", "BigInt")
-    case NumT | Num(_) => Set("Number")
-    case BigIntT | BigInt(_) => Set("BigInt")
-    case StrT | Str(_) => Set("String")
-    case BoolT | Bool(_) => Set("Boolean")
-    case Undef => Set("Undefined")
-    case Null => Set("Null")
-    case t => Set()
-  }
+  def typeNameSet: Set[String] = for {
+    x <- bases
+    y <- x.typeName
+  } yield y
+
+  // get name of base types
+  def typeName: Option[String] = optional(this match {
+    case NameT(name) if name endsWith "Object" => "Object"
+    case NameT("ReferenceRecord") => "Reference"
+    case SymbolT => "Symbol"
+    case NumT | Num(_) => "Number"
+    case BigIntT | BigInt(_) => "BigInt"
+    case StrT | Str(_) => "String"
+    case BoolT | Bool(_) => "Boolean"
+    case Undef => "Undefined"
+    case Null => "Null"
+  })
 
   // get parent types
   def parent: Option[Type] = optional(this match {
@@ -196,19 +209,29 @@ case object Absent extends SingleT
 
 // modeling
 object Type {
-  // pre-defined type set
-  val mergedPairs: List[(Set[Type], Type)] = List(
-    Set[Type](Bool(true), Bool(false)) -> BoolT,
-    Set[Type](NumT, BigIntT) -> NumericT,
-    Set[Type](NumericT, StrT) -> ArithT,
-    Set[Type](Null, Undef, BoolT, ArithT, SymbolT) -> PrimT,
-    Set[Type](NameT("Object"), PrimT) -> ESValueT,
+  // type aliases
+  val typeAlias: List[(Type, Set[Type])] = List(
+    BoolT -> Set[Type](Bool(true), Bool(false)),
+    NumericT -> Set[Type](NumT, BigIntT),
+    ArithT -> Set[Type](NumericT, StrT),
+    PrimT -> Set[Type](Null, Undef, BoolT, ArithT, SymbolT),
+    ESValueT -> Set[Type](NameT("Object"), PrimT),
   )
+  val typeAliasMap: Map[Type, Set[Type]] = typeAlias.toMap
+  val baseMap: Map[Type, Set[Type]] = {
+    var map = Map[Type, Set[Type]]()
+    for ((t, set) <- typeAlias) map += t -> set.flatMap(x => {
+      map.get(x).getOrElse(Set(x))
+    })
+    map
+  }
 
   // abstraction
   val abs: Type => AbsType = cached(AbsType(_))
 
-  // information
+  //////////////////////////////////////////////////////////////////////////////
+  // Type Information
+  //////////////////////////////////////////////////////////////////////////////
   case class Info(
     name: String,
     parent: Option[String],
@@ -437,7 +460,7 @@ object Type {
 
     // reference records
     Info("ReferenceRecord", Map(
-      "Value" -> AbsType(ESValueT, NameT("EnvironmentRecord"), UNRESOLVABLE),
+      "Base" -> AbsType(ESValueT, NameT("EnvironmentRecord"), UNRESOLVABLE),
       "ReferencedName" -> AbsType(StrT, SymbolT),
       "Strict" -> BoolT,
       "ThisValue" -> AbsType(ESValueT, EMPTY),
@@ -446,6 +469,11 @@ object Type {
     // environment records
     Info("EnvironmentRecord", Map(
       "SubMap" -> MapT(NameT("Binding")),
+    )),
+    Info("Binding", Map(
+      "BoundValue" -> ESValueT,
+      "Initialized" -> BoolT,
+      "Mutable" -> BoolT,
     )),
     Info("DeclarativeEnvironmentRecord", parent = "EnvironmentRecord", Map(
       "HasBinding" -> getClo("DeclarativeEnvironmentRecord.HasBinding"),

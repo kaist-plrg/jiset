@@ -24,6 +24,12 @@ case class AbsType private (
   // join operator
   def ⊔(that: AbsType): AbsType = new AbsType(this.set ++ that.set).norm
 
+  // meet operator
+  def ⊓(that: AbsType): AbsType = if (this == that) this else new AbsType({
+    this.set.filter(_.ancestors.exists(that.set contains _)) ++
+      that.set.filter(_.ancestors.exists(this.set contains _))
+  })
+
   // conversion to normal completion
   def toComp: AbsType = new AbsType(set.map(_.toComp: Type)).norm
 
@@ -52,23 +58,19 @@ case class AbsType private (
     else if (set contains F) Set(false)
     else Set()
 
-  // remove types
-  def -(t: Type): AbsType = new AbsType(set - t)
-  def --(ts: Iterable[Type]): AbsType = new AbsType(set -- ts)
-
   // normalize types
   private def norm: AbsType = new AbsType(normalizedSet)
   private def normalizedSet: Set[Type] = {
     var set = this.set
     @tailrec
-    def aux(pairs: List[(Set[Type], Type)]): Unit = pairs match {
-      case (from, to) :: remain if from subsetOf set =>
+    def aux(pairs: List[(Type, Set[Type])]): Unit = pairs match {
+      case (to, from) :: remain if from subsetOf set =>
         set --= from
         set += to
       case _ :: remain if set.size >= 2 => aux(remain)
       case _ =>
     }
-    aux(Type.mergedPairs)
+    aux(Type.typeAlias)
     set
   }
 
@@ -90,6 +92,13 @@ case class AbsType private (
     case BigInt(n) => BigInt(-n)
   })
 
+  // remove types
+  def -(z: Type): AbsType = new AbsType(for {
+    x <- set
+    y <- x.bases
+    t <- y - z
+  } yield t).norm
+
   // abstract boolean negation
   def unary_!(): AbsType = new AbsType(bool.map(b => Bool(!b))).norm
 
@@ -109,7 +118,7 @@ case class AbsType private (
   // conversion to string
   override def toString: String = {
     if (set.size == 0) "⊥"
-    if (set.size == 1) set.head.toString
+    else if (set.size == 1) set.head.toString
     else set.mkString("(", " | ", ")")
   }
 }

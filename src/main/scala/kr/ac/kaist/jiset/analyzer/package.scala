@@ -18,7 +18,7 @@ package object analyzer {
   // options
   var TARGET: Option[String] = None
   var USE_VIEW: Boolean = true
-  var PRUNE: Boolean = false
+  var PRUNE: Boolean = true
   var CHECK_ALARM: Boolean = false
   var REPL: Boolean = false
   var DOT: Boolean = false

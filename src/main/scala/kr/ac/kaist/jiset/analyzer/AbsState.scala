@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.analyzer._
-import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.{ Appender, StateMonad }
 import kr.ac.kaist.jiset.util.Useful._
 
 // abstract states
@@ -45,6 +45,7 @@ case class AbsState(
   // define variable
   def define(x: String, t: AbsType): AbsState = norm({
     if (t.isBottom) Bot
+    else if (t.isMustAbsent) this
     else copy(map = map + (x -> t))
   })
 
@@ -118,9 +119,10 @@ case class AbsState(
   def pop(list: AbsType, k: AbsType): (AbsType, AbsState) = notyet(Absent, "pop")
 
   // typeof operation
-  def typeof(t: AbsType): AbsType = norm {
-    AbsType(t.set.flatMap(_.names).map(Str(_): Type))
-  }
+  def typeof(t: AbsType): AbsType = norm(AbsType(for {
+    x <- t.set
+    y <- x.typeNameSet
+  } yield Str(y): Type))
 
   // conversion to string
   override def toString: String = {
@@ -149,4 +151,7 @@ object AbsState {
 
   // empty value
   val Empty: AbsState = AbsState(reachable = true)
+
+  // monad helper
+  val monad: StateMonad[AbsState] = new StateMonad[AbsState]
 }
