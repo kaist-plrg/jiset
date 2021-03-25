@@ -27,7 +27,10 @@ object AnalyzeREPL {
   private val completer: TreeCompleter =
     new TreeCompleter(Command.commands.map(optionNode(_)): _*)
   private def optionNode(cmd: Command) =
-    node(cmd.name :: cmd.options.map(argNode(_)): _*)
+    node(cmd.name :: (cmd match {
+      case CmdGraph => cfg.funcs.map(x => node(x.name))
+      case _ => cmd.options.map(argNode(_))
+    }): _*)
   private def argNode(opt: CmdOption) =
     node(s"-${opt.name}" :: getArgNodes(opt): _*)
   private def getArgNodes(opt: CmdOption): List[TreeCompleter.Node] = opt match {
@@ -144,8 +147,17 @@ object AnalyzeREPL {
         case CmdLog.name :: _ =>
           Stat.dump(); true
         case CmdGraph.name :: args =>
-          val depth = optional(args.head.toInt)
-          dumpCFG(Some(cp), depth = depth); true
+          optional(args.head.toInt) match {
+            case depth @ Some(_) => dumpCFG(Some(cp), depth = depth)
+            case None =>
+              val func = cfg.funcs.find(x => args contains x.name)
+              val targetCp = func match {
+                case Some(func) => ReturnPoint(func, View(List()))
+                case None => cp
+              }
+              dumpCFG(Some(targetCp))
+          }
+          true
         case CmdExit.name :: _ => error("stop for debugging")
         case CmdStop.name :: _ =>
           stop(); false
