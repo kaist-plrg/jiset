@@ -131,11 +131,11 @@ object AnalyzeREPL {
             case s"-${ BlockTarget.name }" :: bp => addBreak(BlockTarget, bp)
             case _ => println("Inappropriate option")
           }; true
-        case CmdBreakList.name :: _ =>
+        case CmdListBreak.name :: _ =>
           breakpoints.zipWithIndex.foreach {
             case (bp, i) => println("%s: %-15s %s".format(i, bp._1, bp._2))
           }; true
-        case CmdBreakRm.name :: args =>
+        case CmdRmBreak.name :: args =>
           args.headOption match {
             case None => println("need arguments")
             case Some(idx) if idx.toInt < breakpoints.size => breakpoints.remove(idx.toInt)
@@ -186,8 +186,8 @@ private object Command {
     CmdHelp,
     CmdContinue,
     CmdBreak,
-    CmdBreakList,
-    CmdBreakRm,
+    CmdListBreak,
+    CmdRmBreak,
     CmdLog,
     CmdGraph,
     CmdExit,
@@ -218,9 +218,9 @@ private case object CmdBreak extends Command("break", "Add a break point.") {
   override val options = List(FuncTarget, BlockTarget)
 }
 
-private case object CmdBreakList extends Command("break-list", "Show the list of break points.")
+private case object CmdListBreak extends Command("list-break", "Show the list of break points.")
 
-private case object CmdBreakRm extends Command("break-rm", "Remove a break point.")
+private case object CmdRmBreak extends Command("rm-break", "Remove a break point.")
 
 private case object CmdLog extends Command("log", "Dump the state.")
 
