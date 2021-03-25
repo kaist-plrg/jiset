@@ -278,5 +278,29 @@
   {
     "tokens": "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} .",
     "inst": "let elementType = CONST_Int8"
+  },
+  {
+    "tokens": "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for Element Type id:{type} .",
+    "inst": "let elementSize = AnyNum"
+  },
+  {
+    "tokens": "Else , let id:{rawValue} be a List whose elements are bytes from id:{block} at indices id:{byteIndex} ( inclusive ) through id:{byteIndex} + id:{elementSize} ( exclusive ) .",
+    "inst": "let rawValue = NumList"
+  },
+  {
+    "tokens": "Let id:{rawValue} be a List of length id:{elementSize} whose elements are nondeterministically chosen byte values .",
+    "inst": "let rawValue = NumList"
+  },
+  {
+    "tokens": "Let id:{value} be the byte elements of id:{rawBytes} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2019 binary32 value .",
+    "inst": "let value = AnyNum"
+  },
+  {
+    "tokens": "Let id:{value} be the byte elements of id:{rawBytes} concatenated and interpreted as a little - endian bit string encoding of an IEEE 754 - 2019 binary64 value .",
+    "inst": "let value = AnyNum"
+  },
+  {
+    "tokens": "If ! IsBigIntElementType ( id:{type} ) is value:{true} , return the BigInt value that corresponds to id:{intValue} .",
+    "inst": "{ app __ibet__ = (IsBigIntElementType type) [! __ibet__ ] if __ibet__ return AnyBigInt else AnyNum }"
   }
 ]

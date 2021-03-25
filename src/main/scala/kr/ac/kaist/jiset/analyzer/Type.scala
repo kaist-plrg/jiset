@@ -15,6 +15,7 @@ sealed trait Type {
 
   // get ancestor types
   def ancestors: Set[Type] = parent.map(_.ancestors).getOrElse(Set()) + this
+  def strictAncestors: Set[Type] = parent.map(_.ancestors).getOrElse(Set())
 
   // check sub typing
   @tailrec
@@ -41,6 +42,13 @@ sealed trait Type {
     x <- bases
     y <- x.typeName
   } yield y
+
+  // get instance name
+  def instanceName: Option[String] = optional(this match {
+    case AstT(name) => name
+    case NameT(name) => name
+    case _ => error("no instance name")
+  })
 
   // get name of base types
   def typeName: Option[String] = optional(this match {
@@ -235,15 +243,14 @@ object Type {
   case class Info(
     name: String,
     parent: Option[String],
-    props: Map[String, AbsType]
-  )
-  object Info {
-    // constructor
-    def apply(name: String, props: Map[String, AbsType]): Info =
-      Info(name, None, props)
-    def apply(name: String, parent: String, props: Map[String, AbsType]): Info =
-      Info(name, Some(parent), props)
-  }
+    lazyProps: () => Map[String, AbsType]
+  ) { lazy val props: Map[String, AbsType] = lazyProps() }
+
+  // constructors
+  def I(name: String, parent: String, props: => Map[String, AbsType]): Info =
+    Info(name, Some(parent), () => props)
+  def I(name: String, props: => Map[String, AbsType]): Info =
+    Info(name, None, () => props)
 
   // property map
   type PropMap = Map[String, AbsType]
@@ -321,20 +328,20 @@ object Type {
   // TODO extract from specification
   private def getInfos: List[Info] = List(
     // realm records
-    Info("RealmRecord", Map(
+    I("RealmRecord", Map(
       "Intrinsics" -> MapT(NameT("OrdinaryObject")),
       "GlobalObject" -> NameT("OrdinaryObject"),
       "GlobalEnv" -> NameT("GlobalEnvironmentRecord"),
       "TemplateMap" -> ListT(NameT("TemplatePair")),
       "HostDefined" -> Undef,
     )),
-    Info("TemplatePair", Map(
+    I("TemplatePair", Map(
       "Site" -> AstT("TemplateLiteral"),
       "Array" -> NameT("Object"),
     )),
 
     // property descriptors
-    Info("PropertyDescriptor", Map(
+    I("PropertyDescriptor", Map(
       "Value" -> AbsType(ESValueT, Absent),
       "Writable" -> AbsType(BoolT, Absent),
       "Get" -> AbsType(NameT("FunctionObject"), Undef, Absent),
@@ -344,7 +351,7 @@ object Type {
     )),
 
     // objects
-    Info("Object", Map(
+    I("Object", Map(
       "SubMap" -> MapT(NameT("PropertyDescriptor")),
       "Prototype" -> AbsType(NameT("Object"), Null),
       "Extensible" -> BoolT,
@@ -360,9 +367,9 @@ object Type {
       "Delete" -> getClo("OrdinaryObject.Delete"),
       "OwnPropertyKeys" -> getClo("OrdinaryObject.OwnPropertyKeys"),
     )),
-    Info("OrdinaryObject", parent = "Object", Map()),
-    Info("FunctionObject", parent = "OrdinaryObject", Map()),
-    Info("ECMAScriptFunctionObject", parent = "FunctionObject", Map(
+    I("OrdinaryObject", parent = "Object", Map()),
+    I("FunctionObject", parent = "OrdinaryObject", Map()),
+    I("ECMAScriptFunctionObject", parent = "FunctionObject", Map(
       "Environment" -> NameT("EnvironmentRecord"),
       "FormalParameters" -> AstT("FormalParameters"),
       "ECMAScriptCode" -> AstT("FunctionBody"),
@@ -377,28 +384,28 @@ object Type {
       "Call" -> getClo("ECMAScriptFunctionObject.Call"),
       "Construct" -> getClo("ECMAScriptFunctionObject.Construct"),
     )),
-    Info("BuiltinFunctionObject", parent = "FunctionObject", Map(
+    I("BuiltinFunctionObject", parent = "FunctionObject", Map(
       "InitialName" -> AbsType(StrT, Null),
       "Call" -> getClo("BuiltinFunctionObject.Call"),
       "Construct" -> getClo("BuiltinFunctionObject.Construct"),
       "Realm" -> NameT("RealmRecord"),
     )),
-    Info("BoundFunctionExoticObject", parent = "Object", Map(
+    I("BoundFunctionExoticObject", parent = "Object", Map(
       "BoundTargetFunction" -> NameT("FunctionObject"),
       "BoundThis" -> ESValueT,
       "BoundArguments" -> ListT(ESValueT),
       "Call" -> getClo("BoundFunctionExoticObject.Call"),
       "Construct" -> getClo("BoundFunctionExoticObject.Construct"),
     )),
-    Info("ArrayExoticObject", parent = "Object", Map(
+    I("ArrayExoticObject", parent = "Object", Map(
       "DefineOwnProperty" -> getClo("ArrayExoticObject.DefineOwnProperty"),
     )),
-    Info("StringExoticObject", parent = "Object", Map(
+    I("StringExoticObject", parent = "Object", Map(
       "GetOwnProperty" -> getClo("StringExoticObject.GetOwnProperty"),
       "DefineOwnProperty" -> getClo("StringExoticObject.DefineOwnProperty"),
       "OwnPropertyKeys" -> getClo("StringExoticObject.OwnPropertyKeys"),
     )),
-    Info("ArgumentsExoticObject", parent = "Object", Map(
+    I("ArgumentsExoticObject", parent = "Object", Map(
       "ParameterMap" -> AbsType(NameT("OrdinaryObject"), Undef),
       "GetOwnProperty" -> getClo("ArgumentsExoticObject.GetOwnProperty"),
       "DefineOwnProperty" -> getClo("ArgumentsExoticObject.DefineOwnProperty"),
@@ -406,7 +413,7 @@ object Type {
       "Set" -> getClo("ArgumentsExoticObject.Set"),
       "Delete" -> getClo("ArgumentsExoticObject.Delete"),
     )),
-    Info("IntegerIndexedExoticObject", parent = "Object", Map(
+    I("IntegerIndexedExoticObject", parent = "Object", Map(
       "ViewedArrayBuffer" -> NameT("ArrayBufferObject"),
       "ArrayLength" -> NumT,
       "ByteOffset" -> NumT,
@@ -420,7 +427,7 @@ object Type {
       "Delete" -> getClo("IntegerIndexedExoticObject.Delete"),
       "OwnPropertyKeys" -> getClo("IntegerIndexedExoticObject.OwnPropertyKeys"),
     )),
-    Info("ModuleNamespaceExoticObject", parent = "Object", Map(
+    I("ModuleNamespaceExoticObject", parent = "Object", Map(
       "Module" -> NameT("ModuleRecord"),
       "Exports" -> ListT(StrT),
       "Prototype" -> Null,
@@ -435,10 +442,10 @@ object Type {
       "Delete" -> getClo("ModuleNamespaceExoticObject.Delete"),
       "OwnPropertyKeys" -> getClo("ModuleNamespaceExoticObject.OwnPropertyKeys"),
     )),
-    Info("ImmutablePrototypeExoticObject", parent = "Object", Map(
+    I("ImmutablePrototypeExoticObject", parent = "Object", Map(
       "SetPrototypeOf" -> getClo("ImmutablePrototypeExoticObject.SetPrototypeOf"),
     )),
-    Info("ProxyObject", parent = "Object", Map(
+    I("ProxyObject", parent = "Object", Map(
       "ProxyHandler" -> AbsType(NameT("Object"), Null),
       "ProxyTarget" -> AbsType(NameT("Object"), Null),
       "GetPrototypeOf" -> getClo("ProxyObject.GetPrototypeOf"),
@@ -455,14 +462,14 @@ object Type {
       "Call" -> getClo("ProxyObject.Call"),
       "Construct" -> getClo("ProxyObject.Construct"),
     )),
-    Info("ArrayBufferObject", parent = "Object", Map(
+    I("ArrayBufferObject", parent = "Object", Map(
       "ArrayBufferData" -> AbsType(NameT("DataBlock"), Null),
       "ArrayBufferByteLength" -> NumT,
       "ArrayBufferDetachKey" -> Undef,
     )),
 
     // reference records
-    Info("ReferenceRecord", Map(
+    I("ReferenceRecord", Map(
       "Base" -> AbsType(ESValueT, NameT("EnvironmentRecord"), UNRESOLVABLE),
       "ReferencedName" -> AbsType(StrT, SymbolT),
       "Strict" -> BoolT,
@@ -470,15 +477,16 @@ object Type {
     )),
 
     // environment records
-    Info("EnvironmentRecord", Map(
+    I("EnvironmentRecord", Map(
+      "OuterEnv" -> AbsType(NameT("EnvironmentRecord"), Null),
       "SubMap" -> MapT(NameT("Binding")),
     )),
-    Info("Binding", Map(
+    I("Binding", Map(
       "BoundValue" -> ESValueT,
       "Initialized" -> BoolT,
       "Mutable" -> BoolT,
     )),
-    Info("DeclarativeEnvironmentRecord", parent = "EnvironmentRecord", Map(
+    I("DeclarativeEnvironmentRecord", parent = "EnvironmentRecord", Map(
       "HasBinding" -> getClo("DeclarativeEnvironmentRecord.HasBinding"),
       "CreateMutableBinding" -> getClo("DeclarativeEnvironmentRecord.CreateMutableBinding"),
       "CreateImmutableBinding" -> getClo("DeclarativeEnvironmentRecord.CreateImmutableBinding"),
@@ -490,7 +498,8 @@ object Type {
       "HasSuperBinding" -> getClo("DeclarativeEnvironmentRecord.HasSuperBinding"),
       "WithBaseObject" -> getClo("DeclarativeEnvironmentRecord.WithBaseObject"),
     )),
-    Info("ObjectEnvironmentRecord", parent = "EnvironmentRecord", Map(
+    I("ObjectEnvironmentRecord", parent = "EnvironmentRecord", Map(
+      "withEnvironment" -> BoolT,
       "BindingObject" -> NameT("Object"),
       "HasBinding" -> getClo("ObjectEnvironmentRecord.HasBinding"),
       "CreateMutableBinding" -> getClo("ObjectEnvironmentRecord.CreateMutableBinding"),
@@ -502,7 +511,7 @@ object Type {
       "HasSuperBinding" -> getClo("ObjectEnvironmentRecord.HasSuperBinding"),
       "WithBaseObject" -> getClo("ObjectEnvironmentRecord.WithBaseObject"),
     )),
-    Info("FunctionEnvironmentRecord", parent = "DeclarativeEnvironmentRecord", Map(
+    I("FunctionEnvironmentRecord", parent = "DeclarativeEnvironmentRecord", Map(
       "ThisValue" -> ESValueT,
       "ThisBindingStatus" -> AbsType(LEXICAL, INITIALIZED, UNINITIALIZED),
       "FunctionObject" -> NameT("Object"),
@@ -513,7 +522,8 @@ object Type {
       "GetThisBinding" -> getClo("FunctionEnvironmentRecord.GetThisBinding"),
       "GetSuperBase" -> getClo("FunctionEnvironmentRecord.GetSuperBase"),
     )),
-    Info("GlobalEnvironmentRecord", parent = "EnvironmentRecord", Map(
+    I("GlobalEnvironmentRecord", parent = "EnvironmentRecord", Map(
+      "OuterEnv" -> Null,
       "ObjectRecord" -> NameT("ObjectEnvironmentRecord"),
       "GlobalThisValue" -> NameT("Object"),
       "DeclarativeRecord" -> NameT("DeclarativeEnvironmentRecord"),
@@ -537,9 +547,16 @@ object Type {
       "CreateGlobalVarBinding" -> getClo("GlobalEnvironmentRecord.CreateGlobalVarBinding"),
       "CreateGlobalFunctionBinding" -> getClo("GlobalEnvironmentRecord.CreateGlobalFunctionBinding"),
     )),
+    I("ModuleEnvironmentRecord", parent = "DeclarativeEnvironmentRecord", Map(
+      "OuterEnv" -> NameT("GlobalEnvironmentRecord"),
+      "GetBindingValue" -> getClo("ModuleEnvironmentRecord.GetBindingValue"),
+      "HasThisBinding" -> getClo("ModuleEnvironmentRecord.HasThisBinding"),
+      "GetThisBinding" -> getClo("ModuleEnvironmentRecord.GetThisBinding"),
+      "CreateImportBinding" -> getClo("ModuleEnvironmentRecord.CreateImportBinding"),
+    )),
 
     // execution contexts
-    Info("ExecutionContext", Map(
+    I("ExecutionContext", Map(
       "Function" -> AbsType(NameT("FunctionObject"), Null),
       "Realm" -> NameT("RealmRecord"),
       "ScriptOrModule" -> AbsType(NameT("ScriptRecord"), NameT("ModuleRecord")),
@@ -549,13 +566,13 @@ object Type {
     )),
 
     // job callback records
-    Info("JobCallbackRecord", Map(
+    I("JobCallbackRecord", Map(
       "Callback" -> NameT("FunctionObject"),
       "HostDefined" -> EMPTY,
     )),
 
     // agent records
-    Info("AgentRecord", Map(
+    I("AgentRecord", Map(
       "LittleEndian" -> BoolT,
       "CanBlock" -> BoolT,
       "Signifier" -> Undef,
@@ -565,7 +582,7 @@ object Type {
       "CandidateExecution" -> NameT("CandidateExecutionRecord"),
       "KeptAlive" -> ListT(NameT("Object")),
     )),
-    Info("CandidateExecutionRecord", Map(
+    I("CandidateExecutionRecord", Map(
       "EventsRecords" -> NilT,
       "ChosenValues" -> NilT,
       "AgentOrder" -> Undef,
@@ -577,7 +594,7 @@ object Type {
     )),
 
     // script records
-    Info("ScriptRecord", Map(
+    I("ScriptRecord", Map(
       "Realm" -> AbsType(NameT("RealmRecord"), Undef),
       "Environment" -> AbsType(NameT("EnvironmentRecord"), Undef),
       "ECMAScriptCode" -> AstT("Script"),
@@ -585,20 +602,20 @@ object Type {
     )),
 
     // module record
-    Info("ModuleRecord", Map(
+    I("ModuleRecord", Map(
       "Realm" -> AbsType(NameT("RealmRecord"), Undef),
       "Environment" -> AbsType(NameT("ModuleEnvironmentRecord"), Undef),
       "Namespace" -> AbsType(NameT("Object"), Undef),
       "HostDefined" -> EMPTY,
     )),
-    Info("CyclicModuleRecord", parent = "ModuleRecord", Map(
+    I("CyclicModuleRecord", parent = "ModuleRecord", Map(
       "Status" -> AbsType(UNLINKED, LINKING, LINKED, EVALUATING, EVALUATED),
       "EvaluationError" -> AbsType(AbruptT, Undef),
       "DFSIndex" -> AbsType(NumT, Undef),
       "DFSAncestorIndex" -> AbsType(NumT, Undef),
       "RequestedModules" -> ListT(StrT),
     )),
-    Info("SourceTextModuleRecord", parent = "CyclicModuleRecord", Map(
+    I("SourceTextModuleRecord", parent = "CyclicModuleRecord", Map(
       "ECMAScriptCode" -> AstT("Module"),
       "Context" -> NameT("ExecutionContext"),
       "ImportMeta" -> AbsType(NameT("Object"), EMPTY),
@@ -607,22 +624,22 @@ object Type {
       "IndirectExportEntries" -> ListT(NameT("ExportEntryRecord")),
       "StarExportEntries" -> ListT(NameT("ExportEntryRecord")),
     )),
-    Info("ImportEntryRecord", Map(
+    I("ImportEntryRecord", Map(
       "ModuleRequest" -> StrT,
       "ImportName" -> StrT,
       "LocalName" -> StrT,
     )),
-    Info("ExportEntryRecord", Map(
+    I("ExportEntryRecord", Map(
       "ExportName" -> AbsType(StrT, Null),
       "ModuleRequest" -> AbsType(StrT, Null),
       "ImportName" -> AbsType(StrT, Null),
       "LocalName" -> AbsType(StrT, Null),
     )),
-    Info("PrimitiveMethod", Map(
+    I("PrimitiveMethod", Map(
       "Number" -> NameT("NumberMethod"),
       "BigInt" -> NameT("BigIntMethod"),
     )),
-    Info("NumberMethod", Map(
+    I("NumberMethod", Map(
       "unit" -> Num(1),
       "unaryMinus" -> getClo("Number::unaryMinus"),
       "bitwiseNOT" -> getClo("Number::bitwiseNOT"),
@@ -644,7 +661,7 @@ object Type {
       "bitwiseOR" -> getClo("Number::bitwiseOR"),
       "toString" -> getClo("Number::toString"),
     )),
-    Info("BigIntMethod", Map(
+    I("BigIntMethod", Map(
       "unit" -> BigInt(1),
       "unaryMinus" -> getClo("BigInt::unaryMinus"),
       "bitwiseNOT" -> getClo("BigInt::bitwiseNOT"),

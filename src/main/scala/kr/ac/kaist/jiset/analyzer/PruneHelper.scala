@@ -15,14 +15,15 @@ trait PruneHelper { this: AbsTransfer.Helper =>
     pass: Boolean
   ): Updater = {
     val pruneRef = PruneRef(st, pass)
-    expr match {
+    st => expr match {
       case _ if !PRUNE => error("no prune")
       case pruneRef(ref, t) =>
-        if (t.isBottom) pure(AbsState.Bot) else ref match {
-          case RefId(Id(x)) => _.define(x, t)
-          case _ => st => st
+        if (t.isBottom) AbsState.Bot
+        else ref match {
+          case RefId(Id(x)) => st.define(x, t)
+          case _ => st
         }
-      case _ => st => st
+      case _ => st
     }
   }
 
@@ -69,12 +70,9 @@ trait PruneHelper { this: AbsTransfer.Helper =>
   // purning for type checks
   def pruneType(l: AbsType, r: AbsType, pass: Boolean): AbsType = {
     optional[AbsType](r.set.head match {
-      case Str("Object") if r.set.size == 1 => AbsType(l.set.collect {
-        case t @ NameT(x) if pass == x.endsWith("Object") => t
-        case t if !pass => t
-      })
       case Str(name) if r.set.size == 1 =>
         val t: Type = name match {
+          case "Object" => NameT("Object")
           case "Symbol" => SymbolT
           case "Number" => NumT
           case "BigInt" => BigIntT

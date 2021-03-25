@@ -30,9 +30,11 @@ object Global {
       "Number" -> "Number",
       "BigInt" -> "BigInt",
       "StrList" -> ListT(StrT),
+      "NumList" -> ListT(NumT),
       "AnyStr" -> StrT,
       "AnyBool" -> BoolT,
       "AnyNum" -> NumT,
+      "AnyBigInt" -> BigIntT,
     )
   )
 

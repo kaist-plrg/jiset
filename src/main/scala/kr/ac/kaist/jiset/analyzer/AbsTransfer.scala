@@ -217,6 +217,9 @@ object AbsTransfer {
       "abs" -> ((st, ty) => NumT),
     )
 
+    // integer post-fix pattern
+    val intPostFix = "(\\D*)(\\d+)".r
+
     // transfer function for expressions
     def transfer(expr: Expr): Result[AbsType] = expr match {
       case ExistCheck(x) => x
@@ -267,16 +270,14 @@ object AbsTransfer {
         case NormalT(_) | AbruptT => T
         case _ => F
       })
+      case EIsInstanceOf(base, intPostFix(name, kStr)) => for {
+        v <- transfer(base)
+        t <- get(_.isInstanceOf(v.escaped, name, kStr.toInt))
+      } yield t
       case EIsInstanceOf(base, name) => for {
-        t <- transfer(base)
-        x = NameT(name).abs
-        y = t.escaped
-      } yield {
-        if (y.isBottom) AbsType.Bot
-        else if (x == y) AT
-        else if (x !⊑ y) AF
-        else BoolT
-      }
+        v <- transfer(base)
+        t <- get(_.isInstanceOf(v.escaped, name))
+      } yield t
       case EGetSyntax(base) => StrT.abs
       case EParseSyntax(code, EStr(rule), flags) => AstT(rule).abs
       case EConvert(source, cop, flags) => for {
@@ -378,33 +379,39 @@ object AbsTransfer {
     }
 
     // transfer function for unary operators
-    def transfer(uop: UOp): AbsType => AbsType = t => uop match {
-      case ONeg => -t
-      case ONot => !t
-      case OBNot => NumT
+    def transfer(uop: UOp): AbsType => AbsType = t => {
+      if (t.isBottom) AbsType.Bot
+      else uop match {
+        case ONeg => -t
+        case ONot => !t
+        case OBNot => NumT
+      }
     }
 
     // transfer function for binary operators
-    def transfer(bop: BOp): (AbsType, AbsType) => AbsType = (l, r) => bop match {
-      case OPlus => arithBOp(l, r)
-      case OSub => arithBOp(l, r)
-      case OMul => arithBOp(l, r)
-      case OPow => numericBOp(l, r)
-      case ODiv => numericBOp(l, r)
-      case OUMod => numericBOp(l, r)
-      case OMod => numericBOp(l, r)
-      case OLt => BoolT
-      case OEq => l =^= r
-      case OEqual => BoolT
-      case OAnd => l && r
-      case OOr => l || r
-      case OXor => l ^ r
-      case OBAnd => NumT
-      case OBOr => NumT
-      case OBXOr => NumT
-      case OLShift => NumT
-      case OSRShift => NumT
-      case OURShift => NumT
+    def transfer(bop: BOp): (AbsType, AbsType) => AbsType = (l, r) => {
+      if (l.isBottom || r.isBottom) AbsType.Bot
+      else bop match {
+        case OPlus => arithBOp(l, r)
+        case OSub => arithBOp(l, r)
+        case OMul => arithBOp(l, r)
+        case OPow => numericBOp(l, r)
+        case ODiv => numericBOp(l, r)
+        case OUMod => numericBOp(l, r)
+        case OMod => numericBOp(l, r)
+        case OLt => BoolT
+        case OEq => l =^= r
+        case OEqual => BoolT
+        case OAnd => l && r
+        case OOr => l || r
+        case OXor => l ^ r
+        case OBAnd => NumT
+        case OBOr => NumT
+        case OBXOr => NumT
+        case OLShift => NumT
+        case OSRShift => NumT
+        case OURShift => NumT
+      }
     }
     private def arithBOp(l: AbsType, r: AbsType): AbsType =
       if (l.isBottom || r.isBottom) AbsType.Bot
@@ -464,12 +471,12 @@ object AbsTransfer {
       case ("StringLiteral", "StringValue" | "SV") => StrT
       case (_, "TV" | "TRV") => StrT
       case (_, "MV") => NumT
+      case (_, "Contains") => BoolT
+      case (_, prop) if cfg.spec.grammar.nameMap contains prop => AstT(prop)
       case _ =>
         val fids = cfg.getSyntaxFids(name, prop)
-        if (fids.isEmpty) if (prop == "Contains") BoolT else {
-          alarm(s"$name.$prop does not exist")
-        }
-        fids.foreach(fid => {
+        if (fids.isEmpty) alarm(s"$name.$prop does not exist")
+        else fids.foreach(fid => {
           val func = cfg.fidMap(fid)
           func.algo.head match {
             case (head: SyntaxDirectedHead) =>

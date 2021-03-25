@@ -25,10 +25,10 @@ case class AbsType private (
   def ⊔(that: AbsType): AbsType = new AbsType(this.set ++ that.set).norm
 
   // meet operator
-  def ⊓(that: AbsType): AbsType = if (this == that) this else new AbsType({
+  def ⊓(that: AbsType): AbsType = if (this == that) this else new AbsType((
     this.set.filter(_.ancestors.exists(that.set contains _)) ++
-      that.set.filter(_.ancestors.exists(this.set contains _))
-  })
+    that.set.filter(_.ancestors.exists(this.set contains _))
+  ))
 
   // conversion to normal completion
   def toComp: AbsType = new AbsType(set.map(_.toComp: Type)).norm
@@ -61,7 +61,7 @@ case class AbsType private (
   // normalize types
   private def norm: AbsType = new AbsType(normalizedSet)
   private def normalizedSet: Set[Type] = {
-    var set = this.set
+    var set = this.set.filter(!_.strictAncestors.exists(this.set contains _))
     @tailrec
     def aux(pairs: List[(Type, Set[Type])]): Unit = pairs match {
       case (to, from) :: remain if from subsetOf set =>
@@ -75,13 +75,12 @@ case class AbsType private (
   }
 
   // equality between abstract types
-  def =^=(that: AbsType): AbsType = ((this.set.size, that.set.size) match {
-    case (1, 1) => (this.set.head, that.set.head) match {
-      case (l: SingleT, r: SingleT) => Bool(l == r)
-      case _ => BoolT
-    }
-    case _ => BoolT
-  }).abs
+  def =^=(that: AbsType): AbsType = (this.set.toList, that.set.toList) match {
+    case (Nil, Nil) => AbsType.Bot
+    case (List(l: SingleT), List(r: SingleT)) => Bool(l == r).abs
+    case _ if (this ⊓ that).isBottom => AF
+    case _ => BoolT.abs
+  }
 
   // abstract numeric negation
   def unary_-(): AbsType = new AbsType(set.collect {

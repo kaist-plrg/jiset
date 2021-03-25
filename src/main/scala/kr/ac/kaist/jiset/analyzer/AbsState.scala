@@ -71,6 +71,7 @@ case class AbsState(
       val t = nameT(prop)
       if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")
       t
+    case ListT(_) if prop == "length" => NumT
     case _ => AbsType.Bot
   })
   def lookupGeneralProp(
@@ -123,6 +124,19 @@ case class AbsState(
     x <- t.set
     y <- x.typeNameSet
   } yield Str(y): Type))
+
+  // is-instance-of operation
+  def isInstanceOf(t: AbsType, name: String): AbsType = norm {
+    val names = for {
+      x <- t.set
+      y <- x.instanceName
+    } yield y
+    if (names.isEmpty) AbsType.Bot
+    else if (names == Set(name)) AT
+    else if (!names.contains(name)) AF
+    else BoolT
+  }
+  def isInstanceOf(t: AbsType, name: String, k: Int): AbsType = BoolT
 
   // conversion to string
   override def toString: String = {
