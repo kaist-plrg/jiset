@@ -53,6 +53,14 @@ class DotPrinter {
         // print call edges only for one call depth
         val rp = ReturnPoint(func, view)
         showPrev(rp, depth)
+      case (Some(cp), None) =>
+        val func = funcOf(cp)
+        val view = cp.view
+        doCluster((func, view), cur)
+
+        // print call edges only for one call depth
+        val rp = ReturnPoint(func, view)
+        showPrev(rp, 0)
       case _ =>
         val funcs: Set[(Function, View)] =
           getAllControlPoints.map(cp => (funcOf(cp), cp.view))
