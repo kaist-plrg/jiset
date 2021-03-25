@@ -65,14 +65,14 @@ case class AbsState(
     base: Type,
     prop: String,
     check: Boolean = true
-  ): AbsType = base match {
+  ): AbsType = base.escaped.fold(AbsType.Bot)(_ match {
     case AstT(_) => AbsType.Bot
     case (nameT: NameT) =>
       val t = nameT(prop)
       if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")
       t
     case _ => AbsType.Bot
-  }
+  })
   def lookupGeneralProp(
     base: Type,
     prop: AbsType,

@@ -399,6 +399,7 @@ object Type {
       "OwnPropertyKeys" -> getClo("StringExoticObject.OwnPropertyKeys"),
     )),
     Info("ArgumentsExoticObject", parent = "Object", Map(
+      "ParameterMap" -> AbsType(NameT("OrdinaryObject"), Undef),
       "GetOwnProperty" -> getClo("ArgumentsExoticObject.GetOwnProperty"),
       "DefineOwnProperty" -> getClo("ArgumentsExoticObject.DefineOwnProperty"),
       "Get" -> getClo("ArgumentsExoticObject.Get"),
@@ -438,6 +439,8 @@ object Type {
       "SetPrototypeOf" -> getClo("ImmutablePrototypeExoticObject.SetPrototypeOf"),
     )),
     Info("ProxyObject", parent = "Object", Map(
+      "ProxyHandler" -> AbsType(NameT("Object"), Null),
+      "ProxyTarget" -> AbsType(NameT("Object"), Null),
       "GetPrototypeOf" -> getClo("ProxyObject.GetPrototypeOf"),
       "SetPrototypeOf" -> getClo("ProxyObject.SetPrototypeOf"),
       "IsExtensible" -> getClo("ProxyObject.IsExtensible"),
@@ -620,6 +623,7 @@ object Type {
       "BigInt" -> NameT("BigIntMethod"),
     )),
     Info("NumberMethod", Map(
+      "unit" -> Num(1),
       "unaryMinus" -> getClo("Number::unaryMinus"),
       "bitwiseNOT" -> getClo("Number::bitwiseNOT"),
       "exponentiate" -> getClo("Number::exponentiate"),
@@ -641,6 +645,7 @@ object Type {
       "toString" -> getClo("Number::toString"),
     )),
     Info("BigIntMethod", Map(
+      "unit" -> BigInt(1),
       "unaryMinus" -> getClo("BigInt::unaryMinus"),
       "bitwiseNOT" -> getClo("BigInt::bitwiseNOT"),
       "exponentiate" -> getClo("BigInt::exponentiate"),

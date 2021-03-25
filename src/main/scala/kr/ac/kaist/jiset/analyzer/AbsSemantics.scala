@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec._
-import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head, SyntaxDirectedHead, Param }
+import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender
 import scala.Console._
@@ -98,6 +98,14 @@ object AbsSemantics {
     st
   }
 
+  // pruning this value for method algorithms
+  def pruneThis(func: Function, args: List[AbsType]): List[AbsType] = {
+    (func.algo.head, args) match {
+      case (head: MethodHead, thisT :: args) => NameT(head.base) :: args
+      case _ => args
+    }
+  }
+
   // handle calls
   def doCall(
     call: Call,
@@ -106,7 +114,7 @@ object AbsSemantics {
     args: List[AbsType],
     retVar: String
   ): Unit = for {
-    tys <- getTypes(args)
+    tys <- getTypes(pruneThis(func, args))
     view = View(tys)
   } {
     val params = func.algo.params
