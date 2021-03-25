@@ -30,10 +30,12 @@ object AbsTransfer {
         apply(cp)
       } catch {
         case e: Throwable =>
-          if (LOG) Stat.dump()
-          printlnColor(RED)(s"[Error] An exception is thrown.")
-          println(sem.getString(cp, CYAN, true))
-          dumpCFG(Some(cp), depth = Some(5))
+          if (e.getMessage != "stop for debugging") {
+            if (LOG) Stat.dump()
+            printlnColor(RED)(s"[Error] An exception is thrown.")
+            println(sem.getString(cp, CYAN, true))
+            dumpCFG(Some(cp), depth = Some(5))
+          }
           throw e
       }
       Stat.iter += 1
