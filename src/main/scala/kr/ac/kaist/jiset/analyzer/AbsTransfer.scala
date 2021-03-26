@@ -160,7 +160,7 @@ object AbsTransfer {
         st <- get
         t <- transfer(expr)
         _ = modify(prune(st, expr, true))
-      } yield assert(t, expr)
+      } yield assert(t.escaped, expr)
       case IPrint(expr) => for {
         t <- transfer(expr)
         _ = printlnColor(GREEN)(s"[PRINT] $t")

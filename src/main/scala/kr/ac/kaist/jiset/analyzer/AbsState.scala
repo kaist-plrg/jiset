@@ -86,6 +86,7 @@ case class AbsState(
     }
     base match {
       case MapT(elem) => t ⊔= elem
+      case ListT(elem) if prop ⊑ NumT.abs => t ⊔= elem
       case _ =>
     }
     t
