@@ -44,11 +44,11 @@ sealed trait Type {
   } yield y
 
   // get instance name
-  def instanceName: Option[String] = optional(this match {
-    case AstT(name) => name
-    case NameT(name) => name
-    case _ => error("no instance name")
-  })
+  def instanceName: Set[String] = this match {
+    case AstT(name) => Set(name)
+    case NameT(name) => recSubTypes.getOrElse(name, Set())
+    case _ => Set("")
+  }
 
   // get name of base types
   def typeName: Option[String] = optional(this match {
@@ -262,7 +262,7 @@ object Type {
   lazy val infoMap: Map[String, Info] =
     infos.map(info => info.name -> info).toMap
 
-  // sub types
+  // direct subtypes
   lazy val subTypes: Map[String, Set[String]] = {
     var children = Map[String, Set[String]]()
     for {
@@ -271,6 +271,23 @@ object Type {
       set = children.getOrElse(parent, Set())
     } children += parent -> (set + info.name)
     children
+  }
+
+  // recursive subtypes
+  lazy val recSubTypes: Map[String, Set[String]] = {
+    var descs = Map[String, Set[String]]()
+    def aux(name: String): Set[String] = descs.get(name) match {
+      case Some(set) => set
+      case None =>
+        val set = (for {
+          sub <- subTypes.getOrElse(name, Set())
+          elem <- aux(sub)
+        } yield elem) + name
+        descs += name -> set
+        set
+    }
+    infos.collect { case Info(name, None, _) => aux(name) }
+    descs
   }
 
   // property map
