@@ -71,6 +71,7 @@ case class AbsState(
       val t = nameT(prop)
       if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")
       t
+    case NilT if prop == "length" => Num(0)
     case ListT(_) if prop == "length" => NumT
     case _ => AbsType.Bot
   })
@@ -84,11 +85,11 @@ case class AbsState(
       case Str(prop) => t ⊔= lookupStrProp(base, prop, check)
       case _ =>
     }
-    base match {
+    base.escaped.foreach(_ match {
       case MapT(elem) => t ⊔= elem
       case ListT(elem) if prop ⊑ NumT.abs => t ⊔= elem
       case _ =>
-    }
+    })
     t
   }
   def lookup(

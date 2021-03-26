@@ -409,7 +409,10 @@ object AbsTransfer {
         case ODiv => numericBOp(l, r)
         case OUMod => numericBOp(l, r)
         case OMod => numericBOp(l, r)
-        case OLt => BoolT
+        case OLt => (l.getSingle, r.getSingle) match {
+          case (Some(Num(l)), Some(Num(r))) => Bool(l < r)
+          case _ => BoolT
+        }
         case OEq => l =^= r
         case OEqual => BoolT
         case OAnd => l && r
