@@ -1415,6 +1415,7 @@ class Compiler private (val version: String) extends Compilers {
     "built-in function object" ^^^ "BuiltinFunctionObject" |||
     "chosen value record" ^^^ "ChosenValueRecord" |||
     "completion" ~ opt("record") ^^^ "Completion" |||
+    "environment record" ^^^ "EnvironmentRecord" |||
     "declarative environment record" ^^^ "DeclarativeEnvironmentRecord" |||
     "function environment record" ^^^ "FunctionEnvironmentRecord" |||
     "global environment record" ^^^ "GlobalEnvironmentRecord" |||

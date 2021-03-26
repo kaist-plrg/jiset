@@ -165,7 +165,7 @@ object AbsTransfer {
       case IAssert(expr) => for {
         st <- get
         t <- transfer(expr)
-        _ = modify(prune(st, expr, true))
+        _ <- modify(prune(st, expr, true))
       } yield assert(t.escaped, expr)
       case IPrint(expr) => for {
         t <- transfer(expr)
