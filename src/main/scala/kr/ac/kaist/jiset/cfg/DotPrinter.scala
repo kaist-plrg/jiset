@@ -44,8 +44,7 @@ class DotPrinter {
 
     // print functions
     (cur, depth) match {
-      case (Some(cp), depthOpt) =>
-        val depth = depthOpt.getOrElse(0)
+      case (Some(cp), Some(depth)) =>
         val func = funcOf(cp)
         val view = cp.view
         doCluster((func, view), cur)

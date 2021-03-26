@@ -155,7 +155,7 @@ object AnalyzeREPL {
                 case Some(func) => ReturnPoint(func, View(List()))
                 case None => cp
               }
-              dumpCFG(Some(targetCp))
+              dumpCFG(Some(targetCp), depth = Some(0))
           }
           true
         case CmdExit.name :: _ => error("stop for debugging")

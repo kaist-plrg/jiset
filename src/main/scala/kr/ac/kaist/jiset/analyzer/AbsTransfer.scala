@@ -20,10 +20,16 @@ object AbsTransfer {
   // initialize type infos
   Type.infos
 
+  // current control point
+  private var curCP: Option[ControlPoint] = None
+
   // fixpoint computation
   @tailrec
   final def compute: Unit = worklist.next match {
     case Some(cp) =>
+      // set the current control point
+      curCP = Some(cp)
+
       // alarm for weirdly-bottom'ed vars and objects
       try {
         if (REPL) AnalyzeREPL.run(cp)
@@ -43,6 +49,7 @@ object AbsTransfer {
       compute
     case None =>
       sem.noReturnCheck
+      if (DOT) dumpCFG(curCP, PDF)
       if (LOG) Stat.dump()
       Stat.close()
       nfAlarms.close()
