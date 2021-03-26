@@ -6,6 +6,7 @@
   assert (= __x0__ false)
   app __x1__ = (GetBase V)
   let base = __x1__
+  assert (is-instance-of base EnvironmentRecord)
   app __x2__ = (GetReferencedName V)
   app __x3__ = (base.InitializeBinding base __x2__ W)
   return __x3__

@@ -6,6 +6,7 @@
       let thisValue = __x1__
     } else {
       let refEnv = ref.Base
+      assert (is-instance-of refEnv EnvironmentRecord)
       app __x2__ = (refEnv.WithBaseObject refEnv)
       let thisValue = __x2__
     }

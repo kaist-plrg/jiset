@@ -3,7 +3,7 @@
   app __x0__ = (NewPromiseCapability INTRINSIC_Promise)
   let promiseCapability = [! __x0__]
   if (|| (! (= (typeof generator) Object)) (= generator.AsyncGeneratorState absent)) {
-    let badGeneratorError = ??? "TypeError"
+    let badGeneratorError = (new OrdinaryObject())
     app __x1__ = (Call promiseCapability.Reject undefined (new [badGeneratorError]))
     [! __x1__]
     return promiseCapability.Promise

@@ -12,6 +12,7 @@
     return [? __x4__]
   } else {
     let base = V.Base
+    assert (is-instance-of base EnvironmentRecord)
     app __x5__ = (base.GetBindingValue base V.ReferencedName V.Strict)
     return [? __x5__]
   }

@@ -10,7 +10,7 @@
     app __x3__ = (IteratorValue next)
     let nextItem = [? __x3__]
     if (! (= (typeof nextItem) Object)) {
-      app __x4__ = (ThrowCompletion ??? "TypeError")
+      app __x4__ = (ThrowCompletion (new OrdinaryObject()))
       let error = __x4__
       app __x5__ = (IteratorClose iteratorRecord error)
       return [? __x5__]

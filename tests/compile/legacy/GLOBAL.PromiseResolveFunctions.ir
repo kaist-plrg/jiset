@@ -8,7 +8,7 @@
   alreadyResolved.Value = true
   app __x1__ = (SameValue resolution promise)
   if (= __x1__ true) {
-    let selfResolutionError = ??? "TypeError"
+    let selfResolutionError = (new OrdinaryObject())
     app __x2__ = (RejectPromise promise selfResolutionError)
     return __x2__
   } else {}

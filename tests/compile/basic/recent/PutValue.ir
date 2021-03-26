@@ -21,6 +21,7 @@
     return undefined
   } else {
     let base = V.Base
+    assert (is-instance-of base EnvironmentRecord)
     app __x7__ = (base.SetMutableBinding base V.ReferencedName W V.Strict)
     return [? __x7__]
   }

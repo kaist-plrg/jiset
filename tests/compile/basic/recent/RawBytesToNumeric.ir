@@ -15,6 +15,6 @@
   if (= [! __x0__] true) ??? "Let id:{intValue} be the byte elements of id:{rawBytes} concatenated and interpreted as a bit string encoding of an unsigned little - endian binary number ." else ??? "Let id:{intValue} be the byte elements of id:{rawBytes} concatenated and interpreted as a bit string encoding of a binary little - endian two ' s complement number of bit length id:{elementSize} × 8 ."
   app __ibet__ = (IsBigIntElementType type)
   [! __ibet__]
-  if __ibet__ return AnyBigInt else AnyNum
+  if __ibet__ return AnyBigInt else return AnyNum
   ??? "Otherwise , return the Number value that corresponds to id:{intValue} ."
 }

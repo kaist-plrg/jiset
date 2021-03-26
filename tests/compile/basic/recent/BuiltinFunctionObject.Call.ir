@@ -8,7 +8,8 @@
   calleeContext.ScriptOrModule = null
   append calleeContext -> EXECUTION_STACK
   CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  ??? "Let id:{result} be the Completion Record that is the result of evaluating id:{F} in a manner that conforms to the specification of id:{F} . id:{thisArgument} is the value:{this} value , id:{argumentsList} provides the named parameters , and the NewTarget value is value:{undefined} ."
+  let result = undefined
+  ??? "need change for built-in libraries"
   if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) {
     let __x0__ = (- EXECUTION_STACK.length 1i)
     (pop EXECUTION_STACK __x0__)

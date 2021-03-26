@@ -20,6 +20,7 @@
     return deleteStatus
   } else {
     let base = ref.Base
+    assert (is-instance-of base EnvironmentRecord)
     app __x6__ = (base.DeleteBinding base ref.ReferencedName)
     return [? __x6__]
   }

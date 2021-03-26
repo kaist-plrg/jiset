@@ -5,7 +5,7 @@
   let check = __x1__
   app __x2__ = (IsAbruptCompletion check)
   if __x2__ {
-    let badGeneratorError = ??? "TypeError"
+    let badGeneratorError = (new OrdinaryObject())
     app __x3__ = (Call promiseCapability.Reject undefined (new [badGeneratorError]))
     [! __x3__]
     return promiseCapability.Promise

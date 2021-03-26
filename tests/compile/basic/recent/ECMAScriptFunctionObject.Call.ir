@@ -3,7 +3,7 @@
   app __x0__ = (PrepareForOrdinaryCall F undefined)
   let calleeContext = __x0__
   if (= F.IsClassConstructor true) {
-    let error = ??? "TypeError"
+    let error = (new OrdinaryObject())
     if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) {
       let __x1__ = (- EXECUTION_STACK.length 1i)
       (pop EXECUTION_STACK __x1__)

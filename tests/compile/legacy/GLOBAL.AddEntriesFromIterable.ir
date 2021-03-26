@@ -16,7 +16,7 @@
     app __x6__ = (IteratorValue next)
     let nextItem = [? __x6__]
     if (! (= (typeof nextItem) Object)) {
-      app __x7__ = (ThrowCompletion ??? "TypeError")
+      app __x7__ = (ThrowCompletion (new OrdinaryObject()))
       let error = __x7__
       app __x8__ = (IteratorClose iteratorRecord error)
       return [? __x8__]
