@@ -316,6 +316,15 @@ object AbsTransfer {
         e <- transfer(elem)
         c <- get(_.contains(l, e))
       } yield c
+      case EReturnIfAbrupt(ERef(ref), check) => for {
+        r <- transfer(ref)
+        t <- transfer(r)
+        newT = returnIfAbrupt(t, check)
+        _ <- {
+          if (newT.isBottom) put(AbsState.Bot)
+          else modify(_.update(r, newT))
+        }
+      } yield newT
       case EReturnIfAbrupt(expr, check) => for {
         t <- transfer(expr)
         newT = returnIfAbrupt(t, check)

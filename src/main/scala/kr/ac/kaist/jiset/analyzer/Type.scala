@@ -44,9 +44,9 @@ sealed trait Type {
   } yield y
 
   // get instance name
-  def instanceName: Set[String] = this match {
+  def instanceNameSet: Set[String] = this match {
     case AstT(name) => Set(name)
-    case NameT(name) => recSubTypes.getOrElse(name, Set())
+    case NameT(name) => recSubTypes.getOrElse(name, Set(name))
     case _ => Set("")
   }
 

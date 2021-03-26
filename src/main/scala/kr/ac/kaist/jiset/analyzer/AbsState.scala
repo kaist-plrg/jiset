@@ -66,7 +66,7 @@ case class AbsState(
     prop: String,
     check: Boolean = true
   ): AbsType = base.escaped.fold(AbsType.Bot)(_ match {
-    case AstT(_) => AbsType.Bot
+    case ESValueT => lookupStrProp(NameT("Object"), prop, check)
     case (nameT: NameT) =>
       val t = nameT(prop)
       if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")
@@ -131,7 +131,7 @@ case class AbsState(
   def isInstanceOf(t: AbsType, name: String): AbsType = norm {
     val names = for {
       x <- t.set
-      y <- x.instanceName
+      y <- x.instanceNameSet
     } yield y
     if (names.isEmpty) AbsType.Bot
     else if (names == Set(name)) AT
