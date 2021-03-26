@@ -125,7 +125,13 @@ object AbsTransfer {
         warning(expr.beautified)
         st
       }
-      case IExpr(expr) => transfer(expr)
+      case IExpr(expr) => for {
+        t <- transfer(expr)
+        _ <- {
+          if (t.isBottom) put(AbsState.Bot)
+          else pure(())
+        }
+      } yield ()
       case ILet(Id(x), expr) => for {
         t <- transfer(expr)
         _ <- modify(_.define(x, t))
@@ -207,6 +213,11 @@ object AbsTransfer {
 
     // check bottom abstract types
     def bottomCheck(f: Result[AbsType]): Result[AbsType] = bottomCheck(f, "")
+    def bottomCheck(f: Result[AbsType], expr: Expr, target: Any): Result[AbsType] =
+      expr match {
+        case EReturnIfAbrupt(_, true) => f
+        case _ => bottomCheck(f, target)
+      }
     def bottomCheck(f: Result[AbsType], target: Any): Result[AbsType] =
       for (t <- f) yield { bottomCheck(t, target); t }
     def bottomCheck(t: AbsType): Boolean = bottomCheck(t, "")
@@ -310,16 +321,13 @@ object AbsTransfer {
         newT = returnIfAbrupt(t, check)
         _ <- {
           if (newT.isBottom) put(AbsState.Bot)
-          else ()
+          else pure(())
         }
       } yield newT
       case expr @ ECopy(obj) => for {
         t <- transfer(obj)
       } yield AbsType(t.escaped.set.filter {
-        case NameT(_) => true
-        case ESValueT => true
-        case ListT(_) => true
-        case MapT(_) => true
+        case NameT(_) | ESValueT | NilT | ListT(_) | MapT(_) => true
         case _ => false
       })
       case EKeys(obj) => for {
@@ -333,7 +341,7 @@ object AbsTransfer {
         alarm(s"not yet implemented: ${expr.beautified}")
         (Absent, st)
       }
-    }, expr.beautified)
+    }, expr, expr.beautified)
 
     // existence check
     object ExistCheck {
