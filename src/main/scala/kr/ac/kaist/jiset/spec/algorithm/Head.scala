@@ -47,5 +47,5 @@ object Head {
   val thisValuePattern = "this\\w+Value".r
   val letEnvRecPattern = "1. Let ([_\\w]+) be the \\w+ Environment Record.*".r
   val letObjPattern = "1. Let ([_\\w]+) be the \\w+ object\\.".r
-  val methodDescPattern = """(?:The|When the)[\s\w\[\]]+method (?:of|for)[\s\w]+,? (_\w+_),? (?:takes (?:no )?arguments?|is called|that was created|which was created).*""".r
+  val methodDescPattern = """(?:The|When the)[\s\w\[\]]+method (?:of|for)[\s\w-]+,? (_\w+_),? (?:takes (?:no )?arguments?|is called|that was created|which was created).*""".r
 }

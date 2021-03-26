@@ -11,7 +11,7 @@
   if (= __x3__ true) throw TypeError else {}
   let viewOffset = view.ByteOffset
   let viewSize = view.ByteLength
-  ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for Element Type id:{type} ."
+  let elementSize = AnyNum
   if (< viewSize (+ getIndex elementSize)) throw RangeError else {}
   let bufferIndex = (+ getIndex viewOffset)
   app __x4__ = (GetValueFromBuffer buffer bufferIndex type false CONST_Unordered isLittleEndian)
