@@ -33,7 +33,7 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, Unit] {
     ("insens", BoolOption(c => USE_VIEW = false),
       "not use type sensitivity for parameters"),
     ("check-alarm", BoolOption(c => CHECK_ALARM = true),
-      "perform pruning"),
+      "check alarms"),
     ("target", StrOption((c, s) => TARGET = Some(s)),
       "set the target of analysis"),
     ("repl", BoolOption(c => REPL = true),

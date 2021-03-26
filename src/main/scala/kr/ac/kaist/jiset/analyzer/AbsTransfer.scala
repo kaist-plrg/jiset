@@ -20,16 +20,10 @@ object AbsTransfer {
   // initialize type infos
   Type.infos
 
-  // current control point
-  private var curCP: Option[ControlPoint] = None
-
   // fixpoint computation
   @tailrec
   final def compute: Unit = worklist.next match {
     case Some(cp) =>
-      // set the current control point
-      curCP = Some(cp)
-
       // alarm for weirdly-bottom'ed vars and objects
       try {
         if (REPL) AnalyzeREPL.run(cp)
@@ -49,7 +43,8 @@ object AbsTransfer {
       compute
     case None =>
       sem.noReturnCheck
-      if (DOT) dumpCFG(curCP, PDF)
+      if (DOT) dumpCFG(None, PDF)
+      if (REPL) AnalyzeREPL.runDirect(alarmCP)
       if (LOG) Stat.dump()
       Stat.close()
       nfAlarms.close()
@@ -88,11 +83,12 @@ object AbsTransfer {
         sem += NodePoint(cfg.next(call), view) -> newSt
       case branch @ Branch(_, expr) =>
         val (t, newSt) = transfer(expr)(st)
-        if (AT ⊑ t) {
+        val cond = t.escaped
+        if (AT ⊑ cond) {
           val np = NodePoint(cfg.thenNext(branch), view)
           sem += np -> prune(st, expr, true)(newSt)
         }
-        if (AF ⊑ t) {
+        if (AF ⊑ cond) {
           val np = NodePoint(cfg.elseNext(branch), view)
           sem += np -> prune(st, expr, false)(newSt)
         }
@@ -209,8 +205,15 @@ object AbsTransfer {
       }
     }
 
-    def bottomCheck(t: AbsType): Result[Unit] =
-      if (t.isBottom) put(AbsState.Bot) else ()
+    // check bottom abstract types
+    def bottomCheck(f: Result[AbsType]): Result[AbsType] = bottomCheck(f, "")
+    def bottomCheck(f: Result[AbsType], target: Any): Result[AbsType] =
+      for (t <- f) yield { bottomCheck(t, target); t }
+    def bottomCheck(t: AbsType): Boolean = bottomCheck(t, "")
+    def bottomCheck(t: AbsType, target: Any): Boolean = if (t.isBottom) {
+      alarm("bottom result" + (if (target == "") target else s" @ $target"))
+      true
+    } else false
 
     // unary algorithms
     type UnaryAlgo = (AbsState, AbsType) => AbsType
@@ -228,7 +231,7 @@ object AbsTransfer {
     val intPostFix = "(\\D*)(\\d+)".r
 
     // transfer function for expressions
-    def transfer(expr: Expr): Result[AbsType] = expr match {
+    def transfer(expr: Expr): Result[AbsType] = bottomCheck(expr match {
       case ExistCheck(x) => x
       case ShortCircuit(x) => x
       case ENum(n) => Num(n).abs
@@ -330,7 +333,7 @@ object AbsTransfer {
         alarm(s"not yet implemented: ${expr.beautified}")
         (Absent, st)
       }
-    }
+    }, expr.beautified)
 
     // existence check
     object ExistCheck {
@@ -381,13 +384,13 @@ object AbsTransfer {
     }
 
     // transfer function for reference values
-    def transfer(ref: AbsRef): Result[AbsType] = st => {
+    def transfer(ref: AbsRef): Result[AbsType] = bottomCheck(st => {
       (st.lookup(ref), st)
-    }
+    }, ref)
 
     // transfer function for unary operators
     def transfer(uop: UOp): AbsType => AbsType = t => {
-      if (t.isBottom) AbsType.Bot
+      if (bottomCheck(t)) AbsType.Bot
       else uop match {
         case ONeg => -t
         case ONot => !t
@@ -397,7 +400,7 @@ object AbsTransfer {
 
     // transfer function for binary operators
     def transfer(bop: BOp): (AbsType, AbsType) => AbsType = (l, r) => {
-      if (l.isBottom || r.isBottom) AbsType.Bot
+      if (bottomCheck(l) || bottomCheck(r)) AbsType.Bot
       else bop match {
         case OPlus => arithBOp(l, r)
         case OSub => arithBOp(l, r)
@@ -421,14 +424,14 @@ object AbsTransfer {
       }
     }
     private def arithBOp(l: AbsType, r: AbsType): AbsType =
-      if (l.isBottom || r.isBottom) AbsType.Bot
+      if (bottomCheck(l) || bottomCheck(r)) AbsType.Bot
       else if (l ⊑ StrT && r ⊑ StrT) StrT
       else if (l ⊑ NumT && r ⊑ NumT) NumT
       else if (l ⊑ BigIntT && r ⊑ BigIntT) BigIntT
       else if (l ⊑ NumericT && r ⊑ NumericT) NumericT
       else ArithT
     private def numericBOp(l: AbsType, r: AbsType): AbsType =
-      if (l.isBottom || r.isBottom) AbsType.Bot
+      if (bottomCheck(l) || bottomCheck(r)) AbsType.Bot
       else if (l ⊑ NumT && r ⊑ NumT) NumT
       else if (l ⊑ BigIntT && r ⊑ BigIntT) BigIntT
       else NumericT

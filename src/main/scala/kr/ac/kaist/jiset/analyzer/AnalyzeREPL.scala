@@ -28,7 +28,7 @@ object AnalyzeREPL {
     new TreeCompleter(Command.commands.map(optionNode(_)): _*)
   private def optionNode(cmd: Command) =
     node(cmd.name :: (cmd match {
-      case CmdGraph => cfg.funcs.map(x => node(x.name))
+      case CmdGraph => node("-total") :: cfg.funcs.map(x => node(x.name))
       case _ => cmd.options.map(argNode(_))
     }): _*)
   private def argNode(opt: CmdOption) =
@@ -116,7 +116,8 @@ object AnalyzeREPL {
     sem.getRetEdges(rp).map(_._1)
 
   // run repl
-  def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) {
+  def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) runDirect(cp)
+  def runDirect(cp: ControlPoint): Unit = {
     help
     println(sem.getString(cp, CYAN, true))
     try while (reader.readLine(prompt) match {
@@ -146,6 +147,9 @@ object AnalyzeREPL {
           }; true
         case CmdLog.name :: _ =>
           Stat.dump(); true
+        case CmdGraph.name :: List("-total") =>
+          dumpCFG(Some(cp), depth = None)
+          true
         case CmdGraph.name :: args =>
           optional(args.head.toInt) match {
             case depth @ Some(_) => dumpCFG(Some(cp), depth = depth)
