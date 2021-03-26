@@ -1048,6 +1048,7 @@ class Compiler private (val version: String) extends Compilers {
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case s if Try(s.toLong).isSuccess => EINum(s.toLong)
     case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
+    case err if err.endsWith("Error") => getErrorObj(err)
     case s => ENotSupported(s)
   }
 

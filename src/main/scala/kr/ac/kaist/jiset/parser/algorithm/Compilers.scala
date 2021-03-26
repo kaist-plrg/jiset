@@ -96,6 +96,9 @@ trait Compilers extends TokenListParsers {
     case _ => EUOp(ONot, e)
   }
 
+  // get error objects
+  def getErrorObj(name: String): Expr = parseExpr("(new OrdinaryObject())")
+
   // for-each instrutions for lists
   def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
     val list = getTempId
