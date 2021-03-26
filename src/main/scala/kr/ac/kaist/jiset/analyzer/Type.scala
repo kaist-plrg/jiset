@@ -176,13 +176,13 @@ case class NameT(name: String) extends PureType {
 case class AstT(name: String) extends PureType
 
 // constant types
-case class ConstT(name: String) extends PureType
+case class ConstT(name: String) extends PureType with SingleT
 
 // closure types
-case class CloT(fid: Int) extends PureType
+case class CloT(fid: Int) extends PureType with SingleT
 
 // list types
-case object NilT extends PureType
+case object NilT extends PureType with SingleT
 case class ListT(elem: PureType) extends PureType
 
 // sub mapping types

@@ -65,16 +65,24 @@ case class AbsState(
     base: Type,
     prop: String,
     check: Boolean = true
-  ): AbsType = base.escaped.fold(AbsType.Bot)(_ match {
-    case ESValueT => lookupStrProp(NameT("Object"), prop, check)
-    case (nameT: NameT) =>
-      val t = nameT(prop)
-      if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")
-      t
-    case NilT if prop == "length" => Num(0)
-    case ListT(_) if prop == "length" => NumT
-    case _ => AbsType.Bot
-  })
+  ): AbsType = (base, prop) match {
+    case (NormalT(t), "Type") => NORMAL.abs
+    case (NormalT(t), "Value") => t.abs
+    case (NormalT(t), "Target") => EMPTY.abs
+    case (AbruptT, "Type") => AbsType(BREAK, CONTINUE, RETURN, THROW)
+    case (AbruptT, "Value") => AbsType(ESValueT, EMPTY)
+    case (AbruptT, "Target") => AbsType(StrT, EMPTY)
+    case _ => base.escaped.fold(AbsType.Bot)(_ match {
+      case ESValueT => lookupStrProp(NameT("Object"), prop, check)
+      case (nameT: NameT) =>
+        val t = nameT(prop)
+        if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")
+        t
+      case NilT if prop == "length" => Num(0)
+      case ListT(_) if prop == "length" => NumT
+      case _ => AbsType.Bot
+    })
+  }
   def lookupGeneralProp(
     base: Type,
     prop: AbsType,

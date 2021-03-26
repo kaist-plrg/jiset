@@ -106,6 +106,11 @@ package object analyzer {
   val EVALUATED = ConstT("evaluated")
   val NUMBER = ConstT("Number")
   val BIGINT = ConstT("BigInt")
+  val NORMAL = ConstT("normal")
+  val BREAK = ConstT("break")
+  val CONTINUE = ConstT("continue")
+  val RETURN = ConstT("return")
+  val THROW = ConstT("throw")
 
   // singleton types
   type Null = Null.type

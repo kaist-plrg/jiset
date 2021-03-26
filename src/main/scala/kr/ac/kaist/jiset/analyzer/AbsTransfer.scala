@@ -120,7 +120,7 @@ object AbsTransfer {
     val fid = func.uid
 
     // transfer function for normal instructions
-    def transfer(inst: NormalInst): Updater = inst match {
+    def transfer(inst: NormalInst): Updater = bottomCheck((inst match {
       case IExpr(expr @ ENotSupported(msg)) => st => {
         warning(expr.beautified)
         st
@@ -175,7 +175,7 @@ object AbsTransfer {
         alarm(s"not yet implemented: ${inst.beautified}")
         st
       }
-    }
+    }): Updater)
 
     // transfer function for call instructions
     def transfer(call: Call, view: View): Updater = call.inst match {
@@ -212,6 +212,7 @@ object AbsTransfer {
     }
 
     // check bottom abstract types
+    def bottomCheck(f: Updater): Updater = st => if (st.isBottom) st else f(st)
     def bottomCheck(f: Result[AbsType]): Result[AbsType] = bottomCheck(f, "")
     def bottomCheck(f: Result[AbsType], expr: Expr, target: Any): Result[AbsType] =
       expr match {
