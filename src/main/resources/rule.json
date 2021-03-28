@@ -221,7 +221,7 @@
   },
   {
     "tokens": "Let id:{body} be the nt:{FunctionBody} , nt:{ConciseBody} , or nt:{AsyncConciseBody} that most closely contains id:{call} .",
-    "inst": "if AnyBool let body = FunctionBody else if AnyBool let body = ConciseBody else let body = AsyncConciseBody"
+    "inst": "if AnyBool let body = AST_FunctionBody else if AnyBool let body = AST_ConciseBody else let body = AST_AsyncConciseBody"
   },
   {
     "tokens": "If id:{body} is the nt:{FunctionBody} of a nt:{GeneratorBody} , return value:{false} .",
@@ -306,5 +306,17 @@
   {
     "tokens": "Let id:{result} be the Completion Record that is the result of evaluating id:{F} in a manner that conforms to the specification of id:{F} . id:{thisArgument} is the value:{this} value , id:{argumentsList} provides the named parameters , and the NewTarget value is value:{undefined} .",
     "inst": "{ let result = undefined ??? \"need change for built-in libraries\" }"
+  },
+  {
+    "tokens": "Return a List whose elements are id:{head} followed by the elements of id:{tail} .",
+    "inst": "{ let list = (copy-obj tail) prepend head -> list return list }"
+  },
+  {
+    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-module-namespace-exotic-objects} .",
+    "inst": "let internalSlotsList = StrList"
+  },
+  {
+    "tokens": "Let id:{sortedExports} be a List whose elements are the elements of id:{exports} ordered as if an Array of the same values had been sorted using % Array . prototype . sort % using value:{undefined} as id:{comparefn} .",
+    "inst": "let sortedExports = (copy-obj exports)"
   }
 ]

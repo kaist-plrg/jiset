@@ -300,7 +300,12 @@ object AbsTransfer {
         v <- transfer(base)
         t <- get(_.isInstanceOf(v.escaped, name))
       } yield t
-      case EGetSyntax(base) => StrT.abs
+      case EGetSyntax(base) => for {
+        b <- transfer(base)
+      } yield b.escaped.getSingle match {
+        case Some(Str("BooleanLiteral")) => AbsType(Str("true"), Str("false"))
+        case _ => StrT.abs
+      }
       case EParseSyntax(code, EStr(rule), flags) => AstT(rule).abs
       case EConvert(source, cop, flags) => for {
         t <- transfer(source)

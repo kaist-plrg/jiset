@@ -13,7 +13,9 @@ digraph {
   node8 [shape=none, margin=0, label=<<font color="black">
     <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
       <tr><td align="left">4:let tail = __x2__</td></tr>
-      <tr><td align="left">5:??? &quot;Return a List whose elements are id:{head} followed by the elements of id:{tail} .&quot;</td></tr>
+      <tr><td align="left">5:let list = (copy-obj tail)</td></tr>
+      <tr><td align="left">5:prepend head -&gt; list</td></tr>
+      <tr><td align="left">5:return list</td></tr>
     </table>
   </font>> color="black" fillcolor="white" style=filled]
   node4 [shape=none, margin=0, label=<<font color="black">

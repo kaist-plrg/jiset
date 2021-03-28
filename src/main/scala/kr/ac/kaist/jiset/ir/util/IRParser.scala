@@ -32,7 +32,10 @@ object IRParser extends Parser {
   }
 
   // head
-  lazy val head: Parser[Head] = "\\S+".r ~ { "(" ~> repsep(ident, ",") <~ ")" } ^^ {
-    case name ~ params => NormalHead(name, params.map(Param(_)))
+  lazy val head: Parser[Head] = "\\S+".r ~ { "(" ~> repsep(ident ~ opt("?"), ",") <~ ")" } ^^ {
+    case name ~ params => NormalHead(name, params.map {
+      case name ~ Some(_) => Param(name, Param.Kind.Optional)
+      case name ~ None => Param(name, Param.Kind.Normal)
+    })
   }
 }

@@ -418,12 +418,13 @@ object Type {
       "DefineOwnProperty" -> getClo("ArrayExoticObject.DefineOwnProperty"),
     )),
     I("StringExoticObject", parent = "Object", Map(
+      "StringData" -> StrT,
       "GetOwnProperty" -> getClo("StringExoticObject.GetOwnProperty"),
       "DefineOwnProperty" -> getClo("StringExoticObject.DefineOwnProperty"),
       "OwnPropertyKeys" -> getClo("StringExoticObject.OwnPropertyKeys"),
     )),
     I("ArgumentsExoticObject", parent = "Object", Map(
-      "ParameterMap" -> AbsType(NameT("OrdinaryObject"), Undef),
+      "ParameterMap" -> AbsType(NameT("OrdinaryObject")),
       "GetOwnProperty" -> getClo("ArgumentsExoticObject.GetOwnProperty"),
       "DefineOwnProperty" -> getClo("ArgumentsExoticObject.DefineOwnProperty"),
       "Get" -> getClo("ArgumentsExoticObject.Get"),
@@ -463,8 +464,8 @@ object Type {
       "SetPrototypeOf" -> getClo("ImmutablePrototypeExoticObject.SetPrototypeOf"),
     )),
     I("ProxyObject", parent = "Object", Map(
-      "ProxyHandler" -> AbsType(NameT("Object"), Null),
-      "ProxyTarget" -> AbsType(NameT("Object"), Null),
+      "ProxyHandler" -> AbsType(NameT("Object")),
+      "ProxyTarget" -> AbsType(NameT("Object")),
       "GetPrototypeOf" -> getClo("ProxyObject.GetPrototypeOf"),
       "SetPrototypeOf" -> getClo("ProxyObject.SetPrototypeOf"),
       "IsExtensible" -> getClo("ProxyObject.IsExtensible"),
@@ -623,7 +624,15 @@ object Type {
       "Realm" -> AbsType(NameT("RealmRecord"), Undef),
       "Environment" -> AbsType(NameT("ModuleEnvironmentRecord"), Undef),
       "Namespace" -> AbsType(NameT("Object"), Undef),
-      "HostDefined" -> EMPTY,
+      "HostDefined" -> Undef,
+      "GetExportedNames" -> getClo("ModuleRecord.GetExportedNames"),
+      "ResolveExport" -> getClo("ModuleRecord.ResolveExport"),
+      "Link" -> getClo("ModuleRecord.Link"),
+      "Evaluate" -> getClo("ModuleRecord.Evaluate"),
+    )),
+    I("ResolvedBindingRecord", Map(
+      "Module" -> NameT("ModuleRecord"),
+      "BindingName" -> StrT
     )),
     I("CyclicModuleRecord", parent = "ModuleRecord", Map(
       "Status" -> AbsType(UNLINKED, LINKING, LINKED, EVALUATING, EVALUATED),

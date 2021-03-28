@@ -179,7 +179,11 @@ object AnalyzeREPL {
         case CmdWorklist.name :: args =>
           worklist.foreach(println(_))
           true
-        case _ => continue = false; false
+        case Nil | List("") =>
+          continue = false; false
+        case cmd :: _ =>
+          println(s"The command `$cmd` does not exist. (Try `help`)")
+          true
       }
     }) {}
     catch {
