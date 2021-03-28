@@ -46,9 +46,9 @@
   let sourceString = (+ (+ (+ (+ (+ (+ prefix "anonymous(") P) "\n") ") {") bodyString) "}")
   app __x4__ = (StringToCodePoints sourceString)
   let sourceText = [! __x4__]
-  let parameterGoal = FormalParameters
-  let script = Script
-  let body = ScriptBody
+  let parameterGoal = AST_FormalParameters
+  let script = AST_Script
+  let body = AST_ScriptBody
   app __x5__ = (GetPrototypeFromConstructor newTarget fallbackProto)
   let proto = [? __x5__]
   let realmF = REALM

@@ -65,27 +65,31 @@ case class AbsState(
     base: Type,
     prop: String,
     check: Boolean = true
-  ): AbsType = {
-    val pureT = base.escaped.fold(AbsType.Bot)(_ match {
-      case ESValueT => lookupStrProp(NameT("Object"), prop, check)
+  ): AbsType = (base, prop) match {
+    case (NormalT(t), _) =>
+      val pureT = lookupStrProp(t, prop, false)
+      if (pureT.isMustAbsent || pureT.isBottom) prop match {
+        case "Type" => NORMAL.abs
+        case "Value" => t.abs
+        case "Target" => EMPTY.abs
+        case _ => Absent.abs
+      }
+      else pureT
+    case (AbruptT, "Type") => AbsType(BREAK, CONTINUE, RETURN, THROW)
+    case (AbruptT, "Value") => AbsType(ESValueT, EMPTY)
+    case (AbruptT, "Target") => AbsType(StrT)
+    case _ => base.escaped.fold(AbsType.Bot)(_ match {
+      case ESValueT => ESValueT.bases.foldLeft(AbsType.Bot) {
+        case (t, base) => lookupStrProp(base, prop, check)
+      }
       case (nameT: NameT) =>
         val t = nameT(prop)
-        if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")
+        // TODO if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")
         t
       case NilT if prop == "length" => Num(0)
       case ListT(_) | StrT | Str(_) if prop == "length" => NumT
       case _ => AbsType.Bot
     })
-    if (pureT.isBottom) (base, prop) match {
-      case (NormalT(t), "Type") => NORMAL.abs
-      case (NormalT(t), "Value") => t.abs
-      case (NormalT(t), "Target") => EMPTY.abs
-      case (AbruptT, "Type") => AbsType(BREAK, CONTINUE, RETURN, THROW)
-      case (AbruptT, "Value") => AbsType(ESValueT, EMPTY)
-      case (AbruptT, "Target") => AbsType(StrT, EMPTY)
-      case _ => AbsType.Bot
-    }
-    else pureT
   }
   def lookupGeneralProp(
     base: Type,

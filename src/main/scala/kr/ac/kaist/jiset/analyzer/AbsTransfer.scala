@@ -254,6 +254,14 @@ object AbsTransfer {
       case EUndef => Undef.abs
       case ENull => Null.abs
       case EAbsent => Absent.abs
+      case EMap(Ty("Completion"), props) =>
+        val map = props.toMap
+        (map.get(EStr("Type")), map.get(EStr("Value"))) match {
+          case (Some(ERef(RefId(Id("CONST_normal")))), Some(e)) => for {
+            t <- transfer(e)
+          } yield AbsType(t.escapedSet.map(NormalT(_): Type))
+          case _ => pure(AbruptT.abs)
+        }
       case EMap(Ty(name), props) => NameT(name).abs
       case EList(exprs) => for {
         ts <- join(exprs.map(transfer))

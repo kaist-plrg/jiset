@@ -17,9 +17,9 @@
       if (= F.ConstructorKind CONST_derived) inDerivedConstructor = true else {}
     } else {}
   } else {}
-  let parameterGoal = FormalParameters
-  let script = Script
-  let body = ScriptBody
+  let parameterGoal = AST_FormalParameters
+  let script = AST_Script
+  let body = AST_ScriptBody
   if (= strictCaller true) let strictEval = true else {
     access __x3__ = (script "IsStrict")
     let strictEval = __x3__
