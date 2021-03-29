@@ -318,5 +318,9 @@
   {
     "tokens": "Let id:{sortedExports} be a List whose elements are the elements of id:{exports} ordered as if an Array of the same values had been sorted using % Array . prototype . sort % using value:{undefined} as id:{comparefn} .",
     "inst": "let sortedExports = (copy-obj exports)"
+  },
+  {
+    "tokens": "Return an Iterator object ( link:{unhandled: sec-iterator-interface} ) whose code:{next} method iterates over all the String - valued keys of enumerable properties of id:{O} . The iterator object is never directly accessible to ECMAScript code . The mechanics and order of enumerating the properties is not specified but must conform to the rules specified below .",
+    "inst": "return (new Object())"
   }
 ]

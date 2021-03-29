@@ -153,7 +153,7 @@ sealed trait PureType extends Type {
   // upcast
   override def upcast: PureType = this match {
     case ListT(t) => ListT(t.upcast)
-    case MapT(t) => ListT(t.upcast)
+    case MapT(t) => MapT(t.upcast)
     case Num(_) => NumT
     case BigInt(_) => BigIntT
     case Str(_) => StrT
