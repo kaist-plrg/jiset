@@ -104,6 +104,7 @@ case class AbsState(
     base.escaped.foreach(_ match {
       case MapT(elem) => t ⊔= elem
       case ListT(elem) if prop ⊑ NumT.abs => t ⊔= elem
+      case StrT if prop ⊑ NumT.abs => t ⊔= StrT
       case _ =>
     })
     t

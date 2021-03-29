@@ -7,7 +7,7 @@
   M.Module = module
   let sortedExports = (copy-obj exports)
   M.Exports = sortedExports
-  ??? "Create own properties of id:{M} corresponding to the definitions in link:{unhandled: sec-module-namespace-objects} ."
+  M.SubMap = (new SubMap())
   module.Namespace = M
   return M
 }

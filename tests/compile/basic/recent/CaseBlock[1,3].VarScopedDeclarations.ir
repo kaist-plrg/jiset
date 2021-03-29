@@ -12,5 +12,11 @@
     __x3__ = (+ __x3__ 1i)
   }
   if (= CaseClauses1 absent) return declarations else {}
-  ??? "Return the result of appending to id:{declarations} the elements of the VarScopedDeclarations of the second nt:{CaseClauses} ."
+  access decls = (CaseClauses1 "VarScopedDeclarations")
+  let __i__ = 0i
+  while (< __i__ decls.length) {
+    append decls[__i__] -> declarations
+    __i__ = (+ __i__ 1i)
+  }
+  return decls
 }

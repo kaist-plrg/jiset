@@ -322,5 +322,37 @@
   {
     "tokens": "Return an Iterator object ( link:{unhandled: sec-iterator-interface} ) whose code:{next} method iterates over all the String - valued keys of enumerable properties of id:{O} . The iterator object is never directly accessible to ECMAScript code . The mechanics and order of enumerating the properties is not specified but must conform to the rules specified below .",
     "inst": "return (new Object())"
+  },
+  {
+    "tokens": "Return the result of appending to id:{declarations} the elements of the VarScopedDeclarations of the second nt:{CaseClauses} .",
+    "inst": "{ access decls = (CaseClauses1 \"VarScopedDeclarations\") let __i__ = 0i while (< __i__ decls.length) { append decls[__i__] -> declarations __i__ = (+ __i__ 1i) } return decls }"
+  },
+  {
+    "tokens": "Return the result of appending to id:{names} the elements of the VarDeclaredNames of the second nt:{CaseClauses} .",
+    "inst": "{ access __names__ = (CaseClauses1 \"VarDeclaredNames\") let __i__ = 0i while (< __i__ __names__.length) { append __names__[__i__] -> names __i__ = (+ __i__ 1i) } return names }"
+  },
+  {
+    "tokens": "If id:{q} can be the string - concatenation of id:{p} and some other String id:{r} , return value:{true} . Otherwise , return value:{false} .",
+    "inst": "return AnyBool"
+  },
+  {
+    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-module-namespace-exotic-objects} .",
+    "inst": "let internalSlotsList = StrList"
+  },
+  {
+    "tokens": "Create own properties of id:{M} corresponding to the definitions in link:{unhandled: sec-module-namespace-objects} .",
+    "inst": "M.SubMap = (new SubMap())"
+  },
+  {
+    "tokens": "Let id:{k} be the smallest non - negative integer such that the code unit at index id:{k} within id:{px} is different from the code unit at index id:{k} within id:{py} . ( There must be such a id:{k} , for neither String is a prefix of the other . )",
+    "inst": "let k = AnyNum"
+  }, 
+  {
+    "tokens": "Let id:{m} be the integer that is the numeric value of the code unit at index id:{k} within id:{px} .",
+    "inst": "let m = AnyNum"
+  },
+  {
+    "tokens": "Let id:{n} be the integer that is the numeric value of the code unit at index id:{k} within id:{py} .",
+    "inst": "let n = AnyNum"
   }
 ]

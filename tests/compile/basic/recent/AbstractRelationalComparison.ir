@@ -15,9 +15,9 @@
     if (= __x4__ true) return false else {}
     app __x5__ = (IsStringPrefix px py)
     if (= __x5__ true) return true else {}
-    ??? "Let id:{k} be the smallest non - negative integer such that the code unit at index id:{k} within id:{px} is different from the code unit at index id:{k} within id:{py} . ( There must be such a id:{k} , for neither String is a prefix of the other . )"
-    ??? "Let id:{m} be the integer that is the numeric value of the code unit at index id:{k} within id:{px} ."
-    ??? "Let id:{n} be the integer that is the numeric value of the code unit at index id:{k} within id:{py} ."
+    let k = AnyNum
+    let m = AnyNum
+    let n = AnyNum
     if (< m n) return true else return false
   } else {
     if (&& (= (typeof px) BigInt) (= (typeof py) String)) {

@@ -12,5 +12,11 @@
     __x3__ = (+ __x3__ 1i)
   }
   if (= CaseClauses1 absent) return names else {}
-  ??? "Return the result of appending to id:{names} the elements of the VarDeclaredNames of the second nt:{CaseClauses} ."
+  access __names__ = (CaseClauses1 "VarDeclaredNames")
+  let __i__ = 0i
+  while (< __i__ __names__.length) {
+    append __names__[__i__] -> names
+    __i__ = (+ __i__ 1i)
+  }
+  return names
 }
