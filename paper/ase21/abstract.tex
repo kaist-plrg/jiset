@@ -1,2 +1,28 @@
 \begin{abstract}
+  JavaScript is one of mainstream programming languages not only in client-side
+  programming but also in serever-side programming and even embedded systems.
+  Thus, various JavaScript engines are developed and maintained in various
+  fields and they must conform to the syntax and semantics described in
+  ECMAScript, the standard specification of JavaScript.  Since an incorrect
+  description in ECMAScript can lead to the wrong implementation of JavaScript
+  engines, it is important to check the correctness of ECMAScript.  However, all
+  the specification updates are currently manually checked by the Ecma Technical
+  Committee 39 (TC39) without any automated tools.  Moreover, in late 2014, the
+  committee announced yearly release cadence and open development process of
+  ECMAScript to quickly adapt to an evolving development environment.  Thus, the
+  manual checking becoems more labor-intensive and error-prone.
+
+  To alleviate this problem, we propose $\tool$, an ECMAScript Static Checker
+  based on Refinement Types.  Our tool performs the following three steps for a
+  given specification: 1) to convert abstract algorithms in the specification to
+  untyped intermediate representation, 2) to extract type information of data
+  structures used in the specification,  and 2) to perform type analysis with
+  the extracted type information to detect specification errors.  Moreover, we
+  use \textit{refinement types} over the extracted type information to reduce
+  false alarms.  \inred{TODO: explanation of refinement types.} We evaluated
+  $\tool$ with \inred{XXX different versions of ECMAScript in the official GitHub
+  repository between 2018 June and 2021 March.} Among \inred{XXX} known
+  specification errors, our tool detected \inred{XXX} errors with \inred{XXX}
+  false alarms.  Moreover, $\tool$ detected \inred{X} new specification errors
+  in the draft of next release of ECMAScript (ES12, 2021).
 \end{abstract}
