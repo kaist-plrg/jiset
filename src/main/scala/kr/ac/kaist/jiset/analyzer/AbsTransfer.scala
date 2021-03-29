@@ -484,7 +484,7 @@ object AbsTransfer {
 
     // alarm if assertion fails
     def assert(t: AbsType, expr: Expr) = {
-      if (!(AT ⊑ t)) alarm(s"assertion failed: ${expr.beautified}")
+      if (!(AT ⊑ t)) warning(s"assertion failed: ${expr.beautified}")
       else if (AF ⊑ t) warning(s"maybe assertion failed: ${expr.beautified}")
     }
 
