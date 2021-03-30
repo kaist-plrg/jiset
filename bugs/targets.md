@@ -57,7 +57,7 @@
   - **Algorithm**: AssignmentElement.IteratorDestructuringAssignmentEvaluation
   - **Description**: `AssignmentExpression`과 `LeftHandSideExpression`이 없는데 사용함
 
-## [#2098](https://github.com/tc39/ecma262/pull/2098/files): Editorial: add missing ! on calls to OrdinaryObjectCreate
+## [#2098](https://github.com/tc39/ecma262/pull/2098/files): Editorial: add missing ! on calls to OrdinaryObjectCreate [Cannot Detect]
 
 - **Version**: [4fa9dadbe47f5c76580bf2282b31333d0f36e3de](https://github.com/tc39/ecma262/commits/4fa9dadbe47f5c76580bf2282b31333d0f36e3de)
   - **Type**: Cannot Detect
@@ -65,7 +65,7 @@
   - **Description**: `OrdinaryObjectCreate` 라는 함수가 애초에 abrupt completion 이 나오지 않는 상황이었다면, `!` 를 붙이는 것은 단순 assertion 을 추가하는 것이므로 버그라고 보기 힘듬.
     - 만약 `?` 를 붙여야 되는 상황이었다면, `!` 를 붙이면 안된다는 warning 을 띄울 수 있을 것 같음.
 
-## [#1977](https://github.com/tc39/ecma262/pull/1977/files): Editorial: Use DefinePropertyOrThrow and ! prefix in GetTemplateObject
+## [#1977](https://github.com/tc39/ecma262/pull/1977/files): Editorial: Use DefinePropertyOrThrow and ! prefix in GetTemplateObject [Cannot Detect]
 
 - **Version**: [5370c6cc6e35c48f1d4e46e4aff4b76d6479323b](https://github.com/tc39/ecma262/commits/5370c6cc6e35c48f1d4e46e4aff4b76d6479323b)
   - **Type**: Cannot Detect
@@ -78,48 +78,92 @@
   - **Type**: Unchecked Abrupt Completion
   - **Algorithm**: `Abstract Equality Comparison`
   - **Description**: `ToPrimitive` 는 abrupt completion 을 반환할 수 있지만, 이를 확인하지 않고 `x` 라는 값과 `==` 연산을 하고 있음.
+  - **Count**: 2
+  - **Alarms**
+  - **Status**
+    - Old version of `ToPrimitive` has incomplete compilation, results in incomplete analysis. 
+    - Following has compilation error, `??? "Else, in:{} out:{}"`
+    ```
+    ...
+    1. If Type(_input_) is Object, then
+       1. If _PreferredType_ is not present, let _hint_ be *"default"*.
+       1. Else if _PreferredType_ is hint String, let _hint_ be *"string"*.
+       1. Else,
+          1. Assert: _PreferredType_ is hint Number.
+          1. Let _hint_ be *"number"*.
+    ...
+    ``` 
 
-## [#1969](https://github.com/tc39/ecma262/pull/1969/files): Editorial: Return an iterator *record* for for...in heads
+## [#1969](https://github.com/tc39/ecma262/pull/1969/files): Editorial: Return an iterator *record* for for...in heads [Reference Error]
 
 - **Version**: [0e83cd040fe1f374fb472f946587d942829e755a](https://github.com/tc39/ecma262/commits/0e83cd040fe1f374fb472f946587d942829e755a)
   - **Type**: Reference Error
   - **Algorithm**: `ForIn/OfHeadEvaluation`
   - **Description**: `ForIn/OfHeadEvaluation` 은 `Iterator Record` 를 반환해야 하지만, `Iterator Object` 를 반환하는 경우가 발생했음. 이는 결국 `ForIn/OfBodyEvaluation` 의 `iteratorRecord` 로 흘러가는데, 이후 `iteratorRecord` 의 field 에 접근할 때, reference error 가 나와야함
+  - **Count**: 9
+    - 13.7.5.11 Runtime Semantics: LabelledEvaluation 에서 `IterationStatement`의 9가지 production에 대해서 각각 다른 View를 가지고 `ForInOfBodyEvaluaiton`을 부를 때, `keyResult`라는 함수 argument에 `ForInOfHeadEvaluaiton`의 잘못된 결과가 전달됨. 
+  - **Alarms**
+  - **Status**
+    - 언급한대로 `ForInOfBodyEvaluation`에서 `iteratorRecord`가 `Object`로 잘못 전달된채로 분석이 진행되는데,
+      `app __x1__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator)` statement에서 property access를 할 때 alarm이 발생하지 않음.
+      해당 statement에서 `iteratorRecord.NextMethod`를 transfer할 때 Reference Error가 발생해야 함.
+    - 참고 : AbsState.scala:87 - `TODO if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")`
 
-## [#1954](https://github.com/tc39/ecma262/pull/1954/files): Editorial: Fixed typos in variable name oldvalue
+## [#1954](https://github.com/tc39/ecma262/pull/1954/files): Editorial: Fixed typos in variable name oldvalue [Reference Error]
 
 - **Version**: [731fc79549be6eb6eceec457822a124ed6c35da8](https://github.com/tc39/ecma262/commits/731fc79549be6eb6eceec457822a124ed6c35da8)
   - **Type**: Reference Error
   - **Algorithm**: `UpdateExpression.Evaluation`
   - **Description**: `oldvalue` 라는 정의되지 않은 변수를 사용함
+  - **Count**: 4
+  - **Alarms**
+    ```    
+[Bug] unknown variable: oldvalue @ UpdateExpression[3,0].Evaluation:Call[4776]:[☊(UpdateExpression), ☊(UnaryExpression)]
+[Bug] unknown variable: oldvalue @ UpdateExpression[1,0].Evaluation:Call[4754]:[☊(UpdateExpression), ☊(LeftHandSideExpression)]
+[Bug] unknown variable: oldvalue @ UpdateExpression[2,0].Evaluation:Call[4765]:[☊(UpdateExpression), ☊(LeftHandSideExpression)]
+[Bug] unknown variable: oldvalue @ UpdateExpression[4,0].Evaluation:Call[4787]:[☊(UpdateExpression), ☊(UnaryExpression)]
+    ```
 
-## [#1922](https://github.com/tc39/ecma262/pull/1922/files): Editorial: Treat not present flatMap parameter as undefined
+## [#1922](https://github.com/tc39/ecma262/pull/1922/files): Editorial: Treat not present flatMap parameter as undefined [Cannot Detect / Builtin]
 
 - **Version**: [f95a4da5213e0f6bcf69400d6a0e004a29952c43](https://github.com/tc39/ecma262/commits/f95a4da5213e0f6bcf69400d6a0e004a29952c43)
-  - **Type**: Builtin
+  - **Type**: Cannot Detect
   - **Algorithm**: `Array.prototype.flatMap`
   - **Description**: 
 
-## [#1915](https://github.com/tc39/ecma262/pull/1915/files): Editorial: added ~async-iterate~ in assertion of ForIn/OfHeadEvaluation
+## [#1915](https://github.com/tc39/ecma262/pull/1915/files): Editorial: added ~async-iterate~ in assertion of ForIn/OfHeadEvaluation [Assertion Failed]
 
 - **Version**: [6826d313a905d05e02daec1f4d2f22b911c960b4](https://github.com/tc39/ecma262/commits/6826d313a905d05e02daec1f4d2f22b911c960b4)
-  - **Type**: Unreachable
+  - **Type**: Assertion Failed
   - **Algorithm**: `ForIn/OfHeadEvaluation`
   - **Description**: `iterationKind` 가 `~iterate~` 인 assertion 다음 `If iterationKind == ~async-iterate~` 라는 branch 가 있어 true branch 가 unreachble 임.
+  - **Count**: 1
+  - **Alarms**
+    ```
+[Bug] assertion failed: (= iterationKind CONST_iterate) @ ForInOfHeadEvaluation:Block[7454]:[[], ☊(AssignmentExpression), ~asyncDASHiterate~]
+    ```
 
-## [#1893](https://github.com/tc39/ecma262/pull/1893/files): [editorial] Fix typo in NewPromiseReactionJob
+## [#1893](https://github.com/tc39/ecma262/pull/1893/files): [editorial] Fix typo in NewPromiseReactionJob [Reference Error]
 
 - **Version**: [c59502090e2c250cd7e457b5506b92db6b21d153](https://github.com/tc39/ecma262/commits/c59502090e2c250cd7e457b5506b92db6b21d153)
   - **Type**: Reference Error
   - **Algorithm**: `NewPromiseReactionJob`
   - **Description**: `handler` 라는 정의되지 않는 변수를 사용함
+  - **Count**: 1
+  - **Status**
+    - `NewPromiseReactionJob` 함수 내에서는 `job`이라는 클로저를 정의하는데, 그 안에 정의되는 `handler`는 클로저의 정의 밖에서 사용할 수 없기 때문에 뒤의 `1. Let _getHandlerRealmResult_ be GetFunctionRealm(_handler_).`에서 Reference Error가 발생해야 함.
+    - 현재 해당 함수의 맨 처음 statement가 컴파일이 되지 않기 때문에 (정확히는 `job`이라는 클로저를 만드는 statement) 분석이 진행되지 않음.
 
-## [#1877](https://github.com/tc39/ecma262/pull/1877/files): Editorial: supply args to IteratorBindingInitialization
+## [#1877](https://github.com/tc39/ecma262/pull/1877/files): Editorial: supply args to IteratorBindingInitialization [Arity Mismatch]
 
 - **Version**: [2431eb385e4315471abd33f710b4ed5644e1b002](https://github.com/tc39/ecma262/commits/2431eb385e4315471abd33f710b4ed5644e1b002)
   - **Type**: Arity Mismatch
   - **Algorithm**: `ArrowParameters.IteratorBindingInitialization`
   - **Description**: `IteratorBindingInitialization` 은 2개의 parameter 가 있는 함수인데, 0개의 argument 로 호출하고 있음.
+  - **Count**: 1 
+  - **Alarms**
+  - **Status**
+    - `ArrowParameters.IteratorBindingInitialization` 함수가 cover되지 않음.
 
 ## [#1871](https://github.com/tc39/ecma262/pull/1871/files): Normative: ToInteger: fix spec bug from #1827 that allows (-1,0) to produce -0
 
