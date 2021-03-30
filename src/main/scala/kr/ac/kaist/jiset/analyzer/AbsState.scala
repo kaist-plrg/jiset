@@ -24,10 +24,11 @@ case class AbsState(
   }
 
   // partial order
-  def ⊑(that: AbsState): Boolean = {
+  def ⊑(that: AbsState): Boolean = (
+    (!this.reachable || that.reachable) &&
     (this.map.keySet ++ that.map.keySet)
-      .forall(key => this(key) ⊑ that(key))
-  }
+    .forall(key => this(key) ⊑ that(key))
+  )
 
   // not partial order
   def !⊑(that: AbsState): Boolean = !(this ⊑ that)

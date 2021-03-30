@@ -202,59 +202,22 @@ object AbsSemantics {
     cp = NodePoint(func.entry, view)
   } yield cp -> st).toMap
 
-  // target algorithms
-  private def successPatterns = List(
-    // algorithms
-    """.*.IsIdentifierRef""".r,
-    """.*.IsFunctionDefinition""".r,
-    """.*.AssignmentTargetType""".r,
-    """.*.StringValue""".r,
-    """.*.PropName""".r,
-    """.*.BoundNames""".r,
-    """.*.DeclarationPart""".r,
-    """.*.IsDestructuring""".r,
-    """.*.HasName""".r,
-    """.*.ExportEntries""".r,
-    """.*.ImportEntries""".r,
-    """.*.ExportedNames""".r,
-    """.*.ExportedBindings""".r,
-    """.*.ExportEntriesForModule""".r,
-    """.*.IsConstantDeclaration""".r,
-    """.*.ModuleRequests""".r,
-    """.*.IsSimpleParameterList""".r,
-    """.*.CoveredFormalsList""".r,
-    // PrimaryExpression.Evaluation
-    """PrimaryExpression\[0,0\].Evaluation""".r,
-    """IdentifierReference\[.*.Evaluation""".r,
-    """Literal\[.*.Evaluation""".r,
-    // syntax
-    """Literal\[.*""".r,
-    """LiteralPropertyName\[.*""".r,
-    """PropertyName\[.*""".r,
-    """ImportMeta\[.*""".r,
-    // CoveredParenthesizedExpression
-    """CoverParenthesizedExpressionAndArrowParameterList\[0,0\].CoveredParenthesizedExpression""".r,
-  // TODO EarlyErrors
-  // """PropertyDefinition\[1,0\].EarlyErrors""".r,
-  // """IdentifierReference\[1,0\].EarlyErrors""".r,
-  )
-
-  private def isTarget(head: SyntaxDirectedHead, algo: Algo): Boolean = (
-    head.withParams.isEmpty &&
+  private def isTarget(algo: Algo): Boolean = (
+    isTargetHead(algo.head) &&
     !isRegex(algo) &&
     // !isEarlyErrors(algo) &&
-    (TARGET match {
-      case Some(pattern) => pattern.r.matches(algo.name)
-      case None => isSuccess(algo) || isSimple(algo)
-    })
+    isTargetPattern(algo.name)
   )
 
-  private def isSuccess(algo: Algo): Boolean =
-    successPatterns.exists(_.matches(algo.name))
-
-  private def isSimple(algo: Algo): Boolean = algo.rawBody match {
-    case IReturn(EBool(_)) => true
+  private def isTargetHead(head: Head): Boolean = head match {
+    case (head: SyntaxDirectedHead) => head.withParams.isEmpty
+    case (head: BuiltinHead) => TARGET_BUILTIN contains head.ref.base
     case _ => false
+  }
+
+  private def isTargetPattern(name: String): Boolean = TARGET match {
+    case Some(pattern) => pattern.r.matches(name)
+    case None => true
   }
 
   private def isRegex(algo: Algo): Boolean =
@@ -265,7 +228,7 @@ object AbsSemantics {
 
   // initial abstract state for syntax-directed algorithms
   private def getAlgoTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
-    case (head: SyntaxDirectedHead) if isTarget(head, algo) =>
+    case (head: SyntaxDirectedHead) if isTarget(algo) =>
       head.optional.subsets.map(opt => {
         var st = AbsState.Empty
         val tys = head.types.map {
@@ -278,6 +241,12 @@ object AbsSemantics {
         }
         (tys, st)
       }).toList
+    case (head: BuiltinHead) if isTarget(algo) =>
+      val tys = Nil
+      var st = AbsState.Empty
+      st = st.define(THIS_PARAM, ESValueT)
+      st = st.define(ARGS_LIST, ListT(ESValueT))
+      List((tys, st))
     case _ => Nil
   }
 

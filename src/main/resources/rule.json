@@ -362,6 +362,13 @@
   {
     "tokens": "Let id:{uncheckedResultKeys} be a List whose elements are the elements of id:{trapResult} .",
     "inst": "let uncheckedResultKeys = (copy-obj trapResult)"
-
+  },
+  {
+    "tokens": "Let id:{x32} be the result of converting id:{x} to a value in IEEE 754 - 2019 binary32 format using roundTiesToEven mode .",
+    "inst": "app x32 = (fround x)"
+  },
+  {
+    "tokens": "Let id:{x64} be the result of converting id:{x32} to a value in IEEE 754 - 2019 binary64 format .",
+    "inst": "let x64 = x32"
   }
 ]

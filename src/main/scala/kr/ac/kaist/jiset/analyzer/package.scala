@@ -91,6 +91,8 @@ package object analyzer {
   val AT = Bool(true).abs
   val AF = Bool(false).abs
 
+  val TARGET_BUILTIN = Set("Math")
+
   // constants
   val EMPTY = ConstT("empty")
   val UNRESOLVABLE = ConstT("unresolvable")

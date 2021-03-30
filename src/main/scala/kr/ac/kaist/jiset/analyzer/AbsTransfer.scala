@@ -181,7 +181,7 @@ object AbsTransfer {
     def transfer(call: Call, view: View): Updater = call.inst match {
       case IApp(Id(x), ERef(RefId(Id(name))), List(arg)) if unaryAlgos contains name => for {
         a <- transfer(arg)
-        ty <- get(unaryAlgos(name)(_, a))
+        ty <- get(unaryAlgos(name)(_, arg, a))
         _ <- modify(_.define(x, ty))
       } yield ()
       case IApp(Id(x), fexpr, args) => for {
@@ -228,15 +228,20 @@ object AbsTransfer {
     } else false
 
     // unary algorithms
-    type UnaryAlgo = (AbsState, AbsType) => AbsType
+    type UnaryAlgo = (AbsState, Expr, AbsType) => AbsType
     val unaryAlgos: Map[String, UnaryAlgo] = Map(
-      "IsDuplicate" -> ((st, ty) => BoolT),
-      "IsArrayIndex" -> ((st, ty) => BoolT),
-      "ThrowCompletion" -> ((st, ty) => AbruptT),
-      "NormalCompletion" -> ((st, ty) => ty.toComp),
-      "IsAbruptCompletion" -> ((st, ty) => BoolT),
-      "floor" -> ((st, ty) => NumT),
-      "abs" -> ((st, ty) => NumT),
+      "IsDuplicate" -> ((st, expr, ty) => BoolT),
+      "IsArrayIndex" -> ((st, expr, ty) => BoolT),
+      "ThrowCompletion" -> ((st, expr, ty) => AbruptT),
+      "NormalCompletion" -> ((st, expr, ty) => ty.toComp),
+      "IsAbruptCompletion" -> ((st, expr, ty) => BoolT),
+      "floor" -> ((st, expr, ty) => NumT),
+      "abs" -> ((st, expr, ty) => NumT),
+      "fround" -> ((st, expr, ty) => {
+        if (!(ty ⊑ NumT))
+          alarm(s"non-number types: ${expr.beautified}")
+        NumT
+      }),
     )
 
     // integer post-fix pattern
@@ -292,12 +297,12 @@ object AbsTransfer {
       } yield t
       case EUOp(uop, expr) => for {
         v <- transfer(expr)
-        t = transfer(uop)(v.escaped)
+        t = transfer(uop, expr)(v.escaped)
       } yield t
       case EBOp(bop, left, right) => for {
         l <- transfer(left)
         r <- transfer(right)
-        t = transfer(bop)(l.escaped, r.escaped)
+        t = transfer(bop, left, right)(l.escaped, r.escaped)
       } yield t
       case ETypeOf(expr) => for {
         v <- transfer(expr)
@@ -429,7 +434,7 @@ object AbsTransfer {
     }, ref)
 
     // transfer function for unary operators
-    def transfer(uop: UOp): AbsType => AbsType = t => {
+    def transfer(uop: UOp, expr: Expr): AbsType => AbsType = t => {
       if (bottomCheck(t)) AbsType.Bot
       else uop match {
         case ONeg => -t
@@ -439,7 +444,11 @@ object AbsTransfer {
     }
 
     // transfer function for binary operators
-    def transfer(bop: BOp): (AbsType, AbsType) => AbsType = (l, r) => {
+    def transfer(
+      bop: BOp,
+      left: Expr,
+      right: Expr
+    ): (AbsType, AbsType) => AbsType = (l, r) => {
       if (bottomCheck(l) || bottomCheck(r)) AbsType.Bot
       else bop match {
         case OPlus => arithBOp(l, r)
@@ -451,7 +460,12 @@ object AbsTransfer {
         case OMod => numericBOp(l, r)
         case OLt => (l.getSingle, r.getSingle) match {
           case (Some(Num(l)), Some(Num(r))) => Bool(l < r)
-          case _ => BoolT
+          case _ =>
+            if (!(l ⊑ NumericT))
+              alarm(s"non-numeric types: ${left.beautified}")
+            if (!(r ⊑ NumericT))
+              alarm(s"non-numeric types: ${right.beautified}")
+            BoolT
         }
         case OEq => l =^= r
         case OEqual => BoolT
