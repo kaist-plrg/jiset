@@ -184,50 +184,58 @@
     - `let envRec = funcEnv.EnvironmentRecord` statement에서 envRec 변수가 저장이 안되고 있다.
     - envRec이 없어 `CreateImmutableBinding`가 불리기 전에 Reference Error가 뜨고 해당하는 함수를 찾지 못한다.
 
-## [#1826](https://github.com/tc39/ecma262/pull/1826/files): Normative: Add missing ReturnIfAbrupt to “Evaluation of in expression”
+## [#1826](https://github.com/tc39/ecma262/pull/1826/files): Normative: Add missing ReturnIfAbrupt to “Evaluation of in expression” [Unchecked Abrupt Completion]
 
 - **Version**: [a329eefaca95fb1f91cf3828249e54f13b27e095](https://github.com/tc39/ecma262/commits/a329eefaca95fb1f91cf3828249e54f13b27e095)
   - **Type**: Unchecked Abrupt Completion
   - **Algorithm**: `RelationalExpression.Evaluation`
   - **Description**: `ToPropertyKey` 호출 시 abrupt completion 이 반환될 수 있지만, 이를 검사하지 않고 그대로 HasProperty 함수의 argument 로 넘기고 있음.
     - 현재 분석기에서는 `typeof` 계산을 하기위해 pure value 를 얻는 과정에서 알람을 띄울 수 있을 것으로 생각됨.
+  - **Count**: 1
+  - **Alarms**
+  - **Status**
+    - 현재 분석에서는 `RelationalExpression[6,0].Evaluation`의 함수 내에서 abrupt completion이 발생하지 않음. View 기준으로 exhaustive하게 cover했는지 확인 필요함.
 
-## [#1781](https://github.com/tc39/ecma262/pull/1781/files): Editorial: A couple fixes from OrdinaryFunctionCreate and undefined arguments
+## [#1781](https://github.com/tc39/ecma262/pull/1781/files): Editorial: A couple fixes from OrdinaryFunctionCreate and undefined arguments [Builtin]
 
 - **Version**: [12a546b92275a0e2f834017db2727bb9c6f6c8fd](https://github.com/tc39/ecma262/commits/12a546b92275a0e2f834017db2727bb9c6f6c8fd)
   - **Type**: Builtin
   - **Algorithm**: `BigInt.prototype.toString`, `DataView.prorotype.getBigInt64`, `DataView.prototype.getBigUint64`
   - **Description**: #1922 와 동일한 이슈임.
 
-## [#1775](https://github.com/tc39/ecma262/pull/1775/files): Normative: Make super() throw after evaluating args
+## [#1775](https://github.com/tc39/ecma262/pull/1775/files): Normative: Make super() throw after evaluating args [Cannot Detect]
 
 - **Version**: [2669d458ec0d5c2ccce3b105b288ec57f81aee4f](https://github.com/tc39/ecma262/commits/2669d458ec0d5c2ccce3b105b288ec57f81aee4f)
   - **Type**: Cannot Detect
   - **Algorithm**: `SuperCall.Evaluation`
   - **Description**: Semantics 상의 버그임.
 
-## [#1752](https://github.com/tc39/ecma262/pull/1752/files): Editorial: Refactor index checking for Integer-Indexed exotic objects
+## [#1752](https://github.com/tc39/ecma262/pull/1752/files): Editorial: Refactor index checking for Integer-Indexed exotic objects [Cannot Detect]
 
 - **Version**: [7fc703fd7e4241c103d9c2187033a90a984905d4](https://github.com/tc39/ecma262/commits/7fc703fd7e4241c103d9c2187033a90a984905d4)
   - **Type**: Cannot Detect
   - **Algorithm**: `IntegerIndexedObject.HasProperty`
   - **Description**: #2098과 같은 이슈임.
 
-## [#1745](https://github.com/tc39/ecma262/pull/1745/files): add missing ContainsUseStrict definition for AsyncConciseBody
+## [#1745](https://github.com/tc39/ecma262/pull/1745/files): add missing ContainsUseStrict definition for AsyncConciseBody [Unknown Function]
 
 - **Version**: [02b37cdbf2a599a37f77c82f38d5146836ec84e1](https://github.com/tc39/ecma262/commits/02b37cdbf2a599a37f77c82f38d5146836ec84e1)
   - **Type**: Missing Case
   - **Algorithm**: `AsyncConciseBody.ContainsUseStrict`
   - **Description**: `AsyncConciseBody`의 `ContainsUseStrict` 함수가 없었음.
+  - **Count**: ?
+  - **Alarms**
+  - **Status**
+    - 해당 함수를 call하는 경우가 cover되지 않음. (`AsyncArrowFunction[1,0].EarlyErrors`, `CreateDynamicFunction`에서 사용되나 분석 결과에 없음.) 
 
-## [#1722](https://github.com/tc39/ecma262/pull/1722/files): Editorial: quick fixes for recent merges
+## [#1722](https://github.com/tc39/ecma262/pull/1722/files): Editorial: quick fixes for recent merges [Builtin / Reference Error]
 
 - **Version**: [693e09a4b9ce52b060ceda897b042c3f83f0a738](https://github.com/tc39/ecma262/commits/693e09a4b9ce52b060ceda897b042c3f83f0a738)
   - **Type**: Builtin / Reference Error
   - **Algorithm**: `EnterCriticalSection`
   - **Description**: `eventRecords` 라는 없는 변수를 사용함.
 
-## [#1704](https://github.com/tc39/ecma262/pull/1704/files): Editorial: quick fixes for recently-merged commits
+## [#1704](https://github.com/tc39/ecma262/pull/1704/files): Editorial: quick fixes for recently-merged commits [Builtin / Reference Error, Duplicated Definition]
 
 - **Version**: [dc00d4df17e860704783bed0b7f19b2a40b56d88](https://github.com/tc39/ecma262/commits/dc00d4df17e860704783bed0b7f19b2a40b56d88)
   - **Type**: Builtin / Reference Error 
