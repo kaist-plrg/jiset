@@ -165,19 +165,24 @@
   - **Status**
     - `ArrowParameters.IteratorBindingInitialization` 함수가 cover되지 않음.
 
-## [#1871](https://github.com/tc39/ecma262/pull/1871/files): Normative: ToInteger: fix spec bug from #1827 that allows (-1,0) to produce -0
+## [#1871](https://github.com/tc39/ecma262/pull/1871/files): Normative: ToInteger: fix spec bug from #1827 that allows (-1,0) to produce -0 [Cannot Detect]
 
 - **Version**: [823aad1e08b5680229d67283371912950d19e581](https://github.com/tc39/ecma262/commits/823aad1e08b5680229d67283371912950d19e581)
   - **Type**: Cannot Detect
   - **Algorithm**: `ToInteger`
   - **Description**: `ToInteger` 가 -0 을 반환하면 안된다는 정보가 있어야함.
 
-## [#1864](https://github.com/tc39/ecma262/pull/1864/files): Editorial: add missing argument to two CreateImmutableBinding calls
+## [#1864](https://github.com/tc39/ecma262/pull/1864/files): Editorial: add missing argument to two CreateImmutableBinding calls [Arity Mismatch]
 
 - **Version**: [bf37eb35b715b14e7a8f8c73059e11da75f7944a](https://github.com/tc39/ecma262/commits/bf37eb35b715b14e7a8f8c73059e11da75f7944a)
   - **Type**: Arity Mismatch
   - **Algorithm**: `AsyncGeneratorExpression.Evaluation`
   - **Description**: `CreateImmutableBinding` 함수는 2개의 parameter 가 있는 함수인데, 0개의 argument 로 호출하고 있음.
+  - **Count**: 1
+  - **Alarm**
+  - **Status**
+    - `let envRec = funcEnv.EnvironmentRecord` statement에서 envRec 변수가 저장이 안되고 있다.
+    - envRec이 없어 `CreateImmutableBinding`가 불리기 전에 Reference Error가 뜨고 해당하는 함수를 찾지 못한다.
 
 ## [#1826](https://github.com/tc39/ecma262/pull/1826/files): Normative: Add missing ReturnIfAbrupt to “Evaluation of in expression”
 
