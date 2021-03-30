@@ -31,7 +31,7 @@
     __x8__ = (+ __x8__ 1i)
   }
   if (&& (= extensibleTarget true) (= targetNonconfigurableKeys.length 0i)) return trapResult else {}
-  ??? "Let id:{uncheckedResultKeys} be a List whose elements are the elements of id:{trapResult} ."
+  let uncheckedResultKeys = (copy-obj trapResult)
   let __x10__ = targetNonconfigurableKeys
   let __x11__ = 0i
   while (< __x11__ __x10__.length) {

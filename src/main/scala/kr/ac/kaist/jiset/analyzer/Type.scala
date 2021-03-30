@@ -485,6 +485,12 @@ object Type {
       "ArrayBufferByteLength" -> NumT,
       "ArrayBufferDetachKey" -> Undef,
     )),
+    I("GeneratorInstance", parent = "OrdinaryObject", Map(
+      "GeneratorState" -> AbsType(Undef, SUSPENDED_START, SUSPENDED_YIELD, EXECUTING, COMPLETED),
+      "GeneratorContext" -> NameT("ExecutionContext"),
+      // TODO %StringIteratorPrototype%, %RegExpStringIteratorPrototype%, %ArrayIteratorPrototype%, %MapIteratorPrototype%, %SetIteratorPrototype%,
+      "GeneratorBrand" -> AbsType(EMPTY, NameT("OrdinaryObject"))
+    )),
 
     // reference records
     I("ReferenceRecord", Map(

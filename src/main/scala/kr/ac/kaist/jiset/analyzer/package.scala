@@ -111,6 +111,10 @@ package object analyzer {
   val CONTINUE = ConstT("continue")
   val RETURN = ConstT("return")
   val THROW = ConstT("throw")
+  val SUSPENDED_START = ConstT("suspendedStart")
+  val SUSPENDED_YIELD = ConstT("suspendedYield")
+  val EXECUTING = ConstT("executing")
+  val COMPLETED = ConstT("completed")
 
   // singleton types
   type Null = Null.type
