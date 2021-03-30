@@ -13,5 +13,5 @@ object CheckBottoms {
     for ((x, aty) <- st.map) this(aty, s"variable $x")
 
   def apply(aty: AbsType, msg: String): Unit =
-    if (aty.isBottom) alarm(s"Bottom result found: $msg")
+    if (aty.isBottom) warning(s"Bottom result found: $msg")
 }

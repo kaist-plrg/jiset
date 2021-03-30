@@ -74,7 +74,7 @@ object AbsTransfer {
       case (entry: Entry) =>
         val newSt = handleThis(func, st)
         sem += NodePoint(cfg.next(entry), view) -> newSt
-      case (exit: Exit) => alarm("may be no return")
+      case (exit: Exit) => warning("may be no return")
       case (block: Block) =>
         val newSt = join(block.insts.map(transfer))(st)
         sem += NodePoint(cfg.next(block), view) -> newSt
@@ -172,7 +172,7 @@ object AbsTransfer {
         _ = printlnColor(GREEN)(s"[PRINT] $t")
       } yield ()
       case _ => st => {
-        alarm(s"not yet implemented: ${inst.beautified}")
+        warning(s"not yet implemented: ${inst.beautified}")
         st
       }
     }): Updater)
@@ -189,7 +189,7 @@ object AbsTransfer {
         as <- join(args.map(arg => transfer(arg)))
         _ <- put(AbsState.Bot)
         fids = f.fidSet
-      } yield if (fids.isEmpty) alarm("no function") else fids.foreach(fid => {
+      } yield if (fids.isEmpty) warning("no function") else fids.foreach(fid => {
         val func = cfg.fidMap(fid)
         sem.doCall(call, view, func, as, x)
       })
@@ -206,7 +206,7 @@ object AbsTransfer {
         }
       } yield ()
       case inst => st => {
-        alarm(s"not yet implemented: ${inst.beautified}")
+        warning(s"not yet implemented: ${inst.beautified}")
         st
       }
     }
@@ -223,7 +223,7 @@ object AbsTransfer {
       for (t <- f) yield { bottomCheck(t, target); t }
     def bottomCheck(t: AbsType): Boolean = bottomCheck(t, "")
     def bottomCheck(t: AbsType, target: Any): Boolean = if (t.isBottom) {
-      alarm("bottom result" + (if (target == "") target else s" @ $target"))
+      warning("bottom result" + (if (target == "") target else s" @ $target"))
       true
     } else false
 
@@ -370,7 +370,7 @@ object AbsTransfer {
         (Absent, st)
       }
       case expr => st => {
-        alarm(s"not yet implemented: ${expr.beautified}")
+        warning(s"not yet implemented: ${expr.beautified}")
         (Absent, st)
       }
     }, expr, expr.beautified)
@@ -484,7 +484,7 @@ object AbsTransfer {
       AbsType(t.set.flatMap[Type] {
         case AbruptT =>
           if (check) sem.doReturn(ret, AbruptT)
-          else alarm(s"Unchecked abrupt completions")
+          else warning(s"Unchecked abrupt completions")
           None
         case NormalT(t) => Some(t)
         case (t: PureType) => Some(t)
@@ -525,21 +525,24 @@ object AbsTransfer {
       case ("StringLiteral", "StringValue" | "SV") => StrT
       case (_, "TV" | "TRV") => StrT
       case (_, "MV") => NumT
-      case (_, "Contains") => BoolT
       case (_, prop) if cfg.spec.grammar.nameMap contains prop => AstT(prop)
-      case _ =>
-        val fids = cfg.getSyntaxFids(name, prop)
-        if (fids.isEmpty) alarm(s"$name.$prop does not exist")
-        else fids.foreach(fid => {
-          val func = cfg.fidMap(fid)
-          func.algo.head match {
-            case (head: SyntaxDirectedHead) =>
-              val baseArgs = sem.getArgs(head)
-              sem.doCall(call, view, func, baseArgs ++ args, x)
-            case _ =>
-          }
-        })
-        AbsType.Bot
+      case _ => cfg.getSyntaxFids(name, prop).toList match {
+        case Nil if prop == "Contains" => BoolT
+        case Nil =>
+          warning(s"$name.$prop does not exist")
+          AbsType.Bot
+        case fids =>
+          fids.foreach(fid => {
+            val func = cfg.fidMap(fid)
+            func.algo.head match {
+              case (head: SyntaxDirectedHead) =>
+                val baseArgs = sem.getArgs(head)
+                sem.doCall(call, view, func, baseArgs ++ args, x)
+              case _ =>
+            }
+          })
+          AbsType.Bot
+      }
     }
   }
 }

@@ -102,7 +102,7 @@ sealed trait Type {
     case (t: PureType) => Some(t)
     case NormalT(t) => Some(t)
     case AbruptT =>
-      alarm(s"Unchecked abrupt completions")
+      warning(s"Unchecked abrupt completions")
       None
   }
 

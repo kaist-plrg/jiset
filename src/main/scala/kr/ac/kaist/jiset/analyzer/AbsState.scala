@@ -84,7 +84,7 @@ case class AbsState(
       }
       case (nameT: NameT) =>
         val t = nameT(prop)
-        // TODO if (check && t.isMustAbsent) alarm(s"unknown property: $base.$prop")
+        if (check && t.isMustAbsent) warning(s"unknown property: $base.$prop")
         t
       case NilT if prop == "length" => Num(0)
       case ListT(_) | StrT | Str(_) if prop == "length" => NumT

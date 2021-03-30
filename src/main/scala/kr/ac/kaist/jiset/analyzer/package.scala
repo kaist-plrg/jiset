@@ -49,10 +49,12 @@ package object analyzer {
       alarmMap += key -> (set + msg)
       val errMsg = s"[Bug] $msg @ $alarmCPStr"
       if (error) {
-        val key = AbsSemantics.funcOf(alarmCP).uid
+        val func = AbsSemantics.funcOf(alarmCP)
+        val key = func.uid
         val set = errorMap.getOrElse(key, Set())
         if (!(set contains msg)) {
           errorMap += key -> (set + msg)
+          val errMsg = s"[Bug] $msg @ ${func.name}"
           Console.err.println(setColor(RED)(errMsg))
           nfErrors.println(errMsg)
           nfErrors.flush()

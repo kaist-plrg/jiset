@@ -48,7 +48,7 @@ object AbsSemantics {
   // no return check
   def noReturnCheck: Unit = {
     val set = npMap.keySet.map(funcOf(_)) -- rpMap.keySet.map(funcOf(_))
-    for (func <- set) alarm(s"no return: [${func.uid}] ${func.name}")
+    for (func <- set) warning(s"no return: [${func.uid}] ${func.name}")
   }
 
   // get size
@@ -85,14 +85,14 @@ object AbsSemantics {
         st = st.define(name, Absent.abs)
         aux(tl, Nil)
       case (Param(name, Normal) :: tl, Nil) =>
-        alarm(s"arity mismatch (remaining normal parameters): ${params.mkString(", ")}")
+        warning(s"arity mismatch (remaining normal parameters): ${params.mkString(", ")}")
         st = st.define(name, Absent.abs)
         aux(tl, Nil)
       case (Nil, Nil) =>
       case (Nil, _) =>
-        alarm(s"arity mismatch (remaining arguments): ${args.mkString(", ")}")
+        warning(s"arity mismatch (remaining arguments): ${args.mkString(", ")}")
       case _ =>
-        alarm(s"consider variadic: (${params.mkString(", ")}) and (${args.mkString(", ")}) @ $call")
+        warning(s"consider variadic: (${params.mkString(", ")}) and (${args.mkString(", ")}) @ $call")
     }
     aux(params, args)
     st
@@ -242,7 +242,7 @@ object AbsSemantics {
   private def isTarget(head: SyntaxDirectedHead, algo: Algo): Boolean = (
     head.withParams.isEmpty &&
     !isRegex(algo) &&
-    !isEarlyErrors(algo) &&
+    // !isEarlyErrors(algo) &&
     (TARGET match {
       case Some(pattern) => pattern.r.matches(algo.name)
       case None => isSuccess(algo) || isSimple(algo)

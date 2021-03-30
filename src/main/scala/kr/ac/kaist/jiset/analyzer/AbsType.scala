@@ -42,6 +42,7 @@ case class AbsType private (
 
   // absent check
   def isMustAbsent: Boolean = set == Set(Absent)
+  def isMayAbsent: Boolean = set contains Absent
   def isAbsent: AbsType = {
     val bs = set.map(_ == Absent)
     bs.size match {
