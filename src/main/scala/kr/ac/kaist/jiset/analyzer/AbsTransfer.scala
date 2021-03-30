@@ -42,6 +42,8 @@ object AbsTransfer {
       if (LOG && Stat.iter % 10000 == 0) Stat.dump()
       compute
     case None =>
+      alarmCP = null
+      alarmCPStr = ""
       sem.noReturnCheck
       if (DOT) dumpCFG(None, PDF)
       if (REPL) AnalyzeREPL.runDirect(alarmCP)

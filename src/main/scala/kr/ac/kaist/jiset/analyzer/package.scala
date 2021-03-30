@@ -38,7 +38,8 @@ package object analyzer {
   def warning(msg: String): Unit = alarm(msg, error = false)
   def alarm(msg: String, error: Boolean = true): Unit = if (TEST_MODE) {
   } else if (alarmCP == null) {
-    Console.err.println(setColor(RED)(msg))
+    nfAlarms.println(msg)
+    nfAlarms.flush()
   } else {
     val key = alarmCP match {
       case NodePoint(node, _) => s"node${node.uid}"
