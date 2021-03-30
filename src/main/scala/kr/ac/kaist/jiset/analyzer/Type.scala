@@ -45,7 +45,7 @@ sealed trait Type {
 
   // get instance name
   def instanceNameSet: Set[String] = this match {
-    case AstT(name) => Set(name)
+    case AstT(name) => cfg.spec.grammar.recSubs.getOrElse(name, Set(name))
     case NameT(name) => recSubTypes.getOrElse(name, Set(name))
     case _ => Set("")
   }

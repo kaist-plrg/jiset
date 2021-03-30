@@ -8,6 +8,9 @@ case class Production(
   lhs: Lhs,
   rhsList: List[Rhs]
 ) {
+  // get name
+  def name: String = lhs.name
+
   // get nonterminal names in rhs of lhs
   def getRhsNT: Set[String] = rhsList.flatMap(_.toNTs).map(_.name).toSet
 

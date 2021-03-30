@@ -85,9 +85,9 @@ trait PruneHelper { this: AbsTransfer.Helper =>
     }).getOrElse(l)
   }
 
-  // purning for instance checks
+  // pruning for instance checks
   def pruneInstance(l: AbsType, name: String, pass: Boolean): AbsType = {
     val t = NameT(name)
-    if (pass) l ⊓ t.abs else l - t
+    l.ast ⊔ (if (pass) l ⊓ t.abs else l - t)
   }
 }

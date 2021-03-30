@@ -58,6 +58,9 @@ case class AbsType private (
     else if (set contains F) Set(false)
     else Set()
 
+  // get AST types
+  def ast: AbsType = new AbsType(set.collect { case t: AstT => t })
+
   // normalize types
   private def norm: AbsType = new AbsType(normalizedSet)
   private def normalizedSet: Set[Type] = {
