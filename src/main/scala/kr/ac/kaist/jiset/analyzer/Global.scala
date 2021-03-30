@@ -35,6 +35,7 @@ object Global {
       "AnyBool" -> BoolT,
       "AnyNum" -> NumT,
       "AnyBigInt" -> BigIntT,
+      "AnyResult" -> AbsType(NormalT(ESValueT), AbruptT),
     )
   )
 

@@ -116,6 +116,9 @@ sealed trait Type {
   // conversion to string
   override def toString: String = this match {
     case NameT(name) => s"$name"
+    case RecordT(props) => props.map {
+      case (p, t) => s"$p -> $t"
+    }.mkString("{ ", ", ", " }")
     case AstT(name) => s"☊($name)"
     case ConstT(name) => s"~$name~"
     case CloT(fid) => s"λ[$fid]"
@@ -167,9 +170,21 @@ case object ESValueT extends PureType
 
 // norminal types
 case class NameT(name: String) extends PureType {
-  // lookup propertys
+  // lookup properties
   def apply(prop: String): AbsType =
     Type.propMap.getOrElse(name, Map()).getOrElse(prop, Absent)
+}
+
+// record types
+case class RecordT(props: Map[String, AbsType]) extends PureType {
+  // lookup properties
+  def apply(prop: String): AbsType = props.getOrElse(prop, Absent)
+
+  // merge record types
+  def ⊔(that: RecordT): RecordT = {
+    val keys = this.props.keySet ++ that.props.keySet
+    RecordT(keys.toList.map(k => k -> (this(k) ⊔ that(k))).toMap)
+  }
 }
 
 // AST types

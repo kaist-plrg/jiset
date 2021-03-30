@@ -64,7 +64,25 @@ case class AbsType private (
   // normalize types
   private def norm: AbsType = new AbsType(normalizedSet)
   private def normalizedSet: Set[Type] = {
-    var set = this.set.filter(!_.strictAncestors.exists(this.set contains _))
+    var set = this.set
+
+    // merge record
+    var record: Option[RecordT] = None
+    set.foreach {
+      case r @ RecordT(props) =>
+        set -= r
+        record = record match {
+          case Some(l) => Some(l ⊔ r)
+          case None => Some(r)
+        }
+      case _ =>
+    }
+    record.map(set += _)
+
+    // remove redundant types
+    set = set.filter(!_.strictAncestors.exists(this.set contains _))
+
+    // merge aliases
     @tailrec
     def aux(pairs: List[(Type, Set[Type])]): Unit = pairs match {
       case (to, from) :: remain if from subsetOf set =>
@@ -103,6 +121,9 @@ case class AbsType private (
     y <- x.bases
     t <- y - z
   } yield t).norm
+
+  // upcast
+  def upcast: AbsType = new AbsType(set.map(_.upcast)).norm
 
   // abstract boolean negation
   def unary_!(): AbsType = new AbsType(bool.map(b => Bool(!b))).norm

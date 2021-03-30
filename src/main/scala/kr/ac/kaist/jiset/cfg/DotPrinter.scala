@@ -197,7 +197,10 @@ class DotPrinter {
     escapeHtml(node.beautified(index = !useUId))
   // normalize beautified view
   private val normPattern = """[\[\](),\s~?"]""".r
-  private def norm(view: View): String = normPattern.replaceAllIn(view.toString, "")
+  private def norm(view: View): String = normPattern.replaceAllIn(view.tys.map {
+    case RecordT(props) => NameT("Record")
+    case t => t
+  }.toString, "")
 
   // implicit convertion from Node to String
   private implicit def node2str(n: Node): String = s"node${n.uid}"

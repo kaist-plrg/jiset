@@ -88,6 +88,8 @@ case class AbsState(
         t
       case NilT if prop == "length" => Num(0)
       case ListT(_) | StrT | Str(_) if prop == "length" => NumT
+      case (record: RecordT) => record(prop)
+      case MapT(elem) => elem
       case _ => AbsType.Bot
     })
   }

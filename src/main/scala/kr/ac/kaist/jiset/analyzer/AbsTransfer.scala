@@ -262,7 +262,16 @@ object AbsTransfer {
           } yield AbsType(t.escapedSet.map(NormalT(_): Type))
           case _ => pure(AbruptT.abs)
         }
-      case EMap(Ty(name), props) => NameT(name).abs
+      case EMap(Ty("Record"), props) => for {
+        ps <- join(props.collect {
+          case (EStr(prop), expr) => for {
+            t <- transfer(expr)
+          } yield prop -> t.escaped.upcast
+        })
+      } yield RecordT(ps.toMap)
+      case EMap(Ty(name), props) =>
+        // TODO check props
+        NameT(name).abs
       case EList(exprs) => for {
         ts <- join(exprs.map(transfer))
         set = ts.foldLeft(AbsType.Bot)(_ ⊔ _).escapedSet
