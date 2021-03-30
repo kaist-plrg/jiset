@@ -1,47 +1,60 @@
 # Target Errors
 
-## [#2242](https://github.com/tc39/ecma262/pull/2242/files): Editorial: put underscores around alias name
+## [#2242](https://github.com/tc39/ecma262/pull/2242/files): Editorial: put underscores around alias name [Cannot Dectect]
 
 - **Version**: [31f3c2b0c220cfea849a99c4f4ef22d93ddac14e](https://github.com/tc39/ecma262/commits/31f3c2b0c220cfea849a99c4f4ef22d93ddac14e)
   - **Type**: Cannot Detect
   - **Algorithm**: IntegerIndexedExoticObject.OwnPropertyKeys
   - **Description**: 둘 다 동일한 IR로 컴파일 됨
+  - **Count**: 1
 
-## [#2238](https://github.com/tc39/ecma262/pull/2238/files): Editorial: fix number types in Array.prototype.findIndex / RegExp.prototype[Symbol.search] / {Map,Set}.prototype.size
+## [#2238](https://github.com/tc39/ecma262/pull/2238/files): Editorial: fix number types in Array.prototype.findIndex / RegExp.prototype[Symbol.search] / {Map,Set}.prototype.size [Cannot Detect / Builtin]
 
 - **Version**: [3db2f0d7d48247c1cac23d21de1ef98ac352e09c](https://github.com/tc39/ecma262/commits/3db2f0d7d48247c1cac23d21de1ef98ac352e09c)
-  - **Type**: Cannot Detect
+  - **Type**: Builtin / Cannot Detect
   - **Algorithm**: RegExp.prototype.@@search, Array.prototype.findIndex, Map.prototype.size, Set.prototype.size
   - **Description**: 둘 다 동일한 IR로 컴파일 됨 (mathematical value, numeric value 에 대한 자세한 분류가 필요함)
+  - **Count**: 5
 
-## [#2220](https://github.com/tc39/ecma262/pull/2220/files): Editorial: replace a few stray GetReferencedName invocations / re-define "super-reference"
+## [#2220](https://github.com/tc39/ecma262/pull/2220/files): Editorial: replace a few stray GetReferencedName invocations / re-define "super-reference" [Detected]
 
 - **Version**: [a18acef2559a6f159047ca6fc0f3dd932231fefc](https://github.com/tc39/ecma262/commits/a18acef2559a6f159047ca6fc0f3dd932231fefc)
   - **Type**: Reference Error - `GetReferencedName`
   - **Algorithm**: AssignmentExpression.Evaluation
   - **Description**: `GetReferencedName` 이라는 존재하지 않는 함수를 사용함
+  - **Count**: 3
+  - **Alarms**:
+  ```
+  [Bug] unknown variable: GetReferencedName @ AssignmentExpression[6,0].Evaluation:Call[5406]:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]
+  [Bug] unknown variable: GetReferencedName @ AssignmentExpression[7,0].Evaluation:Call[5432]:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]
+  [Bug] unknown variable: GetReferencedName @ AssignmentExpression[8,0].Evaluation:Call[5456]:[☊(AssignmentExpression), ☊(LeftHandSideExpression), ☊(AssignmentExpression)]
+  ```
 
-## [#2185](https://github.com/tc39/ecma262/pull/2185/files): Editorial: handle NaN and infinities in Math.round
+## [#2185](https://github.com/tc39/ecma262/pull/2185/files): Editorial: handle NaN and infinities in Math.round [Cannot Detect / Builtin]
 
 - **Version**: [11c45e805c4f95e1eb81deedbda05e1bcbc08db6](https://github.com/tc39/ecma262/commits/11c45e805c4f95e1eb81deedbda05e1bcbc08db6)
-  - **Type**: Cannot Detect
+  - **Type**: Bulitin / Cannot Detect
   - **Algorithm**: Math.round
   - **Description**: 우선 `If _n_ is an integral Number` 라는 문장이 현재 컴파일이 안되고, 컴파일이 되어도 해결하기 어려운 문제로 보임.
     - +Infinity < 0.5 라는 것이 있을 때 타입 에러가 발생해야 된다고 생각했지만, 둘 다 AbsNum 으로 표현되어 에러가 발생하지 않음
     - Math.round 에 대한 정확한 spec 이 주어지지 않은 상황에서 문제가 있음을 알기는 힘들다고 생각이 됨.
+  - **Count**: 1
 
-## [#2174](https://github.com/tc39/ecma262/pull/2174/files): Editorial: quick fixes re Math functions
+## [#2174](https://github.com/tc39/ecma262/pull/2174/files): Editorial: quick fixes re Math functions [Cannot Detect / Builtin]
 
 - **Version**: [575149cfd77aebcf3a129e165bd89e14caafc31c](https://github.com/tc39/ecma262/commits/575149cfd77aebcf3a129e165bd89e14caafc31c)
-  - **Type**: Cannot Detect
-  - **Algorithm**: Math.round
-  - **Description**: `x` 는 ESValue 로 표현되고, `x < 0.5` 를 하였을 때, 현재 분석기에서는 항상 `boolTop`을 반환함. AbsTransfer 를 수정하면 검출할 수 있을 것으로 생각됨.
+  - **Type**: Builtin / Cannot Detect / Possible
+  - **Algorithm**: Math.round, Math.fround
+  - **Description**: Need discussion
+  - **Count**: 5
+    - Math.fround: `ToNumber` 라인이 빠진 것을 1개로 셈
+    - Math.round: 각각의 잘못된 변수 사용을 1개로 셈
 
 ## [#2121](https://github.com/tc39/ecma262/pull/2121/files): Editorial: reference correct nonterminals in IteratorDestructuringAssignmentEvaluation
 
 - **Version**: [276af73369c33f132ec55197f82273d53eb9d89a](https://github.com/tc39/ecma262/commits/276af73369c33f132ec55197f82273d53eb9d89a)
   - **Type**: Reference Error - `AssignmentExpression`, `LeftHandSideExpression`
-  - **Algorithm**: AssignmentExpression.IteratorDestructuringAssignmentEvaluation
+  - **Algorithm**: AssignmentElement.IteratorDestructuringAssignmentEvaluation
   - **Description**: `AssignmentExpression`과 `LeftHandSideExpression`이 없는데 사용함
 
 ## [#2098](https://github.com/tc39/ecma262/pull/2098/files): Editorial: add missing ! on calls to OrdinaryObjectCreate
