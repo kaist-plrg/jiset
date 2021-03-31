@@ -884,20 +884,20 @@ class Compiler private (val version: String) extends Compilers {
     ("a value of type reference whose base value component is" ~> expr) ~
     (", whose referenced name component is" ~> expr) ~
     (", and whose strict reference flag is" ~> expr) ^^ {
-      case (i0 ~ b) ~ (i1 ~ r) ~ (i2 ~ s) => pair(i0 ++ i1 ++ i2, EMap(Ty("Reference"), List(
-        EStr("BaseValue") -> b,
+      case (i0 ~ b) ~ (i1 ~ r) ~ (i2 ~ s) => pair(i0 ++ i1 ++ i2, EMap(Ty("ReferenceRecord"), List(
+        EStr("Base") -> b,
         EStr("ReferencedName") -> r,
-        EStr("StrictReference") -> s
+        EStr("Strict") -> s
       )))
     } | ("a value of type Reference that is a Super Reference whose base value component is" ~> expr) ~
     (", whose referenced name component is" ~> expr) ~
     (", whose thisValue component is" ~> expr) ~
     (", and whose strict reference flag is" ~> expr) ^^ {
-      case (i0 ~ b) ~ (i1 ~ r) ~ (i2 ~ t) ~ (i3 ~ s) => pair(i0 ++ i1 ++ i2 ++ i3, EMap(Ty("Reference"), List(
-        EStr("BaseValue") -> b,
+      case (i0 ~ b) ~ (i1 ~ r) ~ (i2 ~ t) ~ (i3 ~ s) => pair(i0 ++ i1 ++ i2 ++ i3, EMap(Ty("ReferenceRecord"), List(
+        EStr("Base") -> b,
         EStr("ReferencedName") -> r,
-        EStr("thisValue") -> t,
-        EStr("StrictReference") -> s
+        EStr("Strict") -> s,
+        EStr("ThisValue") -> t,
       )))
     }
   )
@@ -1546,11 +1546,11 @@ class Compiler private (val version: String) extends Compilers {
   )
   lazy val weakFieldName: P[Expr] = fieldName ||| (camelWord | id) ^^ { EStr(_) }
   lazy val fieldName: P[Expr] = opt("the") ~> (
-    "base value component" ^^^ "BaseValue" |||
-    "thisValue component" ^^^ "thisValue" |||
-    "outer environment reference" ^^^ "Outer" |||
-    "outer lexical environment reference" ^^^ "Outer" |||
-    "strict reference flag" ^^^ "StrictReference" |||
+    "base value component" ^^^ "Base" |||
+    "thisValue component" ^^^ "ThisValue" |||
+    "outer environment reference" ^^^ "OuterEnv" |||
+    "outer lexical environment reference" ^^^ "OuterEnv" |||
+    "strict reference flag" ^^^ "Strict" |||
     "referenced name component" ^^^ "ReferencedName" |||
     "binding object" ^^^ "BindingObject" |||
     camelWord <~ ("fields" | "component")

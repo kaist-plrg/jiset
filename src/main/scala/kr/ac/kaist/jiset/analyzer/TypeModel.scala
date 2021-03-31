@@ -49,7 +49,7 @@ object TypeModel {
     I("FunctionObject", parent = "OrdinaryObject", Map()),
     I("ECMAScriptFunctionObject", parent = "FunctionObject", Map(
       "Environment" -> NameT("EnvironmentRecord"),
-      "FormalParameters" -> AstT("FormalParameters"),
+      "FormalParameters" -> AbsType(AstT("FormalParameters"), AstT("ArrowParameters")),
       "ECMAScriptCode" -> AstT("FunctionBody"),
       "ConstructorKind" -> AbsType(BASE, DERIVED),
       "Realm" -> NameT("RealmRecord"),
@@ -205,7 +205,10 @@ object TypeModel {
     )),
 
     // environment records
-    I("EnvironmentRecord", Map(
+    I("LexicalEnvironment", Map(
+      "EnvironmentRecord" -> NameT("EnvironmentRecord"),
+    )),
+    I("EnvironmentRecord", parent = "LexicalEnvironment", Map(
       "OuterEnv" -> AbsType(NameT("EnvironmentRecord"), Null),
       "SubMap" -> MapT(NameT("Binding")),
     )),

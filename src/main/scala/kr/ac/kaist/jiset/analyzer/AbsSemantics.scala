@@ -83,16 +83,13 @@ object AbsSemantics {
       case (param :: pl, arg :: al) =>
         st = st.define(param.name, arg.abs)
         aux(pl, al)
-      case (Param(name, Optional) :: tl, Nil) =>
-        st = st.define(name, Absent.abs)
-        aux(tl, Nil)
-      case (Param(name, Normal) :: tl, Nil) =>
-        warning(s"arity mismatch (remaining normal parameters): ${params.mkString(", ")}")
+      case (Param(name, kind) :: tl, Nil) =>
+        if (kind == Normal) alarm(s"remaining parameter: $name")
         st = st.define(name, Absent.abs)
         aux(tl, Nil)
       case (Nil, Nil) =>
-      case (Nil, _) =>
-        warning(s"arity mismatch (remaining arguments): ${args.mkString(", ")}")
+      case (Nil, args) =>
+        alarm(s"remaining arguments: ${args.mkString(", ")}")
       case _ =>
         warning(s"consider variadic: (${params.mkString(", ")}) and (${args.mkString(", ")}) @ $call")
     }
