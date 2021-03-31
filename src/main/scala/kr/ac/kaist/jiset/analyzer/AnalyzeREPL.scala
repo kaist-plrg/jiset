@@ -21,7 +21,7 @@ object AnalyzeREPL {
 
   // breakpoints
   private var continue = false
-  private val breakpoints = ArrayBuffer[(CmdOption, Regex)]()
+  private val breakpoints = ArrayBuffer[(CmdOption, String)]()
 
   // completer
   private val completer: TreeCompleter =
@@ -52,19 +52,19 @@ object AnalyzeREPL {
   // helper for break
   private def isBreak(cp: ControlPoint): Boolean = cp match {
     case NodePoint(node: Entry, _) => breakpoints.exists {
-      case (CmdBreak.FuncTarget, name) => name.matches(cfg.funcOf(node).name)
-      case (CmdBreak.BlockTarget, uid) => uid.toString.toInt == node.uid
+      case (CmdBreak.FuncTarget, name) => name == cfg.funcOf(node).name
+      case (CmdBreak.BlockTarget, uid) => uid.toInt == node.uid
       case _ => ???
     }
     case NodePoint(node, _) => breakpoints.exists {
-      case (CmdBreak.BlockTarget, uid) => uid.toString.toInt == node.uid
+      case (CmdBreak.BlockTarget, uid) => uid.toInt == node.uid
       case _ => false
     }
     case _ => false
   }
   private def addBreak(opt: CmdOption, bp: List[String]): Unit = bp match {
     case Nil => println("need arguments")
-    case str :: _ => breakpoints += (opt -> str.r)
+    case str :: _ => breakpoints += (opt -> str)
   }
 
   // stop
@@ -117,9 +117,10 @@ object AnalyzeREPL {
 
   // run repl
   def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) runDirect(cp)
-  def runDirect(cp: ControlPoint): Unit = {
+  def runDirect(givenCP: ControlPoint): Unit = {
+    val cp = if (givenCP == null) None else Some(givenCP)
     help
-    println(sem.getString(cp, CYAN, true))
+    cp.map(cp => println(sem.getString(cp, CYAN, true)))
     try while (reader.readLine(prompt) match {
       case null =>
         stop(); false
@@ -137,7 +138,7 @@ object AnalyzeREPL {
           }; true
         case CmdListBreak.name :: _ =>
           breakpoints.zipWithIndex.foreach {
-            case (bp, i) => println("%s: %-15s %s".format(i, bp._1, bp._2))
+            case ((k, v), i) => println(f"$i: $k%-15s $v")
           }; true
         case CmdRmBreak.name :: args =>
           args.headOption match {
@@ -148,18 +149,18 @@ object AnalyzeREPL {
         case CmdLog.name :: _ =>
           Stat.dump(); true
         case CmdGraph.name :: List("-total") =>
-          dumpCFG(Some(cp), depth = None)
+          dumpCFG(cp, depth = None)
           true
         case CmdGraph.name :: args =>
           optional(args.head.toInt) match {
-            case depth @ Some(_) => dumpCFG(Some(cp), depth = depth)
+            case depth @ Some(_) => dumpCFG(cp, depth = depth)
             case None =>
               val func = cfg.funcs.find(x => args contains x.name)
               val targetCp = func match {
-                case Some(func) => ReturnPoint(func, View(List()))
+                case Some(func) => Some(ReturnPoint(func, View(List())))
                 case None => cp
               }
-              dumpCFG(Some(targetCp), depth = Some(0))
+              dumpCFG(targetCp, depth = Some(0))
           }
           true
         case CmdExit.name :: _ => error("stop for debugging")
@@ -174,7 +175,7 @@ object AnalyzeREPL {
           }; true
         case CmdEntry.name :: _ =>
           visited = Set()
-          getEntryFunc(cp).foreach(println(_))
+          cp.map(getEntryFunc(_).foreach(println _))
           true
         case CmdWorklist.name :: args =>
           worklist.foreach(println(_))
