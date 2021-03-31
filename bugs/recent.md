@@ -131,42 +131,14 @@ TryStatement : try Block Catch Finally
 
 ```
 1. Let _index_ be 0.
-1. Repeat, while _index_ &lt; _len_,
-  1. Let _val_ be _argumentsList_[_index_].
-  1. Perform ! CreateDataPropertyOrThrow(_obj_, ! ToString(𝔽(_index_)), _val_).
-  1. Set _index_ to _index_ + 1.
-1. Perform ! DefinePropertyOrThrow(_obj_, *"length"*, PropertyDescriptor { [[Value]]: 𝔽(_len_), [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *true* }).
-1. Let _mappedNames_ be a new empty List.
+...
 1. Let _index_ be _numberOfParameters_ - 1.
-1. Repeat, while _index_ &ge; 0,
-  1. Let _name_ be _parameterNames_[_index_].
-  1. If _name_ is not an element of _mappedNames_, then
-    1. Add _name_ as an element of the list _mappedNames_.
-    1. If _index_ &lt; _len_, then
-      1. Let _g_ be MakeArgGetter(_name_, _env_).
-      1. Let _p_ be MakeArgSetter(_name_, _env_).
-      1. Perform _map_.[[DefineOwnProperty]](! ToString(𝔽(_index_)), PropertyDescriptor { [[Set]]: _p_, [[Get]]: _g_, [[Enumerable]]: *false*, [[Configurable]]: *true* }).
-  1. Set _index_ to _index_ - 1.
 ```
 
 - __Expected:__
 
 ```
 1. Let _index_ be 0.
-1. Repeat, while _index_ &lt; _len_,
-  1. Let _val_ be _argumentsList_[_index_].
-  1. Perform ! CreateDataPropertyOrThrow(_obj_, ! ToString(𝔽(_index_)), _val_).
-  1. Set _index_ to _index_ + 1.
-1. Perform ! DefinePropertyOrThrow(_obj_, *"length"*, PropertyDescriptor { [[Value]]: 𝔽(_len_), [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *true* }).
-1. Let _mappedNames_ be a new empty List.
+...
 1. Set _index_ be _numberOfParameters_ - 1.
-1. Repeat, while _index_ &ge; 0,
-  1. Let _name_ be _parameterNames_[_index_].
-  1. If _name_ is not an element of _mappedNames_, then
-    1. Add _name_ as an element of the list _mappedNames_.
-    1. If _index_ &lt; _len_, then
-      1. Let _g_ be MakeArgGetter(_name_, _env_).
-      1. Let _p_ be MakeArgSetter(_name_, _env_).
-      1. Perform _map_.[[DefineOwnProperty]](! ToString(𝔽(_index_)), PropertyDescriptor { [[Set]]: _p_, [[Get]]: _g_, [[Enumerable]]: *false*, [[Configurable]]: *true* }).
-  1. Set _index_ to _index_ - 1.
 ```
