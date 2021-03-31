@@ -190,7 +190,7 @@ def main():
   
   # make directory
   if args.clean or not exists(RESULT_DIR):
-    clean_dir(results)
+    clean_dir(RESULT_DIR)
   if not exists(RAW_DIR):
     makedirs(RAW_DIR)
   if not exists(DIFF_DIR):

@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.spec.algorithm._
-import kr.ac.kaist.jiset.spec.grammar.Grammar
+import kr.ac.kaist.jiset.spec.grammar.{ Grammar, NonTerminal, Terminal }
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
 
@@ -24,40 +24,57 @@ object AlgoParser {
   ): List[Algo] = {
     val (elem, heads) = parsedHead
     val ids: List[String] = getIds(elem)
-    if (detail) println(s"==================================================")
-    val result = try {
+    val result: List[Algo] = try {
       val (start, end) = getRange(elem).get
       // get code
-      val code = getRawBody(elem)
-      // get tokens
-      val tokens = TokenParser.getTokens(code, secIds)
-      // get body
-      val rawBody = Compiler(version)(tokens, start)
+      var code = getRawBody(elem)
 
-      // print detail
-      if (detail) {
-        println(s"Range: (${start + 1}, $end)")
-        code.foreach(println _)
-        println(s"--------------------------------------------------")
-        println(Token.getString(tokens))
-        println(s"--------------------------------------------------")
-        heads.foreach(println(_))
-        println("====>")
-        println(rawBody.beautified)
+      // old bitwise cases
+      if (("Bitwise.*Expression.*Evaluation.*".r matches heads.head.name) &&
+        (code.mkString contains "_A_")) heads.map {
+        case (head: SyntaxDirectedHead) => head.rhs.tokens match {
+          case List(l: NonTerminal, op: Terminal, r: NonTerminal) =>
+            val newCode = code.map(_
+              .replaceAll("_A_", s"_${l.name}_")
+              .replaceAll("_B_", s"_${r.name}_")
+              .replaceAll("@", s"$op"))
+            val rawBody = getBody(version, newCode, secIds, start)
+            Algo(head, ids, rawBody, code)
+          case _ => error("impossible")
+        }
       }
-
-      heads.map(Algo(_, ids, rawBody, code))
+      else {
+        val rawBody = getBody(version, code, secIds, start)
+        heads.map(Algo(_, ids, rawBody, code))
+      }
     } catch {
       case e: Throwable =>
-        if (detail) {
-          println(s"[Algo] ${e.getMessage}")
-          e.getStackTrace.foreach(println _)
-        }
         Nil
     }
-    if (detail) println(s"==================================================")
     result.foreach(algo => (new LocWalker).walk(algo.rawBody))
     result
+  }
+
+  // get algorithms from codes
+  def getBody(
+    version: String,
+    code: Array[String],
+    secIds: Map[String, Name],
+    start: Int
+  )(
+    implicit
+    lines: Array[String],
+    grammar: Grammar,
+    region: Region,
+    document: Document
+  ): Inst = {
+    // get tokens
+    val tokens = TokenParser.getTokens(code, secIds)
+
+    // get body
+    val rawBody = Compiler(version)(tokens, start)
+
+    rawBody
   }
 
   // get ancestor ids

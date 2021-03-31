@@ -119,7 +119,7 @@ class Compiler private (val version: String) extends Compilers {
   lazy val ifStmt = {
     ("if" ~> cond <~ "," ~
       opt("then")) ~ stmt ~ opt(opt("." | ";" | ",") ~ opt(next) ~
-        ("else" | "otherwise") ~ opt(ignoreCond | cond) ~ opt(",") ~> stmt)
+        ("else" | "otherwise") ~ opt(",") ~ opt(cond) ~ opt("," | ";") ~> stmt)
   } ^^ {
     case (i ~ c) ~ t ~ None => ISeq(i :+ IIf(c, t, emptyInst))
     case (i ~ c) ~ t ~ Some(e) => ISeq(i :+ IIf(c, t, e))
@@ -202,7 +202,11 @@ class Compiler private (val version: String) extends Compilers {
   ) ~ stmt ^^ {
       case Some(i ~ c) ~ s => ISeq(i :+ IWhile(c, s))
       case None ~ s => IWhile(EBool(true), s)
-    }
+    } | (
+      "repeat" ~ opt(",") ~> "until" ~ rest ~> stmt ^^ {
+        case i => IWhile(toERef("AnyBool"), i)
+      }
+    )
 
   // for-each statements
   lazy val forEachStmt = {
@@ -1048,6 +1052,7 @@ class Compiler private (val version: String) extends Compilers {
     case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
     case s if Try(s.toLong).isSuccess => EINum(s.toLong)
     case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
+    case s if s.endsWith("n") && Try(s.dropRight(1).toLong).isSuccess => EBigINum(BigInt(s.dropRight(1).toLong))
     case err if err.endsWith("Error") => getErrorObj(err)
     case s => ENotSupported(s)
   }
@@ -1118,7 +1123,7 @@ class Compiler private (val version: String) extends Compilers {
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions
   ////////////////////////////////////////////////////////////////////////////////
-  lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | "." | next | "and") | etcCond
+  lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | "." | ";" | next | "and") | etcCond
   lazy val _cond: P[I[Expr]] = (
     argumentCond |||
     sameCond |||
@@ -1231,26 +1236,26 @@ class Compiler private (val version: String) extends Compilers {
   // TODO consider the condition(_cond) end with "." #180
   lazy val equalRhs: P[Expr => I[Expr]] = {
     ("is" | "was") ~ opt("present and" ~ ("its value is" | "has value")) | "has the value" | "are any of"
-  } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | in | ("." ~ next) | next), sep("or")) ^^ {
+  } ~ opt("either") ~> rep1sep(rhsExpr <~ guard("," | ";" | "or" | "and" | in | ("." ~ next) | next), sep("or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     }
   } ||| {
     ("is" | "was") ~ opt("present and" ~ ("its value is" | "has value")) | "has the value" | "are any of"
-  } ~ opt("either") ~> ("a" | "an") ~> rep1sep(rhsType <~ guard("," | "or" | "and" | in | ("." ~ next) | next), sep("or")) ^^ {
+  } ~ opt("either") ~> ("a" | "an") ~> rep1sep(rhsType <~ guard("," | ";" | "or" | "and" | in | ("." ~ next) | next), sep("or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     }
   }
   lazy val notEqualRhs: P[Expr => I[Expr]] = {
     "is" ~ ("not" ~ opt("the same value as" | "the same as" | "one of") | "neither")
-  } ~> rep1sep(rhsExpr <~ guard("," | "or" | "and" | "nor" | in | ("." ~ next) | next), sep("nor" | "or")) ^^ {
+  } ~> rep1sep(rhsExpr <~ guard("," | ";" | "or" | "and" | "nor" | in | ("." ~ next) | next), sep("nor" | "or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     } match { case i ~ e => pair(i, not(e)) }
   } ||| {
     "is" ~ ("not" ~ opt("the same value as" | "the same as" | "one of") | "neither")
-  } ~> ("a" | "an") ~> rep1sep(rhsType <~ guard("," | "or" | "and" | "nor" | in | ("." ~ next) | next), sep("nor" | "or")) ^^ {
+  } ~> ("a" | "an") ~> rep1sep(rhsType <~ guard("," | ";" | "or" | "and" | "nor" | in | ("." ~ next) | next), sep("nor" | "or")) ^^ {
     case fs => (l: Expr) => fs.map(_(l)).reduce[I[Expr]] {
       case ((i0 ~ l), (i1 ~ r)) => pair(i0 ++ i1, EBOp(OOr, l, r))
     } match { case i ~ e => pair(i, not(e)) }
