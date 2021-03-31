@@ -141,7 +141,7 @@ object AbsTransfer {
       } yield ()
       case ILet(Id(x), expr) => for {
         t <- transfer(expr)
-        _ <- modify(_.define(x, t))
+        _ <- modify(_.define(x, t, check = true))
       } yield ()
       case IAssign(ref, expr) => for {
         r <- transfer(ref)
@@ -393,11 +393,11 @@ object AbsTransfer {
         case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => for {
           r <- transfer(ref)
           b <- get(_.exists(r))
-        } yield !b
+        } yield b
         case EBOp(OEq, ERef(ref), EAbsent) => for {
           r <- transfer(ref)
           b <- get(_.exists(r))
-        } yield b
+        } yield !b
         case _ => error("not existence check")
       })
     }

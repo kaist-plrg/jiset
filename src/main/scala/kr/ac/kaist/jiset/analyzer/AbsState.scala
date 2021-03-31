@@ -44,10 +44,13 @@ case class AbsState(
   )
 
   // define variable
-  def define(x: String, t: AbsType): AbsState = norm({
+  def define(x: String, t: AbsType, check: Boolean = false): AbsState = norm({
     if (t.isBottom) Bot
     else if (t.isMustAbsent) this
-    else copy(map = map + (x -> t))
+    else {
+      if (check && exists(AbsId(x)) == AT) alarm(s"already defined variable: $x")
+      copy(map = map + (x -> t))
+    }
   })
 
   // lookup references
@@ -129,7 +132,7 @@ case class AbsState(
   // existence check
   def exists(ref: AbsRef): AbsType = norm(ref match {
     case AbsGeneralProp(base, prop) => BoolT
-    case _ => lookup(ref, check = false).isAbsent
+    case _ => !lookup(ref, check = false).isAbsent
   })
 
   // update reference
