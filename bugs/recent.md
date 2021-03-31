@@ -22,7 +22,7 @@ if ( Expression ) Statement
 - It is a Syntax Error if IsLabelledFunction(Statement) is true.
 ```
 
-## ClassTail - [[Reported](https://github.com/tc39/ecma262/pull/2362)]
+## ClassTail - [[Approved](https://github.com/tc39/ecma262/pull/2362)]
 - __Section:__ [8.4.1 Static Semantics: Contains](https://tc39.es/ecma262/#sec-static-semantics-contains)
 - ClassTail[0,3].Contains에서 3번째 statement에서 ClassHeritage에 대한 검사 없이 사용하여서 reference error가 발생
 - __Issue__: ES2015
@@ -36,4 +36,137 @@ if ( Expression ) Statement
 
 ```
 3. If ClassHeritage is present, let inHeritage be ClassHeritage Contains symbol. Otherwise, let inHeritage be false.
+```
+
+## Duplicated Variables - [[Reported](https://github.com/tc39/ecma262/pull/2365)]
+- __Section:__ [8.2.1 Static Semantics: ContainsDuplicateLabels](https://tc39.es/ecma262/#sec-static-semantics-containsduplicatelabels)
+- __Section:__ [8.2.2 Static Semantics: ContainsUndefinedBreakTarget](https://tc39.es/ecma262/#sec-static-semantics-containsundefinedbreaktarget)
+- __Section:__ [8.2.3 Static Semantics: ContainsUndefinedContinueTarget](https://tc39.es/ecma262/#sec-static-semantics-containsundefinedcontinuetarget)
+- __Issue:__ ???
+- __Count:__ 6
+- __Current:__
+
+```
+CaseBlock : { CaseClauses? DefaultClause CaseClauses? }
+
+1. If the first |CaseClauses| is present, then
+  1. Let _hasDuplicates_ be ContainsDuplicateLabels of the first |CaseClauses| with argument _labelSet_.
+  1. If _hasDuplicates_ is *true*, return *true*.
+1. Let _hasDuplicates_ be ContainsDuplicateLabels of |DefaultClause| with argument _labelSet_.
+1. If _hasDuplicates_ is *true*, return *true*.
+
+TryStatement : try Block Catch Finally
+
+1. Let _hasDuplicates_ be ContainsDuplicateLabels of |Block| with argument _labelSet_.
+1. If _hasDuplicates_ is *true*, return *true*.
+1. Let _hasDuplicates_ be ContainsDuplicateLabels of |Catch| with argument _labelSet_.
+1. If _hasDuplicates_ is *true*, return *true*.
+```
+
+- __Expected:__
+
+```
+CaseBlock : { CaseClauses? DefaultClause CaseClauses? }
+
+1. If the first |CaseClauses| is present, then
+  1. If ContainsDuplicateLabels of the first |CaseClauses| with argument _labelSet_ is *true*, return *true*.
+1. If ContainsDuplicateLabels of |DefaultClause| with argument _labelSet_ is *true*, return *true*.
+
+TryStatement : try Block Catch Finally
+
+1. If ContainsDuplicateLabels of |Block| with argument _labelSet_ is *true*, return *true*.
+1. If ContainsDuplicateLabels of |Catch| with argument _labelSet_ is *true*, return *true*.
+```
+
+- __Section:__ [10.4.2.1 \[\[DefineOwnProperty\]\]](https://tc39.es/ecma262/#sec-array-exotic-objects-defineownproperty-p-desc)
+- __Issue:__ ???
+- __Count:__ 1
+- __Current:__
+
+```
+1. Let _succeeded_ be ! OrdinaryDefineOwnProperty(_A_, _P_, _Desc_).
+1. If _succeeded_ is *false*, return *false*.
+1. If _index_ &ge; _oldLen_, then
+  1. Set _oldLenDesc_.[[Value]] to _index_ + *1*<sub>𝔽</sub>.
+  1. Let _succeeded_ be OrdinaryDefineOwnProperty(_A_, *"length"*, _oldLenDesc_).
+```
+
+- __Expected:__
+
+```
+1. Let _succeeded_ be ! OrdinaryDefineOwnProperty(_A_, _P_, _Desc_).
+1. If _succeeded_ is *false*, return *false*.
+1. If _index_ &ge; _oldLen_, then
+  1. Set _oldLenDesc_.[[Value]] to _index_ + *1*<sub>𝔽</sub>.
+  1. Set _succeeded_ be OrdinaryDefineOwnProperty(_A_, *"length"*, _oldLenDesc_).
+```
+
+- __Section:__ [10.4.2.4 ArraySetLength](https://tc39.es/ecma262/#sec-arraysetlength)
+- __Issue:__ ???
+- __Count:__ 1
+- __Current:__
+
+```
+1. Let _succeeded_ be ! OrdinaryDefineOwnProperty(_A_, *"length"*, _newLenDesc_).
+1. If _succeeded_ is *false*, return *false*.
+...
+1. If _newWritable_ is *false*, then
+  1. Let _succeeded_ be ! OrdinaryDefineOwnProperty(_A_, *"length"*, PropertyDescriptor { [[Writable]]: *false* }).
+```
+
+- __Expected:__
+
+```
+1. Let _succeeded_ be ! OrdinaryDefineOwnProperty(_A_, *"length"*, _newLenDesc_).
+1. If _succeeded_ is *false*, return *false*.
+...
+1. If _newWritable_ is *false*, then
+  1. Set _succeeded_ be ! OrdinaryDefineOwnProperty(_A_, *"length"*, PropertyDescriptor { [[Writable]]: *false* }).
+```
+
+- __Section:__ [10.4.4.7 CreateMappedArgumentsObject](https://tc39.es/ecma262/#sec-createmappedargumentsobject)
+- __Issue:__ ???
+- __Count:__ 1
+- __Current:__
+
+```
+1. Let _index_ be 0.
+1. Repeat, while _index_ &lt; _len_,
+  1. Let _val_ be _argumentsList_[_index_].
+  1. Perform ! CreateDataPropertyOrThrow(_obj_, ! ToString(𝔽(_index_)), _val_).
+  1. Set _index_ to _index_ + 1.
+1. Perform ! DefinePropertyOrThrow(_obj_, *"length"*, PropertyDescriptor { [[Value]]: 𝔽(_len_), [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *true* }).
+1. Let _mappedNames_ be a new empty List.
+1. Let _index_ be _numberOfParameters_ - 1.
+1. Repeat, while _index_ &ge; 0,
+  1. Let _name_ be _parameterNames_[_index_].
+  1. If _name_ is not an element of _mappedNames_, then
+    1. Add _name_ as an element of the list _mappedNames_.
+    1. If _index_ &lt; _len_, then
+      1. Let _g_ be MakeArgGetter(_name_, _env_).
+      1. Let _p_ be MakeArgSetter(_name_, _env_).
+      1. Perform _map_.[[DefineOwnProperty]](! ToString(𝔽(_index_)), PropertyDescriptor { [[Set]]: _p_, [[Get]]: _g_, [[Enumerable]]: *false*, [[Configurable]]: *true* }).
+  1. Set _index_ to _index_ - 1.
+```
+
+- __Expected:__
+
+```
+1. Let _index_ be 0.
+1. Repeat, while _index_ &lt; _len_,
+  1. Let _val_ be _argumentsList_[_index_].
+  1. Perform ! CreateDataPropertyOrThrow(_obj_, ! ToString(𝔽(_index_)), _val_).
+  1. Set _index_ to _index_ + 1.
+1. Perform ! DefinePropertyOrThrow(_obj_, *"length"*, PropertyDescriptor { [[Value]]: 𝔽(_len_), [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *true* }).
+1. Let _mappedNames_ be a new empty List.
+1. Set _index_ be _numberOfParameters_ - 1.
+1. Repeat, while _index_ &ge; 0,
+  1. Let _name_ be _parameterNames_[_index_].
+  1. If _name_ is not an element of _mappedNames_, then
+    1. Add _name_ as an element of the list _mappedNames_.
+    1. If _index_ &lt; _len_, then
+      1. Let _g_ be MakeArgGetter(_name_, _env_).
+      1. Let _p_ be MakeArgSetter(_name_, _env_).
+      1. Perform _map_.[[DefineOwnProperty]](! ToString(𝔽(_index_)), PropertyDescriptor { [[Set]]: _p_, [[Get]]: _g_, [[Enumerable]]: *false*, [[Configurable]]: *true* }).
+  1. Set _index_ to _index_ - 1.
 ```
