@@ -46,7 +46,10 @@ object AbsTransfer {
       alarmCPStr = ""
       sem.noReturnCheck
       if (DOT) dumpCFG(None, PDF)
-      if (REPL) AnalyzeREPL.runDirect(alarmCP)
+      if (REPL) {
+        printlnColor(RED)(s"* Analysis finished.")
+        AnalyzeREPL.runDirect(alarmCP)
+      }
       if (LOG) Stat.dump()
       Stat.close()
       nfAlarms.close()
@@ -69,14 +72,16 @@ object AbsTransfer {
     val st = sem(np)
     val NodePoint(node, view) = np
     val func = cfg.funcOf(node)
-    val helper = new Helper(ReturnPoint(func, view))
+    val ret = ReturnPoint(func, view)
+    val helper = new Helper(ret)
 
     import helper._
     node match {
       case (entry: Entry) =>
         val newSt = handleThis(func, st)
         sem += NodePoint(cfg.next(entry), view) -> newSt
-      case (exit: Exit) => warning("may be no return")
+      case (exit: Exit) =>
+        sem.doReturn(ret, Undef)
       case (block: Block) =>
         val newSt = join(block.insts.map(transfer))(st)
         sem += NodePoint(cfg.next(block), view) -> newSt
@@ -163,7 +168,7 @@ object AbsTransfer {
       } yield sem.doReturn(ret, t.toComp)
       case ithrow @ IThrow(x) => for {
         _ <- put(AbsState.Bot)
-      } yield AbruptT
+      } yield sem.doReturn(ret, AbruptT)
       case IAssert(expr) => for {
         st <- get
         t <- transfer(expr)
@@ -387,12 +392,12 @@ object AbsTransfer {
       def unapply(expr: Expr): Option[Result[AbsType]] = optional(expr match {
         case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => for {
           r <- transfer(ref)
-          t <- get(_.lookup(r, check = false))
-        } yield !t.isAbsent
+          b <- get(_.exists(r))
+        } yield !b
         case EBOp(OEq, ERef(ref), EAbsent) => for {
           r <- transfer(ref)
-          t <- get(_.lookup(r, check = false))
-        } yield t.isAbsent
+          b <- get(_.exists(r))
+        } yield b
         case _ => error("not existence check")
       })
     }

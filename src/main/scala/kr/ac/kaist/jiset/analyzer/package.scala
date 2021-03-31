@@ -92,7 +92,7 @@ package object analyzer {
   val AT = Bool(true).abs
   val AF = Bool(false).abs
 
-  val TARGET_BUILTIN = Set("Math")
+  val TARGET_BUILTIN = Set("Math", "Atomics")
 
   // constants
   val EMPTY = ConstT("empty")

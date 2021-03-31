@@ -126,6 +126,12 @@ case class AbsState(
       base.set.map(lookupGeneralProp(_, prop, check)).foldLeft(AbsType.Bot)(_ ⊔ _)
   })
 
+  // existence check
+  def exists(ref: AbsRef): AbsType = norm(ref match {
+    case AbsGeneralProp(base, prop) => BoolT
+    case _ => lookup(ref, check = false).isAbsent
+  })
+
   // update reference
   def update(ref: AbsRef, t: AbsType): AbsState = norm(ref match {
     case AbsId(x) => define(x, t)

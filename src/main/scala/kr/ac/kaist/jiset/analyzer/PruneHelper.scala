@@ -17,12 +17,11 @@ trait PruneHelper { this: AbsTransfer.Helper =>
     val pruneRef = PruneRef(st, pass)
     st => expr match {
       case _ if !PRUNE => error("no prune")
-      case pruneRef(ref, t) =>
-        if (t.isBottom) AbsState.Bot
-        else ref match {
-          case RefId(Id(x)) => st.define(x, t)
-          case _ => st
-        }
+      case pruneRef(ref, t) => ref match {
+        case RefId(Id(x)) =>
+          if (t.isBottom) AbsState.Bot else st.define(x, t)
+        case _ => st
+      }
       case _ => st
     }
   }

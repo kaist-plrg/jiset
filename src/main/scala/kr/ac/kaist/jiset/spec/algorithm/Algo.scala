@@ -58,9 +58,6 @@ case class Algo(
     case (head: NormalHead) if head.name == "AbstractRelationalComparison" =>
       val inst = Parser.parseInst("if (= LeftFirst absent) { LeftFirst = true } else { }")
       prepend(List(inst), rawBody)
-    case (head: SyntaxDirectedHead) if head.name endsWith ".EarlyErrors" =>
-      val inst = Parser.parseInst("return undefined")
-      append(List(inst), rawBody)
     case _ => rawBody
   }
 
