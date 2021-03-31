@@ -1,10 +1,10 @@
 {
-  if (= lex null) return (new Reference("BaseValue" -> undefined, "ReferencedName" -> name, "StrictReference" -> strict)) else {}
+  if (= lex null) return (new ReferenceRecord("Base" -> undefined, "ReferencedName" -> name, "Strict" -> strict)) else {}
   let envRec = lex.EnvironmentRecord
   app __x0__ = (envRec.HasBinding envRec name)
   let exists = [? __x0__]
-  if (= exists true) return (new Reference("BaseValue" -> envRec, "ReferencedName" -> name, "StrictReference" -> strict)) else {
-    let outer = lex.Outer
+  if (= exists true) return (new ReferenceRecord("Base" -> envRec, "ReferencedName" -> name, "Strict" -> strict)) else {
+    let outer = lex.OuterEnv
     app __x1__ = (GetIdentifierReference outer name strict)
     return [? __x1__]
   }

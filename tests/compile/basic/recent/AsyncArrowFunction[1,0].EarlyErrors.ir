@@ -1,11 +1,11 @@
 {
   access __x0__ = (CoverCallExpressionAndAsyncArrowHead "Contains" "YieldExpression")
-  if (= __x0__ true) throw SyntaxError else return undefined
+  if (= __x0__ true) throw SyntaxError else {}
   access __x1__ = (CoverCallExpressionAndAsyncArrowHead "Contains" "AwaitExpression")
-  if (= __x1__ true) throw SyntaxError else return undefined
+  if (= __x1__ true) throw SyntaxError else {}
   let __x2__ = false
   if (= absent (parse-syntax CoverCallExpressionAndAsyncArrowHead "AsyncArrowHead" (new []))) __x2__ = true else {}
-  if __x2__ throw SyntaxError else return undefined
+  if __x2__ throw SyntaxError else {}
   access __x3__ = (CoverCallExpressionAndAsyncArrowHead "BoundNames")
   access __x4__ = (AsyncConciseBody "LexicallyDeclaredNames")
   let __x5__ = __x3__
@@ -17,7 +17,7 @@
     __x8__ = 0i
     while (< __x8__ __x6__.length) if (= __x5__[__x7__] __x6__[__x8__]) __x9__ = true else {}
   }
-  if __x9__ throw SyntaxError else return undefined
+  if __x9__ throw SyntaxError else {}
   let __x10__ = true
   access __x11__ = (AsyncConciseBody "AsyncConciseBodyContainsUseStrict")
   __x10__ = (= __x11__ true)
@@ -25,6 +25,6 @@
     access __x12__ = (CoverCallExpressionAndAsyncArrowHead "IsSimpleParameterList")
     __x10__ = (= __x12__ false)
   } else {}
-  if __x10__ throw SyntaxError else return undefined
+  if __x10__ throw SyntaxError else {}
   ??? "All Early Error rules for nt:{AsyncArrowHead} and its derived productions apply to CoveredAsyncArrowHead of nt:{CoverCallExpressionAndAsyncArrowHead} ."
 }

@@ -5,7 +5,7 @@
     app __x0__ = (envRec.HasThisBinding envRec)
     let exists = __x0__
     if (= exists true) return envRec else {}
-    let outer = lex.Outer
+    let outer = lex.OuterEnv
     assert (! (= outer null))
     lex = outer
   }

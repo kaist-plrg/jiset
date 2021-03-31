@@ -2,6 +2,6 @@
   let env = (new LexicalEnvironment("SubMap" -> (new SubMap())))
   let envRec = (new DeclarativeEnvironmentRecord("SubMap" -> (new SubMap())))
   env.EnvironmentRecord = envRec
-  env.Outer = E
+  env.OuterEnv = E
   return env
 }

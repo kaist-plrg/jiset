@@ -2,7 +2,7 @@
   if (< 0i perIterationBindings.length) {
     let lastIterationEnv = CONTEXT.LexicalEnvironment
     let lastIterationEnvRec = lastIterationEnv.EnvironmentRecord
-    let outer = lastIterationEnv.Outer
+    let outer = lastIterationEnv.OuterEnv
     assert (! (= outer null))
     app __x0__ = (NewDeclarativeEnvironment outer)
     let thisIterationEnv = __x0__

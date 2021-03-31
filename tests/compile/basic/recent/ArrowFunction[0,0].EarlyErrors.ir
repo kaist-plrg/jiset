@@ -1,8 +1,8 @@
 {
   access __x0__ = (ArrowParameters "Contains" "YieldExpression")
-  if (= __x0__ true) throw SyntaxError else return undefined
+  if (= __x0__ true) throw SyntaxError else {}
   access __x1__ = (ArrowParameters "Contains" "AwaitExpression")
-  if (= __x1__ true) throw SyntaxError else return undefined
+  if (= __x1__ true) throw SyntaxError else {}
   let __x2__ = true
   access __x3__ = (ConciseBody "ConciseBodyContainsUseStrict")
   __x2__ = (= __x3__ true)
@@ -10,7 +10,7 @@
     access __x4__ = (ArrowParameters "IsSimpleParameterList")
     __x2__ = (= __x4__ false)
   } else {}
-  if __x2__ throw SyntaxError else return undefined
+  if __x2__ throw SyntaxError else {}
   access __x5__ = (ArrowParameters "BoundNames")
   access __x6__ = (ConciseBody "LexicallyDeclaredNames")
   let __x7__ = __x5__
@@ -22,5 +22,5 @@
     __x10__ = 0i
     while (< __x10__ __x8__.length) if (= __x7__[__x9__] __x8__[__x10__]) __x11__ = true else {}
   }
-  if __x11__ throw SyntaxError else return undefined
+  if __x11__ throw SyntaxError else {}
 }
