@@ -385,7 +385,7 @@ class Compiler private (val version: String) extends Compilers {
 
   // early errors
   lazy val earlyErrorStmt: P[Inst] = (("it is" | "always throw") ~ ("a syntax error" | "an early syntax error") ~ "if") ~> cond ^^ {
-    case (i ~ c) => ISeq(i :+ IIf(c, IThrow("SyntaxError"), getRet(EUndef)))
+    case (i ~ c) => ISeq(i :+ IIf(c, IThrow("SyntaxError"), emptyInst))
   }
 
   lazy val earlyErrorCond: P[I[Expr]] = (

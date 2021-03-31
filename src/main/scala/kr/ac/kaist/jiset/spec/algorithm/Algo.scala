@@ -21,12 +21,20 @@ case class Algo(
   def name: String = head.printName
   def params: List[Param] = head.params
 
-  // prepend instructions
-  private def prepend(prefix: List[Inst], inst: Inst): Inst = prefix match {
+  // add instructions
+  private def prepend(p: List[Inst], i: Inst): Inst = add(p, i, true)
+  private def append(a: List[Inst], i: Inst): Inst = add(a, i, false)
+  private def add(
+    added: List[Inst],
+    inst: Inst,
+    prepend: Boolean
+  ): Inst = added match {
     case Nil => inst
     case _ => inst match {
-      case ISeq(list) => ISeq(prefix ++ list)
-      case _ => ISeq(prefix :+ inst)
+      case ISeq(list) =>
+        ISeq(if (prepend) added ++ list else list ++ added)
+      case _ =>
+        ISeq(if (prepend) added :+ inst else inst :: added)
     }
   }
 
@@ -48,8 +56,11 @@ case class Algo(
       prepend(prefix, rawBody)
     // handle abstract relational comparison
     case (head: NormalHead) if head.name == "AbstractRelationalComparison" =>
-      val inst = Parser.parseInst(s"""if (= LeftFirst absent) { LeftFirst = true } else { }""")
+      val inst = Parser.parseInst("if (= LeftFirst absent) { LeftFirst = true } else { }")
       prepend(List(inst), rawBody)
+    case (head: SyntaxDirectedHead) if head.name endsWith ".EarlyErrors" =>
+      val inst = Parser.parseInst("return undefined")
+      append(List(inst), rawBody)
     case _ => rawBody
   }
 
