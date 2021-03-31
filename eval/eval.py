@@ -65,10 +65,10 @@ def build_jiset():
   chdir(EVAL_HOME)
 def run_analyze(version):
   print(f"run analyze({version})...")
-  cmd = f"jiset analyze -log -parse:version={version} -analyze:target=.*"
+  cmd = f"jiset analyze -time -log -silent -parse:version={version} -analyze:target=.*"
   execute_sh(cmd, EVAL_LOG_POST)
   execute_sh(f"mkdir -p {RAW_DIR}")
-  version_dir = get_version_dir(version) 
+  version_dir = get_version_dir(version)
   execute_sh(f"rm -rf {version_dir}")
   execute_sh(f"cp -r {LOG_DIR} {version_dir}")
   print("completed...")
@@ -85,7 +85,7 @@ class CheckErrorType(Enum):
   SOFT = auto()
   ON_DEMAND = auto()
   FORCE = auto()
-  
+
 class AnalysisResult:
   # init
   def __init__(self, version):
@@ -108,8 +108,8 @@ class AnalysisResult:
         msg = print_green(f"[PASS] @ {self.version}: {bug}")
       else:
         msg = print_red(f"[FAIL] @ {self.version}: {bug}")
-      f.write(f"{msg}\n") 
-    
+      f.write(f"{msg}\n")
+
   # equality
   def __eq__(self, that):
     return isinstance(that, AnalysisResult) and self.errors == that.errors
@@ -128,7 +128,7 @@ def dump_diffs():
       f.write(f"Version              : {version}\n")
       f.write(f"Previous Version     : {prev_version}\n")
       f.write("--------------------------------------------------------------------------------\n")
-      # if previous version result doesn't exist, then 
+      # if previous version result doesn't exist, then
       if not prev_version in versions:
         f.write(f"No analysis result for previous version")
         continue
@@ -160,13 +160,13 @@ def check_errors(option):
     for target_error in get_target_errors():
       version = target_error["version"]
       bugs = target_error["bugs"]
-      # if analysis result for version not exist, 
+      # if analysis result for version not exist,
       if not exists(get_version_dir(version)):
         # if SOFT mode, dump YET and continue
         if option == CheckErrorType.SOFT:
           for bug in bugs:
             msg = print_yellow(f"[YET] @ {version}: {bug}")
-            f.write(f"{msg}\n") 
+            f.write(f"{msg}\n")
           continue
         # otherwise, run analysis
         run_analyze(version)
@@ -176,7 +176,7 @@ def check_errors(option):
       # check results and dump
       AnalysisResult(version).check(bugs, f)
   print("check errors completed...")
-    
+
 # entry
 def main():
   # parse arguments
@@ -187,7 +187,7 @@ def main():
   parser.add_argument( "-c", "--check", action="store_true", default=False, help="check errors.json based on cached results/raw/*" )
   parser.add_argument( "-fc", "--fcheck", action="store_true", default=False, help="check errors.json based on new results/raw/*" )
   args = parser.parse_args()
-  
+
   # make directory
   if args.clean or not exists(RESULT_DIR):
     clean_dir(RESULT_DIR)
@@ -199,7 +199,7 @@ def main():
   # build JISET
   if not args.stat:
     build_jiset()
-  
+
   # command stat
   if args.stat:
     dump_stat()

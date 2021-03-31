@@ -56,7 +56,7 @@ package object analyzer {
         if (!(set contains msg)) {
           errorMap += key -> (set + msg)
           val errMsg = s"[Bug] $msg @ ${func.name}"
-          Console.err.println(setColor(RED)(errMsg))
+          if (!LOG) Console.err.println(setColor(RED)(errMsg))
           nfErrors.println(errMsg)
           nfErrors.flush()
           if (CHECK_ALARM) AnalyzeREPL.run(alarmCP)
