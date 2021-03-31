@@ -2,7 +2,7 @@
   if (= realm absent) realm = REALM else {}
   assert (is-instance-of realm RealmRecord)
   if (= prototype absent) prototype = realm.Intrinsics.INTRINSIC_Function_prototype else {}
-  ??? "Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} ."
+  let func = (new BuiltinFunctionObject())
   func.Realm = realm
   func.Prototype = prototype
   func.Extensible = true

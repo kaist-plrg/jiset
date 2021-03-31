@@ -119,7 +119,13 @@ package object analyzer {
   val SUSPENDED_START = ConstT("suspendedStart")
   val SUSPENDED_YIELD = ConstT("suspendedYield")
   val EXECUTING = ConstT("executing")
+  val AWAITING_RETURN = ConstT("awaitingDASHreturn")
   val COMPLETED = ConstT("completed")
+  val PENDING = ConstT("pending")
+  val FULFILLED = ConstT("fulfilled")
+  val REJECTED = ConstT("rejected")
+  val FULFILL = ConstT("fulfill")
+  val REJECT = ConstT("reject")
 
   // singleton types
   type Null = Null.type
