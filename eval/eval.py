@@ -32,6 +32,9 @@ RAW_DIR = join(RESULT_DIR, "raw")
 DIFF_DIR = join(RESULT_DIR, "diff")
 EVAL_LOG = join(RESULT_DIR, "log")
 
+# Global
+ES2018_VERSION = "59d73dc08ea371866c1d9d45843e6752f26a48e4"
+
 # Shell util
 EVAL_LOG_POST = f"2>> {EVAL_LOG} 1>> {EVAL_LOG}"
 def execute_sh(cmd, post = ""):
@@ -50,9 +53,12 @@ def get_prev_commit(commit_hash):
 def get_all_commits():
     cmd = f"cd {ECMA_DIR}; git rev-list HEAD"
     out, err = execute_sh(cmd)
-    return out.split()
+    all_commits = out.split()
+    return all_commits[:all_commits.index(ES2018_VERSION) + 1]
 def get_commit_date(commit_hash):
-    pass
+    cmd = f"cd {ECMA_DIR}; git show -s --format=%ci {commit_hash}"
+    out, err = execute_sh(cmd)
+    return out.strip()
 def clean_dir(path):
     if exists(path):
         shutil.rmtree(path)
@@ -70,7 +76,8 @@ def build_jiset():
     execute_sh("sbt assembly", EVAL_LOG_POST)
     chdir(EVAL_HOME)
 def run_analyze(version):
-    print(f"run analyze({version})...")
+    date_str = get_commit_date(version)
+    print(f"run analyze({date_str}/{version})...")
     cmd = f"jiset analyze -time -log -silent -parse:version={version} -analyze:target=.*"
     execute_sh(cmd, EVAL_LOG_POST)
     execute_sh(f"mkdir -p {RAW_DIR}")
@@ -264,6 +271,7 @@ def main():
     parser.add_argument( "-v", "--version", help="run analyzer to target version")
     parser.add_argument( "-c", "--check", action="store_true", default=False, help="check errors.json based on cached results/raw/*" )
     parser.add_argument( "-fc", "--fcheck", action="store_true", default=False, help="check errors.json based on new results/raw/*" )
+    parser.add_argument( "--stride", help="run analyzer based on stride(OFFSET/STRIDE)")
     args = parser.parse_args()
 
     # make directory
@@ -293,7 +301,11 @@ def main():
     # command all
     else:
         # run all versions and dump stat
-        for version in get_all_commits():
+        versions = get_all_commits()
+        if args.stride != None:
+            offset, stride = [int(n) for n in args.stride.split("/")]
+            versions = versions[offset::stride]
+        for version in versions:
             run_analyze(version)
         dump_stat()
 
