@@ -33,6 +33,7 @@ DIFF_DIR = join(RESULT_DIR, "diff")
 EVAL_LOG = join(RESULT_DIR, "log")
 
 # Global
+FIRST_VERSION = "fc85c50181b2b8d7d75f034800528d87fda6b654"
 ES2018_VERSION = "59d73dc08ea371866c1d9d45843e6752f26a48e4"
 
 # Shell util
@@ -59,6 +60,9 @@ def get_commit_date(commit_hash):
     cmd = f"cd {ECMA_DIR}; git show -s --format=%ci {commit_hash}"
     out, err = execute_sh(cmd)
     return out.strip()
+def get_remote_errors(remote_addr):
+    cmd = f"rsync -a -m --include '**/errors' --include='*/' --exclude='*' {remote_addr}/eval/result/raw {RESULT_DIR}"
+    out, err = execute_sh(cmd)
 def clean_dir(path):
     if exists(path):
         shutil.rmtree(path)
@@ -262,6 +266,38 @@ def check_errors(option):
     print("check errors completed.")
     return tp
 
+# strictly check target errors
+def strict_check_errors():
+    versions, valid_version = get_all_commits(), lambda v: exists(get_version_dir(v))
+    print(f"strict-check errors...")
+    with open(join(RESULT_DIR, "strict-errors.log"), "w") as f:
+        # get target errors
+        for target_error in get_target_errors():
+            version = target_error["version"]
+            bugs = target_error["bugs"]
+            # handle first version
+            if version == versions[0] and valid_version(version):
+                AnalysisResult(version).check(bugs, f)
+                continue
+            next_version = versions[versions.index(version)-1]
+            # log YET if analysis result is not found
+            if not valid_version(version) or not valid_version(next_version):
+                for bug in bugs:
+                    msg = print_yellow(f"[YET] @ {version}: {bug}")
+                    f.write(f"{msg}\n")
+            # strict check
+            else:
+                result = AnalysisResult(version)
+                next_result = AnalysisResult(next_version)
+                for bug in bugs:
+                    if result.contains(bug) and not next_result.contains(bug):
+                        msg = print_green(f"[PASS] @ {version}: {bug}")
+                        f.write(f"{msg}\n")
+                    else:
+                        msg = print_red(f"[FAIL] @ {version}: {bug}")
+                        f.write(f"{msg}\n")
+    print(f"strict-check completed.")
+
 # entry
 def main():
     # parse arguments
@@ -269,13 +305,15 @@ def main():
     parser.add_argument( "--clean", action="store_true", default=False, help="clean result/* and run analysis to all versions" )
     parser.add_argument( "-s", "--stat", action="store_true", default=False, help="dump status of result/raw/*" )
     parser.add_argument( "-v", "--version", help="run analyzer to target version")
-    parser.add_argument( "-c", "--check", action="store_true", default=False, help="check errors.json based on cached results/raw/*" )
-    parser.add_argument( "-fc", "--fcheck", action="store_true", default=False, help="check errors.json based on new results/raw/*" )
+    parser.add_argument( "-c", "--check", action="store_true", default=False, help="check errors.json based on CACHED result/raw/*" )
+    parser.add_argument( "-sc", "--scheck", action="store_true", default=False, help="strictly check errors.json based on result/raw/*" )
+    parser.add_argument( "-fc", "--fcheck", action="store_true", default=False, help="check errors.json based on NEW result/raw/*" )
     parser.add_argument( "--stride", help="run analyzer based on stride(OFFSET/STRIDE)")
+    parser.add_argument( "-g", "--grep", type=lambda items:[item for item in items.split(",")], help="grep $JISET_HOME/eval/result/raw/*/error from remote")
     args = parser.parse_args()
 
     # make directory
-    if args.clean or not exists(RESULT_DIR):
+    if args.clean or args.grep or not exists(RESULT_DIR):
         clean_dir(RESULT_DIR)
     if not exists(RAW_DIR):
         makedirs(RAW_DIR)
@@ -283,7 +321,7 @@ def main():
         makedirs(DIFF_DIR)
 
     # build JISET
-    if not args.stat:
+    if not args.stat and not args.grep:
         build_jiset()
 
     # command stat
@@ -295,9 +333,16 @@ def main():
     # command force-check
     elif args.fcheck:
         check_errors(CheckErrorType.FORCE)
+    # command strict-check
+    elif args.scheck:
+        strict_check_errors()
     # command run
     elif args.version != None:
         run_analyze(args.version)
+    # command grep
+    elif args.grep != None:
+        for addr in args.grep:
+            get_remote_errors(addr)
     # command all
     else:
         # run all versions and dump stat
