@@ -53,8 +53,8 @@ package object analyzer {
     if (!(set contains msg)) {
       alarmMap += key -> (set + msg)
       val errMsg = s"[Bug] $msg @ $alarmCPStr"
-      if (error) {
-        val func = AbsSemantics.funcOf(alarmCP)
+      val func = AbsSemantics.funcOf(alarmCP)
+      if (error && func.complete) {
         val key = func.uid
         val set = errorMap.getOrElse(key, Set())
         if (!(set contains msg)) {
@@ -96,9 +96,15 @@ package object analyzer {
   val AT = Bool(true).abs
   val AF = Bool(false).abs
 
+  // targets
   val TARGET_BUILTIN = Set(
     "Array", "BigInt", "Boolean", "Function", "Math",
     "Number", "Object", "Proxy", "String", "Symbol",
+  )
+  val NON_TARGET_BUILTIN = Set(
+    "Number.prototype.toExponential",
+    "Number.prototype.toFixed",
+    "Number.prototype.toPrecision",
   )
 
   // constants

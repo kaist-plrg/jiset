@@ -162,7 +162,10 @@ object AnalyzeREPL {
             case None =>
               val func = cfg.funcs.find(x => args contains x.name)
               val targetCp = func match {
-                case Some(func) => Some(ReturnPoint(func, View(List())))
+                case Some(func) =>
+                  if (func.complete) println("* complete function")
+                  else println("* incomplete function")
+                  Some(ReturnPoint(func, View(List())))
                 case None => cp
               }
               dumpCFG(targetCp, depth = Some(0))

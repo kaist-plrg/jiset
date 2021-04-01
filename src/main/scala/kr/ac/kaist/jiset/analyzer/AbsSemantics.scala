@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
@@ -211,7 +212,10 @@ object AbsSemantics {
 
   private def isTargetHead(head: Head): Boolean = head match {
     case (head: SyntaxDirectedHead) => head.withParams.isEmpty
-    case (head: BuiltinHead) => TARGET_BUILTIN contains head.ref.base
+    case (head: BuiltinHead) => (
+      TARGET_BUILTIN.contains(head.ref.base) &&
+      !NON_TARGET_BUILTIN.contains(head.ref.beautified)
+    )
     case _ => false
   }
 
@@ -246,6 +250,7 @@ object AbsSemantics {
       var st = AbsState.Empty
       st = st.define(THIS_PARAM, ESValueT)
       st = st.define(ARGS_LIST, ListT(ESValueT))
+      st = st.define(NEW_TARGET, AbsType(NameT("Object"), Undef))
       List((tys, st))
     case _ => Nil
   }

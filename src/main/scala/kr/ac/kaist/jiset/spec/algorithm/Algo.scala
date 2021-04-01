@@ -49,9 +49,12 @@ case class Algo(
     case (head: MethodHead) if head.isLetThisStep(code.head.trim) =>
       popFront(rawBody)
     case (builtin: BuiltinHead) =>
+      import Param.Kind._
       val prefix = builtin.origParams.zipWithIndex.map {
-        case (x, i) =>
-          Parser.parseInst(s"app ${x.name} = (GetArgument $ARGS_LIST ${i}i)")
+        case (Param(name, Variadic), i) =>
+          Parser.parseInst(s"let ${name} = $ARGS_LIST")
+        case (Param(name, _), i) =>
+          Parser.parseInst(s"app ${name} = (GetArgument $ARGS_LIST ${i}i)")
       }
       prepend(prefix, rawBody)
     // handle abstract relational comparison

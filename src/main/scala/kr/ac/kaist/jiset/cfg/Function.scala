@@ -12,6 +12,9 @@ case class Function(
   nodes: Set[Node],
   edges: Set[Edge]
 ) extends UId {
+  // completion check (not containing ??? or !!! in the algorithm body)
+  val complete: Boolean = algo.isComplete
+
   // function name
   def name: String = algo.name
 

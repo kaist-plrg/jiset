@@ -43,12 +43,16 @@ case class AbsState(
     }
   )
 
+  // temporal variable check
+  def isTemporalId(x: String): Boolean =
+    x.startsWith("__") && x.endsWith("__")
+
   // define variable
   def define(x: String, t: AbsType, check: Boolean = false): AbsState = norm({
     if (t.isBottom) Bot
     else if (t.isMustAbsent) this
     else {
-      if (check && exists(AbsId(x)) == AT && !x.startsWith("__"))
+      if (check && exists(AbsId(x)) == AT && !isTemporalId(x))
         alarm(s"already defined variable: $x")
       copy(map = map + (x -> t))
     }
@@ -63,7 +67,7 @@ case class AbsState(
     val local = ts - Absent
     val global = if (ts contains Absent) Global(x).set else Set()
     val t = AbsType(local ++ global)
-    if (check && t.isMustAbsent) {
+    if (check && t.isMustAbsent && !isTemporalId(x)) {
       alarm(s"unknown variable: $x")
       if (cfg.spec.grammar.nameMap.keySet contains x) AstT(x)
       else Absent

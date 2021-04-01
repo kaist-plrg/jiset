@@ -248,6 +248,10 @@
     "inst": "let closure = Lambda"
   },
   {
+    "tokens": "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{kind} and id:{array} and performs the following steps when called : in:{} out:{}",
+    "inst": "let closure = Lambda"
+  },
+  {
     "tokens": "Let id:{r} be the BigInt defined by the mathematical relation id:{r} = id:{n} - ( id:{d} × id:{q} ) where id:{q} is a BigInt that is negative only if id:{n} / id:{d} is negative and positive only if id:{n} / id:{d} is positive , and whose magnitude is as large as possible without exceeding the magnitude of the true mathematical quotient of id:{n} and id:{d} .",
     "inst": "let r = (% n d)"
   },
@@ -305,7 +309,7 @@
   },
   {
     "tokens": "Let id:{result} be the Completion Record that is the result of evaluating id:{F} in a manner that conforms to the specification of id:{F} . id:{thisArgument} is the value:{this} value , id:{argumentsList} provides the named parameters , and the NewTarget value is value:{undefined} .",
-    "inst": "{ let result = AnyResult ??? \"need change for built-in libraries\" }"
+    "inst": "{ let result = AnyResult }"
   },
   {
     "tokens": "Return a List whose elements are id:{head} followed by the elements of id:{tail} .",
@@ -382,5 +386,69 @@
   {
     "tokens": "Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} . The initial value of each of those internal slots is value:{undefined} .",
     "inst": "let func = (new BuiltinFunctionObject())"
+  },
+  {
+    "tokens": "Let id:{start} be the result of clamping id:{pos} between 0 and id:{len} .",
+    "inst": "let start = AnyNum"
+  },
+  {
+    "tokens": "Let id:{end} be the result of clamping id:{pos} between 0 and id:{len} .",
+    "inst": "let end = AnyNum"
+  },
+  {
+    "tokens": "Else , let id:{sep} be ? ToString ( id:{separator} ) .",
+    "inst": "{ app sep = (ToString separator) [? sep] }"
+  },
+  {
+    "tokens": "Let id:{separator} be the String value for the list - separator String appropriate for the host environment ' s current locale ( this is derived in an implementation - defined way ) .",
+    "inst": "let separator = AnyStr"
+  },
+  {
+    "tokens": "If id:{where} is const:{start} , let id:{T} be the String value that is a copy of id:{S} with leading white space removed .",
+    "inst": "let T = AnyStr"
+  },
+  {
+    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-bound-function-exotic-objects} , plus [ [ Prototype ] ] and [ [ Extensible ] ] .",
+    "inst": "let internalSlotsList = StrList"
+  },
+  {
+    "tokens": "Let id:{lengthDefine} be the number of non - optional parameters of the function definition in CreateDataPropertyOnObjectFunctions .",
+    "inst": "let lengthDefine = AnyNum"
+  },
+  {
+    "tokens": "For each own property key id:{P} of id:{A} that is an array index , whose numeric value is greater than or equal to id:{newLen} , in descending numeric index order , do in:{} out:{}",
+    "inst": "{}"
+  },
+  {
+    "tokens": "If id:{x} is one of value:{+0} , value:{-0} , value:{+∞} , value:{-∞} , return id:{x} .",
+    "inst": "if AnyBool return AnyNum else {}"
+  },
+  {
+    "tokens": "If id:{n} is an integral Number , return id:{n} .",
+    "inst": "if AnyBool return AnyNum else {}"
+  },
+  {
+    "tokens": "Return the integral Number closest to id:{n} , preferring the Number closer to value:{+∞} in the case of a tie .",
+    "inst": "return AnyNum"
+  },
+  {
+    "tokens": "If the mathematical value of id:{x} is equal to the mathematical value of id:{y} , return value:{true} ; otherwise return value:{false} .",
+    "inst": "return (= x y)"
+  },
+  {
+    "tokens": "Let id:{job} be a new Job abstract closure with no parameters that captures id:{reaction} and id:{argument} and performs the following steps when called : in:{} out:{}",
+    "inst": "let job = Lambda"
+  },
+  {
+    "tokens": "Return { [ [ Job ] ] : id:{job} , [ [ Realm ] ] : id:{handlerRealm} } .",
+    "inst": "return (new Record(\"Job\" -> job, \"Realm\" -> handlerRealm))"
+  },
+  {
+    "tokens": "Record that the binding for id:{N} in id:{envRec} has been initialized .",
+    "inst": "{}"
+  },
+  {
+    "tokens": "It is an early Reference Error if AssignmentTargetType of nt:{UnaryExpression} is const:{invalid} .",
+    "inst": "{ access __att__ = (UnaryExpression \"AssignmentTargetType\") if (= __att__ CONST_invalid) throw ReferenceError else {} }"
   }
 ]
