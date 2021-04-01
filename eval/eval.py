@@ -63,6 +63,9 @@ def get_commit_date(commit_hash):
 def get_remote_errors(remote_addr):
     cmd = f"rsync -a -m --include '**/errors' --include='*/' --exclude='*' {remote_addr}/eval/result/raw {RESULT_DIR}"
     out, err = execute_sh(cmd)
+def get_commit_desc(commit_hash):
+    date_str = get_commit_date(commit_hash)
+    return date_str + "/" + commit_hash
 def clean_dir(path):
     if exists(path):
         shutil.rmtree(path)
@@ -80,8 +83,8 @@ def build_jiset():
     execute_sh("sbt assembly", EVAL_LOG_POST)
     chdir(EVAL_HOME)
 def run_analyze(version):
-    date_str = get_commit_date(version)
-    print(f"run analyze({date_str}/{version})...")
+    desc = get_commit_desc(version)
+    print(f"run analyze({desc})...")
     cmd = f"jiset analyze -time -log -silent -parse:version={version} -analyze:target=.*"
     execute_sh(cmd, EVAL_LOG_POST)
     execute_sh(f"mkdir -p {RAW_DIR}")
@@ -96,6 +99,10 @@ def get_version_dir(version):
     return join(RAW_DIR, version)
 def get_versions():
     return [v for v in listdir(RAW_DIR) if isdir(join(RAW_DIR, v))]
+def has_result(version):
+    return exists(get_version_dir(version))
+def get_results(versions):
+    return [AnalysisResult(v) for v in versions]
 
 # check type enumeration
 class CheckErrorType(Enum):
@@ -268,7 +275,7 @@ def check_errors(option):
 
 # strictly check target errors
 def strict_check_errors():
-    versions, valid_version = get_all_commits(), lambda v: exists(get_version_dir(v))
+    versions = get_all_commits()
     print(f"strict-check errors...")
     with open(join(RESULT_DIR, "strict-errors.log"), "w") as f:
         # get target errors
@@ -276,12 +283,12 @@ def strict_check_errors():
             version = target_error["version"]
             bugs = target_error["bugs"]
             # handle first version
-            if version == versions[0] and valid_version(version):
+            if version == versions[0] and has_result(version):
                 AnalysisResult(version).check(bugs, f)
                 continue
             next_version = versions[versions.index(version)-1]
             # log YET if analysis result is not found
-            if not valid_version(version) or not valid_version(next_version):
+            if not has_result(version) or not has_result(next_version):
                 for bug in bugs:
                     msg = print_yellow(f"[YET] @ {version}: {bug}")
                     f.write(f"{msg}\n")
@@ -298,6 +305,64 @@ def strict_check_errors():
                         f.write(f"{msg}\n")
     print(f"strict-check completed.")
 
+# sparsely run analyzer based on previous analysis result
+def sparse_run(log_f):
+    print(f"run-sparse started...")
+    versions = get_all_commits()
+    # calc sparse targets
+    targets = [False] * len(versions)
+    # always analyze recent, es2018 commit
+    targets[0], targets[-1] = True, True
+    for i, version in enumerate(versions):
+        if version == ES2018_VERSION:
+            break
+        prev_version = versions[i+1]
+        # if no analysis result, add to targets
+        if not has_result(version) or not has_result(prev_result):
+            targets[i] = True
+        else:
+            prev_result, result = get_results([prev_version, version])
+            # if diff is not empty, add to targets
+            if prev_result != result:
+                targets[i] = True
+    # run analyzer sparsely
+    i, analyzed = 0, set()
+    def analyze_once(v):
+        if not v in analyzed:
+            run_analyze(v)
+            analyzed.add(v)
+            log_f.write(v + "\n")
+    def analyze_range(i0, i1):
+        for v in versions[i0:i1]:
+            analyze_once(v)
+    while True:
+        if versions[i] == ES2018_VERSION:
+            analyze_once(version)
+            break
+        version = versions[i]
+        nt_i = targets.index(True, i+1)
+        # get nt_version and prev_version
+        nt_version, prev_version = versions[nt_i], versions[i+1]
+        # analyze 3 versions
+        analyze_once(version)
+        analyze_once(prev_version)
+        analyze_once(nt_version)
+        if nt_i - i <= 2:
+            i = nt_i
+            continue
+        # compare nt_result and prev_result diff with previous results
+        nt_result, prev_result = get_results([nt_version, prev_version])
+        # if diff is still not found
+        if nt_result == prev_result:
+            for v in versions[i+2:nt_i]:
+                desc = get_commit_desc(v)
+                print(f"Skip {desc}...")
+        else:
+            analyze_range(i+2, nt_i)
+        # move to next target
+        i = nt_i
+    print(f"run-sparse completed.")
+
 # entry
 def main():
     # parse arguments
@@ -309,6 +374,7 @@ def main():
     parser.add_argument( "-sc", "--scheck", action="store_true", default=False, help="strictly check errors.json based on result/raw/*" )
     parser.add_argument( "-fc", "--fcheck", action="store_true", default=False, help="check errors.json based on NEW result/raw/*" )
     parser.add_argument( "--stride", help="run analyzer based on stride(OFFSET/STRIDE)")
+    parser.add_argument( "--sparse", action="store_true", default=False, help="run analyzer sparsely based on diff" )
     parser.add_argument( "-g", "--grep", type=lambda items:[item for item in items.split(",")], help="grep $JISET_HOME/eval/result/raw/*/error from remote")
     args = parser.parse_args()
 
@@ -343,15 +409,21 @@ def main():
     elif args.grep != None:
         for addr in args.grep:
             get_remote_errors(addr)
+    # command sparse
+    elif args.sparse:
+        with open(join(RESULT_DIR, "analyzed"), "w") as f:
+            sparse_run(f)
     # command all
     else:
-        # run all versions and dump stat
+        # run all versions
         versions = get_all_commits()
         if args.stride != None:
             offset, stride = [int(n) for n in args.stride.split("/")]
             versions = versions[offset::stride]
-        for version in versions:
-            run_analyze(version)
+        with open(join(RESULT_DIR, "analyzed"), "w") as f:
+            for version in versions:
+                run_analyze(version)
+                f.write(version + "\n")
 
 # run main
 main()
