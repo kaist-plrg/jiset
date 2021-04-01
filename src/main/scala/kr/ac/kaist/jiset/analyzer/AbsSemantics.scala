@@ -131,7 +131,8 @@ object AbsSemantics {
   }
 
   // update return points
-  def doReturn(rp: ReturnPoint, newT: AbsType): Unit = {
+  def doReturn(rp: ReturnPoint, t: AbsType): Unit = {
+    val newT = t.noAbsent
     val oldT = this(rp)
     if (newT !⊑ oldT) {
       rpMap += rp -> (oldT ⊔ newT)

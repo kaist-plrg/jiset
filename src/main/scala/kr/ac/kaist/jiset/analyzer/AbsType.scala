@@ -52,6 +52,9 @@ case class AbsType private (
     }
   }
 
+  // remove absent
+  def noAbsent: AbsType = new AbsType(set - Absent)
+
   // get boolean set
   def bool: Set[Boolean] =
     if (set contains BoolT) Set(true, false)

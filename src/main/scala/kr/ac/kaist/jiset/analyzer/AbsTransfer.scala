@@ -165,7 +165,7 @@ object AbsTransfer {
       case IReturn(expr) => for {
         t <- transfer(expr)
         _ <- put(AbsState.Bot)
-      } yield sem.doReturn(ret, t.toComp)
+      } yield sem.doReturn(ret, t.noAbsent.toComp)
       case ithrow @ IThrow(x) => for {
         _ <- put(AbsState.Bot)
       } yield sem.doReturn(ret, AbruptT)
@@ -286,7 +286,7 @@ object AbsTransfer {
         NameT(name).abs
       case EList(exprs) => for {
         ts <- join(exprs.map(transfer))
-        set = ts.foldLeft(AbsType.Bot)(_ ⊔ _).escapedSet
+        set = ts.foldLeft(AbsType.Bot)(_ ⊔ _).noAbsent.escapedSet
       } yield (set.size match {
         case 0 => NilT
         case 1 => ListT(set.head.upcast)

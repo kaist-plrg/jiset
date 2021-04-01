@@ -48,7 +48,8 @@ case class AbsState(
     if (t.isBottom) Bot
     else if (t.isMustAbsent) this
     else {
-      if (check && exists(AbsId(x)) == AT) alarm(s"already defined variable: $x")
+      if (check && exists(AbsId(x)) == AT && !x.startsWith("__"))
+        alarm(s"already defined variable: $x")
       copy(map = map + (x -> t))
     }
   })
@@ -138,6 +139,12 @@ case class AbsState(
   // update reference
   def update(ref: AbsRef, t: AbsType): AbsState = norm(ref match {
     case AbsId(x) => define(x, t)
+    case AbsStrProp(base, prop) if base.set == Set(AbruptT) => prop match {
+      case "Type" | "Value" | "Target" => this
+      case _ =>
+        base.escaped
+        this
+    }
     case _ => this
   })
 
