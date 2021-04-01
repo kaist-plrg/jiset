@@ -206,11 +206,13 @@ trait TokenParsers extends ProductionParsers {
         }
       }
     } <~ trEndWs
-    lazy val tabularAlgo: Parser[List[Token]] = {
-      (table ~ tbody) ~> {
-        tabularHead ~> rep1(tabularStep) ^^ { counter.setNoAppendNext; _.flatten }
-      } <~ (tbodyEnd ~ tableEnd)
-    }
+    lazy val tabularAlgo: Parser[List[Token]] =
+      table ~ tbody ~ tabularHead ~> rep1(tabularStep) <~ tbodyEnd ~ tableEnd ^^ {
+        case tsList =>
+          val res = tsList.flatten ++ parseStepWithNext("Assert: *false*.")
+          counter.setNoAppendNext
+          res
+      }
 
     // list step parser
     lazy val listStep: Parser[List[Token]] =

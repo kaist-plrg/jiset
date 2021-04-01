@@ -1125,6 +1125,7 @@ class Compiler private (val version: String) extends Compilers {
   ////////////////////////////////////////////////////////////////////////////////
   lazy val cond: P[I[Expr]] = _cond <~ guard("repeat" | "," | in | "." | ";" | next | "and") | etcCond
   lazy val _cond: P[I[Expr]] = (
+    boolLiteralCond |||
     argumentCond |||
     sameCond |||
     bopCond |||
@@ -1145,6 +1146,13 @@ class Compiler private (val version: String) extends Compilers {
     // TODO separate normal condition and early error condition
     earlyErrorCond
   )
+
+  // boolean literal conditions
+  lazy val boolLiteralCond: P[I[Expr]] = (value ^^ {
+    case "true" => EBool(true)
+    case "false" => EBool(false)
+    case s => ENotSupported(s)
+  }) ^^ { pair(Nil, _) }
 
   // conditions for arguments
   lazy val argumentCond: P[I[Expr]] = (
