@@ -85,9 +85,12 @@ object ECMAScriptParser {
         case startPattern(_, tag, _, _) if !ignoreTags.contains(tag) =>
           tagStack.push((tag, k))
         case endPattern(tag) if !ignoreTags.contains(tag) =>
-          val (expected, start) = tagStack.pop
-          if (expected != tag)
-            error(s"[ECMAScript.attachLines] $tag not matched with $expected")
+          var (expected, start) = tagStack.pop
+          while (expected != tag) {
+            val (e, s) = tagStack.pop
+            expected = e
+            start = s
+          }
           rngs += start -> (k + 1)
         case _ =>
       }
