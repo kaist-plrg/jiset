@@ -141,10 +141,15 @@ object AnalyzeREPL {
             case ((k, v), i) => println(f"$i: $k%-15s $v")
           }; true
         case CmdRmBreak.name :: args =>
-          args.headOption match {
-            case None => println("need arguments")
-            case Some(idx) if idx.toInt < breakpoints.size => breakpoints.remove(idx.toInt)
-            case Some(idx) => println(s"out of index: $idx")
+          args match {
+            case Nil => println("need arguments")
+            case arg :: _ => optional(arg.toInt) match {
+              case None =>
+                if (arg == s"-${CmdRmBreak.AllTarget.name}") breakpoints.clear
+                else println("Inappropriate argument")
+              case Some(idx) if idx.toInt < breakpoints.size => breakpoints.remove(idx.toInt)
+              case Some(idx) => println(s"out of index: $idx")
+            }
           }; true
         case CmdLog.name :: _ =>
           Stat.dump(); true
@@ -241,7 +246,12 @@ private case object CmdBreak extends Command("break", "Add a break point.") {
 
 private case object CmdListBreak extends Command("list-break", "Show the list of break points.")
 
-private case object CmdRmBreak extends Command("rm-break", "Remove a break point.")
+private case object CmdRmBreak extends Command("rm-break", "Remove a break point.") {
+
+  case object AllTarget extends CmdOption("all")
+
+  override val options = List(AllTarget)
+}
 
 private case object CmdLog extends Command("log", "Dump the state.")
 
