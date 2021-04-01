@@ -178,6 +178,8 @@ def dump_diffs():
 # dump bug diffs
 def dump_bug_diffs():
     versions = get_versions()
+    if len(versions) == 0:
+        return 0
     errors_map = dict([(v, AnalysisResult(v).errors) for v in versions])
     errors = reduce(lambda acc, v: acc.union(errors_map[v]), errors_map, set())
     # sort version in ASC
@@ -213,6 +215,8 @@ def dump_bug_diffs():
 # dump diff summary
 def dump_diff_summary():
     versions = get_versions()
+    if len(versions) == 0:
+        return
     results_map = dict([(v, AnalysisResult(v)) for v in versions])
     # sort version in DESC
     sorted_versions = [v for v in get_all_commits() if v in versions]
@@ -233,6 +237,23 @@ def dump_diff_summary():
                 diff = prev_result.diff(result)
                 writeln([version, size(diff["+"]), size(diff["-"]), error_size]) 
 
+def dump_sparse_targets():
+    versions = get_all_commits()
+    with open(join(EVAL_HOME, "sparse_targets"), "w") as f:
+        for i, version in enumerate(versions):
+            if version == ES2018_VERSION:
+                f.write(version + "\n")
+                break
+            prev_version = versions[i+1]
+            # if no analysis result, add to targets
+            if not has_result(version) or not has_result(prev_result):
+                f.write(version + "\n")
+            else:
+                prev_result, result = get_results([prev_version, version])
+                # if diff is not empty, add to targets
+                if prev_result != result:
+                    f.write(version + "\n")
+
 # dump stats
 def dump_stat():
     # check if target errors exist
@@ -243,6 +264,8 @@ def dump_stat():
     p = dump_bug_diffs()
     # dump diff summary
     dump_diff_summary()
+    # dump diff list
+    dump_sparse_targets()
     # print precision
     print(f"precision: {tp}/{p}")
 
@@ -306,25 +329,15 @@ def strict_check_errors():
     print(f"strict-check completed.")
 
 # sparsely run analyzer based on previous analysis result
-def sparse_run(log_f):
+def sparse_run(sparse_targets, log_f):
     print(f"run-sparse started...")
     versions = get_all_commits()
     # calc sparse targets
     targets = [False] * len(versions)
+    for v in versions:
+        targets = v in sparse_targets
     # always analyze recent, es2018 commit
     targets[0], targets[-1] = True, True
-    for i, version in enumerate(versions):
-        if version == ES2018_VERSION:
-            break
-        prev_version = versions[i+1]
-        # if no analysis result, add to targets
-        if not has_result(version) or not has_result(prev_result):
-            targets[i] = True
-        else:
-            prev_result, result = get_results([prev_version, version])
-            # if diff is not empty, add to targets
-            if prev_result != result:
-                targets[i] = True
     # run analyzer sparsely
     i, analyzed = 0, set()
     def analyze_once(v):
@@ -374,7 +387,7 @@ def main():
     parser.add_argument( "-sc", "--scheck", action="store_true", default=False, help="strictly check errors.json based on result/raw/*" )
     parser.add_argument( "-fc", "--fcheck", action="store_true", default=False, help="check errors.json based on NEW result/raw/*" )
     parser.add_argument( "--stride", help="run analyzer based on stride(OFFSET/STRIDE)")
-    parser.add_argument( "--sparse", action="store_true", default=False, help="run analyzer sparsely based on diff" )
+    parser.add_argument( "--sparse", help="run analyzer sparsely based on diff" )
     parser.add_argument( "-g", "--grep", type=lambda items:[item for item in items.split(",")], help="grep $JISET_HOME/eval/result/raw/*/error from remote")
     args = parser.parse_args()
 
@@ -410,9 +423,11 @@ def main():
         for addr in args.grep:
             get_remote_errors(addr)
     # command sparse
-    elif args.sparse:
-        with open(join(RESULT_DIR, "analyzed"), "w") as f:
-            sparse_run(f)
+    elif args.sparse != None:
+        with open(join(RESULT_DIR, "analyzed"), "w") as log_f:
+            with open(args.sparse, "r") as target_f:
+                sparse_targets = set(target_f.read().strip().splitlines())
+                sparse_run(sparse_targets, log_f)
     # command all
     else:
         # run all versions
