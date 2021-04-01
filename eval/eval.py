@@ -48,7 +48,7 @@ def get_prev_commit(commit_hash):
     out, err = execute_sh(cmd)
     return out.strip() if err == '' else None
 def get_all_commits():
-    cmd = f"cd ../ecma262; git rev-list HEAD"
+    cmd = f"cd {ECMA_DIR}; git rev-list HEAD"
     out, err = execute_sh(cmd)
     return out.split()
 def get_commit_date(commit_hash):
