@@ -2,6 +2,7 @@ import argparse
 import json
 import shutil
 import subprocess
+from functools import reduce
 from enum import Enum, auto
 from os import listdir, makedirs, remove, getcwd, chdir, environ
 from os.path import isdir, join, exists
@@ -46,6 +47,10 @@ def get_prev_commit(commit_hash):
     cmd = f"cd {ECMA_DIR}; git rev-parse {commit_hash}^1"
     out, err = execute_sh(cmd)
     return out.strip() if err == '' else None
+def get_all_commits():
+    cmd = f"cd ../ecma262; git rev-list HEAD"
+    out, err = execute_sh(cmd)
+    return out.split()
 def get_commit_date(commit_hash):
     pass
 def clean_dir(path):
@@ -81,12 +86,13 @@ def get_version_dir(version):
 def get_versions():
     return [v for v in listdir(RAW_DIR) if isdir(join(RAW_DIR, v))]
 
-# analysis result class
+# check type enumeration
 class CheckErrorType(Enum):
     SOFT = auto()
     ON_DEMAND = auto()
     FORCE = auto()
 
+# analysis result class
 class AnalysisResult:
     # init
     def __init__(self, version):
@@ -104,13 +110,15 @@ class AnalysisResult:
         }
     # check bugs
     def check(self, bugs, f):
+        tp = 0
         for bug in bugs:
             if self.contains(bug):
                 msg = print_green(f"[PASS] @ {self.version}: {bug}")
+                tp += 1
             else:
                 msg = print_red(f"[FAIL] @ {self.version}: {bug}")
             f.write(f"{msg}\n")
-
+        return tp
     # equality
     def __eq__(self, that):
         return isinstance(that, AnalysisResult) and self.errors == that.errors
@@ -149,17 +157,82 @@ def dump_diffs():
                     f.write(f"-{old_bug}\n")
     print(f"calc diff completed.")
 
+# dump bug diffs
+def dump_bug_diffs():
+    versions = get_versions()
+    errors_map = dict([(v, AnalysisResult(v).errors) for v in versions])
+    errors = reduce(lambda acc, v: acc.union(errors_map[v]), errors_map, set())
+    # sort version in ASC
+    sorted_versions = [v for v in reversed(get_all_commits()) if v in versions]
+    first_version = sorted_versions[0]
+    results = dict([(e, []) for e in errors])
+    # get diffs of each error
+    for error in errors:
+        found, created_at = False, f"Before {first_version}"
+        for version in sorted_versions:
+            contained = error in errors_map[version]
+            if contained and not found:
+                if version != first_version:
+                    created_at = version
+                found = True
+            elif not contained and found:
+                results[error].append((created_at, version))
+                found = False
+        # handle last version
+        if found:
+            results[error].append((created_at, "Not Fixed"))
+    # dump results
+    with open(join(RESULT_DIR, "bug-diffs.json"), "w") as f:
+        pretty_results = []
+        for e in results:
+            infos = []
+            for created_at, deleted_at in results[e]:
+                infos.append({"created_at": created_at, "deleted_at": deleted_at})
+            pretty_results.append({"errors": e, "infos": infos})
+        json.dump(pretty_results, f, indent=2)
+    return len(errors)
+
+# dump diff summary
+def dump_diff_summary():
+    versions = get_versions()
+    results_map = dict([(v, AnalysisResult(v)) for v in versions])
+    # sort version in DESC
+    sorted_versions = [v for v in get_all_commits() if v in versions]
+    first_version = sorted_versions[-1]
+    with open(join(RESULT_DIR, "diff-summary.tsv"), "w") as f:
+        writeln = lambda cells: f.write("\t".join(cells) + "\n")
+        size = lambda s: str(len(s))
+        # columns: version | + | - | # of errors
+        writeln(["version", "+", "-", "# of errors"])
+        for i in range(len(sorted_versions)):
+            version = sorted_versions[i]
+            result = results_map[version]
+            error_size = size(result.errors)
+            if version == first_version:
+                writeln([first_version, "-", "-", error_size])
+            else:
+                prev_result = results_map[sorted_versions[i+1]]
+                diff = prev_result.diff(result)
+                writeln([version, size(diff["+"]), size(diff["-"]), error_size]) 
+
 # dump stats
 def dump_stat():
     # check if target errors exist
-    check_errors(CheckErrorType.SOFT)
+    tp = check_errors(CheckErrorType.SOFT)
     # dump diffs of analysis results
     dump_diffs()
+    # dump bug diffs of analysis results
+    p = dump_bug_diffs()
+    # dump diff summary
+    dump_diff_summary()
+    # print precision
+    print(f"precision: {tp}/{p}")
 
 # run analysis and check if target errors exist
 def check_errors(option):
     print(f"check errors(option: {option})...")
-    with open(join(RESULT_DIR, "errors"), "w") as f:
+    tp = 0
+    with open(join(RESULT_DIR, "errors.log"), "w") as f:
         # get target errors
         for target_error in get_target_errors():
             version = target_error["version"]
@@ -178,8 +251,9 @@ def check_errors(option):
             elif option == CheckErrorType.FORCE:
                 run_analyze(version)
             # check results and dump
-            AnalysisResult(version).check(bugs, f)
+            tp += AnalysisResult(version).check(bugs, f)
     print("check errors completed.")
+    return tp
 
 # entry
 def main():
@@ -219,10 +293,8 @@ def main():
     # command all
     else:
         # run all versions and dump stat
-        version = get_head_commit()
-        while version != None:
+        for version in get_all_commits():
             run_analyze(version)
-            version = get_prev_commit(version)
         dump_stat()
 
 # run main
