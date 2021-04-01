@@ -97,7 +97,7 @@ package object analyzer {
   val AF = Bool(false).abs
 
   val TARGET_BUILTIN = Set(
-    "Array", "BigInt", "Boolean", "Function",
+    "Array", "BigInt", "Boolean", "Function", "Math",
     "Number", "Object", "Proxy", "String", "Symbol",
   )
 
