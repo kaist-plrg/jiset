@@ -25,6 +25,7 @@ def print_yellow(msg):
 JISET_HOME = environ["JISET_HOME"]
 EVAL_HOME = join(JISET_HOME, "eval")
 LOG_DIR = join(JISET_HOME, "logs", "analyze")
+ECMA_DIR = join(JISET_HOME, "ecma262")
 RESULT_DIR = join(EVAL_HOME, "result")
 RAW_DIR = join(RESULT_DIR, "raw")
 DIFF_DIR = join(RESULT_DIR, "diff")
@@ -38,11 +39,11 @@ def execute_sh(cmd, post = ""):
     proc.wait()
     return out.decode("utf-8"), err.decode("utf-8")
 def get_head_commit():
-    cmd = f"cd ../ecma262; git rev-parse HEAD"
+    cmd = f"cd {ECMA_DIR}; git rev-parse HEAD"
     out, err = execute_sh(cmd)
     return out.strip() if err == '' else None
 def get_prev_commit(commit_hash):
-    cmd = f"cd ../ecma262; git rev-parse {commit_hash}^1"
+    cmd = f"cd {ECMA_DIR}; git rev-parse {commit_hash}^1"
     out, err = execute_sh(cmd)
     return out.strip() if err == '' else None
 def get_commit_date(commit_hash):
@@ -116,7 +117,9 @@ class AnalysisResult:
 
 # dump diffs of analysis results
 def dump_diffs():
+    print(f"remove diff directory: {DIFF_DIR}")
     clean_dir(DIFF_DIR)
+    print(f"calc diff for current results...")
     # calc diff of each versions and dump
     versions = get_versions()
     for version in versions:
@@ -144,6 +147,7 @@ def dump_diffs():
                     f.write(f"+{new_bug}\n")
                 for old_bug in sorted(diff["-"]):
                     f.write(f"-{old_bug}\n")
+    print(f"calc diff completed.")
 
 # dump stats
 def dump_stat():
@@ -175,7 +179,7 @@ def check_errors(option):
                 run_analyze(version)
             # check results and dump
             AnalysisResult(version).check(bugs, f)
-    print("check errors completed...")
+    print("check errors completed.")
 
 # entry
 def main():
