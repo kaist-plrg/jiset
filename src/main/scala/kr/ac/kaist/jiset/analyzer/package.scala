@@ -33,6 +33,10 @@ package object analyzer {
   var alarmCP: ControlPoint = null
   var alarmCPStr: String = ""
 
+  // size
+  def numError = errorMap.foldLeft(0) { case (n, (_, s)) => n + s.size }
+  def numWarning = alarmMap.foldLeft(0) { case (n, (_, s)) => n + s.size }
+
   private var alarmMap: Map[String, Set[String]] = Map()
   private var errorMap: Map[Int, Set[String]] = Map()
   def warning(msg: String): Unit = alarm(msg, error = false)
@@ -92,7 +96,10 @@ package object analyzer {
   val AT = Bool(true).abs
   val AF = Bool(false).abs
 
-  val TARGET_BUILTIN = Set("Math", "BigInt")
+  val TARGET_BUILTIN = Set(
+    "Array", "BigInt", "Boolean", "Function",
+    "Number", "Object", "Proxy", "String", "Symbol",
+  )
 
   // constants
   val EMPTY = ConstT("empty")

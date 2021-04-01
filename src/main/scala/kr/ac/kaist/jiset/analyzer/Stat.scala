@@ -27,23 +27,30 @@ object Stat {
   }
 
   // Abbreviation
+  log("#", "The number of iterations")
+  log("T", "The duration time (ms)")
   log("WL", "The number of control points in worklist")
   log("CP", "The number of analyzed control points")
   log("AU", "The avarage number of updates for control points")
   log("RP", "The number of analyzed return points")
   log("AF", "The number of analyzed functions")
   log("TF", "The number of total functions")
+  log("ER", "The number of detected errors")
+  log("WA", "The number of detected warnings")
   log()
 
   // header
-  log("#", "time (ms)", "WL", "CP", "AU", "RP", "AF", "TF")
+  log("#", "T", "WL", "CP", "AU", "RP", "AF", "TF", "ER", "WA")
 
   // dump stats
   def dump(): Unit = {
     val (numFunc, numAlgo, numRp) = numOfFuncAlgoRp
 
     // dump summary
-    log(f"$iter%,3d", f"$time%,3d", worklist.size, AbsSemantics.size, f"$avg%.2f", numRp, numFunc, numAlgo)
+    log(
+      f"$iter%,3d", f"$time%,3d", worklist.size, AbsSemantics.size,
+      f"$avg%.2f", numRp, numFunc, numAlgo, numError, numWarning
+    )
 
     // dump worklist
     val wapp = new Appender
