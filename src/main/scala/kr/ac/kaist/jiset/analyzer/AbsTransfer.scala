@@ -146,7 +146,7 @@ object AbsTransfer {
       case IAssign(ref, expr) => for {
         r <- transfer(ref)
         t <- transfer(expr)
-        _ <- modify(_.update(r, t))
+        _ <- modify(_.update(r, t.escaped))
       } yield ()
       case IDelete(ref) => for {
         r <- transfer(ref)
