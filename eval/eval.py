@@ -235,7 +235,7 @@ def dump_diff_summary():
             else:
                 prev_result = results_map[sorted_versions[i+1]]
                 diff = prev_result.diff(result)
-                writeln([version, size(diff["+"]), size(diff["-"]), error_size]) 
+                writeln([version, size(diff["+"]), size(diff["-"]), error_size])
 
 def dump_sparse_targets():
     versions = get_all_commits()
@@ -246,7 +246,7 @@ def dump_sparse_targets():
                 break
             prev_version = versions[i+1]
             # if no analysis result, add to targets
-            if not has_result(version) or not has_result(prev_result):
+            if not has_result(version) or not has_result(prev_version):
                 f.write(version + "\n")
             else:
                 prev_result, result = get_results([prev_version, version])
