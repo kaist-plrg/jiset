@@ -48,7 +48,7 @@
   } else {}
   if (&& (= (typeof x) BigInt) (|| (= (typeof y) Number) (&& (= (typeof x) Number) (= (typeof y) BigInt)))) {
     if (|| (|| (|| (= x NaN) (= x Infinity)) (= x -Infinity)) (|| (|| (= y NaN) (= y Infinity)) (= y -Infinity))) return false else {}
-    ??? "If the mathematical value of id:{x} is equal to the mathematical value of id:{y} , return value:{true} ; otherwise return value:{false} ."
+    return (= x y)
   } else {}
   return false
 }

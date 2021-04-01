@@ -6,7 +6,8 @@
   app __x2__ = (LengthOfArrayLike O)
   let len = [? __x2__]
   ??? "If id:{separator} is value:{undefined} , let id:{sep} be the single - element String value:{\",\"} ."
-  ??? "Else , let id:{sep} be ? ToString ( id:{separator} ) ."
+  app sep = (ToString separator)
+  [? sep]
   let R = ""
   let k = 0i
   while (< k len) {

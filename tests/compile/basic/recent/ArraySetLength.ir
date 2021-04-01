@@ -28,7 +28,6 @@
   app __x6__ = (OrdinaryDefineOwnProperty A "length" newLenDesc)
   let succeeded = [! __x6__]
   if (= succeeded false) return false else {}
-  ??? "For each own property key id:{P} of id:{A} that is an array index , whose numeric value is greater than or equal to id:{newLen} , in descending numeric index order , do in:{} out:{}"
   if (= newWritable false) {
     app __x7__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Writable" -> false)))
     let succeeded = [! __x7__]
