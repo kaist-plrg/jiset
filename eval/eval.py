@@ -307,7 +307,6 @@ def main():
             versions = versions[offset::stride]
         for version in versions:
             run_analyze(version)
-        dump_stat()
 
 # run main
 main()
