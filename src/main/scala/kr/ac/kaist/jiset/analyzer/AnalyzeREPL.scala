@@ -21,7 +21,7 @@ object AnalyzeREPL {
 
   // breakpoints
   private var continue = false
-  private val breakpoints = ArrayBuffer[(CmdOption, String)]()
+  private val breakpoints = ArrayBuffer[(String, String)]()
 
   // completer
   private val completer: TreeCompleter =
@@ -31,13 +31,13 @@ object AnalyzeREPL {
       case CmdGraph => node("-total") :: cfg.funcs.map(x => node(x.name))
       case _ => cmd.options.map(argNode(_))
     }): _*)
-  private def argNode(opt: CmdOption) =
-    node(s"-${opt.name}" :: getArgNodes(opt): _*)
-  private def getArgNodes(opt: CmdOption): List[TreeCompleter.Node] = opt match {
-    case CmdBreak.FuncTarget => cfg.funcs.map(x => node(x.name))
-    case CmdBreak.BlockTarget => (0 until cfg.nidGen.size).map(x => node(x.toString)).toList
-    case CmdInfo.RetTarget => cfg.funcs.map(x => node(x.name))
-    case CmdInfo.BlockTarget => (0 until cfg.nidGen.size).map(x => node(x.toString)).toList
+  private def argNode(opt: String) =
+    node(s"-$opt" :: getArgNodes(opt): _*)
+  private def getArgNodes(opt: String): List[TreeCompleter.Node] = opt match {
+    case CmdBreak.func => cfg.funcs.map(x => node(x.name))
+    case CmdBreak.block => (0 until cfg.nidGen.size).map(x => node(x.toString)).toList
+    case CmdInfo.ret => cfg.funcs.map(x => node(x.name))
+    case CmdInfo.block => (0 until cfg.nidGen.size).map(x => node(x.toString)).toList
     case _ => Nil
   }
 
@@ -52,17 +52,17 @@ object AnalyzeREPL {
   // helper for break
   private def isBreak(cp: ControlPoint): Boolean = cp match {
     case NodePoint(node: Entry, _) => breakpoints.exists {
-      case (CmdBreak.FuncTarget, name) => name == cfg.funcOf(node).name
-      case (CmdBreak.BlockTarget, uid) => uid.toInt == node.uid
+      case (CmdBreak.func, name) => name == cfg.funcOf(node).name
+      case (CmdBreak.block, uid) => uid.toInt == node.uid
       case _ => ???
     }
     case NodePoint(node, _) => breakpoints.exists {
-      case (CmdBreak.BlockTarget, uid) => uid.toInt == node.uid
+      case (CmdBreak.block, uid) => uid.toInt == node.uid
       case _ => false
     }
     case _ => false
   }
-  private def addBreak(opt: CmdOption, bp: List[String]): Unit = bp match {
+  private def addBreak(opt: String, bp: List[String]): Unit = bp match {
     case Nil => println("need arguments")
     case str :: _ => breakpoints += (opt -> str)
   }
@@ -74,12 +74,12 @@ object AnalyzeREPL {
   private lazy val help = { Command.help; println }
 
   // info
-  private def printInfo(opt: CmdOption, args: List[String]): Unit = args match {
+  private def printInfo(opt: String, args: List[String]): Unit = args match {
     case Nil => println("need arguments")
     case str :: _ =>
       val info = opt match {
-        case CmdInfo.RetTarget => sem.getReturnPointByName(str)
-        case CmdInfo.BlockTarget => sem.getNodePointsById(str.toInt)
+        case CmdInfo.ret => sem.getReturnPointByName(str)
+        case CmdInfo.block => sem.getNodePointsById(str.toInt)
       }
       info.foreach(cp => {
         println(sem.getString(cp, CYAN, true))
@@ -160,8 +160,8 @@ object AnalyzeREPL {
         case CmdBreak.name :: args =>
           import CmdBreak._
           args match {
-            case s"-${ FuncTarget.name }" :: bp => addBreak(FuncTarget, bp)
-            case s"-${ BlockTarget.name }" :: bp => addBreak(BlockTarget, bp)
+            case s"-$func" :: bp => addBreak(func, bp)
+            case s"-$block" :: bp => addBreak(block, bp)
             case _ => println("Inappropriate option")
           }; true
         case CmdListBreak.name :: _ =>
@@ -169,13 +169,15 @@ object AnalyzeREPL {
             case ((k, v), i) => println(f"$i: $k%-15s $v")
           }; true
         case CmdRmBreak.name :: args =>
+          import CmdRmBreak._
           args match {
             case Nil => println("need arguments")
             case arg :: _ => optional(arg.toInt) match {
               case None =>
-                if (arg == s"-${CmdRmBreak.AllTarget.name}") breakpoints.clear
+                if (arg == s"-$all") breakpoints.clear
                 else println("Inappropriate argument")
-              case Some(idx) if idx.toInt < breakpoints.size => breakpoints.remove(idx.toInt)
+              case Some(idx) if idx.toInt < breakpoints.size =>
+                breakpoints.remove(idx.toInt)
               case Some(idx) => println(s"out of index: $idx")
             }
           }; true
@@ -193,8 +195,8 @@ object AnalyzeREPL {
         case CmdInfo.name :: args =>
           import CmdInfo._
           args match {
-            case s"-${ RetTarget.name }" :: bp => printInfo(RetTarget, bp)
-            case s"-${ BlockTarget.name }" :: bp => printInfo(BlockTarget, bp)
+            case s"-$ret" :: bp => printInfo(ret, bp)
+            case s"-$block" :: bp => printInfo(block, bp)
             case _ => println("Inappropriate option")
           }; true
         case CmdEntry.name :: _ =>
@@ -221,10 +223,7 @@ object AnalyzeREPL {
 private abstract class Command(
   val name: String,
   val info: String = ""
-) { val options = List[CmdOption]() }
-
-// option
-private abstract class CmdOption(val name: String)
+) { val options = List[String]() }
 
 private object Command {
   val commands: List[Command] = List(
@@ -255,21 +254,16 @@ private case object CmdHelp extends Command("help")
 private case object CmdContinue extends Command("continue", "Continue the analysis.")
 
 private case object CmdBreak extends Command("break", "Add a break point.") {
-
-  case object FuncTarget extends CmdOption("func")
-
-  case object BlockTarget extends CmdOption("block")
-
-  override val options = List(FuncTarget, BlockTarget)
+  val func = "func"
+  val block = "block"
+  override val options = List(func, block)
 }
 
 private case object CmdListBreak extends Command("list-break", "Show the list of break points.")
 
 private case object CmdRmBreak extends Command("rm-break", "Remove a break point.") {
-
-  case object AllTarget extends CmdOption("all")
-
-  override val options = List(AllTarget)
+  val all = "all"
+  override val options = List(all)
 }
 
 private case object CmdLog extends Command("log", "Dump the state.")
@@ -281,12 +275,9 @@ private case object CmdExit extends Command("exit", "Exit the analysis.")
 private case object CmdStop extends Command("stop", "Stop the repl.")
 
 private case object CmdInfo extends Command("info", "Show abstract state of node") {
-
-  case object RetTarget extends CmdOption("ret")
-
-  case object BlockTarget extends CmdOption("block")
-
-  override val options = List(RetTarget, BlockTarget)
+  val ret = "ret"
+  val block = "block"
+  override val options = List(ret, block)
 }
 
 private case object CmdEntry extends Command("entry", "Show the set of entry functions of current function")
