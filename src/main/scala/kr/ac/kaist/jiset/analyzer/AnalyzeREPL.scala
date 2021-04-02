@@ -49,72 +49,51 @@ object AnalyzeREPL {
     .build()
   private val prompt: String = LINE_SEP + s"${MAGENTA}analyzer>${RESET} "
 
-  // helper for break
-  private def isBreak(cp: ControlPoint): Boolean = cp match {
-    case NodePoint(node: Entry, _) => breakpoints.exists {
-      case (CmdBreak.func, name) => name == cfg.funcOf(node).name
-      case (CmdBreak.block, uid) => uid.toInt == node.uid
-      case _ => ???
-    }
-    case NodePoint(node, _) => breakpoints.exists {
-      case (CmdBreak.block, uid) => uid.toInt == node.uid
-      case _ => false
-    }
-    case _ => false
-  }
-  private def addBreak(opt: String, bp: List[String]): Unit = bp match {
-    case Nil => println("need arguments")
-    case str :: _ => breakpoints += (opt -> str)
-  }
-
-  // stop
-  private def stop(): Unit = { breakpoints.clear(); continue = true }
-
   // help
   private lazy val help = { Command.help; println }
 
-  // info
-  private def printInfo(opt: String, args: List[String]): Unit = args match {
-    case Nil => println("need arguments")
-    case str :: _ =>
-      val info = opt match {
-        case CmdInfo.ret => sem.getReturnPointByName(str)
-        case CmdInfo.block => sem.getNodePointsById(str.toInt)
-      }
-      info.foreach(cp => {
-        println(sem.getString(cp, CYAN, true))
-        println
-      })
+  // break
+  private def break(args: List[String]) = {
+    import CmdBreak._
+    args match {
+      case opt :: bp :: _ if options contains opt.substring(1) =>
+        breakpoints += (opt.substring(1) -> bp)
+      case _ => println("Inappropriate argument")
+    }
   }
 
-  // entry
-  var visited: Set[ReturnPoint] = Set()
-
-  private def getEntryFunc(cp: ControlPoint): Set[String] = {
-    val rp = getRpOf(cp)
-    if (visited contains rp) Set()
-    else {
-      visited += rp
-      rp.func.algo.head match {
-        case head @ SyntaxDirectedHead(_, _, _, _, _, withParam) if withParam.isEmpty =>
-          Set(rp.func.name)
-        case _ => getCallNodes(rp).flatMap(getEntryFunc(_))
+  // rm-break
+  private def rmBreak(args: List[String]) = {
+    import CmdRmBreak._;
+    args match {
+      case Nil => println("need arguments")
+      case arg :: _ => optional(arg.toInt) match {
+        case _ if arg == s"-$all" => breakpoints.clear
+        case Some(idx) if idx.toInt < breakpoints.size =>
+          breakpoints.remove(idx.toInt)
+        case _ => println("Inappropriate argument")
       }
     }
   }
 
-  private def getRpOf(cp: ControlPoint): ReturnPoint = cp match {
-    case rp @ ReturnPoint(_, _) => rp
-    case NodePoint(node, view) =>
-      cfg.funcs.find(x => x.nodes.exists(x => x.uid == node.uid)) match {
-        case None => ???
-        case Some(f) => ReturnPoint(f, view)
+  // break heler
+  private def isBreak(cp: ControlPoint): Boolean = {
+    import CmdBreak._
+    cp match {
+      case NodePoint(node: Entry, _) => breakpoints.exists {
+        case (s"$func", name) => name == cfg.funcOf(node).name
+        case (s"$block", uid) => uid.toInt == node.uid
+        case _ => ???
       }
+      case NodePoint(node, _) => breakpoints.exists {
+        case (s"$block", uid) => uid.toInt == node.uid
+        case _ => false
+      }
+      case _ => false
+    }
   }
 
-  private def getCallNodes(rp: ReturnPoint): Set[NodePoint[Call]] =
-    sem.getRetEdges(rp).map(_._1)
-
+  // graph
   private def graph(cp: Option[ControlPoint], args: List[String]) =
     optional(args.head.toInt) match {
       case Some(depth) => dumpCFG(cp, depth = Some(depth))
@@ -143,6 +122,57 @@ object AnalyzeREPL {
       }
   }
 
+  // stop
+  private def stop(): Unit = { breakpoints.clear(); continue = true }
+
+  // info
+  private def info(args: List[String]) = {
+    import CmdInfo._
+    args match {
+      case opt :: target :: _ if options contains opt.substring(1) =>
+        printInfo(opt.substring(1), target)
+      case _ => println("Inappropriate option")
+    }
+  }
+  private def printInfo(opt: String, target: String): Unit = {
+    import CmdInfo._
+    val info = opt match {
+      case CmdInfo.ret => sem.getReturnPointByName(target)
+      case CmdInfo.block if optional(target.toInt) != None =>
+        sem.getNodePointsById(target.toInt)
+      case _ => println("Inappropriate argument"); Set()
+    }
+    info.foreach(cp => {
+      println(sem.getString(cp, CYAN, true))
+      println
+    })
+  }
+
+  // entry
+  var visited: Set[ReturnPoint] = Set()
+  private def getEntryFunc(cp: ControlPoint): Set[String] = {
+    val rp = getRpOf(cp)
+    if (visited contains rp) Set()
+    else {
+      visited += rp
+      rp.func.algo.head match {
+        case head @ SyntaxDirectedHead(_, _, _, _, _, withParam) if withParam.isEmpty =>
+          Set(rp.func.name)
+        case _ => getCallNodes(rp).flatMap(getEntryFunc(_))
+      }
+    }
+  }
+  private def getRpOf(cp: ControlPoint): ReturnPoint = cp match {
+    case rp @ ReturnPoint(_, _) => rp
+    case NodePoint(node, view) =>
+      cfg.funcs.find(x => x.nodes.exists(x => x.uid == node.uid)) match {
+        case None => ???
+        case Some(f) => ReturnPoint(f, view)
+      }
+  }
+  private def getCallNodes(rp: ReturnPoint): Set[NodePoint[Call]] =
+    sem.getRetEdges(rp).map(_._1)
+
   // run repl
   def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) runDirect(cp)
   def runDirect(givenCP: ControlPoint): Unit = {
@@ -158,31 +188,16 @@ object AnalyzeREPL {
         case CmdContinue.name :: _ =>
           continue = true; false
         case CmdBreak.name :: args =>
-          import CmdBreak._
-          args match {
-            case s"-$func" :: bp => addBreak(func, bp)
-            case s"-$block" :: bp => addBreak(block, bp)
-            case _ => println("Inappropriate option")
-          }; true
+          break(args); true
         case CmdListBreak.name :: _ =>
           breakpoints.zipWithIndex.foreach {
             case ((k, v), i) => println(f"$i: $k%-15s $v")
           }; true
         case CmdRmBreak.name :: args =>
-          import CmdRmBreak._
-          args match {
-            case Nil => println("need arguments")
-            case arg :: _ => optional(arg.toInt) match {
-              case None =>
-                if (arg == s"-$all") breakpoints.clear
-                else println("Inappropriate argument")
-              case Some(idx) if idx.toInt < breakpoints.size =>
-                breakpoints.remove(idx.toInt)
-              case Some(idx) => println(s"out of index: $idx")
-            }
-          }; true
+          rmBreak(args); true
         case CmdLog.name :: _ =>
           Stat.dump(); true
+        // TODO
         case CmdGraph.name :: List("-total") =>
           dumpCFG(cp, depth = None)
           true
@@ -193,12 +208,8 @@ object AnalyzeREPL {
         case CmdStop.name :: _ =>
           stop(); false
         case CmdInfo.name :: args =>
-          import CmdInfo._
-          args match {
-            case s"-$ret" :: bp => printInfo(ret, bp)
-            case s"-$block" :: bp => printInfo(block, bp)
-            case _ => println("Inappropriate option")
-          }; true
+          info(args); true
+        //TODO
         case CmdEntry.name :: _ =>
           visited = Set()
           cp.map(getEntryFunc(_).foreach(println _))
