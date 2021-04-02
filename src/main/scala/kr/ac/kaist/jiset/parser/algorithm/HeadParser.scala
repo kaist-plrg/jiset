@@ -245,6 +245,7 @@ object HeadParser extends HeadParsers {
   }
 
   // check whether current algorithm head is for built-in functions.
+  private val absOpPattern = ".*abstract operation.*".r
   def isBuiltin(
     prev: Element,
     elem: Element,
@@ -252,7 +253,7 @@ object HeadParser extends HeadParsers {
   )(implicit lines: Array[String]): Boolean = getRange(elem) match {
     case None => false
     case Some((start, _)) =>
-      start >= builtinLine && !prev.text.startsWith("The abstract operation")
+      start >= builtinLine && !absOpPattern.matches(prev.text)
   }
 
   // builtin head

@@ -289,8 +289,13 @@ object AbsTransfer {
         })
       } yield RecordT(ps.toMap)
       case EMap(Ty(name), props) =>
+        val verboseName = name + "Record"
         // TODO check props
-        NameT(name).abs
+        NameT(
+          if ((Type.infoMap contains verboseName) &&
+            !(Type.infoMap contains name)) verboseName
+          else name
+        ).abs
       case EList(exprs) => for {
         ts <- join(exprs.map(transfer))
         set = ts.foldLeft(AbsType.Bot)(_ ⊔ _).noAbsent.escapedSet

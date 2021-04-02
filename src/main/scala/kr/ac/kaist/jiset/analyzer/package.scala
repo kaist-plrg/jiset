@@ -99,7 +99,7 @@ package object analyzer {
   // targets
   val TARGET_BUILTIN = Set(
     "Array", "BigInt", "Boolean", "Function", "Math",
-    "Number", "Object", "Proxy", "String", "Symbol",
+    "Number", "Object", "Proxy", "String", "Symbol", "Promise"
   )
   val NON_TARGET_BUILTIN = Set(
     "Number.prototype.toExponential",
