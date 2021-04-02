@@ -129,7 +129,7 @@ object AnalyzeREPL {
     case Some(func) =>
       if (func.complete) println("* complete function")
       else println("* incomplete function")
-      val rpList = sem.getReturnPointByName(fname).toList
+      val rpList = sem.getRpsForREPLByName(fname).toList.sortBy(_.view.toString)
       optional(rpList(tail.head.toInt)) match {
         case Some(rp) => dumpCFG(Some(rp), depth = Some(0))
         case None if tail.isEmpty =>

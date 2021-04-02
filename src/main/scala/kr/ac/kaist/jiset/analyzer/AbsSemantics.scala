@@ -34,6 +34,16 @@ object AbsSemantics {
   def getReturnPointByName(fname: String): Set[ReturnPoint] =
     rpMap.keySet.filter(_.func.name == fname)
 
+  // get views by function name
+  def getRpsForREPLByName(fname: String): Set[ReturnPoint] =
+    npMap.keySet.flatMap {
+      case NodePoint(entry: Entry, view) =>
+        val func = cfg.funcOf(entry)
+        if (func.name == fname) Some(ReturnPoint(func, view))
+        else None
+      case _ => None
+    }
+
   // lookup
   def apply(np: NP): AbsState = npMap.getOrElse(np, AbsState.Bot)
   def apply(rp: ReturnPoint): AbsType = rpMap.getOrElse(rp, AbsType.Bot)
