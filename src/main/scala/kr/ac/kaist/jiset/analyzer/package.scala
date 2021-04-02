@@ -73,6 +73,8 @@ package object analyzer {
     }
   }
 
+  // TODO refactor dumpCFG
+
   // dump CFG in DOT/PDF format
   def dumpCFG(
     cp: Option[ControlPoint] = None,
@@ -80,6 +82,22 @@ package object analyzer {
     depth: Option[Int] = None
   ): Unit = try {
     val dot = (new DotPrinter)(cp, depth).toString
+    dumpFile(dot, s"$CFG_DIR.dot")
+    if (pdf) {
+      executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")
+      executeCmd(s"""dot -Tpdf "${CFG_DIR}_trans.dot" -o "$CFG_DIR.pdf"""")
+      println(s"Dumped CFG to $CFG_DIR.pdf")
+    } else println(s"Dumped CFG to $CFG_DIR.dot")
+  } catch {
+    case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
+  }
+
+  // dump CFG in DOT/PDF format
+  def dumpFunc(
+    func: Function,
+    pdf: Boolean = true
+  ): Unit = try {
+    val dot = (new DotPrinter)(func).toString
     dumpFile(dot, s"$CFG_DIR.dot")
     if (pdf) {
       executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")

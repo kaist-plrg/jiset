@@ -115,6 +115,34 @@ object AnalyzeREPL {
   private def getCallNodes(rp: ReturnPoint): Set[NodePoint[Call]] =
     sem.getRetEdges(rp).map(_._1)
 
+  private def graph(cp: Option[ControlPoint], args: List[String]) =
+    optional(args.head.toInt) match {
+      case Some(depth) => dumpCFG(cp, depth = Some(depth))
+      case None if args.isEmpty => dumpCFG(cp, depth = Some(0))
+      case None => graphFunc(args.head, args.tail)
+    }
+  private def graphFunc(
+    fname: String,
+    tail: List[String]
+  ) = cfg.funcs.find(x => x.name == fname) match {
+    case None => println("Inappropriate function name")
+    case Some(func) =>
+      if (func.complete) println("* complete function")
+      else println("* incomplete function")
+      val rpList = sem.getReturnPointByName(fname).toList
+      optional(rpList(tail.head.toInt)) match {
+        case Some(rp) => dumpCFG(Some(rp), depth = Some(0))
+        case None if tail.isEmpty =>
+          dumpFunc(func)
+          println
+          println(s"View of function ${func.name}:")
+          rpList.zipWithIndex.foreach {
+            case (rp, i) => println(s"  $i: ${rp.view}")
+          }
+        case None => println("Inappropriate argument")
+      }
+  }
+
   // run repl
   def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) runDirect(cp)
   def runDirect(givenCP: ControlPoint): Unit = {
@@ -157,19 +185,7 @@ object AnalyzeREPL {
           dumpCFG(cp, depth = None)
           true
         case CmdGraph.name :: args =>
-          optional(args.head.toInt) match {
-            case depth @ Some(_) => dumpCFG(cp, depth = depth)
-            case None =>
-              val func = cfg.funcs.find(x => args contains x.name)
-              val targetCp = func match {
-                case Some(func) =>
-                  if (func.complete) println("* complete function")
-                  else println("* incomplete function")
-                  Some(ReturnPoint(func, View(List())))
-                case None => cp
-              }
-              dumpCFG(targetCp, depth = Some(0))
-          }
+          graph(cp, args)
           true
         case CmdExit.name :: _ => error("stop for debugging")
         case CmdStop.name :: _ =>
