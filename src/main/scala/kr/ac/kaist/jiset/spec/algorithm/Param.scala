@@ -5,6 +5,8 @@ import kr.ac.kaist.jiset.util.{ InfNum, PInf }
 case class Param(name: String, kind: Param.Kind = Param.Kind.Normal) {
   import Param.Kind._
 
+  def toOptional: Param = Param(name, Optional)
+
   // count arity
   lazy val count: (InfNum, InfNum) = kind match {
     case Normal => (1, 1)

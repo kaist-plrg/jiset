@@ -334,7 +334,9 @@ trait HeadParsers extends Parsers {
   lazy val param =
     "_[a-zA-Z0-9]+_".r ^^ { case s => s.substring(1, s.length - 1) }
   lazy val params: Parser[List[Param]] = (
-    "[" ~ opt(",") ~> param ~ params <~ "]" ^^ { case x ~ ps => Param(x, Optional) :: ps } |
+    "[" ~ opt(",") ~> param ~ params <~ "]" ^^ {
+      case x ~ ps => Param(x, Optional) :: ps.map(_.toOptional)
+    } |
     opt(",") ~ "..." ~> param ~ params ^^ { case x ~ ps => Param(x, Variadic) :: ps } |
     opt(",") ~> param ~ params ^^ { case x ~ ps => Param(x) :: ps } |
     "" ^^^ Nil
