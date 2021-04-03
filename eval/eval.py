@@ -60,9 +60,18 @@ def get_commit_date(commit_hash):
     cmd = f"cd {ECMA_DIR}; git show -s --format=%ci {commit_hash}"
     out, err = execute_sh(cmd)
     return out.strip()
-def get_remote_errors(remote_addr):
-    cmd = f"rsync -a -m --include '**/errors' --include='*/' --exclude='*' {remote_addr}/eval/result/raw {RESULT_DIR}"
+def get_remote_errors(remote_path):
+    print(f"rsync {remote_path}...")
+    cmd = f"rsync -a -m --include '**/errors' --include='*/' --exclude='*' {remote_path}/raw {RESULT_DIR}"
     out, err = execute_sh(cmd)
+    if err == "":
+        print(f"rsync completed.")
+    else:
+        print(err)
+def read_remote_file(host, path):
+    cmd = f"ssh {host} 'cat {path}'"
+    out, err = execute_sh(cmd)
+    return out.strip(), err != ""
 def get_commit_desc(commit_hash):
     date_str = get_commit_date(commit_hash)
     return date_str + "/" + commit_hash
@@ -147,18 +156,19 @@ def dump_diffs():
     clean_dir(DIFF_DIR)
     print(f"calc diff for current results...")
     # calc diff of each versions and dump
-    versions = get_versions()
-    for version in versions:
-        prev_version = get_prev_commit(version)
-        if not prev_version in versions:
+    versions = get_all_commits()
+    analyzed_versions = get_versions()
+    for i, version in enumerate(versions):
+        if not version in analyzed_versions:
             continue
         with open(join(DIFF_DIR, version), "w") as f:
+            prev_version = get_prev_commit(versions[-1]) if version == versions[-1] else versions[i+1]
             f.write("================================================================================\n")
             f.write(f"Version          : {version}\n")
             f.write(f"Previous Version : {prev_version}\n")
             f.write("--------------------------------------------------------------------------------\n")
             # if previous version result doesn't exist, then
-            if not prev_version in versions:
+            if not prev_version in analyzed_versions:
                 f.write(f"No analysis result for previous version")
                 continue
             res = AnalysisResult(version)
@@ -376,6 +386,36 @@ def sparse_run(sparse_targets, log_f):
         i = nt_i
     print(f"run-sparse completed.")
 
+# grep results from remote
+def grep_remotes(addrs):
+    # read now, prev from addrs
+    from_now, from_prev = True, True
+    now_paths, prev_paths, hosts = [], [], []
+    print(addrs)
+    for addr in addrs:
+        host = addr.split(":")[0]
+        hosts.append(host)
+        now_path, now_err = read_remote_file(host, "~/now")
+        prev_path, prev_err = read_remote_file(host, "~/prev")
+        if now_err:
+            from_now = False
+        else:
+            now_paths.append(now_path)
+        if prev_err:
+            from_prev = False
+        else:
+            prev_paths.append(prev_path)
+    # rsync with remotes
+    def rsync_remotes(remote_paths):
+        for i, remote_path in enumerate(remote_paths):
+            get_remote_errors(hosts[i] + ":" + remote_path)
+    if from_now:
+        print("grep results from NOW")
+        rsync_remotes(now_paths)
+    elif from_prev:
+        print("grep results from PREV")
+        rsync_remotes(prev_paths)
+
 # entry
 def main():
     # parse arguments
@@ -420,8 +460,7 @@ def main():
         run_analyze(args.version)
     # command grep
     elif args.grep != None:
-        for addr in args.grep:
-            get_remote_errors(addr)
+        grep_remotes(args.grep)
     # command sparse
     elif args.sparse != None:
         with open(join(RESULT_DIR, "analyzed"), "w") as log_f:
