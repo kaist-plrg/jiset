@@ -68,10 +68,13 @@ case class AbsState(
     val global = if (ts contains Absent) Global(x).set else Set()
     val t = AbsType(local ++ global)
     if (check && t.isMustAbsent && !isTemporalId(x)) {
-      alarm(s"unknown variable: $x")
+      AbsSemantics.unknownVars += ((alarmCP, x))
       if (cfg.spec.grammar.nameMap.keySet contains x) AstT(x)
       else Absent
-    } else t
+    } else {
+      AbsSemantics.unknownVars -= ((alarmCP, x))
+      t
+    }
   }
   def lookupStrProp(
     base: Type,

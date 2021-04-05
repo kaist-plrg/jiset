@@ -40,20 +40,25 @@ package object analyzer {
   private var alarmMap: Map[String, Set[String]] = Map()
   private var errorMap: Map[Int, Set[String]] = Map()
   def warning(msg: String): Unit = alarm(msg, error = false)
-  def alarm(msg: String, error: Boolean = true): Unit = if (TEST_MODE) {
-  } else if (alarmCP == null) {
+  def alarm(
+    msg: String,
+    error: Boolean = true,
+    cp: ControlPoint = alarmCP,
+    cpStr: String = alarmCPStr
+  ): Unit = if (TEST_MODE) {
+  } else if (cp == null) {
     nfAlarms.println(msg)
     nfAlarms.flush()
   } else {
-    val key = alarmCP match {
+    val key = cp match {
       case NodePoint(node, _) => s"node${node.uid}"
       case ReturnPoint(func, _) => s"func${func.uid}"
     }
     val set = alarmMap.getOrElse(key, Set())
     if (!(set contains msg)) {
       alarmMap += key -> (set + msg)
-      val errMsg = s"[Bug] $msg @ $alarmCPStr"
-      val func = AbsSemantics.funcOf(alarmCP)
+      val errMsg = s"[Bug] $msg @ $cpStr"
+      val func = AbsSemantics.funcOf(cp)
       if (error && func.complete) {
         val key = func.uid
         val set = errorMap.getOrElse(key, Set())
@@ -63,7 +68,7 @@ package object analyzer {
           if (!LOG) Console.err.println(setColor(RED)(errMsg))
           nfErrors.println(errMsg)
           nfErrors.flush()
-          if (CHECK_ALARM) AnalyzeREPL.run(alarmCP)
+          if (CHECK_ALARM) AnalyzeREPL.run(cp)
         }
       }
       if (LOG) {

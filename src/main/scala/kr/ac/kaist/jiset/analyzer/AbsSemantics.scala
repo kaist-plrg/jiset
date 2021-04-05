@@ -23,6 +23,9 @@ object AbsSemantics {
   // internal map for return edges
   var retEdges: Map[ReturnPoint, Set[(NodePoint[Call], String)]] = Map()
 
+  // internal set of unknown variables with control points
+  var unknownVars: Set[(ControlPoint, String)] = Set()
+
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
@@ -62,6 +65,12 @@ object AbsSemantics {
       case NodePoint(node, view) => ReturnPoint(cfg.funcOf(node), view)
     } -- rpMap.keySet
     for (rp <- set) warning(s"no return: ${getString(rp, "", false)}")
+  }
+
+  // reference check
+  def referenceCheck: Unit = for ((cp, x) <- unknownVars) {
+    val cpStr = getString(cp, "", false)
+    alarm(s"unknown variable: $x", cp = cp, cpStr = cpStr)
   }
 
   // get size

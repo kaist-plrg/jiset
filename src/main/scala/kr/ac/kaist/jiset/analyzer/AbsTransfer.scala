@@ -45,6 +45,7 @@ object AbsTransfer {
       alarmCP = null
       alarmCPStr = ""
       sem.noReturnCheck
+      sem.referenceCheck
       if (DOT) dumpCFG(None, PDF)
       if (REPL) {
         printlnColor(RED)(s"* Analysis finished.")

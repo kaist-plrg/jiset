@@ -17,10 +17,10 @@ trait PruneHelper { this: AbsTransfer.Helper =>
     val pruneRef = PruneRef(st, pass)
     st => expr match {
       case _ if !PRUNE => error("no prune")
-      case pruneRef(ref, t) => ref match {
-        case RefId(Id(x)) =>
+      case pruneRef(map) => map.foldLeft(st) {
+        case (st, (RefId(Id(x)), t)) =>
           if (t.isBottom) AbsState.Bot else st.define(x, t)
-        case _ => st
+        case (st, _) => st
       }
       case _ => st
     }
@@ -29,8 +29,8 @@ trait PruneHelper { this: AbsTransfer.Helper =>
   case class PruneRef(st: AbsState, pass: Boolean) {
     val prune = this
     def not: PruneRef = PruneRef(st, !pass)
-    def unapply(expr: Expr): Option[(Ref, AbsType)] = optional(this(expr))
-    private def apply(expr: Expr): (Ref, AbsType) = expr match {
+    def unapply(expr: Expr): Option[Map[Ref, AbsType]] = optional(this(expr))
+    private def apply(expr: Expr): Map[Ref, AbsType] = expr match {
       case EUOp(ONot, expr) => not(expr)
       // prune normal completion
       case EBOp(OEq, ERef(RefProp(ref, EStr("Type"))), ERef(RefId(Id("CONST_normal")))) =>
@@ -38,32 +38,47 @@ trait PruneHelper { this: AbsTransfer.Helper =>
           a <- transfer(ref)
           l <- get(_.lookup(a, check = false))
         } yield l)(st)
-        (ref, pruneNormalComp(l, pass))
+        Map(ref -> pruneNormalComp(l, pass))
       case EBOp(OEq, ERef(ref), right) =>
         val ((l, r), _) = (for {
           a <- transfer(ref)
           l <- get(_.lookup(a, check = false))
           r <- transfer(right)
         } yield (l.escaped, r.escaped))(st)
-        (ref, pruneValue(l, r, pass))
+        Map(ref -> pruneValue(l, r, pass))
       case EIsInstanceOf(base @ ERef(ref), name) =>
         val (l, _) = (for {
           t <- transfer(base)
         } yield t.escaped)(st)
-        (ref, pruneInstance(l, name, pass))
+        Map(ref -> pruneInstance(l, name, pass))
       case EBOp(OEq, ETypeOf(left @ ERef(ref)), right) =>
         val ((l, r), _) = (for {
           a <- transfer(ref)
           l <- get(_.lookup(a, check = false))
           r <- transfer(right)
         } yield (l.escaped, r.escaped))(st)
-        (ref, pruneType(l, r, pass))
-      case EBOp(OOr, prune(lref, lt), prune(rref, rt)) if lref == rref =>
-        (lref, if (pass) lt ⊔ rt else lt ⊓ rt)
-      case EBOp(OAnd, prune(lref, lt), prune(rref, rt)) if lref == rref =>
-        (lref, if (pass) lt ⊓ rt else lt ⊔ rt)
+        Map(ref -> pruneType(l, r, pass))
+      case EBOp(OOr, prune(lmap), prune(rmap)) =>
+        merge(lmap, rmap, _ ⊔ _)
+      case EBOp(OAnd, prune(lmap), prune(rmap)) =>
+        merge(lmap, rmap, _ ⊓ _)
       case _ => error("failed")
     }
+  }
+
+  // merging pruning map
+  def merge(
+    lmap: Map[Ref, AbsType],
+    rmap: Map[Ref, AbsType],
+    op: (AbsType, AbsType) => AbsType
+  ): Map[Ref, AbsType] = {
+    val keys = (lmap.keySet ++ rmap.keySet).toList
+    keys.map(k => k -> ((lmap.get(k), rmap.get(k)) match {
+      case (Some(lt), Some(rt)) => op(lt, rt)
+      case (Some(lt), None) => lt
+      case (None, Some(rt)) => rt
+      case (None, None) => ???
+    })).toMap
   }
 
   // pruning for normal completion
