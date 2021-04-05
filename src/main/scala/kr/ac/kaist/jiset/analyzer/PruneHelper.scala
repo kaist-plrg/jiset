@@ -32,6 +32,13 @@ trait PruneHelper { this: AbsTransfer.Helper =>
     def unapply(expr: Expr): Option[(Ref, AbsType)] = optional(this(expr))
     private def apply(expr: Expr): (Ref, AbsType) = expr match {
       case EUOp(ONot, expr) => not(expr)
+      // prune normal completion
+      case EBOp(OEq, ERef(RefProp(ref, EStr("Type"))), ERef(RefId(Id("CONST_normal")))) =>
+        val (l, _) = (for {
+          a <- transfer(ref)
+          l <- get(_.lookup(a, check = false))
+        } yield l)(st)
+        (ref, pruneNormalComp(l, pass))
       case EBOp(OEq, ERef(ref), right) =>
         val ((l, r), _) = (for {
           a <- transfer(ref)
@@ -58,6 +65,10 @@ trait PruneHelper { this: AbsTransfer.Helper =>
       case _ => error("failed")
     }
   }
+
+  // pruning for normal completion
+  def pruneNormalComp(l: AbsType, pass: Boolean): AbsType =
+    if (pass) AbsType(l.compSet) - AbruptT else l ⊓ AbruptT
 
   // purning for value checks
   def pruneValue(l: AbsType, r: AbsType, pass: Boolean): AbsType = {

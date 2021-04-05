@@ -22,7 +22,7 @@ if ( Expression ) Statement
 - It is a Syntax Error if IsLabelledFunction(Statement) is true.
 ```
 
-## ClassTail - [[Approved](https://github.com/tc39/ecma262/pull/2362)]
+## ClassTail - [[Merged](https://github.com/tc39/ecma262/pull/2362)]
 - __Section:__ [8.4.1 Static Semantics: Contains](https://tc39.es/ecma262/#sec-static-semantics-contains)
 - ClassTail[0,3].Contains에서 3번째 statement에서 ClassHeritage에 대한 검사 없이 사용하여서 reference error가 발생
 - __Issue__: ES2015
@@ -38,7 +38,7 @@ if ( Expression ) Statement
 3. If ClassHeritage is present, let inHeritage be ClassHeritage Contains symbol. Otherwise, let inHeritage be false.
 ```
 
-## Duplicated Variables - [[Reported](https://github.com/tc39/ecma262/pull/2365)]
+## Duplicated Variables - [[Merged](https://github.com/tc39/ecma262/pull/2365)]
 - __Section:__ [8.2.1 Static Semantics: ContainsDuplicateLabels](https://tc39.es/ecma262/#sec-static-semantics-containsduplicatelabels)
 - __Section:__ [8.2.2 Static Semantics: ContainsUndefinedBreakTarget](https://tc39.es/ecma262/#sec-static-semantics-containsundefinedbreaktarget)
 - __Section:__ [8.2.3 Static Semantics: ContainsUndefinedContinueTarget](https://tc39.es/ecma262/#sec-static-semantics-containsundefinedcontinuetarget)
@@ -141,4 +141,26 @@ TryStatement : try Block Catch Finally
 1. Let _index_ be 0.
 ...
 1. Set _index_ be _numberOfParameters_ - 1.
+```
+
+## Duplicated Variables - [[Reported](https://github.com/tc39/ecma262/pull/2372)]
+- __Section:__ [15.5.5 Runtime Semantics: Evaluation](https://tc39.es/ecma262/#sec-generator-function-definitions-runtime-semantics-evaluation)
+- __Issue:__ ???
+- __Count:__ 1
+- __Current:__
+
+```
+1. Let _value_ be ? GetValue(_exprRef_).
+...
+      1. If _done_ is *true*, then
+        1. Let _value_ be ? IteratorValue(_innerReturnResult_).
+```
+
+- __Expected:__
+
+```
+1. Let _value_ be ? GetValue(_exprRef_).
+...
+      1. If _done_ is *true*, then
+        1. Set _value_ to ? IteratorValue(_innerReturnResult_).
 ```

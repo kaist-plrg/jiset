@@ -37,6 +37,9 @@ case class AbsType private (
   def escaped: AbsType = new AbsType(set.flatMap(_.escaped: Option[Type])).norm
   def escapedSet: Set[PureType] = set.flatMap(_.escaped)
 
+  // completion set
+  def compSet: Set[Type] = set.collect { case comp: CompType => comp }
+
   // closure set
   def fidSet: Set[Int] = set.collect { case CloT(fid) => fid }
 

@@ -133,7 +133,14 @@ object ECMAScriptParser {
   ): Array[Element] = {
     // HTML elements with `emu-alg` tags
     // `emu-alg` that reside inside `emu-note` should be filtered out
-    val emuAlgs = getElems(target, "emu-alg").filter(elem => elem.parent().tagName() != "emu-note")
+    val emuAlgs = getElems(target, "emu-alg").filter(elem => {
+      val isEmuNote = elem.parent().tagName() == "emu-note"
+      val prev = elem.previousElementSibling()
+      val isShortHand =
+        if (prev != null) prev.text() == "Algorithm steps that say"
+        else false
+      !(isEmuNote || isShortHand)
+    })
 
     // HTML elements for Early Error
     val earlyErrors = for {
@@ -228,6 +235,7 @@ object ECMAScriptParser {
     } yield algos)
     if (detail) println(s"# successful algorithm parsing: ${passed.size} ($atime ms)")
     val algos = passed.toList.flatten
+    if (detail) algos.foreach(println _)
 
     // return algos
     algos

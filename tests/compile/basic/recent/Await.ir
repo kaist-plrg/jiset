@@ -3,12 +3,12 @@
   app __x0__ = (PromiseResolve INTRINSIC_Promise value)
   let promise = [? __x0__]
   let stepsFulfilled = AwaitFulfilledFunctions
-  ??? "Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in AwaitFulfilledFunctions ."
+  let lengthFulfilled = AnyNum
   app __x1__ = (CreateBuiltinFunction stepsFulfilled lengthFulfilled "" (new ["AsyncContext"]))
   let onFulfilled = [! __x1__]
   onFulfilled.AsyncContext = asyncContext
   let stepsRejected = AwaitRejectedFunctions
-  ??? "Let id:{lengthRejected} be the number of non - optional parameters of the function definition in AwaitRejectedFunctions ."
+  let lengthRejected = AnyNum
   app __x2__ = (CreateBuiltinFunction stepsRejected lengthRejected "" (new ["AsyncContext"]))
   let onRejected = [! __x2__]
   onRejected.AsyncContext = asyncContext
