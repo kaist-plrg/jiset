@@ -15,19 +15,20 @@
   To alleviate this problem, we propose $\tool$, a JavaScript Specification Type
   Analyzer using Refinement.  It is the first tool that performs \textit{type
   analysis} on JavaScript specifications and detects specification bugs using
-  \textit{bug checkers}.  For a given specification, our tool first compiles
+  \textit{bug detector}.  For a given specification, our tool first compiles
   each abstract algorithm written in a structured natural language to the
   corresponding function of $\ires$, which is an untyped intermediate
   representation for ECMAScript.  Then, it performs type analysis for compiled
   functions with specification types defined in ECMAScript.  Based on the result
-  of type analysis, $\tool$ detects specification bugs using four different bug
-  checkers.  Moreover, to increase precision of type analysis, we also present
-  \textit{refinement for type analysis}, which prunes out infeasible abstract
-  states by using conditions of assertions and branches.  We evaluated $\tool$
-  with all \inred{787} different versions of ECMAScript existed in the official
-  repository for the recent three years (\inred{from 20 March 2018 to 9 March
-  2021}).  Our tool detected \inred{XXX} specification bugs including only
-  \inred{XXX} false alarms caused by the imprecision of type analysis.  Among
+  of type analysis, $\tool$ detects specification bugs using the bug detector
+  consisting of four different checkers.  Moreover, to increase precision of
+  type analysis, we also present \textit{condition-based refinement} for type
+  analysis, which prunes out infeasible abstract states by using conditions of
+  assertions and branches.  We evaluated $\tool$ with all \inred{XXX} different
+  versions existed in the official ECMAScript repository for the recent
+  \inred{three years from 2018 to 2021}.  Our tool detected \inred{XXX}
+  specification bugs including only \inred{XXX} false alarms caused by the
+  imprecision of type analysis in \inred{XX} minutes on average.  Among
   \inred{XXX} true alarms, \inred{XXX} bugs are resolved after existing for
   \inred{XXX} days on average and \inred{XX} bugs still exist in the latest
   version of ECMAScript for \inred{XXX} days.  We reported all \inred{XX} newly
