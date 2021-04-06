@@ -143,7 +143,7 @@ TryStatement : try Block Catch Finally
 1. Set _index_ be _numberOfParameters_ - 1.
 ```
 
-## Duplicated Variables - [[Reported](https://github.com/tc39/ecma262/pull/2372)]
+## Duplicated Variables - [[Approved](https://github.com/tc39/ecma262/pull/2372)]
 - __Section:__ [15.5.5 Runtime Semantics: Evaluation](https://tc39.es/ecma262/#sec-generator-function-definitions-runtime-semantics-evaluation)
 - __Issue:__ ???
 - __Count:__ 1
@@ -163,4 +163,24 @@ TryStatement : try Block Catch Finally
 ...
       1. If _done_ is *true*, then
         1. Set _value_ to ? IteratorValue(_innerReturnResult_).
+```
+
+## [[DefineOwnProperty]], [[GetOwnProperty]] - [[Approved](https://github.com/tc39/ecma262/pull/2372)]
+- __Section:__ [10.4.4 Arguments Exotic Objects](https://tc39.es/ecma262/#sec-arguments-exotic-objects)
+- __Issue:__ ???
+- __Count:__ 2
+- __Current:__
+
+```
+1. Let _isMapped_ be ! HasOwnProperty(_map_, _P_).
+1. If _isMapped_ is *true*, then
+  1. Set _desc_.[[Value]] to Get(_map_, _P_).
+```
+
+- __Expected:__
+
+```
+1. Let _isMapped_ be ! HasOwnProperty(_map_, _P_).
+1. If _isMapped_ is *true*, then
+  1. Set _desc_.[[Value]] to ! Get(_map_, _P_).
 ```
