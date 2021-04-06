@@ -88,6 +88,7 @@ object AnalyzeREPL {
       case (s"${ CmdBreak.block }", uid) => uid.toInt == node.uid
       case _ => false
     }
+    case _ => false
   }
 
   // graph
