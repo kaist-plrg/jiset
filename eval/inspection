@@ -2,6 +2,8 @@
 5687197db84d84c8ec16aaf532f693badc3fdcec
 --------------------------------------------------------------------------------
 - Optional nonterminal 에 대한 처리?
+[Bug] unknown variable: Expression1 @ IterationStatement[2,7].LoopEvaluation
+[Bug] unknown variable: Expression2 @ IterationStatement[2,7].LoopEvaluation
 [Bug] unknown variable: Expression0 @ IterationStatement[3,3].LoopEvaluation
 [Bug] unknown variable: Expression1 @ IterationStatement[3,3].LoopEvaluation
 [Bug] unknown variable: Expression0 @ IterationStatement[4,3].LoopEvaluation
@@ -12,14 +14,24 @@
 --------------------------------------------------------------------------------
 - Optional nonterminal 에 대한 처리?
 [Bug] unknown variable: Expression1 @ IterationStatement[2,7].LabelledEvaluation
+[Bug] unknown variable: Expression2 @ IterationStatement[2,7].LabelledEvaluation
+[Bug] unknown variable: Expression0 @ IterationStatement[3,3].LabelledEvaluation
 [Bug] unknown variable: Expression1 @ IterationStatement[3,3].LabelledEvaluation
 [Bug] unknown variable: Expression0 @ IterationStatement[4,3].LabelledEvaluation
+[Bug] unknown variable: Expression1 @ IterationStatement[4,3].LabelledEvaluation
 
 --------------------------------------------------------------------------------
 d0583d8f72787cd9130c571bdffeeeb07d2b8193
 --------------------------------------------------------------------------------
 - Head를 Builtin Head로 잘못 인식함.
+[Bug] unknown variable: GetGeneratorKind @ YieldExpression[0,0].Evaluation
 [Bug] unknown variable: GetGeneratorKind @ YieldExpression[1,0].Evaluation
+[Bug] unknown variable: GetGeneratorKind @ YieldExpression[2,0].Evaluation
+[Bug] unknown variable: GetGeneratorKind @ ReturnStatement[1,0].Evaluation
+[Bug] unknown variable: FlattenIntoArray @ Array.prototype.flat
+[Bug] unknown variable: FlattenIntoArray @ Array.prototype.flatMap
+[Bug] unknown variable: NumberToBigInt @ BigInt
+[Bug] unknown variable: CreateResolvingFunctions @ Promise
 
 --------------------------------------------------------------------------------
 4ff267d8802d2549c2d323dcc090113fc84726cc
@@ -27,6 +39,9 @@ d0583d8f72787cd9130c571bdffeeeb07d2b8193
 - Builtin method 가 global 에 없음.
 - Incomplete한 문장이 생겨 알람이 사라짐.
 [Bug] unknown variable: ThenFinallyFunctions @ Promise.prototype.finally
+[Bug] unknown variable: stepsThenFinally @ Promise.prototype.finally
+[Bug] unknown variable: PromiseResolveFunctions @ CreateResolvingFunctions
+[Bug] unknown variable: stepsResolve @ CreateResolvingFunctions
 
 --------------------------------------------------------------------------------
 20706ef77f8d4f9aa149412695363fc69e62ea88
@@ -45,7 +60,89 @@ d0583d8f72787cd9130c571bdffeeeb07d2b8193
 --------------------------------------------------------------------------------
 - emu-alg 사이에 p가 있을 때 parsing 오류.
 [Bug] unknown variable: len @ Array.prototype.sort
+[Bug] unknown variable: obj @ Array.prototype.sort
 
+--------------------------------------------------------------------------------
+1d0fe7c85c8f81a4ea301498ac036a8ef37a2a3d
+--------------------------------------------------------------------------------
+- Need inspection
+- Assert 문에서 _status_ 를 참조할 때, alarm 이 발생하는 것으로 예상됨
+[Bug] unchecked abrupt completions @ BindingRestElement[0,0].IteratorBindingInitialization
+[Bug] unchecked abrupt completions @ BindingRestElement[1,0].IteratorBindingInitialization
+[Bug] unchecked abrupt completions @ CreateArrayFromList
+
+--------------------------------------------------------------------------------
+2e754fd478d30a41a8941603333b637edb63a4d7
+--------------------------------------------------------------------------------
+- Pop 구현이 안됨.
+[Bug] unknown variable: E @ Array.prototype.splice
+[Bug] unknown variable: E @ Array.prototype.push
+[Bug] unknown variable: E @ Array.prototype.unshift
+[Bug] unknown variable: next @ String.prototype.concat
+
+--------------------------------------------------------------------------------
+aa1f4077730ae2826758de9034de7da6d5d620f8
+--------------------------------------------------------------------------------
+- 높은 확률로 true alarm 이지만, 확실한 inspection 필요.
+[Bug] unchecked abrupt completions @ ToPrimitive
+[Bug] unchecked abrupt completions @ ProxyObject.Set
+[Bug] unchecked abrupt completions @ SameValue
+[Bug] unchecked abrupt completions @ ToObject
+[Bug] unchecked abrupt completions @ ToNumber
+[Bug] unchecked abrupt completions @ RequireObjectCoercible
+
+--------------------------------------------------------------------------------
+b38902109c62ae5e904c225b4f695a6da0ad3300
+--------------------------------------------------------------------------------
+- <emu-alg> tag 를 닫지 않아 EvaluatePropertyAccessWithExpressionKey 함수가 parsing 이 안된 것으로 추측됨.
+[Bug] unknown variable: EvaluatePropertyAccessWithExpressionKey @ CallExpression[4,0].Evaluation
+[Bug] unknown variable: EvaluatePropertyAccessWithExpressionKey @ MemberExpression[1,0].Evaluation
+[Bug] unknown variable: EvaluatePropertyAccessWithExpressionKey @ OptionalChain[5,0].ChainEvaluation
+[Bug] unknown variable: EvaluatePropertyAccessWithExpressionKey @ OptionalChain[1,0].ChainEvaluation
+[Bug] unknown variable: EvaluatePropertyAccessWithIdentifierKey @ CallExpression[5,0].Evaluation
+[Bug] unknown variable: EvaluatePropertyAccessWithIdentifierKey @ OptionalChain[2,0].ChainEvaluation
+[Bug] unknown variable: EvaluatePropertyAccessWithIdentifierKey @ OptionalChain[6,0].ChainEvaluation
+[Bug] unknown variable: EvaluatePropertyAccessWithIdentifierKey @ MemberExpression[2,0].Evaluation
+
+--------------------------------------------------------------------------------
+e8727ee90d641851ae1cc18af6171c65b6228dbc
+--------------------------------------------------------------------------------
+- Head를 Builtin Head로 잘못 인식함.
+[Bug] unknown variable: PromiseReactionJob @ PerformPromiseThen
+
+--------------------------------------------------------------------------------
+0033dd99b7f3726e1646f7d3b7a531df94a9f0ef
+--------------------------------------------------------------------------------
+- Head를 Builtin Head로 잘못 인식함.
+[Bug] unknown variable: PerformPromiseThen @ Promise.prototype.then
+
+--------------------------------------------------------------------------------
+096f30b7c7ee7b12f6907bb5760496711c29b66f
+--------------------------------------------------------------------------------
+- GetReferencedName 함수가 사라지며 alarm 이 사라짐. 그 전에 왜 발생했는지는 inspection 필요
+[Bug] unchecked abrupt completions @ GetReferencedName
+
+--------------------------------------------------------------------------------
+35035d6c10d916cbc1f39acbeed6abe244342c57
+--------------------------------------------------------------------------------
+- need discussion
+- description 에는 define 되어 있지만 algo body 안에서는 define 안됨.
+[Bug] unknown variable: func @ Function.prototype.apply
+
+--------------------------------------------------------------------------------
+b056d9f4502c9f39784d64ceeb35665f6a91997d
+--------------------------------------------------------------------------------
+- need discussion
+- description 에는 define 되어 있지만 algo body 안에서는 define 안됨.
+[Bug] unknown variable: f @ MakeArgGetter
+
+--------------------------------------------------------------------------------
+acf7a5161b76991d89fe97478c45a3fc89960cfe
+--------------------------------------------------------------------------------
+- syntax-directed algo 호출 하는 notation 을 잘못 사용함
+[Bug] unknown variable: AssignmentTargetType @ DestructuringAssignmentTarget[0,0].EarlyErrors
+
+--------------------------------------------------------------------------------
 RECENT
 --------------------------------------------------------------------------------
 # True Alarms
