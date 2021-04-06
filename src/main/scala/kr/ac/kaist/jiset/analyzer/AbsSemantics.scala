@@ -104,8 +104,10 @@ object AbsSemantics {
         st = st.define(param.name, arg.abs)
         aux(pl, al)
       case (Param(name, kind) :: tl, Nil) =>
-        if (kind == Normal) alarm(s"remaining parameter: $name")
-        st = st.define(name, Absent.abs)
+        if (kind == Normal) {
+          alarm(s"remaining parameter: $name")
+          st = AbsState.Bot
+        } else st = st.define(name, Absent.abs)
         aux(tl, Nil)
       case (Nil, Nil) =>
       case (Nil, args) =>
