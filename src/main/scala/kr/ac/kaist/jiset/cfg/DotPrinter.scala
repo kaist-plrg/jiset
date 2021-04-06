@@ -198,6 +198,7 @@ class DotPrinter {
   // normalize beautified view
   private val normPattern = """[\[\](),\s~?"]""".r
   private def norm(view: View): String = normPattern.replaceAllIn(view.tys.map {
+    case NormalT(RecordT(props)) => NormalT(NameT("Record"))
     case RecordT(props) => NameT("Record")
     case t => t
   }.toString, "")
