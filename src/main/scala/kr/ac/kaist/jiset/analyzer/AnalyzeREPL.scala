@@ -28,7 +28,8 @@ object AnalyzeREPL {
     new TreeCompleter(Command.commands.map(optionNode(_)): _*)
   private def optionNode(cmd: Command) =
     node(cmd.name :: (cmd match {
-      case CmdGraph => node("-total") :: cfg.funcs.map(x => node(x.name))
+      case CmdGraph =>
+        node(s"-${CmdGraph.total}") :: cfg.funcs.map(x => node(x.name))
       case _ => cmd.options.map(argNode(_))
     }): _*)
   private def argNode(opt: String) =
@@ -94,12 +95,15 @@ object AnalyzeREPL {
   }
 
   // graph
-  private def graph(cp: Option[ControlPoint], args: List[String]) =
+  private def graph(cp: Option[ControlPoint], args: List[String]) = {
+    import CmdGraph._
     optional(args.head.toInt) match {
       case Some(depth) => dumpCFG(cp, depth = Some(depth))
       case None if args.isEmpty => dumpCFG(cp, depth = Some(0))
+      case None if args.head == s"-$total" => dumpCFG(cp, depth = None)
       case None => graphFunc(args.head, args.tail)
     }
+  }
   private def graphFunc(
     fname: String,
     tail: List[String]
@@ -156,7 +160,7 @@ object AnalyzeREPL {
     else {
       visited += rp
       rp.func.algo.head match {
-        case head @ SyntaxDirectedHead(_, _, _, _, _, withParam) if withParam.isEmpty =>
+        case head: SyntaxDirectedHead if head.withParams.isEmpty =>
           Set(rp.func.name)
         case _ => getCallNodes(rp).flatMap(getEntryFunc(_))
       }
@@ -197,10 +201,6 @@ object AnalyzeREPL {
           rmBreak(args); true
         case CmdLog.name :: _ =>
           Stat.dump(); true
-        // TODO
-        case CmdGraph.name :: List("-total") =>
-          dumpCFG(cp, depth = None)
-          true
         case CmdGraph.name :: args =>
           graph(cp, args)
           true
@@ -209,7 +209,6 @@ object AnalyzeREPL {
           stop(); false
         case CmdInfo.name :: args =>
           info(args); true
-        //TODO
         case CmdEntry.name :: _ =>
           visited = Set()
           cp.map(getEntryFunc(_).foreach(println _))
@@ -279,7 +278,9 @@ private case object CmdRmBreak extends Command("rm-break", "Remove a break point
 
 private case object CmdLog extends Command("log", "Dump the state.")
 
-private case object CmdGraph extends Command("graph", "Dump the current control graph.")
+private case object CmdGraph extends Command("graph", "Dump the current control graph.") {
+  val total = "total"
+}
 
 private case object CmdExit extends Command("exit", "Exit the analysis.")
 
