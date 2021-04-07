@@ -2,10 +2,13 @@ import argparse
 import json
 import shutil
 import subprocess
+import re
 from functools import reduce
 from enum import Enum, auto
 from os import listdir, makedirs, remove, getcwd, chdir, environ
 from os.path import isdir, join, exists
+from datetime import date
+import dateutil.parser
 
 # Color
 CEND    = '\33[0m'
@@ -35,6 +38,7 @@ EVAL_LOG = join(RESULT_DIR, "log")
 # Global
 FIRST_VERSION = "fc85c50181b2b8d7d75f034800528d87fda6b654"
 ES2018_VERSION = "59d73dc08ea371866c1d9d45843e6752f26a48e4"
+COMMIT_REGEX = re.compile("^[a-z0-9]{40}$")
 
 # Shell util
 EVAL_LOG_POST = f"2>> {EVAL_LOG} 1>> {EVAL_LOG}"
@@ -56,10 +60,18 @@ def get_all_commits():
     out, err = execute_sh(cmd)
     all_commits = out.split()
     return all_commits[:all_commits.index(ES2018_VERSION) + 1]
-def get_commit_date(commit_hash):
-    cmd = f"cd {ECMA_DIR}; git show -s --format=%ci {commit_hash}"
+def get_commit_info(commit_hash):
+    if COMMIT_REGEX.match(commit_hash) == None:
+        return
+    # author name, author email, commit date
+    # https://m.blog.naver.com/dudwo567890/221481850543
+    cmd = f"cd {ECMA_DIR}; git show -s --format=%an,%ae,%cI {commit_hash}"
     out, err = execute_sh(cmd)
-    return out.strip()
+    an, ae, cdate = out.strip().split(",")
+    return {
+        "date": cdate,
+        "author": f"{an}({ae})"
+    } 
 def get_remote_errors(remote_path):
     print(f"rsync {remote_path}...")
     cmd = f"rsync -a -m --include '**/errors' --include='*/' --exclude='*' {remote_path}/raw {RESULT_DIR}"
@@ -73,8 +85,8 @@ def read_remote_file(host, path):
     out, err = execute_sh(cmd)
     return out.strip(), err != ""
 def get_commit_desc(commit_hash):
-    date_str = get_commit_date(commit_hash)
-    return date_str + "/" + commit_hash
+    cinfo = get_commit_info(commit_hash)
+    return cinfo.date + "/" + commit_hash
 def clean_dir(path):
     if exists(path):
         shutil.rmtree(path)
@@ -112,6 +124,11 @@ def has_result(version):
     return exists(get_version_dir(version))
 def get_results(versions):
     return [AnalysisResult(v) for v in versions]
+def log(f, print_func, msg):
+    print_func(msg)
+    f.write(msg + "\n")
+def map2(map_func, a, b):
+    return map_func(a), map_func(b)
 
 # check type enumeration
 class CheckErrorType(Enum):
@@ -140,11 +157,10 @@ class AnalysisResult:
         tp = 0
         for bug in bugs:
             if self.contains(bug):
-                msg = print_green(f"[PASS] @ {self.version}: {bug}")
+                log(f, print_green, f"[PASS] @ {self.version}: {bug}")
                 tp += 1
             else:
-                msg = print_red(f"[FAIL] @ {self.version}: {bug}")
-            f.write(f"{msg}\n")
+                log(f, print_red, f"[FAIL] @ {self.version}: {bug}")
         return tp
     # equality
     def __eq__(self, that):
@@ -154,7 +170,6 @@ class AnalysisResult:
 def dump_diffs():
     print(f"remove diff directory: {DIFF_DIR}")
     clean_dir(DIFF_DIR)
-    print(f"calc diff for current results...")
     # calc diff of each versions and dump
     versions = get_all_commits()
     analyzed_versions = get_versions()
@@ -183,7 +198,6 @@ def dump_diffs():
                     f.write(f"+{new_bug}\n")
                 for old_bug in sorted(diff["-"]):
                     f.write(f"-{old_bug}\n")
-    print(f"calc diff completed.")
 
 # dump bug diffs
 def dump_bug_diffs():
@@ -215,10 +229,30 @@ def dump_bug_diffs():
     with open(join(RESULT_DIR, "bug-diffs.json"), "w") as f:
         pretty_results = []
         for e in results:
-            infos = []
+            infos, ttl = [], 0
             for created_at, deleted_at in results[e]:
-                infos.append({"created_at": created_at, "deleted_at": deleted_at})
-            pretty_results.append({"errors": e, "infos": infos})
+                # get commit info of created, deleted
+                cinfo, dinfo = map(get_commit_info, [created_at, deleted_at])
+                # calc ttl
+                parse_date = lambda i: None if not i else dateutil.parser.isoparse(i["date"])
+                cdate, ddate = map(parse_date, [cinfo, dinfo])
+                if not cdate or not ddate:
+                    local_ttl, ttl = "Unknown", "Unknown"
+                else:
+                    local_ttl = (ddate - cdate).days
+                if ttl != "Unknown":
+                    ttl += local_ttl
+                # add info
+                infos.append({
+                    "created_info": cinfo, 
+                    "deleted_info": dinfo,
+                    "TTL": str(local_ttl)
+                })
+            pretty_results.append({
+                "errors": e, 
+                "infos": infos,
+                "TTL": str(ttl)
+            })
         json.dump(pretty_results, f, indent=2)
     return len(errors)
 
@@ -265,77 +299,88 @@ def dump_sparse_targets():
                     f.write(version + "\n")
 
 # dump stats
-def dump_stat():
+def dump_stat(stat_f):
+    def print_header(msg):
+        log(stat_f, print, "-" * 80)
+        log(stat_f, print, msg)
+        log(stat_f, print, "-" * 80)
+    print_header("CHECK ERRORS")
     # check if target errors exist
-    tp = check_errors(CheckErrorType.SOFT)
+    tp = check_errors(CheckErrorType.SOFT, stat_f)
+
     # dump diffs of analysis results
+    print_header("DUMP DIFFS")
+    log(stat_f, print, f"calc diff for current results...")
     dump_diffs()
-    # dump bug diffs of analysis results
     p = dump_bug_diffs()
-    # dump diff summary
     dump_diff_summary()
-    # dump diff list
+    log(stat_f, print, f"calc diff completed.")
+
+    # dump sparse targets
+    print_header("SPARSE TARGETS")
+    log(stat_f, print, f"calc sparse targets...")
     dump_sparse_targets()
+    log(stat_f, print, f"calc sparse completed.")
+
     # print precision
-    print(f"precision: {tp}/{p}")
+    print_header("SUMMARY")
+    precision = tp / p
+    precision_msg = "precision: {}/{}({:.4}%)".format(tp, p, precision * 100)
+    log(stat_f, print, precision_msg)
+    # TODO 
+    # calc diff commit / total # of commits
+
 
 # run analysis and check if target errors exist
-def check_errors(option):
+def check_errors(option, check_f):
     print(f"check errors(option: {option})...")
     tp = 0
-    with open(join(RESULT_DIR, "errors.log"), "w") as f:
-        # get target errors
-        for target_error in get_target_errors():
-            version = target_error["version"]
-            bugs = target_error["bugs"]
-            # if analysis result for version not exist,
-            if not exists(get_version_dir(version)):
-                # if SOFT mode, dump YET and continue
-                if option == CheckErrorType.SOFT:
-                    for bug in bugs:
-                        msg = print_yellow(f"[YET] @ {version}: {bug}")
-                        f.write(f"{msg}\n")
-                    continue
+    # get target errors
+    for target_error in get_target_errors():
+        version = target_error["version"]
+        bugs = target_error["bugs"]
+        # if analysis result for version not exist,
+        if not exists(get_version_dir(version)):
+            # if SOFT mode, dump YET and continue
+            if option == CheckErrorType.SOFT:
+                for bug in bugs:
+                    log(check_f, print_yellow, f"[YET] @ {version}: {bug}")
+            else:
                 # otherwise, run analysis
                 run_analyze(version)
-            # if force mode run analysis
-            elif option == CheckErrorType.FORCE:
-                run_analyze(version)
-            # check results and dump
-            tp += AnalysisResult(version).check(bugs, f)
+        # if force mode run analysis
+        elif option == CheckErrorType.FORCE:
+            run_analyze(version)
+        # check results and dump
+        tp += AnalysisResult(version).check(bugs, check_f)
     print("check errors completed.")
     return tp
 
 # strictly check target errors
-def strict_check_errors():
+def strict_check_errors(strict_f):
     versions = get_all_commits()
     print(f"strict-check errors...")
-    with open(join(RESULT_DIR, "strict-errors.log"), "w") as f:
-        # get target errors
-        for target_error in get_target_errors():
-            version = target_error["version"]
-            bugs = target_error["bugs"]
-            # handle first version
-            if version == versions[0] and has_result(version):
-                AnalysisResult(version).check(bugs, f)
-                continue
-            next_version = versions[versions.index(version)-1]
-            # log YET if analysis result is not found
-            if not has_result(version) or not has_result(next_version):
-                for bug in bugs:
-                    msg = print_yellow(f"[YET] @ {version}: {bug}")
-                    f.write(f"{msg}\n")
-            # strict check
-            else:
-                result = AnalysisResult(version)
-                next_result = AnalysisResult(next_version)
-                for bug in bugs:
-                    if result.contains(bug) and not next_result.contains(bug):
-                        msg = print_green(f"[PASS] @ {version}: {bug}")
-                        f.write(f"{msg}\n")
-                    else:
-                        msg = print_red(f"[FAIL] @ {version}: {bug}")
-                        f.write(f"{msg}\n")
+    # get target errors
+    for target_error in get_target_errors():
+        version = target_error["version"]
+        bugs = target_error["bugs"]
+        # handle first version
+        if version == versions[0] and has_result(version):
+            AnalysisResult(version).check(bugs, strict_f)
+            continue
+        next_version = versions[versions.index(version)-1]
+        # log YET if analysis result is not found
+        if not has_result(version) or not has_result(next_version):
+            for bug in bugs:
+                log(strict_f, print_yellow, f"[YET] @ {version}: {bug}")
+        # strict check
+        else:
+            result, next_result = get_results([version, next_version])
+            for bug in bugs:
+                if result.contains(bug) and not next_result.contains(bug):
+                    log(strict_f, print_green, f"[PASS] @ {version}: {bug}")
+                else:
+                    log(strict_f, print_red, f"[FAIL] @ {version}: {bug}")
     print(f"strict-check completed.")
 
 # sparsely run analyzer based on previous analysis result
@@ -445,16 +490,20 @@ def main():
 
     # command stat
     if args.stat:
-        dump_stat()
+        with open(join(RESULT_DIR, "stat.log"), "w") as f:
+            dump_stat(f)
     # command check
     elif args.check:
-        check_errors(CheckErrorType.ON_DEMAND)
+        with open(join(RESULT_DIR, "check-errors.log"), "w") as f:
+            check_errors(CheckErrorType.ON_DEMAND, f)
     # command force-check
     elif args.fcheck:
-        check_errors(CheckErrorType.FORCE)
+        with open(join(RESULT_DIR, "check-errors.log"), "w") as f:
+            check_errors(CheckErrorType.FORCE, f)
     # command strict-check
     elif args.scheck:
-        strict_check_errors()
+        with open(join(RESULT_DIR, "scheck-errors.log"), "w") as f:
+            strict_check_errors(f)
     # command run
     elif args.version != None:
         run_analyze(args.version)
