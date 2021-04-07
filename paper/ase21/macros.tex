@@ -1,19 +1,45 @@
 % small textsf
-\newcommand{\mytextsf}[1]{\textsf{\small #1}}
+\newcommand{\stextsf}[1]{\textsf{\small #1}}
+
+% code styles
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\lstdefinelanguage{JavaScript}{
+  keywords={let, async, await, break, case, catch, class, const, continue,
+    debugger, default, delete, do, else, enum, export, extends, false, finally,
+    for, function, if, import, in, instanceof, new, null, return, super, switch,
+    this, throw, true, try, typeof, var, void, while, with, yield},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{dkgreen}\ttfamily,
+  stringstyle=\color{purple}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstdefinestyle{FigureJS}{
+  language=JavaScript,
+  numbers=left,
+  stepnumber=1,
+  extendedchars=true,
+  basicstyle=\footnotesize\ttfamily,
+  showstringspaces=false,
+  showspaces=false,
+  xleftmargin=\parindent,
+  tabsize=2,
+  breaklines=true,
+  showtabs=false,
+  captionpos=b
+}
 
 % tool name
-% - JSSTA: JavaScript Specification Type Analyzer
-% - ESTA: ECMAScript Type Analyzer
-% - JSSC: JavaScript Specification Static Checker
-% - ESC: ECMAScript Static Checker
-% - JSSCoRT: JavaScript Specification Static Checker based on Refinement Types
-% - ESCoRT: ECMAScript Static Checker based on Refinement Types
-% - JSTAR: JavaScript Specification Type Analyzer using Refinement
 \newcommand{\bigtool}{\textsf{JSTAR}}
-\newcommand{\tool}{\mytextsf{JSTAR}}
+\newcommand{\tool}{\textsf{JSTAR}}
 
 % jiset
-\newcommand{\jiset}{\mytextsf{JISET}}
+\newcommand{\jiset}{\textsf{JISET}}
 
 % ires
 \newcommand{\ires}{{\text{IR}_\text{ES}}}
@@ -22,6 +48,7 @@
 \newcommand{\inred}[1]{{\color{red}{#1}}}
 
 % codes
+\newcommand{\jscode}[1]{\text{\lstinline[style=FigureJS,numbers=none]!#1!}}
 \newcommand{\code}[1]{\texttt{#1}}
 
 % abstraction
