@@ -143,6 +143,18 @@ acf7a5161b76991d89fe97478c45a3fc89960cfe
 [Bug] unknown variable: AssignmentTargetType @ DestructuringAssignmentTarget[0,0].EarlyErrors
 
 --------------------------------------------------------------------------------
+0ceb728a1adbffe42b26972a6541fd7f398b1557
+--------------------------------------------------------------------------------
+- syntax-directed algo 호출 하는 notation 을 잘못 사용함. IsValidSimpleAssignmentTarget가 이후에 AssignmentTargetType로 이름이 바뀌어 버그 이름도 바로 위에 언급된 버그로 이름이 바뀐다.
+[Bug] unknown variable: IsValidSimpleAssignmentTarget @ DestructuringAssignmentTarget[0,0].EarlyErrors
+
+--------------------------------------------------------------------------------
+73d34e8b51ad897c58f65c4df1e80b7be8653b2d
+--------------------------------------------------------------------------------
+- 이 버전에 대해 bigint type이 없음. ToObject에 bigint에 대한 case가 없어 assertion fail이 뜨고 return undef가 됨. undef가 propagate 돼서 다른 Assertion Fail이 됨.
+[Bug] assertion failed: (= __x0__ true) @ HasOwnProperty
+
+--------------------------------------------------------------------------------
 RECENT
 --------------------------------------------------------------------------------
 # True Alarms
