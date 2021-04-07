@@ -69,6 +69,7 @@ def get_commit_info(commit_hash):
     out, err = execute_sh(cmd)
     an, ae, cdate = out.strip().split(",")
     return {
+        "version": commit_hash,
         "date": cdate,
         "author": f"{an}({ae})"
     } 
@@ -154,14 +155,11 @@ class AnalysisResult:
         }
     # check bugs
     def check(self, bugs, f):
-        tp = 0
         for bug in bugs:
             if self.contains(bug):
                 log(f, print_green, f"[PASS] @ {self.version}: {bug}")
-                tp += 1
             else:
                 log(f, print_red, f"[FAIL] @ {self.version}: {bug}")
-        return tp
     # equality
     def __eq__(self, that):
         return isinstance(that, AnalysisResult) and self.errors == that.errors
@@ -225,36 +223,72 @@ def dump_bug_diffs():
         # handle last version
         if found:
             results[error].append((created_at, "Not Fixed"))
-    # dump results
-    with open(join(RESULT_DIR, "bug-diffs.json"), "w") as f:
-        pretty_results = []
-        for e in results:
-            infos, ttl = [], 0
-            for created_at, deleted_at in results[e]:
-                # get commit info of created, deleted
-                cinfo, dinfo = map(get_commit_info, [created_at, deleted_at])
-                # calc ttl
-                parse_date = lambda i: None if not i else dateutil.parser.isoparse(i["date"])
-                cdate, ddate = map(parse_date, [cinfo, dinfo])
-                if not cdate or not ddate:
-                    local_ttl, ttl = "Unknown", "Unknown"
-                else:
-                    local_ttl = (ddate - cdate).days
-                if ttl != "Unknown":
-                    ttl += local_ttl
-                # add info
-                infos.append({
-                    "created_info": cinfo, 
-                    "deleted_info": dinfo,
-                    "TTL": str(local_ttl)
-                })
-            pretty_results.append({
-                "errors": e, 
-                "infos": infos,
-                "TTL": str(ttl)
+    # make pretty results
+    pretty_results = []
+    for e in results:
+        infos, ttl = [], 0
+        for created_at, deleted_at in results[e]:
+            # get commit info of created, deleted
+            cinfo, dinfo = map(get_commit_info, [created_at, deleted_at])
+            # calc ttl
+            parse_date = lambda i: None if not i else dateutil.parser.isoparse(i["date"])
+            cdate, ddate = map(parse_date, [cinfo, dinfo])
+            if not cdate or not ddate:
+                local_ttl, ttl = "Unknown", "Unknown"
+            else:
+                local_ttl = (ddate - cdate).days
+            if ttl != "Unknown":
+                ttl += local_ttl
+            # add info
+            infos.append({
+                "created_info": cinfo, 
+                "deleted_info": dinfo,
+                "TTL": str(local_ttl)
             })
+        pretty_results.append({
+            "errors": e, 
+            "infos": infos,
+            "TTL": str(ttl)
+        })
+    # dump bug-diffs.json
+    with open(join(RESULT_DIR, "bug-diffs.json"), "w") as f:
         json.dump(pretty_results, f, indent=2)
-    return len(errors)
+    # dump bug-diffs-summary
+    true_bugs = reduce(lambda acc, e: acc.union(set(e["bugs"])), get_target_errors(), set())
+    p1, tp1 = 0, 0
+    with open(join(RESULT_DIR, "bug-diffs-summary.tsv"), "w") as f:
+        writeln = lambda cells: f.write("\t".join(cells) + "\n")
+        writeln(["bug", "kind", "TTL", "#", "T/F"])
+
+        def get_kind(bug):
+            if "unknown variable" in bug :
+                return "UnknownVar"
+            elif "already defined variable" in bug:
+                return "DuplicatedVar"
+            elif "assertion failed" in bug:
+                return "Assertion"
+            elif "unchecked abrupt completion" in bug:
+                return "Completion"
+            elif "non-numeric types" in bug:
+                return "NoNumeric"
+            elif "non-number types" in bug:
+                return "NoNumber"
+            elif "remaining parameter" in bug:
+                return "Arity"
+            else:
+                print(bug)
+                raise NotImplementedError
+        
+        for pres in pretty_results:
+            bug, bug_count = pres["errors"], len(pres["infos"])
+            tf_str = "T" if bug in true_bugs else "F"
+            writeln([bug, get_kind(bug), pres["TTL"], str(bug_count), tf_str])
+            p1 += bug_count
+            tp1 += bug_count if bug in true_bugs else 0
+    # return data for precision
+    # assume that true_bugs are all detected
+    # p0, tp0, p1, tp1
+    return len(errors), len(true_bugs), p1, tp1
 
 # dump diff summary
 def dump_diff_summary():
@@ -306,13 +340,13 @@ def dump_stat(stat_f):
         log(stat_f, print, "-" * 80)
     print_header("CHECK ERRORS")
     # check if target errors exist
-    tp = check_errors(CheckErrorType.SOFT, stat_f)
+    check_errors(CheckErrorType.SOFT, stat_f)
 
     # dump diffs of analysis results
     print_header("DUMP DIFFS")
     log(stat_f, print, f"calc diff for current results...")
     dump_diffs()
-    p = dump_bug_diffs()
+    p0, tp0, p1, tp1 = dump_bug_diffs()
     dump_diff_summary()
     log(stat_f, print, f"calc diff completed.")
 
@@ -324,9 +358,12 @@ def dump_stat(stat_f):
 
     # print precision
     print_header("SUMMARY")
-    precision = tp / p
-    precision_msg = "precision: {}/{}({:.4}%)".format(tp, p, precision * 100)
-    log(stat_f, print, precision_msg)
+    def dump_precision(n, p, tp):
+        precision = tp / p
+        precision_msg = "precision{}: {}/{}({:.4}%)".format(n, tp, p, precision * 100)
+        log(stat_f, print, precision_msg)
+    dump_precision(0, p0, tp0)
+    dump_precision(1, p1, tp1)
     # TODO 
     # calc diff commit / total # of commits
 
@@ -334,7 +371,6 @@ def dump_stat(stat_f):
 # run analysis and check if target errors exist
 def check_errors(option, check_f):
     print(f"check errors(option: {option})...")
-    tp = 0
     # get target errors
     for target_error in get_target_errors():
         version = target_error["version"]
@@ -352,9 +388,8 @@ def check_errors(option, check_f):
         elif option == CheckErrorType.FORCE:
             run_analyze(version)
         # check results and dump
-        tp += AnalysisResult(version).check(bugs, check_f)
+        AnalysisResult(version).check(bugs, check_f)
     print("check errors completed.")
-    return tp
 
 # strictly check target errors
 def strict_check_errors(strict_f):
