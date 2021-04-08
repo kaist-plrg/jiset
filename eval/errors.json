@@ -12,8 +12,17 @@
       "[Bug] already defined variable: succeeded @ ArrayExoticObject.DefineOwnProperty",
       "[Bug] already defined variable: succeeded @ ArraySetLength",
       "[Bug] unknown variable: ClassHeritage @ ClassTail[0,3].Contains",
-      "[Bug] unknown variable: Statement @ IfStatement[0,0].EarlyErrors"
-    ]
+      "[Bug] unknown variable: Statement @ IfStatement[0,0].EarlyErrors",
+      "[Bug] already defined variable: value @ YieldExpression[2,0].Evaluation",
+      "[Bug] unchecked abrupt completions @ ArgumentsExoticObject.DefineOwnProperty",
+      "[Bug] unchecked abrupt completions @ ArgumentsExoticObject.GetOwnProperty"
+    ],
+    "detail": {
+      "[Bug] already defined variable: value @ YieldExpression[2,0].Evaluation": "value 가 2번define 됨",
+      "[Bug] unchecked abrupt completions @ ArgumentsExoticObject.DefineOwnProperty": "Get -> !Get",
+      "[Bug] unchecked abrupt completions @ ArgumentsExoticObject.GetOwnProperty": "Get -> !Get"
+    },
+    "note": "last 3 commits are not yet merged to recent(current: approved)"
   },
   {
     "version": "a18acef2559a6f159047ca6fc0f3dd932231fefc",

@@ -177,7 +177,9 @@ object AbsTransfer {
         st <- get
         t <- transfer(expr)
         _ <- modify(prune(st, expr, true))
-      } yield assert(t.escaped, expr)
+        tv = t.escaped
+        _ <- if (tv ⊑ AF) put(AbsState.Bot) else pure(())
+      } yield assert(tv, expr)
       case IPrint(expr) => for {
         t <- transfer(expr)
         _ = printlnColor(GREEN)(s"[PRINT] $t")
