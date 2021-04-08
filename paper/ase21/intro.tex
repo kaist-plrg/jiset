@@ -60,13 +60,13 @@ have tried to formally define various mechanized JavaScript specification for a
 specific version of ECMAScript by hand.  However, the manual formalization is
 not suitable for the automatic detection of bugs in the rapidly evolved
 JavaScript specifications.  On the other hand, several approaches to utilize
-information directly extracted from specifications written in a structured
-natural language are recently presented in diverse fields such as system
-architectures~\cite{x86, arm}, network protocols~\cite{basespec}, and language
+information directly extracted from specifications written in a natural language
+are recently presented in diverse fields such as system architectures~\cite{x86,
+arm}, network protocols~\cite{basespec}, and language
 specifications~\cite{spectest}.  For JavaScript, \citet{jiset} presents $\jiset$
 that automatically compiles each abstract algorithm written in a structured
 natural language to the corresponding function of $\ires$, an untyped
-intermediate representation for ECMAScript.  Therefore, we leverage this tool to
+intermediate representation for ECMAScript.  Therefore, we utilize this tool to
 automatically get mechanized specifications for JavaScript.
 
 For the compiled mechanized specifications, $\tool$ performs type analysis for
@@ -78,7 +78,7 @@ table-based type information from ECMAScript and constructs type hierarchy and
 fields for ASTs and records.  Based on the extracted types, $\tool$ performs
 type analysis and detects specification bugs using a \textit{bug detector}
 consisting of four different checkers: 1) reference checker, 2) arity checker,
-3) operator type checker, and 4) assertion checker.  Moreover, to increase
+and 3) assertion checker, 4) operand type checker.  Moreover, to increase
 precision of type analysis, we also present \textit{condition-based refinement}
 for type analysis on ECMAScript. Its main concept is to prunes out infeasible
 abstract states by using conditions of assertions and branches.  The refinement
@@ -93,7 +93,7 @@ In summary, our main contributions are as follows:
     analysis} on ECMAScript to check the the correctness of JavaScript language
     specifications.  $\tool$ automatically detects specification bugs via the
     \textit{bug detector} consisting of four different checkers: 1) reference
-    checker, 2) arity checker, 3) operator type checker, and 4) assertion
+    checker, 2) arity checker, and 3) assertion checker, 4) operand type
     checker.
   \item We present \textit{condition-based refinement} for type analysis of
     ECMAScript to reduce false alarms by increasing the analysis precision.  Its
