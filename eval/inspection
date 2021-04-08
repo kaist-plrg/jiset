@@ -44,12 +44,6 @@ d0583d8f72787cd9130c571bdffeeeb07d2b8193
 [Bug] unknown variable: stepsResolve @ CreateResolvingFunctions
 
 --------------------------------------------------------------------------------
-20706ef77f8d4f9aa149412695363fc69e62ea88
---------------------------------------------------------------------------------
-- Need inspection
-[Bug] unchecked abrupt completions @ ElementList[0,1].ArrayAccumulation
-
---------------------------------------------------------------------------------
 6681ce795eacdfebbcc795983d37064d621da000
 --------------------------------------------------------------------------------
 - Pop 구현이 안됨.
@@ -61,15 +55,6 @@ d0583d8f72787cd9130c571bdffeeeb07d2b8193
 - emu-alg 사이에 p가 있을 때 parsing 오류.
 [Bug] unknown variable: len @ Array.prototype.sort
 [Bug] unknown variable: obj @ Array.prototype.sort
-
---------------------------------------------------------------------------------
-1d0fe7c85c8f81a4ea301498ac036a8ef37a2a3d
---------------------------------------------------------------------------------
-- Need inspection
-- Assert 문에서 _status_ 를 참조할 때, alarm 이 발생하는 것으로 예상됨
-[Bug] unchecked abrupt completions @ BindingRestElement[0,0].IteratorBindingInitialization
-[Bug] unchecked abrupt completions @ BindingRestElement[1,0].IteratorBindingInitialization
-[Bug] unchecked abrupt completions @ CreateArrayFromList
 
 --------------------------------------------------------------------------------
 2e754fd478d30a41a8941603333b637edb63a4d7
@@ -151,8 +136,31 @@ acf7a5161b76991d89fe97478c45a3fc89960cfe
 --------------------------------------------------------------------------------
 73d34e8b51ad897c58f65c4df1e80b7be8653b2d
 --------------------------------------------------------------------------------
-- 이 버전에 대해 bigint type이 없음. ToObject에 bigint에 대한 case가 없어 assertion fail이 뜨고 return undef가 됨. undef가 propagate 돼서 다른 Assertion Fail이 됨.
+- 이 버전에 대해 bigint type이 없음. ToObject/ToString에 bigint에 대한 case가 없어 assertion fail이 뜨고 return undef가 됨. undef가 propagate 돼서 다른 Assertion Fail이 됨.
 [Bug] assertion failed: (= __x0__ true) @ HasOwnProperty
+[Bug] assertion failed: (= (typeof O) Object) @ HasProperty
+[Bug] assertion failed: (= __x0__ true) @ OrdinaryDelete
+[Bug] assertion failed: (= __x0__ true) @ OrdinaryHasProperty
+[Bug] assertion failed: (= __x0__ true) @ HasProperty
+[Bug] assertion failed: (= __x0__ true) @ ProxyObject.GetOwnProperty
+[Bug] assertion failed: (= __x0__ true) @ IntegerIndexedExoticObject.GetOwnProperty
+[Bug] assertion failed: (= (typeof O) Object) @ EnumerateObjectProperties
+[Bug] assertion failed: (= (typeof value) String) @ StringCreate
+[Bug] assertion failed: (= (typeof string) String) @ CreateStringIterator
+[Bug] assertion failed: (= __x0__ true) @ OrdinaryGetOwnProperty
+[Bug] assertion failed: (= __x0__ true) @ DefinePropertyOrThrow
+[Bug] assertion failed: (= __x0__ true) @ StringExoticObject.GetOwnProperty
+[Bug] assertion failed: (= (typeof O) Object) @ EnumerableOwnPropertyNames
+[Bug] assertion failed: (= (typeof O) Object) @ DeletePropertyOrThrow
+[Bug] assertion failed: (= (typeof array) Object) @ CreateArrayIterator
+[Bug] assertion failed: (= (typeof O) Object) @ HasOwnProperty
+[Bug] assertion failed: (= __x0__ true) @ ModuleNamespaceExoticObject.Get
+
+--------------------------------------------------------------------------------
+096f30b7c7ee7b12f6907bb5760496711c29b66f
+--------------------------------------------------------------------------------
+- IsUnresolvableReference에서 검사를 한 순간 Bool이 사라져야 하지만, 계속 남아 있어서 GetBase로 흘러 들어가 Assertion failed 이 됨.
+[Bug] assertion failed: (= (typeof V) Reference) @ GetBase
 
 --------------------------------------------------------------------------------
 RECENT
@@ -206,31 +214,6 @@ RECENT
 [Bug] unchecked abrupt completions @ EvalDeclarationInstantiation
 - env 가 19, 20 step 에서 define 되지만 이 함수는 항상 function body 안에서 불리므로 global env 가 올 수 없음.
 [Bug] unchecked abrupt completions @ FunctionDeclarationInstantiation
-
-# Report TODO
-
-# Need Inspection
-[Bug] assertion failed: (= (typeof O) Object) @ CreateDataPropertyOrThrow
-[Bug] assertion failed: (= (typeof O) Object) @ Get
-[Bug] assertion failed: (= (typeof O) Object) @ Set
-[Bug] assertion failed: (= (typeof functionPrototype) Object) @ OrdinaryFunctionCreate
-[Bug] assertion failed: (= (typeof iterResult) Object) @ IteratorValue
-[Bug] assertion failed: (= (typeof obj) Object) @ LengthOfArrayLike
-[Bug] assertion failed: (= (typeof source) Object) @ FlattenIntoArray
+- ArraySpeciesCreate에서 IsConstructor가 불렸을 때 C가 Object가 아닌 경우에는 Throw가 되고 Construct가 불릴 때는 Object만 남아있어야 하는데 다른 타입도 남아 있어 undef가 return되어 false alarm이 발생하고 있음.
 [Bug] assertion failed: (= (typeof target) Object) @ FlattenIntoArray
-[Bug] assertion failed: (= [! __x4__] true) @ ArrayExoticObject.DefineOwnProperty
-[Bug] assertion failed: (= [! __x4__] true) @ ArraySetLength
-[Bug] assertion failed: (= __x0__ true) @ Construct
-[Bug] assertion failed: (= __x0__ true) @ GetPrototypeFromConstructor
-[Bug] assertion failed: (= __x0__ true) @ ParenthesizedExpression[0,0].NamedEvaluation
-[Bug] assertion failed: (= __x1__ true) @ MakeSuperPropertyReference
-[Bug] assertion failed: (= name absent) @ AsyncFunctionExpression[0,1].InstantiateAsyncFunctionExpression
-[Bug] assertion failed: (= name absent) @ AsyncGeneratorExpression[0,1].InstantiateAsyncGeneratorFunctionExpression
-[Bug] assertion failed: (= name absent) @ FunctionExpression[0,1].InstantiateOrdinaryFunctionExpression
-[Bug] assertion failed: (= name absent) @ GeneratorExpression[0,1].InstantiateGeneratorFunctionExpression
-[Bug] assertion failed: (is-instance-of V ReferenceRecord) @ IsPropertyReference
-[Bug] assertion failed: (is-instance-of module SourceTextModuleRecord) @ ImportMeta[0,0].Evaluation
-[Bug] assertion failed: false @ RequireObjectCoercible
-[Bug] assertion failed: false @ ToObject
-
 
