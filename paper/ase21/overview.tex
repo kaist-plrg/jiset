@@ -75,7 +75,10 @@ pair of entry point and its abstract environment to the worklist.
 \paragraph{Abstract Transfer} For each iteration, the abstract transfer gets a
 pair of a control point and its abstract environment from the worklist, produces
 other pairs based on abstract semantics, and pushes them to the worklist.  The
-iteration will be finished when the worklist becomes empty.
+iteration will be finished when the worklist becomes empty.  Moreover, to reduce
+false alarms by increasing the analysis precision, we perform refinement for
+abstract environment when the current control point is a branch or an assertion.
+The refinement will be described in detail in Section~\ref{sec:refine}.
 
 
 \subsection{Bug Detection}\label{sec:overview-bug-detect}
@@ -133,8 +136,8 @@ the bug detector, the operand type checker detects whether the operand types are
 compatible with the typed operators.
 
 In the remainder of this paper, we explain the details of how to perform type
-analysis for $\ires$ functions (Section~\ref{sec:analysis}) and how to detect
-type-related specification bugs using four different checkers
-(Section~\ref{sec:checker}).  After we evaluate $\tool$
-(Section~\ref{sec:eval}), we discuss related work (Section~\ref{sec:related}),
-and conclude (Section~\ref{sec:conclusion}).
+analysis for $\ires$ functions and how to increase analysis precision using
+refinement (Section~\ref{sec:analysis}) and how to detect type-related
+specification bugs using four different checkers (Section~\ref{sec:checker}).
+After we evaluate $\tool$ (Section~\ref{sec:eval}), we discuss related work
+(Section~\ref{sec:related}), and conclude (Section~\ref{sec:conclusion}).
