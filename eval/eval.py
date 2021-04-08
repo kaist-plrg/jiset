@@ -87,7 +87,7 @@ def read_remote_file(host, path):
     return out.strip(), err != ""
 def get_commit_desc(commit_hash):
     cinfo = get_commit_info(commit_hash)
-    return cinfo.date + "/" + commit_hash
+    return cinfo["date"] + "/" + commit_hash
 def clean_dir(path):
     if exists(path):
         shutil.rmtree(path)
