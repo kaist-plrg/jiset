@@ -793,7 +793,7 @@ class Compiler private (val version: String) extends Compilers {
   lazy val accessExpr: P[I[Expr]] = accessRef ^^ { case i ~ r => pair(i, ERef(r)) }
   lazy val accessRef: P[I[Ref]] = (
     (opt("the result of" ~ opt("performing")) ~>
-      (("evaluate" | "evaluating") ^^^ "Evaluation" | opt("the") ~> (camelWord | nt) <~ ("for" | "of")) ~ expr ~
+      (("evaluate" | "evaluating") ^^^ "Evaluation" | opt("the String value whose code units are the" | "the") ~> (camelWord | nt) <~ ("for" | "of")) ~ expr ~
       opt(("using" | "with" | "passing") ~ opt("arguments" | "argument" | "parameters" | "parameter") ~>
         repsep(expr <~ opt("as" ~ ("its" | "the optional") ~ id ~ "argument"), ", and" | "," | "and") <~
         opt("as" ~ opt("the") ~ ("arguments" | "argument")))) ^^ {
