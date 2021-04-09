@@ -42,7 +42,7 @@ syntax-directed algorithms.  For JavaScript semantics, ECMAScript contains
 abstract algorithms written in a structured natural language.  $\jiset$ compiles
 them to functions of $\ires$, an untyped intermediate representation for
 ECMAScript.  For brevity, we will formally define syntax and semantics of
-a simplified $\ires$ in Section~\ref{sec:ires}.
+a modified $\ires$ in Section~\ref{sec:ires}.
 
 \paragraph{Types} In ECMAScript, types denote not only JavaScript types but also
 specification types for ASTs, internal records, and internal lists.  For ASTs,
@@ -137,7 +137,7 @@ compatible with the typed operators.
 
 In the remainder of this paper, we explain the details of how to perform type
 analysis for $\ires$ functions and how to increase analysis precision using
-refinement (Section~\ref{sec:analysis}) and how to detect type-related
+refinement (Section~\ref{sec:analyzer}) and how to detect type-related
 specification bugs using four different checkers (Section~\ref{sec:checker}).
 After we evaluate $\tool$ (Section~\ref{sec:eval}), we discuss related work
 (Section~\ref{sec:related}), and conclude (Section~\ref{sec:conclusion}).
