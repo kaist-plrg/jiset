@@ -184,3 +184,24 @@ TryStatement : try Block Catch Finally
 1. If _isMapped_ is *true*, then
   1. Set _desc_.[[Value]] to ! Get(_map_, _P_).
 ```
+
+## OrdinaryCreateFromConstructor - [[Reported](https://github.com/tc39/ecma262/pull/2379)]
+- __Section:__ [10.1.13 OrdinaryCreateFromConstructor](https://tc39.es/ecma262/#sec-ordinarycreatefromconstructor)
+- __Issue:__ ???
+- __Count:__ 1
+- __Current:__
+
+```
+OrdinaryCreateFromConstructor ( _constructor_, _intrinsicDefaultProto_ [ , _internalSlotsList_ ] )
+  1. Let _proto_ be ? GetPrototypeFromConstructor(_constructor_, _intrinsicDefaultProto_).
+  1. Return ! OrdinaryObjectCreate(_proto_, _internalSlotsList_).
+```
+
+- __Expected:__
+
+```
+OrdinaryCreateFromConstructor ( _constructor_, _intrinsicDefaultProto_ [ , _internalSlotsList_ ] )
+  1. Let _proto_ be ? GetPrototypeFromConstructor(_constructor_, _intrinsicDefaultProto_).
+  1. If _internalSlotsList_ is not present, set _internalSlotsList_ to a new empty List.
+  1. Return ! OrdinaryObjectCreate(_proto_, _internalSlotsList_).
+```

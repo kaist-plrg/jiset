@@ -159,8 +159,6 @@ RECENT
 [Bug] unknown variable: Expression2 @ ForStatement[0,7].ForLoopEvaluation
 - HostEnqueuePromiseJob 에 대한 modeling 필요
 [Bug] unknown variable: HostEnqueuePromiseJob @ PerformPromiseThen
-- optional parameter 에 대한 처리?
-[Bug] unknown variable: internalSlotsList @ OrdinaryCreateFromConstructor
 - lref 가 GetValue 호출 이후에 Abrupt 일 수 없음
 [Bug] unchecked abrupt completions @ AssignmentExpression[6,0].Evaluation
 [Bug] unchecked abrupt completions @ AssignmentExpression[7,0].Evaluation
@@ -176,7 +174,6 @@ RECENT
 [Bug] assertion failed: (= (typeof target) Object) @ FlattenIntoArray
 - FlattenIntoArray 에서 element 가 array 가 아닐 경우, shouldFlatten 이 false 가 되어, 해당 element 가 LengthOfArrayLike 의 arugment 로 사용될 수 없음. 하지만, 이에 대한 별도의 refinement 가 구현되지 않아 현재 ~empty~ 가 LengthOfArrayLike 로 흘러와 false alarm 이 발생하고 있음.
 [Bug] assertion failed: (= (typeof obj) Object) @ LengthOfArrayLike
-
 TODO
 - name은 optional parameter인데, 이게 absent가 아닌 경우에 대해 assertion fail이 된다.
 [Bug] assertion failed: (= name absent) @ AsyncGeneratorExpression[0,1].InstantiateAsyncGeneratorFunctionExpression
@@ -193,3 +190,6 @@ TODO
   true인 경우 undef를 return해서 아래 Assertion Fail이 된다.
 [Bug] assertion failed: (= [! __x4__] true) @ ArrayExoticObject.DefineOwnProperty
 [Bug] assertion failed: (= [! __x4__] true) @ ArraySetLength
+# reported 
+- optional parameter 에 대한 처리?
+[Bug] unknown variable: internalSlotsList @ OrdinaryCreateFromConstructor
