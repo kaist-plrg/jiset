@@ -37,17 +37,17 @@ jsai, wala}, and verification tools~\cite{javert}.  Thus, they decided to
 manually insert two different annotations: 1) \textit{assertions} to denotes the
 assumptions in a certain point of abstract algorithms, and 2) two different
 \textit{prefixes} $\code{?}$ and $\code{!}$ to represent whether completion
-records might be abrupt or not.  For example, $\code{"Assert: Type(O) is
-Object"}$ denotes that the variable $\code{O}$ always has $\code{Object}$ values
-at this point and $\code{"? GetV(V, P)"}$ denotes that return values of
-$\code{GetV(V, P)}$ might be abrupt completions.  Moreover, they recently
-started the internal discussion of manual type annotations for variables,
-parameters, and return values for each abstract algorithm.  However, to manually
-annotate types for all of them without any automated tool is also
-labor-intensive and error-prone.  Furthermore, even though the such manual type
-annotations can give more information for manual checking of specification
-updates, it still does not provide any automatic approach to detect
-specification bugs.
+records might be abrupt or not.  For example, ``Assert: Type(\textit{O}) is
+Object'' denotes that the variable $\textit{O}$ always has an Object value at
+this point and ``? \textbf{GetV}(\textit{V}, \textit{P})'' denotes that return
+values of \textbf{GetV}(\textit{V}, \textit{P}) might be abrupt completions.
+Moreover, they recently started the internal discussion of manual type
+annotations for variables, parameters, and return values for each abstract
+algorithm.  However, to manually annotate types for all of them without any
+automated tool is also labor-intensive and error-prone.  Furthermore, even
+though the such manual type annotations can give more information for manual
+checking of specification updates, it still does not provide any automatic
+approach to detect specification bugs.
 
 To alleviate this problem, we propose a tool $\tool$, a \textbf{J}avaScript
 \textbf{S}pecification \textbf{T}ype \textbf{A}nalyzer using
