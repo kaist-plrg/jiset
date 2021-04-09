@@ -146,12 +146,9 @@ case class AbsState(
   // update reference
   def update(ref: AbsRef, t: AbsType): AbsState = norm(ref match {
     case AbsId(x) => define(x, t)
-    case AbsStrProp(base, prop) if base.set == Set(AbruptT) => prop match {
-      case "Type" | "Value" | "Target" => this
-      case _ =>
-        base.escaped
-        this
-    }
+    case AbsStrProp(_, _) if (lookup(ref) ⊓ t).isBottom =>
+      warning(s"invalid property update: ${ref} with ${t}")
+      this
     case _ => this
   })
 

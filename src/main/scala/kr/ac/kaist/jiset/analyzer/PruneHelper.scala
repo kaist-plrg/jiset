@@ -16,7 +16,7 @@ trait PruneHelper { this: AbsTransfer.Helper =>
   ): Updater = {
     val pruneRef = PruneRef(st, pass)
     st => expr match {
-      case _ if !PRUNE => error("no prune")
+      case _ if !PRUNE => st
       case pruneRef(map) => map.foldLeft(st) {
         case (st, (RefId(Id(x)), t)) =>
           if (t.isBottom) AbsState.Bot else st.define(x, t)

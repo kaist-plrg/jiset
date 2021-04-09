@@ -146,6 +146,18 @@ object TypeModel {
       "ArrayBufferByteLength" -> NumT,
       "ArrayBufferDetachKey" -> Undef,
     )),
+    I("BooleanObject", parent = "OrdinaryObject", Map(
+      "BooleanData" -> BoolT
+    )),
+    I("BigIntObject", parent = "OrdinaryObject", Map(
+      "BigIntData" -> BigIntT
+    )),
+    I("NumberObject", parent = "OrdinaryObject", Map(
+      "NumberData" -> NumT
+    )),
+    I("SymbolObject", parent = "OrdinaryObject", Map(
+      "SymbolData" -> SymbolT
+    )),
 
     // special instances
     I("ForInIteratorInstance", parent = "OrdinaryObject", Map(

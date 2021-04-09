@@ -294,14 +294,37 @@ object AbsTransfer {
           } yield prop -> t.escaped.upcast
         })
       } yield RecordT(ps.toMap)
-      case EMap(Ty(name), props) =>
+      case EMap(Ty(name), props) => for {
+        ps <- join(props.collect {
+          case (EStr(prop), expr) => for {
+            t <- transfer(expr)
+          } yield prop -> t.escaped.upcast
+        })
+      } yield {
+        // get type name
         val verboseName = name + "Record"
-        // TODO check props
-        NameT(
+        val tyProps = ps.toMap
+        val ty =
           if ((Type.infoMap contains verboseName) &&
             !(Type.infoMap contains name)) verboseName
           else name
-        ).abs
+
+        // check props
+        Type.propMap.get(ty) match {
+          case Some(pmap) => tyProps.foreach {
+            case (prop, _) if prop == "SubMap" => // ignore SubMap
+            case (prop, propT) if pmap contains prop =>
+              if ((propT ⊓ pmap(prop)).isBottom) {
+                warning(s"invalid property type: ${pmap(prop)} is expected at ${ty}.${prop}(current: ${propT})")
+              }
+            case (prop, _) => warning(s"unknown property: ${ty}.${prop}")
+          }
+          case None if ty != "SubMap" => warning(s"unknown type: ${ty}")
+          case _ =>
+        }
+
+        NameT(ty).abs
+      }
       case EList(exprs) => for {
         ts <- join(exprs.map(transfer))
         set = ts.foldLeft(AbsType.Bot)(_ ⊔ _).noAbsent.escapedSet

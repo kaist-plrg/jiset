@@ -160,8 +160,8 @@ package object analyzer {
   val PENDING = ConstT("pending")
   val FULFILLED = ConstT("fulfilled")
   val REJECTED = ConstT("rejected")
-  val FULFILL = ConstT("fulfill")
-  val REJECT = ConstT("reject")
+  val FULFILL = ConstT("Fulfill")
+  val REJECT = ConstT("Reject")
 
   // singleton types
   type Null = Null.type
