@@ -176,3 +176,20 @@ RECENT
 [Bug] assertion failed: (= (typeof target) Object) @ FlattenIntoArray
 - FlattenIntoArray 에서 element 가 array 가 아닐 경우, shouldFlatten 이 false 가 되어, 해당 element 가 LengthOfArrayLike 의 arugment 로 사용될 수 없음. 하지만, 이에 대한 별도의 refinement 가 구현되지 않아 현재 ~empty~ 가 LengthOfArrayLike 로 흘러와 false alarm 이 발생하고 있음.
 [Bug] assertion failed: (= (typeof obj) Object) @ LengthOfArrayLike
+
+TODO
+- name은 optional parameter인데, 이게 absent가 아닌 경우에 대해 assertion fail이 된다.
+[Bug] assertion failed: (= name absent) @ AsyncGeneratorExpression[0,1].InstantiateAsyncGeneratorFunctionExpression
+[Bug] assertion failed: (= name absent) @ FunctionExpression[0,1].InstantiateOrdinaryFunctionExpression
+[Bug] assertion failed: (= name absent) @ GeneratorExpression[0,1].InstantiateGeneratorFunctionExpression
+- RequireObjectCoercible에서 ESValue가 아닌 ReferenceRecord가 들어와서 해당되는 케이스가 존재하지 않아 Assert false가 되고 있다.
+  TryStatement[0,0]/[2,0].Evaluation에서부터 ReferenceRecord가 흘러들어왔는데 이 함수 내부에서 Block.Evaluation에 접근하는 과정에서 ReferenceRecord가 리턴된다.
+	TryStmt함수에서 이 리턴된 것의 타입을 검사해 CONST_throw인 경우에만 RequireObjectCoercible가 불려야 하는데 모든 view에 대해 불리는 게 문제가 되는 것 같다.
+[Bug] assertion failed: false @ RequireObjectCoercible
+- IsPropertyReference에 Reference가 아닌 것들이 parameter로 들어오는 문제가 있다.
+  CallExpression[0,0].Evaluation에서 is-instance-of ref ReferenceRecord가 true인 경우에만 IsPropertyReference ref를 부르는 branch로 가야하는데 모든 view에 대해 전부 실행하게 되는 것이 문제인 것 같다.
+[Bug] assertion failed: (is-instance-of V ReferenceRecord) @ IsPropertyReference
+- OrdinaryGetOwnProperty에서 ArrayExoticObject.SubMap[str] = absent에 대해 true branch와 false branch를 모두 분석한다.
+  true인 경우 undef를 return해서 아래 Assertion Fail이 된다.
+[Bug] assertion failed: (= [! __x4__] true) @ ArrayExoticObject.DefineOwnProperty
+[Bug] assertion failed: (= [! __x4__] true) @ ArraySetLength
