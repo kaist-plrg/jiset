@@ -49,6 +49,7 @@
 
 % comments with red color
 \newcommand{\inred}[1]{{\color{red}{#1}}}
+\newcommand{\todo}{\text{\inred{TODO}}}
 
 % codes
 \newcommand{\jscode}[1]{\text{\lstinline[style=FigureJS,numbers=none]!#1!}}
@@ -64,9 +65,20 @@
 \newcommand{\init}[1]{{#1}_\iota}
 
 % states
-\newcommand{\elem}{d}
-\newcommand{\aelem}{\abs{\elem}}
-\newcommand{\iaelem}{\elem_\iota^\sharp}
+\newcommand{\stset}{\mathbb{S}}
+\newcommand{\istset}{\init{\stset}}
+\newcommand{\st}{\sigma}
+\newcommand{\elem}{\abs{d}}
+\newcommand{\ielem}{{d_\iota^\sharp}}
+\newcommand{\ctxtset}{\mathbb{C}}
+\newcommand{\ctxt}{C}
+\newcommand{\envset}{\mathbb{E}}
+\newcommand{\env}{E}
+\newcommand{\valset}{\mathbb{V}}
+\newcommand{\val}{v}
+
+% transition
+\newcommand{\trans}{\leadsto}
 
 % subtype
 \newcommand{\subtype}{<:}
@@ -75,13 +87,17 @@
 \newcommand{\prog}{P}
 \newcommand{\getlab}{\code{get}}
 \newcommand{\nextlab}{\code{next}}
+\newcommand{\funcs}{\code{funcs}}
 
 % syntax
+\newcommand{\funcset}{\mathbb{F}}
+\newcommand{\func}{f}
 \newcommand{\instset}{\mathbb{I}}
 \newcommand{\inst}{i}
 \newcommand{\expr}{e}
 \newcommand{\refer}{r}
 \newcommand{\const}{c}
+\newcommand{\primset}{\mathbb{P}}
 \newcommand{\prim}{p}
 \newcommand{\undefval}{\code{undefined}}
 \newcommand{\nullval}{\code{null}}
@@ -94,6 +110,7 @@
 % keywords
 \newcommand{\kwlet}{\code{let}}
 \newcommand{\kwif}{\code{if}}
+\newcommand{\kwdef}{\code{def}}
 \newcommand{\kwwhile}{\code{while}}
 \newcommand{\kwreturn}{\code{return}}
 \newcommand{\kwassert}{\code{assert}}
@@ -103,7 +120,6 @@
 \newcommand{\kwcr}{\code{\}}}
 \newcommand{\kwsl}{\code{[}}
 \newcommand{\kwsr}{\code{]}}
-\newcommand{\kwarrow}{\code{->}}
 \newcommand{\kwexists}{\code{?}}
 
 
@@ -125,6 +141,8 @@
 \newcommand{\uop}{\ominus}
 
 % variables
+\newcommand{\varset}{\mathbb{X}}
+\newcommand{\f}{\code{f}}
 \newcommand{\x}{\code{x}}
 \newcommand{\y}{\code{y}}
 \newcommand{\z}{\code{z}}

@@ -8,69 +8,79 @@ based on conditions of assertions and branches to increase analysis precision.
 \subsection{Intermediate Representation}\label{sec:ires}
 
 $\ires$ is an untyped intermediate representation introduced by \citet{jiset}.
-For brevity, we formally define a modified $\ires$ as follows:
+To make it more suitable for type analysis, we modify it as a label-based
+language as follows:
 \[
-  \begin{array}{lr@{~}r@{~}l}
+  \begin{array}{l@{~}r@{~}c@{~}r@{~}r@{~}l}
+    \text{Functions}
+    &\funcset&\ni&\func&::=&\kwdef \; \x (\x^*, \x^*). \; \lab\\
+
     \text{Instructions}
-    & \inst &::=&
+    &\instset&\ni&\inst&::=&
     \kwlet \; \x = \expr \mid
     \kwlet \; \x = \kwrl \expr \; \expr^* \kwrr \mid
     \kwassert \; \expr \\
 
-    &&\mid&
+    &&&&\mid&
     \kwif \; \expr \; \lab \; \lab \mid
     \kwreturn \; \expr \mid
     \refer = \expr \\
 
     \text{References}
-    & \refer &::=&
+    &&&\refer&::=&
     \x \mid
     \refer \kwsl \expr \kwsr \\
 
     \text{Expressions}
-    & \expr &::=&
-    \tname \kwcl [\x \kwarrow \expr]^* \kwcr \mid
+    &&&\expr&::=&
+    \tname^? \; \kwcl [\x: \expr]^* \kwcr \mid
+    \kwsl \expr^* \kwsr \mid
     \expr: \ty \mid
-    \refer \kwexists \mid
+    \refer \kwexists \\
+
+    &&&&\mid&
     \expr \bop \expr \mid
-    \uop \expr \mid
+    \uop \; \expr \mid
     \refer \mid
     \const \mid
     \prim \\
 
     \text{Primitives}
-    & \prim &::=&
+    &\primset&\ni&\prim&::=&
     \undefval \mid \nullval \mid \bool \mid
     \num \mid \bigint \mid \str \mid \symb \\
 
     \text{Types}
-    & \ty &::=& \tname \mid \tjs \mid \tprim \mid
+    &\tyset&\ni&\ty&::=&\tname \mid \tjs \mid \tprim \mid
     \undefval \mid \nullval \mid \tbool\\
 
-    &&\mid&
+    &&&&\mid&
     \tnumeric \mid \tnum \mid \tbigint \mid \tstr \mid \tsymb \\
   \end{array}
 \]
-A modified $\ires$ program $\prog = (\getlab, \nextlab)$ is a pair of two finite
-mappings. The getter mapping $\getlab: \labset \finmap \instset$ represents
-instructions attached to labels, and the next mapping $\nextlab: \labset \finmap
-\labset$ denotes next labels. A label $\lab \in \labset$ denotes a program
-point.  An instruction $\inst$ is a variable declaration, a function call, an
-assertion, a branch, a return, or an reference update.  Each invocation of an
-abstract algorithm in ECMAScript is compiled to a function call instruction with
-a newly introduced temporal variable.  We represent loops using branch
-instructions with cyclic pointing of labels in the next mapping $\nextlab$.  A
-reference $\refer$ is a variable $\x$ or a field access $\refer \kwsl \expr
-\kwsr$.  An expression $\expr$ is a record, a type check, an existence check, a
-binary operation, a unary operation, a reference, a constant, or a primitive,
-which is either $\undefval$, $\nullval$, a Boolean $\bool$, a Number $\num$, a
-BigInt $\bigint$, a String $\str$, or a Symbol $\symb$.
+A modified $\ires$ program $\prog = (\funcs, \getlab, \nextlab)$ is a triple of
+a set of functions $\funcs \subseteq \and \funcset$ and two finite mappings
+$\getlab$ and $nextlab$.  The getter mapping $\getlab: \labset \finmap \instset$
+represents instructions attached to labels, and the next mapping $\nextlab:
+\labset \finmap \labset$ denotes next labels.  A function $\kwdef \; \f (\x^*,
+\y^*). \; \lab \in \funcset$ consists of a name $\f$, normal parameters $\x^*$,
+optional parameters $\y^*$, and a body label $\lab$.  A label $\lab \in \labset$
+denotes a program point.  An instruction $\inst$ is a variable declaration, a
+function call, an assertion, a branch, a return, or an reference update.  Each
+invocation of an abstract algorithm in ECMAScript is compiled to a function call
+instruction with a newly introduced temporal variable.  We represent loops using
+branch instructions with cyclic pointing of labels in the next mapping
+$\nextlab$.  A reference $\refer$ is a variable $\x$ or a field access $\refer
+\kwsl \expr \kwsr$.  An expression $\expr$ is a record, a list, a type check, an
+existence check, a binary operation, a unary operation, a reference, a constant,
+or a primitive, which is either $\undefval$, $\nullval$, a Boolean $\bool$, a
+Number $\num$, a BigInt $\bigint$, a String $\str$, or a Symbol $\symb$.
 
 \begin{figure}
   \centering
   \includegraphics[width=0.48\textwidth]{img/subtype}
   \vspace*{-1.5em}
-  \caption{The subtype relation $\subtype$ between types.}
+  \caption{A graphical representation of subtype relation $\subtype$.}
   \label{fig:subtype}
   \vspace*{-1.5em}
 \end{figure}
@@ -82,12 +92,51 @@ BigInt, String, and Symbol values, respectively.  A norminal type $\tname$ is a
 production name for ASTs or a record type name used in abstract algorithms.  The
 subtype relation $\subtype \subseteq \tyset \times \tyset$ between types is
 described in Figure~\ref{fig:subtype}; the directed edge from $\ty'$ to $\ty$
-denotes $\ty' \subtype \ty$ and the relation is reflexive and transitive.  For
-example, \inred{name and subtype example using 14.1.19 in Figure 2}.  Based on
-this subtype relation, a type check expression $\expr: \ty$ checks whether the
-evaluation result of $\expr$ has a type $\ty' \subtype \ty$.  
+denotes $\ty' \subtype \ty$ and the relation is reflexive and transitive.  The
+subtype relation is dependent on the syntax and defined record types in
+ECMAScript.  We manually model subtypes between record types but automatically
+extract subtypes for AST types.  For example, consider the syntax-directed
+abstract algorithm at the right bottom in Figure~\ref{fig:example}.  The
+non-terminal \textit{BindingElement} is the unique token in a alternative of
+\textit{FormalParameter} thus we automatically extract the subtype relation:
+\textit{BindingElement} $\subtype$ \textit{FormalParameter}.  Based on this
+subtype relation, a type check expression $\expr: \ty$ checks whether the
+evaluation result of $\expr$ has a type $\ty'$ satisfying $\ty' \subtype \ty$.
+We represent semantics of the modified $\ires$ as a state transition system
+$(\stset, \trans, \istset)$ with the transition relation $\trans \subseteq
+\stset \times \stset$.  For presentation brevity, we omit its detail in this
+paper and include it in a companion report~\inred{\cite{report}}.
+% \[
+%   \begin{array}{l@{~}r@{~}c@{~}r@{~}r@{~}l}
+%     \text{States}
+%     &\st&\in&\stset&::=&\ctxtset^* \times \labset \times \envset\\
+% 
+%     \text{Contexts}
+%     &\ctxt$\in$\ctxtset&::=&\labset \times \varset \times \envset\\
+% 
+%     \text{Environments}
+%     &\env$\in$\envset&::=&\varset \finmap \valset\\
+% 
+%     \text{Values}
+%     &\val$\in$\valset&::=& \addrset \uplus \addr \uplus \primset\\\
+%   \end{array}
+% \]
 
 
 \subsection{Type Analysis}\label{sec:analysis}
+
+Abstract Interpretation~\cite{ai1977, ai1992}
+
+\begin{figure*}[t]
+  \centering
+  \[
+    \todo
+  \]
+  \vspace*{-1em}
+  \caption{Abstract .}
+  \label{fig:example}
+\end{figure*}
+
+
 
 \subsection{Refinement}\label{sec:refine}
