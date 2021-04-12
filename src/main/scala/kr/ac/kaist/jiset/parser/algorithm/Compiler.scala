@@ -119,7 +119,7 @@ class Compiler private (val version: String) extends Compilers {
   lazy val ifStmt = {
     ("if" ~> cond <~ "," ~
       opt("then")) ~ stmt ~ opt(opt("." | ";" | ",") ~ opt(next) ~
-        ("else" | "otherwise") ~ opt(",") ~ opt(cond) ~ opt("," | ";") ~> stmt)
+        ("else" | "otherwise") ~ opt(",") ~ opt(ignoreCond | cond) ~ opt("," | ";") ~> stmt)
   } ^^ {
     case (i ~ c) ~ t ~ None => ISeq(i :+ IIf(c, t, emptyInst))
     case (i ~ c) ~ t ~ Some(e) => ISeq(i :+ IIf(c, t, e))
@@ -141,7 +141,7 @@ class Compiler private (val version: String) extends Compilers {
     name ~ "contains a formal parameter mapping for" ~ name |
     name ~ "is a Reference to an Environment Record binding" |
     "the base of" ~ ref ~ "is an Environment Record" |
-    name ~ "must be" ~ rep(not(",") ~ text) |
+    (id | name) ~ "must be" ~ rep(not(",") ~ text) |
     id ~ "does not currently have a property" ~ id |
     ("isaccessordescriptor(" ~> id <~ ") and isaccessordescriptor(") ~ (id <~ ") are both") ~ expr
   ) ^^^ pair(Nil, EBool(true))
@@ -1118,7 +1118,8 @@ class Compiler private (val version: String) extends Compilers {
 
   // string values
   lazy val stringValue: P[Expr] =
-    "the empty string" ~ opt("value" | "( its length is 0 )") ^^^ EStr("")
+    // 6e633e684ed8b12245e906593bdeb4969441f3bc
+    "the empty string" ~ opt("value" | "( its length is" ~ ("0" | "zero") ~ ")") ^^^ EStr("")
 
   ////////////////////////////////////////////////////////////////////////////////
   // Conditions

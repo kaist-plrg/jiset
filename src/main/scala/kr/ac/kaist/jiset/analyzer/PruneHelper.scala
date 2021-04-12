@@ -85,19 +85,20 @@ trait PruneHelper { this: AbsTransfer.Helper =>
   def pruneNormalComp(l: AbsType, pass: Boolean): AbsType =
     if (pass) AbsType(l.compSet) - AbruptT else l ⊓ AbruptT
 
-  // purning for value checks
+  // pruning for value checks
   def pruneValue(l: AbsType, r: AbsType, pass: Boolean): AbsType = {
     optional[AbsType](if (pass) l ⊓ r else r.set.head match {
       case t: SingleT if r.set.size == 1 => l - t
     }).getOrElse(l)
   }
 
-  // purning for type checks
+  // pruning for type checks
   def pruneType(l: AbsType, r: AbsType, pass: Boolean): AbsType = {
     optional[AbsType](r.set.head match {
       case Str(name) if r.set.size == 1 =>
         val t: Type = name match {
           case "Object" => NameT("Object")
+          case "Reference" => NameT("ReferenceRecord")
           case "Symbol" => SymbolT
           case "Number" => NumT
           case "BigInt" => BigIntT
