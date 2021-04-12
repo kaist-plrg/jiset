@@ -59,9 +59,9 @@ trait PruneHelper { this: AbsTransfer.Helper =>
         } yield (l.escaped(left), r.escaped(right)))(st)
         Map(ref -> pruneType(l, r, pass))
       case EBOp(OOr, prune(lmap), prune(rmap)) =>
-        merge(lmap, rmap, _ ⊔ _)
+        merge(lmap, rmap, if (pass) _ ⊔ _ else _ ⊓ _)
       case EBOp(OAnd, prune(lmap), prune(rmap)) =>
-        merge(lmap, rmap, _ ⊓ _)
+        merge(lmap, rmap, if (pass) _ ⊓ _ else _ ⊔ _)
       case _ => error("failed")
     }
   }
@@ -113,7 +113,14 @@ trait PruneHelper { this: AbsTransfer.Helper =>
 
   // pruning for instance checks
   def pruneInstance(l: AbsType, name: String, pass: Boolean): AbsType = {
-    val t = NameT(name)
-    l.ast ⊔ (if (pass) l ⊓ t.abs else l - t)
+    val nameT = NameT(name)
+    val astT = AstT(name)
+    val isAST = cfg.spec.grammar.nameMap.keySet contains name
+    (pass, isAST) match {
+      case (false, false) => l - nameT
+      case (false, true) => l - astT
+      case (true, false) => l ⊓ nameT.abs
+      case (true, true) => l ⊓ astT.abs
+    }
   }
 }

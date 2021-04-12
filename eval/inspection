@@ -108,6 +108,9 @@ e8727ee90d641851ae1cc18af6171c65b6228dbc
 [Bug] unchecked abrupt completions @ GetReferencedName
 - IsUnresolvableReference에서 검사를 한 순간 Bool이 사라져야 하지만, 계속 남아 있어서 GetBase로 흘러 들어가 Assertion failed 이 됨.
 [Bug] assertion failed: (= (typeof V) Reference) @ GetBase
+- AssignmentExpression[6,0].Evaluation 에서 lref 가 Object 인 경우가 발생함. 이 object 는 LeftHandSideExpression 의 evaluation 의 결과로 나오는데 이 것이 실제 오류인지는 잘 모르겠음.
+- need discussion
+[Bug] assertion failed: (= (typeof V) Reference) @ GetReferencedName
 
 --------------------------------------------------------------------------------
 35035d6c10d916cbc1f39acbeed6abe244342c57
@@ -172,6 +175,12 @@ e8727ee90d641851ae1cc18af6171c65b6228dbc
 [Bug] assertion failed: (= promise.PromiseState \"rejected\") @ PerformPromiseThen
 
 --------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+- NamedEvaluation 이 spec 에 추가되고, SetFunctionName 이 *BindingInitialization 에서 빠지면서 에러가 사라졌음. 실제 버그가 있었는지는 more inspection 필요
+- need discussion
+[Bug] assertion failed: (= (typeof O) Object) @ DefinePropertyOrThrow
+
+--------------------------------------------------------------------------------
 RECENT
 --------------------------------------------------------------------------------
 - 실제로는 2번 define 되는 경우가 없는 것으로 생각됨
@@ -226,6 +235,8 @@ RECENT
 [Bug] assertion failed: false @ RequireObjectCoercible
 - env.HasSuperBinding 의 중간 분석 과정에서 결과가 false 인 경우가 생기고, 그에 따라 assertion failed.
 [Bug] assertion failed: (= __x1__ true) @ MakeSuperPropertyReference
+- BindingRestElement[1,0].IteratorBindingInitialization 에서 next 가 false 가 될 경우, iteratorRecord.Done 이 true 가 되어서 IteratorValue 를 호출하지 않게됨.
+[Bug] assertion failed: (= (typeof iterResult) Object) @ IteratorValue
 
 TODO
 - name은 optional parameter인데, 이게 absent가 아닌 경우에 대해 assertion fail이 된다.
