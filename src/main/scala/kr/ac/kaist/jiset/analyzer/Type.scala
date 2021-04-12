@@ -331,20 +331,40 @@ object Type {
 
   // get property map from ancestors
   private def getUpperPropMap(name: String): PropMap = infoMap.get(name) match {
-    case Some(info) => info.parent.map(getUpperPropMap).getOrElse(Map()) ++ info.props
+    case Some(info) =>
+      val parentProps = info.parent.map(getUpperPropMap).getOrElse(Map())
+      val props = info.props
+      strongMerge(parentProps, props)
     case None => Map()
   }
 
+  // get property map of name
+  private def getSamePropMap(name: String): PropMap =
+    infoMap.get(name).map(_.props).getOrElse(Map())
+
   // get property map from ancestors
-  private def getLowerPropMap(name: String): PropMap = subTypes
-    .getOrElse(name, Set())
-    .map(child => {
+  private def getLowerPropMap(name: String): PropMap = subTypes.get(name) match {
+    case Some(children) => children.map(child => {
       val lower = getLowerPropMap(child)
-      val props = infoMap.get(child).map(_.props).getOrElse(Map())
-      lower ++ props
-    })
-    .reduceOption(weakMerge)
-    .getOrElse(Map())
+      val props = getSamePropMap(child)
+      strongMerge(lower, props)
+    }).reduce(weakMerge)
+    case None => getSamePropMap(name)
+  }
+
+  // strong merge
+  private def strongMerge(lmap: PropMap, rmap: PropMap): PropMap = {
+    val keys = lmap.keySet ++ rmap.keySet
+    keys.toList.map(k => {
+      val t = (lmap.get(k), rmap.get(k)) match {
+        case (Some(ltype), Some(rtype)) => ltype ⊔ rtype
+        case (Some(ltype), None) => ltype
+        case (None, Some(rtype)) => rtype
+        case (None, None) => ??? // impossible
+      }
+      k -> t
+    }).toMap
+  }
 
   // weak merge
   private def weakMerge(lmap: PropMap, rmap: PropMap): PropMap = {

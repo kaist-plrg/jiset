@@ -204,6 +204,7 @@ RECENT
 [Bug] unchecked abrupt completions @ FunctionDeclarationInstantiation
 - ArraySpeciesCreate에서 IsConstructor가 불렸을 때 C가 Object가 아닌 경우에는 Throw가 되고 Construct가 불릴 때는 Object만 남아있어야 하는데 다른 타입도 남아 있어 undef가 return되어 false alarm이 발생하고 있음.
 [Bug] assertion failed: (= (typeof target) Object) @ FlattenIntoArray
+[Bug] assertion failed: (= __x0__ true) @ Construct
 - 위의 alarm 과 같은 이유로 Array.prototype.filter 에서 undef 가 흘러들어감
 [Bug] assertion failed: (= (typeof O) Object) @ CreateDataPropertyOrThrow
 - 위의 alarm 과 같은 이유로 Array.prototype.slice 에서 undef 가 흘러들어감
@@ -212,8 +213,19 @@ RECENT
 [Bug] assertion failed: (= (typeof obj) Object) @ LengthOfArrayLike
 - 위와 같은 이유로, ~empty~ 가 FlattenIntoArray 안의 recursive 호출에도 흘러들어옴.
 [Bug] assertion failed: (= (typeof source) Object) @ FlattenIntoArray
-- - IsCallable:[OrdinaryObject] 의 중간 분석 과정에서 결과가 false 인 경우가 생기고, 그에 따라 assertion failed.
+- IsCallable:[OrdinaryObject] 의 중간 분석 과정에서 결과가 false 인 경우가 생기고, 그에 따라 assertion failed.
 [Bug] assertion failed: (= __x0__ true) @ GetPrototypeFromConstructor
+- GetValue 에서 IsPropertyReference 가 true 이면 [[Base]] 가 ~unresolvable~ 일 수 없음. 하지만 이를 인식하지 못해 ~unresolvable~ 이 ToObject 로 흘러들어옴.
+- ClassHeritage Evaluation 에서 ~empty~ 가 흘러나오는 원인을 파악해야함.
+- 아마도 AbruptT.Value 에 ~empty~ 가 있기 때문인 것으로 생각됨.
+- OptionalExpression Evaluation 은 분석이 안되고 있음.
+- need discussion
+[Bug] assertion failed: (= (typeof functionPrototype) Object) @ OrdinaryFunctionCreate
+- OptionalExpression.Evaluation 에서 baseReference 가 empty 가 될 수 있는지?  될 수 있으면 bug 로 생각됨.
+- need discussion
+[Bug] assertion failed: false @ RequireObjectCoercible
+- env.HasSuperBinding 의 중간 분석 과정에서 결과가 false 인 경우가 생기고, 그에 따라 assertion failed.
+[Bug] assertion failed: (= __x1__ true) @ MakeSuperPropertyReference
 
 TODO
 - name은 optional parameter인데, 이게 absent가 아닌 경우에 대해 assertion fail이 된다.
