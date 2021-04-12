@@ -69,9 +69,9 @@ language as follows:
   \end{array}
 \]
 
-A modified $\ires$ program $\prog = (\getfunc, \getlab, \getnext)$ is consists
+A modified $\ires$ program $\prog = (\getfunc, \getinst, \getnext)$ is consists
 of three mappings from labels;  $\getfunc: \labset \rightarrow \funcset$
-represents that labels are in which functions, $\getlab: \labset \rightarrow
+represents that labels are in which functions, $\getinst: \labset \rightarrow
 \instset$ represents instructions attached to labels, and $\getnext: \labset
 \rightarrow \labset$ denotes next labels where a label $\lab \in \labset$
 denotes a program point.  function $\kwdef \; \f (\x^*, \y^*). \; \lab \in
@@ -132,7 +132,7 @@ denotes $\ty' \subtype \ty$ and the relation is reflexive and transitive.  The
 subtype relation is dependent on the syntax and defined record types in
 ECMAScript.  We extract subtypes for production types and manually model
 subtypes between record types.  For example, consider the syntax-directed
-abstract algorithm at the right bottom in Figure~\ref{fig:example}.  The
+abstract algorithm at the lower-right in Figure~\ref{fig:example}.  The
 non-terminal \textit{BindingElement} is the unique token in a alternative of
 \textit{FormalParameter} production thus we automatically extract the subtype
 relation: \textit{BindingElement} $\subtype$ \textit{FormalParameter}.  Based on
@@ -168,14 +168,14 @@ include it in a companion report~\inred{\cite{report}}.
     \[
       \begin{array}{r@{~}c@{~}ll}
         \asemi{\kwlet \; \x = \expr}
-        (\lab, \tys, \aenv, \_) &=&
+        (\lab, \tys)(\aelem) &=&
         (\{ (\getnext(\lab), \tys) \mapsto \aenv_\x \}, \emp) &
         \text{where} \;
         \aenv_\x = \aenv[\x \mapsto \aty] \wedge
         \aty = \aseme{\expr}(\aenv)\\
 
         \asemi{\x = \kwrl \expr_0 \; \expr_1 \cdots \expr_n \kwrr}
-        (\lab, \tys, \aenv, \_) &=&
+        (\lab, \tys)(\aelem) &=&
         \left(
           \begin{array}{@{}l@{}}
             \{ (\lab_\func, \tys_a) \mapsto \aenv_{\func, \tys_a} \mid \func \in
@@ -199,12 +199,12 @@ include it in a companion report~\inred{\cite{report}}.
         \right.\\
 
         \asemi{\kwassert \; \expr}
-        (\lab, \tys, \aenv, \_) &=&
+        (\lab, \tys)(\aelem) &=&
         (\{ (\getnext(\lab), \tys) \mapsto \aenv_\mt \}, \emp) &
         \text{where} \; \aenv_\mt = \refine(\aenv, \expr, \true)\\
 
         \asemi{\kwif \; \expr \; \lab_\mt \; \lab_\mf}
-        (\lab, \tys, \aenv, \_) &=&
+        (\lab, \tys)(\aelem) &=&
         (\{ (\lab_\mt, \tys) \mapsto \aenv_\mt, (\lab_\mf, \tys) \mapsto
         \aenv_\mf \}, \emp) &
         \text{where} \;
@@ -212,7 +212,7 @@ include it in a companion report~\inred{\cite{report}}.
         \aenv_\mf = \refine(\aenv, \expr, \false)\\
 
         \asemi{\kwreturn \; \expr}
-        (\lab, \tys, \aenv, \aelem) &=&
+        (\lab, \tys)(\aelem) &=&
         (\{ (\lab_r, \tys_r) \mapsto \aenv_r \mid (\lab_r, \tys_r, \x) \in
         \retp(\getfunc(\lab), \tys)\}, \emp) &
         \text{where} \;
@@ -221,19 +221,19 @@ include it in a companion report~\inred{\cite{report}}.
         \aty = \aseme{\expr}(\aenv)\\
 
         \asemi{\x = \expr}
-        (\lab, \tys, \aenv, \_) &=&
+        (\lab, \tys)(\aelem) &=&
         (\{ (\getnext(\lab), \tys) \mapsto \aenv_\x \}, \emp) &
         \text{where} \;
         \aenv_\x = \aenv[\x \mapsto \aty] \wedge
         \aty = \aseme{\expr}(\aenv)\\
 
         \asemi{\refer \kwsl \expr_0 \kwsr = \expr_1}
-        (\lab, \tys, \aenv, \_) &=&
+        (\lab, \tys)(\aelem) &=&
         (\{ (\getnext(\lab), \tys) \mapsto \aenv \}, \emp)
       \end{array}
     \]
-    \caption{Instructions with $\asemi{\inst}: (\labset \times \tyset^* \times
-    \aenvset \times \adom) \rightarrow \adom$}
+    \caption{Instructions with $\asemi{\inst}: (\labset \times \tyset^*)
+    \rightarrow \adom \rightarrow \adom$ where $\aenv = \aelem(\lab, \tys)$.}
   \end{subfigure}
   \begin{subfigure}[b]{0.48\textwidth}
     \[
@@ -242,7 +242,7 @@ include it in a companion report~\inred{\cite{report}}.
       \asemr{\refer \kwsl \expr \kwsr}(\aenv) = \{ \ty[\str] \mid \ty \in
       \asemr{\refer}(\aenv) \wedge \str \in \aseme{\expr}(\aenv) \}
     \]
-    \caption{References with $\asemr{\refer}: \aenvset \rightarrow \atyset$}
+    \caption{References with $\asemr{\refer}: \aenvset \rightarrow \atyset$.}
   \end{subfigure}
   \begin{subfigure}[b]{\textwidth}
     \[
@@ -308,10 +308,10 @@ include it in a companion report~\inred{\cite{report}}.
         \\
       \end{array}
     \]
-    \caption{Expressions with $\aseme{\expr}: \aenvset \rightarrow \atyset$}
+    \caption{Expressions with $\aseme{\expr}: \aenvset \rightarrow \atyset$.}
   \end{subfigure}
   \caption{Abstract semantics of the modified $\ires$ for a program $\prog =
-  (\getfunc, \getlab, \getnext)$.}
+  (\getfunc, \getinst, \getnext)$.}
   \vspace*{-1.5em}
   \label{fig:abs-sem}
 \end{figure*}
@@ -367,11 +367,85 @@ $\retp \in \retpset$ represents possible return points of each function with
 a type-sensitive context.  An abstract environment $\aenv \in \aenvset$
 represents possible types of each variable, and $\aenv(\x) = \{ \tabsent \}$
 when $\x$ is not defined in $\aenv$.  An abstract type $\aty \in \atyset$ is a
-set of extended types.
+set of types.  While the join operator $\join$ and the partial order $\order$
+for abstract states are defined in a point-wise manner, the operators for types
+are defined with a normalization function $\norm$ because of their subtype
+relations as follows:
+\[
+  \begin{array}{l}
+    \aty_0 \join \aty_1 = \norm(\aty_0 \cup \aty_1)\\
+    \aty_0 \order \aty_1 \Leftrightarrow \forall \ty_0 \in \aty_0. \; \exists
+    \ty_1 \in \norm(\aty_1). \; \text{s.t.} \; \ty_0 \subtype \ty_1\\
+  \end{array}
+\]
+where $\norm(\aty) = \{ \ty \mid \ty \in \aty_e \wedge \not\exists \ty' \in
+\aty_e. \; \text{s.t.} \; \ty \neq \ty' \wedge \ty \subtype \ty' \}$.
 
-We define the abstract semantics of the modified $\ires$ as described in
-Figure~\ref{fig:abs-sem} for a program $\prog = (\getfunc, \getlab,
-\getnext)$.
+Based on abstract states, we define the abstract semantics of instructions,
+references, and expressions in the modified $\ires$ described in
+Figure~\ref{fig:abs-sem}.  To prevent the explosion of the number of type-sensitive
+views, we upcast the type of each argument before function calls with the
+following function:
+\[
+  \upcast(\ty) = \left\{
+    \begin{array}{ll}
+      \tnormal(\upcast(\ty')) & \text{if} \; \ty = \tnormal(\ty')\\
+      \clist{\upcast(\ty')} & \text{if} \; \ty = \clist{\ty'}\\
+      \tstr & \text{if} \; \ty = \str\\
+      \tbool & \text{if} \; \ty = \bool\\
+      \ty & \text{otherwise}\\
+    \end{array}
+  \right.
+\]
+and $\upcasts$ denotes a point-wise extension of $\upcast$ for type sequences.
+For conditions, we apply the $\refine$ function that prunes out infeasible parts
+in abstract states based on given conditions to increase analysis precision.  We
+explain its detail in Section~\ref{sec:refine}.  Then, we define the abstract
+semantics $\asem{\prog}$ of a program $\prog = (\getfunc, \getinst, \getnext)$
+as the least fixpoint of abstract transfer $\atransfer: \adom \rightarrow \adom$
+as follows:
+\[
+  \begin{array}{r@{~}c@{~}l}
+    \asem{\prog} &=& \lim_{n \rightarrow \infty}(\atransfer)^n(\iaelem)\\
+    \atransfer(\aelem) &=& \aelem \join \left(
+      \underset{(\lab, \tys) \in \domain{\rmap}}{\bigjoin}
+      \asemi{\getinst(\lab)}(\lab, \tys)(\aelem)
+    \right)\\
+  \end{array}
+\]
+where $\aelem = (\rmap, \_)$ and $\iaelem$ denotes the initial abstract state.
+As described in the Section~\ref{sec:overview}, $\iaelem$ contains all
+syntax-directed algorithms having no additional parameters and built-in
+algorithms with appropriate abstract environments.  For syntax-directed
+algorithms, we construct its abstract environment containing the variable
+$\this$ with a production type and other variables for non-terminals.  For
+example, the upper-left syntax-directed algorithm in Figure~\ref{fig:example} is
+initialized with the following abstract environment:
+\[
+  \left\{
+    \begin{array}{r@{~}c@{~}l}
+      \this &\mapsto& \{ \text{AssignmentExpression} \},\\
+      \mcode{LeftHandSideExpression} &\mapsto& \{ \text{LeftHandSideExpression} \},\\
+      \mcode{AssignmentExpression} &\mapsto& \{ \text{AssignmentExpression} \}
+    \end{array}
+  \right.
+\]
+For built-in algorithms, we assign pre-defined variables $\this$, $\args$, and
+$\NewTarget$ with corresponding types and parameters with $\tjs$ types.  For
+example, the following abstract environment is for the built-in
+algorithm $\jscode{Math.round}$ at the upper-right in Figure~\ref{fig:example}:
+\[
+  \left\{
+    \begin{array}{r@{~}c@{~}l}
+      \this &\mapsto& \{ \tjs \},
+      \args \mapsto \{ \clist{\tjs} \},
+      \x \mapsto \tjs\\
+      \NewTarget &\mapsto& \{ \text{Object}, \undefval \},\\
+    \end{array}
+  \right.
+\]
 
 
 \subsection{Refinement}\label{sec:refine}
+
+\todo
