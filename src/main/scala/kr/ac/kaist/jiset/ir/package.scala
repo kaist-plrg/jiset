@@ -23,4 +23,7 @@ package object ir {
   def norm(str: String): String =
     str.replace("\\", "\\\\").replace("\"", "\\\"")
       .replace("\n", "\\n").replace("\b", "\\b")
+
+  def toERef(name: String): ERef = ERef(RefId(Id(name)))
+  def toRef(name: String): Ref = RefId(Id(name))
 }

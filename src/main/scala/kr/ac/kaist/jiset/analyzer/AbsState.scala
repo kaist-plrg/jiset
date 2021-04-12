@@ -52,7 +52,7 @@ case class AbsState(
     if (t.isBottom) Bot
     else if (t.isMustAbsent) this
     else {
-      if (check && exists(AbsId(x)) == AT && !isTemporalId(x))
+      if (check && exists(toERef(x), AbsId(x)) == AT && !isTemporalId(x))
         alarm(s"already defined variable: $x")
       copy(map = map + (x -> t))
     }
@@ -77,12 +77,13 @@ case class AbsState(
     }
   }
   def lookupStrProp(
+    expr: Expr,
     base: Type,
     prop: String,
     check: Boolean = true
   ): AbsType = (base, prop) match {
     case (NormalT(t), _) =>
-      val pureT = lookupStrProp(t, prop, false)
+      val pureT = lookupStrProp(expr, t, prop, false)
       if (pureT.isMustAbsent || pureT.isBottom) prop match {
         case "Type" => NORMAL.abs
         case "Value" => t.abs
@@ -93,9 +94,9 @@ case class AbsState(
     case (AbruptT, "Type") => AbsType(BREAK, CONTINUE, RETURN, THROW)
     case (AbruptT, "Value") => AbsType(ESValueT, EMPTY)
     case (AbruptT, "Target") => AbsType(StrT)
-    case _ => base.escaped.fold(AbsType.Bot)(_ match {
+    case _ => base.escaped(expr).fold(AbsType.Bot)(_ match {
       case ESValueT => ESValueT.bases.foldLeft(AbsType.Bot) {
-        case (t, base) => lookupStrProp(base, prop, check)
+        case (t, base) => lookupStrProp(expr, base, prop, check)
       }
       case (nameT: NameT) =>
         val t = nameT(prop)
@@ -109,16 +110,17 @@ case class AbsState(
     })
   }
   def lookupGeneralProp(
+    expr: Expr,
     base: Type,
     prop: AbsType,
     check: Boolean = true
   ): AbsType = {
     var t = AbsType.Bot
     prop.set.foreach {
-      case Str(prop) => t ⊔= lookupStrProp(base, prop, check)
+      case Str(prop) => t ⊔= lookupStrProp(expr, base, prop, check)
       case _ =>
     }
-    base.escaped.foreach(_ match {
+    base.escaped(expr).foreach(_ match {
       case MapT(elem) => t ⊔= elem
       case ListT(elem) if prop ⊑ NumT.abs => t ⊔= elem
       case StrT if prop ⊑ NumT.abs => t ⊔= StrT
@@ -127,26 +129,27 @@ case class AbsState(
     t
   }
   def lookup(
+    expr: Expr,
     ref: AbsRef,
     check: Boolean = true
   ): AbsType = norm(ref match {
     case AbsId(x) => lookupVar(x, check)
     case AbsStrProp(base, prop) =>
-      base.set.map(lookupStrProp(_, prop, check)).foldLeft(AbsType.Bot)(_ ⊔ _)
+      base.set.map(lookupStrProp(expr, _, prop, check)).foldLeft(AbsType.Bot)(_ ⊔ _)
     case AbsGeneralProp(base, prop) =>
-      base.set.map(lookupGeneralProp(_, prop, check)).foldLeft(AbsType.Bot)(_ ⊔ _)
+      base.set.map(lookupGeneralProp(expr, _, prop, check)).foldLeft(AbsType.Bot)(_ ⊔ _)
   })
 
   // existence check
-  def exists(ref: AbsRef): AbsType = norm(ref match {
+  def exists(expr: Expr, ref: AbsRef): AbsType = norm(ref match {
     case AbsGeneralProp(base, prop) => BoolT
-    case _ => !lookup(ref, check = false).isAbsent
+    case _ => !lookup(expr, ref, check = false).isAbsent
   })
 
   // update reference
-  def update(ref: AbsRef, t: AbsType): AbsState = norm(ref match {
+  def update(expr: Expr, ref: AbsRef, t: AbsType): AbsState = norm(ref match {
     case AbsId(x) => define(x, t)
-    case AbsStrProp(_, _) if (lookup(ref) ⊓ t).isBottom =>
+    case AbsStrProp(_, _) if (lookup(expr, ref) ⊓ t).isBottom =>
       warning(s"invalid property update: ${ref} with ${t}")
       this
     case _ => this

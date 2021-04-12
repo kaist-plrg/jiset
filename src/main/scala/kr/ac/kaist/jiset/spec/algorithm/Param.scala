@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.{ InfNum, PInf }
 
 case class Param(name: String, kind: Param.Kind = Param.Kind.Normal) {

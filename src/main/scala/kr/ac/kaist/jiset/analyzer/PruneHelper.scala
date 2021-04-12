@@ -36,27 +36,27 @@ trait PruneHelper { this: AbsTransfer.Helper =>
       case EBOp(OEq, ERef(RefProp(ref, EStr("Type"))), ERef(RefId(Id("CONST_normal")))) =>
         val (l, _) = (for {
           a <- transfer(ref)
-          l <- get(_.lookup(a, check = false))
+          l <- get(_.lookup(ERef(ref), a, check = false))
         } yield l)(st)
         Map(ref -> pruneNormalComp(l, pass))
-      case EBOp(OEq, ERef(ref), right) =>
+      case EBOp(OEq, lexpr @ ERef(ref), right) =>
         val ((l, r), _) = (for {
           a <- transfer(ref)
-          l <- get(_.lookup(a, check = false))
+          l <- get(_.lookup(lexpr, a, check = false))
           r <- transfer(right)
-        } yield (l.escaped, r.escaped))(st)
+        } yield (l.escaped(lexpr), r.escaped(right)))(st)
         Map(ref -> pruneValue(l, r, pass))
       case EIsInstanceOf(base @ ERef(ref), name) =>
         val (l, _) = (for {
           t <- transfer(base)
-        } yield t.escaped)(st)
+        } yield t.escaped(base))(st)
         Map(ref -> pruneInstance(l, name, pass))
       case EBOp(OEq, ETypeOf(left @ ERef(ref)), right) =>
         val ((l, r), _) = (for {
           a <- transfer(ref)
-          l <- get(_.lookup(a, check = false))
+          l <- get(_.lookup(left, a, check = false))
           r <- transfer(right)
-        } yield (l.escaped, r.escaped))(st)
+        } yield (l.escaped(left), r.escaped(right)))(st)
         Map(ref -> pruneType(l, r, pass))
       case EBOp(OOr, prune(lmap), prune(rmap)) =>
         merge(lmap, rmap, _ ⊔ _)

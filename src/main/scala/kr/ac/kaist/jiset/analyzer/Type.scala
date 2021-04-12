@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.ir.doubleEquals
+import kr.ac.kaist.jiset.ir.{ doubleEquals, Expr }
 import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
 
@@ -100,11 +100,11 @@ sealed trait Type {
   }
 
   // escape completions
-  def escaped: Option[PureType] = this match {
+  def escaped(expr: Expr): Option[PureType] = this match {
     case (t: PureType) => Some(t)
     case NormalT(t) => Some(t)
     case AbruptT =>
-      alarm(s"unchecked abrupt completions")
+      alarm(s"unchecked abrupt completions: ${expr.beautified}")
       None
   }
 

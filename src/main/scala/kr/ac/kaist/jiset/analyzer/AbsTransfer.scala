@@ -91,7 +91,7 @@ object AbsTransfer {
         sem += NodePoint(cfg.next(call), view) -> newSt
       case branch @ Branch(_, expr) =>
         val (t, newSt) = transfer(expr)(st)
-        val cond = t.escaped
+        val cond = t.escaped(expr)
         if (AT ⊑ cond) {
           val np = NodePoint(cfg.thenNext(branch), view)
           sem += np -> prune(st, expr, true)(newSt)
@@ -147,9 +147,10 @@ object AbsTransfer {
       case IAssign(ref, expr) => for {
         r <- transfer(ref)
         t <- transfer(expr)
-        _ <- modify(_.update(r, ref match {
+        rexpr = ERef(ref)
+        _ <- modify(_.update(rexpr, r, ref match {
           case _: RefId => t
-          case _: RefProp => t.escaped
+          case _: RefProp => t.escaped(rexpr)
         }))
       } yield ()
       case IDelete(ref) => for {
@@ -177,7 +178,7 @@ object AbsTransfer {
         st <- get
         t <- transfer(expr)
         _ <- modify(prune(st, expr, true))
-        tv = t.escaped
+        tv = t.escaped(expr)
         _ <- if (tv ⊑ AF) put(AbsState.Bot) else pure(())
       } yield assert(tv, expr)
       case IPrint(expr) => for {
@@ -210,8 +211,10 @@ object AbsTransfer {
         b <- transfer(bexpr)
         ts <- join(args.map(arg => transfer(arg)))
         st <- get
-        t = b.escapedSet
-          .map(access(call, view, x, _, prop, ts, st))
+        // TODO
+        rexpr = ERef(RefProp(toRef(bexpr.beautified), EStr(prop)))
+        t = b.escapedSet(bexpr)
+          .map(access(rexpr, call, view, x, _, prop, ts, st))
           .foldLeft(AbsType.Bot)(_ ⊔ _)
         _ <- {
           if (t.isBottom) put(AbsState.Bot)
@@ -284,21 +287,21 @@ object AbsTransfer {
         (map.get(EStr("Type")), map.get(EStr("Value"))) match {
           case (Some(ERef(RefId(Id("CONST_normal")))), Some(e)) => for {
             t <- transfer(e)
-          } yield AbsType(t.escapedSet.map(NormalT(_): Type))
+          } yield AbsType(t.escapedSet(e).map(NormalT(_): Type))
           case _ => pure(AbruptT.abs)
         }
       case EMap(Ty("Record"), props) => for {
         ps <- join(props.collect {
           case (EStr(prop), expr) => for {
             t <- transfer(expr)
-          } yield prop -> t.escaped.upcast
+          } yield prop -> t.escaped(expr).upcast
         })
       } yield RecordT(ps.toMap)
       case EMap(Ty(name), props) => for {
         ps <- join(props.collect {
           case (EStr(prop), expr) => for {
             t <- transfer(expr)
-          } yield prop -> t.escaped.upcast
+          } yield prop -> t.escaped(expr).upcast
         })
       } yield {
         // get type name
@@ -327,7 +330,7 @@ object AbsTransfer {
       }
       case EList(exprs) => for {
         ts <- join(exprs.map(transfer))
-        set = ts.foldLeft(AbsType.Bot)(_ ⊔ _).noAbsent.escapedSet
+        set = ts.foldLeft(AbsType.Bot)(_ ⊔ _).noAbsent.escapedSet(expr)
       } yield (set.size match {
         case 0 => NilT
         case 1 => ListT(set.head.upcast)
@@ -337,24 +340,24 @@ object AbsTransfer {
       case EPop(list, idx) => for {
         l <- transfer(list)
         k <- transfer(idx)
-        a <- id(_.pop(l.escaped, k.escaped))
+        a <- id(_.pop(l.escaped(list), k.escaped(idx)))
       } yield a
       case ERef(ref) => for {
         r <- transfer(ref)
-        t <- get(_.lookup(r))
+        t <- get(_.lookup(expr, r))
       } yield t
       case EUOp(uop, expr) => for {
         v <- transfer(expr)
-        t = transfer(uop, expr)(v.escaped)
+        t = transfer(uop, expr)(v.escaped(expr))
       } yield t
       case EBOp(bop, left, right) => for {
         l <- transfer(left)
         r <- transfer(right)
-        t = transfer(bop, left, right)(l.escaped, r.escaped)
+        t = transfer(bop, left, right)(l.escaped(left), r.escaped(right))
       } yield t
       case ETypeOf(expr) => for {
         v <- transfer(expr)
-        t <- get(_.typeof(v.escaped))
+        t <- get(_.typeof(v.escaped(expr)))
       } yield t
       case EIsCompletion(expr) => for {
         t <- transfer(expr)
@@ -364,15 +367,15 @@ object AbsTransfer {
       })
       case EIsInstanceOf(base, intPostFix(name, kStr)) => for {
         v <- transfer(base)
-        t <- get(_.isInstanceOf(v.escaped, name, kStr.toInt))
+        t <- get(_.isInstanceOf(v.escaped(base), name, kStr.toInt))
       } yield t
       case EIsInstanceOf(base, name) => for {
         v <- transfer(base)
-        t <- get(_.isInstanceOf(v.escaped, name))
+        t <- get(_.isInstanceOf(v.escaped(base), name))
       } yield t
       case EGetSyntax(base) => for {
         b <- transfer(base)
-      } yield b.escaped.getSingle match {
+      } yield b.escaped(base).getSingle match {
         case Some(Str("BooleanLiteral")) => AbsType(Str("true"), Str("false"))
         case _ => StrT.abs
       }
@@ -392,13 +395,13 @@ object AbsTransfer {
         e <- transfer(elem)
         c <- get(_.contains(l, e))
       } yield c
-      case EReturnIfAbrupt(ERef(ref), check) => for {
+      case EReturnIfAbrupt(rexpr @ ERef(ref), check) => for {
         r <- transfer(ref)
-        t <- transfer(r)
+        t <- transfer(expr, r)
         newT = returnIfAbrupt(t, check)
         _ <- {
           if (newT.isBottom) put(AbsState.Bot)
-          else modify(_.update(r, newT))
+          else modify(_.update(rexpr, r, newT))
         }
       } yield newT
       case EReturnIfAbrupt(expr, check) => for {
@@ -411,7 +414,7 @@ object AbsTransfer {
       } yield newT
       case expr @ ECopy(obj) => for {
         t <- transfer(obj)
-      } yield AbsType(t.escaped.set.filter {
+      } yield AbsType(t.escaped(obj).set.filter {
         case NameT(_) | ESValueT | NilT | ListT(_) | MapT(_) => true
         case _ => false
       })
@@ -431,13 +434,13 @@ object AbsTransfer {
     // existence check
     object ExistCheck {
       def unapply(expr: Expr): Option[Result[AbsType]] = optional(expr match {
-        case EUOp(ONot, EBOp(OEq, ERef(ref), EAbsent)) => for {
+        case EUOp(ONot, EBOp(OEq, rexpr @ ERef(ref), EAbsent)) => for {
           r <- transfer(ref)
-          b <- get(_.exists(r))
+          b <- get(_.exists(rexpr, r))
         } yield b
-        case EBOp(OEq, ERef(ref), EAbsent) => for {
+        case EBOp(OEq, rexpr @ ERef(ref), EAbsent) => for {
           r <- transfer(ref)
-          b <- get(_.exists(r))
+          b <- get(_.exists(rexpr, r))
         } yield !b
         case _ => error("not existence check")
       })
@@ -448,15 +451,15 @@ object AbsTransfer {
       def unapply(expr: Expr): Option[Result[AbsType]] = optional(expr match {
         case EBOp(OOr, left, right) => for {
           l <- transfer(left)
-          le = l.escaped
+          le = l.escaped(left)
           r <- if (le == AT) pure(AT) else transfer(right)
-          re = r.escaped
+          re = r.escaped(right)
         } yield l || r
         case EBOp(OAnd, left, right) => for {
           l <- transfer(left)
-          le = l.escaped
+          le = l.escaped(left)
           r <- if (le == AF) pure(AF) else transfer(right)
-          re = r.escaped
+          re = r.escaped(right)
         } yield l && r
         case _ => error("not existence check")
       })
@@ -467,18 +470,18 @@ object AbsTransfer {
       case RefId(id) => AbsId(id.name)
       case RefProp(base, EStr(str)) => for {
         r <- transfer(base)
-        b <- transfer(r)
+        b <- transfer(ERef(base), r)
       } yield AbsStrProp(b, str)
       case RefProp(ref, expr) => for {
         rv <- transfer(ref)
-        b <- transfer(rv)
+        b <- transfer(ERef(ref), rv)
         p <- transfer(expr)
       } yield AbsGeneralProp(b, p)
     }
 
     // transfer function for reference values
-    def transfer(ref: AbsRef): Result[AbsType] = bottomCheck(st => {
-      (st.lookup(ref), st)
+    def transfer(rexpr: Expr, ref: AbsRef): Result[AbsType] = bottomCheck(st => {
+      (st.lookup(rexpr, ref), st)
     }, ref)
 
     // transfer function for unary operators
@@ -561,6 +564,7 @@ object AbsTransfer {
 
     // access semantics
     def access(
+      expr: Expr,
       call: Call,
       view: View,
       x: String,
@@ -570,7 +574,7 @@ object AbsTransfer {
       st: AbsState
     ): AbsType = base match {
       case AstT(name) => accessAST(call, view, x, name, prop, args)
-      case _ => st.lookup(AbsStrProp(base, prop))
+      case _ => st.lookup(expr, AbsStrProp(base, prop))
     }
 
     // access of AST values
