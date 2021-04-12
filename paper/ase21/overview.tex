@@ -41,28 +41,31 @@ utilizes only AST structures to define AST types and to access corresponding
 syntax-directed algorithms.  For JavaScript semantics, ECMAScript contains
 abstract algorithms written in a structured natural language.  $\jiset$ compiles
 them to functions of $\ires$, an untyped intermediate representation for
-ECMAScript.  We modify $\ires$ more suitable for type analysis and formally
-define its syntax and semantics in Section~\ref{sec:ires}.
+ECMAScript.  We modify $\ires$ to make it more suitable for type analysis, and
+formally define its syntax and semantics in Section~\ref{sec:ires}.
 
 \paragraph{Types} In ECMAScript, types denote not only JavaScript types but also
-specification types for ASTs, internal records, and internal lists.  For ASTs,
-we use non-terminal names as thier type names and AST types $A$ and $B$ have a
-subtype relation $A \subtype B$ when $A$ is an alternative of $B$.  If record
-types have names, we treat them as normal types and manually define their fields
-according to the latest version of ECMAScript.  For example, fields of the
-\code{Realm} record types are defined in ``Table 23: Realm Record Fields'' in
-ECMAScript.  Ohterwise, we define structural types for unnamed record types.
-For lists, we define \code{Nil} types for empty lists and parametric list types
-\code{List[T]} for lists whose elements have \code{T} type.
+specification types for ASTs, records, and lists.  In abstract algorithms, ASTs
+are also values thus they can be stored in the variables or passed as arguments.
+For such ASTs, we use their production names as their types and automatically
+link corresponding syntax-directed algorithms to them as their fields.
+ECMAScript also supports various record types and their fields and possible
+values are defined in the corresponding tables.  For example, fields of the
+``Realm'' record type are defined in ``Table 23: Realm Record Fields'' in
+ECMAScript.  The latests version of ECMAScriptThe contains tens of tables for
+record types and they are backward compatible in general.  Thus, we manually
+model them to use them in type analysis.  For lists, we define the empty list
+type $\clist{}$ and parametric list types $\clist{\tau}$.
 
 
 \subsection{Type Analysis}\label{sec:overview-type-analysis}
 
-The type analyzer performs flow-sensitive type analysis with type-sensitivity
-for parameters to precisely detect specification bugs.  It consists of two
-sub-modules: an \textit{analysis initializer} and an \textit{abstract transfer}.
-We use a stack-based worklist algorithm to calculate fixpoint of abstract
-transfer and assign the initial set of worklist using analysis initializer.
+The type analyzer performs type analysis with flow-sensitivity and
+type-sensitivity for parameters to precisely detect specification bugs.  It
+consists of two sub-modules: an \textit{analysis initializer} and an
+\textit{abstract transfer}.  We use a stack-based worklist algorithm to
+calculate fixpoint of abstract transfer and assign the initial set of worklist
+using analysis initializer.
 
 \paragraph{Analysis Initializer} In ECMAScript, there are three different kinds
 of abstract algorithms \textit{normal}, \textit{syntax-directed} and

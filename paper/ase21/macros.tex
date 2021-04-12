@@ -1,6 +1,9 @@
 % math zaph chancery characters
 \DeclareMathAlphabet{\mathpzc}{T1}{pzc}{m}{it}
 
+% powerset
+\newcommand{\partsof}[1]{\mathcal{P}(#1)}
+
 % small textsf
 \newcommand{\stextsf}[1]{\textsf{\small #1}}
 
@@ -54,6 +57,7 @@
 % codes
 \newcommand{\jscode}[1]{\text{\lstinline[style=FigureJS,numbers=none]!#1!}}
 \newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\clist}[1]{\kwsl #1 \kwsr}
 
 % mapping
 \newcommand{\finmap}{\xrightarrow{\text{fin}}}
@@ -65,17 +69,30 @@
 \newcommand{\init}[1]{{#1}_\iota}
 
 % states
-\newcommand{\stset}{\mathbb{S}}
-\newcommand{\istset}{\init{\stset}}
-\newcommand{\st}{\sigma}
-\newcommand{\elem}{\abs{d}}
-\newcommand{\ielem}{{d_\iota^\sharp}}
+\newcommand{\dom}{\mathbb{S}}
+\newcommand{\ielemset}{\init{\dom}}
+\newcommand{\elem}{d}
 \newcommand{\ctxtset}{\mathbb{C}}
 \newcommand{\ctxt}{C}
 \newcommand{\envset}{\mathbb{E}}
-\newcommand{\env}{E}
+\newcommand{\env}{\sigma}
 \newcommand{\valset}{\mathbb{V}}
 \newcommand{\val}{v}
+
+% abstract states
+\newcommand{\adom}{\abs{\dom}}
+\newcommand{\aelem}{\abs{\elem}}
+\newcommand{\iaelem}{{\elem_\iota^\sharp}}
+\newcommand{\aenvset}{\abs{\envset}}
+\newcommand{\aenv}{\abs{\env}}
+\newcommand{\etyset}{\tyset_e}
+\newcommand{\ety}{\ty_e}
+\newcommand{\atyset}{\tyset_e^\sharp}
+\newcommand{\aty}{\ty_e^\sharp}
+
+% views
+\newcommand{\view}{\pi}
+\newcommand{\viewset}{\Pi}
 
 % transition
 \newcommand{\trans}{\leadsto}
@@ -135,6 +152,9 @@
 \newcommand{\tbigint}{\code{bigint}}
 \newcommand{\tstr}{\code{str}}
 \newcommand{\tsymb}{\code{symbol}}
+\newcommand{\tnormal}{\code{normal}}
+\newcommand{\tabrupt}{\code{abrupt}}
+\newcommand{\tabsent}{\code{?}}
 
 % operators
 \newcommand{\bop}{\oplus}
@@ -147,6 +167,10 @@
 \newcommand{\y}{\code{y}}
 \newcommand{\z}{\code{z}}
 
-% control points
+% labels
 \newcommand{\labset}{\mathbb{L}}
 \newcommand{\lab}{\mathpzc{l}}
+
+% semantics
+\newcommand{\sem}[1]{\llbracket{#1}\rrbracket}
+\newcommand{\asem}[1]{\abs{\sem{#1}}}
