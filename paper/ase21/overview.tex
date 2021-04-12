@@ -37,7 +37,7 @@ a given ECMAScript.
 \paragraph{Syntax and Semantics} ECMAScript uses a variant of extended BNF
 notations to describe JavaScript syntax.  $\jiset$ synthesizes AST structures
 and JavaScript parsers from its lexical and syntactic productions.  Our tool
-utilizes only AST structures to define AST types and to access corresponding
+utilizes only AST structures to define their types and to access corresponding
 syntax-directed algorithms.  For JavaScript semantics, ECMAScript contains
 abstract algorithms written in a structured natural language.  $\jiset$ compiles
 them to functions of $\ires$, an untyped intermediate representation for
@@ -50,12 +50,13 @@ are also values thus they can be stored in the variables or passed as arguments.
 For such ASTs, we use their production names as their types and automatically
 link corresponding syntax-directed algorithms to them as their fields.
 ECMAScript also supports various record types and their fields and possible
-values are defined in the corresponding tables.  For example, fields of the
-``Realm'' record type are defined in ``Table 23: Realm Record Fields'' in
-ECMAScript.  The latests version of ECMAScriptThe contains tens of tables for
-record types and they are backward compatible in general.  Thus, we manually
-model them to use them in type analysis.  For lists, we define the empty list
-type $\clist{}$ and parametric list types $\clist{\tau}$.
+values are defined in the corresponding tables.  For example, ``Table 9:
+Completion Record Fields'' in the latest ECMAScript describes fields of the
+completion records.  The latest version contains tens of tables for record types
+but they are backward compatible in general.  Thus, we manually model fields of
+record types based on the latest version to use them in type analysis.  For
+lists, we define the empty list type $\clist{}$ and parametric list types
+$\clist{\tau}$.
 
 
 \subsection{Type Analysis}\label{sec:overview-type-analysis}

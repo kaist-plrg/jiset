@@ -57,10 +57,14 @@
 % codes
 \newcommand{\jscode}[1]{\text{\lstinline[style=FigureJS,numbers=none]!#1!}}
 \newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\mcode}[1]{\mathtt{#1}}
 \newcommand{\clist}[1]{\kwsl #1 \kwsr}
 
-% mapping
+% finite mapping
 \newcommand{\finmap}{\xrightarrow{\text{fin}}}
+
+% empty
+\newcommand{\emp}{\varnothing}
 
 % abstraction
 \newcommand{\abs}[1]{{#1}^\sharp}
@@ -85,26 +89,30 @@
 \newcommand{\iaelem}{{\elem_\iota^\sharp}}
 \newcommand{\aenvset}{\abs{\envset}}
 \newcommand{\aenv}{\abs{\env}}
-\newcommand{\etyset}{\tyset_e}
-\newcommand{\ety}{\ty_e}
-\newcommand{\atyset}{\tyset_e^\sharp}
-\newcommand{\aty}{\ty_e^\sharp}
+\newcommand{\atyset}{\tyset^\sharp}
+\newcommand{\aty}{\ty^\sharp}
+\newcommand{\join}{\sqcup}
+\newcommand{\bigjoin}{\bigsqcup}
+
+% result maps
+\newcommand{\rmapset}{\mathbb{M}}
+\newcommand{\rmap}{m}
+
+% return points
+\newcommand{\retpset}{\mathbb{R}}
+\newcommand{\retp}{r}
 
 % views
 \newcommand{\view}{\pi}
-\newcommand{\viewset}{\Pi}
-
-% transition
-\newcommand{\trans}{\leadsto}
 
 % subtype
 \newcommand{\subtype}{<:}
 
 % programs
 \newcommand{\prog}{P}
-\newcommand{\getlab}{\code{get}}
-\newcommand{\nextlab}{\code{next}}
-\newcommand{\funcs}{\code{funcs}}
+\newcommand{\getfunc}{\mcode{func}}
+\newcommand{\getlab}{\mcode{inst}}
+\newcommand{\getnext}{\mcode{next}}
 
 % syntax
 \newcommand{\funcset}{\mathbb{F}}
@@ -119,8 +127,10 @@
 \newcommand{\undefval}{\code{undefined}}
 \newcommand{\nullval}{\code{null}}
 \newcommand{\bool}{b}
+\newcommand{\true}{\mcode{\#t}}
+\newcommand{\false}{\mcode{\#f}}
 \newcommand{\num}{n}
-\newcommand{\bigint}{i}
+\newcommand{\bigint}{j}
 \newcommand{\str}{s}
 \newcommand{\symb}{\code{@}s}
 
@@ -139,10 +149,13 @@
 \newcommand{\kwsr}{\code{]}}
 \newcommand{\kwexists}{\code{?}}
 
+% constants
+\newcommand{\nconst}[1]{\const_{\code{#1}}}
 
 % types
 \newcommand{\tyset}{\mathbb{T}}
 \newcommand{\ty}{\tau}
+\newcommand{\tys}{\overline{\ty}}
 \newcommand{\tname}{t}
 \newcommand{\tjs}{\code{js}}
 \newcommand{\tprim}{\code{prim}}
@@ -155,6 +168,14 @@
 \newcommand{\tnormal}{\code{normal}}
 \newcommand{\tabrupt}{\code{abrupt}}
 \newcommand{\tabsent}{\code{?}}
+\newcommand{\upcast}{\code{up}}
+\newcommand{\upcasts}{\overline{\code{up}}}
+
+% fields
+\newcommand{\fields}{\code{fs}}
+
+% refinement
+\newcommand{\refine}{\code{refine}}
 
 % operators
 \newcommand{\bop}{\oplus}
@@ -162,7 +183,10 @@
 
 % variables
 \newcommand{\varset}{\mathbb{X}}
+\newcommand{\mt}{\mcode{t}}
+\newcommand{\mf}{\mcode{f}}
 \newcommand{\f}{\code{f}}
+\newcommand{\p}{\code{p}}
 \newcommand{\x}{\code{x}}
 \newcommand{\y}{\code{y}}
 \newcommand{\z}{\code{z}}
@@ -174,3 +198,6 @@
 % semantics
 \newcommand{\sem}[1]{\llbracket{#1}\rrbracket}
 \newcommand{\asem}[1]{\abs{\sem{#1}}}
+\newcommand{\asemi}[1]{\asem{#1}_\inst}
+\newcommand{\aseme}[1]{\asem{#1}_\expr}
+\newcommand{\asemr}[1]{\asem{#1}_\refer}
