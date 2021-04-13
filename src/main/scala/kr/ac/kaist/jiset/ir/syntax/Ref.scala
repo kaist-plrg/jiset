@@ -6,6 +6,7 @@ sealed trait Ref extends IRNode {
     case RefId(Id(name)) => name
     case RefProp(ref, _) => ref.base
   }
+  def isVar: Boolean = this.isInstanceOf[RefId]
 }
 case class RefId(id: Id) extends Ref
 case class RefProp(ref: Ref, expr: Expr) extends Ref

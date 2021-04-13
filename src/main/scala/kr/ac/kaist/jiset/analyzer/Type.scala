@@ -334,7 +334,7 @@ object Type {
     case Some(info) =>
       val parentProps = info.parent.map(getUpperPropMap).getOrElse(Map())
       val props = info.props
-      strongMerge(parentProps, props)
+      weakMerge(parentProps, props)
     case None => Map()
   }
 
@@ -347,27 +347,23 @@ object Type {
     case Some(children) => children.map(child => {
       val lower = getLowerPropMap(child)
       val props = getSamePropMap(child)
-      strongMerge(lower, props)
-    }).reduce(weakMerge)
+      weakMerge(lower, props)
+    }).reduce(parallelWeakMerge)
     case None => getSamePropMap(name)
-  }
-
-  // strong merge
-  private def strongMerge(lmap: PropMap, rmap: PropMap): PropMap = {
-    val keys = lmap.keySet ++ rmap.keySet
-    keys.toList.map(k => {
-      val t = (lmap.get(k), rmap.get(k)) match {
-        case (Some(ltype), Some(rtype)) => ltype ⊔ rtype
-        case (Some(ltype), None) => ltype
-        case (None, Some(rtype)) => rtype
-        case (None, None) => ??? // impossible
-      }
-      k -> t
-    }).toMap
   }
 
   // weak merge
   private def weakMerge(lmap: PropMap, rmap: PropMap): PropMap = {
+    val keys = lmap.keySet ++ rmap.keySet
+    keys.toList.map(k => {
+      val lt = lmap.getOrElse(k, AbsType.Bot)
+      val rt = rmap.getOrElse(k, AbsType.Bot)
+      k -> (lt ⊔ rt)
+    }).toMap
+  }
+
+  // parallel weak merge
+  private def parallelWeakMerge(lmap: PropMap, rmap: PropMap): PropMap = {
     val keys = lmap.keySet ++ rmap.keySet
     keys.toList.map(k => {
       k -> (lmap.getOrElse(k, Absent.abs) ⊔ rmap.getOrElse(k, Absent.abs))

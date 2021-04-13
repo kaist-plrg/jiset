@@ -256,6 +256,8 @@ TODO
   true인 경우 undef를 return해서 아래 Assertion Fail이 된다.
 [Bug] assertion failed: (= [! __x4__] true) @ ArrayExoticObject.DefineOwnProperty
 [Bug] assertion failed: (= [! __x4__] true) @ ArraySetLength
+- Condition 관련 compile rule 에 버그가 있음.
+[Bug] assertion failed: (&& (= (typeof nx) BigInt) (|| (= (typeof ny) Number) (&& (= (typeof nx) Number) (= (typeof ny) BigInt)))) @ AbstractRelationalComparison
 # reported 
 - optional parameter 에 대한 처리?
 [Bug] unknown variable: internalSlotsList @ OrdinaryCreateFromConstructor

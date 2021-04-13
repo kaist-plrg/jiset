@@ -14,71 +14,68 @@ trait PruneHelper { this: AbsTransfer.Helper =>
     expr: Expr,
     pass: Boolean
   ): Updater = {
-    val pruneRef = PruneRef(st, pass)
+    val pruneVar = PruneVar(st, pass)
     st => expr match {
       case _ if !PRUNE => st
-      case pruneRef(map) => map.foldLeft(st) {
-        case (st, (RefId(Id(x)), t)) =>
-          if (t.isBottom) AbsState.Bot else st.define(x, t)
-        case (st, _) => st
-      }
+      case pruneVar(newSt) => newSt
       case _ => st
     }
   }
 
-  case class PruneRef(st: AbsState, pass: Boolean) {
+  case class PruneVar(st: AbsState, pass: Boolean) {
     val prune = this
-    def not: PruneRef = PruneRef(st, !pass)
-    def unapply(expr: Expr): Option[Map[Ref, AbsType]] = optional(this(expr))
-    private def apply(expr: Expr): Map[Ref, AbsType] = expr match {
+    def not: PruneVar = PruneVar(st, !pass)
+    def unapply(expr: Expr): Option[AbsState] = optional(this(expr))
+
+    private def apply(expr: Expr): AbsState = expr match {
       case EUOp(ONot, expr) => not(expr)
       // prune normal completion
-      case EBOp(OEq, ERef(RefProp(ref, EStr("Type"))), ERef(RefId(Id("CONST_normal")))) =>
-        val (l, _) = (for {
+      case EBOp(OEq, rexpr @ ERef(RefProp(ref, EStr("Type"))), ERef(RefId(Id("CONST_normal")))) if ref.isVar =>
+        val updator = for {
           a <- transfer(ref)
           l <- get(_.lookup(ERef(ref), a, check = false))
-        } yield l)(st)
-        Map(ref -> pruneNormalComp(l, pass))
-      case EBOp(OEq, lexpr @ ERef(ref), right) =>
-        val ((l, r), _) = (for {
+          newT = pruneNormalComp(l, pass)
+        } yield (ERef(ref), a, newT)
+        update(st, updator)
+      case EBOp(OEq, lexpr @ ERef(ref), right) if ref.isVar =>
+        val updator = for {
           a <- transfer(ref)
           l <- get(_.lookup(lexpr, a, check = false))
           r <- transfer(right)
-        } yield (l.escaped(lexpr), r.escaped(right)))(st)
-        Map(ref -> pruneValue(l, r, pass))
-      case EIsInstanceOf(base @ ERef(ref), name) =>
-        val (l, _) = (for {
-          t <- transfer(base)
-        } yield t.escaped(base))(st)
-        Map(ref -> pruneInstance(l, name, pass))
-      case EBOp(OEq, ETypeOf(left @ ERef(ref)), right) =>
-        val ((l, r), _) = (for {
+          newT = pruneValue(l.escaped(lexpr), r.escaped(right), pass)
+        } yield (lexpr, a, newT)
+        update(st, updator)
+      case EIsInstanceOf(base @ ERef(ref), name) if ref.isVar =>
+        val updator = for {
+          a <- transfer(ref)
+          l <- get(_.lookup(base, a, check = false))
+          newT = pruneInstance(l.escaped(base), name, pass)
+        } yield (base, a, newT)
+        update(st, updator)
+      case EBOp(OEq, ETypeOf(left @ ERef(ref)), right) if ref.isVar =>
+        val updator = for {
           a <- transfer(ref)
           l <- get(_.lookup(left, a, check = false))
           r <- transfer(right)
-        } yield (l.escaped(left), r.escaped(right)))(st)
-        Map(ref -> pruneType(l, r, pass))
-      case EBOp(OOr, prune(lmap), prune(rmap)) =>
-        merge(lmap, rmap, if (pass) _ ⊔ _ else _ ⊓ _)
-      case EBOp(OAnd, prune(lmap), prune(rmap)) =>
-        merge(lmap, rmap, if (pass) _ ⊓ _ else _ ⊔ _)
-      case _ => error("failed")
+          newT = pruneType(l.escaped(left), r.escaped(right), pass)
+        } yield (left, a, newT)
+        update(st, updator)
+      case EBOp(OOr, prune(st0), prune(st1)) =>
+        if (pass) st0 ⊔ st1 else st0 ⊓ st1
+      case EBOp(OAnd, prune(st0), prune(st1)) =>
+        if (pass) st0 ⊓ st1 else st0 ⊔ st1
+      case _ => st
     }
   }
 
-  // merging pruning map
-  def merge(
-    lmap: Map[Ref, AbsType],
-    rmap: Map[Ref, AbsType],
-    op: (AbsType, AbsType) => AbsType
-  ): Map[Ref, AbsType] = {
-    val keys = (lmap.keySet ++ rmap.keySet).toList
-    keys.map(k => k -> ((lmap.get(k), rmap.get(k)) match {
-      case (Some(lt), Some(rt)) => op(lt, rt)
-      case (Some(lt), None) => lt
-      case (None, Some(rt)) => rt
-      case (None, None) => ???
-    })).toMap
+  // update state
+  private def update(
+    st: AbsState,
+    updator: Result[(Expr, AbsRef, AbsType)]
+  ): AbsState = {
+    val ((rexpr, aref, newT), newSt) = updator(st)
+    if (newT.isBottom) AbsState.Bot
+    else newSt.update(rexpr, aref, newT)
   }
 
   // pruning for normal completion

@@ -43,6 +43,22 @@ case class AbsState(
     }
   )
 
+  // meet operator
+  def ⊓(that: AbsState): AbsState = {
+    val keys = this.map.keySet ++ that.map.keySet
+    var isBot = false
+    val map = keys.map(k => {
+      val newT = this(k) ⊓ that(k)
+      if (newT.isBottom) isBot = true
+      k -> newT
+    }).toMap
+    if (isBot) AbsState.Bot
+    else AbsState(
+      reachable = this.reachable && that.reachable,
+      map = map.filter { case (_, v) => !v.isMustAbsent }
+    )
+  }
+
   // temporal variable check
   def isTemporalId(x: String): Boolean =
     x.startsWith("__") && x.endsWith("__")
