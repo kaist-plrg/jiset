@@ -80,7 +80,6 @@ trait PruneHelper { this: AbsTransfer.Helper =>
         prunedVars += ref.getId
         update(st, updator)
       case EBOp(OOr, prune(st0), prune(st1)) =>
-        println(prunedVars)
         val est0 = escaped(st0)
         val est1 = escaped(st1)
         if (pass) est0 ⊔ est1 else est0 ⊓ est1
