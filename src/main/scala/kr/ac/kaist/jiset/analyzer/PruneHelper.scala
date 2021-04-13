@@ -112,12 +112,13 @@ trait PruneHelper { this: AbsTransfer.Helper =>
   def pruneInstance(l: AbsType, name: String, pass: Boolean): AbsType = {
     val nameT = NameT(name)
     val astT = AstT(name)
-    val isAST = cfg.spec.grammar.nameMap.keySet contains name
-    (pass, isAST) match {
+    val isAst = cfg.spec.grammar.recSubs.keySet contains name
+    val prevAstT = AbsType(cfg.spec.grammar.recSubs(name).map(AstT(_): Type))
+    (pass, isAst) match {
       case (false, false) => l - nameT
-      case (false, true) => l - astT
+      case (false, true) => (l - astT) ⊔ (prevAstT - astT)
       case (true, false) => l ⊓ nameT.abs
-      case (true, true) => l ⊓ astT.abs
+      case (true, true) => prevAstT ⊓ astT.abs
     }
   }
 }
