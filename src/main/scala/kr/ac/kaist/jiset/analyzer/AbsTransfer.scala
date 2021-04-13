@@ -150,7 +150,7 @@ object AbsTransfer {
         rexpr = ERef(ref)
         _ <- modify(_.update(rexpr, r, ref match {
           case _: RefId => t
-          case _: RefProp => t.escaped(rexpr)
+          case _: RefProp => t.escaped(expr)
         }))
       } yield ()
       case IDelete(ref) => for {
