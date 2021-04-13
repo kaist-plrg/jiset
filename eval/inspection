@@ -135,6 +135,7 @@ f9be7ed17f262ccaadc8d7d7fd9f4828076f6567
 --------------------------------------------------------------------------------
 - IsNonNegativeInteger:[ESValue] 의 중간 분석 과정에서 결과가 false 인 경우가 생기고, 그에 따라 assertion failed.
 [Bug] assertion failed: (= __x5__ true) @ ArrayExoticObject.DefineOwnProperty
+[Bug] assertion failed: (= [! __x0__] true) @ ArrayCreate
 
 --------------------------------------------------------------------------------
 6e633e684ed8b12245e906593bdeb4969441f3bc
@@ -165,6 +166,18 @@ e8727ee90d641851ae1cc18af6171c65b6228dbc
 - NamedEvaluation 이 spec 에 추가되고, SetFunctionName 이 *BindingInitialization 에서 빠지면서 에러가 사라졌음. 실제 버그가 있었는지는 more inspection 필요
 - need discussion
 [Bug] assertion failed: (= (typeof O) Object) @ DefinePropertyOrThrow
+
+--------------------------------------------------------------------------------
+79ee19659384de3c32a49c0bd36bf1e5313b4cdd
+--------------------------------------------------------------------------------
+- SpeciesConstructor 함수에서 IsConstructor S를 통해 S가 Constructor인 경우에만 return S를 하게 한다. 그러나 이를 static하게 잡아내지 못해 모든 S에 대해 return S가 됐고, 이에 따라 이후에 Promise.prototype.finally에서 return된 값에 대해 IsConstructor를 실행 했을 때 false가 되는 경우가 생긴다. 이에 따라 assertion failed가 되고 있다. 여기서 return된 값의 어떤 view에 대해 IsConstructor를 먼저 부르느냐에 따라 assertion failed 에러가 뜨고 안뜨고가 변한다.
+[Bug] assertion failed: (= __x1__ true) @ Promise.prototype.finally
+
+--------------------------------------------------------------------------------
+5ad43c48b1f452173aa7ec9f02535d8421a2f28
+--------------------------------------------------------------------------------
+- IsConstructor[Object]의 중간 분석 과정에서 결과가 false 인 경우가 생기고, 그에 따라 assertion failed.
+[Bug] assertion failed: (= __x0__ true) @ ProxyObject.Construct
 
 --------------------------------------------------------------------------------
 RECENT
@@ -221,11 +234,14 @@ RECENT
 [Bug] assertion failed: false @ RequireObjectCoercible
 - env.HasSuperBinding 의 중간 분석 과정에서 결과가 false 인 경우가 생기고, 그에 따라 assertion failed.
 [Bug] assertion failed: (= __x1__ true) @ MakeSuperPropertyReference
+- Expression IsFunctionDefinition의 중간 분석 과정에서 결과가 false인 경우가 생기고, 그에 따라 assertion failed.
+[Bug] assertion failed: (= __x0__ true) @ ParenthesizedExpression[0,0].NamedEvaluation
 - BindingRestElement[1,0].IteratorBindingInitialization 에서 next 가 false 가 될 경우, iteratorRecord.Done 이 true 가 되어서 IteratorValue 를 호출하지 않게됨.
 [Bug] assertion failed: (= (typeof iterResult) Object) @ IteratorValue
 
 TODO
 - name은 optional parameter인데, 이게 absent가 아닌 경우에 대해 assertion fail이 된다.
+  ae77188c64085669f8c7cc859327f0817cdb260d의 경우와 비슷한 경우인 것 같음.
 [Bug] assertion failed: (= name absent) @ AsyncGeneratorExpression[0,1].InstantiateAsyncGeneratorFunctionExpression
 [Bug] assertion failed: (= name absent) @ FunctionExpression[0,1].InstantiateOrdinaryFunctionExpression
 [Bug] assertion failed: (= name absent) @ GeneratorExpression[0,1].InstantiateGeneratorFunctionExpression
