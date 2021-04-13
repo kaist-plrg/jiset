@@ -1,27 +1,144 @@
 \section{Bug Detector}\label{sec:checker}
 
-\subsection{Reference Checker}
-\begin{itemize}
-  \item unknown variables
-  \item already defined variables
-\end{itemize}
+\begin{table}
+  \centering
+  \caption{Type-related specification bugs fixed by pull requests for the recent
+  three years from 2018 to 2021.}
+  \label{table:pr-bugs}
+  \vspace*{-1.5em}
+  \[
+    \begin{array}{c|l|r}
+      \multicolumn{1}{c}{\textbf{Category}} &
+      \multicolumn{1}{|c}{\textbf{Bug Kind}} &
+      \multicolumn{1}{|c}{\textbf{\# Bugs}}\\
+      \hline
 
-\subsection{Parameter Arity Checker}
-\begin{itemize}
-  \item remaining normal parameters
-    (parameter types: normal / optional / variadic)
-  \item remaining arguments
-\end{itemize}
+      \multirow{2}{*}{\text{Reference}}
+      & \text{Unknown Variables} & \inred{XXX}\\\cline{2-3}
+      & \text{Already Defined Variables} & \inred{XXX}\\\hline
+
+      \multirow{1}{*}{\text{Parameter}}
+      & \text{Arity Mismatches} & \inred{XXX}\\\hline
+
+      \multirow{1}{*}{\text{Assertion}}
+      & \text{Assertion Failures} & \inred{XXX}\\\hline
+
+      \multirow{2}{*}{\text{Type}}
+      & \text{Non-Numeric Operands} & \inred{XXX}\\\cline{2-3}
+      & \text{Unchecked Abrupt Completions} & \inred{XXX}\\\hline
+
+      \multicolumn{2}{c|}{\textbf{Total}} & \inred{XXX}\\
+
+    \end{array}
+  \]
+  \vspace*{-1.5em}
+\end{table}
+
+We develop a \textit{bug detector} to statically detect type-related
+specification bugs in ECMAScript using an augmented abstract transfer
+$\detector$ with additional checkers.  The abstract semantics $\asem{\prog}$ of
+a program $\prog = (\getfunc, \getinst, \getnext)$ is the least fixpoint of the
+original abstract transfer $\atransfer$.  Thus, $\detector(\asem{\prog})$ also
+produces $\asem{\prog}$ and detects type-related specification bugs.  Before
+implementing checkers, we manually investigate pull requests for the recent
+\inred{three years from 2018 to 2021}.  As described in
+Table~\ref{table:pr-bugs}, pull requests include \inred{XXX} type-related
+specification bugs classified in six different kinds and four categories.  We
+implement four checkers for each category bugs: \textit{reference checker},
+\textit{arity checker}, \textit{assertion checker}, and \textit{operand type
+checker}.  Now, we explain how each checker detects corresponding bugs in the
+augmented abstract transfer $\detector$.
+
+
+\subsection{Reference Checker}
+
+In ECMAScript abstract algorithms, variables are dynamically introduced in any
+contexts.  The reference bugs are caused when trying to access not yet defined
+variables or to redefine already defined variables.  Such reference bugs are the
+most prevalent type-related specification bugs according to the our manual
+investigation of previous pull requests.  Thus, we implement the reference
+checker by adding additional checks to abstract semantics of variable lookups
+$\aseme{\x}$ and variable declarations $\asemi{\kwlet \; \x = \expr}$ to detect
+unknown variables and already defined variables, respectively:
+\[
+  \begin{array}{r@{~}c@{~}l}
+    \aseme{\x}(\aenv) &=& \left\{
+      \begin{array}{ll}
+        \text{unknown variable} \; $\x$
+        & \text{if} \; \asemr{\x}(\aenv) = \{ \tabsent \}\\
+        \cdots
+        & \text{otherwise}\\
+      \end{array}
+    \right.\\
+
+    \asemi{\kwlet \; \x = \expr}(\lab, \tys)(\aelem) &=& \left\{
+      \begin{array}{ll}
+        \text{already defined variable} \; $\x$
+        & \text{if} \; \aty = \{ \true \}\\
+        \cdots
+        & \text{otherwise}\\
+      \end{array}
+    \right.\\ &&
+    \text{where} \; \aty = \aseme{\x \kwexists}(\aelem(\lab, \tys))\\
+  \end{array}
+\]
+If the abstract semantics of a variable lookup for $\x$ is a singleton $\{
+\tabsent \}$, it means the variable $\x$ is always an unknown variable.  In this
+case, the reference checker reports a unknown variable bug for $\x$.  For
+example, revisit the syntax-directed algorithm at the upper-left in
+Figure~\ref{fig:example}.  Since the \textbf{GetReferencedName} algorithm is
+removed, the variable \code{GetReferencedName} does not exist in abstract
+environments and its lookup always return $\{ \tabsent \}$ thus the reference
+checker can detect this unknown variable bug.  For already defined variables,
+the reference checker examines whether the variable of each variable declaration
+is always defined using the abstract semantics of existence checks $\aseme{\x
+\kwexists}$.
+
+
+\subsection{Arity Checker}
+Arity $\size{\func}$ of a function $\func = \kwdef \; \f (\p_1, \cdots, \p_n,
+\kwsl \cdots, p_m \kwsr). \; \lab$ is defined as an interval $[n, m]$ where $n$
+and $m-n$ denote numbers of normal and optional parameters, respectively.  The
+arity checker detects mismatches of such arities with the number of arguments by
+adding an additional checks in the function call instructions $\asemi{\x = \kwrl
+\expr_0 \; \expr_1 \cdots \expr_k \kwrr}$:
+\[
+  \begin{array}{l}
+    \asemi{\x = \kwrl \expr_0 \; \expr_1 \cdots \expr_k \kwrr}(\lab,
+    \tys)(\aelem) =\\
+    \qquad \left\{
+      \begin{array}{ll}
+        \text{missing parameters} \; \p_{k+1}, \cdots, \p_{n_\func} &
+        \text{if} \; \exists \func \in \aty_0. \; \text{s.t.} \; k < n_\func\\
+
+        \text{reamining arguments} \; \expr_{m_\func+1}, \cdots, \expr_k &
+        \text{if} \; \exists \func \in \aty_0. \; \text{s.t.} \; k > m_\func\\
+
+        \cdots &
+        \text{otherwise}\\
+      \end{array}
+    \right.\\
+  \end{array}
+\]
+where $\func = \kwdef \; \f (\p_1, \cdots, \p_{n_\func}, \kwsl \cdots,
+p_{m_\func} \kwsr). \; \lab \wedge \aty_0 = \aseme{\expr_0}(\aelem(\lab,
+\tys))$.  For each function $\func$ in the abstract semantics of the function
+expression $\expr_0$, the arity checker compares the number of arguments with
+its arity $\size{\func}$ and reports a corresponding arity bug.  For example,
+consider the lower-left syntax directed algorithm in Figure~\ref{fig:example}.
+The algorithm invocation in line 2 is compiled to a function call instruction:
+\[
+  \x = \kwrl \code{formal}.\code{IteratorBindingInitialization} \; \code{formal}
+  \kwrr
+\]
+with a temporal variable $\x$ thus the number of arguments is 1.  However, arity
+of the function stored in $\code{formal}.\code{IteratorBindingInitialization}$
+is $[3, 3]$ thus the arity checker reports missing parameter bugs for two
+additional parameters $\code{iteratorRecord}$ and $\code{environment}$.
 
 \subsection{Assertion Checker}
-\begin{itemize}
-  \item typeof assertions
-  \item instance-of assertions
-  \item other assertions
-\end{itemize}
+\todo
+
 
 \subsection{Operand Type Checker}
-\begin{itemize}
-  \item implicit abrupt completions
-  \item typed operators
-\end{itemize}
+\todo

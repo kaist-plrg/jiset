@@ -2,8 +2,9 @@
 
 In this section, we explain the detail of the type analyzer of $\tool$. We first
 formally define a modified $\ires$ and explain how to perform type analysis for
-the modified $\ires$.  Moreover, we also explain a refinement of type analysis
-based on conditions of assertions and branches to increase analysis precision.
+the modified $\ires$.  Moreover, we also explain a condition-based refinement of
+type analysis based on conditions of assertions and branches to increase
+analysis precision.
 
 \subsection{Intermediate Representation}\label{sec:ires}
 
@@ -23,7 +24,7 @@ language as follows:
 \[
   \begin{array}{l@{~}r@{~}c@{~}r@{~}r@{~}l}
     \text{Functions}
-    &\funcset&\ni&\func&::=&\kwdef \; \x (\x^*, \x^*). \; \lab\\
+    &\funcset&\ni&\func&::=&\kwdef \; \x (\x^*, \kwsl \x^* \kwsr). \; \lab\\
 
     \text{Instructions}
     &\instset&\ni&\inst&::=&
@@ -74,8 +75,8 @@ of three mappings from labels;  $\getfunc: \labset \rightarrow \funcset$
 represents that labels are in which functions, $\getinst: \labset \rightarrow
 \instset$ represents instructions attached to labels, and $\getnext: \labset
 \rightarrow \labset$ denotes next labels where a label $\lab \in \labset$
-denotes a program point.  function $\kwdef \; \f (\x^*, \y^*). \; \lab \in
-\funcset$ consists of its name $\f$, normal parameters $\x^*$, optional
+denotes a program point.  function $\kwdef \; \f (\x^*, \kwsl \y^* \kwsr). \;
+\lab \in \funcset$ consists of its name $\f$, normal parameters $\x^*$, optional
 parameters $\y^*$, and a body label $\lab$.  Although global variables exist in
 ECMAScript, we assume that only local variables exist in this paper for brevity
 An instruction $\inst$ is a variable declaration, a function call, an assertion,
@@ -128,7 +129,7 @@ values or \code{empty}.  We manually model them as follows:
 \]
 
 The subtype relation $\subtype \subseteq \tyset \times \tyset$ between types is
-described in Figure~\ref{fig:subtype}; the directed edge from $\ty'$ to $\ty$
+depicted in Figure~\ref{fig:subtype}; the directed edge from $\ty'$ to $\ty$
 denotes $\ty' \subtype \ty$ and the relation is reflexive and transitive.  The
 subtype relation is dependent on the syntax and defined record types in
 ECMAScript.  We extract subtypes for production types and manually model
@@ -141,24 +142,10 @@ this subtype relation, a type check expression $\expr: \ty$ checks whether the
 evaluation result of $\expr$ has a type $\ty'$ satisfying $\ty' \subtype \ty$.
 
 We define a denotational semantics of the modified $\ires$ for instructions
-$\sem{\inst}: \dom \rightarrow \dom$ and expressions $\sem{\expr}: \dom
-\rightarrow \valset$.  For presentation brevity, we omit it in this paper and
-include it in a companion report~\inred{\cite{report}}.
-% \[
-%   \begin{array}{l@{~}r@{~}c@{~}r@{~}r@{~}l}
-%     \text{States}
-%     &\elem&\in&\dom&::=&\ctxtset^* \times \labset \times \envset\\
-% 
-%     \text{Contexts}
-%     &\ctxt$\in$\ctxtset&::=&\labset \times \varset \times \envset\\
-% 
-%     \text{Environments}
-%     &\env$\in$\envset&::=&\varset \finmap \valset\\
-% 
-%     \text{Values}
-%     &\val$\in$\valset&::=& \addrset \uplus \addr \uplus \primset\\\
-%   \end{array}
-% \]
+$\semi{\inst}: \dom \rightarrow \dom$, references $\semr{\refer}: \dom
+\rightarrow \valset$, and expressions $\sem{\expr}: \dom \rightarrow \valset$.
+For presentation brevity, we omit it in this paper and include it in a companion
+report~\inred{\cite{report}}.
 
 
 \subsection{Type Analysis}\label{sec:analysis}
@@ -193,7 +180,7 @@ include it in a companion report~\inred{\cite{report}}.
             \aty_i = \aseme{\expr_i}(\aenv) \wedge T_a = \{ \upcasts([ \ty_1,
             \cdots, \ty_n ] \mid \ty_i \in \aty_i \} \wedge\\
             F = \{ \func \in \aty_0 \mid \func = \kwdef \; \_ (\p_1, \cdots,
-            \p_m). \; \lab_\func \} \wedge\\
+            \kwsl \cdots, \p_m \kwsr). \; \lab_\func \} \wedge\\
             \aenv_{\func, \tys_a} = \aenv[\p_1 \mapsto \{ \tys_a[1] \}, \cdots,
             \p_m \mapsto \{ \tys_a[m] \}]\\
           \end{array}
@@ -202,15 +189,15 @@ include it in a companion report~\inred{\cite{report}}.
         \asemi{\kwassert \; \expr}
         (\lab, \tys)(\aelem) &=&
         (\{ (\getnext(\lab), \tys) \mapsto \aenv_\mt \}, \emp) &
-        \text{where} \; \aenv_\mt = \refine(\aenv, \expr, \true)\\
+        \text{where} \; \aenv_\mt = \refine(\expr, \true)(\aenv)\\
 
         \asemi{\kwif \; \expr \; \lab_\mt \; \lab_\mf}
         (\lab, \tys)(\aelem) &=&
         (\{ (\lab_\mt, \tys) \mapsto \aenv_\mt, (\lab_\mf, \tys) \mapsto
         \aenv_\mf \}, \emp) &
         \text{where} \;
-        \aenv_\mt = \refine(\aenv, \expr, \true) \wedge
-        \aenv_\mf = \refine(\aenv, \expr, \false)\\
+        \aenv_\mt = \refine(\expr, \true)(\aenv) \wedge
+        \aenv_\mf = \refine(\expr, \false)(\aenv)\\
 
         \asemi{\kwreturn \; \expr}
         (\lab, \tys)(\aelem) &=&
@@ -451,76 +438,72 @@ algorithm $\jscode{Math.round}$ at the upper-right in Figure~\ref{fig:example}:
 \]
 
 
-\subsection{Refinement}\label{sec:refine}
+\subsection{Condition-based Refinement}\label{sec:refine}
 
-The $\refine$ function that prunes out infeasible parts in abstract environments
-based on conditions of branches of assertions.  A simple definition is to
-prevent infeasible control flows by producing an empty abstract environment as
-follows:
+We present a \textit{condition-based refinement} of type analysis for the
+modified $\ires$ to increase analysis precision.  It prunes out infeasible parts
+in abstract environments based on conditions of branches of assertions, and we
+formally define the $\refine$ function as a composition of two functions
+$\refineFlow$ and $\refineVar$:
 \[
-  \refine_0(\aenv, \expr, \bool) = \left\{
+  \refine(\expr, \bool) =
+  \refineVar(\expr, \bool) \circ \refineFlow(\expr, \bool)
+\]
+The $\refineFlow$ prevents infeasible \textit{control flows} by producing an
+empty abstract environment as follows:
+\[
+  \refineFlow(\expr, \bool)(\aenv) = \left\{
     \begin{array}{ll}
       \aenv & \text{if} \; \{ \bool \} \order \aseme{\expr}(\aenv)\\
       \emp & \text{otherwise}\\
     \end{array}
   \right.
 \]
-Beyond control flows, we extend it to refine the shape of a given abstract
+Beyond control flows, $\refineVar$ refines the shape of a given abstract
 environment based on the conditions for variables:
 \[
-  \refine_1(\aenv, \expr, \bool) = \aenv_0[\aenv_\x]\\
-\]
-where $\aenv_0 = \refine_0(\aenv, \expr, \bool)$ and $\aenv_\x =
-\refineVar(\aenv_0, \expr, \bool)$.  The notation $\aenv_0[\aenv_1]$ denotes
-$\{ \x \mapsto \aty \mid \text{if} (\x \in \aenv_1) \aty = \aenv_1(\x) \;
-\text{else} \; \aty = \aenv_0(\x) \}$.  The variable refinement function
-$\refineVar$ is defined as follows:
-\[
   \begin{array}{r@{~}c@{~}l}
-    \refineVar(\emp, \_, \_) &=&
-    \emp\\
+    \refineVar(\code{!} \expr, \bool)(\aenv) &=&
+    \refineVar(\expr, \neg \bool)(\aenv)\\
 
-    \refineVar(\aenv, \code{!} \expr, \bool) &=&
-    \refineVar(\aenv, \expr, \neg \bool)\\
+    \refineVar(\expr_0 \bop \expr_1, \bool)(\aenv) &=&
+    \left\{
+      \begin{array}{ll}
+        \aenv_0 \join \aenv_1 & \text{if} \; \bool \wedge \bop = \code{||}\\
+        \aenv_0 \meet \aenv_1 & \text{if} \; \neg\bool \wedge \bop = \code{||}\\
+        \aenv_0 \meet \aenv_1 & \text{if} \; \bool \wedge \bop = \code{\&\&}\\
+        \aenv_0 \join \aenv_1 & \text{if} \; \neg\bool \wedge \bop = \code{\&\&}\\
+        \aenv & \text{otherwise}\\
+      \end{array}
+    \right.\\
+    \multicolumn{3}{r}{
+      \text{where} \;
+      \aenv_0 = \refineVar(\expr_0, \bool)(\aenv) \wedge
+      \aenv_1 = \refineVar(\expr_1, \bool)(\aenv)
+    }\\
 
-    \refineVar(\aenv, \expr_0 \; \code{||} \; \expr_1, \bool) &=&
-    \refineVar(\aenv, \expr_0, \bool) \; \join\\ &&
-    \refineVar(\aenv, \expr_1, \bool)\\
+    \refineVar(\x.\Type \code{=} \nconst{normal}, \true)(\aenv) &=&
+    \aenv[ \x \mapsto \aseme{\x}(\aenv) \cap \tnormal(\tyset) ]\\
+    \refineVar(\x.\Type \code{=} \nconst{normal}, \false)(\aenv) &=&
+    \aenv[ \x \mapsto \aseme{\x}(\aenv) \cap \{ \tabrupt \} ]\\
 
-    \refineVar(\aenv, \expr_0 \; \code{\&\&} \; \expr_1, \bool) &=&
-    \refineVar(\aenv, \expr_0, \bool) \; \meet\\ &&
-    \refineVar(\aenv, \expr_1, \bool)\\
+    \refineVar(\x \code{=} \expr, \true)(\aenv) &=&
+    \aenv[ \x \mapsto \aseme{\x}(\aenv) \meet \aseme{\expr}(\aenv) ]\\
+    \refineVar(\x \code{=} \expr, \false)(\aenv) &=&
+    \aenv[ \x \mapsto \aseme{\x}(\aenv) \setminus
+    \lfloor\aseme{\expr}(\aenv)\rfloor ]\\
 
-    \refineVar(\aenv, \x.\Type \code{=} \nconst{normal}, \true) &=&
-    \{ \x \mapsto \aseme{\x}(\aenv) \cap \tnormal(\tyset) \}\\
-    \refineVar(\aenv, \x.\Type \code{=} \nconst{normal}, \false) &=&
-    \{ \x \mapsto \aseme{\x}(\aenv) \cap \{ \tabrupt \} \}\\
-
-    \refineVar(\aenv, \x \code{=} \expr, \true) &=&
-    \{ \x \mapsto \aseme{\x}(\aenv) \meet \aseme{\expr}(\aenv) \}\\
-    \refineVar(\aenv, \x \code{=} \expr, \false) &=&
-    \{ \x \mapsto \aseme{\x}(\aenv) \setminus \lfloor\aseme{\expr}(\aenv)\rfloor \}\\
-
-    \refineVar(\aenv, \x : \ty, \true) &=&
-    \{ \x \mapsto \aseme{\x}(\aenv) \meet \{ \ty \} \}\\
-    \refineVar(\aenv, \x : \ty, \false) &=&
-    \{ \x \mapsto \aseme{\x}(\aenv) - \ty \}\\
+    \refineVar(\x : \ty, \true)(\aenv) &=&
+    \aenv[ \x \mapsto \aseme{\x}(\aenv) \meet \{ \ty \} ]\\
+    \refineVar(\x : \ty, \false)(\aenv) &=&
+    \aenv[ \x \mapsto \aseme{\x}(\aenv) \setminus \{ \ty' \mid \ty' \subtype \ty
+    \}]\\
   \end{array}
 \]
-and it returns $\emp$ for other cases.  The notation $\lfloor \aty \rfloor$
-denotes to get a singleton type:
-\[
-  \lfloor \aty \rfloor = \left\{
-    \begin{array}{ll}
-      \{ \ty \} &
-      \text{if} \; \aty = \{ \ty \} \wedge \ty = \const \mid \func \mid \clist{}
-      \mid \tabsent \mid\\ & \phantom{\text{if}\; \aty = \{ \ty \} \wedge \ty=}
-      \undefval \mid \nullval \mid \bool \mid \str\\
-      \emp & \text{otherwise}
-    \end{array}
-  \right.
-\]
+and it returns $\aenvset$ for other cases.  The notation $\getSingle{\aty}$ denotes
+to checks whether it is a singleton; $\getSingle{\aty} = \aty$ if $\aty = \{ \ty
+\}$ and $\ty$ is a singleton type such as a constant $\const$, an empty list
+$\clist{}$, an absent value $\tabsent$, a primitive value, etc., and
+$\getSingle{\aty} = \emp$ otherwise.
 
-\todo: more explanation
-
-\todo: $\refine_2$
+\todo: $\refinePred$?

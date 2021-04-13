@@ -1,3 +1,8 @@
+% packages
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{multirow}
+
 % math zaph chancery characters
 \DeclareMathAlphabet{\mathpzc}{T1}{pzc}{m}{it}
 
@@ -67,6 +72,9 @@
 % empty
 \newcommand{\emp}{\varnothing}
 
+% size
+\newcommand{\size}[1]{\lVert{#1}\rVert}
+
 % abstraction
 \newcommand{\abs}[1]{{#1}^\sharp}
 
@@ -100,6 +108,7 @@
 
 % abstract interpretation
 \newcommand{\atransfer}{\abs{F}}
+\newcommand{\detector}{\atransfer_a}
 
 % result maps
 \newcommand{\rmapset}{\mathbb{M}}
@@ -108,9 +117,6 @@
 % return points
 \newcommand{\retpset}{\mathbb{R}}
 \newcommand{\retp}{r}
-
-% views
-\newcommand{\view}{\pi}
 
 % subtype
 \newcommand{\subtype}{<:}
@@ -178,13 +184,16 @@
 \newcommand{\upcast}{\code{up}}
 \newcommand{\upcasts}{\dot{\upcast}}
 \newcommand{\norm}{\mcode{norm}}
+\newcommand{\getSingle}[1]{\lfloor #1 \rfloor}
 
 % fields
 \newcommand{\fields}{\code{fs}}
 
 % refinement
 \newcommand{\refine}{\code{refine}}
-\newcommand{\refineVar}{\code{refineVar}}
+\newcommand{\refineFlow}{\refine_\f}
+\newcommand{\refineVar}{\refine_\x}
+\newcommand{\refinePred}{\refine_\p}
 
 % operators
 \newcommand{\bop}{\oplus}
@@ -212,6 +221,9 @@
 
 % semantics
 \newcommand{\sem}[1]{\llbracket{#1}\rrbracket}
+\newcommand{\semi}[1]{\sem{#1}_\inst}
+\newcommand{\seme}[1]{\sem{#1}_\expr}
+\newcommand{\semr}[1]{\sem{#1}_\refer}
 \newcommand{\asem}[1]{\abs{\sem{#1}}}
 \newcommand{\asemi}[1]{\asem{#1}_\inst}
 \newcommand{\aseme}[1]{\asem{#1}_\expr}
