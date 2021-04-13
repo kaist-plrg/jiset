@@ -23,10 +23,26 @@ trait PruneHelper { this: AbsTransfer.Helper =>
   }
 
   case class PruneVar(st: AbsState, pass: Boolean) {
+    // pruned variable names
+    var prunedVars: Set[String] = Set()
+
+    // escape pruned variables
+    private def escaped(st: AbsState): AbsState = AbsState(
+      reachable = st.reachable,
+      map = {
+        (st.map.map {
+          case (v, atype) if prunedVars contains v => v -> atype.uncheckEscaped
+          case (v, atype) => v -> atype
+        }).toMap
+      }
+    )
+
+    // helper
     val prune = this
     def not: PruneVar = PruneVar(st, !pass)
     def unapply(expr: Expr): Option[AbsState] = optional(this(expr))
 
+    // prune state
     private def apply(expr: Expr): AbsState = expr match {
       case EUOp(ONot, expr) => not(expr)
       // prune normal completion
@@ -44,6 +60,7 @@ trait PruneHelper { this: AbsTransfer.Helper =>
           r <- transfer(right)
           newT = pruneValue(l.escaped(lexpr), r.escaped(right), pass)
         } yield (lexpr, a, newT)
+        prunedVars += ref.getId
         update(st, updator)
       case EIsInstanceOf(base @ ERef(ref), name) if ref.isVar =>
         val updator = for {
@@ -51,6 +68,7 @@ trait PruneHelper { this: AbsTransfer.Helper =>
           l <- get(_.lookup(base, a, check = false))
           newT = pruneInstance(l.escaped(base), name, pass)
         } yield (base, a, newT)
+        prunedVars += ref.getId
         update(st, updator)
       case EBOp(OEq, ETypeOf(left @ ERef(ref)), right) if ref.isVar =>
         val updator = for {
@@ -59,11 +77,17 @@ trait PruneHelper { this: AbsTransfer.Helper =>
           r <- transfer(right)
           newT = pruneType(l.escaped(left), r.escaped(right), pass)
         } yield (left, a, newT)
+        prunedVars += ref.getId
         update(st, updator)
       case EBOp(OOr, prune(st0), prune(st1)) =>
-        if (pass) st0 ⊔ st1 else st0 ⊓ st1
+        println(prunedVars)
+        val est0 = escaped(st0)
+        val est1 = escaped(st1)
+        if (pass) est0 ⊔ est1 else est0 ⊓ est1
       case EBOp(OAnd, prune(st0), prune(st1)) =>
-        if (pass) st0 ⊓ st1 else st0 ⊔ st1
+        val est0 = escaped(st0)
+        val est1 = escaped(st1)
+        if (pass) est0 ⊓ est1 else est0 ⊔ est1
       case _ => st
     }
   }

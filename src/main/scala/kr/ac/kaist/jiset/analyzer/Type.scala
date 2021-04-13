@@ -108,6 +108,13 @@ sealed trait Type {
       None
   }
 
+  // uncheck escaped completions
+  def uncheckEscaped: Option[PureType] = this match {
+    case (t: PureType) => Some(t)
+    case NormalT(t) => Some(t)
+    case AbruptT => None
+  }
+
   // upcast
   def upcast: Type = this match {
     case NormalT(t) => NormalT(t.upcast)
