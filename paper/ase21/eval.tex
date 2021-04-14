@@ -1,8 +1,42 @@
 \section{Evaluation}\label{sec:eval}
 
+We implemented $\tool$ in Scala by extending $\jiset$, a JavaScript IR-based
+semantics extraction toolchain, with a worklist-based fixpoint algorithm for
+type analysis.  Since $\jiset$ cannot automatically compiles algorithm steps
+having uncommon writing styles to $\ires$ instructions, our tool reports
+type-related specification bugs detected in fully compiled abstract algorithms.
+For built-in libraries, we only targeted essential algorithms for
+\jscode{Array}, \jscode{Object}, \jscode{Function}, \jscode{Math},
+\jscode{Proxy}, and primitive types.  To evaluate $\tool$, we answer the
+following research questions:
 \begin{itemize}
-  \item RQ1: Quality of $\tool$: Performance / Precision
-  \item RQ2: Survey of true bugs: TTL / creater or solver / \# by kinds
-  \item RQ3: How many $\tool$ detect new bugs in the recent version? - detailed
-    explanation
+  \item RQ1. \textbf{(Performance)} How long does $\tool$ take to perform type
+    analysis for JavaScript specifications?
+  \item RQ2. \textbf{(Precision)} How many type-related specification bugs
+    detcted by $\tool$ are true bugs?
+  \item RQ3. \textbf{(Effect of Refinement)} What is the effect of
+    condition-based refinement for type analysis?
+  \item RQ4: \textbf{(Survey of Detected Bugs)} What kind of properties true
+    bugs detected by $\tool$ have?
 \end{itemize}
+The draft of the next version of ECMAScript (ES12, 2021) is fixed on March 9,
+2021.  Thus, we targeted all different \inred{XXX} versions existed in the
+official ECMAScript repository~\footnote{https://github.com/tc39/ecma262} for
+the recent three years from January 1, 2018 to March 9, 2021.  We performed our
+experiments on five Ubuntu machines equipped with 4.2GHz Quad-Core Intel Core i7
+and 32GB of RAM.
+
+
+\subsection{Performance}
+
+\todo: extract / type analysis / refinement
+
+
+\subsection{Precision}
+
+\todo: precision / refinement
+
+
+\subsection{Survey of Detected Bugs}
+
+\todo: TTL / creater or solver / \# by kinds / new bugs

@@ -35,6 +35,8 @@
   \vspace*{-1.5em}
 \end{table}
 
+% TODO: more detail of investigation
+
 We develop a \textit{bug detector} to statically detect type-related
 specification bugs in ECMAScript using an augmented abstract transfer
 $\detector$ with additional checkers.  The abstract semantics $\asem{\prog}$ of
@@ -243,7 +245,7 @@ or unary operations $\aseme{\uop \; \expr}$:
     \right.\\
   \end{array}
 \]
-where $\aty$, $\aty$, and $\aty$ are expected abstract types of $\expr_0$,
+where $\aty_0$, $\aty_1$, and $\aty$ are expected abstract types of $\expr_0$,
 $\expr_1$, and $\expr$, respectively.  The additional check reports when the
 given operand does not conform to the expected types.  For example, consider the
 upper-right built-in algorithm $\code{Math.round}$ in Figure~\ref{fig:example}.
