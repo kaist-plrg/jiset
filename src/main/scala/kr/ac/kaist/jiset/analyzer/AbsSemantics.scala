@@ -26,6 +26,9 @@ object AbsSemantics {
   // internal set of unknown variables with control points
   var unknownVars: Set[(ControlPoint, String)] = Set()
 
+  // assertion control points
+  var assertions: Map[ControlPoint, (AbsType, Expr)] = Map()
+
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
@@ -71,6 +74,14 @@ object AbsSemantics {
   def referenceCheck: Unit = for ((cp, x) <- unknownVars) {
     val cpStr = getString(cp, "", false)
     alarm(s"unknown variable: $x", cp = cp, cpStr = cpStr)
+  }
+
+  // assertions check
+  def assertionCheck: Unit = assertions.foreach {
+    case (cp, (t, expr)) =>
+      val cpStr = getString(cp, "", false)
+      if (!(AT ⊑ t)) alarm(s"assertion failed: ${expr.beautified}", cp = cp, cpStr = cpStr)
+      else if (AF ⊑ t) warning(s"maybe assertion failed: ${expr.beautified}", cp = cp, cpStr = cpStr)
   }
 
   // get size

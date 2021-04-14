@@ -39,7 +39,11 @@ package object analyzer {
 
   private var alarmMap: Map[String, Set[String]] = Map()
   private var errorMap: Map[Int, Set[String]] = Map()
-  def warning(msg: String): Unit = alarm(msg, error = false)
+  def warning(
+    msg: String,
+    cp: ControlPoint = alarmCP,
+    cpStr: String = alarmCPStr
+  ): Unit = alarm(msg, error = false, cp, cpStr)
   def alarm(
     msg: String,
     error: Boolean = true,
