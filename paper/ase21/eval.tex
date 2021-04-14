@@ -3,7 +3,7 @@
 We implemented $\tool$ in Scala by extending $\jiset$, a JavaScript IR-based
 semantics extraction toolchain, with a worklist-based fixpoint algorithm for
 type analysis.  Since $\jiset$ cannot automatically compiles algorithm steps
-having uncommon writing styles to $\ires$ instructions, our tool reports
+having uncommon writing styles to $\ires$ instructions, our tool only reports
 type-related specification bugs detected in fully compiled abstract algorithms.
 For built-in libraries, we only targeted essential algorithms for
 \jscode{Array}, \jscode{Object}, \jscode{Function}, \jscode{Math},
@@ -18,6 +18,8 @@ following research questions:
     condition-based refinement for type analysis?
   \item RQ4: \textbf{(Survey of Detected Bugs)} What kind of properties true
     bugs detected by $\tool$ have?
+  \item RQ5: \textbf{(Impact)} How much of an impact does $\tool$ potentially
+    have by detecting type-related specification bugs?
 \end{itemize}
 The draft of the next version of ECMAScript (ES12, 2021) is fixed on March 9,
 2021.  Thus, we targeted all different \inred{XXX} versions existed in the
@@ -29,14 +31,24 @@ and 32GB of RAM.
 
 \subsection{Performance}
 
-\todo: extract / type analysis / refinement
+\todo: extract / type analysis / refinement?
 
 
 \subsection{Precision}
 
-\todo: precision / refinement
+\todo: precision / refinement?
+
+
+\subsection{Effect of Refinement}
+
+\todo: refinement -> performance / precision
 
 
 \subsection{Survey of Detected Bugs}
+
+\todo: TTL / creater or solver / \# by kinds / new bugs
+
+
+\subsection{Impact}
 
 \todo: TTL / creater or solver / \# by kinds / new bugs
