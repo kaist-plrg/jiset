@@ -58,7 +58,7 @@ def get_prev_commit(commit_hash):
     out, err = execute_sh(cmd)
     return out.strip() if err == '' else None
 def get_all_commits():
-    cmd = f"cd {ECMA_DIR}; git rev-list HEAD"
+    cmd = f"cd {ECMA_DIR}; git rev-list {FIRST_VERSION}"
     out, err = execute_sh(cmd)
     all_commits = out.split()
     return all_commits[:all_commits.index(ES2018_VERSION) + 1]
