@@ -201,7 +201,7 @@ object AbsTransfer {
       } yield ()
       case IApp(Id(x), fexpr, args) => for {
         f <- transfer(fexpr)
-        as <- join(args.map(transfer))
+        as <- join(args.map(argTransfer))
         _ <- put(AbsState.Bot)
         fids = f.fidSet
       } yield if (fids.isEmpty) warning("no function") else fids.foreach(fid => {
@@ -210,7 +210,7 @@ object AbsTransfer {
       })
       case IAccess(Id(x), bexpr, EStr(prop), args) => for {
         b <- transfer(bexpr)
-        ts <- join(args.map(arg => transfer(arg)))
+        ts <- join(args.map(transfer))
         st <- get
         // TODO
         rexpr = ERef(RefProp(toRef(bexpr.beautified), EStr(prop)))
@@ -270,6 +270,12 @@ object AbsTransfer {
 
     // integer post-fix pattern
     val intPostFix = "(\\D*)(\\d+)".r
+
+    // transfer function for argument expressions
+    def argTransfer(expr: Expr): Result[AbsType] = expr match {
+      case ERef(ref @ RefId(Id(x))) => st => (st.lookupVar(x, false), st)
+      case _ => transfer(expr)
+    }
 
     // transfer function for expressions
     def transfer(expr: Expr): Result[AbsType] = bottomCheck(expr match {
