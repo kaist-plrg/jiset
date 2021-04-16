@@ -273,7 +273,7 @@ object AbsTransfer {
 
     // transfer function for argument expressions
     def argTransfer(expr: Expr): Result[AbsType] = expr match {
-      case ERef(ref @ RefId(Id(x))) => st => (st.lookupVar(x, false), st)
+      case ERef(ref @ RefId(Id(x))) => st => (st.lookupVar(x, false, true), st)
       case _ => transfer(expr)
     }
 

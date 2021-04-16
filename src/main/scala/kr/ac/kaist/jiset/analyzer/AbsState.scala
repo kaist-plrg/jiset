@@ -9,7 +9,8 @@ import kr.ac.kaist.jiset.util.Useful._
 // abstract states
 case class AbsState(
   reachable: Boolean,
-  map: Map[String, AbsType] = Map()
+  map: Map[String, AbsType] = Map(),
+  names: Set[String] = Set()
 ) {
   import AbsState._
 
@@ -26,8 +27,7 @@ case class AbsState(
   // partial order
   def ⊑(that: AbsState): Boolean = (
     (!this.reachable || that.reachable) &&
-    (this.map.keySet ++ that.map.keySet)
-    .forall(key => this(key) ⊑ that(key))
+    (this.map.keySet ++ that.map.keySet).forall(key => this(key) ⊑ that(key))
   )
 
   // not partial order
@@ -40,7 +40,8 @@ case class AbsState(
       val keys = this.map.keySet ++ that.map.keySet
       val map = keys.map(key => key -> (this(key) ⊔ that(key))).toMap
       map.filter { case (_, v) => !v.isMustAbsent }
-    }
+    },
+    names = this.names ++ that.names
   )
 
   // meet operator
@@ -55,7 +56,8 @@ case class AbsState(
     if (isBot) AbsState.Bot
     else AbsState(
       reachable = this.reachable && that.reachable,
-      map = map.filter { case (_, v) => !v.isMustAbsent }
+      map = map.filter { case (_, v) => !v.isMustAbsent },
+      names = this.names.intersect(that.names)
     )
   }
 
@@ -64,26 +66,35 @@ case class AbsState(
     x.startsWith("__") && x.endsWith("__")
 
   // define variable
-  def define(x: String, t: AbsType, check: Boolean = false): AbsState = norm({
+  def define(
+    x: String,
+    t: AbsType,
+    check: Boolean = false,
+    param: Boolean = false
+  ): AbsState = norm({
     if (t.isBottom) Bot
-    else if (t.isMustAbsent) this
-    else {
+    else if (t.isMustAbsent) {
+      if (!param) this
+      else copy(names = names + x)
+    } else {
       if (check && exists(toERef(x), AbsId(x)) == AT && !isTemporalId(x))
         alarm(s"already defined variable: $x")
-      copy(map = map + (x -> t))
+      copy(map = map + (x -> t), names = names + x)
     }
   })
 
   // lookup references
   def lookupVar(
     x: String,
-    check: Boolean = true
+    check: Boolean = true,
+    arg: Boolean = false
   ): AbsType = norm {
     val AbsType(ts) = this(x)
     val local = ts - Absent
     val global = if (ts contains Absent) Global(x).set else Set()
     val t = AbsType(local ++ global)
-    if (check && t.isMustAbsent && !isTemporalId(x)) {
+    val needCheck = check || (arg && !names.contains(x))
+    if (needCheck && t.isMustAbsent && !isTemporalId(x)) {
       AbsSemantics.unknownVars += ((alarmCP, x))
       if (cfg.spec.grammar.nameMap.keySet contains x) AstT(x)
       else Absent
