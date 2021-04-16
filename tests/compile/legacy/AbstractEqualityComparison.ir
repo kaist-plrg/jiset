@@ -46,7 +46,7 @@
     app __x15__ = (AbstractEqualityComparison __x14__ y)
     return __x15__
   } else {}
-  if (&& (= (typeof x) BigInt) (|| (= (typeof y) Number) (&& (= (typeof x) Number) (= (typeof y) BigInt)))) {
+  if (|| (&& (= (typeof x) BigInt) (= (typeof y) Number)) (&& (= (typeof x) Number) (= (typeof y) BigInt))) {
     if (|| (|| (|| (= x NaN) (= x Infinity)) (= x -Infinity)) (|| (|| (= y NaN) (= y Infinity)) (= y -Infinity))) return false else {}
     return (= x y)
   } else {}

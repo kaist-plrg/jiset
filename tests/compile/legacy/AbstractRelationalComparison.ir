@@ -43,7 +43,7 @@
       app __x12__ = (PRIMITIVE[(typeof nx)].lessThan nx ny)
       return __x12__
     } else {}
-    assert (&& (= (typeof nx) BigInt) (|| (= (typeof ny) Number) (&& (= (typeof nx) Number) (= (typeof ny) BigInt))))
+    assert (|| (&& (= (typeof nx) BigInt) (= (typeof ny) Number)) (&& (= (typeof nx) Number) (= (typeof ny) BigInt)))
     if (|| (= nx NaN) (= ny NaN)) return undefined else {}
     if (|| (= nx -Infinity) (= ny Infinity)) return true else {}
     if (|| (= nx Infinity) (= ny -Infinity)) return false else {}

@@ -1131,6 +1131,7 @@ class Compiler private (val version: String) extends Compilers {
     sameCond |||
     bopCond |||
     condOpCond |||
+    weekCondOpCond |||
     rhsCond |||
     bothCond |||
     eitherCond |||
@@ -1201,15 +1202,18 @@ class Compiler private (val version: String) extends Compilers {
 
   // conditional operators
   lazy val _condOpCond = (
+    weekCondOpCond |||
     rhsCond |||
     bopCond |||
     containsCond |||
     strictModeCond |||
     sameCond |||
     finiteCond |||
+    emptyCond |||
+    duplicateCond |||
     earlyErrorCond
   )
-  lazy val condOpCond: P[I[Expr]] = rep1sep(_condOpCond, ",") ~ (condOp <~ opt("if")) ~ _cond ^^ {
+  lazy val condOpCond: P[I[Expr]] = rep1sep(_condOpCond, ",") ~ ("," ~> condOp <~ opt("if")) ~ _cond ^^ {
     case il ~ ((op, _)) ~ (i1 ~ r) if il.tail.forall { case i ~ e => isEmptyInsts(i) } && isEmptyInsts(i1) => {
       val i ~ l = il.reduce[I[Expr]] {
         case ((i0 ~ x), (i1 ~ y)) => pair(i0 ++ i1, EBOp(op, x, y))
@@ -1230,7 +1234,23 @@ class Compiler private (val version: String) extends Compilers {
       pair(List(ILet(temp, EBool(true)), inst), toERef(temp))
     }
   }
-  lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = opt(",") ~> (
+  lazy val weekCondOpCond: P[I[Expr]] = _condOpCond ~ (condOp <~ opt("if")) ~ _condOpCond ^^ {
+    case (i0 ~ l) ~ ((op, _)) ~ (i1 ~ r) if isEmptyInsts(i1) => pair(i0 ++ i1, EBOp(op, l, r))
+    case ie0 ~ ((op, f)) ~ ie1 => {
+      var temp = getTempId
+      val inst = List(ie0, ie1).foldRight(emptyInst) {
+        case (i ~ expr, iacc) => {
+          val (t, e) = f(iacc)
+          val ifInst =
+            if (isEmptyInsts(List(t, e))) emptyInst
+            else IIf(toERef(temp), t, e)
+          ISeq(i :+ IAssign(toRef(temp), expr) :+ ifInst)
+        }
+      }
+      pair(List(ILet(temp, EBool(true)), inst), toERef(temp))
+    }
+  }
+  lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = (
     "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
     "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
   )
