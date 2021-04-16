@@ -3,22 +3,22 @@
 We implemented $\tool$ in Scala by extending $\jiset$, a JavaScript IR-based
 semantics extraction toolchain, with a worklist-based fixpoint algorithm for
 type analysis.  Since $\jiset$ cannot automatically compiles algorithm steps
-having uncommon writing styles to $\ires$ instructions, our tool only reports
-type-related specification bugs detected in fully compiled abstract algorithms.
-For built-in libraries, we only targeted essential algorithms for
-\jscode{Array}, \jscode{Object}, \jscode{Function}, \jscode{Math},
-\jscode{Proxy}, and primitive types.  To evaluate $\tool$, we answer the
-following research questions:
+written in an uncommon writing style to $\ires$ instructions, our tool only
+reports type-related specification bugs detected in fully compiled abstract
+algorithms.  For built-in libraries, we only targeted abstract algorithms of
+essential built-in objects: \jscode{Array}, \jscode{Object}, \jscode{Function},
+\jscode{Math}, \jscode{Proxy}, and objects for primitive types.  To evaluate
+$\tool$, we answer the following research questions:
 \begin{itemize}
   \item RQ1. \textbf{(Performance)} How long does $\tool$ take to perform type
     analysis for JavaScript specifications?
   \item RQ2. \textbf{(Precision)} How many type-related specification bugs
     detcted by $\tool$ are true bugs?
   \item RQ3. \textbf{(Effect of Refinement)} What is the effect of
-    condition-based refinement for type analysis?
-  \item RQ4: \textbf{(Survey of Detected Bugs)} What kind of properties true
-    bugs detected by $\tool$ have?
-  \item RQ5: \textbf{(Impact)} How much of an impact does $\tool$ potentially
+  %   condition-based refinement for type analysis?
+  % \item RQ4: \textbf{(Survey of Detected Bugs)} What kind of properties true
+  %   bugs detected by $\tool$ have?
+  \item RQ4: \textbf{(Impact)} How much of an impact does $\tool$ potentially
     have by detecting type-related specification bugs?
 \end{itemize}
 The draft of the next version of ECMAScript (ES12, 2021) is fixed on March 9,
@@ -42,11 +42,6 @@ and 32GB of RAM.
 \subsection{Effect of Refinement}
 
 \todo: refinement -> performance / precision
-
-
-\subsection{Survey of Detected Bugs}
-
-\todo: TTL / creater or solver / \# by kinds / new bugs
 
 
 \subsection{Impact}
