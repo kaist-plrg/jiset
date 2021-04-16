@@ -1,16 +1,22 @@
 % packages
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
 \usepackage{listings}
 \usepackage{subcaption}
 \usepackage{multirow}
+\usepackage[numbers]{natbib}
+\usepackage{url}
+\usepackage{stmaryrd}
 
 % math zaph chancery characters
 \DeclareMathAlphabet{\mathpzc}{T1}{pzc}{m}{it}
 
 % powerset
 \newcommand{\partsof}[1]{\mathcal{P}(#1)}
-
-% small textsf
-\newcommand{\stextsf}[1]{\textsf{\small #1}}
 
 % code styles
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -34,7 +40,19 @@
   numbers=left,
   stepnumber=1,
   extendedchars=true,
-  basicstyle=\footnotesize\ttfamily,
+  basicstyle=\small\ttfamily,
+  showstringspaces=false,
+  showspaces=false,
+  xleftmargin=\parindent,
+  tabsize=2,
+  breaklines=true,
+  showtabs=false,
+  captionpos=b
+}
+\lstdefinestyle{code}{
+  numbers=none,
+  extendedchars=true,
+  basicstyle=\small\ttfamily,
   showstringspaces=false,
   showspaces=false,
   xleftmargin=\parindent,
@@ -45,11 +63,10 @@
 }
 
 % tool name
+\newcommand{\stextsf}[1]{\textsf{\small #1}}
 \newcommand{\bigtool}{\textsf{JSTAR}}
-\newcommand{\tool}{\textsf{JSTAR}}
-
-% jiset
-\newcommand{\jiset}{\textsf{JISET}}
+\newcommand{\tool}{\stextsf{JSTAR}}
+\newcommand{\jiset}{\stextsf{JISET}}
 
 % ires
 \newcommand{\ires}{{\text{IR}_\text{ES}}}
@@ -60,8 +77,7 @@
 
 % codes
 \newcommand{\jscode}[1]{\text{\lstinline[style=FigureJS,numbers=none]!#1!}}
-\newcommand{\code}[1]{\texttt{#1}}
-\newcommand{\mcode}[1]{\mathtt{#1}}
+\newcommand{\code}[1]{\text{\lstinline[style=code]!#1!}}
 \newcommand{\clist}[1]{\kwsl #1 \kwsr}
 
 % finite mapping
@@ -123,9 +139,9 @@
 
 % programs
 \newcommand{\prog}{P}
-\newcommand{\getfunc}{\mcode{func}}
-\newcommand{\getinst}{\mcode{inst}}
-\newcommand{\getnext}{\mcode{next}}
+\newcommand{\getfunc}{\code{func}}
+\newcommand{\getinst}{\code{inst}}
+\newcommand{\getnext}{\code{next}}
 
 % syntax
 \newcommand{\funcset}{\mathbb{F}}
@@ -140,8 +156,8 @@
 \newcommand{\undefval}{\code{undefined}}
 \newcommand{\nullval}{\code{null}}
 \newcommand{\bool}{b}
-\newcommand{\true}{\mcode{\#t}}
-\newcommand{\false}{\mcode{\#f}}
+\newcommand{\true}{\code{\#t}}
+\newcommand{\false}{\code{\#f}}
 \newcommand{\num}{n}
 \newcommand{\bigint}{j}
 \newcommand{\str}{s}
@@ -183,7 +199,7 @@
 \newcommand{\tabsent}{\code{?}}
 \newcommand{\upcast}{\code{up}}
 \newcommand{\upcasts}{\dot{\upcast}}
-\newcommand{\norm}{\mcode{norm}}
+\newcommand{\norm}{\code{norm}}
 \newcommand{\getSingle}[1]{\lfloor #1 \rfloor}
 
 % fields
@@ -202,8 +218,8 @@
 
 % variables
 \newcommand{\varset}{\mathbb{X}}
-\newcommand{\mt}{\mcode{t}}
-\newcommand{\mf}{\mcode{f}}
+\newcommand{\mt}{\code{t}}
+\newcommand{\mf}{\code{f}}
 \newcommand{\f}{\code{f}}
 \newcommand{\p}{\code{p}}
 \newcommand{\this}{\code{this}}

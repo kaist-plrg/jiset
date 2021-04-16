@@ -11,7 +11,6 @@ analysis precision.
 \begin{figure}
   \centering
   \includegraphics[width=0.48\textwidth]{img/record-fields-table}
-  \vspace*{-1.5em}
   \caption{Fields of completion records in ES11.}
   \label{fig:record-fields-table}
   \vspace*{-1.5em}
@@ -20,8 +19,8 @@ analysis precision.
 $\ires$ is an untyped intermediate representation introduced by \citet{jiset}.
 To make it more suitable for type analysis, we modify it as a label-based
 language as follows:
-\small
 \[
+  \small
   \begin{array}{l@{~}r@{~}c@{~}r@{~}r@{~}l}
     \text{Functions}
     &\funcset&\ni&\func&::=&\kwdef \; \x (\x^*, \kwsl \x^* \kwsr). \; \lab\\
@@ -61,12 +60,14 @@ language as follows:
     \undefval \mid \nullval \mid \bool \mid
     \num \mid \bigint \mid \str \mid \symb \\
 
-    \text{Types}
-    &\tyset&\ni&\ty&::=&\tname \mid \clist{} \mid \clist{\ty} \mid \tjs \mid
-    \tprim \mid \undefval \mid \nullval\\
+    \text{Types} &\tyset&\ni&\ty&::=&\tname \mid \clist{} \mid \clist{\ty} \mid
+    \tjs \mid \tprim\\
 
     &&&&\mid&
-    \tbool \mid \tnumeric \mid \tnum \mid \tbigint \mid \tstr \mid \tsymb \\
+    \undefval \mid \nullval \mid \tbool \mid \tnumeric\\
+
+    &&&&\mid&
+    \tnum \mid \tbigint \mid \tstr \mid \tsymb \\
   \end{array}
 \]
 
@@ -94,7 +95,6 @@ BigInt $\bigint$, a String $\str$, or a Symbol $\symb$.
 \begin{figure}
   \centering
   \includegraphics[width=0.4\textwidth]{img/subtype}
-  \vspace*{-1.5em}
   \caption{A graphical representation of subtype relation $\subtype$.}
   \label{fig:subtype}
   \vspace*{-1.5em}
@@ -112,12 +112,13 @@ described in the corresponding table and additional description in ECMAScript.
 The production type is automatically extracted but we manually model fields of
 record types.  For example, Figure~\label{fig:record-fields-table} is an excerpt
 from ES11 that describes fields of completion
-records~\footnote{https://262.ecma-international.org/11.0/\#table-8}; it
-contains three fields ``Type'' with a constant such as \code{normal}, ``Value''
-with JavaScript values or an constant \code{empty}, and ``Target'' with String
-values or \code{empty}.  We manually model them as follows:
-\small
+records\footnote{https://262.ecma-international.org/11.0/\#table-8}; it contains
+three fields \code{Type} with a constant such as \code{normal}, \code{Value}
+with JavaScript values or an constant \code{empty}, and \code{Target} with
+String values or \code{empty}.  We manually model them as follows:
+
 \[
+  \small
   \begin{array}{l}
     \text{Completion} = \kwcl\\
     \quad \Type: \kwcl \nconst{normal}, \nconst{break}, \nconst{continue},
@@ -154,6 +155,7 @@ report~\inred{\cite{report}}.
   \centering
   \begin{subfigure}[b]{\textwidth}
     \[
+      \footnotesize
       \begin{array}{r@{~}c@{~}ll}
         \asemi{\kwlet \; \x = \expr}
         (\lab, \tys)(\aelem) &=&
@@ -225,6 +227,7 @@ report~\inred{\cite{report}}.
   \end{subfigure}
   \begin{subfigure}[b]{0.48\textwidth}
     \[
+      \footnotesize
       \asemr{\x}(\aenv) = \aenv(\x)
       \qquad
       \asemr{\refer \kwsl \expr \kwsr}(\aenv) = \{ \ty[\str] \mid \ty \in
@@ -234,6 +237,7 @@ report~\inred{\cite{report}}.
   \end{subfigure}
   \begin{subfigure}[b]{\textwidth}
     \[
+      \footnotesize
       \begin{array}{r@{~}c@{~}lr@{~}c@{~}lr@{~}c@{~}l}
         \aseme{\tname \; \kwcl \fields \kwcr}(\aenv)
         &=& \multicolumn{7}{@{}l}{
@@ -308,6 +312,7 @@ We design a type analysis for the modified $\ires$ based on abstract
 interpretation framework~\cite{ai1977, ai1992} with analysis
 sensitivity~\cite{sens-toplas}.  We first extend types $\tyset$ as follows:
 \[
+  \small
   \tyset \ni \ty ::=
   \cdots \mid
   \func \mid
@@ -330,6 +335,7 @@ respectively.  Third, we add the absent type $\tabsent$ to represent the
 existence of variables.  Using such extended types, we define abstract states
 with flow-sensitivity and type-sensitivity for parameters:
 \[
+  \small
   \begin{array}{lr@{~}c@{~}c@{~}r@{~}l}
     \text{Abstract States}
     &\aelem&\in&\adom&=& \rmapset \times \retpset\\
@@ -360,6 +366,7 @@ $\meet$, and the partial order $\order$ for most of abstract domains in a
 point-wise manner, we define the operators for types with a normalization
 function $\norm$ because of their subtype relations:
 \[
+  \small
   \begin{array}{l}
     \aty_0 \join \aty_1 = \norm(\aty_0 \cup \aty_1)\\
     \aty_0 \meet \aty_1 = \norm(
@@ -370,8 +377,8 @@ function $\norm$ because of their subtype relations:
     \ty_1 \in \norm(\aty_1). \; \text{s.t.} \; \ty_0 \subtype \ty_1\\
   \end{array}
 \]
-where $\norm(\aty) = \{ \ty \mid \ty \in \aty_e \wedge \not\exists \ty' \in
-\aty_e. \; \text{s.t.} \; \ty \neq \ty' \wedge \ty \subtype \ty' \}$.
+where $\small{\norm(\aty) = \{ \ty \mid \ty \in \aty \wedge \nexists \ty' \in
+\aty. \setminus \{ \ty \}\; \text{s.t.} \; \ty \subtype \ty' \}}$.
 
 Based on abstract states, we define the abstract semantics of instructions,
 references, and expressions in the modified $\ires$ described in
@@ -379,6 +386,7 @@ Figure~\ref{fig:abs-sem}.  To prevent the explosion of the number of type-sensit
 views, we upcast the type of each argument before function calls with the
 following function:
 \[
+  \small
   \upcast(\ty) = \left\{
     \begin{array}{ll}
       \tnormal(\upcast(\ty')) & \text{if} \; \ty = \tnormal(\ty')\\
@@ -397,6 +405,7 @@ we define the abstract semantics $\asem{\prog}$ of a program $\prog = (\getfunc,
 \getinst, \getnext)$ as the least fixpoint of abstract transfer $\atransfer:
 \adom \rightarrow \adom$:
 \[
+  \small
   \begin{array}{r@{~}c@{~}l}
     \asem{\prog} &=& \lim_{n \rightarrow \infty}(\atransfer)^n(\iaelem)\\
     \atransfer(\aelem) &=& \aelem \join \left(
@@ -414,11 +423,12 @@ $\this$ with a production type and other variables for non-terminals.  For
 example, the upper-left syntax-directed algorithm in Figure~\ref{fig:example} is
 initialized with the following abstract environment:
 \[
+  \small
   \left\{
     \begin{array}{r@{~}c@{~}l}
       \this &\mapsto& \{ \text{AssignmentExpression} \},\\
-      \mcode{LeftHandSideExpression} &\mapsto& \{ \text{LeftHandSideExpression} \},\\
-      \mcode{AssignmentExpression} &\mapsto& \{ \text{AssignmentExpression} \}
+      \code{LeftHandSideExpression} &\mapsto& \{ \text{LeftHandSideExpression} \},\\
+      \code{AssignmentExpression} &\mapsto& \{ \text{AssignmentExpression} \}
     \end{array}
   \right.
 \]
@@ -427,6 +437,7 @@ $\NewTarget$ with corresponding types and parameters with $\tjs$ types.  For
 example, the following abstract environment is for the built-in
 algorithm $\jscode{Math.round}$ at the upper-right in Figure~\ref{fig:example}:
 \[
+  \small
   \left\{
     \begin{array}{r@{~}c@{~}l}
       \this &\mapsto& \{ \tjs \},
@@ -446,12 +457,14 @@ in abstract environments based on conditions of branches of assertions, and we
 formally define the $\refine$ function as a composition of two functions
 $\refineFlow$ and $\refineVar$:
 \[
+  \small
   \refine(\expr, \bool) =
   \refineVar(\expr, \bool) \circ \refineFlow(\expr, \bool)
 \]
 The $\refineFlow$ prevents infeasible \textit{control flows} by producing an
 empty abstract environment as follows:
 \[
+  \small
   \refineFlow(\expr, \bool)(\aenv) = \left\{
     \begin{array}{ll}
       \aenv & \text{if} \; \{ \bool \} \order \aseme{\expr}(\aenv)\\
@@ -462,6 +475,7 @@ empty abstract environment as follows:
 Beyond control flows, $\refineVar$ refines the shape of a given abstract
 environment based on the conditions for variables:
 \[
+  \tiny
   \begin{array}{r@{~}c@{~}l}
     \refineVar(\code{!} \expr, \bool)(\aenv) &=&
     \refineVar(\expr, \neg \bool)(\aenv)\\
