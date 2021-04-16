@@ -136,7 +136,7 @@ trait PruneHelper { this: AbsTransfer.Helper =>
     val nameT = NameT(name)
     val astT = AstT(name)
     val isAst = cfg.spec.grammar.recSubs.keySet contains name
-    val prevAstT = AbsType(cfg.spec.grammar.recSubs(name).map(AstT(_): Type))
+    val prevAstT = AbsType(cfg.spec.grammar.recSubs.getOrElse(name, Set()).map(AstT(_): Type))
     (pass, isAst) match {
       case (false, false) => l - nameT
       case (false, true) => (l - astT) ⊔ (prevAstT - astT)
