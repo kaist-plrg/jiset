@@ -247,10 +247,10 @@ object AbsTransfer {
     // unary algorithms
     type PredAlgo = (AbsState, List[(Expr, AbsType)]) => AbsType
     def arityCheck(name: String, f: PredAlgo): (String, PredAlgo) =
-      (name, (st, pairs) => optional(f(st, pairs)).getOrElse {
+      (name, (st, pairs) => Stat.doCheck(optional(f(st, pairs)).getOrElse {
         alarm(s"arity mismatch for $name")
         AbsType.Bot
-      })
+      }))
     val predAlgos: Map[String, PredAlgo] = Map(
       arityCheck("IsDuplicate", { case (_, List(_)) => BoolT }),
       arityCheck("IsArrayIndex", { case (_, List(_)) => BoolT }),
@@ -261,7 +261,7 @@ object AbsTransfer {
       arityCheck("abs", { case (_, List(_)) => NumT }),
       arityCheck("fround", {
         case (_, List((expr, ty))) =>
-          if (!(ty ⊑ NumT)) alarm(s"non-number types: ${expr.beautified}")
+          Stat.doCheck(if (!(ty ⊑ NumT)) alarm(s"non-number types: ${expr.beautified}"))
           NumT
       }),
       arityCheck("min", { case (_, _) => NumT }),
@@ -519,10 +519,12 @@ object AbsTransfer {
         case OLt => (l.getSingle, r.getSingle) match {
           case (Some(Num(l)), Some(Num(r))) => Bool(l < r)
           case _ =>
-            if (!(l ⊑ NumericT))
-              alarm(s"non-numeric types: ${left.beautified}")
-            if (!(r ⊑ NumericT))
-              alarm(s"non-numeric types: ${right.beautified}")
+            Stat.doCheck({
+              if (!(l ⊑ NumericT))
+                alarm(s"non-numeric types: ${left.beautified}")
+              if (!(r ⊑ NumericT))
+                alarm(s"non-numeric types: ${right.beautified}")
+            })
             BoolT
         }
         case OEq => l =^= r

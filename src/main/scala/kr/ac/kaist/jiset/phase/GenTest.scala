@@ -32,7 +32,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
       val input = ECMAScriptParser.preprocess(version)
       val spec = ECMAScriptParser(version, input, "", false)
       version -> (input, spec)
-    })).toMap
+    })._2).toMap
     genGrammarTest(parsedMap)
     genCFGTest(parsedMap)
     genLegacyTest

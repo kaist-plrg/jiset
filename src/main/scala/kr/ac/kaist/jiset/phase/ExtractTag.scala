@@ -20,11 +20,11 @@ case object ExtractTag extends PhaseObj[Unit, ExtractTagConfig, List[Element]] {
     val version = config.version.getOrElse("recent")
     println(s"version: $version (${getRawVersion(version)})")
 
-    implicit val (_, document, _) = time("preprocess", {
+    implicit val (_, (_, document, _)) = time("preprocess", {
       ECMAScriptParser.preprocess(version)
     })
 
-    val elems = time("extract contents of tags from spec.html", for {
+    val (_, elems) = time("extract contents of tags from spec.html", for {
       tag <- jisetConfig.args
       elem <- toArray(document.getElementsByTag(tag))
     } yield elem)

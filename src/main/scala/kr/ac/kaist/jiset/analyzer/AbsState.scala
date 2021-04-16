@@ -77,8 +77,10 @@ case class AbsState(
       if (!param) this
       else copy(names = names + x)
     } else {
-      if (check && exists(toERef(x), AbsId(x)) == AT && !isTemporalId(x))
-        alarm(s"already defined variable: $x")
+      Stat.doCheck({
+        if (check && exists(toERef(x), AbsId(x)) == AT && !isTemporalId(x))
+          alarm(s"already defined variable: $x")
+      })
       copy(map = map + (x -> t), names = names + x)
     }
   })

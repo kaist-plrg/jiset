@@ -25,21 +25,21 @@ case object Check extends PhaseObj[ECMAScript, CheckConfig, List[Bug]] {
     println(s"checking ${targets.size} algorithms...")
 
     println
-    val refErrors = time(s"check variable reference", {
+    val (_, refErrors) = time(s"check variable reference", {
       ReferenceChecker(spec, targets)
     })
     refErrors.foreach(println _)
     println(s"${refErrors.length} algorithms have reference errors.")
 
     println
-    val missingRets = time(s"check missing return branch", {
+    val (_, missingRets) = time(s"check missing return branch", {
       MissingRetChecker(spec, targets)
     })
     missingRets.foreach(println _)
     println(s"${missingRets.length} algorithms have missing return branch errors.")
 
     println
-    val arityErrors = time(s"check arity", {
+    val (_, arityErrors) = time(s"check arity", {
       ArityChecker(spec, targets)
     })
     arityErrors.foreach(println _)

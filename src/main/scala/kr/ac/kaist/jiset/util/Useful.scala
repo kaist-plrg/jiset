@@ -184,12 +184,12 @@ object Useful {
   }
 
   // print duration time with loading message
-  def time[T](msg: String, f: => T): T = {
+  def time[T](msg: String, f: => T): (Long, T) = {
     lazy val f0 = f
     print(s"$msg...")
     val (interval, res) = time(f0)
     println(f" ($interval%,d ms)")
-    res
+    (interval, res)
   }
 
   // catch exceptions with Option[_]

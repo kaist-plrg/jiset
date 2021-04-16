@@ -104,7 +104,7 @@ sealed trait Type {
     case (t: PureType) => Some(t)
     case NormalT(t) => Some(t)
     case AbruptT =>
-      alarm(s"unchecked abrupt completions: ${expr.beautified}")
+      Stat.doCheck(alarm(s"unchecked abrupt completions: ${expr.beautified}"))
       None
   }
 

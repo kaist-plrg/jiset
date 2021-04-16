@@ -17,8 +17,18 @@ object Stat {
   private val nf = getPrintWriter(s"$ANALYZE_LOG_DIR/summary.tsv")
 
   // time
-  private val startTime = System.currentTimeMillis
-  def time: Long = System.currentTimeMillis - startTime
+  var parseTime = 0L
+  var cfgTime = 0L
+  var checkerTime = 0L
+  var analysisStartTime = 0L
+  def analysisTime: Long = System.currentTimeMillis - analysisStartTime
+
+  // checker time
+  def doCheck[T](f : => T): T = {
+    val (t, res) = time(f)
+    checkerTime += t
+    res
+  }
 
   // increase counter
   def inc[T <: ControlPoint](cp: T): T = {
@@ -45,10 +55,11 @@ object Stat {
   // dump stats
   def dump(): Unit = {
     val (numFunc, numAlgo, numRp) = numOfFuncAlgoRp
+    val analTime = analysisTime
 
     // dump summary
     log(
-      f"$iter%,3d", f"$time%,3d", worklist.size, AbsSemantics.size,
+      f"$iter%,3d", f"$analTime%,3d", worklist.size, AbsSemantics.size,
       f"$avg%.2f", numRp, numFunc, numAlgo, numError, numWarning
     )
 
@@ -68,6 +79,22 @@ object Stat {
 
     // dump result
     dumpFile(getString(CYAN), s"$ANALYZE_LOG_DIR/result.log")
+
+    // dump stat for evaluation
+    // # iter, parse, cfg, checker, analyze, full, all, node, return, all
+    val evalItems = List(
+      iter,
+      parseTime,
+      cfgTime,
+      checkerTime,
+      analTime,
+      AbsSemantics.rpMap.keySet.map(_.func).toSet.filter(_.algo.isComplete).size,
+      numFunc,
+      npMap.size,
+      numRp,
+      npMap.size + numRp
+    )
+    dumpFile(evalItems.map(_.toString).mkString("\t"),s"$ANALYZE_LOG_DIR/eval")
   }
 
   // close

@@ -71,18 +71,22 @@ object AbsSemantics {
   }
 
   // reference check
-  def referenceCheck: Unit = for ((cp, x) <- unknownVars) {
-    val cpStr = getString(cp, "", false)
-    alarm(s"unknown variable: $x", cp = cp, cpStr = cpStr)
-  }
+  def referenceCheck: Unit = Stat.doCheck({
+    for ((cp, x) <- unknownVars) {
+      val cpStr = getString(cp, "", false)
+      alarm(s"unknown variable: $x", cp = cp, cpStr = cpStr)
+    }
+  })
 
   // assertions check
-  def assertionCheck: Unit = assertions.foreach {
-    case (cp, (t, expr)) =>
-      val cpStr = getString(cp, "", false)
-      if (!(AT ⊑ t)) alarm(s"assertion failed: ${expr.beautified}", cp = cp, cpStr = cpStr)
-      else if (AF ⊑ t) warning(s"maybe assertion failed: ${expr.beautified}", cp = cp, cpStr = cpStr)
-  }
+  def assertionCheck: Unit = Stat.doCheck({
+    assertions.foreach {
+      case (cp, (t, expr)) =>
+        val cpStr = getString(cp, "", false)
+        if (!(AT ⊑ t)) alarm(s"assertion failed: ${expr.beautified}", cp = cp, cpStr = cpStr)
+        else if (AF ⊑ t) warning(s"maybe assertion failed: ${expr.beautified}", cp = cp, cpStr = cpStr)
+    }
+  })
 
   // get size
   def size: Int = npMap.size + rpMap.size
@@ -116,13 +120,13 @@ object AbsSemantics {
         aux(pl, al)
       case (Param(name, kind) :: tl, Nil) =>
         if (kind == Normal) {
-          alarm(s"remaining parameter: $name")
+          Stat.doCheck(alarm(s"remaining parameter: $name"))
           st = AbsState.Bot
         } else st = st.define(name, Absent.abs, param = true)
         aux(tl, Nil)
       case (Nil, Nil) =>
       case (Nil, args) =>
-        alarm(s"remaining arguments: ${args.mkString(", ")}")
+        Stat.doCheck(alarm(s"remaining arguments: ${args.mkString(", ")}"))
       case _ =>
         warning(s"consider variadic: (${params.mkString(", ")}) and (${args.mkString(", ")}) @ $call")
     }

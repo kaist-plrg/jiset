@@ -19,6 +19,7 @@ case object Analyze extends PhaseObj[CFG, AnalyzeConfig, Unit] {
     config: AnalyzeConfig
   ): Unit = {
     init(cfg)
+    Stat.analysisStartTime = System.currentTimeMillis
     AbsTransfer.compute
   }
 

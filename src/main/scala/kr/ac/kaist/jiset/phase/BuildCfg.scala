@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.JISETConfig
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.analyzer.Stat
 
 // BuildCFG phase
 case object BuildCFG extends PhaseObj[ECMAScript, BuildCFGConfig, CFG] {
@@ -17,7 +18,8 @@ case object BuildCFG extends PhaseObj[ECMAScript, BuildCFGConfig, CFG] {
     jisetConfig: JISETConfig,
     config: BuildCFGConfig
   ): CFG = {
-    val cfg = time("build CFG", new CFG(spec))
+    val (cfgTime, cfg) = time("build CFG", new CFG(spec))
+    Stat.cfgTime = cfgTime
 
     if (config.dot) {
       mkdir(CFG_DIR)

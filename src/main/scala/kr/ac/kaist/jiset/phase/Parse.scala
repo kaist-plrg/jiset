@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.spec.algorithm.Algo
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.analyzer.Stat
 
 // Parse phase
 case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
@@ -18,7 +19,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
     jisetConfig: JISETConfig,
     config: ParseConfig
   ): ECMAScript = {
-    val spec = config.load match {
+    val (parseTime, spec) = config.load match {
       case Some(filename) =>
         time(s"loading ECMAScript from $filename", {
           readJson[ECMAScript](filename)
@@ -32,6 +33,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
           ECMAScriptParser(version, query, config.detail)
         })
     }
+    Stat.parseTime = parseTime
 
     // logging
     if (LOG) dumpIncompleteAlgos(spec.incompletedAlgos)

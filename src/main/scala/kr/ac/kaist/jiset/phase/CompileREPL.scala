@@ -20,11 +20,11 @@ case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {
     val version = versionOpt.getOrElse("recent")
     println(s"version: $version (${getRawVersion(version)})")
 
-    implicit val (lines, document, region) =
+    implicit val (_, (lines, document, region)) =
       time("preprocess", ECMAScriptParser.preprocess(version))
-    implicit val (grammar, _) =
+    implicit val (_, (grammar, _)) =
       time("parse ECMAScript grammar", ECMAScriptParser.parseGrammar(version))
-    val (secIds, _) =
+    val (_, (secIds, _)) =
       time("parse algorithm heads", ECMAScriptParser.parseHeads())
 
     REPL.run(version, secIds)
