@@ -11,6 +11,10 @@
 \usepackage[numbers]{natbib}
 \usepackage{url}
 \usepackage{stmaryrd}
+\usepackage{colortbl}
+
+% thicker vertical line
+\newcolumntype{?}{!{\vrule width 1pt}}
 
 % math zaph chancery characters
 \DeclareMathAlphabet{\mathpzc}{T1}{pzc}{m}{it}
@@ -246,3 +250,31 @@
 \newcommand{\asemi}[1]{\asem{#1}_\inst}
 \newcommand{\aseme}[1]{\asem{#1}_\expr}
 \newcommand{\asemr}[1]{\asem{#1}_\refer}
+
+% table
+\newcommand{\mr}[2]{\multirow{#1}{*}{\text{#2}}}
+\newcommand{\sr}[1]{\text{#1}}
+\newcommand{\myrowc}[9]{
+\mr{#1}{#2}&
+\mr{1}{#6}&
+\mr{#1}{#3}&
+\mr{1}{#7}&
+\mr{#1}{#4}&
+\mr{1}{#8}&
+\mr{#1}{#5}&
+\mr{1}{#9}\\
+}
+\newcommand{\myrowh}[4]{
+\cline{2-2}\cline{4-4}\cline{6-6}\cline{8-8}
+&\mr{1}{#1}&
+&\mr{1}{#2}&
+&\mr{1}{#3}&
+&\mr{1}{#4}\\
+}
+\newcommand{\mysrowh}[4]{
+\multicolumn{2}{c?}{\text{#1}}&
+\multicolumn{2}{c?}{\text{#2}}&
+\multicolumn{2}{c?}{\text{#3}}&
+\multicolumn{2}{c}{\text{#4}}\\
+}
+\newcommand{\md}[3]{+#1 / -#2 (+#3\%)}
