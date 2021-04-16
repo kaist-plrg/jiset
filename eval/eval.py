@@ -41,6 +41,7 @@ FIRST_VERSION = "fc85c50181b2b8d7d75f034800528d87fda6b654"
 ES2018_VERSION = "8fadde42cf6a9879b4ab0cb6142b31c4ee501667"
 COMMIT_REGEX = re.compile("^[a-z0-9]{40}$")
 NO_PRUNE = False
+COMMIT_INFOS = {}
 
 # Shell util
 EVAL_LOG_POST = f"2>> {EVAL_LOG} 1>> {EVAL_LOG}"
@@ -73,11 +74,11 @@ def get_commit_info(commit_hash):
     return {
         "version": commit_hash,
         "date": cdate,
-        "author": f"{an}({ae})"
+        "author": an
     } 
 def get_remote_errors(remote_path):
     print(f"rsync {remote_path}...")
-    cmd = f"rsync -a -m --include '**/errors' --include='*/' --exclude='*' {remote_path}/raw {RESULT_DIR}"
+    cmd = f"rsync -a -m --include '**/errors' --include '**/stat_summary' --include='*/' --exclude='*' {remote_path}/raw {RESULT_DIR}"
     out, err = execute_sh(cmd)
     if err == "":
         print(f"rsync completed.")
@@ -94,6 +95,11 @@ def clean_dir(path):
     if exists(path):
         shutil.rmtree(path)
     makedirs(path)
+def get_days_from_es2018(commit):
+    finfo, cinfo = COMMIT_INFOS[ES2018_VERSION], COMMIT_INFOS[commit]
+    fdate = dateutil.parser.isoparse(finfo["date"])
+    cdate = dateutil.parser.isoparse(cinfo["date"])
+    return (cdate - fdate).days
 
 # Util
 def build_jiset():
@@ -147,6 +153,8 @@ class AnalysisResult:
         self.version = version
         with open(join(get_version_dir(version), "errors"), "r") as f:
             self.errors = set(f.read().splitlines())
+        with open(join(get_version_dir(version), "stat_summary"), "r") as f:
+            self.stats = list(f.read().split())
     # check if this analysis result contains `error`
     def contains(self, error):
         return error in self.errors
@@ -232,15 +240,16 @@ def dump_bug_diffs():
         infos, ttl = [], 0
         for created_at, deleted_at in results[e]:
             # get commit info of created, deleted
-            cinfo, dinfo = map(get_commit_info, [created_at, deleted_at])
+            # cinfo, dinfo = map(get_commit_info, [created_at, deleted_at])
+            cinfo, dinfo = COMMIT_INFOS[created_at], COMMIT_INFOS[deleted_at]
             # calc ttl
             parse_date = lambda i: None if not i else dateutil.parser.isoparse(i["date"])
             cdate, ddate = map(parse_date, [cinfo, dinfo])
             if not cdate or not ddate:
-                local_ttl, ttl = "Unknown", "Unknown"
+                local_ttl, ttl = "-", "-"
             else:
                 local_ttl = (ddate - cdate).days
-            if ttl != "Unknown":
+            if ttl != "-":
                 ttl += local_ttl
             # add info
             infos.append({
@@ -261,31 +270,47 @@ def dump_bug_diffs():
     p1, tp1 = 0, 0
     with open(join(RESULT_DIR, "bug-diffs-summary.tsv"), "w") as f:
         writeln = lambda cells: f.write("\t".join(cells) + "\n")
-        writeln(["bug", "kind", "TTL", "#", "T/F"])
+        writeln(["bug", 
+            "c_author", "c_commit", "c_date", 
+            "r_author", "r_commit", "r_date", 
+            "TTL", "category", "kind", "T/F"])
 
-        def get_kind(bug):
+        def get_cat_and_kind(bug):
             if "unknown variable" in bug :
-                return "UnknownVar"
+                return ["Reference", "Unknown Variables"]
             elif "already defined variable" in bug:
-                return "DuplicatedVar"
+                return ["Reference", "Already Defined Variables"]
             elif "assertion failed" in bug:
-                return "Assertion"
+                return ["Assertion", "Assertion Failures"]
             elif "unchecked abrupt completion" in bug:
-                return "Completion"
+                return ["Type", "Unchecked Abrupt Completions"]
             elif "non-numeric types" in bug:
-                return "NoNumeric"
+                return ["Type", "Non-Numeric Operands"]
             elif "non-number types" in bug:
-                return "NoNumber"
+                return ["Type", "Non-Numeric Operands"]
             elif "remaining parameter" in bug:
-                return "Arity"
+                return ["Parameter", "Arity Mismatches"]
             else:
                 print(bug)
                 raise NotImplementedError
+            
+        def get_info_data(info):
+            if info == None:
+                return ["-"] * 3
+            version = info["version"]
+            return [info["author"], version, get_days_from_es2018(version)]
         
         for pres in pretty_results:
             bug, bug_count = pres["errors"], len(pres["infos"])
             tf_str = "T" if bug in true_bugs else "F"
-            writeln([bug, get_kind(bug), pres["TTL"], str(bug_count), tf_str])
+            for info in pres["infos"]:
+                cinfo, dinfo = info["created_info"], dinfo["deleted_info"]
+                writeln([bug] + 
+                        get_info_data(cinfo) + 
+                        get_info_data(dinfo) + 
+                        [info["TTL"]] +
+                        get_cat_and_kind(bug) + 
+                        [tf_str])
             p1 += bug_count
             tp1 += bug_count if bug in true_bugs else 0
     # return data for precision
@@ -303,20 +328,23 @@ def dump_diff_summary():
     sorted_versions = [v for v in get_all_commits() if v in versions]
     first_version = sorted_versions[-1]
     with open(join(RESULT_DIR, "diff-summary.tsv"), "w") as f:
-        writeln = lambda cells: f.write("\t".join(cells) + "\n")
+        writeln = lambda cells: f.write("\t".join(map(str, cells)) + "\n")
         size = lambda s: str(len(s))
-        # columns: version | + | - | # of errors
-        writeln(["version", "+", "-", "# of errors"])
+        # columns: version | + | - | # of errors | date | # iter |
+        #           parse | cfg | checker | analysis | fullFunc | allFunc
+        #           node | return | all
+        writeln(["version", "+", "-", "# of errors", "days", "# iter", "parse", "cfg", "checker", "analysis",
+            "full", "all", "node", "return", "all"])
         for i in range(len(sorted_versions)):
             version = sorted_versions[i]
             result = results_map[version]
-            error_size = size(result.errors)
+            commons = [size(result.errors), get_days_from_es2018(version)] + result.stats
             if version == first_version:
-                writeln([first_version, "-", "-", error_size])
+                writeln([first_version, "-", "-"] + commons)
             else:
                 prev_result = results_map[sorted_versions[i+1]]
                 diff = prev_result.diff(result)
-                writeln([version, size(diff["+"]), size(diff["-"]), error_size])
+                writeln([version, size(diff["+"]), size(diff["-"])] + commons)
 
 def dump_sparse_targets():
     versions = get_all_commits()
@@ -367,9 +395,6 @@ def dump_stat(stat_f):
         log(stat_f, print, precision_msg)
     dump_precision(0, p0, tp0)
     dump_precision(1, p1, tp1)
-    # TODO 
-    # calc diff commit / total # of commits
-
 
 # run analysis and check if target errors exist
 def check_errors(option, check_f):
@@ -522,6 +547,12 @@ def main():
         makedirs(RAW_DIR)
     if not exists(DIFF_DIR):
         makedirs(DIFF_DIR)
+
+    # initialize
+    print("initialization...")
+    global COMMIT_INFOS
+    for commit in get_all_commits():
+        COMMIT_INFOS[commit] = get_commit_info(commit)
 
     # no-prune opt
     global NO_PRUNE

@@ -24,7 +24,7 @@ object Stat {
   def analysisTime: Long = System.currentTimeMillis - analysisStartTime
 
   // checker time
-  def doCheck[T](f : => T): T = {
+  def doCheck[T](f: => T): T = {
     val (t, res) = time(f)
     checkerTime += t
     res
@@ -69,16 +69,16 @@ object Stat {
     dumpFile(wapp, s"$ANALYZE_LOG_DIR/worklist")
 
     // dump update
-    val uapp = new Appender
-    counter.foreach {
-      case (cp, cnt) =>
-        val func = funcOf(cp)
-        uapp >> cnt >> "\t" >> s"$cp @ [${func.uid}] ${func.name}" >> LINE_SEP
-    }
-    dumpFile(uapp, s"$ANALYZE_LOG_DIR/update")
+    // val uapp = new Appender
+    // counter.foreach {
+    //   case (cp, cnt) =>
+    //     val func = funcOf(cp)
+    //     uapp >> cnt >> "\t" >> s"$cp @ [${func.uid}] ${func.name}" >> LINE_SEP
+    // }
+    // dumpFile(uapp, s"$ANALYZE_LOG_DIR/update")
 
     // dump result
-    dumpFile(getString(CYAN), s"$ANALYZE_LOG_DIR/result.log")
+    // dumpFile(getString(CYAN), s"$ANALYZE_LOG_DIR/result.log")
 
     // dump stat for evaluation
     // # iter, parse, cfg, checker, analyze, full, all, node, return, all
@@ -94,7 +94,7 @@ object Stat {
       numRp,
       npMap.size + numRp
     )
-    dumpFile(evalItems.map(_.toString).mkString("\t"),s"$ANALYZE_LOG_DIR/eval")
+    dumpFile(evalItems.map(_.toString).mkString("\t"), s"$ANALYZE_LOG_DIR/stat_summary")
   }
 
   // close
