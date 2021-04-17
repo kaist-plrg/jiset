@@ -192,6 +192,30 @@ $\code{environment = originalEnv}$.
 
 \subsection{Operand Type Checker}
 
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/func}
+    \caption{The number of functions.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/view}
+    \caption{The number of views.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/iter}
+    \caption{The number of iterations.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/time}
+    \caption{The analysis time.}
+  \end{subfigure}
+  \caption{The statistics of type analysis using $\tool$ for 864 versions of
+  ECMAScript.}
+  \vspace*{-1.5em}
+  \label{fig:stat}
+\end{figure*}
+
 Several operators are typed and a \textit{wrong typed operand bug} occurs when
 the type of an operand is not conform to the expected type.  For example, the
 comparison operator $\code{<}$ is a numeric operator in the modified $\ires$.  If

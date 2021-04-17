@@ -1,26 +1,59 @@
 \section{Evaluation}\label{sec:eval}
 
-\begin{figure*}
+\begin{table*}
   \centering
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/func}
-    \caption{The number of functions.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/view}
-    \caption{The number of views.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/iter}
-    \caption{The number of iterations.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/time}
-    \caption{The analysis time.}
-  \end{subfigure}
-  \caption{The statistics of $\tool$ for each version of ECMAScript.}
-  \label{fig:stat}
-\end{figure*}
+  \caption{The analysis precision of $\tool$ without and with condition-based
+  refinement.}
+  \label{fig:refine}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{c|c?c|c?c|c?c|c}
+    \multirow{2}{*}{\textbf{Checker}} &
+    \multirow{2}{*}{\textbf{Bug Kind}} &
+    \multicolumn{6}{c}{
+      \textbf{Precision = (\# True Bugs) / (\# Total Bugs)}
+    }\\\cline{3-8} &&
+    \multicolumn{2}{c?}{no-refine} &
+    \multicolumn{2}{c?}{refine} &
+    \multicolumn{2}{c}{$\Delta$}\\
+
+    \specialrule{.1em}{.0em}{.0em}
+
+    \myrowc{2}
+    {Reference}     {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
+    {UnknownVar}    {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
+    \myrowh
+    {DuplicatedVar} {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
+
+    \hline
+
+    \myrowc{2}
+    {Arity}         {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
+    {MissParam}     {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
+    \myrowh
+    {RemainArg}     {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
+
+    \hline
+
+    \myrowc{1}
+    {Assertion}     {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
+    {Assertion}     {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
+
+    \hline
+
+    \myrowc{2}
+    {Operand Type}  {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
+    {NoNumber}      {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
+    \myrowh
+    {Abrupt}        {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
+
+    \specialrule{.1em}{.0em}{.0em}
+
+    \mysrowh
+    {\textbf{Total}}{43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
+
+  \end{tabular}
+  }
+\end{table*}
 
 We implemented $\tool$ as an open-source tool~\footnote{The link is anonymized
 because of a double-blind review process} in Scala by extending $\jiset$, a
@@ -45,33 +78,92 @@ To evaluate $\tool$, we answer the following research questions:
     specification bugs in the latest version of ECMAScript?
 \end{itemize}
 The draft of the next version of ECMAScript (ES12, 2021) is fixed on March 9,
-2021.  Thus, we targeted all different \inred{864} versions existed in the
-official ECMAScript repository~\footnote{https://github.com/tc39/ecma262} for
-the recent three years from January 1, 2018 to March 9, 2021.  We performed our
-experiments on five Ubuntu machines equipped with 4.2GHz Quad-Core Intel Core i7
-and 32GB of RAM.
+2021.  Thus, we targeted all different 864 versions existed in the official
+ECMAScript repository~\footnote{https://github.com/tc39/ecma262} for the recent
+three years from January 1, 2018 to March 9, 2021.  We performed our experiments
+on five Ubuntu machines equipped with 4.2GHz Quad-Core Intel Core i7 and 32GB of
+RAM.
 
 
 \subsection{Performance}
 
-To evaluate the performance of $\tool$, we measured the analysis time for
-\inred{864} versions of ECMAScript.  For each version, we assigned an unsigned
-integer as its unique identifier in chronological order starting from 1; the
-identifier of the oldest version is 1 and that of the latest version is
-\inred{864}.  Figure~\ref{fig:time} depicts the analysis time of $\tool$ for
-each version in chronological order.  The dark gray, blue, and red bars
-represent times of specification extraction (\code{extract}), type analysis
-(\code{analyze}), and bug detection (\code{detect}), respectively.  $\tool$ took
-\inred{XXX.XX} seconds to analyze each version of ECMAScript on average; the
-specification extraction took \inred{XX.XX} seconds (\inred{XX.XX}\%), the type
-analysis took \inred{XX.XX} seconds (\inred{XX.XX}\%), and the bug detection
-took \inred{XX.XX} seconds (\inred{XX.XX}\%) on average.
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/ttl-chro}
+    \caption{TTL sorted by creation time.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/ttl-count}
+    \caption{True bugs classfied by TTL.}
+  \end{subfigure}
+  \caption{Time to Live (TTL) of true bugs.}
+  \vspace*{-1.5em}
+  \label{fig:ttl}
+\end{figure}
+
+Figure~\ref{fig:stat} shows four statistics of type analysis using $\tool$ for
+864 versions of ECMAScript: (a) the number of analyzed functions, (b) the number
+of flow- and type-sensitive views, (c) the number of worklist iteration, and (d)
+the analysis time.  For each version of ECMAScript, \inred{1,999.9} functions
+(\textsf{func}) are analyzed and \inred{1,999.9} functions among them are fully
+compiled (\textsf{full-func}) on average.  Since the compile rules in $\jiset$
+is more suitable for recent versions, the number of fully compiled functions in
+older versions are less than in more recent versions.  $\tool$ keeps different
+abstract environments for each functions divided by flow- and type-sensitive
+views.  In the analysis result, \inred{1.3}M views existed for each version and
+\inred{1.3}K views existed for each function on average.
+
+We measured performance of $\tool$ based on the number of iteration for worklist
+algorithm and the analysis time.  For each version of ECMAScript, $\tool$ took
+\inred{300.0} seconds with \inred{19,999.9} iterations of worklist algorithm on
+average.  The analysis time consists of \inred{10.0} seconds for the
+specification extraction (\textsf{extract}), \inred{340.0} seconds for the type
+analysis (\textsf{analyze}), \inred{10.0} seconds for the bug detection
+(\textsf{detect}).
 
 
 \subsection{Precision}
 
+\begin{table}
+  \centering
+  \caption{The creaters and resolvers of true bugs.}
+  \label{fig:author}
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{c|c|c?c|c|c}
+    \multicolumn{3}{c?}{\textbf{Creater}} &
+    \multicolumn{3}{c}{\textbf{Resolver}}\\\hline
+
+    \textbf{Committee} &
+    \textbf{Outsider} &
+    \textbf{Inherited} &
+    \textbf{Committee} &
+    \textbf{Outsider} &
+    \textbf{NotYet}\\\hline
+
+    \inred{60} &
+    \inred{12} &
+    \inred{20} &
+    \inred{60} &
+    \inred{23} &
+    \inred{10}\\
+  \end{tabular}
+  }
+\end{table}
+
+
+\subsection{Effectiveness of Refinement}
+
 \begin{figure}
   \centering
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/compare-iter}
+    \caption{The number of iterations.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/ratio-iter}
+    \caption{The ratio of iterations.}
+  \end{subfigure}
   \begin{subfigure}[b]{0.24\textwidth}
     \includegraphics[width=\textwidth]{img/compare-time}
     \caption{The analysis time.}
@@ -80,90 +172,133 @@ took \inred{XX.XX} seconds (\inred{XX.XX}\%) on average.
     \includegraphics[width=\textwidth]{img/ratio-time}
     \caption{The ratio of analysis time.}
   \end{subfigure}
-  \caption{The comparison between analysis time without and without condition-based
-  refinement.}
+  \caption{The comparison of iterations and analysis time without and with
+  condition-based refinement.}
   \label{fig:refine}
 \end{figure}
-
-\begin{table*}
-  \centering
-  \[
-    \footnotesize
-    \begin{array}{c|c?c|c?c|c?c|c}
-      \multirow{2}{*}{\textbf{Checker}} &
-      \multirow{2}{*}{\textbf{Bug Kind}} &
-      \multicolumn{6}{c}{
-        \textbf{Precision = (\# True Bugs) / (\# Total Bugs)}
-      }\\\cline{3-8} &&
-      \multicolumn{2}{c?}{\text{no-refine}} &
-      \multicolumn{2}{c?}{\text{refine}} &
-      \multicolumn{2}{c}{\Delta}\\\hline\hline
-
-      \myrowc{2}
-      {Reference}     {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-      {UnknownVar}    {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
-      \myrowh
-      {DuplicatedVar} {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
-
-      \hline
-
-      \myrowc{2}
-      {Arity}         {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-      {MissParam}     {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
-      \myrowh
-      {RemainArg}     {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
-
-      \hline
-
-      \myrowc{1}
-      {Assertion}     {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-      {Assertion}     {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
-
-      \hline
-
-      \myrowc{2}
-      {Operand Type}  {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-      {NoNumber}      {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
-      \myrowh
-      {Abrupt}        {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
-
-      \hline\hline
-
-      \mysrowh
-      {Total}         {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
-
-    \end{array}
-  \]
-  \caption{The analysis precision of $\tool$ without and with condition-based
-  refinement.}
-  \label{fig:refine}
-\end{table*}
-
-
-  Moreover, Figure~\ref{fig:function}
-represents the number of functions analyzed by $\tool$ for each version of
-ECMAScript; the gray and dark gray bars denote numbers of partially and fully
-compiled functions, respectively.  On average, \inred{XXXX} functions are
-analyzed by $\tool$ thus 
-
-Figure~\ref{fig:function}
-Figure~\ref{fig:time}
-
-$\tool$ consists of three steps:
-specification extraction, type analysis, and bug detection, and we measured the
-duration time 
-
-
-For different \inred{864} versions of ECMAScript, 
-
-We evaluated performance 
-
-
-\subsection{Effectiveness of Refinement}
 
 \todo: refinement: performance / precision
 
 
-\subsection{Impact}
+\subsection{Detection of New Bugs}
+
+\begin{table*}
+  \centering
+  \caption{Type-related specification bugs newly detected by $\tool$ in the
+  official draft of ECMAScript 2021 (ES12).}
+  \label{fig:new-bug}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{@{}c@{~}?c|@{~}c@{~}|l|c|@{~}c@{~}|@{~}c@{~}|@{~}r@{}}
+    \multicolumn{1}{@{}c?}{\textbf{Name}} &
+    \multicolumn{1}{c}{\textbf{Feature}} &
+    \multicolumn{1}{@{}c@{~}}{\textbf{\#}} &
+    \multicolumn{1}{c}{\textbf{Description}} &
+    \multicolumn{1}{@{~}c@{~}}{\textbf{Checker}} &
+    \multicolumn{1}{@{}c}{\textbf{Created}} &
+    \multicolumn{1}{@{}c}{\textbf{Resolved}} &
+    \multicolumn{1}{@{}c@{~}}{\textbf{TTL}}\\\specialrule{.1em}{.0em}{.0em}
+
+    ES12-1 &
+    Switch &
+    3 &
+    \makecell[l]{
+        Variables \code{hasDuplicates} and \code{hasUndefinedLabels} are already
+        defined \\ in algorithms for \jscode{case} blocks of \jscode{switch}
+        statements.
+    } &
+    Reference &
+    \inred{2015-01-01} &
+    \inred{2015-01-01} &
+    \inred{1,999} days\\\hline
+
+    ES12-2 &
+    Try &
+    3 &
+    \makecell[l]{
+        Variables \code{hasDuplicates} and \code{hasUndefinedLabels} are already
+        defined \\ in algorithms for \jscode{try} statements.
+    } &
+    Reference &
+    \inred{2015-01-01} &
+    \inred{2015-01-01} &
+    \inred{1,999} days\\\hline
+
+    ES12-3 &
+    Arguments &
+    1 &
+    \makecell[l]{
+        A variable \code{index} is already defined in
+        \textbf{CreateMappedArgumentsObject}.
+    } &
+    Reference &
+    \inred{2015-01-01} &
+    \inred{2015-01-01} &
+    \inred{1,999} days\\\hline
+
+    ES12-4 &
+    Array &
+    2 &
+    \makecell[l]{
+        A variable \code{succeeded} is already defined in algorithms for
+        \jscode{Array} objects.
+    } &
+    Reference &
+    \inred{2015-01-01} &
+    \inred{2015-01-01} &
+    \inred{1,999} days\\\hline
+
+    ES12-5 &
+    Class &
+    1 &
+    \makecell[l]{
+        A variable \code{ClassHeritage} is not defined in \textbf{Contains}
+        \\ for tails of \jscode{class} declarations.
+    } &
+    Reference &
+    \inred{2015-01-01} &
+    \inred{2015-01-01} &
+    \inred{1,999} days\\\hline
+
+    ES12-6 &
+    Branch &
+    1 &
+    \makecell[l]{
+        A variable \code{Statement} is not defined in \textbf{EarlyErrors} for
+        \jscode{if} statement.
+    } &
+    Reference &
+    \inred{2015-01-01} &
+    \inred{2015-01-01} &
+    \inred{1,999} days\\\hline
+
+    ES12-7 &
+    Async &
+    1 &
+    \makecell[l]{
+        A variable \code{value} is already defined in \textbf{Evaluation} for
+        \jscode{yield} expressions.
+    } &
+    Reference &
+    \inred{2015-01-01} &
+    \inred{2015-01-01} &
+    \inred{1,999} days\\\hline
+
+    ES12-8 &
+    Arguments &
+    2 &
+    \makecell[l]{
+        The result of the \textbf{Get} algorithm is used without checking of
+        abrupt completions \\ in \textbf{DefineOwnProperty} and
+        \textbf{GetOwnProperty} for \jscode{arguments} objects.
+    } &
+    \makecell[c]{
+      Operand \\ Type
+    }&
+    \inred{2015-01-01} &
+    \inred{2015-01-01} &
+    \inred{1,999} days\\
+  \end{tabular}
+  }
+\end{table*}
 
 \todo: TTL / creater or solver / \# by kinds / new bugs

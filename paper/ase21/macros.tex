@@ -12,6 +12,9 @@
 \usepackage{url}
 \usepackage{stmaryrd}
 \usepackage{colortbl}
+\usepackage{ctable}
+\usepackage{makecell}
+\usepackage{graphics}
 
 % thicker vertical line
 \newcolumntype{?}{!{\vrule width 1pt}}
@@ -44,7 +47,7 @@
   numbers=left,
   stepnumber=1,
   extendedchars=true,
-  basicstyle=\small\ttfamily,
+  basicstyle=\footnotesize\ttfamily,
   showstringspaces=false,
   showspaces=false,
   xleftmargin=\parindent,
@@ -56,7 +59,7 @@
 \lstdefinestyle{code}{
   numbers=none,
   extendedchars=true,
-  basicstyle=\small\ttfamily,
+  basicstyle=\footnotesize\ttfamily,
   showstringspaces=false,
   showspaces=false,
   xleftmargin=\parindent,
@@ -252,8 +255,8 @@
 \newcommand{\asemr}[1]{\asem{#1}_\refer}
 
 % table
-\newcommand{\mr}[2]{\multirow{#1}{*}{\text{\inred{#2}}}}
-\newcommand{\sr}[1]{\text{\inred{#1}}}
+\newcommand{\mr}[2]{\multirow{#1}{*}{\inred{#2}}}
+\newcommand{\sr}[1]{\inred{#1}}
 \newcommand{\myrowc}[9]{
 \mr{#1}{#2}&
 \mr{1}{#6}&
@@ -272,9 +275,9 @@
 &\mr{1}{#4}\\
 }
 \newcommand{\mysrowh}[4]{
-\multicolumn{2}{c?}{\text{#1}}&
-\multicolumn{2}{c?}{\text{#2}}&
-\multicolumn{2}{c?}{\text{#3}}&
-\multicolumn{2}{c}{\text{#4}}\\
+\multicolumn{2}{c?}{#1}&
+\multicolumn{2}{c?}{\inred{#2}}&
+\multicolumn{2}{c?}{\inred{#3}}&
+\multicolumn{2}{c}{\inred{#4}}\\
 }
 \newcommand{\md}[3]{+#1 / -#2 (+#3\%)}
