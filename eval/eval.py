@@ -41,7 +41,7 @@ FIRST_VERSION = "fc85c50181b2b8d7d75f034800528d87fda6b654"
 ES2018_VERSION = "8fadde42cf6a9879b4ab0cb6142b31c4ee501667"
 COMMIT_REGEX = re.compile("^[a-z0-9]{40}$")
 NO_PRUNE = False
-COMMIT_INFOS = {}
+COMMIT_INFOS = {"unknown": None}
 
 # Shell util
 EVAL_LOG_POST = f"2>> {EVAL_LOG} 1>> {EVAL_LOG}"
@@ -221,7 +221,7 @@ def dump_bug_diffs():
     results = dict([(e, []) for e in errors])
     # get diffs of each error
     for error in errors:
-        found, created_at = False, f"Before {first_version}"
+        found, created_at = False, f"unknown"
         for version in sorted_versions:
             contained = error in errors_map[version]
             if contained and not found:
@@ -233,14 +233,13 @@ def dump_bug_diffs():
                 found = False
         # handle last version
         if found:
-            results[error].append((created_at, "Not Fixed"))
+            results[error].append((created_at, "unknown"))
     # make pretty results
     pretty_results = []
     for e in results:
         infos, ttl = [], 0
         for created_at, deleted_at in results[e]:
             # get commit info of created, deleted
-            # cinfo, dinfo = map(get_commit_info, [created_at, deleted_at])
             cinfo, dinfo = COMMIT_INFOS[created_at], COMMIT_INFOS[deleted_at]
             # calc ttl
             parse_date = lambda i: None if not i else dateutil.parser.isoparse(i["date"])
@@ -277,19 +276,19 @@ def dump_bug_diffs():
 
         def get_cat_and_kind(bug):
             if "unknown variable" in bug :
-                return ["Reference", "Unknown Variables"]
+                return ["Reference", "UnknownVar"]
             elif "already defined variable" in bug:
-                return ["Reference", "Already Defined Variables"]
+                return ["Reference", "DuplicatedVar"]
             elif "assertion failed" in bug:
-                return ["Assertion", "Assertion Failures"]
+                return ["Assertion", "Assertion"]
             elif "unchecked abrupt completion" in bug:
-                return ["Type", "Unchecked Abrupt Completions"]
+                return ["Type", "Abrupt"]
             elif "non-numeric types" in bug:
-                return ["Type", "Non-Numeric Operands"]
+                return ["Type", "WrongNum"]
             elif "non-number types" in bug:
-                return ["Type", "Non-Numeric Operands"]
+                return ["Type", "WrongNum"]
             elif "remaining parameter" in bug:
-                return ["Parameter", "Arity Mismatches"]
+                return ["Arity", "MissingParam"]
             else:
                 print(bug)
                 raise NotImplementedError
@@ -298,13 +297,13 @@ def dump_bug_diffs():
             if info == None:
                 return ["-"] * 3
             version = info["version"]
-            return [info["author"], version, get_days_from_es2018(version)]
+            return [info["author"], version, str(get_days_from_es2018(version))]
         
         for pres in pretty_results:
             bug, bug_count = pres["errors"], len(pres["infos"])
             tf_str = "T" if bug in true_bugs else "F"
             for info in pres["infos"]:
-                cinfo, dinfo = info["created_info"], dinfo["deleted_info"]
+                cinfo, dinfo = info["created_info"], info["deleted_info"]
                 writeln([bug] + 
                         get_info_data(cinfo) + 
                         get_info_data(dinfo) + 
