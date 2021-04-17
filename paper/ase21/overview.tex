@@ -2,7 +2,7 @@
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.48\textwidth]{img/overall}
+  \includegraphics[width=\columnwidth]{img/overall}
   \caption{Overall structure of $\tool$: a type analyzer and a bug detector for
   mechanized specifications extracted from ECMAScript by $\jiset$.}
   \label{fig:overall}
@@ -125,8 +125,8 @@ contributor initially added the assertion without considering of
 lasted for \inred{XXXX} days until April 10, 2019.  The assertion checker checks
 whether such assertions are failed or not.
 
-\paragraph{Operand Type Checker} The last checker checks whether operand types
-are correct for typed operators.  After the function call initialization, the
+\paragraph{Operand Checker} The last checker checks whether operand types are
+correct for typed operators.  After the function call initialization, the
 parameter \jscode{x} points to \jscode{true} thus \jscode{Math.round} is invoked
 with the argument \jscode{true}.  The \jscode{Math.round} built-in library
 first converts the given parameter \textit{x} to the corresponding number value
@@ -136,7 +136,7 @@ using \textit{x} instead of \textit{n} at line 3 and 4 on September 11 2020.
 According to this specification, the specification tries to compare a boolean
 value \jscode{true} with a numeric value 0.5 or 0 in the example JavaScript
 program.  Fortunately, another contributor fixed this bug after two days.  In
-the bug detector, the operand type checker detects whether the operand types are
+the bug detector, the operand checker detects whether the operand types are
 compatible with the typed operators.
 
 In the remainder of this paper, we explain the details of how to perform type

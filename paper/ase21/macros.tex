@@ -255,24 +255,24 @@
 \newcommand{\asemr}[1]{\asem{#1}_\refer}
 
 % table
-\newcommand{\mr}[2]{\multirow{#1}{*}{\inred{#2}}}
-\newcommand{\sr}[1]{\inred{#1}}
+\newcommand{\mr}[2]{\multirow{#1}{*}{#2}}
+\newcommand{\sr}[1]{#1}
 \newcommand{\myrowc}[9]{
-\mr{#1}{#2}&
-\mr{1}{#6}&
-\mr{#1}{#3}&
-\mr{1}{#7}&
-\mr{#1}{#4}&
-\mr{1}{#8}&
-\mr{#1}{#5}&
-\mr{1}{#9}\\
+\mr{#1} {\stextsf{#2}}&
+\mr{1}  {\stextsf{#6}}&
+\mr{#1} {\inred{#3}}&
+\mr{1}  {\inred{#7}}&
+\mr{#1} {\inred{#4}}&
+\mr{1}  {\inred{#8}}&
+\mr{#1} {\inred{#5}}&
+\mr{1}  {\inred{#9}}\\
 }
 \newcommand{\myrowh}[4]{
 \cline{2-2}\cline{4-4}\cline{6-6}\cline{8-8}
-&\mr{1}{#1}&
-&\mr{1}{#2}&
-&\mr{1}{#3}&
-&\mr{1}{#4}\\
+&\mr{1}{\stextsf{#1}}&
+&\mr{1}{\inred{#2}}&
+&\mr{1}{\inred{#3}}&
+&\mr{1}{\inred{#4}}\\
 }
 \newcommand{\mysrowh}[4]{
 \multicolumn{2}{c?}{#1}&

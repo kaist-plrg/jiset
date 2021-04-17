@@ -81,7 +81,7 @@ syntax and table-based type information from ECMAScript and constructs type
 hierarchy and fields for ASTs and records.  Based on the extracted types,
 $\tool$ performs type analysis and detects specification bugs using a
 \textit{bug detector} consisting of four different checkers: 1) reference
-checker, 2) arity checker, and 3) assertion checker, 4) operand type checker.
+checker, 2) arity checker, 3) assertion checker, and 4) operand checker.
 Moreover, to increase precision of type analysis, we also present
 \textit{condition-based refinement} for type analysis on ECMAScript. Its main
 concept is to prunes out infeasible abstract states by using conditions of
@@ -96,8 +96,7 @@ In summary, our main contributions are as follows:
     analysis} on ECMAScript to check the the correctness of JavaScript language
     specifications.  $\tool$ automatically detects specification bugs via the
     \textit{bug detector} consisting of four different checkers: 1) reference
-    checker, 2) arity checker, and 3) assertion checker, 4) operand type
-    checker.
+    checker, 2) arity checker, 3) assertion checker, and 4) operand checker.
   \item We present \textit{condition-based refinement} for type analysis of
     ECMAScript to reduce false alarms by increasing the analysis precision.  Its
     main idea is to prune out infeasible abstract states by using conditions of

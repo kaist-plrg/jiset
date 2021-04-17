@@ -15,17 +15,17 @@
       \multicolumn{1}{c}{\textbf{\# Bugs}}\\
       \hline
 
-      \multirow{2}{*}{\text{Reference}}
+      \multirow{2}{*}{\stextsf{Reference}}
       & \text{Unknown Variables} & \inred{XXX} & \inred{XXX}\\\cline{2-4}
       & \text{Already Defined Variables} & \inred{XXX} & \inred{XXX}\\\hline
 
-      \multirow{1}{*}{\text{Parameter}}
+      \multirow{1}{*}{\stextsf{Arity}}
       & \text{Arity Mismatches} & \inred{XXX} & \inred{XXX}\\\hline
 
-      \multirow{1}{*}{\text{Assertion}}
+      \multirow{1}{*}{\stextsf{Assertion}}
       & \text{Assertion Failures} & \inred{XXX} & \inred{XXX}\\\hline
 
-      \multirow{2}{*}{\text{Type}}
+      \multirow{2}{*}{\stextsf{Type}}
       & \text{Non-Numeric Operands} & \inred{XXX} & \inred{XXX}\\\cline{2-4}
       & \text{Unchecked Abrupt Completions} & \inred{XXX} & \inred{XXX}\\\hline
 
@@ -50,8 +50,8 @@ Table~\ref{table:pr-bugs}, \inred{XXX} pull requests existed having bugfixes of
 \inred{XXX} type-related specification bugs classified in six different kinds
 and four categories.  To detect such specification bugs, we implement four
 checkers for each category of bugs: \textit{reference checker}, \textit{arity
-checker}, \textit{assertion checker}, and \textit{operand type checker}.  Now,
-we explain how each checker detects corresponding bugs in the augmented abstract
+checker}, \textit{assertion checker}, and \textit{operand checker}.  Now, we
+explain how each checker detects corresponding bugs in the augmented abstract
 transfer $\detector$.
 
 
@@ -190,7 +190,7 @@ assertion checker reports an assertion failure for the condition
 $\code{environment = originalEnv}$.
 
 
-\subsection{Operand Type Checker}
+\subsection{Operand Checker}
 
 \begin{figure*}
   \centering
@@ -204,7 +204,7 @@ $\code{environment = originalEnv}$.
   \end{subfigure}
   \begin{subfigure}[b]{0.24\textwidth}
     \includegraphics[width=\textwidth]{img/iter}
-    \caption{The number of worklist iterations.}
+    \caption{The number of iterations.}
   \end{subfigure}
   \begin{subfigure}[b]{0.24\textwidth}
     \includegraphics[width=\textwidth]{img/time}
