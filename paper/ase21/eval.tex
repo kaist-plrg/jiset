@@ -104,22 +104,22 @@ RAM.
 
 Figure~\ref{fig:stat} shows four statistics of type analysis using $\tool$ for
 864 versions of ECMAScript: (a) the number of analyzed functions, (b) the number
-of flow- and type-sensitive views, (c) the number of worklist iteration, and (d)
-the analysis time.  For each version of ECMAScript, \inred{1,999.9} functions
-(\textsf{func}) are analyzed and \inred{1,999.9} functions among them are fully
-compiled (\textsf{full-func}) on average.  Since the compile rules in $\jiset$
-is more suitable for recent versions, the number of fully compiled functions in
-older versions are less than in more recent versions.  $\tool$ keeps different
-abstract environments for each functions divided by flow- and type-sensitive
-views.  In the analysis result, \inred{1.3}M views existed for each version and
-\inred{1.3}K views existed for each function on average.
+of flow- and type-sensitive views, (c) the number of worklist iterations, and
+(d) the analysis time.  For each version of ECMAScript, \inred{1,999.9}
+functions (\textsf{func}) are analyzed and \inred{1,999.9} functions among them
+are fully compiled (\textsf{full-func}) on average.  Since the compile rules in
+$\jiset$ is more suitable for recent versions, the number of fully compiled
+functions in older versions are less than in more recent versions.  $\tool$
+keeps different abstract environments for each functions divided by flow- and
+type-sensitive views.  In the analysis result, \inred{1.3}M views existed for
+each version and \inred{1.3}K views existed for each function on average.
 
-We measured performance of $\tool$ based on the number of iteration for worklist
-algorithm and the analysis time.  For each version of ECMAScript, $\tool$ took
-\inred{300.0} seconds with \inred{19,999.9} iterations of worklist algorithm on
-average.  The analysis time consists of \inred{10.0} seconds for the
-specification extraction (\textsf{extract}), \inred{340.0} seconds for the type
-analysis (\textsf{analyze}), \inred{10.0} seconds for the bug detection
+We measured performance of $\tool$ based on the number of iterations for
+worklist algorithm and the analysis time.  For each version of ECMAScript,
+$\tool$ took \inred{300.0} seconds with \inred{19,999.9} iterations of worklist
+algorithm on average.  The analysis time consists of \inred{10.0} seconds for
+the specification extraction (\textsf{extract}), \inred{340.0} seconds for the
+type analysis (\textsf{analyze}), \inred{10.0} seconds for the bug detection
 (\textsf{detect}).
 
 
