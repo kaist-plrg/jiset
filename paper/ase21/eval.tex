@@ -141,13 +141,13 @@ seconds for the bug detection (\stextsf{detect} with red bars).
   \centering
   \begin{subfigure}[b]{0.24\textwidth}
     \includegraphics[width=\textwidth]{img/ttl-chro}
-    \caption{Existence period sorted by creation time.}
+    \caption{TTLs sorted by creation time.}
   \end{subfigure}
   \begin{subfigure}[b]{0.24\textwidth}
     \includegraphics[width=\textwidth]{img/ttl-count}
-    \caption{The histogram by TTL.}
+    \caption{The histogram of TTLs.}
   \end{subfigure}
-  \caption{Time to Live (TTL) of true bugs.}
+  \caption{Time to Lives (TTLs) of true bugs.}
   \vspace*{-1.5em}
   \label{fig:ttl}
 \end{figure}
@@ -171,58 +171,29 @@ completion bugs (\stextsf{Abrupt}) with \inred{12.3}\% precision.
 Moreover, we extended $\tool$ to automatically extract more statistics of
 detected true bugs.  \inred{First, we checked that true bugs are created or
 resolved by whom as described in Table~\ref{table:author}.  Among \inred{89}
-true bugs, we cannot automatically know who created \inred{20} inherited bugs
-created before 2018.  For remaining \inred{20} bugs, only \inred{20} bugs are
-created by members of the Ecma Technical Committee 39 (TC39) but others
-(\inred{20} bugs) are created by outside contributors not committee members.
-On the other hand, most of them (\inred{20} bugs) are resolved by the committee
-members but only \inred{20} bugs are resolved by non-committee contributors.
-Other \inred{14} bugs are newly found and we will explain their details in
-Section~\ref{sec:new-bug}.}  Another statistic of true bugs is Time to Live
-(TTL) that denotes how many days specification bugs existed.
-Figure~\ref{fig:ttl} describes TTL of true bugs; the left chart depicts the
-period of existing bugs sorted by their creation time, and the right chart
-depicts the histogram of TTL in a logarithmic scale.  The average TTL of true
-bugs is \inred{300.0} days although we assume that \inred{20} inherited bugs are
-created in January 1, 2018.  The maximum length of TTL is \inred{1,000} and this
-bug is created before 2018 but not yet resolved in the latest version.  We
-manually investigated the creation time of this bug, and we discovered that it
-was created at the initial commit of the open development process in September
-22, 2015.  It means that the bug actually existed for \inred{3,000} days.
+true bugs, we cannot automatically know who created \inred{20}
+\textit{inherited} bugs, which are created before 2018.  For remaining
+\inred{20} bugs, only \inred{20} bugs are created by members of the Ecma
+Technical Committee 39 (TC39) but others (\inred{20} bugs) are created by
+outside contributors not committee members.  On the other hand, most of them
+(\inred{20} bugs) are resolved by the committee members but only \inred{20} bugs
+are resolved by non-committee contributors.  Other \inred{14} bugs are newly
+found and we will explain their details in Section~\ref{sec:new-bug}.}  Another
+statistic of true bugs is Time to Live (TTL) that denotes how many days
+specification bugs existed.  Figure~\ref{fig:ttl} describes TTLs of true bugs;
+the left chart (Figure~\ref{fig:ttl}(a)) depicts their periods sorted by their
+creation time, and the right chart (Figure~\ref{fig:ttl}(b)) depicts the
+histogram of TTLs in a logarithmic scale.  The average days of TTL is
+\inred{300.0} even though we assume that \inred{20} inherited bugs are created
+in January 1, 2018.  The maximum length of TTL is \inred{1,000} and the
+corresponding bug is inherited and not yet resolved in the latest version.  We
+manually investigated its creation time in the history of the official
+repository, and we discovered that it was created at the initial commit of the
+open development process in September 22, 2015.  It means that the bug actually
+existed for \inred{3,000} days.
 
 
 \subsection{Effectiveness of Refinement}\label{sec:effect-refine}
-
-We showed that the condition-based refinement for type analysis of ECMAScript
-effectively increased analysis precision without significant performance
-degradation. \todo
-
-\begin{figure}
-  \centering
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/compare-iter}
-    \caption{The number of iterations.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/ratio-iter}
-    \caption{The ratio of iterations.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/compare-time}
-    \caption{The analysis time.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/ratio-time}
-    \caption{The ratio of analysis time.}
-  \end{subfigure}
-  \caption{The comparison of iterations and analysis time without refinement
-  (\stextsf{no-refine}) and those with refinement (\stextsf{refine}).}
-  \label{fig:performance-comp}
-  \vspace*{-1.5em}
-\end{figure}
-
-
-\subsection{Detection of New Bugs}\label{sec:new-bug}
 
 \begin{table*}
   \centering
@@ -290,6 +261,18 @@ degradation. \todo
     \inred{1,999} days\\\hline
 
     ES12-5 &
+    Async &
+    1 &
+    \makecell[l]{
+        A variable \code{value} is already defined in \textbf{Evaluation} for
+        \jscode{yield} expressions.
+    } &
+    \stextsf{Reference} &
+    \inred{2015-01-01} &
+    \inred{2015-01-01} &
+    \inred{1,999} days\\\hline
+
+    ES12-6 &
     Class &
     1 &
     \makecell[l]{
@@ -301,24 +284,12 @@ degradation. \todo
     \inred{2015-01-01} &
     \inred{1,999} days\\\hline
 
-    ES12-6 &
+    ES12-7 &
     Branch &
     1 &
     \makecell[l]{
         A variable \code{Statement} is not defined in \textbf{EarlyErrors} for
         \jscode{if} statement.
-    } &
-    \stextsf{Reference} &
-    \inred{2015-01-01} &
-    \inred{2015-01-01} &
-    \inred{1,999} days\\\hline
-
-    ES12-7 &
-    Async &
-    1 &
-    \makecell[l]{
-        A variable \code{value} is already defined in \textbf{Evaluation} for
-        \jscode{yield} expressions.
     } &
     \stextsf{Reference} &
     \inred{2015-01-01} &
@@ -341,3 +312,126 @@ degradation. \todo
   }
   \vspace*{-1.5em}
 \end{table*}
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/compare-iter}
+    \caption{The histogram of iterations.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/ratio-iter}
+    \caption{The ratio of iterations.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/compare-time}
+    \caption{The histogram of analysis time.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/ratio-time}
+    \caption{The ratio of analysis time.}
+  \end{subfigure}
+  \caption{The comparison of iterations and analysis time without refinement
+  (\stextsf{no-refine}) and with refinement (\stextsf{refine}).}
+  \label{fig:performance-compare}
+  \vspace*{-1.5em}
+\end{figure}
+
+We evaluated the effectiveness of condition-based refinement based on how much
+it improved analysis precision without significant performance degradation.  To
+compare performance and precision of analysis without refinement
+(\stextsf{no-refine}) and with refinement (\stextsf{refine}), we also performed
+$\tool$ without refinement for 864 versions of ECMAScript.
+
+For performance, Figure~\ref{fig:performance-compare} describes the comparison
+of iterations and analysis time without refinement and with refinement; the left
+charts (Figure~\ref{fig:performance-compare}(a) and
+\ref{fig:performance-compare}(c)) are histograms of iterations and analysis
+time, and the right charts (Figure~\ref{fig:performance-compare}(b) and
+\ref{fig:performance-compare}(d)) are scatter charts for their ratio.  Without
+refinement, type analysis took \inred{234.3} seconds with \inred{232}K
+iterations on average.  With refinement, it took \inred{234.3} seconds with
+\inred{232}K iterations on average.  For each version, analysis time is
+increased at least \inred{2.3}x, at most \inred{2.3}x, and \inred{2.3}x on
+average, and the number of iterations is increased at least \inred{2.3}x, at
+most \inred{2.3}x, and \inred{2.3}x on average.
+
+Table~\ref{table:precision} shows the analysis precision without refinement,
+with refinement, and their difference.  The refinement improved the analysis
+precision from \inred{23.2}\% to \inred{23.3}\% by removing \inred{10} false
+bugs and to detect \inred{10} more true bugs.  (\todo: investigate the result for
+each checker.)
+
+
+\subsection{Detection of New Bugs}\label{sec:new-bug}
+
+Among \inred{91} true bugs detected by $\tool$, \inred{14} bugs are newly
+detected and still exist in the latestest version of ECMAScript.
+Table~\ref{table:new-bug} summarizes the bugs categorized by their kinds and
+related JavaScript language features. It includes their TTLs, and we manually
+investigated their extact creation time if they are created before 2018.  We
+reported the newly detected bugs to TC39; all of them are confirmed by the
+committee and will be fixed in ECMAScript 2022 (ES13).
+
+ES12-1 contains three bugs that are due to the duplicated definition of
+variables in three different algorithms for \jscode{case} blocks of
+\jscode{switch} statements: \code{hasDuplicates} in
+\textbf{ContainsDuplicateLabels}, and \code{hasUndefinedLabels} in
+\textbf{ContainsUndefinedBreakTarget} and
+\textbf{ContainsUndefinedContinueTarget}.  Each \jscode{case} block optionally
+contains \jscode{case} clauses, and three algorithms perform additional stpes
+including to define \code{hasDuplicates} (or \code{hasUndefinedLabels}) when the
+clauses exist at the beginning.  However, the exactly same variable is defined
+again after the coditionally additional steps.  It means that the semantics of
+\jscode{case} blocks having \jscode{case} clauses always have reference for
+already defined variable \code{hasDuplicates} (or \code{hasUndefinedLabels}).
+ES12-2 also contains three bugs caused by the exactly same reasons in same
+abstract algorithms for \jscode{try} statements.
+
+The bug in ES12-3 is a reference bug for already defined variable \code{index}
+in the abstract algorithm \textbf{CreateMappedArgumentsObject}.  For each
+function call in JavaScript programs, an \jscode{arguments} object is created by
+\textbf{CreateMappedArgumentsObject}.  In the algorithm, the variable
+\code{index} is defined to handle the index of a given list of arguments.
+However, the variable is defined twice in step 14 and 17 of the algorithm.
+
+ES12-4 contains two reference bugs for already defined variable \code{succeeded}
+in \textbf{DefineOwnProperty} of \jscode{Array} objects and
+\textbf{ArraySetLength}.  The \jscode{Array} objects are exotic, which means
+that they are not ordinay objects and have special algorithms for specific
+behaviors.  The two algorithms are wrapper algorithms of
+\textbf{OrdinaryDefineOwnProperty} which updates object properties.  They define
+the variable \code{succeeded} to represent the result of
+\textbf{OrdinaryDefineOwnProperty}.  However, the variable is defined twice in a
+specific condition.
+
+The bug in ES12-5 is a reference bug for already defined variable \code{value}
+in \textbf{Evaluation} of defined \jscode{yield} expressions.  In the evaluation
+of \jscode{yield * e}, the variable \code{value} is defined twice to
+represent 1) the evaluation result of the given expression \jscode{e} in step
+3, and 2) to the iterator value in step 7.c.viii.1.
+
+The bug in ES12-6 is a reference bug for unknown variable \code{ClassHeritage}
+in \textbf{Contains} for tails of \jscode{class} declarations.  A tail of
+\jscode{class} declaration consists of an optional class heritage with
+\jscode{extneds} keyword and a class body enclosed by curly braces.  When the
+optional class heritage does not exist, the variable \code{ClassHeritage} is not
+defined but the \textbf{Contains} algorithm tries to access it without any check
+of its existence.
+
+The bug in ES12-7 is a reference bug for unknown variable \code{Statement} in
+\textbf{EarlyErrors} for \jscode{if} statements.  In syntax-directed algorithms,
+the ordinal numbers are used as prefixes of variables when multiple sub-ASTs are
+produced by same productions.  A \jscode{if} statement contains two sub-ASTs
+produced by the \textit{Statement} production thus the ordinal number prefixes
+are required for the variable \code{Statement}.  However, the
+\textbf{EarlyErrors} algorithm for \jscode{if} statements uses it without any
+ordinal number prefixes.
+
+ES12-8 contains two operand type bugs related to abrupt completions in
+\textbf{DefineOwnProperty} and \textbf{GetOwnProperty} for \jscode{arguments}
+objects.  The two algorithms define or get own properties of \jscode{arguments}
+exotic objects.  They utilize the \textbf{Get} algorithm that returns JavaScript
+values stored in object properties or abrupt completions.  Thus, they should
+check whether results of \textbf{Get} are abstract completions or not before
+using them.  However, they use the results without any abrupt completion checks.
