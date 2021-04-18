@@ -1,1 +1,17 @@
 \section{Conclusion}\label{sec:conclusion}
+Since an incorrect description in ECMAScript can lead to the wrong JavaScript
+engine implementations, checking the correctness of ECMAScript is essential.
+Since ECMAScript is annually released and developed in open process, it becomes
+more labor-intensive and error-prone.  To alleviate the problem, we propose
+$\tool$, a JavaScript Specification Type Analyzer using Refinement.  It is the
+first tool that performs \textit{type analysis} on JavaScript specifications and
+detects specification bugs using a \textit{bug detector}.  Moreover, to increase
+precision of type analysis, we present \textit{condition-based refinement} for
+type analysis, which prunes out infeasible abstract states using conditions of
+assertions and branches.  We evaluated $\tool$ with all 864 versions in the
+official ECMAScript repository for the recent three years from 2018 to 2021.
+Our tool took \inred{230} seconds on average to perform type analysis for each
+version, and detected \inred{200} type-related specification bugs with
+\inred{50.3}\% precision; \inred{91} out of \inred{200} bugs are true bugs.
+Among them, \inred{14} bugs are newly detected by $\tool$ and the committee
+confirmed all of them.

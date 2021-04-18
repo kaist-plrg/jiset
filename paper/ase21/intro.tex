@@ -22,8 +22,8 @@ JavaScript specification is vulnerable to specification bugs.  Besides, in late
 process of ECMAScript to quickly adapt to an evolving development environment.
 According to \citet{jiset}, the average number of updated steps of abstract
 algorithms between consecutive releases from ES7 (2016) to ES10 (ES2019) is
-9645.5.  In the official repository of ECMAScript, \inred{X,XXX} pull requests
-and \inred{X,XXX} commits exist in the master branch.  Therefore, it makes more
+9645.5.  In the official repository of ECMAScript, \inred{1,200} pull requests
+and \inred{3,000} commits exist in the master branch.  Therefore, it makes more
 difficult to manually check all the specification updates using limited human
 resources.
 
@@ -87,7 +87,7 @@ Moreover, to increase precision of type analysis, we also present
 concept is to prunes out infeasible abstract states by using conditions of
 assertions and branches.  The refinement technique can reduce false alarms
 caused by spurious types inferred by imprecise analysis.  We evaluate our tool
-with all \inred{XXX} different versions existed in the official ECMAScript
+with all \inred{864} different versions existed in the official ECMAScript
 repository for the recent \inred{three years from 2018 to 2021}.
 
 In summary, our main contributions are as follows:
@@ -101,12 +101,9 @@ In summary, our main contributions are as follows:
     ECMAScript to reduce false alarms by increasing the analysis precision.  Its
     main idea is to prune out infeasible abstract states by using conditions of
     assertions and branches.
-  \item We demonstrate the practicality of $\tool$. For recent \inred{XXX}
-    different versions of ECMAScript, our tool detected \inred{XXX}
-    specification bugs including only \inred{XXX} false alarms caused by the
-    imprecision of type analysis in \inred{XX} minutes on average.  Among
-    \inred{XXX} true alarms, \inred{XXX} bugs are resolved after existing for
-    \inred{XXX} days on average and \inred{XX} bugs still exist in the latest
-    version of ECMAScript for \inred{XXX} days.  We reported all \inred{XX}
-    newly found bugs and they are confirmed by the committee.
+  \item We demonstrate the practicality of $\tool$. Our tool took \inred{230}
+    seconds on average to perform type analysis for each version, and detected
+    \inred{200} type-related specification bugs with \inred{50.3}\% precision;
+    \inred{91} out of \inred{200} bugs are true bugs.  Among them, \inred{14}
+    bugs are newly detected by $\tool$ and the committee confirmed all of them.
 \end{itemize}
