@@ -1,60 +1,5 @@
 \section{Evaluation}\label{sec:eval}
 
-\begin{table*}
-  \centering
-  \caption{The analysis precision of $\tool$ without refinement
-  (\stextsf{no-refine}), with refinement (\stextsf{refine}), and their
-  difference ($\Delta$)}
-  \label{table:precision}
-  \resizebox{\textwidth}{!}{%
-  \begin{tabular}{c|c?c|c?c|c?c|c}
-    \multirow{2}{*}{\textbf{Checker}} &
-    \multirow{2}{*}{\textbf{Bug Kind}} &
-    \multicolumn{6}{c}{
-      \textbf{Precision = (\# True Bugs) / (\# Detected Bugs)}
-    }\\\cline{3-8} &&
-    \multicolumn{2}{c?}{no-refine} &
-    \multicolumn{2}{c?}{refine} &
-    \multicolumn{2}{c}{$\Delta$}\\
-
-    \specialrule{.1em}{.0em}{.0em}
-
-    \myrowc{2}
-    {Reference}     {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-    {UnknownVar}    {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
-    \myrowh
-    {DuplicatedVar} {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
-
-    \hline
-
-    \myrowc{1}
-    {Arity}         {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-    {MissParam}     {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
-
-    \hline
-
-    \myrowc{1}
-    {Assertion}     {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-    {Assertion}     {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
-
-    \hline
-
-    \myrowc{2}
-    {Operand}       {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-    {NoNumber}      {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
-    \myrowh
-    {Abrupt}        {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
-
-    \specialrule{.1em}{.0em}{.0em}
-
-    \mysrowh
-    {\textbf{Total}}{43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
-
-  \end{tabular}
-  }
-  \vspace*{-1.5em}
-\end{table*}
-
 We implemented $\tool$ as an open-source tool~\footnote{The link is anonymized
 because of a double-blind review process} in Scala by extending $\jiset$, a
 JavaScript IR-based semantics extraction toolchain, with a worklist-based
@@ -151,6 +96,62 @@ seconds for the bug detection (\stextsf{detect} with red bars).
   \vspace*{-1.5em}
   \label{fig:ttl}
 \end{figure}
+
+\begin{table*}
+  \centering
+  \caption{The analysis precision of $\tool$ without refinement
+  (\stextsf{no-refine}), with refinement (\stextsf{refine}), and their
+  difference ($\Delta$)}
+  \label{table:precision}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{c|c?c|c?c|c?c|c}
+    \multirow{2}{*}{\textbf{Checker}} &
+    \multirow{2}{*}{\textbf{Bug Kind}} &
+    \multicolumn{6}{c}{
+      \textbf{Precision = (\# True Bugs) / (\# Detected Bugs)}
+    }\\\cline{3-8} &&
+    \multicolumn{2}{c?}{no-refine} &
+    \multicolumn{2}{c?}{refine} &
+    \multicolumn{2}{c}{$\Delta$}\\
+
+    \specialrule{.1em}{.0em}{.0em}
+
+    \myrowc{2}
+    {Reference}     {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
+    {UnknownVar}    {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
+    \myrowh
+    {DuplicatedVar} {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
+
+    \hline
+
+    \myrowc{1}
+    {Arity}         {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
+    {MissParam}     {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
+
+    \hline
+
+    \myrowc{1}
+    {Assertion}     {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
+    {Assertion}     {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
+
+    \hline
+
+    \myrowc{2}
+    {Operand}       {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
+    {NoNumber}      {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
+    \myrowh
+    {Abrupt}        {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
+
+    \specialrule{.1em}{.0em}{.0em}
+
+    \mysrowh
+    {\textbf{Total}}{43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
+
+  \end{tabular}
+  }
+  \vspace*{-1.5em}
+\end{table*}
+
 
 We measured the analysis precision based on the number of true bugs in
 type-related specification bugs detected by $\tool$.  As described in the
@@ -325,11 +326,11 @@ existed for \inred{3,000} days.
   \end{subfigure}
   \begin{subfigure}[b]{0.24\textwidth}
     \includegraphics[width=\textwidth]{img/compare-time}
-    \caption{The histogram of analysis time.}
+    \caption{The histogram of time.}
   \end{subfigure}
   \begin{subfigure}[b]{0.24\textwidth}
     \includegraphics[width=\textwidth]{img/ratio-time}
-    \caption{The ratio of analysis time.}
+    \caption{The ratio of time.}
   \end{subfigure}
   \caption{The comparison of iterations and analysis time without refinement
   (\stextsf{no-refine}) and with refinement (\stextsf{refine}).}
