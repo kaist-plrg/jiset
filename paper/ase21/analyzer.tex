@@ -21,7 +21,7 @@ To make it more suitable for type analysis, we modify it as a label-based
 language as follows:
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{\columnwidth}{!}{$
     \begin{array}{l@{~}r@{~}c@{~}r@{~}r@{~}l}
       \text{Functions}
@@ -72,7 +72,7 @@ language as follows:
       \tnum \mid \tbigint \mid \tstr \mid \tsymb \\
     \end{array}
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure} \noindent
 A modified $\ires$ program $\prog = (\getfunc, \getinst, \getnext)$ is consists
 of three mappings from labels;  $\getfunc: \labset \rightarrow \funcset$
@@ -273,7 +273,7 @@ model them as follows:
 
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{\columnwidth}{!}{$
     \begin{array}{l}
       \code{Completion} \code{=} \; \kwcl\\
@@ -284,7 +284,7 @@ model them as follows:
       \kwcr\\
     \end{array}
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure}
 
 The subtype relation $\subtype \subseteq \tyset \times \tyset$ between types is
@@ -314,7 +314,7 @@ interpretation framework~\cite{ai1977, ai1992} with analysis
 sensitivity~\cite{sens-toplas}.  We first extend types $\tyset$ as follows:
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{0.8\columnwidth}{!}{$
     \tyset \ni \ty ::=
     \cdots \mid
@@ -326,7 +326,7 @@ sensitivity~\cite{sens-toplas}.  We first extend types $\tyset$ as follows:
     \str \mid
     \tabsent
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure} \noindent
 There are three reasons why we extend types.  First, the original types $\tyset$
 do not cover all types of values thus we add functions and constants.  Second,
@@ -343,7 +343,7 @@ type-sensitivity for arguments:
 
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{\columnwidth}{!}{$
     \begin{array}{lr@{~}c@{~}c@{~}r@{~}l}
       \text{Abstract States}
@@ -363,7 +363,7 @@ type-sensitivity for arguments:
       &\aty&\in&\atyset&=&\partsof{\tyset}\\
     \end{array}
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure}
 
 An abstract state $\aelem \in \adom$ is a pair of a result map and a return
@@ -380,7 +380,7 @@ abstract domains in a point-wise manner, we define the operators for types with
 a normalization function $\norm$ because of their subtype relations:
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{\columnwidth}{!}{$
     \begin{array}{l}
       \aty_0 \join \aty_1 = \norm(\aty_0 \cup \aty_1)\\
@@ -392,7 +392,7 @@ a normalization function $\norm$ because of their subtype relations:
       \ty_1 \in \norm(\aty_1). \; \text{s.t.} \; \ty_0 \subtype \ty_1\\
     \end{array}
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure} \noindent
 where $\small{\norm(\aty) = \{ \ty \mid \ty \in \aty \wedge \nexists \ty' \in
 \aty. \setminus \{ \ty \}\; \text{s.t.} \; \ty \subtype \ty' \}}$.
@@ -404,7 +404,7 @@ views, we upcast the type of each argument before function calls with the
 following function:
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{0.8\columnwidth}{!}{$
     \upcast(\ty) = \left\{
       \begin{array}{ll}
@@ -416,7 +416,7 @@ following function:
       \end{array}
     \right.
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure} \noindent
 and $\upcasts$ denotes a point-wise extension of $\upcast$ for type sequences.
 For branches and assertions, we apply the $\pass$ function to prevent the
@@ -424,7 +424,7 @@ infeasible control flows defined as follows:
 
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{0.9\columnwidth}{!}{$
     \pass(\expr, \bool)(\aenv) = \left\{
       \begin{array}{ll}
@@ -436,7 +436,7 @@ infeasible control flows defined as follows:
       \end{array}
     \right.
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure} \noindent
 where $\refine$ is a function that prunes out infeasible parts in abstract
 environments based on their conditions to increase analysis precision.  We will
@@ -446,7 +446,7 @@ as the least fixpoint of abstract transfer $\atransfer: \adom \rightarrow
 \adom$:
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{0.9\columnwidth}{!}{$
     \begin{array}{r@{~}c@{~}l}
       \asem{\prog} &=& \lim_{n \rightarrow \infty}(\atransfer)^n(\iaelem)\\
@@ -456,7 +456,7 @@ as the least fixpoint of abstract transfer $\atransfer: \adom \rightarrow
       \right)\\
     \end{array}
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure} \noindent
 where $\aelem = (\rmap, \_)$ and $\iaelem$ denotes the initial abstract state.
 As described in Section~\ref{sec:overview}, $\iaelem$ contains entry points of
@@ -468,7 +468,7 @@ example, the upper-left syntax-directed algorithm in Figure~\ref{fig:example} is
 initialized with the following abstract environment:
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{\columnwidth}{!}{$
     \begin{array}{r@{~}c@{~}l}
       \this &\mapsto& \{ \code{AssignmentExpression} \},\\
@@ -476,7 +476,7 @@ initialized with the following abstract environment:
       \code{AssignmentExpression} &\mapsto& \{ \code{AssignmentExpression} \}
     \end{array}
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure} \noindent
 For built-in algorithms, we assign pre-defined variables $\this$, $\args$, and
 $\NewTarget$ with corresponding types and parameters with $\tjs$ types.  For
@@ -484,7 +484,7 @@ example, the following abstract environment is for the built-in
 algorithm $\jscode{Math.round}$ at the upper-right in Figure~\ref{fig:example}:
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{0.9\columnwidth}{!}{$
     \begin{array}{r@{~}c@{~}lr@{~}c@{~}l}
       \this &\mapsto& \{ \tjs \}, &
@@ -493,7 +493,7 @@ algorithm $\jscode{Math.round}$ at the upper-right in Figure~\ref{fig:example}:
       \x &\mapsto& \{ \tjs \}\\
     \end{array}
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure}
 
 
@@ -505,7 +505,7 @@ in abstract environments based on conditions of branches of assertions, and we
 formally define the $\refine$ function as follows:
 \begin{figure}[H]
   \centering
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
   \resizebox{\columnwidth}{!}{$
     \begin{array}{@{}r@{~}c@{~}l@{}}
       \refine(\code{!} \expr, \bool)(\aenv) &=&
@@ -545,7 +545,7 @@ formally define the $\refine$ function as follows:
       \refine(\expr, \true)(\aenv) &=& \aenv\\
     \end{array}
   $}
-  \vspace{-0.5em}
+  \vspace*{-0.5em}
 \end{figure} \noindent
 where $\aenv_i = \refine(\expr_i, \bool)(\aenv)$ and $\aty_\expr =
 \aseme{\expr}(\aenv)$.  The notation $\getSingle{\aty}$ denotes to check whether
