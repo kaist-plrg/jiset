@@ -324,8 +324,8 @@ def dump_diff_summary():
         return
     results_map = dict([(v, AnalysisResult(v)) for v in versions])
     # sort version in DESC
-    sorted_versions = [v for v in get_all_commits() if v in versions]
-    first_version = sorted_versions[-1]
+    sorted_versions = [v for v in reversed(get_all_commits()) if v in versions]
+    first_version = sorted_versions[0]
     with open(join(RESULT_DIR, "diff-summary.tsv"), "w") as f:
         writeln = lambda cells: f.write("\t".join(map(str, cells)) + "\n")
         size = lambda s: str(len(s))
@@ -341,7 +341,7 @@ def dump_diff_summary():
             if version == first_version:
                 writeln([first_version, "-", "-"] + commons)
             else:
-                prev_result = results_map[sorted_versions[i+1]]
+                prev_result = results_map[sorted_versions[i-1]]
                 diff = prev_result.diff(result)
                 writeln([version, size(diff["+"]), size(diff["-"])] + commons)
 
