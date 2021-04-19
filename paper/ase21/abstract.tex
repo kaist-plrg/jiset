@@ -1,15 +1,15 @@
 \begin{abstract}
-  JavaScript is one of mainstream programming languages for client-side
-  programming, server-side programming, and even embedded systems.  Thus,
-  various JavaScript engines are developed and maintained in diverse fields, and
-  they must conform to the syntax and semantics described in ECMAScript, the
+  JavaScript is one of the mainstream programming languages for client-side
+  programming, server-side programming, and even embedded systems.
+  Various JavaScript engines developed and maintained in diverse fields
+  must conform to the syntax and semantics described in ECMAScript, the
   standard specification of JavaScript.  Since an incorrect description in
-  ECMAScript can lead to the wrong JavaScript engine implementations, checking
-  the correctness of ECMAScript is essential.  However, all the specification
+  ECMAScript can lead to wrong JavaScript engine implementations, checking
+  the correctness of ECMAScript is critical and essential.  However, all the specification
   updates are currently manually reviewed by the Ecma Technical Committee 39
   (TC39) without any automated tools.  Moreover, in late 2014, the committee
-  announced yearly release cadence and open development process of ECMAScript to
-  adapt to evolving development environments quickly.  Because of such frequent
+  announced the yearly release cadence and open development process of ECMAScript to
+  quickly adapt to evolving development environments.  Because of such frequent
   updates, checking the correctness of ECMAScript becomes more labor-intensive
   and error-prone.
 
@@ -22,13 +22,13 @@
   Then, it performs type analysis for compiled functions with specification
   types defined in ECMAScript.  Based on the result of type analysis, $\tool$
   detects specification bugs using a bug detector consisting of four checkers.
-  Moreover, to increase precision of type analysis, we present
+  To increase the precision of the type analysis, we present
   \textit{condition-based refinement} for type analysis, which prunes out
   infeasible abstract states using conditions of assertions and branches.  We
   evaluated $\tool$ with all 864 versions in the official ECMAScript repository
-  for the recent three years from 2018 to 2021.  Our tool took \inred{136.1}
+  for the recent three years from 2018 to 2021.  $\tool$ took \inred{136.1}
   seconds on average to perform type analysis for each version, and detected
   \inred{177} type-related specification bugs with \inred{52.0}\% precision;
-  \inred{92} bugs out of \inred{177} bugs are true bugs.  Among them, \inred{14}
-  bugs are newly detected by $\tool$ and the committee confirmed all of them.
+  \inred{92} out of \inred{177} bugs are true bugs.  Among them, \inred{14}
+  bugs are newly detected by $\tool$, and the committee confirmed them all.
 \end{abstract}
