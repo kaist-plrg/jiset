@@ -106,155 +106,149 @@ or a \jscode{Symbol} $\symb$.
 
 \begin{figure*}[t]
   \centering
-  \begin{subfigure}[b]{\textwidth}
-    \[
-      \footnotesize
-      \begin{array}{r@{~}c@{~}ll}
+  \begin{subfigure}[b]{0.52\textwidth}
+    \resizebox{\textwidth}{!}{$
+      \begin{array}{@{}l@{~}c@{~}l}
         \asemi{\kwlet \; \x = \expr}
         (\lab, \tys)(\aelem) &=&
-        (\{ (\getnext(\lab), \tys) \mapsto \aenv_\x \}, \emp) &
-        \text{where} \;
-        \aenv_\x = \aenv[\x \mapsto \aty] \wedge
-        \aty = \aseme{\expr}(\aenv)\\
+        (\{ (\getnext(\lab), \tys) \mapsto \aenv[\x \mapsto
+        \aseme{\expr}(\aenv)] \}, \emp)\\
 
-        \asemi{\x = \kwrl \expr_0 \; \expr_1 \cdots \expr_n \kwrr}
-        (\lab, \tys)(\aelem) &=&
-        \left(
-          \begin{array}{@{}l@{}}
-            \{ (\lab_\func, \tys_a) \mapsto \aenv_{\func, \tys_a} \mid \func \in
-              F \wedge \tys_a \in T_a
-            \},\\
-            \{ (\func, \tys_a) \mapsto \{ (\getnext(\lab), \tys, \x) \} \mid
-              \func \in F \wedge \tys_a \in T_a
-            \}\\
-          \end{array}
-        \right) &
-        \text{where} \;
-        \left\{
-          \begin{array}{@{}l@{}}
-            \aty_i = \aseme{\expr_i}(\aenv) \wedge T_a = \{ \upcasts([ \ty_1,
-            \cdots, \ty_n ] \mid \ty_i \in \aty_i \} \wedge\\
-            F = \{ \func \in \aty_0 \mid \func = \kwdef \; \_ (\p_1, \cdots,
-            \kwsl \cdots, \p_m \kwsr). \; \lab_\func \} \wedge\\
-            \aenv_{\func, \tys_a} = \aenv[\p_1 \mapsto \{ \tys_a[1] \}, \cdots,
-            \p_m \mapsto \{ \tys_a[m] \}]\\
-          \end{array}
-        \right.\\
+        \asemi{\x = \kwrl \expr \; \expr_1 \cdots \expr_n \kwrr}
+        (\lab, \tys)(\aelem) &=& (\rmap', \retp')\\
+        \multicolumn{3}{@{}l}{
+          \text{where} \;
+          \left\{
+            \begin{array}{l@{}}
+              \aty = \aseme{\expr}(\aenv) \;\wedge\;
+              \aty_1 = \aseme{\expr_1}(\aenv) \;\wedge\;
+              \cdots \;\wedge\;
+              \aty_n = \aseme{\expr_n}(\aenv) \;\wedge\;\\
 
-        \asemi{\kwassert \; \expr}
-        (\lab, \tys)(\aelem) &=&
-        (\{ (\getnext(\lab), \tys) \mapsto \aenv_\mt \}, \emp) &
-        \text{where} \; \aenv_\mt = \refine(\expr, \true)(\aenv)\\
+              T' = \{ \upcasts([ \ty_1, \cdots, \ty_n ]) \mid \ty_1 \in \aty_1
+              \;\wedge\; \cdots \;\wedge\; \ty_n \in \aty_n \} \;\wedge\;\\
 
-        \asemi{\kwif \; \expr \; \lab_\mt \; \lab_\mf}
-        (\lab, \tys)(\aelem) &=&
-        (\{ (\lab_\mt, \tys) \mapsto \aenv_\mt, (\lab_\mf, \tys) \mapsto
-        \aenv_\mf \}, \emp) &
-        \text{where} \;
-        \aenv_\mt = \refine(\expr, \true)(\aenv) \wedge
-        \aenv_\mf = \refine(\expr, \false)(\aenv)\\
+              \func = \kwdef \; \f (\p_1, \cdots, \kwsl \cdots, \p_{m_\func}
+              \kwsr). \; \lab_\func \;\wedge\;\\
+
+              \aenv_{\func, \tys'} = [\p_1 \mapsto \{ \tys'[1] \}, \cdots,
+              \p_{m_\func} \mapsto \{ \tys'[m] \}] \;\wedge\;\\
+
+              \rmap' = \{ (\lab_\func, \tys') \mapsto \aenv_{\func, \tys'}
+              \mid \func \in \aty \;\wedge\; \tys' \in T' \} \;\wedge\;\\
+
+              \retp' = \{ (\func, \tys') \mapsto \{ (\getnext(\lab), \tys, \x)
+              \} \mid \func \in \aty \;\wedge\; \tys' \in T' \}\\
+            \end{array}
+          \right.
+        }\\
 
         \asemi{\kwreturn \; \expr}
         (\lab, \tys)(\aelem) &=&
-        (\{ (\lab_r, \tys_r) \mapsto \aenv_r \mid (\lab_r, \tys_r, \x) \in
-        \retp(\getfunc(\lab), \tys)\}, \emp) &
-        \text{where} \;
-        \aenv_r = \rmap(\lab_r, \tys_r)[\x \mapsto \aty] \wedge
-        \aty = \aseme{\expr}(\aenv)\\
+        (\{ (\lab_r, \tys_r) \mapsto \aenv_r \mid
+        (\lab_r, \tys_r, \x) \in R\}, \emp)\\
+        \multicolumn{3}{@{}l}{
+          \text{where} \; R = \retp(\getfunc(\lab), \tys) \;\wedge\; \aenv_r =
+          \rmap(\lab_r, \tys_r)[\x \mapsto \aseme{\expr}(\aenv)]
+        }\\
+
+        \asemi{\kwassert \; \expr}
+        (\lab, \tys)(\aelem) &=&
+        (\{ (\getnext(\lab), \tys) \mapsto \pass(\expr, \true)(\aenv) \}, \emp)\\
+
+        \asemi{\kwif \; \expr \; \lab_\mt \; \lab_\mf}
+        (\lab, \tys)(\aelem) &=&
+        (\{ (\lab_\mt, \tys) \mapsto \pass(\expr, \true)(\aenv),\\ &&
+        \phantom{(\{} (\lab_\mf, \tys) \mapsto \pass(\expr, \false)(\aenv) \}, \emp)\\
 
         \asemi{\x = \expr}
         (\lab, \tys)(\aelem) &=&
-        (\{ (\getnext(\lab), \tys) \mapsto \aenv_\x \}, \emp) &
-        \text{where} \;
-        \aenv_\x = \aenv[\x \mapsto \aty] \wedge
-        \aty = \aseme{\expr}(\aenv)\\
+        (\{ (\getnext(\lab), \tys) \mapsto \aenv[\x \mapsto
+        \aseme{\expr}(\aenv)] \}, \emp)\\
 
         \asemi{\refer \kwsl \expr_0 \kwsr = \expr_1}
         (\lab, \tys)(\aelem) &=&
-        (\{ (\getnext(\lab), \tys) \mapsto \aenv \}, \emp)
+        (\{ (\getnext(\lab), \tys) \mapsto \aenv \}, \emp)\\
+
+        \multicolumn{3}{@{}l}{\text{where} \; \aelem = (\rmap, \retp) \;\wedge\;
+        \aenv = \rmap(\lab, \tys)}
       \end{array}
-    \]
+    $}
     \caption{Instructions with $\asemi{\inst}: (\labset \times \tyset^*)
-    \rightarrow \adom \rightarrow \adom$ where $\aelem = (\rmap, \retp) \wedge
-    \aenv = \aelem(\lab, \tys)$.}
+    \rightarrow \adom \rightarrow \adom$.}
   \end{subfigure}
-  \begin{subfigure}[b]{0.48\textwidth}
-    \[
-      \footnotesize
-      \asemr{\x}(\aenv) = \aenv(\x)
-      \qquad
-      \asemr{\refer \kwsl \expr \kwsr}(\aenv) = \{ \ty[\str] \mid \ty \in
-      \asemr{\refer}(\aenv) \wedge \str \in \aseme{\expr}(\aenv) \}
-    \]
-    \caption{References with $\asemr{\refer}: \aenvset \rightarrow \atyset$.}
-  \end{subfigure}
-  \begin{subfigure}[b]{\textwidth}
-    \[
-      \footnotesize
-      \begin{array}{r@{~}c@{~}lr@{~}c@{~}lr@{~}c@{~}l}
-        \aseme{\tname \; \kwcl \fields \kwcr}(\aenv)
-        &=& \multicolumn{7}{@{}l}{
-          \left\{
-            \begin{array}{ll}
-              \{ \tnormal(\ty) \mid \ty \in \aseme{\fields(\code{Value})}(\aenv)
-              \} & \text{if} \; \tname = \text{Completion} \wedge
-              \fields(\code{Type}) = \nconst{normal}\\
+  \begin{minipage}[b][0.3\textheight][s]{0.46\textwidth}
+    \begin{subfigure}[b]{\textwidth}
+      \centering
+      \vspace*{0.1em}
+      \resizebox{0.8\textwidth}{!}{$
+        \begin{array}{l@{~}c@{~}l}
+          \asemr{\x}(\aenv) &=& \aenv(\x)\\
+          \asemr{\refer \kwsl \expr \kwsr}(\aenv) &=& \{ \ty[\str] \mid \ty \in
+          \asemr{\refer}(\aenv) \wedge \str \in \aseme{\expr}(\aenv) \}\\
+        \end{array}
+      $}
+      \caption{References with $\asemr{\refer}: \aenvset \rightarrow \atyset$.}
+      \vspace*{0.5em}
+    \end{subfigure}
+    \begin{subfigure}[b]{\textwidth}
+      \centering
+      \resizebox{\textwidth}{!}{$
+        \begin{array}{l@{~}c@{~}l@{}}
+          \multicolumn{3}{l}{
+            \aseme{\num}(\aenv) = \tnum \qquad
+            \aseme{\bigint}(\aenv) = \tbigint \qquad
+            \aseme{\symb}(\aenv) = \tsymb
+          }\\
 
-              \{ \tabrupt \} & \text{if} \; \tname = \text{Completion} \wedge
-              \fields(\code{Type}) \neq \nconst{normal}\\
+          \multicolumn{3}{l}{
+            \aseme{\prim}(\aenv) = \prim \qquad
+            \aseme{\const}(\aenv) = \const \qquad
+            \aseme{\clist{}}(\aenv) = \clist{}
+          }\\
 
-              \{ \tname \} & \text{otherwise}\\
-            \end{array}
-          \right.
-          \quad \aseme{\prim}(\aenv) =
-          \left\{
-            \begin{array}{ll}
-              \{ \tnum \} & \text{if} \; \prim = \num\\
-              \{ \tbigint \} & \text{if} \; \prim = \bigint\\
-              \{ \tsymb \} & \text{if} \; \prim = \symb\\
-              \{ \prim \} & \text{otherwise}\\
-            \end{array}
-          \right.
-        }
+          \multicolumn{3}{l}{
+            \aseme{\clist{\expr_0, \cdots, \expr_n}}(\aenv) = \{ \clist{\ty} \mid
+            \ty \in \bigjoin_{0 \leq i \leq n} \aseme{\expr_i}(\aenv) \}
+          }\\
 
-        \\
+          \multicolumn{3}{l}{
+            \aseme{\code{Completion} \; \kwcl \cdots, \code{Type}:
+            \expr_0, \code{Value}: \expr_1, \cdots \kwcr}(\aenv) =
+          }\\
+          \multicolumn{3}{l}{
+            \qquad \left\{
+              \begin{array}{ll}
+                \{ \tnormal(\ty) \mid \ty \in \aseme{\expr_1}(\aenv) \} &
+                \text{if} \; \aseme{\expr_0} = \nconst{normal}\\
 
-        \aseme{\const}(\aenv) &=& \const &
+                \{ \tabrupt \} &
+                \text{otherwise}\\
+              \end{array}
+            \right.
+          }\\
 
-        \aseme{\clist{}}(\aenv) &=& \clist{} &
+          \aseme{\tname \; \kwcl \cdots \kwcr}(\aenv) &=& \{ \tname \}\\
 
-        \aseme{\clist{\expr_0, \cdots, \expr_n}}(\aenv)
-        &=& \{ \clist{\ty} \mid \ty \in \bigjoin_{0 \leq i
-        \leq n} \aseme{\expr_i}(\aenv) \}
+          \aseme{\expr: \ty}(\aenv) &=& \{ \ty' \subtype \ty \mid \ty' \in
+          \aseme{\expr}(\aenv) \}\\
 
-        \\
+          \aseme{\refer \kwexists}(\aenv) &=& \{ \ty \neq \tabsent \mid \ty \in
+          \aseme{\expr}(\aenv) \}\\
 
-        \aseme{\expr: \ty}(\aenv)
-        &=& \{ \ty' \subtype \ty \mid \ty' \in
-        \aseme{\expr}(\aenv) \} &
+          \aseme{\refer}(\aenv) &=& \asemr{\refer}(\aenv) \setminus \{ \tabsent \}\\
 
-        \aseme{\refer \kwexists}(\aenv)
-        &=& \{ \ty \neq \tabsent \mid \ty \in
-        \aseme{\expr}(\aenv) \} &
+          \aseme{\uop \; \expr}(\aenv) &=& \{ \abs{\uop} \ty \mid \ty \in
+          \aseme{\expr}(\aenv) \}\\
 
-        \aseme{\refer}(\aenv)
-        &=& \asemr{\refer}(\aenv) \setminus \{ \tabsent \}
-
-        \\
-
-        \aseme{\uop \; \expr}(\aenv)
-        &=& \{ \abs{\uop} \ty \mid \ty \in
-        \aseme{\expr}(\aenv) \} &
-
-        \aseme{\expr_0 \bop \expr_1}(\aenv)
-        &=& \multicolumn{4}{@{}l}{\{ \ty_0 \abs{\bop} \ty_1 \mid \ty_0 \in
-        \aseme{\expr_0}(\aenv) \wedge \ty_1 \in \aseme{\expr_1}(\aenv) \}}
-
-        \\
-      \end{array}
-    \]
-    \caption{Expressions with $\aseme{\expr}: \aenvset \rightarrow \atyset$.}
-  \end{subfigure}
+          \aseme{\expr_0 \bop \expr_1}(\aenv) &=& \{ \ty_0 \abs{\bop} \ty_1 \mid
+          \ty_0 \in \aseme{\expr_0}(\aenv) \wedge \ty_1 \in
+          \aseme{\expr_1}(\aenv) \}\\
+        \end{array}
+      $}
+      \caption{Expressions with $\aseme{\expr}: \aenvset \rightarrow \atyset$.}
+    \end{subfigure}
+  \end{minipage}
   \caption{Abstract semantics of the modified $\ires$ for a program $\prog =
   (\getfunc, \getinst, \getnext)$.}
   \vspace*{-1.5em}
@@ -425,12 +419,31 @@ following function:
   \vspace{-0.5em}
 \end{figure} \noindent
 and $\upcasts$ denotes a point-wise extension of $\upcast$ for type sequences.
-For branches and assertions, we apply the $\refine$ function that prunes out
-infeasible parts in abstract environments based on their conditions to increase
-analysis precision.  We will explain its detail in Section~\ref{sec:refine}.
-Then, we define the abstract semantics $\asem{\prog}$ of a program $\prog =
-(\getfunc, \getinst, \getnext)$ as the least fixpoint of abstract transfer
-$\atransfer: \adom \rightarrow \adom$:
+For branches and assertions, we apply the $\pass$ function to prevent the
+infeasible control flows defined as follows:
+
+\begin{figure}[H]
+  \centering
+  \vspace{-0.5em}
+  \resizebox{0.9\columnwidth}{!}{$
+    \pass(\expr, \bool)(\aenv) = \left\{
+      \begin{array}{ll}
+        \refine(\expr, \bool)(\aenv)
+        & \text{if} \; \{ \true \} \order \aseme{\expr}(\aenv)\\
+
+        \emp
+        & \text{otherwise}\\
+      \end{array}
+    \right.
+  $}
+  \vspace{-0.5em}
+\end{figure} \noindent
+where $\refine$ is a function that prunes out infeasible parts in abstract
+environments based on their conditions to increase analysis precision.  We will
+explain its detail in Section~\ref{sec:refine}.  Then, we define the abstract
+semantics $\asem{\prog}$ of a program $\prog = (\getfunc, \getinst, \getnext)$
+as the least fixpoint of abstract transfer $\atransfer: \adom \rightarrow
+\adom$:
 \begin{figure}[H]
   \centering
   \vspace{-0.5em}
