@@ -55,32 +55,13 @@ seconds for the bug detection (\stextsf{detect} with red bars).
 
 \subsection{Precision}\label{sec:precision}
 
-\begin{table}
+\begin{figure}
   \centering
+  \includegraphics[width=\columnwidth]{img/author}
   \caption{The creators and resolvers of true bugs.}
-  \label{table:author}
-  \resizebox{\columnwidth}{!}{%
-  \begin{tabular}{c|c|c?c|c|c}
-    \multicolumn{3}{c?}{\textbf{Creator}} &
-    \multicolumn{3}{c}{\textbf{Resolver}}\\\hline
-
-    \textbf{Committee} &
-    \textbf{Outsider} &
-    \textbf{Inherited} &
-    \textbf{Committee} &
-    \textbf{Outsider} &
-    \textbf{NotYet}\\\hline
-
-    \inred{60} &
-    \inred{12} &
-    \inred{20} &
-    \inred{60} &
-    \inred{23} &
-    \inred{10}\\
-  \end{tabular}
-  }
+  \label{fig:author}
   \vspace*{-1.5em}
-\end{table}
+\end{figure}
 
 \begin{figure}
   \centering
@@ -104,50 +85,61 @@ seconds for the bug detection (\stextsf{detect} with red bars).
   difference ($\Delta$)}
   \label{table:precision}
   \resizebox{\textwidth}{!}{%
-  \begin{tabular}{c|c?c|c?c|c?c|c}
-    \multirow{2}{*}{\textbf{Checker}} &
-    \multirow{2}{*}{\textbf{Bug Kind}} &
-    \multicolumn{6}{c}{
-      \textbf{Precision = (\# True Bugs) / (\# Detected Bugs)}
-    }\\\cline{3-8} &&
-    \multicolumn{2}{c?}{no-refine} &
-    \multicolumn{2}{c?}{refine} &
-    \multicolumn{2}{c}{$\Delta$}\\
+    \begin{tabular}{c|c?r@{~}c@{~}l@{~}l|r@{~}c@{~}l@{~}l?r@{~}c@{~}l@{~}l|r@{~}c@{~}l@{~}l?r@{~}c@{~}l@{~}l|r@{~}c@{~}l@{~}l}
+      \multirow{2}{*}{\textbf{Checker}} &
+      \multirow{2}{*}{\textbf{Bug Kind}} &
+      \multicolumn{24}{c}{
+        \textbf{Precision = (\# True Bugs) / (\# Detected Bugs)}
+      }\\\cline{3-26} &&
+      \multicolumn{8}{c?}{no-refine} &
+      \multicolumn{8}{c?}{refine} &
+      \multicolumn{8}{c}{$\Delta$}\\
 
-    \specialrule{.1em}{.0em}{.0em}
+      \specialrule{.1em}{.0em}{.0em}
 
-    \myrowc{2}
-    {Reference}     {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-    {UnknownVar}    {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
-    \myrowh
-    {DuplicatedVar} {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
+      \myrowc
+      {\mr{2}{\stextsf{Reference}}}
+      {\me{2}{60}{125}{48.0}} {\me{2}{61}{98}{62.2}} {\me{2}{+1}{-27}{+14.2}}
+      {\mr{1}{\stextsf{UnknownVar}}}
+      {\me{1}{17}{81}{21.0}} {\me{1}{17}{53}{32.1}} {\me{1}{-}{-28}{+11.1}}
 
-    \hline
+      \myrowh
+      {\mr{1}{\stextsf{DuplicatedVar}}}
+      {\me{1}{43}{44}{97.7}} {\me{1}{44}{45}{97.8}} {\me{1}{+1}{+1}{+0.1}}
 
-    \myrowc{1}
-    {Arity}         {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-    {MissParam}     {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
+      \hline
 
-    \hline
+      \smyrowc
+      {\mr{1}{\stextsf{Arity}}}
+      {\mr{1}{\stextsf{MissParam}}}
+      {\me{1}{43}{44}{97.7}} {\me{1}{44}{45}{97.8}} {\me{1}{+1}{+1}{+0.1}}
 
-    \myrowc{1}
-    {Assertion}     {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-    {Assertion}     {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
+      \hline
 
-    \hline
+      \smyrowc
+      {\mr{1}{\stextsf{Assertion}}}
+      {\mr{1}{\stextsf{Assertion}}}
+      {\me{1}{5}{57}{8.8}} {\me{1}{5}{31}{16.1}} {\me{1}{-}{-26}{+7.4}}
 
-    \myrowc{2}
-    {Operand}       {60 / 116 (51.7\%)} {60 / 116 (51.7\%)} {\md{12}{3}{51.7}}
-    {NoNumber}      {17 / 72 (23.6\%)}  {17 / 72 (23.6\%)}  {\md{12}{3}{51.7}}
-    \myrowh
-    {Abrupt}        {43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
+      \hline
 
-    \specialrule{.1em}{.0em}{.0em}
+      \myrowc
+      {\mr{2}{\stextsf{Operand}}}
+      {\me{2}{22}{113}{19.5}} {\me{2}{22}{44}{50.0}} {\me{2}{-}{-69}{+30.5}}
+      {\mr{1}{\stextsf{NoNumber}}}
+      {\me{1}{2}{65}{3.1}} {\me{1}{2}{6}{33.3}} {\me{1}{-}{-59}{+30.3}}
 
-    \mysrowh
-    {\textbf{Total}}{43 / 44 (97.7\%)}  {43 / 44 (97.7\%)}  {\md{12}{3}{51.7}}
+      \myrowh
+      {\mr{1}{\stextsf{Abrupt}}}
+      {\me{1}{20}{48}{41.7}} {\me{1}{20}{38}{52.6}} {\me{1}{-}{-10}{+11.0}}
 
-  \end{tabular}
+      \specialrule{.1em}{.0em}{.0em}
+
+      \mysrowh
+      {\textbf{Total}}
+      {91 / 299 (30.4\%)}{92 / 177 (52.0\%)}{+1 / -122 (+21.5\%)}
+
+    \end{tabular}
   }
   \vspace*{-1.5em}
 \end{table*}
@@ -171,7 +163,7 @@ completion bugs (\stextsf{Abrupt}) with \inred{12.3}\% precision.
 
 Moreover, we extended $\tool$ to automatically extract more statistics of
 detected true bugs.  \inred{First, we checked that true bugs are created or
-resolved by whom as described in Table~\ref{table:author}.  Among \inred{89}
+resolved by whom as described in Figure~\ref{fig:author}.  Among \inred{89}
 true bugs, we cannot automatically know who created \inred{20}
 \textit{inherited} bugs, which are created before 2018.  For remaining
 \inred{20} bugs, only \inred{20} bugs are created by members of the Ecma
