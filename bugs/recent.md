@@ -120,7 +120,6 @@ TryStatement : try Block Catch Finally
 
 - __Section:__ [10.4.2.4 ArraySetLength](https://tc39.es/ecma262/#sec-arraysetlength)
 - __Issue:__ ES2015(commit: 7461eea82908b2c5742e4d6e5f57dc0cd4b43a60)
-- __Comment:__ 중간에 Unused variable 을 삭제하는 과정에서 사라진 후, assertion 검사를 위해 다시 등장함.
 - __Count:__ 1
 - __Current:__
 
