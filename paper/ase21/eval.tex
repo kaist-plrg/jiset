@@ -83,7 +83,7 @@ To evaluate $\tool$, we answer the following research questions:
   \item RQ1. \textbf{(Performance)} How long does $\tool$ take to perform type
     analysis for JavaScript specifications?
   \item RQ2. \textbf{(Precision)} How many type-related specification bugs
-    detcted by $\tool$ are true bugs?
+    detected by $\tool$ are true bugs?
   \item RQ3. \textbf{(Effect of Refinement)} Does the condition-based refinement
     improve the analysis precision with endurable performance degradation?
   \item RQ4: \textbf{(Detection of New Bugs)} Does $\tool$ detect new
@@ -123,13 +123,36 @@ for the specification extraction (\stextsf{extract} with gray bars),
 
 \subsection{Precision}\label{sec:precision}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\columnwidth]{img/author}
-  \caption{The creators and resolvers of true bugs.}
-  \label{fig:author}
-  \vspace*{-1.5em}
-\end{figure}
+% \begin{table}
+%   \centering
+%   % \includegraphics[width=\columnwidth]{img/author}
+%   \caption{The creators and resolvers of true bugs.}
+%   \label{fig:author}
+%   \resizebox{\columnwidth}{!}{$
+%     \inred{
+%     \begin{array}{c?r|r|r|r|r|r?c?c}
+%       \textbf{Rank} >
+%       & 0 & 10 & 20 & 30 & 40 & 50
+%       & \multicolumn{1}{c?}{\multirow{2}{*}{\textbf{Total}}}
+%       & \multicolumn{1}{c}{\multirow{2}{*}{\textbf{Unknown}}}\\\cline{1-7}
+%       \textbf{Rank} \leq
+%       & 10 & 20 & 30 & 40 & 50 & 60
+%       & & \\
+% 
+%       \specialrule{.1em}{.0em}{.0em}
+% 
+%       \textbf{\# Created}
+%       & 23 & 4 & 1 & 14 & 2 & 1
+%       & 45 & 46\\\hline
+%       \textbf{\# Resolved}
+%       & 57 & 6 & 12 & 2 & 0 & 0
+%       & 77 & 14\\
+% 
+%     \end{array}
+%     }
+%   $}
+%   \vspace*{-1em}
+% \end{table}
 
 \begin{figure}
   \centering
@@ -162,30 +185,51 @@ bugs: \inred{2} non-numeric operand bugs (\stextsf{NoNumber}) for numeric
 operators with \inred{33.3}\% precision and \inred{20} unchecked abrupt
 completion bugs (\stextsf{Abrupt}) with \inred{52.6}\% precision.
 
-Moreover, we extended $\tool$ to automatically extract more statistics of
-detected true bugs.  \inred{First, we checked that true bugs are created or
-resolved by whom as described in Figure~\ref{fig:author}.  Among \inred{92}
-true bugs, \inred{47} bugs are \textit{inherited}, which means that they are
-created before 2018, and \inred{14} bugs are newly found 
-
-\inred{20} bugs, only \inred{20} bugs are created by members of the Ecma
-Technical Committee 39 (TC39) but others (\inred{20} bugs) are created by
-outside contributors not committee members.  On the other hand, most of them
-(\inred{20} bugs) are resolved by the committee members but only \inred{20} bugs
-are resolved by non-committee contributors.  Other \inred{14} bugs are newly
-found and we will explain their details in Section~\ref{sec:new-bug}.}  Another
-statistic of true bugs is Time to Live (TTL) that denotes how many days
-specification bugs existed.  Figure~\ref{fig:ttl} describes TTLs of true bugs;
-the left chart (Figure~\ref{fig:ttl}(a)) depicts their periods sorted by their
+To understand the severity of detected true bugs, we extended $\tool$ to
+automatically extract when they are created and resolved in the ECMAScript
+official repository.  We defined that a bug is \textit{created} when it exists
+in a certain version but does not exist in the right before version, it is
+\textit{resolved} vice versa, and the \textit{Time to Live (TTL)} of a bug is
+how many days they last.  Figure~\ref{fig:ttl} describes TTLs of true bugs; the
+left chart (Figure~\ref{fig:ttl}(a)) depicts their periods sorted by their
 creation time, and the right chart (Figure~\ref{fig:ttl}(b)) depicts the
-histogram of TTLs in a logarithmic scale.  The average days of TTL is
-\inred{300.0} even though we assume that \inred{20} inherited bugs are created
-in January 1, 2018.  The maximum length of TTL is \inred{1,000} and the
-corresponding bug is inherited and not yet resolved in the latest version.  We
-manually investigated its creation time in the history of the official
-repository, and we discovered that it was created at the initial commit of the
-open development process in September 22, 2015.  It means that the bug actually
-existed for \inred{3,000} days.
+histogram of TTLs in a logarithmic scale.  Among \inred{92} true bugs,
+\inred{47} bugs are \textit{inherited}, which means that they are created before
+2018, and \inred{14} bugs still existed in the latest ECMAScript thus they are
+newly detected bugs by $\tool$.  We will discuss details of \inred{14} newly
+found bugs in Section~\ref{sec:new-bug}.  Even though we assume that \inred{47}
+inherited bugs are created in January 1, 2018, the average TTL is \inred{409.5}
+and the maximum TTL is \inred{1,164}.  All bugs having the maximum TTL are
+inherited and newly detected bugs.
+
+We investigated \inred{85} false-positive bugs to reason about why they are
+detected by $\tool$.  Among them, \inred{30} bugs are caused by the failed
+extraction of mechanized specification because of wrong writing styles.  For
+example, ECMAScript is written in HTML and $\jiset$ extracts abstract algorithms
+based on \code{emu-alg} HTML tags.  However, several abstract algorithms are
+defined with the opening tag \code{<emu-alg>} but without the closing tag
+\code{</emu-alg>}.  Thus, $\jiset$ fails to extract them and it causes
+false-positive bugs.  The remaining \inred{55} bugs are caused by imprecise type
+analysis results.  Among them, \inred{20} bugs are caused by imprecise analysis
+for conditions of assertions and branches strongly related with specific
+function calls.  For example, consider the following algorithm step in the
+algorithm \textbf{GetValue}:
+\begin{figure}[H]
+  \centering
+  \vspace*{-0.5em}
+  \includegraphics[width=0.7\columnwidth]{img/adv-refine-example}
+  \vspace*{-0.5em}
+\end{figure} \noindent
+Since the algorithm \textbf{IsUnresolvableReference} always returns
+$\code{false}$ when the $\code{Base}$ field of a given reference record is
+$\nconst{unresolvable}$, the field access \code{V.Base} never be
+$\nconst{unresolvable}$ on line 4.a.  However, the abstract environment in type
+analysis only stores that the variable $\code{V}$ has the $\code{Reference}$
+type thus $\nconst{unresolvable}$ is also passed as the argument of
+\textbf{ToObject}.  We believe that more advanced refinement technique can
+resolve this problem by pruning out infeasible field types depending on specific
+contexts.
+
 
 
 \subsection{Effectiveness of Refinement}\label{sec:effect-refine}
@@ -324,10 +368,10 @@ existed for \inred{3,000} days.
 \end{figure}
 
 We evaluated the effectiveness of condition-based refinement based on how much
-it improved analysis precision without significant performance degradation.  To
-compare performance and precision of analysis without refinement
-(\stextsf{no-refine}) and with refinement (\stextsf{refine}), we also performed
-$\tool$ without refinement for 864 versions of ECMAScript.
+it improved analysis precision without significant performance degradation.  We
+performed $\tool$ without refinement (\stextsf{no-refine}) for 864 versions of
+ECMAScript, and compared their analysis results with the analysis with
+refinement (\stextsf{refine}).
 
 For performance, Figure~\ref{fig:performance-compare} describes the comparison
 of iterations and analysis time without refinement and with refinement; the left
@@ -335,56 +379,70 @@ charts (Figure~\ref{fig:performance-compare}(a) and
 \ref{fig:performance-compare}(c)) are histograms of iterations and analysis
 time, and the right charts (Figure~\ref{fig:performance-compare}(b) and
 \ref{fig:performance-compare}(d)) are scatter charts for their ratio.  Without
-refinement, type analysis took \inred{234.3} seconds with \inred{232}K
-iterations on average.  With refinement, it took \inred{234.3} seconds with
-\inred{232}K iterations on average.  For each version, analysis time is
-increased at least \inred{2.3}x, at most \inred{2.3}x, and \inred{2.3}x on
-average, and the number of iterations is increased at least \inred{2.3}x, at
-most \inred{2.3}x, and \inred{2.3}x on average.
+refinement, type analysis took \inred{90.9} seconds with \inred{259.1}K
+iterations on average.  For each version, the number of iterations is increased
+at least \inred{0.99}x, at most \inred{1.36}x, and \inred{1.16}x on average, and
+the analysis time is increased at least \inred{1.05}x, at most \inred{1.41}x,
+and \inred{1.98}x on average.
 
 Table~\ref{table:precision} shows the analysis precision without refinement,
 with refinement, and their difference.  The refinement improved the analysis
-precision from \inred{23.2}\% to \inred{23.3}\% by removing \inred{10} false
-bugs and to detect \inred{10} more true bugs.  \inred{(\todo: investigate the result for
-each checker.)}
+precision from \inred{30.4}\% to \inred{52.0}\% by removing \inred{122}
+false-positive bugs and to detect \inred{one} more true bug.  Among six
+difference bug kinds, the most significant improvement is about non-numeric
+operand bugs (\stextsf{NoNumber}) from \inred{3.1}\% to \inred{33.3}\%
+by removing \inred{59} false-positive bugs.  The refinement technique
+successfully prunes out non-numeric values in conditions for numeric types.
+The refinement also significantly increased the analysis precision for unknown
+variable bugs (\stextsf{UnknownVar}) and assertion failures
+(\stextsf{Assertion}) by removing \inred{28} and \inred{26} false-positive bugs,
+respectively.  However, there is no effect of refinement to detect missing
+parameter bugs (\stextsf{MissParam}) because it is possible to precisely analyze
+possible callee functions for each function invocation without condition-based
+refinement.
 
 
 \subsection{Detection of New Bugs}\label{sec:new-bug}
 
-Among \inred{91} true bugs detected by $\tool$, \inred{14} bugs are newly
-detected and still exist in the latestest version of ECMAScript.
+Among \inred{92} true bugs detected by $\tool$, \inred{14} bugs are newly
+detected and still exist in the latest version of ECMAScript.
 Table~\ref{table:new-bug} summarizes the bugs categorized by their kinds and
-related JavaScript language features. It includes their TTLs, and we manually
-investigated their extact creation time if they are created before 2018.  We
-reported the newly detected bugs to TC39; all of them are confirmed by the
-committee and will be fixed in ECMAScript 2022 (ES13).
+related JavaScript language features and it also contains their TTLs. We
+manually investigated their exact creation time if they are created before
+2018.  Except two bugs in ES12-8, all bugs were introduced in the initial
+commit of the open development on September 22, 2015.  Thus, 12 newly detected
+bugs last for 1,966 days until March 9, 2021.  The other two bugs in ES12-8 were
+created when a contributor introduced the prefixes \textbf{?} and \textbf{!}
+on December 16, 2015 thus it last for 1,910 days.  We reported the newly
+detected bugs to TC39; all of them are confirmed by the committee and will be
+fixed in ECMAScript 2022 (ES13).
 
 ES12-1 contains three bugs that are due to the duplicated definition of
-variables in three different algorithms for \jscode{case} blocks of
-\jscode{switch} statements: \code{hasDuplicates} in
+variables in three different syntax-directed algorithms for \jscode{case} blocks
+of \jscode{switch} statements: \code{hasDuplicates} in
 \textbf{ContainsDuplicateLabels}, and \code{hasUndefinedLabels} in
 \textbf{ContainsUndefinedBreakTarget} and
-\textbf{ContainsUndefinedContinueTarget}.  Each \jscode{case} block optionally
-contains \jscode{case} clauses, and three algorithms perform additional stpes
-including to define \code{hasDuplicates} (or \code{hasUndefinedLabels}) when the
-clauses exist at the beginning.  However, the exactly same variable is defined
-again after the coditionally additional steps.  It means that the semantics of
-\jscode{case} blocks having \jscode{case} clauses always have reference for
-already defined variable \code{hasDuplicates} (or \code{hasUndefinedLabels}).
-ES12-2 also contains three bugs caused by the exactly same reasons in same
-abstract algorithms for \jscode{try} statements.
+\textbf{ContainsUndefinedContinueTarget}.  A \jscode{case} block optionally
+contains \jscode{case} clauses.  In the beginning of three algorithms,
+\code{hasDuplicates} (or \code{hasUndefinedLabels}) is defined if the clauses
+exist.  However, the exactly same variable is defined again after this
+conditional steps.  It means that three algorithms for \jscode{case} blocks
+having \jscode{case} clauses always have already defined variable bugs for
+\code{hasDuplicates} (or \code{hasUndefinedLabels}).  Similarly, ES12-2 also
+contains three bugs caused by the exactly same reason in same abstract
+algorithms for \jscode{try} statements.
 
-The bug in ES12-3 is a reference bug for already defined variable \code{index}
-in the abstract algorithm \textbf{CreateMappedArgumentsObject}.  For each
-function call in JavaScript programs, an \jscode{arguments} object is created by
-\textbf{CreateMappedArgumentsObject}.  In the algorithm, the variable
+The bug in ES12-3 is a reference bug for an already defined variable
+\code{index} in the abstract algorithm \textbf{CreateMappedArgumentsObject}.
+For each function call in JavaScript programs, an \jscode{arguments} object is
+created by \textbf{CreateMappedArgumentsObject}.  In the algorithm, the variable
 \code{index} is defined to handle the index of a given list of arguments.
 However, the variable is defined twice in step 14 and 17 of the algorithm.
 
 ES12-4 contains two reference bugs for already defined variable \code{succeeded}
 in \textbf{DefineOwnProperty} of \jscode{Array} objects and
 \textbf{ArraySetLength}.  The \jscode{Array} objects are exotic, which means
-that they are not ordinay objects and have special algorithms for specific
+that they are not ordinary objects and have special algorithms for specific
 behaviors.  The two algorithms are wrapper algorithms of
 \textbf{OrdinaryDefineOwnProperty} which updates object properties.  They define
 the variable \code{succeeded} to represent the result of
@@ -400,7 +458,7 @@ represent 1) the evaluation result of the given expression \jscode{e} in step
 The bug in ES12-6 is a reference bug for unknown variable \code{ClassHeritage}
 in \textbf{Contains} for tails of \jscode{class} declarations.  A tail of
 \jscode{class} declaration consists of an optional class heritage with
-\jscode{extneds} keyword and a class body enclosed by curly braces.  When the
+\jscode{extends} keyword and a class body enclosed by curly braces.  When the
 optional class heritage does not exist, the variable \code{ClassHeritage} is not
 defined but the \textbf{Contains} algorithm tries to access it without any check
 of its existence.
