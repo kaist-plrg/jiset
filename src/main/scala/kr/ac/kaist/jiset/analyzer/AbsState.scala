@@ -194,7 +194,14 @@ case class AbsState(
   def append(t: AbsType, list: AbsType): AbsState = notyet("append")
   def prepend(t: AbsType, list: AbsType): AbsState = notyet("prepend")
   def delete(ref: AbsRef): AbsState = notyet("delete")
-  def pop(list: AbsType, k: AbsType): (AbsType, AbsState) = notyet(Absent, "pop")
+  def pop(list: AbsType, k: AbsType): (AbsType, AbsState) = {
+    if (k !⊑ NumericT) warning(s"invalid pop index: ${k}")
+    val ty = list.set.foldLeft(AbsType.Bot) {
+      case (ty, ListT(elem)) => ty ⊔ elem
+      case (ty, _) => warning(s"invalid pop expression: ${list}"); ty
+    }
+    (ty, this)
+  }
 
   // typeof operation
   def typeof(t: AbsType): AbsType = norm(AbsType(for {
