@@ -81,6 +81,9 @@ object HeadParser extends HeadParsers {
     "PromiseReactionJob",
     "NumberToBigInt",
     "AsyncFunctionAwait",
+    "PromiseResolveFunctions",
+    "CreateDataPropertyOnObjectFunctions",
+    "ThenFinallyFunctions"
   )
 
   // check whether current algorithm head is manual normal head.
