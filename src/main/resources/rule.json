@@ -462,5 +462,9 @@
   {
     "tokens": "Let id:{result} be the Completion Record that is the result of evaluating id:{F} in an implementation - defined manner that conforms to the specification of id:{F} . id:{thisArgument} is the value:{this} value , id:{argumentsList} provides the named parameters , and the NewTarget value is value:{undefined} .",
     "inst": "{ let result = AnyResult }"
+  },
+  {
+    "tokens": "Perform ! DefinePropertyOrThrow ( id:{obj} , @ @ iterator , PropertyDescriptor { [ [ Value ] ] : % ArrayProto _ values % , [ [ Writable ] ] : value:{true} , [ [ Enumerable ] ] : value:{false} , [ [ Configurable ] ] : value:{true} } ) .",
+    "inst": "app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor(\"Value\" -> INTRINSIC_Array_prototype_values, \"Writable\" -> true, \"Enumerable\" -> false, \"Configurable\" -> true)))"
   }
 ]
