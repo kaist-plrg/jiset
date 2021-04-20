@@ -1,24 +1,20 @@
 \section{Type Analyzer}\label{sec:analyzer}
 
-In this section, we explain the detail of the type analyzer in $\tool$. We first
-formally define a modified $\ires$ and explain how to perform type analysis for
-the its functions.  Moreover, we also explain a condition-based refinement of
-type analysis based on conditions of assertions and branches to increase
-analysis precision.
+This section formally defines a modified $\ires$ and its type analysis
+and presents a condition-based refinement of the type analysis to improve the analysis precision. 
 
 \subsection{Intermediate Representation}\label{sec:ires}
 
 \begin{figure}
   \centering
   \includegraphics[width=0.48\textwidth]{img/record-fields-table}
-  \caption{Fields of completion records in ES11.}
+  \caption{Fields of completion records in ECMAScript 2020}
   \label{fig:record-fields-table}
   \vspace*{-1.5em}
 \end{figure}
 
-$\ires$ is an untyped intermediate representation introduced by \citet{jiset}.
-To make it more suitable for type analysis, we modify it as a label-based
-language as follows:
+$\ires$ is an untyped intermediate representation for ECMAScript~\cite{jiset}.
+We modify it as a label-based language to make it suitable for type analysis as follows:
 \begin{figure}[H]
   \centering
   \vspace*{-0.5em}
@@ -74,22 +70,22 @@ language as follows:
   $}
   \vspace*{-0.5em}
 \end{figure} \noindent
-A modified $\ires$ program $\prog = (\getfunc, \getinst, \getnext)$ is consists
-of three mappings from labels;  $\getfunc: \labset \rightarrow \funcset$
-represents that labels are in which functions, $\getinst: \labset \rightarrow
-\instset$ represents instructions attached to labels, and $\getnext: \labset
-\rightarrow \labset$ denotes next labels where a label $\lab \in \labset$
-denotes a program point.  function $\kwdef \; \f (\x^*, \kwsl \y^* \kwsr). \;
+A modified $\ires$ program $\prog = (\getfunc, \getinst, \getnext)$ consists
+of three mappings;  $\getfunc: \labset \rightarrow \funcset$
+maps labels to their functions, $\getinst: \labset \rightarrow
+\instset$ maps labels to their instructions, and $\getnext: \labset
+\rightarrow \labset$ maps labels totheir next labels, where a label $\lab \in \labset$
+denotes a program point. A function $\kwdef \; \f (\x^*, \kwsl \y^* \kwsr). \;
 \lab \in \funcset$ consists of its name $\f$, normal parameters $\x^*$, optional
-parameters $\y^*$, and a body label $\lab$.  Although global variables exist in
-ECMAScript, we assume that only local variables exist in this paper for brevity.
+parameters $\y^*$, and a body label $\lab$.  For presentation brevity,
+we assume that no global variables exist in this paper.
 An instruction $\inst$ is a variable declaration, a function call, an assertion,
-a branch, a return, or a reference update.  Each invocation of an abstract
-algorithm in ECMAScript is compiled to a function call instruction with a newly
-introduced temporal variable.  We represent loops using branch instructions with
-cyclic pointing of labels in the next mapping $\getnext$.  A reference $\refer$
-is a variable $\x$ or a field access $\refer \kwsl \expr \kwsr$.  We use the
-notation $\refer.\f$ to briefly represent $\refer \kwsl \code{"f"} \kwsr$. An
+a branch, a return, or a reference update.  An invocation of an abstract
+algorithm in ECMAScript is compiled to a function call instruction with a new
+temporary variable.  We represent loops using branch instructions with
+cyclic pointing of labels in $\getnext$.  A reference $\refer$
+is a variable $\x$ or a field access $\refer \kwsl \expr \kwsr$.  We write
+$\refer.\f$ to briefly represent $\refer \kwsl \code{"f"} \kwsr$. An
 expression $\expr$ is a record, a list, a type check, an existence check, a
 binary operation, a unary operation, a reference, a constant, or a primitive,
 which is either $\undefval$, $\nullval$, a \jscode{Boolean} $\bool$, a
@@ -99,177 +95,109 @@ or a \jscode{Symbol} $\symb$.
 \begin{figure}
   \centering
   \includegraphics[width=0.4\textwidth]{img/subtype}
-  \caption{A graphical representation of subtype relation $\subtype$.}
+  \caption{A graphical representation of the subtype relation $\subtype$}
   \label{fig:subtype}
   \vspace*{-1.5em}
 \end{figure}
 
 \begin{figure*}[t]
   \centering
-  \begin{subfigure}[b]{0.52\textwidth}
-    \resizebox{\textwidth}{!}{$
-      \begin{array}{@{}l@{~}c@{~}l}
-        \asemi{\kwlet \; \x = \expr}
-        (\lab, \tys)(\aelem) &=&
-        (\{ (\getnext(\lab), \tys) \mapsto \aenv[\x \mapsto
-        \aseme{\expr}(\aenv)] \}, \emp)\\
+  \resizebox{0.49\textwidth}{!}{$
+    \begin{array}{@{}l@{~}c@{~}l}
+      \asemi{\kwlet \; \x = \expr}
+      (\lab, \tys)(\aelem) &=&
+      (\{ (\getnext(\lab), \tys) \mapsto \aenv[\x \mapsto
+      \aseme{\expr}(\aenv)] \}, \emp)\\
 
-        \asemi{\x = \kwrl \expr \; \expr_1 \cdots \expr_n \kwrr}
-        (\lab, \tys)(\aelem) &=& (\rmap', \retp')\\
-        \multicolumn{3}{@{}l}{
-          \text{where} \;
-          \left\{
-            \begin{array}{l@{}}
-              \aty = \aseme{\expr}(\aenv) \;\wedge\;
-              \aty_1 = \aseme{\expr_1}(\aenv) \;\wedge\;
-              \cdots \;\wedge\;
-              \aty_n = \aseme{\expr_n}(\aenv) \;\wedge\;\\
+      \asemi{\x = \kwrl \expr \; \expr_1 \cdots \expr_n \kwrr}
+      (\lab, \tys)(\aelem) &=& (\rmap', \retp')\\
+      \multicolumn{3}{@{}l}{
+        \text{where} \;
+        \left\{
+          \begin{array}{l@{}}
+            \aty = \aseme{\expr}(\aenv) \;\wedge\;
+            \aty_1 = \aseme{\expr_1}(\aenv) \;\wedge\;
+            \cdots \;\wedge\;
+            \aty_n = \aseme{\expr_n}(\aenv) \;\wedge\;\\
 
-              T' = \{ \upcasts([ \ty_1, \cdots, \ty_n ]) \mid \ty_1 \in \aty_1
-              \;\wedge\; \cdots \;\wedge\; \ty_n \in \aty_n \} \;\wedge\;\\
+            T' = \{ \upcasts([ \ty_1, \cdots, \ty_n ]) \mid \ty_1 \in \aty_1
+            \;\wedge\; \cdots \;\wedge\; \ty_n \in \aty_n \} \;\wedge\;\\
 
-              \func = \kwdef \; \f (\p_1, \cdots, \kwsl \cdots, \p_{m_\func}
-              \kwsr). \; \lab_\func \;\wedge\;\\
+            \func = \kwdef \; \f (\p_1, \cdots, \kwsl \cdots, \p_{m_\func}
+            \kwsr). \; \lab_\func \;\wedge\;\\
 
-              \aenv_{\func, \tys'} = [\p_1 \mapsto \{ \tys'[1] \}, \cdots,
-              \p_{m_\func} \mapsto \{ \tys'[m] \}] \;\wedge\;\\
+            \aenv_{\func, \tys'} = [\p_1 \mapsto \{ \tys'[1] \}, \cdots,
+            \p_{m_\func} \mapsto \{ \tys'[m] \}] \;\wedge\;\\
 
-              \rmap' = \{ (\lab_\func, \tys') \mapsto \aenv_{\func, \tys'}
-              \mid \func \in \aty \;\wedge\; \tys' \in T' \} \;\wedge\;\\
+            \rmap' = \{ (\lab_\func, \tys') \mapsto \aenv_{\func, \tys'}
+            \mid \func \in \aty \;\wedge\; \tys' \in T' \} \;\wedge\;\\
 
-              \retp' = \{ (\func, \tys') \mapsto \{ (\getnext(\lab), \tys, \x)
-              \} \mid \func \in \aty \;\wedge\; \tys' \in T' \}\\
-            \end{array}
-          \right.
-        }\\
+            \retp' = \{ (\func, \tys') \mapsto \{ (\getnext(\lab), \tys, \x)
+            \} \mid \func \in \aty \;\wedge\; \tys' \in T' \}\\
+          \end{array}
+        \right.
+      }\\
+    \end{array}
+  $}
+  \resizebox{0.49\textwidth}{!}{$
+    \begin{array}{@{}l@{~}c@{~}l}
+      \asemi{\kwreturn \; \expr}
+      (\lab, \tys)(\aelem) &=&
+      (\{ (\lab_r, \tys_r) \mapsto \aenv_r \mid
+      (\lab_r, \tys_r, \x) \in R\}, \emp)\\
+      \multicolumn{3}{@{}l}{
+        \text{where} \; R = \retp(\getfunc(\lab), \tys) \;\wedge\; \aenv_r =
+        \rmap(\lab_r, \tys_r)[\x \mapsto \aseme{\expr}(\aenv)]
+      }\\
 
-        \asemi{\kwreturn \; \expr}
-        (\lab, \tys)(\aelem) &=&
-        (\{ (\lab_r, \tys_r) \mapsto \aenv_r \mid
-        (\lab_r, \tys_r, \x) \in R\}, \emp)\\
-        \multicolumn{3}{@{}l}{
-          \text{where} \; R = \retp(\getfunc(\lab), \tys) \;\wedge\; \aenv_r =
-          \rmap(\lab_r, \tys_r)[\x \mapsto \aseme{\expr}(\aenv)]
-        }\\
+      \asemi{\kwassert \; \expr}
+      (\lab, \tys)(\aelem) &=&
+      (\{ (\getnext(\lab), \tys) \mapsto \pass(\expr, \true)(\aenv) \}, \emp)\\
 
-        \asemi{\kwassert \; \expr}
-        (\lab, \tys)(\aelem) &=&
-        (\{ (\getnext(\lab), \tys) \mapsto \pass(\expr, \true)(\aenv) \}, \emp)\\
+      \asemi{\kwif \; \expr \; \lab_\mt \; \lab_\mf}
+      (\lab, \tys)(\aelem) &=&
+      (\{ (\lab_\mt, \tys) \mapsto \pass(\expr, \true)(\aenv),\\ &&
+      \phantom{(\{} (\lab_\mf, \tys) \mapsto \pass(\expr, \false)(\aenv) \}, \emp)\\
 
-        \asemi{\kwif \; \expr \; \lab_\mt \; \lab_\mf}
-        (\lab, \tys)(\aelem) &=&
-        (\{ (\lab_\mt, \tys) \mapsto \pass(\expr, \true)(\aenv),\\ &&
-        \phantom{(\{} (\lab_\mf, \tys) \mapsto \pass(\expr, \false)(\aenv) \}, \emp)\\
+      \asemi{\x = \expr}
+      (\lab, \tys)(\aelem) &=&
+      (\{ (\getnext(\lab), \tys) \mapsto \aenv[\x \mapsto
+      \aseme{\expr}(\aenv)] \}, \emp)\\
 
-        \asemi{\x = \expr}
-        (\lab, \tys)(\aelem) &=&
-        (\{ (\getnext(\lab), \tys) \mapsto \aenv[\x \mapsto
-        \aseme{\expr}(\aenv)] \}, \emp)\\
+      \asemi{\refer \kwsl \expr_0 \kwsr = \expr_1}
+      (\lab, \tys)(\aelem) &=&
+      (\{ (\getnext(\lab), \tys) \mapsto \aenv \}, \emp)\\
 
-        \asemi{\refer \kwsl \expr_0 \kwsr = \expr_1}
-        (\lab, \tys)(\aelem) &=&
-        (\{ (\getnext(\lab), \tys) \mapsto \aenv \}, \emp)\\
-
-        \multicolumn{3}{@{}l}{\text{where} \; \aelem = (\rmap, \retp) \;\wedge\;
-        \aenv = \rmap(\lab, \tys)}
-      \end{array}
-    $}
-    \caption{Instructions with $\asemi{\inst}: (\labset \times \tyset^*)
-    \rightarrow \adom \rightarrow \adom$.}
-  \end{subfigure}
-  \begin{minipage}[b][0.3\textheight][s]{0.46\textwidth}
-    \begin{subfigure}[b]{\textwidth}
-      \centering
-      \vspace*{0.1em}
-      \resizebox{0.8\textwidth}{!}{$
-        \begin{array}{l@{~}c@{~}l}
-          \asemr{\x}(\aenv) &=& \aenv(\x)\\
-          \asemr{\refer \kwsl \expr \kwsr}(\aenv) &=& \{ \ty[\str] \mid \ty \in
-          \asemr{\refer}(\aenv) \wedge \str \in \aseme{\expr}(\aenv) \}\\
-        \end{array}
-      $}
-      \caption{References with $\asemr{\refer}: \aenvset \rightarrow \atyset$.}
-      \vspace*{0.5em}
-    \end{subfigure}
-    \begin{subfigure}[b]{\textwidth}
-      \centering
-      \resizebox{\textwidth}{!}{$
-        \begin{array}{l@{~}c@{~}l@{}}
-          \multicolumn{3}{l}{
-            \aseme{\num}(\aenv) = \tnum \qquad
-            \aseme{\bigint}(\aenv) = \tbigint \qquad
-            \aseme{\symb}(\aenv) = \tsymb
-          }\\
-
-          \multicolumn{3}{l}{
-            \aseme{\prim}(\aenv) = \prim \qquad
-            \aseme{\const}(\aenv) = \const \qquad
-            \aseme{\clist{}}(\aenv) = \clist{}
-          }\\
-
-          \multicolumn{3}{l}{
-            \aseme{\clist{\expr_0, \cdots, \expr_n}}(\aenv) = \{ \clist{\ty} \mid
-            \ty \in \bigjoin_{0 \leq i \leq n} \aseme{\expr_i}(\aenv) \}
-          }\\
-
-          \multicolumn{3}{l}{
-            \aseme{\code{Completion} \; \kwcl \cdots, \code{Type}:
-            \expr_0, \code{Value}: \expr_1, \cdots \kwcr}(\aenv) =
-          }\\
-          \multicolumn{3}{l}{
-            \qquad \left\{
-              \begin{array}{ll}
-                \{ \tnormal(\ty) \mid \ty \in \aseme{\expr_1}(\aenv) \} &
-                \text{if} \; \aseme{\expr_0} = \nconst{normal}\\
-
-                \{ \tabrupt \} &
-                \text{otherwise}\\
-              \end{array}
-            \right.
-          }\\
-
-          \aseme{\tname \; \kwcl \cdots \kwcr}(\aenv) &=& \{ \tname \}\\
-
-          \aseme{\expr: \ty}(\aenv) &=& \{ \ty' \subtype \ty \mid \ty' \in
-          \aseme{\expr}(\aenv) \}\\
-
-          \aseme{\refer \kwexists}(\aenv) &=& \{ \ty \neq \tabsent \mid \ty \in
-          \aseme{\expr}(\aenv) \}\\
-
-          \aseme{\refer}(\aenv) &=& \asemr{\refer}(\aenv) \setminus \{ \tabsent \}\\
-
-          \aseme{\uop \; \expr}(\aenv) &=& \{ \abs{\uop} \ty \mid \ty \in
-          \aseme{\expr}(\aenv) \}\\
-
-          \aseme{\expr_0 \bop \expr_1}(\aenv) &=& \{ \ty_0 \abs{\bop} \ty_1 \mid
-          \ty_0 \in \aseme{\expr_0}(\aenv) \wedge \ty_1 \in
-          \aseme{\expr_1}(\aenv) \}\\
-        \end{array}
-      $}
-      \caption{Expressions with $\aseme{\expr}: \aenvset \rightarrow \atyset$.}
-    \end{subfigure}
-  \end{minipage}
-  \caption{Abstract semantics of the modified $\ires$ for a program $\prog =
-  (\getfunc, \getinst, \getnext)$.}
-  \vspace*{-1.5em}
+      \multicolumn{3}{@{}l}{\text{where} \; \aelem = (\rmap, \retp) \;\wedge\;
+      \aenv = \rmap(\lab, \tys)}
+    \end{array}
+  $}
+\caption{Abstract semantics of instructions for a program $\prog = (\getfunc, \getinst, \getnext)$,
+$\asemi{\inst}: (\labset \times \tyset^*) \rightarrow \adom \rightarrow \adom$
+}
+  \vspace*{-1em}
   \label{fig:abs-sem}
 \end{figure*}
 
 
-A type $\ty \in \tyset$ is either a norminal type $\tname$, an empty list type
-$\clist{}$, a parametric list type $\clist{\ty}$, or a pre-defined type; $\tjs$
-denotes JavaScript values, $\tprim$ primitives, $\tnumeric$ either
-\jscode{Number} or \jscode{BigInt} values, and $\tnum$, $\tbigint$, $\tstr$, and
-$\tsymb$ denote \jscode{Number}, \jscode{BigInt}, \jscode{String}, and
-\jscode{Symbol} values, respectively.  A norminal type $\tname$ is either 1) an
-\textit{AST type} having corresponding syntax-directed algorithms as its fields,
-or 2) a \textit{record type} having specific fields with possible values
-described in the corresponding table and additional description in ECMAScript.
-AST types are automatically extracted but we manually model fields of record
-types.  For example, Figure~\ref{fig:record-fields-table} is an excerpt from
-ES11 that describes fields of completion records%
-\footnote{https://262.ecma-international.org/11.0/\#table-8} and we manually
-model them as follows:
+%    \caption{Instructions with $\asemi{\inst}: (\labset \times \tyset^*)
+%    \rightarrow \adom \rightarrow \adom$.}
+%  \caption{Abstract semantics of the modified $\ires$ for a program $\prog =
+%  (\getfunc, \getinst, \getnext)$}
+
+A type $\ty \in \tyset$ is either a nominal type $\tname$, an empty list type
+$\clist{}$, a parametric list type $\clist{\ty}$,
+a JavaScript type $\tjs$,
+a primitive type $\tprim$,
+$\tnumeric$ that is either \jscode{Number} or \jscode{BigInt},
+$\tnum$, $\tbigint$, $\tstr$, or $\tsymb$.
+A nominal type $\tname$ is either 1) an
+\textit{AST type} with its corresponding syntax-directed algorithms as its fields,
+or 2) a \textit{record type} with specific fields as described in ECMAScript.
+For example, Figure~\ref{fig:record-fields-table} shows an excerpt from
+ECMAScript 2020 (ES11) that describes the fields of completion records%
+\footnote{https://262.ecma-international.org/11.0/\#table-8}, which we
+model as follows:
 
 \begin{figure}[H]
   \centering
@@ -288,30 +216,31 @@ model them as follows:
 \end{figure}
 
 The subtype relation $\subtype \subseteq \tyset \times \tyset$ between types is
-depicted in Figure~\ref{fig:subtype}; the directed edge from $\ty'$ to $\ty$
+depicted in Figure~\ref{fig:subtype}; a directed edge from $\ty'$ to $\ty$
 denotes $\ty' \subtype \ty$ and the relation is reflexive and transitive.  The
-subtype relation is dependent on the norminal types defined in ECMAScript.  We
-extract subtypes for AST types from the JavaScript syntax and manually model
-subtypes for record types.  For example, consider the syntax-directed abstract
-algorithm at the lower-right in Figure~\ref{fig:example}.  The non-terminal
-\textit{BindingElement} is the unique token in an alternative of
-\textit{FormalParameter} production thus we automatically extract the subtype
-relation: \textit{BindingElement} $\subtype$ \textit{FormalParameter}.  Based on
-this subtype relation, a type check expression $\expr: \ty$ checks whether the
-evaluation result of $\expr$ has a type $\ty'$ satisfying $\ty' \subtype \ty$.
+subtype relation is dependent on the nominal types defined in ECMAScript.  We
+extract the subtype relation for AST types from the JavaScript syntax.
+For example, consider the syntax-directed abstract
+algorithm at the lower-right part in Figure~\ref{fig:example}.
+Because the nonterminal \textit{BindingElement} is the unique alternative of the
+\textit{FormalParameter} production, we automatically extract the subtype
+relation: \textit{BindingElement} $\subtype$ \textit{FormalParameter}. Using
+the subtype relation, the expression $\expr: \ty$ checks whether the
+evaluation result of $\expr$ has type $\ty'$ satisfying $\ty' \subtype \ty$.
 
 We define a denotational semantics of the modified $\ires$ for instructions
 $\semi{\inst}: \dom \rightarrow \dom$, references $\semr{\refer}: \dom
-\rightarrow \valset$, and expressions $\seme{\expr}: \dom \rightarrow \valset$.
-For presentation brevity, we omit it in this paper and include it in a companion
-report~\inred{\cite{report}}.
+\rightarrow \valset$, and expressions $\seme{\expr}: \dom \rightarrow \valset$
+where $\dom$ and $\valset$ denote states and values, respectively.
+For brevity, we omit it in this paper and refer the
+interested readers to a companion report~\inred{\cite{report}}.
 
 
 \subsection{Type Analysis}\label{sec:analysis}
 
-We design a type analysis for the modified $\ires$ based on abstract
+We design a type analysis for the modified $\ires$ based on the abstract
 interpretation framework~\cite{ai1977, ai1992} with analysis
-sensitivity~\cite{sens-toplas}.  We first extend types $\tyset$ as follows:
+sensitivity~\cite{sens-toplas}.  We first extend types as follows:
 \begin{figure}[H]
   \centering
   \vspace*{-0.5em}
@@ -320,25 +249,24 @@ sensitivity~\cite{sens-toplas}.  We first extend types $\tyset$ as follows:
     \cdots \mid
     \func \mid
     \const \mid
-    \tnormal(\ty) \mid
-    \tabrupt \mid
     \bool \mid
     \str \mid
-    \tabsent
+    \tabsent \mid
+    \tnormal(\ty) \mid
+    \tabrupt
   $}
   \vspace*{-0.5em}
 \end{figure} \noindent
-There are three reasons why we extend types.  First, the original types $\tyset$
-do not cover all types of values thus we add functions and constants.  Second,
-we add more specific types to increase the precision of type analysis.  A
-completion record is a \textit{normal completion} when its \code{Type} field is
-$\nconst{normal}$ or an \textit{abrupt completion} otherwise.  We add
-$\tnormal(\ty)$ for normal completions whose \code{Value} field is a value of
-the type $\ty$, and $\tabrupt$ for abrupt completions.  Moreover, we also add
-\jscode{Boolean} values $\bool$, and \jscode{String} values $\str$ to precisely
-handle the control flows of branches and field accesses, respectively.  Third,
-we add the absent type $\tabsent$ to represent the existence of variables.
-Using such extended types, we define abstract states with flow-sensitivity and
+We add types for functions $\func$ and constants $\const$,
+\jscode{Boolean} values $\bool$ and \jscode{String} values $\str$ to precisely
+handle the control flows of branches and field accesses, respectively,
+the absent type $\tabsent$ to represent the absence of variables, and
+$\tnormal(\ty)$ for normal completions whose \code{Value} fields have
+type $\ty$ and $\tabrupt$ for abrupt completions to enhance the
+analysis precision.
+
+
+Using the extended types, we define abstract states with flow-sensitivity and
 type-sensitivity for arguments:
 
 \begin{figure}[H]
@@ -352,7 +280,7 @@ type-sensitivity for arguments:
       \text{Result Maps}
       &\rmap&\in&\rmapset&=& \labset \times \tyset^* \rightarrow \aenvset\\
 
-      \text{Return Points}
+      \text{Return Point Maps}
       &\retp&\in&\retpset&=& \funcset \times \tyset^*
       \rightarrow \partsof{\labset \times \tyset^* \times \varset} \\
 
@@ -365,18 +293,18 @@ type-sensitivity for arguments:
   $}
   \vspace*{-0.5em}
 \end{figure}
-
+\noindent
 An abstract state $\aelem \in \adom$ is a pair of a result map and a return
-point mapping.  A result map $\rmap \in \rmapset$ represents an abstract
-environment for each flow- and type-sensitive view, and a return point mapping
+point map.  A result map $\rmap \in \rmapset$ represents an abstract
+environment for each flow- and type-sensitive view, and a return point map
 $\retp \in \retpset$ represents possible return points of each function
 with a type-sensitive context; each return point consists of a view for the
 caller function and a variable that represents the return value.  An abstract
 environment $\aenv \in \aenvset$ represents possible types for variables, and
 $\aenv(\x) = \{ \tabsent \}$ when $\x$ is not defined in $\aenv$.  An abstract
-type $\aty \in \atyset$ is a set of types.  While we define the join operator
+type $\aty \in \atyset$ is a set of types.  We define the join operator
 $\join$, the meet operator $\meet$, and the partial order $\order$ for most of
-abstract domains in a point-wise manner, we define the operators for types with
+abstract domains in a point-wise manner, and define the operators for types with
 a normalization function $\norm$ because of their subtype relations:
 \begin{figure}[H]
   \centering
@@ -395,12 +323,13 @@ a normalization function $\norm$ because of their subtype relations:
   \vspace*{-0.5em}
 \end{figure} \noindent
 where $\small{\norm(\aty) = \{ \ty \mid \ty \in \aty \wedge \nexists \ty' \in
-\aty. \setminus \{ \ty \}\; \text{s.t.} \; \ty \subtype \ty' \}}$.
+\aty\setminus \{ \ty \}. \; \text{s.t.} \; \ty \subtype \ty' \}}$.
 
-Based on abstract states, we define the abstract semantics of instructions,
-references, and expressions in the modified $\ires$ described in
-Figure~\ref{fig:abs-sem}.  To prevent the explosion of the number of type-sensitive
-views, we upcast the type of each argument before function calls with the
+We now define the abstract semantics of instructions $\asemi{\inst}$ in Figure~\ref{fig:abs-sem}
+and the abstract semantics of references $\asemr{\refer}$
+and expressions $\aseme{\expr}$ in a companion report~\inred{\cite{report}}.
+To avoid the explosion of type-sensitive
+views, we upcast the argument type before function calls with the
 following function:
 \begin{figure}[H]
   \centering
@@ -419,8 +348,8 @@ following function:
   \vspace*{-0.5em}
 \end{figure} \noindent
 and $\upcasts$ denotes a point-wise extension of $\upcast$ for type sequences.
-For branches and assertions, we apply the $\pass$ function to prevent the
-infeasible control flows defined as follows:
+For branches and assertions, we use the following $\pass$ function to prevent
+infeasible control flows:
 
 \begin{figure}[H]
   \centering
@@ -438,11 +367,11 @@ infeasible control flows defined as follows:
   $}
   \vspace*{-0.5em}
 \end{figure} \noindent
-where $\refine$ is a function that prunes out infeasible parts in abstract
-environments based on their conditions to increase analysis precision.  We will
-explain its detail in Section~\ref{sec:refine}.  Then, we define the abstract
-semantics $\asem{\prog}$ of a program $\prog = (\getfunc, \getinst, \getnext)$
-as the least fixpoint of abstract transfer $\atransfer: \adom \rightarrow
+where $\refine$ prunes out infeasible parts in abstract
+environments using their conditions as we describe in Section~\ref{sec:refine}.
+Then, we define the abstract
+semantics $\asem{\prog}$ of a program $\prog$
+as the least fixpoint of the abstract transfer $\atransfer: \adom \rightarrow
 \adom$:
 \begin{figure}[H]
   \centering
@@ -459,12 +388,12 @@ as the least fixpoint of abstract transfer $\atransfer: \adom \rightarrow
   \vspace*{-0.5em}
 \end{figure} \noindent
 where $\aelem = (\rmap, \_)$ and $\iaelem$ denotes the initial abstract state.
-As described in Section~\ref{sec:overview}, $\iaelem$ contains entry points of
-all syntax-directed algorithms having no additional parameters and built-in
-algorithms with appropriate abstract environments.  For syntax-directed
-algorithms, we construct its abstract environment containing the variable
-$\this$ with a production type and other variables for non-terminals.  For
-example, the upper-left syntax-directed algorithm in Figure~\ref{fig:example} is
+As described in Section~\ref{sec:overview}, $\iaelem$ contains the entry points of
+all syntax-directed algorithms without additional parameters and built-in
+algorithms with appropriate abstract environments.
+For a syntax-directed algorithm, we construct its abstract environment containing the variable
+$\this$ with its production type and other variables for nonterminals.
+For example, the upper-left syntax-directed algorithm in Figure~\ref{fig:example} is
 initialized with the following abstract environment:
 \begin{figure}[H]
   \centering
@@ -479,9 +408,9 @@ initialized with the following abstract environment:
   \vspace*{-0.5em}
 \end{figure} \noindent
 For built-in algorithms, we assign pre-defined variables $\this$, $\args$, and
-$\NewTarget$ with corresponding types and parameters with $\tjs$ types.  For
+$\NewTarget$ with their corresponding types and parameters with $\tjs$ types.  For
 example, the following abstract environment is for the built-in
-algorithm $\jscode{Math.round}$ at the upper-right in Figure~\ref{fig:example}:
+algorithm $\jscode{Math.round}$ at the upper-right part in Figure~\ref{fig:example}:
 \begin{figure}[H]
   \centering
   \vspace*{-0.5em}
@@ -499,10 +428,10 @@ algorithm $\jscode{Math.round}$ at the upper-right in Figure~\ref{fig:example}:
 
 \subsection{Condition-based Refinement}\label{sec:refine}
 
-We present a \textit{condition-based refinement} of type analysis for the
-modified $\ires$ to increase analysis precision.  It prunes out infeasible parts
-in abstract environments based on conditions of branches of assertions, and we
-formally define the $\refine$ function as follows:
+We present a \textit{condition-based refinement} of the type analysis for the
+modified $\ires$ to enhance the analysis precision.  It prunes out infeasible parts
+in abstract environments using the conditions of branches and assertions.
+We formally define the $\refine$ function as follows:
 \begin{figure}[H]
   \centering
   \vspace*{-0.5em}
@@ -542,14 +471,12 @@ formally define the $\refine$ function as follows:
       \refine(\x : \ty, \false)(\aenv) &=&
       \aenv[ \x \mapsto \aty_\x \setminus \{ \ty' \mid \ty' \subtype \ty
       \}]\\
-      \refine(\expr, \true)(\aenv) &=& \aenv\\
+      \refine(\expr, \bool)(\aenv) &=& \aenv\\
     \end{array}
   $}
   \vspace*{-0.5em}
 \end{figure} \noindent
-where $\aenv_i = \refine(\expr_i, \bool)(\aenv)$ and $\aty_\expr =
-\aseme{\expr}(\aenv)$.  The notation $\getSingle{\aty}$ denotes to check whether
-$\aty$ is a singleton; $\getSingle{\aty} = \aty$ if $\aty = \{ \ty \}$ and $\ty$
-is a singleton type such as a constant $\const$, an empty list $\clist{}$, an
-absent value $\tabsent$, a primitive value, etc., or $\getSingle{\aty} = \emp$
-otherwise.
+where $\aenv_j = \refine(\expr_j, \bool)(\aenv)$ for $j = 0, 1$,
+$\aty_\expr = \aseme{\expr}(\aenv)$, and $\getSingle{\aty}$
+returns $\{ \ty \}$ if $\aty$ denotes a single type $\ty$, or
+returns $\emp$, otherwise.

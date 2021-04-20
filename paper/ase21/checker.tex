@@ -98,6 +98,31 @@ checker utilizes the abstract semantics of existence check $\aseme{\x
 already defined.
 
 
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/func}
+    \caption{The number of functions.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/view}
+    \caption{The number of views.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/iter}
+    \caption{The number of iterations.}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.24\textwidth}
+    \includegraphics[width=\textwidth]{img/time}
+    \caption{The analysis time.}
+  \end{subfigure}
+  \caption{The statistics of type analysis using $\tool$ for 864 versions of
+  ECMAScript.}
+  \vspace*{-1.5em}
+  \label{fig:stat}
+\end{figure*}
+
+
 \subsection{Arity Checker}
 
 Arity of a function $\func = \kwdef \; \f (\p_1, \cdots, \p_n, \kwsl \cdots, p_m
@@ -191,30 +216,6 @@ an assertion failure for the condition $\code{environment = originalEnv}$.
 
 
 \subsection{Operand Checker}
-
-\begin{figure*}
-  \centering
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/func}
-    \caption{The number of functions.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/view}
-    \caption{The number of views.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/iter}
-    \caption{The number of iterations.}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.24\textwidth}
-    \includegraphics[width=\textwidth]{img/time}
-    \caption{The analysis time.}
-  \end{subfigure}
-  \caption{The statistics of type analysis using $\tool$ for 864 versions of
-  ECMAScript.}
-  \vspace*{-1.5em}
-  \label{fig:stat}
-\end{figure*}
 
 Several operators are typed and a \textit{ill-typed operand bug} occurs when
 the type of an operand is not conform to the expected type.  For example, the
