@@ -103,6 +103,7 @@ or a \jscode{Symbol} $\symb$.
 \begin{figure*}[t]
   \centering
   \resizebox{0.49\textwidth}{!}{$
+\renewcommand{\arraystretch}{1.3}
     \begin{array}{@{}l@{~}c@{~}l}
       \asemi{\kwlet \; \x = \expr}
       (\lab, \tys)(\aelem) &=&
@@ -140,6 +141,7 @@ or a \jscode{Symbol} $\symb$.
     \end{array}
   $}
   \resizebox{0.49\textwidth}{!}{$
+\renewcommand{\arraystretch}{1.3}
     \begin{array}{@{}l@{~}c@{~}l}
       \asemi{\kwreturn \; \expr}
       (\lab, \tys)(\aelem) &=&
@@ -175,21 +177,15 @@ or a \jscode{Symbol} $\symb$.
 \caption{Abstract semantics of instructions for a program $\prog = (\getfunc, \getinst, \getnext)$,
 $\asemi{\inst}: (\labset \times \tyset^*) \rightarrow \adom \rightarrow \adom$
 }
-  \vspace*{-1em}
+  \vspace*{-.5em}
   \label{fig:abs-sem}
 \end{figure*}
-
-
-%    \caption{Instructions with $\asemi{\inst}: (\labset \times \tyset^*)
-%    \rightarrow \adom \rightarrow \adom$.}
-%  \caption{Abstract semantics of the modified $\ires$ for a program $\prog =
-%  (\getfunc, \getinst, \getnext)$}
 
 A type $\ty \in \tyset$ is either a nominal type $\tname$, an empty list type
 $\clist{}$, a parametric list type $\clist{\ty}$,
 a JavaScript type $\tjs$,
 a primitive type $\tprim$,
-$\tnumeric$ that is either \jscode{Number} or \jscode{BigInt},
+a numeric type $\tnumeric$,
 $\tnum$, $\tbigint$, $\tstr$, or $\tsymb$.
 A nominal type $\tname$ is either 1) an
 \textit{AST type} with its corresponding syntax-directed algorithms as its fields,
@@ -478,5 +474,5 @@ We formally define the $\refine$ function as follows:
 \end{figure} \noindent
 where $\aenv_j = \refine(\expr_j, \bool)(\aenv)$ for $j = 0, 1$,
 $\aty_\expr = \aseme{\expr}(\aenv)$, and $\getSingle{\aty}$
-returns $\{ \ty \}$ if $\aty$ denotes a single type $\ty$, or
+returns $\{ \ty \}$ if $\aty$ denotes a singleton type $\ty$, or
 returns $\emp$, otherwise.
