@@ -64,7 +64,7 @@ $\tool$ performs a type analysis with flow-sensitivity and
 type-sensitivity for arguments.
 Each function is split into multiple flow- and type-sensitive views, and an
 abstract state stores mapping from views to corresponding abstract environments.
-To andle views separately, we use a worklist algorithm.
+To handle views separately, we use a worklist algorithm.
 The type analyzer consists of two sub-modules: an \textit{analysis initializer} and an
 \textit{abstract transfer}.
 
@@ -77,7 +77,7 @@ initializer defines its abstract environment with parameter types and adds the
 flow- and type-sensitive views of the entry point to the worklist.
 
 \paragraph{Abstract Transfer} For each iteration, the abstract transfer gets a
-specific view from the worklist and udpates the abstract environments of the next
+specific view from the worklist and updates the abstract environments of the next
 views based on the abstract semantics.  It adds the next views to the worklist if
 it changes their abstract environments, and the iteration finishes when
 the worklist becomes empty.  To increase the analysis precision, we
