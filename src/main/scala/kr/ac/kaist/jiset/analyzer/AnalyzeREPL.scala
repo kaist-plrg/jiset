@@ -175,6 +175,38 @@ object AnalyzeREPL {
   private def getCallNodes(rp: ReturnPoint): Set[NodePoint[Call]] =
     sem.getRetEdges(rp).map(_._1)
 
+  def astList(args: List[String]) = args match {
+    case name :: prop :: _ => getAstList(name, prop)
+    case _ => println("need two argument")
+  }
+  def getAstList(name: String, prop: String) = (name, prop) match {
+    case ("IdentifierName", "StringValue") =>
+      println("It just returns StrT")
+    case ("NumericLiteral", "NumericValue") =>
+      println("It just returns NumT")
+    case ("StringLiteral", "StringValue" | "SV") =>
+      println("It just returns StrT")
+    case (_, "TV" | "TRV") =>
+      println("It just returns StrT")
+    case (_, "MV") =>
+      println("It just returns NumT")
+    case (_, prop) if cfg.spec.grammar.nameMap contains prop => AstT(prop)
+    case _ => optional(cfg.getSyntaxFids(name, prop).toList) match {
+      case None if prop == "Contains" =>
+        println("It just returns BoolT")
+      case None =>
+        println(s"$name.$prop does not exist")
+      case Some(fids) =>
+        fids.foreach(fid => {
+          val func = cfg.fidMap(fid)
+          func.algo.head match {
+            case (head: SyntaxDirectedHead) => println(func.name)
+            case _ =>
+          }
+        })
+    }
+  }
+
   // run repl
   def run(cp: ControlPoint): Unit = if (!continue || isBreak(cp)) runDirect(cp)
   def runDirect(givenCP: ControlPoint): Unit = {
@@ -200,20 +232,21 @@ object AnalyzeREPL {
         case CmdLog.name :: _ =>
           Stat.dump(); true
         case CmdGraph.name :: args =>
-          graph(cp, args)
-          true
+          graph(cp, args); true
         case CmdExit.name :: _ => error("stop for debugging")
         case CmdStop.name :: _ =>
           stop(); false
         case CmdInfo.name :: args =>
           info(args); true
         case CmdEntry.name :: _ =>
+          // TODO
           visited = Set()
           cp.map(getEntryFunc(_).foreach(println _))
           true
         case CmdWorklist.name :: args =>
-          worklist.foreach(println(_))
-          true
+          worklist.foreach(println(_)); true
+        case CmdAstList.name :: args =>
+          astList(args); true
         case Nil | List("") =>
           continue = false; false
         case cmd :: _ =>
@@ -247,6 +280,7 @@ private object Command {
     CmdInfo,
     CmdEntry,
     CmdWorklist,
+    CmdAstList,
   )
   val cmdMap: Map[String, Command] = commands.map(cmd => (cmd.name, cmd)).toMap
 
@@ -293,3 +327,5 @@ private case object CmdInfo extends Command("info", "Show abstract state of node
 private case object CmdEntry extends Command("entry", "Show the set of entry functions of current function")
 
 private case object CmdWorklist extends Command("worklist", "Show all the control points in the worklist")
+
+private case object CmdAstList extends Command("ast-list", "Show the AST list of given name and property")
