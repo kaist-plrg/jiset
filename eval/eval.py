@@ -76,9 +76,10 @@ def get_commit_info(commit_hash):
         "date": cdate,
         "author": an
     } 
-def get_remote_errors(remote_path):
+def get_remote_errors(remote_path, suffix):
     print(f"rsync {remote_path}...")
-    cmd = f"rsync -a -m --include '**/errors' --include '**/stat_summary' --include='*/' --exclude='*' {remote_path}/raw {RESULT_DIR}"
+    result_dir = join(EVAL_HOME, "result" + suffix)
+    cmd = f"rsync -a -m --include '**/errors' --include '**/stat_summary' --include='*/' --exclude='*' {remote_path}/raw {result_dir}"
     out, err = execute_sh(cmd)
     if err == "":
         print(f"rsync completed.")
@@ -494,7 +495,7 @@ def sparse_run(sparse_targets, log_f):
     print(f"run-sparse completed.")
 
 # grep results from remote
-def grep_remotes(addrs):
+def grep_remotes(addrs, suffix = ""):
     # read now, prev from addrs
     from_now, from_prev = True, True
     now_paths, prev_paths, hosts = [], [], []
@@ -502,8 +503,8 @@ def grep_remotes(addrs):
     for addr in addrs:
         host = addr.split(":")[0]
         hosts.append(host)
-        now_path, now_err = read_remote_file(host, "~/now")
-        prev_path, prev_err = read_remote_file(host, "~/prev")
+        now_path, now_err = read_remote_file(host, "~/now" + suffix)
+        prev_path, prev_err = read_remote_file(host, "~/prev" + suffix)
         if now_err:
             from_now = False
         else:
@@ -515,12 +516,12 @@ def grep_remotes(addrs):
     # rsync with remotes
     def rsync_remotes(remote_paths):
         for i, remote_path in enumerate(remote_paths):
-            get_remote_errors(hosts[i] + ":" + remote_path)
+            get_remote_errors(hosts[i] + ":" + remote_path, suffix)
     if from_now:
-        print("grep results from NOW")
+        print("grep results from NOW" + suffix)
         rsync_remotes(now_paths)
     elif from_prev:
-        print("grep results from PREV")
+        print("grep results from PREV" + suffix)
         rsync_remotes(prev_paths)
 
 # entry
@@ -583,6 +584,7 @@ def main():
     # command grep
     elif args.grep != None:
         grep_remotes(args.grep)
+        grep_remotes(args.grep, "_np")
     # command sparse
     elif args.sparse != None:
         with open(join(RESULT_DIR, "analyzed"), "w") as log_f:

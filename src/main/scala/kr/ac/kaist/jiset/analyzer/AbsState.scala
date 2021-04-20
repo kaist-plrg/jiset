@@ -200,7 +200,7 @@ case class AbsState(
       case (ty, ListT(elem)) => ty ⊔ elem
       case (ty, _) => warning(s"invalid pop expression: ${list}"); ty
     }
-    (ty, this)
+    (norm(ty), this)
   }
 
   // typeof operation
