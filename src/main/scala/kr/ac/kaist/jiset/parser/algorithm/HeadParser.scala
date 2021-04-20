@@ -47,7 +47,9 @@ object HeadParser extends HeadParsers {
 
     // classify head
     val prev = elem.previousElementSibling
-    if (isEquation(elem))
+    if (isManualNormalHead(name))
+      getNormalHead(name, params)
+    else if (isEquation(elem))
       getEquationHead(name, params)
     else if (isSyntaxDirected(prev))
       getSyntaxDirectedHead(name, headElem, prev)
@@ -69,6 +71,20 @@ object HeadParser extends HeadParsers {
       }
       Nil
   }
+
+  // set of normal heads which are mistakenly interpreted as builtin heads
+  val manualNormalHeadSet = Set(
+    "CreateResolvingFunctions",
+    "GetGeneratorKind",
+    "PerformPromiseThen",
+    "FlattenIntoArray",
+    "PromiseReactionJob",
+    "NumberToBigInt",
+    "AsyncFunctionAwait",
+  )
+
+  // check whether current algorithm head is manual normal head.
+  def isManualNormalHead(name: String): Boolean = manualNormalHeadSet contains name
 
   // normal head
   def getNormalHead(name: String, params: List[Param]): List[Head] =
