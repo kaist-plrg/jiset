@@ -1,5 +1,72 @@
 \section{Evaluation}\label{sec:eval}
 
+\begin{table*}
+  \centering
+  \caption{The analysis precision of $\tool$ without refinement
+  (\stextsf{no-refine}), with refinement (\stextsf{refine}), and their
+  difference ($\Delta$)}
+  \label{table:precision}
+  \resizebox{\textwidth}{!}{%
+    \begin{tabular}{c|c?r@{~}c@{~}r@{~}l@{}r|r@{~}c@{~}r@{~}l@{}r?r@{~}c@{~}r@{~}l@{}r|r@{~}c@{~}r@{~}l@{}r?r@{~}c@{~}r@{~}l@{}r|r@{~}c@{~}r@{~}l@{}r}
+      \multirow{2}{*}{\textbf{Checker}} &
+      \multirow{2}{*}{\textbf{Bug Kind}} &
+      \multicolumn{30}{c}{
+        \textbf{Precision = (\# True Bugs) / (\# Detected Bugs)}
+      }\\\cline{3-32} &&
+      \multicolumn{10}{c?}{no-refine} &
+      \multicolumn{10}{c?}{refine} &
+      \multicolumn{10}{c}{$\Delta$}\\
+
+      \specialrule{.1em}{.0em}{.0em}
+
+      \myrowc
+      {\mr{2}{\stextsf{Reference}}}
+      {\me{2}{60}{125}{48.0}} {\me{2}{61}{98}{62.2}} {\me{2}{+1}{-27}{+14.2}}
+      {\mr{1}{\stextsf{UnknownVar}}}
+      {\me{1}{17}{81}{21.0}} {\me{1}{17}{53}{32.1}} {\me{1}{}{-28}{+11.1}}
+
+      \myrowh
+      {\mr{1}{\stextsf{DuplicatedVar}}}
+      {\me{1}{43}{44}{97.7}} {\me{1}{44}{45}{97.8}} {\me{1}{+1}{+1}{+0.1}}
+
+      \hline
+
+      \smyrowc
+      {\mr{1}{\stextsf{Arity}}}
+      {\mr{1}{\stextsf{MissParam}}}
+      {\me{1}{4}{4}{100.0}} {\me{1}{4}{4}{100.0}} {\me{1}{}{}{}}
+
+      \hline
+
+      \smyrowc
+      {\mr{1}{\stextsf{Assertion}}}
+      {\mr{1}{\stextsf{Assertion}}}
+      {\me{1}{5}{57}{8.8}} {\me{1}{5}{31}{16.1}} {\me{1}{}{-26}{+7.4}}
+
+      \hline
+
+      \myrowc
+      {\mr{2}{\stextsf{Operand}}}
+      {\me{2}{22}{113}{19.5}} {\me{2}{22}{44}{50.0}} {\me{2}{}{-69}{+30.5}}
+      {\mr{1}{\stextsf{NoNumber}}}
+      {\me{1}{2}{65}{3.1}} {\me{1}{2}{6}{33.3}} {\me{1}{}{-59}{+30.3}}
+
+      \myrowh
+      {\mr{1}{\stextsf{Abrupt}}}
+      {\me{1}{20}{48}{41.7}} {\me{1}{20}{38}{52.6}} {\me{1}{}{-10}{+11.0}}
+
+      \specialrule{.1em}{.0em}{.0em}
+
+      \mysrowh
+      {\textbf{Total}}
+      {91 / 299 (30.4\%)}{92 / 177 (52.0\%)}{+1 / -122 (+21.5\%)}
+
+    \end{tabular}
+  }
+  \vspace*{-1.5em}
+\end{table*}
+
+
 We implemented $\tool$ as an open-source tool~\footnote{The link is anonymized
 because of a double-blind review process} in Scala by extending $\jiset$, a
 JavaScript IR-based semantics extraction toolchain, with a worklist-based
@@ -9,7 +76,7 @@ instructions, our tool only reports type-related specification bugs detected in
 fully compiled abstract algorithms.  For built-in libraries, we only targeted
 abstract algorithms of essential built-in objects: \jscode{Array},
 \jscode{Object}, \jscode{Function}, \jscode{Math}, \jscode{Proxy}, and objects
-for primitive types.
+for JavaScript primitive types.
 
 To evaluate $\tool$, we answer the following research questions:
 \begin{itemize}
@@ -35,22 +102,23 @@ RAM.
 Figure~\ref{fig:stat} shows four statistics of type analysis using $\tool$ for
 864 versions of ECMAScript: (a) the number of analyzed functions, (b) the number
 of flow- and type-sensitive views, (c) the number of worklist iterations, and
-(d) the analysis time.  For each version of ECMAScript, \inred{1,999.9}
-functions (\stextsf{func}) are analyzed and \inred{1,999.9} functions among them
-are fully compiled (\stextsf{full-func}) on average.  Since the compile rules in
-$\jiset$ is more suitable for recent versions, the number of fully compiled
-functions in older versions are less than in more recent versions.  $\tool$
-keeps different abstract environments for each functions divided by flow- and
-type-sensitive views.  In the analysis result, \inred{1.3}M views existed for
-each version and \inred{1.3}K views existed for each function on average.
+(d) the analysis time.  For each version of ECMAScript, \inred{1,689.6}
+functions (\stextsf{analyzed}) are analyzed and \inred{1,570.0} functions among
+them are fully compiled (\stextsf{compiled}) on average.  Since ECMAScript has
+gradually evolved for three years, \inred{1,357} out of \inred{1,490} analyzed
+functions are fully compiled at the first version in 2018 but \inred{1741} out
+of \inred{1,863} analyzed functions are fully compiled in the latest version.
+$\tool$ divides functions to flow- and type-sensitive views.  On average,
+\inred{91.2}K views existed for each version and \inred{53.9} views existed for
+each function.
 
 We measured performance of $\tool$ based on the number of iterations for
 worklist algorithm and the analysis time.  For each version of ECMAScript,
-$\tool$ took \inred{300.0} seconds with \inred{19,999.9} iterations of worklist
-algorithm on average.  The analysis time consists of \inred{10.0} seconds for
-the specification extraction (\stextsf{extract} with gray bars), \inred{340.0}
-seconds for the type analysis (\stextsf{analyze} with blue bars), \inred{10.0}
-seconds for the bug detection (\stextsf{detect} with red bars).
+$\tool$ took \inred{136.0} seconds with \inred{298.8}K iterations of worklist
+algorithm on average.  The average analysis time consists of \inred{8.0} seconds
+for the specification extraction (\stextsf{extract} with gray bars),
+\inred{127.0} seconds for the type analysis (\stextsf{analyze} with blue bars),
+\inred{0.7} seconds for the bug detection (\stextsf{detect} with red bars).
 
 
 \subsection{Precision}\label{sec:precision}
@@ -78,94 +146,28 @@ seconds for the bug detection (\stextsf{detect} with red bars).
   \label{fig:ttl}
 \end{figure}
 
-\begin{table*}
-  \centering
-  \caption{The analysis precision of $\tool$ without refinement
-  (\stextsf{no-refine}), with refinement (\stextsf{refine}), and their
-  difference ($\Delta$)}
-  \label{table:precision}
-  \resizebox{\textwidth}{!}{%
-    \begin{tabular}{c|c?r@{~}c@{~}l@{~}l|r@{~}c@{~}l@{~}l?r@{~}c@{~}l@{~}l|r@{~}c@{~}l@{~}l?r@{~}c@{~}l@{~}l|r@{~}c@{~}l@{~}l}
-      \multirow{2}{*}{\textbf{Checker}} &
-      \multirow{2}{*}{\textbf{Bug Kind}} &
-      \multicolumn{24}{c}{
-        \textbf{Precision = (\# True Bugs) / (\# Detected Bugs)}
-      }\\\cline{3-26} &&
-      \multicolumn{8}{c?}{no-refine} &
-      \multicolumn{8}{c?}{refine} &
-      \multicolumn{8}{c}{$\Delta$}\\
-
-      \specialrule{.1em}{.0em}{.0em}
-
-      \myrowc
-      {\mr{2}{\stextsf{Reference}}}
-      {\me{2}{60}{125}{48.0}} {\me{2}{61}{98}{62.2}} {\me{2}{+1}{-27}{+14.2}}
-      {\mr{1}{\stextsf{UnknownVar}}}
-      {\me{1}{17}{81}{21.0}} {\me{1}{17}{53}{32.1}} {\me{1}{-}{-28}{+11.1}}
-
-      \myrowh
-      {\mr{1}{\stextsf{DuplicatedVar}}}
-      {\me{1}{43}{44}{97.7}} {\me{1}{44}{45}{97.8}} {\me{1}{+1}{+1}{+0.1}}
-
-      \hline
-
-      \smyrowc
-      {\mr{1}{\stextsf{Arity}}}
-      {\mr{1}{\stextsf{MissParam}}}
-      {\me{1}{43}{44}{97.7}} {\me{1}{44}{45}{97.8}} {\me{1}{+1}{+1}{+0.1}}
-
-      \hline
-
-      \smyrowc
-      {\mr{1}{\stextsf{Assertion}}}
-      {\mr{1}{\stextsf{Assertion}}}
-      {\me{1}{5}{57}{8.8}} {\me{1}{5}{31}{16.1}} {\me{1}{-}{-26}{+7.4}}
-
-      \hline
-
-      \myrowc
-      {\mr{2}{\stextsf{Operand}}}
-      {\me{2}{22}{113}{19.5}} {\me{2}{22}{44}{50.0}} {\me{2}{-}{-69}{+30.5}}
-      {\mr{1}{\stextsf{NoNumber}}}
-      {\me{1}{2}{65}{3.1}} {\me{1}{2}{6}{33.3}} {\me{1}{-}{-59}{+30.3}}
-
-      \myrowh
-      {\mr{1}{\stextsf{Abrupt}}}
-      {\me{1}{20}{48}{41.7}} {\me{1}{20}{38}{52.6}} {\me{1}{-}{-10}{+11.0}}
-
-      \specialrule{.1em}{.0em}{.0em}
-
-      \mysrowh
-      {\textbf{Total}}
-      {91 / 299 (30.4\%)}{92 / 177 (52.0\%)}{+1 / -122 (+21.5\%)}
-
-    \end{tabular}
-  }
-  \vspace*{-1.5em}
-\end{table*}
-
-
 We measured the analysis precision based on the number of true bugs in
 type-related specification bugs detected by $\tool$.  As described in the
 \stextsf{refine} column of Table~\ref{table:precision}, the analysis precision
-is \inred{51.7}\% because it detected \inred{190} type-related bugs and
-\inred{89} bugs are true bugs among them.  The reference checker detected the
-largest number of bugs with \inred{51.7}\% precision; it found \inred{12} true
-reference bugs for \inred{32} unknown variables (\stextsf{UnknownVar}) and
-\inred{32} already defined variables (\stextsf{DuplicatedVar}). The arity
-checker and the assertion checker found \inred{12} missing parameters
-(\stextsf{MissParam}) with \inred{90.2}\% precision and \inred{12} assertion
-failures (\stextsf{Assertion}) with \inred{90.2}\% precision, respectively.
+is \inred{52.0}\% because it detected \inred{177} type-related bugs and
+\inred{92} bugs are true bugs among them.  The reference checker detected the
+largest number of bugs with \inred{62.2}\% precision; it found \inred{61} true
+reference bugs for \inred{17} unknown variables (\stextsf{UnknownVar}) and
+\inred{44} already defined variables (\stextsf{DuplicatedVar}). The arity
+checker and the assertion checker found \inred{4} missing parameters
+(\stextsf{MissParam}) with \inred{100.0}\% precision and \inred{5} assertion
+failures (\stextsf{Assertion}) with \inred{16.1}\% precision, respectively.
 Finally, the operand checker detected two different kinds of wrong typed operand
-bugs: \inred{12} non-numeric operand bugs (\stextsf{NoNumber}) for numeric
-operators with \inred{12.3}\% precision and \inred{12} unchecked abrupt
-completion bugs (\stextsf{Abrupt}) with \inred{12.3}\% precision.
+bugs: \inred{2} non-numeric operand bugs (\stextsf{NoNumber}) for numeric
+operators with \inred{33.3}\% precision and \inred{20} unchecked abrupt
+completion bugs (\stextsf{Abrupt}) with \inred{52.6}\% precision.
 
 Moreover, we extended $\tool$ to automatically extract more statistics of
 detected true bugs.  \inred{First, we checked that true bugs are created or
-resolved by whom as described in Figure~\ref{fig:author}.  Among \inred{89}
-true bugs, we cannot automatically know who created \inred{20}
-\textit{inherited} bugs, which are created before 2018.  For remaining
+resolved by whom as described in Figure~\ref{fig:author}.  Among \inred{92}
+true bugs, \inred{47} bugs are \textit{inherited}, which means that they are
+created before 2018, and \inred{14} bugs are newly found 
+
 \inred{20} bugs, only \inred{20} bugs are created by members of the Ecma
 Technical Committee 39 (TC39) but others (\inred{20} bugs) are created by
 outside contributors not committee members.  On the other hand, most of them
