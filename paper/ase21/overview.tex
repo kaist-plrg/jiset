@@ -3,18 +3,18 @@
 \begin{figure}
   \centering
   \includegraphics[width=\columnwidth]{img/overall}
-  \caption{Overall structure of $\tool$: a type analyzer and a bug detector for
-  mechanized specifications extracted from ECMAScript by $\jiset$.}
+  \caption{$\tool$: a type analyzer and a bug detector for
+  mechanized specifications extracted from ECMAScript by $\jiset$}
   \label{fig:overall}
   \vspace*{-1.5em}
 \end{figure}
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\textwidth]{img/example}
-  \vspace*{-1.5em}
+  \includegraphics[width=.9\textwidth]{img/example}
+%  \vspace*{-1.5em}
   \caption{An example JavaScript program with related previous specification
-  bugs and their bugfixes.}
+  bugs and their bug fixes}
   \label{fig:example}
   \vspace*{-1.5em}
 \end{figure*}
@@ -23,129 +23,121 @@
 % let f;    f ??= (x) => Math.round(x);    f(true);
 % \end{lstlisting}
 
-In this section, we demonstrate overall structure of $\tool$ depicted in
-Figure~\ref{fig:overall}.  Our tool consists of three different steps:
+In this section, we demonstrate the overall structure of $\tool$ depicted in
+Figure~\ref{fig:overall}.  It consists of three components:
 1) specification extraction, 2) type analysis, and 3) bug detection.
 
 
 \subsection{Specification Extraction}\label{sec:overview-spec-extract}
+$\tool$ extracts the JavaScript syntax and semantics using $\jiset$,
+and it extracts specification types from ECMAScript.
 
-ECMAScript describes JavaScript syntax and semantics written in a structured
-natural language.  We utilize $\jiset$ to extract mechanized specification from
-a given ECMAScript.
+\paragraph{Syntax and Semantics}
+ECMAScript uses a variant of extended BNF notations to describe the JavaScript syntax.
+While $\jiset$ synthesizes AST structures and JavaScript parsers from
+the lexical and syntactic productions in ECMAScript, $\tool$ uses only
+AST structures to define their types and access corresponding syntax-directed algorithms.
+ECMAScript uses abstract algorithms written in a structured natural language to
+describe the JavaScript semantics. While $\jiset$ compiles abstract algorithms to functions in $\ires$,
+we modify $\ires$ to make it more suitable for type analysis as
+formally defined in Section~\ref{sec:ires}.
 
-\paragraph{Syntax and Semantics} ECMAScript uses a variant of extended BNF
-notations to describe JavaScript syntax.  $\jiset$ synthesizes AST structures
-and JavaScript parsers from its lexical and syntactic productions.  Our tool
-utilizes only AST structures to define their types and to access corresponding
-syntax-directed algorithms.  For JavaScript semantics, ECMAScript contains
-abstract algorithms written in a structured natural language.  $\jiset$ compiles
-them to functions of $\ires$, an untyped intermediate representation for
-ECMAScript.  We modify $\ires$ to make it more suitable for type analysis, and
-formally define it in Section~\ref{sec:ires}.
-
-\paragraph{Types} In ECMAScript, types denote not only JavaScript types but also
-specification types for ASTs, records, and list-like structures.  In abstract
-algorithms, ASTs are also values thus they can be stored in the variables or
-passed as arguments.  For such ASTs, we use their production names as their
-types and automatically link corresponding syntax-directed algorithms to them as
-their fields.  ECMAScript also supports various record types and their fields
-and possible values are defined in the corresponding tables.  For example,
-``Table 9: Completion Record Fields'' in the latest ECMAScript describes fields
-of the completion records.  The latest version contains tens of tables for
-record types but they are backward compatible in general.  Thus, we manually
-model fields of record types based on tables in the latest version and use use
-them in type analysis.  For list-like structures, we define the empty list type
+\paragraph{Types}
+$\tool$ represents three kinds of specification types.
+First, because ASTs are values in abstract algorithms, 
+they can be stored in variables and passed as function arguments.
+For ASTs, we use their production names as their
+types and automatically link their corresponding syntax-directed algorithms as their fields.
+Second, ECMAScript supports various record types and fields
+whose possible values are defined in their corresponding tables.
+For example, ``Table 9: Completion Record Fields'' in the latest
+ECMAScript describes the fields of the completion records.
+% The newest version contains tens of tables for record types, and they are backward compatible in general.
+Thus, we manually model the fields of record types based on the tables
+in the latest version and use them in a type analysis.
+Third, for list-like structures, we define the empty list type
 $\clist{}$ and parametric list types $\clist{\tau}$.
-
 
 \subsection{Type Analysis}\label{sec:overview-type-analysis}
 
-The type analyzer performs type analysis with flow-sensitivity and
-type-sensitivity for arguments to precisely detect specification bugs.  Each
-function is divided into multiple flow- and type-sensitive views, and an
+$\tool$ performs a type analysis with flow-sensitivity and
+type-sensitivity for arguments.
+Each function is split into multiple flow- and type-sensitive views, and an
 abstract state stores mapping from views to corresponding abstract environments.
-To separately handle views, we use a worklist algorithm.  The type analyzer
-consists of two sub-modules: an \textit{analysis initializer} and an
+To andle views separately, we use a worklist algorithm.
+The type analyzer consists of two sub-modules: an \textit{analysis initializer} and an
 \textit{abstract transfer}.
 
 \paragraph{Analysis Initializer} It defines the initial abstract state and the
-initial set of views in worklist.  In ECMAScript, there are three different
-kinds of abstract algorithms \textit{normal}, \textit{syntax-directed} and
-\textit{built-in}.  Since all the parameter types are known for built-in
-algorithms and syntax-directed algorithms having no additional parameters, we
-utilize them as entry points of type analysis.  For each entry point, the
-initializer defines its abstract environment with parameter types and pushes the
-flow- and type-sensitive views of entry points to the worklist.
+initial set of views for a worklist. ECMAScript provides three
+kinds of abstract algorithms: \textit{normal}, \textit{syntax-directed}, and
+\textit{built-in}. Since syntax-directed algorithms and built-in algorithms have
+their parameter types, we use them as entry points of type analysis.  For each entry point, the
+initializer defines its abstract environment with parameter types and adds the
+flow- and type-sensitive views of the entry point to the worklist.
 
 \paragraph{Abstract Transfer} For each iteration, the abstract transfer gets a
-specific view from the worklist and udpates the abstract environment of next
-views based on an abstract semantics.  It pushes next views to the worklist if
-it changes their abstract environments, and the iteration will be finished when
-the worklist becomes empty.  Moreover, to increase the analysis precision, we
-perform condition-based refinement for abstract environment when the current
-control point is a branch or an assertion.  The detail of refinement will be
-described in Section~\ref{sec:refine}.
-
+specific view from the worklist and udpates the abstract environments of the next
+views based on the abstract semantics.  It adds the next views to the worklist if
+it changes their abstract environments, and the iteration finishes when
+the worklist becomes empty.  To increase the analysis precision, we
+perform a condition-based refinement for an abstract environment when the current
+control point is a branch or an assertion as described in Section~\ref{sec:refine}.
 
 \subsection{Bug Detection}\label{sec:overview-bug-detect}
 
-To detect specification bugs based on the result of type analysis, we develop
-four different checkers in the bug detector.  We explain targets of checkers
-using an example JavaScript program with related previous specification bugs and
-their bugfixes descirbed in Figure~\ref{fig:example}.
+To detect specification bugs utilizing the type analysis, we develop
+four checkers in a bug detector.  We explain the targets of the checkers
+with an example JavaScript program that contains related previous specification bugs and
+their bug fixes, as shown in Figure~\ref{fig:example}.
 
 \paragraph{Reference Checker} The example JavaScript program first defines a
-variable \jscode{f} without initialization thus it stores \jscode{undefined}.
-Then, it assigns an arrow function to \jscode{f} using the operator
-\jscode{??=}.  While the corresponding \textbf{Evaluation} algorithm originally
-used \textbf{GetReferencedName} algorithm to get reference name in line 4.a, a
-contributor removed the \textbf{GetReferencedName} algorithm and replaced its
-all invocations to accesses of the field [[ReferencedName]] on October 28, 2020.
-However, there were several missing cases including the semantics of
-\jscode{??=} until another contributor fixed this bug on November 3, 2020.
-Thus, an unknown variable bug for \textbf{GetReferencedName} existed for 7 days.
-The reference checker detects reference bugs including such unknown variable
-bugs.
+variable \jscode{f} without initialization, which has the value \jscode{undefined}.
+It then assigns an anonymous function to \jscode{f} using the operator \jscode{??=}.
+While the corresponding \textbf{Evaluation} algorithm originally
+used the \textbf{GetReferencedName} algorithm to get a reference name on line 4.a,
+a contributor removed the \textbf{GetReferencedName} algorithm and replaced all its
+invocations with accesses of the field [[ReferencedName]] on October 28, 2020.
+However, the contributor missed several cases including the semantics of
+\jscode{??=}, which was fixed by another contributor on November 3, 2020.
+Thus, the unknown variable bug for \textbf{GetReferencedName} existed for 7 days,
+which the reference checker can detect.
 
-\paragraph{Arity Checker} After the program assigns an arrow function to
-\jscode{f}, it calls the function with an argument \jscode{true}.  During the
-initialization of a function call, the \textbf{IteratorBindingInitialization}
-algorithm is evaluated with additional parameters \textit{iteratorRecord} and
-\textit{environment} to assign arguments to proper parameters.  However, a
-contributor missed to pass additional arguments for them in line 2 in the
-\textbf{IteratorBindingInitialization} of \textit{ArrowParameters} on September
-6, 2018.  It caused an arity mismatch bug and existed for 533 days until another
-contributor fixed this bug on February 20, 2020.  The arity checker checks such
-arity mismatches.
+\paragraph{Arity Checker} The program finally calls \jscode{f} with an argument \jscode{true}.
+During the initialization of the function call, the \textbf{IteratorBindingInitialization}
+algorithm executes with additional parameters \textit{iteratorRecord} and
+\textit{environment} to assign argument values to parameters.
+However, a contributor missed passing additional arguments to them on line 2 in
+\textbf{IteratorBindingInitialization} of \textit{ArrowParameters} on September 6, 2018.
+It caused an arity mismatch bug, which existed for 533 days until another
+contributor fixed it on February 20, 2020. The arity checker can detect such arity mismatches.
 
 \paragraph{Assertion Checker} During the initialization of the function call,
 another specification bug existed in \textbf{IteratorBindingInitialization} of
-\textit{FormalParameter}.  The additional \textit{environment} parameter might
-contains \jscode{undefined} or an environment record exactly same with
-\textit{originalEnv} as described in the assertion at line 5.  However, the
-assertion did not consider \jscode{undefined} introduced by the initial commit
-of the open development process on September 22, 2015.  Thus, the assertion
-failure bug existed for 1,297 days until April 10, 2019.  The assertion checker
-checks whether such assertions are failed or not.
+\textit{FormalParameter}.  The additional \textit{environment} parameter may
+contain \jscode{undefined} or an environment record exactly the same as
+\textit{originalEnv} as described in the assertion on line 5.
+However, the assertion missed that the initial commit
+of the open development process on September 22, 2015 introduced
+\jscode{undefined}, which led to the assertion failure bug last for 1,297 days until April 10, 2019.
+The assertion checker can detect such assertion failures.
+
 
 \paragraph{Operand Checker} After the function call initialization, the
-parameter \jscode{x} points to \jscode{true} thus \jscode{Math.round} is invoked
+parameter \jscode{x} has the value \jscode{true}, and \jscode{Math.round} is invoked
 with the argument \jscode{true}.  The \jscode{Math.round} built-in library first
-converts the given parameter \textit{x} to the corresponding number value
-\textit{n} using \textbf{ToNumber} algorithm, and then should perform remaining
-steps using the number value \textit{n}.  However, a contributor made a mistake
-of using \textit{x} instead of \textit{n} in line 3 and 4 on September 11, 2020.
-It makes the specification tries to compare a boolean value \jscode{true} with a
-numeric value 0.5 or 0 in the example JavaScript program.  Fortunately, another
-contributor fixed this bug after two days.  The operand checker detects such
-bugs by checking whether the operand types are compatible with the typed
-operators.
+converts the given parameter \textit{x} to its corresponding number value
+\textit{n} using \textbf{ToNumber}, and then performs the remaining
+steps using \textit{n}.  However, a contributor mistakenly used
+\textit{x} instead of \textit{n} on lines 3 and 4 on September 11, 2020.
+This bug caused the algorithm to compare the boolean value \jscode{true} with the
+numeric value 0.5 or 0 in the example JavaScript program.
+This bug lived for two days until another contributor fixed it, and
+the operand checker can detect such bugs.
 
 In the remainder of this paper, we explain the details of how to perform type
-analysis for $\ires$ functions and how to increase analysis precision using
-condition-based refinement (Section~\ref{sec:analyzer}) and how to detect
-type-related specification bugs using four different checkers
-(Section~\ref{sec:checker}).  After we evaluate $\tool$
+analysis for $\ires$ functions and how to increase the analysis precision using
+the condition-based refinement (Section~\ref{sec:analyzer}) and how to detect
+type-related specification bugs (Section~\ref{sec:checker}).  After we evaluate $\tool$
 (Section~\ref{sec:eval}), we discuss related work (Section~\ref{sec:related}),
 and conclude (Section~\ref{sec:conclusion}).
