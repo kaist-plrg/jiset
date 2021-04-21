@@ -82,8 +82,10 @@ object HeadParser extends HeadParsers {
     "NumberToBigInt",
     "AsyncFunctionAwait",
     "PromiseResolveFunctions",
+    "PromiseRejectFunctions",
     "CreateDataPropertyOnObjectFunctions",
-    "ThenFinallyFunctions"
+    "ThenFinallyFunctions",
+    "CatchFinallyFunctions"
   )
 
   // check whether current algorithm head is manual normal head.
