@@ -163,10 +163,10 @@ $\func$ to detect missing parameters.  For example, consider the lower-left
 syntax-directed algorithm in Figure~\ref{fig:example}.  The algorithm invocation
 on line 2 is compiled to the following function call instruction:
 \[
-  \fcode{x = (formal.IteratorBindingInitialization formal)}
+  \fcode{x = (formals.IteratorBindingInitialization formals)}
 \]
 using a temporary variable $\x$.  Because it passes only a single argument
-$\code{formal}$ even though the function arity is $[3, 3]$, the arity checker reports
+$\code{formals}$ even though the function arity is $[3, 3]$, the arity checker reports
 missing parameter bugs for two additional parameters $\code{iteratorRecord}$ and
 $\code{environment}$.
 
