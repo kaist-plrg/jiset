@@ -1,38 +1,346 @@
-\section{Semantics}\label{sec:semantics}
+: \section{Semantics}\label{sec:semantics}
 In this section, we formally define the semantics of the modified $\ires$.  We
 will define states (Section~\ref{sec:state}), and then define a denotational
 semantics of the modified $\ires$ for instructions $\semi{\inst}: \dom
 \rightarrow \dom$ (Section~\ref{sec:semi}), references $\semr{\refer}: \dom
-\rightarrow \valset$ (Section~\ref{sec:semr}), and expressions $\seme{\expr}:
-\dom \rightarrow \valset$ (Section~\ref{sec:seme}).
+\rightarrow \dom \times \valset$ (Section~\ref{sec:semr}), and expressions
+$\seme{\expr}: \dom \rightarrow \dom \times \valset$ (Section~\ref{sec:seme}).
 
 
-\subsection{States}\label{sec:state}
+\subsection{States: $\dom$}\label{sec:state}
 We define states as follows:
 \[
   \vspace*{-1em}
-  \begin{array}{l@{~}r@{~}c@{~}r@{~}r@{~}l}
-    \todo
+  \begin{array}{l@{~}r@{~}c@{~}c@{~}r@{~}l}
+    \text{States}
+    &\elem&\in&\dom&=& \labset \times \ctxtset^* \times \heapset \times \envset\\
+
+    \text{Contexts}
+    &\ctxt&\in&\ctxtset&=& \labset \times \envset \times \varset\\
+
+    \text{Heaps}
+    &\heap&\in&\heapset&=& \addrset \rightarrow \objset\\
+
+    \text{Addresses}
+    &\addr&\in&\addrset\\
+
+    \text{Objects}
+    &\obj&\in&\objset&=& (\tnameset \times (\strset \rightarrow \valset)) \uplus
+    \valset^*\\
+
+    \text{Nominal Types}
+    &\tname&\in&\tnameset\\
+
+    \text{Environments}
+    &\env&\in&\envset&=& \varset \times \valset\\
+
+    \text{Values}
+    &\val&\in&\valset&=& \funcset \uplus \addrset \uplus \constset \uplus \primset\\
+
+    \text{Constants}
+    &\const&\in&\constset\\
+
+    \text{Strings}
+    &\str&\in&\strset\\
   \end{array}
   \vspace*{1em}
 \]
+A state $\elem \in \dom$ consists of a label, a context stack, a heap, and an
+environment.  A context $\ctxt \in \ctxtset$ is a triple of a lable, an
+environment, and a variable.  A heap $\heap \in \heapset$ is a mapping from
+addresses to objects.  For each address $\addr \in \addrset$, an object $\obj
+\in \objset$ is a record from fields to values with its nominal type or a list
+of values.  An environment $\env \in \envset$ is a mapping from variables to
+values.  A value $\val \in \valset$ is a function, an address, a constant, or a
+primitive value.
 
 \subsection{Semantics of Instructions: $\semi{\inst}: \dom \rightarrow
 \dom$}\label{sec:semi}
 \begin{itemize}
-  \item \todo
+  \item \underline{Variable Declarations}:
+    \[
+      \semi{\kwlet \; \x = \expr}(\elem) =
+      (\getnext(\lab), \ctxts, \heap, \env[\x \mapsto \val])\\
+    \]
+    where
+    \[
+      \seme{\expr}(\elem) = ((\lab, \ctxts, \heap, \env), \val)
+    \]
+
+  \item \underline{Function Calls}:
+    \[
+      \semi{\x = \kwrl \expr_0 \; \expr_1 \cdots \expr_n \kwrr}(\elem) =
+      (\lab_\f, \ctxt :: \ctxts, \heap, \env')\\
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \seme{\expr_0}(\elem) = (\elem_0, \kwdef \; \f (\p_1, \p_m). \;
+        \lab_\f) \wedge\\
+
+        \seme{\expr_1}(\elem_0) = (\elem_1, \val_1) \wedge \cdots \wedge
+        \seme{\expr_n}(\elem_{n-1}) = (\elem_n, \val_n) \wedge\\
+
+        \elem_n = (\lab, \ctxts, \heap, \env) \wedge k = \min(n, m)\wedge\\
+
+        \env' = [\p_1 \mapsto \val_1, \cdots, \p_k \mapsto \val_k] \wedge
+        \ctxt = (\getnext(\lab), \env, \x)\\
+      \end{array}
+    \]
+
+  \item \underline{Assertions}:
+    \[
+      \semi{\kwassert \; \expr}(\elem) = \elem' \quad \text{if}\;
+      \seme{\expr}(\elem) = (\elem', \true)
+    \]
+
+  \item \underline{Branches}:
+    \[
+      \semi{\kwif \; \expr \; \lab_\mt \; \lab_\mf}(\elem) =
+      \left\{
+        \begin{array}{ll}
+          (\lab_\mt, \ctxts, \heap, \env)
+          & \text{if} \; \val = \true\\
+
+          (\lab_\mf, \ctxts, \heap, \env)
+          & \text{if} \; \val = \false\\
+        \end{array}
+      \right.
+    \]
+    where
+    \[
+      \seme{\expr}(\elem) = ((\lab_\mt, \ctxts, \heap, \env), \val)
+    \]
+
+  \item \underline{Returns}:
+    \[
+      \semi{\kwreturn \; \expr}(\elem) =
+      (\lab, \ctxts, \heap, \env[\x \mapsto \val])\\
+    \]
+    where
+    \[
+      \seme{\expr}(\elem) = ((\_, (\lab, \env, \x) :: \ctxts, \heap, \_), \val)
+    \]
+
+  \item \underline{Variable Updates}:
+    \[
+      \semi{\x = \expr}(\elem) =
+      (\getnext(\lab), \ctxts, \heap, \env[\x \mapsto \val])\\
+    \]
+    where
+    \[
+      \seme{\expr}(\elem) = ((\lab, \ctxts, \heap, \env), \val)
+    \]
+
+  \item \underline{Field Updates}:
+    \[
+      \semi{\refer \kwsl \expr_0 \kwsr = \expr}(\elem_1) =
+      (\getnext(\lab), \ctxts, \heap[\addr \mapsto \obj'], \env)\\
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \seme{\refer}(\elem) = (\elem', \addr) \wedge
+        \seme{\expr_0}(\elem') = (\elem_0, \val_0) \wedge\\
+
+        \seme{\expr_1}(\elem_0) = ((\lab, \ctxts, \heap, \env), \val_1) \wedge
+        \obj = \heap(\addr) \wedge\\
+
+        \obj' = \left\{
+          \begin{array}{ll}
+            \obj_r
+            & \text{if} \; \obj = (\tname, \fields) \wedge \val_0 = \str\\
+
+            \obj_l
+            & \text{if} \; \obj = [\val'_1, \cdots, \val'_m] \wedge \val_0 =
+            n\\
+          \end{array}
+        \right. \wedge\\
+
+        \obj_r = (\tname, \fields[\str \mapsto \val_1]) \wedge
+        \obj_l = [\cdots, \val'_{n-1}, \val_1, \val'_{n+1}, \cdots]\\
+      \end{array}
+    \]
+
 \end{itemize}
 
 
-\subsection{Semantics of References$\semr{\refer}: \dom \rightarrow
-\valset$}\label{sec:semr}
+\subsection{Semantics of References: $\semr{\refer}: \dom \rightarrow
+\dom \times \valset$}\label{sec:semr}
 \begin{itemize}
-  \item \todo
+  \item \underline{Variable Lookups}:
+    \[
+      \semr{\x}(\elem) = (\elem, \env(\x))
+    \]
+    where
+    \[
+      \elem = (\_, \_, \_, \env)
+    \]
+
+  \item \underline{Field Lookups}:
+    \[
+      \semr{\refer \kwsl \expr \kwsr}(\elem) = (\elem'', \val')
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \seme{\refer}(\elem) = (\elem', \addr) \wedge
+        \seme{\expr}(\elem') = (\elem'', \val) \wedge\\
+
+        \elem'' = (\lab, \ctxts, \heap, \env) \wedge
+        \obj = \heap(\addr) \wedge\\
+
+        \val' = \left\{
+          \begin{array}{ll}
+            \fields(\str)
+            & \text{if} \; \obj = (\tname, \fields) \wedge \val = \str\\
+
+            \val'_n
+            & \text{if} \; \obj = [\val'_1, \cdots, \val'_m] \wedge \val = n\\
+
+            n
+            & \text{if} \; \obj = [\val'_1, \cdots, \val'_n] \wedge \val =
+            \code{"length"}\\
+          \end{array}
+        \right.\\
+      \end{array}
+    \]
+
 \end{itemize}
 
 
-\subsection{Semantics of Expressions$\seme{\expr}: \dom \rightarrow
-\valset$}\label{sec:seme}
+\subsection{Semantics of Expressions: $\seme{\expr}: \dom \rightarrow
+\dom \times \valset$}\label{sec:seme}
 \begin{itemize}
-  \item \todo
+  \item \underline{Records}:
+    \[
+      \seme{\tname \; \kwcl \x_1: \expr_1, \cdots, \x_n: \expr_n \kwcr}(\elem) =
+      (\elem', \addr)
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \seme{\expr_1}(\elem) = (\elem_1, \val_1) \wedge \cdots \wedge
+        \seme{\expr_n}(\elem_{n-1}) = (\elem_n, \val_n) \wedge\\
+
+        \elem_n = (\lab, \ctxts, \heap, \env) \wedge
+        \fields = [\x_1 \mapsto \val_1, \cdots, \x_n \mapsto \val_n]\\
+
+        \addr \not\in \domain{\heap} \wedge
+        \elem' = (\lab, \ctxts, \heap[\addr \mapsto (\tname, \fields)], \env)\\
+      \end{array}
+    \]
+
+  \item \underline{Lists}:
+    \[
+      \seme{\clist{\expr_1, \cdots, \expr_n}}(\elem) =
+      (\elem', \addr)
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \seme{\expr_1}(\elem) = (\elem_1, \val_1) \wedge \cdots \wedge
+        \seme{\expr_n}(\elem_{n-1}) = (\elem_n, \val_n) \wedge\\
+
+        \elem_n = (\lab, \ctxts, \heap, \env) \wedge
+        \addr \not\in \domain{\heap} \wedge\\
+
+        \elem' = (\lab, \ctxts, \heap[\addr \mapsto [\val_1, \cdots, \val_n]], \env)\\
+      \end{array}
+    \]
+
+  \item \underline{Type Checks}:
+    \[
+      \seme{\expr: \ty}(\elem) = (\elem', \bool)
+    \]
+    where
+    \[
+      \seme{\expr}(\elem) = (\elem', \val) \wedge
+      \bool = \left\{
+        \begin{array}{ll}
+          \true & \text{if} \; \val \; \text{is a value of} \; \ty\\
+          \false & \text{otherwise}
+        \end{array}
+      \right.
+    \]
+
+  \item \underline{Variable Existence Checks}:
+    \[
+      \seme{\x \kwexists}(\elem) = (\elem, \bool)
+    \]
+    where
+    \[
+      \elem = (\_, \_, \_, \env) \wedge
+      \bool = \left\{
+        \begin{array}{ll}
+          \true & \text{if} \; \x \in \domain{\env}\\
+          \false & \text{otherwise}
+        \end{array}
+      \right.
+    \]
+
+  \item \underline{Field Existence Checks}:
+    \[
+      \seme{\refer \kwsl \expr \kwsr \kwexists}(\elem) = (\elem'', \bool)
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \seme{\refer}(\elem) = (\elem', \addr) \wedge
+        \seme{\expr}(\elem') = (\elem'', \val) \wedge\\
+
+        \elem'' = (\lab, \ctxts, \heap, \env) \wedge
+        \obj = \heap(\addr) \wedge\\
+
+        \bool = \left\{
+          \begin{array}{ll}
+            \true
+            & \text{if} \; \obj = (\tname, \fields) \wedge \val = \str \wedge
+            \str \in \domain{\fields}\\
+
+            \true
+            & \text{if} \; \obj = [\val'_1, \cdots, \val'_m] \wedge \val = n
+            \wedge 1 \leq n \leq m\\
+
+            \false
+            & \text{otherwise}\\
+          \end{array}
+        \right.\\
+      \end{array}
+    \]
+
+  \item \underline{Binary Operations}:
+    \[
+      \seme{\expr \bop \expr}(\elem) = (\elem'', \val_0 \bop \val_1)
+    \]
+    where
+    \[
+      \seme{\expr_0}(\elem) = (\elem', \val_0) \wedge
+      \seme{\expr_1}(\elem') = (\elem'', \val_1)
+    \]
+
+  \item \underline{Unary Operations}:
+    \[
+      \seme{\uop \; \expr}(\elem) = (\elem', \uop \; \val)
+    \]
+    where
+    \[
+      \seme{\expr}(\elem) = (\elem', \val)
+    \]
+
+  \item \underline{References}:
+    \[
+      \seme{\refer}(\elem) = \semr{\refer}(\elem)
+    \]
+
+  \item \underline{Constants}:
+    \[
+      \seme{\const}(\elem) = (\elem, \const)
+    \]
+
+  \item \underline{Primitives}:
+    \[
+      \seme{\prim}(\elem) = (\elem, \prim)
+    \]
+
 \end{itemize}
