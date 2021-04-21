@@ -1,1 +1,54 @@
 \section{Syntax}\label{sec:syntax}
+We first define syntax of the modified $\ires$ as follows:
+\[
+  \vspace*{-1em}
+  \begin{array}{l@{~}r@{~}c@{~}r@{~}r@{~}l}
+    \text{Functions}
+    &\funcset&\ni&\func&::=&\kwdef \; \x (\x^*, \kwsl \x^* \kwsr). \; \lab\\
+
+    \text{Instructions}
+    &\instset&\ni&\inst&::=&
+    \kwlet \; \x = \expr \mid
+    \x = \kwrl \expr \; \expr^* \kwrr \mid
+    \kwassert \; \expr \\
+
+    &&&&\mid&
+    \kwif \; \expr \; \lab \; \lab \mid
+    \kwreturn \; \expr \mid
+    \refer = \expr \\
+
+    \text{References}
+    &&&\refer&::=&
+    \x \mid
+    \refer \kwsl \expr \kwsr \\
+
+    \text{Expressions}
+    &&&\expr&::=&
+    \tname \; \kwcl [\x: \expr]^* \kwcr \mid
+    \clist{\expr^*} \mid
+    \expr: \ty \mid
+    \refer \kwexists \\
+
+    &&&&\mid&
+    \expr \bop \expr \mid
+    \uop \; \expr \mid
+    \refer \mid
+    \const \mid
+    \prim \\
+
+    \text{Primitives}
+    &\primset&\ni&\prim&::=&
+    \undefval \mid \nullval \mid \bool \mid
+    \num \mid \bigint \mid \str \mid \symb \\
+
+    \text{Types} &\tyset&\ni&\ty&::=&\tname \mid \clist{} \mid \clist{\ty} \mid
+    \tjs \mid \tprim\\
+
+    &&&&\mid&
+    \undefval \mid \nullval \mid \tbool \mid \tnumeric\\
+
+    &&&&\mid&
+    \tnum \mid \tbigint \mid \tstr \mid \tsymb \\
+    \vspace*{1em}
+  \end{array}
+\]
