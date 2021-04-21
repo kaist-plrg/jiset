@@ -1,67 +1,63 @@
 \section{Related Work}\label{sec:related}
 
-JavaScript specification type analysis is related to two research fields:
-JavaScript tools, mechanized specification extraction, specification-based
-testing.
+Type analysis of JavaScript specifications has three related topics:
+JavaScript tools, mechanized specification extraction, and specification-based testing.
 
 \paragraph{JavaScript Tools}
 ECMAScript is the standard language specification for JavaScript maintained by
 the Ecma Technical Committee 39 (TC39).  In late 2014, the committee announced
-yearly release cadence and open development process of ECMAScript to quickly
-adapt to an evolving development environment.  Existing JavaScript engines, such
+its plan to release ECMAScript annually and adopt the open development process
+to quickly adapt to evolving development environments.  Various JavaScript engines such
 as Google V8~\cite{v8}, GraalJS~\cite{graaljs}, QuickJS~\cite{qjs}, and Moddable
-XS~\cite{moddable}, must conform to the syntax and semantics described in
-annually updated ECMAScript.  Beyond JavaScript engines, there are diverse
-research directions to utilize JavaScript specifications.  Several researchers
-developed static analyzers, such as TAJS~\cite{tajs}, SAFE~\cite{safe},
-JSAI~\cite{jsai}, and WALA~\cite{wala}, based on abstract interpretation
-framework~\cite{ai1977, ai1992} with various analysis techniques.  They defined
-abstract semantics of JavaScript semantics described in ECMAScript to statically
-analyze given JavaScript programs in a finite time.  Chargu{\'e}raud et
-al.~\cite{jsexplain} presented JSExplain, a debugger for JavaScript, by
-implementing a reference interpreter in OCaml directly conforms to algorithm
-steps in ECMAScript.  For a given JavaScript program, the debugger produces
-execution traces interactively invesitgated in a browser, with an interface that
-displays not only the code and the state of the interpreter.  Fragoso Santos et
-al.~\cite{javert} introduced JaVerT, a JavaScript verification toolchain, based
-on separation logic with their own intermediate goto language JSIL.  Moreover,
+XS~\cite{moddable} should conform to the syntax and semantics described in
+annually updated ECMAScript.  Beyond JavaScript engines, diverse
+research projects use JavaScript specifications.  The main research direction
+has been static analyzers such as JSAI~\cite{jsai}, SAFE~\cite{safe},
+TAJS~\cite{tajs}, and WALA~\cite{wala} based on the abstract interpretation
+framework~\cite{ai1977, ai1992} with their own analysis techniques.
+They defined abstract semantics of the JavaScript semantics described in ECMAScript to statically
+analyze JavaScript programs in a finite time.
+Chargu{\'e}raud et al.~\cite{jsexplain} presented JSExplain, a debugger for JavaScript, by
+implementing a reference interpreter in OCaml following the algorithm steps in ECMAScript closely.
+For a given JavaScript program, the debugger interactively produces execution traces
+investigated in a browser, with an interface that displays the
+JavaScript code and the interpreter's state.
+Fragoso Santos et al.~\cite{javert} introduced JaVerT, a JavaScript verification toolchain, based
+on the separation logic with an intermediate goto language JSIL.
 JaVerT 2.0~\cite{javert2} extends it to support compositional symbolic execution
-for JavaScript based on bi-abduction.  However, all of them manually handles
-ECMAScript with their own intermediate representations thus many of them still
-targets ES5.1, the most famous old version of ECMAScript released in 2011, not
-the latest one.
+for JavaScript based on bi-abduction.  However, because all of them manually handle
+ECMAScript with their own intermediate representations, most of them still 
+target ES5.1 released in 2011 instead of the latest one.
 
 \paragraph{Mechanized Specification Extraction}
-Several researchers extracted mechanized specifications from specifications
-written in a natural language to mechanically handle materials in
-specifications.  For system architectures, researchers utilized complex Natural
-Language Processing (NLP) and Machine Learning (ML) to extract formal semantics
-of small-sized low-level assembly languages for x86~\cite{x86} and
-ARM~\cite{arm}.  For Java API functions, Zhai et al.~\cite{javadoc} presented a
-technique to automatically extract models from their documentation using NLP
-techniques.  Instead of specific API functions, Park et al.~\cite{jiset}
-presented $\jiset$, a tool that extracts mechanized language specification from
-ECMAScript.  While previous JavaScript formal semantics~\cite{lambdajs, jscert,
-kjs} were manually defined, $\jiset$ automatically extracts formal semantics
-directly from ECMAScript.  We utilized $\jiset$ to perform type analysis for
-diverse versions of ECMAScript in $\tool$.
+Researchers in various application domains have extracted mechanized specifications from
+specifications written in natural languages to handle the contents in the specifications automatically.
+For system architectures, researchers utilized Natural
+Language Processing (NLP) and Machine Learning (ML) techniques to extract formal semantics
+of small-sized low-level assembly languages for x86~\cite{x86} and ARM~\cite{arm}.
+For Java API functions, Zhai et al.~\cite{javadoc} presented a
+technique to automatically extract models from their documentation using NLP techniques.
+For the JavaScript programming language, Park et al.~\cite{jiset}
+presented $\jiset$, a tool that extracts a mechanized specification from ECMAScript.
+While all the previous JavaScript formal semantics~\cite{lambdajs, jscert,
+kjs} were manually defined, $\jiset$ automatically extracts formal semantics directly from ECMAScript.
+We utilized $\jiset$ to analyze 864 ECMAScript versions via $\tool$.
 
 \paragraph{Specification-based Testing}
-Several researchers utilized specifications to test their implementations.  For
-network protocols, Kim et al.~\cite{basespec} proposed a novel approach named
+Recently, researchers have utilized specifications to test their implementations.
+For network protocols, Kim et al.~\cite{basespec} proposed a novel approach named
 \textsc{BaseSpec}, which extracts message structures from tables in cellular
-specifications for L3 protocols to perform comparative analysis with baseband
-software.  Schumi and Sun~\cite{spectest} presented SpecTest that utilized an
-executable language semantics to perform fuzzing for Java and Solidity
-compilers.  For JavaScript, Ye et al.~\cite{comfort} presented \textsc{Comfort}, a
+specifications for L3 protocols to perform comparative analysis of baseband software.
+Schumi and Sun~\cite{spectest} presented SpecTest, which utilized an
+executable language semantics to perform fuzzing for Java and Solidity compilers.
+For JavaScript, Ye et al.~\cite{comfort} presented \textsc{Comfort}, a
 compiler fuzzing framework to detect JavaScript engine bugs using ECMAScript
-with deep learning-based language models.  Park et al.~\cite{jest} extended
-$\jiset$ to $\jest$ that performs $N$+1-version differential testing with a
-reference interpreter extracted from ECMAScript and $N$ different JavaScript
-engines.  $\jest$ detects not only engine bugs but also specification bugs in
-ECMAScript based on the cross-referencing oracle.  However, it requires multiple
-JavaScript engines and takes dozens of hours to cover semantics for each version
-of ECMAScript.  Instead, $\tool$ can detect specification bugs without
-JavaScript engines less than 5 minutes.  Moreover, $\tool$ utilizes abstract
-semantics instead of concrete semantics used in $\jest$ thus it can quickly
-cover more semantics.
+with deep learning-based language models.
+Park et al.~\cite{jest} extended $\jiset$ to $\jest$, which performs $N$+1-version differential testing
+with $N$ different JavaScript engines and a reference interpreter extracted from ECMAScript.
+$\jest$ detects not only engine bugs but also specification bugs in
+ECMAScript using the cross-referencing oracle.  However, it requires multiple JavaScript engines and
+takes dozens of hours to test a version of ECMAScript.
+Instead, $\tool$ can detect specification bugs without JavaScript engines in less than five minutes.
+Because $\tool$ uses abstract semantics while $\jest$ uses concrete semantics,
+$\tool$ can quickly analyze more semantics than $\jest$.
