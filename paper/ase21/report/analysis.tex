@@ -87,7 +87,7 @@ a normalization function $\norm$ because of their subtype relations:
   \vspace*{-0.5em}
 \end{figure} \noindent
 where $\small{\norm(\aty) = \{ \ty \mid \ty \in \aty \wedge \nexists \ty' \in
-\aty\setminus \{ \ty \}. \; \text{s.t.} \; \ty \subtype \ty' \}}$.  Then, We
+\aty\setminus \{ \ty \}. \; \text{s.t.} \; \ty \subtype \ty' \}}$.  Then, we
 define the abstract semantics $\asem{\prog}$ of a program $\prog$ as the least
 fixpoint of the abstract transfer $\atransfer: \adom \rightarrow \adom$:
 \begin{figure}[H]
@@ -143,11 +143,11 @@ where $\aelem = (\rmap, \_)$ and $\iaelem$ denotes the initial abstract state.
         T' = \{ \upcasts([ \ty_1, \cdots, \ty_n ]) \mid \ty_1 \in \aty_1
         \wedge \cdots \wedge \ty_n \in \aty_n \} \wedge\\
 
-        \func = \kwdef \; \f (\p_1, \cdots, \kwsl \cdots, \p_{m_\func}
+        \func = \kwdef \; \f (\p_1, \cdots, \kwsl \cdots, \p_{k_\func}
         \kwsr). \; \lab_\func \wedge\\
 
         \aenv_{\func, \tys'} = [\p_1 \mapsto \{ \tys'[1] \}, \cdots,
-        \p_{m_\func} \mapsto \{ \tys'[m] \}] \wedge\\
+        \p_{k_\func} \mapsto \{ \tys'[k_\func] \}] \wedge\\
 
         \rmap' = \{ (\lab_\func, \tys') \mapsto \aenv_{\func, \tys'}
         \mid \func \in \aty \wedge \tys' \in T' \} \wedge\\
@@ -171,9 +171,10 @@ where $\aelem = (\rmap, \_)$ and $\iaelem$ denotes the initial abstract state.
         R = \retp(\getfunc(\lab), \tys) \wedge\\
 
         \rmap' = \{ (\lab_r, \tys_r) \mapsto \aenv_r \mid (\lab_r, \tys_r, \x)
-        \in R \} \wedge\\
+        \in R \wedge\\
 
-        \aenv_r = \rmap(\lab_r, \tys_r)[\x \mapsto \aseme{\expr}(\aenv)]\\
+        \phantom{\rmap' = \{} \aenv_r = \rmap(\lab_r, \tys_r)[\x \mapsto
+        \aseme{\expr}(\aenv)] \}\\
       \end{array}
     \]
 
@@ -342,6 +343,7 @@ returns $\emp$, otherwise.
       \asemr{\refer \kwsl \expr \kwsr}(\aenv) = \{ \ty[\val] \mid \ty \in
       \asemr{\refer}(\aenv) \wedge \val \in \aseme{\expr}(\aenv) \}\\
     \]
+    where $\ty[\val]$ denotes the access of field $\val$ for a type $\ty$.
 
 \end{itemize}
 
