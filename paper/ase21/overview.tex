@@ -38,9 +38,13 @@ While $\jiset$ synthesizes AST structures and JavaScript parsers from
 the lexical and syntactic productions in ECMAScript, $\tool$ uses only
 AST structures to define their types and access corresponding syntax-directed algorithms.
 ECMAScript uses abstract algorithms written in a structured natural language to
-describe the JavaScript semantics. While $\jiset$ compiles abstract algorithms to functions in $\ires$,
-we modify $\ires$ to make it more suitable for type analysis as
-formally defined in Section~\ref{sec:ires}.
+describe the JavaScript semantics.  $\jiset$ compiles such abstract algorithms to
+$\ires$ functions with parameters and local variables.  For example, the
+algorithm step
+``\raisebox{-0.55ex}{\includegraphics[width=0.55\columnwidth]{img/compile-example}}''
+is compiled to an $\ires$ instruction $\kwlet \; \code{baseObj} \code{=}
+\escaped\!  \code{ToObject(V.Base)}$.  To make it more suitable for type
+analysis, we modify $\ires$ as formally defined in Section~\ref{sec:ires}.
 
 \paragraph{Types}
 In addition to JavaScript types,
