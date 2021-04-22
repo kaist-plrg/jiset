@@ -1,8 +1,8 @@
 \section{Semantics}\label{sec:semantics}
 In this section, we formally define the semantics of the modified $\ires$.  We
-will define states (Section~\ref{sec:state}), and then define a denotational
-semantics of the modified $\ires$ for instructions $\semi{\inst}: \dom
-\rightarrow \dom$ (Section~\ref{sec:semi}), references $\semr{\refer}: \dom
+will define states $\dom$ (Section~\ref{sec:state}), and then define a
+denotational semantics of the modified $\ires$ for instructions $\semi{\inst}:
+\dom \rightarrow \dom$ (Section~\ref{sec:semi}), references $\semr{\refer}: \dom
 \rightarrow \dom \times \valset$ (Section~\ref{sec:semr}), and expressions
 $\seme{\expr}: \dom \rightarrow \dom \times \valset$ (Section~\ref{sec:seme}).
 
@@ -54,8 +54,8 @@ of values.  An environment $\env \in \envset$ is a mapping from variables to
 values.  A value $\val \in \valset$ is a function, an address, a constant, or a
 primitive value.
 
-\subsection{Semantics of Instructions: $\semi{\inst}: \dom \rightarrow
-\dom$}\label{sec:semi}
+\subsection{Instructions: $\semi{\inst}: \dom \rightarrow \dom$}\label{sec:semi}
+
 \begin{itemize}
   \item \underline{Variable Declarations}:
     \[
@@ -165,8 +165,9 @@ primitive value.
 \end{itemize}
 
 
-\subsection{Semantics of References: $\semr{\refer}: \dom \rightarrow
-\dom \times \valset$}\label{sec:semr}
+\subsection{References: $\semr{\refer}: \dom \rightarrow \dom \times
+\valset$}\label{sec:semr}
+
 \begin{itemize}
   \item \underline{Variable Lookups}:
     \[
@@ -209,8 +210,9 @@ primitive value.
 \end{itemize}
 
 
-\subsection{Semantics of Expressions: $\seme{\expr}: \dom \rightarrow
-\dom \times \valset$}\label{sec:seme}
+\subsection{Expressions: $\seme{\expr}: \dom \rightarrow \dom \times
+\valset$}\label{sec:seme}
+
 \begin{itemize}
   \item \underline{Records}:
     \[
@@ -342,5 +344,5 @@ primitive value.
     \[
       \seme{\prim}(\elem) = (\elem, \prim)
     \]
-
 \end{itemize}
+\vspace*{1.5em}

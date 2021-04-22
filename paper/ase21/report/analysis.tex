@@ -1,3 +1,433 @@
 \section{Type Analysis}\label{sec:analysis}
 
-\todo
+We design a type analysis for the modified $\ires$ based on the abstract
+interpretation framework with analysis sensitivity.  We will define abstract
+states $\adom$ (Section~\ref{sec:adom}), and then define an abstract semantics
+of the modified $\ires$ for instructions $\asemi{\inst}: (\labset \times
+\tyset^*) \rightarrow \adom \rightarrow \adom$ (Section~\ref{sec:asemi}),
+references $\asemr{\refer}: \aenvset \rightarrow \atyset$
+(Section~\ref{sec:asemr}), and expressions $\aseme{\expr}: \aenvset \rightarrow
+\atyset$ (Section~\ref{sec:aseme}).
+
+
+\subsection{Abstract States: $\adom$}\label{sec:adom}
+
+Before defining abstract states, we first extend types as follows:
+\[
+  \tyset \ni \ty ::=
+  \cdots \mid
+  \func \mid
+  \const \mid
+  \bool \mid
+  \str \mid
+  \tabsent \mid
+  \tnormal(\ty) \mid
+  \tabrupt
+\]
+We add types for functions $\func$ and constants $\const$, \jscode{Boolean}
+values $\bool$ and \jscode{String} values $\str$ to precisely handle the control
+flows of branches and field accesses, respectively, the absent type $\tabsent$
+to represent the absence of variables, and $\tnormal(\ty)$ for normal
+completions whose \code{Value} fields have type $\ty$ and $\tabrupt$ for abrupt
+completions to enhance the analysis precision.
+
+Using the extended types, we define abstract states with flow-sensitivity and
+type-sensitivity for arguments:
+
+\begin{figure}[H]
+  \centering
+  \vspace*{-0.5em}
+  \resizebox{\columnwidth}{!}{$
+    \begin{array}{lr@{~}c@{~}c@{~}r@{~}l}
+      \text{Abstract States}
+      &\aelem&\in&\adom&=& \rmapset \times \retpset\\
+
+      \text{Result Maps}
+      &\rmap&\in&\rmapset&=& \labset \times \tyset^* \rightarrow \aenvset\\
+
+      \text{Return Point Maps}
+      &\retp&\in&\retpset&=& \funcset \times \tyset^*
+      \rightarrow \partsof{\labset \times \tyset^* \times \varset} \\
+
+      \text{Abstract Environments}
+      &\aenv&\in&\aenvset&=&\varset \rightarrow \atyset\\
+
+      \text{Abstract Types}
+      &\aty&\in&\atyset&=&\partsof{\tyset}\\
+    \end{array}
+  $}
+  \vspace*{-0.5em}
+\end{figure}
+An abstract state $\aelem \in \adom$ is a pair of a result map and a return
+point map.  A result map $\rmap \in \rmapset$ represents an abstract
+environment for each flow- and type-sensitive view, and a return point map
+$\retp \in \retpset$ represents possible return points of each function
+with a type-sensitive context; each return point consists of a view for the
+caller function and a variable that represents the return value.  An abstract
+environment $\aenv \in \aenvset$ represents possible types for variables, and
+$\aenv(\x) = \{ \tabsent \}$ when $\x$ is not defined in $\aenv$.  An abstract
+type $\aty \in \atyset$ is a set of types.  We define the join operator
+$\join$, the meet operator $\meet$, and the partial order $\order$ for most of
+abstract domains in a point-wise manner, and define the operators for types with
+a normalization function $\norm$ because of their subtype relations:
+\begin{figure}[H]
+  \centering
+  \vspace*{-0.5em}
+  \resizebox{\columnwidth}{!}{$
+    \begin{array}{l}
+      \aty_0 \join \aty_1 = \norm(\aty_0 \cup \aty_1)\\
+      \aty_0 \meet \aty_1 = \norm(
+      \{\ty_0 \in \aty_0 \mid \{ \ty_0 \} \order \aty_1 \} \cup
+      \{\ty_1 \in \aty_1 \mid \{ \ty_1 \} \order \aty_0 \}
+      )\\
+      \aty_0 \order \aty_1 \Leftrightarrow \forall \ty_0 \in \aty_0. \; \exists
+      \ty_1 \in \norm(\aty_1). \; \text{s.t.} \; \ty_0 \subtype \ty_1\\
+    \end{array}
+  $}
+  \vspace*{-0.5em}
+\end{figure} \noindent
+where $\small{\norm(\aty) = \{ \ty \mid \ty \in \aty \wedge \nexists \ty' \in
+\aty\setminus \{ \ty \}. \; \text{s.t.} \; \ty \subtype \ty' \}}$.  Then, We
+define the abstract semantics $\asem{\prog}$ of a program $\prog$ as the least
+fixpoint of the abstract transfer $\atransfer: \adom \rightarrow \adom$:
+\begin{figure}[H]
+  \centering
+  \vspace*{-0.5em}
+  \resizebox{0.9\columnwidth}{!}{$
+    \begin{array}{r@{~}c@{~}l}
+      \asem{\prog} &=& \lim_{n \rightarrow \infty}(\atransfer)^n(\iaelem)\\
+      \atransfer(\aelem) &=& \aelem \join \left(
+        \bigjoin_{(\lab, \tys) \in \domain{\rmap}}
+        \asemi{\getinst(\lab)}(\lab, \tys)(\aelem)
+      \right)\\
+    \end{array}
+  $}
+  \vspace*{-0.5em}
+\end{figure} \noindent
+where $\aelem = (\rmap, \_)$ and $\iaelem$ denotes the initial abstract state.
+
+\subsection{Instructions: $\asemi{\inst}: (\labset \times \tyset^*) \rightarrow
+\adom \rightarrow \adom$}\label{sec:asemi}
+
+\begin{itemize}
+  \item \underline{Variable Declarations}:
+    \[
+      \asemi{\kwlet \; \x = \expr}
+      (\lab, \tys)(\aelem) =
+      (\{ (\getnext(\lab), \tys) \mapsto \aenv_\x \}, \emp)
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \aelem = (\rmap, \_) \wedge \aenv = \rmap(\lab, \tys) \wedge\\
+        \aenv_\x = \aenv[\x \mapsto \aseme{\expr}(\aenv)]
+      \end{array}
+    \]
+
+  \item \underline{Function Calls}:
+    \[
+      \asemi{\x = \kwrl \expr \; \expr_1 \cdots \expr_n \kwrr}
+      (\lab, \tys)(\aelem) = (\rmap', \retp')\\
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \aelem = (\rmap, \_) \wedge \aenv = \rmap(\lab, \tys) \wedge\\
+
+        \aty = \aseme{\expr}(\aenv) \wedge\\
+
+        \aty_1 = \aseme{\expr_1}(\aenv) \wedge
+        \cdots \wedge
+        \aty_n = \aseme{\expr_n}(\aenv) \wedge\\
+
+        T' = \{ \upcasts([ \ty_1, \cdots, \ty_n ]) \mid \ty_1 \in \aty_1
+        \wedge \cdots \wedge \ty_n \in \aty_n \} \wedge\\
+
+        \func = \kwdef \; \f (\p_1, \cdots, \kwsl \cdots, \p_{m_\func}
+        \kwsr). \; \lab_\func \wedge\\
+
+        \aenv_{\func, \tys'} = [\p_1 \mapsto \{ \tys'[1] \}, \cdots,
+        \p_{m_\func} \mapsto \{ \tys'[m] \}] \wedge\\
+
+        \rmap' = \{ (\lab_\func, \tys') \mapsto \aenv_{\func, \tys'}
+        \mid \func \in \aty \wedge \tys' \in T' \} \wedge\\
+
+        \retp' = \{ (\func, \tys') \mapsto \{ (\getnext(\lab), \tys, \x)
+        \} \mid \func \in \aty \wedge \tys' \in T' \}\\
+      \end{array}
+    \]
+
+  \item \underline{Returns}:
+    \[
+      \asemi{\kwreturn \; \expr}
+      (\lab, \tys)(\aelem) =
+      (\rmap', \emp)
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \aelem = (\rmap, \retp) \wedge \aenv = \rmap(\lab, \tys) \wedge\\
+
+        R = \retp(\getfunc(\lab), \tys) \wedge\\
+
+        \rmap' = \{ (\lab_r, \tys_r) \mapsto \aenv_r \mid (\lab_r, \tys_r, \x)
+        \in R \} \wedge\\
+
+        \aenv_r = \rmap(\lab_r, \tys_r)[\x \mapsto \aseme{\expr}(\aenv)]\\
+      \end{array}
+    \]
+
+  \item \underline{Assertions}:
+    \[
+      \asemi{\kwassert \; \expr}
+      (\lab, \tys)(\aelem) =
+      (\rmap', \emp)
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \aelem = (\rmap, \_) \wedge \aenv = \rmap(\lab, \tys) \wedge\\
+        \rmap' = \{ (\getnext(\lab), \tys) \mapsto \pass(\expr, \true)(\aenv)
+        \}\\
+      \end{array}
+    \]
+
+  \item \underline{Branches}:
+    \[
+      \asemi{\kwif \; \expr \; \lab_\mt \; \lab_\mf}
+      (\lab, \tys)(\aelem) =
+      (\rmap', \emp)
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \aelem = (\rmap, \_) \wedge \aenv = \rmap(\lab, \tys) \wedge\\
+        \rmap' = \left\{
+          \begin{array}{l}
+            (\lab_\mt, \tys) \mapsto \pass(\expr, \true)(\aenv),\\
+            (\lab_\mf, \tys) \mapsto \pass(\expr, \false)(\aenv)
+          \end{array}
+        \right\}\\
+      \end{array}
+    \]
+
+  \item \underline{Variable Updates}:
+    \[
+      \asemi{\x = \expr}
+      (\lab, \tys)(\aelem) =
+      (\{ (\getnext(\lab), \tys) \mapsto \aelem_\x \}, \emp)
+    \]
+    where
+    \[
+      \begin{array}{l}
+        \aelem = (\rmap, \_) \wedge \aenv = \rmap(\lab, \tys) \wedge\\
+        \aelem_\x = \aenv[\x \mapsto \aseme{\expr}(\aenv)]\\
+      \end{array}
+    \]
+
+  \item \underline{Field Updates}:
+    \[
+      \asemi{\refer \kwsl \expr_0 \kwsr = \expr_1}
+      (\lab, \tys)(\aelem) =
+      (\{ (\getnext(\lab), \tys) \mapsto \aenv \}, \emp)
+    \]
+    where
+    \[
+      \aelem = (\rmap, \_) \wedge \aenv = \rmap(\lab, \tys)
+    \]
+\end{itemize}
+To avoid the explosion of type-sensitive views, we upcast the argument type
+before function calls with the following function:
+\begin{figure}[H]
+  \centering
+  \vspace*{-0.5em}
+  \resizebox{0.8\columnwidth}{!}{$
+    \upcast(\ty) = \left\{
+      \begin{array}{ll}
+        \tnormal(\upcast(\ty')) & \text{if} \; \ty = \tnormal(\ty')\\
+        \clist{\upcast(\ty')} & \text{if} \; \ty = \clist{\ty'}\\
+        \tstr & \text{if} \; \ty = \str\\
+        \tbool & \text{if} \; \ty = \bool\\
+        \ty & \text{otherwise}\\
+      \end{array}
+    \right.
+  $}
+  \vspace*{-0.5em}
+\end{figure} \noindent
+and $\upcasts$ denotes a point-wise extension of $\upcast$ for type sequences.
+For branches and assertions, we use the following $\pass$ function to prevent
+infeasible control flows:
+
+\begin{figure}[H]
+  \centering
+  \vspace*{-0.5em}
+  \resizebox{0.9\columnwidth}{!}{$
+    \pass(\expr, \bool)(\aenv) = \left\{
+      \begin{array}{ll}
+        \refine(\expr, \bool)(\aenv)
+        & \text{if} \; \{ \true \} \order \aseme{\expr}(\aenv)\\
+
+        \emp
+        & \text{otherwise}\\
+      \end{array}
+    \right.
+  $}
+  \vspace*{-0.5em}
+\end{figure} \noindent
+where $\refine$ is a funcition that performs \textit{condition-based refinement}
+of the type analysis for the modified $\ires$ to enhance the analysis precision.
+It prunes out infeasible parts in abstract environments using the conditions of
+branches and assertions.  We formally define the $\refine$ function as follows:
+\begin{figure}[H]
+  \centering
+  \vspace*{-0.5em}
+  \resizebox{\columnwidth}{!}{$
+    \begin{array}{@{}r@{~}c@{~}l@{}}
+      \refine(\code{!} \expr, \bool)(\aenv) &=&
+      \refine(\expr, \neg \bool)(\aenv)\\
+
+      \refine(\expr_0 \; \code{||} \; \expr_1, \bool)(\aenv) &=&
+      \left\{
+        \begin{array}{ll}
+          \aenv_0 \join \aenv_1 & \text{if} \; \bool\\
+          \aenv_0 \meet \aenv_1 & \text{if} \; \neg\bool\\
+        \end{array}
+      \right.\\
+      \refine(\expr_0 \; \code{\&\&} \; \expr_1, \bool)(\aenv) &=&
+      \left\{
+        \begin{array}{ll}
+          \aenv_0 \meet \aenv_1 & \text{if} \; \bool\\
+          \aenv_0 \join \aenv_1 & \text{if} \; \neg\bool\\
+        \end{array}
+      \right.\\
+
+      \refine(\x.\Type \; \code{==} \; \nconst{normal}, \true)(\aenv) &=&
+      \aenv[ \x \mapsto \aty_\x \cap \tnormal(\tyset) ]\\
+      \refine(\x.\Type \; \code{==} \; \nconst{normal}, \false)(\aenv) &=&
+      \aenv[ \x \mapsto \aty_\x \cap \{ \tabrupt \} ]\\
+
+      \refine(\x \; \code{==} \; \expr, \true)(\aenv) &=&
+      \aenv[ \x \mapsto \aty_\x \meet \aty_\expr ]\\
+      \refine(\x \; \code{==} \; \expr, \false)(\aenv) &=&
+      \aenv[ \x \mapsto \aty_\x \setminus
+      \lfloor\aty_\expr\rfloor ]\\
+
+      \refine(\x : \ty, \true)(\aenv) &=&
+      \aenv[ \x \mapsto \aty_\x \meet \{ \ty \} ]\\
+      \refine(\x : \ty, \false)(\aenv) &=&
+      \aenv[ \x \mapsto \aty_\x \setminus \{ \ty' \mid \ty' \subtype \ty
+      \}]\\
+      \refine(\expr, \bool)(\aenv) &=& \aenv\\
+    \end{array}
+  $}
+  \vspace*{-0.5em}
+\end{figure} \noindent
+where $\aenv_j = \refine(\expr_j, \bool)(\aenv)$ for $j = 0, 1$,
+$\aty_\expr = \aseme{\expr}(\aenv)$, and $\getSingle{\aty}$
+returns $\{ \ty \}$ if $\aty$ denotes a singleton type $\ty$, or
+returns $\emp$, otherwise.
+
+
+\subsection{References: $\asemr{\refer}: \aenvset \rightarrow
+\atyset$}\label{sec:asemr}
+
+\begin{itemize}
+  \item \underline{Variable Lookups}:
+    \[
+      \asemr{\x}(\aenv) = \aenv(\x)\\
+    \]
+
+  \item \underline{Field Lookups}:
+    \[
+      \asemr{\refer \kwsl \expr \kwsr}(\aenv) = \{ \ty[\val] \mid \ty \in
+      \asemr{\refer}(\aenv) \wedge \val \in \aseme{\expr}(\aenv) \}\\
+    \]
+
+\end{itemize}
+
+
+\subsection{Expressions: $\aseme{\expr}: \aenvset \rightarrow
+\atyset$}\label{sec:aseme}
+
+\begin{itemize}
+  \item \underline{Completion Records}:
+    \[
+      \begin{array}{l}
+        \aseme{\code{Completion} \; \kwcl \cdots, \code{Type}:
+        \expr_0, \code{Value}: \expr_1, \cdots \kwcr}(\aenv)\\
+        = \left\{
+          \begin{array}{@{~}ll}
+            \{ \tnormal(\ty) \mid \ty \in \aseme{\expr_1}(\aenv) \} &
+            \text{if} \; \aseme{\expr_0} = \nconst{normal}\\
+
+            \{ \tabrupt \} &
+            \text{otherwise}\\
+          \end{array}
+        \right.\\
+      \end{array}
+    \]
+
+  \item \underline{Records}:
+    \[
+      \aseme{\tname \; \kwcl \cdots \kwcr}(\aenv) = \{ \tname \}\\
+    \]
+
+  \item \underline{Lists}:
+    \[
+      \begin{array}{l@{~}c@{~}l}
+        \aseme{\clist{}}(\aenv) &=& \clist{}\\
+        \aseme{\clist{\expr_1, \cdots, \expr_n}}(\aenv) &=& \{ \clist{\ty} \mid
+        \ty \in \bigjoin_{1 \leq i \leq n} \aseme{\expr_i}(\aenv) \}\\
+      \end{array}
+    \]
+
+  \item \underline{Type Checks}:
+    \[
+      \aseme{\expr: \ty}(\aenv) = \{ \ty' \subtype \ty \mid \ty' \in
+      \aseme{\expr}(\aenv) \}
+    \]
+
+  \item \underline{Existence Checks}:
+    \[
+      \aseme{\refer \kwexists}(\aenv) = \{ \ty \neq \tabsent \mid \ty \in
+      \aseme{\expr}(\aenv) \}
+    \]
+
+  \item \underline{Binary Operations}:
+    \[
+      \aseme{\expr_0 \bop \expr_1}(\aenv) = \{ \ty_0 \abs{\bop} \ty_1 \mid \ty_0
+      \in \aty_0 \wedge \ty_1 \in \aty_1 \}
+    \]
+    where
+    \[
+      \aty_0 = \aseme{\expr_0}(\aenv) \wedge \aty_1 = \aseme{\expr_1}(\aenv)
+    \]
+
+  \item \underline{Unary Operations}:
+    \[
+      \aseme{\uop \; \expr}(\aenv) = \{ \abs{\uop} \ty \mid \ty \in
+      \aseme{\expr}(\aenv) \}
+    \]
+
+  \item \underline{References}:
+    \[
+      \aseme{\refer}(\aenv) = \asemr{\refer}(\aenv) \setminus \{ \tabsent \}
+    \]
+
+  \item \underline{Constants}:
+    \[
+      \aseme{\const}(\aenv) = \const
+    \]
+
+  \item \underline{Primitives}:
+    \[
+      \aseme{\prim}(\aenv) = \left\{
+        \begin{array}{ll}
+          \tnum & \text{if} \; \prim = \num\\
+          \tbigint & \text{if} \; \prim = \bigint\\
+          \tsymb& \text{if} \; \prim = \symb\\
+          \prim & \text{otherwise}\\
+        \end{array}
+      \right.
+    \]
+\end{itemize}
