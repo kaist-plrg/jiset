@@ -29,22 +29,19 @@ Figure~\ref{fig:overall}.  It consists of three components:
 
 
 \subsection{Specification Extraction}\label{sec:overview-spec-extract}
-$\tool$ extracts the JavaScript syntax and semantics using $\jiset$,
-and it extracts specification types from ECMAScript.
+$\tool$ extracts the JavaScript syntax and semantics using $\jiset$
+and extracts specification types from ECMAScript.
 
 \paragraph{Syntax and Semantics}
-ECMAScript uses a variant of extended BNF notations to describe the JavaScript syntax.
-While $\jiset$ synthesizes AST structures and JavaScript parsers from
-the lexical and syntactic productions in ECMAScript, $\tool$ uses only
-AST structures to define their types and access corresponding syntax-directed algorithms.
-ECMAScript uses abstract algorithms written in a structured natural language to
-describe the JavaScript semantics.  $\jiset$ compiles such abstract algorithms to
-$\ires$ functions with parameters and local variables.  For example, the
-algorithm step
+ECMAScript describes the JavaScript syntax in an EBNF notation
+and the semantics using abstract algorithms written in a structured natural language.
+From ECMAScript, $\jiset$ synthesizes AST structures for syntax and 
+compiles the abstract algorithms to $\ires$ functions with parameters
+and local variables for semantics.  For example, the algorithm step
 ``\raisebox{-0.55ex}{\includegraphics[width=0.55\columnwidth]{img/compile-example}}''
-is compiled to an $\ires$ instruction $\kwlet \; \code{baseObj} \code{=}
-\escaped\!  \code{ToObject(V.Base)}$.  To make it more suitable for type
-analysis, we modify $\ires$ as formally defined in Section~\ref{sec:ires}.
+is compiled to an $\ires$ instruction $\kwlet \; \code{baseObj}\; \code{=}
+\escaped\!  \code{ToObject(V.Base)}$.  To make it suitable for type analysis,
+we modify $\ires$ as formally defined in Section~\ref{sec:ires}.
 
 \paragraph{Types}
 In addition to JavaScript types,
@@ -52,7 +49,7 @@ $\tool$ represents three kinds of specification types.
 First, because ASTs are values in abstract algorithms, 
 they can be stored in variables and passed as function arguments.
 For ASTs, we use their production names as their
-types and automatically link their corresponding syntax-directed algorithms as their fields.
+types and automatically link their corresponding syntax-directed algorithms to their fields.
 Second, ECMAScript supports various record types and fields
 whose possible values are defined in their corresponding tables.
 For example, ``Table 9: Completion Record Fields'' in the latest
@@ -75,9 +72,9 @@ The type analyzer consists of two sub-modules: an \textit{analysis initializer} 
 
 \paragraph{Analysis Initializer} It defines the initial abstract state and the
 initial set of views for a worklist. ECMAScript provides three
-kinds of abstract algorithms: \textit{normal}, \textit{syntax-directed}, and
-\textit{built-in}. Since syntax-directed algorithms and built-in algorithms have
-their parameter types, we use them as entry points of type analysis.  For each entry point, the
+kinds of abstract algorithms: \textit{normal}, \textit{syntax-directed}, and \textit{built-in}. 
+As for entry points of type analysis, we use syntax-directed algorithms and built-in algorithms
+because they have their parameter types.  For each entry point, the
 initializer defines its abstract environment with parameter types and adds the
 flow- and type-sensitive views of the entry point to the worklist.
 
@@ -109,8 +106,8 @@ Thus, the unknown variable bug for \textbf{GetReferencedName} existed for 7 days
 which the reference checker can detect.
 
 \paragraph{Arity Checker} The program finally calls \jscode{f} with an argument \jscode{true}.
-During the initialization of the function call, the \textbf{IteratorBindingInitialization}
-algorithm in Figure~\ref{fig:example}(b) is executed with additional parameters \textit{iteratorRecord} and
+During the initialization of the function call, \textbf{IteratorBindingInitialization}
+in Figure~\ref{fig:example}(b) is executed with additional parameters \textit{iteratorRecord} and
 \textit{environment} to assign argument values to parameters.
 However, a contributor missed passing additional arguments to them on line 2 in
 \textbf{IteratorBindingInitialization} of \textit{ArrowParameters} on September 6, 2018.
@@ -118,13 +115,14 @@ It caused an arity mismatch bug, which existed for 533 days until another
 contributor fixed it on February 20, 2020. The arity checker can detect such arity mismatches.
 
 \paragraph{Assertion Checker} During the initialization of the function call,
-another specification bug existed in \textbf{IteratorBindingInitialization} of
-\textit{FormalParameter} in Figure~\ref{fig:example}(c).  The additional \textit{environment} parameter may
+another bug existed in \textbf{IteratorBindingInitialization} of
+\textit{FormalParameter} in Figure~\ref{fig:example}(c).
+The additional \textit{environment} parameter may
 contain \jscode{undefined} or an environment record exactly the same as
 \textit{originalEnv} as described in the assertion on line 5.
-However, the assertion missed that the initial commit
+\inred{However, the assertion missed that the initial commit
 of the open development process on September 22, 2015 introduced
-\jscode{undefined}, which led to the assertion failure bug last for 1,297 days until April 10, 2019.
+\jscode{undefined}, which led to the assertion failure bug last for 1,297 days until April 10, 2019.}
 The assertion checker can detect such assertion failures.
 
 
@@ -132,13 +130,13 @@ The assertion checker can detect such assertion failures.
 parameter \jscode{x} has the value \jscode{true}, and \jscode{Math.round} in Figure~\ref{fig:example}(d) is invoked
 with the argument \jscode{true}.  The \jscode{Math.round} built-in library first
 converts the given parameter \textit{x} to its corresponding number value
-\textit{n} using \textbf{ToNumber}, and then performs the remaining
+\textit{n} using \textbf{ToNumber}, and performs the remaining
 steps using \textit{n}.  However, a contributor mistakenly used
 \textit{x} instead of \textit{n} on lines 3 and 4 on September 11, 2020.
 This bug caused the algorithm to compare the boolean value \jscode{true} with the
-numeric value 0.5 or 0 in the example JavaScript program.
+numeric value 0.5 or 0 in the example code.
 This bug lived for two days until another contributor fixed it, and
-the operand checker can detect such bugs.
+the operand checker can detect them.
 
 In the remainder of this paper, we explain the details of how to perform type
 analysis for $\ires$ functions and how to increase the analysis precision using

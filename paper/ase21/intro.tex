@@ -22,8 +22,8 @@ Besides, in late 2014, the committee announced the yearly release cadence and op
 process of ECMAScript to quickly adapt to evolving development environments.
 According to Park et al.~\cite{jiset}, the average number of updated steps of abstract
 algorithms between consecutive releases from ECMAScript 2016 (ES7) to 2019 (ES10) is 9645.5.
-In the official ECMAScript repository, \inred{1,355} pull
-requests and \inred{2,005} commits exist in the master branch.
+In the official ECMAScript repository, 1,355 pull
+requests and 2,005 commits exist in the master branch.
 Therefore, manually checking all the frequent specification updates is
 a challenging task.
 
@@ -54,10 +54,10 @@ specification bugs.
 
 To alleviate this problem, we propose a novel tool $\tool$, a \textbf{J}avaScript
 \textbf{S}pecification \textbf{T}ype \textbf{A}nalyzer using
-\textbf{R}efinement. In order to perform a \textit{type analysis} on ECMAScript
-to statically detect type-related specification bugs automatically,
-the main challenge is that ECMAScript describes abstract algorithms in
-a natural language, English. While researchers~\cite{lambdajs, jscert, kjs}
+\textbf{R}efinement. The main challenge of ECMAScript type analysis to
+statically detect type-related specification bugs automatically is
+that ECMAScript describes abstract algorithms in a natural language,
+English.  While researchers~\cite{lambdajs, jscert, kjs}
 have formally defined various JavaScript semantics for different
 versions of ECMAScript by hand, manual formalization is not suitable for
 automatically detecting bugs in rapidly evolving JavaScript specifications. 
@@ -71,20 +71,20 @@ intermediate representation for ECMAScript.
 Therefore, $\tool$ leverages $\jiset$ to mechanically handle JavaScript specifications.
 
 
-For mechanized JavaScript specifications by $\jiset$, $\tool$ performs
+$\tool$ takes mechanized JavaScript specifications from $\jiset$ and performs
 a type analysis of compiled functions using \textit{specification types}
-defined in ECMAScript. ECMAScript contains not only JavaScript
+defined in ECMAScript.  ECMAScript contains not only JavaScript
 language types but also specification types such as abstract syntax
 trees (ASTs), internal list-like structures, and internal records
-including environments, completions, and property descriptors. We
-define their type hierarchies based on subtype relations and fields for record and AST types.
+including environments, completions, and property descriptors.
+\inred{We define their type hierarchies based on subtype relations and fields for record and AST types.}
 Using such type information, $\tool$ performs a type analysis and detects specification bugs using
 a \textit{bug detector} consisting of four checkers: 1) a reference
 checker, 2) an arity checker, 3) an assertion checker, and 4) an operand checker.
 $\tool$ also uses a \textit{condition-based refinement} for type
 analysis, which prunes out infeasible parts in abstract states by using conditions
 of assertions and branches to improve the precision of type analysis.
-We evaluated $\tool$ with all \inred{864} versions in the official
+We evaluated $\tool$ with all 864 versions in the official
 ECMAScript repository for the recent three years from 2018 to 2021.
 The experiments showed that the refinement technique could reduce the number of
 false-positive bugs caused by spurious types inferred by imprecise type analysis.
@@ -100,11 +100,11 @@ The main contributions of this paper are as follows:
   \item We present a \textit{condition-based refinement} for type analysis of
     ECMAScript to reduce the number of false-positive bugs by enhancing the analysis
     precision.  We show that the refinement technique increases the analysis
-    precision from \inred{33.0}\% to \inred{59.2}\% by removing \inred{122}
-    false bugs and detecting \inred{one} more true bug.
-  \item We demonstrate the practicality of $\tool$. It takes \inred{137.3}
+    precision from 33.0\% to 59.2\% by removing 122
+    false bugs and detecting one more true bug.
+  \item We demonstrate the practicality of $\tool$. It takes 137.3
     seconds on average to perform a type analysis for each version of ECMAScript and detected
-    \inred{157} type-related specification bugs with \inred{59.2}\% precision;
-    \inred{93} out of \inred{157} bugs are true bugs.  Among them, $\tool$
-    newly detected \inred{14} bugs, and the ECMAScript committee confirmed them all.
+    157 type-related specification bugs with 59.2\% precision;
+    93 out of 157 bugs are true bugs.  Among them, $\tool$
+    newly detected 14 bugs, and the ECMAScript committee confirmed them all.
 \end{itemize}

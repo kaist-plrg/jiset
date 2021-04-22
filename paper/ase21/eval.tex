@@ -101,23 +101,22 @@ Figure~\ref{fig:stat} shows the statistics of the type analysis using $\tool$ fo
 864 versions of ECMAScript: (a) the number of analyzed functions, (b) the number
 of flow- and type-sensitive views, (c) the number of worklist iterations, and
 (d) the analysis time.  For each version, $\tool$ analyzed
-\inred{1,696.6} functions on average.  Since ECMAScript has gradually evolved,
-it analyzed \inred{1,491} functions for the first version in 2018
-but analyzed \inred{1,864} functions in the latest.
+1,696.6 functions on average.  Since ECMAScript has gradually evolved,
+it analyzed 1,491 functions for the first version in 2018
+but analyzed 1,864 functions in the latest.
 $\tool$ analyzes functions with flow- and type-sensitive views.
-On average, each version has \inred{92.0}K views and each function has
-\inred{54.1}~views.
+On average, each version has 92.0K views and each function has
+54.1~views.
 
 We measured the performance of $\tool$ with the worklist iteration number
 and the analysis time.  For each version of ECMAScript,
-$\tool$ took \inred{137.3} seconds with \inred{301.6}K iterations of
-the worklist algorithm on average.  The average analysis time consists of \inred{8.0} seconds
-for the specification extraction (\stextsf{extract}),
-\inred{128.5} seconds for the type analysis (\stextsf{analyze}), and
-\inred{0.8} seconds for the bug detection (\stextsf{detect}).
-Therefore, We believe that $\tool$ is enough to be as part of continuous
-integration pipeline in open development process of ECMAScript.
-
+$\tool$ took 137.3 seconds with 301.6K worklist iterations
+on average.  The average analysis time is 8.0 seconds
+for specification extraction (\stextsf{extract}),
+128.5 seconds for type analysis (\stextsf{analyze}), and
+0.8 seconds for bug detection (\stextsf{detect}).
+The performance overhead is modest enough for $\tool$ to be integrated
+in the open development process of ECMAScript.
 
 \subsection{Precision}\label{sec:precision}
 
@@ -167,18 +166,17 @@ integration pipeline in open development process of ECMAScript.
   \label{fig:life}
 \end{figure}
 
-We measured the analysis precision with the number of true bugs in
-the type-related specification bugs detected by $\tool$.
+We measured the analysis precision with the ratio of true bugs in the reported bugs by $\tool$.
 As summarized in the \stextsf{refine} column of Table~\ref{table:precision}, the analysis precision
-is \inred{59.2}\%; \inred{93} out of \inred{157} detected bugs are true bugs.
-The reference checker detected the most bugs with \inred{80.8}\% precision;
-\inred{17} unknown variables (\stextsf{UnknownVar}) and
-\inred{46} duplicated variable declarations (\stextsf{DuplicatedVar}) are true bugs.
-We found \inred{four} missing parameters (\stextsf{MissingParam}) with \inred{100.0}\% precision and
-\inred{four} assertion failures (\stextsf{Assertion}) with \inred{12.9}\% precision.
+is 59.2\%; 93 out of 157 detected bugs are true bugs.
+The reference checker detected the most bugs with 80.8\% precision;
+17 unknown variables (\stextsf{UnknownVar}) and
+46 duplicated variable declarations (\stextsf{DuplicatedVar}) are true bugs.
+We found four missing parameters (\stextsf{MissingParam}) with 100.0\% precision and
+four assertion failures (\stextsf{Assertion}) with 12.9\% precision.
 Finally, the operand checker detected
-\inred{two} non-numeric operand bugs (\stextsf{NoNumber}) with \inred{33.3}\% precision and
-\inred{20} unchecked abrupt completion bugs (\stextsf{Abrupt}) with \inred{52.6}\% precision.
+two non-numeric operand bugs (\stextsf{NoNumber}) with 33.3\% precision and
+20 unchecked abrupt completion bugs (\stextsf{Abrupt}) with 52.6\% precision.
 
 To understand the impact of the detected true bugs, we extended $\tool$ to
 automatically extract when they are created and resolved in the ECMAScript
@@ -189,23 +187,23 @@ the number of days between the created date and the resolved date.
 Figure~\ref{fig:life} illustrates the life spans of true bugs;
 Figure~\ref{fig:life}(a) depicts the life spans sorted by creation and
 Figure~\ref{fig:life}(b) depicts the histogram of the life spans in a logarithmic scale.
-Among \inred{93} true bugs, \inred{48} bugs are \textit{inherited},
+Among 93 true bugs, 48 bugs are \textit{inherited},
 which means that they are created before 2018,
-and \inred{14} bugs still exist in the latest ECMAScript, which are newly detected by $\tool$.
-We discuss the details of \inred{14} newly found bugs in Section~\ref{sec:new-bug}.
-Even though we assume that \inred{48} inherited bugs are created on January 1, 2018,
-the average life spans is \inred{414.5} and the maximum life span is \inred{1,164}.
+and 14 bugs still exist in the latest ECMAScript, which are newly detected by $\tool$.
+We discuss the details of 14 newly found bugs in Section~\ref{sec:new-bug}.
+Even though we assume that 48 inherited bugs are created on January 1, 2018,
+the average life span is 414.5 and the maximum life span is 1,164.
 All the bugs with the maximum life span are inherited ones and they are all newly detected.
 
-We manually investigated \inred{64} false-positive bugs to understand why
-$\tool$ detected them.  Among them, \inred{17} bugs are due to extraction failure
+We manually investigated 64 false-positive bugs to understand why
+$\tool$ detected them.  Among them, 17 bugs are due to extraction failure
 of mechanized specifications caused by wrong writing styles.
 Because ECMAScript is written in HTML, $\jiset$ extracts abstract algorithms
 using the \code{emu-alg} HTML tag.  Unfortunately, several abstract algorithms are
 defined with the opening tag \code{<emu-alg>} but without the closing tag \code{</emu-alg>},
 which causes extraction failure of mechanized specifications leading
-to false-positive bugs.  The remaining \inred{47} bugs are due to imprecise analysis.
-We found that \inred{28} bugs are due to imprecise analysis of the
+to false-positive bugs.  The remaining 47 bugs are due to imprecise analysis.
+We found that 28 bugs are due to imprecise analysis of the
 conditions of assertions and branches for specific function calls.
 For example, consider the following algorithm step for \textbf{GetValue}:
 \begin{figure}[H]
@@ -352,8 +350,8 @@ resolve this problem by pruning out infeasible field types depending on specific
         checks.
     } &
     \stextsf{\footnotesize Operand} &
-    \inred{2015-12-16} &
-    \inred{1,910 days}\\
+    2015-12-16 &
+    1,910 days\\
   \end{tabular}
   }
   \vspace*{-1.5em}
@@ -369,23 +367,23 @@ Figures~\ref{fig:performance-compare}(a) and
 \ref{fig:performance-compare}(c) are histograms of the iterations and analysis
 time, respectively, and Figures~\ref{fig:performance-compare}(b) and
 \ref{fig:performance-compare}(d) are scatter charts for their ratios.
-Without refinement, the type analysis took \inred{91.9} seconds with \inred{261.5}K
+Without refinement, the type analysis took 91.9 seconds with 261.5K
 iterations on average.  After applying refinement, the number of iterations is increased
-at least \inred{0.99}x, at most \inred{1.36}x, and \inred{1.16}x on average, and
-the analysis time is increased at least \inred{1.05}x, at most \inred{1.99}x,
-and \inred{1.41}x on average.
+at least 0.99x, at most 1.36x, and 1.16x on average, and
+the analysis time is increased at least 1.05x, at most 1.99x,
+and 1.41x on average.
 
 Table~\ref{table:precision} shows the analysis precision without refinement,
 with refinement, and their difference.  The refinement improved the analysis
-precision from \inred{33.0}\% to \inred{59.2}\% by removing \inred{122}
-false-positive bugs and detecting \inred{one} more true bug.  Among six
+precision from 33.0\% to 59.2\% by removing 122
+false-positive bugs and detecting one more true bug.  Among six
 bug kinds, the most significant improvement is for non-numeric
-operand bugs (\stextsf{NoNumber}) from \inred{3.1}\% to \inred{33.3}\%
-by removing \inred{59} false-positive bugs.  The refinement technique
+operand bugs (\stextsf{NoNumber}) from 3.1\% to 33.3\%
+by removing 59 false-positive bugs.  The refinement technique
 successfully prunes out non-numeric values for numeric types.
 The refinement significantly increased the analysis precision also for unknown
 variable bugs (\stextsf{UnknownVar}) and assertion failures
-(\stextsf{Assertion}) by removing \inred{29} and \inred{25} false-positive bugs, respectively.
+(\stextsf{Assertion}) by removing 29 and 25 false-positive bugs, respectively.
 Because $\tool$ can precisely analyze callees of function invocations
 without refinement, we found no improvement for missing
 parameter bugs (\stextsf{MissingParam}).
@@ -393,7 +391,7 @@ parameter bugs (\stextsf{MissingParam}).
 
 \subsection{Detection of New Bugs}\label{sec:new-bug}
 
-Among \inred{93} true bugs detected by $\tool$, \inred{14} are newly
+Among 93 true bugs detected by $\tool$, 14 are newly
 detected and still exist in the latest version of ECMAScript.
 Table~\ref{table:new-bug} summarizes the bugs, their
 related JavaScript language features, and their life spans.

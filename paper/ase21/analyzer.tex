@@ -235,7 +235,7 @@ interested readers to a companion report~\cite{report}.
 
 We design a type analysis for the modified $\ires$ based on the abstract
 interpretation framework~\cite{ai1977, ai1992} with analysis
-sensitivity~\cite{sens-toplas}.  We first extend types as follows:
+sensitivity~\cite{sens-toplas}.  We extend types as follows:
 \begin{figure}[H]
   \centering
   \vspace*{-0.5em}
@@ -244,21 +244,19 @@ sensitivity~\cite{sens-toplas}.  We first extend types as follows:
     \cdots \mid
     \func \mid
     \const \mid
+    \tabsent \mid
     \bool \mid
     \str \mid
-    \tabsent \mid
     \tnormal(\ty) \mid
     \tabrupt
   $}
   \vspace*{-0.5em}
 \end{figure} \noindent
-We add types for functions $\func$ and constants $\const$,
-\jscode{Boolean} values $\bool$ and \jscode{String} values $\str$ to precisely
-handle the control flows of branches and field accesses, respectively,
-the absent type $\tabsent$ to represent the absence of variables, and
-$\tnormal(\ty)$ for normal completions whose \code{Value} fields have
-type $\ty$ and $\tabrupt$ for abrupt completions to enhance the
-analysis precision.
+with function types $\func$, constant types $\const$, and
+the absent type $\tabsent$ representing the absence of variables.
+\jscode{Boolean} values $\bool$, \jscode{String} values $\str$,
+$\tnormal(\ty)$ denoting normal completions with \code{Value} fields of type $\ty$,
+and $\tabrupt$ denoting abrupt completions serve to improve the analysis precision.
 
 
 Using the extended types, we define abstract states with flow-sensitivity and

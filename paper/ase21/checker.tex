@@ -252,29 +252,29 @@ checks in the abstract semantics of operations:
 \end{figure} \noindent
 where $\aty_0$, $\aty_1$, and $\aty$ are expected abstract types of $\expr_0$,
 $\expr_1$, and $\expr$, respectively.  The additional checks report
-when a given operand does not conform to its expected type.  According to our
-manual investigation, there existed two different kinds of ill-typed operand
-bugs: two non-numeric operand bugs (\stextsf{NoNumber}) in one pull request, and
-six unchecked abrupt completion bugs (\stextsf{Abrupt}) in five pull requests.
+when a given operand does not conform to its expected type.
+Our manual investigation found two non-numeric operand bugs (\stextsf{NoNumber})
+in one pull request and six unchecked abrupt completion bugs (\stextsf{Abrupt})
+in five pull requests.
 
-For an example of non-numeric operand bugs, consider the built-in
+For an example non-numeric operand bug, consider the built-in
 algorithm $\code{Math.round}$ in Figure~\ref{fig:example}(d).  The types of $\x$
-and $\n$ are $\{ \tjs \}$ and $\{ \tnum \}$, respectively, because the
-\textbf{ToNumber} algorithm always returns number values or abrupt completions,
+and $\n$ are $\{ \tjs \}$ and $\{ \tnum \}$, respectively, because
+\textbf{ToNumber} always returns number values or abrupt completions,
 and the prefix \textbf{?} removes the latter case.  The built-in algorithm
 misuses $\x$ rather than $\n$ on lines 3 and 4, and because the expected
 abstract type $\{ \tnum, \tbigint \}$ does not subsume $\{ \tjs \}$, the operand
 checker reports non-numeric operand bugs.
 
-An unchecked abrupt completion bug occurs when the actual value is necessary but
-it is an abrupt completion.  ECMAScript has a special implicit conversion for
-normal completions when their actual values stored in the $\code{Value}$ field
-are necessary, such as conditions, values of field updates, and operands of
-operators.  For example, if the variable $\x$ has a normal completion with
+An unchecked abrupt completion bug occurs when an actual value is necessary but
+it is an abrupt completion.  ECMAScript has a special implicit conversion for normal completions
+when their actual values stored in the $\code{Value}$ field are necessary.
+An actual value is necessary in various contexts such as
+conditions, values of field updates, and operands of operators.
+For example, if the variable $\x$ has a normal completion with
 \code{42} as its actual value, $\code{x + 1}$ should be \code{43} because the
-normal completion gets implicitly converted into its actual value \code{42}.  To
-explicitly represent this conversion, we define a unary operator $\escaped$ as
-follows:
+normal completion gets implicitly converted into its actual value \code{42}.
+We define a unary operator $\escaped$ to explicitly represent this conversion:
 \begin{figure}[H]
   \centering
   \vspace*{-0.5em}
@@ -294,4 +294,5 @@ follows:
   $}
   \vspace*{-0.5em}
 \end{figure} \noindent
-and assume that the operator $\escaped$ is used when the actual value is necessary.
+The operand checker detects unchecked abrupt completion bugs by assuming
+that the operator $\escaped$ is used when the actual value is necessary.
