@@ -87,7 +87,7 @@ declarations as follows:
 \end{figure} \noindent
 If the abstract semantics of a variable lookup for $\x$ is a singleton $\{ \tabsent \}$,
 $\x$ is always an unknown variable.  For example, consider the syntax-directed algorithm
-at the upper-left part in Figure~\ref{fig:example}.
+in Figure~\ref{fig:example}(a).
 Since the \textbf{GetReferencedName} algorithm is removed, the variable
 \code{GetReferencedName} does not exist in abstract environments and its lookup
 returns $\{ \tabsent \}$. Thus, the reference checker reports the unknown variable
@@ -159,8 +159,8 @@ the function call instruction:
 \end{figure} \noindent
 For each function $\func$ in the abstract semantics of the function expression
 $\expr$, the arity checker compares the number of arguments with the arity of
-$\func$ to detect missing parameters.  For example, consider the lower-left
-syntax-directed algorithm in Figure~\ref{fig:example}.  The algorithm invocation
+$\func$ to detect missing parameters.  For example, consider the
+syntax-directed algorithm in Figure~\ref{fig:example}(b).  The algorithm invocation
 on line 2 is compiled to the following function call instruction:
 \[
   \fcode{x = (formals.IteratorBindingInitialization formals)}
@@ -197,8 +197,8 @@ abstract semantics of the assertion instruction:
   \vspace*{-0.5em}
 \end{figure} \noindent
 It checks whether the abstract semantics of the condition expression $\expr$ 
-subsumes $\{ \true \}$.  For example, consider the lower-right syntax-directed
-algorithm in Figure~\ref{fig:example}.  The parameter $\code{environment}$ of
+subsumes $\{ \true \}$.  For example, consider the syntax-directed
+algorithm in Figure~\ref{fig:example}(c).  The parameter $\code{environment}$ of
 this algorithm has an environment record or $\undefval$.
 Since type sensitivity divides the abstract types of arguments to
 upcasted single types, there are two different abstract environments whose
@@ -257,8 +257,8 @@ manual investigation, there existed two different kinds of ill-typed operand
 bugs: two non-numeric operand bugs (\stextsf{NoNumber}) in one pull request, and
 six unchecked abrupt completion bugs (\stextsf{Abrupt}) in five pull requests.
 
-For an example of non-numeric operand bugs, consider the upper-right built-in
-algorithm $\code{Math.round}$ in Figure~\ref{fig:example}.  The types of $\x$
+For an example of non-numeric operand bugs, consider the built-in
+algorithm $\code{Math.round}$ in Figure~\ref{fig:example}(d).  The types of $\x$
 and $\n$ are $\{ \tjs \}$ and $\{ \tnum \}$, respectively, because the
 \textbf{ToNumber} algorithm always returns number values or abrupt completions,
 and the prefix \textbf{?} removes the latter case.  The built-in algorithm

@@ -95,7 +95,7 @@ their bug fixes, as shown in Figure~\ref{fig:example}.
 \paragraph{Reference Checker} The example JavaScript program first defines a
 variable \jscode{f} without initialization, which has the value \jscode{undefined}.
 It then assigns an anonymous function to \jscode{f} using the operator \jscode{??=}.
-While the corresponding \textbf{Evaluation} algorithm originally
+While the corresponding \textbf{Evaluation} algorithm in Figure~\ref{fig:example}(a) originally
 used the \textbf{GetReferencedName} algorithm to get a reference name on line 4.a,
 a contributor removed the \textbf{GetReferencedName} algorithm and replaced all its
 invocations with accesses of the field [[ReferencedName]] on October 28, 2020.
@@ -106,7 +106,7 @@ which the reference checker can detect.
 
 \paragraph{Arity Checker} The program finally calls \jscode{f} with an argument \jscode{true}.
 During the initialization of the function call, the \textbf{IteratorBindingInitialization}
-algorithm is executed with additional parameters \textit{iteratorRecord} and
+algorithm in Figure~\ref{fig:example}(b) is executed with additional parameters \textit{iteratorRecord} and
 \textit{environment} to assign argument values to parameters.
 However, a contributor missed passing additional arguments to them on line 2 in
 \textbf{IteratorBindingInitialization} of \textit{ArrowParameters} on September 6, 2018.
@@ -115,7 +115,7 @@ contributor fixed it on February 20, 2020. The arity checker can detect such ari
 
 \paragraph{Assertion Checker} During the initialization of the function call,
 another specification bug existed in \textbf{IteratorBindingInitialization} of
-\textit{FormalParameter}.  The additional \textit{environment} parameter may
+\textit{FormalParameter} in Figure~\ref{fig:example}(c).  The additional \textit{environment} parameter may
 contain \jscode{undefined} or an environment record exactly the same as
 \textit{originalEnv} as described in the assertion on line 5.
 However, the assertion missed that the initial commit
@@ -125,7 +125,7 @@ The assertion checker can detect such assertion failures.
 
 
 \paragraph{Operand Checker} After the function call initialization, the
-parameter \jscode{x} has the value \jscode{true}, and \jscode{Math.round} is invoked
+parameter \jscode{x} has the value \jscode{true}, and \jscode{Math.round} in Figure~\ref{fig:example}(d) is invoked
 with the argument \jscode{true}.  The \jscode{Math.round} built-in library first
 converts the given parameter \textit{x} to its corresponding number value
 \textit{n} using \textbf{ToNumber}, and then performs the remaining

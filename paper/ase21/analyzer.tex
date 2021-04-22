@@ -216,8 +216,7 @@ depicted in Figure~\ref{fig:subtype}; a directed edge from $\ty'$ to $\ty$
 denotes $\ty' \subtype \ty$, and the relation is reflexive and transitive.  The
 subtype relation depends on the nominal types defined in ECMAScript.  We
 extract the subtype relation for AST types from the JavaScript syntax.
-For example, consider the syntax-directed abstract
-algorithm at the lower-right part in Figure~\ref{fig:example}.
+For example, consider the syntax-directed abstract algorithm in Figure~\ref{fig:example}(c).
 Because the nonterminal \textit{BindingElement} is the unique alternative of the
 \textit{FormalParameter} production, we automatically extract the subtype
 relation: \textit{BindingElement} $\subtype$ \textit{FormalParameter}. Using
@@ -390,7 +389,7 @@ all syntax-directed algorithms without additional parameters and built-in
 algorithms with appropriate abstract environments.
 For a syntax-directed algorithm, we construct its abstract environment containing the variable
 $\this$ with its production type and other variables for nonterminals.
-For example, the upper-left syntax-directed algorithm in Figure~\ref{fig:example} is
+For example, the syntax-directed algorithm in Figure~\ref{fig:example}(a) is
 initialized with the following abstract environment:
 \begin{figure}[H]
   \centering
@@ -407,7 +406,7 @@ initialized with the following abstract environment:
 For built-in algorithms, we assign pre-defined variables $\this$, $\args$, and
 $\NewTarget$ with their corresponding types and parameters with $\tjs$ types.  For
 example, the following abstract environment is for the built-in
-algorithm $\jscode{Math.round}$ at the upper-right part in Figure~\ref{fig:example}:
+algorithm $\jscode{Math.round}$ in Figure~\ref{fig:example}(d):
 \begin{figure}[H]
   \centering
   \vspace*{-0.5em}
