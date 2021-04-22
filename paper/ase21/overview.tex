@@ -43,6 +43,7 @@ we modify $\ires$ to make it more suitable for type analysis as
 formally defined in Section~\ref{sec:ires}.
 
 \paragraph{Types}
+In addition to JavaScript types,
 $\tool$ represents three kinds of specification types.
 First, because ASTs are values in abstract algorithms, 
 they can be stored in variables and passed as function arguments.
@@ -66,7 +67,7 @@ Each function is split into multiple flow- and type-sensitive views, and an
 abstract state stores mapping from views to corresponding abstract environments.
 To handle views separately, we use a worklist algorithm.
 The type analyzer consists of two sub-modules: an \textit{analysis initializer} and an
-\textit{abstract transfer}.
+\textit{abstract transfer function}.
 
 \paragraph{Analysis Initializer} It defines the initial abstract state and the
 initial set of views for a worklist. ECMAScript provides three
@@ -76,7 +77,7 @@ their parameter types, we use them as entry points of type analysis.  For each e
 initializer defines its abstract environment with parameter types and adds the
 flow- and type-sensitive views of the entry point to the worklist.
 
-\paragraph{Abstract Transfer} For each iteration, the abstract transfer gets a
+\paragraph{Abstract Transfer Function} For each iteration, the abstract transfer function gets a
 specific view from the worklist and updates the abstract environments of the next
 views based on the abstract semantics.  It adds the next views to the worklist if
 it changes their abstract environments, and the iteration finishes when
@@ -105,7 +106,7 @@ which the reference checker can detect.
 
 \paragraph{Arity Checker} The program finally calls \jscode{f} with an argument \jscode{true}.
 During the initialization of the function call, the \textbf{IteratorBindingInitialization}
-algorithm executes with additional parameters \textit{iteratorRecord} and
+algorithm is executed with additional parameters \textit{iteratorRecord} and
 \textit{environment} to assign argument values to parameters.
 However, a contributor missed passing additional arguments to them on line 2 in
 \textbf{IteratorBindingInitialization} of \textit{ArrowParameters} on September 6, 2018.
@@ -139,5 +140,5 @@ In the remainder of this paper, we explain the details of how to perform type
 analysis for $\ires$ functions and how to increase the analysis precision using
 the condition-based refinement (Section~\ref{sec:analyzer}) and how to detect
 type-related specification bugs (Section~\ref{sec:checker}).  After we evaluate $\tool$
-(Section~\ref{sec:eval}), we discuss related work (Section~\ref{sec:related}),
+(Section~\ref{sec:eval}), we discuss related work (Section~\ref{sec:related})
 and conclude (Section~\ref{sec:conclusion}).

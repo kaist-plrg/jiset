@@ -52,7 +52,7 @@ However, any kinds of manual annotations are labor-intensive and
 error-prone, and they do not provide any automatic mechanism to detect
 specification bugs.
 
-To alleviate this problem, we propose a tool $\tool$, a \textbf{J}avaScript
+To alleviate this problem, we propose a novel tool $\tool$, a \textbf{J}avaScript
 \textbf{S}pecification \textbf{T}ype \textbf{A}nalyzer using
 \textbf{R}efinement. In order to perform a \textit{type analysis} on ECMAScript
 to statically detect type-related specification bugs automatically,
@@ -68,7 +68,7 @@ to lessen such burdens.
 Among them, $\jiset$~\cite{jiset} compiles ECMAScript abstract algorithms written in
 a structured natural language to functions in $\ires$, an untyped
 intermediate representation for ECMAScript.
-Therefore, $\tool$ can handle JavaScript specifications mechanically using $\jiset$.
+Therefore, $\tool$ leverages $\jiset$ to mechanically handle JavaScript specifications.
 
 
 For mechanized JavaScript specifications by $\jiset$, $\tool$ performs
@@ -77,8 +77,7 @@ defined in ECMAScript. ECMAScript contains not only JavaScript
 language types but also specification types such as abstract syntax
 trees (ASTs), internal list-like structures, and internal records
 including environments, completions, and property descriptors. We
-define their type hierarchies and fields based on the type-related
-tables in ECMAScript and automatically extracted syntax-directed algorithms.
+define their type hierarchies based on subtype relations and fields for record and AST types.
 Using such type information, $\tool$ performs a type analysis and detects specification bugs using
 a \textit{bug detector} consisting of four checkers: 1) a reference
 checker, 2) an arity checker, 3) an assertion checker, and 4) an operand checker.

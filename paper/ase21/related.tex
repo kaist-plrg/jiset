@@ -5,7 +5,7 @@ JavaScript tools, mechanized specification extraction, and specification-based t
 
 \paragraph{JavaScript Tools}
 ECMAScript is the standard language specification for JavaScript maintained by
-the Ecma Technical Committee 39 (TC39).  In late 2014, the committee announced
+TC39.  In late 2014, the committee announced
 its plan to release ECMAScript annually and adopt the open development process
 to quickly adapt to evolving development environments.  Various JavaScript engines such
 as Google V8~\cite{v8}, GraalJS~\cite{graaljs}, QuickJS~\cite{qjs}, and Moddable
@@ -33,7 +33,7 @@ target ES5.1 released in 2011 instead of the latest one.
 Researchers in various application domains have extracted mechanized specifications from
 specifications written in natural languages to handle the contents in the specifications automatically.
 For system architectures, researchers utilized Natural
-Language Processing (NLP) and Machine Learning (ML) techniques to extract formal semantics
+Language Processing (NLP) and Machine Learning techniques to extract formal semantics
 of small-sized low-level assembly languages for x86~\cite{x86} and ARM~\cite{arm}.
 For Java API functions, Zhai et al.~\cite{javadoc} presented a
 technique to automatically extract models from their documentation using NLP techniques.
@@ -58,6 +58,6 @@ with $N$ different JavaScript engines and a reference interpreter extracted from
 $\jest$ detects not only engine bugs but also specification bugs in
 ECMAScript using the cross-referencing oracle.  However, it requires multiple JavaScript engines and
 takes dozens of hours to test a version of ECMAScript.
-Instead, $\tool$ can detect specification bugs without JavaScript engines in less than five minutes.
+Instead, $\tool$ can detect specification bugs without JavaScript engines in two minutes.
 Because $\tool$ uses abstract semantics while $\jest$ uses concrete semantics,
-$\tool$ can quickly analyze more semantics than $\jest$.
+$\tool$ can quickly analyze more scope of semantics than $\jest$.

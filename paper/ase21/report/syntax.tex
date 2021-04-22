@@ -4,7 +4,7 @@ We first define syntax of the modified $\ires$ as follows:
   \vspace*{-1em}
   \begin{array}{l@{~}r@{~}c@{~}r@{~}r@{~}l}
     \text{Functions}
-    &\funcset&\ni&\func&::=&\kwdef \; \x (\x^*, \kwsl \x^* \kwsr). \; \lab\\
+    &\funcset&\ni&\func&::=&\kwfunc{\x}{\x^*, \kwsl \x^* \kwsr}{\lab}\\
 
     \text{Instructions}
     &\instset&\ni&\inst&::=&
@@ -57,7 +57,7 @@ three mappings;  $\getfunc: \labset \rightarrow \funcset$ maps labels to their
 functions, $\getinst: \labset \rightarrow \instset$ maps labels to their
 instructions, and $\getnext: \labset \rightarrow \labset$ maps labels to their
 next labels, where a label $\lab \in \labset$ denotes a program point. A
-function $\kwdef \; \f (\x^*, \kwsl \y^* \kwsr). \; \lab \in \funcset$ consists
+function $\kwfunc{\f}{\x^*, \kwsl \y^* \kwsr}{\lab} \in \funcset$ consists
 of its name $\f$, normal parameters $\x^*$, optional parameters $\y^*$, and a
 body label $\lab$.  For presentation brevity, we assume that no global variables
 exist in this paper.  An instruction $\inst$ is a variable declaration, a

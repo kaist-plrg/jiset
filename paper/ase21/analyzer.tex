@@ -21,7 +21,7 @@ We modify it as a label-based language to make it suitable for type analysis as 
   \resizebox{\columnwidth}{!}{$
     \begin{array}{l@{~}r@{~}c@{~}r@{~}r@{~}l}
       \text{Functions}
-      &\funcset&\ni&\func&::=&\kwdef \; \x (\x^*, \kwsl \x^* \kwsr). \; \lab\\
+      &\funcset&\ni&\func&::=& \kwfunc{\x}{\x^*, \kwsl \x^* \kwsr}{\lab}\\
 
       \text{Instructions}
       &\instset&\ni&\inst&::=&
@@ -75,8 +75,8 @@ of three mappings;  $\getfunc: \labset \rightarrow \funcset$
 maps labels to their functions, $\getinst: \labset \rightarrow
 \instset$ maps labels to their instructions, and $\getnext: \labset
 \rightarrow \labset$ maps labels to their next labels, where a label $\lab \in \labset$
-denotes a program point. A function $\kwdef \; \f (\x^*, \kwsl \y^* \kwsr). \;
-\lab \in \funcset$ consists of its name $\f$, normal parameters $\x^*$, optional
+denotes a program point. A function $\kwfunc{\f}{\x^*, \kwsl \y^* \kwsr}{\lab}
+\in \funcset$ consists of its name $\f$, normal parameters $\x^*$, optional
 parameters $\y^*$, and a body label $\lab$.  For presentation brevity,
 we assume that no global variables exist in this paper.
 An instruction $\inst$ is a variable declaration, a function call, an assertion,
@@ -124,8 +124,8 @@ or a \jscode{Symbol} $\symb$.
             T' = \{ \upcasts([ \ty_1, \cdots, \ty_n ]) \mid \ty_1 \in \aty_1
             \;\wedge\; \cdots \;\wedge\; \ty_n \in \aty_n \} \;\wedge\;\\
 
-            \func = \kwdef \; \f (\p_1, \cdots, \kwsl \cdots, \p_{k_\func}
-            \kwsr). \; \lab_\func \;\wedge\;\\
+            \func = \kwfunc{\f}{p_1, \cdots, \kwsl \cdots, \p_{k_\func}
+            \kwsr}{\lab_\func} \;\wedge\;\\
 
             \aenv_{\func, \tys'} = [\p_1 \mapsto \{ \tys'[1] \}, \cdots,
             \p_{k_\func} \mapsto \{ \tys'[k_\func] \}] \;\wedge\;\\
@@ -213,8 +213,8 @@ model as follows:
 
 The subtype relation $\subtype \subseteq \tyset \times \tyset$ between types is
 depicted in Figure~\ref{fig:subtype}; a directed edge from $\ty'$ to $\ty$
-denotes $\ty' \subtype \ty$ and the relation is reflexive and transitive.  The
-subtype relation is dependent on the nominal types defined in ECMAScript.  We
+denotes $\ty' \subtype \ty$, and the relation is reflexive and transitive.  The
+subtype relation depends on the nominal types defined in ECMAScript.  We
 extract the subtype relation for AST types from the JavaScript syntax.
 For example, consider the syntax-directed abstract
 algorithm at the lower-right part in Figure~\ref{fig:example}.
@@ -318,12 +318,13 @@ a normalization function $\norm$ because of their subtype relations:
   $}
   \vspace*{-0.5em}
 \end{figure} \noindent
-where $\small{\norm(\aty) = \{ \ty \mid \ty \in \aty \wedge \nexists \ty' \in
+where $\small{\norm(\aty) = \{ \ty \in \aty \mid \nexists \ty' \in
 \aty\setminus \{ \ty \}. \; \text{s.t.} \; \ty \subtype \ty' \}}$.
 
-We now define the abstract semantics of instructions $\asemi{\inst}$ in Figure~\ref{fig:abs-sem}
-and the abstract semantics of references $\asemr{\refer}$
-and expressions $\aseme{\expr}$ in a companion report~\cite{report}.
+We now define the abstract semantics of instructions $\asemi{\inst}: (\labset
+\times \tyset^*) \rightarrow \adom \rightarrow \adom$ in Figure~\ref{fig:abs-sem}
+and the abstract semantics of references $\asemr{\refer}: \aenvset \rightarrow \atyset$
+and expressions $\aseme{\expr}: \aenvset \rightarrow \atyset$ in a companion report~\cite{report}.
 To avoid the explosion of type-sensitive
 views, we upcast the argument type before function calls with the
 following function:
@@ -354,7 +355,7 @@ infeasible control flows:
     \pass(\expr, \bool)(\aenv) = \left\{
       \begin{array}{ll}
         \refine(\expr, \bool)(\aenv)
-        & \text{if} \; \{ \true \} \order \aseme{\expr}(\aenv)\\
+        & \text{if} \; \bool \order \aseme{\expr}(\aenv)\\
 
         \emp
         & \text{otherwise}\\
@@ -367,7 +368,7 @@ where $\refine$ prunes out infeasible parts in abstract
 environments using their conditions as we describe in Section~\ref{sec:refine}.
 Then, we define the abstract
 semantics $\asem{\prog}$ of a program $\prog$
-as the least fixpoint of the abstract transfer $\atransfer: \adom \rightarrow
+as the least fixpoint of the abstract transfer function $\atransfer: \adom \rightarrow
 \adom$:
 \begin{figure}[H]
   \centering
@@ -452,9 +453,9 @@ We formally define the $\refine$ function as follows:
       \right.\\
 
       \refine(\x.\Type \; \code{==} \; \nconst{normal}, \true)(\aenv) &=&
-      \aenv[ \x \mapsto \aty_\x \cap \tnormal(\tyset) ]\\
+      \aenv[ \x \mapsto \aty_\x \meet \tnormal(\tyset) ]\\
       \refine(\x.\Type \; \code{==} \; \nconst{normal}, \false)(\aenv) &=&
-      \aenv[ \x \mapsto \aty_\x \cap \{ \tabrupt \} ]\\
+      \aenv[ \x \mapsto \aty_\x \meet \{ \tabrupt \} ]\\
 
       \refine(\x \; \code{==} \; \expr, \true)(\aenv) &=&
       \aenv[ \x \mapsto \aty_\x \meet \aty_\expr ]\\

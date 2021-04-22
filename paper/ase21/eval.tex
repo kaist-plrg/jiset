@@ -115,6 +115,8 @@ the worklist algorithm on average.  The average analysis time consists of \inred
 for the specification extraction (\stextsf{extract}),
 \inred{128.5} seconds for the type analysis (\stextsf{analyze}), and
 \inred{0.8} seconds for the bug detection (\stextsf{detect}).
+Therefore, We believe that $\tool$ is enough to be as part of continuous
+integration pipeline in open development process of ECMAScript.
 
 
 \subsection{Precision}\label{sec:precision}
@@ -178,12 +180,13 @@ Finally, the operand checker detected
 \inred{two} non-numeric operand bugs (\stextsf{NoNumber}) with \inred{33.3}\% precision and
 \inred{20} unchecked abrupt completion bugs (\stextsf{Abrupt}) with \inred{52.6}\% precision.
 
-To understand the severity of the detected true bugs, we extended $\tool$ to
+To understand the impact of the detected true bugs, we extended $\tool$ to
 automatically extract when they are created and resolved in the ECMAScript
 official repository.  A bug is \textit{created} when it exists
 in a specific version but does not exist in its previous version, and
 a bug is \textit{resolved} vice versa. The \textit{Time to Live (TTL)} of a bug denotes
-how many days the bug lasts.  Figure~\ref{fig:ttl} illustrates the TTLs of true bugs;
+the number of days between the created date and the resolved date.
+Figure~\ref{fig:ttl} illustrates the TTLs of true bugs;
 Figure~\ref{fig:ttl}(a) depicts the TTLs sorted by creation time and
 Figure~\ref{fig:ttl}(b) depicts the histogram of the TTLs in a logarithmic scale.
 Among \inred{93} true bugs, \inred{48} bugs are \textit{inherited},
@@ -367,7 +370,7 @@ Figures~\ref{fig:performance-compare}(a) and
 time, respectively, and Figures~\ref{fig:performance-compare}(b) and
 \ref{fig:performance-compare}(d) are scatter charts for their ratios.
 Without refinement, the type analysis took \inred{91.9} seconds with \inred{261.5}K
-iterations on average.  For each version, the number of iterations is increased
+iterations on average.  After applying refinement, the number of iterations is increased
 at least \inred{0.99}x, at most \inred{1.36}x, and \inred{1.16}x on average, and
 the analysis time is increased at least \inred{1.05}x, at most \inred{1.99}x,
 and \inred{1.41}x on average.
@@ -380,7 +383,7 @@ bug kinds, the most significant improvement is for non-numeric
 operand bugs (\stextsf{NoNumber}) from \inred{3.1}\% to \inred{33.3}\%
 by removing \inred{59} false-positive bugs.  The refinement technique
 successfully prunes out non-numeric values for numeric types.
-The refinement also significantly increased the analysis precision for unknown
+The refinement significantly increased the analysis precision also for unknown
 variable bugs (\stextsf{UnknownVar}) and assertion failures
 (\stextsf{Assertion}) by removing \inred{29} and \inred{25} false-positive bugs, respectively.
 Because $\tool$ can precisely analyze callees of function invocations
@@ -396,7 +399,7 @@ Table~\ref{table:new-bug} summarizes the bugs, their
 related JavaScript language features, and their TTLs.
 Except for two bugs in ES12-8, all bugs were introduced in the initial
 commit of the open development on September 22, 2015.
-Thus, 12 newly detected bugs last for 1,966 days until March 9, 2021.
+Thus, 12 newly detected bugs last for 1,996 days until March 9, 2021.
 The two bugs in ES12-8 were created when a contributor introduced
 the prefixes \textbf{?} and \textbf{!} on December 16, 2015, and they last for 1,910 days.
 We reported the newly detected bugs to TC39, and all of them were

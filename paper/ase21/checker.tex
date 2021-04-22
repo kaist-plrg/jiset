@@ -37,7 +37,7 @@
 \end{table}
 
 We develop a \textit{bug detector} to statically detect type-related
-specification bugs in ECMAScript using an augmented abstract transfer
+specification bugs in ECMAScript using an augmented abstract transfer function
 $\detector$ with additional checkers.  Before implementing checkers, we manually
 investigated pull requests for the recent three years from 2018 to 2021 to identify
 important bugs to detect.  As summarized in Table~\ref{table:pr-bugs},
@@ -125,7 +125,7 @@ already defined.
 \subsection{Arity Checker}
 
 The arity of a function \mbox{\small
-$\func=\kwdef\ \f (\p_1, \cdots, \p_n, \kwsl \cdots, p_m \kwsr).\lab$}
+$\func = \kwfunc{\f}{\p_1, \cdots, \p_n, \kwsl \cdots, p_m \kwsr}{\lab}$}
 is an interval $[n, m]$ where $n$ and $m-n$ denote the
 numbers of normal and optional parameters, respectively.
 In function invocations, an \textit{arity bug} occurs when
@@ -149,8 +149,8 @@ the function call instruction:
           \text{otherwise}\\
         \end{array}
       \right.\\
-      \qquad \text{where} \; \func = \kwdef \; \f (\p_1, \cdots, \p_{n_\func},
-      \kwsl \cdots, p_{m_\func} \kwsr). \; \lab \;\wedge\;\\
+      \qquad \text{where} \; \func = \kwfunc{\f}{\p_1, \cdots, \p_{n_\func},
+      \kwsl \cdots, p_{m_\func} \kwsr}{\lab} \;\wedge\;\\
       \qquad \phantom{\text{where}} \; \aty = \aseme{\expr}(\aelem(\lab,
       \tys)).\\
     \end{array}
@@ -220,42 +220,6 @@ the condition $\code{environment = originalEnv}$.
 
 An \textit{ill-typed operand bug} occurs when
 the type of an operand does not conform to its corresponding parameter type.
-For example, the comparison operator $\code{<}$ is a numeric operator in the modified $\ires$.
-If an expression tries to compare non-numeric values such as $\true <
-\code{"abc"}$, then it is a non-numeric operand bug (\stextsf{NoNumber}).
-Besides, ECMAScript has a special implicit conversion for normal completions
-when their actual values stored in the $\code{Value}$ field are necessary
-such as conditions, values of field updates, and operands of operators.
-For example, if the variable $\x$ has a normal completion with \code{42} as its
-actual value, $\code{x + 1}$ should be \code{43} because the normal completion
-gets implicitly converted into its actual value \code{42}.
-To explicitly represent this conversion, we define a unary operator
-$\escaped$ as follows:
-\begin{figure}[H]
-  \centering
-  \vspace*{-0.5em}
-  \resizebox{\columnwidth}{!}{$
-    \escaped \val = \left\{
-      \begin{array}{ll}
-        \val &
-        \text{if} \; \val \; \text{is not a completion}\\
-
-        \val.\code{Value} &
-        \text{if} \; \val \; \text{is normal}\\
-
-        \text{unchecked abrupt completion} \; \val &
-        \text{otherwise}\\
-      \end{array}
-    \right.
-  $}
-  \vspace*{-0.5em}
-\end{figure} \noindent
-and assume that the operator $\escaped$ is used when the actual value is necessary.
-Then, an unchecked abrupt completion bug (\stextsf{Abrupt}) occurs
-when the actual value is necessary but it is an abrupt completion.
-According to our manual investigation, one pull request fixed two non-numeric operand
-bugs and five pull requests fixed six unchecked abrupt completion bugs.
-
 The operand checker detects such ill-typed operand bugs by additional
 checks in the abstract semantics of operations:
 \begin{figure}[H]
@@ -288,11 +252,46 @@ checks in the abstract semantics of operations:
 \end{figure} \noindent
 where $\aty_0$, $\aty_1$, and $\aty$ are expected abstract types of $\expr_0$,
 $\expr_1$, and $\expr$, respectively.  The additional checks report
-when a given operand does not conform to its expected type.  For example, consider the
-upper-right built-in algorithm $\code{Math.round}$ in Figure~\ref{fig:example}.
-The types of $\x$ and $\n$ are $\{ \tjs \}$ and $\{ \tnum \}$, respectively, because the
+when a given operand does not conform to its expected type.  According to our
+manual investigation, there existed two different kinds of ill-typed operand
+bugs: two non-numeric operand bugs (\stextsf{NoNumber}) in one pull request, and
+six unchecked abrupt completion bugs (\stextsf{Abrupt}) in five pull requests.
+
+For an example of non-numeric operand bugs, consider the upper-right built-in
+algorithm $\code{Math.round}$ in Figure~\ref{fig:example}.  The types of $\x$
+and $\n$ are $\{ \tjs \}$ and $\{ \tnum \}$, respectively, because the
 \textbf{ToNumber} algorithm always returns number values or abrupt completions,
-and the prefix ? of \textbf{ReturnIfAbrupt} removes the latter case.
-The built-in algorithm misuses $\x$ rather than $\n$ on lines 3 and 4,
-and because the expected abstract type $\{ \tnum, \tbigint \}$ does not subsume $\{ \tjs \}$,
-the operand checker reports non-numeric operand bugs.
+and the prefix \textbf{?} removes the latter case.  The built-in algorithm
+misuses $\x$ rather than $\n$ on lines 3 and 4, and because the expected
+abstract type $\{ \tnum, \tbigint \}$ does not subsume $\{ \tjs \}$, the operand
+checker reports non-numeric operand bugs.
+
+An unchecked abrupt completion bug occurs when the actual value is necessary but
+it is an abrupt completion.  ECMAScript has a special implicit conversion for
+normal completions when their actual values stored in the $\code{Value}$ field
+are necessary, such as conditions, values of field updates, and operands of
+operators.  For example, if the variable $\x$ has a normal completion with
+\code{42} as its actual value, $\code{x + 1}$ should be \code{43} because the
+normal completion gets implicitly converted into its actual value \code{42}.  To
+explicitly represent this conversion, we define a unary operator $\escaped$ as
+follows:
+\begin{figure}[H]
+  \centering
+  \vspace*{-0.5em}
+  \resizebox{\columnwidth}{!}{$
+    \escaped \val = \left\{
+      \begin{array}{ll}
+        \val &
+        \text{if} \; \val \; \text{is not a completion}\\
+
+        \val.\code{Value} &
+        \text{if} \; \val \; \text{is normal}\\
+
+        \text{unchecked abrupt completion} \; \val &
+        \text{otherwise}\\
+      \end{array}
+    \right.
+  $}
+  \vspace*{-0.5em}
+\end{figure} \noindent
+and assume that the operator $\escaped$ is used when the actual value is necessary.
