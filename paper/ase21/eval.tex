@@ -101,20 +101,20 @@ Figure~\ref{fig:stat} shows the statistics of the type analysis using $\tool$ fo
 864 versions of ECMAScript: (a) the number of analyzed functions, (b) the number
 of flow- and type-sensitive views, (c) the number of worklist iterations, and
 (d) the analysis time.  For each version, $\tool$ analyzed
-\inred{1,689.6} functions on average.  Since ECMAScript has gradually evolved,
-it analyzed \inred{1,490} functions for the first version in 2018
-but analyzed \inred{1,863} functions in the latest.
+\inred{1,696.6} functions on average.  Since ECMAScript has gradually evolved,
+it analyzed \inred{1,491} functions for the first version in 2018
+but analyzed \inred{1,864} functions in the latest.
 $\tool$ analyzes functions with flow- and type-sensitive views.
-On average, each version has \inred{91.2}K views and each function has
-\inred{53.9}~views.
+On average, each version has \inred{92.0}K views and each function has
+\inred{54.1}~views.
 
 We measured the performance of $\tool$ with the worklist iteration number
 and the analysis time.  For each version of ECMAScript,
-$\tool$ took \inred{136.0} seconds with \inred{298.8}K iterations of
+$\tool$ took \inred{137.3} seconds with \inred{301.6}K iterations of
 the worklist algorithm on average.  The average analysis time consists of \inred{8.0} seconds
 for the specification extraction (\stextsf{extract}),
-\inred{127.0} seconds for the type analysis (\stextsf{analyze}), and
-\inred{0.7} seconds for the bug detection (\stextsf{detect}).
+\inred{128.5} seconds for the type analysis (\stextsf{analyze}), and
+\inred{0.8} seconds for the bug detection (\stextsf{detect}).
 
 
 \subsection{Precision}\label{sec:precision}
@@ -168,14 +168,14 @@ for the specification extraction (\stextsf{extract}),
 We measured the analysis precision with the number of true bugs in
 the type-related specification bugs detected by $\tool$.
 As summarized in the \stextsf{refine} column of Table~\ref{table:precision}, the analysis precision
-is \inred{52.0}\%; \inred{92} out of \inred{177} detected bugs are true bugs.
-The reference checker detected the most bugs with \inred{62.2}\% precision;
+is \inred{59.2}\%; \inred{93} out of \inred{157} detected bugs are true bugs.
+The reference checker detected the most bugs with \inred{80.8}\% precision;
 \inred{17} unknown variables (\stextsf{UnknownVar}) and
-\inred{44} duplicated variable declarations (\stextsf{DuplicatedVar}) are true bugs.
-We found \inred{4} missing parameters (\stextsf{MissingParam}) with \inred{100.0}\% precision and
-\inred{5} assertion failures (\stextsf{Assertion}) with \inred{16.1}\% precision.
+\inred{46} duplicated variable declarations (\stextsf{DuplicatedVar}) are true bugs.
+We found \inred{four} missing parameters (\stextsf{MissingParam}) with \inred{100.0}\% precision and
+\inred{four} assertion failures (\stextsf{Assertion}) with \inred{12.9}\% precision.
 Finally, the operand checker detected
-\inred{2} non-numeric operand bugs (\stextsf{NoNumber}) with \inred{33.3}\% precision and
+\inred{two} non-numeric operand bugs (\stextsf{NoNumber}) with \inred{33.3}\% precision and
 \inred{20} unchecked abrupt completion bugs (\stextsf{Abrupt}) with \inred{52.6}\% precision.
 
 To understand the severity of the detected true bugs, we extended $\tool$ to
@@ -186,23 +186,23 @@ a bug is \textit{resolved} vice versa. The \textit{Time to Live (TTL)} of a bug 
 how many days the bug lasts.  Figure~\ref{fig:ttl} illustrates the TTLs of true bugs;
 Figure~\ref{fig:ttl}(a) depicts the TTLs sorted by creation time and
 Figure~\ref{fig:ttl}(b) depicts the histogram of the TTLs in a logarithmic scale.
-Among \inred{92} true bugs, \inred{47} bugs are \textit{inherited},
+Among \inred{93} true bugs, \inred{48} bugs are \textit{inherited},
 which means that they are created before 2018,
 and \inred{14} bugs still exist in the latest ECMAScript, which are newly detected by $\tool$.
 We discuss the details of \inred{14} newly found bugs in Section~\ref{sec:new-bug}.
-Even though we assume that \inred{47} inherited bugs are created on January 1, 2018,
-the average TTL is \inred{409.5} and the maximum TTL is \inred{1,164}.
+Even though we assume that \inred{48} inherited bugs are created on January 1, 2018,
+the average TTL is \inred{414.5} and the maximum TTL is \inred{1,164}.
 All the bugs with the maximum TTL are inherited ones and they are all newly detected.
 
-We manually investigated \inred{85} false-positive bugs to understand why
-$\tool$ detected them.  Among them, \inred{30} bugs are due to extraction failure
+We manually investigated \inred{64} false-positive bugs to understand why
+$\tool$ detected them.  Among them, \inred{17} bugs are due to extraction failure
 of mechanized specifications caused by wrong writing styles.
 Because ECMAScript is written in HTML, $\jiset$ extracts abstract algorithms
 using the \code{emu-alg} HTML tag.  Unfortunately, several abstract algorithms are
 defined with the opening tag \code{<emu-alg>} but without the closing tag \code{</emu-alg>},
 which causes extraction failure of mechanized specifications leading
-to false-positive bugs.  The remaining \inred{55} bugs are due to imprecise analysis.
-We found that \inred{20} bugs are due to imprecise analysis of the
+to false-positive bugs.  The remaining \inred{47} bugs are due to imprecise analysis.
+We found that \inred{28} bugs are due to imprecise analysis of the
 conditions of assertions and branches for specific function calls.
 For example, consider the following algorithm step for \textbf{GetValue}:
 \begin{figure}[H]
@@ -349,8 +349,8 @@ resolve this problem by pruning out infeasible field types depending on specific
         checks.
     } &
     \stextsf{\footnotesize Operand} &
-    \inred{2015-09-22} &
-    \inred{1,996 days}\\
+    \inred{2015-12-16} &
+    \inred{1,910 days}\\
   \end{tabular}
   }
   \vspace*{-1.5em}
@@ -366,15 +366,15 @@ Figures~\ref{fig:performance-compare}(a) and
 \ref{fig:performance-compare}(c) are histograms of the iterations and analysis
 time, respectively, and Figures~\ref{fig:performance-compare}(b) and
 \ref{fig:performance-compare}(d) are scatter charts for their ratios.
-Without refinement, the type analysis took \inred{90.9} seconds with \inred{259.1}K
+Without refinement, the type analysis took \inred{91.9} seconds with \inred{261.5}K
 iterations on average.  For each version, the number of iterations is increased
 at least \inred{0.99}x, at most \inred{1.36}x, and \inred{1.16}x on average, and
-the analysis time is increased at least \inred{1.05}x, at most \inred{1.98}x,
+the analysis time is increased at least \inred{1.05}x, at most \inred{1.99}x,
 and \inred{1.41}x on average.
 
 Table~\ref{table:precision} shows the analysis precision without refinement,
 with refinement, and their difference.  The refinement improved the analysis
-precision from \inred{30.4}\% to \inred{52.0}\% by removing \inred{122}
+precision from \inred{33.0}\% to \inred{59.2}\% by removing \inred{122}
 false-positive bugs and detecting \inred{one} more true bug.  Among six
 bug kinds, the most significant improvement is for non-numeric
 operand bugs (\stextsf{NoNumber}) from \inred{3.1}\% to \inred{33.3}\%
@@ -382,7 +382,7 @@ by removing \inred{59} false-positive bugs.  The refinement technique
 successfully prunes out non-numeric values for numeric types.
 The refinement also significantly increased the analysis precision for unknown
 variable bugs (\stextsf{UnknownVar}) and assertion failures
-(\stextsf{Assertion}) by removing \inred{28} and \inred{26} false-positive bugs, respectively.
+(\stextsf{Assertion}) by removing \inred{29} and \inred{25} false-positive bugs, respectively.
 Because $\tool$ can precisely analyze callees of function invocations
 without refinement, we found no improvement for missing
 parameter bugs (\stextsf{MissingParam}).
@@ -390,7 +390,7 @@ parameter bugs (\stextsf{MissingParam}).
 
 \subsection{Detection of New Bugs}\label{sec:new-bug}
 
-Among \inred{92} true bugs detected by $\tool$, \inred{14} are newly
+Among \inred{93} true bugs detected by $\tool$, \inred{14} are newly
 detected and still exist in the latest version of ECMAScript.
 Table~\ref{table:new-bug} summarizes the bugs, their
 related JavaScript language features, and their TTLs.
