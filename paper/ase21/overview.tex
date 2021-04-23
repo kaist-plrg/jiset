@@ -102,7 +102,7 @@ a contributor removed the \textbf{GetReferencedName} algorithm and replaced all 
 invocations with accesses of the field [[ReferencedName]] on October 28, 2020.
 However, the contributor missed several cases including the semantics of
 \jscode{??=}, which was fixed by another contributor on November 3, 2020.
-Thus, the unknown variable bug for \textbf{GetReferencedName} existed for 7 days,
+Thus, the unknown variable bug for \textbf{GetReferencedName} lasted for 7 days,
 which the reference checker can detect.
 
 \paragraph{Arity Checker} The program finally calls \jscode{f} with an argument \jscode{true}.
@@ -111,18 +111,16 @@ in Figure~\ref{fig:example}(b) is executed with additional parameters \textit{it
 \textit{environment} to assign argument values to parameters.
 However, a contributor missed passing additional arguments to them on line 2 in
 \textbf{IteratorBindingInitialization} of \textit{ArrowParameters} on September 6, 2018.
-It caused an arity mismatch bug, which existed for 533 days until another
+It caused an arity mismatch bug, which lasted for 533 days until another
 contributor fixed it on February 20, 2020. The arity checker can detect such arity mismatches.
 
 \paragraph{Assertion Checker} During the initialization of the function call,
-another bug existed in \textbf{IteratorBindingInitialization} of
-\textit{FormalParameter} in Figure~\ref{fig:example}(c).
-The additional \textit{environment} parameter may
-contain \jscode{undefined} or an environment record exactly the same as
-\textit{originalEnv} as described in the assertion on line 5.
-\inred{However, the assertion missed that the initial commit
-of the open development process on September 22, 2015 introduced
-\jscode{undefined}, which led to the assertion failure bug last for 1,297 days until April 10, 2019.}
+\textbf{IteratorBindingInitialization} of \textit{FormalParameter} in Figure~\ref{fig:example}(c)
+contains another bug.
+Even though the additional \textit{environment} parameter may contain \jscode{undefined},
+a contributor did not consider it on line 5 in the initial commit of the open development process
+on September 22, 2015.  It caused an assertion failure bug, which lasted for 1,297 days until another
+contributor fixed it on April 10, 2019.
 The assertion checker can detect such assertion failures.
 
 
