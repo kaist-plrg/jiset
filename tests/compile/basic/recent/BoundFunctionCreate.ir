@@ -2,7 +2,7 @@
   assert (= (typeof targetFunction) Object)
   app __x0__ = (targetFunction.GetPrototypeOf targetFunction)
   let proto = [? __x0__]
-  ??? "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-bound-function-exotic-objects} , plus [ [ Prototype ] ] and [ [ Extensible ] ] ."
+  let internalSlotsList = StrList
   app __x1__ = (MakeBasicObject internalSlotsList)
   let obj = [! __x1__]
   obj.Prototype = proto

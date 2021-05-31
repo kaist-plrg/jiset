@@ -17,7 +17,9 @@
       if (= F.ConstructorKind CONST_derived) inDerivedConstructor = true else {}
     } else {}
   } else {}
-  ??? "Perform the following substeps in an implementation - defined order , possibly interleaving parsing and error detection : in:{} out:{}"
+  let parameterGoal = AST_FormalParameters
+  let script = AST_Script
+  let body = AST_ScriptBody
   if (= strictCaller true) let strictEval = true else {
     access __x3__ = (script "IsStrict")
     let strictEval = __x3__

@@ -14,12 +14,12 @@
       __x2__ = (= __x3__ true)
     } else {}
     if __x2__ let noTear = true else let noTear = false
-    ??? "Let id:{rawValue} be a List of length id:{elementSize} whose elements are nondeterministically chosen byte values ."
+    let rawValue = NumList
     let readEvent = (new ReadSharedMemory("Order" -> order, "NoTear" -> noTear, "Block" -> block, "ByteIndex" -> byteIndex, "ElementSize" -> elementSize))
     append readEvent -> eventList
     append (new ChosenValueRecord("Event" -> readEvent, "ChosenValue" -> rawValue)) -> execution.ChosenValues
   } else {}
-  ??? "Else , let id:{rawValue} be a List whose elements are bytes from id:{block} at indices id:{byteIndex} ( inclusive ) through id:{byteIndex} + id:{elementSize} ( exclusive ) ."
+  let rawValue = NumList
   assert (= rawValue.length elementSize)
   if (= isLittleEndian absent) isLittleEndian = AGENT.LittleEndian else {}
   app __x4__ = (RawBytesToNumeric type rawValue isLittleEndian)

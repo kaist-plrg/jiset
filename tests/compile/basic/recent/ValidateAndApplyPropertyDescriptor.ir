@@ -9,10 +9,10 @@
       app __x2__ = (IsDataDescriptor Desc)
       __x0__ = (= __x2__ true)
     }
-    if __x0__ ??? "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > ." else {
+    if __x0__ if (= O undefined) {} else {} else {
       app __x3__ = (IsAccessorDescriptor Desc)
       assert (= [! __x3__] true)
-      ??? "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > ."
+      if (= O undefined) {} else {}
     }
     return true
   } else {}
@@ -35,7 +35,7 @@
     if (= [! __x9__] false) {
       if (= current.Configurable false) return false else {}
       app __x10__ = (IsDataDescriptor current)
-      if (= __x10__ true) ??? "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from a data property to an accessor property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > ." else ??? "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from an accessor property to a data property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > ."
+      if (= __x10__ true) if (= O undefined) {} else {} else if (= O undefined) {} else {}
     } else {
       app __x11__ = (IsDataDescriptor current)
       app __x12__ = (IsDataDescriptor Desc)

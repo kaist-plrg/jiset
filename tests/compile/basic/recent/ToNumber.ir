@@ -1,7 +1,10 @@
 {
   if (= (typeof argument) Undefined) return NaN else {}
   if (= (typeof argument) Null) return 0i else {}
-  if (= (typeof argument) Boolean) ??? "If id:{argument} is value:{true} , return value:{1} . If id:{argument} is value:{false} , return value:{+0} ." else {}
+  if (= (typeof argument) Boolean) {
+    if (= argument true) return 1i else {}
+    if (= argument false) return 0i else {}
+  } else {}
   if (= (typeof argument) Number) return argument else {}
   if (= (typeof argument) String) {} else {}
   if (= (typeof argument) Symbol) throw TypeError else {}

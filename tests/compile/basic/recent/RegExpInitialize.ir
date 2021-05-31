@@ -12,17 +12,17 @@
   if (= u true) {
     app __x2__ = (StringToCodePoints P)
     let patternText = [! __x2__]
-    ??? "Let id:{patternCharacters} be a List whose elements are the code points of id:{patternText} ."
+    let patternCharacters = StrList
   } else {
     ??? "Let id:{patternText} be the result of interpreting each of id:{P} ' s 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements ."
-    ??? "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} ."
+    let patternCharacters = StrList
   }
   app __x3__ = (ParsePattern patternText u)
   let parseResult = __x3__
   ??? "If id:{parseResult} is a non - empty List of value:{SyntaxError} objects , throw a value:{SyntaxError} exception ."
   obj.OriginalSource = P
   obj.OriginalFlags = F
-  ??? "Set id:{obj} . [ [ RegExpMatcher ] ] to the Abstract Closure that evaluates id:{parseResult} by applying the semantics provided in link:{unhandled: sec-pattern-semantics} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters ."
+  obj.RegExpMatcher = null
   app __x4__ = (Set obj "lastIndex" 0i true)
   [? __x4__]
   return obj

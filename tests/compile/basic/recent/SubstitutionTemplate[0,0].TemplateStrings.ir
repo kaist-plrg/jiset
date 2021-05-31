@@ -8,5 +8,7 @@
   }
   access __x2__ = (TemplateSpans "TemplateStrings" raw)
   let tail = __x2__
-  ??? "Return a List whose elements are id:{head} followed by the elements of id:{tail} ."
+  let list = (copy-obj tail)
+  prepend head -> list
+  return list
 }

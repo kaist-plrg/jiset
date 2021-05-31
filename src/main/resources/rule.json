@@ -1,0 +1,258 @@
+[
+  {
+    "tokens": "If no such execution context exists , return value:{null} . Otherwise , return id:{ec} ' s ScriptOrModule .",
+    "inst": "return ec.ScriptOrModule"
+  },
+  {
+    "tokens": "Create an immutable binding in id:{envRec} for id:{N} and record that it is uninitialized . If id:{S} is value:{true} , record that the newly created binding is a strict binding .",
+    "inst": "envRec.SubMap[N] = absent"
+  },
+  {
+    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-ecmascript-function-objects} .",
+    "inst": "let internalSlotsList = StrList"
+  },
+  {
+    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-27} .",
+    "inst": "let internalSlotsList = StrList"
+  },
+  {
+    "tokens": "Let id:{ec} be the topmost execution context on the execution context stack whose ScriptOrModule component is not value:{null} .",
+    "inst": "let ec = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]"
+  },
+  {
+    "tokens": "Return the String value consisting of the code units of the digits of the decimal representation of id:{x} .",
+    "inst": "return (convert x num2str)"
+  },
+  {
+    "tokens": "Set id:{constructor} to ParseText ( id:{constructorText} , | MethodDefinition [ ~ Yield , ~ Await ] | ) .",
+    "inst": "constructor = (parse-syntax constructorText \"MethodDefinition\" (new [false, false]))"
+  },
+  {
+    "tokens": "If id:{declarationNames} does not include the element value:{\"*default*\"} , append value:{\"*default*\"} to id:{declarationNames} .",
+    "inst": "if (contains declarationNames \"*default*\") {} else append \"*default*\" -> declarationNames"
+  },
+  {
+    "tokens": "Append to id:{moduleNames} each element of id:{additionalNames} that is not already an element of id:{moduleNames} .",
+    "inst": "{ let __i__ = 0i while (< __i__ additionalNames.length) if (contains moduleNames additionalNames[__i__]) {} else append additionalNames[__i__] -> moduleNames }"
+  },
+  {
+    "tokens": "If id:{envRec} has a binding for the name that is the value of id:{N} , return value:{true} .",
+    "inst": "if (= envRec.SubMap[N] absent) {} else return true"
+  },
+  {
+    "tokens": "Let id:{mv} be ( the MV of nt:{NonZeroDigit} × 10 ) plus the MV of nt:{DecimalDigits} .",
+    "inst": "{ access __nzd__ = (NonZeroDigit \"MV\") access __dds__ = (DecimalDigits \"MV\") let mv = (+ (* __nzd__ 10) __dds__) }"
+  },
+  {
+    "tokens": "Set id:{proto} to id:{realm} ' s intrinsic object named id:{intrinsicDefaultProto} .",
+    "inst": "proto = INTRINSICS[intrinsicDefaultProto]"
+  },
+  {
+    "tokens": "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} .",
+    "inst": "let patternCharacters = StrList"
+  },
+  {
+    "tokens": "Let id:{patternCharacters} be a List whose elements are the code points of id:{patternText} .",
+    "inst": "let patternCharacters = StrList"
+  },
+  {
+    "tokens": "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ ~ U , ~ N ] | ) .",
+    "inst": "let parseResult = (parse-syntax patternText \"Pattern\" (new [false, false]))"
+  },
+  {
+    "tokens": "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ + U , + N ] | ) .",
+    "inst": "let parseResult = (parse-syntax patternText \"Pattern\" (new [true, true]))"
+  },
+  {
+    "tokens": "If id:{parseResult} is a Parse Node and id:{parseResult} contains a nt:{GroupName} , then in:{} out:{}",
+    "inst": "parseResult = (parse-syntax patternText \"Pattern\" (new [false, true]))"
+  },
+  {
+    "tokens": "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > .",
+    "inst": "if (= O undefined) {} else {}"
+  },
+  {
+    "tokens": "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > .",
+    "inst": "if (= O undefined) {} else {}"
+  },
+  {
+    "tokens": "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from an accessor property to a data property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > .",
+    "inst": "if (= O undefined) {} else {}"
+  },
+  {
+    "tokens": "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from a data property to an accessor property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > .",
+    "inst": "if (= O undefined) {} else {}"
+  },
+  {
+    "tokens": "Set id:{obj} . [ [ RegExpMatcher ] ] to the Abstract Closure that evaluates id:{parseResult} by applying the semantics provided in link:{unhandled: sec-pattern-semantics} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters .",
+    "inst": "obj.RegExpMatcher = null"
+  },
+  {
+    "tokens": "Let id:{name} be the string that is the only element of BoundNames of nt:{SingleNameBinding} .",
+    "inst": "{ access __snb__ = (SingleNameBinding \"BoundNames\") let name = __snb__[0i] }"
+  },
+  {
+    "tokens": "If id:{argument} is value:{true} , return value:{1} . If id:{argument} is value:{false} , return value:{+0} .",
+    "inst": "{if (= argument true) return 1i else {} if (= argument false) return 0i else {}}"
+  },
+  {
+    "tokens": "Return a new Boolean object whose [ [ BooleanData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-boolean-objects} for a description of Boolean objects .",
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_Boolean_prototype, \"BooleanData\" -> argument)) return obj}"
+  },
+  {
+    "tokens": "Return a new Number object whose [ [ NumberData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-number-objects} for a description of Number objects .",
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_Number_prototype, \"NumberData\" -> argument)) return obj}"
+  },
+  {
+    "tokens": "Return a new String object whose [ [ StringData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-string-objects} for a description of String objects .",
+    "inst": "{let obj = (new StringExoticObject(\"Prototype\" -> INTRINSIC_String_prototype, \"StringData\" -> argument)) return obj}"
+  },
+  {
+    "tokens": "Return a new Symbol object whose [ [ SymbolData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-symbol-objects} for a description of Symbol objects .",
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_Symbol_prototype, \"SymbolData\" -> argument)) return obj}"
+  },
+  {
+    "tokens": "Return a new BigInt object whose [ [ BigIntData ] ] internal slot is set to id:{argument} . See link:{unhandled: sec-bigint-objects} for a description of BigInt objects .",
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_BigInt_prototype, \"BigIntData\" -> argument)) return obj}"
+  },
+  {
+    "tokens": "Let id:{operation} be the abstract operation associated with id:{opText} in the following table : in:{} out:{}",
+    "inst": "{ let m = PRIMITIVE[T] if (= opText \"**\") let operation = m.exponentiate else if (= opText \"*\") let operation = m.multiply else if (= opText \"/\") let operation = m.divide else if (= opText \"%\") let operation = m.remainder else if (= opText \"+\") let operation = m.add else if (= opText \"-\") let operation = m.subtract else if (= opText \"<<\") let operation = m.leftShift else if (= opText \">>\") let operation = m.signedRightShift else if (= opText \">>>\") let operation = m.unsignedRightShift else if (= opText \"&\") let operation = m.bitwiseAND else if (= opText \"^\") let operation = m.bitwiseXOR else if (= opText \"|\") let operation = m.bitwiseOR else return 0i }"
+  },
+  {
+    "tokens": "Let id:{lbits} be the 32 - bit two ' s complement bit string representing ℝ ( id:{lnum} ) .",
+    "inst": "let lbits = lnum"
+  },
+  {
+    "tokens": "Let id:{rbits} be the 32 - bit two ' s complement bit string representing ℝ ( id:{rnum} ) .",
+    "inst": "let rbits = rnum"
+  },
+  {
+    "tokens": "Else , id:{op} is code:{|} . Let id:{result} be the result of applying the bitwise inclusive OR operation to id:{lbits} and id:{rbits} .",
+    "inst": "if (= op \"|\") let result = (| lbits rbits) else let result = 0i"
+  },
+  {
+    "tokens": "Return the Number value for the integer represented by the 32 - bit two ' s complement bit string id:{result} .",
+    "inst": "return result"
+  },
+  {
+    "tokens": "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{list} and performs the following steps when called : in:{} out:{}",
+    "inst": "let closure = Lambda"
+  },
+  {
+    "tokens": "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{kind} and id:{array} and performs the following steps when called : in:{} out:{}",
+    "inst": "let closure = Lambda"
+  },
+  {
+    "tokens": "Let id:{r} be the BigInt defined by the mathematical relation id:{r} = id:{n} - ( id:{d} × id:{q} ) where id:{q} is a BigInt that is negative only if id:{n} / id:{d} is negative and positive only if id:{n} / id:{d} is positive , and whose magnitude is as large as possible without exceeding the magnitude of the true mathematical quotient of id:{n} and id:{d} .",
+    "inst": "let r = (% n d)"
+  },
+  {
+    "tokens": "Perform the following substeps in an implementation - defined order , possibly interleaving parsing and error detection : in:{} out:{}",
+    "inst": "{ let parameterGoal = AST_FormalParameters let script = AST_Script let body = AST_ScriptBody }"
+  },
+  {
+    "tokens": "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} .",
+    "inst": "let elementType = CONST_Int8"
+  },
+  {
+    "tokens": "Else , let id:{rawValue} be a List whose elements are bytes from id:{block} at indices id:{byteIndex} ( inclusive ) through id:{byteIndex} + id:{elementSize} ( exclusive ) .",
+    "inst": "let rawValue = NumList"
+  },
+  {
+    "tokens": "Let id:{rawValue} be a List of length id:{elementSize} whose elements are nondeterministically chosen byte values .",
+    "inst": "let rawValue = NumList"
+  },
+  {
+    "tokens": "Return a List whose elements are id:{head} followed by the elements of id:{tail} .",
+    "inst": "{ let list = (copy-obj tail) prepend head -> list return list }"
+  },
+  {
+    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-module-namespace-exotic-objects} .",
+    "inst": "let internalSlotsList = StrList"
+  },
+  {
+    "tokens": "Let id:{sortedExports} be a List whose elements are the elements of id:{exports} ordered as if an Array of the same values had been sorted using % Array . prototype . sort % using value:{undefined} as id:{comparefn} .",
+    "inst": "let sortedExports = (copy-obj exports)"
+  },
+  {
+    "tokens": "Return an Iterator object ( link:{unhandled: sec-iterator-interface} ) whose code:{next} method iterates over all the String - valued keys of enumerable properties of id:{O} . The iterator object is never directly accessible to ECMAScript code . The mechanics and order of enumerating the properties is not specified but must conform to the rules specified below .",
+    "inst": "return (new Object())"
+  },
+  {
+    "tokens": "Return the result of appending to id:{declarations} the elements of the VarScopedDeclarations of the second nt:{CaseClauses} .",
+    "inst": "{ access decls = (CaseClauses1 \"VarScopedDeclarations\") let __i__ = 0i while (< __i__ decls.length) { append decls[__i__] -> declarations __i__ = (+ __i__ 1i) } return decls }"
+  },
+  {
+    "tokens": "Return the result of appending to id:{names} the elements of the VarDeclaredNames of the second nt:{CaseClauses} .",
+    "inst": "{ access __names__ = (CaseClauses1 \"VarDeclaredNames\") let __i__ = 0i while (< __i__ __names__.length) { append __names__[__i__] -> names __i__ = (+ __i__ 1i) } return names }"
+  },
+  {
+    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-module-namespace-exotic-objects} .",
+    "inst": "let internalSlotsList = StrList"
+  },
+  {
+    "tokens": "Create own properties of id:{M} corresponding to the definitions in link:{unhandled: sec-module-namespace-objects} .",
+    "inst": "M.SubMap = (new SubMap())"
+  },
+  {
+    "tokens": "Let id:{uncheckedResultKeys} be a List whose elements are the elements of id:{trapResult} .",
+    "inst": "let uncheckedResultKeys = (copy-obj trapResult)"
+  },
+  {
+    "tokens": "Let id:{x32} be the result of converting id:{x} to a value in IEEE 754 - 2019 binary32 format using roundTiesToEven mode .",
+    "inst": "app x32 = (fround x)"
+  },
+  {
+    "tokens": "Let id:{x64} be the result of converting id:{x32} to a value in IEEE 754 - 2019 binary64 format .",
+    "inst": "let x64 = x32"
+  },
+  {
+    "tokens": "Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} .",
+    "inst": "let func = (new BuiltinFunctionObject())"
+  },
+  {
+    "tokens": "Let id:{steps} be the algorithm steps defined in ListIterator code:{next} ( ListIteratornext ) .",
+    "inst": "let steps = ListIteratornext"
+  },
+  {
+    "tokens": "Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} . The initial value of each of those internal slots is value:{undefined} .",
+    "inst": "let func = (new BuiltinFunctionObject())"
+  },
+  {
+    "tokens": "Else , let id:{sep} be ? ToString ( id:{separator} ) .",
+    "inst": "{ app sep = (ToString separator) [? sep] }"
+  },
+  {
+    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-bound-function-exotic-objects} , plus [ [ Prototype ] ] and [ [ Extensible ] ] .",
+    "inst": "let internalSlotsList = StrList"
+  },
+  {
+    "tokens": "For each own property key id:{P} of id:{A} that is an array index , whose numeric value is greater than or equal to id:{newLen} , in descending numeric index order , do in:{} out:{}",
+    "inst": "{}"
+  },
+  {
+    "tokens": "If the mathematical value of id:{x} is equal to the mathematical value of id:{y} , return value:{true} ; otherwise return value:{false} .",
+    "inst": "return (= x y)"
+  },
+  {
+    "tokens": "Let id:{job} be a new Job abstract closure with no parameters that captures id:{reaction} and id:{argument} and performs the following steps when called : in:{} out:{}",
+    "inst": "let job = Lambda"
+  },
+  {
+    "tokens": "Return { [ [ Job ] ] : id:{job} , [ [ Realm ] ] : id:{handlerRealm} } .",
+    "inst": "return (new Record(\"Job\" -> job, \"Realm\" -> handlerRealm))"
+  },
+  {
+    "tokens": "Record that the binding for id:{N} in id:{envRec} has been initialized .",
+    "inst": "{}"
+  },
+  {
+    "tokens": "It is an early Reference Error if AssignmentTargetType of nt:{UnaryExpression} is const:{invalid} .",
+    "inst": "{ access __att__ = (UnaryExpression \"AssignmentTargetType\") if (= __att__ CONST_invalid) throw ReferenceError else {} }"
+  },
+  {
+    "tokens": "Perform ! DefinePropertyOrThrow ( id:{obj} , @ @ iterator , PropertyDescriptor { [ [ Value ] ] : % ArrayProto _ values % , [ [ Writable ] ] : value:{true} , [ [ Enumerable ] ] : value:{false} , [ [ Configurable ] ] : value:{true} } ) .",
+    "inst": "app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor(\"Value\" -> INTRINSIC_Array_prototype_values, \"Writable\" -> true, \"Enumerable\" -> false, \"Configurable\" -> true)))"
+  }
+]

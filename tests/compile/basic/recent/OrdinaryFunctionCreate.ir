@@ -1,6 +1,6 @@
 {
   assert (= (typeof functionPrototype) Object)
-  ??? "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-ecmascript-function-objects} ."
+  let internalSlotsList = StrList
   app __x0__ = (OrdinaryObjectCreate functionPrototype internalSlotsList)
   let F = [! __x0__]
   F.Call = ECMAScriptFunctionObjectDOTCall
