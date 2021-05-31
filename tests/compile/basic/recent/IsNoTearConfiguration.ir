@@ -1,0 +1,7 @@
+{
+  app __x0__ = (IsUnclampedIntegerElementType type)
+  if (= [! __x0__] true) return true else {}
+  app __x1__ = (IsBigIntElementType type)
+  if (&& (= [! __x1__] true) (! (|| (= order CONST_Init) (= order CONST_Unordered)))) return true else {}
+  return false
+}

@@ -1,0 +1,9 @@
+{
+  let F = CONTEXT.Function
+  let p = F.RevocableProxy
+  if (= p null) return undefined else {}
+  F.RevocableProxy = null
+  p.ProxyTarget = null
+  p.ProxyHandler = null
+  return undefined
+}

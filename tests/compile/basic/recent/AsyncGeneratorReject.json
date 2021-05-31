@@ -1,0 +1,47 @@
+["Assert", ":", {
+  "id": "generator"
+}, "is", "an", "AsyncGenerator", "instance", ".", {
+  "k": 0
+}, "Let", {
+  "id": "queue"
+}, "be", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorQueue", "]", "]", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "queue"
+}, "is", "not", "an", "empty", "List", ".", {
+  "k": 2
+}, "Let", {
+  "id": "next"
+}, "be", "the", "first", "element", "of", {
+  "id": "queue"
+}, ".", {
+  "k": 3
+}, "Remove", "the", "first", "element", "from", {
+  "id": "queue"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", {
+  "id": "next"
+}, ".", "[", "[", "Capability", "]", "]", ".", {
+  "k": 5
+}, "Perform", "!", "Call", "(", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Reject", "]", "]", ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "exception"
+}, "»", ")", ".", {
+  "k": 6
+}, "Perform", "!", "AsyncGeneratorResumeNext", "(", {
+  "id": "generator"
+}, ")", ".", {
+  "k": 7
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 8
+}]

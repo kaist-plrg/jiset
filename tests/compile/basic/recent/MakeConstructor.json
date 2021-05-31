@@ -1,0 +1,87 @@
+["Assert", ":", {
+  "id": "F"
+}, "is", "an", "ECMAScript", "function", "object", "or", "a", "built", "-", "in", "function", "object", ".", {
+  "k": 0
+}, "If", {
+  "id": "F"
+}, "is", "an", "ECMAScript", "function", "object", ",", "then", {
+  "in": null
+}, "Assert", ":", "IsConstructor", "(", {
+  "id": "F"
+}, ")", "is", {
+  "value": "false"
+}, ".", {
+  "k": 2
+}, "Assert", ":", {
+  "id": "F"
+}, "is", "an", "extensible", "object", "that", "does", "not", "have", "a", {
+  "value": "\"prototype\""
+}, "own", "property", ".", {
+  "k": 3
+}, "Set", {
+  "id": "F"
+}, ".", "[", "[", "Construct", "]", "]", "to", "the", "definition", "specified", "in", "ECMAScriptFunctionObjectDOTConstruct", ".", {
+  "k": 4
+}, {
+  "out": null
+}, {
+  "k": 1
+}, "Set", {
+  "id": "F"
+}, ".", "[", "[", "ConstructorKind", "]", "]", "to", {
+  "const": "base"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "writablePrototype"
+}, "is", "not", "present", ",", "set", {
+  "id": "writablePrototype"
+}, "to", {
+  "value": "true"
+}, ".", {
+  "k": 6
+}, "If", {
+  "id": "prototype"
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "prototype"
+}, "to", "!", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", ".", {
+  "k": 8
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "prototype"
+}, ",", {
+  "value": "\"constructor\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "F"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "id": "writablePrototype"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ")", ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "F"
+}, ",", {
+  "value": "\"prototype\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "prototype"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "id": "writablePrototype"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 10
+}, "Return", "NormalCompletion", "(", {
+  "value": "undefined"
+}, ")", ".", {
+  "k": 11
+}]

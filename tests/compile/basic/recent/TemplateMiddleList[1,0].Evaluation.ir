@@ -1,0 +1,14 @@
+{
+  access __x0__ = (TemplateMiddleList "Evaluation")
+  let rest = __x0__
+  [? rest]
+  access __x1__ = (TemplateMiddle "TV")
+  let middle = __x1__
+  access __x2__ = (Expression "Evaluation")
+  let subRef = __x2__
+  app __x3__ = (GetValue subRef)
+  let sub = [? __x3__]
+  app __x4__ = (ToString sub)
+  let last = [? __x4__]
+  return (+ (+ rest middle) last)
+}

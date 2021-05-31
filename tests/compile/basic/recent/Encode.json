@@ -1,0 +1,127 @@
+["Let", {
+  "id": "strLen"
+}, "be", "the", "number", "of", "code", "units", "in", {
+  "id": "string"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "R"
+}, "be", "the", "empty", "String", ".", {
+  "k": 1
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 2
+}, "Repeat", ",", {
+  "in": null
+}, "If", {
+  "id": "k"
+}, "=", {
+  "id": "strLen"
+}, ",", "return", {
+  "id": "R"
+}, ".", {
+  "k": 4
+}, "Let", {
+  "id": "C"
+}, "be", "the", "code", "unit", "at", "index", {
+  "id": "k"
+}, "within", {
+  "id": "string"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "C"
+}, "is", "in", {
+  "id": "unescapedSet"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 7
+}, "Set", {
+  "id": "R"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "R"
+}, "and", {
+  "id": "C"
+}, ".", {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 6
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "cp"
+}, "be", "!", "CodePointAt", "(", {
+  "id": "string"
+}, ",", {
+  "id": "k"
+}, ")", ".", {
+  "k": 10
+}, "If", {
+  "id": "cp"
+}, ".", "[", "[", "IsUnpairedSurrogate", "]", "]", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "URIError"
+}, "exception", ".", {
+  "k": 11
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", {
+  "id": "cp"
+}, ".", "[", "[", "CodeUnitCount", "]", "]", ".", {
+  "k": 12
+}, "Let", {
+  "id": "Octets"
+}, "be", "the", "List", "of", "octets", "resulting", "by", "applying", "the", "UTF", "-", "8", "transformation", "to", {
+  "id": "cp"
+}, ".", "[", "[", "CodePoint", "]", "]", ".", {
+  "k": 13
+}, "For", "each", "element", {
+  "id": "octet"
+}, "of", {
+  "id": "Octets"
+}, ",", "do", {
+  "in": null
+}, "Set", {
+  "id": "R"
+}, "to", "the", "string", "-", "concatenation", "of", ":", {
+  "in": null
+}, {
+  "id": "R"
+}, {
+  "k": 16
+}, {
+  "value": "\"%\""
+}, {
+  "k": 17
+}, "the", "String", "representation", "of", {
+  "id": "octet"
+}, ",", "formatted", "as", "a", "two", "-", "digit", "uppercase", "hexadecimal", "number", ",", "padded", "to", "the", "left", "with", "a", "zero", "if", "necessary", {
+  "k": 18
+}, {
+  "out": null
+}, {
+  "k": 15
+}, {
+  "out": null
+}, {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 3
+}]

@@ -1,0 +1,40 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (LengthOfArrayLike O)
+  let len = [? __x1__]
+  app __x2__ = (IsCallable callbackfn)
+  if (= __x2__ false) throw TypeError else {}
+  if (&& (= len 0i) (= initialValue absent)) throw TypeError else {}
+  let k = (- len 1i)
+  let accumulator = undefined
+  if (! (= initialValue absent)) accumulator = initialValue else {
+    let kPresent = false
+    while (&& (= kPresent false) (! (< k 0i))) {
+      app __x3__ = (ToString k)
+      let Pk = [! __x3__]
+      app __x4__ = (HasProperty O Pk)
+      kPresent = [? __x4__]
+      if (= kPresent true) {
+        app __x5__ = (Get O Pk)
+        accumulator = [? __x5__]
+      } else {}
+      k = (- k 1i)
+    }
+    if (= kPresent false) throw TypeError else {}
+  }
+  while (! (< k 0i)) {
+    app __x6__ = (ToString k)
+    let Pk = [! __x6__]
+    app __x7__ = (HasProperty O Pk)
+    let kPresent = [? __x7__]
+    if (= kPresent true) {
+      app __x8__ = (Get O Pk)
+      let kValue = [? __x8__]
+      app __x9__ = (Call callbackfn undefined (new [accumulator, kValue, k, O]))
+      accumulator = [? __x9__]
+    } else {}
+    k = (- k 1i)
+  }
+  return accumulator
+}

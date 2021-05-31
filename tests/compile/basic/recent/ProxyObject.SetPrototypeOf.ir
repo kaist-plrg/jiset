@@ -1,0 +1,24 @@
+{
+  let handler = O.ProxyHandler
+  if (= handler null) throw TypeError else {}
+  assert (= (typeof handler) Object)
+  let target = O.ProxyTarget
+  app __x0__ = (GetMethod handler "setPrototypeOf")
+  let trap = [? __x0__]
+  if (= trap undefined) {
+    app __x1__ = (target.SetPrototypeOf target V)
+    return [? __x1__]
+  } else {}
+  app __x2__ = (Call trap handler (new [target, V]))
+  app __x3__ = (ToBoolean [? __x2__])
+  let booleanTrapResult = [! __x3__]
+  if (= booleanTrapResult false) return false else {}
+  app __x4__ = (IsExtensible target)
+  let extensibleTarget = [? __x4__]
+  if (= extensibleTarget true) return true else {}
+  app __x5__ = (target.GetPrototypeOf target)
+  let targetProto = [? __x5__]
+  app __x6__ = (SameValue V targetProto)
+  if (= __x6__ false) throw TypeError else {}
+  return true
+}

@@ -1,0 +1,12 @@
+{
+  app __x0__ = (ValidateIntegerTypedArray typedArray)
+  let buffer = [? __x0__]
+  app __x1__ = (ValidateAtomicAccess typedArray index)
+  let indexedPosition = [? __x1__]
+  app __x2__ = (IsDetachedBuffer buffer)
+  if (= __x2__ true) throw TypeError else {}
+  let arrayTypeName = typedArray.TypedArrayName
+  ??? "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
+  app __x3__ = (GetValueFromBuffer buffer indexedPosition elementType true CONST_SeqCst)
+  return __x3__
+}

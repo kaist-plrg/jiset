@@ -1,0 +1,17 @@
+{
+  app __x0__ = (IsCallable obj)
+  assert (= [! __x0__] true)
+  if (! (= obj.Realm absent)) return obj.Realm else {}
+  if (is-instance-of obj BoundFunctionExoticObject) {
+    let target = obj.BoundTargetFunction
+    app __x1__ = (GetFunctionRealm target)
+    return [? __x1__]
+  } else {}
+  if (is-instance-of obj ProxyExoticObject) {
+    if (= obj.ProxyHandler null) throw TypeError else {}
+    let proxyTarget = obj.ProxyTarget
+    app __x2__ = (GetFunctionRealm proxyTarget)
+    return [? __x2__]
+  } else {}
+  return REALM
+}

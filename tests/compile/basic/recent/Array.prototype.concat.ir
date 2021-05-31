@@ -1,0 +1,46 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (ArraySpeciesCreate O 0i)
+  let A = [? __x1__]
+  let n = 0i
+  ??? "Prepend id:{O} to id:{items} ."
+  let __x2__ = items
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let E = __x2__[__x3__]
+    app __x4__ = (IsConcatSpreadable E)
+    let spreadable = [? __x4__]
+    if (= spreadable true) {
+      let k = 0i
+      app __x5__ = (LengthOfArrayLike E)
+      let len = [? __x5__]
+      if (< (- (** 2.0 53i) 1i) (+ n len)) throw TypeError else {}
+      while (< k len) {
+        app __x6__ = (ToString k)
+        let P = [! __x6__]
+        app __x7__ = (HasProperty E P)
+        let exists = [? __x7__]
+        if (= exists true) {
+          app __x8__ = (Get E P)
+          let subElement = [? __x8__]
+          app __x9__ = (ToString n)
+          app __x10__ = (CreateDataPropertyOrThrow A [! __x9__] subElement)
+          [? __x10__]
+        } else {}
+        n = (+ n 1i)
+        k = (+ k 1i)
+      }
+    } else {
+      if (! (< n (- (** 2.0 53i) 1i))) throw TypeError else {}
+      app __x11__ = (ToString n)
+      app __x12__ = (CreateDataPropertyOrThrow A [! __x11__] E)
+      [? __x12__]
+      n = (+ n 1i)
+    }
+    __x3__ = (+ __x3__ 1i)
+  }
+  app __x13__ = (Set A "length" n true)
+  [? __x13__]
+  return A
+}

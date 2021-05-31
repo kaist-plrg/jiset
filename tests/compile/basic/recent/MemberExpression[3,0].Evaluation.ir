@@ -1,0 +1,11 @@
+{
+  access __x0__ = (MemberExpression "Evaluation")
+  let tagRef = __x0__
+  app __x1__ = (GetValue tagRef)
+  let tagFunc = [? __x1__]
+  let thisCall = this
+  app __x2__ = (IsInTailPosition thisCall)
+  let tailCall = __x2__
+  app __x3__ = (EvaluateCall tagFunc tagRef TemplateLiteral tailCall)
+  return [? __x3__]
+}

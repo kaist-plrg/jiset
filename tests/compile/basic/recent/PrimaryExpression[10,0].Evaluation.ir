@@ -1,0 +1,10 @@
+{
+  access __x0__ = (RegularExpressionLiteral "BodyText")
+  app __x1__ = (CodePointsToString __x0__)
+  let pattern = [! __x1__]
+  access __x2__ = (RegularExpressionLiteral "FlagText")
+  app __x3__ = (CodePointsToString __x2__)
+  let flags = [! __x3__]
+  app __x4__ = (RegExpCreate pattern flags)
+  return __x4__
+}

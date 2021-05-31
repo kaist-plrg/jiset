@@ -1,0 +1,8 @@
+{
+  access __x0__ = (BindingIdentifier "StringValue")
+  let className = __x0__
+  access __x1__ = (ClassTail "ClassDefinitionEvaluation" className className)
+  let value = [? __x1__]
+  value.SourceText = (get-syntax ClassExpression)
+  return value
+}

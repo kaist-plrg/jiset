@@ -1,0 +1,23 @@
+{
+  access __x0__ = (IdentifierReference "StringValue")
+  let P = __x0__
+  app __x1__ = (ResolveBinding P)
+  let lref = [? __x1__]
+  app __x2__ = (GetV value P)
+  let v = [? __x2__]
+  if (&& (! (= Initializer absent)) (= v undefined)) {
+    app __x3__ = (IsAnonymousFunctionDefinition Initializer)
+    if (= __x3__ true) {
+      access __x4__ = (Initializer "NamedEvaluation" P)
+      v = __x4__
+    } else {
+      access __x5__ = (Initializer "Evaluation")
+      let defaultValue = __x5__
+      app __x6__ = (GetValue defaultValue)
+      v = [? __x6__]
+    }
+  } else {}
+  app __x7__ = (PutValue lref v)
+  [? __x7__]
+  return (new [P])
+}

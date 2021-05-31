@@ -1,0 +1,17 @@
+{
+  let ObjRec = envRec.ObjectRecord
+  let globalObject = ObjRec.BindingObject
+  app __x0__ = (HasOwnProperty globalObject N)
+  let hasProperty = [? __x0__]
+  app __x1__ = (IsExtensible globalObject)
+  let extensible = [? __x1__]
+  if (&& (= hasProperty false) (= extensible true)) {
+    app __x2__ = (ObjRec.CreateMutableBinding ObjRec N D)
+    [? __x2__]
+    app __x3__ = (ObjRec.InitializeBinding ObjRec N undefined)
+    [? __x3__]
+  } else {}
+  let varDeclaredNames = envRec.VarNames
+  if (! (contains varDeclaredNames N)) append N -> varDeclaredNames else {}
+  return CONST_empty
+}

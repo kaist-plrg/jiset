@@ -1,0 +1,81 @@
+["Let", {
+  "id": "proto"
+}, "be", "?", "GetPrototypeFromConstructor", "(", {
+  "id": "newTarget"
+}, ",", {
+  "id": "defaultProto"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "obj"
+}, "be", "!", "IntegerIndexedObjectCreate", "(", {
+  "id": "proto"
+}, ")", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "obj"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "is", {
+  "value": "undefined"
+}, ".", {
+  "k": 2
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "TypedArrayName", "]", "]", "to", {
+  "id": "constructorName"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "constructorName"
+}, "is", {
+  "value": "\"BigInt64Array\""
+}, "or", {
+  "value": "\"BigUint64Array\""
+}, ",", "set", {
+  "id": "obj"
+}, ".", "[", "[", "ContentType", "]", "]", "to", {
+  "const": "BigInt"
+}, ".", {
+  "k": 4
+}, "Otherwise", ",", "set", {
+  "id": "obj"
+}, ".", "[", "[", "ContentType", "]", "]", "to", {
+  "const": "Number"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "length"
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "ByteLength", "]", "]", "to", "0", ".", {
+  "k": 7
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "ByteOffset", "]", "]", "to", "0", ".", {
+  "k": 8
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "ArrayLength", "]", "]", "to", "0", ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 6
+}, "Else", ",", {
+  "in": null
+}, "Perform", "?", "AllocateTypedArrayBuffer", "(", {
+  "id": "obj"
+}, ",", {
+  "id": "length"
+}, ")", ".", {
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 10
+}, "Return", {
+  "id": "obj"
+}, ".", {
+  "k": 12
+}]

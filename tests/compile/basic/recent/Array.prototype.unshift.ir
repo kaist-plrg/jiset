@@ -1,0 +1,44 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (LengthOfArrayLike O)
+  let len = [? __x1__]
+  let argCount = items.length
+  if (< 0i argCount) {
+    if (< (- (** 2.0 53i) 1i) (+ len argCount)) throw TypeError else {}
+    let k = len
+    while (< 0i k) {
+      app __x2__ = (ToString (- k 1i))
+      let from = [! __x2__]
+      app __x3__ = (ToString (- (+ k argCount) 1i))
+      let to = [! __x3__]
+      app __x4__ = (HasProperty O from)
+      let fromPresent = [? __x4__]
+      if (= fromPresent true) {
+        app __x5__ = (Get O from)
+        let fromValue = [? __x5__]
+        app __x6__ = (Set O to fromValue true)
+        [? __x6__]
+      } else {
+        assert (= fromPresent false)
+        app __x7__ = (DeletePropertyOrThrow O to)
+        [? __x7__]
+      }
+      k = (- k 1i)
+    }
+    let j = 0i
+    let __x8__ = items
+    let __x9__ = 0i
+    while (< __x9__ __x8__.length) {
+      let E = __x8__[__x9__]
+      app __x10__ = (ToString j)
+      app __x11__ = (Set O [! __x10__] E true)
+      [? __x11__]
+      j = (+ j 1i)
+      __x9__ = (+ __x9__ 1i)
+    }
+  } else {}
+  app __x12__ = (Set O "length" (+ len argCount) true)
+  [? __x12__]
+  return (+ len argCount)
+}

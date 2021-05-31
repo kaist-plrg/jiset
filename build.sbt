@@ -6,18 +6,46 @@ ThisBuild / scalaVersion  := "2.13.1"
 ThisBuild / organization  := "kr.ac.kaist.jiset"
 ThisBuild / scalacOptions := Seq(
   "-deprecation", "-feature", "-language:postfixOps",
-  "-language:implicitConversions"
+  "-language:implicitConversions", "-language:existentials", "-language:reflectiveCalls"
 )
 ThisBuild / javacOptions ++= Seq(
   "-encoding", "UTF-8"
 )
 
-lazy val algoCompilerTest = taskKey[Unit]("Launch tests for AlgoCompiler")
+// automatic reload
+Global / onChangedBuildSource := ReloadOnSourceChanges
 
-lazy val ires = ProjectRef(file("ires"), "ires")
+// size
+lazy val tinyTest = taskKey[Unit]("Launch tiny tests (maybe milliseconds)")
+lazy val smallTest = taskKey[Unit]("Launch small tests (maybe seconds)")
+lazy val middleTest = taskKey[Unit]("Launch middle tests (maybe minutes)")
+lazy val largeTest = taskKey[Unit]("Launch large tests (may hours)")
 
+// parse
+lazy val parseTest = taskKey[Unit]("Launch parse tests")
+lazy val parseTokenTest = taskKey[Unit]("Launch token parse tests (tiny)")
+lazy val parseJsonTest = taskKey[Unit]("Launch json parse tests (small)")
+
+// grammar
+lazy val grammarTest = taskKey[Unit]("Launch grammar tests")
+lazy val grammarBasicTest = taskKey[Unit]("Launch basic grammar tests (small)")
+
+// compile
+lazy val compileTest = taskKey[Unit]("Launch compile tests")
+lazy val compileBasicTest = taskKey[Unit]("Launch basic compile tests (middle)")
+lazy val compileLegacyTest = taskKey[Unit]("Launch legacy compile tests (small)")
+lazy val compileManualTest = taskKey[Unit]("Launch manual compile tests (small)")
+
+// cfg
+lazy val cfgTest = taskKey[Unit]("Launch cfg tests")
+lazy val cfgBuildTest = taskKey[Unit]("Launch build cfg tests (small)")
+
+// ir
+lazy val irTest = taskKey[Unit]("Launch ir tests")
+lazy val irBeautifierTest = taskKey[Unit]("Launch beautifier ir tests (small)")
+
+// jiset
 lazy val jiset = (project in file("."))
-  .dependsOn(ires)
   .settings(
     name := "JISET",
     libraryDependencies ++= Seq(
@@ -25,23 +53,41 @@ lazy val jiset = (project in file("."))
       "org.scala-lang" % "scala-reflect" % scalaVersion.value,
       "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
       "org.scalatest" %% "scalatest" % "3.0.8" % "test",
-      "org.jline" % "jline" % "3.13.3"
+      "org.jsoup" % "jsoup" % "1.13.1",
+      "org.jline" % "jline" % "3.13.3",
+      "org.apache.commons" % "commons-text" % "1.8"
     ),
     test in assembly := {},
     testOptions in Test += Tests.Argument("-fDG", baseDirectory.value + "/tests/detail"),
     retrieveManaged := true,
     scalariformPreferences := scalariformPreferences.value
       .setPreference(DanglingCloseParenthesis, Force)
-      .setPreference(DoubleIndentConstructorArguments, true),
+      .setPreference(DoubleIndentConstructorArguments, false),
     parallelExecution in Test := true,
     assemblyOutputPath in assembly := file("bin/jiset"),
     assemblyOption in assembly := (assemblyOption in assembly).value
       .copy(prependShellScript = Some(defaultUniversalScript(shebang = false))),
-    algoCompilerTest := (testOnly in Test).toTask(" kr.ac.kaist.jiset.AlgoCompilerTest").value
+    // size
+    tinyTest := (testOnly in Test).toTask(" *TinyTest").value,
+    smallTest := (testOnly in Test).toTask(" *SmallTest").value,
+    middleTest := (testOnly in Test).toTask(" *MiddleTest").value,
+    largeTest := (testOnly in Test).toTask(" *LargeTest").value,
+    // parse
+    parseTest := (testOnly in Test).toTask(" *.parse.*Test").value,
+    parseTokenTest := (testOnly in Test).toTask(" *.parse.Token*Test").value,
+		parseJsonTest := (testOnly in Test).toTask(" *.parse.Json*Test").value,
+    // gramamr
+    grammarTest := (testOnly in Test).toTask(" *.grammar.*Test").value,
+    grammarBasicTest := (testOnly in Test).toTask(" *.grammar.Basic*Test").value,
+    // compile
+    compileTest := (testOnly in Test).toTask(" *.compile.*Test").value,
+    compileBasicTest := (testOnly in Test).toTask(" *.compile.Basic*Test").value,
+    compileLegacyTest := (testOnly in Test).toTask(" *.compile.Legacy*Test").value,
+    compileManualTest := (testOnly in Test).toTask(" *.compile.Manual*Test").value,
+    // cfg
+    cfgTest := (testOnly in Test).toTask(" *.cfg.*Test").value,
+    cfgBuildTest := (testOnly in Test).toTask(" *.cfg.Build*Test").value,
+    // ir
+    irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
+		irBeautifierTest := (testOnly in Test).toTask(" *.ir.Beautifier*Test").value
   )
-
-commands += Command.command("generateModel") { state =>
-  s"run gen-model" ::
-  "compile" ::
-  state
-}

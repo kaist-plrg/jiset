@@ -1,0 +1,11 @@
+{
+  if (< (- (** 2.0 32i) 1i) length) throw RangeError else {}
+  if (= proto absent) proto = INTRINSIC_Array_prototype else {}
+  app __x0__ = (MakeBasicObject (new ["Prototype", "Extensible"]))
+  let A = [! __x0__]
+  A.Prototype = proto
+  A.DefineOwnProperty = ArrayExoticObjectDOTDefineOwnProperty
+  app __x1__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Value" -> length, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  [! __x1__]
+  return A
+}

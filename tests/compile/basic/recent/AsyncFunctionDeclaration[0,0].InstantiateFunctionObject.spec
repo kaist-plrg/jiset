@@ -1,0 +1,1 @@
+        1. Return ? InstantiateAsyncFunctionObject of |AsyncFunctionDeclaration| with argument _scope_.

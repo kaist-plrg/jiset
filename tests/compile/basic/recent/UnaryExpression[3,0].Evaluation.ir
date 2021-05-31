@@ -1,0 +1,11 @@
+{
+  access __x0__ = (UnaryExpression "Evaluation")
+  let val = __x0__
+  if (is-instance-of val ReferenceRecord) {
+    app __x1__ = (IsUnresolvableReference val)
+    if (= __x1__ true) return "undefined" else {}
+  } else {}
+  app __x2__ = (GetValue val)
+  val = [? __x2__]
+  ??? "Return a String according to link:{unhandled: table-typeof-operator-results} ."
+}

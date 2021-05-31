@@ -1,0 +1,12 @@
+{
+  app __x0__ = (RequireObjectCoercible this)
+  let O = [? __x0__]
+  app __x1__ = (ToString O)
+  let S = [? __x1__]
+  app __x2__ = (StringToCodePoints S)
+  let sText = [! __x2__]
+  ??? "Let id:{lowerText} be the result of toLowercase ( id:{sText} ) , according to the Unicode Default Case Conversion algorithm ."
+  app __x3__ = (CodePointsToString lowerText)
+  let L = [! __x3__]
+  return L
+}

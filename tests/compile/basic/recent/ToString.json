@@ -1,0 +1,121 @@
+["If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Undefined", ",", {
+  "in": null
+}, "Return", {
+  "value": "\"undefined\""
+}, ".", {
+  "k": 0
+}, {
+  "out": null
+}, {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Null", ",", {
+  "in": null
+}, "Return", {
+  "value": "\"null\""
+}, ".", {
+  "k": 2
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Boolean", ",", {
+  "in": null
+}, "If", {
+  "id": "argument"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "\"true\""
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "argument"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "\"false\""
+}, ".", {
+  "k": 5
+}, {
+  "out": null
+}, {
+  "k": 6
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Number", ",", {
+  "in": null
+}, "Return", "!", "Number", ":", ":", "toString", "(", {
+  "id": "argument"
+}, ")", ".", {
+  "k": 7
+}, {
+  "out": null
+}, {
+  "k": 8
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "String", ",", {
+  "in": null
+}, "Return", {
+  "id": "argument"
+}, ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 10
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Symbol", ",", {
+  "in": null
+}, "Throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 12
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "BigInt", ",", {
+  "in": null
+}, "Return", "!", "BigInt", ":", ":", "toString", "(", {
+  "id": "argument"
+}, ")", ".", {
+  "k": 13
+}, {
+  "out": null
+}, {
+  "k": 14
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Object", ",", {
+  "in": null
+}, "Let", {
+  "id": "primValue"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "argument"
+}, ",", {
+  "const": "string"
+}, ")", ".", {
+  "k": 15
+}, "Return", "?", "ToString", "(", {
+  "id": "primValue"
+}, ")", ".", {
+  "k": 16
+}, {
+  "out": null
+}, {
+  "k": 17
+}, "Assert", ":", {
+  "value": "false"
+}, ".", {
+  "k": 18
+}]

@@ -1,0 +1,18 @@
+{
+  access __x0__ = (BindingIdentifier "StringValue")
+  let bindingId = __x0__
+  app __x1__ = (ResolveBinding bindingId)
+  let lhs = [? __x1__]
+  app __x2__ = (IsAnonymousFunctionDefinition Initializer)
+  if (= __x2__ true) {
+    access __x3__ = (Initializer "NamedEvaluation" bindingId)
+    let value = __x3__
+  } else {
+    access __x4__ = (Initializer "Evaluation")
+    let rhs = __x4__
+    app __x5__ = (GetValue rhs)
+    let value = [? __x5__]
+  }
+  app __x6__ = (PutValue lhs value)
+  return [? __x6__]
+}

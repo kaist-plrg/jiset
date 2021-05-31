@@ -1,0 +1,85 @@
+["If", {
+  "id": "envRec"
+}, "does", "not", "have", "a", "binding", "for", {
+  "id": "N"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "S"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "ReferenceError"
+}, "exception", ".", {
+  "k": 1
+}, "Perform", {
+  "id": "envRec"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "N"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 2
+}, "Perform", {
+  "id": "envRec"
+}, ".", "InitializeBinding", "(", {
+  "id": "N"
+}, ",", {
+  "id": "V"
+}, ")", ".", {
+  "k": 3
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 4
+}, {
+  "out": null
+}, {
+  "k": 0
+}, "If", "the", "binding", "for", {
+  "id": "N"
+}, "in", {
+  "id": "envRec"
+}, "is", "a", "strict", "binding", ",", "set", {
+  "id": "S"
+}, "to", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, "If", "the", "binding", "for", {
+  "id": "N"
+}, "in", {
+  "id": "envRec"
+}, "has", "not", "yet", "been", "initialized", ",", "throw", "a", {
+  "value": "ReferenceError"
+}, "exception", ".", {
+  "k": 6
+}, "Else", "if", "the", "binding", "for", {
+  "id": "N"
+}, "in", {
+  "id": "envRec"
+}, "is", "a", "mutable", "binding", ",", "change", "its", "bound", "value", "to", {
+  "id": "V"
+}, ".", {
+  "k": 7
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", "This", "is", "an", "attempt", "to", "change", "the", "value", "of", "an", "immutable", "binding", ".", {
+  "k": 9
+}, "If", {
+  "id": "S"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 8
+}, "Return", "NormalCompletion", "(", {
+  "const": "empty"
+}, ")", ".", {
+  "k": 11
+}]

@@ -1,0 +1,25 @@
+{
+  access __x0__ = (PropertySetParameterList "BoundNames")
+  app __x1__ = (IsDuplicate __x0__)
+  if __x1__ throw SyntaxError else {}
+  let __x2__ = true
+  access __x3__ = (FunctionBody "FunctionBodyContainsUseStrict")
+  __x2__ = (= __x3__ true)
+  if __x2__ {
+    access __x4__ = (PropertySetParameterList "IsSimpleParameterList")
+    __x2__ = (= __x4__ false)
+  } else {}
+  if __x2__ throw SyntaxError else {}
+  access __x5__ = (PropertySetParameterList "BoundNames")
+  access __x6__ = (FunctionBody "LexicallyDeclaredNames")
+  let __x7__ = __x5__
+  let __x8__ = __x6__
+  let __x9__ = 0i
+  let __x10__ = 0i
+  let __x11__ = false
+  while (< __x9__ __x7__.length) {
+    __x10__ = 0i
+    while (< __x10__ __x8__.length) if (= __x7__[__x9__] __x8__[__x10__]) __x11__ = true else {}
+  }
+  if __x11__ throw SyntaxError else {}
+}

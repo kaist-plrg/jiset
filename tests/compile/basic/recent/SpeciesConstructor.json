@@ -1,0 +1,55 @@
+["Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Let", {
+  "id": "C"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"constructor\""
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "C"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "id": "defaultConstructor"
+}, ".", {
+  "k": 2
+}, "If", "Type", "(", {
+  "id": "C"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Let", {
+  "id": "S"
+}, "be", "?", "Get", "(", {
+  "id": "C"
+}, ",", "@", "@", "species", ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "S"
+}, "is", "either", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "return", {
+  "id": "defaultConstructor"
+}, ".", {
+  "k": 5
+}, "If", "IsConstructor", "(", {
+  "id": "S"
+}, ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "S"
+}, ".", {
+  "k": 6
+}, "Throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 7
+}]

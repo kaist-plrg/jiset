@@ -1,0 +1,113 @@
+["If", {
+  "id": "hint"
+}, "is", "not", "present", ",", "set", {
+  "id": "hint"
+}, "to", {
+  "const": "sync"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "hint"
+}, "is", "either", {
+  "const": "sync"
+}, "or", {
+  "const": "async"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "method"
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "hint"
+}, "is", {
+  "const": "async"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "method"
+}, "to", "?", "GetMethod", "(", {
+  "id": "obj"
+}, ",", "@", "@", "asyncIterator", ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "method"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "syncMethod"
+}, "be", "?", "GetMethod", "(", {
+  "id": "obj"
+}, ",", "@", "@", "iterator", ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "syncIteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "obj"
+}, ",", {
+  "const": "sync"
+}, ",", {
+  "id": "syncMethod"
+}, ")", ".", {
+  "k": 7
+}, "Return", "!", "CreateAsyncFromSyncIterator", "(", {
+  "id": "syncIteratorRecord"
+}, ")", ".", {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 5
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "Otherwise", ",", "set", {
+  "id": "method"
+}, "to", "?", "GetMethod", "(", {
+  "id": "obj"
+}, ",", "@", "@", "iterator", ")", ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 2
+}, "Let", {
+  "id": "iterator"
+}, "be", "?", "Call", "(", {
+  "id": "method"
+}, ",", {
+  "id": "obj"
+}, ")", ".", {
+  "k": 10
+}, "If", "Type", "(", {
+  "id": "iterator"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 11
+}, "Let", {
+  "id": "nextMethod"
+}, "be", "?", "GetV", "(", {
+  "id": "iterator"
+}, ",", {
+  "value": "\"next\""
+}, ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "the", "Record", "{", "[", "[", "Iterator", "]", "]", ":", {
+  "id": "iterator"
+}, ",", "[", "[", "NextMethod", "]", "]", ":", {
+  "id": "nextMethod"
+}, ",", "[", "[", "Done", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 13
+}, "Return", {
+  "id": "iteratorRecord"
+}, ".", {
+  "k": 14
+}]

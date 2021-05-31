@@ -1,0 +1,11 @@
+{
+  if (= name absent) name = "" else {}
+  access __x0__ = (CONTEXT "LexicalEnvironment")
+  let scope = __x0__
+  let sourceText = (get-syntax AsyncFunctionExpression)
+  app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype sourceText FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)
+  let closure = [! __x1__]
+  app __x2__ = (SetFunctionName closure name)
+  __x2__
+  return closure
+}

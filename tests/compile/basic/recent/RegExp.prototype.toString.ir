@@ -1,0 +1,12 @@
+{
+  let R = this
+  if (! (= (typeof R) Object)) throw TypeError else {}
+  app __x0__ = (Get R "source")
+  app __x1__ = (ToString [? __x0__])
+  let pattern = [? __x1__]
+  app __x2__ = (Get R "flags")
+  app __x3__ = (ToString [? __x2__])
+  let flags = [? __x3__]
+  let result = (+ (+ (+ "/" pattern) "/") flags)
+  return result
+}

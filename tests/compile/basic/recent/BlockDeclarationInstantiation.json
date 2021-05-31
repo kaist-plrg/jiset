@@ -1,0 +1,105 @@
+["Assert", ":", {
+  "id": "env"
+}, "is", "a", "declarative", "Environment", "Record", ".", {
+  "k": 0
+}, "Let", {
+  "id": "declarations"
+}, "be", "the", "LexicallyScopedDeclarations", "of", {
+  "id": "code"
+}, ".", {
+  "k": 1
+}, "For", "each", "element", {
+  "id": "d"
+}, "of", {
+  "id": "declarations"
+}, ",", "do", {
+  "in": null
+}, "For", "each", "element", {
+  "id": "dn"
+}, "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ",", "do", {
+  "in": null
+}, "If", "IsConstantDeclaration", "of", {
+  "id": "d"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Perform", "!", {
+  "id": "env"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 5
+}, {
+  "out": null
+}, {
+  "k": 4
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", {
+  "id": "env"
+}, ".", "CreateMutableBinding", "(", {
+  "id": "dn"
+}, ",", {
+  "value": "false"
+}, ")", ".", "NOTE", ":", "This", "step", "is", "replaced", "in", "section", {
+  "link": "unhandled: sec-web-compat-blockdeclarationinstantiation"
+}, ".", {
+  "k": 7
+}, {
+  "out": null
+}, {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "If", {
+  "id": "d"
+}, "is", "a", {
+  "nt": "FunctionDeclaration"
+}, ",", "a", {
+  "nt": "GeneratorDeclaration"
+}, ",", "an", {
+  "nt": "AsyncFunctionDeclaration"
+}, ",", "or", "an", {
+  "nt": "AsyncGeneratorDeclaration"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "fn"
+}, "be", "the", "sole", "element", "of", "the", "BoundNames", "of", {
+  "id": "d"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "fo"
+}, "be", "InstantiateFunctionObject", "of", {
+  "id": "d"
+}, "with", "argument", {
+  "id": "env"
+}, ".", {
+  "k": 10
+}, "Perform", {
+  "id": "env"
+}, ".", "InitializeBinding", "(", {
+  "id": "fn"
+}, ",", {
+  "id": "fo"
+}, ")", ".", "NOTE", ":", "This", "step", "is", "replaced", "in", "section", {
+  "link": "unhandled: sec-web-compat-blockdeclarationinstantiation"
+}, ".", {
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 2
+}]

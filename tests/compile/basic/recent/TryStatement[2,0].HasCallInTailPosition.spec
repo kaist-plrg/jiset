@@ -1,0 +1,1 @@
+          1. Return HasCallInTailPosition of |Finally| with argument _call_.

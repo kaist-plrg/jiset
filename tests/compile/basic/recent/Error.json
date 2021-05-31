@@ -1,0 +1,57 @@
+["If", "NewTarget", "is", {
+  "value": "undefined"
+}, ",", "let", {
+  "id": "newTarget"
+}, "be", "the", "active", "function", "object", ";", "else", "let", {
+  "id": "newTarget"
+}, "be", "NewTarget", ".", {
+  "k": 0
+}, "Let", {
+  "id": "O"
+}, "be", "?", "OrdinaryCreateFromConstructor", "(", {
+  "id": "newTarget"
+}, ",", {
+  "value": "\"%Error.prototype%\""
+}, ",", "«", "[", "[", "ErrorData", "]", "]", "»", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "message"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "msg"
+}, "be", "?", "ToString", "(", {
+  "id": "message"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "msgDesc"
+}, "be", "the", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "msg"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ".", {
+  "k": 4
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"message\""
+}, ",", {
+  "id": "msgDesc"
+}, ")", ".", {
+  "k": 5
+}, {
+  "out": null
+}, {
+  "k": 2
+}, "Return", {
+  "id": "O"
+}, ".", {
+  "k": 6
+}]

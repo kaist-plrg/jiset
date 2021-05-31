@@ -1,0 +1,9 @@
+{
+  assert (= (typeof O) Object)
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  app __x1__ = (CreateDataProperty O P V)
+  let success = [? __x1__]
+  if (= success false) throw TypeError else {}
+  return success
+}

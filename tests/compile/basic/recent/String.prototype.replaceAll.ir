@@ -1,0 +1,73 @@
+{
+  app __x0__ = (RequireObjectCoercible this)
+  let O = [? __x0__]
+  if (! (|| (= searchValue undefined) (= searchValue null))) {
+    app __x1__ = (IsRegExp searchValue)
+    let isRegExp = [? __x1__]
+    if (= isRegExp true) {
+      app __x2__ = (Get searchValue "flags")
+      let flags = [? __x2__]
+      app __x3__ = (RequireObjectCoercible flags)
+      [? __x3__]
+      app __x4__ = (ToString flags)
+      if (! (contains [? __x4__] "g")) throw TypeError else {}
+    } else {}
+    app __x5__ = (GetMethod searchValue SYMBOL_replace)
+    let replacer = [? __x5__]
+    if (! (= replacer undefined)) {
+      app __x6__ = (Call replacer searchValue (new [O, replaceValue]))
+      return [? __x6__]
+    } else {}
+  } else {}
+  app __x7__ = (ToString O)
+  let string = [? __x7__]
+  app __x8__ = (ToString searchValue)
+  let searchString = [? __x8__]
+  app __x9__ = (IsCallable replaceValue)
+  let functionalReplace = __x9__
+  if (= functionalReplace false) {
+    app __x10__ = (ToString replaceValue)
+    replaceValue = [? __x10__]
+  } else {}
+  let searchLength = searchString.length
+  app __x11__ = (max 1i searchLength)
+  let advanceBy = __x11__
+  let matchPositions = (new [])
+  app __x12__ = (StringIndexOf string searchString 0i)
+  let position = [! __x12__]
+  while (! (= position -1i)) {
+    append position -> matchPositions
+    app __x13__ = (StringIndexOf string searchString (+ position advanceBy))
+    position = [! __x13__]
+  }
+  let endOfLastMatch = 0i
+  let result = ""
+  let __x14__ = matchPositions
+  let __x15__ = 0i
+  while (< __x15__ __x14__.length) {
+    let p = __x14__[__x15__]
+    let __x16__ = ""
+    let __x17__ = endOfLastMatch
+    while (< __x17__ (+ p 1i)) {
+      access __x18__ = (string __x17__)
+      __x16__ = (+ __x16__ __x18__)
+      __x17__ = (+ __x17__ 1i)
+    }
+    let preserved = __x16__
+    if (= functionalReplace true) {
+      app __x19__ = (Call replaceValue undefined (new [searchString, p, string]))
+      app __x20__ = (ToString [? __x19__])
+      let replacement = [? __x20__]
+    } else {
+      assert (= (typeof replaceValue) String)
+      let captures = (new [])
+      app __x21__ = (GetSubstitution searchString string p captures undefined replaceValue)
+      let replacement = [! __x21__]
+    }
+    result = (+ (+ result preserved) replacement)
+    endOfLastMatch = (+ p searchLength)
+    __x15__ = (+ __x15__ 1i)
+  }
+  if (< endOfLastMatch string.length) ??? "Set id:{result} to the string - concatenation of id:{result} and the substring of id:{string} from id:{endOfLastMatch} ." else {}
+  return result
+}

@@ -1,0 +1,10 @@
+{
+  access __x0__ = (Block "Evaluation")
+  let B = __x0__
+  if (= B.Type CONST_throw) {
+    access __x1__ = (Catch "CatchClauseEvaluation" B.Value)
+    let C = __x1__
+  } else let C = B
+  app __x2__ = (UpdateEmpty C undefined)
+  return __x2__
+}

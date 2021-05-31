@@ -1,0 +1,10 @@
+{
+  let internalSlotsList = (new ["GeneratorState", "GeneratorContext", "GeneratorBrand"])
+  app __x0__ = (OrdinaryObjectCreate generatorPrototype internalSlotsList)
+  let generator = [! __x0__]
+  generator.GeneratorBrand = generatorBrand
+  generator.GeneratorState = undefined
+  app __x1__ = (GeneratorStart generator closure)
+  [! __x1__]
+  return generator
+}

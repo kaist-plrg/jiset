@@ -1,0 +1,14 @@
+{
+  if (= globalObj undefined) {
+    let intrinsics = realmRec.Intrinsics
+    app __x0__ = (OrdinaryObjectCreate intrinsics.INTRINSIC_Object_prototype)
+    globalObj = [! __x0__]
+  } else {}
+  assert (= (typeof globalObj) Object)
+  if (= thisValue undefined) thisValue = globalObj else {}
+  realmRec.GlobalObject = globalObj
+  app __x1__ = (NewGlobalEnvironment globalObj thisValue)
+  let newGlobalEnv = __x1__
+  realmRec.GlobalEnv = newGlobalEnv
+  return realmRec
+}

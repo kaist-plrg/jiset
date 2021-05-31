@@ -1,0 +1,26 @@
+{
+  let constructorName = O.TypedArrayName
+  ??? "Let id:{elementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{constructorName} ."
+  app __x0__ = (ToIndex byteOffset)
+  let offset = [? __x0__]
+  if (! (== (%% offset elementSize) 0i)) throw RangeError else {}
+  if (! (= length undefined)) {
+    app __x1__ = (ToIndex length)
+    let newLength = [? __x1__]
+  } else {}
+  app __x2__ = (IsDetachedBuffer buffer)
+  if (= __x2__ true) throw TypeError else {}
+  let bufferByteLength = buffer.ArrayBufferByteLength
+  if (= length undefined) {
+    if (! (== (%% bufferByteLength elementSize) 0i)) throw RangeError else {}
+    let newByteLength = (- bufferByteLength offset)
+    if (< newByteLength 0i) throw RangeError else {}
+  } else {
+    let newByteLength = (* newLength elementSize)
+    if (< bufferByteLength (+ offset newByteLength)) throw RangeError else {}
+  }
+  O.ViewedArrayBuffer = buffer
+  O.ByteLength = newByteLength
+  O.ByteOffset = offset
+  O.ArrayLength = (/ newByteLength elementSize)
+}

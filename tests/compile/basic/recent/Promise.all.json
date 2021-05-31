@@ -1,0 +1,79 @@
+["Let", {
+  "id": "C"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "Let", {
+  "id": "promiseCapability"
+}, "be", "?", "NewPromiseCapability", "(", {
+  "id": "C"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "promiseResolve"
+}, "be", "GetPromiseResolve", "(", {
+  "id": "C"
+}, ")", ".", {
+  "k": 2
+}, "IfAbruptRejectPromise", "(", {
+  "id": "promiseResolve"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "GetIterator", "(", {
+  "id": "iterable"
+}, ")", ".", {
+  "k": 4
+}, "IfAbruptRejectPromise", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "result"
+}, "be", "PerformPromiseAll", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "C"
+}, ",", {
+  "id": "promiseCapability"
+}, ",", {
+  "id": "promiseResolve"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "result"
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Done", "]", "]", "is", {
+  "value": "false"
+}, ",", "set", {
+  "id": "result"
+}, "to", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "result"
+}, ")", ".", {
+  "k": 8
+}, "IfAbruptRejectPromise", "(", {
+  "id": "result"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "Return", "Completion", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 10
+}]

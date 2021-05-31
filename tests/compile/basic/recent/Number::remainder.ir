@@ -1,0 +1,9 @@
+{
+  if (|| (= n NaN) (= d NaN)) return NaN else {}
+  if (|| (= n Infinity) (= n -Infinity)) return NaN else {}
+  if (|| (= d Infinity) (= d -Infinity)) return n else {}
+  if (|| (= d 0i) (= d -0.0)) return NaN else {}
+  if (|| (= n 0i) (= n -0.0)) return n else {}
+  ??? "Let id:{r} be ℝ ( id:{n} ) - ( ℝ ( id:{d} ) × id:{q} ) where id:{q} is an integer that is negative if and only if id:{n} and id:{d} have opposite sign , and whose magnitude is as large as possible without exceeding the magnitude of ℝ ( id:{n} ) / ℝ ( id:{d} ) ."
+  return r
+}

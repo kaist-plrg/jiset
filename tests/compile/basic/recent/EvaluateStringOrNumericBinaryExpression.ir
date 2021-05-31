@@ -1,0 +1,12 @@
+{
+  access __x0__ = (leftOperand "Evaluation")
+  let lref = __x0__
+  app __x1__ = (GetValue lref)
+  let lval = [? __x1__]
+  access __x2__ = (rightOperand "Evaluation")
+  let rref = __x2__
+  app __x3__ = (GetValue rref)
+  let rval = [? __x3__]
+  app __x4__ = (ApplyStringOrNumericBinaryOperator lval opText rval)
+  return [? __x4__]
+}

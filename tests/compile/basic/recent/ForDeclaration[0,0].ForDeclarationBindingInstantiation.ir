@@ -1,0 +1,18 @@
+{
+  assert (is-instance-of environment DeclarativeEnvironmentRecord)
+  access __x0__ = (ForBinding "BoundNames")
+  let __x1__ = __x0__
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let name = __x1__[__x2__]
+    access __x3__ = (LetOrConst "IsConstantDeclaration")
+    if (= __x3__ true) {
+      app __x4__ = (environment.CreateImmutableBinding environment name true)
+      [! __x4__]
+    } else {
+      app __x5__ = (environment.CreateMutableBinding environment name false)
+      [! __x5__]
+    }
+    __x2__ = (+ __x2__ 1i)
+  }
+}

@@ -1,0 +1,12 @@
+{
+  app __x0__ = (IsCallable constructor)
+  assert (= __x0__ true)
+  app __x1__ = (Get constructor "prototype")
+  let proto = [? __x1__]
+  if (! (= (typeof proto) Object)) {
+    app __x2__ = (GetFunctionRealm constructor)
+    let realm = [? __x2__]
+    ??? "Set id:{proto} to id:{realm} ' s intrinsic object named id:{intrinsicDefaultProto} ."
+  } else {}
+  return proto
+}

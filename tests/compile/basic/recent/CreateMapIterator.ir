@@ -1,0 +1,8 @@
+{
+  assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))
+  app __x0__ = (RequireInternalSlot map "MapData")
+  [? __x0__]
+  ??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{map} and id:{kind} and performs the following steps when called : in:{} out:{}"
+  app __x1__ = (CreateIteratorFromClosure closure "%MapIteratorPrototype%" INTRINSIC_MapIteratorPrototype)
+  return [! __x1__]
+}

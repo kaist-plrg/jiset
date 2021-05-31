@@ -1,0 +1,57 @@
+["Assert", ":", "Type", "(", {
+  "id": "R"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", "Type", "(", {
+  "id": "S"
+}, ")", "is", "String", ".", {
+  "k": 1
+}, "Let", {
+  "id": "exec"
+}, "be", "?", "Get", "(", {
+  "id": "R"
+}, ",", {
+  "value": "\"exec\""
+}, ")", ".", {
+  "k": 2
+}, "If", "IsCallable", "(", {
+  "id": "exec"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "result"
+}, "be", "?", "Call", "(", {
+  "id": "exec"
+}, ",", {
+  "id": "R"
+}, ",", "«", {
+  "id": "S"
+}, "»", ")", ".", {
+  "k": 4
+}, "If", "Type", "(", {
+  "id": "result"
+}, ")", "is", "neither", "Object", "nor", "Null", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "Perform", "?", "RequireInternalSlot", "(", {
+  "id": "R"
+}, ",", "[", "[", "RegExpMatcher", "]", "]", ")", ".", {
+  "k": 7
+}, "Return", "?", "RegExpBuiltinExec", "(", {
+  "id": "R"
+}, ",", {
+  "id": "S"
+}, ")", ".", {
+  "k": 8
+}]

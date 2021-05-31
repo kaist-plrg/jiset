@@ -1,0 +1,27 @@
+{
+  if (== max 0i) {
+    app __x0__ = (c x)
+    return __x0__
+  } else {}
+  ??? "Let id:{d} be a new Continuation with parameters ( id:{y} ) that captures id:{m} , id:{min} , id:{max} , id:{greedy} , id:{x} , id:{c} , id:{parenIndex} , and id:{parenCount} and performs the following steps when called : in:{} out:{}"
+  let cap = (copy-obj x.captures)
+  ??? "For each integer id:{k} such that id:{parenIndex} < id:{k} and id:{k} ≤ id:{parenIndex} + id:{parenCount} , set id:{cap} [ id:{k} ] to value:{undefined} ."
+  let e = x.endIndex
+  let xr = (new [e, cap])
+  if (! (== min 0i)) {
+    app __x1__ = (m xr d)
+    return __x1__
+  } else {}
+  if (= greedy false) {
+    app __x2__ = (c x)
+    let z = __x2__
+    if (! (= z CONST_failure)) return z else {}
+    app __x3__ = (m xr d)
+    return __x3__
+  } else {}
+  app __x4__ = (m xr d)
+  let z = __x4__
+  if (! (= z CONST_failure)) return z else {}
+  app __x5__ = (c x)
+  return __x5__
+}

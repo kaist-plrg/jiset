@@ -1,0 +1,97 @@
+["Assert", ":", {
+  "id": "steps"
+}, "is", "either", "a", "set", "of", "algorithm", "steps", "or", "other", "definition", "of", "a", "function", "'", "s", "behaviour", "provided", "in", "this", "specification", ".", {
+  "k": 0
+}, "If", {
+  "id": "realm"
+}, "is", "not", "present", "or", {
+  "id": "realm"
+}, "is", {
+  "const": "empty"
+}, ",", "set", {
+  "id": "realm"
+}, "to", "the", "current", "Realm", "Record", ".", {
+  "k": 1
+}, "Assert", ":", {
+  "id": "realm"
+}, "is", "a", "Realm", "Record", ".", {
+  "k": 2
+}, "If", {
+  "id": "prototype"
+}, "is", "not", "present", ",", "set", {
+  "id": "prototype"
+}, "to", {
+  "id": "realm"
+}, ".", "[", "[", "Intrinsics", "]", "]", ".", "[", "[", "%", "Function", ".", "prototype", "%", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "func"
+}, "be", "a", "new", "built", "-", "in", "function", "object", "that", "when", "called", "performs", "the", "action", "described", "by", {
+  "id": "steps"
+}, ".", "The", "new", "function", "object", "has", "internal", "slots", "whose", "names", "are", "the", "elements", "of", {
+  "id": "internalSlotsList"
+}, ",", "and", "an", "[", "[", "InitialName", "]", "]", "internal", "slot", ".", {
+  "k": 4
+}, "Set", {
+  "id": "func"
+}, ".", "[", "[", "Realm", "]", "]", "to", {
+  "id": "realm"
+}, ".", {
+  "k": 5
+}, "Set", {
+  "id": "func"
+}, ".", "[", "[", "Prototype", "]", "]", "to", {
+  "id": "prototype"
+}, ".", {
+  "k": 6
+}, "Set", {
+  "id": "func"
+}, ".", "[", "[", "Extensible", "]", "]", "to", {
+  "value": "true"
+}, ".", {
+  "k": 7
+}, "Set", {
+  "id": "func"
+}, ".", "[", "[", "InitialName", "]", "]", "to", {
+  "value": "null"
+}, ".", {
+  "k": 8
+}, "Perform", "!", "SetFunctionLength", "(", {
+  "id": "func"
+}, ",", {
+  "id": "length"
+}, ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "prefix"
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "Perform", "!", "SetFunctionName", "(", {
+  "id": "func"
+}, ",", {
+  "id": "name"
+}, ")", ".", {
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 10
+}, "Else", ",", {
+  "in": null
+}, "Perform", "!", "SetFunctionName", "(", {
+  "id": "func"
+}, ",", {
+  "id": "name"
+}, ",", {
+  "id": "prefix"
+}, ")", ".", {
+  "k": 13
+}, {
+  "out": null
+}, {
+  "k": 12
+}, "Return", {
+  "id": "func"
+}, ".", {
+  "k": 14
+}]

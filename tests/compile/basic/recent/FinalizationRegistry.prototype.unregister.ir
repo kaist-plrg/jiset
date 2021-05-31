@@ -1,0 +1,24 @@
+{
+  let finalizationRegistry = this
+  app __x0__ = (RequireInternalSlot finalizationRegistry "Cells")
+  [? __x0__]
+  if (! (= (typeof unregisterToken) Object)) throw TypeError else {}
+  let removed = false
+  let __x1__ = finalizationRegistry.Cells
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let cell = __x1__[__x2__]
+    let __x3__ = true
+    __x3__ = (! (= cell.UnregisterToken CONST_empty))
+    if __x3__ {
+      app __x4__ = (SameValue cell.UnregisterToken unregisterToken)
+      __x3__ = (= __x4__ true)
+    } else {}
+    if __x3__ {
+      ??? "Remove id:{cell} from id:{finalizationRegistry} . [ [ Cells ] ] ."
+      removed = true
+    } else {}
+    __x2__ = (+ __x2__ 1i)
+  }
+  return removed
+}

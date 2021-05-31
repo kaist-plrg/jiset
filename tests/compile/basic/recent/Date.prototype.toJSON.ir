@@ -1,0 +1,9 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (ToPrimitive O CONST_number)
+  let tv = [? __x1__]
+  if (&& (= (typeof tv) Number) (|| (= tv Infinity) (= tv -Infinity))) return null else {}
+  app __x2__ = (Invoke O "toISOString")
+  return [? __x2__]
+}

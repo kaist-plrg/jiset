@@ -1,0 +1,10 @@
+{
+  access __x0__ = (TemplateMiddleList "SubstitutionEvaluation")
+  let preceding = [? __x0__]
+  access __x1__ = (Expression "Evaluation")
+  let nextRef = __x1__
+  app __x2__ = (GetValue nextRef)
+  let next = [? __x2__]
+  append next -> preceding
+  return preceding
+}

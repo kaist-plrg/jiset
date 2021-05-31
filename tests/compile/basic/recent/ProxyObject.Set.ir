@@ -1,0 +1,30 @@
+{
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  let handler = O.ProxyHandler
+  if (= handler null) throw TypeError else {}
+  assert (= (typeof handler) Object)
+  let target = O.ProxyTarget
+  app __x1__ = (GetMethod handler "set")
+  let trap = [? __x1__]
+  if (= trap undefined) {
+    app __x2__ = (target.Set target P V Receiver)
+    return [? __x2__]
+  } else {}
+  app __x3__ = (Call trap handler (new [target, P, V, Receiver]))
+  app __x4__ = (ToBoolean [? __x3__])
+  let booleanTrapResult = [! __x4__]
+  if (= booleanTrapResult false) return false else {}
+  app __x5__ = (target.GetOwnProperty target P)
+  let targetDesc = [? __x5__]
+  if (&& (! (= targetDesc undefined)) (= targetDesc.Configurable false)) {
+    app __x6__ = (IsDataDescriptor targetDesc)
+    if (&& (= __x6__ true) (= targetDesc.Writable false)) {
+      app __x7__ = (SameValue V targetDesc.Value)
+      if (= __x7__ false) throw TypeError else {}
+    } else {}
+    app __x8__ = (IsAccessorDescriptor targetDesc)
+    if (= __x8__ true) if (= targetDesc.Set undefined) throw TypeError else {} else {}
+  } else {}
+  return true
+}

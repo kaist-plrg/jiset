@@ -1,0 +1,115 @@
+["Let", {
+  "id": "numberOfSubstitutions"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "substitutions"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "cooked"
+}, "be", "?", "ToObject", "(", {
+  "id": "template"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "raw"
+}, "be", "?", "ToObject", "(", "?", "Get", "(", {
+  "id": "cooked"
+}, ",", {
+  "value": "\"raw\""
+}, ")", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "literalSegments"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "raw"
+}, ")", ".", {
+  "k": 3
+}, "If", {
+  "id": "literalSegments"
+}, "≤", "0", ",", "return", "the", "empty", "String", ".", {
+  "k": 4
+}, "Let", {
+  "id": "stringElements"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 5
+}, "Let", {
+  "id": "nextIndex"
+}, "be", "0", ".", {
+  "k": 6
+}, "Repeat", ",", {
+  "in": null
+}, "Let", {
+  "id": "nextKey"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "nextIndex"
+}, ")", ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "nextSeg"
+}, "be", "?", "ToString", "(", "?", "Get", "(", {
+  "id": "raw"
+}, ",", {
+  "id": "nextKey"
+}, ")", ")", ".", {
+  "k": 9
+}, "Append", "the", "code", "unit", "elements", "of", {
+  "id": "nextSeg"
+}, "to", "the", "end", "of", {
+  "id": "stringElements"
+}, ".", {
+  "k": 10
+}, "If", {
+  "id": "nextIndex"
+}, "+", "1", "=", {
+  "id": "literalSegments"
+}, ",", "then", {
+  "in": null
+}, "Return", "the", "String", "value", "whose", "code", "units", "are", "the", "elements", "in", "the", "List", {
+  "id": "stringElements"
+}, ".", "If", {
+  "id": "stringElements"
+}, "has", "no", "elements", ",", "the", "empty", "String", "is", "returned", ".", {
+  "k": 12
+}, {
+  "out": null
+}, {
+  "k": 11
+}, "If", {
+  "id": "nextIndex"
+}, "<", {
+  "id": "numberOfSubstitutions"
+}, ",", "let", {
+  "id": "next"
+}, "be", {
+  "id": "substitutions"
+}, "[", {
+  "id": "nextIndex"
+}, "]", ".", {
+  "k": 13
+}, "Else", ",", "let", {
+  "id": "next"
+}, "be", "the", "empty", "String", ".", {
+  "k": 14
+}, "Let", {
+  "id": "nextSub"
+}, "be", "?", "ToString", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 15
+}, "Append", "the", "code", "unit", "elements", "of", {
+  "id": "nextSub"
+}, "to", "the", "end", "of", {
+  "id": "stringElements"
+}, ".", {
+  "k": 16
+}, "Set", {
+  "id": "nextIndex"
+}, "to", {
+  "id": "nextIndex"
+}, "+", "1", ".", {
+  "k": 17
+}, {
+  "out": null
+}, {
+  "k": 7
+}]

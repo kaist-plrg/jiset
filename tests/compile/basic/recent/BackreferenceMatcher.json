@@ -1,0 +1,127 @@
+["Assert", ":", {
+  "id": "n"
+}, "≥", "1", ".", {
+  "k": 0
+}, "Return", "a", "new", "Matcher", "with", "parameters", "(", {
+  "id": "x"
+}, ",", {
+  "id": "c"
+}, ")", "that", "captures", {
+  "id": "n"
+}, "and", {
+  "id": "direction"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", {
+  "in": null
+}, "Assert", ":", {
+  "id": "x"
+}, "is", "a", "State", ".", {
+  "k": 2
+}, "Assert", ":", {
+  "id": "c"
+}, "is", "a", "Continuation", ".", {
+  "k": 3
+}, "Let", {
+  "id": "cap"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "captures"
+}, "List", ".", {
+  "k": 4
+}, "Let", {
+  "id": "s"
+}, "be", {
+  "id": "cap"
+}, "[", {
+  "id": "n"
+}, "]", ".", {
+  "k": 5
+}, "If", {
+  "id": "s"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "id": "c"
+}, "(", {
+  "id": "x"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "e"
+}, "be", {
+  "id": "x"
+}, "'", "s", {
+  "id": "endIndex"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "len"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "s"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "f"
+}, "be", {
+  "id": "e"
+}, "+", {
+  "id": "direction"
+}, "×", {
+  "id": "len"
+}, ".", {
+  "k": 9
+}, "If", {
+  "id": "f"
+}, "<", "0", "or", {
+  "id": "f"
+}, ">", {
+  "id": "InputLength"
+}, ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "g"
+}, "be", "min", "(", {
+  "id": "e"
+}, ",", {
+  "id": "f"
+}, ")", ".", {
+  "k": 11
+}, "If", "there", "exists", "an", "integer", {
+  "id": "i"
+}, "between", "0", "(", "inclusive", ")", "and", {
+  "id": "len"
+}, "(", "exclusive", ")", "such", "that", "Canonicalize", "(", {
+  "id": "s"
+}, "[", {
+  "id": "i"
+}, "]", ")", "is", "not", "the", "same", "character", "value", "as", "Canonicalize", "(", {
+  "id": "Input"
+}, "[", {
+  "id": "g"
+}, "+", {
+  "id": "i"
+}, "]", ")", ",", "return", {
+  "const": "failure"
+}, ".", {
+  "k": 12
+}, "Let", {
+  "id": "y"
+}, "be", "the", "State", "(", {
+  "id": "f"
+}, ",", {
+  "id": "cap"
+}, ")", ".", {
+  "k": 13
+}, "Return", {
+  "id": "c"
+}, "(", {
+  "id": "y"
+}, ")", ".", {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 1
+}]

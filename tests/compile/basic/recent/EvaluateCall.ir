@@ -1,0 +1,26 @@
+{
+  if (is-instance-of ref ReferenceRecord) {
+    app __x0__ = (IsPropertyReference ref)
+    if (= __x0__ true) {
+      app __x1__ = (GetThisValue ref)
+      let thisValue = __x1__
+    } else {
+      let refEnv = ref.Base
+      assert (is-instance-of refEnv EnvironmentRecord)
+      app __x2__ = (refEnv.WithBaseObject refEnv)
+      let thisValue = __x2__
+    }
+  } else let thisValue = undefined
+  access __x3__ = (arguments "ArgumentListEvaluation")
+  let argList = [? __x3__]
+  if (! (= (typeof func) Object)) throw TypeError else {}
+  app __x4__ = (IsCallable func)
+  if (= __x4__ false) throw TypeError else {}
+  if (= tailPosition true) {
+    app __x5__ = (PrepareForTailCall)
+    __x5__
+  } else {}
+  app __x6__ = (Call func thisValue argList)
+  let result = __x6__
+  return result
+}

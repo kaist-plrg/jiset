@@ -1,0 +1,12 @@
+{
+  let sourceText = (get-syntax AsyncGeneratorDeclaration)
+  app __x0__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGeneratorFunction_prototype sourceText FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  let F = __x0__
+  app __x1__ = (SetFunctionName F "default")
+  __x1__
+  app __x2__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
+  let prototype = [! __x2__]
+  app __x3__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  __x3__
+  return F
+}

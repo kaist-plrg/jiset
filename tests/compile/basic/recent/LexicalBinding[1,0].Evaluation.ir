@@ -1,0 +1,9 @@
+{
+  access __x0__ = (Initializer "Evaluation")
+  let rhs = __x0__
+  app __x1__ = (GetValue rhs)
+  let value = [? __x1__]
+  let env = CONTEXT.LexicalEnvironment
+  access __x2__ = (BindingPattern "BindingInitialization" value env)
+  return __x2__
+}

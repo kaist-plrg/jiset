@@ -1,0 +1,16 @@
+{
+  let bindings = envRec.BindingObject
+  app __x0__ = (HasProperty bindings N)
+  let foundBinding = [? __x0__]
+  if (= foundBinding false) return false else {}
+  if (= envRec.withEnvironment false) return true else {}
+  app __x1__ = (Get bindings SYMBOL_unscopables)
+  let unscopables = [? __x1__]
+  if (= (typeof unscopables) Object) {
+    app __x2__ = (Get unscopables N)
+    app __x3__ = (ToBoolean [? __x2__])
+    let blocked = [! __x3__]
+    if (= blocked true) return false else {}
+  } else {}
+  return true
+}

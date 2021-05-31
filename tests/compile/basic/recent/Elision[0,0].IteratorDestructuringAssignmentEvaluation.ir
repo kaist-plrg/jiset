@@ -1,0 +1,11 @@
+{
+  if (= iteratorRecord.Done false) {
+    app __x0__ = (IteratorStep iteratorRecord)
+    let next = __x0__
+    app __x1__ = (IsAbruptCompletion next)
+    if __x1__ iteratorRecord.Done = true else {}
+    [? next]
+    if (= next false) iteratorRecord.Done = true else {}
+  } else {}
+  return CONST_empty
+}

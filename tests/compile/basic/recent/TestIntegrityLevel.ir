@@ -1,0 +1,28 @@
+{
+  assert (= (typeof O) Object)
+  assert (|| (= level CONST_sealed) (= level CONST_frozen))
+  app __x0__ = (IsExtensible O)
+  let extensible = [? __x0__]
+  if (= extensible true) return false else {}
+  app __x1__ = (O.OwnPropertyKeys O)
+  let keys = [? __x1__]
+  let __x2__ = keys
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let k = __x2__[__x3__]
+    app __x4__ = (O.GetOwnProperty O k)
+    let currentDesc = [? __x4__]
+    if (! (= currentDesc undefined)) {
+      if (= currentDesc.Configurable true) return false else {}
+      let __x5__ = true
+      __x5__ = (= level CONST_frozen)
+      if __x5__ {
+        app __x6__ = (IsDataDescriptor currentDesc)
+        __x5__ = (= __x6__ true)
+      } else {}
+      if __x5__ if (= currentDesc.Writable true) return false else {} else {}
+    } else {}
+    __x3__ = (+ __x3__ 1i)
+  }
+  return true
+}

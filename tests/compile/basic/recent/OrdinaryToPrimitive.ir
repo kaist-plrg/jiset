@@ -1,0 +1,20 @@
+{
+  assert (= (typeof O) Object)
+  assert (|| (= hint CONST_string) (= hint CONST_number))
+  if (= hint CONST_string) let methodNames = (new ["toString", "valueOf"]) else let methodNames = (new ["valueOf", "toString"])
+  let __x0__ = methodNames
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let name = __x0__[__x1__]
+    app __x2__ = (Get O name)
+    let method = [? __x2__]
+    app __x3__ = (IsCallable method)
+    if (= __x3__ true) {
+      app __x4__ = (Call method O)
+      let result = [? __x4__]
+      if (! (= (typeof result) Object)) return result else {}
+    } else {}
+    __x1__ = (+ __x1__ 1i)
+  }
+  throw TypeError
+}

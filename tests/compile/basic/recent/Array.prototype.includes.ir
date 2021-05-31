@@ -1,0 +1,23 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (LengthOfArrayLike O)
+  let len = [? __x1__]
+  if (= len 0i) return false else {}
+  app __x2__ = (ToIntegerOrInfinity fromIndex)
+  let n = [? __x2__]
+  if (= n Infinity) return false else if (= n -Infinity) n = 0i else {}
+  if (! (< n 0i)) let k = n else {
+    let k = (+ len n)
+    if (< k 0i) k = 0i else {}
+  }
+  while (< k len) {
+    app __x3__ = (ToString k)
+    app __x4__ = (Get O [! __x3__])
+    let elementK = [? __x4__]
+    app __x5__ = (SameValueZero searchElement elementK)
+    if (= __x5__ true) return true else {}
+    k = (+ k 1i)
+  }
+  return false
+}

@@ -1,0 +1,12 @@
+{
+  app __x0__ = (IsConstructor target)
+  if (= __x0__ false) throw TypeError else {}
+  if (= newTarget absent) newTarget = target else {
+    app __x1__ = (IsConstructor newTarget)
+    if (= __x1__ false) throw TypeError else {}
+  }
+  app __x2__ = (CreateListFromArrayLike argumentsList)
+  let args = [? __x2__]
+  app __x3__ = (Construct target args newTarget)
+  return [? __x3__]
+}

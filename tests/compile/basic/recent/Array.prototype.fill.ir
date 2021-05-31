@@ -1,0 +1,34 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (LengthOfArrayLike O)
+  let len = [? __x1__]
+  app __x2__ = (ToIntegerOrInfinity start)
+  let relativeStart = [? __x2__]
+  if (= relativeStart -Infinity) let k = 0i else if (< relativeStart 0i) {
+    app __x3__ = (max (+ len relativeStart) 0i)
+    let k = __x3__
+  } else {
+    app __x4__ = (min relativeStart len)
+    let k = __x4__
+  }
+  if (= end undefined) let relativeEnd = len else {
+    app __x5__ = (ToIntegerOrInfinity end)
+    let relativeEnd = [? __x5__]
+  }
+  if (= relativeEnd -Infinity) let final = 0i else if (< relativeEnd 0i) {
+    app __x6__ = (max (+ len relativeEnd) 0i)
+    let final = __x6__
+  } else {
+    app __x7__ = (min relativeEnd len)
+    let final = __x7__
+  }
+  while (< k final) {
+    app __x8__ = (ToString k)
+    let Pk = [! __x8__]
+    app __x9__ = (Set O Pk value true)
+    [? __x9__]
+    k = (+ k 1i)
+  }
+  return O
+}

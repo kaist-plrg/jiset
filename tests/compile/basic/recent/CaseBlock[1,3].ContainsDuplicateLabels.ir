@@ -1,0 +1,13 @@
+{
+  if (! (= CaseClauses0 absent)) {
+    access __x0__ = (CaseClauses0 "ContainsDuplicateLabels" labelSet)
+    let hasDuplicates = __x0__
+    if (= hasDuplicates true) return true else {}
+  } else {}
+  access __x1__ = (DefaultClause "ContainsDuplicateLabels" labelSet)
+  let hasDuplicates = __x1__
+  if (= hasDuplicates true) return true else {}
+  if (= CaseClauses1 absent) return false else {}
+  access __x2__ = (CaseClauses1 "ContainsDuplicateLabels" labelSet)
+  return __x2__
+}

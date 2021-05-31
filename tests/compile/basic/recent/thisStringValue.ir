@@ -1,0 +1,9 @@
+{
+  if (= (typeof value) String) return value else {}
+  if (&& (= (typeof value) Object) (! (= value.StringData absent))) {
+    let s = value.StringData
+    assert (= (typeof s) String)
+    return s
+  } else {}
+  throw TypeError
+}

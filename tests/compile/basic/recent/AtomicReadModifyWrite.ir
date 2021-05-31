@@ -1,0 +1,19 @@
+{
+  app __x0__ = (ValidateIntegerTypedArray typedArray)
+  let buffer = [? __x0__]
+  app __x1__ = (ValidateAtomicAccess typedArray index)
+  let indexedPosition = [? __x1__]
+  let arrayTypeName = typedArray.TypedArrayName
+  if (= typedArray.ContentType CONST_BigInt) {
+    app __x2__ = (ToBigInt value)
+    let v = [? __x2__]
+  } else {
+    app __x3__ = (ToIntegerOrInfinity value)
+    let v = [? __x3__]
+  }
+  app __x4__ = (IsDetachedBuffer buffer)
+  if (= __x4__ true) throw TypeError else {}
+  ??? "Let id:{elementType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{arrayTypeName} ."
+  app __x5__ = (GetModifySetValueInBuffer buffer indexedPosition elementType v op)
+  return __x5__
+}

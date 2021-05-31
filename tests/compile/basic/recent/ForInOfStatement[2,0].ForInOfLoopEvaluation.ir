@@ -1,0 +1,7 @@
+{
+  access __x0__ = (ForDeclaration "BoundNames")
+  app __x1__ = (ForInOfHeadEvaluation __x0__ Expression CONST_enumerate)
+  let keyResult = [? __x1__]
+  app __x2__ = (ForInOfBodyEvaluation ForDeclaration Statement keyResult CONST_enumerate CONST_lexicalBinding labelSet)
+  return [? __x2__]
+}

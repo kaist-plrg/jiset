@@ -1,0 +1,18 @@
+{
+  access __x0__ = (PropertyName "Evaluation")
+  let propKey = __x0__
+  [? propKey]
+  app __x1__ = (IsAnonymousFunctionDefinition AssignmentExpression)
+  if (= __x1__ true) {
+    access __x2__ = (AssignmentExpression "NamedEvaluation" propKey)
+    let propValue = [? __x2__]
+  } else {
+    access __x3__ = (AssignmentExpression "Evaluation")
+    let exprValueRef = __x3__
+    app __x4__ = (GetValue exprValueRef)
+    let propValue = [? __x4__]
+  }
+  assert (= enumerable true)
+  app __x5__ = (CreateDataPropertyOrThrow object propKey propValue)
+  return [! __x5__]
+}

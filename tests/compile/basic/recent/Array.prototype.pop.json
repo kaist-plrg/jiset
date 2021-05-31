@@ -1,0 +1,85 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "len"
+}, "=", "0", ",", "then", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "value": "+0"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 3
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 4
+}, {
+  "out": null
+}, {
+  "k": 2
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "len"
+}, ">", "0", ".", {
+  "k": 6
+}, "Let", {
+  "id": "newLen"
+}, "be", "𝔽", "(", {
+  "id": "len"
+}, "-", "1", ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "index"
+}, "be", "!", "ToString", "(", {
+  "id": "newLen"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "element"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 9
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 10
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"length\""
+}, ",", {
+  "id": "newLen"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 11
+}, "Return", {
+  "id": "element"
+}, ".", {
+  "k": 12
+}, {
+  "out": null
+}, {
+  "k": 5
+}]

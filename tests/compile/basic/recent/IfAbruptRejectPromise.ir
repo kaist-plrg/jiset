@@ -1,0 +1,8 @@
+{
+  app __x0__ = (IsAbruptCompletion value)
+  if __x0__ {
+    app __x1__ = (Call capability.Reject undefined (new [value.Value]))
+    [? __x1__]
+    return capability.Promise
+  } else if (is-completion value) value = value.Value else {}
+}

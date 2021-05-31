@@ -1,0 +1,12 @@
+{
+  let optionalChain = OptionalChain
+  access __x0__ = (optionalChain "ChainEvaluation" baseValue baseReference)
+  let newReference = [? __x0__]
+  app __x1__ = (GetValue newReference)
+  let newValue = [? __x1__]
+  let thisChain = this
+  app __x2__ = (IsInTailPosition thisChain)
+  let tailCall = __x2__
+  app __x3__ = (EvaluateCall newValue newReference Arguments tailCall)
+  return [? __x3__]
+}

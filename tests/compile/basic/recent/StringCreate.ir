@@ -1,0 +1,13 @@
+{
+  app __x0__ = (MakeBasicObject (new ["Prototype", "Extensible", "StringData"]))
+  let S = [! __x0__]
+  S.Prototype = prototype
+  S.StringData = value
+  S.GetOwnProperty = StringExoticObjectDOTGetOwnProperty
+  S.DefineOwnProperty = StringExoticObjectDOTDefineOwnProperty
+  S.OwnPropertyKeys = StringExoticObjectDOTOwnPropertyKeys
+  let length = value.length
+  app __x1__ = (DefinePropertyOrThrow S "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false)))
+  [! __x1__]
+  return S
+}

@@ -1,0 +1,83 @@
+["For", "each", "ReadSharedMemory", "or", "ReadModifyWriteSharedMemory", "event", {
+  "id": "R"
+}, "of", "SharedDataBlockEventSet", "(", {
+  "id": "execution"
+}, ")", ",", "do", {
+  "in": null
+}, "If", {
+  "id": "R"
+}, ".", "[", "[", "NoTear", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", "The", "remainder", "of", "dividing", {
+  "id": "R"
+}, ".", "[", "[", "ByteIndex", "]", "]", "by", {
+  "id": "R"
+}, ".", "[", "[", "ElementSize", "]", "]", "is", "0", ".", {
+  "k": 2
+}, "For", "each", "event", {
+  "id": "W"
+}, "such", "that", "(", {
+  "id": "R"
+}, ",", {
+  "id": "W"
+}, ")", "is", "in", {
+  "id": "execution"
+}, ".", "[", "[", "ReadsFrom", "]", "]", "and", {
+  "id": "W"
+}, ".", "[", "[", "NoTear", "]", "]", "is", {
+  "value": "true"
+}, ",", "do", {
+  "in": null
+}, "If", {
+  "id": "R"
+}, "and", {
+  "id": "W"
+}, "have", "equal", "ranges", ",", "and", "there", "is", "an", "event", {
+  "id": "V"
+}, "such", "that", {
+  "id": "V"
+}, "and", {
+  "id": "W"
+}, "have", "equal", "ranges", ",", {
+  "id": "V"
+}, ".", "[", "[", "NoTear", "]", "]", "is", {
+  "value": "true"
+}, ",", {
+  "id": "W"
+}, "is", "not", {
+  "id": "V"
+}, ",", "and", "(", {
+  "id": "R"
+}, ",", {
+  "id": "V"
+}, ")", "is", "in", {
+  "id": "execution"
+}, ".", "[", "[", "ReadsFrom", "]", "]", ",", "then", {
+  "in": null
+}, "Return", {
+  "value": "false"
+}, ".", {
+  "k": 5
+}, {
+  "out": null
+}, {
+  "k": 4
+}, {
+  "out": null
+}, {
+  "k": 3
+}, {
+  "out": null
+}, {
+  "k": 1
+}, {
+  "out": null
+}, {
+  "k": 0
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 6
+}]

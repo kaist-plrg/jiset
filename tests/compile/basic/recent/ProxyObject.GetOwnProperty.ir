@@ -1,0 +1,41 @@
+{
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  let handler = O.ProxyHandler
+  if (= handler null) throw TypeError else {}
+  assert (= (typeof handler) Object)
+  let target = O.ProxyTarget
+  app __x1__ = (GetMethod handler "getOwnPropertyDescriptor")
+  let trap = [? __x1__]
+  if (= trap undefined) {
+    app __x2__ = (target.GetOwnProperty target P)
+    return [? __x2__]
+  } else {}
+  app __x3__ = (Call trap handler (new [target, P]))
+  let trapResultObj = [? __x3__]
+  if (! (|| (= (typeof trapResultObj) Object) (= (typeof trapResultObj) Undefined))) throw TypeError else {}
+  app __x4__ = (target.GetOwnProperty target P)
+  let targetDesc = [? __x4__]
+  if (= trapResultObj undefined) {
+    if (= targetDesc undefined) return undefined else {}
+    if (= targetDesc.Configurable false) throw TypeError else {}
+    app __x5__ = (IsExtensible target)
+    let extensibleTarget = [? __x5__]
+    if (= extensibleTarget false) throw TypeError else {}
+    return undefined
+  } else {}
+  app __x6__ = (IsExtensible target)
+  let extensibleTarget = [? __x6__]
+  app __x7__ = (ToPropertyDescriptor trapResultObj)
+  let resultDesc = [? __x7__]
+  app __x8__ = (CompletePropertyDescriptor resultDesc)
+  __x8__
+  app __x9__ = (IsCompatiblePropertyDescriptor extensibleTarget resultDesc targetDesc)
+  let valid = __x9__
+  if (= valid false) throw TypeError else {}
+  if (= resultDesc.Configurable false) {
+    if (|| (= targetDesc undefined) (= targetDesc.Configurable true)) throw TypeError else {}
+    if (&& (! (= resultDesc.Writable absent)) (= resultDesc.Writable false)) if (= targetDesc.Writable true) throw TypeError else {} else {}
+  } else {}
+  return resultDesc
+}

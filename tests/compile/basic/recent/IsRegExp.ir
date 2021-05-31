@@ -1,0 +1,11 @@
+{
+  if (! (= (typeof argument) Object)) return false else {}
+  app __x0__ = (Get argument SYMBOL_match)
+  let matcher = [? __x0__]
+  if (! (= matcher undefined)) {
+    app __x1__ = (ToBoolean matcher)
+    return [! __x1__]
+  } else {}
+  if (! (= argument.RegExpMatcher absent)) return true else {}
+  return false
+}

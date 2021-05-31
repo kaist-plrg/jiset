@@ -1,0 +1,17 @@
+{
+  app __x0__ = (RequireObjectCoercible this)
+  let O = [? __x0__]
+  app __x1__ = (ToString O)
+  let S = [? __x1__]
+  let R = S
+  let __x2__ = args
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let next = __x2__[__x3__]
+    app __x4__ = (ToString next)
+    let nextString = [? __x4__]
+    R = (+ R nextString)
+    __x3__ = (+ __x3__ 1i)
+  }
+  return R
+}

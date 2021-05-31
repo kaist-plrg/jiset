@@ -1,0 +1,17 @@
+{
+  access __x0__ = (LeftHandSideExpression "Evaluation")
+  let lref = __x0__
+  app __x1__ = (GetValue lref)
+  let lval = [? __x1__]
+  access __x2__ = (AssignmentExpression "Evaluation")
+  let rref = __x2__
+  app __x3__ = (GetValue rref)
+  let rval = [? __x3__]
+  let assignmentOpText = (get-syntax AssignmentOperator)
+  ??? "Let id:{opText} be the sequence of Unicode code points associated with id:{assignmentOpText} in the following table : in:{} out:{}"
+  app __x4__ = (ApplyStringOrNumericBinaryOperator lval opText rval)
+  let r = __x4__
+  app __x5__ = (PutValue lref r)
+  [? __x5__]
+  return r
+}

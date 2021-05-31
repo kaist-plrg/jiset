@@ -1,0 +1,26 @@
+{
+  let strLen = string.length
+  let R = ""
+  let k = 0i
+  while true {
+    if (== k strLen) return R else {}
+    let C = string[k]
+    if (contains unescapedSet C) {
+      k = (+ k 1i)
+      R = (+ R C)
+    } else {
+      app __x0__ = (CodePointAt string k)
+      let cp = [! __x0__]
+      if (= cp.IsUnpairedSurrogate true) throw URIError else {}
+      k = (+ k cp.CodeUnitCount)
+      ??? "Let id:{Octets} be the List of octets resulting by applying the UTF - 8 transformation to id:{cp} . [ [ CodePoint ] ] ."
+      let __x1__ = Octets
+      let __x2__ = 0i
+      while (< __x2__ __x1__.length) {
+        let octet = __x1__[__x2__]
+        R = (+ (+ R "%") ??? "StringOp")
+        __x2__ = (+ __x2__ 1i)
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  if (|| (= env absent) (= env undefined)) env = CONTEXT.LexicalEnvironment else {}
+  assert (is-instance-of env EnvironmentRecord)
+  if true let strict = true else let strict = false
+  app __x0__ = (GetIdentifierReference env name strict)
+  return [? __x0__]
+}

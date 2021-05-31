@@ -1,0 +1,11 @@
+{
+  let O = this
+  app __x0__ = (thisTimeValue O)
+  let tv = [? __x0__]
+  if (= tv NaN) return "Invalid Date" else {}
+  app __x1__ = (LocalTime tv)
+  let t = __x1__
+  app __x2__ = (TimeString t)
+  app __x3__ = (TimeZoneString tv)
+  return (+ __x2__ __x3__)
+}

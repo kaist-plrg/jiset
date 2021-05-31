@@ -1,0 +1,13 @@
+{
+  ??? "It is a Syntax Error if this phrase is contained in strict mode code and the StringValue of nt:{IdentifierName} is : value:{\"implements\"} , value:{\"interface\"} , value:{\"let\"} , value:{\"package\"} , value:{\"private\"} , value:{\"protected\"} , value:{\"public\"} , value:{\"static\"} , or value:{\"yield\"} ."
+  let __x0__ = true
+  let __x1__ = false
+  if (= absent (parse-syntax this "Module" (new []))) __x1__ = true else {}
+  __x0__ = __x1__
+  if __x0__ {
+    access __x2__ = (IdentifierName "StringValue")
+    __x0__ = (= __x2__ "await")
+  } else {}
+  if __x0__ throw SyntaxError else {}
+  ??? "It is a Syntax Error if StringValue of nt:{IdentifierName} is the same String value as the StringValue of any nt:{ReservedWord} except for code:{yield} or code:{await} ."
+}

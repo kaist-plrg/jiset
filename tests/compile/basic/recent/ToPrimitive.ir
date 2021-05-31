@@ -1,0 +1,20 @@
+{
+  if (= (typeof input) Object) {
+    app __x0__ = (GetMethod input SYMBOL_toPrimitive)
+    let exoticToPrim = [? __x0__]
+    if (! (= exoticToPrim undefined)) {
+      if (= preferredType absent) let hint = "default" else if (= preferredType CONST_string) let hint = "string" else {
+        assert (= preferredType CONST_number)
+        let hint = "number"
+      }
+      app __x1__ = (Call exoticToPrim input (new [hint]))
+      let result = [? __x1__]
+      if (! (= (typeof result) Object)) return result else {}
+      throw TypeError
+    } else {}
+    if (= preferredType absent) let preferredType = CONST_number else {}
+    app __x2__ = (OrdinaryToPrimitive input preferredType)
+    return [? __x2__]
+  } else {}
+  return input
+}

@@ -1,0 +1,93 @@
+["Let", {
+  "id": "O"
+}, "be", "this", "Date", "object", ".", {
+  "k": 0
+}, "Let", {
+  "id": "tv"
+}, "be", "?", "thisTimeValue", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "tv"
+}, "is", {
+  "value": "NaN"
+}, ",", "return", {
+  "value": "\"Invalid Date\""
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "weekday"
+}, "be", "the", "Name", "of", "the", "entry", "in", {
+  "link": "unhandled: sec-todatestring-day-names"
+}, "with", "the", "Number", "WeekDay", "(", {
+  "id": "tv"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "month"
+}, "be", "the", "Name", "of", "the", "entry", "in", {
+  "link": "unhandled: sec-todatestring-month-names"
+}, "with", "the", "Number", "MonthFromTime", "(", {
+  "id": "tv"
+}, ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "day"
+}, "be", "the", "String", "representation", "of", "DateFromTime", "(", {
+  "id": "tv"
+}, ")", ",", "formatted", "as", "a", "two", "-", "digit", "decimal", "number", ",", "padded", "to", "the", "left", "with", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", "if", "necessary", ".", {
+  "k": 5
+}, "Let", {
+  "id": "yv"
+}, "be", "YearFromTime", "(", {
+  "id": "tv"
+}, ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "yv"
+}, "≥", {
+  "value": "+0"
+}, ",", "let", {
+  "id": "yearSign"
+}, "be", "the", "empty", "String", ";", "otherwise", ",", "let", {
+  "id": "yearSign"
+}, "be", {
+  "value": "\"-\""
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "year"
+}, "be", "the", "String", "representation", "of", "abs", "(", "ℝ", "(", {
+  "id": "yv"
+}, ")", ")", ",", "formatted", "as", "a", "decimal", "number", ".", {
+  "k": 8
+}, "Let", {
+  "id": "paddedYear"
+}, "be", "!", "StringPad", "(", {
+  "id": "year"
+}, ",", {
+  "value": "4"
+}, ",", {
+  "value": "\"0\""
+}, ",", {
+  "const": "start"
+}, ")", ".", {
+  "k": 9
+}, "Return", "the", "string", "-", "concatenation", "of", {
+  "id": "weekday"
+}, ",", {
+  "value": "\",\""
+}, ",", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", {
+  "id": "day"
+}, ",", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", {
+  "id": "month"
+}, ",", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", {
+  "id": "yearSign"
+}, ",", {
+  "id": "paddedYear"
+}, ",", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ",", "and", "TimeString", "(", {
+  "id": "tv"
+}, ")", ".", {
+  "k": 10
+}]

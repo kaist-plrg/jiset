@@ -1,0 +1,1 @@
+        1. Return InstantiateGeneratorFunctionExpression of |GeneratorExpression| with argument _name_.

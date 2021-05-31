@@ -1,0 +1,1 @@
+        1. Return ? InstantiateAsyncGeneratorFunctionObject of |AsyncGeneratorDeclaration| with argument _scope_.

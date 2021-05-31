@@ -1,0 +1,50 @@
+{
+  let len = argumentsList.length
+  app __x0__ = (MakeBasicObject (new ["Prototype", "Extensible", "ParameterMap"]))
+  let obj = [! __x0__]
+  obj.GetOwnProperty = ArgumentsExoticObjectDOTGetOwnProperty
+  obj.DefineOwnProperty = ArgumentsExoticObjectDOTDefineOwnProperty
+  obj.Get = ArgumentsExoticObjectDOTGet
+  obj.Set = ArgumentsExoticObjectDOTSet
+  obj.Delete = ArgumentsExoticObjectDOTDelete
+  obj.Prototype = INTRINSIC_Object_prototype
+  app __x1__ = (OrdinaryObjectCreate null)
+  let map = [! __x1__]
+  obj.ParameterMap = map
+  access __x2__ = (formals "BoundNames")
+  let parameterNames = __x2__
+  let numberOfParameters = parameterNames.length
+  let index = 0i
+  while (< index len) {
+    let val = argumentsList[index]
+    app __x3__ = (ToString index)
+    app __x4__ = (CreateDataPropertyOrThrow obj [! __x3__] val)
+    [! __x4__]
+    index = (+ index 1i)
+  }
+  app __x5__ = (DefinePropertyOrThrow obj "length" (new PropertyDescriptor("Value" -> len, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  [! __x5__]
+  let mappedNames = (new [])
+  let index = (- numberOfParameters 1i)
+  while (! (< index 0i)) {
+    let name = parameterNames[index]
+    if (! (contains mappedNames name)) {
+      append name -> mappedNames
+      if (< index len) {
+        app __x6__ = (MakeArgGetter name env)
+        let g = __x6__
+        app __x7__ = (MakeArgSetter name env)
+        let p = __x7__
+        app __x8__ = (ToString index)
+        app __x9__ = (map.DefineOwnProperty map [! __x8__] (new PropertyDescriptor("Set" -> p, "Get" -> g, "Enumerable" -> false, "Configurable" -> true)))
+        __x9__
+      } else {}
+    } else {}
+    index = (- index 1i)
+  }
+  app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor("Value" -> INTRINSIC_Array_prototype_values, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  [! __x10__]
+  app __x11__ = (DefinePropertyOrThrow obj "callee" (new PropertyDescriptor("Value" -> func, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  [! __x11__]
+  return obj
+}

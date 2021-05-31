@@ -1,0 +1,10 @@
+{
+  let F = CONTEXT.Function
+  let asyncContext = F.AsyncContext
+  let prevContext = CONTEXT
+  CONTEXT = null
+  append asyncContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
+  ??? "Resume the suspended evaluation of asyncContext using (NormalCompletion~value) as the result of the operation that suspended it"
+  return undefined
+}

@@ -1,0 +1,9 @@
+{
+  access __x0__ = (MemberExpression "Evaluation")
+  let baseReference = __x0__
+  app __x1__ = (GetValue baseReference)
+  let baseValue = [? __x1__]
+  if (|| (= baseValue undefined) (= baseValue null)) return undefined else {}
+  access __x2__ = (OptionalChain "ChainEvaluation" baseValue baseReference)
+  return __x2__
+}

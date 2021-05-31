@@ -1,0 +1,179 @@
+["Let", {
+  "id": "val"
+}, "be", "?", "Get", "(", {
+  "id": "holder"
+}, ",", {
+  "id": "name"
+}, ")", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "val"
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "isArray"
+}, "be", "?", "IsArray", "(", {
+  "id": "val"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "isArray"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "I"
+}, "be", "0", ".", {
+  "k": 4
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "val"
+}, ")", ".", {
+  "k": 5
+}, "Repeat", ",", "while", {
+  "id": "I"
+}, "<", {
+  "id": "len"
+}, ",", {
+  "in": null
+}, "Let", {
+  "id": "prop"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "I"
+}, ")", ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "newElement"
+}, "be", "?", "InternalizeJSONProperty", "(", {
+  "id": "val"
+}, ",", {
+  "id": "prop"
+}, ",", {
+  "id": "reviver"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "newElement"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", {
+  "id": "val"
+}, ".", "[", "[", "Delete", "]", "]", "(", {
+  "id": "prop"
+}, ")", ".", {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 9
+}, "Else", ",", {
+  "in": null
+}, "Perform", "?", "CreateDataProperty", "(", {
+  "id": "val"
+}, ",", {
+  "id": "prop"
+}, ",", {
+  "id": "newElement"
+}, ")", ".", {
+  "k": 12
+}, {
+  "out": null
+}, {
+  "k": 11
+}, "Set", {
+  "id": "I"
+}, "to", {
+  "id": "I"
+}, "+", "1", ".", {
+  "k": 13
+}, {
+  "out": null
+}, {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "keys"
+}, "be", "?", "EnumerableOwnPropertyNames", "(", {
+  "id": "val"
+}, ",", {
+  "const": "key"
+}, ")", ".", {
+  "k": 15
+}, "For", "each", "String", {
+  "id": "P"
+}, "of", {
+  "id": "keys"
+}, ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "newElement"
+}, "be", "?", "InternalizeJSONProperty", "(", {
+  "id": "val"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "reviver"
+}, ")", ".", {
+  "k": 17
+}, "If", {
+  "id": "newElement"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Perform", "?", {
+  "id": "val"
+}, ".", "[", "[", "Delete", "]", "]", "(", {
+  "id": "P"
+}, ")", ".", {
+  "k": 19
+}, {
+  "out": null
+}, {
+  "k": 18
+}, "Else", ",", {
+  "in": null
+}, "Perform", "?", "CreateDataProperty", "(", {
+  "id": "val"
+}, ",", {
+  "id": "P"
+}, ",", {
+  "id": "newElement"
+}, ")", ".", {
+  "k": 21
+}, {
+  "out": null
+}, {
+  "k": 20
+}, {
+  "out": null
+}, {
+  "k": 16
+}, {
+  "out": null
+}, {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 1
+}, "Return", "?", "Call", "(", {
+  "id": "reviver"
+}, ",", {
+  "id": "holder"
+}, ",", "«", {
+  "id": "name"
+}, ",", {
+  "id": "val"
+}, "»", ")", ".", {
+  "k": 22
+}]

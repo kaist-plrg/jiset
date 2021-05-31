@@ -1,0 +1,147 @@
+["Evaluate", {
+  "nt": "Alternative"
+}, "with", "argument", {
+  "id": "direction"
+}, "to", "obtain", "a", "Matcher", {
+  "id": "m1"
+}, ".", {
+  "k": 0
+}, "Evaluate", {
+  "nt": "Term"
+}, "with", "argument", {
+  "id": "direction"
+}, "to", "obtain", "a", "Matcher", {
+  "id": "m2"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "direction"
+}, "=", "1", ",", "then", {
+  "in": null
+}, "Return", "a", "new", "Matcher", "with", "parameters", "(", {
+  "id": "x"
+}, ",", {
+  "id": "c"
+}, ")", "that", "captures", {
+  "id": "m1"
+}, "and", {
+  "id": "m2"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", {
+  "in": null
+}, "Assert", ":", {
+  "id": "x"
+}, "is", "a", "State", ".", {
+  "k": 4
+}, "Assert", ":", {
+  "id": "c"
+}, "is", "a", "Continuation", ".", {
+  "k": 5
+}, "Let", {
+  "id": "d"
+}, "be", "a", "new", "Continuation", "with", "parameters", "(", {
+  "id": "y"
+}, ")", "that", "captures", {
+  "id": "c"
+}, "and", {
+  "id": "m2"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", {
+  "in": null
+}, "Assert", ":", {
+  "id": "y"
+}, "is", "a", "State", ".", {
+  "k": 7
+}, "Return", {
+  "id": "m2"
+}, "(", {
+  "id": "y"
+}, ",", {
+  "id": "c"
+}, ")", ".", {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 6
+}, "Return", {
+  "id": "m1"
+}, "(", {
+  "id": "x"
+}, ",", {
+  "id": "d"
+}, ")", ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 3
+}, {
+  "out": null
+}, {
+  "k": 2
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "direction"
+}, "is", "-", "1", ".", {
+  "k": 11
+}, "Return", "a", "new", "Matcher", "with", "parameters", "(", {
+  "id": "x"
+}, ",", {
+  "id": "c"
+}, ")", "that", "captures", {
+  "id": "m1"
+}, "and", {
+  "id": "m2"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", {
+  "in": null
+}, "Assert", ":", {
+  "id": "x"
+}, "is", "a", "State", ".", {
+  "k": 13
+}, "Assert", ":", {
+  "id": "c"
+}, "is", "a", "Continuation", ".", {
+  "k": 14
+}, "Let", {
+  "id": "d"
+}, "be", "a", "new", "Continuation", "with", "parameters", "(", {
+  "id": "y"
+}, ")", "that", "captures", {
+  "id": "c"
+}, "and", {
+  "id": "m1"
+}, "and", "performs", "the", "following", "steps", "when", "called", ":", {
+  "in": null
+}, "Assert", ":", {
+  "id": "y"
+}, "is", "a", "State", ".", {
+  "k": 16
+}, "Return", {
+  "id": "m1"
+}, "(", {
+  "id": "y"
+}, ",", {
+  "id": "c"
+}, ")", ".", {
+  "k": 17
+}, {
+  "out": null
+}, {
+  "k": 15
+}, "Return", {
+  "id": "m2"
+}, "(", {
+  "id": "x"
+}, ",", {
+  "id": "d"
+}, ")", ".", {
+  "k": 18
+}, {
+  "out": null
+}, {
+  "k": 12
+}, {
+  "out": null
+}, {
+  "k": 10
+}]

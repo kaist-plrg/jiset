@@ -1,0 +1,79 @@
+["Let", {
+  "id": "done"
+}, "be", "IteratorComplete", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 0
+}, "IfAbruptRejectPromise", "(", {
+  "id": "done"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "value"
+}, "be", "IteratorValue", "(", {
+  "id": "result"
+}, ")", ".", {
+  "k": 2
+}, "IfAbruptRejectPromise", "(", {
+  "id": "value"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "valueWrapper"
+}, "be", "PromiseResolve", "(", "%", "Promise", "%", ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 4
+}, "IfAbruptRejectPromise", "(", {
+  "id": "valueWrapper"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "steps"
+}, "be", "the", "algorithm", "steps", "defined", "in", {
+  "link": "unhandled: sec-async-from-sync-iterator-value-unwrap-functions"
+}, ".", {
+  "k": 6
+}, "Let", {
+  "id": "length"
+}, "be", "the", "number", "of", "non", "-", "optional", "parameters", "of", "the", "function", "definition", "in", {
+  "link": "unhandled: sec-async-from-sync-iterator-value-unwrap-functions"
+}, ".", {
+  "k": 7
+}, "Let", {
+  "id": "onFulfilled"
+}, "be", "!", "CreateBuiltinFunction", "(", {
+  "id": "steps"
+}, ",", {
+  "id": "length"
+}, ",", {
+  "value": "\"\""
+}, ",", "«", "[", "[", "Done", "]", "]", "»", ")", ".", {
+  "k": 8
+}, "Set", {
+  "id": "onFulfilled"
+}, ".", "[", "[", "Done", "]", "]", "to", {
+  "id": "done"
+}, ".", {
+  "k": 9
+}, "Perform", "!", "PerformPromiseThen", "(", {
+  "id": "valueWrapper"
+}, ",", {
+  "id": "onFulfilled"
+}, ",", {
+  "value": "undefined"
+}, ",", {
+  "id": "promiseCapability"
+}, ")", ".", {
+  "k": 10
+}, "Return", {
+  "id": "promiseCapability"
+}, ".", "[", "[", "Promise", "]", "]", ".", {
+  "k": 11
+}]

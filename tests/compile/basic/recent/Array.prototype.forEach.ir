@@ -1,0 +1,23 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (LengthOfArrayLike O)
+  let len = [? __x1__]
+  app __x2__ = (IsCallable callbackfn)
+  if (= __x2__ false) throw TypeError else {}
+  let k = 0i
+  while (< k len) {
+    app __x3__ = (ToString k)
+    let Pk = [! __x3__]
+    app __x4__ = (HasProperty O Pk)
+    let kPresent = [? __x4__]
+    if (= kPresent true) {
+      app __x5__ = (Get O Pk)
+      let kValue = [? __x5__]
+      app __x6__ = (Call callbackfn thisArg (new [kValue, k, O]))
+      [? __x6__]
+    } else {}
+    k = (+ k 1i)
+  }
+  return undefined
+}

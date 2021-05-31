@@ -1,0 +1,12 @@
+{
+  access __x0__ = (IterationStatement "LoopEvaluation" labelSet)
+  let stmtResult = __x0__
+  if (= stmtResult.Type CONST_break) if (= stmtResult.Target CONST_empty) if (= stmtResult.Value CONST_empty) {
+    app __x1__ = (NormalCompletion undefined)
+    stmtResult = __x1__
+  } else {
+    app __x2__ = (NormalCompletion stmtResult.Value)
+    stmtResult = __x2__
+  } else {} else {}
+  return stmtResult
+}

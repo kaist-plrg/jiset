@@ -1,0 +1,16 @@
+{
+  let F = CONTEXT.Function
+  let onFinally = F.OnFinally
+  app __x0__ = (IsCallable onFinally)
+  assert (= __x0__ true)
+  app __x1__ = (Call onFinally undefined)
+  let result = [? __x1__]
+  let C = F.Constructor
+  app __x2__ = (IsConstructor C)
+  assert (= __x2__ true)
+  app __x3__ = (PromiseResolve C result)
+  let promise = [? __x3__]
+  ??? "Let id:{valueThunk} be equivalent to a function that returns id:{value} ."
+  app __x4__ = (Invoke promise "then" (new [valueThunk]))
+  return [? __x4__]
+}

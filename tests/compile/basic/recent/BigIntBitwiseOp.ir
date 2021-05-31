@@ -1,0 +1,38 @@
+{
+  assert (|| (|| (= op "&") (= op "^")) (= op "|"))
+  x = x
+  y = y
+  let result = 0i
+  let shift = 0i
+  while AnyBool {
+    let xDigit = (%% x 2i)
+    let yDigit = (%% y 2i)
+    if (= op "&") {
+      app __x0__ = (BinaryAnd xDigit yDigit)
+      result = (* (+ result (** 2.0 shift)) __x0__)
+    } else if (= op "|") {
+      app __x1__ = (BinaryOr xDigit yDigit)
+      result = (* (+ result (** 2.0 shift)) __x1__)
+    } else {
+      assert (= op "^")
+      app __x2__ = (BinaryXor xDigit yDigit)
+      result = (* (+ result (** 2.0 shift)) __x2__)
+    }
+    shift = (+ shift 1i)
+    x = (/ (- x xDigit) 2i)
+    y = (/ (- y yDigit) 2i)
+  }
+  if (= op "&") {
+    app __x3__ = (BinaryAnd (%% x 2i) (%% y 2i))
+    let tmp = __x3__
+  } else if (= op "|") {
+    app __x4__ = (BinaryOr (%% x 2i) (%% y 2i))
+    let tmp = __x4__
+  } else {
+    assert (= op "^")
+    app __x5__ = (BinaryXor (%% x 2i) (%% y 2i))
+    let tmp = __x5__
+  }
+  if (! (== tmp 0i)) result = (- result (** 2.0 shift)) else {}
+  return (convert result num2bigint )
+}

@@ -1,0 +1,1 @@
+        1. Return ? InstantiateGeneratorFunctionObject of |GeneratorDeclaration| with argument _scope_.

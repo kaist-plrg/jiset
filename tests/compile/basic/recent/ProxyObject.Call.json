@@ -1,0 +1,69 @@
+["Let", {
+  "id": "handler"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyHandler", "]", "]", ".", {
+  "k": 0
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 2
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "\"apply\""
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", "Call", "(", {
+  "id": "target"
+}, ",", {
+  "id": "thisArgument"
+}, ",", {
+  "id": "argumentsList"
+}, ")", ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "Let", {
+  "id": "argArray"
+}, "be", "!", "CreateArrayFromList", "(", {
+  "id": "argumentsList"
+}, ")", ".", {
+  "k": 7
+}, "Return", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, ",", {
+  "id": "thisArgument"
+}, ",", {
+  "id": "argArray"
+}, "»", ")", ".", {
+  "k": 8
+}]

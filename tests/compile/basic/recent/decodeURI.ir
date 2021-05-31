@@ -1,0 +1,7 @@
+{
+  app __x0__ = (ToString encodedURI)
+  let uriString = [? __x0__]
+  ??? "Let id:{reservedURISet} be a String containing one instance of each code unit valid in nt:{uriReserved} plus value:{\"#\"} ."
+  app __x1__ = (Decode uriString reservedURISet)
+  return [? __x1__]
+}

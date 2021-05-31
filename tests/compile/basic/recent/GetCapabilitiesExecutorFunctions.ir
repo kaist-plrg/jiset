@@ -1,0 +1,9 @@
+{
+  let F = CONTEXT.Function
+  let promiseCapability = F.Capability
+  if (! (= promiseCapability.Resolve undefined)) throw TypeError else {}
+  if (! (= promiseCapability.Reject undefined)) throw TypeError else {}
+  promiseCapability.Resolve = resolve
+  promiseCapability.Reject = reject
+  return undefined
+}

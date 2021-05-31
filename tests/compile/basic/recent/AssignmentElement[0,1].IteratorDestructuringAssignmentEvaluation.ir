@@ -1,0 +1,47 @@
+{
+  if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) {
+    access __x0__ = (DestructuringAssignmentTarget "Evaluation")
+    let lref = __x0__
+    [? lref]
+  } else {}
+  if (= iteratorRecord.Done false) {
+    app __x1__ = (IteratorStep iteratorRecord)
+    let next = __x1__
+    app __x2__ = (IsAbruptCompletion next)
+    if __x2__ iteratorRecord.Done = true else {}
+    [? next]
+    if (= next false) iteratorRecord.Done = true else {
+      app __x3__ = (IteratorValue next)
+      let value = __x3__
+      app __x4__ = (IsAbruptCompletion value)
+      if __x4__ iteratorRecord.Done = true else {}
+      [? value]
+    }
+  } else {}
+  if (= iteratorRecord.Done true) let value = undefined else {}
+  if (&& (! (= Initializer absent)) (= value undefined)) {
+    let __x5__ = true
+    app __x6__ = (IsAnonymousFunctionDefinition Initializer)
+    __x5__ = (= __x6__ true)
+    if __x5__ {
+      access __x7__ = (DestructuringAssignmentTarget "IsIdentifierRef")
+      __x5__ = (= __x7__ true)
+    } else {}
+    if __x5__ {
+      access __x8__ = (Initializer "NamedEvaluation" lref.ReferencedName)
+      let v = [? __x8__]
+    } else {
+      access __x9__ = (Initializer "Evaluation")
+      let defaultValue = __x9__
+      app __x10__ = (GetValue defaultValue)
+      let v = [? __x10__]
+    }
+  } else let v = value
+  if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) {
+    let nestedAssignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
+    access __x11__ = (nestedAssignmentPattern "DestructuringAssignmentEvaluation" v)
+    return __x11__
+  } else {}
+  app __x12__ = (PutValue lref v)
+  return [? __x12__]
+}

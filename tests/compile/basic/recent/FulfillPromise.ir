@@ -1,0 +1,10 @@
+{
+  assert (= promise.PromiseState CONST_pending)
+  let reactions = promise.PromiseFulfillReactions
+  promise.PromiseResult = value
+  promise.PromiseFulfillReactions = undefined
+  promise.PromiseRejectReactions = undefined
+  promise.PromiseState = CONST_fulfilled
+  app __x0__ = (TriggerPromiseReactions reactions value)
+  return __x0__
+}

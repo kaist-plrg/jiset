@@ -1,0 +1,6 @@
+{
+  ??? "Let id:{A} be the CharSet of all characters ."
+  if (! (= DotAll true)) ??? "Remove from id:{A} all characters corresponding to a code point on the right - hand side of the nt:{LineTerminator} production ." else {}
+  app __x0__ = (CharacterSetMatcher A false direction)
+  return [! __x0__]
+}

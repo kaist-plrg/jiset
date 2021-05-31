@@ -1,0 +1,32 @@
+{
+  app __x0__ = (ToObject target)
+  let to = [? __x0__]
+  if (= argumentsList.length 1i) return to else {}
+  let __x1__ = sources
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let nextSource = __x1__[__x2__]
+    if (! (|| (= nextSource undefined) (= nextSource null))) {
+      app __x3__ = (ToObject nextSource)
+      let from = [! __x3__]
+      app __x4__ = (from.OwnPropertyKeys from)
+      let keys = [? __x4__]
+      let __x5__ = keys
+      let __x6__ = 0i
+      while (< __x6__ __x5__.length) {
+        let nextKey = __x5__[__x6__]
+        app __x7__ = (from.GetOwnProperty from nextKey)
+        let desc = [? __x7__]
+        if (&& (! (= desc undefined)) (= desc.Enumerable true)) {
+          app __x8__ = (Get from nextKey)
+          let propValue = [? __x8__]
+          app __x9__ = (Set to nextKey propValue true)
+          [? __x9__]
+        } else {}
+        __x6__ = (+ __x6__ 1i)
+      }
+    } else {}
+    __x2__ = (+ __x2__ 1i)
+  }
+  return to
+}

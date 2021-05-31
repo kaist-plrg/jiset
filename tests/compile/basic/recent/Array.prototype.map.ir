@@ -1,0 +1,27 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (LengthOfArrayLike O)
+  let len = [? __x1__]
+  app __x2__ = (IsCallable callbackfn)
+  if (= __x2__ false) throw TypeError else {}
+  app __x3__ = (ArraySpeciesCreate O len)
+  let A = [? __x3__]
+  let k = 0i
+  while (< k len) {
+    app __x4__ = (ToString k)
+    let Pk = [! __x4__]
+    app __x5__ = (HasProperty O Pk)
+    let kPresent = [? __x5__]
+    if (= kPresent true) {
+      app __x6__ = (Get O Pk)
+      let kValue = [? __x6__]
+      app __x7__ = (Call callbackfn thisArg (new [kValue, k, O]))
+      let mappedValue = [? __x7__]
+      app __x8__ = (CreateDataPropertyOrThrow A Pk mappedValue)
+      [? __x8__]
+    } else {}
+    k = (+ k 1i)
+  }
+  return A
+}

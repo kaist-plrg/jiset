@@ -1,0 +1,289 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "searchValue"
+}, "is", "neither", {
+  "value": "undefined"
+}, "nor", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "isRegExp"
+}, "be", "?", "IsRegExp", "(", {
+  "id": "searchValue"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "isRegExp"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "flags"
+}, "be", "?", "Get", "(", {
+  "id": "searchValue"
+}, ",", {
+  "value": "\"flags\""
+}, ")", ".", {
+  "k": 4
+}, "Perform", "?", "RequireObjectCoercible", "(", {
+  "id": "flags"
+}, ")", ".", {
+  "k": 5
+}, "If", "?", "ToString", "(", {
+  "id": "flags"
+}, ")", "does", "not", "contain", {
+  "value": "\"g\""
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "Let", {
+  "id": "replacer"
+}, "be", "?", "GetMethod", "(", {
+  "id": "searchValue"
+}, ",", "@", "@", "replace", ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "replacer"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", "Call", "(", {
+  "id": "replacer"
+}, ",", {
+  "id": "searchValue"
+}, ",", "«", {
+  "id": "O"
+}, ",", {
+  "id": "replaceValue"
+}, "»", ")", ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 1
+}, "Let", {
+  "id": "string"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "searchString"
+}, "be", "?", "ToString", "(", {
+  "id": "searchValue"
+}, ")", ".", {
+  "k": 11
+}, "Let", {
+  "id": "functionalReplace"
+}, "be", "IsCallable", "(", {
+  "id": "replaceValue"
+}, ")", ".", {
+  "k": 12
+}, "If", {
+  "id": "functionalReplace"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "replaceValue"
+}, "to", "?", "ToString", "(", {
+  "id": "replaceValue"
+}, ")", ".", {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 13
+}, "Let", {
+  "id": "searchLength"
+}, "be", "the", "length", "of", {
+  "id": "searchString"
+}, ".", {
+  "k": 15
+}, "Let", {
+  "id": "advanceBy"
+}, "be", "max", "(", "1", ",", {
+  "id": "searchLength"
+}, ")", ".", {
+  "k": 16
+}, "Let", {
+  "id": "matchPositions"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 17
+}, "Let", {
+  "id": "position"
+}, "be", "!", "StringIndexOf", "(", {
+  "id": "string"
+}, ",", {
+  "id": "searchString"
+}, ",", "0", ")", ".", {
+  "k": 18
+}, "Repeat", ",", "while", {
+  "id": "position"
+}, "is", "not", "-", "1", ",", {
+  "in": null
+}, "Append", {
+  "id": "position"
+}, "to", "the", "end", "of", {
+  "id": "matchPositions"
+}, ".", {
+  "k": 20
+}, "Set", {
+  "id": "position"
+}, "to", "!", "StringIndexOf", "(", {
+  "id": "string"
+}, ",", {
+  "id": "searchString"
+}, ",", {
+  "id": "position"
+}, "+", {
+  "id": "advanceBy"
+}, ")", ".", {
+  "k": 21
+}, {
+  "out": null
+}, {
+  "k": 19
+}, "Let", {
+  "id": "endOfLastMatch"
+}, "be", "0", ".", {
+  "k": 22
+}, "Let", {
+  "id": "result"
+}, "be", "the", "empty", "String", ".", {
+  "k": 23
+}, "For", "each", "element", {
+  "id": "p"
+}, "of", {
+  "id": "matchPositions"
+}, ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "preserved"
+}, "be", "the", "substring", "of", {
+  "id": "string"
+}, "from", {
+  "id": "endOfLastMatch"
+}, "to", {
+  "id": "p"
+}, ".", {
+  "k": 25
+}, "If", {
+  "id": "functionalReplace"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "replacement"
+}, "be", "?", "ToString", "(", "?", "Call", "(", {
+  "id": "replaceValue"
+}, ",", {
+  "value": "undefined"
+}, ",", "«", {
+  "id": "searchString"
+}, ",", "𝔽", "(", {
+  "id": "p"
+}, ")", ",", {
+  "id": "string"
+}, "»", ")", ")", ".", {
+  "k": 27
+}, {
+  "out": null
+}, {
+  "k": 26
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", "Type", "(", {
+  "id": "replaceValue"
+}, ")", "is", "String", ".", {
+  "k": 29
+}, "Let", {
+  "id": "captures"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 30
+}, "Let", {
+  "id": "replacement"
+}, "be", "!", "GetSubstitution", "(", {
+  "id": "searchString"
+}, ",", {
+  "id": "string"
+}, ",", {
+  "id": "p"
+}, ",", {
+  "id": "captures"
+}, ",", {
+  "value": "undefined"
+}, ",", {
+  "id": "replaceValue"
+}, ")", ".", {
+  "k": 31
+}, {
+  "out": null
+}, {
+  "k": 28
+}, "Set", {
+  "id": "result"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "result"
+}, ",", {
+  "id": "preserved"
+}, ",", "and", {
+  "id": "replacement"
+}, ".", {
+  "k": 32
+}, "Set", {
+  "id": "endOfLastMatch"
+}, "to", {
+  "id": "p"
+}, "+", {
+  "id": "searchLength"
+}, ".", {
+  "k": 33
+}, {
+  "out": null
+}, {
+  "k": 24
+}, "If", {
+  "id": "endOfLastMatch"
+}, "<", "the", "length", "of", {
+  "id": "string"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "result"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "result"
+}, "and", "the", "substring", "of", {
+  "id": "string"
+}, "from", {
+  "id": "endOfLastMatch"
+}, ".", {
+  "k": 35
+}, {
+  "out": null
+}, {
+  "k": 34
+}, "Return", {
+  "id": "result"
+}, ".", {
+  "k": 36
+}]

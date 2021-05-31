@@ -1,0 +1,50 @@
+{
+  let targetBuffer = target.ViewedArrayBuffer
+  app __x0__ = (IsDetachedBuffer targetBuffer)
+  if (= __x0__ true) throw TypeError else {}
+  let targetLength = target.ArrayLength
+  let srcBuffer = source.ViewedArrayBuffer
+  app __x1__ = (IsDetachedBuffer srcBuffer)
+  if (= __x1__ true) throw TypeError else {}
+  let targetName = target.TypedArrayName
+  ??? "Let id:{targetType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{targetName} ."
+  ??? "Let id:{targetElementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{targetName} ."
+  let targetByteOffset = target.ByteOffset
+  let srcName = source.TypedArrayName
+  ??? "Let id:{srcType} be the Element Type value in link:{unhandled: table-the-typedarray-constructors} for id:{srcName} ."
+  ??? "Let id:{srcElementSize} be the Element Size value specified in link:{unhandled: table-the-typedarray-constructors} for id:{srcName} ."
+  let srcLength = source.ArrayLength
+  let srcByteOffset = source.ByteOffset
+  if (= targetOffset Infinity) throw RangeError else {}
+  if (< targetLength (+ srcLength targetOffset)) throw RangeError else {}
+  if (! (== target.ContentType source.ContentType)) throw TypeError else {}
+  app __x2__ = (IsSharedArrayBuffer srcBuffer)
+  app __x3__ = (IsSharedArrayBuffer targetBuffer)
+  if (&& (= __x2__ true) (= __x3__ true)) if (= srcBuffer.ArrayBufferData targetBuffer.ArrayBufferData) let same = true else let same = false else {
+    app __x4__ = (SameValue srcBuffer targetBuffer)
+    let same = __x4__
+  }
+  if (= same true) {
+    let srcByteLength = source.ByteLength
+    app __x5__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSIC_ArrayBuffer)
+    srcBuffer = [? __x5__]
+    let srcByteIndex = 0i
+  } else let srcByteIndex = srcByteOffset
+  let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)
+  let limit = (* (+ targetByteIndex targetElementSize) srcLength)
+  if (= srcType targetType) while (< targetByteIndex limit) {
+    app __x6__ = (GetValueFromBuffer srcBuffer srcByteIndex CONST_Uint8 true CONST_Unordered)
+    let value = __x6__
+    app __x7__ = (SetValueInBuffer targetBuffer targetByteIndex CONST_Uint8 value true CONST_Unordered)
+    __x7__
+    srcByteIndex = (+ srcByteIndex 1i)
+    targetByteIndex = (+ targetByteIndex 1i)
+  } else while (< targetByteIndex limit) {
+    app __x8__ = (GetValueFromBuffer srcBuffer srcByteIndex srcType true CONST_Unordered)
+    let value = __x8__
+    app __x9__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
+    __x9__
+    srcByteIndex = (+ srcByteIndex srcElementSize)
+    targetByteIndex = (+ targetByteIndex targetElementSize)
+  }
+}

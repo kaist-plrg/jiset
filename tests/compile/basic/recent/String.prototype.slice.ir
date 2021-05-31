@@ -1,0 +1,36 @@
+{
+  app __x0__ = (RequireObjectCoercible this)
+  let O = [? __x0__]
+  app __x1__ = (ToString O)
+  let S = [? __x1__]
+  let len = S.length
+  app __x2__ = (ToIntegerOrInfinity start)
+  let intStart = [? __x2__]
+  if (= intStart -Infinity) let from = 0i else if (< intStart 0i) {
+    app __x3__ = (max (+ len intStart) 0i)
+    let from = __x3__
+  } else {
+    app __x4__ = (min intStart len)
+    let from = __x4__
+  }
+  if (= end undefined) let intEnd = len else {
+    app __x5__ = (ToIntegerOrInfinity end)
+    let intEnd = [? __x5__]
+  }
+  if (= intEnd -Infinity) let to = 0i else if (< intEnd 0i) {
+    app __x6__ = (max (+ len intEnd) 0i)
+    let to = __x6__
+  } else {
+    app __x7__ = (min intEnd len)
+    let to = __x7__
+  }
+  if (! (< from to)) return "" else {}
+  let __x8__ = ""
+  let __x9__ = from
+  while (< __x9__ (+ to 1i)) {
+    access __x10__ = (S __x9__)
+    __x8__ = (+ __x8__ __x10__)
+    __x9__ = (+ __x9__ 1i)
+  }
+  return __x8__
+}

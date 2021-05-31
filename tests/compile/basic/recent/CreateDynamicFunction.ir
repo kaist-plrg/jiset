@@ -1,0 +1,73 @@
+{
+  let callerContext = EXECUTION_STACK[(- EXECUTION_STACK.length 2i)]
+  let callerRealm = callerContext.Realm
+  let calleeRealm = REALM
+  app __x0__ = (HostEnsureCanCompileStrings callerRealm calleeRealm)
+  [? __x0__]
+  if (= newTarget undefined) newTarget = constructor else {}
+  if (= kind CONST_normal) {
+    ??? "Let id:{goal} be the grammar symbol | FunctionBody [ ~ Yield , ~ Await ] | ."
+    ??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ ~ Yield , ~ Await ] | ."
+    let fallbackProto = "%Function.prototype%"
+  } else if (= kind CONST_generator) {
+    let goal = "GeneratorBody"
+    ??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ + Yield , ~ Await ] | ."
+    let fallbackProto = "%GeneratorFunction.prototype%"
+  } else if (= kind CONST_async) {
+    let goal = "AsyncFunctionBody"
+    ??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ ~ Yield , + Await ] | ."
+    let fallbackProto = "%AsyncFunction.prototype%"
+  } else {
+    assert (= kind CONST_asyncGenerator)
+    let goal = "AsyncGeneratorBody"
+    ??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ + Yield , + Await ] | ."
+    let fallbackProto = "%AsyncGeneratorFunction.prototype%"
+  }
+  let argCount = args.length
+  let P = ""
+  if (== argCount 0i) let bodyArg = "" else if (== argCount 1i) let bodyArg = args[0i] else {
+    assert (< 1i argCount)
+    let firstArg = args[0i]
+    app __x1__ = (ToString firstArg)
+    P = [? __x1__]
+    let k = 1i
+    while (< k (- argCount 1i)) {
+      let nextArg = args[k]
+      app __x2__ = (ToString nextArg)
+      let nextArgString = [? __x2__]
+      ??? "Set id:{P} to the string - concatenation of id:{P} , value:{\",\"} ( a comma ) , and id:{nextArgString} ."
+      k = (+ k 1i)
+    }
+    let bodyArg = args[k]
+  }
+  app __x3__ = (ToString bodyArg)
+  let bodyString = (+ (+ "\n" [? __x3__]) "\n")
+  ??? "Let id:{prefix} be the prefix associated with id:{kind} in link:{unhandled: table-dynamic-function-sourcetext-prefixes} ."
+  let sourceString = (+ (+ (+ (+ (+ (+ prefix "anonymous(") P) "\n") ") {") bodyString) "}")
+  app __x4__ = (StringToCodePoints sourceString)
+  let sourceText = [! __x4__]
+  ??? "Perform the following substeps in an implementation - defined order , possibly interleaving parsing and error detection : in:{} out:{}"
+  app __x5__ = (GetPrototypeFromConstructor newTarget fallbackProto)
+  let proto = [? __x5__]
+  let realmF = REALM
+  let scope = realmF.GlobalEnv
+  app __x6__ = (OrdinaryFunctionCreate proto sourceText parameters body CONST_nonDASHlexicalDASHthis scope)
+  let F = [! __x6__]
+  app __x7__ = (SetFunctionName F "anonymous")
+  __x7__
+  if (= kind CONST_generator) {
+    app __x8__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction_prototype_prototype)
+    let prototype = [! __x8__]
+    app __x9__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+    __x9__
+  } else if (= kind CONST_asyncGenerator) {
+    app __x10__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
+    let prototype = [! __x10__]
+    app __x11__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+    __x11__
+  } else if (= kind CONST_normal) {
+    app __x12__ = (MakeConstructor F)
+    __x12__
+  } else {}
+  return F
+}

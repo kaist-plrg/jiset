@@ -1,0 +1,1 @@
+        1. Return ? InstantiateOrdinaryFunctionObject of |FunctionDeclaration| with argument _scope_.

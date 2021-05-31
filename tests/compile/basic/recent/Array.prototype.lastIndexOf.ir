@@ -1,0 +1,31 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (LengthOfArrayLike O)
+  let len = [? __x1__]
+  if (= len 0i) return -1i else {}
+  if (! (= fromIndex absent)) {
+    app __x2__ = (ToIntegerOrInfinity fromIndex)
+    let n = [? __x2__]
+  } else let n = (- len 1i)
+  if (= n -Infinity) return -1i else {}
+  if (! (< n 0i)) {
+    app __x3__ = (min n (- len 1i))
+    let k = __x3__
+  } else let k = (+ len n)
+  while (! (< k 0i)) {
+    app __x4__ = (ToString k)
+    app __x5__ = (HasProperty O [! __x4__])
+    let kPresent = [? __x5__]
+    if (= kPresent true) {
+      app __x6__ = (ToString k)
+      app __x7__ = (Get O [! __x6__])
+      let elementK = [? __x7__]
+      app __x8__ = (StrictEqualityComparison searchElement elementK)
+      let same = __x8__
+      if (= same true) return k else {}
+    } else {}
+    k = (- k 1i)
+  }
+  return -1i
+}

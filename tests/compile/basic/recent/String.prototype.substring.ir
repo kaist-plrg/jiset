@@ -1,0 +1,27 @@
+{
+  app __x0__ = (RequireObjectCoercible this)
+  let O = [? __x0__]
+  app __x1__ = (ToString O)
+  let S = [? __x1__]
+  let len = S.length
+  app __x2__ = (ToIntegerOrInfinity start)
+  let intStart = [? __x2__]
+  if (= end undefined) let intEnd = len else {
+    app __x3__ = (ToIntegerOrInfinity end)
+    let intEnd = [? __x3__]
+  }
+  ??? "Let id:{finalStart} be the result of clamping id:{intStart} between 0 and id:{len} ."
+  ??? "Let id:{finalEnd} be the result of clamping id:{intEnd} between 0 and id:{len} ."
+  app __x4__ = (min finalStart finalEnd)
+  let from = __x4__
+  app __x5__ = (max finalStart finalEnd)
+  let to = __x5__
+  let __x6__ = ""
+  let __x7__ = from
+  while (< __x7__ (+ to 1i)) {
+    access __x8__ = (S __x7__)
+    __x6__ = (+ __x6__ __x8__)
+    __x7__ = (+ __x7__ 1i)
+  }
+  return __x6__
+}

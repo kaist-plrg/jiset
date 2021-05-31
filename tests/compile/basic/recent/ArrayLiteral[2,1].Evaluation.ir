@@ -1,0 +1,13 @@
+{
+  app __x0__ = (ArrayCreate 0i)
+  let array = [! __x0__]
+  access __x1__ = (ElementList "ArrayAccumulation" array 0i)
+  let nextIndex = __x1__
+  [? nextIndex]
+  if (! (= Elision absent)) {
+    access __x2__ = (Elision "ArrayAccumulation" array nextIndex)
+    let len = __x2__
+    [? len]
+  } else {}
+  return array
+}

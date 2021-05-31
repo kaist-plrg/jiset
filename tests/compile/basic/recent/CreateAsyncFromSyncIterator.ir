@@ -1,0 +1,9 @@
+{
+  app __x0__ = (OrdinaryObjectCreate INTRINSIC_AsyncFromSyncIteratorPrototype (new ["SyncIteratorRecord"]))
+  let asyncIterator = [! __x0__]
+  asyncIterator.SyncIteratorRecord = syncIteratorRecord
+  app __x1__ = (Get asyncIterator "next")
+  let nextMethod = [! __x1__]
+  let iteratorRecord = (new Record("Iterator" -> asyncIterator, "NextMethod" -> nextMethod, "Done" -> false))
+  return iteratorRecord
+}

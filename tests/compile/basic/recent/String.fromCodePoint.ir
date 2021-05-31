@@ -1,0 +1,17 @@
+{
+  let result = ""
+  let __x0__ = codePoints
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let next = __x0__[__x1__]
+    app __x2__ = (ToNumber next)
+    let nextCP = [? __x2__]
+    app __x3__ = (IsIntegralNumber nextCP)
+    if (= [! __x3__] false) throw RangeError else {}
+    if (|| (< nextCP 0i) (< 1114111i nextCP)) throw RangeError else {}
+    app __x4__ = (UTF16EncodeCodePoint nextCP)
+    result = (+ result [! __x4__])
+    __x1__ = (+ __x1__ 1i)
+  }
+  return result
+}

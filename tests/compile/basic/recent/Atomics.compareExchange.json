@@ -1,0 +1,277 @@
+["Let", {
+  "id": "buffer"
+}, "be", "?", "ValidateIntegerTypedArray", "(", {
+  "id": "typedArray"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "block"
+}, "be", {
+  "id": "buffer"
+}, ".", "[", "[", "ArrayBufferData", "]", "]", ".", {
+  "k": 1
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "?", "ValidateAtomicAccess", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 3
+}, "If", {
+  "id": "typedArray"
+}, ".", "[", "[", "ContentType", "]", "]", "is", {
+  "const": "BigInt"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "expected"
+}, "be", "?", "ToBigInt", "(", {
+  "id": "expectedValue"
+}, ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "replacement"
+}, "be", "?", "ToBigInt", "(", {
+  "id": "replacementValue"
+}, ")", ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 4
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "expected"
+}, "be", "𝔽", "(", "?", "ToIntegerOrInfinity", "(", {
+  "id": "expectedValue"
+}, ")", ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "replacement"
+}, "be", "𝔽", "(", "?", "ToIntegerOrInfinity", "(", {
+  "id": "replacementValue"
+}, ")", ")", ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 10
+}, "NOTE", ":", "The", "above", "check", "is", "not", "redundant", "with", "the", "check", "in", "ValidateIntegerTypedArray", "because", "the", "call", "to", "ToBigInt", "or", "ToIntegerOrInfinity", "on", "the", "preceding", "lines", "can", "have", "arbitrary", "side", "effects", ",", "which", "could", "cause", "the", "buffer", "to", "become", "detached", ".", {
+  "k": 11
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": "unhandled: table-the-typedarray-constructors"
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 12
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", {
+  "link": "unhandled: table-the-typedarray-constructors"
+}, "for", "Element", "Type", {
+  "id": "elementType"
+}, ".", {
+  "k": 13
+}, "Let", {
+  "id": "isLittleEndian"
+}, "be", "the", "value", "of", "the", "[", "[", "LittleEndian", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 14
+}, "Let", {
+  "id": "expectedBytes"
+}, "be", "NumericToRawBytes", "(", {
+  "id": "elementType"
+}, ",", {
+  "id": "expected"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 15
+}, "Let", {
+  "id": "replacementBytes"
+}, "be", "NumericToRawBytes", "(", {
+  "id": "elementType"
+}, ",", {
+  "id": "replacement"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 16
+}, "If", "IsSharedArrayBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "execution"
+}, "be", "the", "[", "[", "CandidateExecution", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 18
+}, "Let", {
+  "id": "eventList"
+}, "be", "the", "[", "[", "EventList", "]", "]", "field", "of", "the", "element", "in", {
+  "id": "execution"
+}, ".", "[", "[", "EventsRecords", "]", "]", "whose", "[", "[", "AgentSignifier", "]", "]", "is", "AgentSignifier", "(", ")", ".", {
+  "k": 19
+}, "Let", {
+  "id": "rawBytesRead"
+}, "be", "a", "List", "of", "length", {
+  "id": "elementSize"
+}, "whose", "elements", "are", "nondeterministically", "chosen", "byte", "values", ".", {
+  "k": 20
+}, "NOTE", ":", "In", "implementations", ",", {
+  "id": "rawBytesRead"
+}, "is", "the", "result", "of", "a", "load", "-", "link", ",", "of", "a", "load", "-", "exclusive", ",", "or", "of", "an", "operand", "of", "a", "read", "-", "modify", "-", "write", "instruction", "on", "the", "underlying", "hardware", ".", "The", "nondeterminism", "is", "a", "semantic", "prescription", "of", "the", "memory", "model", "to", "describe", "observable", "behaviour", "of", "hardware", "with", "weak", "consistency", ".", {
+  "k": 21
+}, "NOTE", ":", "The", "comparison", "of", "the", "expected", "value", "and", "the", "read", "value", "is", "performed", "outside", "of", "the", "read", "-", "modify", "-", "write", "modification", "function", "to", "avoid", "needlessly", "strong", "synchronization", "when", "the", "expected", "value", "is", "not", "equal", "to", "the", "read", "value", ".", {
+  "k": 22
+}, "If", "ByteListEqual", "(", {
+  "id": "rawBytesRead"
+}, ",", {
+  "id": "expectedBytes"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "second"
+}, "be", "a", "new", "read", "-", "modify", "-", "write", "modification", "function", "with", "parameters", "(", {
+  "id": "oldBytes"
+}, ",", {
+  "id": "newBytes"
+}, ")", "that", "captures", "nothing", "and", "performs", "the", "following", "steps", "atomically", "when", "called", ":", {
+  "in": null
+}, "Return", {
+  "id": "newBytes"
+}, ".", {
+  "k": 25
+}, {
+  "out": null
+}, {
+  "k": 24
+}, "Let", {
+  "id": "event"
+}, "be", "ReadModifyWriteSharedMemory", "{", "[", "[", "Order", "]", "]", ":", {
+  "const": "SeqCst"
+}, ",", "[", "[", "NoTear", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Block", "]", "]", ":", {
+  "id": "block"
+}, ",", "[", "[", "ByteIndex", "]", "]", ":", {
+  "id": "indexedPosition"
+}, ",", "[", "[", "ElementSize", "]", "]", ":", {
+  "id": "elementSize"
+}, ",", "[", "[", "Payload", "]", "]", ":", {
+  "id": "replacementBytes"
+}, ",", "[", "[", "ModifyOp", "]", "]", ":", {
+  "id": "second"
+}, "}", ".", {
+  "k": 26
+}, {
+  "out": null
+}, {
+  "k": 23
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "event"
+}, "be", "ReadSharedMemory", "{", "[", "[", "Order", "]", "]", ":", {
+  "const": "SeqCst"
+}, ",", "[", "[", "NoTear", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Block", "]", "]", ":", {
+  "id": "block"
+}, ",", "[", "[", "ByteIndex", "]", "]", ":", {
+  "id": "indexedPosition"
+}, ",", "[", "[", "ElementSize", "]", "]", ":", {
+  "id": "elementSize"
+}, "}", ".", {
+  "k": 28
+}, {
+  "out": null
+}, {
+  "k": 27
+}, "Append", {
+  "id": "event"
+}, "to", {
+  "id": "eventList"
+}, ".", {
+  "k": 29
+}, "Append", "Chosen", "Value", "Record", "{", "[", "[", "Event", "]", "]", ":", {
+  "id": "event"
+}, ",", "[", "[", "ChosenValue", "]", "]", ":", {
+  "id": "rawBytesRead"
+}, "}", "to", {
+  "id": "execution"
+}, ".", "[", "[", "ChosenValues", "]", "]", ".", {
+  "k": 30
+}, {
+  "out": null
+}, {
+  "k": 17
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "rawBytesRead"
+}, "be", "a", "List", "of", "length", {
+  "id": "elementSize"
+}, "whose", "elements", "are", "the", "sequence", "of", {
+  "id": "elementSize"
+}, "bytes", "starting", "with", {
+  "id": "block"
+}, "[", {
+  "id": "indexedPosition"
+}, "]", ".", {
+  "k": 32
+}, "If", "ByteListEqual", "(", {
+  "id": "rawBytesRead"
+}, ",", {
+  "id": "expectedBytes"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Store", "the", "individual", "bytes", "of", {
+  "id": "replacementBytes"
+}, "into", {
+  "id": "block"
+}, ",", "starting", "at", {
+  "id": "block"
+}, "[", {
+  "id": "indexedPosition"
+}, "]", ".", {
+  "k": 34
+}, {
+  "out": null
+}, {
+  "k": 33
+}, {
+  "out": null
+}, {
+  "k": 31
+}, "Return", "RawBytesToNumeric", "(", {
+  "id": "elementType"
+}, ",", {
+  "id": "rawBytesRead"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 35
+}]

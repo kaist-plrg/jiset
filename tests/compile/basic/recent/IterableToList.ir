@@ -1,0 +1,21 @@
+{
+  if (! (= method absent)) {
+    app __x0__ = (GetIterator items CONST_sync method)
+    let iteratorRecord = [? __x0__]
+  } else {
+    app __x1__ = (GetIterator items CONST_sync)
+    let iteratorRecord = [? __x1__]
+  }
+  let values = (new [])
+  let next = true
+  while (! (= next false)) {
+    app __x2__ = (IteratorStep iteratorRecord)
+    next = [? __x2__]
+    if (! (= next false)) {
+      app __x3__ = (IteratorValue next)
+      let nextValue = [? __x3__]
+      append nextValue -> values
+    } else {}
+  }
+  return values
+}

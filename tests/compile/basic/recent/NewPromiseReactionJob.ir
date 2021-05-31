@@ -1,0 +1,10 @@
+{
+  ??? "Let id:{job} be a new Job Abstract Closure with no parameters that captures id:{reaction} and id:{argument} and performs the following steps when called : in:{} out:{}"
+  let handlerRealm = null
+  if (! (= reaction.Handler CONST_empty)) {
+    app __x0__ = (GetFunctionRealm reaction.Handler.Callback)
+    let getHandlerRealmResult = __x0__
+    if (&& (is-completion getHandlerRealmResult) (= getHandlerRealmResult.Type CONST_normal)) handlerRealm = getHandlerRealmResult.Value else handlerRealm = REALM
+  } else {}
+  return (new Record("Job" -> job, "Realm" -> handlerRealm))
+}

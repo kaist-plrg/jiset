@@ -1,0 +1,29 @@
+{
+  app __x0__ = (thisTimeValue this)
+  let t = [? __x0__]
+  app __x1__ = (ToNumber min)
+  let m = [? __x1__]
+  if (= sec absent) {
+    app __x2__ = (SecFromTime t)
+    let s = __x2__
+  } else {
+    app __x3__ = (ToNumber sec)
+    let s = [? __x3__]
+  }
+  if (= ms absent) {
+    app __x4__ = (msFromTime t)
+    let milli = __x4__
+  } else {
+    app __x5__ = (ToNumber ms)
+    let milli = [? __x5__]
+  }
+  app __x6__ = (Day t)
+  app __x7__ = (HourFromTime t)
+  app __x8__ = (MakeTime __x7__ m s milli)
+  app __x9__ = (MakeDate __x6__ __x8__)
+  let date = __x9__
+  app __x10__ = (TimeClip date)
+  let v = __x10__
+  this.DateValue = v
+  return v
+}

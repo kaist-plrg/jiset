@@ -1,0 +1,13 @@
+{
+  let __x0__ = reactions
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let reaction = __x0__[__x1__]
+    app __x2__ = (NewPromiseReactionJob reaction argument)
+    let job = __x2__
+    app __x3__ = (HostEnqueuePromiseJob job.Job job.Realm)
+    __x3__
+    __x1__ = (+ __x1__ 1i)
+  }
+  return undefined
+}

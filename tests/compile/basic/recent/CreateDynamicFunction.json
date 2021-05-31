@@ -1,0 +1,558 @@
+["Assert", ":", "The", "execution", "context", "stack", "has", "at", "least", "two", "elements", ".", {
+  "k": 0
+}, "Let", {
+  "id": "callerContext"
+}, "be", "the", "second", "to", "top", "element", "of", "the", "execution", "context", "stack", ".", {
+  "k": 1
+}, "Let", {
+  "id": "callerRealm"
+}, "be", {
+  "id": "callerContext"
+}, "'", "s", "Realm", ".", {
+  "k": 2
+}, "Let", {
+  "id": "calleeRealm"
+}, "be", "the", "current", "Realm", "Record", ".", {
+  "k": 3
+}, "Perform", "?", "HostEnsureCanCompileStrings", "(", {
+  "id": "callerRealm"
+}, ",", {
+  "id": "calleeRealm"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "newTarget"
+}, "is", {
+  "value": "undefined"
+}, ",", "set", {
+  "id": "newTarget"
+}, "to", {
+  "id": "constructor"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "kind"
+}, "is", {
+  "const": "normal"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "goal"
+}, "be", "the", "grammar", "symbol", "|", "FunctionBody", "[", "~", "Yield", ",", "~", "Await", "]", "|", ".", {
+  "k": 7
+}, "Let", {
+  "id": "parameterGoal"
+}, "be", "the", "grammar", "symbol", "|", "FormalParameters", "[", "~", "Yield", ",", "~", "Await", "]", "|", ".", {
+  "k": 8
+}, "Let", {
+  "id": "fallbackProto"
+}, "be", {
+  "value": "\"%Function.prototype%\""
+}, ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 6
+}, "Else", "if", {
+  "id": "kind"
+}, "is", {
+  "const": "generator"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "goal"
+}, "be", "the", "grammar", "symbol", {
+  "nt": "GeneratorBody"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "parameterGoal"
+}, "be", "the", "grammar", "symbol", "|", "FormalParameters", "[", "+", "Yield", ",", "~", "Await", "]", "|", ".", {
+  "k": 12
+}, "Let", {
+  "id": "fallbackProto"
+}, "be", {
+  "value": "\"%GeneratorFunction.prototype%\""
+}, ".", {
+  "k": 13
+}, {
+  "out": null
+}, {
+  "k": 10
+}, "Else", "if", {
+  "id": "kind"
+}, "is", {
+  "const": "async"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "goal"
+}, "be", "the", "grammar", "symbol", {
+  "nt": "AsyncFunctionBody"
+}, ".", {
+  "k": 15
+}, "Let", {
+  "id": "parameterGoal"
+}, "be", "the", "grammar", "symbol", "|", "FormalParameters", "[", "~", "Yield", ",", "+", "Await", "]", "|", ".", {
+  "k": 16
+}, "Let", {
+  "id": "fallbackProto"
+}, "be", {
+  "value": "\"%AsyncFunction.prototype%\""
+}, ".", {
+  "k": 17
+}, {
+  "out": null
+}, {
+  "k": 14
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "kind"
+}, "is", {
+  "const": "asyncGenerator"
+}, ".", {
+  "k": 19
+}, "Let", {
+  "id": "goal"
+}, "be", "the", "grammar", "symbol", {
+  "nt": "AsyncGeneratorBody"
+}, ".", {
+  "k": 20
+}, "Let", {
+  "id": "parameterGoal"
+}, "be", "the", "grammar", "symbol", "|", "FormalParameters", "[", "+", "Yield", ",", "+", "Await", "]", "|", ".", {
+  "k": 21
+}, "Let", {
+  "id": "fallbackProto"
+}, "be", {
+  "value": "\"%AsyncGeneratorFunction.prototype%\""
+}, ".", {
+  "k": 22
+}, {
+  "out": null
+}, {
+  "k": 18
+}, "Let", {
+  "id": "argCount"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "args"
+}, ".", {
+  "k": 23
+}, "Let", {
+  "id": "P"
+}, "be", "the", "empty", "String", ".", {
+  "k": 24
+}, "If", {
+  "id": "argCount"
+}, "=", "0", ",", "let", {
+  "id": "bodyArg"
+}, "be", "the", "empty", "String", ".", {
+  "k": 25
+}, "Else", "if", {
+  "id": "argCount"
+}, "=", "1", ",", "let", {
+  "id": "bodyArg"
+}, "be", {
+  "id": "args"
+}, "[", "0", "]", ".", {
+  "k": 26
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "argCount"
+}, ">", "1", ".", {
+  "k": 28
+}, "Let", {
+  "id": "firstArg"
+}, "be", {
+  "id": "args"
+}, "[", "0", "]", ".", {
+  "k": 29
+}, "Set", {
+  "id": "P"
+}, "to", "?", "ToString", "(", {
+  "id": "firstArg"
+}, ")", ".", {
+  "k": 30
+}, "Let", {
+  "id": "k"
+}, "be", "1", ".", {
+  "k": 31
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "argCount"
+}, "-", "1", ",", {
+  "in": null
+}, "Let", {
+  "id": "nextArg"
+}, "be", {
+  "id": "args"
+}, "[", {
+  "id": "k"
+}, "]", ".", {
+  "k": 33
+}, "Let", {
+  "id": "nextArgString"
+}, "be", "?", "ToString", "(", {
+  "id": "nextArg"
+}, ")", ".", {
+  "k": 34
+}, "Set", {
+  "id": "P"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "P"
+}, ",", {
+  "value": "\",\""
+}, "(", "a", "comma", ")", ",", "and", {
+  "id": "nextArgString"
+}, ".", {
+  "k": 35
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 36
+}, {
+  "out": null
+}, {
+  "k": 32
+}, "Let", {
+  "id": "bodyArg"
+}, "be", {
+  "id": "args"
+}, "[", {
+  "id": "k"
+}, "]", ".", {
+  "k": 37
+}, {
+  "out": null
+}, {
+  "k": 27
+}, "Let", {
+  "id": "bodyString"
+}, "be", "the", "string", "-", "concatenation", "of", "0x000A", "(", "LINE", "FEED", ")", ",", "?", "ToString", "(", {
+  "id": "bodyArg"
+}, ")", ",", "and", "0x000A", "(", "LINE", "FEED", ")", ".", {
+  "k": 38
+}, "Let", {
+  "id": "prefix"
+}, "be", "the", "prefix", "associated", "with", {
+  "id": "kind"
+}, "in", {
+  "link": "unhandled: table-dynamic-function-sourcetext-prefixes"
+}, ".", {
+  "k": 39
+}, "Let", {
+  "id": "sourceString"
+}, "be", "the", "string", "-", "concatenation", "of", {
+  "id": "prefix"
+}, ",", {
+  "value": "\"anonymous(\""
+}, ",", {
+  "id": "P"
+}, ",", "0x000A", "(", "LINE", "FEED", ")", ",", {
+  "value": "\") {\""
+}, ",", {
+  "id": "bodyString"
+}, ",", "and", {
+  "value": "\"}\""
+}, ".", {
+  "k": 40
+}, "Let", {
+  "id": "sourceText"
+}, "be", "!", "StringToCodePoints", "(", {
+  "id": "sourceString"
+}, ")", ".", {
+  "k": 41
+}, "Perform", "the", "following", "substeps", "in", "an", "implementation", "-", "defined", "order", ",", "possibly", "interleaving", "parsing", "and", "error", "detection", ":", {
+  "in": null
+}, "Let", {
+  "id": "parameters"
+}, "be", "ParseText", "(", "!", "StringToCodePoints", "(", {
+  "id": "P"
+}, ")", ",", {
+  "id": "parameterGoal"
+}, ")", ".", {
+  "k": 43
+}, "If", {
+  "id": "parameters"
+}, "is", "a", "List", "of", "errors", ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 44
+}, "Let", {
+  "id": "body"
+}, "be", "ParseText", "(", "!", "StringToCodePoints", "(", {
+  "id": "bodyString"
+}, ")", ",", {
+  "id": "goal"
+}, ")", ".", {
+  "k": 45
+}, "If", {
+  "id": "body"
+}, "is", "a", "List", "of", "errors", ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 46
+}, "Let", {
+  "id": "strict"
+}, "be", "FunctionBodyContainsUseStrict", "of", {
+  "id": "body"
+}, ".", {
+  "k": 47
+}, "If", {
+  "id": "strict"
+}, "is", {
+  "value": "true"
+}, ",", "apply", "the", "early", "error", "rules", "for", {
+  "grammar": "UniqueFormalParameters0",
+  "subs": ["FormalParameters"]
+}, "to", {
+  "id": "parameters"
+}, ".", {
+  "k": 48
+}, "If", {
+  "id": "strict"
+}, "is", {
+  "value": "true"
+}, "and", "IsSimpleParameterList", "of", {
+  "id": "parameters"
+}, "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 49
+}, "If", "any", "element", "of", "the", "BoundNames", "of", {
+  "id": "parameters"
+}, "also", "occurs", "in", "the", "LexicallyDeclaredNames", "of", {
+  "id": "body"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 50
+}, "If", {
+  "id": "body"
+}, "Contains", {
+  "nt": "SuperCall"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 51
+}, "If", {
+  "id": "parameters"
+}, "Contains", {
+  "nt": "SuperCall"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 52
+}, "If", {
+  "id": "body"
+}, "Contains", {
+  "nt": "SuperProperty"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 53
+}, "If", {
+  "id": "parameters"
+}, "Contains", {
+  "nt": "SuperProperty"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 54
+}, "If", {
+  "id": "kind"
+}, "is", {
+  "const": "generator"
+}, "or", {
+  "const": "asyncGenerator"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "parameters"
+}, "Contains", {
+  "nt": "YieldExpression"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 56
+}, {
+  "out": null
+}, {
+  "k": 55
+}, "If", {
+  "id": "kind"
+}, "is", {
+  "const": "async"
+}, "or", {
+  "const": "asyncGenerator"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "parameters"
+}, "Contains", {
+  "nt": "AwaitExpression"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 58
+}, {
+  "out": null
+}, {
+  "k": 57
+}, "If", {
+  "id": "strict"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "If", "BoundNames", "of", {
+  "id": "parameters"
+}, "contains", "any", "duplicate", "elements", ",", "throw", "a", {
+  "value": "SyntaxError"
+}, "exception", ".", {
+  "k": 60
+}, {
+  "out": null
+}, {
+  "k": 59
+}, {
+  "out": null
+}, {
+  "k": 42
+}, "Let", {
+  "id": "proto"
+}, "be", "?", "GetPrototypeFromConstructor", "(", {
+  "id": "newTarget"
+}, ",", {
+  "id": "fallbackProto"
+}, ")", ".", {
+  "k": 61
+}, "Let", {
+  "id": "realmF"
+}, "be", "the", "current", "Realm", "Record", ".", {
+  "k": 62
+}, "Let", {
+  "id": "scope"
+}, "be", {
+  "id": "realmF"
+}, ".", "[", "[", "GlobalEnv", "]", "]", ".", {
+  "k": 63
+}, "Let", {
+  "id": "F"
+}, "be", "!", "OrdinaryFunctionCreate", "(", {
+  "id": "proto"
+}, ",", {
+  "id": "sourceText"
+}, ",", {
+  "id": "parameters"
+}, ",", {
+  "id": "body"
+}, ",", {
+  "const": "non-lexical-this"
+}, ",", {
+  "id": "scope"
+}, ")", ".", {
+  "k": 64
+}, "Perform", "SetFunctionName", "(", {
+  "id": "F"
+}, ",", {
+  "value": "\"anonymous\""
+}, ")", ".", {
+  "k": 65
+}, "If", {
+  "id": "kind"
+}, "is", {
+  "const": "generator"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "prototype"
+}, "be", "!", "OrdinaryObjectCreate", "(", "%", "GeneratorFunction", ".", "prototype", ".", "prototype", "%", ")", ".", {
+  "k": 67
+}, "Perform", "DefinePropertyOrThrow", "(", {
+  "id": "F"
+}, ",", {
+  "value": "\"prototype\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "prototype"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 68
+}, {
+  "out": null
+}, {
+  "k": 66
+}, "Else", "if", {
+  "id": "kind"
+}, "is", {
+  "const": "asyncGenerator"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "prototype"
+}, "be", "!", "OrdinaryObjectCreate", "(", "%", "AsyncGeneratorFunction", ".", "prototype", ".", "prototype", "%", ")", ".", {
+  "k": 70
+}, "Perform", "DefinePropertyOrThrow", "(", {
+  "id": "F"
+}, ",", {
+  "value": "\"prototype\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "prototype"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "false"
+}, "}", ")", ".", {
+  "k": 71
+}, {
+  "out": null
+}, {
+  "k": 69
+}, "Else", "if", {
+  "id": "kind"
+}, "is", {
+  "const": "normal"
+}, ",", "perform", "MakeConstructor", "(", {
+  "id": "F"
+}, ")", ".", {
+  "k": 72
+}, "NOTE", ":", "Functions", "whose", {
+  "id": "kind"
+}, "is", {
+  "const": "async"
+}, "are", "not", "constructible", "and", "do", "not", "have", "a", "[", "[", "Construct", "]", "]", "internal", "method", "or", "a", {
+  "value": "\"prototype\""
+}, "property", ".", {
+  "k": 73
+}, "Return", {
+  "id": "F"
+}, ".", {
+  "k": 74
+}]

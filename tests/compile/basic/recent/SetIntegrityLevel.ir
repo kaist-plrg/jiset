@@ -1,0 +1,36 @@
+{
+  assert (= (typeof O) Object)
+  assert (|| (= level CONST_sealed) (= level CONST_frozen))
+  app __x0__ = (O.PreventExtensions O)
+  let status = [? __x0__]
+  if (= status false) return false else {}
+  app __x1__ = (O.OwnPropertyKeys O)
+  let keys = [? __x1__]
+  if (= level CONST_sealed) {
+    let __x2__ = keys
+    let __x3__ = 0i
+    while (< __x3__ __x2__.length) {
+      let k = __x2__[__x3__]
+      app __x4__ = (DefinePropertyOrThrow O k (new PropertyDescriptor("Configurable" -> false)))
+      [? __x4__]
+      __x3__ = (+ __x3__ 1i)
+    }
+  } else {
+    assert (= level CONST_frozen)
+    let __x5__ = keys
+    let __x6__ = 0i
+    while (< __x6__ __x5__.length) {
+      let k = __x5__[__x6__]
+      app __x7__ = (O.GetOwnProperty O k)
+      let currentDesc = [? __x7__]
+      if (! (= currentDesc undefined)) {
+        app __x8__ = (IsAccessorDescriptor currentDesc)
+        if (= __x8__ true) let desc = (new PropertyDescriptor("Configurable" -> false)) else let desc = (new PropertyDescriptor("Configurable" -> false, "Writable" -> false))
+        app __x9__ = (DefinePropertyOrThrow O k desc)
+        [? __x9__]
+      } else {}
+      __x6__ = (+ __x6__ 1i)
+    }
+  }
+  return true
+}

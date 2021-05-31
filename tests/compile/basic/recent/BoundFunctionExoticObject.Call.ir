@@ -1,0 +1,10 @@
+{
+  let target = F.BoundTargetFunction
+  let boundThis = F.BoundThis
+  let boundArgs = F.BoundArguments
+  let __x0__ = (copy-obj boundArgs)
+  append argumentsList -> __x0__
+  let args = __x0__
+  app __x1__ = (Call target boundThis args)
+  return [? __x1__]
+}

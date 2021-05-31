@@ -1,0 +1,105 @@
+["Let", {
+  "id": "size"
+}, "be", "the", "length", "of", {
+  "id": "string"
+}, ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "position"
+}, "≥", "0", "and", {
+  "id": "position"
+}, "<", {
+  "id": "size"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "first"
+}, "be", "the", "code", "unit", "at", "index", {
+  "id": "position"
+}, "within", {
+  "id": "string"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "cp"
+}, "be", "the", "code", "point", "whose", "numeric", "value", "is", "that", "of", {
+  "id": "first"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "first"
+}, "is", "not", "a", {
+  "link": "unhandled: leading-surrogate"
+}, "or", {
+  "link": "unhandled: trailing-surrogate"
+}, ",", "then", {
+  "in": null
+}, "Return", "the", "Record", "{", "[", "[", "CodePoint", "]", "]", ":", {
+  "id": "cp"
+}, ",", "[", "[", "CodeUnitCount", "]", "]", ":", "1", ",", "[", "[", "IsUnpairedSurrogate", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 5
+}, {
+  "out": null
+}, {
+  "k": 4
+}, "If", {
+  "id": "first"
+}, "is", "a", {
+  "link": "unhandled: trailing-surrogate"
+}, "or", {
+  "id": "position"
+}, "+", "1", "=", {
+  "id": "size"
+}, ",", "then", {
+  "in": null
+}, "Return", "the", "Record", "{", "[", "[", "CodePoint", "]", "]", ":", {
+  "id": "cp"
+}, ",", "[", "[", "CodeUnitCount", "]", "]", ":", "1", ",", "[", "[", "IsUnpairedSurrogate", "]", "]", ":", {
+  "value": "true"
+}, "}", ".", {
+  "k": 7
+}, {
+  "out": null
+}, {
+  "k": 6
+}, "Let", {
+  "id": "second"
+}, "be", "the", "code", "unit", "at", "index", {
+  "id": "position"
+}, "+", "1", "within", {
+  "id": "string"
+}, ".", {
+  "k": 8
+}, "If", {
+  "id": "second"
+}, "is", "not", "a", {
+  "link": "unhandled: trailing-surrogate"
+}, ",", "then", {
+  "in": null
+}, "Return", "the", "Record", "{", "[", "[", "CodePoint", "]", "]", ":", {
+  "id": "cp"
+}, ",", "[", "[", "CodeUnitCount", "]", "]", ":", "1", ",", "[", "[", "IsUnpairedSurrogate", "]", "]", ":", {
+  "value": "true"
+}, "}", ".", {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 9
+}, "Set", {
+  "id": "cp"
+}, "to", "!", "UTF16SurrogatePairToCodePoint", "(", {
+  "id": "first"
+}, ",", {
+  "id": "second"
+}, ")", ".", {
+  "k": 11
+}, "Return", "the", "Record", "{", "[", "[", "CodePoint", "]", "]", ":", {
+  "id": "cp"
+}, ",", "[", "[", "CodeUnitCount", "]", "]", ":", "2", ",", "[", "[", "IsUnpairedSurrogate", "]", "]", ":", {
+  "value": "false"
+}, "}", ".", {
+  "k": 12
+}]

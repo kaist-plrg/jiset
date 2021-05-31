@@ -1,0 +1,13 @@
+{
+  app __x0__ = (OrdinaryGetOwnProperty args P)
+  let desc = __x0__
+  if (= desc undefined) return desc else {}
+  let map = args.ParameterMap
+  app __x1__ = (HasOwnProperty map P)
+  let isMapped = [! __x1__]
+  if (= isMapped true) {
+    app __x2__ = (Get map P)
+    desc.Value = __x2__
+  } else {}
+  return desc
+}

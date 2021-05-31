@@ -1,0 +1,8 @@
+{
+  app __x0__ = (ToUint32 x)
+  let a = [? __x0__]
+  app __x1__ = (ToUint32 y)
+  let b = [? __x1__]
+  let product = (%% (* a b) (** 2.0 32i))
+  if (! (< product (** 2.0 31i))) return (- product (** 2.0 32i)) else return product
+}

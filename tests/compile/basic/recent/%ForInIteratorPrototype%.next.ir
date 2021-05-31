@@ -1,0 +1,34 @@
+{
+  let O = this
+  assert (= (typeof O) Object)
+  let object = O.Object
+  let visited = O.VisitedKeys
+  let remaining = O.RemainingKeys
+  while true {
+    if (= O.ObjectWasVisited false) {
+      app __x0__ = (object.OwnPropertyKeys object)
+      let keys = [? __x0__]
+      let __x1__ = keys
+      let __x2__ = 0i
+      while (< __x2__ __x1__.length) {
+        let key = __x1__[__x2__]
+        if (= (typeof key) String) append key -> remaining else {}
+        __x2__ = (+ __x2__ 1i)
+      }
+      O.ObjectWasVisited = true
+    } else {}
+    while (< 0i remaining.length) {
+      let r = remaining[0i]
+      let __x3__ = (pop remaining 0i)
+      ??? "If there does not exist an element id:{v} of id:{visited} such that SameValue ( id:{r} , id:{v} ) is value:{true} , then in:{} out:{}"
+    }
+    app __x4__ = (object.GetPrototypeOf object)
+    object = [? __x4__]
+    O.Object = object
+    O.ObjectWasVisited = false
+    if (= object null) {
+      app __x5__ = (CreateIterResultObject undefined true)
+      return __x5__
+    } else {}
+  }
+}

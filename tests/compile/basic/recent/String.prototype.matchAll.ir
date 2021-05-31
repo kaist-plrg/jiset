@@ -1,0 +1,28 @@
+{
+  app __x0__ = (RequireObjectCoercible this)
+  let O = [? __x0__]
+  if (! (|| (= regexp undefined) (= regexp null))) {
+    app __x1__ = (IsRegExp regexp)
+    let isRegExp = [? __x1__]
+    if (= isRegExp true) {
+      app __x2__ = (Get regexp "flags")
+      let flags = [? __x2__]
+      app __x3__ = (RequireObjectCoercible flags)
+      [? __x3__]
+      app __x4__ = (ToString flags)
+      if (! (contains [? __x4__] "g")) throw TypeError else {}
+    } else {}
+    app __x5__ = (GetMethod regexp SYMBOL_matchAll)
+    let matcher = [? __x5__]
+    if (! (= matcher undefined)) {
+      app __x6__ = (Call matcher regexp (new [O]))
+      return [? __x6__]
+    } else {}
+  } else {}
+  app __x7__ = (ToString O)
+  let S = [? __x7__]
+  app __x8__ = (RegExpCreate regexp "g")
+  let rx = [? __x8__]
+  app __x9__ = (Invoke rx SYMBOL_matchAll (new [S]))
+  return [? __x9__]
+}

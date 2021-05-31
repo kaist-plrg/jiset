@@ -1,0 +1,116 @@
+{
+  assert (is-instance-of env GlobalEnvironmentRecord)
+  access __x0__ = (script "LexicallyDeclaredNames")
+  let lexNames = __x0__
+  access __x1__ = (script "VarDeclaredNames")
+  let varNames = __x1__
+  let __x2__ = lexNames
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let name = __x2__[__x3__]
+    app __x4__ = (env.HasVarDeclaration env name)
+    if (= __x4__ true) throw SyntaxError else {}
+    app __x5__ = (env.HasLexicalDeclaration env name)
+    if (= __x5__ true) throw SyntaxError else {}
+    app __x6__ = (env.HasRestrictedGlobalProperty env name)
+    let hasRestrictedGlobal = [? __x6__]
+    if (= hasRestrictedGlobal true) throw SyntaxError else {}
+    __x3__ = (+ __x3__ 1i)
+  }
+  let __x7__ = varNames
+  let __x8__ = 0i
+  while (< __x8__ __x7__.length) {
+    let name = __x7__[__x8__]
+    app __x9__ = (env.HasLexicalDeclaration env name)
+    if (= __x9__ true) throw SyntaxError else {}
+    __x8__ = (+ __x8__ 1i)
+  }
+  access __x10__ = (script "VarScopedDeclarations")
+  let varDeclarations = __x10__
+  let functionsToInitialize = (new [])
+  let declaredFunctionNames = (new [])
+  let __x11__ = varDeclarations
+  let __x12__ = __x11__.length
+  while (< 0i __x12__) {
+    __x12__ = (- __x12__ 1i)
+    let d = __x11__[__x12__]
+    if (! (|| (|| (is-instance-of d VariableDeclaration) (is-instance-of d ForBinding)) (is-instance-of d BindingIdentifier))) {
+      assert (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration))
+      access __x13__ = (d "BoundNames")
+      let fn = __x13__[0i]
+      if (! (contains declaredFunctionNames fn)) {
+        app __x14__ = (env.CanDeclareGlobalFunction env fn)
+        let fnDefinable = [? __x14__]
+        if (= fnDefinable false) throw TypeError else {}
+        append fn -> declaredFunctionNames
+        prepend d -> functionsToInitialize
+      } else {}
+    } else {}
+  }
+  let declaredVarNames = (new [])
+  let __x15__ = varDeclarations
+  let __x16__ = 0i
+  while (< __x16__ __x15__.length) {
+    let d = __x15__[__x16__]
+    if (|| (|| (is-instance-of d VariableDeclaration) (is-instance-of d ForBinding)) (is-instance-of d BindingIdentifier)) {
+      access __x17__ = (d "BoundNames")
+      let __x18__ = __x17__
+      let __x19__ = 0i
+      while (< __x19__ __x18__.length) {
+        let vn = __x18__[__x19__]
+        if (! (contains declaredFunctionNames vn)) {
+          app __x20__ = (env.CanDeclareGlobalVar env vn)
+          let vnDefinable = [? __x20__]
+          if (= vnDefinable false) throw TypeError else {}
+          if (! (contains declaredVarNames vn)) append vn -> declaredVarNames else {}
+        } else {}
+        __x19__ = (+ __x19__ 1i)
+      }
+    } else {}
+    __x16__ = (+ __x16__ 1i)
+  }
+  access __x21__ = (script "LexicallyScopedDeclarations")
+  let lexDeclarations = __x21__
+  let __x22__ = lexDeclarations
+  let __x23__ = 0i
+  while (< __x23__ __x22__.length) {
+    let d = __x22__[__x23__]
+    access __x24__ = (d "BoundNames")
+    let __x25__ = __x24__
+    let __x26__ = 0i
+    while (< __x26__ __x25__.length) {
+      let dn = __x25__[__x26__]
+      access __x27__ = (d "IsConstantDeclaration")
+      if (= __x27__ true) {
+        app __x28__ = (env.CreateImmutableBinding env dn true)
+        [? __x28__]
+      } else {
+        app __x29__ = (env.CreateMutableBinding env dn false)
+        [? __x29__]
+      }
+      __x26__ = (+ __x26__ 1i)
+    }
+    __x23__ = (+ __x23__ 1i)
+  }
+  let __x30__ = functionsToInitialize
+  let __x31__ = 0i
+  while (< __x31__ __x30__.length) {
+    let f = __x30__[__x31__]
+    access __x32__ = (f "BoundNames")
+    let fn = __x32__[0i]
+    access __x33__ = (f "InstantiateFunctionObject" env)
+    let fo = __x33__
+    app __x34__ = (env.CreateGlobalFunctionBinding env fn fo false)
+    [? __x34__]
+    __x31__ = (+ __x31__ 1i)
+  }
+  let __x35__ = declaredVarNames
+  let __x36__ = 0i
+  while (< __x36__ __x35__.length) {
+    let vn = __x35__[__x36__]
+    app __x37__ = (env.CreateGlobalVarBinding env vn false)
+    [? __x37__]
+    __x36__ = (+ __x36__ 1i)
+  }
+  return CONST_empty
+}

@@ -1,0 +1,163 @@
+["Assert", ":", "IsDetachedBuffer", "(", {
+  "id": "arrayBuffer"
+}, ")", "is", {
+  "value": "false"
+}, ".", {
+  "k": 0
+}, "Assert", ":", "There", "are", "sufficient", "bytes", "in", {
+  "id": "arrayBuffer"
+}, "starting", "at", {
+  "id": "byteIndex"
+}, "to", "represent", "a", "value", "of", {
+  "id": "type"
+}, ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "value"
+}, ")", "is", "BigInt", "if", "!", "IsBigIntElementType", "(", {
+  "id": "type"
+}, ")", "is", {
+  "value": "true"
+}, ";", "otherwise", ",", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Number", ".", {
+  "k": 2
+}, "Let", {
+  "id": "block"
+}, "be", {
+  "id": "arrayBuffer"
+}, ".", "[", "[", "ArrayBufferData", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", {
+  "link": "unhandled: table-the-typedarray-constructors"
+}, "for", "Element", "Type", {
+  "id": "type"
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "isLittleEndian"
+}, "is", "not", "present", ",", "set", {
+  "id": "isLittleEndian"
+}, "to", "the", "value", "of", "the", "[", "[", "LittleEndian", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 5
+}, "Let", {
+  "id": "rawBytes"
+}, "be", "NumericToRawBytes", "(", {
+  "id": "type"
+}, ",", {
+  "id": "value"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 6
+}, "If", "IsSharedArrayBuffer", "(", {
+  "id": "arrayBuffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "execution"
+}, "be", "the", "[", "[", "CandidateExecution", "]", "]", "field", "of", "the", "surrounding", "agent", "'", "s", "Agent", "Record", ".", {
+  "k": 8
+}, "Let", {
+  "id": "eventList"
+}, "be", "the", "[", "[", "EventList", "]", "]", "field", "of", "the", "element", "in", {
+  "id": "execution"
+}, ".", "[", "[", "EventsRecords", "]", "]", "whose", "[", "[", "AgentSignifier", "]", "]", "is", "AgentSignifier", "(", ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "rawBytesRead"
+}, "be", "a", "List", "of", "length", {
+  "id": "elementSize"
+}, "whose", "elements", "are", "nondeterministically", "chosen", "byte", "values", ".", {
+  "k": 10
+}, "NOTE", ":", "In", "implementations", ",", {
+  "id": "rawBytesRead"
+}, "is", "the", "result", "of", "a", "load", "-", "link", ",", "of", "a", "load", "-", "exclusive", ",", "or", "of", "an", "operand", "of", "a", "read", "-", "modify", "-", "write", "instruction", "on", "the", "underlying", "hardware", ".", "The", "nondeterminism", "is", "a", "semantic", "prescription", "of", "the", "memory", "model", "to", "describe", "observable", "behaviour", "of", "hardware", "with", "weak", "consistency", ".", {
+  "k": 11
+}, "Let", {
+  "id": "rmwEvent"
+}, "be", "ReadModifyWriteSharedMemory", "{", "[", "[", "Order", "]", "]", ":", {
+  "const": "SeqCst"
+}, ",", "[", "[", "NoTear", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Block", "]", "]", ":", {
+  "id": "block"
+}, ",", "[", "[", "ByteIndex", "]", "]", ":", {
+  "id": "byteIndex"
+}, ",", "[", "[", "ElementSize", "]", "]", ":", {
+  "id": "elementSize"
+}, ",", "[", "[", "Payload", "]", "]", ":", {
+  "id": "rawBytes"
+}, ",", "[", "[", "ModifyOp", "]", "]", ":", {
+  "id": "op"
+}, "}", ".", {
+  "k": 12
+}, "Append", {
+  "id": "rmwEvent"
+}, "to", {
+  "id": "eventList"
+}, ".", {
+  "k": 13
+}, "Append", "Chosen", "Value", "Record", "{", "[", "[", "Event", "]", "]", ":", {
+  "id": "rmwEvent"
+}, ",", "[", "[", "ChosenValue", "]", "]", ":", {
+  "id": "rawBytesRead"
+}, "}", "to", {
+  "id": "execution"
+}, ".", "[", "[", "ChosenValues", "]", "]", ".", {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "rawBytesRead"
+}, "be", "a", "List", "of", "length", {
+  "id": "elementSize"
+}, "whose", "elements", "are", "the", "sequence", "of", {
+  "id": "elementSize"
+}, "bytes", "starting", "with", {
+  "id": "block"
+}, "[", {
+  "id": "byteIndex"
+}, "]", ".", {
+  "k": 16
+}, "Let", {
+  "id": "rawBytesModified"
+}, "be", {
+  "id": "op"
+}, "(", {
+  "id": "rawBytesRead"
+}, ",", {
+  "id": "rawBytes"
+}, ")", ".", {
+  "k": 17
+}, "Store", "the", "individual", "bytes", "of", {
+  "id": "rawBytesModified"
+}, "into", {
+  "id": "block"
+}, ",", "starting", "at", {
+  "id": "block"
+}, "[", {
+  "id": "byteIndex"
+}, "]", ".", {
+  "k": 18
+}, {
+  "out": null
+}, {
+  "k": 15
+}, "Return", "RawBytesToNumeric", "(", {
+  "id": "type"
+}, ",", {
+  "id": "rawBytesRead"
+}, ",", {
+  "id": "isLittleEndian"
+}, ")", ".", {
+  "k": 19
+}]

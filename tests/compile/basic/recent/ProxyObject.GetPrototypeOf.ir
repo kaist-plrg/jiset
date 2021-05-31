@@ -1,0 +1,23 @@
+{
+  let handler = O.ProxyHandler
+  if (= handler null) throw TypeError else {}
+  assert (= (typeof handler) Object)
+  let target = O.ProxyTarget
+  app __x0__ = (GetMethod handler "getPrototypeOf")
+  let trap = [? __x0__]
+  if (= trap undefined) {
+    app __x1__ = (target.GetPrototypeOf target)
+    return [? __x1__]
+  } else {}
+  app __x2__ = (Call trap handler (new [target]))
+  let handlerProto = [? __x2__]
+  if (! (|| (= (typeof handlerProto) Object) (= (typeof handlerProto) Null))) throw TypeError else {}
+  app __x3__ = (IsExtensible target)
+  let extensibleTarget = [? __x3__]
+  if (= extensibleTarget true) return handlerProto else {}
+  app __x4__ = (target.GetPrototypeOf target)
+  let targetProto = [? __x4__]
+  app __x5__ = (SameValue handlerProto targetProto)
+  if (= __x5__ false) throw TypeError else {}
+  return handlerProto
+}

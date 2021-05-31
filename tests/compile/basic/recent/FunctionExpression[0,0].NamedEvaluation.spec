@@ -1,0 +1,1 @@
+        1. Return InstantiateOrdinaryFunctionExpression of |FunctionExpression| with argument _name_.

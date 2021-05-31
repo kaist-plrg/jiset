@@ -1,0 +1,101 @@
+["Let", {
+  "id": "jsonString"
+}, "be", "?", "ToString", "(", {
+  "id": "text"
+}, ")", ".", {
+  "k": 0
+}, "Parse", "!", "StringToCodePoints", "(", {
+  "id": "jsonString"
+}, ")", "as", "a", "JSON", "text", "as", "specified", "in", "ECMA", "-", "404", ".", "Throw", "a", {
+  "value": "SyntaxError"
+}, "exception", "if", "it", "is", "not", "a", "valid", "JSON", "text", "as", "defined", "in", "that", "specification", ".", {
+  "k": 1
+}, "Let", {
+  "id": "scriptString"
+}, "be", "the", "string", "-", "concatenation", "of", {
+  "value": "\"(\""
+}, ",", {
+  "id": "jsonString"
+}, ",", "and", {
+  "value": "\");\""
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "script"
+}, "be", "ParseText", "(", "!", "StringToCodePoints", "(", {
+  "id": "scriptString"
+}, ")", ",", {
+  "nt": "Script"
+}, ")", ".", {
+  "k": 3
+}, "Assert", ":", {
+  "id": "script"
+}, "is", "a", "Parse", "Node", ".", {
+  "k": 4
+}, "Let", {
+  "id": "completion"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "script"
+}, ".", "The", "extended", "PropertyDefinitionEvaluation", "semantics", "defined", "in", {
+  "link": "unhandled: sec-__proto__-property-names-in-object-initializers"
+}, "must", "not", "be", "used", "during", "the", "evaluation", ".", {
+  "k": 5
+}, "Let", {
+  "id": "unfiltered"
+}, "be", {
+  "id": "completion"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 6
+}, "Assert", ":", {
+  "id": "unfiltered"
+}, "is", "either", "a", "String", ",", "Number", ",", "Boolean", ",", "Null", ",", "or", "an", "Object", "that", "is", "defined", "by", "either", "an", {
+  "nt": "ArrayLiteral"
+}, "or", "an", {
+  "nt": "ObjectLiteral"
+}, ".", {
+  "k": 7
+}, "If", "IsCallable", "(", {
+  "id": "reviver"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "root"
+}, "be", "!", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", ".", {
+  "k": 9
+}, "Let", {
+  "id": "rootName"
+}, "be", "the", "empty", "String", ".", {
+  "k": 10
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "root"
+}, ",", {
+  "id": "rootName"
+}, ",", {
+  "id": "unfiltered"
+}, ")", ".", {
+  "k": 11
+}, "Return", "?", "InternalizeJSONProperty", "(", {
+  "id": "root"
+}, ",", {
+  "id": "rootName"
+}, ",", {
+  "id": "reviver"
+}, ")", ".", {
+  "k": 12
+}, {
+  "out": null
+}, {
+  "k": 8
+}, "Else", ",", {
+  "in": null
+}, "Return", {
+  "id": "unfiltered"
+}, ".", {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 13
+}]

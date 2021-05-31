@@ -1,0 +1,229 @@
+["Assert", ":", {
+  "id": "formals"
+}, "does", "not", "contain", "a", "rest", "parameter", ",", "any", "binding", "patterns", ",", "or", "any", "initializers", ".", "It", "may", "contain", "duplicate", "identifiers", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "argumentsList"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "obj"
+}, "be", "!", "MakeBasicObject", "(", "«", "[", "[", "Prototype", "]", "]", ",", "[", "[", "Extensible", "]", "]", ",", "[", "[", "ParameterMap", "]", "]", "»", ")", ".", {
+  "k": 2
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "as", "specified", "in", "ArgumentsExoticObjectDOTGetOwnProperty", ".", {
+  "k": 3
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "DefineOwnProperty", "]", "]", "as", "specified", "in", "ArgumentsExoticObjectDOTDefineOwnProperty", ".", {
+  "k": 4
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "Get", "]", "]", "as", "specified", "in", "ArgumentsExoticObjectDOTGet", ".", {
+  "k": 5
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "Set", "]", "]", "as", "specified", "in", "ArgumentsExoticObjectDOTSet", ".", {
+  "k": 6
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "Delete", "]", "]", "as", "specified", "in", "ArgumentsExoticObjectDOTDelete", ".", {
+  "k": 7
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "Prototype", "]", "]", "to", "%", "Object", ".", "prototype", "%", ".", {
+  "k": 8
+}, "Let", {
+  "id": "map"
+}, "be", "!", "OrdinaryObjectCreate", "(", {
+  "value": "null"
+}, ")", ".", {
+  "k": 9
+}, "Set", {
+  "id": "obj"
+}, ".", "[", "[", "ParameterMap", "]", "]", "to", {
+  "id": "map"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "parameterNames"
+}, "be", "the", "BoundNames", "of", {
+  "id": "formals"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "numberOfParameters"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "parameterNames"
+}, ".", {
+  "k": 12
+}, "Let", {
+  "id": "index"
+}, "be", "0", ".", {
+  "k": 13
+}, "Repeat", ",", "while", {
+  "id": "index"
+}, "<", {
+  "id": "len"
+}, ",", {
+  "in": null
+}, "Let", {
+  "id": "val"
+}, "be", {
+  "id": "argumentsList"
+}, "[", {
+  "id": "index"
+}, "]", ".", {
+  "k": 15
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "index"
+}, ")", ")", ",", {
+  "id": "val"
+}, ")", ".", {
+  "k": 16
+}, "Set", {
+  "id": "index"
+}, "to", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 17
+}, {
+  "out": null
+}, {
+  "k": 14
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"length\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", "𝔽", "(", {
+  "id": "len"
+}, ")", ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ")", ".", {
+  "k": 18
+}, "Let", {
+  "id": "mappedNames"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 19
+}, "Let", {
+  "id": "index"
+}, "be", {
+  "id": "numberOfParameters"
+}, "-", "1", ".", {
+  "k": 20
+}, "Repeat", ",", "while", {
+  "id": "index"
+}, "≥", "0", ",", {
+  "in": null
+}, "Let", {
+  "id": "name"
+}, "be", {
+  "id": "parameterNames"
+}, "[", {
+  "id": "index"
+}, "]", ".", {
+  "k": 22
+}, "If", {
+  "id": "name"
+}, "is", "not", "an", "element", "of", {
+  "id": "mappedNames"
+}, ",", "then", {
+  "in": null
+}, "Add", {
+  "id": "name"
+}, "as", "an", "element", "of", "the", "list", {
+  "id": "mappedNames"
+}, ".", {
+  "k": 24
+}, "If", {
+  "id": "index"
+}, "<", {
+  "id": "len"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "g"
+}, "be", "MakeArgGetter", "(", {
+  "id": "name"
+}, ",", {
+  "id": "env"
+}, ")", ".", {
+  "k": 26
+}, "Let", {
+  "id": "p"
+}, "be", "MakeArgSetter", "(", {
+  "id": "name"
+}, ",", {
+  "id": "env"
+}, ")", ".", {
+  "k": 27
+}, "Perform", {
+  "id": "map"
+}, ".", "[", "[", "DefineOwnProperty", "]", "]", "(", "!", "ToString", "(", "𝔽", "(", {
+  "id": "index"
+}, ")", ")", ",", "PropertyDescriptor", "{", "[", "[", "Set", "]", "]", ":", {
+  "id": "p"
+}, ",", "[", "[", "Get", "]", "]", ":", {
+  "id": "g"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ")", ".", {
+  "k": 28
+}, {
+  "out": null
+}, {
+  "k": 25
+}, {
+  "out": null
+}, {
+  "k": 23
+}, "Set", {
+  "id": "index"
+}, "to", {
+  "id": "index"
+}, "-", "1", ".", {
+  "k": 29
+}, {
+  "out": null
+}, {
+  "k": 21
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", "@", "@", "iterator", ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", "%", "Array", ".", "prototype", ".", "values", "%", ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ")", ".", {
+  "k": 30
+}, "Perform", "!", "DefinePropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", {
+  "value": "\"callee\""
+}, ",", "PropertyDescriptor", "{", "[", "[", "Value", "]", "]", ":", {
+  "id": "func"
+}, ",", "[", "[", "Writable", "]", "]", ":", {
+  "value": "true"
+}, ",", "[", "[", "Enumerable", "]", "]", ":", {
+  "value": "false"
+}, ",", "[", "[", "Configurable", "]", "]", ":", {
+  "value": "true"
+}, "}", ")", ".", {
+  "k": 31
+}, "Return", {
+  "id": "obj"
+}, ".", {
+  "k": 32
+}]

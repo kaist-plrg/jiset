@@ -1,0 +1,24 @@
+{
+  let asyncContext = CONTEXT
+  app __x0__ = (PromiseResolve INTRINSIC_Promise value)
+  let promise = [? __x0__]
+  let stepsFulfilled = AwaitFulfilledFunctions
+  ??? "Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in AwaitFulfilledFunctions ."
+  app __x1__ = (CreateBuiltinFunction stepsFulfilled lengthFulfilled "" (new ["AsyncContext"]))
+  let onFulfilled = [! __x1__]
+  onFulfilled.AsyncContext = asyncContext
+  let stepsRejected = AwaitRejectedFunctions
+  ??? "Let id:{lengthRejected} be the number of non - optional parameters of the function definition in AwaitRejectedFunctions ."
+  app __x2__ = (CreateBuiltinFunction stepsRejected lengthRejected "" (new ["AsyncContext"]))
+  let onRejected = [! __x2__]
+  onRejected.AsyncContext = asyncContext
+  app __x3__ = (PerformPromiseThen promise onFulfilled onRejected)
+  [! __x3__]
+  if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] asyncContext) {
+    let __x4__ = (- EXECUTION_STACK.length 1i)
+    (pop EXECUTION_STACK __x4__)
+  } else {}
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
+  ??? "Set the code evaluation state of id:{asyncContext} such that when evaluation is resumed with a Completion id:{completion} , the following steps of the algorithm that invoked Await will be performed , with id:{completion} available ."
+  return undefined
+}

@@ -1,0 +1,9 @@
+{
+  app __x0__ = (ToNumber x)
+  let n = [? __x0__]
+  if (|| (= n NaN) (= n Infinity)) return n else {}
+  if (= n 1i) return 0i else {}
+  if (|| (= n 0i) (= n -0.0)) return -Infinity else {}
+  if (< n 0i) return NaN else {}
+  ??? "Return an implementation - approximated value representing the result of the natural logarithm of ℝ ( id:{n} ) ."
+}

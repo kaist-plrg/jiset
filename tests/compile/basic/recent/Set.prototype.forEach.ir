@@ -1,0 +1,19 @@
+{
+  let S = this
+  app __x0__ = (RequireInternalSlot S "SetData")
+  [? __x0__]
+  app __x1__ = (IsCallable callbackfn)
+  if (= __x1__ false) throw TypeError else {}
+  let entries = S.SetData
+  let __x2__ = entries
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let e = __x2__[__x3__]
+    if (! (= e CONST_empty)) {
+      app __x4__ = (Call callbackfn thisArg (new [e, e, S]))
+      [? __x4__]
+    } else {}
+    __x3__ = (+ __x3__ 1i)
+  }
+  return undefined
+}

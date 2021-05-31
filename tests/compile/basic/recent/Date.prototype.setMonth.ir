@@ -1,0 +1,24 @@
+{
+  app __x0__ = (thisTimeValue this)
+  app __x1__ = (LocalTime [? __x0__])
+  let t = __x1__
+  app __x2__ = (ToNumber month)
+  let m = [? __x2__]
+  if (= date absent) {
+    app __x3__ = (DateFromTime t)
+    let dt = __x3__
+  } else {
+    app __x4__ = (ToNumber date)
+    let dt = [? __x4__]
+  }
+  app __x5__ = (YearFromTime t)
+  app __x6__ = (MakeDay __x5__ m dt)
+  app __x7__ = (TimeWithinDay t)
+  app __x8__ = (MakeDate __x6__ __x7__)
+  let newDate = __x8__
+  app __x9__ = (UTC newDate)
+  app __x10__ = (TimeClip __x9__)
+  let u = __x10__
+  this.DateValue = u
+  return u
+}

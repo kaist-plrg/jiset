@@ -1,0 +1,9 @@
+{
+  access __x0__ = (HexLeadSurrogate "CharacterValue")
+  let lead = __x0__
+  access __x1__ = (HexTrailSurrogate "CharacterValue")
+  let trail = __x1__
+  app __x2__ = (UTF16SurrogatePairToCodePoint lead trail)
+  let cp = __x2__
+  return cp
+}

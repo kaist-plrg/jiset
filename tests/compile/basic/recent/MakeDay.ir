@@ -1,0 +1,16 @@
+{
+  if (|| (|| (= year Infinity) (= year -Infinity)) (|| (|| (= month Infinity) (= month -Infinity)) (|| (= date Infinity) (= date -Infinity)))) return NaN else {}
+  app __x0__ = (ToIntegerOrInfinity year)
+  let y = [! __x0__]
+  app __x1__ = (ToIntegerOrInfinity month)
+  let m = [! __x1__]
+  app __x2__ = (ToIntegerOrInfinity date)
+  let dt = [! __x2__]
+  app __x3__ = (floor (/ m 12i))
+  let ym = (+ y __x3__)
+  if (|| (= ym Infinity) (= ym -Infinity)) return NaN else {}
+  let mn = (%% m 12i)
+  ??? "Find a finite time value id:{t} such that YearFromTime ( id:{t} ) is id:{ym} and MonthFromTime ( id:{t} ) is id:{mn} and DateFromTime ( id:{t} ) is value:{1} ; but if this is not possible ( because some argument is out of range ) , return value:{NaN} ."
+  app __x4__ = (Day t)
+  return (- (+ __x4__ dt) 1i)
+}

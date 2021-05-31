@@ -1,0 +1,85 @@
+["If", {
+  "id": "method"
+}, "is", "present", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "items"
+}, ",", {
+  "const": "sync"
+}, ",", {
+  "id": "method"
+}, ")", ".", {
+  "k": 1
+}, {
+  "out": null
+}, {
+  "k": 0
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "items"
+}, ",", {
+  "const": "sync"
+}, ")", ".", {
+  "k": 3
+}, {
+  "out": null
+}, {
+  "k": 2
+}, "Let", {
+  "id": "values"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 4
+}, "Let", {
+  "id": "next"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}, "Repeat", ",", "while", {
+  "id": "next"
+}, "is", "not", {
+  "value": "false"
+}, ",", {
+  "in": null
+}, "Set", {
+  "id": "next"
+}, "to", "?", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "next"
+}, "is", "not", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "nextValue"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 9
+}, "Append", {
+  "id": "nextValue"
+}, "to", "the", "end", "of", "the", "List", {
+  "id": "values"
+}, ".", {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 6
+}, "Return", {
+  "id": "values"
+}, ".", {
+  "k": 11
+}]

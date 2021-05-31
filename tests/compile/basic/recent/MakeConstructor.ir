@@ -1,0 +1,14 @@
+{
+  ??? "If id:{F} is an ECMAScript function object , then in:{} out:{}"
+  F.ConstructorKind = CONST_base
+  if (= writablePrototype absent) writablePrototype = true else {}
+  if (= prototype absent) {
+    app __x0__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+    prototype = [! __x0__]
+    app __x1__ = (DefinePropertyOrThrow prototype "constructor" (new PropertyDescriptor("Value" -> F, "Writable" -> writablePrototype, "Enumerable" -> false, "Configurable" -> true)))
+    [! __x1__]
+  } else {}
+  app __x2__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> writablePrototype, "Enumerable" -> false, "Configurable" -> false)))
+  [! __x2__]
+  return undefined
+}

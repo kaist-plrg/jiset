@@ -1,0 +1,17 @@
+{
+  access __x0__ = (ArgumentList "ArgumentListEvaluation")
+  let precedingArgs = [? __x0__]
+  access __x1__ = (AssignmentExpression "Evaluation")
+  let spreadRef = __x1__
+  app __x2__ = (GetValue spreadRef)
+  app __x3__ = (GetIterator [? __x2__])
+  let iteratorRecord = [? __x3__]
+  while true {
+    app __x4__ = (IteratorStep iteratorRecord)
+    let next = [? __x4__]
+    if (= next false) return precedingArgs else {}
+    app __x5__ = (IteratorValue next)
+    let nextArg = [? __x5__]
+    append nextArg -> precedingArgs
+  }
+}

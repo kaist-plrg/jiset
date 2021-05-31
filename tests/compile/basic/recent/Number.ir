@@ -1,0 +1,12 @@
+{
+  if (! (= value absent)) {
+    app __x0__ = (ToNumeric value)
+    let prim = [? __x0__]
+    if (= (typeof prim) BigInt) let n = prim else let n = prim
+  } else let n = 0i
+  if (= NewTarget undefined) return n else {}
+  app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%Number.prototype%" (new ["NumberData"]))
+  let O = [? __x1__]
+  O.NumberData = n
+  return O
+}

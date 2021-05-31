@@ -1,0 +1,10 @@
+{
+  app __x0__ = (ToIntegerOrInfinity size)
+  let n = [? __x0__]
+  let AR = AGENT
+  if (== n 1i) return AR.IsLockFree1 else {}
+  if (== n 2i) return AR.IsLockFree2 else {}
+  if (== n 4i) return true else {}
+  if (== n 8i) return AR.IsLockFree8 else {}
+  return false
+}

@@ -1,0 +1,99 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "RequireObjectCoercible", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "regexp"
+}, "is", "neither", {
+  "value": "undefined"
+}, "nor", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "isRegExp"
+}, "be", "?", "IsRegExp", "(", {
+  "id": "regexp"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "isRegExp"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "flags"
+}, "be", "?", "Get", "(", {
+  "id": "regexp"
+}, ",", {
+  "value": "\"flags\""
+}, ")", ".", {
+  "k": 4
+}, "Perform", "?", "RequireObjectCoercible", "(", {
+  "id": "flags"
+}, ")", ".", {
+  "k": 5
+}, "If", "?", "ToString", "(", {
+  "id": "flags"
+}, ")", "does", "not", "contain", {
+  "value": "\"g\""
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "Let", {
+  "id": "matcher"
+}, "be", "?", "GetMethod", "(", {
+  "id": "regexp"
+}, ",", "@", "@", "matchAll", ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "matcher"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", "Call", "(", {
+  "id": "matcher"
+}, ",", {
+  "id": "regexp"
+}, ",", "«", {
+  "id": "O"
+}, "»", ")", ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 1
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "rx"
+}, "be", "?", "RegExpCreate", "(", {
+  "id": "regexp"
+}, ",", {
+  "value": "\"g\""
+}, ")", ".", {
+  "k": 11
+}, "Return", "?", "Invoke", "(", {
+  "id": "rx"
+}, ",", "@", "@", "matchAll", ",", "«", {
+  "id": "S"
+}, "»", ")", ".", {
+  "k": 12
+}]

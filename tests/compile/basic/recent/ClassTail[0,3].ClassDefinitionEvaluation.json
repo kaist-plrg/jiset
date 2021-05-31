@@ -1,0 +1,333 @@
+["Let", {
+  "id": "env"
+}, "be", "the", "LexicalEnvironment", "of", "the", "running", "execution", "context", ".", {
+  "k": 0
+}, "Let", {
+  "id": "classScope"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "env"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "classBinding"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Perform", {
+  "id": "classScope"
+}, ".", "CreateImmutableBinding", "(", {
+  "id": "classBinding"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 3
+}, {
+  "out": null
+}, {
+  "k": 2
+}, "If", {
+  "nt": "ClassHeritage"
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "protoParent"
+}, "be", "%", "Object", ".", "prototype", "%", ".", {
+  "k": 5
+}, "Let", {
+  "id": "constructorParent"
+}, "be", "%", "Function", ".", "prototype", "%", ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 4
+}, "Else", ",", {
+  "in": null
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "classScope"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "superclassRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "ClassHeritage"
+}, ".", {
+  "k": 9
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "env"
+}, ".", {
+  "k": 10
+}, "Let", {
+  "id": "superclass"
+}, "be", "?", "GetValue", "(", {
+  "id": "superclassRef"
+}, ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "superclass"
+}, "is", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "protoParent"
+}, "be", {
+  "value": "null"
+}, ".", {
+  "k": 13
+}, "Let", {
+  "id": "constructorParent"
+}, "be", "%", "Function", ".", "prototype", "%", ".", {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 12
+}, "Else", "if", "IsConstructor", "(", {
+  "id": "superclass"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 15
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "protoParent"
+}, "be", "?", "Get", "(", {
+  "id": "superclass"
+}, ",", {
+  "value": "\"prototype\""
+}, ")", ".", {
+  "k": 17
+}, "If", "Type", "(", {
+  "id": "protoParent"
+}, ")", "is", "neither", "Object", "nor", "Null", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 18
+}, "Let", {
+  "id": "constructorParent"
+}, "be", {
+  "id": "superclass"
+}, ".", {
+  "k": 19
+}, {
+  "out": null
+}, {
+  "k": 16
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "Let", {
+  "id": "proto"
+}, "be", "!", "OrdinaryObjectCreate", "(", {
+  "id": "protoParent"
+}, ")", ".", {
+  "k": 20
+}, "If", {
+  "nt": "ClassBody"
+}, "is", "not", "present", ",", "let", {
+  "id": "constructor"
+}, "be", {
+  "const": "empty"
+}, ".", {
+  "k": 21
+}, "Else", ",", "let", {
+  "id": "constructor"
+}, "be", "ConstructorMethod", "of", {
+  "nt": "ClassBody"
+}, ".", {
+  "k": 22
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "classScope"
+}, ".", {
+  "k": 23
+}, "If", {
+  "id": "constructor"
+}, "is", {
+  "const": "empty"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "steps"
+}, "be", "the", "algorithm", "steps", "defined", "in", "DefaultConstructorFunctions", ".", {
+  "k": 25
+}, "Let", {
+  "id": "F"
+}, "be", "!", "CreateBuiltinFunction", "(", {
+  "id": "steps"
+}, ",", "0", ",", {
+  "id": "className"
+}, ",", "«", "[", "[", "ConstructorKind", "]", "]", ",", "[", "[", "SourceText", "]", "]", "»", ",", {
+  "const": "empty"
+}, ",", {
+  "id": "constructorParent"
+}, ")", ".", {
+  "k": 26
+}, {
+  "out": null
+}, {
+  "k": 24
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "constructorInfo"
+}, "be", "!", "DefineMethod", "of", {
+  "id": "constructor"
+}, "with", "arguments", {
+  "id": "proto"
+}, "and", {
+  "id": "constructorParent"
+}, ".", {
+  "k": 28
+}, "Let", {
+  "id": "F"
+}, "be", {
+  "id": "constructorInfo"
+}, ".", "[", "[", "Closure", "]", "]", ".", {
+  "k": 29
+}, "Perform", "!", "MakeClassConstructor", "(", {
+  "id": "F"
+}, ")", ".", {
+  "k": 30
+}, "Perform", "!", "SetFunctionName", "(", {
+  "id": "F"
+}, ",", {
+  "id": "className"
+}, ")", ".", {
+  "k": 31
+}, {
+  "out": null
+}, {
+  "k": 27
+}, "Perform", "!", "MakeConstructor", "(", {
+  "id": "F"
+}, ",", {
+  "value": "false"
+}, ",", {
+  "id": "proto"
+}, ")", ".", {
+  "k": 32
+}, "If", {
+  "nt": "ClassHeritage"
+}, "is", "present", ",", "set", {
+  "id": "F"
+}, ".", "[", "[", "ConstructorKind", "]", "]", "to", {
+  "const": "derived"
+}, ".", {
+  "k": 33
+}, "Perform", "!", "CreateMethodProperty", "(", {
+  "id": "proto"
+}, ",", {
+  "value": "\"constructor\""
+}, ",", {
+  "id": "F"
+}, ")", ".", {
+  "k": 34
+}, "If", {
+  "nt": "ClassBody"
+}, "is", "not", "present", ",", "let", {
+  "id": "methods"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 35
+}, "Else", ",", "let", {
+  "id": "methods"
+}, "be", "NonConstructorMethodDefinitions", "of", {
+  "nt": "ClassBody"
+}, ".", {
+  "k": 36
+}, "For", "each", {
+  "nt": "ClassElement"
+}, {
+  "id": "m"
+}, "of", {
+  "id": "methods"
+}, ",", "do", {
+  "in": null
+}, "If", "IsStatic", "of", {
+  "id": "m"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "status"
+}, "be", "PropertyDefinitionEvaluation", "of", {
+  "id": "m"
+}, "with", "arguments", {
+  "id": "proto"
+}, "and", {
+  "value": "false"
+}, ".", {
+  "k": 39
+}, {
+  "out": null
+}, {
+  "k": 38
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "status"
+}, "be", "PropertyDefinitionEvaluation", "of", {
+  "id": "m"
+}, "with", "arguments", {
+  "id": "F"
+}, "and", {
+  "value": "false"
+}, ".", {
+  "k": 41
+}, {
+  "out": null
+}, {
+  "k": 40
+}, "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "env"
+}, ".", {
+  "k": 43
+}, "Return", "Completion", "(", {
+  "id": "status"
+}, ")", ".", {
+  "k": 44
+}, {
+  "out": null
+}, {
+  "k": 42
+}, {
+  "out": null
+}, {
+  "k": 37
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "env"
+}, ".", {
+  "k": 45
+}, "If", {
+  "id": "classBinding"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Perform", {
+  "id": "classScope"
+}, ".", "InitializeBinding", "(", {
+  "id": "classBinding"
+}, ",", {
+  "id": "F"
+}, ")", ".", {
+  "k": 47
+}, {
+  "out": null
+}, {
+  "k": 46
+}, "Return", {
+  "id": "F"
+}, ".", {
+  "k": 48
+}]

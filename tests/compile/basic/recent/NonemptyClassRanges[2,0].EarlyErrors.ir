@@ -1,0 +1,25 @@
+{
+  let __x0__ = true
+  access __x1__ = (ClassAtom0 "IsCharacterClass")
+  __x0__ = (= __x1__ true)
+  if __x0__ {} else {
+    access __x2__ = (ClassAtom1 "IsCharacterClass")
+    __x0__ = (= __x2__ true)
+  }
+  if __x0__ throw SyntaxError else {}
+  let __x3__ = true
+  access __x4__ = (ClassAtom0 "IsCharacterClass")
+  __x3__ = (= __x4__ false)
+  if __x3__ {
+    let __x5__ = true
+    access __x6__ = (ClassAtom1 "IsCharacterClass")
+    __x5__ = (= __x6__ false)
+    if __x5__ {
+      access __x7__ = (ClassAtom0 "CharacterValue")
+      access __x8__ = (ClassAtom1 "CharacterValue")
+      __x5__ = (< __x8__ __x7__)
+    } else {}
+    __x3__ = __x5__
+  } else {}
+  if __x3__ throw SyntaxError else {}
+}

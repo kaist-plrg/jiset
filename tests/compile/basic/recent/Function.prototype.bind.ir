@@ -1,0 +1,30 @@
+{
+  let Target = this
+  app __x0__ = (IsCallable Target)
+  if (= __x0__ false) throw TypeError else {}
+  app __x1__ = (BoundFunctionCreate Target thisArg args)
+  let F = [? __x1__]
+  let L = 0i
+  app __x2__ = (HasOwnProperty Target "length")
+  let targetHasLength = [? __x2__]
+  if (= targetHasLength true) {
+    app __x3__ = (Get Target "length")
+    let targetLen = [? __x3__]
+    if (= (typeof targetLen) Number) if (= targetLen Infinity) L = Infinity else if (= targetLen -Infinity) L = 0i else {
+      app __x4__ = (ToIntegerOrInfinity targetLen)
+      let targetLenAsInt = [! __x4__]
+      assert (! (|| (= targetLenAsInt Infinity) (= targetLenAsInt -Infinity)))
+      let argCount = args.length
+      app __x5__ = (max (- targetLenAsInt argCount) 0i)
+      L = __x5__
+    } else {}
+  } else {}
+  app __x6__ = (SetFunctionLength F L)
+  [! __x6__]
+  app __x7__ = (Get Target "name")
+  let targetName = [? __x7__]
+  if (! (= (typeof targetName) String)) targetName = "" else {}
+  app __x8__ = (SetFunctionName F targetName "bound")
+  __x8__
+  return F
+}

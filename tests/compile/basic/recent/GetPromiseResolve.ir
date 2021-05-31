@@ -1,0 +1,9 @@
+{
+  app __x0__ = (IsConstructor promiseConstructor)
+  assert (= __x0__ true)
+  app __x1__ = (Get promiseConstructor "resolve")
+  let promiseResolve = [? __x1__]
+  app __x2__ = (IsCallable promiseResolve)
+  if (= __x2__ false) throw TypeError else {}
+  return promiseResolve
+}

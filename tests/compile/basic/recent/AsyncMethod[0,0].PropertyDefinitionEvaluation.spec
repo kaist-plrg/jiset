@@ -1,0 +1,1 @@
+          1. Return ? MethodDefinitionEvaluation of |AsyncMethod| with arguments _object_ and _enumerable_.

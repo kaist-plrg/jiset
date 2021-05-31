@@ -1,0 +1,45 @@
+["If", "Type", "(", {
+  "id": "target"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
+  "id": "instOfHandler"
+}, "be", "?", "GetMethod", "(", {
+  "id": "target"
+}, ",", "@", "@", "hasInstance", ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "instOfHandler"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "!", "ToBoolean", "(", "?", "Call", "(", {
+  "id": "instOfHandler"
+}, ",", {
+  "id": "target"
+}, ",", "«", {
+  "id": "V"
+}, "»", ")", ")", ".", {
+  "k": 3
+}, {
+  "out": null
+}, {
+  "k": 2
+}, "If", "IsCallable", "(", {
+  "id": "target"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "Return", "?", "OrdinaryHasInstance", "(", {
+  "id": "target"
+}, ",", {
+  "id": "V"
+}, ")", ".", {
+  "k": 5
+}]

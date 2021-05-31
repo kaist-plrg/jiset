@@ -1,0 +1,75 @@
+["Let", {
+  "id": "buffer"
+}, "be", "?", "ValidateIntegerTypedArray", "(", {
+  "id": "typedArray"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "indexedPosition"
+}, "be", "?", "ValidateAtomicAccess", "(", {
+  "id": "typedArray"
+}, ",", {
+  "id": "index"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "arrayTypeName"
+}, "be", {
+  "id": "typedArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 2
+}, "If", {
+  "id": "arrayTypeName"
+}, "is", {
+  "value": "\"BigUint64Array\""
+}, "or", {
+  "value": "\"BigInt64Array\""
+}, ",", "let", {
+  "id": "v"
+}, "be", "?", "ToBigInt", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 3
+}, "Otherwise", ",", "let", {
+  "id": "v"
+}, "be", "𝔽", "(", "?", "ToIntegerOrInfinity", "(", {
+  "id": "value"
+}, ")", ")", ".", {
+  "k": 4
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "buffer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, "NOTE", ":", "The", "above", "check", "is", "not", "redundant", "with", "the", "check", "in", "ValidateIntegerTypedArray", "because", "the", "call", "to", "ToBigInt", "or", "ToIntegerOrInfinity", "on", "the", "preceding", "lines", "can", "have", "arbitrary", "side", "effects", ",", "which", "could", "cause", "the", "buffer", "to", "become", "detached", ".", {
+  "k": 6
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": "unhandled: table-the-typedarray-constructors"
+}, "for", {
+  "id": "arrayTypeName"
+}, ".", {
+  "k": 7
+}, "Perform", "SetValueInBuffer", "(", {
+  "id": "buffer"
+}, ",", {
+  "id": "indexedPosition"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "id": "v"
+}, ",", {
+  "value": "true"
+}, ",", {
+  "const": "SeqCst"
+}, ")", ".", {
+  "k": 8
+}, "Return", {
+  "id": "v"
+}, ".", {
+  "k": 9
+}]

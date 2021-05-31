@@ -1,0 +1,12 @@
+{
+  let codePoints = (new [])
+  let size = string.length
+  let position = 0i
+  while (< position size) {
+    app __x0__ = (CodePointAt string position)
+    let cp = [! __x0__]
+    append cp.CodePoint -> codePoints
+    position = (+ position cp.CodeUnitCount)
+  }
+  return codePoints
+}

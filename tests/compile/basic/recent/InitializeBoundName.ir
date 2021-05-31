@@ -1,0 +1,13 @@
+{
+  assert (= (typeof name) String)
+  if (! (= environment undefined)) {
+    app __x0__ = (environment.InitializeBinding environment name value)
+    __x0__
+    return undefined
+  } else {
+    app __x1__ = (ResolveBinding name)
+    let lhs = __x1__
+    app __x2__ = (PutValue lhs value)
+    return [? __x2__]
+  }
+}

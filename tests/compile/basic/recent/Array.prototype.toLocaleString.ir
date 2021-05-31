@@ -1,0 +1,23 @@
+{
+  app __x0__ = (ToObject this)
+  let array = [? __x0__]
+  app __x1__ = (LengthOfArrayLike array)
+  let len = [? __x1__]
+  ??? "Let id:{separator} be the String value for the list - separator String appropriate for the host environment ' s current locale ( this is derived in an implementation - defined way ) ."
+  let R = ""
+  let k = 0i
+  while (< k len) {
+    if (< 0i k) R = (+ R separator) else {}
+    app __x2__ = (ToString k)
+    app __x3__ = (Get array [! __x2__])
+    let nextElement = [? __x3__]
+    if (! (|| (= nextElement undefined) (= nextElement null))) {
+      app __x4__ = (Invoke nextElement "toLocaleString")
+      app __x5__ = (ToString [? __x4__])
+      let S = [? __x5__]
+      R = (+ R S)
+    } else {}
+    k = (+ k 1i)
+  }
+  return R
+}

@@ -1,0 +1,13 @@
+{
+  access __x0__ = (Expression "Evaluation")
+  let exprRef = __x0__
+  app __x1__ = (GetValue exprRef)
+  app __x2__ = (ToBoolean [? __x1__])
+  let exprValue = [! __x2__]
+  if (= exprValue false) return undefined else {
+    access __x3__ = (Statement "Evaluation")
+    let stmtCompletion = __x3__
+    app __x4__ = (UpdateEmpty stmtCompletion undefined)
+    return __x4__
+  }
+}

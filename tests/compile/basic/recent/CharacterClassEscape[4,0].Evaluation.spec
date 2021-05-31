@@ -1,0 +1,1 @@
+          1. Return _WordCharacters_.

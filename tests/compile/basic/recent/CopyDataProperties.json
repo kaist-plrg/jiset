@@ -1,0 +1,127 @@
+["Assert", ":", "Type", "(", {
+  "id": "target"
+}, ")", "is", "Object", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "excludedItems"
+}, "is", "a", "List", "of", "property", "keys", ".", {
+  "k": 1
+}, "If", {
+  "id": "source"
+}, "is", {
+  "value": "undefined"
+}, "or", {
+  "value": "null"
+}, ",", "return", {
+  "id": "target"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "from"
+}, "be", "!", "ToObject", "(", {
+  "id": "source"
+}, ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "keys"
+}, "be", "?", {
+  "id": "from"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 4
+}, "For", "each", "element", {
+  "id": "nextKey"
+}, "of", {
+  "id": "keys"
+}, ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "excluded"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "For", "each", "element", {
+  "id": "e"
+}, "of", {
+  "id": "excludedItems"
+}, ",", "do", {
+  "in": null
+}, "If", "SameValue", "(", {
+  "id": "e"
+}, ",", {
+  "id": "nextKey"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "excluded"
+}, "to", {
+  "value": "true"
+}, ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "If", {
+  "id": "excluded"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "from"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "nextKey"
+}, ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "desc"
+}, "is", "not", {
+  "value": "undefined"
+}, "and", {
+  "id": "desc"
+}, ".", "[", "[", "Enumerable", "]", "]", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "propValue"
+}, "be", "?", "Get", "(", {
+  "id": "from"
+}, ",", {
+  "id": "nextKey"
+}, ")", ".", {
+  "k": 13
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "target"
+}, ",", {
+  "id": "nextKey"
+}, ",", {
+  "id": "propValue"
+}, ")", ".", {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 12
+}, {
+  "out": null
+}, {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "Return", {
+  "id": "target"
+}, ".", {
+  "k": 15
+}]

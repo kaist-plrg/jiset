@@ -1,0 +1,2 @@
+          1. If the code matched by this |OptionalChain| is strict mode code, let _strict_ be *true*; else let _strict_ be *false*.
+          1. Return ? EvaluatePropertyAccessWithIdentifierKey(_baseValue_, |IdentifierName|, _strict_).

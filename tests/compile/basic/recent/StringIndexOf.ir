@@ -1,0 +1,21 @@
+{
+  assert (= (typeof string) String)
+  assert (= (typeof searchValue) String)
+  let len = string.length
+  if (&& (= searchValue "") (! (< len fromIndex))) return fromIndex else {}
+  let searchLen = searchValue.length
+  let i = (+ fromIndex 0i)
+  let __x0__ = (+ (- len searchLen) 1i)
+  while (< i __x0__) {
+    let __x1__ = ""
+    let __x2__ = i
+    while (< __x2__ (+ (+ i searchLen) 1i)) {
+      access __x3__ = (string __x2__)
+      __x1__ = (+ __x1__ __x3__)
+      __x2__ = (+ __x2__ 1i)
+    }
+    let candidate = __x1__
+    if (= candidate searchValue) return i else {}
+  }
+  return -1i
+}

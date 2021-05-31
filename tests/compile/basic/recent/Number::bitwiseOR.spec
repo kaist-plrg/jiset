@@ -1,0 +1,1 @@
+            1. Return NumberBitwiseOp(`|`, _x_, _y_).

@@ -1,0 +1,43 @@
+["Assert", ":", {
+  "id": "O"
+}, "is", "an", "Integer", "-", "Indexed", "exotic", "object", ".", {
+  "k": 0
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ")", "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 1
+}, "If", "!", "IsIntegralNumber", "(", {
+  "id": "index"
+}, ")", "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "index"
+}, "is", {
+  "value": "-0"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 3
+}, "If", "ℝ", "(", {
+  "id": "index"
+}, ")", "<", "0", "or", "ℝ", "(", {
+  "id": "index"
+}, ")", "≥", {
+  "id": "O"
+}, ".", "[", "[", "ArrayLength", "]", "]", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 4
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 5
+}]

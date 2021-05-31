@@ -1,0 +1,9 @@
+{
+  access __x0__ = (C "Expression")
+  access __x1__ = (__x0__ "Evaluation")
+  let exprRef = __x1__
+  app __x2__ = (GetValue exprRef)
+  let clauseSelector = [? __x2__]
+  app __x3__ = (StrictEqualityComparison input clauseSelector)
+  return __x3__
+}

@@ -1,0 +1,31 @@
+{
+  app __x0__ = (IsRegExp pattern)
+  let patternIsRegExp = [? __x0__]
+  if (= NewTarget undefined) {
+    let newTarget = CONTEXT.Function
+    if (&& (= patternIsRegExp true) (= flags undefined)) {
+      app __x1__ = (Get pattern "constructor")
+      let patternConstructor = [? __x1__]
+      app __x2__ = (SameValue newTarget patternConstructor)
+      if (= __x2__ true) return pattern else {}
+    } else {}
+  } else let newTarget = NewTarget
+  if (&& (= (typeof pattern) Object) (! (= pattern.RegExpMatcher absent))) {
+    let P = pattern.OriginalSource
+    if (= flags undefined) let F = pattern.OriginalFlags else let F = flags
+  } else if (= patternIsRegExp true) {
+    app __x3__ = (Get pattern "source")
+    let P = [? __x3__]
+    if (= flags undefined) {
+      app __x4__ = (Get pattern "flags")
+      let F = [? __x4__]
+    } else let F = flags
+  } else {
+    let P = pattern
+    let F = flags
+  }
+  app __x5__ = (RegExpAlloc newTarget)
+  let O = [? __x5__]
+  app __x6__ = (RegExpInitialize O P F)
+  return [? __x6__]
+}

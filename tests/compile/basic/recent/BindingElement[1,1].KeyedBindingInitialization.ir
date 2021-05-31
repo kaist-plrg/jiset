@@ -1,0 +1,12 @@
+{
+  app __x0__ = (GetV value propertyName)
+  let v = [? __x0__]
+  if (&& (! (= Initializer absent)) (= v undefined)) {
+    access __x1__ = (Initializer "Evaluation")
+    let defaultValue = __x1__
+    app __x2__ = (GetValue defaultValue)
+    v = [? __x2__]
+  } else {}
+  access __x3__ = (BindingPattern "BindingInitialization" v environment)
+  return __x3__
+}

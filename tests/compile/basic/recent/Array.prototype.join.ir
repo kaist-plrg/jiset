@@ -1,0 +1,23 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (LengthOfArrayLike O)
+  let len = [? __x1__]
+  ??? "If id:{separator} is value:{undefined} , let id:{sep} be the single - element String value:{\",\"} ."
+  ??? "Else , let id:{sep} be ? ToString ( id:{separator} ) ."
+  let R = ""
+  let k = 0i
+  while (< k len) {
+    if (< 0i k) R = (+ R sep) else {}
+    app __x2__ = (ToString k)
+    app __x3__ = (Get O [! __x2__])
+    let element = [? __x3__]
+    if (|| (= element undefined) (= element null)) let next = "" else {
+      app __x4__ = (ToString element)
+      let next = [? __x4__]
+    }
+    R = (+ R next)
+    k = (+ k 1i)
+  }
+  return R
+}

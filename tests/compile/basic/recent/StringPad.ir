@@ -1,0 +1,17 @@
+{
+  assert (|| (= placement CONST_start) (= placement CONST_end))
+  app __x0__ = (ToString O)
+  let S = [? __x0__]
+  app __x1__ = (ToLength maxLength)
+  let intMaxLength = [? __x1__]
+  let stringLength = S.length
+  if (! (< stringLength intMaxLength)) return S else {}
+  if (= fillString undefined) let filler = " " else {
+    app __x2__ = (ToString fillString)
+    let filler = [? __x2__]
+  }
+  if (= filler "") return S else {}
+  let fillLen = (- intMaxLength stringLength)
+  ??? "Let id:{truncatedStringFiller} be the String value consisting of repeated concatenations of id:{filler} truncated to length id:{fillLen} ."
+  if (= placement CONST_start) return (+ truncatedStringFiller S) else return (+ S truncatedStringFiller)
+}

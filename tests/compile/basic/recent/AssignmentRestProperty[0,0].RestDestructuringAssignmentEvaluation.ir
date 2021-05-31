@@ -1,0 +1,11 @@
+{
+  access __x0__ = (DestructuringAssignmentTarget "Evaluation")
+  let lref = __x0__
+  [? lref]
+  app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+  let restObj = [! __x1__]
+  app __x2__ = (CopyDataProperties restObj value excludedNames)
+  [? __x2__]
+  app __x3__ = (PutValue lref restObj)
+  return __x3__
+}

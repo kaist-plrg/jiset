@@ -1,0 +1,19 @@
+{
+  access __x0__ = (ForDeclaration "BoundNames")
+  if (contains __x0__ "let") throw SyntaxError else {}
+  access __x1__ = (ForDeclaration "BoundNames")
+  access __x2__ = (Statement "VarDeclaredNames")
+  let __x3__ = __x1__
+  let __x4__ = __x2__
+  let __x5__ = 0i
+  let __x6__ = 0i
+  let __x7__ = false
+  while (< __x5__ __x3__.length) {
+    __x6__ = 0i
+    while (< __x6__ __x4__.length) if (= __x3__[__x5__] __x4__[__x6__]) __x7__ = true else {}
+  }
+  if __x7__ throw SyntaxError else {}
+  access __x8__ = (ForDeclaration "BoundNames")
+  app __x9__ = (IsDuplicate __x8__)
+  if __x9__ throw SyntaxError else {}
+}

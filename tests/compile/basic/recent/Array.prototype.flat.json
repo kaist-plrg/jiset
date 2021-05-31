@@ -1,0 +1,59 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "sourceLen"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "depthNum"
+}, "be", "1", ".", {
+  "k": 2
+}, "If", {
+  "id": "depth"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "depthNum"
+}, "to", "?", "ToIntegerOrInfinity", "(", {
+  "id": "depth"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "depthNum"
+}, "<", "0", ",", "set", {
+  "id": "depthNum"
+}, "to", "0", ".", {
+  "k": 5
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "Let", {
+  "id": "A"
+}, "be", "?", "ArraySpeciesCreate", "(", {
+  "id": "O"
+}, ",", "0", ")", ".", {
+  "k": 6
+}, "Perform", "?", "FlattenIntoArray", "(", {
+  "id": "A"
+}, ",", {
+  "id": "O"
+}, ",", {
+  "id": "sourceLen"
+}, ",", "0", ",", {
+  "id": "depthNum"
+}, ")", ".", {
+  "k": 7
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 8
+}]

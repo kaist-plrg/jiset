@@ -1,0 +1,113 @@
+{
+  let __x0__ = module.IndirectExportEntries
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let e = __x0__[__x1__]
+    app __x2__ = (module.ResolveExport module e.ExportName)
+    let resolution = [? __x2__]
+    if (|| (= resolution null) (= resolution "ambiguous")) throw SyntaxError else {}
+    assert (is-instance-of resolution ResolvedBindingRecord)
+    __x1__ = (+ __x1__ 1i)
+  }
+  let realm = module.Realm
+  assert (! (= realm undefined))
+  app __x3__ = (NewModuleEnvironment realm.GlobalEnv)
+  let env = __x3__
+  module.Environment = env
+  let __x4__ = module.ImportEntries
+  let __x5__ = 0i
+  while (< __x5__ __x4__.length) {
+    let in = __x4__[__x5__]
+    app __x6__ = (HostResolveImportedModule module in.ModuleRequest)
+    let importedModule = [! __x6__]
+    if (= in.ImportName "*") {
+      app __x7__ = (GetModuleNamespace importedModule)
+      let namespace = [? __x7__]
+      app __x8__ = (env.CreateImmutableBinding env in.LocalName true)
+      [! __x8__]
+      app __x9__ = (env.InitializeBinding env in.LocalName namespace)
+      __x9__
+    } else {
+      app __x10__ = (importedModule.ResolveExport importedModule in.ImportName)
+      let resolution = [? __x10__]
+      if (|| (= resolution null) (= resolution "ambiguous")) throw SyntaxError else {}
+      if (= resolution.BindingName "*namespace*") {
+        app __x11__ = (GetModuleNamespace resolution.Module)
+        let namespace = [? __x11__]
+        app __x12__ = (env.CreateImmutableBinding env in.LocalName true)
+        [! __x12__]
+        app __x13__ = (env.InitializeBinding env in.LocalName namespace)
+        __x13__
+      } else {
+        app __x14__ = (env.CreateImportBinding env in.LocalName resolution.Module resolution.BindingName)
+        __x14__
+      }
+    }
+    __x5__ = (+ __x5__ 1i)
+  }
+  let moduleContext = (new ExecutionContext("SubMap" -> (new SubMap())))
+  moduleContext.Function = null
+  assert (! (= module.Realm undefined))
+  moduleContext.Realm = module.Realm
+  moduleContext.ScriptOrModule = module
+  moduleContext.VariableEnvironment = module.Environment
+  moduleContext.LexicalEnvironment = module.Environment
+  module.Context = moduleContext
+  append moduleContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
+  let code = module.ECMAScriptCode
+  access __x15__ = (code "VarScopedDeclarations")
+  let varDeclarations = __x15__
+  let declaredVarNames = (new [])
+  let __x16__ = varDeclarations
+  let __x17__ = 0i
+  while (< __x17__ __x16__.length) {
+    let d = __x16__[__x17__]
+    access __x18__ = (d "BoundNames")
+    let __x19__ = __x18__
+    let __x20__ = 0i
+    while (< __x20__ __x19__.length) {
+      let dn = __x19__[__x20__]
+      if (! (contains declaredVarNames dn)) {
+        app __x21__ = (env.CreateMutableBinding env dn false)
+        [! __x21__]
+        app __x22__ = (env.InitializeBinding env dn undefined)
+        __x22__
+        append dn -> declaredVarNames
+      } else {}
+      __x20__ = (+ __x20__ 1i)
+    }
+    __x17__ = (+ __x17__ 1i)
+  }
+  access __x23__ = (code "LexicallyScopedDeclarations")
+  let lexDeclarations = __x23__
+  let __x24__ = lexDeclarations
+  let __x25__ = 0i
+  while (< __x25__ __x24__.length) {
+    let d = __x24__[__x25__]
+    access __x26__ = (d "BoundNames")
+    let __x27__ = __x26__
+    let __x28__ = 0i
+    while (< __x28__ __x27__.length) {
+      let dn = __x27__[__x28__]
+      access __x29__ = (d "IsConstantDeclaration")
+      if (= __x29__ true) {
+        app __x30__ = (env.CreateImmutableBinding env dn true)
+        [! __x30__]
+      } else {
+        app __x31__ = (env.CreateMutableBinding env dn false)
+        [! __x31__]
+      }
+      if (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration)) {
+        access __x32__ = (d "InstantiateFunctionObject" env)
+        let fo = __x32__
+        app __x33__ = (env.InitializeBinding env dn fo)
+        __x33__
+      } else {}
+      __x28__ = (+ __x28__ 1i)
+    }
+    __x25__ = (+ __x25__ 1i)
+  }
+  ??? "Remove id:{moduleContext} from the execution context stack ."
+  return CONST_empty
+}

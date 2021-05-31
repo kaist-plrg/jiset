@@ -1,0 +1,67 @@
+["Let", {
+  "id": "bindings"
+}, "be", "the", "binding", "object", "for", {
+  "id": "envRec"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "foundBinding"
+}, "be", "?", "HasProperty", "(", {
+  "id": "bindings"
+}, ",", {
+  "id": "N"
+}, ")", ".", {
+  "k": 1
+}, "If", {
+  "id": "foundBinding"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 2
+}, "If", "the", {
+  "id": "withEnvironment"
+}, "flag", "of", {
+  "id": "envRec"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "unscopables"
+}, "be", "?", "Get", "(", {
+  "id": "bindings"
+}, ",", "@", "@", "unscopables", ")", ".", {
+  "k": 4
+}, "If", "Type", "(", {
+  "id": "unscopables"
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "blocked"
+}, "be", "!", "ToBoolean", "(", "?", "Get", "(", {
+  "id": "unscopables"
+}, ",", {
+  "id": "N"
+}, ")", ")", ".", {
+  "k": 6
+}, "If", {
+  "id": "blocked"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 7
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "Return", {
+  "value": "true"
+}, ".", {
+  "k": 8
+}]

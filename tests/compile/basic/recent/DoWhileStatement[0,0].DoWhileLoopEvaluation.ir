@@ -1,0 +1,19 @@
+{
+  let V = undefined
+  while true {
+    access __x0__ = (Statement "Evaluation")
+    let stmtResult = __x0__
+    app __x1__ = (LoopContinues stmtResult labelSet)
+    if (= __x1__ false) {
+      app __x2__ = (UpdateEmpty stmtResult V)
+      return __x2__
+    } else {}
+    if (! (= stmtResult.Value CONST_empty)) V = stmtResult.Value else {}
+    access __x3__ = (Expression "Evaluation")
+    let exprRef = __x3__
+    app __x4__ = (GetValue exprRef)
+    let exprValue = [? __x4__]
+    app __x5__ = (ToBoolean exprValue)
+    if (= [! __x5__] false) return V else {}
+  }
+}

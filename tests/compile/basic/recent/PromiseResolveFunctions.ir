@@ -1,0 +1,37 @@
+{
+  let F = CONTEXT.Function
+  let promise = F.Promise
+  let alreadyResolved = F.AlreadyResolved
+  if (= alreadyResolved.Value true) return undefined else {}
+  alreadyResolved.Value = true
+  app __x0__ = (SameValue resolution promise)
+  if (= __x0__ true) {
+    let selfResolutionError = (new OrdinaryObject())
+    app __x1__ = (RejectPromise promise selfResolutionError)
+    return __x1__
+  } else {}
+  if (! (= (typeof resolution) Object)) {
+    app __x2__ = (FulfillPromise promise resolution)
+    return __x2__
+  } else {}
+  app __x3__ = (Get resolution "then")
+  let then = __x3__
+  app __x4__ = (IsAbruptCompletion then)
+  if __x4__ {
+    app __x5__ = (RejectPromise promise then.Value)
+    return __x5__
+  } else {}
+  let thenAction = then.Value
+  app __x6__ = (IsCallable thenAction)
+  if (= __x6__ false) {
+    app __x7__ = (FulfillPromise promise resolution)
+    return __x7__
+  } else {}
+  app __x8__ = (HostMakeJobCallback thenAction)
+  let thenJobCallback = __x8__
+  app __x9__ = (NewPromiseResolveThenableJob promise resolution thenJobCallback)
+  let job = __x9__
+  app __x10__ = (HostEnqueuePromiseJob job.Job job.Realm)
+  __x10__
+  return undefined
+}

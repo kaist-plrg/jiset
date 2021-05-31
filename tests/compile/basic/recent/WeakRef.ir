@@ -1,0 +1,10 @@
+{
+  if (= NewTarget undefined) throw TypeError else {}
+  if (! (= (typeof target) Object)) throw TypeError else {}
+  app __x0__ = (OrdinaryCreateFromConstructor NewTarget "%WeakRef.prototype%" (new ["WeakRefTarget"]))
+  let weakRef = [? __x0__]
+  app __x1__ = (AddToKeptObjects target)
+  [! __x1__]
+  weakRef.WeakRefTarget = target
+  return weakRef
+}

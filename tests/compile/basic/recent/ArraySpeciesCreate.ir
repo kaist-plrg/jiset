@@ -1,0 +1,33 @@
+{
+  app __x0__ = (IsArray originalArray)
+  let isArray = [? __x0__]
+  if (= isArray false) {
+    app __x1__ = (ArrayCreate length)
+    return [? __x1__]
+  } else {}
+  app __x2__ = (Get originalArray "constructor")
+  let C = [? __x2__]
+  app __x3__ = (IsConstructor C)
+  if (= __x3__ true) {
+    let thisRealm = REALM
+    app __x4__ = (GetFunctionRealm C)
+    let realmC = [? __x4__]
+    if (! (= thisRealm realmC)) {
+      app __x5__ = (SameValue C realmC.Intrinsics.INTRINSIC_Array)
+      if (= __x5__ true) C = undefined else {}
+    } else {}
+  } else {}
+  if (= (typeof C) Object) {
+    app __x6__ = (Get C SYMBOL_species)
+    C = [? __x6__]
+    if (= C null) C = undefined else {}
+  } else {}
+  if (= C undefined) {
+    app __x7__ = (ArrayCreate length)
+    return [? __x7__]
+  } else {}
+  app __x8__ = (IsConstructor C)
+  if (= __x8__ false) throw TypeError else {}
+  app __x9__ = (Construct C (new [length]))
+  return [? __x9__]
+}

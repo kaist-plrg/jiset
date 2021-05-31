@@ -1,0 +1,51 @@
+{
+  let state = generator.AsyncGeneratorState
+  assert (! (= state CONST_executing))
+  if (= state CONST_awaitingDASHreturn) return undefined else {}
+  let queue = generator.AsyncGeneratorQueue
+  if (= queue.length 0i) return undefined else {}
+  let next = queue[0i]
+  let completion = next.Completion
+  app __x0__ = (IsAbruptCompletion completion)
+  if __x0__ {
+    if (= state CONST_suspendedStart) {
+      generator.AsyncGeneratorState = CONST_completed
+      state = CONST_completed
+    } else {}
+    if (= state CONST_completed) if (= completion.Type CONST_return) {
+      generator.AsyncGeneratorState = CONST_awaitingDASHreturn
+      app __x1__ = (PromiseResolve INTRINSIC_Promise completion.Value)
+      let promise = [? __x1__]
+      let stepsFulfilled = AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions
+      ??? "Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions ."
+      app __x2__ = (CreateBuiltinFunction stepsFulfilled lengthFulfilled "" (new ["Generator"]))
+      let onFulfilled = [! __x2__]
+      onFulfilled.Generator = generator
+      let stepsRejected = AsyncGeneratorResumeNextReturnProcessorRejectedFunctions
+      ??? "Let id:{lengthRejected} be the number of non - optional parameters of the function definition in AsyncGeneratorResumeNextReturnProcessorRejectedFunctions ."
+      app __x3__ = (CreateBuiltinFunction stepsRejected lengthRejected "" (new ["Generator"]))
+      let onRejected = [! __x3__]
+      onRejected.Generator = generator
+      app __x4__ = (PerformPromiseThen promise onFulfilled onRejected)
+      [! __x4__]
+      return undefined
+    } else {
+      assert (= completion.Type CONST_throw)
+      app __x5__ = (AsyncGeneratorReject generator completion.Value)
+      [! __x5__]
+      return undefined
+    } else {}
+  } else if (= state CONST_completed) {
+    app __x6__ = (AsyncGeneratorResolve generator undefined true)
+    return [! __x6__]
+  } else {}
+  assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))
+  let genContext = generator.AsyncGeneratorContext
+  let callerContext = CONTEXT
+  CONTEXT = null
+  generator.AsyncGeneratorState = CONST_executing
+  append genContext -> EXECUTION_STACK
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
+  ??? "Resume the suspended evaluation of id:{genContext} using id:{completion} as the result of the operation that suspended it . Let id:{result} be the completion record returned by the resumed computation ."
+  return undefined
+}

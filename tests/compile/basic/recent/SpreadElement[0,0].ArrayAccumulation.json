@@ -1,0 +1,59 @@
+["Let", {
+  "id": "spreadRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "nt": "AssignmentExpression"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "spreadObj"
+}, "be", "?", "GetValue", "(", {
+  "id": "spreadRef"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "iteratorRecord"
+}, "be", "?", "GetIterator", "(", {
+  "id": "spreadObj"
+}, ")", ".", {
+  "k": 2
+}, "Repeat", ",", {
+  "in": null
+}, "Let", {
+  "id": "next"
+}, "be", "?", "IteratorStep", "(", {
+  "id": "iteratorRecord"
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "next"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "id": "nextIndex"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "nextValue"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "next"
+}, ")", ".", {
+  "k": 6
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "array"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "nextIndex"
+}, ")", ")", ",", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 7
+}, "Set", {
+  "id": "nextIndex"
+}, "to", {
+  "id": "nextIndex"
+}, "+", "1", ".", {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 3
+}]

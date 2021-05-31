@@ -1,0 +1,73 @@
+{
+  let V = undefined
+  if (! (= CaseClauses0 absent)) ??? "Let id:{A} be the List of nt:{CaseClause} items in the first nt:{CaseClauses} , in source text order ." else let A = (new [])
+  let found = false
+  let __x0__ = A
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let C = __x0__[__x1__]
+    if (= found false) {
+      app __x2__ = (CaseClauseIsSelected C input)
+      found = [? __x2__]
+    } else {}
+    if (= found true) {
+      access __x3__ = (C "Evaluation")
+      let R = __x3__
+      if (! (= R.Value CONST_empty)) V = R.Value else {}
+      app __x4__ = (IsAbruptCompletion R)
+      if __x4__ {
+        app __x5__ = (UpdateEmpty R V)
+        return __x5__
+      } else {}
+    } else {}
+    __x1__ = (+ __x1__ 1i)
+  }
+  let foundInB = false
+  if (! (= CaseClauses1 absent)) ??? "Let id:{B} be the List of nt:{CaseClause} items in the second nt:{CaseClauses} , in source text order ." else let B = (new [])
+  if (= found false) {
+    let __x6__ = B
+    let __x7__ = 0i
+    while (< __x7__ __x6__.length) {
+      let C = __x6__[__x7__]
+      if (= foundInB false) {
+        app __x8__ = (CaseClauseIsSelected C input)
+        foundInB = [? __x8__]
+      } else {}
+      if (= foundInB true) {
+        access __x9__ = (C "Evaluation")
+        let R = __x9__
+        if (! (= R.Value CONST_empty)) V = R.Value else {}
+        app __x10__ = (IsAbruptCompletion R)
+        if __x10__ {
+          app __x11__ = (UpdateEmpty R V)
+          return __x11__
+        } else {}
+      } else {}
+      __x7__ = (+ __x7__ 1i)
+    }
+  } else {}
+  if (= foundInB true) return V else {}
+  access __x12__ = (DefaultClause "Evaluation")
+  let R = __x12__
+  if (! (= R.Value CONST_empty)) V = R.Value else {}
+  app __x13__ = (IsAbruptCompletion R)
+  if __x13__ {
+    app __x14__ = (UpdateEmpty R V)
+    return __x14__
+  } else {}
+  let __x15__ = B
+  let __x16__ = 0i
+  while (< __x16__ __x15__.length) {
+    let C = __x15__[__x16__]
+    access __x17__ = (C "Evaluation")
+    let R = __x17__
+    if (! (= R.Value CONST_empty)) V = R.Value else {}
+    app __x18__ = (IsAbruptCompletion R)
+    if __x18__ {
+      app __x19__ = (UpdateEmpty R V)
+      return __x19__
+    } else {}
+    __x16__ = (+ __x16__ 1i)
+  }
+  return V
+}

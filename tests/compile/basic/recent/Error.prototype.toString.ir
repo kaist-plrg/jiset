@@ -1,0 +1,19 @@
+{
+  let O = this
+  if (! (= (typeof O) Object)) throw TypeError else {}
+  app __x0__ = (Get O "name")
+  let name = [? __x0__]
+  if (= name undefined) name = "Error" else {
+    app __x1__ = (ToString name)
+    name = [? __x1__]
+  }
+  app __x2__ = (Get O "message")
+  let msg = [? __x2__]
+  if (= msg undefined) msg = "" else {
+    app __x3__ = (ToString msg)
+    msg = [? __x3__]
+  }
+  if (= name "") return msg else {}
+  if (= msg "") return name else {}
+  return (+ (+ (+ name ":") " ") msg)
+}

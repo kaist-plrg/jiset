@@ -1,0 +1,9 @@
+{
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  if (= argumentsList absent) argumentsList = (new []) else {}
+  app __x1__ = (GetV V P)
+  let func = [? __x1__]
+  app __x2__ = (Call func V argumentsList)
+  return [? __x2__]
+}

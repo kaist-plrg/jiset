@@ -1,0 +1,51 @@
+["Let", {
+  "id": "number"
+}, "be", "?", "ToNumber", "(", {
+  "id": "argument"
+}, ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "number"
+}, "is", {
+  "value": "NaN"
+}, ",", {
+  "value": "+0"
+}, ",", {
+  "value": "-0"
+}, ",", {
+  "value": "+∞"
+}, ",", "or", {
+  "value": "-∞"
+}, ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "int"
+}, "be", "the", "mathematical", "value", "that", "is", "the", "same", "sign", "as", {
+  "id": "number"
+}, "and", "whose", "magnitude", "is", "floor", "(", "abs", "(", "ℝ", "(", {
+  "id": "number"
+}, ")", ")", ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "int16bit"
+}, "be", {
+  "id": "int"
+}, "modulo", "2", {
+  "sup": ["16"]
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "int16bit"
+}, "≥", "2", {
+  "sup": ["15"]
+}, ",", "return", "𝔽", "(", {
+  "id": "int16bit"
+}, "-", "2", {
+  "sup": ["16"]
+}, ")", ";", "otherwise", "return", "𝔽", "(", {
+  "id": "int16bit"
+}, ")", ".", {
+  "k": 4
+}]

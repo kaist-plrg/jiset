@@ -1,0 +1,28 @@
+{
+  app __x0__ = (ArrayCreate 0i)
+  let A = [! __x0__]
+  let n = 0i
+  while true {
+    if (= iteratorRecord.Done false) {
+      app __x1__ = (IteratorStep iteratorRecord)
+      let next = __x1__
+      app __x2__ = (IsAbruptCompletion next)
+      if __x2__ iteratorRecord.Done = true else {}
+      [? next]
+      if (= next false) iteratorRecord.Done = true else {}
+    } else {}
+    if (= iteratorRecord.Done true) {
+      access __x3__ = (BindingPattern "BindingInitialization" A environment)
+      return __x3__
+    } else {}
+    app __x4__ = (IteratorValue next)
+    let nextValue = __x4__
+    app __x5__ = (IsAbruptCompletion nextValue)
+    if __x5__ iteratorRecord.Done = true else {}
+    [? nextValue]
+    app __x6__ = (ToString n)
+    app __x7__ = (CreateDataPropertyOrThrow A [! __x6__] nextValue)
+    [! __x7__]
+    n = (+ n 1i)
+  }
+}

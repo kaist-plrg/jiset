@@ -1,0 +1,261 @@
+["Assert", ":", {
+  "id": "O"
+}, "is", "an", "Object", "that", "has", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "srcArray"
+}, "is", "an", "Object", "that", "has", "a", "[", "[", "TypedArrayName", "]", "]", "internal", "slot", ".", {
+  "k": 1
+}, "Let", {
+  "id": "srcData"
+}, "be", {
+  "id": "srcArray"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", ".", {
+  "k": 2
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "srcData"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "Let", {
+  "id": "constructorName"
+}, "be", "the", "String", "value", "of", {
+  "id": "O"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 4
+}, "Let", {
+  "id": "elementType"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": "unhandled: table-the-typedarray-constructors"
+}, "for", {
+  "id": "constructorName"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "elementLength"
+}, "be", {
+  "id": "srcArray"
+}, ".", "[", "[", "ArrayLength", "]", "]", ".", {
+  "k": 6
+}, "Let", {
+  "id": "srcName"
+}, "be", "the", "String", "value", "of", {
+  "id": "srcArray"
+}, ".", "[", "[", "TypedArrayName", "]", "]", ".", {
+  "k": 7
+}, "Let", {
+  "id": "srcType"
+}, "be", "the", "Element", "Type", "value", "in", {
+  "link": "unhandled: table-the-typedarray-constructors"
+}, "for", {
+  "id": "srcName"
+}, ".", {
+  "k": 8
+}, "Let", {
+  "id": "srcElementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", {
+  "link": "unhandled: table-the-typedarray-constructors"
+}, "for", {
+  "id": "srcName"
+}, ".", {
+  "k": 9
+}, "Let", {
+  "id": "srcByteOffset"
+}, "be", {
+  "id": "srcArray"
+}, ".", "[", "[", "ByteOffset", "]", "]", ".", {
+  "k": 10
+}, "Let", {
+  "id": "elementSize"
+}, "be", "the", "Element", "Size", "value", "specified", "in", {
+  "link": "unhandled: table-the-typedarray-constructors"
+}, "for", {
+  "id": "constructorName"
+}, ".", {
+  "k": 11
+}, "Let", {
+  "id": "byteLength"
+}, "be", {
+  "id": "elementSize"
+}, "×", {
+  "id": "elementLength"
+}, ".", {
+  "k": 12
+}, "If", "IsSharedArrayBuffer", "(", {
+  "id": "srcData"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "bufferConstructor"
+}, "be", "?", "SpeciesConstructor", "(", {
+  "id": "srcData"
+}, ",", "%", "ArrayBuffer", "%", ")", ".", {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 13
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "bufferConstructor"
+}, "be", "%", "ArrayBuffer", "%", ".", {
+  "k": 16
+}, {
+  "out": null
+}, {
+  "k": 15
+}, "If", {
+  "id": "elementType"
+}, "is", "the", "same", "as", {
+  "id": "srcType"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "data"
+}, "be", "?", "CloneArrayBuffer", "(", {
+  "id": "srcData"
+}, ",", {
+  "id": "srcByteOffset"
+}, ",", {
+  "id": "byteLength"
+}, ",", {
+  "id": "bufferConstructor"
+}, ")", ".", {
+  "k": 18
+}, {
+  "out": null
+}, {
+  "k": 17
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "data"
+}, "be", "?", "AllocateArrayBuffer", "(", {
+  "id": "bufferConstructor"
+}, ",", {
+  "id": "byteLength"
+}, ")", ".", {
+  "k": 20
+}, "If", "IsDetachedBuffer", "(", {
+  "id": "srcData"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 21
+}, "If", {
+  "id": "srcArray"
+}, ".", "[", "[", "ContentType", "]", "]", "≠", {
+  "id": "O"
+}, ".", "[", "[", "ContentType", "]", "]", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 22
+}, "Let", {
+  "id": "srcByteIndex"
+}, "be", {
+  "id": "srcByteOffset"
+}, ".", {
+  "k": 23
+}, "Let", {
+  "id": "targetByteIndex"
+}, "be", "0", ".", {
+  "k": 24
+}, "Let", {
+  "id": "count"
+}, "be", {
+  "id": "elementLength"
+}, ".", {
+  "k": 25
+}, "Repeat", ",", "while", {
+  "id": "count"
+}, ">", "0", ",", {
+  "in": null
+}, "Let", {
+  "id": "value"
+}, "be", "GetValueFromBuffer", "(", {
+  "id": "srcData"
+}, ",", {
+  "id": "srcByteIndex"
+}, ",", {
+  "id": "srcType"
+}, ",", {
+  "value": "true"
+}, ",", {
+  "const": "Unordered"
+}, ")", ".", {
+  "k": 27
+}, "Perform", "SetValueInBuffer", "(", {
+  "id": "data"
+}, ",", {
+  "id": "targetByteIndex"
+}, ",", {
+  "id": "elementType"
+}, ",", {
+  "id": "value"
+}, ",", {
+  "value": "true"
+}, ",", {
+  "const": "Unordered"
+}, ")", ".", {
+  "k": 28
+}, "Set", {
+  "id": "srcByteIndex"
+}, "to", {
+  "id": "srcByteIndex"
+}, "+", {
+  "id": "srcElementSize"
+}, ".", {
+  "k": 29
+}, "Set", {
+  "id": "targetByteIndex"
+}, "to", {
+  "id": "targetByteIndex"
+}, "+", {
+  "id": "elementSize"
+}, ".", {
+  "k": 30
+}, "Set", {
+  "id": "count"
+}, "to", {
+  "id": "count"
+}, "-", "1", ".", {
+  "k": 31
+}, {
+  "out": null
+}, {
+  "k": 26
+}, {
+  "out": null
+}, {
+  "k": 19
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ViewedArrayBuffer", "]", "]", "to", {
+  "id": "data"
+}, ".", {
+  "k": 32
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ByteLength", "]", "]", "to", {
+  "id": "byteLength"
+}, ".", {
+  "k": 33
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ByteOffset", "]", "]", "to", "0", ".", {
+  "k": 34
+}, "Set", {
+  "id": "O"
+}, ".", "[", "[", "ArrayLength", "]", "]", "to", {
+  "id": "elementLength"
+}, ".", {
+  "k": 35
+}]

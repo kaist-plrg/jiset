@@ -1,0 +1,495 @@
+["Let", {
+  "id": "O"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "O"
+}, ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "relativeStart"
+}, "be", "?", "ToIntegerOrInfinity", "(", {
+  "id": "start"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "relativeStart"
+}, "is", "-", "∞", ",", "let", {
+  "id": "actualStart"
+}, "be", "0", ".", {
+  "k": 3
+}, "Else", "if", {
+  "id": "relativeStart"
+}, "<", "0", ",", "let", {
+  "id": "actualStart"
+}, "be", "max", "(", {
+  "id": "len"
+}, "+", {
+  "id": "relativeStart"
+}, ",", "0", ")", ".", {
+  "k": 4
+}, "Else", ",", "let", {
+  "id": "actualStart"
+}, "be", "min", "(", {
+  "id": "relativeStart"
+}, ",", {
+  "id": "len"
+}, ")", ".", {
+  "k": 5
+}, "If", {
+  "id": "start"
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "insertCount"
+}, "be", "0", ".", {
+  "k": 7
+}, "Let", {
+  "id": "actualDeleteCount"
+}, "be", "0", ".", {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 6
+}, "Else", "if", {
+  "id": "deleteCount"
+}, "is", "not", "present", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "insertCount"
+}, "be", "0", ".", {
+  "k": 10
+}, "Let", {
+  "id": "actualDeleteCount"
+}, "be", {
+  "id": "len"
+}, "-", {
+  "id": "actualStart"
+}, ".", {
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 9
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "insertCount"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "items"
+}, ".", {
+  "k": 13
+}, "Let", {
+  "id": "dc"
+}, "be", "?", "ToIntegerOrInfinity", "(", {
+  "id": "deleteCount"
+}, ")", ".", {
+  "k": 14
+}, "Let", {
+  "id": "actualDeleteCount"
+}, "be", "the", "result", "of", "clamping", {
+  "id": "dc"
+}, "between", "0", "and", {
+  "id": "len"
+}, "-", {
+  "id": "actualStart"
+}, ".", {
+  "k": 15
+}, {
+  "out": null
+}, {
+  "k": 12
+}, "If", {
+  "id": "len"
+}, "+", {
+  "id": "insertCount"
+}, "-", {
+  "id": "actualDeleteCount"
+}, ">", "2", {
+  "sup": ["53"]
+}, "-", "1", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 16
+}, "Let", {
+  "id": "A"
+}, "be", "?", "ArraySpeciesCreate", "(", {
+  "id": "O"
+}, ",", {
+  "id": "actualDeleteCount"
+}, ")", ".", {
+  "k": 17
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 18
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "actualDeleteCount"
+}, ",", {
+  "in": null
+}, "Let", {
+  "id": "from"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "actualStart"
+}, "+", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 20
+}, "Let", {
+  "id": "fromPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", {
+  "k": 21
+}, "If", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "fromValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", {
+  "k": 23
+}, "Perform", "?", "CreateDataPropertyOrThrow", "(", {
+  "id": "A"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, ")", ")", ",", {
+  "id": "fromValue"
+}, ")", ".", {
+  "k": 24
+}, {
+  "out": null
+}, {
+  "k": 22
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 25
+}, {
+  "out": null
+}, {
+  "k": 19
+}, "Perform", "?", "Set", "(", {
+  "id": "A"
+}, ",", {
+  "value": "\"length\""
+}, ",", "𝔽", "(", {
+  "id": "actualDeleteCount"
+}, ")", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 26
+}, "Let", {
+  "id": "itemCount"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "items"
+}, ".", {
+  "k": 27
+}, "If", {
+  "id": "itemCount"
+}, "<", {
+  "id": "actualDeleteCount"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "actualStart"
+}, ".", {
+  "k": 29
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", "(", {
+  "id": "len"
+}, "-", {
+  "id": "actualDeleteCount"
+}, ")", ",", {
+  "in": null
+}, "Let", {
+  "id": "from"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, "+", {
+  "id": "actualDeleteCount"
+}, ")", ")", ".", {
+  "k": 31
+}, "Let", {
+  "id": "to"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, "+", {
+  "id": "itemCount"
+}, ")", ")", ".", {
+  "k": 32
+}, "Let", {
+  "id": "fromPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", {
+  "k": 33
+}, "If", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "fromValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", {
+  "k": 35
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "to"
+}, ",", {
+  "id": "fromValue"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 36
+}, {
+  "out": null
+}, {
+  "k": 34
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "false"
+}, ".", {
+  "k": 38
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "to"
+}, ")", ".", {
+  "k": 39
+}, {
+  "out": null
+}, {
+  "k": 37
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 40
+}, {
+  "out": null
+}, {
+  "k": 30
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "len"
+}, ".", {
+  "k": 41
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, ">", "(", {
+  "id": "len"
+}, "-", {
+  "id": "actualDeleteCount"
+}, "+", {
+  "id": "itemCount"
+}, ")", ",", {
+  "in": null
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, "-", "1", ")", ")", ")", ".", {
+  "k": 43
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "-", "1", ".", {
+  "k": 44
+}, {
+  "out": null
+}, {
+  "k": 42
+}, {
+  "out": null
+}, {
+  "k": 28
+}, "Else", "if", {
+  "id": "itemCount"
+}, ">", {
+  "id": "actualDeleteCount"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "k"
+}, "to", "(", {
+  "id": "len"
+}, "-", {
+  "id": "actualDeleteCount"
+}, ")", ".", {
+  "k": 46
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, ">", {
+  "id": "actualStart"
+}, ",", {
+  "in": null
+}, "Let", {
+  "id": "from"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, "+", {
+  "id": "actualDeleteCount"
+}, "-", "1", ")", ")", ".", {
+  "k": 48
+}, "Let", {
+  "id": "to"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, "+", {
+  "id": "itemCount"
+}, "-", "1", ")", ")", ".", {
+  "k": 49
+}, "Let", {
+  "id": "fromPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", {
+  "k": 50
+}, "If", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "fromValue"
+}, "be", "?", "Get", "(", {
+  "id": "O"
+}, ",", {
+  "id": "from"
+}, ")", ".", {
+  "k": 52
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "id": "to"
+}, ",", {
+  "id": "fromValue"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 53
+}, {
+  "out": null
+}, {
+  "k": 51
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "fromPresent"
+}, "is", {
+  "value": "false"
+}, ".", {
+  "k": 55
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "O"
+}, ",", {
+  "id": "to"
+}, ")", ".", {
+  "k": 56
+}, {
+  "out": null
+}, {
+  "k": 54
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "-", "1", ".", {
+  "k": 57
+}, {
+  "out": null
+}, {
+  "k": 47
+}, {
+  "out": null
+}, {
+  "k": 45
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "actualStart"
+}, ".", {
+  "k": 58
+}, "For", "each", "element", {
+  "id": "E"
+}, "of", {
+  "id": "items"
+}, ",", "do", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, ")", ")", ",", {
+  "id": "E"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 60
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 61
+}, {
+  "out": null
+}, {
+  "k": 59
+}, "Perform", "?", "Set", "(", {
+  "id": "O"
+}, ",", {
+  "value": "\"length\""
+}, ",", "𝔽", "(", {
+  "id": "len"
+}, "-", {
+  "id": "actualDeleteCount"
+}, "+", {
+  "id": "itemCount"
+}, ")", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 62
+}, "Return", {
+  "id": "A"
+}, ".", {
+  "k": 63
+}]

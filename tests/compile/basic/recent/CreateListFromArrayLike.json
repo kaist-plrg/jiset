@@ -1,0 +1,75 @@
+["If", {
+  "id": "elementTypes"
+}, "is", "not", "present", ",", "set", {
+  "id": "elementTypes"
+}, "to", "«", "Undefined", ",", "Null", ",", "Boolean", ",", "String", ",", "Symbol", ",", "Number", ",", "BigInt", ",", "Object", "»", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "obj"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "obj"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "list"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 3
+}, "Let", {
+  "id": "index"
+}, "be", "0", ".", {
+  "k": 4
+}, "Repeat", ",", "while", {
+  "id": "index"
+}, "<", {
+  "id": "len"
+}, ",", {
+  "in": null
+}, "Let", {
+  "id": "indexName"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "index"
+}, ")", ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "next"
+}, "be", "?", "Get", "(", {
+  "id": "obj"
+}, ",", {
+  "id": "indexName"
+}, ")", ".", {
+  "k": 7
+}, "If", "Type", "(", {
+  "id": "next"
+}, ")", "is", "not", "an", "element", "of", {
+  "id": "elementTypes"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 8
+}, "Append", {
+  "id": "next"
+}, "as", "the", "last", "element", "of", {
+  "id": "list"
+}, ".", {
+  "k": 9
+}, "Set", {
+  "id": "index"
+}, "to", {
+  "id": "index"
+}, "+", "1", ".", {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "Return", {
+  "id": "list"
+}, ".", {
+  "k": 11
+}]

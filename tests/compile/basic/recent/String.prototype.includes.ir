@@ -1,0 +1,19 @@
+{
+  app __x0__ = (RequireObjectCoercible this)
+  let O = [? __x0__]
+  app __x1__ = (ToString O)
+  let S = [? __x1__]
+  app __x2__ = (IsRegExp searchString)
+  let isRegExp = [? __x2__]
+  if (= isRegExp true) throw TypeError else {}
+  app __x3__ = (ToString searchString)
+  let searchStr = [? __x3__]
+  app __x4__ = (ToIntegerOrInfinity position)
+  let pos = [? __x4__]
+  let len = S.length
+  ??? "Let id:{start} be the result of clamping id:{pos} between 0 and id:{len} ."
+  app __x5__ = (StringIndexOf S searchStr start)
+  let index = [! __x5__]
+  if (! (= index -1i)) return true else {}
+  return false
+}

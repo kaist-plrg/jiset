@@ -1,0 +1,17 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (LengthOfArrayLike O)
+  let sourceLen = [? __x1__]
+  let depthNum = 1i
+  if (! (= depth undefined)) {
+    app __x2__ = (ToIntegerOrInfinity depth)
+    depthNum = [? __x2__]
+    if (< depthNum 0i) depthNum = 0i else {}
+  } else {}
+  app __x3__ = (ArraySpeciesCreate O 0i)
+  let A = [? __x3__]
+  app __x4__ = (FlattenIntoArray A O sourceLen 0i depthNum)
+  [? __x4__]
+  return A
+}

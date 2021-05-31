@@ -1,0 +1,183 @@
+["If", "Type", "(", {
+  "id": "x"
+}, ")", "is", "the", "same", "as", "Type", "(", {
+  "id": "y"
+}, ")", ",", "then", {
+  "in": null
+}, "Return", "the", "result", "of", "performing", "Strict", "Equality", "Comparison", {
+  "id": "x"
+}, "=", "=", "=", {
+  "id": "y"
+}, ".", {
+  "k": 1
+}, {
+  "out": null
+}, {
+  "k": 0
+}, "If", {
+  "id": "x"
+}, "is", {
+  "value": "null"
+}, "and", {
+  "id": "y"
+}, "is", {
+  "value": "undefined"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "x"
+}, "is", {
+  "value": "undefined"
+}, "and", {
+  "id": "y"
+}, "is", {
+  "value": "null"
+}, ",", "return", {
+  "value": "true"
+}, ".", {
+  "k": 3
+}, "NOTE", ":", "This", "step", "is", "replaced", "in", "section", {
+  "link": "unhandled: sec-IsHTMLDDA-internal-slot-aec"
+}, ".", {
+  "k": 4
+}, "If", "Type", "(", {
+  "id": "x"
+}, ")", "is", "Number", "and", "Type", "(", {
+  "id": "y"
+}, ")", "is", "String", ",", "return", "the", "result", "of", "the", "comparison", {
+  "id": "x"
+}, "=", "=", "!", "ToNumber", "(", {
+  "id": "y"
+}, ")", ".", {
+  "k": 5
+}, "If", "Type", "(", {
+  "id": "x"
+}, ")", "is", "String", "and", "Type", "(", {
+  "id": "y"
+}, ")", "is", "Number", ",", "return", "the", "result", "of", "the", "comparison", "!", "ToNumber", "(", {
+  "id": "x"
+}, ")", "=", "=", {
+  "id": "y"
+}, ".", {
+  "k": 6
+}, "If", "Type", "(", {
+  "id": "x"
+}, ")", "is", "BigInt", "and", "Type", "(", {
+  "id": "y"
+}, ")", "is", "String", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "n"
+}, "be", "!", "StringToBigInt", "(", {
+  "id": "y"
+}, ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "n"
+}, "is", {
+  "value": "NaN"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "Return", "the", "result", "of", "the", "comparison", {
+  "id": "x"
+}, "=", "=", {
+  "id": "n"
+}, ".", {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "If", "Type", "(", {
+  "id": "x"
+}, ")", "is", "String", "and", "Type", "(", {
+  "id": "y"
+}, ")", "is", "BigInt", ",", "return", "the", "result", "of", "the", "comparison", {
+  "id": "y"
+}, "=", "=", {
+  "id": "x"
+}, ".", {
+  "k": 11
+}, "If", "Type", "(", {
+  "id": "x"
+}, ")", "is", "Boolean", ",", "return", "the", "result", "of", "the", "comparison", "!", "ToNumber", "(", {
+  "id": "x"
+}, ")", "=", "=", {
+  "id": "y"
+}, ".", {
+  "k": 12
+}, "If", "Type", "(", {
+  "id": "y"
+}, ")", "is", "Boolean", ",", "return", "the", "result", "of", "the", "comparison", {
+  "id": "x"
+}, "=", "=", "!", "ToNumber", "(", {
+  "id": "y"
+}, ")", ".", {
+  "k": 13
+}, "If", "Type", "(", {
+  "id": "x"
+}, ")", "is", "either", "String", ",", "Number", ",", "BigInt", ",", "or", "Symbol", "and", "Type", "(", {
+  "id": "y"
+}, ")", "is", "Object", ",", "return", "the", "result", "of", "the", "comparison", {
+  "id": "x"
+}, "=", "=", "?", "ToPrimitive", "(", {
+  "id": "y"
+}, ")", ".", {
+  "k": 14
+}, "If", "Type", "(", {
+  "id": "x"
+}, ")", "is", "Object", "and", "Type", "(", {
+  "id": "y"
+}, ")", "is", "either", "String", ",", "Number", ",", "BigInt", ",", "or", "Symbol", ",", "return", "the", "result", "of", "the", "comparison", "?", "ToPrimitive", "(", {
+  "id": "x"
+}, ")", "=", "=", {
+  "id": "y"
+}, ".", {
+  "k": 15
+}, "If", "Type", "(", {
+  "id": "x"
+}, ")", "is", "BigInt", "and", "Type", "(", {
+  "id": "y"
+}, ")", "is", "Number", ",", "or", "if", "Type", "(", {
+  "id": "x"
+}, ")", "is", "Number", "and", "Type", "(", {
+  "id": "y"
+}, ")", "is", "BigInt", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "x"
+}, "or", {
+  "id": "y"
+}, "are", "any", "of", {
+  "value": "NaN"
+}, ",", {
+  "value": "+∞"
+}, ",", "or", {
+  "value": "-∞"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 17
+}, "If", "ℝ", "(", {
+  "id": "x"
+}, ")", "=", "ℝ", "(", {
+  "id": "y"
+}, ")", ",", "return", {
+  "value": "true"
+}, ";", "otherwise", "return", {
+  "value": "false"
+}, ".", {
+  "k": 18
+}, {
+  "out": null
+}, {
+  "k": 16
+}, "Return", {
+  "value": "false"
+}, ".", {
+  "k": 19
+}]

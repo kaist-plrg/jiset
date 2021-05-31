@@ -1,0 +1,26 @@
+{
+  if (= opText "+") {
+    app __x0__ = (ToPrimitive lval)
+    let lprim = [? __x0__]
+    app __x1__ = (ToPrimitive rval)
+    let rprim = [? __x1__]
+    if (|| (= (typeof lprim) String) (= (typeof rprim) String)) {
+      app __x2__ = (ToString lprim)
+      let lstr = [? __x2__]
+      app __x3__ = (ToString rprim)
+      let rstr = [? __x3__]
+      return (+ lstr rstr)
+    } else {}
+    lval = lprim
+    rval = rprim
+  } else {}
+  app __x4__ = (ToNumeric lval)
+  let lnum = [? __x4__]
+  app __x5__ = (ToNumeric rval)
+  let rnum = [? __x5__]
+  if (! (= (typeof lnum) (typeof rnum))) throw TypeError else {}
+  let T = (typeof lnum)
+  ??? "Let id:{operation} be the abstract operation associated with id:{opText} in the following table : in:{} out:{}"
+  app __x6__ = (operation lnum rnum)
+  return [? __x6__]
+}

@@ -1,0 +1,21 @@
+{
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  app __x1__ = (O.GetOwnProperty O P)
+  let desc = [? __x1__]
+  if (= desc undefined) {
+    app __x2__ = (O.GetPrototypeOf O)
+    let parent = [? __x2__]
+    if (= parent null) return undefined else {}
+    app __x3__ = (parent.Get parent P Receiver)
+    return [? __x3__]
+  } else {}
+  app __x4__ = (IsDataDescriptor desc)
+  if (= __x4__ true) return desc.Value else {}
+  app __x5__ = (IsAccessorDescriptor desc)
+  assert (= __x5__ true)
+  let getter = desc.Get
+  if (= getter undefined) return undefined else {}
+  app __x6__ = (Call getter Receiver)
+  return [? __x6__]
+}

@@ -1,0 +1,20 @@
+{
+  assert (= name absent)
+  access __x0__ = (BindingIdentifier "StringValue")
+  name = __x0__
+  let scope = CONTEXT.LexicalEnvironment
+  app __x1__ = (NewDeclarativeEnvironment scope)
+  let funcEnv = __x1__
+  app __x2__ = (funcEnv.CreateImmutableBinding funcEnv name false)
+  __x2__
+  let sourceText = (get-syntax FunctionExpression)
+  app __x3__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype sourceText FormalParameters FunctionBody CONST_nonDASHlexicalDASHthis funcEnv)
+  let closure = __x3__
+  app __x4__ = (SetFunctionName closure name)
+  __x4__
+  app __x5__ = (MakeConstructor closure)
+  __x5__
+  app __x6__ = (funcEnv.InitializeBinding funcEnv name closure)
+  __x6__
+  return closure
+}

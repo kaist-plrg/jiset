@@ -1,0 +1,17 @@
+{
+  assert (= (typeof R) Object)
+  assert (= (typeof S) String)
+  app __x0__ = (Get R "exec")
+  let exec = [? __x0__]
+  app __x1__ = (IsCallable exec)
+  if (= __x1__ true) {
+    app __x2__ = (Call exec R (new [S]))
+    let result = [? __x2__]
+    if (! (|| (= (typeof result) Object) (= (typeof result) Null))) throw TypeError else {}
+    return result
+  } else {}
+  app __x3__ = (RequireInternalSlot R "RegExpMatcher")
+  [? __x3__]
+  app __x4__ = (RegExpBuiltinExec R S)
+  return [? __x4__]
+}

@@ -1,0 +1,12 @@
+{
+  assert (= (typeof matched) String)
+  let matchLength = matched.length
+  assert (= (typeof str) String)
+  let stringLength = str.length
+  assert (! (< stringLength position))
+  assert (= (typeof replacement) String)
+  let tailPos = (+ position matchLength)
+  let m = captures.length
+  ??? "Let id:{result} be the String value derived from id:{replacement} by copying code unit elements from id:{replacement} to id:{result} while performing replacements as specified in link:{unhandled: table-replacement-text-symbol-substitutions} . These code:{$} replacements are done left - to - right , and , once such a replacement is performed , the new replacement text is not subject to further replacements ."
+  return result
+}

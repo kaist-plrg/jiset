@@ -1,0 +1,9 @@
+{
+  assert (! (< (- (** 2.0 53i) 1i) index))
+  if (= unicode false) return (+ index 1i) else {}
+  let length = S.length
+  if (! (< (+ index 1i) length)) return (+ index 1i) else {}
+  app __x0__ = (CodePointAt S index)
+  let cp = [! __x0__]
+  return (+ index cp.CodeUnitCount)
+}

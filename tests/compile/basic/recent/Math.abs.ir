@@ -1,0 +1,9 @@
+{
+  app __x0__ = (ToNumber x)
+  let n = [? __x0__]
+  if (= n NaN) return NaN else {}
+  if (= n -0.0) return 0i else {}
+  if (= n -Infinity) return Infinity else {}
+  if (< n 0i) return (- n) else {}
+  return n
+}

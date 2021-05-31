@@ -1,0 +1,10 @@
+{
+  app __x0__ = (FunctionDeclarationInstantiation functionObject argumentsList)
+  [? __x0__]
+  app __x1__ = (OrdinaryCreateFromConstructor functionObject "%AsyncGeneratorFunction.prototype.prototype%" (new ["AsyncGeneratorState", "AsyncGeneratorContext", "AsyncGeneratorQueue", "GeneratorBrand"]))
+  let generator = [? __x1__]
+  generator.GeneratorBrand = CONST_empty
+  app __x2__ = (AsyncGeneratorStart generator FunctionBody)
+  [! __x2__]
+  return (new Completion("Type" -> CONST_return, "Value" -> generator, "Target" -> CONST_empty))
+}

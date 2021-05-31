@@ -1,0 +1,97 @@
+["Let", {
+  "id": "genContext"
+}, "be", "the", "running", "execution", "context", ".", {
+  "k": 0
+}, "Assert", ":", {
+  "id": "genContext"
+}, "is", "the", "execution", "context", "of", "a", "generator", ".", {
+  "k": 1
+}, "Let", {
+  "id": "generator"
+}, "be", "the", "value", "of", "the", "Generator", "component", "of", {
+  "id": "genContext"
+}, ".", {
+  "k": 2
+}, "Assert", ":", "GetGeneratorKind", "(", ")", "is", {
+  "const": "async"
+}, ".", {
+  "k": 3
+}, "Set", {
+  "id": "value"
+}, "to", "?", "Await", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 4
+}, "Set", {
+  "id": "generator"
+}, ".", "[", "[", "AsyncGeneratorState", "]", "]", "to", {
+  "const": "suspendedYield"
+}, ".", {
+  "k": 5
+}, "Remove", {
+  "id": "genContext"
+}, "from", "the", "execution", "context", "stack", "and", "restore", "the", "execution", "context", "that", "is", "at", "the", "top", "of", "the", "execution", "context", "stack", "as", "the", "running", "execution", "context", ".", {
+  "k": 6
+}, "Set", "the", "code", "evaluation", "state", "of", {
+  "id": "genContext"
+}, "such", "that", "when", "evaluation", "is", "resumed", "with", "a", "Completion", {
+  "id": "resumptionValue"
+}, "the", "following", "steps", "will", "be", "performed", ":", {
+  "in": null
+}, "If", {
+  "id": "resumptionValue"
+}, ".", "[", "[", "Type", "]", "]", "is", "not", {
+  "const": "return"
+}, ",", "return", "Completion", "(", {
+  "id": "resumptionValue"
+}, ")", ".", {
+  "k": 8
+}, "Let", {
+  "id": "awaited"
+}, "be", "Await", "(", {
+  "id": "resumptionValue"
+}, ".", "[", "[", "Value", "]", "]", ")", ".", {
+  "k": 9
+}, "If", {
+  "id": "awaited"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "throw"
+}, ",", "return", "Completion", "(", {
+  "id": "awaited"
+}, ")", ".", {
+  "k": 10
+}, "Assert", ":", {
+  "id": "awaited"
+}, ".", "[", "[", "Type", "]", "]", "is", {
+  "const": "normal"
+}, ".", {
+  "k": 11
+}, "Return", "Completion", "{", "[", "[", "Type", "]", "]", ":", {
+  "const": "return"
+}, ",", "[", "[", "Value", "]", "]", ":", {
+  "id": "awaited"
+}, ".", "[", "[", "Value", "]", "]", ",", "[", "[", "Target", "]", "]", ":", {
+  "const": "empty"
+}, "}", ".", {
+  "k": 12
+}, "NOTE", ":", "When", "one", "of", "the", "above", "steps", "returns", ",", "it", "returns", "to", "the", "evaluation", "of", "the", {
+  "nt": "YieldExpression"
+}, "production", "that", "originally", "called", "this", "abstract", "operation", ".", {
+  "k": 13
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "Return", "!", "AsyncGeneratorResolve", "(", {
+  "id": "generator"
+}, ",", {
+  "id": "value"
+}, ",", {
+  "value": "false"
+}, ")", ".", {
+  "k": 14
+}, "NOTE", ":", "This", "returns", "to", "the", "evaluation", "of", "the", "operation", "that", "had", "most", "previously", "resumed", "evaluation", "of", {
+  "id": "genContext"
+}, ".", {
+  "k": 15
+}]

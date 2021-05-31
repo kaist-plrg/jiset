@@ -1,0 +1,14 @@
+{
+  let length = codeUnits.length
+  let elements = (new [])
+  let __x0__ = codeUnits
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let next = __x0__[__x1__]
+    app __x2__ = (ToUint16 next)
+    let nextCU = [? __x2__]
+    append nextCU -> elements
+    __x1__ = (+ __x1__ 1i)
+  }
+  ??? "Return the String value whose code units are the elements in the List id:{elements} . If id:{codeUnits} is empty , the empty String is returned ."
+}

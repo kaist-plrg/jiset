@@ -1,0 +1,13 @@
+{
+  let R = this
+  if (! (= (typeof R) Object)) throw TypeError else {}
+  if (= R.OriginalSource absent) {
+    app __x0__ = (SameValue R INTRINSIC_RegExp_prototype)
+    if (= __x0__ true) return "(?:)" else throw TypeError
+  } else {}
+  assert (! (= R.OriginalFlags absent))
+  let src = R.OriginalSource
+  let flags = R.OriginalFlags
+  app __x1__ = (EscapeRegExpPattern src flags)
+  return __x1__
+}

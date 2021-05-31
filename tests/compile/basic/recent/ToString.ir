@@ -1,0 +1,25 @@
+{
+  if (= (typeof argument) Undefined) return "undefined" else {}
+  if (= (typeof argument) Null) return "null" else {}
+  if (= (typeof argument) Boolean) {
+    if (= argument true) return "true" else {}
+    if (= argument false) return "false" else {}
+  } else {}
+  if (= (typeof argument) Number) {
+    app __x0__ = (PRIMITIVE[Number].toString argument)
+    return [! __x0__]
+  } else {}
+  if (= (typeof argument) String) return argument else {}
+  if (= (typeof argument) Symbol) throw TypeError else {}
+  if (= (typeof argument) BigInt) {
+    app __x1__ = (PRIMITIVE[BigInt].toString argument)
+    return [! __x1__]
+  } else {}
+  if (= (typeof argument) Object) {
+    app __x2__ = (ToPrimitive argument CONST_string)
+    let primValue = [? __x2__]
+    app __x3__ = (ToString primValue)
+    return [? __x3__]
+  } else {}
+  assert false
+}

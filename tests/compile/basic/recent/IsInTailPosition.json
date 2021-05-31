@@ -1,0 +1,79 @@
+["Assert", ":", {
+  "id": "call"
+}, "is", "a", "Parse", "Node", ".", {
+  "k": 0
+}, "If", "the", "source", "code", "matching", {
+  "id": "call"
+}, "is", "non", "-", "strict", "code", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "call"
+}, "is", "not", "contained", "within", "a", {
+  "nt": "FunctionBody"
+}, ",", {
+  "nt": "ConciseBody"
+}, ",", "or", {
+  "nt": "AsyncConciseBody"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "body"
+}, "be", "the", {
+  "nt": "FunctionBody"
+}, ",", {
+  "nt": "ConciseBody"
+}, ",", "or", {
+  "nt": "AsyncConciseBody"
+}, "that", "most", "closely", "contains", {
+  "id": "call"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "body"
+}, "is", "the", {
+  "nt": "FunctionBody"
+}, "of", "a", {
+  "nt": "GeneratorBody"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "body"
+}, "is", "the", {
+  "nt": "FunctionBody"
+}, "of", "an", {
+  "nt": "AsyncFunctionBody"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "body"
+}, "is", "the", {
+  "nt": "FunctionBody"
+}, "of", "an", {
+  "nt": "AsyncGeneratorBody"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 6
+}, "If", {
+  "id": "body"
+}, "is", "an", {
+  "nt": "AsyncConciseBody"
+}, ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 7
+}, "Return", "the", "result", "of", "HasCallInTailPosition", "of", {
+  "id": "body"
+}, "with", "argument", {
+  "id": "call"
+}, ".", {
+  "k": 8
+}]

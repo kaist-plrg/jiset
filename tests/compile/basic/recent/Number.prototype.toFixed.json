@@ -1,0 +1,201 @@
+["Let", {
+  "id": "x"
+}, "be", "?", "thisNumberValue", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "f"
+}, "be", "?", "ToIntegerOrInfinity", "(", {
+  "id": "fractionDigits"
+}, ")", ".", {
+  "k": 1
+}, "Assert", ":", "If", {
+  "id": "fractionDigits"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "id": "f"
+}, "is", "0", ".", {
+  "k": 2
+}, "If", {
+  "id": "f"
+}, "is", "not", "finite", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 3
+}, "If", {
+  "id": "f"
+}, "<", "0", "or", {
+  "id": "f"
+}, ">", "100", ",", "throw", "a", {
+  "value": "RangeError"
+}, "exception", ".", {
+  "k": 4
+}, "If", {
+  "id": "x"
+}, "is", "not", "finite", ",", "return", "!", "Number", ":", ":", "toString", "(", {
+  "id": "x"
+}, ")", ".", {
+  "k": 5
+}, "Set", {
+  "id": "x"
+}, "to", "ℝ", "(", {
+  "id": "x"
+}, ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "s"
+}, "be", "the", "empty", "String", ".", {
+  "k": 7
+}, "If", {
+  "id": "x"
+}, "<", "0", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "s"
+}, "to", {
+  "value": "\"-\""
+}, ".", {
+  "k": 9
+}, "Set", {
+  "id": "x"
+}, "to", "-", {
+  "id": "x"
+}, ".", {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 8
+}, "If", {
+  "id": "x"
+}, "≥", "10", {
+  "sup": ["21"]
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "m"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "x"
+}, ")", ")", ".", {
+  "k": 12
+}, {
+  "out": null
+}, {
+  "k": 11
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "n"
+}, "be", "an", "integer", "for", "which", {
+  "id": "n"
+}, "/", "10", {
+  "sup": [{
+    "id": "f"
+  }]
+}, "-", {
+  "id": "x"
+}, "is", "as", "close", "to", "zero", "as", "possible", ".", "If", "there", "are", "two", "such", {
+  "id": "n"
+}, ",", "pick", "the", "larger", {
+  "id": "n"
+}, ".", {
+  "k": 14
+}, "If", {
+  "id": "n"
+}, "=", "0", ",", "let", {
+  "id": "m"
+}, "be", "the", "String", {
+  "value": "\"0\""
+}, ".", "Otherwise", ",", "let", {
+  "id": "m"
+}, "be", "the", "String", "value", "consisting", "of", "the", "digits", "of", "the", "decimal", "representation", "of", {
+  "id": "n"
+}, "(", "in", "order", ",", "with", "no", "leading", "zeroes", ")", ".", {
+  "k": 15
+}, "If", {
+  "id": "f"
+}, "≠", "0", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "k"
+}, "be", "the", "length", "of", {
+  "id": "m"
+}, ".", {
+  "k": 17
+}, "If", {
+  "id": "k"
+}, "≤", {
+  "id": "f"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "z"
+}, "be", "the", "String", "value", "consisting", "of", {
+  "id": "f"
+}, "+", "1", "-", {
+  "id": "k"
+}, "occurrences", "of", "the", "code", "unit", "0x0030", "(", "DIGIT", "ZERO", ")", ".", {
+  "k": 19
+}, "Set", {
+  "id": "m"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "z"
+}, "and", {
+  "id": "m"
+}, ".", {
+  "k": 20
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "f"
+}, "+", "1", ".", {
+  "k": 21
+}, {
+  "out": null
+}, {
+  "k": 18
+}, "Let", {
+  "id": "a"
+}, "be", "the", "first", {
+  "id": "k"
+}, "-", {
+  "id": "f"
+}, "code", "units", "of", {
+  "id": "m"
+}, ".", {
+  "k": 22
+}, "Let", {
+  "id": "b"
+}, "be", "the", "other", {
+  "id": "f"
+}, "code", "units", "of", {
+  "id": "m"
+}, ".", {
+  "k": 23
+}, "Set", {
+  "id": "m"
+}, "to", "the", "string", "-", "concatenation", "of", {
+  "id": "a"
+}, ",", {
+  "value": "\".\""
+}, ",", "and", {
+  "id": "b"
+}, ".", {
+  "k": 24
+}, {
+  "out": null
+}, {
+  "k": 16
+}, {
+  "out": null
+}, {
+  "k": 13
+}, "Return", "the", "string", "-", "concatenation", "of", {
+  "id": "s"
+}, "and", {
+  "id": "m"
+}, ".", {
+  "k": 25
+}]

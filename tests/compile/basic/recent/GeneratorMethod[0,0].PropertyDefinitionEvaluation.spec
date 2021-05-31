@@ -1,0 +1,1 @@
+          1. Return ? MethodDefinitionEvaluation of |GeneratorMethod| with arguments _object_ and _enumerable_.

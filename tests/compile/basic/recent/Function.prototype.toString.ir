@@ -1,0 +1,7 @@
+{
+  let func = this
+  ??? "If Type ( id:{func} ) is Object and id:{func} has a [ [ SourceText ] ] internal slot and id:{func} . [ [ SourceText ] ] is a sequence of Unicode code points and ! HostHasSourceTextAvailable ( id:{func} ) is value:{true} , then in:{} out:{}"
+  ??? "If id:{func} is a < emu - xref href = \" # sec - built - in - function - objects \" > built - in function object < / emu - xref > , return an implementation - defined String source code representation of id:{func} . The representation must have the syntax of a nt:{NativeFunction} . Additionally , if id:{func} has an [ [ InitialName ] ] internal slot and id:{func} . [ [ InitialName ] ] is a String , the portion of the returned String that would be matched by nt:{NativeFunctionAccessor?} nt:{PropertyName} must be the value of id:{func} . [ [ InitialName ] ] ."
+  ??? "If Type ( id:{func} ) is Object and IsCallable ( id:{func} ) is value:{true} , return an implementation - defined String source code representation of id:{func} . The representation must have the syntax of a nt:{NativeFunction} ."
+  throw TypeError
+}

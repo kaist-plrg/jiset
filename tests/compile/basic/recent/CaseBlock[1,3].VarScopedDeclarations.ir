@@ -1,0 +1,16 @@
+{
+  if (! (= CaseClauses0 absent)) {
+    access __x0__ = (CaseClauses0 "VarScopedDeclarations")
+    let declarations = __x0__
+  } else let declarations = (new [])
+  access __x1__ = (DefaultClause "VarScopedDeclarations")
+  let __x2__ = __x1__
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let __x4__ = __x2__[__x3__]
+    append __x4__ -> declarations
+    __x3__ = (+ __x3__ 1i)
+  }
+  if (= CaseClauses1 absent) return declarations else {}
+  ??? "Return the result of appending to id:{declarations} the elements of the VarScopedDeclarations of the second nt:{CaseClauses} ."
+}

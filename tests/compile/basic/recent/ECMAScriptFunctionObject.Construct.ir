@@ -1,0 +1,31 @@
+{
+  assert (= (typeof newTarget) Object)
+  let callerContext = CONTEXT
+  let kind = F.ConstructorKind
+  if (= kind CONST_base) {
+    app __x0__ = (OrdinaryCreateFromConstructor newTarget "%Object.prototype%")
+    let thisArgument = [? __x0__]
+  } else {}
+  app __x1__ = (PrepareForOrdinaryCall F newTarget)
+  let calleeContext = __x1__
+  if (= kind CONST_base) {
+    app __x2__ = (OrdinaryCallBindThis F calleeContext thisArgument)
+    __x2__
+  } else {}
+  access __x3__ = (calleeContext "LexicalEnvironment")
+  let constructorEnv = __x3__
+  app __x4__ = (OrdinaryCallEvaluateBody F argumentsList)
+  let result = __x4__
+  if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) {
+    let __x5__ = (- EXECUTION_STACK.length 1i)
+    (pop EXECUTION_STACK __x5__)
+  } else {}
+  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
+  if (= result.Type CONST_return) {
+    if (= (typeof result.Value) Object) return result.Value else {}
+    if (= kind CONST_base) return thisArgument else {}
+    if (! (= result.Value undefined)) throw TypeError else {}
+  } else [? result]
+  app __x6__ = (constructorEnv.GetThisBinding constructorEnv)
+  return [? __x6__]
+}

@@ -1,0 +1,117 @@
+["If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Undefined", ",", {
+  "in": null
+}, "Return", {
+  "value": "NaN"
+}, ".", {
+  "k": 0
+}, {
+  "out": null
+}, {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Null", ",", {
+  "in": null
+}, "Return", {
+  "value": "+0"
+}, ".", {
+  "k": 2
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Boolean", ",", {
+  "in": null
+}, "If", {
+  "id": "argument"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "1"
+}, ".", "If", {
+  "id": "argument"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "+0"
+}, ".", {
+  "k": 4
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Number", ",", {
+  "in": null
+}, "Return", {
+  "id": "argument"
+}, "(", "no", "conversion", ")", ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "String", ",", {
+  "in": null
+}, "See", "grammar", "and", "conversion", "algorithm", "below", ".", {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 9
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Symbol", ",", {
+  "in": null
+}, "Throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 11
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "BigInt", ",", {
+  "in": null
+}, "Throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 12
+}, {
+  "out": null
+}, {
+  "k": 13
+}, "If", "Type", "(", {
+  "id": "argument"
+}, ")", "is", "Object", ",", {
+  "in": null
+}, "Let", {
+  "id": "primValue"
+}, "be", "?", "ToPrimitive", "(", {
+  "id": "argument"
+}, ",", {
+  "const": "number"
+}, ")", ".", {
+  "k": 14
+}, "Return", "?", "ToNumber", "(", {
+  "id": "primValue"
+}, ")", ".", {
+  "k": 15
+}, {
+  "out": null
+}, {
+  "k": 16
+}, "Assert", ":", {
+  "value": "false"
+}, ".", {
+  "k": 17
+}]

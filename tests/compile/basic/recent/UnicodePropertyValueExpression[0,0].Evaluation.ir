@@ -1,0 +1,11 @@
+{
+  access __x0__ = (UnicodePropertyName "SourceText")
+  let ps = __x0__
+  app __x1__ = (UnicodeMatchProperty ps)
+  let p = [! __x1__]
+  access __x2__ = (UnicodePropertyValue "SourceText")
+  let vs = __x2__
+  app __x3__ = (UnicodeMatchPropertyValue p vs)
+  let v = [! __x3__]
+  ??? "Return the CharSet containing all Unicode code points whose character database definition includes the property id:{p} with value id:{v} ."
+}

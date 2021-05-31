@@ -1,0 +1,235 @@
+["Let", {
+  "id": "handler"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyHandler", "]", "]", ".", {
+  "k": 0
+}, "If", {
+  "id": "handler"
+}, "is", {
+  "value": "null"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "handler"
+}, ")", "is", "Object", ".", {
+  "k": 2
+}, "Let", {
+  "id": "target"
+}, "be", {
+  "id": "O"
+}, ".", "[", "[", "ProxyTarget", "]", "]", ".", {
+  "k": 3
+}, "Let", {
+  "id": "trap"
+}, "be", "?", "GetMethod", "(", {
+  "id": "handler"
+}, ",", {
+  "value": "\"ownKeys\""
+}, ")", ".", {
+  "k": 4
+}, "If", {
+  "id": "trap"
+}, "is", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Return", "?", {
+  "id": "target"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "Let", {
+  "id": "trapResultArray"
+}, "be", "?", "Call", "(", {
+  "id": "trap"
+}, ",", {
+  "id": "handler"
+}, ",", "«", {
+  "id": "target"
+}, "»", ")", ".", {
+  "k": 7
+}, "Let", {
+  "id": "trapResult"
+}, "be", "?", "CreateListFromArrayLike", "(", {
+  "id": "trapResultArray"
+}, ",", "«", "String", ",", "Symbol", "»", ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "trapResult"
+}, "contains", "any", "duplicate", "entries", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 9
+}, "Let", {
+  "id": "extensibleTarget"
+}, "be", "?", "IsExtensible", "(", {
+  "id": "target"
+}, ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "targetKeys"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "OwnPropertyKeys", "]", "]", "(", ")", ".", {
+  "k": 11
+}, "Assert", ":", {
+  "id": "targetKeys"
+}, "is", "a", "List", "whose", "elements", "are", "only", "String", "and", "Symbol", "values", ".", {
+  "k": 12
+}, "Assert", ":", {
+  "id": "targetKeys"
+}, "contains", "no", "duplicate", "entries", ".", {
+  "k": 13
+}, "Let", {
+  "id": "targetConfigurableKeys"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 14
+}, "Let", {
+  "id": "targetNonconfigurableKeys"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 15
+}, "For", "each", "element", {
+  "id": "key"
+}, "of", {
+  "id": "targetKeys"
+}, ",", "do", {
+  "in": null
+}, "Let", {
+  "id": "desc"
+}, "be", "?", {
+  "id": "target"
+}, ".", "[", "[", "GetOwnProperty", "]", "]", "(", {
+  "id": "key"
+}, ")", ".", {
+  "k": 17
+}, "If", {
+  "id": "desc"
+}, "is", "not", {
+  "value": "undefined"
+}, "and", {
+  "id": "desc"
+}, ".", "[", "[", "Configurable", "]", "]", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Append", {
+  "id": "key"
+}, "as", "an", "element", "of", {
+  "id": "targetNonconfigurableKeys"
+}, ".", {
+  "k": 19
+}, {
+  "out": null
+}, {
+  "k": 18
+}, "Else", ",", {
+  "in": null
+}, "Append", {
+  "id": "key"
+}, "as", "an", "element", "of", {
+  "id": "targetConfigurableKeys"
+}, ".", {
+  "k": 21
+}, {
+  "out": null
+}, {
+  "k": 20
+}, {
+  "out": null
+}, {
+  "k": 16
+}, "If", {
+  "id": "extensibleTarget"
+}, "is", {
+  "value": "true"
+}, "and", {
+  "id": "targetNonconfigurableKeys"
+}, "is", "empty", ",", "then", {
+  "in": null
+}, "Return", {
+  "id": "trapResult"
+}, ".", {
+  "k": 23
+}, {
+  "out": null
+}, {
+  "k": 22
+}, "Let", {
+  "id": "uncheckedResultKeys"
+}, "be", "a", "List", "whose", "elements", "are", "the", "elements", "of", {
+  "id": "trapResult"
+}, ".", {
+  "k": 24
+}, "For", "each", "element", {
+  "id": "key"
+}, "of", {
+  "id": "targetNonconfigurableKeys"
+}, ",", "do", {
+  "in": null
+}, "If", {
+  "id": "key"
+}, "is", "not", "an", "element", "of", {
+  "id": "uncheckedResultKeys"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 26
+}, "Remove", {
+  "id": "key"
+}, "from", {
+  "id": "uncheckedResultKeys"
+}, ".", {
+  "k": 27
+}, {
+  "out": null
+}, {
+  "k": 25
+}, "If", {
+  "id": "extensibleTarget"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "id": "trapResult"
+}, ".", {
+  "k": 28
+}, "For", "each", "element", {
+  "id": "key"
+}, "of", {
+  "id": "targetConfigurableKeys"
+}, ",", "do", {
+  "in": null
+}, "If", {
+  "id": "key"
+}, "is", "not", "an", "element", "of", {
+  "id": "uncheckedResultKeys"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 30
+}, "Remove", {
+  "id": "key"
+}, "from", {
+  "id": "uncheckedResultKeys"
+}, ".", {
+  "k": 31
+}, {
+  "out": null
+}, {
+  "k": 29
+}, "If", {
+  "id": "uncheckedResultKeys"
+}, "is", "not", "empty", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 32
+}, "Return", {
+  "id": "trapResult"
+}, ".", {
+  "k": 33
+}]

@@ -1,0 +1,463 @@
+["If", {
+  "id": "iteratorKind"
+}, "is", "not", "present", ",", "set", {
+  "id": "iteratorKind"
+}, "to", {
+  "const": "sync"
+}, ".", {
+  "k": 0
+}, "Let", {
+  "id": "oldEnv"
+}, "be", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", ".", {
+  "k": 1
+}, "Let", {
+  "id": "V"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "destructuring"
+}, "be", "IsDestructuring", "of", {
+  "id": "lhs"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "destructuring"
+}, "is", {
+  "value": "true"
+}, "and", "if", {
+  "id": "lhsKind"
+}, "is", {
+  "const": "assignment"
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
+  "id": "lhs"
+}, "is", "a", {
+  "nt": "LeftHandSideExpression"
+}, ".", {
+  "k": 5
+}, "Let", {
+  "id": "assignmentPattern"
+}, "be", "the", {
+  "nt": "AssignmentPattern"
+}, "that", "is", "covered", "by", {
+  "id": "lhs"
+}, ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 4
+}, "Repeat", ",", {
+  "in": null
+}, "Let", {
+  "id": "nextResult"
+}, "be", "?", "Call", "(", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "NextMethod", "]", "]", ",", {
+  "id": "iteratorRecord"
+}, ".", "[", "[", "Iterator", "]", "]", ")", ".", {
+  "k": 8
+}, "If", {
+  "id": "iteratorKind"
+}, "is", {
+  "const": "async"
+}, ",", "set", {
+  "id": "nextResult"
+}, "to", "?", "Await", "(", {
+  "id": "nextResult"
+}, ")", ".", {
+  "k": 9
+}, "If", "Type", "(", {
+  "id": "nextResult"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 10
+}, "Let", {
+  "id": "done"
+}, "be", "?", "IteratorComplete", "(", {
+  "id": "nextResult"
+}, ")", ".", {
+  "k": 11
+}, "If", {
+  "id": "done"
+}, "is", {
+  "value": "true"
+}, ",", "return", "NormalCompletion", "(", {
+  "id": "V"
+}, ")", ".", {
+  "k": 12
+}, "Let", {
+  "id": "nextValue"
+}, "be", "?", "IteratorValue", "(", {
+  "id": "nextResult"
+}, ")", ".", {
+  "k": 13
+}, "If", {
+  "id": "lhsKind"
+}, "is", "either", {
+  "const": "assignment"
+}, "or", {
+  "const": "varBinding"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "destructuring"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "lhsRef"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "lhs"
+}, ".", "(", "It", "may", "be", "evaluated", "repeatedly", ".", ")", {
+  "k": 16
+}, {
+  "out": null
+}, {
+  "k": 15
+}, {
+  "out": null
+}, {
+  "k": 14
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "lhsKind"
+}, "is", {
+  "const": "lexicalBinding"
+}, ".", {
+  "k": 18
+}, "Assert", ":", {
+  "id": "lhs"
+}, "is", "a", {
+  "nt": "ForDeclaration"
+}, ".", {
+  "k": 19
+}, "Let", {
+  "id": "iterationEnv"
+}, "be", "NewDeclarativeEnvironment", "(", {
+  "id": "oldEnv"
+}, ")", ".", {
+  "k": 20
+}, "Perform", "ForDeclarationBindingInstantiation", "for", {
+  "id": "lhs"
+}, "passing", {
+  "id": "iterationEnv"
+}, "as", "the", "argument", ".", {
+  "k": 21
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "iterationEnv"
+}, ".", {
+  "k": 22
+}, "If", {
+  "id": "destructuring"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
+  "id": "lhs"
+}, "binds", "a", "single", "name", ".", {
+  "k": 24
+}, "Let", {
+  "id": "lhsName"
+}, "be", "the", "sole", "element", "of", "BoundNames", "of", {
+  "id": "lhs"
+}, ".", {
+  "k": 25
+}, "Let", {
+  "id": "lhsRef"
+}, "be", "!", "ResolveBinding", "(", {
+  "id": "lhsName"
+}, ")", ".", {
+  "k": 26
+}, {
+  "out": null
+}, {
+  "k": 23
+}, {
+  "out": null
+}, {
+  "k": 17
+}, "If", {
+  "id": "destructuring"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "lhsRef"
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "status"
+}, "be", {
+  "id": "lhsRef"
+}, ".", {
+  "k": 29
+}, {
+  "out": null
+}, {
+  "k": 28
+}, "Else", "if", {
+  "id": "lhsKind"
+}, "is", {
+  "const": "lexicalBinding"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "status"
+}, "be", "InitializeReferencedBinding", "(", {
+  "id": "lhsRef"
+}, ",", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 31
+}, {
+  "out": null
+}, {
+  "k": 30
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "status"
+}, "be", "PutValue", "(", {
+  "id": "lhsRef"
+}, ",", {
+  "id": "nextValue"
+}, ")", ".", {
+  "k": 33
+}, {
+  "out": null
+}, {
+  "k": 32
+}, {
+  "out": null
+}, {
+  "k": 27
+}, "Else", ",", {
+  "in": null
+}, "If", {
+  "id": "lhsKind"
+}, "is", {
+  "const": "assignment"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "status"
+}, "be", "DestructuringAssignmentEvaluation", "of", {
+  "id": "assignmentPattern"
+}, "with", "argument", {
+  "id": "nextValue"
+}, ".", {
+  "k": 36
+}, {
+  "out": null
+}, {
+  "k": 35
+}, "Else", "if", {
+  "id": "lhsKind"
+}, "is", {
+  "const": "varBinding"
+}, ",", "then", {
+  "in": null
+}, "Assert", ":", {
+  "id": "lhs"
+}, "is", "a", {
+  "nt": "ForBinding"
+}, ".", {
+  "k": 38
+}, "Let", {
+  "id": "status"
+}, "be", "BindingInitialization", "of", {
+  "id": "lhs"
+}, "with", "arguments", {
+  "id": "nextValue"
+}, "and", {
+  "value": "undefined"
+}, ".", {
+  "k": 39
+}, {
+  "out": null
+}, {
+  "k": 37
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "lhsKind"
+}, "is", {
+  "const": "lexicalBinding"
+}, ".", {
+  "k": 41
+}, "Assert", ":", {
+  "id": "lhs"
+}, "is", "a", {
+  "nt": "ForDeclaration"
+}, ".", {
+  "k": 42
+}, "Let", {
+  "id": "status"
+}, "be", "ForDeclarationBindingInitialization", "of", {
+  "id": "lhs"
+}, "with", "arguments", {
+  "id": "nextValue"
+}, "and", {
+  "id": "iterationEnv"
+}, ".", {
+  "k": 43
+}, {
+  "out": null
+}, {
+  "k": 40
+}, {
+  "out": null
+}, {
+  "k": 34
+}, "If", {
+  "id": "status"
+}, "is", "an", "abrupt", "completion", ",", "then", {
+  "in": null
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 45
+}, "If", {
+  "id": "iteratorKind"
+}, "is", {
+  "const": "async"
+}, ",", "return", "?", "AsyncIteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "status"
+}, ")", ".", {
+  "k": 46
+}, "If", {
+  "id": "iterationKind"
+}, "is", {
+  "const": "enumerate"
+}, ",", "then", {
+  "in": null
+}, "Return", {
+  "id": "status"
+}, ".", {
+  "k": 48
+}, {
+  "out": null
+}, {
+  "k": 47
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "iterationKind"
+}, "is", {
+  "const": "iterate"
+}, ".", {
+  "k": 50
+}, "Return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "status"
+}, ")", ".", {
+  "k": 51
+}, {
+  "out": null
+}, {
+  "k": 49
+}, {
+  "out": null
+}, {
+  "k": 44
+}, "Let", {
+  "id": "result"
+}, "be", "the", "result", "of", "evaluating", {
+  "id": "stmt"
+}, ".", {
+  "k": 52
+}, "Set", "the", "running", "execution", "context", "'", "s", "LexicalEnvironment", "to", {
+  "id": "oldEnv"
+}, ".", {
+  "k": 53
+}, "If", "LoopContinues", "(", {
+  "id": "result"
+}, ",", {
+  "id": "labelSet"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "If", {
+  "id": "iterationKind"
+}, "is", {
+  "const": "enumerate"
+}, ",", "then", {
+  "in": null
+}, "Return", "Completion", "(", "UpdateEmpty", "(", {
+  "id": "result"
+}, ",", {
+  "id": "V"
+}, ")", ")", ".", {
+  "k": 56
+}, {
+  "out": null
+}, {
+  "k": 55
+}, "Else", ",", {
+  "in": null
+}, "Assert", ":", {
+  "id": "iterationKind"
+}, "is", {
+  "const": "iterate"
+}, ".", {
+  "k": 58
+}, "Set", {
+  "id": "status"
+}, "to", "UpdateEmpty", "(", {
+  "id": "result"
+}, ",", {
+  "id": "V"
+}, ")", ".", {
+  "k": 59
+}, "If", {
+  "id": "iteratorKind"
+}, "is", {
+  "const": "async"
+}, ",", "return", "?", "AsyncIteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "status"
+}, ")", ".", {
+  "k": 60
+}, "Return", "?", "IteratorClose", "(", {
+  "id": "iteratorRecord"
+}, ",", {
+  "id": "status"
+}, ")", ".", {
+  "k": 61
+}, {
+  "out": null
+}, {
+  "k": 57
+}, {
+  "out": null
+}, {
+  "k": 54
+}, "If", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", "is", "not", {
+  "const": "empty"
+}, ",", "set", {
+  "id": "V"
+}, "to", {
+  "id": "result"
+}, ".", "[", "[", "Value", "]", "]", ".", {
+  "k": 62
+}, {
+  "out": null
+}, {
+  "k": 7
+}]

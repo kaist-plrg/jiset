@@ -1,0 +1,65 @@
+["Let", {
+  "id": "inputString"
+}, "be", "?", "ToString", "(", {
+  "id": "string"
+}, ")", ".", {
+  "k": 0
+}, "Let", {
+  "id": "trimmedString"
+}, "be", "!", "TrimString", "(", {
+  "id": "inputString"
+}, ",", {
+  "const": "start"
+}, ")", ".", {
+  "k": 1
+}, "If", "neither", {
+  "id": "trimmedString"
+}, "nor", "any", "prefix", "of", {
+  "id": "trimmedString"
+}, "satisfies", "the", "syntax", "of", "a", {
+  "nt": "StrDecimalLiteral"
+}, "(", "see", {
+  "link": "unhandled: sec-tonumber-applied-to-the-string-type"
+}, ")", ",", "return", {
+  "value": "NaN"
+}, ".", {
+  "k": 2
+}, "Let", {
+  "id": "numberString"
+}, "be", "the", "longest", "prefix", "of", {
+  "id": "trimmedString"
+}, ",", "which", "might", "be", {
+  "id": "trimmedString"
+}, "itself", ",", "that", "satisfies", "the", "syntax", "of", "a", {
+  "nt": "StrDecimalLiteral"
+}, ".", {
+  "k": 3
+}, "Let", {
+  "id": "mathFloat"
+}, "be", "MV", "of", {
+  "id": "numberString"
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "mathFloat"
+}, "=", "0", ",", "then", {
+  "in": null
+}, "If", "the", "first", "code", "unit", "of", {
+  "id": "trimmedString"
+}, "is", "the", "code", "unit", "0x002D", "(", "HYPHEN", "-", "MINUS", ")", ",", "return", {
+  "value": "-0"
+}, ".", {
+  "k": 6
+}, "Return", {
+  "value": "+0"
+}, ".", {
+  "k": 7
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "Return", "𝔽", "(", {
+  "id": "mathFloat"
+}, ")", ".", {
+  "k": 8
+}]

@@ -1,0 +1,37 @@
+{
+  let __x0__ = true
+  access __x1__ = (AsyncFunctionBody "FunctionBodyContainsUseStrict")
+  __x0__ = (= __x1__ true)
+  if __x0__ {
+    access __x2__ = (FormalParameters "IsSimpleParameterList")
+    __x0__ = (= __x2__ false)
+  } else {}
+  if __x0__ throw SyntaxError else {}
+  access __x3__ = (FormalParameters "Contains" "AwaitExpression")
+  if (= __x3__ true) throw SyntaxError else {}
+  ??? "If the source code matching nt:{FormalParameters} is strict mode code , the Early Error rules for grammar:{UniqueFormalParameters0, [FormalParameters]} are applied ."
+  if (&& (! (= BindingIdentifier absent)) true) {
+    access __x4__ = (BindingIdentifier "StringValue")
+    if (|| (= __x4__ "eval") (= __x4__ "arguments")) throw SyntaxError else {}
+  } else {}
+  access __x5__ = (FormalParameters "BoundNames")
+  access __x6__ = (AsyncFunctionBody "LexicallyDeclaredNames")
+  let __x7__ = __x5__
+  let __x8__ = __x6__
+  let __x9__ = 0i
+  let __x10__ = 0i
+  let __x11__ = false
+  while (< __x9__ __x7__.length) {
+    __x10__ = 0i
+    while (< __x10__ __x8__.length) if (= __x7__[__x9__] __x8__[__x10__]) __x11__ = true else {}
+  }
+  if __x11__ throw SyntaxError else {}
+  access __x12__ = (FormalParameters "Contains" "SuperProperty")
+  if (= __x12__ true) throw SyntaxError else {}
+  access __x13__ = (AsyncFunctionBody "Contains" "SuperProperty")
+  if (= __x13__ true) throw SyntaxError else {}
+  access __x14__ = (FormalParameters "Contains" "SuperCall")
+  if (= __x14__ true) throw SyntaxError else {}
+  access __x15__ = (AsyncFunctionBody "Contains" "SuperCall")
+  if (= __x15__ true) throw SyntaxError else {}
+}

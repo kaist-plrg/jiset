@@ -1,0 +1,27 @@
+{
+  app __x0__ = (GetActiveScriptOrModule)
+  let module = [! __x0__]
+  assert (is-instance-of module SourceTextModuleRecord)
+  let importMeta = module.ImportMeta
+  if (= importMeta CONST_empty) {
+    app __x1__ = (OrdinaryObjectCreate null)
+    importMeta = [! __x1__]
+    app __x2__ = (HostGetImportMetaProperties module)
+    let importMetaValues = [! __x2__]
+    let __x3__ = importMetaValues
+    let __x4__ = 0i
+    while (< __x4__ __x3__.length) {
+      let p = __x3__[__x4__]
+      app __x5__ = (CreateDataPropertyOrThrow importMeta p.Key p.Value)
+      [! __x5__]
+      __x4__ = (+ __x4__ 1i)
+    }
+    app __x6__ = (HostFinalizeImportMeta importMeta module)
+    [! __x6__]
+    module.ImportMeta = importMeta
+    return importMeta
+  } else {
+    assert (= (typeof importMeta) Object)
+    return importMeta
+  }
+}

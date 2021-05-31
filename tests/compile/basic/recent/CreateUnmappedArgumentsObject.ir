@@ -1,0 +1,21 @@
+{
+  let len = argumentsList.length
+  app __x0__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype (new ["ParameterMap"]))
+  let obj = [! __x0__]
+  obj.ParameterMap = undefined
+  app __x1__ = (DefinePropertyOrThrow obj "length" (new PropertyDescriptor("Value" -> len, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  __x1__
+  let index = 0i
+  while (< index len) {
+    let val = argumentsList[index]
+    app __x2__ = (ToString index)
+    app __x3__ = (CreateDataPropertyOrThrow obj [! __x2__] val)
+    [! __x3__]
+    index = (+ index 1i)
+  }
+  app __x4__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor("Value" -> INTRINSIC_Array_prototype_values, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  [! __x4__]
+  app __x5__ = (DefinePropertyOrThrow obj "callee" (new PropertyDescriptor("Get" -> INTRINSIC_ThrowTypeError, "Set" -> INTRINSIC_ThrowTypeError, "Enumerable" -> false, "Configurable" -> false)))
+  [! __x5__]
+  return obj
+}

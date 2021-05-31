@@ -1,0 +1,37 @@
+{
+  app __x0__ = (thisNumberValue this)
+  let x = [? __x0__]
+  app __x1__ = (ToIntegerOrInfinity fractionDigits)
+  let f = [? __x1__]
+  if (|| (= f Infinity) (= f -Infinity)) throw RangeError else {}
+  if (|| (< f 0i) (< 100i f)) throw RangeError else {}
+  if (|| (= x Infinity) (= x -Infinity)) {
+    app __x2__ = (PRIMITIVE[Number].toString x)
+    return [! __x2__]
+  } else {}
+  x = x
+  let s = ""
+  if (< x 0i) {
+    s = "-"
+    x = (- x)
+  } else {}
+  if (! (< x (** 10.0 21i))) {
+    app __x3__ = (ToString x)
+    let m = [! __x3__]
+  } else {
+    ??? "Let id:{n} be an integer for which id:{n} / 10 sup:{id:{f}} - id:{x} is as close to zero as possible . If there are two such id:{n} , pick the larger id:{n} ."
+    ??? "If id:{n} = 0 , let id:{m} be the String value:{\"0\"} . Otherwise , let id:{m} be the String value consisting of the digits of the decimal representation of id:{n} ( in order , with no leading zeroes ) ."
+    if (! (== f 0i)) {
+      let k = m.length
+      if (! (< f k)) {
+        ??? "Let id:{z} be the String value consisting of id:{f} + 1 - id:{k} occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
+        m = (+ z m)
+        k = (+ f 1i)
+      } else {}
+      ??? "Let id:{a} be the first id:{k} - id:{f} code units of id:{m} ."
+      ??? "Let id:{b} be the other id:{f} code units of id:{m} ."
+      m = (+ (+ a ".") b)
+    } else {}
+  }
+  return (+ s m)
+}

@@ -1,0 +1,13 @@
+{
+  let events = (new [])
+  app __x0__ = (EventSet execution)
+  let __x1__ = __x0__
+  let __x2__ = 0i
+  while (< __x2__ __x1__.length) {
+    let E = __x1__[__x2__]
+    app __x3__ = (SharedDataBlockEventSet execution)
+    if (! (contains __x3__ E)) append E -> events else {}
+    __x2__ = (+ __x2__ 1i)
+  }
+  return events
+}

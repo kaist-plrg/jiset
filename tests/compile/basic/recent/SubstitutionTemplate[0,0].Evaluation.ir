@@ -1,0 +1,14 @@
+{
+  access __x0__ = (TemplateHead "TV")
+  let head = __x0__
+  access __x1__ = (Expression "Evaluation")
+  let subRef = __x1__
+  app __x2__ = (GetValue subRef)
+  let sub = [? __x2__]
+  app __x3__ = (ToString sub)
+  let middle = [? __x3__]
+  access __x4__ = (TemplateSpans "Evaluation")
+  let tail = __x4__
+  [? tail]
+  return (+ (+ head middle) tail)
+}

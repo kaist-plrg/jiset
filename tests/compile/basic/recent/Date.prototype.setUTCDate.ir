@@ -1,0 +1,16 @@
+{
+  app __x0__ = (thisTimeValue this)
+  let t = [? __x0__]
+  app __x1__ = (ToNumber date)
+  let dt = [? __x1__]
+  app __x2__ = (YearFromTime t)
+  app __x3__ = (MonthFromTime t)
+  app __x4__ = (MakeDay __x2__ __x3__ dt)
+  app __x5__ = (TimeWithinDay t)
+  app __x6__ = (MakeDate __x4__ __x5__)
+  let newDate = __x6__
+  app __x7__ = (TimeClip newDate)
+  let v = __x7__
+  this.DateValue = v
+  return v
+}

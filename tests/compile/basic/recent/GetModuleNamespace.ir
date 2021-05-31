@@ -1,0 +1,20 @@
+{
+  let namespace = module.Namespace
+  if (= namespace undefined) {
+    app __x0__ = (module.GetExportedNames module)
+    let exportedNames = [? __x0__]
+    let unambiguousNames = (new [])
+    let __x1__ = exportedNames
+    let __x2__ = 0i
+    while (< __x2__ __x1__.length) {
+      let name = __x1__[__x2__]
+      app __x3__ = (module.ResolveExport module name)
+      let resolution = [? __x3__]
+      if (is-instance-of resolution ResolvedBindingRecord) append name -> unambiguousNames else {}
+      __x2__ = (+ __x2__ 1i)
+    }
+    app __x4__ = (ModuleNamespaceCreate module unambiguousNames)
+    namespace = __x4__
+  } else {}
+  return namespace
+}

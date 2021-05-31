@@ -1,0 +1,10 @@
+{
+  assert (= (typeof object) Object)
+  app __x0__ = (OrdinaryObjectCreate INTRINSIC_ForInIteratorPrototype (new ["Object", "ObjectWasVisited", "VisitedKeys", "RemainingKeys"]))
+  let iterator = [! __x0__]
+  iterator.Object = object
+  iterator.ObjectWasVisited = false
+  iterator.VisitedKeys = (new [])
+  iterator.RemainingKeys = (new [])
+  return iterator
+}

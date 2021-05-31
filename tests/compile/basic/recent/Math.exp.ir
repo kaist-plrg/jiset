@@ -1,0 +1,8 @@
+{
+  app __x0__ = (ToNumber x)
+  let n = [? __x0__]
+  if (|| (= n NaN) (= n Infinity)) return n else {}
+  if (|| (= n 0i) (= n -0.0)) return 1i else {}
+  if (= n -Infinity) return 0i else {}
+  ??? "Return an implementation - approximated value representing the result of the exponential function of ℝ ( id:{n} ) ."
+}

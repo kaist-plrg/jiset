@@ -1,0 +1,11 @@
+{
+  let O = this
+  app __x0__ = (RequireInternalSlot O "ArrayBufferData")
+  [? __x0__]
+  app __x1__ = (IsSharedArrayBuffer O)
+  if (= __x1__ true) throw TypeError else {}
+  app __x2__ = (IsDetachedBuffer O)
+  if (= __x2__ true) return 0i else {}
+  let length = O.ArrayBufferByteLength
+  return length
+}

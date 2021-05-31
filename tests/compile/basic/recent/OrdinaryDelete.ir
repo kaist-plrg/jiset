@@ -1,0 +1,12 @@
+{
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  app __x1__ = (O.GetOwnProperty O P)
+  let desc = [? __x1__]
+  if (= desc undefined) return true else {}
+  if (= desc.Configurable true) {
+    delete O[P]
+    return true
+  } else {}
+  return false
+}

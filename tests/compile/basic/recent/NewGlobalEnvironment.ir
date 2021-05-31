@@ -1,0 +1,11 @@
+{
+  let objRec = (new ObjectEnvironmentRecord("SubMap" -> (new SubMap()), "BindingObject" -> G))
+  let dclRec = (new DeclarativeEnvironmentRecord("SubMap" -> (new SubMap())))
+  let env = (new GlobalEnvironmentRecord("SubMap" -> (new SubMap())))
+  env.ObjectRecord = objRec
+  env.GlobalThisValue = thisValue
+  env.DeclarativeRecord = dclRec
+  env.VarNames = (new [])
+  env.OuterEnv = null
+  return env
+}

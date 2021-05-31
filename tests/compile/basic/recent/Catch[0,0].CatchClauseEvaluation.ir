@@ -1,0 +1,26 @@
+{
+  let oldEnv = CONTEXT.LexicalEnvironment
+  app __x0__ = (NewDeclarativeEnvironment oldEnv)
+  let catchEnv = __x0__
+  access __x1__ = (CatchParameter "BoundNames")
+  let __x2__ = __x1__
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let argName = __x2__[__x3__]
+    app __x4__ = (catchEnv.CreateMutableBinding catchEnv argName false)
+    [! __x4__]
+    __x3__ = (+ __x3__ 1i)
+  }
+  CONTEXT.LexicalEnvironment = catchEnv
+  access __x5__ = (CatchParameter "BindingInitialization" thrownValue catchEnv)
+  let status = __x5__
+  app __x6__ = (IsAbruptCompletion status)
+  if __x6__ {
+    CONTEXT.LexicalEnvironment = oldEnv
+    return status
+  } else {}
+  access __x7__ = (Block "Evaluation")
+  let B = __x7__
+  CONTEXT.LexicalEnvironment = oldEnv
+  return B
+}

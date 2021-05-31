@@ -1,0 +1,1 @@
+          1. Return ? MethodDefinitionEvaluation of |AsyncGeneratorMethod| with arguments _object_ and _enumerable_.

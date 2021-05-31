@@ -1,0 +1,28 @@
+{
+  let promise = this
+  if (! (= (typeof promise) Object)) throw TypeError else {}
+  app __x0__ = (SpeciesConstructor promise INTRINSIC_Promise)
+  let C = [? __x0__]
+  app __x1__ = (IsConstructor C)
+  assert (= __x1__ true)
+  app __x2__ = (IsCallable onFinally)
+  if (= __x2__ false) {
+    let thenFinally = onFinally
+    let catchFinally = onFinally
+  } else {
+    let stepsThenFinally = ThenFinallyFunctions
+    ??? "Let id:{lengthThenFinally} be the number of non - optional parameters of the function definition in ThenFinallyFunctions ."
+    app __x3__ = (CreateBuiltinFunction stepsThenFinally lengthThenFinally "" (new ["Constructor", "OnFinally"]))
+    let thenFinally = [! __x3__]
+    thenFinally.Constructor = C
+    thenFinally.OnFinally = onFinally
+    let stepsCatchFinally = CatchFinallyFunctions
+    ??? "Let id:{lengthCatchFinally} be the number of non - optional parameters of the function definition in CatchFinallyFunctions ."
+    app __x4__ = (CreateBuiltinFunction stepsCatchFinally lengthCatchFinally "" (new ["Constructor", "OnFinally"]))
+    let catchFinally = [! __x4__]
+    catchFinally.Constructor = C
+    catchFinally.OnFinally = onFinally
+  }
+  app __x5__ = (Invoke promise "then" (new [thenFinally, catchFinally]))
+  return [? __x5__]
+}

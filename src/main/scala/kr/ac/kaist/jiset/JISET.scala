@@ -10,6 +10,7 @@ object JISET {
   ////////////////////////////////////////////////////////////////////////////////
   def main(tokens: Array[String]): Unit = try tokens.toList match {
     case str :: args => cmdMap.get(str) match {
+      case Some(CmdHelp) => println(JISET.help)
       case Some(cmd) => cmd(args)
       case None => throw NoCmdError(str)
     }
@@ -57,13 +58,9 @@ object JISET {
   // commands
   val commands: List[Command] = List(
     CmdHelp,
-    CmdParseAlgo,
-    CmdCompileAlgo,
-    CmdInferAlgo,
-    CmdREPLAlgo,
-    CmdGenModel,
-    CmdGrammarDiff,
-    CmdAlgoStepDiff
+    CmdParse,
+    CmdCompileREPL,
+    CmdGenTest,
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
@@ -72,19 +69,19 @@ object JISET {
   // phases
   var phases: List[Phase] = List(
     Help,
-    ParseAlgo,
-    CompileAlgo,
-    InferAlgo,
-    REPLAlgo,
-    GenModel,
-    GrammarDiff,
-    AlgoStepDiff
+    Parse,
+    CompileREPL,
+    GenTest,
   )
 
   // global options
   val options: List[PhaseOption[JISETConfig]] = List(
     ("silent", BoolOption(c => c.silent = true),
       "final results are not displayed."),
+    ("debug", BoolOption(c => DEBUG = true),
+      "turn on the debub option."),
+    ("log", BoolOption(c => LOG = true),
+      "turn on the log option."),
     ("time", BoolOption(c => c.time = true),
       "display duration time.")
   )
@@ -95,21 +92,18 @@ object JISET {
   // print help message.
   val help: String = {
     val s: StringBuilder = new StringBuilder
-    s.append("Invoked as script: jiset args").append(LINE_SEP)
-      .append("Invoked by java: java ... kr.ac.kaist.jiset.JISET args").append(LINE_SEP)
-      .append(LINE_SEP)
-      .append("* command list:").append(LINE_SEP)
-      .append("    Each command consists of following phases.").append(LINE_SEP)
-      .append("    format: {command} {phase} [>> {phase}]*").append(LINE_SEP).append(LINE_SEP)
+    s.append("* command list:").append(LINE_SEP)
+    s.append("    Each command consists of following phases.").append(LINE_SEP)
+    s.append("    format: {command} {phase} [>> {phase}]*").append(LINE_SEP).append(LINE_SEP)
     commands foreach (cmd => {
       s.append(s"    %-${INDENT}s".format(cmd.name))
         .append(cmd.toString.replace(LINE_SEP, LINE_SEP + "    " + " " * INDENT))
         .append(LINE_SEP)
     })
     s.append(LINE_SEP)
-      .append("* phase list:").append(LINE_SEP)
-      .append("    Each phase has following options.").append(LINE_SEP)
-      .append("    format: {phase} [-{phase}:{option}[={input}]]*").append(LINE_SEP).append(LINE_SEP)
+    s.append("* phase list:").append(LINE_SEP)
+    s.append("    Each phase has following options.").append(LINE_SEP)
+    s.append("    format: {phase} [-{phase}:{option}[={input}]]*").append(LINE_SEP).append(LINE_SEP)
     phases foreach (phase => {
       s.append(s"    %-${INDENT}s".format(phase.name))
       Useful.indentation(s, phase.help, INDENT + 4)
@@ -132,8 +126,9 @@ object JISET {
 }
 
 case class JISETConfig(
-    var command: Command,
-    var fileNames: List[String] = Nil,
-    var silent: Boolean = false,
-    var time: Boolean = false
+  var command: Command,
+  var args: List[String] = Nil,
+  var silent: Boolean = false,
+  var debug: Boolean = false,
+  var time: Boolean = false
 ) extends Config

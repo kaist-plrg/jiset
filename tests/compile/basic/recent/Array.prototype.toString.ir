@@ -1,0 +1,10 @@
+{
+  app __x0__ = (ToObject this)
+  let array = [? __x0__]
+  app __x1__ = (Get array "join")
+  let func = [? __x1__]
+  app __x2__ = (IsCallable func)
+  if (= __x2__ false) func = INTRINSIC_Object_prototype_toString else {}
+  app __x3__ = (Call func array)
+  return [? __x3__]
+}

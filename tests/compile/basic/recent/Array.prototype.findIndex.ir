@@ -1,0 +1,21 @@
+{
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  app __x1__ = (LengthOfArrayLike O)
+  let len = [? __x1__]
+  app __x2__ = (IsCallable predicate)
+  if (= __x2__ false) throw TypeError else {}
+  let k = 0i
+  while (< k len) {
+    app __x3__ = (ToString k)
+    let Pk = [! __x3__]
+    app __x4__ = (Get O Pk)
+    let kValue = [? __x4__]
+    app __x5__ = (Call predicate thisArg (new [kValue, k, O]))
+    app __x6__ = (ToBoolean [? __x5__])
+    let testResult = [! __x6__]
+    if (= testResult true) return k else {}
+    k = (+ k 1i)
+  }
+  return -1i
+}

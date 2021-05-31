@@ -1,0 +1,11 @@
+{
+  if (= (typeof argument) Undefined) return false else {}
+  if (= (typeof argument) Null) return false else {}
+  if (= (typeof argument) Boolean) return argument else {}
+  if (= (typeof argument) Number) if (|| (|| (= argument 0i) (= argument -0.0)) (= argument NaN)) return false else return true else {}
+  if (= (typeof argument) String) if (= argument "") return false else return true else {}
+  if (= (typeof argument) Symbol) return true else {}
+  if (= (typeof argument) BigInt) if (= argument 0i) return false else return true else {}
+  if (= (typeof argument) Object) return true else {}
+  assert false
+}

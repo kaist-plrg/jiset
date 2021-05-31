@@ -1,0 +1,15 @@
+{
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  if (= (typeof P) String) {
+    app __x1__ = (CanonicalNumericIndexString P)
+    let numericIndex = [! __x1__]
+    if (! (= numericIndex undefined)) {
+      app __x2__ = (IntegerIndexedElementSet O numericIndex V)
+      [? __x2__]
+      return true
+    } else {}
+  } else {}
+  app __x3__ = (OrdinarySet O P V Receiver)
+  return [? __x3__]
+}

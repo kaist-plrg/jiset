@@ -1,0 +1,13 @@
+{
+  app __x0__ = (IsConstructor cloneConstructor)
+  assert (= __x0__ true)
+  app __x1__ = (AllocateArrayBuffer cloneConstructor srcLength)
+  let targetBuffer = [? __x1__]
+  app __x2__ = (IsDetachedBuffer srcBuffer)
+  if (= __x2__ true) throw TypeError else {}
+  let srcBlock = srcBuffer.ArrayBufferData
+  let targetBlock = targetBuffer.ArrayBufferData
+  app __x3__ = (CopyDataBlockBytes targetBlock 0i srcBlock srcByteOffset srcLength)
+  __x3__
+  return targetBuffer
+}

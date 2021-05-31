@@ -1,0 +1,1 @@
+        1. Return ContainsDuplicateLabels of |Statement| with argument _labelSet_.

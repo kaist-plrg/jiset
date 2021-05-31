@@ -1,0 +1,17 @@
+{
+  let list = (new [])
+  access __x0__ = (AssignmentExpression "Evaluation")
+  let spreadRef = __x0__
+  app __x1__ = (GetValue spreadRef)
+  let spreadObj = [? __x1__]
+  app __x2__ = (GetIterator spreadObj)
+  let iteratorRecord = [? __x2__]
+  while true {
+    app __x3__ = (IteratorStep iteratorRecord)
+    let next = [? __x3__]
+    if (= next false) return list else {}
+    app __x4__ = (IteratorValue next)
+    let nextArg = [? __x4__]
+    append nextArg -> list
+  }
+}

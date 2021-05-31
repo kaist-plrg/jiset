@@ -1,0 +1,37 @@
+{
+  access __x0__ = (CoverCallExpressionAndAsyncArrowHead "CoveredCallExpression")
+  let expr = __x0__
+  access __x1__ = (expr "MemberExpression")
+  let memberExpr = __x1__
+  access __x2__ = (expr "Arguments")
+  let arguments = __x2__
+  access __x3__ = (memberExpr "Evaluation")
+  let ref = __x3__
+  app __x4__ = (GetValue ref)
+  let func = [? __x4__]
+  let __x5__ = true
+  __x5__ = (is-instance-of ref ReferenceRecord)
+  if __x5__ {
+    app __x6__ = (IsPropertyReference ref)
+    __x5__ = (= __x6__ false)
+    if __x5__ __x5__ = (= ref.ReferencedName "eval") else {}
+  } else {}
+  if __x5__ {
+    app __x7__ = (SameValue func INTRINSIC_eval)
+    if (= __x7__ true) {
+      access __x8__ = (arguments "ArgumentListEvaluation")
+      let argList = [? __x8__]
+      if (= argList.length 0i) return undefined else {}
+      let evalArg = argList[0i]
+      if true let strictCaller = true else let strictCaller = false
+      let evalRealm = REALM
+      app __x9__ = (PerformEval evalArg evalRealm strictCaller true)
+      return [? __x9__]
+    } else {}
+  } else {}
+  let thisCall = this
+  app __x10__ = (IsInTailPosition thisCall)
+  let tailCall = __x10__
+  app __x11__ = (EvaluateCall func ref arguments tailCall)
+  return [? __x11__]
+}

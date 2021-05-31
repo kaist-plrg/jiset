@@ -1,0 +1,19 @@
+{
+  if (= (typeof P) Symbol) {
+    app __x0__ = (OrdinaryDefineOwnProperty O P Desc)
+    return __x0__
+  } else {}
+  app __x1__ = (O.GetOwnProperty O P)
+  let current = [? __x1__]
+  if (= current undefined) return false else {}
+  if (= Desc.Configurable true) return false else {}
+  if (= Desc.Enumerable false) return false else {}
+  app __x2__ = (IsAccessorDescriptor Desc)
+  if (= [! __x2__] true) return false else {}
+  if (= Desc.Writable false) return false else {}
+  if (! (= Desc.Value absent)) {
+    app __x3__ = (SameValue Desc.Value current.Value)
+    return __x3__
+  } else {}
+  return true
+}

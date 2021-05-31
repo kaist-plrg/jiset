@@ -1,0 +1,7 @@
+{
+  assert (|| (is-instance-of R ReadSharedMemory) (is-instance-of R ReadModifyWriteSharedMemory))
+  app __x0__ = (execution.ReadsBytesFrom execution R)
+  let Ws = __x0__
+  app __x1__ = (ComposeWriteEventBytes execution R.ByteIndex Ws)
+  return __x1__
+}

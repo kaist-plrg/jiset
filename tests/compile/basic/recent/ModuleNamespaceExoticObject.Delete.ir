@@ -1,0 +1,11 @@
+{
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  if (= (typeof P) Symbol) {
+    app __x1__ = (OrdinaryDelete O P)
+    return [? __x1__]
+  } else {}
+  let exports = O.Exports
+  if (contains exports P) return false else {}
+  return true
+}

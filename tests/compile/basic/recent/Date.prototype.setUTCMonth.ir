@@ -1,0 +1,22 @@
+{
+  app __x0__ = (thisTimeValue this)
+  let t = [? __x0__]
+  app __x1__ = (ToNumber month)
+  let m = [? __x1__]
+  if (= date absent) {
+    app __x2__ = (DateFromTime t)
+    let dt = __x2__
+  } else {
+    app __x3__ = (ToNumber date)
+    let dt = [? __x3__]
+  }
+  app __x4__ = (YearFromTime t)
+  app __x5__ = (MakeDay __x4__ m dt)
+  app __x6__ = (TimeWithinDay t)
+  app __x7__ = (MakeDate __x5__ __x6__)
+  let newDate = __x7__
+  app __x8__ = (TimeClip newDate)
+  let v = __x8__
+  this.DateValue = v
+  return v
+}

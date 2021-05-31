@@ -1,0 +1,53 @@
+{
+  let stack = (new [])
+  let indent = ""
+  let PropertyList = undefined
+  let ReplacerFunction = undefined
+  if (= (typeof replacer) Object) {
+    app __x0__ = (IsCallable replacer)
+    if (= __x0__ true) ReplacerFunction = replacer else {
+      app __x1__ = (IsArray replacer)
+      let isArray = [? __x1__]
+      if (= isArray true) {
+        PropertyList = (new [])
+        app __x2__ = (LengthOfArrayLike replacer)
+        let len = [? __x2__]
+        let k = 0i
+        while (< k len) {
+          app __x3__ = (ToString k)
+          let prop = [! __x3__]
+          app __x4__ = (Get replacer prop)
+          let v = [? __x4__]
+          let item = undefined
+          if (= (typeof v) String) item = v else if (= (typeof v) Number) {
+            app __x5__ = (ToString v)
+            item = [! __x5__]
+          } else if (= (typeof v) Object) ??? "If id:{v} has a [ [ StringData ] ] or [ [ NumberData ] ] internal slot , set id:{item} to ? ToString ( id:{v} ) ." else {}
+          ??? "If id:{item} is not value:{undefined} and id:{item} is not currently an element of id:{PropertyList} , then in:{} out:{}"
+          k = (+ k 1i)
+        }
+      } else {}
+    }
+  } else {}
+  if (= (typeof space) Object) if (! (= space.NumberData absent)) {
+    app __x6__ = (ToNumber space)
+    space = [? __x6__]
+  } else if (! (= space.StringData absent)) {
+    app __x7__ = (ToString space)
+    space = [? __x7__]
+  } else {} else {}
+  if (= (typeof space) Number) {
+    app __x8__ = (ToIntegerOrInfinity space)
+    let spaceMV = [! __x8__]
+    app __x9__ = (min 10i spaceMV)
+    spaceMV = __x9__
+    ??? "If id:{spaceMV} < 1 , let id:{gap} be the empty String ; otherwise let id:{gap} be the String value containing id:{spaceMV} occurrences of the code unit 0x0020 ( SPACE ) ."
+  } else if (= (typeof space) String) ??? "If the length of id:{space} is 10 or less , let id:{gap} be id:{space} ; otherwise let id:{gap} be the substring of id:{space} from 0 to 10 ." else let gap = ""
+  app __x10__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+  let wrapper = [! __x10__]
+  app __x11__ = (CreateDataPropertyOrThrow wrapper "" value)
+  [! __x11__]
+  let state = (new Record("ReplacerFunction" -> ReplacerFunction, "Stack" -> stack, "Indent" -> indent, "Gap" -> gap, "PropertyList" -> PropertyList))
+  app __x12__ = (SerializeJSONProperty state "" wrapper)
+  return [? __x12__]
+}

@@ -1,0 +1,12 @@
+{
+  let queue = generator.AsyncGeneratorQueue
+  assert (< 0i queue.length)
+  let next = queue[0i]
+  let __x0__ = (pop queue 0i)
+  let promiseCapability = next.Capability
+  app __x1__ = (Call promiseCapability.Reject undefined (new [exception]))
+  [! __x1__]
+  app __x2__ = (AsyncGeneratorResumeNext generator)
+  [! __x2__]
+  return undefined
+}

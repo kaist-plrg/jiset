@@ -1,0 +1,103 @@
+["Let", {
+  "id": "R"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "R"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 1
+}, "Let", {
+  "id": "S"
+}, "be", "?", "ToString", "(", {
+  "id": "string"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "C"
+}, "be", "?", "SpeciesConstructor", "(", {
+  "id": "R"
+}, ",", "%", "RegExp", "%", ")", ".", {
+  "k": 3
+}, "Let", {
+  "id": "flags"
+}, "be", "?", "ToString", "(", "?", "Get", "(", {
+  "id": "R"
+}, ",", {
+  "value": "\"flags\""
+}, ")", ")", ".", {
+  "k": 4
+}, "Let", {
+  "id": "matcher"
+}, "be", "?", "Construct", "(", {
+  "id": "C"
+}, ",", "«", {
+  "id": "R"
+}, ",", {
+  "id": "flags"
+}, "»", ")", ".", {
+  "k": 5
+}, "Let", {
+  "id": "lastIndex"
+}, "be", "?", "ToLength", "(", "?", "Get", "(", {
+  "id": "R"
+}, ",", {
+  "value": "\"lastIndex\""
+}, ")", ")", ".", {
+  "k": 6
+}, "Perform", "?", "Set", "(", {
+  "id": "matcher"
+}, ",", {
+  "value": "\"lastIndex\""
+}, ",", {
+  "id": "lastIndex"
+}, ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "flags"
+}, "contains", {
+  "value": "\"g\""
+}, ",", "let", {
+  "id": "global"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 8
+}, "Else", ",", "let", {
+  "id": "global"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 9
+}, "If", {
+  "id": "flags"
+}, "contains", {
+  "value": "\"u\""
+}, ",", "let", {
+  "id": "fullUnicode"
+}, "be", {
+  "value": "true"
+}, ".", {
+  "k": 10
+}, "Else", ",", "let", {
+  "id": "fullUnicode"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 11
+}, "Return", "!", "CreateRegExpStringIterator", "(", {
+  "id": "matcher"
+}, ",", {
+  "id": "S"
+}, ",", {
+  "id": "global"
+}, ",", {
+  "id": "fullUnicode"
+}, ")", ".", {
+  "k": 12
+}]

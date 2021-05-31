@@ -1,0 +1,83 @@
+["Assert", ":", {
+  "id": "literal"
+}, "is", "a", {
+  "nt": "RegularExpressionLiteral"
+}, ".", {
+  "k": 0
+}, "If", "FlagText", "of", {
+  "id": "literal"
+}, "contains", "any", "code", "points", "other", "than", {
+  "code": "g"
+}, ",", {
+  "code": "i"
+}, ",", {
+  "code": "m"
+}, ",", {
+  "code": "s"
+}, ",", {
+  "code": "u"
+}, ",", "or", {
+  "code": "y"
+}, ",", "or", "if", "it", "contains", "the", "same", "code", "point", "more", "than", "once", ",", "return", {
+  "value": "false"
+}, ".", {
+  "k": 1
+}, "Let", {
+  "id": "patternText"
+}, "be", "BodyText", "of", {
+  "id": "literal"
+}, ".", {
+  "k": 2
+}, "If", "FlagText", "of", {
+  "id": "literal"
+}, "contains", {
+  "code": "u"
+}, ",", "let", {
+  "id": "u"
+}, "be", {
+  "value": "true"
+}, ";", "else", "let", {
+  "id": "u"
+}, "be", {
+  "value": "false"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "u"
+}, "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "stringValue"
+}, "be", "CodePointsToString", "(", {
+  "id": "patternText"
+}, ")", ".", {
+  "k": 5
+}, "Set", {
+  "id": "patternText"
+}, "to", "the", "sequence", "of", "code", "points", "resulting", "from", "interpreting", "each", "of", "the", "16", "-", "bit", "elements", "of", {
+  "id": "stringValue"
+}, "as", "a", "Unicode", "BMP", "code", "point", ".", "UTF", "-", "16", "decoding", "is", "not", "applied", "to", "the", "elements", ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 4
+}, "Let", {
+  "id": "parseResult"
+}, "be", "ParsePattern", "(", {
+  "id": "patternText"
+}, ",", {
+  "id": "u"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "parseResult"
+}, "is", "a", "Parse", "Node", ",", "return", {
+  "value": "true"
+}, ";", "else", "return", {
+  "value": "false"
+}, ".", {
+  "k": 8
+}]

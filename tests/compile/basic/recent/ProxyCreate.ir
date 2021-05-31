@@ -1,0 +1,15 @@
+{
+  if (! (= (typeof target) Object)) throw TypeError else {}
+  if (! (= (typeof handler) Object)) throw TypeError else {}
+  app __x0__ = (MakeBasicObject (new ["ProxyHandler", "ProxyTarget"]))
+  let P = [! __x0__]
+  app __x1__ = (IsCallable target)
+  if (= __x1__ true) {
+    P.Call = ProxyObjectDOTCall
+    app __x2__ = (IsConstructor target)
+    if (= __x2__ true) P.Construct = ProxyObjectDOTConstruct else {}
+  } else {}
+  P.ProxyTarget = target
+  P.ProxyHandler = handler
+  return P
+}

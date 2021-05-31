@@ -1,0 +1,131 @@
+["Let", {
+  "id": "y"
+}, "be", "?", "ToNumber", "(", {
+  "id": "year"
+}, ")", ".", {
+  "k": 0
+}, "If", {
+  "id": "month"
+}, "is", "present", ",", "let", {
+  "id": "m"
+}, "be", "?", "ToNumber", "(", {
+  "id": "month"
+}, ")", ";", "else", "let", {
+  "id": "m"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 1
+}, "If", {
+  "id": "date"
+}, "is", "present", ",", "let", {
+  "id": "dt"
+}, "be", "?", "ToNumber", "(", {
+  "id": "date"
+}, ")", ";", "else", "let", {
+  "id": "dt"
+}, "be", {
+  "value": "1"
+}, ".", {
+  "k": 2
+}, "If", {
+  "id": "hours"
+}, "is", "present", ",", "let", {
+  "id": "h"
+}, "be", "?", "ToNumber", "(", {
+  "id": "hours"
+}, ")", ";", "else", "let", {
+  "id": "h"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 3
+}, "If", {
+  "id": "minutes"
+}, "is", "present", ",", "let", {
+  "id": "min"
+}, "be", "?", "ToNumber", "(", {
+  "id": "minutes"
+}, ")", ";", "else", "let", {
+  "id": "min"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 4
+}, "If", {
+  "id": "seconds"
+}, "is", "present", ",", "let", {
+  "id": "s"
+}, "be", "?", "ToNumber", "(", {
+  "id": "seconds"
+}, ")", ";", "else", "let", {
+  "id": "s"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 5
+}, "If", {
+  "id": "ms"
+}, "is", "present", ",", "let", {
+  "id": "milli"
+}, "be", "?", "ToNumber", "(", {
+  "id": "ms"
+}, ")", ";", "else", "let", {
+  "id": "milli"
+}, "be", {
+  "value": "+0"
+}, ".", {
+  "k": 6
+}, "If", {
+  "id": "y"
+}, "is", {
+  "value": "NaN"
+}, ",", "let", {
+  "id": "yr"
+}, "be", {
+  "value": "NaN"
+}, ".", {
+  "k": 7
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "yi"
+}, "be", "!", "ToIntegerOrInfinity", "(", {
+  "id": "y"
+}, ")", ".", {
+  "k": 9
+}, "If", "0", "≤", {
+  "id": "yi"
+}, "≤", "99", ",", "let", {
+  "id": "yr"
+}, "be", {
+  "value": "1900"
+}, "+", "𝔽", "(", {
+  "id": "yi"
+}, ")", ";", "otherwise", ",", "let", {
+  "id": "yr"
+}, "be", {
+  "id": "y"
+}, ".", {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 8
+}, "Return", "TimeClip", "(", "MakeDate", "(", "MakeDay", "(", {
+  "id": "yr"
+}, ",", {
+  "id": "m"
+}, ",", {
+  "id": "dt"
+}, ")", ",", "MakeTime", "(", {
+  "id": "h"
+}, ",", {
+  "id": "min"
+}, ",", {
+  "id": "s"
+}, ",", {
+  "id": "milli"
+}, ")", ")", ")", ".", {
+  "k": 11
+}]

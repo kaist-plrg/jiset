@@ -1,0 +1,33 @@
+{
+  app __x0__ = (ValidateIntegerTypedArray typedArray true)
+  let buffer = [? __x0__]
+  app __x1__ = (ValidateAtomicAccess typedArray index)
+  let indexedPosition = [? __x1__]
+  if (= count undefined) let c = Infinity else {
+    app __x2__ = (ToIntegerOrInfinity count)
+    let intCount = [? __x2__]
+    app __x3__ = (max intCount 0i)
+    let c = __x3__
+  }
+  let block = buffer.ArrayBufferData
+  let arrayTypeName = typedArray.TypedArrayName
+  app __x4__ = (IsSharedArrayBuffer buffer)
+  if (= __x4__ false) return 0i else {}
+  app __x5__ = (GetWaiterList block indexedPosition)
+  let WL = __x5__
+  let n = 0i
+  app __x6__ = (EnterCriticalSection WL)
+  __x6__
+  app __x7__ = (RemoveWaiters WL c)
+  let S = __x7__
+  while (< 0i S.length) {
+    let W = S[0i]
+    (pop S 0i)
+    app __x8__ = (NotifyWaiter WL W)
+    __x8__
+    n = (+ n 1i)
+  }
+  app __x9__ = (LeaveCriticalSection WL)
+  __x9__
+  return n
+}

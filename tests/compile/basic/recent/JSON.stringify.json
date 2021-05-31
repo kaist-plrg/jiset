@@ -1,0 +1,291 @@
+["Let", {
+  "id": "stack"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 0
+}, "Let", {
+  "id": "indent"
+}, "be", "the", "empty", "String", ".", {
+  "k": 1
+}, "Let", {
+  "id": "PropertyList"
+}, "and", {
+  "id": "ReplacerFunction"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 2
+}, "If", "Type", "(", {
+  "id": "replacer"
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", "IsCallable", "(", {
+  "id": "replacer"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "ReplacerFunction"
+}, "to", {
+  "id": "replacer"
+}, ".", {
+  "k": 5
+}, {
+  "out": null
+}, {
+  "k": 4
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "isArray"
+}, "be", "?", "IsArray", "(", {
+  "id": "replacer"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "isArray"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "PropertyList"
+}, "to", "a", "new", "empty", "List", ".", {
+  "k": 9
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "replacer"
+}, ")", ".", {
+  "k": 10
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 11
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, ",", {
+  "in": null
+}, "Let", {
+  "id": "prop"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 13
+}, "Let", {
+  "id": "v"
+}, "be", "?", "Get", "(", {
+  "id": "replacer"
+}, ",", {
+  "id": "prop"
+}, ")", ".", {
+  "k": 14
+}, "Let", {
+  "id": "item"
+}, "be", {
+  "value": "undefined"
+}, ".", {
+  "k": 15
+}, "If", "Type", "(", {
+  "id": "v"
+}, ")", "is", "String", ",", "set", {
+  "id": "item"
+}, "to", {
+  "id": "v"
+}, ".", {
+  "k": 16
+}, "Else", "if", "Type", "(", {
+  "id": "v"
+}, ")", "is", "Number", ",", "set", {
+  "id": "item"
+}, "to", "!", "ToString", "(", {
+  "id": "v"
+}, ")", ".", {
+  "k": 17
+}, "Else", "if", "Type", "(", {
+  "id": "v"
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "v"
+}, "has", "a", "[", "[", "StringData", "]", "]", "or", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "set", {
+  "id": "item"
+}, "to", "?", "ToString", "(", {
+  "id": "v"
+}, ")", ".", {
+  "k": 19
+}, {
+  "out": null
+}, {
+  "k": 18
+}, "If", {
+  "id": "item"
+}, "is", "not", {
+  "value": "undefined"
+}, "and", {
+  "id": "item"
+}, "is", "not", "currently", "an", "element", "of", {
+  "id": "PropertyList"
+}, ",", "then", {
+  "in": null
+}, "Append", {
+  "id": "item"
+}, "to", "the", "end", "of", {
+  "id": "PropertyList"
+}, ".", {
+  "k": 21
+}, {
+  "out": null
+}, {
+  "k": 20
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 22
+}, {
+  "out": null
+}, {
+  "k": 12
+}, {
+  "out": null
+}, {
+  "k": 8
+}, {
+  "out": null
+}, {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "If", "Type", "(", {
+  "id": "space"
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "space"
+}, "has", "a", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "space"
+}, "to", "?", "ToNumber", "(", {
+  "id": "space"
+}, ")", ".", {
+  "k": 25
+}, {
+  "out": null
+}, {
+  "k": 24
+}, "Else", "if", {
+  "id": "space"
+}, "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "space"
+}, "to", "?", "ToString", "(", {
+  "id": "space"
+}, ")", ".", {
+  "k": 27
+}, {
+  "out": null
+}, {
+  "k": 26
+}, {
+  "out": null
+}, {
+  "k": 23
+}, "If", "Type", "(", {
+  "id": "space"
+}, ")", "is", "Number", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "spaceMV"
+}, "be", "!", "ToIntegerOrInfinity", "(", {
+  "id": "space"
+}, ")", ".", {
+  "k": 29
+}, "Set", {
+  "id": "spaceMV"
+}, "to", "min", "(", "10", ",", {
+  "id": "spaceMV"
+}, ")", ".", {
+  "k": 30
+}, "If", {
+  "id": "spaceMV"
+}, "<", "1", ",", "let", {
+  "id": "gap"
+}, "be", "the", "empty", "String", ";", "otherwise", "let", {
+  "id": "gap"
+}, "be", "the", "String", "value", "containing", {
+  "id": "spaceMV"
+}, "occurrences", "of", "the", "code", "unit", "0x0020", "(", "SPACE", ")", ".", {
+  "k": 31
+}, {
+  "out": null
+}, {
+  "k": 28
+}, "Else", "if", "Type", "(", {
+  "id": "space"
+}, ")", "is", "String", ",", "then", {
+  "in": null
+}, "If", "the", "length", "of", {
+  "id": "space"
+}, "is", "10", "or", "less", ",", "let", {
+  "id": "gap"
+}, "be", {
+  "id": "space"
+}, ";", "otherwise", "let", {
+  "id": "gap"
+}, "be", "the", "substring", "of", {
+  "id": "space"
+}, "from", "0", "to", "10", ".", {
+  "k": 33
+}, {
+  "out": null
+}, {
+  "k": 32
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "gap"
+}, "be", "the", "empty", "String", ".", {
+  "k": 35
+}, {
+  "out": null
+}, {
+  "k": 34
+}, "Let", {
+  "id": "wrapper"
+}, "be", "!", "OrdinaryObjectCreate", "(", "%", "Object", ".", "prototype", "%", ")", ".", {
+  "k": 36
+}, "Perform", "!", "CreateDataPropertyOrThrow", "(", {
+  "id": "wrapper"
+}, ",", "the", "empty", "String", ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 37
+}, "Let", {
+  "id": "state"
+}, "be", "the", "Record", "{", "[", "[", "ReplacerFunction", "]", "]", ":", {
+  "id": "ReplacerFunction"
+}, ",", "[", "[", "Stack", "]", "]", ":", {
+  "id": "stack"
+}, ",", "[", "[", "Indent", "]", "]", ":", {
+  "id": "indent"
+}, ",", "[", "[", "Gap", "]", "]", ":", {
+  "id": "gap"
+}, ",", "[", "[", "PropertyList", "]", "]", ":", {
+  "id": "PropertyList"
+}, "}", ".", {
+  "k": 38
+}, "Return", "?", "SerializeJSONProperty", "(", {
+  "id": "state"
+}, ",", "the", "empty", "String", ",", {
+  "id": "wrapper"
+}, ")", ".", {
+  "k": 39
+}]

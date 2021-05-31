@@ -1,0 +1,29 @@
+{
+  app __x0__ = (thisTimeValue this)
+  let t = [? __x0__]
+  if (= t NaN) t = 0i else {}
+  app __x1__ = (ToNumber year)
+  let y = [? __x1__]
+  if (= month absent) {
+    app __x2__ = (MonthFromTime t)
+    let m = __x2__
+  } else {
+    app __x3__ = (ToNumber month)
+    let m = [? __x3__]
+  }
+  if (= date absent) {
+    app __x4__ = (DateFromTime t)
+    let dt = __x4__
+  } else {
+    app __x5__ = (ToNumber date)
+    let dt = [? __x5__]
+  }
+  app __x6__ = (MakeDay y m dt)
+  app __x7__ = (TimeWithinDay t)
+  app __x8__ = (MakeDate __x6__ __x7__)
+  let newDate = __x8__
+  app __x9__ = (TimeClip newDate)
+  let v = __x9__
+  this.DateValue = v
+  return v
+}

@@ -1,0 +1,40 @@
+{
+  if (= NewTarget undefined) let newTarget = CONTEXT.Function else let newTarget = NewTarget
+  app __x0__ = (GetPrototypeFromConstructor newTarget "%Array.prototype%")
+  let proto = [? __x0__]
+  let numberOfArgs = values.length
+  if (== numberOfArgs 0i) {
+    app __x1__ = (ArrayCreate 0i proto)
+    return [! __x1__]
+  } else if (== numberOfArgs 1i) {
+    let len = values[0i]
+    app __x2__ = (ArrayCreate 0i proto)
+    let array = [! __x2__]
+    if (! (= (typeof len) Number)) {
+      app __x3__ = (CreateDataPropertyOrThrow array "0" len)
+      [! __x3__]
+      let intLen = 1i
+    } else {
+      app __x4__ = (ToUint32 len)
+      let intLen = [! __x4__]
+      if (! (= intLen len)) throw RangeError else {}
+    }
+    app __x5__ = (Set array "length" intLen true)
+    [! __x5__]
+    return array
+  } else {
+    assert (! (< numberOfArgs 2i))
+    app __x6__ = (ArrayCreate numberOfArgs proto)
+    let array = [? __x6__]
+    let k = 0i
+    while (< k numberOfArgs) {
+      app __x7__ = (ToString k)
+      let Pk = [! __x7__]
+      let itemK = values[k]
+      app __x8__ = (CreateDataPropertyOrThrow array Pk itemK)
+      [! __x8__]
+      k = (+ k 1i)
+    }
+    return array
+  }
+}

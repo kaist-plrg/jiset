@@ -1,0 +1,223 @@
+["Let", {
+  "id": "value"
+}, "be", "?", "Get", "(", {
+  "id": "holder"
+}, ",", {
+  "id": "key"
+}, ")", ".", {
+  "k": 0
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Object", "or", "BigInt", ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "toJSON"
+}, "be", "?", "GetV", "(", {
+  "id": "value"
+}, ",", {
+  "value": "\"toJSON\""
+}, ")", ".", {
+  "k": 2
+}, "If", "IsCallable", "(", {
+  "id": "toJSON"
+}, ")", "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "value"
+}, "to", "?", "Call", "(", {
+  "id": "toJSON"
+}, ",", {
+  "id": "value"
+}, ",", "«", {
+  "id": "key"
+}, "»", ")", ".", {
+  "k": 4
+}, {
+  "out": null
+}, {
+  "k": 3
+}, {
+  "out": null
+}, {
+  "k": 1
+}, "If", {
+  "id": "state"
+}, ".", "[", "[", "ReplacerFunction", "]", "]", "is", "not", {
+  "value": "undefined"
+}, ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "value"
+}, "to", "?", "Call", "(", {
+  "id": "state"
+}, ".", "[", "[", "ReplacerFunction", "]", "]", ",", {
+  "id": "holder"
+}, ",", "«", {
+  "id": "key"
+}, ",", {
+  "id": "value"
+}, "»", ")", ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Object", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "value"
+}, "has", "a", "[", "[", "NumberData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "value"
+}, "to", "?", "ToNumber", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 9
+}, {
+  "out": null
+}, {
+  "k": 8
+}, "Else", "if", {
+  "id": "value"
+}, "has", "a", "[", "[", "StringData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "value"
+}, "to", "?", "ToString", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 10
+}, "Else", "if", {
+  "id": "value"
+}, "has", "a", "[", "[", "BooleanData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "value"
+}, "to", {
+  "id": "value"
+}, ".", "[", "[", "BooleanData", "]", "]", ".", {
+  "k": 13
+}, {
+  "out": null
+}, {
+  "k": 12
+}, "Else", "if", {
+  "id": "value"
+}, "has", "a", "[", "[", "BigIntData", "]", "]", "internal", "slot", ",", "then", {
+  "in": null
+}, "Set", {
+  "id": "value"
+}, "to", {
+  "id": "value"
+}, ".", "[", "[", "BigIntData", "]", "]", ".", {
+  "k": 15
+}, {
+  "out": null
+}, {
+  "k": 14
+}, {
+  "out": null
+}, {
+  "k": 7
+}, "If", {
+  "id": "value"
+}, "is", {
+  "value": "null"
+}, ",", "return", {
+  "value": "\"null\""
+}, ".", {
+  "k": 16
+}, "If", {
+  "id": "value"
+}, "is", {
+  "value": "true"
+}, ",", "return", {
+  "value": "\"true\""
+}, ".", {
+  "k": 17
+}, "If", {
+  "id": "value"
+}, "is", {
+  "value": "false"
+}, ",", "return", {
+  "value": "\"false\""
+}, ".", {
+  "k": 18
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "String", ",", "return", "QuoteJSONString", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 19
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Number", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "value"
+}, "is", "finite", ",", "return", "!", "ToString", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 21
+}, "Return", {
+  "value": "\"null\""
+}, ".", {
+  "k": 22
+}, {
+  "out": null
+}, {
+  "k": 20
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "BigInt", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 23
+}, "If", "Type", "(", {
+  "id": "value"
+}, ")", "is", "Object", "and", "IsCallable", "(", {
+  "id": "value"
+}, ")", "is", {
+  "value": "false"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "isArray"
+}, "be", "?", "IsArray", "(", {
+  "id": "value"
+}, ")", ".", {
+  "k": 25
+}, "If", {
+  "id": "isArray"
+}, "is", {
+  "value": "true"
+}, ",", "return", "?", "SerializeJSONArray", "(", {
+  "id": "state"
+}, ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 26
+}, "Return", "?", "SerializeJSONObject", "(", {
+  "id": "state"
+}, ",", {
+  "id": "value"
+}, ")", ".", {
+  "k": 27
+}, {
+  "out": null
+}, {
+  "k": 24
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 28
+}]

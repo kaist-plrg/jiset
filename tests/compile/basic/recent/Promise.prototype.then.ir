@@ -1,0 +1,11 @@
+{
+  let promise = this
+  app __x0__ = (IsPromise promise)
+  if (= __x0__ false) throw TypeError else {}
+  app __x1__ = (SpeciesConstructor promise INTRINSIC_Promise)
+  let C = [? __x1__]
+  app __x2__ = (NewPromiseCapability C)
+  let resultCapability = [? __x2__]
+  app __x3__ = (PerformPromiseThen promise onFulfilled onRejected resultCapability)
+  return __x3__
+}

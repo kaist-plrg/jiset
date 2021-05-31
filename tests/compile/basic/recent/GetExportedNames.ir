@@ -1,0 +1,39 @@
+{
+  if (= exportStarSet absent) exportStarSet = (new []) else {}
+  if (contains exportStarSet module) return (new []) else {}
+  append module -> exportStarSet
+  let exportedNames = (new [])
+  let __x0__ = module.LocalExportEntries
+  let __x1__ = 0i
+  while (< __x1__ __x0__.length) {
+    let e = __x0__[__x1__]
+    append e.ExportName -> exportedNames
+    __x1__ = (+ __x1__ 1i)
+  }
+  let __x2__ = module.IndirectExportEntries
+  let __x3__ = 0i
+  while (< __x3__ __x2__.length) {
+    let e = __x2__[__x3__]
+    append e.ExportName -> exportedNames
+    __x3__ = (+ __x3__ 1i)
+  }
+  let __x4__ = module.StarExportEntries
+  let __x5__ = 0i
+  while (< __x5__ __x4__.length) {
+    let e = __x4__[__x5__]
+    app __x6__ = (HostResolveImportedModule module e.ModuleRequest)
+    let requestedModule = [? __x6__]
+    app __x7__ = (requestedModule.GetExportedNames requestedModule exportStarSet)
+    let starNames = [? __x7__]
+    let __x8__ = starNames
+    let __x9__ = 0i
+    while (< __x9__ __x8__.length) {
+      let n = __x8__[__x9__]
+      app __x10__ = (SameValue n "default")
+      if (= __x10__ false) if (! (contains exportedNames n)) append n -> exportedNames else {} else {}
+      __x9__ = (+ __x9__ 1i)
+    }
+    __x5__ = (+ __x5__ 1i)
+  }
+  return exportedNames
+}

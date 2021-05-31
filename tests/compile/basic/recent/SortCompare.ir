@@ -1,0 +1,23 @@
+{
+  if (&& (= x undefined) (= y undefined)) return 0i else {}
+  if (= x undefined) return 1i else {}
+  if (= y undefined) return -1i else {}
+  if (! (= comparefn undefined)) {
+    app __x0__ = (Call comparefn undefined (new [x, y]))
+    app __x1__ = (ToNumber [? __x0__])
+    let v = [? __x1__]
+    if (= v NaN) return 0i else {}
+    return v
+  } else {}
+  app __x2__ = (ToString x)
+  let xString = [? __x2__]
+  app __x3__ = (ToString y)
+  let yString = [? __x3__]
+  app __x4__ = (AbstractRelationalComparison xString yString)
+  let xSmaller = __x4__
+  if (= xSmaller true) return -1i else {}
+  app __x5__ = (AbstractRelationalComparison yString xString)
+  let ySmaller = __x5__
+  if (= ySmaller true) return 1i else {}
+  return 0i
+}

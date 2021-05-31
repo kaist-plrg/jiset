@@ -1,0 +1,16 @@
+{
+  let handler = O.ProxyHandler
+  if (= handler null) throw TypeError else {}
+  assert (= (typeof handler) Object)
+  let target = O.ProxyTarget
+  app __x0__ = (GetMethod handler "apply")
+  let trap = [? __x0__]
+  if (= trap undefined) {
+    app __x1__ = (Call target thisArgument argumentsList)
+    return [? __x1__]
+  } else {}
+  app __x2__ = (CreateArrayFromList argumentsList)
+  let argArray = [! __x2__]
+  app __x3__ = (Call trap handler (new [target, thisArgument, argArray]))
+  return [? __x3__]
+}

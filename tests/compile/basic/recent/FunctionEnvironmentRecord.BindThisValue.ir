@@ -1,0 +1,7 @@
+{
+  assert (! (= envRec.ThisBindingStatus CONST_lexical))
+  if (= envRec.ThisBindingStatus CONST_initialized) throw ReferenceError else {}
+  envRec.ThisValue = V
+  envRec.ThisBindingStatus = CONST_initialized
+  return V
+}

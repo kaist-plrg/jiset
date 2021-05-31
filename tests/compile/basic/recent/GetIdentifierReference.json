@@ -1,0 +1,69 @@
+["If", {
+  "id": "env"
+}, "is", "the", "value", {
+  "value": "null"
+}, ",", "then", {
+  "in": null
+}, "Return", "the", "Reference", "Record", "{", "[", "[", "Base", "]", "]", ":", {
+  "const": "unresolvable"
+}, ",", "[", "[", "ReferencedName", "]", "]", ":", {
+  "id": "name"
+}, ",", "[", "[", "Strict", "]", "]", ":", {
+  "id": "strict"
+}, ",", "[", "[", "ThisValue", "]", "]", ":", {
+  "const": "empty"
+}, "}", ".", {
+  "k": 1
+}, {
+  "out": null
+}, {
+  "k": 0
+}, "Let", {
+  "id": "exists"
+}, "be", "?", {
+  "id": "env"
+}, ".", "HasBinding", "(", {
+  "id": "name"
+}, ")", ".", {
+  "k": 2
+}, "If", {
+  "id": "exists"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Return", "the", "Reference", "Record", "{", "[", "[", "Base", "]", "]", ":", {
+  "id": "env"
+}, ",", "[", "[", "ReferencedName", "]", "]", ":", {
+  "id": "name"
+}, ",", "[", "[", "Strict", "]", "]", ":", {
+  "id": "strict"
+}, ",", "[", "[", "ThisValue", "]", "]", ":", {
+  "const": "empty"
+}, "}", ".", {
+  "k": 4
+}, {
+  "out": null
+}, {
+  "k": 3
+}, "Else", ",", {
+  "in": null
+}, "Let", {
+  "id": "outer"
+}, "be", {
+  "id": "env"
+}, ".", "[", "[", "OuterEnv", "]", "]", ".", {
+  "k": 6
+}, "Return", "?", "GetIdentifierReference", "(", {
+  "id": "outer"
+}, ",", {
+  "id": "name"
+}, ",", {
+  "id": "strict"
+}, ")", ".", {
+  "k": 7
+}, {
+  "out": null
+}, {
+  "k": 5
+}]

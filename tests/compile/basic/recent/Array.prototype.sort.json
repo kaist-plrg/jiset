@@ -1,0 +1,155 @@
+["If", {
+  "id": "comparefn"
+}, "is", "not", {
+  "value": "undefined"
+}, "and", "IsCallable", "(", {
+  "id": "comparefn"
+}, ")", "is", {
+  "value": "false"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 0
+}, "Let", {
+  "id": "obj"
+}, "be", "?", "ToObject", "(", {
+  "value": "this"
+}, "value", ")", ".", {
+  "k": 1
+}, "Let", {
+  "id": "len"
+}, "be", "?", "LengthOfArrayLike", "(", {
+  "id": "obj"
+}, ")", ".", {
+  "k": 2
+}, "Let", {
+  "id": "items"
+}, "be", "a", "new", "empty", "List", ".", {
+  "k": 3
+}, "Let", {
+  "id": "k"
+}, "be", "0", ".", {
+  "k": 4
+}, "Repeat", ",", "while", {
+  "id": "k"
+}, "<", {
+  "id": "len"
+}, ",", {
+  "in": null
+}, "Let", {
+  "id": "Pk"
+}, "be", "!", "ToString", "(", "𝔽", "(", {
+  "id": "k"
+}, ")", ")", ".", {
+  "k": 6
+}, "Let", {
+  "id": "kPresent"
+}, "be", "?", "HasProperty", "(", {
+  "id": "obj"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 7
+}, "If", {
+  "id": "kPresent"
+}, "is", {
+  "value": "true"
+}, ",", "then", {
+  "in": null
+}, "Let", {
+  "id": "kValue"
+}, "be", "?", "Get", "(", {
+  "id": "obj"
+}, ",", {
+  "id": "Pk"
+}, ")", ".", {
+  "k": 9
+}, "Append", {
+  "id": "kValue"
+}, "to", {
+  "id": "items"
+}, ".", {
+  "k": 10
+}, {
+  "out": null
+}, {
+  "k": 8
+}, "Set", {
+  "id": "k"
+}, "to", {
+  "id": "k"
+}, "+", "1", ".", {
+  "k": 11
+}, {
+  "out": null
+}, {
+  "k": 5
+}, "Let", {
+  "id": "itemCount"
+}, "be", "the", "number", "of", "elements", "in", {
+  "id": "items"
+}, ".", {
+  "k": 12
+}, "Sort", {
+  "id": "items"
+}, "using", "an", "implementation", "-", "defined", "sequence", "of", "calls", "to", "SortCompare", ".", "If", "any", "such", "call", "returns", "an", "abrupt", "completion", ",", "stop", "before", "performing", "any", "further", "calls", "to", "SortCompare", "or", "steps", "in", "this", "algorithm", "and", "return", "that", "completion", ".", {
+  "k": 13
+}, "Let", {
+  "id": "j"
+}, "be", "0", ".", {
+  "k": 14
+}, "Repeat", ",", "while", {
+  "id": "j"
+}, "<", {
+  "id": "itemCount"
+}, ",", {
+  "in": null
+}, "Perform", "?", "Set", "(", {
+  "id": "obj"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "j"
+}, ")", ")", ",", {
+  "id": "items"
+}, "[", {
+  "id": "j"
+}, "]", ",", {
+  "value": "true"
+}, ")", ".", {
+  "k": 16
+}, "Set", {
+  "id": "j"
+}, "to", {
+  "id": "j"
+}, "+", "1", ".", {
+  "k": 17
+}, {
+  "out": null
+}, {
+  "k": 15
+}, "Repeat", ",", "while", {
+  "id": "j"
+}, "<", {
+  "id": "len"
+}, ",", {
+  "in": null
+}, "Perform", "?", "DeletePropertyOrThrow", "(", {
+  "id": "obj"
+}, ",", "!", "ToString", "(", "𝔽", "(", {
+  "id": "j"
+}, ")", ")", ")", ".", {
+  "k": 19
+}, "Set", {
+  "id": "j"
+}, "to", {
+  "id": "j"
+}, "+", "1", ".", {
+  "k": 20
+}, {
+  "out": null
+}, {
+  "k": 18
+}, "Return", {
+  "id": "obj"
+}, ".", {
+  "k": 21
+}]

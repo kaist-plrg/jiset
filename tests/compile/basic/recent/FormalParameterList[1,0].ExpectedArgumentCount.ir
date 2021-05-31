@@ -1,0 +1,13 @@
+{
+  access __x0__ = (FormalParameterList "ExpectedArgumentCount")
+  let count = __x0__
+  let __x1__ = true
+  access __x2__ = (FormalParameterList "HasInitializer")
+  __x1__ = (= __x2__ true)
+  if __x1__ {} else {
+    access __x3__ = (FormalParameter "HasInitializer")
+    __x1__ = (= __x3__ true)
+  }
+  if __x1__ return count else {}
+  return (+ count 1i)
+}

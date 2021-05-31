@@ -1,0 +1,69 @@
+["Let", {
+  "id": "finalizationRegistry"
+}, "be", "the", {
+  "value": "this"
+}, "value", ".", {
+  "k": 0
+}, "Perform", "?", "RequireInternalSlot", "(", {
+  "id": "finalizationRegistry"
+}, ",", "[", "[", "Cells", "]", "]", ")", ".", {
+  "k": 1
+}, "If", "Type", "(", {
+  "id": "target"
+}, ")", "is", "not", "Object", ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 2
+}, "If", "SameValue", "(", {
+  "id": "target"
+}, ",", {
+  "id": "heldValue"
+}, ")", "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 3
+}, "If", "Type", "(", {
+  "id": "unregisterToken"
+}, ")", "is", "not", "Object", ",", "then", {
+  "in": null
+}, "If", {
+  "id": "unregisterToken"
+}, "is", "not", {
+  "value": "undefined"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 5
+}, "Set", {
+  "id": "unregisterToken"
+}, "to", {
+  "const": "empty"
+}, ".", {
+  "k": 6
+}, {
+  "out": null
+}, {
+  "k": 4
+}, "Let", {
+  "id": "cell"
+}, "be", "the", "Record", "{", "[", "[", "WeakRefTarget", "]", "]", ":", {
+  "id": "target"
+}, ",", "[", "[", "HeldValue", "]", "]", ":", {
+  "id": "heldValue"
+}, ",", "[", "[", "UnregisterToken", "]", "]", ":", {
+  "id": "unregisterToken"
+}, "}", ".", {
+  "k": 7
+}, "Append", {
+  "id": "cell"
+}, "to", {
+  "id": "finalizationRegistry"
+}, ".", "[", "[", "Cells", "]", "]", ".", {
+  "k": 8
+}, "Return", {
+  "value": "undefined"
+}, ".", {
+  "k": 9
+}]

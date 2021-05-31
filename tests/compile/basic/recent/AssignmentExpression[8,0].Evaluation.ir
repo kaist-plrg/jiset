@@ -1,0 +1,26 @@
+{
+  access __x0__ = (LeftHandSideExpression "Evaluation")
+  let lref = __x0__
+  app __x1__ = (GetValue lref)
+  let lval = [? __x1__]
+  if (! (|| (= lval undefined) (= lval null))) return lval else {}
+  let __x2__ = true
+  app __x3__ = (IsAnonymousFunctionDefinition AssignmentExpression)
+  __x2__ = (= __x3__ true)
+  if __x2__ {
+    access __x4__ = (LeftHandSideExpression "IsIdentifierRef")
+    __x2__ = (= __x4__ true)
+  } else {}
+  if __x2__ {
+    access __x5__ = (AssignmentExpression "NamedEvaluation" lref.ReferencedName)
+    let rval = __x5__
+  } else {
+    access __x6__ = (AssignmentExpression "Evaluation")
+    let rref = __x6__
+    app __x7__ = (GetValue rref)
+    let rval = [? __x7__]
+  }
+  app __x8__ = (PutValue lref rval)
+  [? __x8__]
+  return rval
+}

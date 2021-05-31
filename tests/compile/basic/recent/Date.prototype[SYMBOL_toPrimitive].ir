@@ -1,0 +1,7 @@
+{
+  let O = this
+  if (! (= (typeof O) Object)) throw TypeError else {}
+  if (|| (= hint "string") (= hint "default")) let tryFirst = CONST_string else if (= hint "number") let tryFirst = CONST_number else throw TypeError
+  app __x0__ = (OrdinaryToPrimitive O tryFirst)
+  return [? __x0__]
+}

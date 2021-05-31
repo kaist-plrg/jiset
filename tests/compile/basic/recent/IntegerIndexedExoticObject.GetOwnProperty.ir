@@ -1,0 +1,16 @@
+{
+  app __x0__ = (IsPropertyKey P)
+  assert (= __x0__ true)
+  if (= (typeof P) String) {
+    app __x1__ = (CanonicalNumericIndexString P)
+    let numericIndex = [! __x1__]
+    if (! (= numericIndex undefined)) {
+      app __x2__ = (IntegerIndexedElementGet O numericIndex)
+      let value = [! __x2__]
+      if (= value undefined) return undefined else {}
+      return (new PropertyDescriptor("Value" -> value, "Writable" -> true, "Enumerable" -> true, "Configurable" -> true))
+    } else {}
+  } else {}
+  app __x3__ = (OrdinaryGetOwnProperty O P)
+  return __x3__
+}

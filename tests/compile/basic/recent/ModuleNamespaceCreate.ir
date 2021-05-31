@@ -1,0 +1,13 @@
+{
+  assert (= module.Namespace undefined)
+  ??? "Let id:{internalSlotsList} be the internal slots listed in link:{unhandled: table-internal-slots-of-module-namespace-exotic-objects} ."
+  app __x0__ = (MakeBasicObject internalSlotsList)
+  let M = [! __x0__]
+  M.Prototype = null
+  M.Module = module
+  ??? "Let id:{sortedExports} be a List whose elements are the elements of id:{exports} ordered as if an Array of the same values had been sorted using % Array . prototype . sort % using value:{undefined} as id:{comparefn} ."
+  M.Exports = sortedExports
+  ??? "Create own properties of id:{M} corresponding to the definitions in link:{unhandled: sec-module-namespace-objects} ."
+  module.Namespace = M
+  return M
+}

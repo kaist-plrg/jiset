@@ -1,0 +1,12 @@
+{
+  if (! (= (typeof V) Object)) return false else {}
+  app __x0__ = (ToObject this)
+  let O = [? __x0__]
+  while true {
+    app __x1__ = (V.GetPrototypeOf V)
+    V = [? __x1__]
+    if (= V null) return false else {}
+    app __x2__ = (SameValue O V)
+    if (= __x2__ true) return true else {}
+  }
+}
