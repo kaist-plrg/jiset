@@ -36,10 +36,6 @@ lazy val compileBasicTest = taskKey[Unit]("Launch basic compile tests (middle)")
 lazy val compileLegacyTest = taskKey[Unit]("Launch legacy compile tests (small)")
 lazy val compileManualTest = taskKey[Unit]("Launch manual compile tests (small)")
 
-// cfg
-lazy val cfgTest = taskKey[Unit]("Launch cfg tests")
-lazy val cfgBuildTest = taskKey[Unit]("Launch build cfg tests (small)")
-
 // ir
 lazy val irTest = taskKey[Unit]("Launch ir tests")
 lazy val irBeautifierTest = taskKey[Unit]("Launch beautifier ir tests (small)")
@@ -84,9 +80,6 @@ lazy val jiset = (project in file("."))
     compileBasicTest := (testOnly in Test).toTask(" *.compile.Basic*Test").value,
     compileLegacyTest := (testOnly in Test).toTask(" *.compile.Legacy*Test").value,
     compileManualTest := (testOnly in Test).toTask(" *.compile.Manual*Test").value,
-    // cfg
-    cfgTest := (testOnly in Test).toTask(" *.cfg.*Test").value,
-    cfgBuildTest := (testOnly in Test).toTask(" *.cfg.Build*Test").value,
     // ir
     irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
 		irBeautifierTest := (testOnly in Test).toTask(" *.ir.Beautifier*Test").value
