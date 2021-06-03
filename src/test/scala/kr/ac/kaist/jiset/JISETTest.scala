@@ -63,9 +63,6 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
   val category: String
   lazy val tag: String = s"$category.$this"
 
-  // sort by keys
-  def sortByKey[U, V](map: Map[U, V])(implicit ord: scala.math.Ordering[U]): List[(U, V)] = map.toList.sortBy { case (k, v) => k }
-
   // check backward-compatibility after all tests
   override def afterAll(): Unit = {
     import DefaultJsonProtocol._
