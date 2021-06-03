@@ -17,7 +17,7 @@ import spray.json._
 // GenTest phase
 case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
   val name: String = "gen-test"
-  val help: String = "generates test answers."
+  val help: String = "generate test answers."
 
   type Parsed = ((Array[String], Document, Region), ECMAScript)
   def apply(

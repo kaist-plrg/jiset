@@ -1,7 +1,8 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
-import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
+import kr.ac.kaist.jiset.TRIPLE
 import kr.ac.kaist.jiset.spec.grammar._
+import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.{ InfNum, PInf }
 import org.jsoup.nodes._
@@ -11,11 +12,45 @@ trait Head {
   // name
   val name: String
 
-  // name for print
-  def printName: String = name
-
   // parameters
   val params: List[Param]
+
+  // conversion to Scala code
+  def toScala: String = this match {
+    case BuiltinHead(ref, origParams) => (
+      s"""BuiltinHead(""" +
+      s"""parseRef($TRIPLE${ref.beautified}$TRIPLE), """ +
+      s"""List(${origParams.map(_.toScala).mkString(", ")})""" +
+      s""")"""
+    )
+    case MethodHead(base, methodName, receiverParam, origParams) => (
+      s"""MethodHead(""" +
+      s""""$base", """ +
+      s""""$methodName", """ +
+      s"""${receiverParam.toScala}, """ +
+      s"""List(${origParams.map(_.toScala).mkString(", ")})""" +
+      s""")"""
+    )
+    case NormalHead(name, params) => (
+      s"""NormalHead(""" +
+      s""""$name", """ +
+      s"""List(${params.map(_.toScala).mkString(", ")})""" +
+      s""")"""
+    )
+    case SyntaxDirectedHead(prod, idx, subIdx, rhs, methodName, withParams) => (
+      s"""SyntaxDirectedHead(""" +
+      s""""${prod.name}", """ +
+      s"""$idx, """ +
+      s"""$subIdx, """ +
+      s"""${rhs.toScala}, """ +
+      s""""$methodName", """ +
+      s"""List(${withParams.map(_.toScala).mkString(", ")})""" +
+      s""")"""
+    )
+  }
+
+  // name for print
+  def printName: String = name
 
   // conversion to string
   override def toString: String = s"${printName} (${params.mkString(", ")}):"

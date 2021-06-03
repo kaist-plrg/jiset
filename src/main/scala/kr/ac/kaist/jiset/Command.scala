@@ -37,7 +37,7 @@ case object CmdHelp extends CommandObj("help", CmdBase >> Help)
 // parse
 case object CmdParse extends CommandObj("parse", CmdBase >> Parse) {
   override def display(spec: ECMAScript): Unit = {
-    val ECMAScript(grammar, algos, intrinsics, symbols, aoids, section) = spec
+    val ECMAScript(grammar, algos, consts, intrinsics, symbols, aoids, section) = spec
     println(s"* grammar:")
     println(s"  - lexical production: ${grammar.lexProds.length}")
     println(s"  - non-lexical production: ${grammar.prods.length}")
@@ -45,12 +45,16 @@ case object CmdParse extends CommandObj("parse", CmdBase >> Parse) {
     println(s"  - incomplete: ${spec.incompletedAlgos.length}")
     println(s"  - complete: ${spec.completedAlgos.length}")
     println(s"  - total: ${algos.length}")
+    println(s"* consts: ${consts.size}")
     println(s"* intrinsics: ${intrinsics.size}")
     println(s"* symbols: ${symbols.size}")
     println(s"* aoids: ${aoids.size}")
     println(s"* incompleted steps: ${spec.incompletedAlgos.map(_.todos.length).sum}")
   }
 }
+
+// gen-model
+case object CmdGenModel extends CommandObj("gen-model", CmdParse >> GenModel)
 
 // compile-repl
 case object CmdCompileREPL extends CommandObj("compile-repl", CmdBase >> CompileREPL)

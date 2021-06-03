@@ -1,4 +1,32 @@
 [Lexical Productions]
+Alternative[U, N]:
+  [empty]
+  Alternative[?U, ?N] Term[?U, ?N]
+
+Assertion[U, N]:
+  `^`
+  `$`
+  `\` `b`
+  `\` `B`
+  `(` `?` `=` Disjunction[?U, ?N] `)`
+  `(` `?` `!` Disjunction[?U, ?N] `)`
+  `(` `?` `<=` Disjunction[?U, ?N] `)`
+  `(` `?` `<!` Disjunction[?U, ?N] `)`
+
+Atom[U, N]:
+  PatternCharacter
+  `.`
+  `\` AtomEscape[?U, ?N]
+  CharacterClass[?U]
+  `(` GroupSpecifier[?U] Disjunction[?U, ?N] `)`
+  `(` `?` `:` Disjunction[?U, ?N] `)`
+
+AtomEscape[U, N]:
+  DecimalEscape
+  CharacterClassEscape[?U]
+  CharacterEscape[?U]
+  [+N] `k` GroupName[?U]
+
 BigIntLiteralSuffix:
   `n`
 
@@ -19,9 +47,49 @@ BooleanLiteral:
   `true`
   `false`
 
+CharacterClass[U]:
+  `[` [lookahead <! {`^`}] ClassRanges[?U] `]`
+  `[` `^` ClassRanges[?U] `]`
+
+CharacterClassEscape[U]:
+  `d`
+  `D`
+  `s`
+  `S`
+  `w`
+  `W`
+  [+U] `p{` UnicodePropertyValueExpression `}`
+  [+U] `P{` UnicodePropertyValueExpression `}`
+
+CharacterEscape[U]:
+  ControlEscape
+  `c` ControlLetter
+  `0` [lookahead <! {DecimalDigit}]
+  HexEscapeSequence
+  RegExpUnicodeEscapeSequence[?U]
+  IdentityEscape[?U]
+
 CharacterEscapeSequence:
   SingleEscapeCharacter
   NonEscapeCharacter
+
+ClassAtom[U]:
+  `-`
+  ClassAtomNoDash[?U]
+
+ClassAtomNoDash[U]:
+  SourceCharacter but not `\` or `]` or `-`
+  `\` ClassEscape[?U]
+
+ClassEscape[U]:
+  `b`
+  [+U] `-`
+  CharacterClassEscape[?U]
+  CharacterEscape[?U]
+
+ClassRanges[U]:
+  [empty]
+  NonemptyClassRanges[?U]
 
 CodePoint:
   <CodePoint>
@@ -36,6 +104,67 @@ CommonToken:
   NumericLiteral
   StringLiteral
   Template
+
+ControlEscape:
+  `f`
+  `n`
+  `r`
+  `t`
+  `v`
+
+ControlLetter:
+  `a`
+  `b`
+  `c`
+  `d`
+  `e`
+  `f`
+  `g`
+  `h`
+  `i`
+  `j`
+  `k`
+  `l`
+  `m`
+  `n`
+  `o`
+  `p`
+  `q`
+  `r`
+  `s`
+  `t`
+  `u`
+  `v`
+  `w`
+  `x`
+  `y`
+  `z`
+  `A`
+  `B`
+  `C`
+  `D`
+  `E`
+  `F`
+  `G`
+  `H`
+  `I`
+  `J`
+  `K`
+  `L`
+  `M`
+  `N`
+  `O`
+  `P`
+  `Q`
+  `R`
+  `S`
+  `T`
+  `U`
+  `V`
+  `W`
+  `X`
+  `Y`
+  `Z`
 
 DecimalBigIntegerLiteral:
   `0` BigIntLiteralSuffix
@@ -59,6 +188,9 @@ DecimalDigits[Sep]:
   DecimalDigits[?Sep] DecimalDigit
   [+Sep] DecimalDigits[+Sep] NumericLiteralSeparator DecimalDigit
 
+DecimalEscape:
+  NonZeroDigit DecimalDigits[~Sep]? [lookahead <! {DecimalDigit}]
+
 DecimalIntegerLiteral:
   `0`
   NonZeroDigit
@@ -68,6 +200,10 @@ DecimalLiteral:
   DecimalIntegerLiteral `.` DecimalDigits[+Sep]? ExponentPart[+Sep]?
   `.` DecimalDigits[+Sep] ExponentPart[+Sep]?
   DecimalIntegerLiteral ExponentPart[+Sep]?
+
+Disjunction[U, N]:
+  Alternative[?U, ?N]
+  Alternative[?U, ?N] `|` Disjunction[?U, ?N]
 
 DivPunctuator:
   `/`
@@ -101,6 +237,13 @@ ExponentIndicator:
 
 ExponentPart[Sep]:
   ExponentIndicator SignedInteger[?Sep]
+
+GroupName[U]:
+  `<` RegExpIdentifierName[?U] `>`
+
+GroupSpecifier[U]:
+  [empty]
+  `?` GroupName[?U]
 
 Hex4Digits:
   HexDigit HexDigit HexDigit HexDigit
@@ -141,6 +284,15 @@ HexIntegerLiteral[Sep]:
   `0x` HexDigits[?Sep]
   `0X` HexDigits[?Sep]
 
+HexLeadSurrogate:
+  <HexLeadSurrogate>
+
+HexNonSurrogate:
+  <HexNonSurrogate>
+
+HexTrailSurrogate:
+  <HexTrailSurrogate>
+
 IdentifierName:
   IdentifierStart
   IdentifierName IdentifierPart
@@ -157,6 +309,11 @@ IdentifierStart:
   `$`
   `_`
   `\` UnicodeEscapeSequence
+
+IdentityEscape[U]:
+  [+U] SyntaxCharacter
+  [+U] `/`
+  [~U] SourceCharacter but not UnicodeIDContinue
 
 InputElementDiv:
   WhiteSpace
@@ -206,6 +363,9 @@ LineTerminatorSequence:
   <PS>
   <CR> <LF>
 
+LoneUnicodePropertyNameOrValue:
+  UnicodePropertyValueCharacters
+
 MultiLineComment:
   `/*` MultiLineCommentChars? `*/`
 
@@ -240,6 +400,16 @@ NonZeroDigit:
   `7`
   `8`
   `9`
+
+NonemptyClassRanges[U]:
+  ClassAtom[?U]
+  ClassAtom[?U] NonemptyClassRangesNoDash[?U]
+  ClassAtom[?U] `-` ClassAtom[?U] ClassRanges[?U]
+
+NonemptyClassRangesNoDash[U]:
+  ClassAtom[?U]
+  ClassAtomNoDash[?U] NonemptyClassRangesNoDash[?U]
+  ClassAtomNoDash[?U] `-` ClassAtom[?U] ClassRanges[?U]
 
 NotCodePoint:
   <NotCodePoint>
@@ -346,6 +516,12 @@ OtherPunctuator:
   `??=`
   `=>`
 
+Pattern[U, N]:
+  Disjunction[?U, ?N]
+
+PatternCharacter:
+  SourceCharacter but not SyntaxCharacter
+
 PostAsteriskCommentChars:
   MultiLineNotForwardSlashOrAsteriskChar MultiLineCommentChars?
   `*` PostAsteriskCommentChars?
@@ -353,6 +529,45 @@ PostAsteriskCommentChars:
 Punctuator:
   OptionalChainingPunctuator
   OtherPunctuator
+
+Quantifier:
+  QuantifierPrefix
+  QuantifierPrefix `?`
+
+QuantifierPrefix:
+  `*`
+  `+`
+  `?`
+  `{` DecimalDigits[~Sep] `}`
+  `{` DecimalDigits[~Sep] `,` `}`
+  `{` DecimalDigits[~Sep] `,` DecimalDigits[~Sep] `}`
+
+RegExpIdentifierName[U]:
+  RegExpIdentifierStart[?U]
+  RegExpIdentifierName[?U] RegExpIdentifierPart[?U]
+
+RegExpIdentifierPart[U]:
+  UnicodeIDContinue
+  `$`
+  `\` RegExpUnicodeEscapeSequence[+U]
+  [~U] UnicodeLeadSurrogate UnicodeTrailSurrogate
+  <ZWNJ>
+  <ZWJ>
+
+RegExpIdentifierStart[U]:
+  UnicodeIDStart
+  `$`
+  `_`
+  `\` RegExpUnicodeEscapeSequence[+U]
+  [~U] UnicodeLeadSurrogate UnicodeTrailSurrogate
+
+RegExpUnicodeEscapeSequence[U]:
+  [+U] `u` HexLeadSurrogate `\u` HexTrailSurrogate
+  [+U] `u` HexLeadSurrogate
+  [+U] `u` HexTrailSurrogate
+  [+U] `u` HexNonSurrogate
+  [~U] `u` Hex4Digits
+  [+U] `u{` CodePoint `}`
 
 RegularExpressionBackslashSequence:
   `\` RegularExpressionNonTerminator
@@ -476,9 +691,51 @@ SingleStringCharacters:
 SourceCharacter:
   <UnicodeAny>
 
+StrDecimalLiteral:
+  StrUnsignedDecimalLiteral
+  `+` StrUnsignedDecimalLiteral
+  `-` StrUnsignedDecimalLiteral
+
+StrNumericLiteral:
+  StrDecimalLiteral
+  NonDecimalIntegerLiteral[~Sep]
+
+StrUnsignedDecimalLiteral:
+  `Infinity`
+  DecimalDigits[~Sep] `.` DecimalDigits[~Sep]? ExponentPart[~Sep]?
+  `.` DecimalDigits[~Sep] ExponentPart[~Sep]?
+  DecimalDigits[~Sep] ExponentPart[~Sep]?
+
+StrWhiteSpace:
+  StrWhiteSpaceChar StrWhiteSpace?
+
+StrWhiteSpaceChar:
+  WhiteSpace
+  LineTerminator
+
 StringLiteral:
   `"` DoubleStringCharacters? `"`
   `'` SingleStringCharacters? `'`
+
+StringNumericLiteral:
+  StrWhiteSpace?
+  StrWhiteSpace? StrNumericLiteral StrWhiteSpace?
+
+SyntaxCharacter:
+  `^`
+  `$`
+  `\`
+  `.`
+  `*`
+  `+`
+  `?`
+  `(`
+  `)`
+  `[`
+  `]`
+  `{`
+  `}`
+  `|`
 
 Template:
   NoSubstitutionTemplate
@@ -508,6 +765,11 @@ TemplateSubstitutionTail:
 TemplateTail:
   `}` TemplateCharacters? ```
 
+Term[U, N]:
+  Assertion[?U, ?N]
+  Atom[?U, ?N]
+  Atom[?U, ?N] Quantifier
+
 UnicodeEscapeSequence:
   `u` Hex4Digits
   `u{` CodePoint `}`
@@ -518,6 +780,36 @@ UnicodeIDContinue:
 UnicodeIDStart:
   <UnicodeAny>
 
+UnicodeLeadSurrogate:
+  <UnicodeAny>
+
+UnicodePropertyName:
+  UnicodePropertyNameCharacters
+
+UnicodePropertyNameCharacter:
+  ControlLetter
+  `_`
+
+UnicodePropertyNameCharacters:
+  UnicodePropertyNameCharacter UnicodePropertyNameCharacters?
+
+UnicodePropertyValue:
+  UnicodePropertyValueCharacters
+
+UnicodePropertyValueCharacter:
+  UnicodePropertyNameCharacter
+  DecimalDigit
+
+UnicodePropertyValueCharacters:
+  UnicodePropertyValueCharacter UnicodePropertyValueCharacters?
+
+UnicodePropertyValueExpression:
+  UnicodePropertyName `=` UnicodePropertyValue
+  LoneUnicodePropertyNameOrValue
+
+UnicodeTrailSurrogate:
+  <UnicodeAny>
+
 WhiteSpace:
   <TAB>
   <VT>
@@ -526,15 +818,107 @@ WhiteSpace:
   <NBSP>
   <ZWNBSP>
   <USP>
+
+uri:
+  uriCharacters?
+
+uriAlpha:
+  `a`
+  `b`
+  `c`
+  `d`
+  `e`
+  `f`
+  `g`
+  `h`
+  `i`
+  `j`
+  `k`
+  `l`
+  `m`
+  `n`
+  `o`
+  `p`
+  `q`
+  `r`
+  `s`
+  `t`
+  `u`
+  `v`
+  `w`
+  `x`
+  `y`
+  `z`
+  `A`
+  `B`
+  `C`
+  `D`
+  `E`
+  `F`
+  `G`
+  `H`
+  `I`
+  `J`
+  `K`
+  `L`
+  `M`
+  `N`
+  `O`
+  `P`
+  `Q`
+  `R`
+  `S`
+  `T`
+  `U`
+  `V`
+  `W`
+  `X`
+  `Y`
+  `Z`
+
+uriCharacter:
+  uriReserved
+  uriUnescaped
+  uriEscaped
+
+uriCharacters:
+  uriCharacter uriCharacters?
+
+uriEscaped:
+  `%` HexDigit HexDigit
+
+uriMark:
+  `-`
+  `_`
+  `.`
+  `!`
+  `~`
+  `*`
+  `'`
+  `(`
+  `)`
+
+uriReserved:
+  `;`
+  `/`
+  `?`
+  `:`
+  `@`
+  `&`
+  `=`
+  `+`
+  `$`
+  `,`
+
+uriUnescaped:
+  uriAlpha
+  DecimalDigit
+  uriMark
 [Syntactic Productions]
 AdditiveExpression[Yield, Await]:
   MultiplicativeExpression[?Yield, ?Await]
   AdditiveExpression[?Yield, ?Await] `+` MultiplicativeExpression[?Yield, ?Await]
   AdditiveExpression[?Yield, ?Await] `-` MultiplicativeExpression[?Yield, ?Await]
-
-Alternative[U, N]:
-  [empty]
-  Alternative[?U, ?N] Term[?U, ?N]
 
 ArgumentList[Yield, Await]:
   AssignmentExpression[+In, ?Yield, ?Await]
@@ -571,16 +955,6 @@ ArrowFunction[In, Yield, Await]:
 ArrowParameters[Yield, Await]:
   BindingIdentifier[?Yield, ?Await]
   CoverParenthesizedExpressionAndArrowParameterList[?Yield, ?Await]
-
-Assertion[U, N]:
-  `^`
-  `$`
-  `\` `b`
-  `\` `B`
-  `(` `?` `=` Disjunction[?U, ?N] `)`
-  `(` `?` `!` Disjunction[?U, ?N] `)`
-  `(` `?` `<=` Disjunction[?U, ?N] `)`
-  `(` `?` `<!` Disjunction[?U, ?N] `)`
 
 AssignmentElement[Yield, Await]:
   DestructuringAssignmentTarget[?Yield, ?Await] Initializer[+In, ?Yield, ?Await]?
@@ -674,20 +1048,6 @@ AsyncGeneratorMethod[Yield, Await]:
 
 AsyncMethod[Yield, Await]:
   `async` [no LineTerminator here] PropertyName[?Yield, ?Await] `(` UniqueFormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
-
-Atom[U, N]:
-  PatternCharacter
-  `.`
-  `\` AtomEscape[?U, ?N]
-  CharacterClass[?U]
-  `(` GroupSpecifier[?U] Disjunction[?U, ?N] `)`
-  `(` `?` `:` Disjunction[?U, ?N] `)`
-
-AtomEscape[U, N]:
-  DecimalEscape
-  CharacterClassEscape[?U]
-  CharacterEscape[?U]
-  [+N] `k` GroupName[?U]
 
 AwaitExpression[Yield]:
   `await` UnaryExpression[?Yield, +Await]
@@ -788,36 +1148,6 @@ CatchParameter[Yield, Await]:
   BindingIdentifier[?Yield, ?Await]
   BindingPattern[?Yield, ?Await]
 
-CharacterClass[U]:
-  `[` [lookahead <! {`^`}] ClassRanges[?U] `]`
-  `[` `^` ClassRanges[?U] `]`
-
-CharacterClassEscape[U]:
-  `d`
-  `D`
-  `s`
-  `S`
-  `w`
-  `W`
-  [+U] `p{` UnicodePropertyValueExpression `}`
-  [+U] `P{` UnicodePropertyValueExpression `}`
-
-CharacterEscape[U]:
-  ControlEscape
-  `c` ControlLetter
-  `0` [lookahead <! {DecimalDigit}]
-  HexEscapeSequence
-  RegExpUnicodeEscapeSequence[?U]
-  IdentityEscape[?U]
-
-ClassAtom[U]:
-  `-`
-  ClassAtomNoDash[?U]
-
-ClassAtomNoDash[U]:
-  SourceCharacter but not `\` or `]` or `-`
-  `\` ClassEscape[?U]
-
 ClassBody[Yield, Await]:
   ClassElementList[?Yield, ?Await]
 
@@ -834,21 +1164,11 @@ ClassElementList[Yield, Await]:
   ClassElement[?Yield, ?Await]
   ClassElementList[?Yield, ?Await] ClassElement[?Yield, ?Await]
 
-ClassEscape[U]:
-  `b`
-  [+U] `-`
-  CharacterClassEscape[?U]
-  CharacterEscape[?U]
-
 ClassExpression[Yield, Await]:
   `class` BindingIdentifier[?Yield, ?Await]? ClassTail[?Yield, ?Await]
 
 ClassHeritage[Yield, Await]:
   `extends` LeftHandSideExpression[?Yield, ?Await]
-
-ClassRanges[U]:
-  [empty]
-  NonemptyClassRanges[?U]
 
 ClassTail[Yield, Await]:
   ClassHeritage[?Yield, ?Await]? `{` ClassBody[?Yield, ?Await]? `}`
@@ -875,67 +1195,6 @@ ContinueStatement[Yield, Await]:
   `continue` `;`
   `continue` [no LineTerminator here] LabelIdentifier[?Yield, ?Await] `;`
 
-ControlEscape:
-  `f`
-  `n`
-  `r`
-  `t`
-  `v`
-
-ControlLetter:
-  `a`
-  `b`
-  `c`
-  `d`
-  `e`
-  `f`
-  `g`
-  `h`
-  `i`
-  `j`
-  `k`
-  `l`
-  `m`
-  `n`
-  `o`
-  `p`
-  `q`
-  `r`
-  `s`
-  `t`
-  `u`
-  `v`
-  `w`
-  `x`
-  `y`
-  `z`
-  `A`
-  `B`
-  `C`
-  `D`
-  `E`
-  `F`
-  `G`
-  `H`
-  `I`
-  `J`
-  `K`
-  `L`
-  `M`
-  `N`
-  `O`
-  `P`
-  `Q`
-  `R`
-  `S`
-  `T`
-  `U`
-  `V`
-  `W`
-  `X`
-  `Y`
-  `Z`
-
 CoverCallExpressionAndAsyncArrowHead[Yield, Await]:
   MemberExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
 
@@ -954,9 +1213,6 @@ CoverParenthesizedExpressionAndArrowParameterList[Yield, Await]:
 DebuggerStatement:
   `debugger` `;`
 
-DecimalEscape:
-  NonZeroDigit DecimalDigits[~Sep]? [lookahead <! {DecimalDigit}]
-
 Declaration[Yield, Await]:
   HoistableDeclaration[?Yield, ?Await, ~Default]
   ClassDeclaration[?Yield, ?Await, ~Default]
@@ -967,10 +1223,6 @@ DefaultClause[Yield, Await, Return]:
 
 DestructuringAssignmentTarget[Yield, Await]:
   LeftHandSideExpression[?Yield, ?Await]
-
-Disjunction[U, N]:
-  Alternative[?U, ?N]
-  Alternative[?U, ?N] `|` Disjunction[?U, ?N]
 
 DoWhileStatement[Yield, Await, Return]:
   `do` Statement[?Yield, ?Await, ?Return] `while` `(` Expression[+In, ?Yield, ?Await] `)` `;`
@@ -1103,22 +1355,6 @@ GeneratorExpression:
 GeneratorMethod[Yield, Await]:
   `*` PropertyName[?Yield, ?Await] `(` UniqueFormalParameters[+Yield, ~Await] `)` `{` GeneratorBody `}`
 
-GroupName[U]:
-  `<` RegExpIdentifierName[?U] `>`
-
-GroupSpecifier[U]:
-  [empty]
-  `?` GroupName[?U]
-
-HexLeadSurrogate:
-  <HexLeadSurrogate>
-
-HexNonSurrogate:
-  <HexNonSurrogate>
-
-HexTrailSurrogate:
-  <HexTrailSurrogate>
-
 HoistableDeclaration[Yield, Await, Default]:
   FunctionDeclaration[?Yield, ?Await, ?Default]
   GeneratorDeclaration[?Yield, ?Await, ?Default]
@@ -1132,11 +1368,6 @@ IdentifierReference[Yield, Await]:
   Identifier
   [~Yield] `yield`
   [~Await] `await`
-
-IdentityEscape[U]:
-  [+U] SyntaxCharacter
-  [+U] `/`
-  [~U] SourceCharacter but not UnicodeIDContinue
 
 IfStatement[Yield, Await, Return]:
   `if` `(` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] `else` Statement[?Yield, ?Await, ?Return]
@@ -1229,9 +1460,6 @@ LogicalORExpression[In, Yield, Await]:
   LogicalANDExpression[?In, ?Yield, ?Await]
   LogicalORExpression[?In, ?Yield, ?Await] `||` LogicalANDExpression[?In, ?Yield, ?Await]
 
-LoneUnicodePropertyNameOrValue:
-  UnicodePropertyValueCharacters
-
 MemberExpression[Yield, Await]:
   PrimaryExpression[?Yield, ?Await]
   MemberExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
@@ -1300,16 +1528,6 @@ NewExpression[Yield, Await]:
 NewTarget:
   `new` `.` `target`
 
-NonemptyClassRanges[U]:
-  ClassAtom[?U]
-  ClassAtom[?U] NonemptyClassRangesNoDash[?U]
-  ClassAtom[?U] `-` ClassAtom[?U] ClassRanges[?U]
-
-NonemptyClassRangesNoDash[U]:
-  ClassAtom[?U]
-  ClassAtomNoDash[?U] NonemptyClassRangesNoDash[?U]
-  ClassAtomNoDash[?U] `-` ClassAtom[?U] ClassRanges[?U]
-
 ObjectAssignmentPattern[Yield, Await]:
   `{` `}`
   `{` AssignmentRestProperty[?Yield, ?Await] `}`
@@ -1345,12 +1563,6 @@ OptionalExpression[Yield, Await]:
 ParenthesizedExpression[Yield, Await]:
   `(` Expression[+In, ?Yield, ?Await] `)`
 
-Pattern[U, N]:
-  Disjunction[?U, ?N]
-
-PatternCharacter:
-  SourceCharacter but not SyntaxCharacter
-
 PrimaryExpression[Yield, Await]:
   `this`
   IdentifierReference[?Yield, ?Await]
@@ -1383,45 +1595,6 @@ PropertyName[Yield, Await]:
 
 PropertySetParameterList:
   FormalParameter[~Yield, ~Await]
-
-Quantifier:
-  QuantifierPrefix
-  QuantifierPrefix `?`
-
-QuantifierPrefix:
-  `*`
-  `+`
-  `?`
-  `{` DecimalDigits[~Sep] `}`
-  `{` DecimalDigits[~Sep] `,` `}`
-  `{` DecimalDigits[~Sep] `,` DecimalDigits[~Sep] `}`
-
-RegExpIdentifierName[U]:
-  RegExpIdentifierStart[?U]
-  RegExpIdentifierName[?U] RegExpIdentifierPart[?U]
-
-RegExpIdentifierPart[U]:
-  UnicodeIDContinue
-  `$`
-  `\` RegExpUnicodeEscapeSequence[+U]
-  [~U] UnicodeLeadSurrogate UnicodeTrailSurrogate
-  <ZWNJ>
-  <ZWJ>
-
-RegExpIdentifierStart[U]:
-  UnicodeIDStart
-  `$`
-  `_`
-  `\` RegExpUnicodeEscapeSequence[+U]
-  [~U] UnicodeLeadSurrogate UnicodeTrailSurrogate
-
-RegExpUnicodeEscapeSequence[U]:
-  [+U] `u` HexLeadSurrogate `\u` HexTrailSurrogate
-  [+U] `u` HexLeadSurrogate
-  [+U] `u` HexTrailSurrogate
-  [+U] `u` HexNonSurrogate
-  [~U] `u` Hex4Digits
-  [+U] `u{` CodePoint `}`
 
 RelationalExpression[In, Yield, Await]:
   ShiftExpression[?Yield, ?Await]
@@ -1482,32 +1655,6 @@ StatementListItem[Yield, Await, Return]:
   Statement[?Yield, ?Await, ?Return]
   Declaration[?Yield, ?Await]
 
-StrDecimalLiteral:
-  StrUnsignedDecimalLiteral
-  `+` StrUnsignedDecimalLiteral
-  `-` StrUnsignedDecimalLiteral
-
-StrNumericLiteral:
-  StrDecimalLiteral
-  NonDecimalIntegerLiteral[~Sep]
-
-StrUnsignedDecimalLiteral:
-  `Infinity`
-  DecimalDigits[~Sep] `.` DecimalDigits[~Sep]? ExponentPart[~Sep]?
-  `.` DecimalDigits[~Sep] ExponentPart[~Sep]?
-  DecimalDigits[~Sep] ExponentPart[~Sep]?
-
-StrWhiteSpace:
-  StrWhiteSpaceChar StrWhiteSpace?
-
-StrWhiteSpaceChar:
-  WhiteSpace
-  LineTerminator
-
-StringNumericLiteral:
-  StrWhiteSpace?
-  StrWhiteSpace? StrNumericLiteral StrWhiteSpace?
-
 SubstitutionTemplate[Yield, Await, Tagged]:
   TemplateHead Expression[+In, ?Yield, ?Await] TemplateSpans[?Yield, ?Await, ?Tagged]
 
@@ -1521,22 +1668,6 @@ SuperProperty[Yield, Await]:
 SwitchStatement[Yield, Await, Return]:
   `switch` `(` Expression[+In, ?Yield, ?Await] `)` CaseBlock[?Yield, ?Await, ?Return]
 
-SyntaxCharacter:
-  `^`
-  `$`
-  `\`
-  `.`
-  `*`
-  `+`
-  `?`
-  `(`
-  `)`
-  `[`
-  `]`
-  `{`
-  `}`
-  `|`
-
 TemplateLiteral[Yield, Await, Tagged]:
   NoSubstitutionTemplate
   SubstitutionTemplate[?Yield, ?Await, ?Tagged]
@@ -1548,11 +1679,6 @@ TemplateMiddleList[Yield, Await, Tagged]:
 TemplateSpans[Yield, Await, Tagged]:
   TemplateTail
   TemplateMiddleList[?Yield, ?Await, ?Tagged] TemplateTail
-
-Term[U, N]:
-  Assertion[?U, ?N]
-  Atom[?U, ?N]
-  Atom[?U, ?N] Quantifier
 
 ThrowStatement[Yield, Await]:
   `throw` [no LineTerminator here] Expression[+In, ?Yield, ?Await] `;`
@@ -1572,36 +1698,6 @@ UnaryExpression[Yield, Await]:
   `~` UnaryExpression[?Yield, ?Await]
   `!` UnaryExpression[?Yield, ?Await]
   [+Await] AwaitExpression[?Yield]
-
-UnicodeLeadSurrogate:
-  <UnicodeAny>
-
-UnicodePropertyName:
-  UnicodePropertyNameCharacters
-
-UnicodePropertyNameCharacter:
-  ControlLetter
-  `_`
-
-UnicodePropertyNameCharacters:
-  UnicodePropertyNameCharacter UnicodePropertyNameCharacters?
-
-UnicodePropertyValue:
-  UnicodePropertyValueCharacters
-
-UnicodePropertyValueCharacter:
-  UnicodePropertyNameCharacter
-  DecimalDigit
-
-UnicodePropertyValueCharacters:
-  UnicodePropertyValueCharacter UnicodePropertyValueCharacters?
-
-UnicodePropertyValueExpression:
-  UnicodePropertyName `=` UnicodePropertyValue
-  LoneUnicodePropertyNameOrValue
-
-UnicodeTrailSurrogate:
-  <UnicodeAny>
 
 UniqueFormalParameters[Yield, Await]:
   FormalParameters[?Yield, ?Await]
@@ -1634,99 +1730,3 @@ YieldExpression[In, Await]:
   `yield`
   `yield` [no LineTerminator here] AssignmentExpression[?In, +Yield, ?Await]
   `yield` [no LineTerminator here] `*` AssignmentExpression[?In, +Yield, ?Await]
-
-uri:
-  uriCharacters?
-
-uriAlpha:
-  `a`
-  `b`
-  `c`
-  `d`
-  `e`
-  `f`
-  `g`
-  `h`
-  `i`
-  `j`
-  `k`
-  `l`
-  `m`
-  `n`
-  `o`
-  `p`
-  `q`
-  `r`
-  `s`
-  `t`
-  `u`
-  `v`
-  `w`
-  `x`
-  `y`
-  `z`
-  `A`
-  `B`
-  `C`
-  `D`
-  `E`
-  `F`
-  `G`
-  `H`
-  `I`
-  `J`
-  `K`
-  `L`
-  `M`
-  `N`
-  `O`
-  `P`
-  `Q`
-  `R`
-  `S`
-  `T`
-  `U`
-  `V`
-  `W`
-  `X`
-  `Y`
-  `Z`
-
-uriCharacter:
-  uriReserved
-  uriUnescaped
-  uriEscaped
-
-uriCharacters:
-  uriCharacter uriCharacters?
-
-uriEscaped:
-  `%` HexDigit HexDigit
-
-uriMark:
-  `-`
-  `_`
-  `.`
-  `!`
-  `~`
-  `*`
-  `'`
-  `(`
-  `)`
-
-uriReserved:
-  `;`
-  `/`
-  `?`
-  `:`
-  `@`
-  `&`
-  `=`
-  `+`
-  `$`
-  `,`
-
-uriUnescaped:
-  uriAlpha
-  DecimalDigit
-  uriMark

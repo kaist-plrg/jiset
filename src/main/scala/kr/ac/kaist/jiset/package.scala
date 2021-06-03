@@ -43,6 +43,9 @@ package object jiset {
   // Logging mode
   var LOG: Boolean = false
 
+  // triple double quations marks
+  val TRIPLE = "\"\"\""
+
   // Test mode
   var TEST_MODE: Boolean = false
 }

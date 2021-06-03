@@ -11,7 +11,7 @@ import kr.ac.kaist.jiset.util._
 // Parse phase
 case object Parse extends PhaseObj[Unit, ParseConfig, ECMAScript] {
   val name = "parse"
-  val help = "Parses spec.html to an ECMAScript object"
+  val help = "parse spec.html to an ECMAScript object"
 
   def apply(
     unit: Unit,

@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.parser
 
-import kr.ac.kaist.jiset.ir.IRParser
+import kr.ac.kaist.jiset.ir.{ Id, IRParser, UnitWalker }
 import kr.ac.kaist.jiset.parser.algorithm.{ AlgoParser, HeadParser }
 import kr.ac.kaist.jiset.parser.grammar.GrammarParser
 import kr.ac.kaist.jiset.spec._
@@ -38,19 +38,16 @@ object ECMAScriptParser {
       else getElems(document, query).toList.flatMap(parseAlgo(version, _, detail))
     ) ++ manualAlgos(version)
 
-    // intrinsic object names
-    val intrinsics = parseIntrinsic
-
-    // well-known symbols
-    val symbols = parseSymbol
-
-    // get aoids
+    // special names
+    var (consts, intrinsics, symbols) = getNames(algos)
+    intrinsics ++= parseIntrinsic
+    symbols ++= parseSymbol
     val aoids = parseAoids
 
     // section hierarchy
     val section = parseSection
 
-    ECMAScript(grammar, algos, intrinsics, symbols, aoids, section)
+    ECMAScript(grammar, algos, consts, intrinsics, symbols, aoids, section)
   }
   ////////////////////////////////////////////////////////////////////////////////
   // helper
@@ -269,4 +266,28 @@ object ECMAScriptParser {
     filename = file.toString
     if irFilter(filename)
   } yield IRParser.parseAlgo(readFile(file.toString))
+
+  // get special names
+  private val constPattern = "CONST_(.*)".r
+  private val intrinsicPattern = "INTRINSIC_(.*)".r
+  private val symbolPattern = "SYMBOL_(.*)".r
+  def getNames(algos: List[Algo]): (Set[String], Set[String], Set[String]) = {
+    var consts: Set[String] = Set()
+    var intrinsics: Set[String] = Set()
+    var symbols: Set[String] = Set()
+    object ConstExtractor extends UnitWalker {
+      override def walk(id: Id) = id.name match {
+        case constPattern(name) => consts += name
+        case intrinsicPattern(name) => intrinsics += name
+        case symbolPattern(name) => symbols += name
+        case _ =>
+      }
+    }
+    for (algo <- algos) ConstExtractor.walk(algo.rawBody)
+    (
+      consts,
+      intrinsics,
+      symbols
+    )
+  }
 }

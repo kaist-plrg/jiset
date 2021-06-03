@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
+import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.ir._
 
 // IR Beautifier
@@ -89,7 +90,7 @@ class Beautifier(
       case ENum(n) => app >> s"$n"
       case EINum(n) => app >> s"${n}i"
       case EBigINum(b) => app >> s"${b}n"
-      case EStr(str) => app >> "\"" + norm(str) + "\""
+      case EStr(str) => app >> "\"" + normStr(str) + "\""
       case EBool(b) => app >> s"$b"
       case EUndef => app >> "undefined"
       case ENull => app >> "null"
@@ -130,7 +131,7 @@ class Beautifier(
         app >> "[" >> (if (check) "?" else "!") >> " " >> expr >> "]"
       case ECopy(obj) => app >> "(copy-obj " >> obj >> ")"
       case EKeys(obj) => app >> "(map-keys " >> obj >> ")"
-      case ENotSupported(msg) => app >> "??? \"" >> norm(msg) >> "\""
+      case ENotSupported(msg) => app >> "??? \"" >> normStr(msg) >> "\""
     }
   }
 

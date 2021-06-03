@@ -59,6 +59,7 @@ object JISET {
   val commands: List[Command] = List(
     CmdHelp,
     CmdParse,
+    CmdGenModel,
     CmdCompileREPL,
     CmdGenTest,
   )
@@ -70,6 +71,7 @@ object JISET {
   var phases: List[Phase] = List(
     Help,
     Parse,
+    GenModel,
     CompileREPL,
     GenTest,
   )

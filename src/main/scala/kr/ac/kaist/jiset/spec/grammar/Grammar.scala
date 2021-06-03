@@ -115,4 +115,58 @@ object Grammar {
     "AssignmentRestElement",
     "DestructuringAssignmentTarget"
   )
+
+  // check external syntax
+  def isExtNT(name: String): Boolean = isRegExpNT(name) || isUriNT(name)
+
+  // check RegExp syntax
+  def isRegExpNT(name: String): Boolean = regExpLhsNames contains name
+  private val regExpLhsNames: Set[String] = Set(
+    "Alternative",
+    "Assertion",
+    "Atom",
+    "AtomEscape",
+    "CharacterClass",
+    "CharacterClassEscape",
+    "CharacterEscape",
+    "ClassAtom",
+    "ClassAtomNoDash",
+    "ClassEscape",
+    "ClassRanges",
+    "ControlEscape",
+    "ControlLetter",
+    "DecimalEscape",
+    "Disjunction",
+    "GroupName",
+    "GroupSpecifier",
+    "HexLeadSurrogate",
+    "HexNonSurrogate",
+    "HexTrailSurrogate",
+    "IdentityEscape",
+    "LoneUnicodePropertyNameOrValue",
+    "NonemptyClassRanges",
+    "NonemptyClassRangesNoDash",
+    "Pattern",
+    "PatternCharacter",
+    "Quantifier",
+    "QuantifierPrefix",
+    "RegExpIdentifierName",
+    "RegExpIdentifierPart",
+    "RegExpIdentifierStart",
+    "RegExpUnicodeEscapeSequence",
+    "SyntaxCharacter",
+    "Term",
+    "UnicodeLeadSurrogate",
+    "UnicodePropertyName",
+    "UnicodePropertyNameCharacter",
+    "UnicodePropertyNameCharacters",
+    "UnicodePropertyValue",
+    "UnicodePropertyValueCharacter",
+    "UnicodePropertyValueCharacters",
+    "UnicodePropertyValueExpression",
+    "UnicodeTrailSurrogate",
+  )
+
+  // check uri syntax
+  def isUriNT(name: String): Boolean = name startsWith "uri"
 }

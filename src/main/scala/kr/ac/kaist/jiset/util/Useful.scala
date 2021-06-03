@@ -277,4 +277,9 @@ object Useful {
   // get raw version
   def getRawVersion(version: String): String =
     if (version == "recent") RECENT_VERSION else version
+
+  // normalize strings
+  def normStr(str: String): String =
+    str.replace("\\", "\\\\").replace("\"", "\\\"")
+      .replace("\n", "\\n").replace("\b", "\\b")
 }

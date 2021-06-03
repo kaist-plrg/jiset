@@ -162,6 +162,6 @@ object JsonProtocol extends BasicJsonProtocol {
   //////////////////////////////////////////////////////////////////////////////
   implicit lazy val ECMAScriptFormat = jsonFormat(
     ECMAScript.apply,
-    "grammar", "algos", "intrinsics", "symbols", "aoids", "section"
+    "grammar", "algos", "consts", "intrinsics", "symbols", "aoids", "section"
   )
 }

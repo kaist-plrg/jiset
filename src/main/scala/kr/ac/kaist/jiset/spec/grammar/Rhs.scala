@@ -60,9 +60,20 @@ case class Rhs(
     val tokensStr = tokens.mkString(" ")
     s"$condStr$tokensStr"
   }
+
+  // conversion to Scala code
+  def toScala: String = (
+    s"""Rhs(""" +
+    s"""List(${tokens.map(_.toScala).mkString(", ")}), """ +
+    s"""${condOpt.map(_.toScala)}""" +
+    s""")"""
+  )
 }
 
 case class RhsCond(name: String, pass: Boolean) {
   // conversion to string
   override def toString: String = s"${if (pass) "" else "!"}p$name"
+
+  // conversion to Scala code
+  def toScala: String = s"""RhsCond("$name", $pass)"""
 }

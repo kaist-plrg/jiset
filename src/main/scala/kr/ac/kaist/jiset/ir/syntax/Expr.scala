@@ -1,5 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
+import kr.ac.kaist.jiset.TRIPLE
+
 // IR Expressions
 sealed trait Expr extends IRNode
 

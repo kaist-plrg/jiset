@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.jiset.parser.ECMAScriptParser
-import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.InfNum
@@ -10,6 +9,7 @@ import kr.ac.kaist.jiset.util.InfNum
 case class ECMAScript(
   grammar: Grammar,
   algos: List[Algo],
+  consts: Set[String],
   intrinsics: Set[String],
   symbols: Set[String],
   aoids: Set[String],
@@ -105,5 +105,4 @@ object ECMAScript {
     "REALM",
     "PRIMITIVE"
   ) ++ PREDEF_FUNC.keySet
-
 }

@@ -13,10 +13,15 @@ object GrammarParser {
     document: Document
   ): Grammar = {
     // get lexical grammar list
-    val lexElem = document.getElementById("sec-lexical-grammar")
-    val lexProdElems = lexElem
+    val lexElems = List(
+      document.getElementById("sec-lexical-grammar"),
+      document.getElementById("sec-number-conversions"),
+      document.getElementById("sec-universal-resource-identifier-character-classes"),
+      document.getElementById("sec-regular-expressions"),
+    )
+    val lexProdElems = lexElems.map(_
       .getElementsByTag("emu-prodref")
-      .toArray(Array[Element]())
+      .toArray(Array[Element]())).flatten
     val lexNames = lexProdElems.toList.map(_.attributes().get("name"))
 
     // codes for `emu-grammar` tagges elements
