@@ -73,7 +73,7 @@ lazy val jiset = (project in file("."))
     parseTest := (testOnly in Test).toTask(" *.parse.*Test").value,
     parseTokenTest := (testOnly in Test).toTask(" *.parse.Token*Test").value,
 		parseJsonTest := (testOnly in Test).toTask(" *.parse.Json*Test").value,
-    // gramamr
+    // grammar
     grammarTest := (testOnly in Test).toTask(" *.grammar.*Test").value,
     grammarBasicTest := (testOnly in Test).toTask(" *.grammar.Basic*Test").value,
     // compile
