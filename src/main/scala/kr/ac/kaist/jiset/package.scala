@@ -23,10 +23,14 @@ package object jiset {
   // Tests directory root
   val TEST_DIR = s"$BASE_DIR/tests"
   val COMPILE_DIR = s"$TEST_DIR/compile"
+  val CFG_TEST_DIR = s"$TEST_DIR/cfg"
   val BASIC_COMPILE_DIR = s"$COMPILE_DIR/basic"
   val LEGACY_COMPILE_DIR = s"$COMPILE_DIR/legacy"
   val GRAMMAR_DIR = s"$TEST_DIR/grammar"
   val IR_DIR = s"$TEST_DIR/ir"
+
+  // Result directory for CFG
+  val CFG_DIR = s"$BASE_DIR/cfg"
 
   // Current directory root
   val CUR_DIR = System.getProperty("user.dir")

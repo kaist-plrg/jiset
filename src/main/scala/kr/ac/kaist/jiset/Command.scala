@@ -53,6 +53,9 @@ case object CmdParse extends CommandObj("parse", CmdBase >> Parse) {
   }
 }
 
+// build-cfg
+case object CmdBuildCFG extends CommandObj("build-cfg", CmdParse >> BuildCFG)
+
 // gen-model
 case object CmdGenModel extends CommandObj("gen-model", CmdParse >> GenModel)
 
