@@ -22,16 +22,22 @@ case class AlgoGenerator(algos: List[Algo], modelDir: String) {
     nf.println(s"""""")
     nf.println(s"""object `AL::$name` extends Algo {""")
     nf.println(s"""  val head = ${head.toScala}""")
-    nf.println(s"""  val ids = List(""")
-    ids.foreach(id => nf.println(s"""    "$id","""))
-    nf.println(s"""  )""")
+    nf.print(s"""  val ids = """)
+    if (ids.isEmpty) nf.println("List()") else {
+      nf.println("List(")
+      ids.foreach(id => nf.println(s"""    "$id","""))
+      nf.println(s"""  )""")
+    }
     val inst = rawBody.beautified(index = true)
       .split(LINE_SEP)
       .mkString(LINE_SEP + "  |")
     nf.println(s"""  val rawBody = parseInst($TRIPLE$inst$TRIPLE.stripMargin)""")
-    nf.println(s"""  val code = scala.Array[String](""")
-    code.foreach(line => nf.println(s"""    $TRIPLE$line$TRIPLE,"""))
-    nf.println(s"""  )""")
+    nf.print(s"""  val code = """)
+    if (code.isEmpty) nf.println("scala.Array[String]()") else {
+      nf.println("scala.Array[String](")
+      code.foreach(line => nf.println(s"""    $TRIPLE$line$TRIPLE,"""))
+      nf.println(s"""  )""")
+    }
     nf.println(s"""}""")
     nf.close()
   }

@@ -45,11 +45,11 @@ trait TokenParsers extends Parsers {
   // characters
   lazy val character = (
     "<" ~> word <~ ">" ^^ { Unicode(_) } |
-    ".*any.*code point.*".r ^^^ UnicodeAny |
     ".*code point.*ID_Start.*".r ^^^ UnicodeIdStart |
     ".*code point.*ID_Continue.*".r ^^^ UnicodeIdContinue |
     ".*code point.*0xD800 to 0xDBFF.*".r ^^^ UnicodeLeadSurrogate |
     ".*code point.*0xDC00 to 0xDFFF.*".r ^^^ UnicodeTrailSurrogate |
+    ".*any.*code point.*".r ^^^ UnicodeAny |
     ".*HexDigits.*> 0x10FFFF.*".r ^^^ NotCodePoint |
     ".*HexDigits.*≤ 0x10FFFF.*".r ^^^ CodePoint |
     ".*Hex4Digits.*0xD800 to 0xDBFF.*".r ^^^ HexLeadSurrogate |

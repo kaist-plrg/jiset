@@ -69,12 +69,15 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
     nf.println(s"""}""")
     nf.println(s"""object $name$i extends ASTInfo {""")
     nf.println(s"""  val maxK: Int = $maxK""")
-    nf.println(s"""  val semMap: Map[String, Algo] = Map(""")
-    sems.foreach {
-      case (methodName, algoName) =>
-        nf.println(s"""    "$methodName" -> `$algoName`,""")
+    nf.print(s"""  val semMap: Map[String, Algo] = """)
+    if (sems.isEmpty) nf.println("Map()") else {
+      nf.println("Map(")
+      sems.foreach {
+        case (methodName, algoName) =>
+          nf.println(s"""    "$methodName" -> `$algoName`,""")
+      }
+      nf.println(s"""  )""")
     }
-    nf.println(s"""  )""")
     nf.println(s"""}""")
   }
 
