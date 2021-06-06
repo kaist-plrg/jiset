@@ -59,7 +59,7 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
       case (x, t) =>
         nf.println(s"  $x.parent = Some(this)")
     }
-    nf.println(s"""  val name: String = "$name$i"""")
+    nf.println(s"""  val idx: Int = $i""")
     nf.println(s"""  override def toString: String = {""")
     nf.println(s"""    s"$string"""")
     nf.println(s"""  }""")
