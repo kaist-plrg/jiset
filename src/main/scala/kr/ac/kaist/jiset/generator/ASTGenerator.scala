@@ -153,7 +153,8 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
     case NonTerminal(name, _, _) if lexNames contains name => s"""lex("$name", $x)"""
     case NonTerminal(name, _, true) => s"opt($x, $name.apply)"
     case NonTerminal(name, _, false) => s"$name($x)"
-    case ButNot(base, cases) => getConstructor(base, x).get
+    case ButNot(NonTerminal(name, _, _), List(NonTerminal(notName, _, _))) =>
+      s"""lex("($name \\\\ ($notName))", $x)"""
   })
 
   private def getType(token: Token): String = token match {

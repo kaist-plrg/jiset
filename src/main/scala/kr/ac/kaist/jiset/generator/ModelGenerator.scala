@@ -31,6 +31,9 @@ case class ModelGenerator(spec: ECMAScript, modelDir: String) {
   // generate ASTWalker.scala
   WalkerGenerator(grammar, modelDir)
 
+  // generate ASTDiff.scala
+  DiffGenerator(grammar, modelDir)
+
   // generate Model.scala
   genModel
 
