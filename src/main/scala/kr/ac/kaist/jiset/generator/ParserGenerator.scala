@@ -32,6 +32,7 @@ case class ParserGenerator(grammar: Grammar, modelDir: String) {
     nf.println
     nf.println(s"""import $IRES_PACKAGE.ir._""")
     nf.println(s"""import $IRES_PACKAGE.parser.ESParsers""")
+    nf.println(s"""import $IRES_PACKAGE.util.Span""")
     nf.println
     nf.println(s"""object Parser extends ESParsers {""")
     lexProds.filter(isTargetLexer).foreach(genLexer)
@@ -127,10 +128,11 @@ case class ParserGenerator(grammar: Grammar, modelDir: String) {
     })
     val ids = (0 until count).map("x" + _.toString)
     val astName = s"$name$idx"
+    val args = ids ++ List("args", "Span()") // TODO span info
     parser += s"_${ids.map(" ~ " + _).mkString("")} => " + (if (isSub) {
-      s"""((x: $name) => $astName(x, ${ids.map(_ + ", ").mkString("")}args)) }"""
+      s"""((x: $name) => $astName(x, ${args.mkString(", ")})) }"""
     } else {
-      s"""$astName(${ids.map(_ + ", ").mkString("")}args) }"""
+      s"""$astName(${args.mkString(", ")}) }"""
     })
     condOpt.foreach(cond => parser = s"(if ($cond) $parser else MISMATCH)")
     s"""      log($parser)("$astName")"""

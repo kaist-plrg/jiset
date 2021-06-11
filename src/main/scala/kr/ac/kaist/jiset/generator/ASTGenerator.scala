@@ -26,6 +26,7 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
     nf.println
     nf.println(s"""import $IRES_PACKAGE.ir._""")
     nf.println(s"""import $IRES_PACKAGE.error.InvalidAST""")
+    nf.println(s"""import $IRES_PACKAGE.util.Span""")
     nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
     nf.println(s"""import spray.json._""")
     nf.println
@@ -47,8 +48,9 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
       x = s"x$i"
       constructor <- getConstructor(token, x)
     } yield (x, constructor)).unzip
-    val args = (params :+ "params").mkString(", ")
-    nf.println(s"""    case JsSeq(JsInt($i), JsSeq(${xs.mkString(", ")}), JsBoolSeq(params), JsSpan(span)) =>""")
+    val xsStr = xs.mkString(", ")
+    val args = (params ++ List("params", "span")).mkString(", ")
+    nf.println(s"""    case JsSeq(JsInt($i), JsSeq($xsStr), JsBoolSeq(params), JsSpan(span)) =>""")
     nf.println(s"""      $name$i($args)""")
   }
 
@@ -66,8 +68,10 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
     val maxK = params.foldLeft(0) {
       case (k, (_, t)) => if (t.startsWith("Option[")) k * 2 + 1 else k
     }
-    val paramsString = (params :+ ("parserParams", "List[Boolean]"))
-      .map { case (x, t) => s"$x: $t" }.mkString(", ")
+    val paramsString = (params ++ List(
+      ("parserParams", "List[Boolean]"),
+      ("span", "Span"),
+    )).map { case (x, t) => s"$x: $t" }.mkString(", ")
     val sems = getSems(name, i)
 
     nf.println
