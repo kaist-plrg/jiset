@@ -28,6 +28,9 @@ case class ModelGenerator(spec: ECMAScript, modelDir: String) {
   // generate Parser.scala
   ParserGenerator(grammar, modelDir)
 
+  // generate ASTWalker.scala
+  WalkerGenerator(grammar, modelDir)
+
   // generate Model.scala
   genModel
 
