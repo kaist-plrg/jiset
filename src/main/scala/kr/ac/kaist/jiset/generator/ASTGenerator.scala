@@ -15,22 +15,41 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
   for (Production(lhs, rhsList) <- prods if !Grammar.isExtNT(lhs.name)) {
     val name = lhs.name
     val nf = getPrintWriter(s"$modelDir/ast/$name.scala")
-    genTrait(nf, name)
+    genTrait(nf, name, rhsList)
     for ((rhs, i) <- rhsList.zipWithIndex) genClass(nf, name, rhs, i)
     nf.close()
   }
 
   // generate trait for Lhs
-  private def genTrait(nf: PrintWriter, name: String): Unit = {
+  private def genTrait(nf: PrintWriter, name: String, rhsList: List[Rhs]): Unit = {
     nf.println(s"""package $IRES_PACKAGE.model""")
     nf.println
     nf.println(s"""import $IRES_PACKAGE.ir._""")
-    nf.println(s"""import $IRES_PACKAGE.error.UnexpectedSemantics""")
+    nf.println(s"""import $IRES_PACKAGE.error.InvalidAST""")
     nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
+    nf.println(s"""import spray.json._""")
     nf.println
     nf.println(s"""trait $name extends AST {""")
     nf.println(s"""  val kind: String = "$name"""")
     nf.println(s"""}""")
+    nf.println(s"""object $name extends ASTHelper {""")
+    nf.println(s"""  def apply(v: JsValue): $name = v match {""")
+    for ((rhs, i) <- rhsList.zipWithIndex) genFromJsonCase(nf, name, rhs, i)
+    nf.println(s"""    case _ => throw InvalidAST""")
+    nf.println(s"""  }""")
+    nf.println(s"""}""")
+  }
+
+  // generate fromJson cases
+  private def genFromJsonCase(nf: PrintWriter, name: String, rhs: Rhs, i: Int): Unit = {
+    val (xs, params) = (for {
+      (token, i) <- rhs.tokens.zipWithIndex
+      x = s"x$i"
+      constructor <- getConstructor(token, x)
+    } yield (x, constructor)).unzip
+    val args = (params :+ "params").mkString(", ")
+    nf.println(s"""    case JsSeq(JsInt($i), JsSeq(${xs.mkString(", ")}), JsBoolSeq(params), JsSpan(span)) =>""")
+    nf.println(s"""      $name$i($args)""")
   }
 
   // generate case classes for Rhs
@@ -125,6 +144,13 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
     (token, i) <- rhs.tokens.zipWithIndex
     paramType = getType(token)
   } yield if (lexNames contains paramType) "Lexical" else paramType
+
+  private def getConstructor(token: Token, x: String): Option[String] = optional(token match {
+    case NonTerminal(name, _, _) if lexNames contains name => s"""lex("$name", $x)"""
+    case NonTerminal(name, _, true) => s"opt($x, $name.apply)"
+    case NonTerminal(name, _, false) => s"$name($x)"
+    case ButNot(base, cases) => getConstructor(base, x).get
+  })
 
   private def getType(token: Token): String = token match {
     case NonTerminal(name, _, optional) => if (optional) s"Option[$name]" else name
