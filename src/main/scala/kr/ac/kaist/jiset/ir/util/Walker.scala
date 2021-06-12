@@ -58,7 +58,6 @@ trait Walker {
       case IAccess(id, bexpr, expr, args) =>
         IAccess(walk(id), walk(bexpr), walk(expr), walkList[Expr](args, walk))
       case IWithCont(id, params, body) => IWithCont(walk(id), walkList[Id](params, walk), walk(body))
-      case ISetType(expr, ty) => ISetType(walk(expr), walk(ty))
     }
     newInst.line = inst.line
     newInst

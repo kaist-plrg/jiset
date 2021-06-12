@@ -86,8 +86,6 @@ class Diff {
         compare(li, ri) && compare(lb, rb) && compare(le, re) && compare(la, ra)
       case (IWithCont(li, lp, lb), IWithCont(ri, rp, rb)) =>
         compare(li, ri) && compare(lp, rp) && compare(lb, rb)
-      case (ISetType(le, lt), ISetType(re, rt)) =>
-        compare(le, re) && compare(lt, rt)
       case (_, ISeq(ri)) => ri.forall {
         case IExpr(ENotSupported(_)) => true
         case _ => fail(answer, stop)

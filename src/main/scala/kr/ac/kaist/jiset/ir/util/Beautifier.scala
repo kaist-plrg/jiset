@@ -75,7 +75,6 @@ class Beautifier(
         implicit val d = DetailInstApp
         implicit val l = ListApp[Id]("(", ", ", ")")
         app >> "withcont " >> id >> " " >> params >> " = " >> inst
-      case ISetType(expr, ty) => app >> "set-type " >> expr >> " " >> ty
     }
   }
 

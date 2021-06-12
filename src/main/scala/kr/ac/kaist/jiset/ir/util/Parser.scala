@@ -64,7 +64,6 @@ trait Parser extends JavaTokenParsers with RegexParsers {
     ("let " ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
     callInst |
     ("withcont " ~> id) ~ ("(" ~> repsep(id, ",") <~ ")" <~ "=") ~ inst ^^ { case x ~ ps ~ b => IWithCont(x, ps, b) } |
-    ("set-type " ~> expr ~ ty) ^^ { case e ~ t => ISetType(e, t) } |
     (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
     expr ^^ { case e => IExpr(e) }
   ) ^^ { case k ~ i => i.line = k.fold(-1)(_.toInt); i }

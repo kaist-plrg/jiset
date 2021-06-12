@@ -26,7 +26,6 @@ case class IThrow(name: String) extends NormalInst { var asite: Int = -1 }
 case class IAssert(expr: Expr) extends NormalInst
 case class IPrint(expr: Expr) extends NormalInst
 case class IWithCont(id: Id, params: List[Id], bodyInst: Inst) extends NormalInst
-case class ISetType(expr: Expr, ty: Ty) extends NormalInst
 
 // sequence instructions
 case class ISeq(insts: List[Inst]) extends Inst

@@ -58,7 +58,6 @@ class BeautifierTinyTest extends IRTest {
         "access x = (\"b\" 3.0 \"x\" null)",
       IWithCont(Id("x"), IdList, IRReturn) ->
         s"withcont x $SIdList = $SReturn",
-      ISetType(EINum(4), Ty("T")) -> "set-type 4i T"
     )
     test("Expr")(
       ENum(3.0) -> "3.0",
