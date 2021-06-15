@@ -15,6 +15,8 @@ case class WalkerGenerator(grammar: Grammar, modelDir: String) {
   private def generate: Unit = {
     nf.println(s"""package $IRES_PACKAGE.model""")
     nf.println
+    nf.println(s"""import $IRES_PACKAGE.ast._""")
+    nf.println
     nf.println(s"""object ASTWalker {""")
     nf.println(s"""  def job(ast: AST): Unit = {}""")
     nf.println(s"""  def walk[T](opt: Option[T], w: T => Unit): Unit = opt.map(w)""")

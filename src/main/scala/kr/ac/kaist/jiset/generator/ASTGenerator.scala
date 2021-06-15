@@ -24,6 +24,8 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
   private def genTrait(nf: PrintWriter, name: String, rhsList: List[Rhs]): Unit = {
     nf.println(s"""package $IRES_PACKAGE.model""")
     nf.println
+    nf.println(s"""import $IRES_PACKAGE.ast._""")
+    nf.println(s"""import $IRES_PACKAGE.algorithm._""")
     nf.println(s"""import $IRES_PACKAGE.ir._""")
     nf.println(s"""import $IRES_PACKAGE.error.InvalidAST""")
     nf.println(s"""import $IRES_PACKAGE.util.Span""")

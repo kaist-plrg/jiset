@@ -40,11 +40,13 @@ case class ModelGenerator(spec: ECMAScript, modelDir: String) {
   private def genModel: Unit = {
     val nf = getPrintWriter(s"$modelDir/Model.scala")
     nf.println(s"""package $IRES_PACKAGE.model""")
-    nf.println(s"""""")
+    nf.println
+    nf.println(s"""import $IRES_PACKAGE.algorithm._""")
+    nf.println(s"""import $IRES_PACKAGE.ModelTrait""")
     nf.println(s"""import $IRES_PACKAGE.ir._""")
     nf.println(s"""import $IRES_PACKAGE.util.Useful._""")
-    nf.println(s"""""")
-    nf.println(s"""object Model extends ModelHelper {""")
+    nf.println
+    nf.println(s"""object Model extends ModelTrait {""")
     nf.println(s"""  lazy val consts: List[String] = List(""")
     consts.foreach(const => nf.println(s"""    "$const","""))
     nf.println(s"""  )""")

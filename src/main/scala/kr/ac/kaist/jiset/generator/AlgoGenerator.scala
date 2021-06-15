@@ -15,11 +15,13 @@ case class AlgoGenerator(algos: List[Algo], modelDir: String) {
 
     val nf = getPrintWriter(s"$modelDir/algorithm/$name.scala")
     nf.println(s"""package $IRES_PACKAGE.model""")
-    nf.println(s"""""")
+    nf.println
+    nf.println(s"""import $IRES_PACKAGE.algorithm._""")
+    nf.println(s"""import $IRES_PACKAGE.grammar._""")
     nf.println(s"""import $IRES_PACKAGE.ir._""")
     nf.println(s"""import $IRES_PACKAGE.ir.Parser._""")
     nf.println(s"""import Param.Kind._""")
-    nf.println(s"""""")
+    nf.println
     nf.println(s"""object `AL::$name` extends Algo {""")
     nf.println(s"""  val head = ${head.toScala}""")
     nf.print(s"""  val ids = """)

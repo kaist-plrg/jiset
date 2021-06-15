@@ -30,6 +30,7 @@ case class ParserGenerator(grammar: Grammar, modelDir: String) {
   private def generate: Unit = {
     nf.println(s"""package $IRES_PACKAGE.model""")
     nf.println
+    nf.println(s"""import $IRES_PACKAGE.ast._""")
     nf.println(s"""import $IRES_PACKAGE.ir._""")
     nf.println(s"""import $IRES_PACKAGE.parser.ESParsers""")
     nf.println(s"""import $IRES_PACKAGE.util.Span""")
