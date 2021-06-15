@@ -48,16 +48,16 @@ case class ModelGenerator(spec: ECMAScript, modelDir: String) {
     nf.println
     nf.println(s"""object Model extends ModelTrait {""")
     nf.println(s"""  lazy val consts: List[String] = List(""")
-    consts.foreach(const => nf.println(s"""    "$const","""))
+    consts.toList.sorted.foreach(const => nf.println(s"""    "$const","""))
     nf.println(s"""  )""")
     nf.println(s"""  lazy val intrinsics: List[String] = List(""")
-    intrinsics.foreach(intrinsic => nf.println(s"""    "$intrinsic","""))
+    intrinsics.toList.sorted.foreach(intrinsic => nf.println(s"""    "$intrinsic","""))
     nf.println(s"""  )""")
     nf.println(s"""  lazy val symbols: List[String] = List(""")
-    symbols.foreach(symbol => nf.println(s"""    "$symbol","""))
+    symbols.toList.sorted.foreach(symbol => nf.println(s"""    "$symbol","""))
     nf.println(s"""  )""")
     nf.println(s"""  lazy val algos: Map[String, Algo] = Map(""")
-    for (algo <- targetAlgos) {
+    for (algo <- targetAlgos.sortBy(_.name)) {
       val name = algo.name
       nf.println(s"""    "$name" -> `AL::$name`,""")
     }
