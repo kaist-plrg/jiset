@@ -78,7 +78,7 @@ trait Parser extends JavaTokenParsers with RegexParsers {
   ) ^^ { case k ~ i => i.csite = k.fold(-1)(_.toInt); i }
 
   // expressions
-  lazy private val expr: Parser[Expr] = opt("(" ~> integer <~ ")") ~ (
+  lazy protected val expr: Parser[Expr] = opt("(" ~> integer <~ ")") ~ (
     ref ^^ { ERef(_) } |
     s"${integer}i".r ^^ { case s => EINum(s.dropRight(1).toLong) } |
     s"${integer}n".r ^^ { case s => EBigINum(BigInt(s.dropRight(1).toLong)) } |
@@ -131,37 +131,37 @@ trait Parser extends JavaTokenParsers with RegexParsers {
     }
 
   // properties
-  lazy private val prop: Parser[(Expr, Expr)] =
+  lazy protected val prop: Parser[(Expr, Expr)] =
     (expr <~ "->") ~ expr ^^ { case k ~ v => (k, v) }
 
   // references
-  lazy private val ref: Parser[Ref] = {
+  lazy protected val ref: Parser[Ref] = {
     id ~ rep(propExpr) ^^ {
       case x ~ es => es.foldLeft[Ref](RefId(x)) {
         case (ref, expr) => RefProp(ref, expr)
       }
     }
   }
-  lazy private val propExpr: Parser[Expr] =
+  lazy protected val propExpr: Parser[Expr] =
     "." ~> ident ^^ { case x => EStr(x) } | "[" ~> expr <~ "]"
 
   // types
-  lazy private val ty: Parser[Ty] = ident ^^ { Ty(_) }
+  lazy protected val ty: Parser[Ty] = ident ^^ { Ty(_) }
 
   // identifiers
-  lazy private val id: Parser[Id] = ident.withFilter(s => !(keywords contains s)) ^^ { Id(_) }
-  private val keywords: Set[String] = Set(
+  lazy protected val id: Parser[Id] = ident.withFilter(s => !(keywords contains s)) ^^ { Id(_) }
+  protected val keywords: Set[String] = Set(
     "Infinity", "NaN", "true", "false", "undefined", "null", "absent",
     "typeof", /*"new",*/ "pop", "is-instance-of", "get-syntax", "contains"
   )
 
   // unary operators
-  lazy private val uop: Parser[UOp] = {
+  lazy protected val uop: Parser[UOp] = {
     "-" ^^^ ONeg | "!" ^^^ ONot | "~" ^^^ OBNot
   }
 
   // binary operators
-  lazy private val bop: Parser[BOp] = (
+  lazy protected val bop: Parser[BOp] = (
     "+" ^^^ OPlus |
     "-" ^^^ OSub |
     "**" ^^^ OPow |
@@ -184,7 +184,7 @@ trait Parser extends JavaTokenParsers with RegexParsers {
   )
 
   // convert operators
-  lazy private val cop: Parser[COp] = (
+  lazy protected val cop: Parser[COp] = (
     "str2num" ^^^ CStrToNum |
     "str2bigint" ^^^ CStrToBigInt |
     "num2str" ^^^ CNumToStr |

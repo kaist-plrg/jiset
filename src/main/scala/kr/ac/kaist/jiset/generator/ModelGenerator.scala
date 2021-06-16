@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 
-case class ModelGenerator(spec: ECMAScript, modelDir: String) {
+case class ModelGenerator(spec: ECMAScript, modelDir: String, parser: Boolean) {
   // make model directories
   mkdir(modelDir)
   mkdir(s"$modelDir/ast")
@@ -26,7 +26,7 @@ case class ModelGenerator(spec: ECMAScript, modelDir: String) {
   ASTGenerator(targetAlgos, grammar, modelDir)
 
   // generate Parser.scala
-  ParserGenerator(grammar, modelDir)
+  if (parser) ParserGenerator(grammar, modelDir)
 
   // generate ASTWalker.scala
   WalkerGenerator(grammar, modelDir)

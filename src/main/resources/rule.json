@@ -254,5 +254,33 @@
   {
     "tokens": "Perform ! DefinePropertyOrThrow ( id:{obj} , @ @ iterator , PropertyDescriptor { [ [ Value ] ] : % ArrayProto _ values % , [ [ Writable ] ] : value:{true} , [ [ Enumerable ] ] : value:{false} , [ [ Configurable ] ] : value:{true} } ) .",
     "inst": "app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor(\"Value\" -> INTRINSIC_Array_prototype_values, \"Writable\" -> true, \"Enumerable\" -> false, \"Configurable\" -> true)))"
+  },
+  {
+    "tokens": "If every field in id:{Desc} is absent , return value:{true} .",
+    "inst": "if (&& (= absent Desc[\"Value\"]) (&& (= absent Desc[\"Writable\"]) (&& (= absent Desc[\"Get\"]) (&& (= absent Desc[\"Set\"]) (&& (= absent Desc[\"Enumerable\"]) (=     absent Desc[\"Configurable\"])))))) return true else {}"
+  },
+  {
+    "tokens": "Set fields of id:{intrinsics} with the values listed in link:{unhandled: table-well-known-intrinsic-objects} . The field names are the names listed in column one of the table . The value of each field is a new object value fully and recursively populated with property values as defined by the specification of each object in clauses link:{unhandled: sec-global-object} through link:{unhandled: sec-reflection} . All object property values are newly created object values . All values that are built - in function objects are created by performing CreateBuiltinFunction ( id:{steps} , id:{length} , id:{name} , id:{slots} , id:{realmRec} , id:{prototype} ) where id:{steps} is the definition of that function provided by this specification , id:{name} is the initial value of the function ' s code:{name} property , id:{length} is the initial value of the function ' s code:{length} property , id:{slots} is a list of the names , if any , of the function ' s specified internal slots , and id:{prototype} is the specified value of the function ' s [ [ Prototype ] ] internal slot . The creation of the intrinsics and their properties must be ordered to avoid any dependencies upon objects that have not yet been created .",
+    "inst": "{ realmRec.Intrinsics = INTRINSICS intrinsics = INTRINSICS }"
+  },
+  {
+    "tokens": "For each field of id:{Desc} that is present , set the corresponding attribute of the property named id:{P} of object id:{O} to the value of the field .",
+    "inst": "{ let __keys__ = (map-keys Desc) let __i__ = 0i while (< __i__ __keys__.length) { let __key__ = __keys__[__i__] O.SubMap[P][__key__] = Desc[__key__] __i__ = (+ __i__ 1i) } }"
+  },
+  {
+    "tokens": "If the host requires use of an exotic object to serve as id:{realm} ' s global object , let id:{global} be such an object created in a host - defined manner . Otherwise , let id:{global} be value:{undefined} , indicating that an ordinary object should be created as the global object .",
+    "inst": "let global = undefined"
+  },
+  {
+    "tokens": "If the host requires that the code:{this} binding in id:{realm} ' s global scope return an object other than the global object , let id:{thisValue} be such an object created in a host - defined manner . Otherwise , let id:{thisValue} be value:{undefined} , indicating that id:{realm} ' s global code:{this} binding should be the global object .",
+    "inst": "let thisValue = undefined"
+  },
+  {
+    "tokens": "For each property of the Global Object specified in clause link:{unhandled: sec-global-object} , do in:{} out:{}",
+    "inst": "{ let __keys__ = (map-keys GLOBAL.SubMap) let __i__ = 0i while (< __i__ __keys__[\"length\"]) { let name = __keys__[__i__] let desc = GLOBAL.SubMap[name] global.SubMap[name] = GLOBAL.SubMap[name] __i__ = (+ __i__ 1i) } global[\"SubMap\"][\"globalThis\"][\"Value\"] = global }"
+  },
+  {
+    "tokens": "Create any host - defined global object properties on id:{globalObj} .",
+    "inst": "{}"
   }
 ]

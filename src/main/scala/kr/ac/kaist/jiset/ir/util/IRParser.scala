@@ -31,10 +31,22 @@ object IRParser extends Parser {
   }
 
   // head
-  lazy val head: Parser[Head] = "\\S+".r ~ { "(" ~> repsep(ident ~ opt("?"), ",") <~ ")" } ^^ {
-    case name ~ params => NormalHead(name, params.map {
-      case name ~ Some(_) => Param(name, Param.Kind.Optional)
-      case name ~ None => Param(name, Param.Kind.Normal)
-    })
-  }
+  lazy val algoName: Parser[String] = "\\S+".r
+  lazy val head: Parser[Head] = (
+    "[BUILTIN]" ~> ref ~ params ^^ {
+      case r ~ ps => BuiltinHead(r, ps)
+    } | "[METHOD]" ~> (ident <~ ".") ~ ident ~ ("(" ~> param <~ ")") ~ params ^^ {
+      case b ~ n ~ r ~ ps => MethodHead(b, n, r, ps)
+    } | opt("[NORMAL]") ~> algoName ~ params ^^ {
+      case n ~ ps => NormalHead(n, ps)
+    } // TODO SyntaxDirectedHead
+  )
+
+  import Param.Kind._
+  lazy val params: Parser[List[Param]] = "(" ~> repsep(param, ",") <~ ")"
+  lazy val param: Parser[Param] = (
+    "..." ~> ident ^^ { case p => Param(p, Variadic) } |
+    ident <~ "?" ^^ { case p => Param(p, Optional) } |
+    ident ^^ { case p => Param(p, Normal) }
+  )
 }

@@ -61,7 +61,6 @@ class Compiler private (val version: String) extends Compilers {
 
   // ignore statements
   lazy val ignoreStmt: P[Inst] = (
-    "set fields of" |
     "need to defer setting the" |
     "create any implementation-defined" |
     "no further validation is required" |
@@ -697,7 +696,9 @@ class Compiler private (val version: String) extends Compilers {
 
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
-    callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+    "ParseText" ~ "(" ~ repsep(expr, ",") ~ ")" ^^^ {
+      pair(Nil, toERef(script))
+    } | callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
       case (i0 ~ RefId(IRId("Type"))) ~ List(i1 ~ a) =>
         pair(i0 ++ i1, ETypeOf(a))
       case b ~ as =>
@@ -727,7 +728,9 @@ class Compiler private (val version: String) extends Compilers {
 
   // new expressions
   lazy val newExpr: P[I[Expr]] = (
-    ("a new" | "a newly created" | "the") ~> ty ~ opt(("with" | "that" | "containing") ~> extraFields) ^^ {
+    "a new Realm Record" ^^^ {
+      pair(Nil, toERef(realm))
+    } | ("a new" | "a newly created" | "the") ~> ty ~ opt(("with" | "that" | "containing") ~> extraFields) ^^ {
       case t ~ fs =>
         pair(Nil, EMap(t, (EStr("SubMap") -> EMap(Ty("SubMap"), Nil)) :: fs.getOrElse(Nil)))
     } ||| "a newly created" ~> valueValue <~ "object" ^^ {
