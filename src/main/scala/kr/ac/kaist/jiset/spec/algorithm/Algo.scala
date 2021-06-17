@@ -18,7 +18,7 @@ case class Algo(
   code: Iterable[String]
 ) {
   // head fields
-  def name: String = head.printName
+  def name: String = head.name
   def params: List[Param] = head.params
 
   // add instructions

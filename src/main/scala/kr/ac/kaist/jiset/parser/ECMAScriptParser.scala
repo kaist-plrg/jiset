@@ -189,7 +189,7 @@ object ECMAScriptParser {
     grammar: Grammar,
     document: Document,
     region: Region
-  ): (Map[String, Name], List[(Element, List[Head])]) = {
+  ): (Map[String, String], List[(Element, List[Head])]) = {
     var res: List[(Element, List[Head])] = List()
     var secIds = (for {
       elem <- getTargetElems(document, false)
@@ -200,7 +200,7 @@ object ECMAScriptParser {
     } yield {
       // if elem is in targets, add it to result
       if (targetSections.contains(secId)) res :+= (elem, heads)
-      secId -> Name(heads.head.name)
+      secId -> heads.head.name
     }).toMap
 
     (secIds, res)

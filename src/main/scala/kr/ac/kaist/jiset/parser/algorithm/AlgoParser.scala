@@ -13,7 +13,7 @@ object AlgoParser {
   def apply(
     version: String,
     parsedHead: (Element, List[Head]),
-    secIds: Map[String, Name],
+    secIds: Map[String, String],
     detail: Boolean
   )(
     implicit
@@ -59,7 +59,7 @@ object AlgoParser {
   def getBody(
     version: String,
     code: Array[String],
-    secIds: Map[String, Name],
+    secIds: Map[String, String],
     start: Int
   )(
     implicit
@@ -69,10 +69,10 @@ object AlgoParser {
     document: Document
   ): Inst = {
     // get tokens
-    val tokens = TokenParser.getTokens(code, secIds)
+    val tokens = TokenParser.getTokens(code)
 
     // get body
-    val rawBody = Compiler(version)(tokens, start)
+    val rawBody = Compiler(version, secIds)(tokens, start)
 
     rawBody
   }

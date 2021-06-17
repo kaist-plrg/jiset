@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.parser.algorithm.{ TokenParser, Compiler }
 import kr.ac.kaist.jiset.spec.JsonProtocol._
-import kr.ac.kaist.jiset.spec.algorithm.{ Token, Name }
+import kr.ac.kaist.jiset.spec.algorithm.Token
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.util.Useful._
 import org.jline.builtins.Completers.TreeCompleter
@@ -18,7 +18,7 @@ import org.jsoup.nodes.Document
 import scala.Console.{ RESET, RED, YELLOW, GREEN, CYAN }
 
 object CompileREPL {
-  def run(version: String, secIds: Map[String, Name])(
+  def run(version: String, secIds: Map[String, String])(
     implicit
     grammar: Grammar,
     document: Document
@@ -53,7 +53,7 @@ object CompileREPL {
     var keep: Boolean = true
 
     // get compile target
-    val compileTarget = CompileTargets(version)
+    val compileTarget = CompileTargets(version, secIds)
     import compileTarget._
 
     // get target
@@ -77,7 +77,7 @@ object CompileREPL {
         list.reverse
       } else List(input.mkString(" "))).map(unescapeHtml(_))
 
-      val (tokens, result) = target.parse(code, secIds, raw)
+      val (tokens, result) = target.parse(code, raw)
       println(s"[Tokens] ${tokens.mkString(" ")}")
       if (result.successful) {
         val resultStr = result.get.beautified(index = true)

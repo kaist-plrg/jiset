@@ -49,11 +49,8 @@ trait Head {
     )
   }
 
-  // name for print
-  def printName: String = name
-
   // conversion to string
-  override def toString: String = s"${printName} (${params.mkString(", ")}):"
+  override def toString: String = s"$name (${params.mkString(", ")}):"
 
   // arity
   lazy val arity: (InfNum, InfNum) = {

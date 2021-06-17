@@ -7,7 +7,10 @@ import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.util.{ Try, Success, Failure }
 
-class Compiler private (val version: String) extends Compilers {
+class Compiler private (
+  val version: String,
+  val secIds: Map[String, String]
+) extends Compilers {
   def apply(tokens: List[Token], start: Int = 0): Inst =
     postProcess(ISeq(parseAll(stmts, tokens).getOrElse(Nil)))
 
@@ -158,11 +161,6 @@ class Compiler private (val version: String) extends Compilers {
       "to" ~> expr ||| (
         "as" ~ ("described" | "specified") ~ "in" |||
         "to the definition specified in"
-      // TODO
-      // ) ~> link ^^ {
-      //   case None => pair(Nil, ENotSupported("unknown link"))
-      //   case Some(s) => pair(Nil, toERef(s))
-      // }
       ) ~> refExpr
     } ^^ {
       case (i0 ~ r) ~ (i1 ~ e) => ISeq(i0 ++ i1 :+ IAssign(r, e))
@@ -1475,6 +1473,7 @@ class Compiler private (val version: String) extends Compilers {
   // References
   ////////////////////////////////////////////////////////////////////////////////
   lazy val ref: P[I[Ref]] = opt(refPre) ~> opt("the") ~> (
+    linkRef |||
     typedArrayRef |||
     boundValueRef |||
     ordinalRef |||
@@ -1485,6 +1484,14 @@ class Compiler private (val version: String) extends Compilers {
     lengthRef |||
     flagRef
   )
+
+  // link-based references
+  lazy val linkRef: P[I[Ref]] = link.filter(secIds contains _) ^^ {
+    case secId =>
+      val name = secIds(secId)
+      val ref = parseRef(s"""ALGORITHM["$name"]""")
+      pair(Nil, ref)
+  }
 
   // references for TypedArray
   lazy val typedArrayRef: P[I[Ref]] = (
@@ -1632,8 +1639,11 @@ class Compiler private (val version: String) extends Compilers {
 
 object Compiler {
   private var versionMap: Map[String, Compiler] = Map()
-  def apply(version: String): Compiler = versionMap.getOrElse(version, {
-    var compiler = new Compiler(version)
+  def apply(
+    version: String,
+    secIds: Map[String, String]
+  ): Compiler = versionMap.getOrElse(version, {
+    var compiler = new Compiler(version, secIds)
     versionMap += version -> compiler
     compiler
   })

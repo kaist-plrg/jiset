@@ -137,7 +137,8 @@ class Beautifier(
   // ref
   implicit lazy val RefApp: App[Ref] = (app, ref) => ref match {
     case RefId(id) => app >> id
-    case RefProp(ref, EStr(str)) if !asite => app >> ref >> "." >> str
+    case RefProp(ref, EStr(str)) if !asite && "[_a-zA-Z0-9]+".r.matches(str) =>
+      app >> ref >> "." >> str
     case RefProp(ref, expr) => app >> ref >> "[" >> expr >> "]"
   }
 

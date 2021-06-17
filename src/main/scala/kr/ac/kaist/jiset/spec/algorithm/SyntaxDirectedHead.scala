@@ -19,8 +19,7 @@ case class SyntaxDirectedHead(
   val origRhs: Rhs = prod.rhsList(idx)
 
   // name with index and method name
-  val name: String = s"$lhsName$idx$methodName$subIdx"
-  override val printName = s"$lhsName[$idx,$subIdx].$methodName"
+  val name: String = s"$lhsName[$idx,$subIdx].$methodName"
 
   // parameter type names and optional information
   val (types, optional) = {

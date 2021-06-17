@@ -72,7 +72,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
           // dump code
           dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")
           // dump tokens of steps
-          val tokens = TokenParser.getTokens(code, secIds)
+          val tokens = TokenParser.getTokens(code)
           dumpJson(tokens, s"$filename.json")
           // dump ir
           dumpFile(rawBody.beautified(index = false, asite = false), s"$filename.ir")
