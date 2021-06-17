@@ -436,7 +436,7 @@ trait Compilers extends TokenListParsers {
   val agent = "AGENT"
   val symbolRegistry = "SYMBOL_REGISTRY"
   val realm = "REALM"
-  val script = "SCRIPT"
+  val scriptBody = "SCRIPT_BODY"
   val jobQueue = "JOB_QUEUE"
   val retcont = "__ret__"
 

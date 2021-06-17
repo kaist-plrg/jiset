@@ -69,7 +69,7 @@
   },
   {
     "tokens": "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > .",
-    "inst": "if (= O undefined) {} else {}"
+    "inst": "if (! (= O undefined)) { let dp = (new DataProperty()) if (! (= absent Desc.Value)) dp.Value = Desc.Value else dp.Value = undefined if (! (= absent Desc.Writable)) dp.Writable = Desc.Writable else dp.Writable = false if (! (= absent Desc.Enumerable)) dp.Enumerable = Desc.Enumerable else dp.Enumerable = false if (! (= absent Desc.Configurable)) dp.Configurable = Desc.Configurable else dp.Configurable = false O.SubMap[P] = dp } else {}"
   },
   {
     "tokens": "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > .",
@@ -282,5 +282,9 @@
   {
     "tokens": "Create any host - defined global object properties on id:{globalObj} .",
     "inst": "{}"
+  },
+  {
+    "tokens": "Let id:{result} be the Completion Record that is the result of evaluating id:{F} in a manner that conforms to the specification of id:{F} . id:{thisArgument} is the value:{this} value , id:{argumentsList} provides the named parameters , and the NewTarget value is value:{undefined} .",
+    "inst": "app result = (F.Code thisArgument argumentsList undefined)"
   }
 ]

@@ -104,9 +104,7 @@ class Compiler private (val version: String) extends Compilers {
       ISeq(i2 :+ IIf(e2, ISeq(i3 ++ xs.map(x => ILet(IRId(x), e3))), ISeq(i1 ++ xs.map(x => ILet(IRId(x), e1)))))
   } ||| (("let" ~> id <~ "be a newly created object with an internal slot for each name in") ~ id) ^^ {
     case x ~ y => {
-      val i0 = ILet(IRId(x), EMap(Ty("OrdinaryObject"), List(
-        EStr("SubMap") -> EMap(Ty("SubMap"), Nil)
-      )))
+      val i0 = ILet(IRId(x), EMap(Ty("OrdinaryObject"), Nil))
       val temp = getTemp
       val body = parseInst(s"$x[$temp] = undefined")
       val i1 = forEachList(IRId(temp), toERef(y), body)
@@ -696,8 +694,8 @@ class Compiler private (val version: String) extends Compilers {
 
   // call expressions
   lazy val callExpr: P[I[Expr]] = (
-    "ParseText" ~ "(" ~ repsep(expr, ",") ~ ")" ^^^ {
-      pair(Nil, toERef(script))
+    "ParseText" ~ "(" ~> expr <~ "," ~ expr ~ ")" ^^ {
+      case ie => ie
     } | callRef ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
       case (i0 ~ RefId(IRId("Type"))) ~ List(i1 ~ a) =>
         pair(i0 ++ i1, ETypeOf(a))
@@ -732,7 +730,7 @@ class Compiler private (val version: String) extends Compilers {
       pair(Nil, toERef(realm))
     } | ("a new" | "a newly created" | "the") ~> ty ~ opt(("with" | "that" | "containing") ~> extraFields) ^^ {
       case t ~ fs =>
-        pair(Nil, EMap(t, (EStr("SubMap") -> EMap(Ty("SubMap"), Nil)) :: fs.getOrElse(Nil)))
+        pair(Nil, EMap(t, fs.getOrElse(Nil)))
     } ||| "a newly created" ~> valueValue <~ "object" ^^ {
       case e => pair(Nil, e)
     } ||| opt("the" | "a" ~ opt("new")) ~> ty ~ ("{" ~> repsep((internalName <~ ":") ~ expr, ",") <~ "}") ^^ {
