@@ -14,22 +14,20 @@ import org.jsoup.nodes._
 import org.scalatest._
 
 class ManualSmallTest extends CompileTest {
-  val name: String = "compileManualTest"
-  val compileTarget = CompileTargets(RECENT_VERSION)
-  import compileTarget._
-
   implicit val (lines, grammar, document, region): (Array[String], Grammar, Document, Region) = {
     implicit val (lines, document, region) = getInfo("recent")
     (lines, ECMAScriptParser.parseGrammar, document, region)
   }
-
-  val secIds = ECMAScriptParser.parseHeads()._1
+  val (secIds, _) = ECMAScriptParser.parseHeads()
+  val name: String = "compileManualTest"
+  val compileTarget = CompileTargets(RECENT_VERSION, secIds)
+  import compileTarget._
 
   def test(desc: String, target: CompileTarget)(cases: (String, String)*) = check(desc, {
     cases.zipWithIndex.foreach {
       case ((spec, answer), i) => {
         val code = unescapeHtml(spec).split(LINE_SEP).toList
-        val resultInst = target.parse(code, secIds)._2.getOrElse(fail(s"`$spec` cannot be parsed."))
+        val resultInst = target.parse(code)._2.getOrElse(fail(s"`$spec` cannot be parsed."))
         val answerInst = target.parseIR(answer)
         difftest(s"$desc#$i", resultInst, answerInst, false)
       }
@@ -80,12 +78,12 @@ class ManualSmallTest extends CompileTest {
     )
 
     test("Internal Method Condition", InstsTarget)(
-      """If _p_.[[GetPrototypeOf]] is not the ordinary object internal method defined in <emu-xref href="#sec-ordinary-object-internal-methods-and-internal-slots-getprototypeof"></emu-xref>, set _done_ to *true*.""" -> """if (! (= p.GetPrototypeOf OrdinaryObjectDOTGetPrototypeOf)) done = true else {}"""
+      """If _p_.[[GetPrototypeOf]] is not the ordinary object internal method defined in <emu-xref href="#sec-ordinary-object-internal-methods-and-internal-slots-getprototypeof"></emu-xref>, set _done_ to *true*.""" -> """if (! (= p.GetPrototypeOf ALGORITHM["OrdinaryObject.GetPrototypeOf"])) done = true else {}"""
     )
 
     test("Newly Created Object", InstsTarget)(
       """Let _obj_ be a newly created object with an internal slot for each name in _internalSlotsList_.""" -> """{
-        let obj = (new OrdinaryObject("SubMap" -> (new SubMap())))
+        let obj = (new OrdinaryObject())
         let __x0__ = internalSlotsList
         let __x1__ = 0i
         while (< __x1__ __x0__.length) {

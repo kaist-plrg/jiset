@@ -36,7 +36,7 @@
   }
   if (= strictEval true) varEnv = lexEnv else {}
   if (= runningContext null) CONTEXT = null else {}
-  let evalContext = (new ExecutionContext("SubMap" -> (new SubMap())))
+  let evalContext = (new ExecutionContext())
   evalContext.Function = null
   evalContext.Realm = evalRealm
   evalContext.ScriptOrModule = runningContext.ScriptOrModule

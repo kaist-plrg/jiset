@@ -1,6 +1,7 @@
 {
+  assert (is-instance-of F ECMAScriptFunctionObject)
   assert (|| (= (typeof newTarget) Undefined) (= (typeof newTarget) Object))
-  let env = (new FunctionEnvironmentRecord("SubMap" -> (new SubMap())))
+  let env = (new FunctionEnvironmentRecord())
   env.FunctionObject = F
   if (= F.ThisMode CONST_lexical) env.ThisBindingStatus = CONST_lexical else env.ThisBindingStatus = CONST_uninitialized
   env.NewTarget = newTarget

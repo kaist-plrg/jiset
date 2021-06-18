@@ -12,10 +12,10 @@
   if (= u true) {
     app __x2__ = (StringToCodePoints P)
     let patternText = [! __x2__]
-    let patternCharacters = StrList
+    ??? "Let id:{patternCharacters} be a List whose elements are the code points of id:{patternText} ."
   } else {
     ??? "Let id:{patternText} be the result of interpreting each of id:{P} ' s 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements ."
-    let patternCharacters = StrList
+    ??? "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} ."
   }
   app __x3__ = (ParsePattern patternText u)
   let parseResult = __x3__

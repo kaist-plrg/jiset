@@ -10,14 +10,14 @@
     let thenFinally = onFinally
     let catchFinally = onFinally
   } else {
-    let stepsThenFinally = ThenFinallyFunctions
-    ??? "Let id:{lengthThenFinally} be the number of non - optional parameters of the function definition in ThenFinallyFunctions ."
+    ??? "Let id:{stepsThenFinally} be the algorithm steps defined in link:{sec-thenfinallyfunctions} ."
+    ??? "Let id:{lengthThenFinally} be the number of non - optional parameters of the function definition in link:{sec-thenfinallyfunctions} ."
     app __x3__ = (CreateBuiltinFunction stepsThenFinally lengthThenFinally "" (new ["Constructor", "OnFinally"]))
     let thenFinally = [! __x3__]
     thenFinally.Constructor = C
     thenFinally.OnFinally = onFinally
-    let stepsCatchFinally = CatchFinallyFunctions
-    ??? "Let id:{lengthCatchFinally} be the number of non - optional parameters of the function definition in CatchFinallyFunctions ."
+    ??? "Let id:{stepsCatchFinally} be the algorithm steps defined in link:{sec-catchfinallyfunctions} ."
+    ??? "Let id:{lengthCatchFinally} be the number of non - optional parameters of the function definition in link:{sec-catchfinallyfunctions} ."
     app __x4__ = (CreateBuiltinFunction stepsCatchFinally lengthCatchFinally "" (new ["Constructor", "OnFinally"]))
     let catchFinally = [! __x4__]
     catchFinally.Constructor = C

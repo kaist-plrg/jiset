@@ -1,8 +1,8 @@
 {
   app __x0__ = (ProxyCreate target handler)
   let p = [? __x0__]
-  let steps = ProxyRevocationFunctions
-  ??? "Let id:{length} be the number of non - optional parameters of the function definition in ProxyRevocationFunctions ."
+  ??? "Let id:{steps} be the algorithm steps defined in link:{sec-proxy-revocation-functions} ."
+  ??? "Let id:{length} be the number of non - optional parameters of the function definition in link:{sec-proxy-revocation-functions} ."
   app __x1__ = (CreateBuiltinFunction steps length "" (new ["RevocableProxy"]))
   let revoker = [! __x1__]
   revoker.RevocableProxy = p

@@ -5,9 +5,9 @@
   let P = [! __x0__]
   app __x1__ = (IsCallable target)
   if (= __x1__ true) {
-    P.Call = ProxyObjectDOTCall
+    P.Call = ALGORITHM["ProxyObject.Call"]
     app __x2__ = (IsConstructor target)
-    if (= __x2__ true) P.Construct = ProxyObjectDOTConstruct else {}
+    if (= __x2__ true) P.Construct = ALGORITHM["ProxyObject.Construct"] else {}
   } else {}
   P.ProxyTarget = target
   P.ProxyHandler = handler

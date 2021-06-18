@@ -9,14 +9,21 @@
       app __x2__ = (IsDataDescriptor Desc)
       __x0__ = (= __x2__ true)
     }
-    if __x0__ if (= O undefined) {} else {} else {
+    if __x0__ if (! (= O undefined)) {
+      let dp = (new DataProperty())
+      if (! (= absent Desc.Value)) dp.Value = Desc.Value else dp.Value = undefined
+      if (! (= absent Desc.Writable)) dp.Writable = Desc.Writable else dp.Writable = false
+      if (! (= absent Desc.Enumerable)) dp.Enumerable = Desc.Enumerable else dp.Enumerable = false
+      if (! (= absent Desc.Configurable)) dp.Configurable = Desc.Configurable else dp.Configurable = false
+      O.SubMap[P] = dp
+    } else {} else {
       app __x3__ = (IsAccessorDescriptor Desc)
       assert (= [! __x3__] true)
       if (= O undefined) {} else {}
     }
     return true
   } else {}
-  ??? "If every field in id:{Desc} is absent , return value:{true} ."
+  if (&& (= absent Desc.Value) (&& (= absent Desc.Writable) (&& (= absent Desc.Get) (&& (= absent Desc.Set) (&& (= absent Desc.Enumerable) (= absent Desc.Configurable)))))) return true else {}
   if (= current.Configurable false) {
     if (= Desc.Configurable true) return false else {}
     let __x4__ = true
@@ -73,6 +80,14 @@
       }
     }
   }
-  if (! (= O undefined)) ??? "For each field of id:{Desc} that is present , set the corresponding attribute of the property named id:{P} of object id:{O} to the value of the field ." else {}
+  if (! (= O undefined)) {
+    let __keys__ = (map-keys Desc)
+    let __i__ = 0i
+    while (< __i__ __keys__.length) {
+      let __key__ = __keys__[__i__]
+      O.SubMap[P][__key__] = Desc[__key__]
+      __i__ = (+ __i__ 1i)
+    }
+  } else {}
   return true
 }

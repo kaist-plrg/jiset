@@ -1,13 +1,13 @@
 {
   let alreadyResolved = (new Record("Value" -> false))
-  let stepsResolve = PromiseResolveFunctions
-  ??? "Let id:{lengthResolve} be the number of non - optional parameters of the function definition in PromiseResolveFunctions ."
+  ??? "Let id:{stepsResolve} be the algorithm steps defined in link:{sec-promise-resolve-functions} ."
+  ??? "Let id:{lengthResolve} be the number of non - optional parameters of the function definition in link:{sec-promise-resolve-functions} ."
   app __x0__ = (CreateBuiltinFunction stepsResolve lengthResolve "" (new ["Promise", "AlreadyResolved"]))
   let resolve = [! __x0__]
   resolve.Promise = promise
   resolve.AlreadyResolved = alreadyResolved
-  let stepsReject = PromiseRejectFunctions
-  ??? "Let id:{lengthReject} be the number of non - optional parameters of the function definition in PromiseRejectFunctions ."
+  ??? "Let id:{stepsReject} be the algorithm steps defined in link:{sec-promise-reject-functions} ."
+  ??? "Let id:{lengthReject} be the number of non - optional parameters of the function definition in link:{sec-promise-reject-functions} ."
   app __x1__ = (CreateBuiltinFunction stepsReject lengthReject "" (new ["Promise", "AlreadyResolved"]))
   let reject = [! __x1__]
   reject.Promise = promise

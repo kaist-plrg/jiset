@@ -3,6 +3,7 @@
   let envRec = __x0__
   assert (is-instance-of envRec FunctionEnvironmentRecord)
   let activeFunction = envRec.FunctionObject
+  assert (is-instance-of activeFunction ECMAScriptFunctionObject)
   app __x1__ = (activeFunction.GetPrototypeOf activeFunction)
   let superConstructor = [! __x1__]
   return superConstructor

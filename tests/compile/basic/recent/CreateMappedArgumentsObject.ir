@@ -2,11 +2,11 @@
   let len = argumentsList.length
   app __x0__ = (MakeBasicObject (new ["Prototype", "Extensible", "ParameterMap"]))
   let obj = [! __x0__]
-  obj.GetOwnProperty = ArgumentsExoticObjectDOTGetOwnProperty
-  obj.DefineOwnProperty = ArgumentsExoticObjectDOTDefineOwnProperty
-  obj.Get = ArgumentsExoticObjectDOTGet
-  obj.Set = ArgumentsExoticObjectDOTSet
-  obj.Delete = ArgumentsExoticObjectDOTDelete
+  obj.GetOwnProperty = ALGORITHM["ArgumentsExoticObject.GetOwnProperty"]
+  obj.DefineOwnProperty = ALGORITHM["ArgumentsExoticObject.DefineOwnProperty"]
+  obj.Get = ALGORITHM["ArgumentsExoticObject.Get"]
+  obj.Set = ALGORITHM["ArgumentsExoticObject.Set"]
+  obj.Delete = ALGORITHM["ArgumentsExoticObject.Delete"]
   obj.Prototype = INTRINSIC_Object_prototype
   app __x1__ = (OrdinaryObjectCreate null)
   let map = [! __x1__]

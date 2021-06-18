@@ -16,13 +16,13 @@
       generator.AsyncGeneratorState = CONST_awaitingDASHreturn
       app __x1__ = (PromiseResolve INTRINSIC_Promise completion.Value)
       let promise = [? __x1__]
-      let stepsFulfilled = AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions
-      ??? "Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions ."
+      ??? "Let id:{stepsFulfilled} be the algorithm steps defined in link:{async-generator-resume-next-return-processor-fulfilled} ."
+      ??? "Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in link:{async-generator-resume-next-return-processor-fulfilled} ."
       app __x2__ = (CreateBuiltinFunction stepsFulfilled lengthFulfilled "" (new ["Generator"]))
       let onFulfilled = [! __x2__]
       onFulfilled.Generator = generator
-      let stepsRejected = AsyncGeneratorResumeNextReturnProcessorRejectedFunctions
-      ??? "Let id:{lengthRejected} be the number of non - optional parameters of the function definition in AsyncGeneratorResumeNextReturnProcessorRejectedFunctions ."
+      ??? "Let id:{stepsRejected} be the algorithm steps defined in link:{async-generator-resume-next-return-processor-rejected} ."
+      ??? "Let id:{lengthRejected} be the number of non - optional parameters of the function definition in link:{async-generator-resume-next-return-processor-rejected} ."
       app __x3__ = (CreateBuiltinFunction stepsRejected lengthRejected "" (new ["Generator"]))
       let onRejected = [! __x3__]
       onRejected.Generator = generator

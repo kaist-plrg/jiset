@@ -5,15 +5,11 @@
   },
   {
     "tokens": "Create an immutable binding in id:{envRec} for id:{N} and record that it is uninitialized . If id:{S} is value:{true} , record that the newly created binding is a strict binding .",
-    "inst": "envRec.SubMap[N] = absent"
+    "inst": "envRec.SubMap[N] = (new ImmutableBinding(\"initialized\" -> false, \"strict\" -> S))"
   },
   {
     "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{table-internal-slots-of-ecmascript-function-objects} .",
-    "inst": "let internalSlotsList = StrList"
-  },
-  {
-    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{table-27} .",
-    "inst": "let internalSlotsList = StrList"
+    "inst": "let internalSlotsList = (new [\"Environment\", \"FormalParameters\", \"ECMAScriptCode\", \"ConstructorKind\", \"Realm\", \"ScriptOrModule\", \"ThisMode\", \"Strict\", \"HomeObject\", \"SourceText\", \"IsClassConstructor\"])"
   },
   {
     "tokens": "Let id:{ec} be the topmost execution context on the execution context stack whose ScriptOrModule component is not value:{null} .",
@@ -46,14 +42,6 @@
   {
     "tokens": "Set id:{proto} to id:{realm} ' s intrinsic object named id:{intrinsicDefaultProto} .",
     "inst": "proto = INTRINSICS[intrinsicDefaultProto]"
-  },
-  {
-    "tokens": "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} .",
-    "inst": "let patternCharacters = StrList"
-  },
-  {
-    "tokens": "Let id:{patternCharacters} be a List whose elements are the code points of id:{patternText} .",
-    "inst": "let patternCharacters = StrList"
   },
   {
     "tokens": "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ ~ U , ~ N ] | ) .",
@@ -136,14 +124,6 @@
     "inst": "return result"
   },
   {
-    "tokens": "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{list} and performs the following steps when called : in:{} out:{}",
-    "inst": "let closure = Lambda"
-  },
-  {
-    "tokens": "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{kind} and id:{array} and performs the following steps when called : in:{} out:{}",
-    "inst": "let closure = Lambda"
-  },
-  {
     "tokens": "Let id:{r} be the BigInt defined by the mathematical relation id:{r} = id:{n} - ( id:{d} × id:{q} ) where id:{q} is a BigInt that is negative only if id:{n} / id:{d} is negative and positive only if id:{n} / id:{d} is positive , and whose magnitude is as large as possible without exceeding the magnitude of the true mathematical quotient of id:{n} and id:{d} .",
     "inst": "let r = (% n d)"
   },
@@ -169,7 +149,7 @@
   },
   {
     "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{table-internal-slots-of-module-namespace-exotic-objects} .",
-    "inst": "let internalSlotsList = StrList"
+    "inst": "let internalSlotsList = (new [\"Module\", \"Exports\", \"Prototype\"])"
   },
   {
     "tokens": "Let id:{sortedExports} be a List whose elements are the elements of id:{exports} ordered as if an Array of the same values had been sorted using % Array . prototype . sort % using value:{undefined} as id:{comparefn} .",
@@ -186,10 +166,6 @@
   {
     "tokens": "Return the result of appending to id:{names} the elements of the VarDeclaredNames of the second nt:{CaseClauses} .",
     "inst": "{ access __names__ = (CaseClauses1 \"VarDeclaredNames\") let __i__ = 0i while (< __i__ __names__.length) { append __names__[__i__] -> names __i__ = (+ __i__ 1i) } return names }"
-  },
-  {
-    "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{table-internal-slots-of-module-namespace-exotic-objects} .",
-    "inst": "let internalSlotsList = StrList"
   },
   {
     "tokens": "Create own properties of id:{M} corresponding to the definitions in link:{sec-module-namespace-objects} .",
@@ -225,7 +201,7 @@
   },
   {
     "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{table-internal-slots-of-bound-function-exotic-objects} , plus [ [ Prototype ] ] and [ [ Extensible ] ] .",
-    "inst": "let internalSlotsList = StrList"
+    "inst": "let internalSlotsList = (new [\"BoundTargetFunction\", \"BoundThis\", \"BoundArguments\", \"Prototype\", \"Extensible\"])"
   },
   {
     "tokens": "For each own property key id:{P} of id:{A} that is an array index , whose numeric value is greater than or equal to id:{newLen} , in descending numeric index order , do in:{} out:{}",
@@ -234,10 +210,6 @@
   {
     "tokens": "If the mathematical value of id:{x} is equal to the mathematical value of id:{y} , return value:{true} ; otherwise return value:{false} .",
     "inst": "return (= x y)"
-  },
-  {
-    "tokens": "Let id:{job} be a new Job abstract closure with no parameters that captures id:{reaction} and id:{argument} and performs the following steps when called : in:{} out:{}",
-    "inst": "let job = Lambda"
   },
   {
     "tokens": "Return { [ [ Job ] ] : id:{job} , [ [ Realm ] ] : id:{handlerRealm} } .",
@@ -294,5 +266,9 @@
   {
     "tokens": "If id:{x} and id:{y} are exactly the same sequence of code units ( same length and same code units at corresponding indices ) , return value:{true} ; otherwise , return value:{false} .",
     "inst": "return (= x y)"
+  },
+  {
+    "tokens": "Create a mutable binding in id:{envRec} for id:{N} and record that it is uninitialized . If id:{D} is value:{true} , record that the newly created binding may be deleted by a subsequent DeleteBinding call .",
+    "inst": "{ envRec.SubMap[N] = (new MutableBinding(\"initialized\" -> false)) if (= D true) envRec.SubMap[N].maybeDeleted = true else {} }"
   }
 ]

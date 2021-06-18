@@ -42,7 +42,7 @@
   }
   app __x3__ = (ToString bodyArg)
   let bodyString = (+ (+ "\n" [? __x3__]) "\n")
-  ??? "Let id:{prefix} be the prefix associated with id:{kind} in link:{unhandled: table-dynamic-function-sourcetext-prefixes} ."
+  ??? "Let id:{prefix} be the prefix associated with id:{kind} in link:{table-dynamic-function-sourcetext-prefixes} ."
   let sourceString = (+ (+ (+ (+ (+ (+ prefix "anonymous(") P) "\n") ") {") bodyString) "}")
   app __x4__ = (StringToCodePoints sourceString)
   let sourceText = [! __x4__]

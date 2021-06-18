@@ -38,12 +38,12 @@ class BasicMiddleTest extends CompileTest {
           val tokens = readJson[List[Token]](jsonName)
 
           val code = readFile(specName).split(LINE_SEP)
-          val resultTokens = TokenParser.getTokens(code, secIds)
+          val resultTokens = TokenParser.getTokens(code)
           assert(tokens == resultTokens, "tokens are changed")
 
           // check compile
           val answer = Parser.fileToInst(irName)
-          val result = Compiler(version)(tokens)
+          val result = Compiler(version, secIds)(tokens)
           difftest(name, result, answer)
         }
       }

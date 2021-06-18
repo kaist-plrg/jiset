@@ -1445,6 +1445,7 @@ class Compiler private (
     "arguments exotic object" ^^^ "ArgumentsExoticObject" |||
     "array exotic object" ^^^ "ArrayExoticObject" |||
     "bound function exotic object" ^^^ "BoundFunctionExoticObject" |||
+    "ECMAScript function" ~ opt("object") ^^^ "ECMAScriptFunctionObject" |||
     "built-in function object" ^^^ "BuiltinFunctionObject" |||
     "chosen value record" ^^^ "ChosenValueRecord" |||
     "completion" ~ opt("record") ^^^ "Completion" |||

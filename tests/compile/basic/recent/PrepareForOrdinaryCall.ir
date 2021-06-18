@@ -1,7 +1,7 @@
 {
   assert (|| (= (typeof newTarget) Undefined) (= (typeof newTarget) Object))
   let callerContext = CONTEXT
-  let calleeContext = (new ExecutionContext("SubMap" -> (new SubMap())))
+  let calleeContext = (new ExecutionContext())
   calleeContext.Function = F
   let calleeRealm = F.Realm
   calleeContext.Realm = calleeRealm

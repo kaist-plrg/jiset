@@ -1,9 +1,9 @@
 {
   assert (= (typeof functionPrototype) Object)
-  let internalSlotsList = StrList
+  let internalSlotsList = (new ["Environment", "FormalParameters", "ECMAScriptCode", "ConstructorKind", "Realm", "ScriptOrModule", "ThisMode", "Strict", "HomeObject", "SourceText", "IsClassConstructor"])
   app __x0__ = (OrdinaryObjectCreate functionPrototype internalSlotsList)
   let F = [! __x0__]
-  F.Call = ECMAScriptFunctionObjectDOTCall
+  F.Call = ALGORITHM["ECMAScriptFunctionObject.Call"]
   F.SourceText = sourceText
   F.FormalParameters = ParameterList
   F.ECMAScriptCode = Body

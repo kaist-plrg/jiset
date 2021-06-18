@@ -1,5 +1,13 @@
 {
   let global = realmRec.GlobalObject
-  ??? "For each property of the Global Object specified in clause link:{unhandled: sec-global-object} , do in:{} out:{}"
+  let __keys__ = (map-keys GLOBAL.SubMap)
+  let __i__ = 0i
+  while (< __i__ __keys__.length) {
+    let name = __keys__[__i__]
+    let desc = GLOBAL.SubMap[name]
+    global.SubMap[name] = GLOBAL.SubMap[name]
+    __i__ = (+ __i__ 1i)
+  }
+  global.SubMap.globalThis.Value = global
   return global
 }

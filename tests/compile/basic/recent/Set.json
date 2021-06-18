@@ -1,93 +1,43 @@
-["If", "NewTarget", "is", {
-  "value": "undefined"
-}, ",", "throw", "a", {
-  "value": "TypeError"
-}, "exception", ".", {
+["Assert", ":", "Type", "(", {
+  "id": "O"
+}, ")", "is", "Object", ".", {
   "k": 0
-}, "Let", {
-  "id": "set"
-}, "be", "?", "OrdinaryCreateFromConstructor", "(", "NewTarget", ",", {
-  "value": "\"%Set.prototype%\""
-}, ",", "«", "[", "[", "SetData", "]", "]", "»", ")", ".", {
-  "k": 1
-}, "Set", {
-  "id": "set"
-}, ".", "[", "[", "SetData", "]", "]", "to", "a", "new", "empty", "List", ".", {
-  "k": 2
-}, "If", {
-  "id": "iterable"
-}, "is", "either", {
-  "value": "undefined"
-}, "or", {
-  "value": "null"
-}, ",", "return", {
-  "id": "set"
-}, ".", {
-  "k": 3
-}, "Let", {
-  "id": "adder"
-}, "be", "?", "Get", "(", {
-  "id": "set"
-}, ",", {
-  "value": "\"add\""
-}, ")", ".", {
-  "k": 4
-}, "If", "IsCallable", "(", {
-  "id": "adder"
+}, "Assert", ":", "IsPropertyKey", "(", {
+  "id": "P"
 }, ")", "is", {
-  "value": "false"
-}, ",", "throw", "a", {
-  "value": "TypeError"
-}, "exception", ".", {
-  "k": 5
+  "value": "true"
+}, ".", {
+  "k": 1
+}, "Assert", ":", "Type", "(", {
+  "id": "Throw"
+}, ")", "is", "Boolean", ".", {
+  "k": 2
 }, "Let", {
-  "id": "iteratorRecord"
-}, "be", "?", "GetIterator", "(", {
-  "id": "iterable"
+  "id": "success"
+}, "be", "?", {
+  "id": "O"
+}, ".", "[", "[", "Set", "]", "]", "(", {
+  "id": "P"
+}, ",", {
+  "id": "V"
+}, ",", {
+  "id": "O"
 }, ")", ".", {
-  "k": 6
-}, "Repeat", ",", {
-  "in": null
-}, "Let", {
-  "id": "next"
-}, "be", "?", "IteratorStep", "(", {
-  "id": "iteratorRecord"
-}, ")", ".", {
-  "k": 8
+  "k": 3
 }, "If", {
-  "id": "next"
+  "id": "success"
 }, "is", {
   "value": "false"
-}, ",", "return", {
-  "id": "set"
+}, "and", {
+  "id": "Throw"
+}, "is", {
+  "value": "true"
+}, ",", "throw", "a", {
+  "value": "TypeError"
+}, "exception", ".", {
+  "k": 4
+}, "Return", {
+  "id": "success"
 }, ".", {
-  "k": 9
-}, "Let", {
-  "id": "nextValue"
-}, "be", "?", "IteratorValue", "(", {
-  "id": "next"
-}, ")", ".", {
-  "k": 10
-}, "Let", {
-  "id": "status"
-}, "be", "Call", "(", {
-  "id": "adder"
-}, ",", {
-  "id": "set"
-}, ",", "«", {
-  "id": "nextValue"
-}, "»", ")", ".", {
-  "k": 11
-}, "If", {
-  "id": "status"
-}, "is", "an", "abrupt", "completion", ",", "return", "?", "IteratorClose", "(", {
-  "id": "iteratorRecord"
-}, ",", {
-  "id": "status"
-}, ")", ".", {
-  "k": 12
-}, {
-  "out": null
-}, {
-  "k": 7
+  "k": 5
 }]
