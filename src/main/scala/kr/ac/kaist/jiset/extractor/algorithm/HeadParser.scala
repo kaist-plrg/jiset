@@ -155,7 +155,7 @@ object HeadParser extends HeadParsers {
         )
         prod = nameMap(lhs)
         rhs = prod.rhsList(1)
-      } yield SyntaxDirectedHead(prod, 1, 0, rhs, name, Nil)
+      } yield SyntaxDirectedHead(prod.name, 1, 0, rhs, name, Nil)
     } else {
       val body = getRawBody(target).map(unescapeHtml(_)).toList
       // get head
@@ -167,7 +167,7 @@ object HeadParser extends HeadParsers {
         rhsName = rhs.name
         syntax = lhsName + ":" + rhsName
         (i, j) = idxMap(syntax)
-      } yield SyntaxDirectedHead(nameMap(lhsName), i, j, rhs, name, withParams)
+      } yield SyntaxDirectedHead(lhsName, i, j, rhs, name, withParams)
     }
   }
 

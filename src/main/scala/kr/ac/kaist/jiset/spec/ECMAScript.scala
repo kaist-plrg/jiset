@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.spec
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
+import kr.ac.kaist.jiset.util.Useful._
 
 // ECMASCript specifications
 case class ECMAScript(
@@ -17,4 +18,12 @@ case class ECMAScript(
   // completed/incompleted algorithms
   lazy val (completedAlgos, incompletedAlgos): (List[Algo], List[Algo]) =
     algos.partition(_.isComplete)
+
+  // dump ECMAScript to directory
+  def dumpTo(dirname: String): Unit = {
+    mkdir(dirname)
+    dumpFile(grammar, s"$dirname/grammar")
+    mkdir(s"$dirname/algorithm")
+    for (algo <- algos) dumpFile(algo, s"$dirname/algorithm/${algo.name}")
+  }
 }

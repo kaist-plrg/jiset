@@ -48,6 +48,7 @@ package object jiset {
   // Resource directory
   val RESOURCE_DIR = s"$BASE_DIR/src/main/resources"
   val MODEL_DIR = s"$RESOURCE_DIR/model"
+  val MODEL_PATH = s"$MODEL_DIR/$DEFAULT_VERSION.json"
   val ID_START_JSON = s"$RESOURCE_DIR/ID_Start.json"
   val ID_CONTINUE_JSON = s"$RESOURCE_DIR/ID_Continue.json"
 

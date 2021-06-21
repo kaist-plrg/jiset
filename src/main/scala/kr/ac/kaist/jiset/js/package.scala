@@ -1,9 +1,9 @@
 package kr.ac.kaist.jiset
 
-import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 
@@ -11,8 +11,15 @@ package object js {
   // current ECMAScript
   private var targetSpec: Option[ECMAScript] = None
   def setTarget(spec: ECMAScript): Unit = targetSpec = Some(spec)
-  lazy val spec: ECMAScript = targetSpec.getOrElse {
-    readJson[ECMAScript](s"$MODEL_DIR/$DEFAULT_VERSION.json")
+  lazy val spec: ECMAScript = optional(targetSpec.getOrElse {
+    readJson[ECMAScript](MODEL_PATH)
+  }).getOrElse {
+    Console.err.println(s"[WARNING] no cache in $MODEL_PATH!!")
+    val (_, spec) = time(s"  - parsing ECMAScript ($DEFAULT_VERSION)", {
+      ECMAScriptParser(DEFAULT_VERSION, "", false)
+    })
+    dumpJson(spec, MODEL_PATH)
+    spec
   }
 
   // ECMAScript components

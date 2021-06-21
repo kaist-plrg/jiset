@@ -102,6 +102,10 @@ case class Algo(
   }
 
   // conversion to string
-  override def toString: String =
-    s"$head ${getBody.beautified(index = true)}"
+  override def toString: String = (
+    s"def $head = ${rawBody.beautified(index = true)}" + LINE_SEP +
+    ids.mkString("- ids: [", ", ", "]") + LINE_SEP +
+    "- code:" + LINE_SEP +
+    code.mkString(LINE_SEP)
+  )
 }

@@ -17,17 +17,17 @@ case object GenModel extends PhaseObj[ECMAScript, GenModelConfig, Unit] {
     jisetConfig: JISETConfig,
     config: GenModelConfig
   ): Unit = time(s"generating models", {
-    ModelGenerator(spec, !config.noParser)
+    ModelGenerator(spec, config.parser)
   })
 
   def defaultConfig: GenModelConfig = GenModelConfig()
   val options: List[PhaseOption[GenModelConfig]] = List(
-    ("no-parser", BoolOption(c => c.noParser = true),
-      "do not generate parser."),
+    ("parser", BoolOption(c => c.parser = true),
+      "generate JavaScript parser."),
   )
 }
 
 // GenModel phase config
 case class GenModelConfig(
-  var noParser: Boolean = false
+  var parser: Boolean = false
 ) extends Config

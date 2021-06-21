@@ -40,24 +40,6 @@ trait Token {
     case (char: Character) =>
       s"<${char.name}>"
   }
-
-  // conversion to Scala code
-  def toScala: String = this match {
-    case Terminal(term) =>
-      s"""Terminal("${normStr(term)}")"""
-    case NonTerminal(name, args, optional) =>
-      val argsStr = args.mkString("\"", "\", \"", "\"")
-      s"""NonTerminal("$name", List($argsStr), $optional)"""
-    case ButNot(base, cases) =>
-      s"""ButNot(${base.toScala}, ${listToScala(cases)})"""
-    case Lookahead(contains, cases) =>
-      s"""Lookahead($contains, List(${cases.map(listToScala).mkString(", ")}))"""
-    case EmptyToken => "EmptyToken"
-    case NoLineTerminatorToken => "NoLineTerminatorToken"
-    case (char: Character) => char.name
-  }
-  private def listToScala(tokens: List[Token]): String =
-    tokens.map(_.toScala).mkString("List(", ", ", ")")
 }
 
 // terminals

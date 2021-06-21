@@ -15,9 +15,6 @@ case class Param(name: String, kind: Param.Kind = Param.Kind.Normal) {
       case Variadic => "..." + name
     }
   }
-
-  // conversion to Scala code
-  def toScala: String = s"""Param("$name", $kind)"""
 }
 object Param {
   type Kind = Kind.Value
