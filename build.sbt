@@ -4,6 +4,7 @@ import sbtassembly.AssemblyPlugin.defaultUniversalScript
 ThisBuild / version       := "1.0"
 ThisBuild / scalaVersion  := "2.13.1"
 ThisBuild / organization  := "kr.ac.kaist.jiset"
+ThisBuild / useSuperShell := false
 ThisBuild / scalacOptions := Seq(
   "-deprecation", "-feature", "-language:postfixOps",
   "-language:implicitConversions", "-language:existentials",
@@ -22,10 +23,10 @@ lazy val smallTest = taskKey[Unit]("Launch small tests (maybe seconds)")
 lazy val middleTest = taskKey[Unit]("Launch middle tests (maybe minutes)")
 lazy val largeTest = taskKey[Unit]("Launch large tests (may hours)")
 
-// parse
-lazy val parseTest = taskKey[Unit]("Launch parse tests")
-lazy val parseTokenTest = taskKey[Unit]("Launch token parse tests (tiny)")
-lazy val parseJsonTest = taskKey[Unit]("Launch json parse tests (small)")
+// extract
+lazy val extractTest = taskKey[Unit]("Launch extract tests")
+lazy val extractTokenTest = taskKey[Unit]("Launch token extract tests (tiny)")
+lazy val extractJsonTest = taskKey[Unit]("Launch json extract tests (small)")
 
 // grammar
 lazy val grammarTest = taskKey[Unit]("Launch grammar tests")
@@ -39,7 +40,19 @@ lazy val compileManualTest = taskKey[Unit]("Launch manual compile tests (small)"
 
 // ir
 lazy val irTest = taskKey[Unit]("Launch ir tests")
-lazy val irBeautifierTest = taskKey[Unit]("Launch beautifier ir tests (small)")
+lazy val irParseTest = taskKey[Unit]("Launch parse ir tests (tiny)")
+lazy val irBeautifierTest = taskKey[Unit]("Launch beautifier ir tests (tiny)")
+lazy val irEvalTest = taskKey[Unit]("Launch eval ir tests (small)")
+
+// js
+lazy val jsTest = taskKey[Unit]("Launch js tests")
+lazy val jsParseTest = taskKey[Unit]("Launch parse js tests (small)")
+lazy val jsEvalTest = taskKey[Unit]("Launch eval js tests (small)")
+
+// test262
+lazy val test262ParseTest = taskKey[Unit]("Launch parse test262 tests (large)")
+lazy val test262ESParseTest = taskKey[Unit]("Launch esparse test262 tests (large)")
+lazy val test262EvalTest = taskKey[Unit]("Launch eval test262 tests (large)")
 
 // jiset
 lazy val jiset = (project in file("."))
@@ -54,13 +67,22 @@ lazy val jiset = (project in file("."))
       "org.jline" % "jline" % "3.13.3",
       "org.apache.commons" % "commons-text" % "1.8"
     ),
-    test in assembly := {},
-    testOptions in Test += Tests.Argument("-fDG", baseDirectory.value + "/tests/detail"),
     retrieveManaged := true,
+    // test setting
+    testOptions in Test += Tests.Argument("-fDG", baseDirectory.value + "/tests/detail"),
+    parallelExecution in Test := true,
+    // scalariform setting
     scalariformPreferences := scalariformPreferences.value
       .setPreference(DanglingCloseParenthesis, Force)
       .setPreference(DoubleIndentConstructorArguments, false),
-    parallelExecution in Test := true,
+    // basic tests
+    test := (testOnly in Test).toTask(List(
+      "*TinyTest",
+      "*SmallTest",
+      "*MiddleTest",
+    ).mkString(" ", " ", "")).value,
+    // assembly setting
+    test in assembly := {},
     assemblyOutputPath in assembly := file("bin/jiset"),
     assemblyOption in assembly := (assemblyOption in assembly).value
       .copy(prependShellScript = Some(defaultUniversalScript(shebang = false))),
@@ -69,10 +91,10 @@ lazy val jiset = (project in file("."))
     smallTest := (testOnly in Test).toTask(" *SmallTest").value,
     middleTest := (testOnly in Test).toTask(" *MiddleTest").value,
     largeTest := (testOnly in Test).toTask(" *LargeTest").value,
-    // parse
-    parseTest := (testOnly in Test).toTask(" *.parse.*Test").value,
-    parseTokenTest := (testOnly in Test).toTask(" *.parse.Token*Test").value,
-		parseJsonTest := (testOnly in Test).toTask(" *.parse.Json*Test").value,
+    // extract
+    extractTest := (testOnly in Test).toTask(" *.extract.*Test").value,
+    extractTokenTest := (testOnly in Test).toTask(" *.extract.Token*Test").value,
+		extractJsonTest := (testOnly in Test).toTask(" *.extract.Json*Test").value,
     // grammar
     grammarTest := (testOnly in Test).toTask(" *.grammar.*Test").value,
     grammarBasicTest := (testOnly in Test).toTask(" *.grammar.Basic*Test").value,
@@ -83,5 +105,15 @@ lazy val jiset = (project in file("."))
     compileManualTest := (testOnly in Test).toTask(" *.compile.Manual*Test").value,
     // ir
     irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
-		irBeautifierTest := (testOnly in Test).toTask(" *.ir.Beautifier*Test").value
+    irParseTest := (testOnly in Test).toTask(" *.ir.Parse*Test").value,
+		irBeautifierTest := (testOnly in Test).toTask(" *.ir.Beautifier*Test").value,
+    irEvalTest := (testOnly in Test).toTask(" *.ir.Eval*Test").value,
+    // js
+    jsTest := (testOnly in Test).toTask(" *.js.*Test").value,
+    jsParseTest := (testOnly in Test).toTask(" *.js.Parse*Test").value,
+    jsEvalTest := (testOnly in Test).toTask(" *.js.Eval*Test").value,
+    // test262
+    test262ParseTest := (testOnly in Test).toTask(" *.test262.Parse*Test").value,
+    test262ESParseTest := (testOnly in Test).toTask(" *.test262.ESParse*Test").value,
+    test262EvalTest := (testOnly in Test).toTask(" *.test262.Eval*Test").value
   )

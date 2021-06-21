@@ -29,10 +29,6 @@ class CFG(val spec: ECMAScript) {
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
-  // get fids of syntax-directed algorithms
-  def getSyntaxFids(lhs: String, method: String): Set[Int] =
-    spec.getSyntaxAlgo(lhs, method).map(algo2fid(_))
-
   // get constant names
   def getNames = {
     var consts: Set[String] = Set()

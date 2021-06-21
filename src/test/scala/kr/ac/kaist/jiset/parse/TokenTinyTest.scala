@@ -1,7 +1,8 @@
 package kr.ac.kaist.jiset.parse
 
 import kr.ac.kaist.jiset.spec.algorithm._
-import kr.ac.kaist.jiset.parser.algorithm._
+import kr.ac.kaist.jiset.spec.algorithm.token._
+import kr.ac.kaist.jiset.extractor.algorithm._
 import scala.util.Random
 import org.scalatest._
 

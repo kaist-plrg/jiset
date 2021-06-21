@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset
 
 import java.io._
 import kr.ac.kaist.jiset.error.NotSupported
-import kr.ac.kaist.jiset.parser.ECMAScriptParser
+import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.util.Useful._
 import org.scalatest._
@@ -60,7 +60,7 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
   )
 
   // tag name
-  val category: String
+  def category: String
   lazy val tag: String = s"$category.$this"
 
   // check backward-compatibility after all tests
@@ -89,7 +89,9 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
 
     // save abstract result if backward-compatible
     if (breakCount == 0) {
-      val pw = getPrintWriter(s"$TEST_DIR/result/$category/$this")
+      val dirname = s"$TEST_DIR/result/$category"
+      mkdir(dirname)
+      val pw = getPrintWriter(s"$dirname/$this")
       val (x, y) = getScore(resMap)
       pw.println(s"$tag: $x / $y")
       pw.close()

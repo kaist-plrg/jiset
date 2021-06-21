@@ -1,5 +1,7 @@
 package kr.ac.kaist.jiset.spec.grammar
 
+import kr.ac.kaist.jiset.spec.grammar.token._
+
 // ECMAScript grammar right-hand-sides
 case class Rhs(
   tokens: List[Token],

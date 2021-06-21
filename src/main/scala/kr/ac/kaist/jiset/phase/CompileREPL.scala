@@ -1,8 +1,8 @@
 package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.parser.ECMAScriptParser
-import kr.ac.kaist.jiset.parser.algorithm.{ CompileREPL => REPL }
+import kr.ac.kaist.jiset.extractor.ECMAScriptParser
+import kr.ac.kaist.jiset.extractor.algorithm.{ CompileREPL => REPL }
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
 

@@ -2,8 +2,8 @@ package kr.ac.kaist.jiset.compile
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.parser.ECMAScriptParser
-import kr.ac.kaist.jiset.parser.algorithm._
+import kr.ac.kaist.jiset.extractor.ECMAScriptParser
+import kr.ac.kaist.jiset.extractor.algorithm._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec.Region

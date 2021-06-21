@@ -17,3 +17,7 @@ case class WrongNumberOfParserParams(name: String, list: List[Boolean]) extends 
 case class NotSupported(msg: String) extends ModelError({
   s"[NotSupported]: $msg"
 })
+
+case object InvalidAST extends ModelError({
+  s"invald abstract syntax tree"
+})

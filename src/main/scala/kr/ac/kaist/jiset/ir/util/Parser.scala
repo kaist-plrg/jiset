@@ -8,6 +8,7 @@ import scala.util.parsing.combinator.{ JavaTokenParsers, RegexParsers }
 // parsers
 trait Parser extends JavaTokenParsers with RegexParsers {
   // parse a file into a IRNode
+  def fileToProgram(f: String): Program = fromFile(f, program)
   def fileToInsts(f: String): List[Inst] = fromFile(f, insts)
   def fileToInst(f: String): Inst = fromFile(f, inst)
   def fileToExpr(f: String): Expr = fromFile(f, expr)
@@ -17,6 +18,7 @@ trait Parser extends JavaTokenParsers with RegexParsers {
   def fileToBOp(f: String): BOp = fromFile(f, bop)
 
   // parse a String into a IRNode
+  def parseProgram(str: String): Program = errHandle(parseAll(program, str))
   def parseInsts(str: String): List[Inst] = errHandle(parseAll(insts, str))
   def parseInst(str: String): Inst = errHandle(parseAll(inst, str))
   def parseExpr(str: String): Expr = errHandle(parseAll(expr, str))
@@ -48,6 +50,10 @@ trait Parser extends JavaTokenParsers with RegexParsers {
   ////////////////////////////////////////////////////////////////////////////////
   // Syntax
   ////////////////////////////////////////////////////////////////////////////////
+
+  // programs
+  lazy val program: Parser[Program] = rep(inst) ^^ { Program(_) }
+
   // instructions
   lazy val insts: Parser[List[Inst]] = rep(inst)
   lazy val inst: Parser[Inst] = opt(integer <~ ":") ~ (
@@ -78,7 +84,7 @@ trait Parser extends JavaTokenParsers with RegexParsers {
   ) ^^ { case k ~ i => i.csite = k.fold(-1)(_.toInt); i }
 
   // expressions
-  lazy protected val expr: Parser[Expr] = opt("(" ~> integer <~ ")") ~ (
+  lazy val expr: Parser[Expr] = opt("(" ~> integer <~ ")") ~ (
     ref ^^ { ERef(_) } |
     s"${integer}i".r ^^ { case s => EINum(s.dropRight(1).toLong) } |
     s"${integer}n".r ^^ { case s => EBigINum(BigInt(s.dropRight(1).toLong)) } |
@@ -98,6 +104,7 @@ trait Parser extends JavaTokenParsers with RegexParsers {
     "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
     "(" ~> ("typeof" ~> expr) <~ ")" ^^ { case e => ETypeOf(e) } |
     "(" ~> ("is-completion" ~> expr) <~ ")" ^^ { case e => EIsCompletion(e) } |
+    ident ~ ("(" ~> repsep(id, ",") <~ ")") ~ ("=>" ~> inst) ^^ { case x ~ ps ~ b => EClo(x, ps, b) } |
     ("(" ~> repsep(id, ",") <~ ")") ~ ("[=>]" ~> inst) ^^ { case ps ~ b => ECont(ps, b) } |
     ("(" ~> "new" ~> ty) ~ ("(" ~> repsep(prop, ",") <~ ")" <~ ")") ^^ {
       case t ~ props => EMap(t, props)
@@ -113,8 +120,12 @@ trait Parser extends JavaTokenParsers with RegexParsers {
       case e ~ x => EGetElems(e, x)
     } |
     "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
-    "(" ~> "parse-syntax" ~> expr ~ expr <~ ")" ^^ { case e ~ r => EParseSyntax(e, r, EAbsent) } |
-    "(" ~> "parse-syntax" ~> expr ~ expr ~ expr <~ ")" ^^ { case e ~ r ~ le => EParseSyntax(e, r, le) } |
+    "(" ~> "parse-syntax" ~> expr ~ expr <~ ")" ^^ {
+      case e ~ r => EParseSyntax(e, r, EAbsent)
+    } |
+    "(" ~> "parse-syntax" ~> expr ~ expr ~ expr <~ ")" ^^ {
+      case e ~ r ~ ps => EParseSyntax(e, r, ps)
+    } |
     "(" ~> "convert" ~> expr ~ cop ~ rep(expr) <~ ")" ^^ { case e ~ r ~ l => EConvert(e, r, l) } |
     "(" ~> "contains" ~> expr ~ expr <~ ")" ^^ { case l ~ e => EContains(l, e) } |
     "[" ~> "?" ~> expr <~ "]" ^^ { case e => EReturnIfAbrupt(e, true) } |
@@ -131,37 +142,37 @@ trait Parser extends JavaTokenParsers with RegexParsers {
     }
 
   // properties
-  lazy protected val prop: Parser[(Expr, Expr)] =
+  lazy val prop: Parser[(Expr, Expr)] =
     (expr <~ "->") ~ expr ^^ { case k ~ v => (k, v) }
 
   // references
-  lazy protected val ref: Parser[Ref] = {
+  lazy val ref: Parser[Ref] = {
     id ~ rep(propExpr) ^^ {
       case x ~ es => es.foldLeft[Ref](RefId(x)) {
         case (ref, expr) => RefProp(ref, expr)
       }
     }
   }
-  lazy protected val propExpr: Parser[Expr] =
+  lazy val propExpr: Parser[Expr] =
     "." ~> ident ^^ { case x => EStr(x) } | "[" ~> expr <~ "]"
 
   // types
-  lazy protected val ty: Parser[Ty] = ident ^^ { Ty(_) }
+  lazy val ty: Parser[Ty] = ident ^^ { Ty(_) }
 
   // identifiers
-  lazy protected val id: Parser[Id] = ident.withFilter(s => !(keywords contains s)) ^^ { Id(_) }
-  protected val keywords: Set[String] = Set(
+  lazy val id: Parser[Id] = ident.withFilter(s => !(keywords contains s)) ^^ { Id(_) }
+  val keywords: Set[String] = Set(
     "Infinity", "NaN", "true", "false", "undefined", "null", "absent",
     "typeof", /*"new",*/ "pop", "is-instance-of", "get-syntax", "contains"
   )
 
   // unary operators
-  lazy protected val uop: Parser[UOp] = {
+  lazy val uop: Parser[UOp] = {
     "-" ^^^ ONeg | "!" ^^^ ONot | "~" ^^^ OBNot
   }
 
   // binary operators
-  lazy protected val bop: Parser[BOp] = (
+  lazy val bop: Parser[BOp] = (
     "+" ^^^ OPlus |
     "-" ^^^ OSub |
     "**" ^^^ OPow |
@@ -184,7 +195,7 @@ trait Parser extends JavaTokenParsers with RegexParsers {
   )
 
   // convert operators
-  lazy protected val cop: Parser[COp] = (
+  lazy val cop: Parser[COp] = (
     "str2num" ^^^ CStrToNum |
     "str2bigint" ^^^ CStrToBigInt |
     "num2str" ^^^ CNumToStr |

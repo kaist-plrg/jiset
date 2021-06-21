@@ -1,9 +1,13 @@
 package kr.ac.kaist.jiset.ir
 
+import kr.ac.kaist.jiset.spec.algorithm.Algo
+import scala.collection.mutable.{ Map => MMap }
+
 // Walker for IR Language
 trait Walker {
   // all cases
   def walk(node: IRNode): IRNode = node match {
+    case prog: Program => walk(prog)
     case inst: Inst => walk(inst)
     case expr: Expr => walk(expr)
     case ref: Ref => walk(ref)
@@ -11,10 +15,19 @@ trait Walker {
     case id: Id => walk(id)
     case uop: UOp => walk(uop)
     case bop: BOp => walk(bop)
+    case st: State => walk(st)
+    case heap: Heap => walk(heap)
+    case obj: Obj => walk(obj)
+    case v: Value => walk(v)
+    case refV: RefValue => walk(refV)
+    case ctxt: Context => walk(ctxt)
   }
 
   // strings
   def walk(str: String): String = str
+
+  // booleans
+  def walk(bool: Boolean): Boolean = bool
 
   // options
   def walkOpt[T](
@@ -28,16 +41,19 @@ trait Walker {
     tWalk: T => T
   ): List[T] = list.map(tWalk)
 
-  // maps
+  // mutable maps
   def walkMap[K, V](
-    map: Map[K, V],
+    map: MMap[K, V],
     kWalk: K => K,
     vWalk: V => V
-  ): Map[K, V] = map.map { case (k, v) => kWalk(k) -> vWalk(v) }
+  ): MMap[K, V] = map.map { case (k, v) => kWalk(k) -> vWalk(v) }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Syntax
   ////////////////////////////////////////////////////////////////////////////////
+  // programs
+  def walk(program: Program): Program = Program(walkList[Inst](program.insts, walk))
+
   // instructions
   def walk(inst: Inst): Inst = {
     val newInst = inst match {
@@ -74,6 +90,7 @@ trait Walker {
     case ESymbol(desc) => ESymbol(walk(desc))
     case EPop(list, idx) => EPop(walk(list), walk(idx))
     case ERef(ref) => ERef(walk(ref))
+    case EClo(name, params, body) => EClo(walk(name), walkList[Id](params, walk), walk(body))
     case ECont(params, body) => ECont(walkList[Id](params, walk), walk(body))
     case EUOp(uop, expr) => EUOp(walk(uop), walk(expr))
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
@@ -82,8 +99,10 @@ trait Walker {
     case EIsInstanceOf(base, name) => EIsInstanceOf(walk(base), walk(name))
     case EGetElems(base, name) => EGetElems(walk(base), walk(name))
     case EGetSyntax(base) => EGetSyntax(walk(base))
-    case EParseSyntax(code, rule, flags) => EParseSyntax(walk(code), walk(rule), walk(flags))
-    case EConvert(expr, cop, list) => EConvert(walk(expr), walk(cop), walkList[Expr](list, walk))
+    case EParseSyntax(code, rule, parserParams) =>
+      EParseSyntax(walk(code), walk(rule), walk(parserParams))
+    case EConvert(expr, cop, list) =>
+      EConvert(walk(expr), walk(cop), walkList[Expr](list, walk))
     case EContains(list, elem) => EContains(walk(list), walk(elem))
     case EReturnIfAbrupt(expr, check) => EReturnIfAbrupt(walk(expr), check)
     case ECopy(obj) => ECopy(walk(obj))
@@ -110,4 +129,84 @@ trait Walker {
   def walk(bop: BOp): BOp = bop
 
   def walk(cop: COp): COp = cop
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // States
+  ////////////////////////////////////////////////////////////////////////////////
+
+  // states
+  def walk(st: State): State = State(
+    walk(st.context),
+    walkList[Context](st.ctxtStack, walk),
+    walkMap[Id, Value](st.globals, walk, walk),
+    walk(st.heap)
+  )
+
+  def walk(ctxt: Context): Context = Context(
+    walk(ctxt.retId),
+    walk(ctxt.name),
+    walkList[Inst](ctxt.insts, walk),
+    walkMap[Id, Value](ctxt.locals, walk, walk)
+  )
+
+  // heaps
+  def walk(heap: Heap): Heap = Heap(walkMap[Addr, Obj](heap.map, walk, walk))
+
+  // objects
+  def walk(obj: Obj): Obj = obj match {
+    case IRSymbol(desc) => IRSymbol(walk(desc))
+    case IRMap(ty, props, size) => IRMap(
+      walk(ty),
+      walkMap[Value, (Value, Long)](props, walk, (x) => (walk(x._1), x._2)),
+      size
+    )
+    case IRList(values) => IRList(
+      walkList[Value](values.toList, walk).toVector
+    )
+    case IRNotSupported(tyname, msg) => IRNotSupported(walk(tyname), walk(msg))
+  }
+
+  // values
+  def walk(value: Value): Value = value match {
+    case addr: Addr => walk(addr)
+    case ast: ASTVal => walk(ast)
+    case ASTMethod(func, locals) => ASTMethod(walk(func), walkMap[Id, Value](locals, walk, walk))
+    case func: Func => walk(func)
+    case clo: Clo => walk(clo)
+    case cont: Cont => walk(cont)
+    case Num(_) | INum(_) | BigINum(_) | Str(_) | Bool(_) | Undef | Null | Absent => value
+  }
+
+  // addresses
+  def walk(addr: Addr): Addr = addr
+
+  // function
+  def walk(func: Func): Func = func match {
+    case Func(algo) => Func(walk(algo))
+  }
+
+  // algorithm
+  def walk(algo: Algo): Algo = algo
+
+  // closure
+  def walk(clo: Clo): Clo = clo match {
+    case Clo(name, locals, body) =>
+      Clo(walk(name), walkMap[Id, Value](locals, walk, walk), walk(body))
+  }
+
+  // continuation
+  def walk(cont: Cont): Cont = cont match {
+    case Cont(params, body, context, ctxtStack) =>
+      Cont(walkList[Id](params, walk), walk(body), walk(context), walkList[Context](ctxtStack, walk))
+  }
+
+  // AST values
+  def walk(ast: ASTVal): ASTVal = ast
+
+  // reference values
+  def walk(refV: RefValue): RefValue = refV match {
+    case RefValueId(id) => RefValueId(walk(id))
+    case RefValueProp(addr, value) => RefValueProp(walk(addr), walk(value))
+    case RefValueString(str, name) => RefValueString(walk(str), walk(name))
+  }
 }

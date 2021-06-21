@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.spec.grammar._
+import kr.ac.kaist.jiset.spec.grammar.token.NonTerminal
 import Param.Kind._
 
 // syntax-directed algorithm heads
@@ -23,7 +24,7 @@ case class SyntaxDirectedHead(
 
   // parameter type names and optional information
   val (types, optional) = {
-    val names = rhs.getNTs.map(_.name)
+    val names = rhsNames
     val duplicated = names.filter(p => names.count(_ == p) > 1).toSet
     var counter = Map[String, Int]()
     var optional = Set[String]()
@@ -39,6 +40,9 @@ case class SyntaxDirectedHead(
     })
     (types, optional)
   }
+
+  // get rhs names
+  def rhsNames: List[String] = rhs.getNTs.map(_.name)
 
   // parameters
   val params: List[Param] = types.map {

@@ -3,14 +3,14 @@ package kr.ac.kaist.jiset.phase
 import java.io.File
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.parser.algorithm.Compiler
+import kr.ac.kaist.jiset.extractor.algorithm.Compiler
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.UIdGen
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.parser.ECMAScriptParser
-import kr.ac.kaist.jiset.parser.algorithm.TokenParser
+import kr.ac.kaist.jiset.extractor.ECMAScriptParser
+import kr.ac.kaist.jiset.extractor.algorithm.TokenParser
 import org.jsoup.nodes._
 import spray.json._
 

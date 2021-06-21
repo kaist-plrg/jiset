@@ -8,9 +8,11 @@ import org.apache.commons.text.StringEscapeUtils
 import org.jsoup._
 import org.jsoup.nodes._
 import org.jsoup.select._
-import scala.Console.RESET
+import scala.Console._
 import scala.collection.mutable
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
+import scala.concurrent.duration._
 import scala.io.Source
 import scala.sys.process._
 import scala.util.Random.shuffle
@@ -91,6 +93,10 @@ object Useful {
     dumpJson(data, filename)
     println(s"dumped $name to $filename in a JSON format.")
   }
+
+  // get first filename
+  def getFirstFilename(jisetConfig: JISETConfig, msg: String): String =
+    jisetConfig.args.headOption.getOrElse(throw NoFileError(msg))
 
   // read file
   def readFile(filename: String): String =
@@ -282,4 +288,20 @@ object Useful {
   def normStr(str: String): String =
     str.replace("\\", "\\\\").replace("\"", "\\\"")
       .replace("\n", "\\n").replace("\b", "\\b")
+
+  // get catched error message
+  def getError[T](f: => T): Option[Throwable] =
+    try { f; None } catch { case e: Throwable => Some(e) }
+
+  // set timeout
+  def timeout[T](f: => T, limit: Option[Long]): T =
+    timeout(f, limit.fold[Duration](Duration.Inf)(_.seconds))
+  def timeout[T](f: => T, limit: Long): T = timeout(f, limit.seconds)
+  def timeout[T](f: => T, duration: Duration): T =
+    Await.result(Future(f), duration)
+
+  // show failure message
+  def failMsg(msg: String): String = setColor(RED)("[FAIL] " + msg)
+  def warnMsg(msg: String): String = setColor(YELLOW)("[WARN] " + msg)
+  def passMsg(msg: String): String = setColor(GREEN)("[PASS] " + msg)
 }

@@ -2,22 +2,23 @@ package kr.ac.kaist.jiset.generator
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.spec.grammar._
+import kr.ac.kaist.jiset.spec.grammar.token._
 import kr.ac.kaist.jiset.util.Useful._
 
-case class DiffGenerator(grammar: Grammar, modelDir: String) {
+case class DiffGenerator(grammar: Grammar) {
   val Grammar(lexProds, prods) = grammar
   val lexNames = lexProds.map(_.lhs.name).toSet
 
-  val nf = getPrintWriter(s"$modelDir/ASTDiff.scala")
+  val nf = getPrintWriter(s"$SRC_DIR/js/ASTDiff.scala")
   generate
   nf.close()
 
   private def generate: Unit = {
-    nf.println(s"""package $IRES_PACKAGE.model""")
+    nf.println(s"""package $PACKAGE_NAME.js""")
     nf.println
-    nf.println(s"""import $IRES_PACKAGE.ast._""")
-    nf.println(s"""import $IRES_PACKAGE.util.Useful.error""")
-    nf.println(s"""import kr.ac.kaist.ires.util.Span""")
+    nf.println(s"""import $PACKAGE_NAME.js.ast._""")
+    nf.println(s"""import $PACKAGE_NAME.util.Useful.error""")
+    nf.println(s"""import kr.ac.kaist.jiset.util.Span""")
     nf.println
     nf.println(s"""object ASTDiff {""")
     nf.println(s"""  def diffError(l: Any, r: Any): Unit = error(s"$$l != $$r")""")

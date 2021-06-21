@@ -1,9 +1,13 @@
 package kr.ac.kaist.jiset.ir
 
+import kr.ac.kaist.jiset.spec.algorithm.Algo
+import scala.collection.mutable.{ Map => MMap }
+
 // Walker for IR Language
 trait UnitWalker {
   // all cases
   def walk(node: IRNode): Unit = node match {
+    case prog: Program => walk(prog)
     case inst: Inst => walk(inst)
     case expr: Expr => walk(expr)
     case ref: Ref => walk(ref)
@@ -12,10 +16,19 @@ trait UnitWalker {
     case uop: UOp => walk(uop)
     case bop: BOp => walk(bop)
     case cop: COp => walk(cop)
+    case st: State => walk(st)
+    case heap: Heap => walk(heap)
+    case obj: Obj => walk(obj)
+    case v: Value => walk(v)
+    case refV: RefValue => walk(refV)
+    case ctxt: Context => walk(ctxt)
   }
 
   // strings
   def walk(str: String): Unit = {}
+
+  // booleans
+  def walk(bool: Boolean): Unit = {}
 
   // options
   def walkOpt[T](
@@ -29,9 +42,9 @@ trait UnitWalker {
     tWalk: T => Unit
   ): Unit = list.foreach(tWalk)
 
-  // maps
+  // mutable maps
   def walkMap[K, V](
-    map: Map[K, V],
+    map: MMap[K, V],
     kWalk: K => Unit,
     vWalk: V => Unit
   ): Unit = map.foreach { case (k, v) => kWalk(k); vWalk(v) }
@@ -39,6 +52,9 @@ trait UnitWalker {
   ////////////////////////////////////////////////////////////////////////////////
   // Syntax
   ////////////////////////////////////////////////////////////////////////////////
+  // programs
+  def walk(program: Program): Unit = walkList[Inst](program.insts, walk)
+
   // instructions
   def walk(inst: Inst): Unit = inst match {
     case IExpr(expr) =>
@@ -88,6 +104,10 @@ trait UnitWalker {
       walk(list); walk(idx)
     case ERef(ref) =>
       walk(ref)
+    case EClo(name, params, body) =>
+      walk(name)
+      walkList[Id](params, walk);
+      walk(body)
     case ECont(params, body) =>
       walkList[Id](params, walk);
       walk(body)
@@ -105,8 +125,8 @@ trait UnitWalker {
       walk(base); walk(name)
     case EGetSyntax(base) =>
       walk(base)
-    case EParseSyntax(code, rule, flags) =>
-      walk(code); walk(rule); walk(flags)
+    case EParseSyntax(code, rule, parserParams) =>
+      walk(code); walk(rule); walk(parserParams)
     case EConvert(expr, cop, list) =>
       walk(expr); walk(cop); walkList[Expr](list, walk)
     case EContains(list, elem) =>
@@ -142,4 +162,94 @@ trait UnitWalker {
 
   // convert operators
   def walk(cop: COp): Unit = {}
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // States
+  ////////////////////////////////////////////////////////////////////////////////
+
+  // states
+  def walk(st: State): Unit = {
+    walk(st.context)
+    walkList[Context](st.ctxtStack, walk)
+    walkMap[Id, Value](st.globals, walk, walk)
+    walk(st.heap)
+  }
+
+  def walk(ctxt: Context): Unit = {
+    walk(ctxt.retId)
+    walk(ctxt.name)
+    walkList[Inst](ctxt.insts, walk)
+    walkMap[Id, Value](ctxt.locals, walk, walk)
+  }
+
+  // heaps
+  def walk(heap: Heap): Unit = {
+    walkMap[Addr, Obj](heap.map, walk, walk)
+  }
+
+  // objs
+  def walk(obj: Obj): Unit = obj match {
+    case IRSymbol(desc) =>
+      walk(desc)
+    case IRMap(ty, props, size) =>
+      walk(ty)
+      walkMap[Value, (Value, Long)](props, walk, (x) => walk(x._1))
+    case IRList(values) =>
+      walkList[Value](values.toList, walk)
+    case IRNotSupported(tyname, msg) =>
+      walk(tyname)
+      walk(msg)
+  }
+
+  // values
+  def walk(v: Value): Unit = v match {
+    case addr: Addr => walk(addr)
+    case ast: ASTVal => walk(ast)
+    case ASTMethod(func, locals) =>
+      walk(func); walkMap[Id, Value](locals, walk, walk)
+    case func: Func => walk(func)
+    case clo: Clo => walk(clo)
+    case cont: Cont => walk(cont)
+    case Num(_) | INum(_) | BigINum(_) | Str(_) | Bool(_) | Undef | Null | Absent =>
+  }
+
+  // addresses
+  def walk(addr: Addr): Unit = {}
+
+  // function
+  def walk(func: Func): Unit = func match {
+    case Func(algo) => walk(algo)
+  }
+
+  // algorithm
+  def walk(algo: Algo): Unit = {}
+
+  // closure
+  def walk(clo: Clo): Unit = clo match {
+    case Clo(name, locals, body) =>
+      walk(name)
+      walkMap[Id, Value](locals, walk, walk)
+      walk(body)
+  }
+
+  // continuation
+  def walk(cont: Cont): Unit = cont match {
+    case Cont(params, body, context, ctxtStack) =>
+      walkList[Id](params, walk)
+      walk(body)
+      walk(context)
+      walkList[Context](ctxtStack, walk)
+  }
+
+  // AST values
+  def walk(ast: ASTVal): Unit = {}
+
+  // properties
+  def walk(refV: RefValue): Unit = refV match {
+    case RefValueId(id) => walk(id)
+    case RefValueProp(addr, value) =>
+      walk(addr); walk(value)
+    case RefValueString(str, name) =>
+      walk(str); walk(name)
+  }
 }

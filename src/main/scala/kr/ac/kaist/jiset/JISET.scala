@@ -58,11 +58,24 @@ object JISET {
   // commands
   val commands: List[Command] = List(
     CmdHelp,
-    CmdParse,
-    CmdBuildCFG,
+
+    // JISET
+    CmdExtract,
     CmdGenModel,
     CmdCompileREPL,
     CmdGenTest,
+
+    // JS
+    CmdParse,
+    CmdLoad,
+    CmdEval,
+
+    // IRES
+    CmdIRParse,
+    CmdIRLoad,
+    CmdIREval,
+    CmdIRREPL,
+    CmdBuildCFG,
   )
   val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
@@ -71,11 +84,23 @@ object JISET {
   // phases
   var phases: List[Phase] = List(
     Help,
-    Parse,
-    BuildCFG,
+
+    // JISET
+    Extract,
     GenModel,
     CompileREPL,
     GenTest,
+
+    // JS
+    Parse,
+    Load,
+
+    // IRES
+    IRParse,
+    IRLoad,
+    IREval,
+    IRREPL,
+    BuildCFG,
   )
 
   // global options

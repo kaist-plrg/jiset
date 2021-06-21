@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.spec.grammar
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.spec.grammar.token._
 
 // ECMAScript grammars
 case class Grammar(

@@ -1,3 +1,3 @@
-let x = 42
-delete x
-assert (= absent x)
+let obj = (new Object("x" -> 1, "y" -> 2))
+delete obj.x
+assert (= absent obj.x)

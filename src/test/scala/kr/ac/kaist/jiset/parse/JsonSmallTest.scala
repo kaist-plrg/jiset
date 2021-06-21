@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.parse
 
 import kr.ac.kaist.jiset.JISETTest
 import kr.ac.kaist.jiset.spec.ECMAScript
-import kr.ac.kaist.jiset.parser.ECMAScriptParser
+import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import spray.json._
 import org.scalatest._

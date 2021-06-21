@@ -9,6 +9,14 @@ class Appender(tab: String = "  ") {
   var k = 0
   def indent = tab * k
   override def toString: String = sb.toString
+  def listWrap[T](ts: Iterable[T], detail: Boolean = true)(
+    implicit
+    tApp: App[T]
+  ): Appender = {
+    if (ts.isEmpty) this >> "{}"
+    else if (!detail) this >> "{ ... }"
+    else this.wrap { ts.foreach(this :> _ >> LINE_SEP) }
+  }
   def wrap(f: => Unit): Appender = {
     this >> "{" >> LINE_SEP
     k += 1; f; k -= 1
@@ -32,6 +40,7 @@ object Appender {
   // Scala value appender
   implicit lazy val stringApp: App[String] = _ >> _
   implicit lazy val intApp: App[Int] = _ >> _.toString
+  implicit lazy val boolApp: App[Boolean] = _ >> _.toString
 
   // lists with separator
   def ListApp[T](

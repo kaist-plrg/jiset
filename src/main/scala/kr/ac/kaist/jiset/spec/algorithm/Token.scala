@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.spec.algorithm
+package kr.ac.kaist.jiset.spec.algorithm.token
 
 import kr.ac.kaist.jiset.LINE_SEP
 

@@ -2,9 +2,10 @@ package kr.ac.kaist.jiset.generator
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.spec.grammar._
+import kr.ac.kaist.jiset.spec.grammar.token._
 import kr.ac.kaist.jiset.util.Useful._
 
-case class ParserGenerator(grammar: Grammar, modelDir: String) {
+case class ParserGenerator(grammar: Grammar) {
   val Grammar(lexProds, prods) = grammar
   val lexNames = lexProds.map(_.lhs.name).toSet
   val terminalTokens = prods.foldLeft(Set[String]()) {
@@ -23,17 +24,17 @@ case class ParserGenerator(grammar: Grammar, modelDir: String) {
   )
   val paramMap: Map[String, List[String]] =
     prods.map(prod => prod.lhs.name -> prod.lhs.params).toMap
-  val nf = getPrintWriter(s"$modelDir/Parser.scala")
+  val nf = getPrintWriter(s"$SRC_DIR/js/Parser.scala")
   generate
   nf.close()
 
   private def generate: Unit = {
-    nf.println(s"""package $IRES_PACKAGE.model""")
+    nf.println(s"""package $PACKAGE_NAME.js""")
     nf.println
-    nf.println(s"""import $IRES_PACKAGE.ast._""")
-    nf.println(s"""import $IRES_PACKAGE.ir._""")
-    nf.println(s"""import $IRES_PACKAGE.parser.ESParsers""")
-    nf.println(s"""import $IRES_PACKAGE.util.Span""")
+    nf.println(s"""import $PACKAGE_NAME.js.ast._""")
+    nf.println(s"""import $PACKAGE_NAME.ir._""")
+    nf.println(s"""import $PACKAGE_NAME.parser.ESParsers""")
+    nf.println(s"""import $PACKAGE_NAME.util.Span""")
     nf.println
     nf.println(s"""object Parser extends ESParsers {""")
     lexProds.filter(isTargetLexer).foreach(genLexer)

@@ -2,7 +2,9 @@ package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.jiset.ir.JsonProtocol._
 import kr.ac.kaist.jiset.spec.algorithm._
-import kr.ac.kaist.jiset.spec.grammar.{ Token => GToken, _ }
+import kr.ac.kaist.jiset.spec.algorithm.token._
+import kr.ac.kaist.jiset.spec.grammar._
+import kr.ac.kaist.jiset.spec.grammar.token.{ Token => GToken, _ }
 import kr.ac.kaist.jiset.util.BasicJsonProtocol
 import spray.json._
 

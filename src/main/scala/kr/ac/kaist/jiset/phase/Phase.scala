@@ -26,9 +26,11 @@ abstract class PhaseObj[Input, PhaseConfig <: Config, Output] extends Phase {
     val config = defaultConfig
     parser.addRule(config, name, options)
     (in, jisetConfig) => {
-      println(s"========================================")
-      println(s" $name phase")
-      println(s"----------------------------------------")
+      if (!jisetConfig.silent) {
+        println(s"========================================")
+        println(s" $name phase")
+        println(s"----------------------------------------")
+      }
       apply(in, jisetConfig, config)
     }
   }

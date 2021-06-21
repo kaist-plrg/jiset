@@ -14,8 +14,11 @@ case class MethodHead(
   val params: List[Param] = receiverParam :: origParams
 
   // check if step is let ~ `this` step in internal method algorithms
-  def isLetThisStep(step: String): Boolean = (
-    Head.letEnvRecPattern.matches(step) ||
-    Head.letObjPattern.matches(step)
-  )
+  def isLetThisStep(code: Iterable[String]): Boolean = code.headOption match {
+    case Some(head) =>
+      val step = head.trim
+      Head.letEnvRecPattern.matches(step) ||
+        Head.letObjPattern.matches(step)
+    case _ => false
+  }
 }

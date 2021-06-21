@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.grammar
 
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.parser.ECMAScriptParser
+import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.Useful._
 import org.scalatest._

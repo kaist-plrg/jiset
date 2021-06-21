@@ -6,7 +6,6 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.util.{ InfNum, PInf }
 import org.jsoup.nodes._
 import scala.util.matching.Regex
 
@@ -46,7 +45,10 @@ case class Algo(
 
   // get body with post processing
   def getBody: Inst = head match {
-    case (head: MethodHead) if head.isLetThisStep(code.head.trim) =>
+    case (head: SyntaxDirectedHead) if !head.rhsNames.contains(head.lhsName) =>
+      val prefix = Parser.parseInsts(s"let ${head.lhsName} = this")
+      prepend(prefix, rawBody)
+    case (head: MethodHead) if head.isLetThisStep(code) =>
       popFront(rawBody)
     case (builtin: BuiltinHead) =>
       import Param.Kind._
@@ -64,11 +66,8 @@ case class Algo(
     case _ => rawBody
   }
 
-  // arity
-  lazy val arity: (InfNum, InfNum) = head.arity
-
   // not supported
-  lazy val todos: List[String] = {
+  def todos: List[String] = {
     var l: List[String] = List()
     object Walker extends UnitWalker {
       override def walk(expr: Expr): Unit = expr match {
@@ -94,6 +93,12 @@ case class Algo(
     }
     Walker.walk(rawBody)
     complete
+  }
+
+  // normal check
+  def isNormal: Boolean = head match {
+    case _: NormalHead => true
+    case _ => false
   }
 
   // conversion to string

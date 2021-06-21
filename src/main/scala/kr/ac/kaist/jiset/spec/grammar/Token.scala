@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.spec.grammar
+package kr.ac.kaist.jiset.spec.grammar.token
 
 import kr.ac.kaist.jiset.util.Useful._
 

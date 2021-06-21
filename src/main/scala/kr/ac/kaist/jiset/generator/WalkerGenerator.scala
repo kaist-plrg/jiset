@@ -2,20 +2,21 @@ package kr.ac.kaist.jiset.generator
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.spec.grammar._
+import kr.ac.kaist.jiset.spec.grammar.token._
 import kr.ac.kaist.jiset.util.Useful._
 
-case class WalkerGenerator(grammar: Grammar, modelDir: String) {
+case class WalkerGenerator(grammar: Grammar) {
   val Grammar(lexProds, prods) = grammar
   val lexNames = lexProds.map(_.lhs.name).toSet
 
-  val nf = getPrintWriter(s"$modelDir/ASTWalker.scala")
+  val nf = getPrintWriter(s"$SRC_DIR/js/ASTWalker.scala")
   generate
   nf.close()
 
   private def generate: Unit = {
-    nf.println(s"""package $IRES_PACKAGE.model""")
+    nf.println(s"""package $PACKAGE_NAME.js""")
     nf.println
-    nf.println(s"""import $IRES_PACKAGE.ast._""")
+    nf.println(s"""import $PACKAGE_NAME.js.ast._""")
     nf.println
     nf.println(s"""object ASTWalker {""")
     nf.println(s"""  def job(ast: AST): Unit = {}""")

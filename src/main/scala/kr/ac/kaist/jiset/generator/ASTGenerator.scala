@@ -4,17 +4,18 @@ import java.io.PrintWriter
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.spec.algorithm.Algo
 import kr.ac.kaist.jiset.spec.grammar._
+import kr.ac.kaist.jiset.spec.grammar.token._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.util.matching.Regex
 
-case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
+case class ASTGenerator(grammar: Grammar) {
   val Grammar(lexProds, prods) = grammar
   val lexNames = lexProds.map(_.lhs.name).toSet
 
   // generate Scala files for productions
   for (Production(lhs, rhsList) <- prods if !Grammar.isExtNT(lhs.name)) {
     val name = lhs.name
-    val nf = getPrintWriter(s"$modelDir/ast/$name.scala")
+    val nf = getPrintWriter(s"$SRC_DIR/js/ast/$name.scala")
     genTrait(nf, name, rhsList)
     for ((rhs, i) <- rhsList.zipWithIndex) genClass(nf, name, rhs, i)
     nf.close()
@@ -22,38 +23,13 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
 
   // generate trait for Lhs
   private def genTrait(nf: PrintWriter, name: String, rhsList: List[Rhs]): Unit = {
-    nf.println(s"""package $IRES_PACKAGE.model""")
+    nf.println(s"""package $PACKAGE_NAME.js.ast""")
     nf.println
-    nf.println(s"""import $IRES_PACKAGE.ast._""")
-    nf.println(s"""import $IRES_PACKAGE.algorithm._""")
-    nf.println(s"""import $IRES_PACKAGE.ir._""")
-    nf.println(s"""import $IRES_PACKAGE.error.InvalidAST""")
-    nf.println(s"""import $IRES_PACKAGE.util.Span""")
-    nf.println(s"""import scala.collection.immutable.{ Set => SSet }""")
+    nf.println(s"""import $PACKAGE_NAME.ir._""")
+    nf.println(s"""import $PACKAGE_NAME.util.Span""")
     nf.println(s"""import spray.json._""")
     nf.println
-    nf.println(s"""trait $name extends AST {""")
-    nf.println(s"""  val kind: String = "$name"""")
-    nf.println(s"""}""")
-    nf.println(s"""object $name extends ASTHelper {""")
-    nf.println(s"""  def apply(v: JsValue): $name = v match {""")
-    for ((rhs, i) <- rhsList.zipWithIndex) genFromJsonCase(nf, name, rhs, i)
-    nf.println(s"""    case _ => throw InvalidAST""")
-    nf.println(s"""  }""")
-    nf.println(s"""}""")
-  }
-
-  // generate fromJson cases
-  private def genFromJsonCase(nf: PrintWriter, name: String, rhs: Rhs, i: Int): Unit = {
-    val (xs, params) = (for {
-      (token, i) <- rhs.tokens.zipWithIndex
-      x = s"x$i"
-      constructor <- getConstructor(token, x)
-    } yield (x, constructor)).unzip
-    val xsStr = xs.mkString(", ")
-    val args = (params ++ List("params", "span")).mkString(", ")
-    nf.println(s"""    case JsSeq(JsInt($i), JsSeq($xsStr), JsBoolSeq(params), JsSpan(span)) =>""")
-    nf.println(s"""      $name$i($args)""")
+    nf.println(s"""trait $name extends AST { val kind: String = "$name" }""")
   }
 
   // generate case classes for Rhs
@@ -74,7 +50,6 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
       ("parserParams", "List[Boolean]"),
       ("span", "Span"),
     )).map { case (x, t) => s"$x: $t" }.mkString(", ")
-    val sems = getSems(name, i)
 
     nf.println
     nf.println(s"""case class $name$i($paramsString) extends $name {""")
@@ -84,38 +59,14 @@ case class ASTGenerator(algos: List[Algo], grammar: Grammar, modelDir: String) {
       case (x, t) =>
         nf.println(s"  $x.parent = Some(this)")
     }
-    nf.println(s"""  val idx: Int = $i""")
+    nf.println(s"""  def idx: Int = $i""")
+    nf.println(s"""  def k: Int = ${params.foldLeft("0") { case (str, (x, _)) => s"d($x, $str)" }}""")
+    nf.println(s"""  def fullList: List[(String, Value)] = $listString.reverse""")
+    nf.println(s"""  def maxK: Int = $maxK""")
     nf.println(s"""  override def toString: String = {""")
     nf.println(s"""    s"$string"""")
     nf.println(s"""  }""")
-    nf.println(s"""  val k: Int = ${params.foldLeft("0") { case (str, (x, _)) => s"d($x, $str)" }}""")
-    nf.println(s"""  val fullList: List[(String, Value)] = $listString.reverse""")
-    nf.println(s"""  val info: ASTInfo = $name$i""")
     nf.println(s"""}""")
-    nf.println(s"""object $name$i extends ASTInfo {""")
-    nf.println(s"""  val maxK: Int = $maxK""")
-    nf.print(s"""  val semMap: Map[String, Algo] = """)
-    if (sems.isEmpty) nf.println("Map()") else {
-      nf.println("Map(")
-      sems.foreach {
-        case (methodName, algoName) =>
-          nf.println(s"""    "$methodName" -> `$algoName`,""")
-      }
-      nf.println(s"""  )""")
-    }
-    nf.println(s"""}""")
-  }
-
-  private def getSems(name: String, i: Int): List[(String, String)] = {
-    val pattern = s"${name}\\[$i,(\\d+)\\]\\.(.*)".r
-    for {
-      algo <- algos
-      algoName = algo.name
-      methodName <- algoName match {
-        case pattern(j, methodName) => Some(methodName + j)
-        case _ => None
-      }
-    } yield (methodName, "AL::" + algoName)
   }
 
   private def handleParams(l: List[String]): List[String] = {

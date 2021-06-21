@@ -16,17 +16,12 @@ case object GenModel extends PhaseObj[ECMAScript, GenModelConfig, Unit] {
     spec: ECMAScript,
     jisetConfig: JISETConfig,
     config: GenModelConfig
-  ): Unit = {
-    val GenModelConfig(dirname, noParser) = config
-    time(s"generating models to $dirname", {
-      ModelGenerator(spec, dirname, !noParser)
-    })
-  }
+  ): Unit = time(s"generating models", {
+    ModelGenerator(spec, !config.noParser)
+  })
 
   def defaultConfig: GenModelConfig = GenModelConfig()
   val options: List[PhaseOption[GenModelConfig]] = List(
-    ("dir", StrOption((c, s) => c.dirname = s),
-      "set the output directory (default: model)."),
     ("no-parser", BoolOption(c => c.noParser = true),
       "do not generate parser."),
   )
@@ -34,6 +29,5 @@ case object GenModel extends PhaseObj[ECMAScript, GenModelConfig, Unit] {
 
 // GenModel phase config
 case class GenModelConfig(
-  var dirname: String = "model",
   var noParser: Boolean = false
 ) extends Config
