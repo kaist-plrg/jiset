@@ -19,66 +19,63 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
   val name: String = "gen-test"
   val help: String = "generate test answers."
 
-  type Parsed = ((Array[String], Document, Region), ECMAScript)
+  type Extracted = ((Array[String], Document, Region), ECMAScript)
   def apply(
     non: Unit,
     jisetConfig: JISETConfig,
     config: GenTestConfig
   ): Unit = {
     TEST_MODE = true
-    val parsedMap = (for (version <- VERSIONS) yield time(s"parse $version", {
-      val input = ECMAScriptParser.preprocess(version)
-      val spec = ECMAScriptParser(version, input, "", false)
-      version -> (input, spec)
-    })._2).toMap
-    genGrammarTest(parsedMap)
-    genBasicTest(parsedMap)
+    val (_, extracted) = time(s"extract ECMAScript ($VERSION)", {
+      val input = ECMAScriptParser.preprocess(VERSION)
+      val spec = ECMAScriptParser(VERSION, input, "", false)
+      (input, spec)
+    })
+    genGrammarTest(extracted)
+    genBasicTest(extracted)
   }
 
   // util
   val json2ir = changeExt("json", "ir")
 
   // generate grammar test
-  def genGrammarTest(parsedMap: Map[String, Parsed]): Unit =
+  def genGrammarTest(extracted: Extracted): Unit =
     time("generate grammar tests", {
       mkdir(GRAMMAR_DIR)
-      for (version <- VERSIONS) {
-        val (_, spec) = parsedMap(version)
-        val filename = s"$GRAMMAR_DIR/$version.grammar"
-        dumpFile(spec.grammar.toString, filename)
-      }
+      val (_, spec) = extracted
+      val filename = s"$GRAMMAR_DIR/$VERSION.grammar"
+      dumpFile(spec.grammar.toString, filename)
     })
 
   // generate basic test
-  def genBasicTest(parsedMap: Map[String, Parsed]): Unit =
-    for (version <- VERSIONS) {
-      val (input, spec) = parsedMap(version)
-      time(s"generate $version tests", {
-        val baseDir = s"$BASIC_COMPILE_DIR/$version"
+  def genBasicTest(extracted: Extracted): Unit = {
+    val (input, spec) = extracted
+    time(s"generate $VERSION tests", {
+      val baseDir = s"$BASIC_COMPILE_DIR/$VERSION"
 
-        // get spec, document, grammar, secIds
-        implicit val (lines, document, region) = input
-        implicit val grammar = spec.grammar
-        val (secIds, _) = ECMAScriptParser.parseHeads()
+      // get spec, document, grammar, secIds
+      implicit val (lines, document, region) = input
+      implicit val grammar = spec.grammar
+      val (secIds, _) = ECMAScriptParser.parseHeads()
 
-        mkdir(baseDir)
-        for {
-          algo <- spec.algos
-          if algo.code != Nil
-        } {
-          val Algo(head, ids, rawBody, code) = algo
-          // file name
-          val filename = s"$baseDir/${algo.name}"
-          // dump code
-          dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")
-          // dump tokens of steps
-          val tokens = TokenParser.getTokens(code)
-          dumpJson(tokens, s"$filename.json")
-          // dump ir
-          dumpFile(rawBody.beautified(index = false, asite = false), s"$filename.ir")
-        }
-      })
-    }
+      mkdir(baseDir)
+      for {
+        algo <- spec.algos
+        if algo.code != Nil
+      } {
+        val Algo(head, ids, rawBody, code) = algo
+        // file name
+        val filename = s"$baseDir/${algo.name}"
+        // dump code
+        dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")
+        // dump tokens of steps
+        val tokens = TokenParser.getTokens(code)
+        dumpJson(tokens, s"$filename.json")
+        // dump ir
+        dumpFile(rawBody.beautified(index = false, asite = false), s"$filename.ir")
+      }
+    })
+  }
 
   def defaultConfig: GenTestConfig = GenTestConfig()
   val options: List[PhaseOption[GenTestConfig]] = Nil

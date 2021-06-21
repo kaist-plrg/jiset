@@ -8,19 +8,13 @@ import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 
 package object js {
-  // current ECMAScript
-  private var targetSpec: Option[ECMAScript] = None
+  // current ECMAScript model
+  lazy val spec: ECMAScript =
+    targetSpec.getOrElse(readJson[ECMAScript](MODEL_PATH))
+
+  // set current ECMAScript model
   def setTarget(spec: ECMAScript): Unit = targetSpec = Some(spec)
-  lazy val spec: ECMAScript = optional(targetSpec.getOrElse {
-    readJson[ECMAScript](MODEL_PATH)
-  }).getOrElse {
-    Console.err.println(s"[WARNING] no cache in $MODEL_PATH!!")
-    val (_, spec) = time(s"  - parsing ECMAScript ($DEFAULT_VERSION)", {
-      ECMAScriptParser(DEFAULT_VERSION, "", false)
-    })
-    dumpJson(spec, MODEL_PATH)
-    spec
-  }
+  private var targetSpec: Option[ECMAScript] = None
 
   // ECMAScript components
   lazy val consts: Set[String] = spec.consts

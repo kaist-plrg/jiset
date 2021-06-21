@@ -9,15 +9,21 @@
     append n -> coerced
     __x1__ = (+ __x1__ 1i)
   }
-  let onlyZero = true
   let __x3__ = coerced
   let __x4__ = 0i
   while (< __x4__ __x3__.length) {
     let number = __x3__[__x4__]
-    if (|| (= number NaN) (= number Infinity)) return number else {}
-    if (= number -Infinity) return Infinity else {}
-    if (! (|| (= number 0i) (= number -0.0))) onlyZero = false else {}
+    if (|| (= number Infinity) (= number -Infinity)) return Infinity else {}
     __x4__ = (+ __x4__ 1i)
+  }
+  let onlyZero = true
+  let __x5__ = coerced
+  let __x6__ = 0i
+  while (< __x6__ __x5__.length) {
+    let number = __x5__[__x6__]
+    if (= number NaN) return NaN else {}
+    if (! (|| (= number 0i) (= number -0.0))) onlyZero = false else {}
+    __x6__ = (+ __x6__ 1i)
   }
   if (= onlyZero true) return 0i else {}
   ??? "Return an implementation - approximated value representing the square root of the sum of squares of the mathematical values of the elements of id:{coerced} ."

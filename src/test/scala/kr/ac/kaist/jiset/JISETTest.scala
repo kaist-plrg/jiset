@@ -9,6 +9,9 @@ import org.scalatest._
 import spray.json._
 
 trait JISETTest extends FunSuite with BeforeAndAfterAll {
+  // set test mode
+  TEST_MODE = true
+
   // results
   trait Result
   case object Pass extends Result
@@ -28,10 +31,6 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
       case Yet(msg) => JsString(msg)
     }
   }
-
-  // extractors
-  def getInfo(version: String) = JISETTest.infos(version)
-  def getSpec(version: String) = JISETTest.specs(version)
 
   // count tests
   protected var count: Int = 0
@@ -109,18 +108,7 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
   def init: Unit
 }
 object JISETTest {
-  // set test mode
-  TEST_MODE = true
   // extract specifications
-  lazy val infos = (for (version <- VERSIONS) yield {
-    version -> ECMAScriptParser.preprocess(version)
-  }).toMap
-  lazy val specs = {
-    val specs = (for (version <- VERSIONS) yield {
-      println(s"[info] parsing $version...")
-      version -> ECMAScriptParser(version, infos(version), "", false)
-    }).toMap
-    println("[info] all specifications are successfully parsed.")
-    specs
-  }
+  lazy val info = ECMAScriptParser.preprocess(VERSION)
+  lazy val spec = js.spec
 }

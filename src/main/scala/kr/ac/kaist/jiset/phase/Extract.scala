@@ -24,9 +24,9 @@ case object Extract extends PhaseObj[Unit, ExtractConfig, ECMAScript] {
           readJson[ECMAScript](filename)
         })
       case None =>
-        val version = config.version.getOrElse("recent")
+        val version = config.version.getOrElse(VERSION)
         val query = config.query.getOrElse("")
-        println(s"version: $version (${getRawVersion(version)})")
+        println(s"version: $version")
         if (query != "") println(s"query: $query")
         time(s"parsing spec.html", {
           ECMAScriptParser(version, query, config.detail)

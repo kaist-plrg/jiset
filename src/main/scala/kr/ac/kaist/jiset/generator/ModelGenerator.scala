@@ -9,8 +9,11 @@ import kr.ac.kaist.jiset.spec.grammar.Grammar
 case class ModelGenerator(spec: ECMAScript, parser: Boolean) {
   val ECMAScript(grammar, algos, consts, intrinsics, symbols, _, _) = spec
 
-  // generate model/DEFAULT_VERSION in resource directory
-  spec.dumpTo(s"$MODEL_DIR/$DEFAULT_VERSION")
+  // generate model/VERSION in resource directory
+  spec.dumpTo(s"$MODEL_DIR/$VERSION")
+
+  // XXX REMOVE generate model/VERSION.json in resource directory
+  dumpJson(spec, s"$MODEL_DIR/$VERSION.json")
 
   // generate js/ast/*.scala in source code directory
   ASTGenerator(grammar)

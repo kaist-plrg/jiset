@@ -10,14 +10,11 @@ class BasicSmallTest extends GrammarTest {
   val name: String = "grammarBasicTest"
 
   // registration
-  def init: Unit = {
-    for (version <- VERSIONS) check(version, {
-      val filename = s"$GRAMMAR_DIR/$version.grammar"
-      val answer = readFile(filename)
-      val spec = getSpec(version)
-      val grammar = spec.grammar
-      assert(answer == grammar.toString)
-    })
-  }
+  def init: Unit = check(VERSION, {
+    val filename = s"$GRAMMAR_DIR/$VERSION.grammar"
+    val answer = readFile(filename)
+    val grammar = JISETTest.spec.grammar
+    assert(answer == grammar.toString)
+  })
   init
 }

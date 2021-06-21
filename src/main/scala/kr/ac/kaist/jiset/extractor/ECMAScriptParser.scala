@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP, RECENT_VERSION, RESOURCE_DIR }
+import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP, VERSION, RESOURCE_DIR }
 import org.jsoup._
 import org.jsoup.nodes._
 import scala.collection.mutable.Stack
@@ -53,11 +53,10 @@ object ECMAScriptParser {
   // helper
   ////////////////////////////////////////////////////////////////////////////////
   // preprocess for spec.html
-  def preprocess(version: String = RECENT_VERSION): (Array[String], Document, Region) = {
-    val rawVersion = getRawVersion(version)
+  def preprocess(version: String = VERSION): (Array[String], Document, Region) = {
     val cur = currentVersion(ECMA262_DIR)
-    val src = if (cur == rawVersion) readFile(SPEC_HTML) else {
-      changeVersion(rawVersion, ECMA262_DIR)
+    val src = if (cur == version) readFile(SPEC_HTML) else {
+      changeVersion(version, ECMA262_DIR)
       val src = readFile(SPEC_HTML)
       changeVersion(cur, ECMA262_DIR)
       src

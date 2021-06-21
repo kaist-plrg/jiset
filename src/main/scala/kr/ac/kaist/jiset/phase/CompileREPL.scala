@@ -17,8 +17,8 @@ case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {
     config: CompileREPLConfig
   ): Unit = {
     val CompileREPLConfig(versionOpt, detail) = config
-    val version = versionOpt.getOrElse("recent")
-    println(s"version: $version (${getRawVersion(version)})")
+    val version = versionOpt.getOrElse(VERSION)
+    println(s"version: $version")
 
     implicit val (_, (lines, document, region)) =
       time("preprocess", ECMAScriptParser.preprocess(version))

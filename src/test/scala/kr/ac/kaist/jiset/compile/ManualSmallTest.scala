@@ -15,12 +15,12 @@ import org.scalatest._
 
 class ManualSmallTest extends CompileTest {
   implicit val (lines, grammar, document, region): (Array[String], Grammar, Document, Region) = {
-    implicit val (lines, document, region) = getInfo("recent")
+    implicit val (lines, document, region) = JISETTest.info
     (lines, ECMAScriptParser.parseGrammar, document, region)
   }
   val (secIds, _) = ECMAScriptParser.parseHeads()
   val name: String = "compileManualTest"
-  val compileTarget = CompileTargets(RECENT_VERSION, secIds)
+  val compileTarget = CompileTargets(VERSION, secIds)
   import compileTarget._
 
   def test(desc: String, target: CompileTarget)(cases: (String, String)*) = check(desc, {

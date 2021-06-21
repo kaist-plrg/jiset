@@ -17,9 +17,6 @@ package object jiset {
   val ECMA262_DIR = s"$BASE_DIR/ecma262"
   val SPEC_HTML = s"$ECMA262_DIR/spec.html"
 
-  // es2021-candidate-2021-03
-  val RECENT_VERSION = "fc85c50181b2b8d7d75f034800528d87fda6b654"
-
   // Tests directory root
   val TEST_DIR = s"$BASE_DIR/tests"
   val COMPILE_DIR = s"$TEST_DIR/compile"
@@ -38,9 +35,8 @@ package object jiset {
   // Current directory root
   val CUR_DIR = System.getProperty("user.dir")
 
-  // ECMAScript model
-  val DEFAULT_VERSION = "recent"
-  val VERSIONS = List("recent")
+  // ECMAScript version (ES12 / ECMASCript 2021 / es2021)
+  val VERSION = "es2021"
 
   // Source code directory
   val SRC_DIR = s"$BASE_DIR/src/main/scala/kr/ac/kaist/jiset"
@@ -48,7 +44,7 @@ package object jiset {
   // Resource directory
   val RESOURCE_DIR = s"$BASE_DIR/src/main/resources"
   val MODEL_DIR = s"$RESOURCE_DIR/model"
-  val MODEL_PATH = s"$MODEL_DIR/$DEFAULT_VERSION.json"
+  val MODEL_PATH = s"$MODEL_DIR/$VERSION.json"
   val ID_START_JSON = s"$RESOURCE_DIR/ID_Start.json"
   val ID_CONTINUE_JSON = s"$RESOURCE_DIR/ID_Continue.json"
 

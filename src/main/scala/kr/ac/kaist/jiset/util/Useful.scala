@@ -276,14 +276,6 @@ object Useful {
     case e: Throwable => println(msg); throw e
   }
 
-  // get version
-  def getVersion(version: String): String =
-    if (version == RECENT_VERSION) "recent" else version
-
-  // get raw version
-  def getRawVersion(version: String): String =
-    if (version == "recent") RECENT_VERSION else version
-
   // normalize strings
   def normStr(str: String): String =
     str.replace("\\", "\\\\").replace("\"", "\\\"")
