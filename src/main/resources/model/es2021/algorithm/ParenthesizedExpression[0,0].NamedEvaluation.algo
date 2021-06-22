@@ -1,0 +1,10 @@
+def [SYNTAX] ParenthesizedExpression[0,0].NamedEvaluation<`(` Expression `)`>(name) = {
+  0:app __x0__ = (IsAnonymousFunctionDefinition Expression)
+  0:assert (= __x0__ true)
+  1:access __x1__ = (Expression "NamedEvaluation" name)
+  1:return __x1__
+}
+- id: "sec-runtime-semantics-namedevaluation"
+- code:
+        1. Assert: IsAnonymousFunctionDefinition(|Expression|) is *true*.
+        1. Return the result of performing NamedEvaluation for |Expression| with argument _name_.

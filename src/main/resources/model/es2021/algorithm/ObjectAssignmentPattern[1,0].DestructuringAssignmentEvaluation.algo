@@ -1,0 +1,12 @@
+def [SYNTAX] ObjectAssignmentPattern[1,0].DestructuringAssignmentEvaluation<`{` AssignmentRestProperty `}`>(value) = {
+  0:app __x0__ = (RequireObjectCoercible value)
+  0:[? __x0__]
+  1:let excludedNames = (new [])
+  2:access __x1__ = (AssignmentRestProperty "RestDestructuringAssignmentEvaluation" value excludedNames)
+  2:return __x1__
+}
+- id: "sec-runtime-semantics-destructuringassignmentevaluation"
+- code:
+          1. Perform ? RequireObjectCoercible(_value_).
+          1. Let _excludedNames_ be a new empty List.
+          1. Return the result of performing RestDestructuringAssignmentEvaluation of |AssignmentRestProperty| with _value_ and _excludedNames_ as the arguments.

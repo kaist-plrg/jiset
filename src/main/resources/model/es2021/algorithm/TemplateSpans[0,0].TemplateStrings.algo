@@ -1,0 +1,17 @@
+def [SYNTAX] TemplateSpans[0,0].TemplateStrings<TemplateTail>(raw) = {
+  2:if (= raw false) {
+    1:access __x0__ = (TemplateTail "TV")
+    1:let tail = __x0__
+  } else {
+    3:access __x1__ = (TemplateTail "TRV")
+    3:let tail = __x1__
+  }
+  4:return (new [tail])
+}
+- id: "sec-static-semantics-templatestrings"
+- code:
+          1. If _raw_ is *false*, then
+            1. Let _tail_ be the TV of |TemplateTail|.
+          1. Else,
+            1. Let _tail_ be the TRV of |TemplateTail|.
+          1. Return a List whose sole element is _tail_.

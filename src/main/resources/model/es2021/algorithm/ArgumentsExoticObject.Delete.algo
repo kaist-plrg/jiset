@@ -1,0 +1,20 @@
+def [METHOD] ArgumentsExoticObject.Delete(args)(P) = {
+  0:let map = args.ParameterMap
+  1:app __x0__ = (HasOwnProperty map P)
+  1:let isMapped = [! __x0__]
+  2:app __x1__ = (OrdinaryDelete args P)
+  2:let result = [? __x1__]
+  3:if (&& (= result true) (= isMapped true)) {
+    4:app __x2__ = (map.Delete map P)
+    4:__x2__
+  } else 7:{}
+  5:return result
+}
+- id: "sec-arguments-exotic-objects-delete-p"
+- code:
+          1. Let _map_ be _args_.[[ParameterMap]].
+          1. Let _isMapped_ be ! HasOwnProperty(_map_, _P_).
+          1. Let _result_ be ? OrdinaryDelete(_args_, _P_).
+          1. If _result_ is *true* and _isMapped_ is *true*, then
+            1. Call _map_.[[Delete]](_P_).
+          1. Return _result_.

@@ -1,0 +1,9 @@
+def RemoveWaiter(WL, W) = {
+  2:let __x0__ = 0i
+  2:while (< __x0__ WL.length) if (= WL[__x0__] W) (pop WL __x0__) else __x0__ = (+ __x0__ 1i)
+}
+- id: "sec-removewaiter"
+- code:
+          1. Assert: The calling agent is in the critical section for _WL_.
+          1. Assert: _W_ is on the list of waiters in _WL_.
+          1. Remove _W_ from the list of waiters in _WL_.

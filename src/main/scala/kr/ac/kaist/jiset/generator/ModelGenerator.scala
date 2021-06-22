@@ -12,9 +12,6 @@ case class ModelGenerator(spec: ECMAScript, parser: Boolean) {
   // generate model/VERSION in resource directory
   spec.dumpTo(s"$MODEL_DIR/$VERSION")
 
-  // XXX REMOVE generate model/VERSION.json in resource directory
-  dumpJson(spec, s"$MODEL_DIR/$VERSION.json")
-
   // generate js/ast/*.scala in source code directory
   ASTGenerator(grammar)
 

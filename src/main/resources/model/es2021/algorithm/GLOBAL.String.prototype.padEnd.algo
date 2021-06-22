@@ -1,0 +1,10 @@
+def [BUILTIN] String.prototype.padEnd(maxLength, fillString?) = {
+  0:app __x0__ = (RequireObjectCoercible this)
+  0:let O = [? __x0__]
+  1:app __x1__ = (StringPad O maxLength fillString CONST_end)
+  1:return [? __x1__]
+}
+- id: "sec-string.prototype.padend"
+- code:
+          1. Let _O_ be ? RequireObjectCoercible(*this* value).
+          1. Return ? StringPad(_O_, _maxLength_, _fillString_, ~end~).

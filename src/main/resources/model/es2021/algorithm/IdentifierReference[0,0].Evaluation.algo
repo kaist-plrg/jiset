@@ -1,0 +1,8 @@
+def [SYNTAX] IdentifierReference[0,0].Evaluation<Identifier>() = {
+  0:access __x0__ = (Identifier "StringValue")
+  0:app __x1__ = (ResolveBinding __x0__)
+  0:return [? __x1__]
+}
+- id: "sec-identifiers-runtime-semantics-evaluation"
+- code:
+        1. Return ? ResolveBinding(StringValue of |Identifier|).

@@ -1,7 +1,9 @@
 {
-  let f = CONTEXT.Function
-  let name = f.Name
-  let env = f.Env
-  app __x0__ = (env.SetMutableBinding env name value false)
-  return __x0__
+  ??? "Let id:{steps} be the steps of an ArgSetter function as specified below ."
+  ??? "Let id:{length} be the number of non - optional parameters of an ArgSetter function as specified below ."
+  app __x0__ = (CreateBuiltinFunction steps length "" (new ["Name", "Env"]))
+  let setter = [! __x0__]
+  setter.Name = name
+  setter.Env = env
+  return setter
 }

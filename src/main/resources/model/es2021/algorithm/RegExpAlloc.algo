@@ -1,0 +1,12 @@
+def RegExpAlloc(newTarget) = {
+  0:app __x0__ = (OrdinaryCreateFromConstructor newTarget "%RegExp.prototype%" (new ["RegExpMatcher", "OriginalSource", "OriginalFlags"]))
+  0:let obj = [? __x0__]
+  1:app __x1__ = (DefinePropertyOrThrow obj "lastIndex" (new PropertyDescriptor("Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  1:[! __x1__]
+  2:return obj
+}
+- id: "sec-regexpalloc"
+- code:
+            1. Let _obj_ be ? OrdinaryCreateFromConstructor(_newTarget_, *"%RegExp.prototype%"*, « [[RegExpMatcher]], [[OriginalSource]], [[OriginalFlags]] »).
+            1. Perform ! DefinePropertyOrThrow(_obj_, *"lastIndex"*, PropertyDescriptor { [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *false* }).
+            1. Return _obj_.

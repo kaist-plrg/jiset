@@ -1,0 +1,11 @@
+def [SYNTAX] VariableStatement[0,0].Evaluation<`var` VariableDeclarationList `;`>() = {
+  0:access __x0__ = (VariableDeclarationList "Evaluation")
+  0:let next = __x0__
+  1:[? next]
+  2:return CONST_empty
+}
+- id: "sec-variable-statement-runtime-semantics-evaluation"
+- code:
+          1. Let _next_ be the result of evaluating |VariableDeclarationList|.
+          1. ReturnIfAbrupt(_next_).
+          1. Return NormalCompletion(~empty~).

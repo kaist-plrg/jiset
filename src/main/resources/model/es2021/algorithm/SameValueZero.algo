@@ -1,0 +1,15 @@
+def SameValueZero(x, y) = {
+  0:if (! (= (typeof x) (typeof y))) return false else 0:{}
+  1:if (|| (= (typeof x) Number) (= (typeof x) BigInt)) {
+    2:app __x0__ = (PRIMITIVE[(typeof x)].sameValueZero x y)
+    2:return [! __x0__]
+  } else 0:{}
+  3:app __x1__ = (SameValueNonNumeric x y)
+  3:return [! __x1__]
+}
+- id: "sec-samevaluezero"
+- code:
+        1. If Type(_x_) is different from Type(_y_), return *false*.
+        1. If Type(_x_) is Number or BigInt, then
+          1. Return ! Type(_x_)::sameValueZero(_x_, _y_).
+        1. Return ! SameValueNonNumeric(_x_, _y_).

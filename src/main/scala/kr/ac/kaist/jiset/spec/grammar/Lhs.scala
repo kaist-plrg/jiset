@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.spec.grammar
 
-import kr.ac.kaist.jiset.spec.SpecComponent
+import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
 
 // ECMAScript grammar left-hand-sides
 case class Lhs(
@@ -12,3 +12,4 @@ case class Lhs(
   def isTarget: Boolean = Grammar.isTargetNT(name)
   def isScript: Boolean = name == "Script"
 }
+object Lhs extends Parser[Lhs]

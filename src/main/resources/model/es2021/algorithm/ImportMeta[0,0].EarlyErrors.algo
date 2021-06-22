@@ -1,0 +1,10 @@
+def [SYNTAX] ImportMeta[0,0].EarlyErrors<`import` `.` `meta`>() = {
+  0:let __x0__ = false
+  0:if (= absent (parse-syntax this "Module" (new []))) __x0__ = true else 2:{}
+  0:if __x0__ throw SyntaxError else 2:{}
+}
+- id: "sec-left-hand-side-expressions-static-semantics-early-errors"
+- code:
+          <li>
+            It is a Syntax Error if the syntactic goal symbol is not |Module|.
+          </li>

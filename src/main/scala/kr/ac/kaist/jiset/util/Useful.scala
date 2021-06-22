@@ -61,6 +61,7 @@ object Useful {
   lazy val scalaFilter = extFilter("scala")
   lazy val grammarFilter = extFilter("grammar")
   lazy val dotFilter = extFilter("dot")
+  lazy val algoFilter = extFilter("algo")
 
   // file writer
   def getPrintWriter(filename: String): PrintWriter =

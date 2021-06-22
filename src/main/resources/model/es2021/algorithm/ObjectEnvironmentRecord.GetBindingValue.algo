@@ -1,0 +1,15 @@
+def [METHOD] ObjectEnvironmentRecord.GetBindingValue(envRec)(N, S) = {
+  0:let bindings = envRec.BindingObject
+  1:app __x0__ = (HasProperty bindings N)
+  1:let value = [? __x0__]
+  2:if (= value false) if (= S false) return undefined else throw ReferenceError else 0:{}
+  4:app __x1__ = (Get bindings N)
+  4:return [? __x1__]
+}
+- id: "sec-object-environment-records-getbindingvalue-n-s"
+- code:
+            1. Let _bindings_ be the binding object for _envRec_.
+            1. Let _value_ be ? HasProperty(_bindings_, _N_).
+            1. If _value_ is *false*, then
+              1. If _S_ is *false*, return the value *undefined*; otherwise throw a *ReferenceError* exception.
+            1. Return ? Get(_bindings_, _N_).

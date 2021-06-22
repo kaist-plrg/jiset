@@ -1,0 +1,18 @@
+def [SYNTAX] CallExpression[6,0].Evaluation<CallExpression TemplateLiteral>() = {
+  0:access __x0__ = (CallExpression "Evaluation")
+  0:let tagRef = __x0__
+  1:app __x1__ = (GetValue tagRef)
+  1:let tagFunc = [? __x1__]
+  2:let thisCall = this
+  3:app __x2__ = (IsInTailPosition thisCall)
+  3:let tailCall = __x2__
+  4:app __x3__ = (EvaluateCall tagFunc tagRef TemplateLiteral tailCall)
+  4:return [? __x3__]
+}
+- id: "sec-tagged-templates-runtime-semantics-evaluation"
+- code:
+          1. Let _tagRef_ be the result of evaluating |CallExpression|.
+          1. Let _tagFunc_ be ? GetValue(_tagRef_).
+          1. Let _thisCall_ be this |CallExpression|.
+          1. Let _tailCall_ be IsInTailPosition(_thisCall_).
+          1. Return ? EvaluateCall(_tagFunc_, _tagRef_, |TemplateLiteral|, _tailCall_).

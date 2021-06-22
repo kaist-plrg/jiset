@@ -1,0 +1,8 @@
+def IsUnsignedElementType(type) = {
+  0:if (|| (|| (|| (|| (= type CONST_Uint8) (= type CONST_Uint8C)) (= type CONST_Uint16)) (= type CONST_Uint32)) (= type CONST_BigUint64)) return true else 0:{}
+  1:return false
+}
+- id: "sec-isunsignedelementtype"
+- code:
+          1. If _type_ is ~Uint8~, ~Uint8C~, ~Uint16~, ~Uint32~, or ~BigUint64~, return *true*.
+          1. Return *false*.

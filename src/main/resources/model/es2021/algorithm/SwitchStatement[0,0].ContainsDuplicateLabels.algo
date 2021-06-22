@@ -1,0 +1,7 @@
+def [SYNTAX] SwitchStatement[0,0].ContainsDuplicateLabels<`switch` `(` Expression `)` CaseBlock>(labelSet) = {
+  0:access __x0__ = (CaseBlock "ContainsDuplicateLabels" labelSet)
+  0:return __x0__
+}
+- id: "sec-static-semantics-containsduplicatelabels"
+- code:
+        1. Return ContainsDuplicateLabels of |CaseBlock| with argument _labelSet_.

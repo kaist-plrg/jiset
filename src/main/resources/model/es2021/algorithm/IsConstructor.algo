@@ -1,0 +1,10 @@
+def IsConstructor(argument) = {
+  0:if (! (= (typeof argument) Object)) return false else 0:{}
+  1:if (! (= argument.Construct absent)) return true else 0:{}
+  2:return false
+}
+- id: "sec-isconstructor"
+- code:
+        1. If Type(_argument_) is not Object, return *false*.
+        1. If _argument_ has a [[Construct]] internal method, return *true*.
+        1. Return *false*.

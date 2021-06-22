@@ -1,0 +1,10 @@
+def RegExpCreate(P, F) = {
+  0:app __x0__ = (RegExpAlloc INTRINSIC_RegExp)
+  0:let obj = [? __x0__]
+  1:app __x1__ = (RegExpInitialize obj P F)
+  1:return [? __x1__]
+}
+- id: "sec-regexpcreate"
+- code:
+            1. Let _obj_ be ? RegExpAlloc(%RegExp%).
+            1. Return ? RegExpInitialize(_obj_, _P_, _F_).

@@ -1,0 +1,12 @@
+def [BUILTIN] decodeURI(encodedURI) = {
+  0:app __x0__ = (ToString encodedURI)
+  0:let uriString = [? __x0__]
+  1:??? "Let id:{reservedURISet} be a String containing one instance of each code unit valid in nt:{uriReserved} plus value:{\"#\"} ."
+  2:app __x1__ = (Decode uriString reservedURISet)
+  2:return [? __x1__]
+}
+- id: "sec-decodeuri-encodeduri"
+- code:
+          1. Let _uriString_ be ? ToString(_encodedURI_).
+          1. Let _reservedURISet_ be a String containing one instance of each code unit valid in |uriReserved| plus *"#"*.
+          1. Return ? Decode(_uriString_, _reservedURISet_).

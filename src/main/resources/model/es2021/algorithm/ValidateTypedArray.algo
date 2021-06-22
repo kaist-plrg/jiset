@@ -1,0 +1,16 @@
+def ValidateTypedArray(O) = {
+  0:app __x0__ = (RequireInternalSlot O "TypedArrayName")
+  0:[? __x0__]
+  1:assert (! (= O.ViewedArrayBuffer absent))
+  2:let buffer = O.ViewedArrayBuffer
+  3:app __x1__ = (IsDetachedBuffer buffer)
+  3:if (= __x1__ true) throw TypeError else 4:{}
+  4:return buffer
+}
+- id: "sec-validatetypedarray"
+- code:
+          1. Perform ? RequireInternalSlot(_O_, [[TypedArrayName]]).
+          1. Assert: _O_ has a [[ViewedArrayBuffer]] internal slot.
+          1. Let _buffer_ be _O_.[[ViewedArrayBuffer]].
+          1. If IsDetachedBuffer(_buffer_) is *true*, throw a *TypeError* exception.
+          1. Return _buffer_.

@@ -1,0 +1,13 @@
+def [BUILTIN] Math.sign(x) = {
+  0:app __x0__ = (ToNumber x)
+  0:let n = [? __x0__]
+  1:if (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) return n else 2:{}
+  2:if (< n 0i) return -1i else 2:{}
+  3:return 1i
+}
+- id: "sec-math.sign"
+- code:
+          1. Let _n_ be ? ToNumber(_x_).
+          1. If _n_ is *NaN*, _n_ is *+0*<sub>𝔽</sub>, or _n_ is *-0*<sub>𝔽</sub>, return _n_.
+          1. If _n_ < *+0*<sub>𝔽</sub>, return *-1*<sub>𝔽</sub>.
+          1. Return *1*<sub>𝔽</sub>.

@@ -1,0 +1,18 @@
+def [SYNTAX] CallExpression[3,0].Evaluation<CallExpression Arguments>() = {
+  0:access __x0__ = (CallExpression "Evaluation")
+  0:let ref = __x0__
+  1:app __x1__ = (GetValue ref)
+  1:let func = [? __x1__]
+  2:let thisCall = this
+  3:app __x2__ = (IsInTailPosition thisCall)
+  3:let tailCall = __x2__
+  4:app __x3__ = (EvaluateCall func ref Arguments tailCall)
+  4:return [? __x3__]
+}
+- id: "sec-function-calls-runtime-semantics-evaluation"
+- code:
+          1. Let _ref_ be the result of evaluating |CallExpression|.
+          1. Let _func_ be ? GetValue(_ref_).
+          1. Let _thisCall_ be this |CallExpression|.
+          1. Let _tailCall_ be IsInTailPosition(_thisCall_).
+          1. Return ? EvaluateCall(_func_, _ref_, |Arguments|, _tailCall_).

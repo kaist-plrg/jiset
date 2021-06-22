@@ -23,10 +23,21 @@ trait BasicParsers extends JavaTokenParsers with RegexParsers {
   // parse with error message
   def errHandle[T](result: ParseResult[T]): T = result match {
     case Success(result, _) => result
-    case err => error(s"[ir.Parser] $err")
+    case err => error(s"[Parser] $err")
   }
 
   // parse
   def parse[T](str: String)(implicit parser: Parser[T]): T =
     errHandle(parseAll(parser, str))
+
+  // string literal
+  lazy val string = ("\"[\u0000-\u000F]\"".r | stringLiteral) ^^ {
+    case s => StringContext processEscapes s.substring(1, s.length - 1)
+  }
+
+  // any word
+  lazy val word = "\\w+".r
+
+  // integer
+  lazy val int = "\\d+".r ^^ { _.toInt }
 }

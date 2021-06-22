@@ -1,0 +1,14 @@
+def [SYNTAX] ArrayLiteral[1,0].Evaluation<`[` ElementList `]`>() = {
+  0:app __x0__ = (ArrayCreate 0i)
+  0:let array = [! __x0__]
+  1:access __x1__ = (ElementList "ArrayAccumulation" array 0i)
+  1:let len = __x1__
+  2:[? len]
+  3:return array
+}
+- id: "sec-array-initializer-runtime-semantics-evaluation"
+- code:
+          1. Let _array_ be ! ArrayCreate(0).
+          1. Let _len_ be the result of performing ArrayAccumulation for |ElementList| with arguments _array_ and 0.
+          1. ReturnIfAbrupt(_len_).
+          1. Return _array_.

@@ -1,0 +1,10 @@
+def LengthOfArrayLike(obj) = {
+  0:assert (= (typeof obj) Object)
+  1:app __x0__ = (Get obj "length")
+  1:app __x1__ = (ToLength [? __x0__])
+  1:return [? __x1__]
+}
+- id: "sec-lengthofarraylike"
+- code:
+        1. Assert: Type(_obj_) is Object.
+        1. Return ℝ(? ToLength(? Get(_obj_, *"length"*))).

@@ -1,0 +1,12 @@
+def IsGenericDescriptor(Desc) = {
+  0:if (= Desc undefined) return false else 0:{}
+  1:app __x0__ = (IsAccessorDescriptor Desc)
+  1:app __x1__ = (IsDataDescriptor Desc)
+  1:if (&& (= __x0__ false) (= __x1__ false)) return true else 0:{}
+  2:return false
+}
+- id: "sec-isgenericdescriptor"
+- code:
+          1. If _Desc_ is *undefined*, return *false*.
+          1. If IsAccessorDescriptor(_Desc_) and IsDataDescriptor(_Desc_) are both *false*, return *true*.
+          1. Return *false*.

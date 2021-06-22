@@ -1,0 +1,10 @@
+def [SYNTAX] ForInOfStatement[7,0].ForInOfLoopEvaluation<`for` `await` `(` `var` ForBinding `of` AssignmentExpression `)` Statement>(labelSet) = {
+  0:app __x0__ = (ForInOfHeadEvaluation (new []) AssignmentExpression CONST_asyncDASHiterate)
+  0:let keyResult = [? __x0__]
+  1:app __x1__ = (ForInOfBodyEvaluation ForBinding Statement keyResult CONST_iterate CONST_varBinding labelSet CONST_async)
+  1:return [? __x1__]
+}
+- id: "sec-runtime-semantics-forinofloopevaluation"
+- code:
+          1. Let _keyResult_ be ? ForIn/OfHeadEvaluation(« », |AssignmentExpression|, ~async-iterate~).
+          1. Return ? ForIn/OfBodyEvaluation(|ForBinding|, |Statement|, _keyResult_, ~iterate~, ~varBinding~, _labelSet_, ~async~).

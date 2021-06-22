@@ -1,0 +1,10 @@
+def [SYNTAX] PrimaryExpression[12,0].NamedEvaluation<CoverParenthesizedExpressionAndArrowParameterList>(name) = {
+  0:access __x0__ = (CoverParenthesizedExpressionAndArrowParameterList "CoveredParenthesizedExpression")
+  0:let expr = __x0__
+  1:access __x1__ = (expr "NamedEvaluation" name)
+  1:return __x1__
+}
+- id: "sec-runtime-semantics-namedevaluation"
+- code:
+        1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
+        1. Return the result of performing NamedEvaluation for _expr_ with argument _name_.

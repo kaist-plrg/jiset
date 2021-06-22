@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.extractor.algorithm
 
 import kr.ac.kaist.jiset.ir
-import kr.ac.kaist.jiset.spec.algorithm.token.Token
+import kr.ac.kaist.jiset.spec.algorithm.token.{ Tokens, Token }
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes.Document
@@ -36,8 +36,7 @@ class CompileTargets(val version: String, secIds: Map[String, String]) {
         if (this eq InstsTarget) TokenParser.getTokens(code)
         else TokenParser.getTokens(code.mkString(" "), handleIndent = false)
       } else {
-        // from tokens
-        TokenParser.listFrom(code.mkString(" "))
+        Tokens(code.mkString(" "))
       }
       (tokens, compiler.parseAll(parser, tokens))
     }

@@ -1,0 +1,18 @@
+def [SYNTAX] AssignmentRestProperty[0,0].RestDestructuringAssignmentEvaluation<`...` DestructuringAssignmentTarget>(value, excludedNames) = {
+  0:access __x0__ = (DestructuringAssignmentTarget "Evaluation")
+  0:let lref = __x0__
+  1:[? lref]
+  2:app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+  2:let restObj = [! __x1__]
+  3:app __x2__ = (CopyDataProperties restObj value excludedNames)
+  3:[? __x2__]
+  4:app __x3__ = (PutValue lref restObj)
+  4:return __x3__
+}
+- id: "sec-runtime-semantics-restdestructuringassignmentevaluation"
+- code:
+          1. Let _lref_ be the result of evaluating |DestructuringAssignmentTarget|.
+          1. ReturnIfAbrupt(_lref_).
+          1. Let _restObj_ be ! OrdinaryObjectCreate(%Object.prototype%).
+          1. Perform ? CopyDataProperties(_restObj_, _value_, _excludedNames_).
+          1. Return PutValue(_lref_, _restObj_).

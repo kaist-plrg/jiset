@@ -1,0 +1,11 @@
+def [SYNTAX] IdentifierName[1,0].StringValue<IdentifierName IdentifierPart>() = {
+  0:let idText = (get-syntax IdentifierName)
+  1:??? "Let id:{idTextUnescaped} be the result of replacing any occurrences of code:{\\\\} nt:{UnicodeEscapeSequence} in id:{idText} with the code point represented by the nt:{UnicodeEscapeSequence} ."
+  2:app __x0__ = (CodePointsToString idTextUnescaped)
+  2:return [! __x0__]
+}
+- id: "sec-static-semantics-stringvalue"
+- code:
+        1. Let _idText_ be the source text matched by |IdentifierName|.
+        1. Let _idTextUnescaped_ be the result of replacing any occurrences of `\\` |UnicodeEscapeSequence| in _idText_ with the code point represented by the |UnicodeEscapeSequence|.
+        1. Return ! CodePointsToString(_idTextUnescaped_).

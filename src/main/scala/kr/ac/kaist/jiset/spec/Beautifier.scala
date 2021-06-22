@@ -49,7 +49,7 @@ object Beautifier {
 
   // section
   implicit lazy val SectionApp: App[Section] = (app, section) => {
-    app >> "[" >> section.id >> "] "
+    app >> "\"" >> section.id >> "\": "
     app.listWrap(section.subs)
   }
 
@@ -57,7 +57,7 @@ object Beautifier {
   implicit lazy val AlgoApp: App[Algo] = (app, algo) => {
     val Algo(head, id, rawBody, code) = algo
     app >> "def " >> head >> " = " >> rawBody >> LINE_SEP
-    app >> "- id: " >> id >> LINE_SEP
+    app >> "- id: \"" >> id >> "\"" >> LINE_SEP
     app >> "- code:" >> LINE_SEP
     implicit lazy val c = ListApp[String](sep = LINE_SEP)
     app >> code.toList
@@ -121,9 +121,13 @@ object Beautifier {
 
   // grammar production
   implicit lazy val ProductionApp: App[Production] = (app, prod) => {
+    implicit val r = ListApp[Rhs](
+      " {" + LINE_SEP + "  ",
+      " |" + LINE_SEP + "  ",
+      LINE_SEP + "}"
+    )
     val Production(lhs, rhsList) = prod
-    app >> lhs >> ": "
-    app.listWrap(rhsList)
+    app >> lhs >> ":" >> rhsList
   }
 
   // grammar right-hand-side
@@ -147,7 +151,7 @@ object Beautifier {
         app >> name
         implicit val a = ListApp[String]("[", ", ", "]")
         if (!args.isEmpty) app >> args
-        app >> (if (optional) "?" else "")
+        if (optional) app >> "?" else app
       case ButNot(base, cases) =>
         implicit val t = ListApp[Token](sep = " or ")
         app >> base >> " but not " >> cases

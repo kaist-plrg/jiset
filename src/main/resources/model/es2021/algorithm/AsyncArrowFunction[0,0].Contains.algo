@@ -1,0 +1,9 @@
+def [SYNTAX] AsyncArrowFunction[0,0].Contains<`async` AsyncArrowBindingIdentifier `=>` AsyncConciseBody>(symbol) = {
+  0:if (! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol "super")) (= symbol "this"))) return false else 1:{}
+  1:access __x0__ = (AsyncConciseBody "Contains" symbol)
+  1:return __x0__
+}
+- id: "sec-static-semantics-contains"
+- code:
+        1. If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, `super`, or `this`, return *false*.
+        1. Return |AsyncConciseBody| Contains _symbol_.

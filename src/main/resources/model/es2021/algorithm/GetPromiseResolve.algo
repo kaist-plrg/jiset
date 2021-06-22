@@ -1,0 +1,15 @@
+def GetPromiseResolve(promiseConstructor) = {
+  0:app __x0__ = (IsConstructor promiseConstructor)
+  0:assert (= __x0__ true)
+  1:app __x1__ = (Get promiseConstructor "resolve")
+  1:let promiseResolve = [? __x1__]
+  2:app __x2__ = (IsCallable promiseResolve)
+  2:if (= __x2__ false) throw TypeError else 10:{}
+  3:return promiseResolve
+}
+- id: "sec-getpromiseresolve"
+- code:
+            1. Assert: IsConstructor(_promiseConstructor_) is *true*.
+            1. Let _promiseResolve_ be ? Get(_promiseConstructor_, *"resolve"*).
+            1. If IsCallable(_promiseResolve_) is *false*, throw a *TypeError* exception.
+            1. Return _promiseResolve_.

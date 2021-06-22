@@ -1,0 +1,15 @@
+def [METHOD] StringExoticObject.GetOwnProperty(S)(P) = {
+  0:app __x0__ = (IsPropertyKey P)
+  0:assert (= __x0__ true)
+  1:app __x1__ = (OrdinaryGetOwnProperty S P)
+  1:let desc = __x1__
+  2:if (! (= desc undefined)) return desc else 16:{}
+  3:app __x2__ = (StringGetOwnProperty S P)
+  3:return [! __x2__]
+}
+- id: "sec-string-exotic-objects-getownproperty-p"
+- code:
+          1. Assert: IsPropertyKey(_P_) is *true*.
+          1. Let _desc_ be OrdinaryGetOwnProperty(_S_, _P_).
+          1. If _desc_ is not *undefined*, return _desc_.
+          1. Return ! StringGetOwnProperty(_S_, _P_).

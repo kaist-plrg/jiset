@@ -1,0 +1,9 @@
+def [SYNTAX] ClassElementList[0,0].ConstructorMethod<ClassElement>() = {
+  0:access __x0__ = (ClassElement "ClassElementKind")
+  0:if (= __x0__ CONST_ConstructorMethod) return ClassElement else 33:{}
+  1:return CONST_empty
+}
+- id: "sec-static-semantics-constructormethod"
+- code:
+        1. If ClassElementKind of |ClassElement| is ~ConstructorMethod~, return |ClassElement|.
+        1. Return ~empty~.

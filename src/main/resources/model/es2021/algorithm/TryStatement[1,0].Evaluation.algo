@@ -1,0 +1,15 @@
+def [SYNTAX] TryStatement[1,0].Evaluation<`try` Block Finally>() = {
+  0:access __x0__ = (Block "Evaluation")
+  0:let B = __x0__
+  1:access __x1__ = (Finally "Evaluation")
+  1:let F = __x1__
+  2:if (= F.Type CONST_normal) F = B else 0:{}
+  3:app __x2__ = (UpdateEmpty F undefined)
+  3:return __x2__
+}
+- id: "sec-try-statement-runtime-semantics-evaluation"
+- code:
+        1. Let _B_ be the result of evaluating |Block|.
+        1. Let _F_ be the result of evaluating |Finally|.
+        1. If _F_.[[Type]] is ~normal~, set _F_ to _B_.
+        1. Return Completion(UpdateEmpty(_F_, *undefined*)).

@@ -1,0 +1,11 @@
+def [SYNTAX] NameSpaceImport[0,0].ImportEntriesForModule<`*` `as` ImportedBinding>(module) = {
+  0:access __x0__ = (ImportedBinding "StringValue")
+  0:let localName = __x0__
+  1:let entry = (new ImportEntryRecord("ModuleRequest" -> module, "ImportName" -> "*", "LocalName" -> localName))
+  2:return (new [entry])
+}
+- id: "sec-static-semantics-importentriesformodule"
+- code:
+          1. Let _localName_ be the StringValue of |ImportedBinding|.
+          1. Let _entry_ be the ImportEntry Record { [[ModuleRequest]]: _module_, [[ImportName]]: *"\*"*, [[LocalName]]: _localName_ }.
+          1. Return a List whose sole element is _entry_.

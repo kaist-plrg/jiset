@@ -1,0 +1,11 @@
+def [SYNTAX] UnaryExpression[4,0].Evaluation<`+` UnaryExpression>() = {
+  0:access __x0__ = (UnaryExpression "Evaluation")
+  0:let expr = __x0__
+  1:app __x1__ = (GetValue expr)
+  1:app __x2__ = (ToNumber [? __x1__])
+  1:return [? __x2__]
+}
+- id: "sec-unary-plus-operator-runtime-semantics-evaluation"
+- code:
+          1. Let _expr_ be the result of evaluating |UnaryExpression|.
+          1. Return ? ToNumber(? GetValue(_expr_)).

@@ -1,0 +1,14 @@
+def CreateListIteratorRecord(list) = {
+  0:??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{list} and performs the following steps when called : in:{} out:{}"
+  4:app __x0__ = (CreateIteratorFromClosure closure CONST_empty INTRINSIC_IteratorPrototype)
+  4:let iterator = [! __x0__]
+  5:return (new Record("Iterator" -> iterator, "NextMethod" -> INTRINSIC_GeneratorFunction_prototype_prototype_next, "Done" -> false))
+}
+- id: "sec-createlistiteratorRecord"
+- code:
+        1. Let _closure_ be a new Abstract Closure with no parameters that captures _list_ and performs the following steps when called:
+          1. For each element _E_ of _list_, do
+            1. Perform ? Yield(_E_).
+          1. Return *undefined*.
+        1. Let _iterator_ be ! CreateIteratorFromClosure(_closure_, ~empty~, %IteratorPrototype%).
+        1. Return Record { [[Iterator]]: _iterator_, [[NextMethod]]: %GeneratorFunction.prototype.prototype.next%, [[Done]]: *false* }.

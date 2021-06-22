@@ -1,0 +1,13 @@
+def [BUILTIN] Object.prototype.hasOwnProperty(V) = {
+  0:app __x0__ = (ToPropertyKey V)
+  0:let P = [? __x0__]
+  1:app __x1__ = (ToObject this)
+  1:let O = [? __x1__]
+  2:app __x2__ = (HasOwnProperty O P)
+  2:return [? __x2__]
+}
+- id: "sec-object.prototype.hasownproperty"
+- code:
+          1. [id="step-hasownproperty-topropertykey"] Let _P_ be ? ToPropertyKey(_V_).
+          1. [id="step-hasownproperty-toobject"] Let _O_ be ? ToObject(*this* value).
+          1. Return ? HasOwnProperty(_O_, _P_).

@@ -1,0 +1,14 @@
+def [SYNTAX] TemplateLiteral[1,0].ArgumentListEvaluation<SubstitutionTemplate>() = {
+  0:let templateLiteral = this
+  1:app __x0__ = (GetTemplateObject templateLiteral)
+  1:let siteObj = __x0__
+  2:access __x1__ = (SubstitutionTemplate "ArgumentListEvaluation")
+  2:let remaining = [? __x1__]
+  3:return (new [siteObj, remaining])
+}
+- id: "sec-runtime-semantics-argumentlistevaluation"
+- code:
+          1. Let _templateLiteral_ be this |TemplateLiteral|.
+          1. Let _siteObj_ be GetTemplateObject(_templateLiteral_).
+          1. Let _remaining_ be ? ArgumentListEvaluation of |SubstitutionTemplate|.
+          1. Return a List whose first element is _siteObj_ and whose subsequent elements are the elements of _remaining_.

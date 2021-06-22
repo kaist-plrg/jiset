@@ -1,34 +1,34 @@
 [Lexical Productions]
 
 Alternative[U, N]: {
-  [empty]
+  [empty] |
   Alternative[?U, ?N] Term[?U, ?N]
 }
 
 Assertion[U, N]: {
-  `^`
-  `$`
-  `\` `b`
-  `\` `B`
-  `(` `?` `=` Disjunction[?U, ?N] `)`
-  `(` `?` `!` Disjunction[?U, ?N] `)`
-  `(` `?` `<=` Disjunction[?U, ?N] `)`
+  `^` |
+  `$` |
+  `\` `b` |
+  `\` `B` |
+  `(` `?` `=` Disjunction[?U, ?N] `)` |
+  `(` `?` `!` Disjunction[?U, ?N] `)` |
+  `(` `?` `<=` Disjunction[?U, ?N] `)` |
   `(` `?` `<!` Disjunction[?U, ?N] `)`
 }
 
 Atom[U, N]: {
-  PatternCharacter
-  `.`
-  `\` AtomEscape[?U, ?N]
-  CharacterClass[?U]
-  `(` GroupSpecifier[?U] Disjunction[?U, ?N] `)`
+  PatternCharacter |
+  `.` |
+  `\` AtomEscape[?U, ?N] |
+  CharacterClass[?U] |
+  `(` GroupSpecifier[?U] Disjunction[?U, ?N] `)` |
   `(` `?` `:` Disjunction[?U, ?N] `)`
 }
 
 AtomEscape[U, N]: {
-  DecimalEscape
-  CharacterClassEscape[?U]
-  CharacterEscape[?U]
+  DecimalEscape |
+  CharacterClassEscape[?U] |
+  CharacterEscape[?U] |
   [+N] `k` GroupName[?U]
 }
 
@@ -37,75 +37,75 @@ BigIntLiteralSuffix: {
 }
 
 BinaryDigit: {
-  `0`
+  `0` |
   `1`
 }
 
 BinaryDigits[Sep]: {
-  BinaryDigit
-  BinaryDigits[?Sep] BinaryDigit
+  BinaryDigit |
+  BinaryDigits[?Sep] BinaryDigit |
   [+Sep] BinaryDigits[+Sep] NumericLiteralSeparator BinaryDigit
 }
 
 BinaryIntegerLiteral[Sep]: {
-  `0b` BinaryDigits[?Sep]
+  `0b` BinaryDigits[?Sep] |
   `0B` BinaryDigits[?Sep]
 }
 
 BooleanLiteral: {
-  `true`
+  `true` |
   `false`
 }
 
 CharacterClass[U]: {
-  `[` [lookahead <! {`^`}] ClassRanges[?U] `]`
+  `[` [lookahead <! {`^`}] ClassRanges[?U] `]` |
   `[` `^` ClassRanges[?U] `]`
 }
 
 CharacterClassEscape[U]: {
-  `d`
-  `D`
-  `s`
-  `S`
-  `w`
-  `W`
-  [+U] `p{` UnicodePropertyValueExpression `}`
+  `d` |
+  `D` |
+  `s` |
+  `S` |
+  `w` |
+  `W` |
+  [+U] `p{` UnicodePropertyValueExpression `}` |
   [+U] `P{` UnicodePropertyValueExpression `}`
 }
 
 CharacterEscape[U]: {
-  ControlEscape
-  `c` ControlLetter
-  `0` [lookahead <! {DecimalDigit}]
-  HexEscapeSequence
-  RegExpUnicodeEscapeSequence[?U]
+  ControlEscape |
+  `c` ControlLetter |
+  `0` [lookahead <! {DecimalDigit}] |
+  HexEscapeSequence |
+  RegExpUnicodeEscapeSequence[?U] |
   IdentityEscape[?U]
 }
 
 CharacterEscapeSequence: {
-  SingleEscapeCharacter
+  SingleEscapeCharacter |
   NonEscapeCharacter
 }
 
 ClassAtom[U]: {
-  `-`
+  `-` |
   ClassAtomNoDash[?U]
 }
 
 ClassAtomNoDash[U]: {
-  SourceCharacter but not `\` or `]` or `-`
+  SourceCharacter but not `\` or `]` or `-` |
   `\` ClassEscape[?U]
 }
 
 ClassEscape[U]: {
-  `b`
-  [+U] `-`
-  CharacterClassEscape[?U]
+  `b` |
+  [+U] `-` |
+  CharacterClassEscape[?U] |
   CharacterEscape[?U]
 }
 
 ClassRanges[U]: {
-  [empty]
+  [empty] |
   NonemptyClassRanges[?U]
 }
 
@@ -114,103 +114,103 @@ CodePoint: {
 }
 
 Comment: {
-  MultiLineComment
+  MultiLineComment |
   SingleLineComment
 }
 
 CommonToken: {
-  IdentifierName
-  Punctuator
-  NumericLiteral
-  StringLiteral
+  IdentifierName |
+  Punctuator |
+  NumericLiteral |
+  StringLiteral |
   Template
 }
 
 ControlEscape: {
-  `f`
-  `n`
-  `r`
-  `t`
+  `f` |
+  `n` |
+  `r` |
+  `t` |
   `v`
 }
 
 ControlLetter: {
-  `a`
-  `b`
-  `c`
-  `d`
-  `e`
-  `f`
-  `g`
-  `h`
-  `i`
-  `j`
-  `k`
-  `l`
-  `m`
-  `n`
-  `o`
-  `p`
-  `q`
-  `r`
-  `s`
-  `t`
-  `u`
-  `v`
-  `w`
-  `x`
-  `y`
-  `z`
-  `A`
-  `B`
-  `C`
-  `D`
-  `E`
-  `F`
-  `G`
-  `H`
-  `I`
-  `J`
-  `K`
-  `L`
-  `M`
-  `N`
-  `O`
-  `P`
-  `Q`
-  `R`
-  `S`
-  `T`
-  `U`
-  `V`
-  `W`
-  `X`
-  `Y`
+  `a` |
+  `b` |
+  `c` |
+  `d` |
+  `e` |
+  `f` |
+  `g` |
+  `h` |
+  `i` |
+  `j` |
+  `k` |
+  `l` |
+  `m` |
+  `n` |
+  `o` |
+  `p` |
+  `q` |
+  `r` |
+  `s` |
+  `t` |
+  `u` |
+  `v` |
+  `w` |
+  `x` |
+  `y` |
+  `z` |
+  `A` |
+  `B` |
+  `C` |
+  `D` |
+  `E` |
+  `F` |
+  `G` |
+  `H` |
+  `I` |
+  `J` |
+  `K` |
+  `L` |
+  `M` |
+  `N` |
+  `O` |
+  `P` |
+  `Q` |
+  `R` |
+  `S` |
+  `T` |
+  `U` |
+  `V` |
+  `W` |
+  `X` |
+  `Y` |
   `Z`
 }
 
 DecimalBigIntegerLiteral: {
-  `0` BigIntLiteralSuffix
-  NonZeroDigit DecimalDigits[+Sep]? BigIntLiteralSuffix
+  `0` BigIntLiteralSuffix |
+  NonZeroDigit DecimalDigits[+Sep]? BigIntLiteralSuffix |
   NonZeroDigit NumericLiteralSeparator DecimalDigits[+Sep] BigIntLiteralSuffix
 }
 
 DecimalDigit: {
-  `0`
-  `1`
-  `2`
-  `3`
-  `4`
-  `5`
-  `6`
-  `7`
-  `8`
+  `0` |
+  `1` |
+  `2` |
+  `3` |
+  `4` |
+  `5` |
+  `6` |
+  `7` |
+  `8` |
   `9`
 }
 
 DecimalDigits[Sep]: {
-  DecimalDigit
-  DecimalDigits[?Sep] DecimalDigit
+  DecimalDigit |
+  DecimalDigits[?Sep] DecimalDigit |
   [+Sep] DecimalDigits[+Sep] NumericLiteralSeparator DecimalDigit
 }
 
@@ -219,32 +219,32 @@ DecimalEscape: {
 }
 
 DecimalIntegerLiteral: {
-  `0`
-  NonZeroDigit
+  `0` |
+  NonZeroDigit |
   NonZeroDigit NumericLiteralSeparator? DecimalDigits[+Sep]
 }
 
 DecimalLiteral: {
-  DecimalIntegerLiteral `.` DecimalDigits[+Sep]? ExponentPart[+Sep]?
-  `.` DecimalDigits[+Sep] ExponentPart[+Sep]?
+  DecimalIntegerLiteral `.` DecimalDigits[+Sep]? ExponentPart[+Sep]? |
+  `.` DecimalDigits[+Sep] ExponentPart[+Sep]? |
   DecimalIntegerLiteral ExponentPart[+Sep]?
 }
 
 Disjunction[U, N]: {
-  Alternative[?U, ?N]
+  Alternative[?U, ?N] |
   Alternative[?U, ?N] `|` Disjunction[?U, ?N]
 }
 
 DivPunctuator: {
-  `/`
+  `/` |
   `/=`
 }
 
 DoubleStringCharacter: {
-  SourceCharacter but not `"` or `\` or LineTerminator
-  <LS>
-  <PS>
-  `\` EscapeSequence
+  SourceCharacter but not `"` or `\` or LineTerminator |
+  <LS> |
+  <PS> |
+  `\` EscapeSequence |
   LineContinuation
 }
 
@@ -253,21 +253,21 @@ DoubleStringCharacters: {
 }
 
 EscapeCharacter: {
-  SingleEscapeCharacter
-  DecimalDigit
-  `x`
+  SingleEscapeCharacter |
+  DecimalDigit |
+  `x` |
   `u`
 }
 
 EscapeSequence: {
-  CharacterEscapeSequence
-  `0` [lookahead <! {DecimalDigit}]
-  HexEscapeSequence
+  CharacterEscapeSequence |
+  `0` [lookahead <! {DecimalDigit}] |
+  HexEscapeSequence |
   UnicodeEscapeSequence
 }
 
 ExponentIndicator: {
-  `e`
+  `e` |
   `E`
 }
 
@@ -280,7 +280,7 @@ GroupName[U]: {
 }
 
 GroupSpecifier[U]: {
-  [empty]
+  [empty] |
   `?` GroupName[?U]
 }
 
@@ -289,33 +289,33 @@ Hex4Digits: {
 }
 
 HexDigit: {
-  `0`
-  `1`
-  `2`
-  `3`
-  `4`
-  `5`
-  `6`
-  `7`
-  `8`
-  `9`
-  `a`
-  `b`
-  `c`
-  `d`
-  `e`
-  `f`
-  `A`
-  `B`
-  `C`
-  `D`
-  `E`
+  `0` |
+  `1` |
+  `2` |
+  `3` |
+  `4` |
+  `5` |
+  `6` |
+  `7` |
+  `8` |
+  `9` |
+  `a` |
+  `b` |
+  `c` |
+  `d` |
+  `e` |
+  `f` |
+  `A` |
+  `B` |
+  `C` |
+  `D` |
+  `E` |
   `F`
 }
 
 HexDigits[Sep]: {
-  HexDigit
-  HexDigits[?Sep] HexDigit
+  HexDigit |
+  HexDigits[?Sep] HexDigit |
   [+Sep] HexDigits[+Sep] NumericLiteralSeparator HexDigit
 }
 
@@ -324,7 +324,7 @@ HexEscapeSequence: {
 }
 
 HexIntegerLiteral[Sep]: {
-  `0x` HexDigits[?Sep]
+  `0x` HexDigits[?Sep] |
   `0X` HexDigits[?Sep]
 }
 
@@ -341,64 +341,64 @@ HexTrailSurrogate: {
 }
 
 IdentifierName: {
-  IdentifierStart
+  IdentifierStart |
   IdentifierName IdentifierPart
 }
 
 IdentifierPart: {
-  UnicodeIDContinue
-  `$`
-  `\` UnicodeEscapeSequence
-  <ZWNJ>
+  UnicodeIDContinue |
+  `$` |
+  `\` UnicodeEscapeSequence |
+  <ZWNJ> |
   <ZWJ>
 }
 
 IdentifierStart: {
-  UnicodeIDStart
-  `$`
-  `_`
+  UnicodeIDStart |
+  `$` |
+  `_` |
   `\` UnicodeEscapeSequence
 }
 
 IdentityEscape[U]: {
-  [+U] SyntaxCharacter
-  [+U] `/`
+  [+U] SyntaxCharacter |
+  [+U] `/` |
   [~U] SourceCharacter but not UnicodeIDContinue
 }
 
 InputElementDiv: {
-  WhiteSpace
-  LineTerminator
-  Comment
-  CommonToken
-  DivPunctuator
+  WhiteSpace |
+  LineTerminator |
+  Comment |
+  CommonToken |
+  DivPunctuator |
   RightBracePunctuator
 }
 
 InputElementRegExp: {
-  WhiteSpace
-  LineTerminator
-  Comment
-  CommonToken
-  RightBracePunctuator
+  WhiteSpace |
+  LineTerminator |
+  Comment |
+  CommonToken |
+  RightBracePunctuator |
   RegularExpressionLiteral
 }
 
 InputElementRegExpOrTemplateTail: {
-  WhiteSpace
-  LineTerminator
-  Comment
-  CommonToken
-  RegularExpressionLiteral
+  WhiteSpace |
+  LineTerminator |
+  Comment |
+  CommonToken |
+  RegularExpressionLiteral |
   TemplateSubstitutionTail
 }
 
 InputElementTemplateTail: {
-  WhiteSpace
-  LineTerminator
-  Comment
-  CommonToken
-  DivPunctuator
+  WhiteSpace |
+  LineTerminator |
+  Comment |
+  CommonToken |
+  DivPunctuator |
   TemplateSubstitutionTail
 }
 
@@ -407,17 +407,17 @@ LineContinuation: {
 }
 
 LineTerminator: {
-  <LF>
-  <CR>
-  <LS>
+  <LF> |
+  <CR> |
+  <LS> |
   <PS>
 }
 
 LineTerminatorSequence: {
-  <LF>
-  <CR> [lookahead <! {<LF>}]
-  <LS>
-  <PS>
+  <LF> |
+  <CR> [lookahead <! {<LF>}] |
+  <LS> |
+  <PS> |
   <CR> <LF>
 }
 
@@ -430,7 +430,7 @@ MultiLineComment: {
 }
 
 MultiLineCommentChars: {
-  MultiLineNotAsteriskChar MultiLineCommentChars?
+  MultiLineNotAsteriskChar MultiLineCommentChars? |
   `*` PostAsteriskCommentChars?
 }
 
@@ -447,8 +447,8 @@ NoSubstitutionTemplate: {
 }
 
 NonDecimalIntegerLiteral[Sep]: {
-  BinaryIntegerLiteral[?Sep]
-  OctalIntegerLiteral[?Sep]
+  BinaryIntegerLiteral[?Sep] |
+  OctalIntegerLiteral[?Sep] |
   HexIntegerLiteral[?Sep]
 }
 
@@ -457,26 +457,26 @@ NonEscapeCharacter: {
 }
 
 NonZeroDigit: {
-  `1`
-  `2`
-  `3`
-  `4`
-  `5`
-  `6`
-  `7`
-  `8`
+  `1` |
+  `2` |
+  `3` |
+  `4` |
+  `5` |
+  `6` |
+  `7` |
+  `8` |
   `9`
 }
 
 NonemptyClassRanges[U]: {
-  ClassAtom[?U]
-  ClassAtom[?U] NonemptyClassRangesNoDash[?U]
+  ClassAtom[?U] |
+  ClassAtom[?U] NonemptyClassRangesNoDash[?U] |
   ClassAtom[?U] `-` ClassAtom[?U] ClassRanges[?U]
 }
 
 NonemptyClassRangesNoDash[U]: {
-  ClassAtom[?U]
-  ClassAtomNoDash[?U] NonemptyClassRangesNoDash[?U]
+  ClassAtom[?U] |
+  ClassAtomNoDash[?U] NonemptyClassRangesNoDash[?U] |
   ClassAtomNoDash[?U] `-` ClassAtom[?U] ClassRanges[?U]
 }
 
@@ -485,16 +485,16 @@ NotCodePoint: {
 }
 
 NotEscapeSequence: {
-  `0` DecimalDigit
-  DecimalDigit but not `0`
-  `x` [lookahead <! {HexDigit}]
-  `x` HexDigit [lookahead <! {HexDigit}]
-  `u` [lookahead <! {HexDigit}] [lookahead <! {`{`}]
-  `u` HexDigit [lookahead <! {HexDigit}]
-  `u` HexDigit HexDigit [lookahead <! {HexDigit}]
-  `u` HexDigit HexDigit HexDigit [lookahead <! {HexDigit}]
-  `u` `{` [lookahead <! {HexDigit}]
-  `u` `{` NotCodePoint [lookahead <! {HexDigit}]
+  `0` DecimalDigit |
+  DecimalDigit but not `0` |
+  `x` [lookahead <! {HexDigit}] |
+  `x` HexDigit [lookahead <! {HexDigit}] |
+  `u` [lookahead <! {HexDigit}] [lookahead <! {`{`}] |
+  `u` HexDigit [lookahead <! {HexDigit}] |
+  `u` HexDigit HexDigit [lookahead <! {HexDigit}] |
+  `u` HexDigit HexDigit HexDigit [lookahead <! {HexDigit}] |
+  `u` `{` [lookahead <! {HexDigit}] |
+  `u` `{` NotCodePoint [lookahead <! {HexDigit}] |
   `u` `{` CodePoint [lookahead <! {HexDigit}] [lookahead <! {`}`}]
 }
 
@@ -503,9 +503,9 @@ NullLiteral: {
 }
 
 NumericLiteral: {
-  DecimalLiteral
-  DecimalBigIntegerLiteral
-  NonDecimalIntegerLiteral[+Sep]
+  DecimalLiteral |
+  DecimalBigIntegerLiteral |
+  NonDecimalIntegerLiteral[+Sep] |
   NonDecimalIntegerLiteral[+Sep] BigIntLiteralSuffix
 }
 
@@ -514,24 +514,24 @@ NumericLiteralSeparator: {
 }
 
 OctalDigit: {
-  `0`
-  `1`
-  `2`
-  `3`
-  `4`
-  `5`
-  `6`
+  `0` |
+  `1` |
+  `2` |
+  `3` |
+  `4` |
+  `5` |
+  `6` |
   `7`
 }
 
 OctalDigits[Sep]: {
-  OctalDigit
-  OctalDigits[?Sep] OctalDigit
+  OctalDigit |
+  OctalDigits[?Sep] OctalDigit |
   [+Sep] OctalDigits[+Sep] NumericLiteralSeparator OctalDigit
 }
 
 OctalIntegerLiteral[Sep]: {
-  `0o` OctalDigits[?Sep]
+  `0o` OctalDigits[?Sep] |
   `0O` OctalDigits[?Sep]
 }
 
@@ -540,58 +540,58 @@ OptionalChainingPunctuator: {
 }
 
 OtherPunctuator: {
-  `{`
-  `(`
-  `)`
-  `[`
-  `]`
-  `.`
-  `...`
-  `;`
-  `,`
-  `<`
-  `>`
-  `<=`
-  `>=`
-  `==`
-  `!=`
-  `===`
-  `!==`
-  `+`
-  `-`
-  `*`
-  `%`
-  `**`
-  `++`
-  `--`
-  `<<`
-  `>>`
-  `>>>`
-  `&`
-  `|`
-  `^`
-  `!`
-  `~`
-  `&&`
-  `||`
-  `??`
-  `?`
-  `:`
-  `=`
-  `+=`
-  `-=`
-  `*=`
-  `%=`
-  `**=`
-  `<<=`
-  `>>=`
-  `>>>=`
-  `&=`
-  `|=`
-  `^=`
-  `&&=`
-  `||=`
-  `??=`
+  `{` |
+  `(` |
+  `)` |
+  `[` |
+  `]` |
+  `.` |
+  `...` |
+  `;` |
+  `,` |
+  `<` |
+  `>` |
+  `<=` |
+  `>=` |
+  `==` |
+  `!=` |
+  `===` |
+  `!==` |
+  `+` |
+  `-` |
+  `*` |
+  `%` |
+  `**` |
+  `++` |
+  `--` |
+  `<<` |
+  `>>` |
+  `>>>` |
+  `&` |
+  `|` |
+  `^` |
+  `!` |
+  `~` |
+  `&&` |
+  `||` |
+  `??` |
+  `?` |
+  `:` |
+  `=` |
+  `+=` |
+  `-=` |
+  `*=` |
+  `%=` |
+  `**=` |
+  `<<=` |
+  `>>=` |
+  `>>>=` |
+  `&=` |
+  `|=` |
+  `^=` |
+  `&&=` |
+  `||=` |
+  `??=` |
   `=>`
 }
 
@@ -604,57 +604,57 @@ PatternCharacter: {
 }
 
 PostAsteriskCommentChars: {
-  MultiLineNotForwardSlashOrAsteriskChar MultiLineCommentChars?
+  MultiLineNotForwardSlashOrAsteriskChar MultiLineCommentChars? |
   `*` PostAsteriskCommentChars?
 }
 
 Punctuator: {
-  OptionalChainingPunctuator
+  OptionalChainingPunctuator |
   OtherPunctuator
 }
 
 Quantifier: {
-  QuantifierPrefix
+  QuantifierPrefix |
   QuantifierPrefix `?`
 }
 
 QuantifierPrefix: {
-  `*`
-  `+`
-  `?`
-  `{` DecimalDigits[~Sep] `}`
-  `{` DecimalDigits[~Sep] `,` `}`
+  `*` |
+  `+` |
+  `?` |
+  `{` DecimalDigits[~Sep] `}` |
+  `{` DecimalDigits[~Sep] `,` `}` |
   `{` DecimalDigits[~Sep] `,` DecimalDigits[~Sep] `}`
 }
 
 RegExpIdentifierName[U]: {
-  RegExpIdentifierStart[?U]
+  RegExpIdentifierStart[?U] |
   RegExpIdentifierName[?U] RegExpIdentifierPart[?U]
 }
 
 RegExpIdentifierPart[U]: {
-  UnicodeIDContinue
-  `$`
-  `\` RegExpUnicodeEscapeSequence[+U]
-  [~U] UnicodeLeadSurrogate UnicodeTrailSurrogate
-  <ZWNJ>
+  UnicodeIDContinue |
+  `$` |
+  `\` RegExpUnicodeEscapeSequence[+U] |
+  [~U] UnicodeLeadSurrogate UnicodeTrailSurrogate |
+  <ZWNJ> |
   <ZWJ>
 }
 
 RegExpIdentifierStart[U]: {
-  UnicodeIDStart
-  `$`
-  `_`
-  `\` RegExpUnicodeEscapeSequence[+U]
+  UnicodeIDStart |
+  `$` |
+  `_` |
+  `\` RegExpUnicodeEscapeSequence[+U] |
   [~U] UnicodeLeadSurrogate UnicodeTrailSurrogate
 }
 
 RegExpUnicodeEscapeSequence[U]: {
-  [+U] `u` HexLeadSurrogate `\u` HexTrailSurrogate
-  [+U] `u` HexLeadSurrogate
-  [+U] `u` HexTrailSurrogate
-  [+U] `u` HexNonSurrogate
-  [~U] `u` Hex4Digits
+  [+U] `u` HexLeadSurrogate `\u` HexTrailSurrogate |
+  [+U] `u` HexLeadSurrogate |
+  [+U] `u` HexTrailSurrogate |
+  [+U] `u` HexNonSurrogate |
+  [~U] `u` Hex4Digits |
   [+U] `u{` CodePoint `}`
 }
 
@@ -667,13 +667,13 @@ RegularExpressionBody: {
 }
 
 RegularExpressionChar: {
-  RegularExpressionNonTerminator but not `\` or `/` or `[`
-  RegularExpressionBackslashSequence
+  RegularExpressionNonTerminator but not `\` or `/` or `[` |
+  RegularExpressionBackslashSequence |
   RegularExpressionClass
 }
 
 RegularExpressionChars: {
-  [empty]
+  [empty] |
   RegularExpressionChars RegularExpressionChar
 }
 
@@ -682,23 +682,23 @@ RegularExpressionClass: {
 }
 
 RegularExpressionClassChar: {
-  RegularExpressionNonTerminator but not `]` or `\`
+  RegularExpressionNonTerminator but not `]` or `\` |
   RegularExpressionBackslashSequence
 }
 
 RegularExpressionClassChars: {
-  [empty]
+  [empty] |
   RegularExpressionClassChars RegularExpressionClassChar
 }
 
 RegularExpressionFirstChar: {
-  RegularExpressionNonTerminator but not `*` or `\` or `/` or `[`
-  RegularExpressionBackslashSequence
+  RegularExpressionNonTerminator but not `*` or `\` or `/` or `[` |
+  RegularExpressionBackslashSequence |
   RegularExpressionClass
 }
 
 RegularExpressionFlags: {
-  [empty]
+  [empty] |
   RegularExpressionFlags IdentifierPart
 }
 
@@ -711,43 +711,43 @@ RegularExpressionNonTerminator: {
 }
 
 ReservedWord: {
-  `await`
-  `break`
-  `case`
-  `catch`
-  `class`
-  `const`
-  `continue`
-  `debugger`
-  `default`
-  `delete`
-  `do`
-  `else`
-  `enum`
-  `export`
-  `extends`
-  `false`
-  `finally`
-  `for`
-  `function`
-  `if`
-  `import`
-  `in`
-  `instanceof`
-  `new`
-  `null`
-  `return`
-  `super`
-  `switch`
-  `this`
-  `throw`
-  `true`
-  `try`
-  `typeof`
-  `var`
-  `void`
-  `while`
-  `with`
+  `await` |
+  `break` |
+  `case` |
+  `catch` |
+  `class` |
+  `const` |
+  `continue` |
+  `debugger` |
+  `default` |
+  `delete` |
+  `do` |
+  `else` |
+  `enum` |
+  `export` |
+  `extends` |
+  `false` |
+  `finally` |
+  `for` |
+  `function` |
+  `if` |
+  `import` |
+  `in` |
+  `instanceof` |
+  `new` |
+  `null` |
+  `return` |
+  `super` |
+  `switch` |
+  `this` |
+  `throw` |
+  `true` |
+  `try` |
+  `typeof` |
+  `var` |
+  `void` |
+  `while` |
+  `with` |
   `yield`
 }
 
@@ -756,20 +756,20 @@ RightBracePunctuator: {
 }
 
 SignedInteger[Sep]: {
-  DecimalDigits[?Sep]
-  `+` DecimalDigits[?Sep]
+  DecimalDigits[?Sep] |
+  `+` DecimalDigits[?Sep] |
   `-` DecimalDigits[?Sep]
 }
 
 SingleEscapeCharacter: {
-  `'`
-  `"`
-  `\`
-  `b`
-  `f`
-  `n`
-  `r`
-  `t`
+  `'` |
+  `"` |
+  `\` |
+  `b` |
+  `f` |
+  `n` |
+  `r` |
+  `t` |
   `v`
 }
 
@@ -786,10 +786,10 @@ SingleLineCommentChars: {
 }
 
 SingleStringCharacter: {
-  SourceCharacter but not `'` or `\` or LineTerminator
-  <LS>
-  <PS>
-  `\` EscapeSequence
+  SourceCharacter but not `'` or `\` or LineTerminator |
+  <LS> |
+  <PS> |
+  `\` EscapeSequence |
   LineContinuation
 }
 
@@ -802,20 +802,20 @@ SourceCharacter: {
 }
 
 StrDecimalLiteral: {
-  StrUnsignedDecimalLiteral
-  `+` StrUnsignedDecimalLiteral
+  StrUnsignedDecimalLiteral |
+  `+` StrUnsignedDecimalLiteral |
   `-` StrUnsignedDecimalLiteral
 }
 
 StrNumericLiteral: {
-  StrDecimalLiteral
+  StrDecimalLiteral |
   NonDecimalIntegerLiteral[~Sep]
 }
 
 StrUnsignedDecimalLiteral: {
-  `Infinity`
-  DecimalDigits[~Sep] `.` DecimalDigits[~Sep]? ExponentPart[~Sep]?
-  `.` DecimalDigits[~Sep] ExponentPart[~Sep]?
+  `Infinity` |
+  DecimalDigits[~Sep] `.` DecimalDigits[~Sep]? ExponentPart[~Sep]? |
+  `.` DecimalDigits[~Sep] ExponentPart[~Sep]? |
   DecimalDigits[~Sep] ExponentPart[~Sep]?
 }
 
@@ -824,48 +824,48 @@ StrWhiteSpace: {
 }
 
 StrWhiteSpaceChar: {
-  WhiteSpace
+  WhiteSpace |
   LineTerminator
 }
 
 StringLiteral: {
-  `"` DoubleStringCharacters? `"`
+  `"` DoubleStringCharacters? `"` |
   `'` SingleStringCharacters? `'`
 }
 
 StringNumericLiteral: {
-  StrWhiteSpace?
+  StrWhiteSpace? |
   StrWhiteSpace? StrNumericLiteral StrWhiteSpace?
 }
 
 SyntaxCharacter: {
-  `^`
-  `$`
-  `\`
-  `.`
-  `*`
-  `+`
-  `?`
-  `(`
-  `)`
-  `[`
-  `]`
-  `{`
-  `}`
+  `^` |
+  `$` |
+  `\` |
+  `.` |
+  `*` |
+  `+` |
+  `?` |
+  `(` |
+  `)` |
+  `[` |
+  `]` |
+  `{` |
+  `}` |
   `|`
 }
 
 Template: {
-  NoSubstitutionTemplate
+  NoSubstitutionTemplate |
   TemplateHead
 }
 
 TemplateCharacter: {
-  `$` [lookahead <! {`{`}]
-  `\` EscapeSequence
-  `\` NotEscapeSequence
-  LineContinuation
-  LineTerminatorSequence
+  `$` [lookahead <! {`{`}] |
+  `\` EscapeSequence |
+  `\` NotEscapeSequence |
+  LineContinuation |
+  LineTerminatorSequence |
   SourceCharacter but not ``` or `\` or `$` or LineTerminator
 }
 
@@ -882,7 +882,7 @@ TemplateMiddle: {
 }
 
 TemplateSubstitutionTail: {
-  TemplateMiddle
+  TemplateMiddle |
   TemplateTail
 }
 
@@ -891,13 +891,13 @@ TemplateTail: {
 }
 
 Term[U, N]: {
-  Assertion[?U, ?N]
-  Atom[?U, ?N]
+  Assertion[?U, ?N] |
+  Atom[?U, ?N] |
   Atom[?U, ?N] Quantifier
 }
 
 UnicodeEscapeSequence: {
-  `u` Hex4Digits
+  `u` Hex4Digits |
   `u{` CodePoint `}`
 }
 
@@ -918,7 +918,7 @@ UnicodePropertyName: {
 }
 
 UnicodePropertyNameCharacter: {
-  ControlLetter
+  ControlLetter |
   `_`
 }
 
@@ -931,7 +931,7 @@ UnicodePropertyValue: {
 }
 
 UnicodePropertyValueCharacter: {
-  UnicodePropertyNameCharacter
+  UnicodePropertyNameCharacter |
   DecimalDigit
 }
 
@@ -940,7 +940,7 @@ UnicodePropertyValueCharacters: {
 }
 
 UnicodePropertyValueExpression: {
-  UnicodePropertyName `=` UnicodePropertyValue
+  UnicodePropertyName `=` UnicodePropertyValue |
   LoneUnicodePropertyNameOrValue
 }
 
@@ -949,12 +949,12 @@ UnicodeTrailSurrogate: {
 }
 
 WhiteSpace: {
-  <TAB>
-  <VT>
-  <FF>
-  <SP>
-  <NBSP>
-  <ZWNBSP>
+  <TAB> |
+  <VT> |
+  <FF> |
+  <SP> |
+  <NBSP> |
+  <ZWNBSP> |
   <USP>
 }
 
@@ -963,63 +963,63 @@ uri: {
 }
 
 uriAlpha: {
-  `a`
-  `b`
-  `c`
-  `d`
-  `e`
-  `f`
-  `g`
-  `h`
-  `i`
-  `j`
-  `k`
-  `l`
-  `m`
-  `n`
-  `o`
-  `p`
-  `q`
-  `r`
-  `s`
-  `t`
-  `u`
-  `v`
-  `w`
-  `x`
-  `y`
-  `z`
-  `A`
-  `B`
-  `C`
-  `D`
-  `E`
-  `F`
-  `G`
-  `H`
-  `I`
-  `J`
-  `K`
-  `L`
-  `M`
-  `N`
-  `O`
-  `P`
-  `Q`
-  `R`
-  `S`
-  `T`
-  `U`
-  `V`
-  `W`
-  `X`
-  `Y`
+  `a` |
+  `b` |
+  `c` |
+  `d` |
+  `e` |
+  `f` |
+  `g` |
+  `h` |
+  `i` |
+  `j` |
+  `k` |
+  `l` |
+  `m` |
+  `n` |
+  `o` |
+  `p` |
+  `q` |
+  `r` |
+  `s` |
+  `t` |
+  `u` |
+  `v` |
+  `w` |
+  `x` |
+  `y` |
+  `z` |
+  `A` |
+  `B` |
+  `C` |
+  `D` |
+  `E` |
+  `F` |
+  `G` |
+  `H` |
+  `I` |
+  `J` |
+  `K` |
+  `L` |
+  `M` |
+  `N` |
+  `O` |
+  `P` |
+  `Q` |
+  `R` |
+  `S` |
+  `T` |
+  `U` |
+  `V` |
+  `W` |
+  `X` |
+  `Y` |
   `Z`
 }
 
 uriCharacter: {
-  uriReserved
-  uriUnescaped
+  uriReserved |
+  uriUnescaped |
   uriEscaped
 }
 
@@ -1032,72 +1032,72 @@ uriEscaped: {
 }
 
 uriMark: {
-  `-`
-  `_`
-  `.`
-  `!`
-  `~`
-  `*`
-  `'`
-  `(`
+  `-` |
+  `_` |
+  `.` |
+  `!` |
+  `~` |
+  `*` |
+  `'` |
+  `(` |
   `)`
 }
 
 uriReserved: {
-  `;`
-  `/`
-  `?`
-  `:`
-  `@`
-  `&`
-  `=`
-  `+`
-  `$`
+  `;` |
+  `/` |
+  `?` |
+  `:` |
+  `@` |
+  `&` |
+  `=` |
+  `+` |
+  `$` |
   `,`
 }
 
 uriUnescaped: {
-  uriAlpha
-  DecimalDigit
+  uriAlpha |
+  DecimalDigit |
   uriMark
 }
 
 [Syntactic Productions]
 
 AdditiveExpression[Yield, Await]: {
-  MultiplicativeExpression[?Yield, ?Await]
-  AdditiveExpression[?Yield, ?Await] `+` MultiplicativeExpression[?Yield, ?Await]
+  MultiplicativeExpression[?Yield, ?Await] |
+  AdditiveExpression[?Yield, ?Await] `+` MultiplicativeExpression[?Yield, ?Await] |
   AdditiveExpression[?Yield, ?Await] `-` MultiplicativeExpression[?Yield, ?Await]
 }
 
 ArgumentList[Yield, Await]: {
-  AssignmentExpression[+In, ?Yield, ?Await]
-  `...` AssignmentExpression[+In, ?Yield, ?Await]
-  ArgumentList[?Yield, ?Await] `,` AssignmentExpression[+In, ?Yield, ?Await]
+  AssignmentExpression[+In, ?Yield, ?Await] |
+  `...` AssignmentExpression[+In, ?Yield, ?Await] |
+  ArgumentList[?Yield, ?Await] `,` AssignmentExpression[+In, ?Yield, ?Await] |
   ArgumentList[?Yield, ?Await] `,` `...` AssignmentExpression[+In, ?Yield, ?Await]
 }
 
 Arguments[Yield, Await]: {
-  `(` `)`
-  `(` ArgumentList[?Yield, ?Await] `)`
+  `(` `)` |
+  `(` ArgumentList[?Yield, ?Await] `)` |
   `(` ArgumentList[?Yield, ?Await] `,` `)`
 }
 
 ArrayAssignmentPattern[Yield, Await]: {
-  `[` Elision? AssignmentRestElement[?Yield, ?Await]? `]`
-  `[` AssignmentElementList[?Yield, ?Await] `]`
+  `[` Elision? AssignmentRestElement[?Yield, ?Await]? `]` |
+  `[` AssignmentElementList[?Yield, ?Await] `]` |
   `[` AssignmentElementList[?Yield, ?Await] `,` Elision? AssignmentRestElement[?Yield, ?Await]? `]`
 }
 
 ArrayBindingPattern[Yield, Await]: {
-  `[` Elision? BindingRestElement[?Yield, ?Await]? `]`
-  `[` BindingElementList[?Yield, ?Await] `]`
+  `[` Elision? BindingRestElement[?Yield, ?Await]? `]` |
+  `[` BindingElementList[?Yield, ?Await] `]` |
   `[` BindingElementList[?Yield, ?Await] `,` Elision? BindingRestElement[?Yield, ?Await]? `]`
 }
 
 ArrayLiteral[Yield, Await]: {
-  `[` Elision? `]`
-  `[` ElementList[?Yield, ?Await] `]`
+  `[` Elision? `]` |
+  `[` ElementList[?Yield, ?Await] `]` |
   `[` ElementList[?Yield, ?Await] `,` Elision? `]`
 }
 
@@ -1110,7 +1110,7 @@ ArrowFunction[In, Yield, Await]: {
 }
 
 ArrowParameters[Yield, Await]: {
-  BindingIdentifier[?Yield, ?Await]
+  BindingIdentifier[?Yield, ?Await] |
   CoverParenthesizedExpressionAndArrowParameterList[?Yield, ?Await]
 }
 
@@ -1119,7 +1119,7 @@ AssignmentElement[Yield, Await]: {
 }
 
 AssignmentElementList[Yield, Await]: {
-  AssignmentElisionElement[?Yield, ?Await]
+  AssignmentElisionElement[?Yield, ?Await] |
   AssignmentElementList[?Yield, ?Await] `,` AssignmentElisionElement[?Yield, ?Await]
 }
 
@@ -1128,44 +1128,44 @@ AssignmentElisionElement[Yield, Await]: {
 }
 
 AssignmentExpression[In, Yield, Await]: {
-  ConditionalExpression[?In, ?Yield, ?Await]
-  [+Yield] YieldExpression[?In, ?Await]
-  ArrowFunction[?In, ?Yield, ?Await]
-  AsyncArrowFunction[?In, ?Yield, ?Await]
-  LeftHandSideExpression[?Yield, ?Await] `=` AssignmentExpression[?In, ?Yield, ?Await]
-  LeftHandSideExpression[?Yield, ?Await] AssignmentOperator AssignmentExpression[?In, ?Yield, ?Await]
-  LeftHandSideExpression[?Yield, ?Await] `&&=` AssignmentExpression[?In, ?Yield, ?Await]
-  LeftHandSideExpression[?Yield, ?Await] `||=` AssignmentExpression[?In, ?Yield, ?Await]
+  ConditionalExpression[?In, ?Yield, ?Await] |
+  [+Yield] YieldExpression[?In, ?Await] |
+  ArrowFunction[?In, ?Yield, ?Await] |
+  AsyncArrowFunction[?In, ?Yield, ?Await] |
+  LeftHandSideExpression[?Yield, ?Await] `=` AssignmentExpression[?In, ?Yield, ?Await] |
+  LeftHandSideExpression[?Yield, ?Await] AssignmentOperator AssignmentExpression[?In, ?Yield, ?Await] |
+  LeftHandSideExpression[?Yield, ?Await] `&&=` AssignmentExpression[?In, ?Yield, ?Await] |
+  LeftHandSideExpression[?Yield, ?Await] `||=` AssignmentExpression[?In, ?Yield, ?Await] |
   LeftHandSideExpression[?Yield, ?Await] `??=` AssignmentExpression[?In, ?Yield, ?Await]
 }
 
 AssignmentOperator: {
-  `*=`
-  `/=`
-  `%=`
-  `+=`
-  `-=`
-  `<<=`
-  `>>=`
-  `>>>=`
-  `&=`
-  `^=`
-  `|=`
+  `*=` |
+  `/=` |
+  `%=` |
+  `+=` |
+  `-=` |
+  `<<=` |
+  `>>=` |
+  `>>>=` |
+  `&=` |
+  `^=` |
+  `|=` |
   `**=`
 }
 
 AssignmentPattern[Yield, Await]: {
-  ObjectAssignmentPattern[?Yield, ?Await]
+  ObjectAssignmentPattern[?Yield, ?Await] |
   ArrayAssignmentPattern[?Yield, ?Await]
 }
 
 AssignmentProperty[Yield, Await]: {
-  IdentifierReference[?Yield, ?Await] Initializer[+In, ?Yield, ?Await]?
+  IdentifierReference[?Yield, ?Await] Initializer[+In, ?Yield, ?Await]? |
   PropertyName[?Yield, ?Await] `:` AssignmentElement[?Yield, ?Await]
 }
 
 AssignmentPropertyList[Yield, Await]: {
-  AssignmentProperty[?Yield, ?Await]
+  AssignmentProperty[?Yield, ?Await] |
   AssignmentPropertyList[?Yield, ?Await] `,` AssignmentProperty[?Yield, ?Await]
 }
 
@@ -1182,7 +1182,7 @@ AsyncArrowBindingIdentifier[Yield]: {
 }
 
 AsyncArrowFunction[In, Yield, Await]: {
-  `async` [no LineTerminator here] AsyncArrowBindingIdentifier[?Yield] [no LineTerminator here] `=>` AsyncConciseBody[?In]
+  `async` [no LineTerminator here] AsyncArrowBindingIdentifier[?Yield] [no LineTerminator here] `=>` AsyncConciseBody[?In] |
   CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] [no LineTerminator here] `=>` AsyncConciseBody[?In]
 }
 
@@ -1191,7 +1191,7 @@ AsyncArrowHead: {
 }
 
 AsyncConciseBody[In]: {
-  [lookahead <! {`{`}] ExpressionBody[?In, +Await]
+  [lookahead <! {`{`}] ExpressionBody[?In, +Await] |
   `{` AsyncFunctionBody `}`
 }
 
@@ -1200,7 +1200,7 @@ AsyncFunctionBody: {
 }
 
 AsyncFunctionDeclaration[Yield, Await, Default]: {
-  `async` [no LineTerminator here] `function` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
+  `async` [no LineTerminator here] `function` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}` |
   [+Default] `async` [no LineTerminator here] `function` `(` FormalParameters[~Yield, +Await] `)` `{` AsyncFunctionBody `}`
 }
 
@@ -1213,7 +1213,7 @@ AsyncGeneratorBody: {
 }
 
 AsyncGeneratorDeclaration[Yield, Await, Default]: {
-  `async` [no LineTerminator here] `function` `*` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[+Yield, +Await] `)` `{` AsyncGeneratorBody `}`
+  `async` [no LineTerminator here] `function` `*` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[+Yield, +Await] `)` `{` AsyncGeneratorBody `}` |
   [+Default] `async` [no LineTerminator here] `function` `*` `(` FormalParameters[+Yield, +Await] `)` `{` AsyncGeneratorBody `}`
 }
 
@@ -1234,12 +1234,12 @@ AwaitExpression[Yield]: {
 }
 
 BindingElement[Yield, Await]: {
-  SingleNameBinding[?Yield, ?Await]
+  SingleNameBinding[?Yield, ?Await] |
   BindingPattern[?Yield, ?Await] Initializer[+In, ?Yield, ?Await]?
 }
 
 BindingElementList[Yield, Await]: {
-  BindingElisionElement[?Yield, ?Await]
+  BindingElisionElement[?Yield, ?Await] |
   BindingElementList[?Yield, ?Await] `,` BindingElisionElement[?Yield, ?Await]
 }
 
@@ -1248,33 +1248,33 @@ BindingElisionElement[Yield, Await]: {
 }
 
 BindingIdentifier[Yield, Await]: {
-  Identifier
-  `yield`
+  Identifier |
+  `yield` |
   `await`
 }
 
 BindingList[In, Yield, Await]: {
-  LexicalBinding[?In, ?Yield, ?Await]
+  LexicalBinding[?In, ?Yield, ?Await] |
   BindingList[?In, ?Yield, ?Await] `,` LexicalBinding[?In, ?Yield, ?Await]
 }
 
 BindingPattern[Yield, Await]: {
-  ObjectBindingPattern[?Yield, ?Await]
+  ObjectBindingPattern[?Yield, ?Await] |
   ArrayBindingPattern[?Yield, ?Await]
 }
 
 BindingProperty[Yield, Await]: {
-  SingleNameBinding[?Yield, ?Await]
+  SingleNameBinding[?Yield, ?Await] |
   PropertyName[?Yield, ?Await] `:` BindingElement[?Yield, ?Await]
 }
 
 BindingPropertyList[Yield, Await]: {
-  BindingProperty[?Yield, ?Await]
+  BindingProperty[?Yield, ?Await] |
   BindingPropertyList[?Yield, ?Await] `,` BindingProperty[?Yield, ?Await]
 }
 
 BindingRestElement[Yield, Await]: {
-  `...` BindingIdentifier[?Yield, ?Await]
+  `...` BindingIdentifier[?Yield, ?Await] |
   `...` BindingPattern[?Yield, ?Await]
 }
 
@@ -1283,17 +1283,17 @@ BindingRestProperty[Yield, Await]: {
 }
 
 BitwiseANDExpression[In, Yield, Await]: {
-  EqualityExpression[?In, ?Yield, ?Await]
+  EqualityExpression[?In, ?Yield, ?Await] |
   BitwiseANDExpression[?In, ?Yield, ?Await] `&` EqualityExpression[?In, ?Yield, ?Await]
 }
 
 BitwiseORExpression[In, Yield, Await]: {
-  BitwiseXORExpression[?In, ?Yield, ?Await]
+  BitwiseXORExpression[?In, ?Yield, ?Await] |
   BitwiseORExpression[?In, ?Yield, ?Await] `|` BitwiseXORExpression[?In, ?Yield, ?Await]
 }
 
 BitwiseXORExpression[In, Yield, Await]: {
-  BitwiseANDExpression[?In, ?Yield, ?Await]
+  BitwiseANDExpression[?In, ?Yield, ?Await] |
   BitwiseXORExpression[?In, ?Yield, ?Await] `^` BitwiseANDExpression[?In, ?Yield, ?Await]
 }
 
@@ -1306,22 +1306,22 @@ BlockStatement[Yield, Await, Return]: {
 }
 
 BreakStatement[Yield, Await]: {
-  `break` `;`
+  `break` `;` |
   `break` [no LineTerminator here] LabelIdentifier[?Yield, ?Await] `;`
 }
 
 BreakableStatement[Yield, Await, Return]: {
-  IterationStatement[?Yield, ?Await, ?Return]
+  IterationStatement[?Yield, ?Await, ?Return] |
   SwitchStatement[?Yield, ?Await, ?Return]
 }
 
 CallExpression[Yield, Await]: {
-  CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await]
-  SuperCall[?Yield, ?Await]
-  ImportCall[?Yield, ?Await]
-  CallExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
-  CallExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
-  CallExpression[?Yield, ?Await] `.` IdentifierName
+  CoverCallExpressionAndAsyncArrowHead[?Yield, ?Await] |
+  SuperCall[?Yield, ?Await] |
+  ImportCall[?Yield, ?Await] |
+  CallExpression[?Yield, ?Await] Arguments[?Yield, ?Await] |
+  CallExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]` |
+  CallExpression[?Yield, ?Await] `.` IdentifierName |
   CallExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
 }
 
@@ -1330,7 +1330,7 @@ CallMemberExpression[Yield, Await]: {
 }
 
 CaseBlock[Yield, Await, Return]: {
-  `{` CaseClauses[?Yield, ?Await, ?Return]? `}`
+  `{` CaseClauses[?Yield, ?Await, ?Return]? `}` |
   `{` CaseClauses[?Yield, ?Await, ?Return]? DefaultClause[?Yield, ?Await, ?Return] CaseClauses[?Yield, ?Await, ?Return]? `}`
 }
 
@@ -1339,17 +1339,17 @@ CaseClause[Yield, Await, Return]: {
 }
 
 CaseClauses[Yield, Await, Return]: {
-  CaseClause[?Yield, ?Await, ?Return]
+  CaseClause[?Yield, ?Await, ?Return] |
   CaseClauses[?Yield, ?Await, ?Return] CaseClause[?Yield, ?Await, ?Return]
 }
 
 Catch[Yield, Await, Return]: {
-  `catch` `(` CatchParameter[?Yield, ?Await] `)` Block[?Yield, ?Await, ?Return]
+  `catch` `(` CatchParameter[?Yield, ?Await] `)` Block[?Yield, ?Await, ?Return] |
   `catch` Block[?Yield, ?Await, ?Return]
 }
 
 CatchParameter[Yield, Await]: {
-  BindingIdentifier[?Yield, ?Await]
+  BindingIdentifier[?Yield, ?Await] |
   BindingPattern[?Yield, ?Await]
 }
 
@@ -1358,18 +1358,18 @@ ClassBody[Yield, Await]: {
 }
 
 ClassDeclaration[Yield, Await, Default]: {
-  `class` BindingIdentifier[?Yield, ?Await] ClassTail[?Yield, ?Await]
+  `class` BindingIdentifier[?Yield, ?Await] ClassTail[?Yield, ?Await] |
   [+Default] `class` ClassTail[?Yield, ?Await]
 }
 
 ClassElement[Yield, Await]: {
-  MethodDefinition[?Yield, ?Await]
-  `static` MethodDefinition[?Yield, ?Await]
+  MethodDefinition[?Yield, ?Await] |
+  `static` MethodDefinition[?Yield, ?Await] |
   `;`
 }
 
 ClassElementList[Yield, Await]: {
-  ClassElement[?Yield, ?Await]
+  ClassElement[?Yield, ?Await] |
   ClassElementList[?Yield, ?Await] ClassElement[?Yield, ?Await]
 }
 
@@ -1390,7 +1390,7 @@ CoalesceExpression[In, Yield, Await]: {
 }
 
 CoalesceExpressionHead[In, Yield, Await]: {
-  CoalesceExpression[?In, ?Yield, ?Await]
+  CoalesceExpression[?In, ?Yield, ?Await] |
   BitwiseORExpression[?In, ?Yield, ?Await]
 }
 
@@ -1399,17 +1399,17 @@ ComputedPropertyName[Yield, Await]: {
 }
 
 ConciseBody[In]: {
-  [lookahead <! {`{`}] ExpressionBody[?In, ~Await]
+  [lookahead <! {`{`}] ExpressionBody[?In, ~Await] |
   `{` FunctionBody[~Yield, ~Await] `}`
 }
 
 ConditionalExpression[In, Yield, Await]: {
-  ShortCircuitExpression[?In, ?Yield, ?Await]
+  ShortCircuitExpression[?In, ?Yield, ?Await] |
   ShortCircuitExpression[?In, ?Yield, ?Await] `?` AssignmentExpression[+In, ?Yield, ?Await] `:` AssignmentExpression[?In, ?Yield, ?Await]
 }
 
 ContinueStatement[Yield, Await]: {
-  `continue` `;`
+  `continue` `;` |
   `continue` [no LineTerminator here] LabelIdentifier[?Yield, ?Await] `;`
 }
 
@@ -1422,12 +1422,12 @@ CoverInitializedName[Yield, Await]: {
 }
 
 CoverParenthesizedExpressionAndArrowParameterList[Yield, Await]: {
-  `(` Expression[+In, ?Yield, ?Await] `)`
-  `(` Expression[+In, ?Yield, ?Await] `,` `)`
-  `(` `)`
-  `(` `...` BindingIdentifier[?Yield, ?Await] `)`
-  `(` `...` BindingPattern[?Yield, ?Await] `)`
-  `(` Expression[+In, ?Yield, ?Await] `,` `...` BindingIdentifier[?Yield, ?Await] `)`
+  `(` Expression[+In, ?Yield, ?Await] `)` |
+  `(` Expression[+In, ?Yield, ?Await] `,` `)` |
+  `(` `)` |
+  `(` `...` BindingIdentifier[?Yield, ?Await] `)` |
+  `(` `...` BindingPattern[?Yield, ?Await] `)` |
+  `(` Expression[+In, ?Yield, ?Await] `,` `...` BindingIdentifier[?Yield, ?Await] `)` |
   `(` Expression[+In, ?Yield, ?Await] `,` `...` BindingPattern[?Yield, ?Await] `)`
 }
 
@@ -1436,8 +1436,8 @@ DebuggerStatement: {
 }
 
 Declaration[Yield, Await]: {
-  HoistableDeclaration[?Yield, ?Await, ~Default]
-  ClassDeclaration[?Yield, ?Await, ~Default]
+  HoistableDeclaration[?Yield, ?Await, ~Default] |
+  ClassDeclaration[?Yield, ?Await, ~Default] |
   LexicalDeclaration[+In, ?Yield, ?Await]
 }
 
@@ -1454,14 +1454,14 @@ DoWhileStatement[Yield, Await, Return]: {
 }
 
 ElementList[Yield, Await]: {
-  Elision? AssignmentExpression[+In, ?Yield, ?Await]
-  Elision? SpreadElement[?Yield, ?Await]
-  ElementList[?Yield, ?Await] `,` Elision? AssignmentExpression[+In, ?Yield, ?Await]
+  Elision? AssignmentExpression[+In, ?Yield, ?Await] |
+  Elision? SpreadElement[?Yield, ?Await] |
+  ElementList[?Yield, ?Await] `,` Elision? AssignmentExpression[+In, ?Yield, ?Await] |
   ElementList[?Yield, ?Await] `,` Elision? SpreadElement[?Yield, ?Await]
 }
 
 Elision: {
-  `,`
+  `,` |
   Elision `,`
 }
 
@@ -1470,46 +1470,46 @@ EmptyStatement: {
 }
 
 EqualityExpression[In, Yield, Await]: {
-  RelationalExpression[?In, ?Yield, ?Await]
-  EqualityExpression[?In, ?Yield, ?Await] `==` RelationalExpression[?In, ?Yield, ?Await]
-  EqualityExpression[?In, ?Yield, ?Await] `!=` RelationalExpression[?In, ?Yield, ?Await]
-  EqualityExpression[?In, ?Yield, ?Await] `===` RelationalExpression[?In, ?Yield, ?Await]
+  RelationalExpression[?In, ?Yield, ?Await] |
+  EqualityExpression[?In, ?Yield, ?Await] `==` RelationalExpression[?In, ?Yield, ?Await] |
+  EqualityExpression[?In, ?Yield, ?Await] `!=` RelationalExpression[?In, ?Yield, ?Await] |
+  EqualityExpression[?In, ?Yield, ?Await] `===` RelationalExpression[?In, ?Yield, ?Await] |
   EqualityExpression[?In, ?Yield, ?Await] `!==` RelationalExpression[?In, ?Yield, ?Await]
 }
 
 ExponentiationExpression[Yield, Await]: {
-  UnaryExpression[?Yield, ?Await]
+  UnaryExpression[?Yield, ?Await] |
   UpdateExpression[?Yield, ?Await] `**` ExponentiationExpression[?Yield, ?Await]
 }
 
 ExportDeclaration: {
-  `export` ExportFromClause FromClause `;`
-  `export` NamedExports `;`
-  `export` VariableStatement[~Yield, ~Await]
-  `export` Declaration[~Yield, ~Await]
-  `export` `default` HoistableDeclaration[~Yield, ~Await, +Default]
-  `export` `default` ClassDeclaration[~Yield, ~Await, +Default]
+  `export` ExportFromClause FromClause `;` |
+  `export` NamedExports `;` |
+  `export` VariableStatement[~Yield, ~Await] |
+  `export` Declaration[~Yield, ~Await] |
+  `export` `default` HoistableDeclaration[~Yield, ~Await, +Default] |
+  `export` `default` ClassDeclaration[~Yield, ~Await, +Default] |
   `export` `default` [lookahead <! {`function`, `async` [no LineTerminator here] `function`, `class`}] AssignmentExpression[+In, ~Yield, ~Await] `;`
 }
 
 ExportFromClause: {
-  `*`
-  `*` `as` IdentifierName
+  `*` |
+  `*` `as` IdentifierName |
   NamedExports
 }
 
 ExportSpecifier: {
-  IdentifierName
+  IdentifierName |
   IdentifierName `as` IdentifierName
 }
 
 ExportsList: {
-  ExportSpecifier
+  ExportSpecifier |
   ExportsList `,` ExportSpecifier
 }
 
 Expression[In, Yield, Await]: {
-  AssignmentExpression[?In, ?Yield, ?Await]
+  AssignmentExpression[?In, ?Yield, ?Await] |
   Expression[?In, ?Yield, ?Await] `,` AssignmentExpression[?In, ?Yield, ?Await]
 }
 
@@ -1526,7 +1526,7 @@ Finally[Yield, Await, Return]: {
 }
 
 ForBinding[Yield, Await]: {
-  BindingIdentifier[?Yield, ?Await]
+  BindingIdentifier[?Yield, ?Await] |
   BindingPattern[?Yield, ?Await]
 }
 
@@ -1535,20 +1535,20 @@ ForDeclaration[Yield, Await]: {
 }
 
 ForInOfStatement[Yield, Await, Return]: {
-  `for` `(` [lookahead <! {`let` `[`}] LeftHandSideExpression[?Yield, ?Await] `in` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` `var` ForBinding[?Yield, ?Await] `in` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` ForDeclaration[?Yield, ?Await] `in` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` [lookahead <! {`let`, `async` `of`}] LeftHandSideExpression[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` `var` ForBinding[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` ForDeclaration[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  [+Await] `for` `await` `(` [lookahead <! {`let`}] LeftHandSideExpression[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
-  [+Await] `for` `await` `(` `var` ForBinding[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
+  `for` `(` [lookahead <! {`let` `[`}] LeftHandSideExpression[?Yield, ?Await] `in` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] |
+  `for` `(` `var` ForBinding[?Yield, ?Await] `in` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] |
+  `for` `(` ForDeclaration[?Yield, ?Await] `in` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] |
+  `for` `(` [lookahead <! {`let`, `async` `of`}] LeftHandSideExpression[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] |
+  `for` `(` `var` ForBinding[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] |
+  `for` `(` ForDeclaration[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] |
+  [+Await] `for` `await` `(` [lookahead <! {`let`}] LeftHandSideExpression[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] |
+  [+Await] `for` `await` `(` `var` ForBinding[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] |
   [+Await] `for` `await` `(` ForDeclaration[?Yield, ?Await] `of` AssignmentExpression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return]
 }
 
 ForStatement[Yield, Await, Return]: {
-  `for` `(` [lookahead <! {`let` `[`}] Expression[~In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return]
-  `for` `(` `var` VariableDeclarationList[~In, ?Yield, ?Await] `;` Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return]
+  `for` `(` [lookahead <! {`let` `[`}] Expression[~In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return] |
+  `for` `(` `var` VariableDeclarationList[~In, ?Yield, ?Await] `;` Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return] |
   `for` `(` LexicalDeclaration[~In, ?Yield, ?Await] Expression[+In, ?Yield, ?Await]? `;` Expression[+In, ?Yield, ?Await]? `)` Statement[?Yield, ?Await, ?Return]
 }
 
@@ -1557,15 +1557,15 @@ FormalParameter[Yield, Await]: {
 }
 
 FormalParameterList[Yield, Await]: {
-  FormalParameter[?Yield, ?Await]
+  FormalParameter[?Yield, ?Await] |
   FormalParameterList[?Yield, ?Await] `,` FormalParameter[?Yield, ?Await]
 }
 
 FormalParameters[Yield, Await]: {
-  [empty]
-  FunctionRestParameter[?Yield, ?Await]
-  FormalParameterList[?Yield, ?Await]
-  FormalParameterList[?Yield, ?Await] `,`
+  [empty] |
+  FunctionRestParameter[?Yield, ?Await] |
+  FormalParameterList[?Yield, ?Await] |
+  FormalParameterList[?Yield, ?Await] `,` |
   FormalParameterList[?Yield, ?Await] `,` FunctionRestParameter[?Yield, ?Await]
 }
 
@@ -1578,7 +1578,7 @@ FunctionBody[Yield, Await]: {
 }
 
 FunctionDeclaration[Yield, Await, Default]: {
-  `function` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}`
+  `function` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}` |
   [+Default] `function` `(` FormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}`
 }
 
@@ -1599,7 +1599,7 @@ GeneratorBody: {
 }
 
 GeneratorDeclaration[Yield, Await, Default]: {
-  `function` `*` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[+Yield, ~Await] `)` `{` GeneratorBody `}`
+  `function` `*` BindingIdentifier[?Yield, ?Await] `(` FormalParameters[+Yield, ~Await] `)` `{` GeneratorBody `}` |
   [+Default] `function` `*` `(` FormalParameters[+Yield, ~Await] `)` `{` GeneratorBody `}`
 }
 
@@ -1612,9 +1612,9 @@ GeneratorMethod[Yield, Await]: {
 }
 
 HoistableDeclaration[Yield, Await, Default]: {
-  FunctionDeclaration[?Yield, ?Await, ?Default]
-  GeneratorDeclaration[?Yield, ?Await, ?Default]
-  AsyncFunctionDeclaration[?Yield, ?Await, ?Default]
+  FunctionDeclaration[?Yield, ?Await, ?Default] |
+  GeneratorDeclaration[?Yield, ?Await, ?Default] |
+  AsyncFunctionDeclaration[?Yield, ?Await, ?Default] |
   AsyncGeneratorDeclaration[?Yield, ?Await, ?Default]
 }
 
@@ -1623,13 +1623,13 @@ Identifier: {
 }
 
 IdentifierReference[Yield, Await]: {
-  Identifier
-  [~Yield] `yield`
+  Identifier |
+  [~Yield] `yield` |
   [~Await] `await`
 }
 
 IfStatement[Yield, Await, Return]: {
-  `if` `(` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] `else` Statement[?Yield, ?Await, ?Return]
+  `if` `(` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] `else` Statement[?Yield, ?Await, ?Return] |
   `if` `(` Expression[+In, ?Yield, ?Await] `)` Statement[?Yield, ?Await, ?Return] [lookahead <! {`else`}]
 }
 
@@ -1638,15 +1638,15 @@ ImportCall[Yield, Await]: {
 }
 
 ImportClause: {
-  ImportedDefaultBinding
-  NameSpaceImport
-  NamedImports
-  ImportedDefaultBinding `,` NameSpaceImport
+  ImportedDefaultBinding |
+  NameSpaceImport |
+  NamedImports |
+  ImportedDefaultBinding `,` NameSpaceImport |
   ImportedDefaultBinding `,` NamedImports
 }
 
 ImportDeclaration: {
-  `import` ImportClause FromClause `;`
+  `import` ImportClause FromClause `;` |
   `import` ModuleSpecifier `;`
 }
 
@@ -1655,7 +1655,7 @@ ImportMeta: {
 }
 
 ImportSpecifier: {
-  ImportedBinding
+  ImportedBinding |
   IdentifierName `as` ImportedBinding
 }
 
@@ -1668,7 +1668,7 @@ ImportedDefaultBinding: {
 }
 
 ImportsList: {
-  ImportSpecifier
+  ImportSpecifier |
   ImportsList `,` ImportSpecifier
 }
 
@@ -1677,20 +1677,20 @@ Initializer[In, Yield, Await]: {
 }
 
 IterationStatement[Yield, Await, Return]: {
-  DoWhileStatement[?Yield, ?Await, ?Return]
-  WhileStatement[?Yield, ?Await, ?Return]
-  ForStatement[?Yield, ?Await, ?Return]
+  DoWhileStatement[?Yield, ?Await, ?Return] |
+  WhileStatement[?Yield, ?Await, ?Return] |
+  ForStatement[?Yield, ?Await, ?Return] |
   ForInOfStatement[?Yield, ?Await, ?Return]
 }
 
 LabelIdentifier[Yield, Await]: {
-  Identifier
-  [~Yield] `yield`
+  Identifier |
+  [~Yield] `yield` |
   [~Await] `await`
 }
 
 LabelledItem[Yield, Await, Return]: {
-  Statement[?Yield, ?Await, ?Return]
+  Statement[?Yield, ?Await, ?Return] |
   FunctionDeclaration[?Yield, ?Await, ~Default]
 }
 
@@ -1699,18 +1699,18 @@ LabelledStatement[Yield, Await, Return]: {
 }
 
 LeftHandSideExpression[Yield, Await]: {
-  NewExpression[?Yield, ?Await]
-  CallExpression[?Yield, ?Await]
+  NewExpression[?Yield, ?Await] |
+  CallExpression[?Yield, ?Await] |
   OptionalExpression[?Yield, ?Await]
 }
 
 LetOrConst: {
-  `let`
+  `let` |
   `const`
 }
 
 LexicalBinding[In, Yield, Await]: {
-  BindingIdentifier[?Yield, ?Await] Initializer[?In, ?Yield, ?Await]?
+  BindingIdentifier[?Yield, ?Await] Initializer[?In, ?Yield, ?Await]? |
   BindingPattern[?Yield, ?Await] Initializer[?In, ?Yield, ?Await]
 }
 
@@ -1719,49 +1719,49 @@ LexicalDeclaration[In, Yield, Await]: {
 }
 
 Literal: {
-  NullLiteral
-  BooleanLiteral
-  NumericLiteral
+  NullLiteral |
+  BooleanLiteral |
+  NumericLiteral |
   StringLiteral
 }
 
 LiteralPropertyName: {
-  IdentifierName
-  StringLiteral
+  IdentifierName |
+  StringLiteral |
   NumericLiteral
 }
 
 LogicalANDExpression[In, Yield, Await]: {
-  BitwiseORExpression[?In, ?Yield, ?Await]
+  BitwiseORExpression[?In, ?Yield, ?Await] |
   LogicalANDExpression[?In, ?Yield, ?Await] `&&` BitwiseORExpression[?In, ?Yield, ?Await]
 }
 
 LogicalORExpression[In, Yield, Await]: {
-  LogicalANDExpression[?In, ?Yield, ?Await]
+  LogicalANDExpression[?In, ?Yield, ?Await] |
   LogicalORExpression[?In, ?Yield, ?Await] `||` LogicalANDExpression[?In, ?Yield, ?Await]
 }
 
 MemberExpression[Yield, Await]: {
-  PrimaryExpression[?Yield, ?Await]
-  MemberExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
-  MemberExpression[?Yield, ?Await] `.` IdentifierName
-  MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
-  SuperProperty[?Yield, ?Await]
-  MetaProperty
+  PrimaryExpression[?Yield, ?Await] |
+  MemberExpression[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]` |
+  MemberExpression[?Yield, ?Await] `.` IdentifierName |
+  MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged] |
+  SuperProperty[?Yield, ?Await] |
+  MetaProperty |
   `new` MemberExpression[?Yield, ?Await] Arguments[?Yield, ?Await]
 }
 
 MetaProperty: {
-  NewTarget
+  NewTarget |
   ImportMeta
 }
 
 MethodDefinition[Yield, Await]: {
-  PropertyName[?Yield, ?Await] `(` UniqueFormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}`
-  GeneratorMethod[?Yield, ?Await]
-  AsyncMethod[?Yield, ?Await]
-  AsyncGeneratorMethod[?Yield, ?Await]
-  `get` PropertyName[?Yield, ?Await] `(` `)` `{` FunctionBody[~Yield, ~Await] `}`
+  PropertyName[?Yield, ?Await] `(` UniqueFormalParameters[~Yield, ~Await] `)` `{` FunctionBody[~Yield, ~Await] `}` |
+  GeneratorMethod[?Yield, ?Await] |
+  AsyncMethod[?Yield, ?Await] |
+  AsyncGeneratorMethod[?Yield, ?Await] |
+  `get` PropertyName[?Yield, ?Await] `(` `)` `{` FunctionBody[~Yield, ~Await] `}` |
   `set` PropertyName[?Yield, ?Await] `(` PropertySetParameterList `)` `{` FunctionBody[~Yield, ~Await] `}`
 }
 
@@ -1774,13 +1774,13 @@ ModuleBody: {
 }
 
 ModuleItem: {
-  ImportDeclaration
-  ExportDeclaration
+  ImportDeclaration |
+  ExportDeclaration |
   StatementListItem[~Yield, ~Await, ~Return]
 }
 
 ModuleItemList: {
-  ModuleItem
+  ModuleItem |
   ModuleItemList ModuleItem
 }
 
@@ -1789,13 +1789,13 @@ ModuleSpecifier: {
 }
 
 MultiplicativeExpression[Yield, Await]: {
-  ExponentiationExpression[?Yield, ?Await]
+  ExponentiationExpression[?Yield, ?Await] |
   MultiplicativeExpression[?Yield, ?Await] MultiplicativeOperator ExponentiationExpression[?Yield, ?Await]
 }
 
 MultiplicativeOperator: {
-  `*`
-  `/`
+  `*` |
+  `/` |
   `%`
 }
 
@@ -1804,19 +1804,19 @@ NameSpaceImport: {
 }
 
 NamedExports: {
-  `{` `}`
-  `{` ExportsList `}`
+  `{` `}` |
+  `{` ExportsList `}` |
   `{` ExportsList `,` `}`
 }
 
 NamedImports: {
-  `{` `}`
-  `{` ImportsList `}`
+  `{` `}` |
+  `{` ImportsList `}` |
   `{` ImportsList `,` `}`
 }
 
 NewExpression[Yield, Await]: {
-  MemberExpression[?Yield, ?Await]
+  MemberExpression[?Yield, ?Await] |
   `new` NewExpression[?Yield, ?Await]
 }
 
@@ -1825,39 +1825,39 @@ NewTarget: {
 }
 
 ObjectAssignmentPattern[Yield, Await]: {
-  `{` `}`
-  `{` AssignmentRestProperty[?Yield, ?Await] `}`
-  `{` AssignmentPropertyList[?Yield, ?Await] `}`
+  `{` `}` |
+  `{` AssignmentRestProperty[?Yield, ?Await] `}` |
+  `{` AssignmentPropertyList[?Yield, ?Await] `}` |
   `{` AssignmentPropertyList[?Yield, ?Await] `,` AssignmentRestProperty[?Yield, ?Await]? `}`
 }
 
 ObjectBindingPattern[Yield, Await]: {
-  `{` `}`
-  `{` BindingRestProperty[?Yield, ?Await] `}`
-  `{` BindingPropertyList[?Yield, ?Await] `}`
+  `{` `}` |
+  `{` BindingRestProperty[?Yield, ?Await] `}` |
+  `{` BindingPropertyList[?Yield, ?Await] `}` |
   `{` BindingPropertyList[?Yield, ?Await] `,` BindingRestProperty[?Yield, ?Await]? `}`
 }
 
 ObjectLiteral[Yield, Await]: {
-  `{` `}`
-  `{` PropertyDefinitionList[?Yield, ?Await] `}`
+  `{` `}` |
+  `{` PropertyDefinitionList[?Yield, ?Await] `}` |
   `{` PropertyDefinitionList[?Yield, ?Await] `,` `}`
 }
 
 OptionalChain[Yield, Await]: {
-  `?.` Arguments[?Yield, ?Await]
-  `?.` `[` Expression[+In, ?Yield, ?Await] `]`
-  `?.` IdentifierName
-  `?.` TemplateLiteral[?Yield, ?Await, +Tagged]
-  OptionalChain[?Yield, ?Await] Arguments[?Yield, ?Await]
-  OptionalChain[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]`
-  OptionalChain[?Yield, ?Await] `.` IdentifierName
+  `?.` Arguments[?Yield, ?Await] |
+  `?.` `[` Expression[+In, ?Yield, ?Await] `]` |
+  `?.` IdentifierName |
+  `?.` TemplateLiteral[?Yield, ?Await, +Tagged] |
+  OptionalChain[?Yield, ?Await] Arguments[?Yield, ?Await] |
+  OptionalChain[?Yield, ?Await] `[` Expression[+In, ?Yield, ?Await] `]` |
+  OptionalChain[?Yield, ?Await] `.` IdentifierName |
   OptionalChain[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
 }
 
 OptionalExpression[Yield, Await]: {
-  MemberExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await]
-  CallExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await]
+  MemberExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await] |
+  CallExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await] |
   OptionalExpression[?Yield, ?Await] OptionalChain[?Yield, ?Await]
 }
 
@@ -1866,36 +1866,36 @@ ParenthesizedExpression[Yield, Await]: {
 }
 
 PrimaryExpression[Yield, Await]: {
-  `this`
-  IdentifierReference[?Yield, ?Await]
-  Literal
-  ArrayLiteral[?Yield, ?Await]
-  ObjectLiteral[?Yield, ?Await]
-  FunctionExpression
-  ClassExpression[?Yield, ?Await]
-  GeneratorExpression
-  AsyncFunctionExpression
-  AsyncGeneratorExpression
-  RegularExpressionLiteral
-  TemplateLiteral[?Yield, ?Await, ~Tagged]
+  `this` |
+  IdentifierReference[?Yield, ?Await] |
+  Literal |
+  ArrayLiteral[?Yield, ?Await] |
+  ObjectLiteral[?Yield, ?Await] |
+  FunctionExpression |
+  ClassExpression[?Yield, ?Await] |
+  GeneratorExpression |
+  AsyncFunctionExpression |
+  AsyncGeneratorExpression |
+  RegularExpressionLiteral |
+  TemplateLiteral[?Yield, ?Await, ~Tagged] |
   CoverParenthesizedExpressionAndArrowParameterList[?Yield, ?Await]
 }
 
 PropertyDefinition[Yield, Await]: {
-  IdentifierReference[?Yield, ?Await]
-  CoverInitializedName[?Yield, ?Await]
-  PropertyName[?Yield, ?Await] `:` AssignmentExpression[+In, ?Yield, ?Await]
-  MethodDefinition[?Yield, ?Await]
+  IdentifierReference[?Yield, ?Await] |
+  CoverInitializedName[?Yield, ?Await] |
+  PropertyName[?Yield, ?Await] `:` AssignmentExpression[+In, ?Yield, ?Await] |
+  MethodDefinition[?Yield, ?Await] |
   `...` AssignmentExpression[+In, ?Yield, ?Await]
 }
 
 PropertyDefinitionList[Yield, Await]: {
-  PropertyDefinition[?Yield, ?Await]
+  PropertyDefinition[?Yield, ?Await] |
   PropertyDefinitionList[?Yield, ?Await] `,` PropertyDefinition[?Yield, ?Await]
 }
 
 PropertyName[Yield, Await]: {
-  LiteralPropertyName
+  LiteralPropertyName |
   ComputedPropertyName[?Yield, ?Await]
 }
 
@@ -1904,17 +1904,17 @@ PropertySetParameterList: {
 }
 
 RelationalExpression[In, Yield, Await]: {
-  ShiftExpression[?Yield, ?Await]
-  RelationalExpression[?In, ?Yield, ?Await] `<` ShiftExpression[?Yield, ?Await]
-  RelationalExpression[?In, ?Yield, ?Await] `>` ShiftExpression[?Yield, ?Await]
-  RelationalExpression[?In, ?Yield, ?Await] `<=` ShiftExpression[?Yield, ?Await]
-  RelationalExpression[?In, ?Yield, ?Await] `>=` ShiftExpression[?Yield, ?Await]
-  RelationalExpression[?In, ?Yield, ?Await] `instanceof` ShiftExpression[?Yield, ?Await]
+  ShiftExpression[?Yield, ?Await] |
+  RelationalExpression[?In, ?Yield, ?Await] `<` ShiftExpression[?Yield, ?Await] |
+  RelationalExpression[?In, ?Yield, ?Await] `>` ShiftExpression[?Yield, ?Await] |
+  RelationalExpression[?In, ?Yield, ?Await] `<=` ShiftExpression[?Yield, ?Await] |
+  RelationalExpression[?In, ?Yield, ?Await] `>=` ShiftExpression[?Yield, ?Await] |
+  RelationalExpression[?In, ?Yield, ?Await] `instanceof` ShiftExpression[?Yield, ?Await] |
   [+In] RelationalExpression[+In, ?Yield, ?Await] `in` ShiftExpression[?Yield, ?Await]
 }
 
 ReturnStatement[Yield, Await]: {
-  `return` `;`
+  `return` `;` |
   `return` [no LineTerminator here] Expression[+In, ?Yield, ?Await] `;`
 }
 
@@ -1927,14 +1927,14 @@ ScriptBody: {
 }
 
 ShiftExpression[Yield, Await]: {
-  AdditiveExpression[?Yield, ?Await]
-  ShiftExpression[?Yield, ?Await] `<<` AdditiveExpression[?Yield, ?Await]
-  ShiftExpression[?Yield, ?Await] `>>` AdditiveExpression[?Yield, ?Await]
+  AdditiveExpression[?Yield, ?Await] |
+  ShiftExpression[?Yield, ?Await] `<<` AdditiveExpression[?Yield, ?Await] |
+  ShiftExpression[?Yield, ?Await] `>>` AdditiveExpression[?Yield, ?Await] |
   ShiftExpression[?Yield, ?Await] `>>>` AdditiveExpression[?Yield, ?Await]
 }
 
 ShortCircuitExpression[In, Yield, Await]: {
-  LogicalORExpression[?In, ?Yield, ?Await]
+  LogicalORExpression[?In, ?Yield, ?Await] |
   CoalesceExpression[?In, ?Yield, ?Await]
 }
 
@@ -1947,29 +1947,29 @@ SpreadElement[Yield, Await]: {
 }
 
 Statement[Yield, Await, Return]: {
-  BlockStatement[?Yield, ?Await, ?Return]
-  VariableStatement[?Yield, ?Await]
-  EmptyStatement
-  ExpressionStatement[?Yield, ?Await]
-  IfStatement[?Yield, ?Await, ?Return]
-  BreakableStatement[?Yield, ?Await, ?Return]
-  ContinueStatement[?Yield, ?Await]
-  BreakStatement[?Yield, ?Await]
-  [+Return] ReturnStatement[?Yield, ?Await]
-  WithStatement[?Yield, ?Await, ?Return]
-  LabelledStatement[?Yield, ?Await, ?Return]
-  ThrowStatement[?Yield, ?Await]
-  TryStatement[?Yield, ?Await, ?Return]
+  BlockStatement[?Yield, ?Await, ?Return] |
+  VariableStatement[?Yield, ?Await] |
+  EmptyStatement |
+  ExpressionStatement[?Yield, ?Await] |
+  IfStatement[?Yield, ?Await, ?Return] |
+  BreakableStatement[?Yield, ?Await, ?Return] |
+  ContinueStatement[?Yield, ?Await] |
+  BreakStatement[?Yield, ?Await] |
+  [+Return] ReturnStatement[?Yield, ?Await] |
+  WithStatement[?Yield, ?Await, ?Return] |
+  LabelledStatement[?Yield, ?Await, ?Return] |
+  ThrowStatement[?Yield, ?Await] |
+  TryStatement[?Yield, ?Await, ?Return] |
   DebuggerStatement
 }
 
 StatementList[Yield, Await, Return]: {
-  StatementListItem[?Yield, ?Await, ?Return]
+  StatementListItem[?Yield, ?Await, ?Return] |
   StatementList[?Yield, ?Await, ?Return] StatementListItem[?Yield, ?Await, ?Return]
 }
 
 StatementListItem[Yield, Await, Return]: {
-  Statement[?Yield, ?Await, ?Return]
+  Statement[?Yield, ?Await, ?Return] |
   Declaration[?Yield, ?Await]
 }
 
@@ -1982,7 +1982,7 @@ SuperCall[Yield, Await]: {
 }
 
 SuperProperty[Yield, Await]: {
-  `super` `[` Expression[+In, ?Yield, ?Await] `]`
+  `super` `[` Expression[+In, ?Yield, ?Await] `]` |
   `super` `.` IdentifierName
 }
 
@@ -1991,17 +1991,17 @@ SwitchStatement[Yield, Await, Return]: {
 }
 
 TemplateLiteral[Yield, Await, Tagged]: {
-  NoSubstitutionTemplate
+  NoSubstitutionTemplate |
   SubstitutionTemplate[?Yield, ?Await, ?Tagged]
 }
 
 TemplateMiddleList[Yield, Await, Tagged]: {
-  TemplateMiddle Expression[+In, ?Yield, ?Await]
+  TemplateMiddle Expression[+In, ?Yield, ?Await] |
   TemplateMiddleList[?Yield, ?Await, ?Tagged] TemplateMiddle Expression[+In, ?Yield, ?Await]
 }
 
 TemplateSpans[Yield, Await, Tagged]: {
-  TemplateTail
+  TemplateTail |
   TemplateMiddleList[?Yield, ?Await, ?Tagged] TemplateTail
 }
 
@@ -2010,20 +2010,20 @@ ThrowStatement[Yield, Await]: {
 }
 
 TryStatement[Yield, Await, Return]: {
-  `try` Block[?Yield, ?Await, ?Return] Catch[?Yield, ?Await, ?Return]
-  `try` Block[?Yield, ?Await, ?Return] Finally[?Yield, ?Await, ?Return]
+  `try` Block[?Yield, ?Await, ?Return] Catch[?Yield, ?Await, ?Return] |
+  `try` Block[?Yield, ?Await, ?Return] Finally[?Yield, ?Await, ?Return] |
   `try` Block[?Yield, ?Await, ?Return] Catch[?Yield, ?Await, ?Return] Finally[?Yield, ?Await, ?Return]
 }
 
 UnaryExpression[Yield, Await]: {
-  UpdateExpression[?Yield, ?Await]
-  `delete` UnaryExpression[?Yield, ?Await]
-  `void` UnaryExpression[?Yield, ?Await]
-  `typeof` UnaryExpression[?Yield, ?Await]
-  `+` UnaryExpression[?Yield, ?Await]
-  `-` UnaryExpression[?Yield, ?Await]
-  `~` UnaryExpression[?Yield, ?Await]
-  `!` UnaryExpression[?Yield, ?Await]
+  UpdateExpression[?Yield, ?Await] |
+  `delete` UnaryExpression[?Yield, ?Await] |
+  `void` UnaryExpression[?Yield, ?Await] |
+  `typeof` UnaryExpression[?Yield, ?Await] |
+  `+` UnaryExpression[?Yield, ?Await] |
+  `-` UnaryExpression[?Yield, ?Await] |
+  `~` UnaryExpression[?Yield, ?Await] |
+  `!` UnaryExpression[?Yield, ?Await] |
   [+Await] AwaitExpression[?Yield]
 }
 
@@ -2032,20 +2032,20 @@ UniqueFormalParameters[Yield, Await]: {
 }
 
 UpdateExpression[Yield, Await]: {
-  LeftHandSideExpression[?Yield, ?Await]
-  LeftHandSideExpression[?Yield, ?Await] [no LineTerminator here] `++`
-  LeftHandSideExpression[?Yield, ?Await] [no LineTerminator here] `--`
-  `++` UnaryExpression[?Yield, ?Await]
+  LeftHandSideExpression[?Yield, ?Await] |
+  LeftHandSideExpression[?Yield, ?Await] [no LineTerminator here] `++` |
+  LeftHandSideExpression[?Yield, ?Await] [no LineTerminator here] `--` |
+  `++` UnaryExpression[?Yield, ?Await] |
   `--` UnaryExpression[?Yield, ?Await]
 }
 
 VariableDeclaration[In, Yield, Await]: {
-  BindingIdentifier[?Yield, ?Await] Initializer[?In, ?Yield, ?Await]?
+  BindingIdentifier[?Yield, ?Await] Initializer[?In, ?Yield, ?Await]? |
   BindingPattern[?Yield, ?Await] Initializer[?In, ?Yield, ?Await]
 }
 
 VariableDeclarationList[In, Yield, Await]: {
-  VariableDeclaration[?In, ?Yield, ?Await]
+  VariableDeclaration[?In, ?Yield, ?Await] |
   VariableDeclarationList[?In, ?Yield, ?Await] `,` VariableDeclaration[?In, ?Yield, ?Await]
 }
 
@@ -2062,7 +2062,7 @@ WithStatement[Yield, Await, Return]: {
 }
 
 YieldExpression[In, Await]: {
-  `yield`
-  `yield` [no LineTerminator here] AssignmentExpression[?In, +Yield, ?Await]
+  `yield` |
+  `yield` [no LineTerminator here] AssignmentExpression[?In, +Yield, ?Await] |
   `yield` [no LineTerminator here] `*` AssignmentExpression[?In, +Yield, ?Await]
 }

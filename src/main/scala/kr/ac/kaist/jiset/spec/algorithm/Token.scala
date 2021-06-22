@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.spec.algorithm.token
 
 import kr.ac.kaist.jiset.LINE_SEP
+import kr.ac.kaist.jiset.spec.Parser
 import kr.ac.kaist.jiset.spec.SpecComponent
 
 // tokens
@@ -11,7 +12,8 @@ abstract class Token(name: String, content: String) extends SpecComponent {
   // get content
   def getContent: String = content
 }
-object Token {
+object Tokens extends Parser[List[Token]]
+object Token extends Parser[Token] {
   // get string of list of tokens
   def getString(tokens: List[Token]): String = {
     val sb = new StringBuilder

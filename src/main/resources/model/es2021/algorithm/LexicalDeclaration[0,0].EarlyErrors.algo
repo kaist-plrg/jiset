@@ -1,0 +1,15 @@
+def [SYNTAX] LexicalDeclaration[0,0].EarlyErrors<LetOrConst BindingList `;`>() = {
+  0:access __x0__ = (BindingList "BoundNames")
+  0:if (contains __x0__ "let") throw SyntaxError else 2:{}
+  1:access __x1__ = (BindingList "BoundNames")
+  1:app __x2__ = (IsDuplicate __x1__)
+  1:if __x2__ throw SyntaxError else 2:{}
+}
+- id: "sec-let-and-const-declarations-static-semantics-early-errors"
+- code:
+          <li>
+            It is a Syntax Error if the BoundNames of |BindingList| contains *"let"*.
+          </li>
+          <li>
+            It is a Syntax Error if the BoundNames of |BindingList| contains any duplicate entries.
+          </li>

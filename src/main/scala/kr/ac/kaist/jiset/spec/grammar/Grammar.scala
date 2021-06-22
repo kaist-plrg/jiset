@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.spec.grammar
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.spec.SpecComponent
+import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
 import kr.ac.kaist.jiset.spec.grammar.token._
 
 // ECMAScript grammars
@@ -55,7 +55,7 @@ case class Grammar(
   lazy val sortedProds = (getSorted(lexProds), getSorted(prods))
 }
 
-object Grammar {
+object Grammar extends Parser[Grammar] {
   val lexicalHeader = "[Lexical Productions]"
   val syntacticHeader = "[Syntactic Productions]"
 

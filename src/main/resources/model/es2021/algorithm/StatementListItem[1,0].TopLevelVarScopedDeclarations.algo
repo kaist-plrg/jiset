@@ -1,0 +1,15 @@
+def [SYNTAX] StatementListItem[1,0].TopLevelVarScopedDeclarations<Declaration>() = {
+  0:if (is-instance-of Declaration Declaration0) {
+    access HoistableDeclaration = (Declaration "HoistableDeclaration")
+    1:access __x0__ = (HoistableDeclaration "DeclarationPart")
+    1:let declaration = __x0__
+    2:return (new [declaration])
+  } else 1:{}
+  3:return (new [])
+}
+- id: "sec-static-semantics-toplevelvarscopeddeclarations"
+- code:
+        1. If |Declaration| is <emu-grammar>Declaration : HoistableDeclaration</emu-grammar> , then
+          1. Let _declaration_ be DeclarationPart of |HoistableDeclaration|.
+          1. Return « _declaration_ ».
+        1. Return a new empty List.

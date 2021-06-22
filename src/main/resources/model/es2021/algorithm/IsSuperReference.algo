@@ -1,0 +1,8 @@
+def IsSuperReference(V) = {
+  0:assert (is-instance-of V ReferenceRecord)
+  1:if (! (= V.ThisValue CONST_empty)) return true else return false
+}
+- id: "sec-issuperreference"
+- code:
+          1. Assert: _V_ is a Reference Record.
+          1. If _V_.[[ThisValue]] is not ~empty~, return *true*; otherwise return *false*.

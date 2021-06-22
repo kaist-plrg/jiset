@@ -1,0 +1,20 @@
+def IsLabelledFunction(stmt) = {
+  0:if (! (is-instance-of stmt LabelledStatement)) return false else 0:{}
+  1:access __x0__ = (stmt "LabelledItem")
+  1:let item = __x0__
+  2:if (is-instance-of item LabelledItem1) {
+    access FunctionDeclaration = (item "FunctionDeclaration")
+    return true
+  } else 0:{}
+  3:access __x1__ = (item "Statement")
+  3:let subStmt = __x1__
+  4:app __x2__ = (IsLabelledFunction subStmt)
+  4:return __x2__
+}
+- id: "sec-islabelledfunction"
+- code:
+        1. If _stmt_ is not a |LabelledStatement|, return *false*.
+        1. Let _item_ be the |LabelledItem| of _stmt_.
+        1. If _item_ is <emu-grammar>LabelledItem : FunctionDeclaration</emu-grammar> , return *true*.
+        1. Let _subStmt_ be the |Statement| of _item_.
+        1. Return IsLabelledFunction(_subStmt_).

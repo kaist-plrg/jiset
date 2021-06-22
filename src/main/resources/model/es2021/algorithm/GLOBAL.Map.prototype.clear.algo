@@ -1,0 +1,24 @@
+def [BUILTIN] Map.prototype.clear() = {
+  0:let M = this
+  1:app __x0__ = (RequireInternalSlot M "MapData")
+  1:[? __x0__]
+  2:let entries = M.MapData
+  3:let __x1__ = entries
+  3:let __x2__ = 0i
+  3:while (< __x2__ __x1__.length) {
+    let p = __x1__[__x2__]
+    4:p.Key = CONST_empty
+    5:p.Value = CONST_empty
+    __x2__ = (+ __x2__ 1i)
+  }
+  6:return undefined
+}
+- id: "sec-map.prototype.clear"
+- code:
+          1. Let _M_ be the *this* value.
+          1. Perform ? RequireInternalSlot(_M_, [[MapData]]).
+          1. Let _entries_ be the List that is _M_.[[MapData]].
+          1. For each Record { [[Key]], [[Value]] } _p_ of _entries_, do
+            1. Set _p_.[[Key]] to ~empty~.
+            1. Set _p_.[[Value]] to ~empty~.
+          1. Return *undefined*.

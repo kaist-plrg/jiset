@@ -1,0 +1,12 @@
+def [BUILTIN] BigInt.asUintN(bits, bigint) = {
+  0:app __x0__ = (ToIndex bits)
+  0:bits = [? __x0__]
+  1:app __x1__ = (ToBigInt bigint)
+  1:bigint = [? __x1__]
+  2:return (convert (%% bigint (** 2.0 bits)) num2bigint )
+}
+- id: "sec-bigint.asuintn"
+- code:
+          1. Set _bits_ to ? ToIndex(_bits_).
+          1. Set _bigint_ to ? ToBigInt(_bigint_).
+          1. Return the BigInt value that represents ℝ(_bigint_) modulo 2<sup>_bits_</sup>.

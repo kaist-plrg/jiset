@@ -1,0 +1,15 @@
+def [SYNTAX] MethodDefinition[0,0].MethodDefinitionEvaluation<PropertyName `(` UniqueFormalParameters `)` `{` FunctionBody `}`>(object, enumerable) = {
+  0:access __x0__ = (MethodDefinition "DefineMethod" object)
+  0:let methodDef = [? __x0__]
+  1:app __x1__ = (SetFunctionName methodDef.Closure methodDef.Key)
+  1:__x1__
+  2:let desc = (new PropertyDescriptor("Value" -> methodDef.Closure, "Writable" -> true, "Enumerable" -> enumerable, "Configurable" -> true))
+  3:app __x2__ = (DefinePropertyOrThrow object methodDef.Key desc)
+  3:return [? __x2__]
+}
+- id: "sec-runtime-semantics-methoddefinitionevaluation"
+- code:
+        1. Let _methodDef_ be ? DefineMethod of |MethodDefinition| with argument _object_.
+        1. Perform SetFunctionName(_methodDef_.[[Closure]], _methodDef_.[[Key]]).
+        1. Let _desc_ be the PropertyDescriptor { [[Value]]: _methodDef_.[[Closure]], [[Writable]]: *true*, [[Enumerable]]: _enumerable_, [[Configurable]]: *true* }.
+        1. Return ? DefinePropertyOrThrow(_object_, _methodDef_.[[Key]], _desc_).

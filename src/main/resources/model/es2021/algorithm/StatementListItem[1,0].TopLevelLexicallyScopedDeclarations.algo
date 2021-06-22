@@ -1,0 +1,12 @@
+def [SYNTAX] StatementListItem[1,0].TopLevelLexicallyScopedDeclarations<Declaration>() = {
+  0:if (is-instance-of Declaration Declaration0) {
+    access HoistableDeclaration = (Declaration "HoistableDeclaration")
+    1:return (new [])
+  } else 1:{}
+  2:return (new [Declaration])
+}
+- id: "sec-static-semantics-toplevellexicallyscopeddeclarations"
+- code:
+        1. If |Declaration| is <emu-grammar>Declaration : HoistableDeclaration</emu-grammar> , then
+          1. Return « ».
+        1. Return a List whose sole element is |Declaration|.

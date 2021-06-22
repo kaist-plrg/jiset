@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.spec.grammar.token
 
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.spec.SpecComponent
+import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
 
 // ECMAScript grammar tokens
 trait Token extends SpecComponent {
@@ -19,6 +19,7 @@ trait Token extends SpecComponent {
     case _ => None
   }
 }
+object Token extends Parser[Token]
 
 // terminals
 case class Terminal(term: String) extends Token
@@ -57,6 +58,8 @@ object Character {
     HexTrailSurrogate, HexNonSurrogate
   )
   val nameMap = (for (ch <- predef) yield ch.name -> ch).toMap
+  def fromName(name: String): Character =
+    nameMap.get(name).getOrElse(Unicode(name))
 }
 case class Unicode(code: String) extends Character(code)
 case object UnicodeAny extends Character("UnicodeAny")

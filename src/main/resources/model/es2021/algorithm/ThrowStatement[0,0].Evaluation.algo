@@ -1,0 +1,13 @@
+def [SYNTAX] ThrowStatement[0,0].Evaluation<`throw` Expression `;`>() = {
+  0:access __x0__ = (Expression "Evaluation")
+  0:let exprRef = __x0__
+  1:app __x1__ = (GetValue exprRef)
+  1:let exprValue = [? __x1__]
+  2:app __x2__ = (ThrowCompletion exprValue)
+  2:return __x2__
+}
+- id: "sec-throw-statement-runtime-semantics-evaluation"
+- code:
+        1. Let _exprRef_ be the result of evaluating |Expression|.
+        1. Let _exprValue_ be ? GetValue(_exprRef_).
+        1. Return ThrowCompletion(_exprValue_).

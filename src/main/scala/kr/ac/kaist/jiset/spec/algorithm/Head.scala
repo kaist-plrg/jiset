@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.TRIPLE
 import kr.ac.kaist.jiset.ir
-import kr.ac.kaist.jiset.spec.SpecComponent
+import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
 import kr.ac.kaist.jiset.spec.algorithm.Param.Kind._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.spec.grammar.token.NonTerminal
@@ -60,7 +60,7 @@ trait Head extends SpecComponent {
     (types, optional)
   }
 }
-object Head {
+object Head extends Parser[Head] {
   // get names and parameters
   val paramPattern = "[^\\s,()\\[\\]]+".r
   val rulePattern = ".*(Statement|Expression)\\s*Rules".r

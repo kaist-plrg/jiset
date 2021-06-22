@@ -1,0 +1,12 @@
+def [SYNTAX] BindingList[1,0].Evaluation<BindingList `,` LexicalBinding>() = {
+  0:access __x0__ = (BindingList "Evaluation")
+  0:let next = __x0__
+  1:[? next]
+  2:access __x1__ = (LexicalBinding "Evaluation")
+  2:return __x1__
+}
+- id: "sec-let-and-const-declarations-runtime-semantics-evaluation"
+- code:
+          1. Let _next_ be the result of evaluating |BindingList|.
+          1. ReturnIfAbrupt(_next_).
+          1. Return the result of evaluating |LexicalBinding|.

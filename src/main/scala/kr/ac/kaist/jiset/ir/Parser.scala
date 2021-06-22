@@ -173,11 +173,4 @@ trait Parsers extends BasicParsers {
 
   // integers
   val integer = "(0|-?[1-9]\\d*)".r
-
-  ////////////////////////////////////////////////////////////////////////////////
-  // Helper functions
-  ////////////////////////////////////////////////////////////////////////////////
-  lazy val string = ("\"[\u0000-\u000F]\"".r | stringLiteral) ^^ {
-    case s => StringContext processEscapes s.substring(1, s.length - 1)
-  }
 }

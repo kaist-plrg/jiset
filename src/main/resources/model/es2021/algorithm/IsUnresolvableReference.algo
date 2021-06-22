@@ -1,0 +1,8 @@
+def IsUnresolvableReference(V) = {
+  0:assert (is-instance-of V ReferenceRecord)
+  1:if (= V.Base CONST_unresolvable) return true else return false
+}
+- id: "sec-isunresolvablereference"
+- code:
+          1. Assert: _V_ is a Reference Record.
+          1. If _V_.[[Base]] is ~unresolvable~, return *true*; otherwise return *false*.

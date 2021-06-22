@@ -1,0 +1,10 @@
+def BigInt::divide(x, y) = {
+  0:if (= y 0i) throw RangeError else 9:{}
+  1:let quotient = (/ x y)
+  2:??? "Return the BigInt value that represents id:{quotient} rounded towards 0 to the next integer value ."
+}
+- id: "sec-numeric-types-bigint-divide"
+- code:
+            1. If _y_ is *0*<sub>ℤ</sub>, throw a *RangeError* exception.
+            1. Let _quotient_ be ℝ(_x_) / ℝ(_y_).
+            1. Return the BigInt value that represents _quotient_ rounded towards 0 to the next integer value.

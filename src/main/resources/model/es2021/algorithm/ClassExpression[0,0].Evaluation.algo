@@ -1,0 +1,11 @@
+def [SYNTAX] ClassExpression[0,0].Evaluation<`class` ClassTail>() = {
+  0:access __x0__ = (ClassTail "ClassDefinitionEvaluation" undefined "")
+  0:let value = [? __x0__]
+  1:value.SourceText = (get-syntax ClassExpression)
+  2:return value
+}
+- id: "sec-class-definitions-runtime-semantics-evaluation"
+- code:
+        1. Let _value_ be ? ClassDefinitionEvaluation of |ClassTail| with arguments *undefined* and *""*.
+        1. Set _value_.[[SourceText]] to the source text matched by |ClassExpression|.
+        1. Return _value_.

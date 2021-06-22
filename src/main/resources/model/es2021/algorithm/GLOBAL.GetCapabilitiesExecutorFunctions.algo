@@ -1,0 +1,16 @@
+def [BUILTIN] GetCapabilitiesExecutorFunctions(resolve, reject) = {
+  let capability = (new PromiseCapabilityRecord("Resolve" -> undefined, "Reject" -> undefined))
+  let F = (new OrdinaryObject("Capability" -> capability))
+  let promiseCapability = F.Capability
+  if
+  (! (= promiseCapability.Resolve undefined))
+  throw TypeError
+  if
+  (! (= promiseCapability.Reject undefined))
+  throw TypeError
+  promiseCapability.Resolve = resolve
+  promiseCapability.Reject = reject
+  return undefined
+}
+- id: ""
+- code:

@@ -1,0 +1,14 @@
+def EvaluatePropertyAccessWithIdentifierKey(baseValue, identifierName, strict) = {
+  0:assert (is-instance-of identifierName IdentifierName)
+  1:app __x0__ = (RequireObjectCoercible baseValue)
+  1:let bv = [? __x0__]
+  2:access __x1__ = (identifierName "StringValue")
+  2:let propertyNameString = __x1__
+  3:return (new ReferenceRecord("Base" -> bv, "ReferencedName" -> propertyNameString, "Strict" -> strict, "ThisValue" -> CONST_empty))
+}
+- id: "sec-evaluate-property-access-with-identifier-key"
+- code:
+        1. Assert: _identifierName_ is an |IdentifierName|.
+        1. Let _bv_ be ? RequireObjectCoercible(_baseValue_).
+        1. Let _propertyNameString_ be StringValue of _identifierName_.
+        1. Return the Reference Record { [[Base]]: _bv_, [[ReferencedName]]: _propertyNameString_, [[Strict]]: _strict_, [[ThisValue]]: ~empty~ }.

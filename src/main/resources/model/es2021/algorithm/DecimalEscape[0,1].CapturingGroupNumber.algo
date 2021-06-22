@@ -1,0 +1,8 @@
+def [SYNTAX] DecimalEscape[0,1].CapturingGroupNumber<NonZeroDigit DecimalDigits>() = {
+  0:??? "Let id:{n} be the number of code points in nt:{DecimalDigits} ."
+  1:??? "Return ( the MV of nt:{NonZeroDigit} × 10 sup:{id:{n}} plus the MV of nt:{DecimalDigits} ) ."
+}
+- id: "sec-patterns-static-semantics-capturing-group-number"
+- code:
+          1. Let _n_ be the number of code points in |DecimalDigits|.
+          1. Return (the MV of |NonZeroDigit| × 10<sup>_n_</sup> plus the MV of |DecimalDigits|).

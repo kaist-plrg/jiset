@@ -1,0 +1,10 @@
+def [SYNTAX] ConciseBody[0,0].EvaluateConciseBody<ExpressionBody>(functionObject, argumentsList) = {
+  0:app __x0__ = (FunctionDeclarationInstantiation functionObject argumentsList)
+  0:[? __x0__]
+  1:access __x1__ = (ExpressionBody "Evaluation")
+  1:return __x1__
+}
+- id: "sec-runtime-semantics-evaluateconcisebody"
+- code:
+        1. Perform ? FunctionDeclarationInstantiation(_functionObject_, _argumentsList_).
+        1. Return the result of evaluating |ExpressionBody|.

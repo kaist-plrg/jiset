@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.spec.algorithm
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.spec.SpecComponent
+import kr.ac.kaist.jiset.spec.{ SpecComponent, Parser }
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.util.Useful._
@@ -99,3 +99,4 @@ case class Algo(
     case _ => false
   }
 }
+object Algo extends Parser[Algo]

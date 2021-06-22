@@ -1,0 +1,12 @@
+def [BUILTIN] Date.prototype.getUTCFullYear() = {
+  0:app __x0__ = (thisTimeValue this)
+  0:let t = [? __x0__]
+  1:if (= t NaN) return NaN else 13:{}
+  2:app __x1__ = (YearFromTime t)
+  2:return __x1__
+}
+- id: "sec-date.prototype.getutcfullyear"
+- code:
+          1. Let _t_ be ? thisTimeValue(*this* value).
+          1. If _t_ is *NaN*, return *NaN*.
+          1. Return YearFromTime(_t_).

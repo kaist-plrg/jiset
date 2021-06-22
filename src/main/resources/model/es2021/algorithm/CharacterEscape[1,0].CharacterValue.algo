@@ -1,0 +1,10 @@
+def [SYNTAX] CharacterEscape[1,0].CharacterValue<`c` ControlLetter>() = {
+  0:let ch = ControlLetter
+  1:let i = ch
+  2:return (% i 32i)
+}
+- id: "sec-patterns-static-semantics-character-value"
+- code:
+          1. Let _ch_ be the code point matched by |ControlLetter|.
+          1. Let _i_ be _ch_'s code point value.
+          1. Return the remainder of dividing _i_ by 32.

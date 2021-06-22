@@ -1,0 +1,12 @@
+def [SYNTAX] ArgumentList[0,0].ArgumentListEvaluation<AssignmentExpression>() = {
+  0:access __x0__ = (AssignmentExpression "Evaluation")
+  0:let ref = __x0__
+  1:app __x1__ = (GetValue ref)
+  1:let arg = [? __x1__]
+  2:return (new [arg])
+}
+- id: "sec-runtime-semantics-argumentlistevaluation"
+- code:
+          1. Let _ref_ be the result of evaluating |AssignmentExpression|.
+          1. Let _arg_ be ? GetValue(_ref_).
+          1. Return a List whose sole element is _arg_.

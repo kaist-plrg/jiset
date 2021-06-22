@@ -1,0 +1,12 @@
+def [SYNTAX] QuantifierPrefix[5,0].Evaluation<`{` DecimalDigits `,` DecimalDigits `}`>() = {
+  0:access __x0__ = (DecimalDigits0 "MV")
+  0:let i = __x0__
+  1:access __x1__ = (DecimalDigits1 "MV")
+  1:let j = __x1__
+  2:return (new [i, j])
+}
+- id: "sec-quantifier"
+- code:
+          1. Let _i_ be the MV of the first |DecimalDigits|.
+          1. Let _j_ be the MV of the second |DecimalDigits|.
+          1. Return the two results _i_ and _j_.

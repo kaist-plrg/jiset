@@ -1,0 +1,11 @@
+def BigInt::toString(x) = {
+  0:if (< x 0i) {
+    app __x0__ = (PRIMITIVE[BigInt].toString (- x))
+    return (+ "-" [! __x0__])
+  } else 23:{}
+  1:return (convert x num2str )
+}
+- id: "sec-numeric-types-bigint-tostring"
+- code:
+            1. If _x_ < *0*<sub>ℤ</sub>, return the string-concatenation of the String *"-"* and ! BigInt::toString(-_x_).
+            1. Return the String value consisting of the code units of the digits of the decimal representation of _x_.

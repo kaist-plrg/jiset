@@ -1,0 +1,10 @@
+def [SYNTAX] BindingPattern[0,0].BindingInitialization<ObjectBindingPattern>(value, environment) = {
+  0:app __x0__ = (RequireObjectCoercible value)
+  0:[? __x0__]
+  1:access __x1__ = (ObjectBindingPattern "BindingInitialization" value environment)
+  1:return __x1__
+}
+- id: "sec-runtime-semantics-bindinginitialization"
+- code:
+        1. Perform ? RequireObjectCoercible(_value_).
+        1. Return the result of performing BindingInitialization for |ObjectBindingPattern| using _value_ and _environment_ as arguments.

@@ -1,0 +1,13 @@
+def [BUILTIN] Object.seal(O) = {
+  0:if (! (= (typeof O) Object)) return O else 2:{}
+  1:app __x0__ = (SetIntegrityLevel O CONST_sealed)
+  1:let status = [? __x0__]
+  2:if (= status false) throw TypeError else 2:{}
+  3:return O
+}
+- id: "sec-object.seal"
+- code:
+          1. If Type(_O_) is not Object, return _O_.
+          1. Let _status_ be ? SetIntegrityLevel(_O_, ~sealed~).
+          1. If _status_ is *false*, throw a *TypeError* exception.
+          1. Return _O_.

@@ -1,0 +1,12 @@
+def [BUILTIN] ArrayBuffer(length) = {
+  0:if (= NewTarget undefined) throw TypeError else 11:{}
+  1:app __x0__ = (ToIndex length)
+  1:let byteLength = [? __x0__]
+  2:app __x1__ = (AllocateArrayBuffer NewTarget byteLength)
+  2:return [? __x1__]
+}
+- id: "sec-arraybuffer-length"
+- code:
+          1. If NewTarget is *undefined*, throw a *TypeError* exception.
+          1. Let _byteLength_ be ? ToIndex(_length_).
+          1. Return ? AllocateArrayBuffer(NewTarget, _byteLength_).

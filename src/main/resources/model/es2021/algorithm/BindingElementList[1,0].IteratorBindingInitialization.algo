@@ -1,0 +1,10 @@
+def [SYNTAX] BindingElementList[1,0].IteratorBindingInitialization<BindingElementList `,` BindingElisionElement>(iteratorRecord, environment) = {
+  0:access __x0__ = (BindingElementList "IteratorBindingInitialization" iteratorRecord environment)
+  0:[? __x0__]
+  1:access __x1__ = (BindingElisionElement "IteratorBindingInitialization" iteratorRecord environment)
+  1:return __x1__
+}
+- id: "sec-runtime-semantics-iteratorbindinginitialization"
+- code:
+        1. Perform ? IteratorBindingInitialization for |BindingElementList| with _iteratorRecord_ and _environment_ as arguments.
+        1. Return the result of performing IteratorBindingInitialization for |BindingElisionElement| using _iteratorRecord_ and _environment_ as arguments.

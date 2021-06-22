@@ -1,4 +1,6 @@
-            1. Let _f_ be the active function object.
-            1. Let _name_ be _f_.[[Name]].
-            1. Let _env_ be _f_.[[Env]].
-            1. Return _env_.SetMutableBinding(_name_, _value_, *false*).
+            1. Let _steps_ be the steps of an ArgSetter function as specified below.
+            1. Let _length_ be the number of non-optional parameters of an ArgSetter function as specified below.
+            1. Let _setter_ be ! CreateBuiltinFunction(_steps_, _length_, *""*, « [[Name]], [[Env]] »).
+            1. Set _setter_.[[Name]] to _name_.
+            1. Set _setter_.[[Env]] to _env_.
+            1. Return _setter_.

@@ -1,0 +1,10 @@
+def IsDataDescriptor(Desc) = {
+  0:if (= Desc undefined) return false else 0:{}
+  1:if (&& (= Desc.Value absent) (= Desc.Writable absent)) return false else 0:{}
+  2:return true
+}
+- id: "sec-isdatadescriptor"
+- code:
+          1. If _Desc_ is *undefined*, return *false*.
+          1. If both _Desc_.[[Value]] and _Desc_.[[Writable]] are absent, return *false*.
+          1. Return *true*.

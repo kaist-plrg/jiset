@@ -1,0 +1,9 @@
+def [BUILTIN] Generator.prototype.next(value) = {
+  0:let g = this
+  1:app __x0__ = (GeneratorResume g value CONST_empty)
+  1:return [? __x0__]
+}
+- id: "sec-generator.prototype.next"
+- code:
+          1. Let _g_ be the *this* value.
+          1. Return ? GeneratorResume(_g_, _value_, ~empty~).

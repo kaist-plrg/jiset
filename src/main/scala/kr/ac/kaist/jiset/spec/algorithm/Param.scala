@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.spec.SpecComponent
+import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
 
 case class Param(
   name: String,
@@ -11,7 +11,7 @@ case class Param(
 
   def toOptional: Param = Param(name, Optional)
 }
-object Param {
+object Param extends Parser[Param] {
   type Kind = Kind.Value
   object Kind extends Enumeration {
     val Normal, Optional, Variadic = Value

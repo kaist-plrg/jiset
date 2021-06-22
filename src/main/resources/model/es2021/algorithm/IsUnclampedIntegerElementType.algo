@@ -1,0 +1,8 @@
+def IsUnclampedIntegerElementType(type) = {
+  0:if (|| (|| (|| (|| (|| (= type CONST_Int8) (= type CONST_Uint8)) (= type CONST_Int16)) (= type CONST_Uint16)) (= type CONST_Int32)) (= type CONST_Uint32)) return true else 0:{}
+  1:return false
+}
+- id: "sec-isunclampedintegerelementtype"
+- code:
+          1. If _type_ is ~Int8~, ~Uint8~, ~Int16~, ~Uint16~, ~Int32~, or ~Uint32~, return *true*.
+          1. Return *false*.

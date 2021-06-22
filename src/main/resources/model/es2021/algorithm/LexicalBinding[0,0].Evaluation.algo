@@ -1,0 +1,11 @@
+def [SYNTAX] LexicalBinding[0,0].Evaluation<BindingIdentifier>() = {
+  0:access __x0__ = (BindingIdentifier "StringValue")
+  0:app __x1__ = (ResolveBinding __x0__)
+  0:let lhs = __x1__
+  1:app __x2__ = (InitializeReferencedBinding lhs undefined)
+  1:return __x2__
+}
+- id: "sec-let-and-const-declarations-runtime-semantics-evaluation"
+- code:
+          1. Let _lhs_ be ResolveBinding(StringValue of |BindingIdentifier|).
+          1. Return InitializeReferencedBinding(_lhs_, *undefined*).

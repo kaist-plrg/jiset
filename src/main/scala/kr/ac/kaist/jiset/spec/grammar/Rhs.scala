@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.spec.grammar
 
 import kr.ac.kaist.jiset.spec.grammar.token._
-import kr.ac.kaist.jiset.spec.SpecComponent
+import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
 
 // ECMAScript grammar right-hand-sides
 case class Rhs(
@@ -54,6 +54,7 @@ case class Rhs(
     case RhsCond(name, pass) => (params contains name) == pass
   })
 }
+object Rhs extends Parser[Rhs]
 
 case class RhsCond(name: String, pass: Boolean) {
   // conversion to parser

@@ -1,0 +1,11 @@
+def [SYNTAX] ExportDeclaration[5,0].BoundNames<`export` `default` ClassDeclaration>() = {
+  0:access __x0__ = (ClassDeclaration "BoundNames")
+  0:let declarationNames = __x0__
+  1:if (contains declarationNames "*default*") {} else append "*default*" -> declarationNames
+  2:return declarationNames
+}
+- id: "sec-static-semantics-boundnames"
+- code:
+        1. Let _declarationNames_ be the BoundNames of |ClassDeclaration|.
+        1. If _declarationNames_ does not include the element *"\*default\*"*, append *"\*default\*"* to _declarationNames_.
+        1. Return _declarationNames_.

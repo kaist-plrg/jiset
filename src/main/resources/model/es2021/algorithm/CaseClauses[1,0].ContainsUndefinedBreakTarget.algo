@@ -1,0 +1,12 @@
+def [SYNTAX] CaseClauses[1,0].ContainsUndefinedBreakTarget<CaseClauses CaseClause>(labelSet) = {
+  0:access __x0__ = (CaseClauses "ContainsUndefinedBreakTarget" labelSet)
+  0:let hasUndefinedLabels = __x0__
+  1:if (= hasUndefinedLabels true) return true else 1:{}
+  2:access __x1__ = (CaseClause "ContainsUndefinedBreakTarget" labelSet)
+  2:return __x1__
+}
+- id: "sec-static-semantics-containsundefinedbreaktarget"
+- code:
+        1. Let _hasUndefinedLabels_ be ContainsUndefinedBreakTarget of |CaseClauses| with argument _labelSet_.
+        1. If _hasUndefinedLabels_ is *true*, return *true*.
+        1. Return ContainsUndefinedBreakTarget of |CaseClause| with argument _labelSet_.

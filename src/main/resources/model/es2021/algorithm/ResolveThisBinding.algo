@@ -1,0 +1,10 @@
+def ResolveThisBinding() = {
+  0:app __x0__ = (GetThisEnvironment)
+  0:let envRec = __x0__
+  1:app __x1__ = (envRec.GetThisBinding envRec)
+  1:return [? __x1__]
+}
+- id: "sec-resolvethisbinding"
+- code:
+        1. Let _envRec_ be GetThisEnvironment().
+        1. Return ? _envRec_.GetThisBinding().

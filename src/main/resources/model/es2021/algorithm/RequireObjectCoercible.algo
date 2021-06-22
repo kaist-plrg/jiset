@@ -1,0 +1,89 @@
+def RequireObjectCoercible(argument) = {
+  1:if (= (typeof argument) Undefined) throw TypeError else 8:{}
+  3:if (= (typeof argument) Null) throw TypeError else 8:{}
+  5:if (= (typeof argument) Boolean) return argument else 8:{}
+  7:if (= (typeof argument) Number) return argument else 8:{}
+  9:if (= (typeof argument) String) return argument else 8:{}
+  11:if (= (typeof argument) Symbol) return argument else 8:{}
+  13:if (= (typeof argument) BigInt) return argument else 8:{}
+  15:if (= (typeof argument) Object) return argument else 8:{}
+  16:assert false
+}
+- id: "table-requireobjectcoercible-results"
+- code:
+        <table>
+          <tbody>
+          <tr>
+            <th>
+              Argument Type
+            </th>
+            <th>
+              Result
+            </th>
+          </tr>
+          <tr>
+            <td>
+              Undefined
+            </td>
+            <td>
+              Throw a *TypeError* exception.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Null
+            </td>
+            <td>
+              Throw a *TypeError* exception.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Boolean
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Number
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              String
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Symbol
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              BigInt
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Object
+            </td>
+            <td>
+              Return _argument_.
+            </td>
+          </tr>
+          </tbody>
+        </table>

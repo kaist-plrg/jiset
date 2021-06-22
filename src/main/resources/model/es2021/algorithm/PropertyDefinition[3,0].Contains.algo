@@ -1,0 +1,9 @@
+def [SYNTAX] PropertyDefinition[3,0].Contains<MethodDefinition>(symbol) = {
+  0:if (is-instance-of symbol MethodDefinition) return true else 1:{}
+  1:access __x0__ = (MethodDefinition "ComputedPropertyContains" symbol)
+  1:return __x0__
+}
+- id: "sec-static-semantics-contains"
+- code:
+        1. If _symbol_ is |MethodDefinition|, return *true*.
+        1. Return the result of ComputedPropertyContains for |MethodDefinition| with argument _symbol_.

@@ -1,0 +1,11 @@
+def [BUILTIN] Generator.prototype.return(value) = {
+  0:let g = this
+  1:let C = (new Completion("Type" -> CONST_return, "Value" -> value, "Target" -> CONST_empty))
+  2:app __x0__ = (GeneratorResumeAbrupt g C CONST_empty)
+  2:return [? __x0__]
+}
+- id: "sec-generator.prototype.return"
+- code:
+          1. Let _g_ be the *this* value.
+          1. Let _C_ be Completion { [[Type]]: ~return~, [[Value]]: _value_, [[Target]]: ~empty~ }.
+          1. Return ? GeneratorResumeAbrupt(_g_, _C_, ~empty~).

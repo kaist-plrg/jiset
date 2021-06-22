@@ -1,0 +1,12 @@
+def [SYNTAX] StatementList[1,0].ContainsDuplicateLabels<StatementList StatementListItem>(labelSet) = {
+  0:access __x0__ = (StatementList "ContainsDuplicateLabels" labelSet)
+  0:let hasDuplicates = __x0__
+  1:if (= hasDuplicates true) return true else 1:{}
+  2:access __x1__ = (StatementListItem "ContainsDuplicateLabels" labelSet)
+  2:return __x1__
+}
+- id: "sec-static-semantics-containsduplicatelabels"
+- code:
+        1. Let _hasDuplicates_ be ContainsDuplicateLabels of |StatementList| with argument _labelSet_.
+        1. If _hasDuplicates_ is *true*, return *true*.
+        1. Return ContainsDuplicateLabels of |StatementListItem| with argument _labelSet_.

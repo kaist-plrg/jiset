@@ -1,0 +1,15 @@
+def [SYNTAX] RegExpUnicodeEscapeSequence[0,0].CharacterValue<`u` HexLeadSurrogate `\u` HexTrailSurrogate>() = {
+  0:access __x0__ = (HexLeadSurrogate "CharacterValue")
+  0:let lead = __x0__
+  1:access __x1__ = (HexTrailSurrogate "CharacterValue")
+  1:let trail = __x1__
+  2:app __x2__ = (UTF16SurrogatePairToCodePoint lead trail)
+  2:let cp = __x2__
+  3:return cp
+}
+- id: "sec-patterns-static-semantics-character-value"
+- code:
+          1. Let _lead_ be the CharacterValue of |HexLeadSurrogate|.
+          1. Let _trail_ be the CharacterValue of |HexTrailSurrogate|.
+          1. Let _cp_ be UTF16SurrogatePairToCodePoint(_lead_, _trail_).
+          1. Return the code point value of _cp_.

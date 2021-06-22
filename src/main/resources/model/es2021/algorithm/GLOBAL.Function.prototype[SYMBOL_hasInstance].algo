@@ -1,0 +1,9 @@
+def [BUILTIN] Function.prototype[SYMBOL_hasInstance](V) = {
+  0:let F = this
+  1:app __x0__ = (OrdinaryHasInstance F V)
+  1:return [? __x0__]
+}
+- id: "sec-function.prototype-@@hasinstance"
+- code:
+          1. Let _F_ be the *this* value.
+          1. Return ? OrdinaryHasInstance(_F_, _V_).

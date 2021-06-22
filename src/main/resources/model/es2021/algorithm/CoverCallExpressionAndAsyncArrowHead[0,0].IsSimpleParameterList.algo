@@ -1,0 +1,10 @@
+def [SYNTAX] CoverCallExpressionAndAsyncArrowHead[0,0].IsSimpleParameterList<MemberExpression Arguments>() = {
+  0:access __x0__ = (CoverCallExpressionAndAsyncArrowHead "CoveredAsyncArrowHead")
+  0:let head = __x0__
+  1:access __x1__ = (head "IsSimpleParameterList")
+  1:return __x1__
+}
+- id: "sec-static-semantics-issimpleparameterlist"
+- code:
+        1. Let _head_ be CoveredAsyncArrowHead of |CoverCallExpressionAndAsyncArrowHead|.
+        1. Return IsSimpleParameterList of _head_.

@@ -1,0 +1,12 @@
+def ToBigInt(argument) = {
+  app __x0__ = (ToPrimitive argument CONST_number)
+  let prim = [? __x0__]
+  if (= (typeof prim) Undefined) throw TypeError else if (= (typeof prim) Null) throw TypeError else if (= (typeof prim) Boolean) if prim return 1n else return 0n else if (= (typeof prim) BigInt) return prim else if (= (typeof prim) Number) throw TypeError else if (= (typeof prim) String) {
+    app __x1__ = (StringToBigInt prim)
+    let n = [! __x1__]
+    if (= n NaN) throw SyntaxError else {}
+    return n
+  } else if (= (typeof prim) Symbol) throw TypeError else {}
+}
+- id: ""
+- code:

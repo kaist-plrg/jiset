@@ -1,0 +1,17 @@
+def [SYNTAX] BreakableStatement[0,0].ContainsUndefinedContinueTarget<IterationStatement>(iterationSet, labelSet) = {
+  0:let __x0__ = (copy-obj iterationSet)
+  0:let __x1__ = labelSet
+  0:let __x2__ = 0i
+  0:while (< __x2__ __x1__.length) {
+    let __x3__ = __x1__[__x2__]
+    append __x3__ -> __x0__
+    __x2__ = (+ __x2__ 1i)
+  }
+  0:let newIterationSet = __x0__
+  1:access __x4__ = (IterationStatement "ContainsUndefinedContinueTarget" newIterationSet (new []))
+  1:return __x4__
+}
+- id: "sec-static-semantics-containsundefinedcontinuetarget"
+- code:
+        1. Let _newIterationSet_ be a copy of _iterationSet_ with all the elements of _labelSet_ appended.
+        1. Return ContainsUndefinedContinueTarget of |IterationStatement| with arguments _newIterationSet_ and « ».

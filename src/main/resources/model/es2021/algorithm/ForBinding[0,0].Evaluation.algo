@@ -1,0 +1,10 @@
+def [SYNTAX] ForBinding[0,0].Evaluation<BindingIdentifier>() = {
+  0:access __x0__ = (BindingIdentifier "StringValue")
+  0:let bindingId = __x0__
+  1:app __x1__ = (ResolveBinding bindingId)
+  1:return [? __x1__]
+}
+- id: "sec-for-in-and-for-of-statements-runtime-semantics-evaluation"
+- code:
+          1. Let _bindingId_ be StringValue of |BindingIdentifier|.
+          1. Return ? ResolveBinding(_bindingId_).

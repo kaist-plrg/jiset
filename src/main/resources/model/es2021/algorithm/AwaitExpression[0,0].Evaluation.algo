@@ -1,0 +1,13 @@
+def [SYNTAX] AwaitExpression[0,0].Evaluation<`await` UnaryExpression>() = {
+  0:access __x0__ = (UnaryExpression "Evaluation")
+  0:let exprRef = __x0__
+  1:app __x1__ = (GetValue exprRef)
+  1:let value = [? __x1__]
+  2:app __x2__ = (Await value)
+  2:return [? __x2__]
+}
+- id: "sec-async-function-definitions-runtime-semantics-evaluation"
+- code:
+        1. Let _exprRef_ be the result of evaluating |UnaryExpression|.
+        1. Let _value_ be ? GetValue(_exprRef_).
+        1. Return ? Await(_value_).

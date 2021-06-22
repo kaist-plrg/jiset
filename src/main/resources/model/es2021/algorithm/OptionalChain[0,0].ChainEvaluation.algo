@@ -1,0 +1,12 @@
+def [SYNTAX] OptionalChain[0,0].ChainEvaluation<`?.` Arguments>(baseValue, baseReference) = {
+  0:let thisChain = this
+  1:app __x0__ = (IsInTailPosition thisChain)
+  1:let tailCall = __x0__
+  2:app __x1__ = (EvaluateCall baseValue baseReference Arguments tailCall)
+  2:return [? __x1__]
+}
+- id: "sec-optional-chaining-chain-evaluation"
+- code:
+          1. Let _thisChain_ be this |OptionalChain|.
+          1. Let _tailCall_ be IsInTailPosition(_thisChain_).
+          1. Return ? EvaluateCall(_baseValue_, _baseReference_, |Arguments|, _tailCall_).

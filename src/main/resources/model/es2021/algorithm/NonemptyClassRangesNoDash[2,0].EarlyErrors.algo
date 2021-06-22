@@ -1,0 +1,33 @@
+def [SYNTAX] NonemptyClassRangesNoDash[2,0].EarlyErrors<ClassAtomNoDash `-` ClassAtom ClassRanges>() = {
+  0:let __x0__ = true
+  0:access __x1__ = (ClassAtomNoDash "IsCharacterClass")
+  0:__x0__ = (= __x1__ true)
+  0:if __x0__ 2:{} else {
+    access __x2__ = (ClassAtom "IsCharacterClass")
+    __x0__ = (= __x2__ true)
+  }
+  0:if __x0__ throw SyntaxError else 2:{}
+  1:let __x3__ = true
+  1:access __x4__ = (ClassAtomNoDash "IsCharacterClass")
+  1:__x3__ = (= __x4__ false)
+  1:if __x3__ {
+    let __x5__ = true
+    access __x6__ = (ClassAtom "IsCharacterClass")
+    __x5__ = (= __x6__ false)
+    if __x5__ {
+      access __x7__ = (ClassAtomNoDash "CharacterValue")
+      access __x8__ = (ClassAtom "CharacterValue")
+      __x5__ = (< __x8__ __x7__)
+    } else 2:{}
+    __x3__ = __x5__
+  } else 2:{}
+  1:if __x3__ throw SyntaxError else 2:{}
+}
+- id: "sec-patterns-static-semantics-early-errors"
+- code:
+          <li>
+            It is a Syntax Error if IsCharacterClass of |ClassAtomNoDash| is *true* or IsCharacterClass of |ClassAtom| is *true*.
+          </li>
+          <li>
+            It is a Syntax Error if IsCharacterClass of |ClassAtomNoDash| is *false* and IsCharacterClass of |ClassAtom| is *false* and the CharacterValue of |ClassAtomNoDash| is larger than the CharacterValue of |ClassAtom|.
+          </li>

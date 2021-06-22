@@ -1,0 +1,10 @@
+def [SYNTAX] ExpressionStatement[0,0].Evaluation<Expression `;`>() = {
+  0:access __x0__ = (Expression "Evaluation")
+  0:let exprRef = __x0__
+  1:app __x1__ = (GetValue exprRef)
+  1:return [? __x1__]
+}
+- id: "sec-expression-statement-runtime-semantics-evaluation"
+- code:
+        1. Let _exprRef_ be the result of evaluating |Expression|.
+        1. Return ? GetValue(_exprRef_).

@@ -1,0 +1,9 @@
+def [BUILTIN] Number.isNaN(number) = {
+  0:if (! (= (typeof number) Number)) return false else 3:{}
+  2:if (= number NaN) return true else return false
+}
+- id: "sec-number.isnan"
+- code:
+          1. If Type(_number_) is not Number, return *false*.
+          1. If _number_ is *NaN*, return *true*.
+          1. Otherwise, return *false*.

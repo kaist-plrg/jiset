@@ -1,0 +1,27 @@
+def [SYNTAX] TryStatement[2,0].VarScopedDeclarations<`try` Block Catch Finally>() = {
+  0:access __x0__ = (Block "VarScopedDeclarations")
+  0:let declarations = __x0__
+  1:access __x1__ = (Catch "VarScopedDeclarations")
+  1:let __x2__ = __x1__
+  1:let __x3__ = 0i
+  1:while (< __x3__ __x2__.length) {
+    let __x4__ = __x2__[__x3__]
+    append __x4__ -> declarations
+    __x3__ = (+ __x3__ 1i)
+  }
+  2:access __x5__ = (Finally "VarScopedDeclarations")
+  2:let __x6__ = __x5__
+  2:let __x7__ = 0i
+  2:while (< __x7__ __x6__.length) {
+    let __x8__ = __x6__[__x7__]
+    append __x8__ -> declarations
+    __x7__ = (+ __x7__ 1i)
+  }
+  3:return declarations
+}
+- id: "sec-static-semantics-varscopeddeclarations"
+- code:
+        1. Let _declarations_ be VarScopedDeclarations of |Block|.
+        1. Append to _declarations_ the elements of the VarScopedDeclarations of |Catch|.
+        1. Append to _declarations_ the elements of the VarScopedDeclarations of |Finally|.
+        1. Return _declarations_.

@@ -78,7 +78,7 @@ object CompileREPL {
       } else List(input.mkString(" "))).map(unescapeHtml(_))
 
       val (tokens, result) = target.parse(code, raw)
-      println(s"[Tokens] ${tokens.mkString(" ")}")
+      println(s"[Tokens] ${tokens.map(_.beautified).mkString(" ")}")
       if (result.successful) {
         val resultStr = result.get.beautified(index = true)
         println(s"[Success] $resultStr")

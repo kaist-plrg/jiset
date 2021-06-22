@@ -1,0 +1,16 @@
+def AllocateSharedArrayBuffer(constructor, byteLength) = {
+  0:app __x0__ = (OrdinaryCreateFromConstructor constructor "%SharedArrayBuffer.prototype%" (new ["ArrayBufferData", "ArrayBufferByteLength"]))
+  0:let obj = [? __x0__]
+  1:app __x1__ = (CreateSharedByteDataBlock byteLength)
+  1:let block = [? __x1__]
+  2:obj.ArrayBufferData = block
+  3:obj.ArrayBufferByteLength = byteLength
+  4:return obj
+}
+- id: "sec-allocatesharedarraybuffer"
+- code:
+          1. Let _obj_ be ? OrdinaryCreateFromConstructor(_constructor_, *"%SharedArrayBuffer.prototype%"*, « [[ArrayBufferData]], [[ArrayBufferByteLength]] »).
+          1. Let _block_ be ? CreateSharedByteDataBlock(_byteLength_).
+          1. Set _obj_.[[ArrayBufferData]] to _block_.
+          1. Set _obj_.[[ArrayBufferByteLength]] to _byteLength_.
+          1. Return _obj_.

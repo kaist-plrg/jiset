@@ -1,0 +1,12 @@
+def [BUILTIN] AsyncGenerator.prototype.next(value) = {
+  0:let generator = this
+  1:app __x0__ = (NormalCompletion value)
+  1:let completion = __x0__
+  2:app __x1__ = (AsyncGeneratorEnqueue generator completion CONST_empty)
+  2:return [! __x1__]
+}
+- id: "sec-asyncgenerator-prototype-next"
+- code:
+          1. Let _generator_ be the *this* value.
+          1. Let _completion_ be NormalCompletion(_value_).
+          1. Return ! AsyncGeneratorEnqueue(_generator_, _completion_, ~empty~).

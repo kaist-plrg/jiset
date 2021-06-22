@@ -1,0 +1,9 @@
+def [BUILTIN] Object.isFrozen(O) = {
+  0:if (! (= (typeof O) Object)) return true else 2:{}
+  1:app __x0__ = (TestIntegrityLevel O CONST_frozen)
+  1:return [? __x0__]
+}
+- id: "sec-object.isfrozen"
+- code:
+          1. If Type(_O_) is not Object, return *true*.
+          1. Return ? TestIntegrityLevel(_O_, ~frozen~).

@@ -1,0 +1,12 @@
+def Call(F, V, argumentsList?) = {
+  0:if (= argumentsList absent) argumentsList = (new []) else 4:{}
+  1:app __x0__ = (IsCallable F)
+  1:if (= __x0__ false) throw TypeError else 4:{}
+  2:app __x1__ = (F.Call F V argumentsList)
+  2:return [? __x1__]
+}
+- id: "sec-call"
+- code:
+        1. If _argumentsList_ is not present, set _argumentsList_ to a new empty List.
+        1. If IsCallable(_F_) is *false*, throw a *TypeError* exception.
+        1. Return ? _F_.[[Call]](_V_, _argumentsList_).

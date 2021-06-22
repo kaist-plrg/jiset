@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.spec.grammar
 
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.spec.SpecComponent
+import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
 import kr.ac.kaist.jiset.util.Useful._
 
 // ECMAScript grammar productions
@@ -21,3 +21,4 @@ case class Production(
     (name, j) <- rhs.allNames.zipWithIndex
   } yield lhs.name + ":" + name -> (i, j)).toMap
 }
+object Production extends Parser[Production]

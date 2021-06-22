@@ -1,0 +1,8 @@
+def RequireInternalSlot(O, internalSlot) = {
+  0:if (! (= (typeof O) Object)) throw TypeError else 0:{}
+  1:if (= O[internalSlot] absent) throw TypeError else 0:{}
+}
+- id: "sec-requireinternalslot"
+- code:
+        1. If Type(_O_) is not Object, throw a *TypeError* exception.
+        1. If _O_ does not have an _internalSlot_ internal slot, throw a *TypeError* exception.

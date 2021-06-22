@@ -1,0 +1,9 @@
+def [SYNTAX] ModuleItem[1,0].LexicallyDeclaredNames<ExportDeclaration>() = {
+  0:??? "If nt:{ExportDeclaration} is code:{export} nt:{VariableStatement} , return a new empty List ."
+  1:access __x0__ = (ExportDeclaration "BoundNames")
+  1:return __x0__
+}
+- id: "sec-static-semantics-lexicallydeclarednames"
+- code:
+        1. If |ExportDeclaration| is `export` |VariableStatement|, return a new empty List.
+        1. Return the BoundNames of |ExportDeclaration|.

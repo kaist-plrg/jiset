@@ -1,0 +1,9 @@
+def [BUILTIN] Object.prototype.toLocaleString(reserved1?, reserved2?) = {
+  0:let O = this
+  1:app __x0__ = (Invoke O "toString")
+  1:return [? __x0__]
+}
+- id: "sec-object.prototype.tolocalestring"
+- code:
+          1. Let _O_ be the *this* value.
+          1. Return ? Invoke(_O_, *"toString"*).

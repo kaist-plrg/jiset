@@ -33,10 +33,10 @@ object ECMAScriptParser {
     implicit val grammar = parseGrammar
 
     // parse algorithm
-    val algos = (
+    val algos = removeDup((
       if (query == "") parseAlgo(version, document, detail)
       else getElems(document, query).toList.flatMap(parseAlgo(version, _, detail))
-    ) ++ manualAlgos(version)
+    ) ++ manualAlgos(version))
 
     // special names
     var (consts, intrinsics, symbols) = getNames(algos)
@@ -49,6 +49,7 @@ object ECMAScriptParser {
 
     ECMAScript(version, grammar, algos, consts, intrinsics, symbols, aoids, section)
   }
+
   ////////////////////////////////////////////////////////////////////////////////
   // helper
   ////////////////////////////////////////////////////////////////////////////////
@@ -289,4 +290,9 @@ object ECMAScriptParser {
       symbols
     )
   }
+
+  // remove duplicated algorithms
+  def removeDup(algos: List[Algo]): List[Algo] = (for {
+    algo <- algos
+  } yield algo.name -> algo).toMap.values.toList.sortBy(_.name)
 }

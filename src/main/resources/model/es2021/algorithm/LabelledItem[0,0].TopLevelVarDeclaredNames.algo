@@ -1,0 +1,13 @@
+def [SYNTAX] LabelledItem[0,0].TopLevelVarDeclaredNames<Statement>() = {
+  0:if (is-instance-of Statement Statement10) {
+    access LabelledStatement = (Statement "LabelledStatement")
+    access __x0__ = (Statement "TopLevelVarDeclaredNames")
+    return __x0__
+  } else 1:{}
+  1:access __x1__ = (Statement "VarDeclaredNames")
+  1:return __x1__
+}
+- id: "sec-static-semantics-toplevelvardeclarednames"
+- code:
+        1. If |Statement| is <emu-grammar>Statement : LabelledStatement</emu-grammar> , return TopLevelVarDeclaredNames of |Statement|.
+        1. Return VarDeclaredNames of |Statement|.

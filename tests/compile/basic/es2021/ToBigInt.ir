@@ -1,15 +1,5 @@
 {
-  if (= (typeof argument) Undefined) throw TypeError else {}
-  if (= (typeof argument) Null) throw TypeError else {}
-  if (= (typeof argument) Boolean) if (= prim true) return 1n else if (= prim false) return 0n else return undefined else {}
-  if (= (typeof argument) BigInt) return prim else {}
-  if (= (typeof argument) Number) throw TypeError else {}
-  if (= (typeof argument) String) {
-    app __x0__ = (StringToBigInt prim)
-    let n = [! __x0__]
-    if (= n NaN) throw SyntaxError else {}
-    return n
-  } else {}
-  if (= (typeof argument) Symbol) throw TypeError else {}
-  assert false
+  app __x0__ = (ToPrimitive argument CONST_number)
+  let prim = [? __x0__]
+  ??? "Return the value that id:{prim} corresponds to in link:{table-tobigint} ."
 }

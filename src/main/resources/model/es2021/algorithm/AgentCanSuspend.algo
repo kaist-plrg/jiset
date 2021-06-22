@@ -1,0 +1,8 @@
+def AgentCanSuspend() = {
+  0:let AR = AGENT
+  1:return AR.CanBlock
+}
+- id: "sec-agentcansuspend"
+- code:
+        1. Let _AR_ be the Agent Record of the surrounding agent.
+        1. Return _AR_.[[CanBlock]].

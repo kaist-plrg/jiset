@@ -1,0 +1,18 @@
+def [SYNTAX] CaseClauses[1,0].LexicallyDeclaredNames<CaseClauses CaseClause>() = {
+  0:access __x0__ = (CaseClauses "LexicallyDeclaredNames")
+  0:let names = __x0__
+  1:access __x1__ = (CaseClause "LexicallyDeclaredNames")
+  1:let __x2__ = __x1__
+  1:let __x3__ = 0i
+  1:while (< __x3__ __x2__.length) {
+    let __x4__ = __x2__[__x3__]
+    append __x4__ -> names
+    __x3__ = (+ __x3__ 1i)
+  }
+  2:return names
+}
+- id: "sec-static-semantics-lexicallydeclarednames"
+- code:
+        1. Let _names_ be LexicallyDeclaredNames of |CaseClauses|.
+        1. Append to _names_ the elements of the LexicallyDeclaredNames of |CaseClause|.
+        1. Return _names_.

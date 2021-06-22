@@ -1,0 +1,9 @@
+def [METHOD] DeclarativeEnvironmentRecord.CreateImmutableBinding(envRec)(N, S) = {
+  1:envRec.SubMap[N] = (new ImmutableBinding("initialized" -> false, "strict" -> S))
+  2:return CONST_empty
+}
+- id: "sec-declarative-environment-records-createimmutablebinding-n-s"
+- code:
+            1. Assert: _envRec_ does not already have a binding for _N_.
+            1. Create an immutable binding in _envRec_ for _N_ and record that it is uninitialized. If _S_ is *true*, record that the newly created binding is a strict binding.
+            1. Return NormalCompletion(~empty~).

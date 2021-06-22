@@ -1,0 +1,10 @@
+def [SYNTAX] PrimaryExpression[12,0].Evaluation<CoverParenthesizedExpressionAndArrowParameterList>() = {
+  0:access __x0__ = (CoverParenthesizedExpressionAndArrowParameterList "CoveredParenthesizedExpression")
+  0:let expr = __x0__
+  1:access __x1__ = (expr "Evaluation")
+  1:return __x1__
+}
+- id: "sec-grouping-operator-runtime-semantics-evaluation"
+- code:
+          1. Let _expr_ be CoveredParenthesizedExpression of |CoverParenthesizedExpressionAndArrowParameterList|.
+          1. Return the result of evaluating _expr_.
