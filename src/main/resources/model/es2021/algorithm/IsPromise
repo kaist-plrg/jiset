@@ -1,0 +1,10 @@
+def IsPromise(x) = {
+  0:if (! (= (typeof x) Object)) return false else 1:{}
+  1:if (= x.PromiseState absent) return false else 1:{}
+  2:return true
+}
+- id: sec-ispromise
+- code:
+          1. If Type(_x_) is not Object, return *false*.
+          1. If _x_ does not have a [[PromiseState]] internal slot, return *false*.
+          1. Return *true*.

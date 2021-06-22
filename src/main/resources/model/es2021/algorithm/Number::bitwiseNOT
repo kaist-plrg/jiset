@@ -1,0 +1,9 @@
+def Number::bitwiseNOT(x) = {
+  0:app __x0__ = (ToInt32 x)
+  0:let oldValue = [! __x0__]
+  1:return (~ oldValue)
+}
+- id: sec-numeric-types-number-bitwiseNOT
+- code:
+            1. Let _oldValue_ be ! ToInt32(_x_).
+            1. Return the result of applying bitwise complement to _oldValue_. The mathematical value of the result is exactly representable as a 32-bit two's complement bit string.

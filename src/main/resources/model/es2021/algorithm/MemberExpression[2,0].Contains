@@ -1,0 +1,9 @@
+def [SYNTAX] MemberExpression[2,0].Contains<MemberExpression `.` IdentifierName>(symbol) = {
+  0:access __x0__ = (MemberExpression "Contains" symbol)
+  0:if (= __x0__ true) return true else 1:{}
+  1:return false
+}
+- id: sec-static-semantics-contains
+- code:
+        1. If |MemberExpression| Contains _symbol_ is *true*, return *true*.
+        1. Return *false*.

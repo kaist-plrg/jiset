@@ -1,0 +1,10 @@
+def [BUILTIN] Symbol.prototype.toString() = {
+  0:app __x0__ = (thisSymbolValue this)
+  0:let sym = [? __x0__]
+  1:app __x1__ = (SymbolDescriptiveString sym)
+  1:return __x1__
+}
+- id: sec-symbol.prototype.tostring
+- code:
+          1. Let _sym_ be ? thisSymbolValue(*this* value).
+          1. Return SymbolDescriptiveString(_sym_).

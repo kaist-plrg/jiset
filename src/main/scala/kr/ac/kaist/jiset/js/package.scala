@@ -9,8 +9,11 @@ import kr.ac.kaist.jiset.util.Useful._
 
 package object js {
   // current ECMAScript model
-  lazy val spec: ECMAScript =
-    targetSpec.getOrElse(readJson[ECMAScript](MODEL_PATH))
+  lazy val spec: ECMAScript = targetSpec.getOrElse {
+    optional(ECMAScript(s"$MODEL_DIR/$VERSION")).getOrElse {
+      ECMAScript(MODEL_PATH)
+    }
+  }
 
   // set current ECMAScript model
   def setTarget(spec: ECMAScript): Unit = targetSpec = Some(spec)

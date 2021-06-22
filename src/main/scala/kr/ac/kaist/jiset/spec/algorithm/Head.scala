@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.TRIPLE
 import kr.ac.kaist.jiset.ir
+import kr.ac.kaist.jiset.spec.SpecComponent
 import kr.ac.kaist.jiset.spec.algorithm.Param.Kind._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.spec.grammar.token.NonTerminal
@@ -9,7 +10,7 @@ import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
 
-trait Head {
+trait Head extends SpecComponent {
   // name
   def name: String = this match {
     case NormalHead(name, _) =>
@@ -57,18 +58,6 @@ trait Head {
         (newName, name)
     })
     (types, optional)
-  }
-
-  // conversion to string
-  override def toString: String = this match {
-    case NormalHead(_, params) =>
-      s"$name(${params.mkString(", ")})"
-    case MethodHead(_, _, receiverParam, origParams) =>
-      s"[METHOD] $name($receiverParam)(${origParams.mkString(", ")})"
-    case SyntaxDirectedHead(_, _, _, rhs, _, withParams) =>
-      s"[SYNTAX] $name<$rhs>(${withParams.mkString(", ")})"
-    case BuiltinHead(ref, origParams) =>
-      s"[BUILTIN] ${ref.beautified}(${origParams.mkString(", ")})"
   }
 }
 object Head {

@@ -1,0 +1,19 @@
+def [BUILTIN] ProxyRevocationFunctions() = {
+  0:let F = CONTEXT.Function
+  1:let p = F.RevocableProxy
+  2:if (= p null) return undefined else 4:{}
+  3:F.RevocableProxy = null
+  5:p.ProxyTarget = null
+  6:p.ProxyHandler = null
+  7:return undefined
+}
+- id: sec-proxy-revocation-functions
+- code:
+            1. Let _F_ be the active function object.
+            1. Let _p_ be _F_.[[RevocableProxy]].
+            1. If _p_ is *null*, return *undefined*.
+            1. Set _F_.[[RevocableProxy]] to *null*.
+            1. Assert: _p_ is a Proxy object.
+            1. Set _p_.[[ProxyTarget]] to *null*.
+            1. Set _p_.[[ProxyHandler]] to *null*.
+            1. Return *undefined*.

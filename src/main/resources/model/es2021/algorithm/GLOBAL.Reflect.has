@@ -1,0 +1,12 @@
+def [BUILTIN] Reflect.has(target, propertyKey) = {
+  0:if (! (= (typeof target) Object)) throw TypeError else 18:{}
+  1:app __x0__ = (ToPropertyKey propertyKey)
+  1:let key = [? __x0__]
+  2:app __x1__ = (target.HasProperty target key)
+  2:return [? __x1__]
+}
+- id: sec-reflect.has
+- code:
+        1. If Type(_target_) is not Object, throw a *TypeError* exception.
+        1. Let _key_ be ? ToPropertyKey(_propertyKey_).
+        1. Return ? _target_.[[HasProperty]](_key_).

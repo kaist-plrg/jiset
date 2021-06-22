@@ -1,0 +1,10 @@
+def [METHOD] DeclarativeEnvironmentRecord.CreateMutableBinding(envRec)(N, D) = {
+  1:envRec.SubMap[N] = (new MutableBinding("initialized" -> false))
+  1:if (= D true) envRec.SubMap[N].maybeDeleted = true else {}
+  2:return CONST_empty
+}
+- id: sec-declarative-environment-records-createmutablebinding-n-d
+- code:
+            1. Assert: _envRec_ does not already have a binding for _N_.
+            1. Create a mutable binding in _envRec_ for _N_ and record that it is uninitialized. If _D_ is *true*, record that the newly created binding may be deleted by a subsequent DeleteBinding call.
+            1. Return NormalCompletion(~empty~).

@@ -1,0 +1,10 @@
+def [BUILTIN] isNaN(number) = {
+  0:app __x0__ = (ToNumber number)
+  0:let num = [? __x0__]
+  2:if (= num NaN) return true else return false
+}
+- id: sec-isnan-number
+- code:
+        1. Let _num_ be ? ToNumber(_number_).
+        1. If _num_ is *NaN*, return *true*.
+        1. Otherwise, return *false*.

@@ -1,0 +1,14 @@
+def [SYNTAX] IdentifierReference[0,0].AssignmentTargetType<Identifier>() = {
+  0:let __x0__ = true
+  0:__x0__ = true
+  0:if __x0__ {
+    access __x1__ = (Identifier "StringValue")
+    __x0__ = (|| (= __x1__ "eval") (= __x1__ "arguments"))
+  } else 1:{}
+  0:if __x0__ return CONST_invalid else 1:{}
+  1:return CONST_simple
+}
+- id: sec-static-semantics-assignmenttargettype
+- code:
+        1. If this |IdentifierReference| is contained in strict mode code and StringValue of |Identifier| is *"eval"* or *"arguments"*, return ~invalid~.
+        1. Return ~simple~.

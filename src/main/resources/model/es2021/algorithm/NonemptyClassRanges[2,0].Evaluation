@@ -1,0 +1,18 @@
+def [SYNTAX] NonemptyClassRanges[2,0].Evaluation<ClassAtom `-` ClassAtom ClassRanges>() = {
+  0:access __x0__ = (ClassAtom0 "Evaluation")
+  0:let A = __x0__
+  1:access __x1__ = (ClassAtom1 "Evaluation")
+  1:let B = __x1__
+  2:access __x2__ = (ClassRanges "Evaluation")
+  2:let C = __x2__
+  3:app __x3__ = (CharacterRange A B)
+  3:let D = [! __x3__]
+  4:??? "Return the union of id:{D} and id:{C} ."
+}
+- id: sec-nonemptyclassranges
+- code:
+          1. Evaluate the first |ClassAtom| to obtain a CharSet _A_.
+          1. Evaluate the second |ClassAtom| to obtain a CharSet _B_.
+          1. Evaluate |ClassRanges| to obtain a CharSet _C_.
+          1. Let _D_ be ! CharacterRange(_A_, _B_).
+          1. Return the union of _D_ and _C_.

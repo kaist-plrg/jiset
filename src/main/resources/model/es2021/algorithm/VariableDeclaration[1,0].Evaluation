@@ -1,0 +1,13 @@
+def [SYNTAX] VariableDeclaration[1,0].Evaluation<BindingPattern Initializer>() = {
+  0:access __x0__ = (Initializer "Evaluation")
+  0:let rhs = __x0__
+  1:app __x1__ = (GetValue rhs)
+  1:let rval = [? __x1__]
+  2:access __x2__ = (BindingPattern "BindingInitialization" rval undefined)
+  2:return __x2__
+}
+- id: sec-variable-statement-runtime-semantics-evaluation
+- code:
+          1. Let _rhs_ be the result of evaluating |Initializer|.
+          1. Let _rval_ be ? GetValue(_rhs_).
+          1. Return the result of performing BindingInitialization for |BindingPattern| passing _rval_ and *undefined* as arguments.

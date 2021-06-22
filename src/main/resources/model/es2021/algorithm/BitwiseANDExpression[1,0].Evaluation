@@ -1,0 +1,7 @@
+def [SYNTAX] BitwiseANDExpression[1,0].Evaluation<BitwiseANDExpression `&` EqualityExpression>() = {
+  0:app __x0__ = (EvaluateStringOrNumericBinaryExpression BitwiseANDExpression "&" EqualityExpression)
+  0:return [? __x0__]
+}
+- id: sec-binary-bitwise-operators-runtime-semantics-evaluation
+- code:
+        1. Return ? EvaluateStringOrNumericBinaryExpression(|BitwiseANDExpression|, `&`, |EqualityExpression|).

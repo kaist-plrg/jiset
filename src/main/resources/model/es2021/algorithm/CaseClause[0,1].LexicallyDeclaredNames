@@ -1,0 +1,11 @@
+def [SYNTAX] CaseClause[0,1].LexicallyDeclaredNames<`case` Expression `:` StatementList?>() = {
+  0:if (! (= StatementList absent)) {
+    access __x0__ = (StatementList "LexicallyDeclaredNames")
+    return __x0__
+  } else 1:{}
+  1:return (new [])
+}
+- id: sec-static-semantics-lexicallydeclarednames
+- code:
+        1. If the |StatementList| is present, return the LexicallyDeclaredNames of |StatementList|.
+        1. Return a new empty List.

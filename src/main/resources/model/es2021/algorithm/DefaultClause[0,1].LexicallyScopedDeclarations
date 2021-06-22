@@ -1,0 +1,11 @@
+def [SYNTAX] DefaultClause[0,1].LexicallyScopedDeclarations<`default` `:` StatementList?>() = {
+  0:if (! (= StatementList absent)) {
+    access __x0__ = (StatementList "LexicallyScopedDeclarations")
+    return __x0__
+  } else 1:{}
+  1:return (new [])
+}
+- id: sec-static-semantics-lexicallyscopeddeclarations
+- code:
+        1. If the |StatementList| is present, return the LexicallyScopedDeclarations of |StatementList|.
+        1. Return a new empty List.

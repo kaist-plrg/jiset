@@ -1,0 +1,11 @@
+def [SYNTAX] RegExpIdentifierName[0,0].CapturingGroupName<RegExpIdentifierStart[?U]>() = {
+  0:let idText = (get-syntax RegExpIdentifierName)
+  1:??? "Let id:{idTextUnescaped} be the result of replacing any occurrences of code:{\\\\} nt:{RegExpUnicodeEscapeSequence} in id:{idText} with the code point represented by the nt:{RegExpUnicodeEscapeSequence} ."
+  2:app __x0__ = (CodePointsToString idTextUnescaped)
+  2:return [! __x0__]
+}
+- id: sec-static-semantics-capturinggroupname
+- code:
+          1. Let _idText_ be the source text matched by |RegExpIdentifierName|.
+          1. Let _idTextUnescaped_ be the result of replacing any occurrences of `\\` |RegExpUnicodeEscapeSequence| in _idText_ with the code point represented by the |RegExpUnicodeEscapeSequence|.
+          1. Return ! CodePointsToString(_idTextUnescaped_).

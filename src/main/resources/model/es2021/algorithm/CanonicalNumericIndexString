@@ -1,0 +1,17 @@
+def CanonicalNumericIndexString(argument) = {
+  0:assert (= (typeof argument) String)
+  1:if (= argument "-0") return -0.0 else 0:{}
+  2:app __x0__ = (ToNumber argument)
+  2:let n = [! __x0__]
+  3:app __x1__ = (ToString n)
+  3:app __x2__ = (SameValue [! __x1__] argument)
+  3:if (= __x2__ false) return undefined else 0:{}
+  4:return n
+}
+- id: sec-canonicalnumericindexstring
+- code:
+        1. Assert: Type(_argument_) is String.
+        1. If _argument_ is *"-0"*, return *-0*<sub>𝔽</sub>.
+        1. Let _n_ be ! ToNumber(_argument_).
+        1. If SameValue(! ToString(_n_), _argument_) is *false*, return *undefined*.
+        1. Return _n_.

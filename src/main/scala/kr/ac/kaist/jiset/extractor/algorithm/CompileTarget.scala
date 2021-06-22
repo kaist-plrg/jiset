@@ -43,8 +43,8 @@ class CompileTargets(val version: String, secIds: Map[String, String]) {
     }
 
     def parseIR(str: String): ir.IRNode = this match {
-      case TyTarget => ir.Parser.parseTy(str)
-      case _ => ir.Parser.parseInst(str)
+      case TyTarget => ir.Ty(str)
+      case _ => ir.Inst(str)
     }
   }
   case object InstsTarget extends CompileTarget("insts", normalizedStmts)

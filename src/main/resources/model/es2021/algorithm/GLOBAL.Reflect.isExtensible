@@ -1,0 +1,9 @@
+def [BUILTIN] Reflect.isExtensible(target) = {
+  0:if (! (= (typeof target) Object)) throw TypeError else 18:{}
+  1:app __x0__ = (target.IsExtensible target)
+  1:return [? __x0__]
+}
+- id: sec-reflect.isextensible
+- code:
+        1. If Type(_target_) is not Object, throw a *TypeError* exception.
+        1. Return ? _target_.[[IsExtensible]]().

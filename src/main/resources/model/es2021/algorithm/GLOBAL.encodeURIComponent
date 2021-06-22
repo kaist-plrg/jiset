@@ -1,0 +1,12 @@
+def [BUILTIN] encodeURIComponent(uriComponent) = {
+  0:app __x0__ = (ToString uriComponent)
+  0:let componentString = [? __x0__]
+  1:??? "Let id:{unescapedURIComponentSet} be a String containing one instance of each code unit valid in nt:{uriUnescaped} ."
+  2:app __x1__ = (Encode componentString unescapedURIComponentSet)
+  2:return [? __x1__]
+}
+- id: sec-encodeuricomponent-uricomponent
+- code:
+          1. Let _componentString_ be ? ToString(_uriComponent_).
+          1. Let _unescapedURIComponentSet_ be a String containing one instance of each code unit valid in |uriUnescaped|.
+          1. Return ? Encode(_componentString_, _unescapedURIComponentSet_).

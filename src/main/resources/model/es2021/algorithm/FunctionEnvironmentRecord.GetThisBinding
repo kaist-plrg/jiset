@@ -1,0 +1,10 @@
+def [METHOD] FunctionEnvironmentRecord.GetThisBinding(envRec)() = {
+  0:assert (! (= envRec.ThisBindingStatus CONST_lexical))
+  1:if (= envRec.ThisBindingStatus CONST_uninitialized) throw ReferenceError else 0:{}
+  2:return envRec.ThisValue
+}
+- id: sec-function-environment-records-getthisbinding
+- code:
+            1. Assert: _envRec_.[[ThisBindingStatus]] is not ~lexical~.
+            1. If _envRec_.[[ThisBindingStatus]] is ~uninitialized~, throw a *ReferenceError* exception.
+            1. Return _envRec_.[[ThisValue]].

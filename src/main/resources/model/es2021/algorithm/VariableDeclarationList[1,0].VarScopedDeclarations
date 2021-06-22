@@ -1,0 +1,11 @@
+def [SYNTAX] VariableDeclarationList[1,0].VarScopedDeclarations<VariableDeclarationList `,` VariableDeclaration>() = {
+  0:access __x0__ = (VariableDeclarationList "VarScopedDeclarations")
+  0:let declarations = __x0__
+  1:append VariableDeclaration -> declarations
+  2:return declarations
+}
+- id: sec-static-semantics-varscopeddeclarations
+- code:
+        1. Let _declarations_ be VarScopedDeclarations of |VariableDeclarationList|.
+        1. Append |VariableDeclaration| to _declarations_.
+        1. Return _declarations_.

@@ -1,0 +1,10 @@
+def IsAccessorDescriptor(Desc) = {
+  0:if (= Desc undefined) return false else 0:{}
+  1:if (&& (= Desc.Get absent) (= Desc.Set absent)) return false else 0:{}
+  2:return true
+}
+- id: sec-isaccessordescriptor
+- code:
+          1. If _Desc_ is *undefined*, return *false*.
+          1. If both _Desc_.[[Get]] and _Desc_.[[Set]] are absent, return *false*.
+          1. Return *true*.

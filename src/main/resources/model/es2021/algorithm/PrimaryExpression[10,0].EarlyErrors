@@ -1,0 +1,9 @@
+def [SYNTAX] PrimaryExpression[10,0].EarlyErrors<RegularExpressionLiteral>() = {
+  0:app __x0__ = (IsValidRegularExpressionLiteral RegularExpressionLiteral)
+  0:if (= __x0__ false) throw SyntaxError else 2:{}
+}
+- id: sec-primary-expression-regular-expression-literals-static-semantics-early-errors
+- code:
+          <li>
+            It is a Syntax Error if IsValidRegularExpressionLiteral(|RegularExpressionLiteral|) is *false*.
+          </li>

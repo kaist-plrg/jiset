@@ -1,0 +1,9 @@
+def [SYNTAX] ClassDeclaration[0,0].Evaluation<`class` BindingIdentifier ClassTail>() = {
+  0:access __x0__ = (this "BindingClassDeclarationEvaluation")
+  0:[? __x0__]
+  1:return CONST_empty
+}
+- id: sec-class-definitions-runtime-semantics-evaluation
+- code:
+        1. Perform ? BindingClassDeclarationEvaluation of this |ClassDeclaration|.
+        1. Return NormalCompletion(~empty~).

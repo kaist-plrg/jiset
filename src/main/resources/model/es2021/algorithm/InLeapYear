@@ -1,0 +1,12 @@
+def InLeapYear(t) = {
+  0:app __x0__ = (YearFromTime t)
+  0:app __x1__ = (DaysInYear __x0__)
+  0:if (== __x1__ 365i) return 0i else 8:{}
+  1:app __x2__ = (YearFromTime t)
+  1:app __x3__ = (DaysInYear __x2__)
+  1:if (== __x3__ 366i) return 1i else 8:{}
+}
+- id: eqn-InLeapYear
+- code:
+          = *+0*<sub>𝔽</sub> if DaysInYear(YearFromTime(_t_)) = *365*<sub>𝔽</sub>
+          = *1*<sub>𝔽</sub> if DaysInYear(YearFromTime(_t_)) = *366*<sub>𝔽</sub>

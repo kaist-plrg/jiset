@@ -1,0 +1,9 @@
+def [BUILTIN] Proxy(target, handler) = {
+  0:if (= NewTarget undefined) throw TypeError else 18:{}
+  1:app __x0__ = (ProxyCreate target handler)
+  1:return [? __x0__]
+}
+- id: sec-proxy-target-handler
+- code:
+          1. If NewTarget is *undefined*, throw a *TypeError* exception.
+          1. Return ? ProxyCreate(_target_, _handler_).

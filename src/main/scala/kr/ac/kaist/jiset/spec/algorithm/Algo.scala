@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.spec.algorithm
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.spec.SpecComponent
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.util.Useful._
@@ -12,10 +13,10 @@ import scala.util.matching.Regex
 // ECMASCript abstract algorithms
 case class Algo(
   head: Head,
-  ids: List[String],
+  id: String,
   rawBody: Inst,
   code: Iterable[String]
-) {
+) extends SpecComponent {
   // head fields
   def name: String = head.name
   def params: List[Param] = head.params
@@ -46,7 +47,7 @@ case class Algo(
   // get body with post processing
   def getBody: Inst = head match {
     case (head: SyntaxDirectedHead) if !head.rhsNames.contains(head.lhsName) =>
-      val prefix = Parser.parseInsts(s"let ${head.lhsName} = this")
+      val prefix = Insts(s"let ${head.lhsName} = this")
       prepend(prefix, rawBody)
     case (head: MethodHead) if head.isLetThisStep(code) =>
       popFront(rawBody)
@@ -54,14 +55,14 @@ case class Algo(
       import Param.Kind._
       val prefix = builtin.origParams.zipWithIndex.map {
         case (Param(name, Variadic), i) =>
-          Parser.parseInst(s"let ${name} = $ARGS_LIST")
+          Inst(s"let ${name} = $ARGS_LIST")
         case (Param(name, _), i) =>
-          Parser.parseInst(s"app ${name} = (GetArgument $ARGS_LIST ${i}i)")
+          Inst(s"app ${name} = (GetArgument $ARGS_LIST ${i}i)")
       }
       prepend(prefix, rawBody)
     // handle abstract relational comparison
     case (head: NormalHead) if head.name == "AbstractRelationalComparison" =>
-      val inst = Parser.parseInst("if (= LeftFirst absent) { LeftFirst = true } else { }")
+      val inst = Inst("if (= LeftFirst absent) { LeftFirst = true } else { }")
       prepend(List(inst), rawBody)
     case _ => rawBody
   }
@@ -78,9 +79,6 @@ case class Algo(
     Walker.walk(rawBody)
     l
   }
-
-  // exclusion check
-  def isParent(id: String): Boolean = ids contains id
 
   // completion check (not containing ??? or !!! in the algorithm body)
   def isComplete: Boolean = {
@@ -100,12 +98,4 @@ case class Algo(
     case _: NormalHead => true
     case _ => false
   }
-
-  // conversion to string
-  override def toString: String = (
-    s"def $head = ${rawBody.beautified(index = true)}" + LINE_SEP +
-    ids.mkString("- ids: [", ", ", "]") + LINE_SEP +
-    "- code:" + LINE_SEP +
-    code.mkString(LINE_SEP)
-  )
 }

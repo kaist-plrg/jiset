@@ -1,0 +1,18 @@
+def [BUILTIN] Object(value?) = {
+  0:if (! (|| (= NewTarget undefined) (= NewTarget CONTEXT.Function))) {
+    1:app __x0__ = (OrdinaryCreateFromConstructor NewTarget "%Object.prototype%")
+    1:return [? __x0__]
+  } else 71:{}
+  2:if (|| (= value undefined) (= value null)) {
+    app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+    return [! __x1__]
+  } else 71:{}
+  3:app __x2__ = (ToObject value)
+  3:return [! __x2__]
+}
+- id: sec-object-value
+- code:
+          1. If NewTarget is neither *undefined* nor the active function, then
+            1. Return ? OrdinaryCreateFromConstructor(NewTarget, *"%Object.prototype%"*).
+          1. If _value_ is *undefined* or *null*, return ! OrdinaryObjectCreate(%Object.prototype%).
+          1. Return ! ToObject(_value_).

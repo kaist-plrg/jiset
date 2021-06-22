@@ -1,0 +1,10 @@
+def [SYNTAX] FormalParameterList[1,0].IsSimpleParameterList<FormalParameterList `,` FormalParameter>() = {
+  0:access __x0__ = (FormalParameterList "IsSimpleParameterList")
+  0:if (= __x0__ false) return false else 0:{}
+  1:access __x1__ = (FormalParameter "IsSimpleParameterList")
+  1:return __x1__
+}
+- id: sec-static-semantics-issimpleparameterlist
+- code:
+        1. If IsSimpleParameterList of |FormalParameterList| is *false*, return *false*.
+        1. Return IsSimpleParameterList of |FormalParameter|.

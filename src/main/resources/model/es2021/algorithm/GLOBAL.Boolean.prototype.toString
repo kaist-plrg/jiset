@@ -1,0 +1,9 @@
+def [BUILTIN] Boolean.prototype.toString() = {
+  0:app __x0__ = (thisBooleanValue this)
+  0:let b = [? __x0__]
+  1:if (= b true) return "true" else return "false"
+}
+- id: sec-boolean.prototype.tostring
+- code:
+          1. Let _b_ be ? thisBooleanValue(*this* value).
+          1. If _b_ is *true*, return *"true"*; else return *"false"*.

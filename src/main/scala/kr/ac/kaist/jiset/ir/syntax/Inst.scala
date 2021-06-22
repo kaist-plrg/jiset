@@ -2,6 +2,8 @@ package kr.ac.kaist.jiset.ir
 
 // IR Instructions
 sealed trait Inst extends IRNode { var line: Int = -1 }
+object Insts extends Parser[List[Inst]]
+object Inst extends Parser[Inst]
 
 // conditional instructions
 sealed trait CondInst extends Inst { val cond: Expr }

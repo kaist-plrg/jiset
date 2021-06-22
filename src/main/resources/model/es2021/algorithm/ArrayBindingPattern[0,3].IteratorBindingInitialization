@@ -1,0 +1,13 @@
+def [SYNTAX] ArrayBindingPattern[0,3].IteratorBindingInitialization<`[` Elision? BindingRestElement `]`>(iteratorRecord, environment) = {
+  0:if (! (= Elision absent)) {
+    1:access __x0__ = (Elision "IteratorDestructuringAssignmentEvaluation" iteratorRecord)
+    1:[? __x0__]
+  } else 1:{}
+  2:access __x1__ = (BindingRestElement "IteratorBindingInitialization" iteratorRecord environment)
+  2:return __x1__
+}
+- id: sec-runtime-semantics-iteratorbindinginitialization
+- code:
+        1. If |Elision| is present, then
+          1. Perform ? IteratorDestructuringAssignmentEvaluation of |Elision| with _iteratorRecord_ as the argument.
+        1. Return the result of performing IteratorBindingInitialization for |BindingRestElement| with _iteratorRecord_ and _environment_ as arguments.

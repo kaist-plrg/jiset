@@ -1,0 +1,9 @@
+def [METHOD] ObjectEnvironmentRecord.DeleteBinding(envRec)(N) = {
+  0:let bindings = envRec.BindingObject
+  1:app __x0__ = (bindings.Delete bindings N)
+  1:return [? __x0__]
+}
+- id: sec-object-environment-records-deletebinding-n
+- code:
+            1. Let _bindings_ be the binding object for _envRec_.
+            1. Return ? _bindings_.[[Delete]](_N_).

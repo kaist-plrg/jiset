@@ -1,0 +1,9 @@
+def NumberToBigInt(number) = {
+  0:app __x0__ = (IsIntegralNumber number)
+  0:if (= __x0__ false) throw RangeError else 2:{}
+  1:return (convert number num2bigint )
+}
+- id: sec-numbertobigint
+- code:
+            1. If IsIntegralNumber(_number_) is *false*, throw a *RangeError* exception.
+            1. Return the BigInt value that represents ℝ(_number_).

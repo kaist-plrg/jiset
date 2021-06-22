@@ -1,0 +1,19 @@
+def [SYNTAX] AsyncFunctionExpression[0,0].InstantiateAsyncFunctionExpression<`async` `function` `(` FormalParameters `)` `{` AsyncFunctionBody `}`>(name?) = {
+  0:if (= name absent) name = "" else 8:{}
+  1:access __x0__ = (CONTEXT "LexicalEnvironment")
+  1:let scope = __x0__
+  2:let sourceText = (get-syntax AsyncFunctionExpression)
+  3:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype sourceText FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)
+  3:let closure = [! __x1__]
+  4:app __x2__ = (SetFunctionName closure name)
+  4:__x2__
+  5:return closure
+}
+- id: sec-runtime-semantics-instantiateasyncfunctionexpression
+- code:
+        1. If _name_ is not present, set _name_ to *""*.
+        1. Let _scope_ be the LexicalEnvironment of the running execution context.
+        1. Let _sourceText_ be the source text matched by |AsyncFunctionExpression|.
+        1. Let _closure_ be ! OrdinaryFunctionCreate(%AsyncFunction.prototype%, _sourceText_, |FormalParameters|, |AsyncFunctionBody|, ~non-lexical-this~, _scope_).
+        1. Perform SetFunctionName(_closure_, _name_).
+        1. Return _closure_.

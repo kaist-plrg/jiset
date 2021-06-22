@@ -2,13 +2,14 @@ package kr.ac.kaist.jiset.spec.grammar
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.spec.SpecComponent
 import kr.ac.kaist.jiset.spec.grammar.token._
 
 // ECMAScript grammars
 case class Grammar(
   lexProds: List[Production],
   prods: List[Production]
-) {
+) extends SpecComponent {
   // all productions
   val allProds = lexProds ++ prods
 
@@ -52,15 +53,6 @@ case class Grammar(
 
   private def getSorted(prods: List[Production]) = prods.sortBy(_.lhs.name)
   lazy val sortedProds = (getSorted(lexProds), getSorted(prods))
-
-  // conversion to string
-  override def toString: String = {
-    val (lprods, sprods) = sortedProds
-    Grammar.lexicalHeader + LINE_SEP +
-      lprods.mkString(LINE_SEP * 2) + LINE_SEP +
-      Grammar.syntacticHeader + LINE_SEP +
-      sprods.mkString(LINE_SEP * 2)
-  }
 }
 
 object Grammar {

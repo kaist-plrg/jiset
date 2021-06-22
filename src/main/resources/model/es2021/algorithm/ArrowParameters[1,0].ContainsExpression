@@ -1,0 +1,10 @@
+def [SYNTAX] ArrowParameters[1,0].ContainsExpression<CoverParenthesizedExpressionAndArrowParameterList>() = {
+  0:access __x0__ = (CoverParenthesizedExpressionAndArrowParameterList "CoveredFormalsList")
+  0:let formals = __x0__
+  1:access __x1__ = (formals "ContainsExpression")
+  1:return __x1__
+}
+- id: sec-static-semantics-containsexpression
+- code:
+        1. Let _formals_ be CoveredFormalsList of |CoverParenthesizedExpressionAndArrowParameterList|.
+        1. Return ContainsExpression of _formals_.

@@ -1,0 +1,18 @@
+def [SYNTAX] StatementList[1,0].VarScopedDeclarations<StatementList StatementListItem>() = {
+  0:access __x0__ = (StatementList "VarScopedDeclarations")
+  0:let declarations = __x0__
+  1:access __x1__ = (StatementListItem "VarScopedDeclarations")
+  1:let __x2__ = __x1__
+  1:let __x3__ = 0i
+  1:while (< __x3__ __x2__.length) {
+    let __x4__ = __x2__[__x3__]
+    append __x4__ -> declarations
+    __x3__ = (+ __x3__ 1i)
+  }
+  2:return declarations
+}
+- id: sec-static-semantics-varscopeddeclarations
+- code:
+        1. Let _declarations_ be VarScopedDeclarations of |StatementList|.
+        1. Append to _declarations_ the elements of the VarScopedDeclarations of |StatementListItem|.
+        1. Return _declarations_.

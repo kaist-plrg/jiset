@@ -1,0 +1,9 @@
+def [METHOD] ObjectEnvironmentRecord.CreateMutableBinding(envRec)(N, D) = {
+  0:let bindings = envRec.BindingObject
+  1:app __x0__ = (DefinePropertyOrThrow bindings N (new PropertyDescriptor("Value" -> undefined, "Writable" -> true, "Enumerable" -> true, "Configurable" -> D)))
+  1:return [? __x0__]
+}
+- id: sec-object-environment-records-createmutablebinding-n-d
+- code:
+            1. Let _bindings_ be the binding object for _envRec_.
+            1. Return ? DefinePropertyOrThrow(_bindings_, _N_, PropertyDescriptor { [[Value]]: *undefined*, [[Writable]]: *true*, [[Enumerable]]: *true*, [[Configurable]]: _D_ }).

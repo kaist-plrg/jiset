@@ -1,0 +1,12 @@
+def Contains() = {
+  0:??? "For each child node id:{child} of this Parse Node , do in:{} out:{}"
+  5:return false
+}
+- id: sec-static-semantics-contains
+- code:
+        1. For each child node _child_ of this Parse Node, do
+          1. If _child_ is an instance of _symbol_, return *true*.
+          1. If _child_ is an instance of a nonterminal, then
+            1. Let _contained_ be the result of _child_ Contains _symbol_.
+            1. If _contained_ is *true*, return *true*.
+        1. Return *false*.

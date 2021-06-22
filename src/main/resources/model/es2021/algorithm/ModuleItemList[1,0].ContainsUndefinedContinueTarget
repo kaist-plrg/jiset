@@ -1,0 +1,12 @@
+def [SYNTAX] ModuleItemList[1,0].ContainsUndefinedContinueTarget<ModuleItemList ModuleItem>(iterationSet, labelSet) = {
+  0:access __x0__ = (ModuleItemList "ContainsUndefinedContinueTarget" iterationSet (new []))
+  0:let hasUndefinedLabels = __x0__
+  1:if (= hasUndefinedLabels true) return true else 1:{}
+  2:access __x1__ = (ModuleItem "ContainsUndefinedContinueTarget" iterationSet (new []))
+  2:return __x1__
+}
+- id: sec-static-semantics-containsundefinedcontinuetarget
+- code:
+        1. Let _hasUndefinedLabels_ be ContainsUndefinedContinueTarget of |ModuleItemList| with arguments _iterationSet_ and « ».
+        1. If _hasUndefinedLabels_ is *true*, return *true*.
+        1. Return ContainsUndefinedContinueTarget of |ModuleItem| with arguments _iterationSet_ and « ».

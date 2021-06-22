@@ -1,0 +1,8 @@
+def [SYNTAX] ExportDeclaration[6,0].ExportEntries<`export` `default` AssignmentExpression `;`>() = {
+  0:let entry = (new ExportEntryRecord("ModuleRequest" -> null, "ImportName" -> null, "LocalName" -> "*default*", "ExportName" -> "default"))
+  1:return (new [entry])
+}
+- id: sec-static-semantics-exportentries
+- code:
+          1. Let _entry_ be the ExportEntry Record { [[ModuleRequest]]: *null*, [[ImportName]]: *null*, [[LocalName]]: *"\*default\*"*, [[ExportName]]: *"default"* }.
+          1. Return a List whose sole element is _entry_.

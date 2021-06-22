@@ -1,0 +1,7 @@
+def [SYNTAX] NumericLiteral[3,0].NumericValue<NonDecimalIntegerLiteral BigIntLiteralSuffix>() = {
+  0:access __x0__ = (NonDecimalIntegerLiteral "MV")
+  0:return (convert __x0__ num2bigint )
+}
+- id: sec-numericvalue
+- code:
+          1. Return the BigInt value that represents the MV of |NonDecimalIntegerLiteral|.

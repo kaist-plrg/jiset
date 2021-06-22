@@ -27,16 +27,11 @@ lazy val largeTest = taskKey[Unit]("Launch large tests (may hours)")
 lazy val extractTest = taskKey[Unit]("Launch extract tests")
 lazy val extractTokenTest = taskKey[Unit]("Launch token extract tests (tiny)")
 lazy val extractJsonTest = taskKey[Unit]("Launch json extract tests (small)")
-
-// grammar
-lazy val grammarTest = taskKey[Unit]("Launch grammar tests")
-lazy val grammarBasicTest = taskKey[Unit]("Launch basic grammar tests (small)")
+lazy val extractGrammarTest = taskKey[Unit]("Launch grammar extract tests (small)")
+lazy val extractBasicCompileTest = taskKey[Unit]("Launch basic compile tests (middle)")
+lazy val extractManualCompileTest = taskKey[Unit]("Launch manual compile tests (small)")
 
 // compile
-lazy val compileTest = taskKey[Unit]("Launch compile tests")
-lazy val compileBasicTest = taskKey[Unit]("Launch basic compile tests (middle)")
-lazy val compileLegacyTest = taskKey[Unit]("Launch legacy compile tests (small)")
-lazy val compileManualTest = taskKey[Unit]("Launch manual compile tests (small)")
 
 // ir
 lazy val irTest = taskKey[Unit]("Launch ir tests")
@@ -95,14 +90,9 @@ lazy val jiset = (project in file("."))
     extractTest := (testOnly in Test).toTask(" *.extract.*Test").value,
     extractTokenTest := (testOnly in Test).toTask(" *.extract.Token*Test").value,
 		extractJsonTest := (testOnly in Test).toTask(" *.extract.Json*Test").value,
-    // grammar
-    grammarTest := (testOnly in Test).toTask(" *.grammar.*Test").value,
-    grammarBasicTest := (testOnly in Test).toTask(" *.grammar.Basic*Test").value,
-    // compile
-    compileTest := (testOnly in Test).toTask(" *.compile.*Test").value,
-    compileBasicTest := (testOnly in Test).toTask(" *.compile.Basic*Test").value,
-    compileLegacyTest := (testOnly in Test).toTask(" *.compile.Legacy*Test").value,
-    compileManualTest := (testOnly in Test).toTask(" *.compile.Manual*Test").value,
+    extractGrammarTest := (testOnly in Test).toTask(" *.extract.Grammar*Test").value,
+    extractBasicCompileTest := (testOnly in Test).toTask(" *.extract.BasicCompile*Test").value,
+    extractManualCompileTest := (testOnly in Test).toTask(" *.extract.ManualCompile*Test").value,
     // ir
     irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
     irParseTest := (testOnly in Test).toTask(" *.ir.Parse*Test").value,

@@ -1,0 +1,15 @@
+def [BUILTIN] Reflect.getOwnPropertyDescriptor(target, propertyKey) = {
+  0:if (! (= (typeof target) Object)) throw TypeError else 18:{}
+  1:app __x0__ = (ToPropertyKey propertyKey)
+  1:let key = [? __x0__]
+  2:app __x1__ = (target.GetOwnProperty target key)
+  2:let desc = [? __x1__]
+  3:app __x2__ = (FromPropertyDescriptor desc)
+  3:return __x2__
+}
+- id: sec-reflect.getownpropertydescriptor
+- code:
+        1. If Type(_target_) is not Object, throw a *TypeError* exception.
+        1. Let _key_ be ? ToPropertyKey(_propertyKey_).
+        1. Let _desc_ be ? _target_.[[GetOwnProperty]](_key_).
+        1. Return FromPropertyDescriptor(_desc_).

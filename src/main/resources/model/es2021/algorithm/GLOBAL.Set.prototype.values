@@ -1,0 +1,9 @@
+def [BUILTIN] Set.prototype.values() = {
+  0:let S = this
+  1:app __x0__ = (CreateSetIterator S CONST_value)
+  1:return [? __x0__]
+}
+- id: sec-set.prototype.values
+- code:
+          1. Let _S_ be the *this* value.
+          1. Return ? CreateSetIterator(_S_, ~value~).

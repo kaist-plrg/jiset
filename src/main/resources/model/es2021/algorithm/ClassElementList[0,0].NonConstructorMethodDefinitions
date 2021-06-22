@@ -1,0 +1,10 @@
+def [SYNTAX] ClassElementList[0,0].NonConstructorMethodDefinitions<ClassElement>() = {
+  0:access __x0__ = (ClassElement "ClassElementKind")
+  0:if (= __x0__ CONST_NonConstructorMethod) return (new [ClassElement]) else 33:{}
+  2:return (new [])
+}
+- id: sec-static-semantics-nonconstructormethoddefinitions
+- code:
+        1. If ClassElementKind of |ClassElement| is ~NonConstructorMethod~, then
+          1. Return a List whose sole element is |ClassElement|.
+        1. Return a new empty List.

@@ -1,0 +1,9 @@
+def [SYNTAX] QuantifierPrefix[3,0].Evaluation<`{` DecimalDigits `}`>() = {
+  0:access __x0__ = (DecimalDigits "MV")
+  0:let i = __x0__
+  1:return (new [i, i])
+}
+- id: sec-quantifier
+- code:
+          1. Let _i_ be the MV of |DecimalDigits| (see <emu-xref href="#sec-literals-numeric-literals"></emu-xref>).
+          1. Return the two results _i_ and _i_.

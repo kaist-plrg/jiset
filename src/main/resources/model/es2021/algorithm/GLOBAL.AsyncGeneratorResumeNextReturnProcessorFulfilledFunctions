@@ -1,0 +1,11 @@
+def [BUILTIN] AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions() = {
+  0:let F = CONTEXT.Function
+  1:F.Generator.AsyncGeneratorState = CONST_completed
+  2:app __x0__ = (AsyncGeneratorResolve F.Generator value true)
+  2:return [! __x0__]
+}
+- id: async-generator-resume-next-return-processor-fulfilled
+- code:
+            1. Let _F_ be the active function object.
+            1. Set _F_.[[Generator]].[[AsyncGeneratorState]] to ~completed~.
+            1. Return ! AsyncGeneratorResolve(_F_.[[Generator]], _value_, *true*).

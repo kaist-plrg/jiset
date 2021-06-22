@@ -1,0 +1,16 @@
+def [BUILTIN] RegExp.prototype.test(S) = {
+  0:let R = this
+  1:if (! (= (typeof R) Object)) throw TypeError else 56:{}
+  2:app __x0__ = (ToString S)
+  2:let string = [? __x0__]
+  3:app __x1__ = (RegExpExec R string)
+  3:let match = [? __x1__]
+  4:if (! (= match null)) return true else return false
+}
+- id: sec-regexp.prototype.test
+- code:
+          1. Let _R_ be the *this* value.
+          1. If Type(_R_) is not Object, throw a *TypeError* exception.
+          1. Let _string_ be ? ToString(_S_).
+          1. Let _match_ be ? RegExpExec(_R_, _string_).
+          1. If _match_ is not *null*, return *true*; else return *false*.

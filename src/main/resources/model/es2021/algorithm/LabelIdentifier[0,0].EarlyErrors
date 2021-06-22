@@ -1,0 +1,12 @@
+def [SYNTAX] LabelIdentifier[0,0].EarlyErrors<Identifier>() = {
+  0:??? "It is a Syntax Error if this production has a sub:{[ Yield ]} parameter and StringValue of nt:{Identifier} is value:{\"yield\"} ."
+  1:??? "It is a Syntax Error if this production has an sub:{[ Await ]} parameter and StringValue of nt:{Identifier} is value:{\"await\"} ."
+}
+- id: sec-identifiers-static-semantics-early-errors
+- code:
+        <li>
+          It is a Syntax Error if this production has a <sub>[Yield]</sub> parameter and StringValue of |Identifier| is *"yield"*.
+        </li>
+        <li>
+          It is a Syntax Error if this production has an <sub>[Await]</sub> parameter and StringValue of |Identifier| is *"await"*.
+        </li>

@@ -1,0 +1,13 @@
+def [SYNTAX] StatementListItem[0,0].TopLevelVarScopedDeclarations<Statement>() = {
+  0:if (is-instance-of Statement Statement10) {
+    access LabelledStatement = (Statement "LabelledStatement")
+    access __x0__ = (Statement "TopLevelVarScopedDeclarations")
+    return __x0__
+  } else 1:{}
+  1:access __x1__ = (Statement "VarScopedDeclarations")
+  1:return __x1__
+}
+- id: sec-static-semantics-toplevelvarscopeddeclarations
+- code:
+        1. If |Statement| is <emu-grammar>Statement : LabelledStatement</emu-grammar> , return TopLevelVarScopedDeclarations of |Statement|.
+        1. Return VarScopedDeclarations of |Statement|.

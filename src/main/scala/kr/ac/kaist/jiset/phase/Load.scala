@@ -25,7 +25,7 @@ case object Load extends PhaseObj[Script, LoadConfig, State] {
     filename: String
   ): State = script match {
     case Script0(Some(body), _, _) => Initialize(
-      inst = Parser.parseInst(s"app $RESULT = (RunJobs)"),
+      inst = Inst(s"app $RESULT = (RunJobs)"),
       body = body,
       filename = filename,
     )

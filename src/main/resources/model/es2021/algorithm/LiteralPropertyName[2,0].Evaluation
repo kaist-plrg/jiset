@@ -1,0 +1,10 @@
+def [SYNTAX] LiteralPropertyName[2,0].Evaluation<NumericLiteral>() = {
+  0:access __x0__ = (NumericLiteral "NumericValue")
+  0:let nbr = __x0__
+  1:app __x1__ = (ToString nbr)
+  1:return [! __x1__]
+}
+- id: sec-object-initializer-runtime-semantics-evaluation
+- code:
+          1. Let _nbr_ be the NumericValue of |NumericLiteral|.
+          1. Return ! ToString(_nbr_).

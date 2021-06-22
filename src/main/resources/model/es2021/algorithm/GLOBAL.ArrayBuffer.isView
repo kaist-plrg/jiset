@@ -1,0 +1,10 @@
+def [BUILTIN] ArrayBuffer.isView(arg) = {
+  0:if (! (= (typeof arg) Object)) return false else 11:{}
+  1:if (! (= arg.ViewedArrayBuffer absent)) return true else 11:{}
+  2:return false
+}
+- id: sec-arraybuffer.isview
+- code:
+          1. If Type(_arg_) is not Object, return *false*.
+          1. If _arg_ has a [[ViewedArrayBuffer]] internal slot, return *true*.
+          1. Return *false*.

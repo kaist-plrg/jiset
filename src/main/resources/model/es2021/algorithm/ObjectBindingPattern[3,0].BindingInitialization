@@ -1,0 +1,9 @@
+def [SYNTAX] ObjectBindingPattern[3,0].BindingInitialization<`{` BindingPropertyList `,` `}`>(value, environment) = {
+  0:access __x0__ = (BindingPropertyList "PropertyBindingInitialization" value environment)
+  0:[? __x0__]
+  1:return CONST_empty
+}
+- id: sec-runtime-semantics-bindinginitialization
+- code:
+        1. Perform ? PropertyBindingInitialization for |BindingPropertyList| using _value_ and _environment_ as the arguments.
+        1. Return NormalCompletion(~empty~).

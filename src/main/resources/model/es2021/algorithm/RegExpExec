@@ -1,0 +1,28 @@
+def RegExpExec(R, S) = {
+  0:assert (= (typeof R) Object)
+  1:assert (= (typeof S) String)
+  2:app __x0__ = (Get R "exec")
+  2:let exec = [? __x0__]
+  3:app __x1__ = (IsCallable exec)
+  3:if (= __x1__ true) {
+    4:app __x2__ = (Call exec R (new [S]))
+    4:let result = [? __x2__]
+    5:if (! (|| (= (typeof result) Object) (= (typeof result) Null))) throw TypeError else 14:{}
+    6:return result
+  } else 14:{}
+  7:app __x3__ = (RequireInternalSlot R "RegExpMatcher")
+  7:[? __x3__]
+  8:app __x4__ = (RegExpBuiltinExec R S)
+  8:return [? __x4__]
+}
+- id: sec-regexpexec
+- code:
+            1. Assert: Type(_R_) is Object.
+            1. Assert: Type(_S_) is String.
+            1. Let _exec_ be ? Get(_R_, *"exec"*).
+            1. If IsCallable(_exec_) is *true*, then
+              1. Let _result_ be ? Call(_exec_, _R_, « _S_ »).
+              1. If Type(_result_) is neither Object nor Null, throw a *TypeError* exception.
+              1. Return _result_.
+            1. Perform ? RequireInternalSlot(_R_, [[RegExpMatcher]]).
+            1. Return ? RegExpBuiltinExec(_R_, _S_).

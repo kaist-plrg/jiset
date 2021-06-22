@@ -1,9 +1,10 @@
 package kr.ac.kaist.jiset.spec.grammar.token
 
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.spec.SpecComponent
 
 // ECMAScript grammar tokens
-trait Token {
+trait Token extends SpecComponent {
   // normalize tokens
   def norm: Option[NonTerminal] = this match {
     case ButNot(base, _) => base.norm
@@ -16,29 +17,6 @@ trait Token {
     case (nt: NonTerminal) => Some(nt)
     case ButNot(base, _) => base.getNT
     case _ => None
-  }
-
-  // conversion to string
-  override def toString: String = this match {
-    case Terminal(term) =>
-      s"`$term`"
-    case NonTerminal(name, args, optional) =>
-      val argsStr = if (args.isEmpty) "" else args.mkString("[", ", ", "]")
-      val optionalStr = if (optional) "?" else ""
-      s"$name$argsStr$optionalStr"
-    case ButNot(base, cases) =>
-      val casesStr = cases.mkString(" or ")
-      s"$base but not $casesStr"
-    case Lookahead(contains, cases) =>
-      val containsStr = if (contains) "<" else "<!"
-      val casesStr = cases.map(_.mkString(" ")).mkString("{", ", ", "}")
-      s"[lookahead $containsStr $casesStr]"
-    case EmptyToken =>
-      s"[empty]"
-    case NoLineTerminatorToken =>
-      s"[no LineTerminator here]"
-    case (char: Character) =>
-      s"<${char.name}>"
   }
 }
 

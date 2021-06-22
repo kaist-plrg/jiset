@@ -1,0 +1,9 @@
+def [BUILTIN] String.prototype.trimEnd() = {
+  0:let S = this
+  1:app __x0__ = (TrimString S CONST_end)
+  1:return [? __x0__]
+}
+- id: sec-string.prototype.trimend
+- code:
+          1. Let _S_ be the *this* value.
+          1. Return ? TrimString(_S_, ~end~).

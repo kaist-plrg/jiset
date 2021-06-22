@@ -1,0 +1,10 @@
+def [SYNTAX] PropertyDefinitionList[1,0].PropertyDefinitionEvaluation<PropertyDefinitionList `,` PropertyDefinition>(object, enumerable) = {
+  0:access __x0__ = (PropertyDefinitionList "PropertyDefinitionEvaluation" object enumerable)
+  0:[? __x0__]
+  1:access __x1__ = (PropertyDefinition "PropertyDefinitionEvaluation" object enumerable)
+  1:return __x1__
+}
+- id: sec-runtime-semantics-propertydefinitionevaluation
+- code:
+          1. Perform ? PropertyDefinitionEvaluation of |PropertyDefinitionList| with arguments _object_ and _enumerable_.
+          1. Return the result of performing PropertyDefinitionEvaluation of |PropertyDefinition| with arguments _object_ and _enumerable_.

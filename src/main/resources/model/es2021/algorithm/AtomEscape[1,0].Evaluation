@@ -1,0 +1,10 @@
+def [SYNTAX] AtomEscape[1,0].Evaluation<CharacterClassEscape>(direction) = {
+  0:access __x0__ = (CharacterClassEscape "Evaluation")
+  0:let A = __x0__
+  1:app __x1__ = (CharacterSetMatcher A false direction)
+  1:return [! __x1__]
+}
+- id: sec-atomescape
+- code:
+          1. Evaluate |CharacterClassEscape| to obtain a CharSet _A_.
+          1. Return ! CharacterSetMatcher(_A_, *false*, _direction_).

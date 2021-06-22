@@ -1,0 +1,9 @@
+def DayWithinYear(t) = {
+  0:app __x0__ = (Day t)
+  0:app __x1__ = (YearFromTime t)
+  0:app __x2__ = (DayFromYear __x1__)
+  0:return (- __x0__ __x2__)
+}
+- id: eqn-DayWithinYear
+- code:
+DayWithinYear(_t_) = Day(_t_) - DayFromYear(YearFromTime(_t_))

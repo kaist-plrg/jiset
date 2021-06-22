@@ -1,0 +1,17 @@
+def [SYNTAX] ClassTail[0,3].Contains<ClassHeritage? `{` ClassBody `}`>(symbol) = {
+  0:if (is-instance-of symbol ClassBody) return true else 1:{}
+  1:if (is-instance-of symbol ClassHeritage) if (! (= ClassHeritage absent)) return true else return false else 1:{}
+  3:access __x0__ = (ClassHeritage "Contains" symbol)
+  3:let inHeritage = __x0__
+  4:if (= inHeritage true) return true else 1:{}
+  5:access __x1__ = (ClassBody "ComputedPropertyContains" symbol)
+  5:return __x1__
+}
+- id: sec-static-semantics-contains
+- code:
+        1. If _symbol_ is |ClassBody|, return *true*.
+        1. If _symbol_ is |ClassHeritage|, then
+          1. If |ClassHeritage| is present, return *true*; otherwise return *false*.
+        1. Let _inHeritage_ be |ClassHeritage| Contains _symbol_.
+        1. If _inHeritage_ is *true*, return *true*.
+        1. Return the result of ComputedPropertyContains for |ClassBody| with argument _symbol_.

@@ -1,0 +1,10 @@
+def [SYNTAX] CoverCallExpressionAndAsyncArrowHead[0,0].BoundNames<MemberExpression Arguments>() = {
+  0:access __x0__ = (CoverCallExpressionAndAsyncArrowHead "CoveredAsyncArrowHead")
+  0:let head = __x0__
+  1:access __x1__ = (head "BoundNames")
+  1:return __x1__
+}
+- id: sec-static-semantics-boundnames
+- code:
+        1. Let _head_ be CoveredAsyncArrowHead of |CoverCallExpressionAndAsyncArrowHead|.
+        1. Return the BoundNames of _head_.

@@ -1,0 +1,13 @@
+def [SYNTAX] WithStatement[0,0].EarlyErrors<`with` `(` Expression `)` Statement>() = {
+  0:if true throw SyntaxError else 2:{}
+  1:app __x0__ = (IsLabelledFunction Statement)
+  1:if (= __x0__ true) throw SyntaxError else 2:{}
+}
+- id: sec-with-statement-static-semantics-early-errors
+- code:
+        <li>
+          It is a Syntax Error if the code that matches this production is contained in strict mode code.
+        </li>
+        <li>
+          It is a Syntax Error if IsLabelledFunction(|Statement|) is *true*.
+        </li>

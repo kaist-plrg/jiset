@@ -1,20 +1,15 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.spec.SpecComponent
 
-case class Param(name: String, kind: Param.Kind = Param.Kind.Normal) {
+case class Param(
+  name: String,
+  kind: Param.Kind = Param.Kind.Normal
+) extends SpecComponent {
   import Param.Kind._
 
   def toOptional: Param = Param(name, Optional)
-
-  // conversion to string
-  override def toString: String = {
-    kind match {
-      case Normal => name
-      case Optional => name + "?"
-      case Variadic => "..." + name
-    }
-  }
 }
 object Param {
   type Kind = Kind.Value

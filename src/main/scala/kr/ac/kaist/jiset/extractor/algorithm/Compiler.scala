@@ -110,7 +110,7 @@ class Compiler private (
     case x ~ y => {
       val i0 = ILet(IRId(x), EMap(Ty("OrdinaryObject"), Nil))
       val temp = getTemp
-      val body = parseInst(s"$x[$temp] = undefined")
+      val body = Inst(s"$x[$temp] = undefined")
       val i1 = forEachList(IRId(temp), toERef(y), body)
       ISeq(i0 :: i1 :: Nil)
     }
@@ -226,7 +226,7 @@ class Compiler private (
         val sv = s.beautified
         val ev = e.beautified
         val body = b.beautified
-        ISeq(i0 ++ i1 :+ parseInst(s"""{
+        ISeq(i0 ++ i1 :+ Inst(s"""{
         let $k = (+ $sv ${ds}i)
         let $n = (+ $ev ${de}i)
         while (< $k $n) $body
@@ -287,15 +287,15 @@ class Compiler private (
     } ||| ("let" ~> id <~ "be the first element of") ~ (id <~ "and remove that element from" ~ id) ^^ {
       case x ~ l => ILet(IRId(x), EPop(toERef(l), EINum(0)))
     } ||| "remove" ~ id ~ "from the front of" ~> id ^^ {
-      case x => parseInst(s"(pop $x 0i)")
+      case x => Inst(s"(pop $x 0i)")
     } ||| "remove the last element of" ~> id ^^ {
-      case x => parseInst(s"(pop $x (- $x.length 1i))")
+      case x => Inst(s"(pop $x (- $x.length 1i))")
     } ||| ("remove the" ~ ("own property with name" | "binding for") ~> id <~ "from") ~ id ^^ {
-      case p ~ x => parseInst(s"delete $x[$p]")
+      case p ~ x => Inst(s"delete $x[$p]")
     } ||| "remove" ~> id <~ "from the execution context stack and restore" <~ rest ^^ {
       case x => {
         val idx = getTemp
-        parseInst(s"""{
+        Inst(s"""{
         if (= $executionStack[(- $executionStack.length 1i)] $x) {
           let $idx = (- $executionStack.length 1i)
           (pop $executionStack $idx)
@@ -306,7 +306,7 @@ class Compiler private (
     } ||| ("remove" ~ opt("all occurrences of") ~> id <~ "from") ~ (opt("the list of waiters in") ~> id) ^^ {
       case x ~ list =>
         val idx = getTemp
-        parseInst(s"""{
+        Inst(s"""{
           let $idx = 0i
           while (< $idx $list.length)
             if (= $list[$idx] $x) (pop $list $idx)
@@ -329,7 +329,7 @@ class Compiler private (
   lazy val pushStmt: P[Inst] = (
     "push" ~> expr <~ ("onto" | "on to") ~ "the execution context stack;" ~
     id ~ "is now the running execution context" ^^ {
-      case i ~ e => ISeq(i ++ List(IAppend(e, toERef(executionStack)), parseInst(s"""
+      case i ~ e => ISeq(i ++ List(IAppend(e, toERef(executionStack)), Inst(s"""
         $context = $executionStack[(- $executionStack.length 1i)]
       """)))
     }
@@ -343,7 +343,7 @@ class Compiler private (
         IExpr(ENotSupported(s"Resume the suspended evaluation of $x using $res as the result of the operation that suspended it"))
       case x ~ None => emptyInst
     } | "Resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
-      parseInst(s"""
+      Inst(s"""
         $context = $executionStack[(- $executionStack.length 1i)]
       """)
     }
@@ -649,9 +649,9 @@ class Compiler private (
   // pair expressions
   lazy val pairExpr: P[I[Expr]] = (
     (opt("the") ~ "pair" ~ opt("(a two element list)") ~ "consisting of" ~> id <~ "and") ~ id ^^ {
-      case x ~ y => pair(Nil, parseExpr(s"(new [$x, $y])"))
+      case x ~ y => pair(Nil, Expr(s"(new [$x, $y])"))
     } ||| ("(" ~> id <~ ",") ~ id <~ ")" ^^ {
-      case x ~ y => pair(Nil, parseExpr(s"(new [$x, $y])"))
+      case x ~ y => pair(Nil, Expr(s"(new [$x, $y])"))
     }
   )
 
@@ -846,7 +846,7 @@ class Compiler private (
         val base = b.beautified
         val from = f.beautified
         val to = t.beautified
-        val inst = parseInst(s"""{
+        val inst = Inst(s"""{
            let $substr = ""
            let $idx = $from
            while (< $idx (+ $to 1i)) {
@@ -950,7 +950,7 @@ class Compiler private (
     } ||| (("a" | "the") ~ "one-element CharSet containing the character" | "the CharSet containing the" ~ opt("single" | "one") ~ "character" ~ opt("matched by" | "that is")) ~> expr ^^ {
       case i ~ e => pair(i, EList(List(e)))
     } ||| "the one character in CharSet" ~> id ^^ {
-      case x => pair(Nil, parseExpr(s"$x[0i]"))
+      case x => pair(Nil, Expr(s"$x[0i]"))
     } ||| "the CharSet that is" ~> expr ^^ {
       case ie => ie
     } ||| "the empty CharSet" ^^ {
@@ -968,7 +968,7 @@ class Compiler private (
   // integer expressions
   lazy val integerExpr: P[I[Expr]] = (
     "the" ~ ("mathematical" | "number") ~ "value that is the same sign as" ~> id <~ "and whose magnitude is floor(abs(" ~ (id | "ℝ(" ~ id ~ ")") ~ "))" ^^ {
-      case x => pair(Nil, parseExpr(s"(convert $x num2int)"))
+      case x => pair(Nil, Expr(s"(convert $x num2int)"))
     }
   )
 
@@ -987,7 +987,7 @@ class Compiler private (
     } ||| ("left shifting" ^^^ OLShift | "performing a sign-extending right shift of" ^^^ OSRShift | "performing a zero-filling right shift of" ^^^ OURShift) ~ (id <~ "by") ~ id <~ "bits" ~ rest ^^ {
       case op ~ x ~ y => pair(Nil, EBOp(op, toERef(x), toERef(y)))
     } ||| "masking out all but the least significant 5 bits of" ~> id <~ rest ^^ {
-      case x => pair(Nil, parseExpr(s"(& $x 31i)"))
+      case x => pair(Nil, Expr(s"(& $x 31i)"))
     } ||| ("adding the value" ~> expr <~ "to" ^^ { (OPlus, _) } | "subtracting the value" ~> expr <~ "from" ^^ { (OSub, _) }) ~ expr <~ rest ^^ {
       case ((op, i0 ~ e)) ~ (i1 ~ b) => pair(i0 ++ i1, EBOp(op, b, e))
     }
@@ -1159,9 +1159,9 @@ class Compiler private (
   // conditions for arguments
   lazy val argumentCond: P[I[Expr]] = (
     "no arguments were passed to this function invocation" ^^^ {
-      pair(Nil, parseExpr("(= argumentsList.length 0i)"))
+      pair(Nil, Expr("(= argumentsList.length 0i)"))
     } ||| "only one argument was passed" ^^^ {
-      pair(Nil, parseExpr("(= argumentsList.length 1i)"))
+      pair(Nil, Expr("(= argumentsList.length 1i)"))
     }
   )
 
@@ -1403,7 +1403,7 @@ class Compiler private (
   // completion conditions
   lazy val completionCond: P[I[Expr]] = (
     expr <~ "is a normal completion" ^^ {
-      case i ~ x => pair(i, parseExpr(s"""(&& (is-completion ${x.beautified}) (= ${x.beautified}.Type CONST_normal))"""))
+      case i ~ x => pair(i, Expr(s"""(&& (is-completion ${x.beautified}) (= ${x.beautified}.Type CONST_normal))"""))
     }
   )
 
@@ -1491,14 +1491,14 @@ class Compiler private (
   lazy val linkRef: P[I[Ref]] = link.filter(secIds contains _) ^^ {
     case secId =>
       val name = secIds(secId)
-      val ref = parseRef(s"""ALGORITHM["$name"]""")
+      val ref = Ref(s"""ALGORITHM["$name"]""")
       pair(Nil, ref)
   }
 
   // references for TypedArray
   lazy val typedArrayRef: P[I[Ref]] = (
     (opt(camelWord ~ "value of") ~ opt("the") ~> rep1(camelWord) <~ opt("value") ~ opt("specified") ~ "in table" ~ number ~ "for" ~ opt("element type")) ~ id ^^ {
-      case fs ~ x => pair(Nil, parseRef(s"$typedArrayInfo[$x].${fs.mkString}"))
+      case fs ~ x => pair(Nil, Ref(s"$typedArrayInfo[$x].${fs.mkString}"))
     }
   )
 
@@ -1515,7 +1515,7 @@ class Compiler private (
 
   // bound value references
   lazy val boundValueRef: P[I[Ref]] = (("bound value for" | "value currently bound to") ~> id <~ "in") ~ id ^^ {
-    case x ~ y => pair(Nil, parseRef(s"$y.SubMap[$x].BoundValue"))
+    case x ~ y => pair(Nil, Ref(s"$y.SubMap[$x].BoundValue"))
   }
 
   // ordinal references

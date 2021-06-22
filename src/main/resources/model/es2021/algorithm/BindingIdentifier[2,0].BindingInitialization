@@ -1,0 +1,7 @@
+def [SYNTAX] BindingIdentifier[2,0].BindingInitialization<`await`>(value, environment) = {
+  0:app __x0__ = (InitializeBoundName "await" value environment)
+  0:return [? __x0__]
+}
+- id: sec-runtime-semantics-bindinginitialization
+- code:
+        1. Return ? InitializeBoundName(*"await"*, _value_, _environment_).

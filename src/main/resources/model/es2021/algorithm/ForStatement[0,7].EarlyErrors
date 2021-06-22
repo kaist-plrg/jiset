@@ -1,0 +1,9 @@
+def [SYNTAX] ForStatement[0,7].EarlyErrors<`for` `(` Expression? `;` Expression? `;` Expression? `)` Statement>() = {
+  0:app __x0__ = (IsLabelledFunction Statement)
+  0:if (= __x0__ true) throw SyntaxError else 2:{}
+}
+- id: sec-for-statement-static-semantics-early-errors
+- code:
+          <li>
+            It is a Syntax Error if IsLabelledFunction(|Statement|) is *true*.
+          </li>

@@ -1,0 +1,9 @@
+def [BUILTIN] Object.isExtensible(O) = {
+  0:if (! (= (typeof O) Object)) return false else 2:{}
+  1:app __x0__ = (IsExtensible O)
+  1:return [? __x0__]
+}
+- id: sec-object.isextensible
+- code:
+          1. If Type(_O_) is not Object, return *false*.
+          1. Return ? IsExtensible(_O_).

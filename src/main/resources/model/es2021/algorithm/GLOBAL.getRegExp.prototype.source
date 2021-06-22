@@ -1,0 +1,24 @@
+def [BUILTIN] getRegExp.prototype.source() = {
+  0:let R = this
+  1:if (! (= (typeof R) Object)) throw TypeError else 56:{}
+  2:if (= R.OriginalSource absent) {
+    4:app __x0__ = (SameValue R INTRINSIC_RegExp_prototype)
+    4:if (= __x0__ true) return "(?:)" else throw TypeError
+  } else 56:{}
+  5:assert (! (= R.OriginalFlags absent))
+  6:let src = R.OriginalSource
+  7:let flags = R.OriginalFlags
+  8:app __x1__ = (EscapeRegExpPattern src flags)
+  8:return __x1__
+}
+- id: sec-get-regexp.prototype.source
+- code:
+          1. Let _R_ be the *this* value.
+          1. If Type(_R_) is not Object, throw a *TypeError* exception.
+          1. If _R_ does not have an [[OriginalSource]] internal slot, then
+            1. If SameValue(_R_, %RegExp.prototype%) is *true*, return *"(?:)"*.
+            1. Otherwise, throw a *TypeError* exception.
+          1. Assert: _R_ has an [[OriginalFlags]] internal slot.
+          1. Let _src_ be _R_.[[OriginalSource]].
+          1. Let _flags_ be _R_.[[OriginalFlags]].
+          1. Return EscapeRegExpPattern(_src_, _flags_).

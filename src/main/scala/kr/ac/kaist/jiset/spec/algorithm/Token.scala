@@ -1,19 +1,18 @@
 package kr.ac.kaist.jiset.spec.algorithm.token
 
 import kr.ac.kaist.jiset.LINE_SEP
+import kr.ac.kaist.jiset.spec.SpecComponent
 
 // tokens
-abstract class Token(name: String, content: String) {
+abstract class Token(name: String, content: String) extends SpecComponent {
+  // get name
+  def getName: String = name
+
   // get content
   def getContent: String = content
-
-  // conversion to string
-  override def toString: String = this match {
-    case Text(t) => t
-    case _ => s"$name:{$content}"
-  }
 }
 object Token {
+  // get string of list of tokens
   def getString(tokens: List[Token]): String = {
     val sb = new StringBuilder
     val TAB = 2
@@ -41,6 +40,10 @@ object Token {
     ts(tokens)
     sb.toString
   }
+
+  // extractor
+  def unapply(token: Token): Option[(String, String)] =
+    Some((token.getName, token.getContent))
 }
 
 // normal tokens
@@ -53,11 +56,15 @@ case class Id(id: String) extends NormalToken("id", id)
 case class Text(text: String) extends NormalToken("text", text)
 case class Star(text: String) extends NormalToken("star", text)
 case class Nt(nt: String) extends NormalToken("nt", nt)
-case class Sup(sup: List[Token]) extends NormalToken("sup", sup.mkString(" "))
+case class Sup(sup: List[Token]) extends NormalToken("sup", {
+  sup.map(_.beautified).mkString(" ")
+})
 case class Link(link: String) extends NormalToken("link", link)
 case class Gr(grammar: String, subs: List[String])
   extends NormalToken("grammar", grammar + ", " + subs.mkString("[", ", ", "]"))
-case class Sub(sub: List[Token]) extends NormalToken("sub", sub.mkString(" "))
+case class Sub(sub: List[Token]) extends NormalToken("sub", {
+  sub.map(_.beautified).mkString(" ")
+})
 
 // special tokens only in steps
 case class Next(k: Int) extends Token("next", k.toString)

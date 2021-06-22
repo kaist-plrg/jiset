@@ -1,0 +1,9 @@
+def [BUILTIN] Map.prototype.entries() = {
+  0:let M = this
+  1:app __x0__ = (CreateMapIterator M CONST_keyPLUSvalue)
+  1:return [? __x0__]
+}
+- id: sec-map.prototype.entries
+- code:
+          1. Let _M_ be the *this* value.
+          1. Return ? CreateMapIterator(_M_, ~key+value~).

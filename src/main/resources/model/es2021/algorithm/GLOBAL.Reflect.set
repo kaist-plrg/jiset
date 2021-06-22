@@ -1,0 +1,15 @@
+def [BUILTIN] Reflect.set(target, propertyKey, V, receiver?) = {
+  0:if (! (= (typeof target) Object)) throw TypeError else 18:{}
+  1:app __x0__ = (ToPropertyKey propertyKey)
+  1:let key = [? __x0__]
+  2:if (= receiver absent) receiver = target else 18:{}
+  4:app __x1__ = (target.Set target key V receiver)
+  4:return [? __x1__]
+}
+- id: sec-reflect.set
+- code:
+        1. If Type(_target_) is not Object, throw a *TypeError* exception.
+        1. Let _key_ be ? ToPropertyKey(_propertyKey_).
+        1. If _receiver_ is not present, then
+          1. Set _receiver_ to _target_.
+        1. Return ? _target_.[[Set]](_key_, _V_, _receiver_).

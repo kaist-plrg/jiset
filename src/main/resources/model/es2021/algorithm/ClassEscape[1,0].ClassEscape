@@ -1,0 +1,11 @@
+def [SYNTAX] ClassEscape[1,0].ClassEscape<`-`>() = {
+  0:access __x0__ = (this "CharacterValue")
+  0:let cv = __x0__
+  1:let c = cv
+  2:return (new [c])
+}
+- id: sec-classescape
+- code:
+          1. Let _cv_ be the CharacterValue of this |ClassEscape|.
+          1. Let _c_ be the character whose character value is _cv_.
+          1. Return the CharSet containing the single character _c_.

@@ -14,7 +14,7 @@ case object IRParse extends PhaseObj[Unit, IRParseConfig, Program] {
     config: IRParseConfig
   ): Program = {
     val filename = getFirstFilename(jisetConfig, "parse-ir")
-    Parser.fileToProgram(filename)
+    Program.fromFile(filename)
   }
 
   def defaultConfig: IRParseConfig = IRParseConfig()

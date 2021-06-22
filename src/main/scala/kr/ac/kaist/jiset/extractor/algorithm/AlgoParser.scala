@@ -24,7 +24,7 @@ object AlgoParser {
     document: Document
   ): List[Algo] = {
     val (elem, heads) = parsedHead
-    val ids: List[String] = getIds(elem)
+    val id: String = getId(elem)
     val result: List[Algo] = try {
       val (start, end) = getRange(elem).get
       // get code
@@ -40,13 +40,13 @@ object AlgoParser {
               .replaceAll("_B_", s"_${r.name}_")
               .replaceAll("@", s"$op"))
             val rawBody = getBody(version, newCode, secIds, start)
-            Algo(head, ids, rawBody, code)
+            Algo(head, id, rawBody, code)
           case _ => error("impossible")
         }
       }
       else {
         val rawBody = getBody(version, code, secIds, start)
-        heads.map(Algo(_, ids, rawBody, code))
+        heads.map(Algo(_, id, rawBody, code))
       }
     } catch {
       case e: Throwable =>
@@ -76,6 +76,13 @@ object AlgoParser {
     val rawBody = Compiler(version, secIds)(tokens, start)
 
     rawBody
+  }
+
+  // get container id
+  def getId(elem: Element): String = {
+    if (elem.id != "") elem.id
+    else if (elem.parent == null) ""
+    else getId(elem.parent)
   }
 
   // get ancestor ids

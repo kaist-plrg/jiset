@@ -136,7 +136,7 @@ case class ParserGenerator(grammar: Grammar) {
     } else {
       s"""$astName(${args.mkString(", ")}) }"""
     })
-    condOpt.foreach(cond => parser = s"(if ($cond) $parser else MISMATCH)")
+    condOpt.foreach(cond => parser = s"(if (${cond.getParser}) $parser else MISMATCH)")
     s"""      log($parser)("$astName")"""
   }
 

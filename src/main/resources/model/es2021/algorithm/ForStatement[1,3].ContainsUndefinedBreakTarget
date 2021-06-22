@@ -1,0 +1,7 @@
+def [SYNTAX] ForStatement[1,3].ContainsUndefinedBreakTarget<`for` `(` `var` VariableDeclarationList `;` Expression? `;` Expression? `)` Statement>(labelSet) = {
+  0:access __x0__ = (Statement "ContainsUndefinedBreakTarget" labelSet)
+  0:return __x0__
+}
+- id: sec-static-semantics-containsundefinedbreaktarget
+- code:
+        1. Return ContainsUndefinedBreakTarget of |Statement| with argument _labelSet_.

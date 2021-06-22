@@ -1,0 +1,12 @@
+def [SYNTAX] ArrowFunction[0,0].Contains<ArrowParameters `=>` ConciseBody>(symbol) = {
+  0:if (! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol "super")) (= symbol "this"))) return false else 1:{}
+  1:access __x0__ = (ArrowParameters "Contains" symbol)
+  1:if (= __x0__ true) return true else 1:{}
+  2:access __x1__ = (ConciseBody "Contains" symbol)
+  2:return __x1__
+}
+- id: sec-static-semantics-contains
+- code:
+        1. If _symbol_ is not one of |NewTarget|, |SuperProperty|, |SuperCall|, `super` or `this`, return *false*.
+        1. If |ArrowParameters| Contains _symbol_ is *true*, return *true*.
+        1. Return |ConciseBody| Contains _symbol_.

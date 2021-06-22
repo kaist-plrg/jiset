@@ -1,0 +1,9 @@
+def [SYNTAX] AssignmentExpression[7,0].EarlyErrors<LeftHandSideExpression `||=` AssignmentExpression>() = {
+  0:access __x0__ = (LeftHandSideExpression "AssignmentTargetType")
+  0:if (! (= __x0__ CONST_simple)) throw SyntaxError else 2:{}
+}
+- id: sec-assignment-operators-static-semantics-early-errors
+- code:
+        <li>
+          It is a Syntax Error if AssignmentTargetType of |LeftHandSideExpression| is not ~simple~.
+        </li>

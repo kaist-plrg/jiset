@@ -47,7 +47,7 @@ object ECMAScriptParser {
     // section hierarchy
     val section = parseSection
 
-    ECMAScript(grammar, algos, consts, intrinsics, symbols, aoids, section)
+    ECMAScript(version, grammar, algos, consts, intrinsics, symbols, aoids, section)
   }
   ////////////////////////////////////////////////////////////////////////////////
   // helper

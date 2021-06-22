@@ -1,0 +1,17 @@
+def [SYNTAX] GeneratorBody[0,0].EvaluateGeneratorBody<FunctionBody>(functionObject, argumentsList) = {
+  0:app __x0__ = (FunctionDeclarationInstantiation functionObject argumentsList)
+  0:[? __x0__]
+  1:app __x1__ = (OrdinaryCreateFromConstructor functionObject "%GeneratorFunction.prototype.prototype%" (new ["GeneratorState", "GeneratorContext", "GeneratorBrand"]))
+  1:let G = [? __x1__]
+  2:G.GeneratorBrand = CONST_empty
+  3:app __x2__ = (GeneratorStart G FunctionBody)
+  3:__x2__
+  4:return (new Completion("Type" -> CONST_return, "Value" -> G, "Target" -> CONST_empty))
+}
+- id: sec-runtime-semantics-evaluategeneratorbody
+- code:
+        1. Perform ? FunctionDeclarationInstantiation(_functionObject_, _argumentsList_).
+        1. Let _G_ be ? OrdinaryCreateFromConstructor(_functionObject_, *"%GeneratorFunction.prototype.prototype%"*, « [[GeneratorState]], [[GeneratorContext]], [[GeneratorBrand]] »).
+        1. Set _G_.[[GeneratorBrand]] to ~empty~.
+        1. Perform GeneratorStart(_G_, |FunctionBody|).
+        1. Return Completion { [[Type]]: ~return~, [[Value]]: _G_, [[Target]]: ~empty~ }.

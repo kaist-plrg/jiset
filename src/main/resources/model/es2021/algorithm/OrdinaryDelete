@@ -1,0 +1,21 @@
+def OrdinaryDelete(O, P) = {
+  0:app __x0__ = (IsPropertyKey P)
+  0:assert (= __x0__ true)
+  1:app __x1__ = (O.GetOwnProperty O P)
+  1:let desc = [? __x1__]
+  2:if (= desc undefined) return true else 17:{}
+  3:if (= desc.Configurable true) {
+    4:delete O[P]
+    5:return true
+  } else 17:{}
+  6:return false
+}
+- id: sec-ordinarydelete
+- code:
+          1. Assert: IsPropertyKey(_P_) is *true*.
+          1. Let _desc_ be ? _O_.[[GetOwnProperty]](_P_).
+          1. If _desc_ is *undefined*, return *true*.
+          1. If _desc_.[[Configurable]] is *true*, then
+            1. Remove the own property with name _P_ from _O_.
+            1. Return *true*.
+          1. Return *false*.

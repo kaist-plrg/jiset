@@ -1,0 +1,12 @@
+def MakeDate(day, time) = {
+  0:if (|| (|| (= day Infinity) (= day -Infinity)) (|| (= time Infinity) (= time -Infinity))) return NaN else 2:{}
+  1:let tv = (+ (* day 8.64E7) time)
+  2:if (|| (= tv Infinity) (= tv -Infinity)) return NaN else 2:{}
+  3:return tv
+}
+- id: sec-makedate
+- code:
+          1. If _day_ is not finite or _time_ is not finite, return *NaN*.
+          1. Let _tv_ be _day_ × msPerDay + _time_.
+          1. If _tv_ is not finite, return *NaN*.
+          1. Return _tv_.

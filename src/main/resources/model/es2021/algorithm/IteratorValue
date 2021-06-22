@@ -1,0 +1,9 @@
+def IteratorValue(iterResult) = {
+  0:assert (= (typeof iterResult) Object)
+  1:app __x0__ = (Get iterResult "value")
+  1:return [? __x0__]
+}
+- id: sec-iteratorvalue
+- code:
+        1. Assert: Type(_iterResult_) is Object.
+        1. Return ? Get(_iterResult_, *"value"*).

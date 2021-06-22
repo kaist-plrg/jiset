@@ -1,0 +1,12 @@
+def [SYNTAX] IfStatement[0,0].ContainsUndefinedBreakTarget<`if` `(` Expression `)` Statement `else` Statement>(labelSet) = {
+  0:access __x0__ = (Statement0 "ContainsUndefinedBreakTarget" labelSet)
+  0:let hasUndefinedLabels = __x0__
+  1:if (= hasUndefinedLabels true) return true else 1:{}
+  2:access __x1__ = (Statement1 "ContainsUndefinedBreakTarget" labelSet)
+  2:return __x1__
+}
+- id: sec-static-semantics-containsundefinedbreaktarget
+- code:
+        1. Let _hasUndefinedLabels_ be ContainsUndefinedBreakTarget of the first |Statement| with argument _labelSet_.
+        1. If _hasUndefinedLabels_ is *true*, return *true*.
+        1. Return ContainsUndefinedBreakTarget of the second |Statement| with argument _labelSet_.

@@ -1,0 +1,10 @@
+def IsPropertyReference(V) = {
+  0:assert (is-instance-of V ReferenceRecord)
+  1:if (= V.Base CONST_unresolvable) return false else 0:{}
+  2:if (|| (|| (|| (|| (|| (= (typeof V.Base) Boolean) (= (typeof V.Base) String)) (= (typeof V.Base) Symbol)) (= (typeof V.Base) BigInt)) (= (typeof V.Base) Number)) (= (typeof V.Base) Object)) return true else return false
+}
+- id: sec-ispropertyreference
+- code:
+          1. Assert: _V_ is a Reference Record.
+          1. If _V_.[[Base]] is ~unresolvable~, return *false*.
+          1. If Type(_V_.[[Base]]) is Boolean, String, Symbol, BigInt, Number, or Object, return *true*; otherwise return *false*.

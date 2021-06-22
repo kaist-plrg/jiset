@@ -1,0 +1,23 @@
+def [SYNTAX] AsyncGeneratorDeclaration[0,0].InstantiateAsyncGeneratorFunctionObject<`async` `function` `*` BindingIdentifier `(` FormalParameters `)` `{` AsyncGeneratorBody `}`>(scope) = {
+  0:access __x0__ = (BindingIdentifier "StringValue")
+  0:let name = __x0__
+  1:let sourceText = (get-syntax AsyncGeneratorDeclaration)
+  2:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGeneratorFunction_prototype sourceText FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  2:let F = [! __x1__]
+  3:app __x2__ = (SetFunctionName F name)
+  3:[! __x2__]
+  4:app __x3__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
+  4:let prototype = [! __x3__]
+  5:app __x4__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
+  5:[! __x4__]
+  6:return F
+}
+- id: sec-runtime-semantics-instantiateasyncgeneratorfunctionobject
+- code:
+        1. Let _name_ be StringValue of |BindingIdentifier|.
+        1. Let _sourceText_ be the source text matched by |AsyncGeneratorDeclaration|.
+        1. Let _F_ be ! OrdinaryFunctionCreate(%AsyncGeneratorFunction.prototype%, _sourceText_, |FormalParameters|, |AsyncGeneratorBody|, ~non-lexical-this~, _scope_).
+        1. Perform ! SetFunctionName(_F_, _name_).
+        1. Let _prototype_ be ! OrdinaryObjectCreate(%AsyncGeneratorFunction.prototype.prototype%).
+        1. Perform ! DefinePropertyOrThrow(_F_, *"prototype"*, PropertyDescriptor { [[Value]]: _prototype_, [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *false* }).
+        1. Return _F_.

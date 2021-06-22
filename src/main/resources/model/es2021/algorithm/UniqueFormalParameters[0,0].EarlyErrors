@@ -1,0 +1,10 @@
+def [SYNTAX] UniqueFormalParameters[0,0].EarlyErrors<FormalParameters>() = {
+  0:access __x0__ = (FormalParameters "BoundNames")
+  0:app __x1__ = (IsDuplicate __x0__)
+  0:if __x1__ throw SyntaxError else 2:{}
+}
+- id: sec-parameter-lists-static-semantics-early-errors
+- code:
+        <li>
+          It is a Syntax Error if BoundNames of |FormalParameters| contains any duplicate elements.
+        </li>

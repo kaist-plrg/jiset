@@ -1,0 +1,10 @@
+def [SYNTAX] Quantifier[0,0].Evaluation<QuantifierPrefix>() = {
+  0:access __x0__ = (QuantifierPrefix "Evaluation")
+  0:let min = __x0__[0i]
+  0:let max = __x0__[1i]
+  1:return (new [min, max, true])
+}
+- id: sec-quantifier
+- code:
+          1. Evaluate |QuantifierPrefix| to obtain the two results: an integer _min_ and an integer (or +∞) _max_.
+          1. Return the three results _min_, _max_, and *true*.

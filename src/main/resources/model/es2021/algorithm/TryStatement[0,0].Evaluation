@@ -1,0 +1,16 @@
+def [SYNTAX] TryStatement[0,0].Evaluation<`try` Block Catch>() = {
+  0:access __x0__ = (Block "Evaluation")
+  0:let B = __x0__
+  2:if (= B.Type CONST_throw) {
+    access __x1__ = (Catch "CatchClauseEvaluation" B.Value)
+    let C = __x1__
+  } else let C = B
+  3:app __x2__ = (UpdateEmpty C undefined)
+  3:return __x2__
+}
+- id: sec-try-statement-runtime-semantics-evaluation
+- code:
+        1. Let _B_ be the result of evaluating |Block|.
+        1. If _B_.[[Type]] is ~throw~, let _C_ be CatchClauseEvaluation of |Catch| with argument _B_.[[Value]].
+        1. Else, let _C_ be _B_.
+        1. Return Completion(UpdateEmpty(_C_, *undefined*)).

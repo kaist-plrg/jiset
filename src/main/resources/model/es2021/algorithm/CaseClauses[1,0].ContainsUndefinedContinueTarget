@@ -1,0 +1,12 @@
+def [SYNTAX] CaseClauses[1,0].ContainsUndefinedContinueTarget<CaseClauses CaseClause>(iterationSet, labelSet) = {
+  0:access __x0__ = (CaseClauses "ContainsUndefinedContinueTarget" iterationSet (new []))
+  0:let hasUndefinedLabels = __x0__
+  1:if (= hasUndefinedLabels true) return true else 1:{}
+  2:access __x1__ = (CaseClause "ContainsUndefinedContinueTarget" iterationSet (new []))
+  2:return __x1__
+}
+- id: sec-static-semantics-containsundefinedcontinuetarget
+- code:
+        1. Let _hasUndefinedLabels_ be ContainsUndefinedContinueTarget of |CaseClauses| with arguments _iterationSet_ and « ».
+        1. If _hasUndefinedLabels_ is *true*, return *true*.
+        1. Return ContainsUndefinedContinueTarget of |CaseClause| with arguments _iterationSet_ and « ».

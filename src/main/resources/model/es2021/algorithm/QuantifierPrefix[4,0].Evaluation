@@ -1,0 +1,9 @@
+def [SYNTAX] QuantifierPrefix[4,0].Evaluation<`{` DecimalDigits `,` `}`>() = {
+  0:access __x0__ = (DecimalDigits "MV")
+  0:let i = __x0__
+  1:return (new [i, Infinity])
+}
+- id: sec-quantifier
+- code:
+          1. Let _i_ be the MV of |DecimalDigits|.
+          1. Return the two results _i_ and +∞.

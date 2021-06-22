@@ -1,0 +1,10 @@
+def [SYNTAX] PropertyDefinitionList[0,0].PropertyNameList<PropertyDefinition>() = {
+  0:access __x0__ = (PropertyDefinition "PropName")
+  0:if (= __x0__ CONST_empty) return (new []) else 2:{}
+  1:access __x1__ = (PropertyDefinition "PropName")
+  1:return (new [__x1__])
+}
+- id: sec-static-semantics-propertynamelist
+- code:
+          1. If PropName of |PropertyDefinition| is ~empty~, return a new empty List.
+          1. Return a List whose sole element is PropName of |PropertyDefinition|.

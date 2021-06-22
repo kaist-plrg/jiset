@@ -1,0 +1,17 @@
+def [SYNTAX] OptionalChain[6,0].ChainEvaluation<OptionalChain `.` IdentifierName>(baseValue, baseReference) = {
+  0:let optionalChain = OptionalChain
+  1:access __x0__ = (optionalChain "ChainEvaluation" baseValue baseReference)
+  1:let newReference = [? __x0__]
+  2:app __x1__ = (GetValue newReference)
+  2:let newValue = [? __x1__]
+  3:if true let strict = true else let strict = false
+  4:app __x2__ = (EvaluatePropertyAccessWithIdentifierKey newValue IdentifierName strict)
+  4:return [? __x2__]
+}
+- id: sec-optional-chaining-chain-evaluation
+- code:
+          1. Let _optionalChain_ be |OptionalChain|.
+          1. Let _newReference_ be ? ChainEvaluation of _optionalChain_ with arguments _baseValue_ and _baseReference_.
+          1. Let _newValue_ be ? GetValue(_newReference_).
+          1. If the code matched by this |OptionalChain| is strict mode code, let _strict_ be *true*; else let _strict_ be *false*.
+          1. Return ? EvaluatePropertyAccessWithIdentifierKey(_newValue_, |IdentifierName|, _strict_).

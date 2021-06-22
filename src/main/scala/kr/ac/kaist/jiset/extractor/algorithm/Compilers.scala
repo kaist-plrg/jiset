@@ -43,7 +43,7 @@ trait Compilers extends TokenListParsers {
     case tss ~ k =>
       val tokens = tss.flatten
       failed += k -> tokens
-      val str = tokens.mkString(" ")
+      val str = tokens.map(_.beautified).mkString(" ")
       val failedInst = manualSteps.getOrElse(str, IExpr(ENotSupported(str)))
       failedInst.line = k
       failedInst
@@ -105,7 +105,7 @@ trait Compilers extends TokenListParsers {
   }
 
   // get error objects
-  def getErrorObj(name: String): Expr = parseExpr("(new OrdinaryObject())")
+  def getErrorObj(name: String): Expr = Expr("(new OrdinaryObject())")
 
   // for-each instrutions for lists
   def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {

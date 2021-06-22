@@ -1,0 +1,21 @@
+def NewFunctionEnvironment(F, newTarget) = {
+  0:assert (is-instance-of F ECMAScriptFunctionObject)
+  1:assert (|| (= (typeof newTarget) Undefined) (= (typeof newTarget) Object))
+  2:let env = (new FunctionEnvironmentRecord())
+  3:env.FunctionObject = F
+  5:if (= F.ThisMode CONST_lexical) env.ThisBindingStatus = CONST_lexical else env.ThisBindingStatus = CONST_uninitialized
+  6:env.NewTarget = newTarget
+  7:env.OuterEnv = F.Environment
+  8:return env
+}
+- id: sec-newfunctionenvironment
+- code:
+          1. Assert: _F_ is an ECMAScript function.
+          1. Assert: Type(_newTarget_) is Undefined or Object.
+          1. Let _env_ be a new function Environment Record containing no bindings.
+          1. Set _env_.[[FunctionObject]] to _F_.
+          1. If _F_.[[ThisMode]] is ~lexical~, set _env_.[[ThisBindingStatus]] to ~lexical~.
+          1. Else, set _env_.[[ThisBindingStatus]] to ~uninitialized~.
+          1. Set _env_.[[NewTarget]] to _newTarget_.
+          1. Set _env_.[[OuterEnv]] to _F_.[[Environment]].
+          1. Return _env_.

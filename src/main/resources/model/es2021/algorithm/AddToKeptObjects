@@ -1,0 +1,8 @@
+def AddToKeptObjects(object) = {
+  0:let agentRecord = AGENT
+  1:append object -> agentRecord.KeptAlive
+}
+- id: sec-addtokeptobjects
+- code:
+      1. Let _agentRecord_ be the surrounding agent's Agent Record.
+      1. Append _object_ to _agentRecord_.[[KeptAlive]].

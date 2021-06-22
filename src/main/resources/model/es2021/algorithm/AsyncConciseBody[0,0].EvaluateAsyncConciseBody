@@ -1,0 +1,24 @@
+def [SYNTAX] AsyncConciseBody[0,0].EvaluateAsyncConciseBody<ExpressionBody>(functionObject, argumentsList) = {
+  0:app __x0__ = (NewPromiseCapability INTRINSIC_Promise)
+  0:let promiseCapability = [! __x0__]
+  1:app __x1__ = (FunctionDeclarationInstantiation functionObject argumentsList)
+  1:let declResult = __x1__
+  4:app __x2__ = (IsAbruptCompletion declResult)
+  4:if (! __x2__) {
+    3:app __x3__ = (AsyncFunctionStart promiseCapability ExpressionBody)
+    3:[! __x3__]
+  } else {
+    5:app __x4__ = (Call promiseCapability.Reject undefined (new [declResult.Value]))
+    5:[! __x4__]
+  }
+  6:return (new Completion("Type" -> CONST_return, "Value" -> promiseCapability.Promise, "Target" -> CONST_empty))
+}
+- id: sec-runtime-semantics-evaluateasyncconcisebody
+- code:
+        1. Let _promiseCapability_ be ! NewPromiseCapability(%Promise%).
+        1. Let _declResult_ be FunctionDeclarationInstantiation(_functionObject_, _argumentsList_).
+        1. If _declResult_ is not an abrupt completion, then
+          1. Perform ! AsyncFunctionStart(_promiseCapability_, |ExpressionBody|).
+        1. Else,
+          1. Perform ! Call(_promiseCapability_.[[Reject]], *undefined*, « _declResult_.[[Value]] »).
+        1. Return Completion { [[Type]]: ~return~, [[Value]]: _promiseCapability_.[[Promise]], [[Target]]: ~empty~ }.

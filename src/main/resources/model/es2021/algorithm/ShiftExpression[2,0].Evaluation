@@ -1,0 +1,7 @@
+def [SYNTAX] ShiftExpression[2,0].Evaluation<ShiftExpression `>>` AdditiveExpression>() = {
+  0:app __x0__ = (EvaluateStringOrNumericBinaryExpression ShiftExpression ">>" AdditiveExpression)
+  0:return [? __x0__]
+}
+- id: sec-signed-right-shift-operator-runtime-semantics-evaluation
+- code:
+          1. Return ? EvaluateStringOrNumericBinaryExpression(|ShiftExpression|, `>>`, |AdditiveExpression|).

@@ -1,12 +1,13 @@
 package kr.ac.kaist.jiset.spec.grammar
 
 import kr.ac.kaist.jiset.spec.grammar.token._
+import kr.ac.kaist.jiset.spec.SpecComponent
 
 // ECMAScript grammar right-hand-sides
 case class Rhs(
   tokens: List[Token],
   condOpt: Option[RhsCond]
-) {
+) extends SpecComponent {
   // get rhs name
   def name: String = tokens.foldLeft("") {
     case (prev, Terminal(term)) => prev + term
@@ -52,19 +53,9 @@ case class Rhs(
   def satisfy(params: Set[String]): Boolean = condOpt.fold(true)(_ match {
     case RhsCond(name, pass) => (params contains name) == pass
   })
-
-  // conversion to string
-  override def toString: String = {
-    val condStr = condOpt.fold("") {
-      case RhsCond(name, true) => s"[+$name] "
-      case RhsCond(name, false) => s"[~$name] "
-    }
-    val tokensStr = tokens.mkString(" ")
-    s"$condStr$tokensStr"
-  }
 }
 
 case class RhsCond(name: String, pass: Boolean) {
-  // conversion to string
-  override def toString: String = s"${if (pass) "" else "!"}p$name"
+  // conversion to parser
+  def getParser: String = s"${if (pass) "" else "!"}p$name"
 }

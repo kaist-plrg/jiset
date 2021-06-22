@@ -344,7 +344,7 @@ trait HeadParsers extends Parsers {
   lazy val name = "[a-zA-Z]+".r
   lazy val field = (
     "." ~> name ^^ { EStr(_) } |
-    "[" ~ "@@" ~> name <~ "]" ^^ { x => ir.Parser.parseExpr("SYMBOL_" + x) }
+    "[" ~ "@@" ~> name <~ "]" ^^ { x => ir.Expr("SYMBOL_" + x) }
   )
   lazy val ref = name ~ rep(field) ^^ {
     case b ~ fs => fs.foldLeft[Ref](RefId(Id(b))) {

@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 
 case class ModelGenerator(spec: ECMAScript, parser: Boolean) {
-  val ECMAScript(grammar, algos, consts, intrinsics, symbols, _, _) = spec
+  val grammar = spec.grammar
 
   // generate model/VERSION in resource directory
   spec.dumpTo(s"$MODEL_DIR/$VERSION")

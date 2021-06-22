@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.ir
 
 // IR Expressions
 sealed trait Expr extends IRNode
+object Expr extends Parser[Expr]
 
 // allocation expression
 sealed trait AllocExpr { var asite: Int = -1 }
@@ -42,6 +43,7 @@ case class EKeys(mobj: Expr) extends Expr with AllocExpr
 case class ENotSupported(msg: String) extends Expr with AllocExpr
 
 sealed trait COp extends IRNode
+object COp extends Parser[COp]
 case object CStrToNum extends COp
 case object CStrToBigInt extends COp
 case object CNumToStr extends COp

@@ -44,7 +44,7 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
       mkdir(GRAMMAR_DIR)
       val (_, spec) = extracted
       val filename = s"$GRAMMAR_DIR/$VERSION.grammar"
-      dumpFile(spec.grammar.toString, filename)
+      dumpFile(spec.grammar.beautified, filename)
     })
 
   // generate basic test

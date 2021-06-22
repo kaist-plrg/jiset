@@ -41,7 +41,8 @@ case object CmdHelp extends CommandObj("help", CmdBase >> Help)
 // extract
 case object CmdExtract extends CommandObj("extract", CmdBase >> Extract) {
   override def display(spec: ECMAScript): Unit = {
-    val ECMAScript(grammar, algos, consts, intrinsics, symbols, aoids, section) = spec
+    val ECMAScript(version, grammar, algos, consts, intrinsics, symbols, aoids, section) = spec
+    println(s"* version: $version")
     println(s"* grammar:")
     println(s"  - lexical production: ${grammar.lexProds.length}")
     println(s"  - non-lexical production: ${grammar.prods.length}")

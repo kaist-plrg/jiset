@@ -1,0 +1,10 @@
+def GetThisValue(V) = {
+  0:app __x0__ = (IsPropertyReference V)
+  0:assert (= __x0__ true)
+  1:app __x1__ = (IsSuperReference V)
+  1:if (= __x1__ true) return V.ThisValue else return V.Base
+}
+- id: sec-getthisvalue
+- code:
+          1. Assert: IsPropertyReference(_V_) is *true*.
+          1. If IsSuperReference(_V_) is *true*, return _V_.[[ThisValue]]; otherwise return _V_.[[Base]].

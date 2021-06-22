@@ -1,0 +1,7 @@
+def [SYNTAX] MemberExpression[6,0].Evaluation<`new` MemberExpression Arguments>() = {
+  0:app __x0__ = (EvaluateNew MemberExpression Arguments)
+  0:return [? __x0__]
+}
+- id: sec-new-operator-runtime-semantics-evaluation
+- code:
+          1. Return ? EvaluateNew(|MemberExpression|, |Arguments|).

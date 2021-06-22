@@ -1,0 +1,7 @@
+def BigInt::signedRightShift(x, y) = {
+  0:app __x0__ = (PRIMITIVE[BigInt].leftShift x (- y))
+  0:return __x0__
+}
+- id: sec-numeric-types-bigint-signedRightShift
+- code:
+            1. Return BigInt::leftShift(_x_, -_y_).

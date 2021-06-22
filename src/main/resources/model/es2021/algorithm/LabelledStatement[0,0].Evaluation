@@ -1,0 +1,9 @@
+def [SYNTAX] LabelledStatement[0,0].Evaluation<LabelIdentifier `:` LabelledItem>() = {
+  0:let newLabelSet = (new [])
+  1:access __x0__ = (this "LabelledEvaluation" newLabelSet)
+  1:return __x0__
+}
+- id: sec-labelled-statements-runtime-semantics-evaluation
+- code:
+        1. Let _newLabelSet_ be a new empty List.
+        1. Return LabelledEvaluation of this |LabelledStatement| with argument _newLabelSet_.

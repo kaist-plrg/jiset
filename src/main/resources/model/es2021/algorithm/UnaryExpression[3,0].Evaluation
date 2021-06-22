@@ -1,0 +1,18 @@
+def [SYNTAX] UnaryExpression[3,0].Evaluation<`typeof` UnaryExpression>() = {
+  0:access __x0__ = (UnaryExpression "Evaluation")
+  0:let val = __x0__
+  1:if (is-instance-of val ReferenceRecord) {
+    2:app __x1__ = (IsUnresolvableReference val)
+    2:if (= __x1__ true) return "undefined" else 3:{}
+  } else 3:{}
+  3:app __x2__ = (GetValue val)
+  3:val = [? __x2__]
+  4:??? "Return a String according to link:{table-typeof-operator-results} ."
+}
+- id: sec-typeof-operator-runtime-semantics-evaluation
+- code:
+          1. Let _val_ be the result of evaluating |UnaryExpression|.
+          1. If _val_ is a Reference Record, then
+            1. If IsUnresolvableReference(_val_) is *true*, return *"undefined"*.
+          1. Set _val_ to ? GetValue(_val_).
+          1. Return a String according to <emu-xref href="#table-typeof-operator-results"></emu-xref>.
