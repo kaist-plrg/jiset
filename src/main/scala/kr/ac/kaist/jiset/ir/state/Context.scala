@@ -9,9 +9,5 @@ case class Context(
   var insts: List[Inst] = Nil,
   val locals: MMap[Id, Value] = MMap()
 ) extends IRNode {
-  def copied: Context = {
-    val newLocals = MMap[Id, Value]()
-    newLocals ++= locals
-    copy(locals = newLocals)
-  }
+  def copied: Context = copy(locals = MMap.from(locals))
 }

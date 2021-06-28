@@ -46,7 +46,7 @@ object AlgoParser {
       }
       else {
         val rawBody = getBody(version, code, secIds, start)
-        heads.map(Algo(_, id, rawBody, code))
+        heads.map(head => Algo(head, id, handleRetCont(rawBody, head), code))
       }
     } catch {
       case e: Throwable =>
@@ -75,7 +75,31 @@ object AlgoParser {
     // get body
     val rawBody = Compiler(version, secIds)(tokens, start)
 
+    // handle special return for continuation
     rawBody
+  }
+
+  // handle special return for continuation
+  def handleRetCont(inst: Inst, head: Head): Inst = head.name match {
+    case "Await" => inst match {
+      case ISeq(list) => ISeq(list.dropRight(1) :+ Inst("app _ = (RET_CONT undefined)"))
+      case _ => inst
+    }
+    case x if retContStartNames contains x => RetContWalker.walk(inst)
+    case _ => inst
+  }
+  private val retContStartNames = Set("GeneratorStart", "AsyncGeneratorStart", "AsyncFunctionStart")
+  private object RetContWalker extends Walker {
+    var inCont = false
+    override def walk(expr: Expr): Expr = expr match {
+      case (_: ECont) =>
+        inCont = true; val res = super.walk(expr); inCont = false; res
+      case _ => super.walk(expr)
+    }
+    override def walk(inst: Inst): Inst = inst match {
+      case IReturn(expr) if inCont => IApp(Id("_"), Expr("RET_CONT"), List(expr))
+      case _ => super.walk(inst)
+    }
   }
 
   // get container id

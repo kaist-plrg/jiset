@@ -15,6 +15,7 @@ object BaseModel {
     JOB_QUEUE -> NamedAddr(JOB_QUEUE),
     PRIMITIVE -> NamedAddr(PRIMITIVE),
     REALM -> NamedAddr(REALM),
+    RET_CONT -> Undef,
     SYMBOL_REGISTRY -> NamedAddr(SYMBOL_REGISTRY),
     "Number" -> Str("Number"),
     "BigInt" -> Str("BigInt"),

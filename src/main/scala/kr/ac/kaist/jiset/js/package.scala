@@ -45,6 +45,7 @@ package object js {
   val REALM = "REALM"
   val RESULT = "RESULT"
   val RETURN = "RETURN"
+  val RET_CONT = "RET_CONT"
   val SCRIPT_BODY = "SCRIPT_BODY"
   val SYMBOL_REGISTRY = "SYMBOL_REGISTRY"
   val TOP_LEVEL = "TOP_LEVEL"

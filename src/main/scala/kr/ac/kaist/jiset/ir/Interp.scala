@@ -36,9 +36,8 @@ private class Interp(
   final def fixpoint: Unit = st.context.insts match {
     case Nil => st.ctxtStack match {
       case Nil =>
-      case ctxt :: rest => {
-        st.context.locals += ctxt.retId -> Absent
-        st.ctxtStack = rest
+      case _ => {
+        doReturn(Undef)
         fixpoint
       }
     }
@@ -61,11 +60,12 @@ private class Interp(
       case _ => println(s"${st.context.name}: ${inst.beautified}")
     }
     inst match {
-      case IIf(cond, thenInst, elseInst) => interp(cond).escaped(st) match {
-        case Bool(true) => st.context.insts ::= thenInst
-        case Bool(false) => st.context.insts ::= elseInst
-        case v => error(s"not a boolean: ${v.beautified}")
-      }
+      case IIf(cond, thenInst, elseInst) =>
+        interp(cond).escaped(st) match {
+          case Bool(true) => st.context.insts ::= thenInst
+          case Bool(false) => st.context.insts ::= elseInst
+          case v => error(s"not a boolean: ${v.beautified}")
+        }
       case IWhile(cond, body) => interp(cond).escaped(st) match {
         case Bool(true) => st.context.insts = body :: inst :: st.context.insts
         case Bool(false) =>
@@ -93,10 +93,11 @@ private class Interp(
           st.context = context
         }
         case Cont(params, body, context, ctxtStack) => {
-          st.context = context
+          val vs = args.map(interp)
+          st.context = context.copied
           st.context.insts = List(body)
-          st.context.locals ++= params zip args.map(interp)
-          st.ctxtStack = ctxtStack
+          st.context.locals ++= params zip vs
+          st.ctxtStack = ctxtStack.map(_.copied)
         }
         case v => error(s"not a function: ${fexpr.beautified} -> ${v.beautified}")
       }
@@ -157,21 +158,7 @@ private class Interp(
         case (addr: Addr) => st.prepend(addr, interp(expr).escaped(st))
         case v => error(s"not an address: ${v.beautified}")
       }
-      case IReturn(expr) => st.ctxtStack match {
-        case Nil => error(s"no remaining calling contexts")
-        case ctxt :: rest =>
-          val value = interp(expr)
-
-          // proper type handle
-          (value, setTypeMap.get(st.context.name)) match {
-            case (addr: Addr, Some(ty)) => st.setType(addr, ty)
-            case _ =>
-          }
-
-          ctxt.locals += st.context.retId -> value.wrapCompletion(st)
-          st.context = ctxt
-          st.ctxtStack = rest
-      }
+      case IReturn(expr) => doReturn(interp(expr))
       case IThrow(name) => ???
       case IAssert(expr) => interp(expr).escaped(st) match {
         case Bool(true) =>
@@ -183,13 +170,30 @@ private class Interp(
       }
       case IWithCont(id, params, bodyInst) => {
         val State(context, ctxtStack, _, _) = st
-        context.locals += id -> Cont(params, ISeq(context.insts), context, ctxtStack)
         st.context = context.copied
         st.context.insts = List(bodyInst)
+        st.context.locals += id -> Cont(params, ISeq(context.insts), context, ctxtStack)
+        st.ctxtStack = ctxtStack.map(_.copied)
       }
       case ISeq(insts) => st.context.insts = insts ++ st.context.insts
     }
     if (instCount % 100000 == 0) GC.gc(st)
+  }
+
+  // return helper
+  def doReturn(value: Value): Unit = st.ctxtStack match {
+    case Nil => error(s"no remaining calling contexts")
+    case ctxt :: rest => {
+      // proper type handle
+      (value, setTypeMap.get(st.context.name)) match {
+        case (addr: Addr, Some(ty)) => st.setType(addr, ty)
+        case _ =>
+      }
+
+      ctxt.locals += st.context.retId -> value.wrapCompletion(st)
+      st.context = ctxt
+      st.ctxtStack = rest
+    }
   }
 
   // expresssions
@@ -223,7 +227,8 @@ private class Interp(
     case ERef(ref) => st(interp(ref))
     case EClo(params, captured, body) =>
       Clo(st.context.name, params, MMap.from(captured.map(x => x -> st(x))), body)
-    case ECont(params, body) => Cont(params, body, st.context.copied, st.ctxtStack)
+    case ECont(params, body) =>
+      Cont(params, body, st.context.copied, st.ctxtStack.map(_.copied))
     case EUOp(uop, expr) => {
       val x = interp(expr).escaped(st)
       interp(uop, x)

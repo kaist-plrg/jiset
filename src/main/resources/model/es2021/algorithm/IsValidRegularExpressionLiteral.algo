@@ -12,7 +12,7 @@ def IsValidRegularExpressionLiteral(literal) = {
   } else 8:{}
   7:app __x3__ = (ParsePattern patternText u)
   7:let parseResult = __x3__
-  8:??? "If id:{parseResult} is a Parse Node , return value:{true} ; else return value:{false} ."
+  8:if (= (typeof parseResult) "AST") return true else return false
 }
 - id: "sec-isvalidregularexpressionliteral"
 - code:

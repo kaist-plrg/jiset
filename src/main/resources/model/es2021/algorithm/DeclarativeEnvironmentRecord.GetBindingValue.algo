@@ -1,5 +1,5 @@
 def [METHOD] DeclarativeEnvironmentRecord.GetBindingValue(envRec)(N, S) = {
-  1:??? "If the binding for id:{N} in id:{envRec} is an uninitialized binding , throw a value:{ReferenceError} exception ."
+  1:if (! envRec.SubMap[N].initialized) throw ReferenceError else {}
   2:return envRec.SubMap[N].BoundValue
 }
 - id: "sec-declarative-environment-records-getbindingvalue-n-s"

@@ -337,10 +337,10 @@ class Compiler private (
   )
 
   // resume statements
-  lazy val resumeStmt: P[Inst] = basicResumeStmt ||| assertResumeStmt ||| ctxtResumeStmt
+  lazy val resumeStmt: P[Inst] = basicResumeStmt ||| ctxtResumeStmt
   lazy val basicResumeStmt: P[Inst] = (
     ("Resume the suspended evaluation of" ~> id) ~
-    (opt("using" ~> expr <~ "as the result of the operation that suspended it .") ^^ { _.toList }) ~
+    ((opt("using" ~> expr <~ "as the result of the operation that suspended it") ^^ { _.toList }) <~ ".") ~
     (opt("Let" ~> id <~ "be the" ~ ("value" | "completion record") ~ "returned by the resumed computation .") ^^ { _.toList })
   ) ^^ {
       case cid ~ ies ~ rs => {
@@ -353,11 +353,6 @@ class Compiler private (
         }"""))
       }
     }
-  lazy val assertResumeStmt: P[Inst] = (
-    "Assert: If we return here, the" ~>
-    ("async" ^^^ "asyncContext" ||| opt("async") ~ "generator" ^^^ "genContext") <~
-    "either threw an exception or performed either an implicit or explicit return." ~ rest
-  ) ^^ { case x => Inst(s"$retcont = (pop $x.ReturnCont 0i)") }
   lazy val ctxtResumeStmt: P[Inst] = (
     "Resume the context that is now on the top of the execution context stack as the running execution context"
   ) ^^^ { Inst(s"$context = $executionStack[(- $executionStack.length 1i)]") }
@@ -381,8 +376,16 @@ class Compiler private (
   )
 
   // assert statements
-  lazy val assertStmt: P[Inst] = ("assert:" | "note:") ~> cond <~ guard("." ~ next) ^^ { case i ~ e => ISeq(i :+ IAssert(e)) } |
+  lazy val assertStmt: P[Inst] = (
+    assertResumeStmt |
+    ("assert:" | "note:") ~> cond <~ guard("." ~ next) ^^ { case i ~ e => ISeq(i :+ IAssert(e)) } |
     ("assert:" | "note:") ~> rest ^^^ emptyInst
+  )
+  lazy val assertResumeStmt: P[Inst] = (
+    "Assert: If we return here, the" ~>
+    ("async function" ^^^ "asyncContext" ||| opt("async") ~ "generator" ^^^ "genContext") <~
+    "either threw an exception or performed" ~ opt("either") ~ "an implicit or explicit return" ~ rest
+  ) ^^ { case x => Inst(s"$retcont = (pop $x.ReturnCont 0i)") }
 
   // optional statements
   lazy val optionalStmt: P[Inst] = ("optionally" ~ opt(",")) ~> stmt ^^ {
@@ -1178,6 +1181,7 @@ class Compiler private (
     completionCond |||
     emptyCond |||
     duplicateCond |||
+    astCond |||
     // TODO separate normal condition and early error condition
     earlyErrorCond
   )
@@ -1384,6 +1388,11 @@ class Compiler private (
     (ref <~ "does not have an own property with key") ~ containsField <~ opt(containsPost) ^^ {
       case (i ~ r) ~ f => pair(i, isEq(ERef(RefProp(RefProp(r, EStr("SubMap")), f)), EAbsent))
     }
+
+  // parse node conditions
+  val astCond: P[I[Expr]] = (
+    (expr <~ "is a Parse Node")
+  ) ^^ { case i ~ e => pair(i, isEq(ETypeOf(e), EStr("AST"))) }
 
   // contains conditions
   val containsCond: P[I[Expr]] = (

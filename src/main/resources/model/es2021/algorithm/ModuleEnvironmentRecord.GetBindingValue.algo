@@ -1,7 +1,7 @@
 def [METHOD] ModuleEnvironmentRecord.GetBindingValue(envRec)(N, S) = {
   0:assert (= S true)
   2:??? "If the binding for id:{N} is an indirect binding , then in:{} out:{}"
-  7:??? "If the binding for id:{N} in id:{envRec} is an uninitialized binding , throw a value:{ReferenceError} exception ."
+  7:if (! envRec.SubMap[N].initialized) throw ReferenceError else {}
   8:return envRec.SubMap[N].BoundValue
 }
 - id: "sec-module-environment-records-getbindingvalue-n-s"

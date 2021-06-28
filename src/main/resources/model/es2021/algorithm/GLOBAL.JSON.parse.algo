@@ -5,6 +5,7 @@ def [BUILTIN] JSON.parse(text, reviver?) = {
   2:let scriptString = (+ (+ "(" jsonString) ");")
   3:app __x1__ = (StringToCodePoints scriptString)
   3:let script = [! __x1__]
+  4:assert (= (typeof script) "AST")
   5:??? "Let id:{completion} be the result of evaluating id:{script} . The extended PropertyDefinitionEvaluation semantics defined in link:{sec-__proto__-property-names-in-object-initializers} must not be used during the evaluation ."
   6:let unfiltered = completion.Value
   13:app __x2__ = (IsCallable reviver)

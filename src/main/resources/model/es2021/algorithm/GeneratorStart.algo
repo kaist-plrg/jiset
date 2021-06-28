@@ -3,20 +3,26 @@ def GeneratorStart(generator, generatorBody) = {
   1:let genContext = CONTEXT
   2:genContext.Generator = generator
   3:genContext.ResumeCont = () [=>] {
-    4:??? "If id:{generatorBody} is a Parse Node , then in:{} out:{}"
-    6:??? "Else , in:{} out:{}"
+    6:if (= (typeof generatorBody) "AST") {
+      5:access __x0__ = (generatorBody "Evaluation")
+      5:let result = __x0__
+    } else {
+      8:app __x1__ = (generatorBody)
+      8:let result = __x1__
+    }
+    9:RET_CONT = (pop genContext.ReturnCont 0i)
     10:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) {
-      let __x0__ = (- EXECUTION_STACK.length 1i)
-      (pop EXECUTION_STACK __x0__)
+      let __x2__ = (- EXECUTION_STACK.length 1i)
+      (pop EXECUTION_STACK __x2__)
     } else {}
     10:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
     11:generator.GeneratorState = CONST_completed
     15:if (= result.Type CONST_normal) let resultValue = undefined else if (= result.Type CONST_return) let resultValue = result.Value else {
       16:assert (= result.Type CONST_throw)
-      17:return result
+      app _ = (RET_CONT result)
     }
-    18:app __x1__ = (CreateIterResultObject resultValue true)
-    18:return __x1__
+    18:app __x3__ = (CreateIterResultObject resultValue true)
+    app _ = (RET_CONT __x3__)
   }
   19:generator.GeneratorContext = genContext
   20:generator.GeneratorState = CONST_suspendedStart

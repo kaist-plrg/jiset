@@ -37,6 +37,7 @@ class Beautifier(
     case node: BOp => BOpApp(app, node)
     case node: COp => COpApp(app, node)
     case node: State => StateApp(app, node)
+    case node: Context => ContextApp(app, node)
     case node: Heap => HeapApp(app, node)
     case node: Obj => ObjApp(app, node)
     case node: Value => ValueApp(app, node)
@@ -218,22 +219,28 @@ class Beautifier(
   // states
   implicit lazy val StateApp: App[State] = (app, st) => {
     val State(context, ctxtStack, globals, heap) = st
+    app >> "context: " >> context >> LINE_SEP
+    implicit val c = ListApp[String]("[", ", ", "]")
+    app >> "context-stack: " >> ctxtStack.map(_.name) >> LINE_SEP
+    app >> "globals: "
+    app.listWrap(globals, detail) >> LINE_SEP
+    app >> "heap: " >> heap
+  }
+
+  // contexts
+  implicit lazy val ContextApp: App[Context] = (app, context) => app.wrap {
     val Context(retId, name, insts, locals) = context
-    app :> "ctxt: " >> name >> LINE_SEP
+    app :> "name: " >> name >> LINE_SEP
     app :> "return: " >> retId >> LINE_SEP
     app :> "insts: "
-    if (detail) {
-      app.listWrap(insts) >> LINE_SEP
-      app :> "global-vars: "
-      app.listWrap(globals) >> LINE_SEP
-    } else {
+    if (detail) app.listWrap(insts) >> LINE_SEP
+    else {
       val newInsts = (insts.slice(0, VISIBLE_LENGTH) ++
         (if (insts.length > VISIBLE_LENGTH) Some("...") else None))
       app.listWrap(insts, true) >> LINE_SEP
     }
     app :> "local-vars: "
-    app.listWrap(locals) >> LINE_SEP
-    app :> "heap: " >> heap
+    app.listWrap(locals)
   }
 
   // heaps
