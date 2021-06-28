@@ -1,9 +1,0 @@
-def [SYNTAX] ClassElement[0,0].ClassElementKind<MethodDefinition>() = {
-  0:access __x0__ = (MethodDefinition "PropName")
-  0:if (= __x0__ "constructor") return CONST_ConstructorMethod else 33:{}
-  1:return CONST_NonConstructorMethod
-}
-- id: sec-static-semantics-classelementkind
-- code:
-        1. If PropName of |MethodDefinition| is *"constructor"*, return ~ConstructorMethod~.
-        1. Return ~NonConstructorMethod~.

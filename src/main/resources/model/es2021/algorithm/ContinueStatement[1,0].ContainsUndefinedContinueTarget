@@ -1,9 +1,0 @@
-def [SYNTAX] ContinueStatement[1,0].ContainsUndefinedContinueTarget<`continue` LabelIdentifier `;`>(iterationSet, labelSet) = {
-  0:access __x0__ = (LabelIdentifier "StringValue")
-  0:if (! (contains iterationSet __x0__)) return true else 1:{}
-  1:return false
-}
-- id: sec-static-semantics-containsundefinedcontinuetarget
-- code:
-        1. If the StringValue of |LabelIdentifier| is not an element of _iterationSet_, return *true*.
-        1. Return *false*.

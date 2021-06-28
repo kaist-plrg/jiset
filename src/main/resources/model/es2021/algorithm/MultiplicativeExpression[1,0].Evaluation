@@ -1,9 +1,0 @@
-def [SYNTAX] MultiplicativeExpression[1,0].Evaluation<MultiplicativeExpression MultiplicativeOperator ExponentiationExpression>() = {
-  0:let opText = (get-syntax MultiplicativeOperator)
-  1:app __x0__ = (EvaluateStringOrNumericBinaryExpression MultiplicativeExpression opText ExponentiationExpression)
-  1:return [? __x0__]
-}
-- id: sec-multiplicative-operators-runtime-semantics-evaluation
-- code:
-        1. Let _opText_ be the source text matched by |MultiplicativeOperator|.
-        1. Return ? EvaluateStringOrNumericBinaryExpression(|MultiplicativeExpression|, _opText_, |ExponentiationExpression|).

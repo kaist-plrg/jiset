@@ -1,9 +1,0 @@
-def [BUILTIN] Map.prototype.values() = {
-  0:let M = this
-  1:app __x0__ = (CreateMapIterator M CONST_value)
-  1:return [? __x0__]
-}
-- id: sec-map.prototype.values
-- code:
-          1. Let _M_ be the *this* value.
-          1. Return ? CreateMapIterator(_M_, ~value~).

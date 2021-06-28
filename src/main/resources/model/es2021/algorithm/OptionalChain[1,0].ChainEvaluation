@@ -1,9 +1,0 @@
-def [SYNTAX] OptionalChain[1,0].ChainEvaluation<`?.` `[` Expression `]`>(baseValue, baseReference) = {
-  0:if true let strict = true else let strict = false
-  1:app __x0__ = (EvaluatePropertyAccessWithExpressionKey baseValue Expression strict)
-  1:return [? __x0__]
-}
-- id: sec-optional-chaining-chain-evaluation
-- code:
-          1. If the code matched by this |OptionalChain| is strict mode code, let _strict_ be *true*; else let _strict_ be *false*.
-          1. Return ? EvaluatePropertyAccessWithExpressionKey(_baseValue_, |Expression|, _strict_).

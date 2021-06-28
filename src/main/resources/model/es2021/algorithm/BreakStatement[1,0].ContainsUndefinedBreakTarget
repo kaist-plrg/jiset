@@ -1,9 +1,0 @@
-def [SYNTAX] BreakStatement[1,0].ContainsUndefinedBreakTarget<`break` LabelIdentifier `;`>(labelSet) = {
-  0:access __x0__ = (LabelIdentifier "StringValue")
-  0:if (! (contains labelSet __x0__)) return true else 1:{}
-  1:return false
-}
-- id: sec-static-semantics-containsundefinedbreaktarget
-- code:
-        1. If the StringValue of |LabelIdentifier| is not an element of _labelSet_, return *true*.
-        1. Return *false*.

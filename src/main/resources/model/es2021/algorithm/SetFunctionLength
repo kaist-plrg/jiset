@@ -1,8 +1,0 @@
-def SetFunctionLength(F, length) = {
-  1:app __x0__ = (DefinePropertyOrThrow F "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
-  1:return [! __x0__]
-}
-- id: sec-setfunctionlength
-- code:
-        1. Assert: _F_ is an extensible object that does not have a *"length"* own property.
-        1. Return ! DefinePropertyOrThrow(_F_, *"length"*, PropertyDescriptor { [[Value]]: 𝔽(_length_), [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }).

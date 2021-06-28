@@ -1,9 +1,0 @@
-def DayFromYear(y) = {
-  0:app __x0__ = (floor (/ (- y 1969i) 4i))
-  0:app __x1__ = (floor (/ (- y 1901i) 100i))
-  0:app __x2__ = (floor (/ (- y 1601i) 400i))
-  0:return (+ (- (+ (* 365i (- y 1970i)) __x0__) __x1__) __x2__)
-}
-- id: eqn-DaysFromYear
-- code:
-DayFromYear(_y_) = 𝔽(365 × (ℝ(_y_) - 1970) + floor((ℝ(_y_) - 1969) / 4) - floor((ℝ(_y_) - 1901) / 100) + floor((ℝ(_y_) - 1601) / 400))

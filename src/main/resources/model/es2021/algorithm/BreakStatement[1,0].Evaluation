@@ -1,9 +1,0 @@
-def [SYNTAX] BreakStatement[1,0].Evaluation<`break` LabelIdentifier `;`>() = {
-  0:access __x0__ = (LabelIdentifier "StringValue")
-  0:let label = __x0__
-  1:return (new Completion("Type" -> CONST_break, "Value" -> CONST_empty, "Target" -> label))
-}
-- id: sec-break-statement-runtime-semantics-evaluation
-- code:
-        1. Let _label_ be the StringValue of |LabelIdentifier|.
-        1. Return Completion { [[Type]]: ~break~, [[Value]]: ~empty~, [[Target]]: _label_ }.

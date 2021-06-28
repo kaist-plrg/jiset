@@ -1,9 +1,0 @@
-def [BUILTIN] Promise.prototype.catch(onRejected) = {
-  0:let promise = this
-  1:app __x0__ = (Invoke promise "then" (new [undefined, onRejected]))
-  1:return [? __x0__]
-}
-- id: sec-promise.prototype.catch
-- code:
-          1. Let _promise_ be the *this* value.
-          1. Return ? Invoke(_promise_, *"then"*, « *undefined*, _onRejected_ »).
