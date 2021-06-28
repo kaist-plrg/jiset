@@ -2,9 +2,28 @@ def CreateMapIterator(map, kind) = {
   0:assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))
   1:app __x0__ = (RequireInternalSlot map "MapData")
   1:[? __x0__]
-  2:??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{map} and id:{kind} and performs the following steps when called : in:{} out:{}"
-  19:app __x1__ = (CreateIteratorFromClosure closure "%MapIteratorPrototype%" INTRINSIC_MapIteratorPrototype)
-  19:return [! __x1__]
+  2:let closure = ()[map, kind] => {
+    3:let entries = map.MapData
+    4:let index = 0i
+    5:let numEntries = entries.length
+    6:while (< index numEntries) {
+      7:??? "Let id:{e} be the Record { [ [ Key ] ] , [ [ Value ] ] } that is the value of id:{entries} [ id:{index} ] ."
+      8:index = (+ index 1i)
+      9:if (! (= e.Key CONST_empty)) {
+        12:if (= kind CONST_key) let result = e.Key else if (= kind CONST_value) let result = e.Value else {
+          13:assert (= kind CONST_keyPLUSvalue)
+          14:app __x1__ = (CreateArrayFromList (new [e.Key, e.Value]))
+          14:let result = [! __x1__]
+        }
+        15:app __x2__ = (Yield result)
+        15:[? __x2__]
+        17:numEntries = entries.length
+      } else 16:{}
+    }
+    18:return undefined
+  }
+  19:app __x3__ = (CreateIteratorFromClosure closure "%MapIteratorPrototype%" INTRINSIC_MapIteratorPrototype)
+  19:return [! __x3__]
 }
 - id: "sec-createmapiterator"
 - code:

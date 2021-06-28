@@ -1,6 +1,16 @@
 {
-  ??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{list} and performs the following steps when called : in:{} out:{}"
-  app __x0__ = (CreateIteratorFromClosure closure CONST_empty INTRINSIC_IteratorPrototype)
-  let iterator = [! __x0__]
+  let closure = ()[list] => {
+    let __x0__ = list
+    let __x1__ = 0i
+    while (< __x1__ __x0__.length) {
+      let E = __x0__[__x1__]
+      app __x2__ = (Yield E)
+      [? __x2__]
+      __x1__ = (+ __x1__ 1i)
+    }
+    return undefined
+  }
+  app __x3__ = (CreateIteratorFromClosure closure CONST_empty INTRINSIC_IteratorPrototype)
+  let iterator = [! __x3__]
   return (new Record("Iterator" -> iterator, "NextMethod" -> INTRINSIC_GeneratorFunction_prototype_prototype_next, "Done" -> false))
 }

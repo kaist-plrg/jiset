@@ -85,8 +85,10 @@ private class Interp(
           st.ctxtStack ::= st.context
           st.context = context
         }
-        case Clo(name, locals, body) => {
-          val context = Context(id, name, List(body), locals)
+        case Clo(ctxtName, params, locals, body) => {
+          val vs = args.map(interp)
+          val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
+          val context = Context(id, ctxtName + ":closure", List(body), locals)
           st.ctxtStack ::= st.context
           st.context = context
         }
@@ -219,7 +221,8 @@ private class Interp(
       case v => error(s"not an address: ${v.beautified}")
     }
     case ERef(ref) => st(interp(ref))
-    case EClo(name, params, body) => Clo(name, MMap.from(params.map(x => x -> st(x))), body)
+    case EClo(params, captured, body) =>
+      Clo(st.context.name, params, MMap.from(captured.map(x => x -> st(x))), body)
     case ECont(params, body) => Cont(params, body, st.context.copied, st.ctxtStack)
     case EUOp(uop, expr) => {
       val x = interp(expr).escaped(st)
@@ -248,7 +251,7 @@ private class Interp(
       case Null => "Null"
       case Absent => "Absent"
       case Func(_) => "Function"
-      case Clo(_, _, _) => "Closure"
+      case Clo(_, _, _, _) => "Closure"
       case Cont(_, _, _, _) => "Continuation"
       case ASTVal(_) => "AST"
       case ASTMethod(_, _) => "ASTMethod"

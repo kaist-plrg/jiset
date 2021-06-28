@@ -136,6 +136,7 @@ class Diff {
       case (ESymbol(ld), ESymbol(rd)) => compare(ld, rd)
       case (EPop(ll, li), EPop(rl, ri)) => compare(ll, rl) && compare(li, ri)
       case (ERef(lr), ERef(rr)) => compare(lr, rr)
+      case (EClo(lp, lc, lb), EClo(rp, rc, rb)) => compare(lp, rp) && compare(lc, rc) && compare(lb, rb)
       case (ECont(lp, lb), ECont(rp, rb)) => compare(lp, rp) && compare(lb, rb)
       case (EUOp(lu, le), EUOp(ru, re)) => lu == ru && compare(le, re)
       case (EBOp(lb, ll, lr), EBOp(rb, rl, rr)) =>

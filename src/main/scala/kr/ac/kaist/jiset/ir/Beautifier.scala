@@ -126,10 +126,10 @@ class Beautifier(
       case ESymbol(desc) => app >> "(new '" >> desc >> ")"
       case EPop(list, idx) => app >> "(pop " >> list >> " " >> idx >> ")"
       case ERef(ref) => app >> ref
-      case EClo(name, params, body) =>
+      case EClo(params, captured, body) =>
         implicit val d = DetailInstApp
-        implicit val l = ListApp[Id]("(", ", ", ")")
-        app >> name >> params >> " => " >> body
+        implicit val p = ListApp[Id](sep = ", ")
+        app >> "(" >> params >> ")[" >> captured >> "] => " >> body
       case ECont(params, body) =>
         implicit val d = DetailInstApp
         implicit val l = ListApp[Id]("(", ", ", ")")
@@ -299,9 +299,10 @@ class Beautifier(
 
   // closures
   implicit lazy val CloApp: App[Clo] = (app, clo) => {
-    implicit val l = ListApp[(Id, Value)]("(", ", ", ")")
-    val Clo(name, locals, body) = clo
-    app >> name >> locals.toList >> " => " >> body
+    implicit val p = ListApp[Id]("(", ", ", ")")
+    implicit val l = ListApp[(Id, Value)]("[", ", ", "]")
+    val Clo(_, params, locals, body) = clo
+    app >> clo.name >> params >> locals.toList >> " => " >> body
   }
 
   // continuations

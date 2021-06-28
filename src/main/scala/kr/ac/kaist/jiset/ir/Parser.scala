@@ -71,7 +71,7 @@ trait Parsers extends BasicParsers {
     "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
     "(" ~> ("typeof" ~> expr) <~ ")" ^^ { case e => ETypeOf(e) } |
     "(" ~> ("is-completion" ~> expr) <~ ")" ^^ { case e => EIsCompletion(e) } |
-    ident ~ ("(" ~> repsep(id, ",") <~ ")") ~ ("=>" ~> inst) ^^ { case x ~ ps ~ b => EClo(x, ps, b) } |
+    ("(" ~> repsep(id, ",") <~ ")") ~ ("[" ~> repsep(id, ",") <~ "]") ~ ("=>" ~> inst) ^^ { case ps ~ cs ~ b => EClo(ps, cs, b) } |
     ("(" ~> repsep(id, ",") <~ ")") ~ ("[=>]" ~> inst) ^^ { case ps ~ b => ECont(ps, b) } |
     ("(" ~> "new" ~> ty) ~ ("(" ~> repsep(prop, ",") <~ ")" <~ ")") ^^ {
       case t ~ props => EMap(t, props)

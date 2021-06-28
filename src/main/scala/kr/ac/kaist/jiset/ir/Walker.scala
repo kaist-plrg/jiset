@@ -90,7 +90,8 @@ trait Walker {
     case ESymbol(desc) => ESymbol(walk(desc))
     case EPop(list, idx) => EPop(walk(list), walk(idx))
     case ERef(ref) => ERef(walk(ref))
-    case EClo(name, params, body) => EClo(walk(name), walkList[Id](params, walk), walk(body))
+    case EClo(params, captured, body) =>
+      EClo(walkList[Id](params, walk), walkList[Id](captured, walk), walk(body))
     case ECont(params, body) => ECont(walkList[Id](params, walk), walk(body))
     case EUOp(uop, expr) => EUOp(walk(uop), walk(expr))
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
@@ -190,8 +191,8 @@ trait Walker {
 
   // closure
   def walk(clo: Clo): Clo = clo match {
-    case Clo(name, locals, body) =>
-      Clo(walk(name), walkMap[Id, Value](locals, walk, walk), walk(body))
+    case Clo(ctxtName, params, locals, body) =>
+      Clo(ctxtName, walkList[Id](params, walk), walkMap[Id, Value](locals, walk, walk), walk(body))
   }
 
   // continuation

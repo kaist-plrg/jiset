@@ -3,9 +3,29 @@ def [BUILTIN] String.prototype[SYMBOL_iterator]() = {
   0:let O = [? __x0__]
   1:app __x1__ = (ToString O)
   1:let s = [? __x1__]
-  2:??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{s} and performs the following steps when called : in:{} out:{}"
-  12:app __x2__ = (CreateIteratorFromClosure closure "%StringIteratorPrototype%" INTRINSIC_StringIteratorPrototype)
-  12:return [! __x2__]
+  2:let closure = ()[s] => {
+    3:let position = 0i
+    4:let len = s.length
+    5:while (< position len) {
+      6:app __x2__ = (CodePointAt s position)
+      6:let cp = [! __x2__]
+      7:let nextIndex = (+ position cp.CodeUnitCount)
+      8:let __x3__ = ""
+      8:let __x4__ = position
+      8:while (< __x4__ (+ nextIndex 1i)) {
+        access __x5__ = (s __x4__)
+        __x3__ = (+ __x3__ __x5__)
+        __x4__ = (+ __x4__ 1i)
+      }
+      8:let resultString = __x3__
+      9:position = nextIndex
+      10:app __x6__ = (Yield resultString)
+      10:[? __x6__]
+    }
+    11:return undefined
+  }
+  12:app __x7__ = (CreateIteratorFromClosure closure "%StringIteratorPrototype%" INTRINSIC_StringIteratorPrototype)
+  12:return [! __x7__]
 }
 - id: "sec-string.prototype-@@iterator"
 - code:

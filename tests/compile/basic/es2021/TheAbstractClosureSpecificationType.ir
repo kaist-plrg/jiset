@@ -1,6 +1,6 @@
 {
   let addend = 41i
-  ??? "Let id:{closure} be a new Abstract Closure with parameters ( id:{x} ) that captures id:{addend} and performs the following steps when called : in:{} out:{}"
+  let closure = (x)[addend] => return (+ x addend)
   app __x0__ = (closure 1i)
   let val = __x0__
   assert (= val 42i)

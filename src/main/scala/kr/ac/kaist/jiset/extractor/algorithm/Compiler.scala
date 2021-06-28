@@ -616,6 +616,7 @@ class Compiler private (
     numericExpr |||
     operatorExpr |||
     primitiveExpr |||
+    closureExpr |||
     starExpr
   ))
 
@@ -1006,6 +1007,12 @@ class Compiler private (
     refBase ^^ { case x => pair(Nil, toERef(x)) } |||
     callExpr
   )
+
+  lazy val closureExpr: P[I[Expr]] = (
+    ("a new abstract closure with" ~> ("no parameters" ^^^ Nil | "parameters (" ~> repsep(id, ",") <~ ")")) ~
+    ("that captures" ~> repsep(id, sep("and")) <~ "and performs the following steps when called:") ~
+    stmt
+  ) ^^ { case ps ~ cs ~ b => pair(Nil, EClo(ps.map(IRId), cs.map(IRId), b)) }
 
   lazy val dateConst: P[Int] = (
     "msPerDay" ^^^ msPerDay |

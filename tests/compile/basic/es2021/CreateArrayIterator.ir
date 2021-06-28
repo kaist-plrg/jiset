@@ -1,7 +1,39 @@
 {
   assert (= (typeof array) Object)
   assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))
-  ??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{kind} and id:{array} and performs the following steps when called : in:{} out:{}"
-  app __x0__ = (CreateIteratorFromClosure closure "%ArrayIteratorPrototype%" INTRINSIC_ArrayIteratorPrototype)
-  return [! __x0__]
+  let closure = ()[kind, array] => {
+    let index = 0i
+    while true {
+      if (! (= array.TypedArrayName absent)) {
+        app __x0__ = (IsDetachedBuffer array.ViewedArrayBuffer)
+        if (= __x0__ true) throw TypeError else {}
+        let len = array.ArrayLength
+      } else {
+        app __x1__ = (LengthOfArrayLike array)
+        let len = [? __x1__]
+      }
+      if (! (< index len)) return undefined else {}
+      if (= kind CONST_key) {
+        app __x2__ = (Yield index)
+        [? __x2__]
+      } else {
+        app __x3__ = (ToString index)
+        let elementKey = [! __x3__]
+        app __x4__ = (Get array elementKey)
+        let elementValue = [? __x4__]
+        if (= kind CONST_value) {
+          app __x5__ = (Yield elementValue)
+          [? __x5__]
+        } else {
+          assert (= kind CONST_keyPLUSvalue)
+          app __x6__ = (CreateArrayFromList (new [index, elementValue]))
+          app __x7__ = (Yield [! __x6__])
+          [? __x7__]
+        }
+      }
+      index = (+ index 1i)
+    }
+  }
+  app __x8__ = (CreateIteratorFromClosure closure "%ArrayIteratorPrototype%" INTRINSIC_ArrayIteratorPrototype)
+  return [! __x8__]
 }

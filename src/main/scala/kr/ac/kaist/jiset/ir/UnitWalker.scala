@@ -104,9 +104,9 @@ trait UnitWalker {
       walk(list); walk(idx)
     case ERef(ref) =>
       walk(ref)
-    case EClo(name, params, body) =>
-      walk(name)
+    case EClo(params, captured, body) =>
       walkList[Id](params, walk);
+      walkList[Id](captured, walk);
       walk(body)
     case ECont(params, body) =>
       walkList[Id](params, walk);
@@ -226,8 +226,9 @@ trait UnitWalker {
 
   // closure
   def walk(clo: Clo): Unit = clo match {
-    case Clo(name, locals, body) =>
-      walk(name)
+    case Clo(ctxtName, params, locals, body) =>
+      walk(ctxtName)
+      walkList[Id](params, walk)
       walkMap[Id, Value](locals, walk, walk)
       walk(body)
   }

@@ -1,9 +1,41 @@
 def CreateArrayIterator(array, kind) = {
   0:assert (= (typeof array) Object)
   1:assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))
-  2:??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{kind} and id:{array} and performs the following steps when called : in:{} out:{}"
-  20:app __x0__ = (CreateIteratorFromClosure closure "%ArrayIteratorPrototype%" INTRINSIC_ArrayIteratorPrototype)
-  20:return [! __x0__]
+  2:let closure = ()[kind, array] => {
+    3:let index = 0i
+    4:while true {
+      8:if (! (= array.TypedArrayName absent)) {
+        6:app __x0__ = (IsDetachedBuffer array.ViewedArrayBuffer)
+        6:if (= __x0__ true) throw TypeError else 25:{}
+        7:let len = array.ArrayLength
+      } else {
+        9:app __x1__ = (LengthOfArrayLike array)
+        9:let len = [? __x1__]
+      }
+      10:if (! (< index len)) return undefined else 25:{}
+      12:if (= kind CONST_key) {
+        app __x2__ = (Yield index)
+        [? __x2__]
+      } else {
+        13:app __x3__ = (ToString index)
+        13:let elementKey = [! __x3__]
+        14:app __x4__ = (Get array elementKey)
+        14:let elementValue = [? __x4__]
+        16:if (= kind CONST_value) {
+          app __x5__ = (Yield elementValue)
+          [? __x5__]
+        } else {
+          17:assert (= kind CONST_keyPLUSvalue)
+          18:app __x6__ = (CreateArrayFromList (new [index, elementValue]))
+          18:app __x7__ = (Yield [! __x6__])
+          18:[? __x7__]
+        }
+      }
+      19:index = (+ index 1i)
+    }
+  }
+  20:app __x8__ = (CreateIteratorFromClosure closure "%ArrayIteratorPrototype%" INTRINSIC_ArrayIteratorPrototype)
+  20:return [! __x8__]
 }
 - id: "sec-createarrayiterator"
 - code:

@@ -25,7 +25,7 @@ case class EList(exprs: List[Expr]) extends Expr with AllocExpr
 case class ESymbol(desc: Expr) extends Expr with AllocExpr
 case class EPop(list: Expr, idx: Expr) extends Expr
 case class ERef(ref: Ref) extends Expr
-case class EClo(name: String, captured: List[Id], body: Inst) extends Expr
+case class EClo(params: List[Id], captured: List[Id], body: Inst) extends Expr
 case class ECont(params: List[Id], body: Inst) extends Expr
 case class EUOp(uop: UOp, expr: Expr) extends Expr
 case class EBOp(bop: BOp, left: Expr, right: Expr) extends Expr

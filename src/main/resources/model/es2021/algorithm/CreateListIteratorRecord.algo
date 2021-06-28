@@ -1,7 +1,17 @@
 def CreateListIteratorRecord(list) = {
-  0:??? "Let id:{closure} be a new Abstract Closure with no parameters that captures id:{list} and performs the following steps when called : in:{} out:{}"
-  4:app __x0__ = (CreateIteratorFromClosure closure CONST_empty INTRINSIC_IteratorPrototype)
-  4:let iterator = [! __x0__]
+  0:let closure = ()[list] => {
+    1:let __x0__ = list
+    1:let __x1__ = 0i
+    1:while (< __x1__ __x0__.length) {
+      let E = __x0__[__x1__]
+      2:app __x2__ = (Yield E)
+      2:[? __x2__]
+      __x1__ = (+ __x1__ 1i)
+    }
+    3:return undefined
+  }
+  4:app __x3__ = (CreateIteratorFromClosure closure CONST_empty INTRINSIC_IteratorPrototype)
+  4:let iterator = [! __x3__]
   5:return (new Record("Iterator" -> iterator, "NextMethod" -> INTRINSIC_GeneratorFunction_prototype_prototype_next, "Done" -> false))
 }
 - id: "sec-createlistiteratorRecord"

@@ -69,7 +69,15 @@ case class DynamicAddr(long: Long) extends Addr
 case class Func(algo: Algo) extends Value
 
 // IR Closures
-case class Clo(name: String, locals: MMap[Id, Value], body: Inst) extends Value
+case class Clo(
+  ctxtName: String,
+  params: List[Id],
+  locals: MMap[Id, Value],
+  body: Inst
+) extends Value {
+  // get name
+  def name: String = ctxtName + ":closure"
+}
 
 // IR Continuations
 case class Cont(params: List[Id], body: Inst, context: Context, ctxtStack: List[Context]) extends Value
