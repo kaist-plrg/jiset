@@ -9,6 +9,6 @@
     (pop EXECUTION_STACK __x1__)
   } else {}
   CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : in:{} out:{}"
+  genContext.ResumeCont = (resumptionValue) [=>] return resumptionValue
   return iterNextObj
 }

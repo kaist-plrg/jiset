@@ -47,6 +47,7 @@ class Compiler private (
       optionalStmt |||
       starStmt |||
       assignmentStmt |||
+      contStmt |||
       earlyErrorStmt
     )
   } <~ opt("." | ";") ~ opt(comment) | comment
@@ -336,18 +337,30 @@ class Compiler private (
   )
 
   // resume statements
-  lazy val resumeStmt: P[Inst] = {
-    "Resume the suspended evaluation of" ~> id ~ opt("using" ~> (id | (camelWord ~ ("(" ~> id <~ ")"))) <~ "as the result of the operation that suspended it") ^^ {
-      case x ~ Some(res) =>
-        // TODO complete the resume statement
-        IExpr(ENotSupported(s"Resume the suspended evaluation of $x using $res as the result of the operation that suspended it"))
-      case x ~ None => emptyInst
-    } | "Resume the context that is now on the top of the execution context stack as the running execution context" ^^^ {
-      Inst(s"""
-        $context = $executionStack[(- $executionStack.length 1i)]
-      """)
+  lazy val resumeStmt: P[Inst] = basicResumeStmt ||| assertResumeStmt ||| ctxtResumeStmt
+  lazy val basicResumeStmt: P[Inst] = (
+    ("Resume the suspended evaluation of" ~> id) ~
+    (opt("using" ~> expr <~ "as the result of the operation that suspended it .") ^^ { _.toList }) ~
+    (opt("Let" ~> id <~ "be the" ~ ("value" | "completion record") ~ "returned by the resumed computation .") ^^ { _.toList })
+  ) ^^ {
+      case cid ~ ies ~ rs => {
+        val (is, es) = ies.map { case i ~ e => (i, e) }.unzip
+        val tid = getTemp
+        ISeq(is.flatten :+ Inst(s"""withcont $tid (${rs.mkString(", ")}) = {
+          if (= $cid.ReturnCont absent) $cid.ReturnCont = (new []) else {}
+          append $tid -> $cid.ReturnCont
+          app _ = ($cid.ResumeCont ${es.map(_.beautified).mkString(" ")})
+        }"""))
+      }
     }
-  }
+  lazy val assertResumeStmt: P[Inst] = (
+    "Assert: If we return here, the" ~>
+    ("async" ^^^ "asyncContext" ||| opt("async") ~ "generator" ^^^ "genContext") <~
+    "either threw an exception or performed either an implicit or explicit return." ~ rest
+  ) ^^ { case x => Inst(s"$retcont = (pop $x.ReturnCont 0i)") }
+  lazy val ctxtResumeStmt: P[Inst] = (
+    "Resume the context that is now on the top of the execution context stack as the running execution context"
+  ) ^^^ { Inst(s"$context = $executionStack[(- $executionStack.length 1i)]") }
 
   // subtract statements
   lazy val subtractStmt: P[Inst] = (
@@ -382,6 +395,19 @@ class Compiler private (
   } | (word ~ "(" ~ id ~ ")" ~ "=" ~> expr) ^^ {
     case ie => getRet(ie)
   }
+
+  // continuation statements
+  lazy val contStmt: P[Inst] = basicContStmt ||| complexContStmt
+  lazy val basicContStmt: P[Inst] = (
+    ("Set the code evaluation state of" ~> id) ~
+    ("such that when evaluation is resumed" ~> ("with a Completion" ~> id ^^ { List(_) } | "for that execution context" ^^^ Nil)) ~
+    ("the following steps will be performed:" ~> stmt)
+  ) ^^ { case x ~ ps ~ s => IAssign(Ref(s"$x.ResumeCont"), ECont(ps.map(IRId), s)) }
+  lazy val complexContStmt: P[Inst] = (
+    ("Set the code evaluation state of" ~> id) ~
+    ("such that when evaluation is resumed with a Completion" ~> id) <~
+    (", the following steps of the algorithm that invoked Await will be performed, with" ~> id <~ "available.")
+  ) ^^ { case x ~ y => Inst(s"""{ $retcont = (pop $x.ReturnCont 0i) $x.ResumeCont = ($y) [=>] return $y }""") }
 
   // early errors
   lazy val earlyErrorStmt: P[Inst] = (("it is" | "always throw") ~ ("a syntax error" | "an early syntax error") ~ "if") ~> cond ^^ {

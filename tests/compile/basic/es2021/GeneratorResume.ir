@@ -12,6 +12,11 @@
   generator.GeneratorState = CONST_executing
   append genContext -> EXECUTION_STACK
   CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  ??? "Resume the suspended evaluation of id:{genContext} using NormalCompletion ( id:{value} ) as the result of the operation that suspended it . Let id:{result} be the value returned by the resumed computation ."
+  app __x2__ = (NormalCompletion value)
+  withcont __x3__ (result) = {
+    if (= genContext.ReturnCont absent) genContext.ReturnCont = (new []) else {}
+    append __x3__ -> genContext.ReturnCont
+    app _ = (genContext.ResumeCont __x2__)
+  }
   return result
 }

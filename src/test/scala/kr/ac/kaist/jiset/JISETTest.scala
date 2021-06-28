@@ -82,23 +82,21 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
       (name, result) <- map.toSeq.sortBy(_._1)
     } (resMap.get(name), result) match {
       case (None, _) => error(s"'[$tag] $name' test is removed")
-      case (Some(Fail), Yet(_) | Pass) => error(s"'[$tag] $name' test becomes failed")
+      case (Some(Fail), Pass) => error(s"'[$tag] $name' test becomes failed")
       case _ =>
     }
 
     // save abstract result if backward-compatible
-    if (breakCount == 0) {
-      val dirname = s"$TEST_DIR/result/$category"
-      mkdir(dirname)
-      val pw = getPrintWriter(s"$dirname/$this")
-      val (x, y) = getScore(resMap)
-      pw.println(s"$tag: $x / $y")
-      pw.close()
+    val dirname = s"$TEST_DIR/result/$category"
+    mkdir(dirname)
+    val pw = getPrintWriter(s"$dirname/$this")
+    val (x, y) = getScore(resMap)
+    pw.println(s"$tag: $x / $y")
+    pw.close()
 
-      val jpw = getPrintWriter(filename)
-      jpw.println(resMap.toJson.sortedPrint)
-      jpw.close()
-    }
+    val jpw = getPrintWriter(filename)
+    jpw.println(resMap.toJson.sortedPrint)
+    jpw.close()
   }
 
   // test name

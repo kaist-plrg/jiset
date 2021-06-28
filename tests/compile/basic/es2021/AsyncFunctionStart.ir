@@ -1,7 +1,27 @@
 {
   let runningContext = CONTEXT
   let asyncContext = (copy-obj runningContext)
-  ??? "Set the code evaluation state of id:{asyncContext} such that when evaluation is resumed for that execution context the following steps will be performed : in:{} out:{}"
+  asyncContext.ResumeCont = () [=>] {
+    access __x0__ = (asyncFunctionBody "Evaluation")
+    let result = __x0__
+    if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] asyncContext) {
+      let __x1__ = (- EXECUTION_STACK.length 1i)
+      (pop EXECUTION_STACK __x1__)
+    } else {}
+    CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
+    if (= result.Type CONST_normal) {
+      app __x2__ = (Call promiseCapability.Resolve undefined (new [undefined]))
+      [! __x2__]
+    } else if (= result.Type CONST_return) {
+      app __x3__ = (Call promiseCapability.Resolve undefined (new [result.Value]))
+      [! __x3__]
+    } else {
+      assert (= result.Type CONST_throw)
+      app __x4__ = (Call promiseCapability.Reject undefined (new [result.Value]))
+      [! __x4__]
+    }
+    return undefined
+  }
   append asyncContext -> EXECUTION_STACK
   CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   ??? "Resume the suspended evaluation of id:{asyncContext} . Let id:{result} be the value returned by the resumed computation ."

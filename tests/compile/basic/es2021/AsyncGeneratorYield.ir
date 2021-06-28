@@ -11,7 +11,14 @@
     (pop EXECUTION_STACK __x2__)
   } else {}
   CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : in:{} out:{}"
-  app __x3__ = (AsyncGeneratorResolve generator value false)
-  return [! __x3__]
+  genContext.ResumeCont = (resumptionValue) [=>] {
+    if (! (= resumptionValue.Type CONST_return)) return resumptionValue else {}
+    app __x3__ = (Await resumptionValue.Value)
+    let awaited = __x3__
+    if (= awaited.Type CONST_throw) return awaited else {}
+    assert (= awaited.Type CONST_normal)
+    return (new Completion("Type" -> CONST_return, "Value" -> awaited.Value, "Target" -> CONST_empty))
+  }
+  app __x4__ = (AsyncGeneratorResolve generator value false)
+  return [! __x4__]
 }

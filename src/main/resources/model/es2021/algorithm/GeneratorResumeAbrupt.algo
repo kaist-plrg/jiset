@@ -19,7 +19,11 @@ def GeneratorResumeAbrupt(generator, abruptCompletion, generatorBrand) = {
   13:generator.GeneratorState = CONST_executing
   14:append genContext -> EXECUTION_STACK
   14:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  15:??? "Resume the suspended evaluation of id:{genContext} using id:{abruptCompletion} as the result of the operation that suspended it . Let id:{result} be the completion record returned by the resumed computation ."
+  15:withcont __x2__ (result) = {
+    if (= genContext.ReturnCont absent) genContext.ReturnCont = (new []) else {}
+    append __x2__ -> genContext.ReturnCont
+    app _ = (genContext.ResumeCont abruptCompletion)
+  }
   17:return result
 }
 - id: "sec-generatorresumeabrupt"

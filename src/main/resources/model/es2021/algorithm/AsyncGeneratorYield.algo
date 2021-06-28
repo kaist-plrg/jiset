@@ -11,9 +11,16 @@ def AsyncGeneratorYield(value) = {
     (pop EXECUTION_STACK __x2__)
   } else {}
   6:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  7:??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : in:{} out:{}"
-  14:app __x3__ = (AsyncGeneratorResolve generator value false)
-  14:return [! __x3__]
+  7:genContext.ResumeCont = (resumptionValue) [=>] {
+    8:if (! (= resumptionValue.Type CONST_return)) return resumptionValue else 15:{}
+    9:app __x3__ = (Await resumptionValue.Value)
+    9:let awaited = __x3__
+    10:if (= awaited.Type CONST_throw) return awaited else 15:{}
+    11:assert (= awaited.Type CONST_normal)
+    12:return (new Completion("Type" -> CONST_return, "Value" -> awaited.Value, "Target" -> CONST_empty))
+  }
+  14:app __x4__ = (AsyncGeneratorResolve generator value false)
+  14:return [! __x4__]
 }
 - id: "sec-asyncgeneratoryield"
 - code:

@@ -5,7 +5,12 @@ def AwaitRejectedFunctions() = {
   3:CONTEXT = null
   4:append asyncContext -> EXECUTION_STACK
   4:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  5:??? "Resume the suspended evaluation of asyncContext using (ThrowCompletion~reason) as the result of the operation that suspended it"
+  5:app __x0__ = (ThrowCompletion reason)
+  5:withcont __x1__ () = {
+    if (= asyncContext.ReturnCont absent) asyncContext.ReturnCont = (new []) else {}
+    append __x1__ -> asyncContext.ReturnCont
+    app _ = (asyncContext.ResumeCont __x0__)
+  }
   7:return undefined
 }
 - id: "await-rejected"

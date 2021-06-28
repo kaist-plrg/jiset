@@ -12,7 +12,12 @@ def GeneratorResume(generator, value, generatorBrand) = {
   6:generator.GeneratorState = CONST_executing
   7:append genContext -> EXECUTION_STACK
   7:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  8:??? "Resume the suspended evaluation of id:{genContext} using NormalCompletion ( id:{value} ) as the result of the operation that suspended it . Let id:{result} be the value returned by the resumed computation ."
+  8:app __x2__ = (NormalCompletion value)
+  8:withcont __x3__ (result) = {
+    if (= genContext.ReturnCont absent) genContext.ReturnCont = (new []) else {}
+    append __x3__ -> genContext.ReturnCont
+    app _ = (genContext.ResumeCont __x2__)
+  }
   10:return result
 }
 - id: "sec-generatorresume"

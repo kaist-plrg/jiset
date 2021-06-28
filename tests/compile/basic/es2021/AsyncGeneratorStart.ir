@@ -2,7 +2,25 @@
   assert (= generator.AsyncGeneratorState undefined)
   let genContext = CONTEXT
   genContext.Generator = generator
-  ??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed for that execution context the following steps will be performed : in:{} out:{}"
+  genContext.ResumeCont = () [=>] {
+    ??? "If id:{generatorBody} is a Parse Node , then in:{} out:{}"
+    ??? "Else , in:{} out:{}"
+    if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) {
+      let __x0__ = (- EXECUTION_STACK.length 1i)
+      (pop EXECUTION_STACK __x0__)
+    } else {}
+    CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
+    generator.AsyncGeneratorState = CONST_completed
+    if (&& (is-completion result) (= result.Type CONST_normal)) let resultValue = undefined else {
+      let resultValue = result.Value
+      if (! (= result.Type CONST_return)) {
+        app __x1__ = (AsyncGeneratorReject generator resultValue)
+        return [! __x1__]
+      } else {}
+    }
+    app __x2__ = (AsyncGeneratorResolve generator resultValue true)
+    return [! __x2__]
+  }
   generator.AsyncGeneratorContext = genContext
   generator.AsyncGeneratorState = CONST_suspendedStart
   generator.AsyncGeneratorQueue = (new [])

@@ -5,6 +5,11 @@
   CONTEXT = null
   append asyncContext -> EXECUTION_STACK
   CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  ??? "Resume the suspended evaluation of asyncContext using (ThrowCompletion~reason) as the result of the operation that suspended it"
+  app __x0__ = (ThrowCompletion reason)
+  withcont __x1__ () = {
+    if (= asyncContext.ReturnCont absent) asyncContext.ReturnCont = (new []) else {}
+    append __x1__ -> asyncContext.ReturnCont
+    app _ = (asyncContext.ResumeCont __x0__)
+  }
   return undefined
 }

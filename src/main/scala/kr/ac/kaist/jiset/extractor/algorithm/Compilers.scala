@@ -439,7 +439,7 @@ trait Compilers extends TokenListParsers {
   val realm = "REALM"
   val scriptBody = "SCRIPT_BODY"
   val jobQueue = "JOB_QUEUE"
-  val retcont = "__ret__"
+  val retcont = "RET_CONT"
 
   // predefined variables
   val ANY_BOOL = "AnyBool"

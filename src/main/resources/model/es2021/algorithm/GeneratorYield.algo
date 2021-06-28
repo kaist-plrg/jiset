@@ -9,7 +9,7 @@ def GeneratorYield(iterNextObj) = {
     (pop EXECUTION_STACK __x1__)
   } else {}
   6:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  7:??? "Set the code evaluation state of id:{genContext} such that when evaluation is resumed with a Completion id:{resumptionValue} the following steps will be performed : in:{} out:{}"
+  7:genContext.ResumeCont = (resumptionValue) [=>] return resumptionValue
   10:return iterNextObj
 }
 - id: "sec-generatoryield"

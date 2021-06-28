@@ -24,8 +24,12 @@ package object js {
     spec.algos.map(algo => algo.name -> algo).toMap
 
   // conversion intrinsics to address
-  def intrinsicToAddr(name: String): Addr =
-    NamedAddr(GLOBAL + "." + name.replaceAll("_", "."))
+  def intrinsicToAddr(name: String): Addr = {
+    val newName = name
+      .replaceAll("_", ".")
+      .replaceAll("Function.prototype.prototype", ".prototype")
+    NamedAddr(GLOBAL + "." + newName)
+  }
 
   // constants
   val AGENT = "AGENT"
