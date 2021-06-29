@@ -132,8 +132,13 @@ trait Compilers extends TokenListParsers {
   }
 
   // for-each instrutions for maps
-  def forEachMap(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst =
-    forEachList(id, EKeys(expr), body, reversed)
+  def forEachMap(
+    id: Id,
+    expr: Expr,
+    body: Inst,
+    intSorted: Boolean = false,
+    reversed: Boolean = false
+  ): Inst = forEachList(id, EKeys(expr, intSorted), body, reversed)
 
   // handle duplicated params and variable-length params
   def handleParams(l: List[String]): (List[Id], Option[Id]) = {

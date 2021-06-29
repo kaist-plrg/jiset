@@ -157,7 +157,8 @@ class Diff {
       case (EReturnIfAbrupt(le, lb), EReturnIfAbrupt(re, rb)) =>
         compare(le, re) && lb == rb
       case (ECopy(lo), ECopy(ro)) => compare(lo, ro)
-      case (EKeys(lm), EKeys(rm)) => compare(lm, rm)
+      case (EKeys(lm, li), EKeys(rm, ri)) =>
+        compare(lm, rm) && li == ri
       case (_, ENotSupported(_)) => true
       case _ => false
     }

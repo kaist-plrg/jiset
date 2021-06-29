@@ -5,29 +5,26 @@ def AsyncFunctionStart(promiseCapability, asyncFunctionBody) = {
     4:access __x0__ = (asyncFunctionBody "Evaluation")
     4:let result = __x0__
     5:RET_CONT = (pop asyncContext.ReturnCont 0i)
-    6:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] asyncContext) {
-      let __x1__ = (- EXECUTION_STACK.length 1i)
-      (pop EXECUTION_STACK __x1__)
-    } else {}
+    6:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))
     6:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
     11:if (= result.Type CONST_normal) {
-      8:app __x2__ = (Call promiseCapability.Resolve undefined (new [undefined]))
-      8:[! __x2__]
+      8:app __x1__ = (Call promiseCapability.Resolve undefined (new [undefined]))
+      8:[! __x1__]
     } else if (= result.Type CONST_return) {
-      10:app __x3__ = (Call promiseCapability.Resolve undefined (new [result.Value]))
-      10:[! __x3__]
+      10:app __x2__ = (Call promiseCapability.Resolve undefined (new [result.Value]))
+      10:[! __x2__]
     } else {
       12:assert (= result.Type CONST_throw)
-      13:app __x4__ = (Call promiseCapability.Reject undefined (new [result.Value]))
-      13:[! __x4__]
+      13:app __x3__ = (Call promiseCapability.Reject undefined (new [result.Value]))
+      13:[! __x3__]
     }
     app _ = (RET_CONT undefined)
   }
   15:append asyncContext -> EXECUTION_STACK
   15:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  16:withcont __x5__ (result) = {
+  16:withcont __x4__ (result) = {
     if (= asyncContext.ReturnCont absent) asyncContext.ReturnCont = (new []) else {}
-    append __x5__ -> asyncContext.ReturnCont
+    append __x4__ -> asyncContext.ReturnCont
     app _ = (asyncContext.ResumeCont)
   }
   19:return undefined

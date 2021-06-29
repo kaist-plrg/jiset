@@ -63,7 +63,7 @@ package object jiset {
   var INTERACTIVE: Boolean = false
 
   // Bugfix mode
-  var BUGFIX: Boolean = false
+  var BUGFIX: Boolean = true
 
   // Logging mode
   var LOG: Boolean = false

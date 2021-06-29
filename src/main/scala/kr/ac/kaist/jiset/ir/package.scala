@@ -31,7 +31,7 @@ package object ir {
   def toRef(name: String): Ref = RefId(Id(name))
 
   // conversion number to string
-  def toStringHelper(m: Double, radix: Int): String = {
+  def toStringHelper(m: Double, radix: Int = 10): String = {
     if (m.isNaN) "NaN"
     else if (m == 0) "0"
     else if (m < 0) "-" + toStringHelper(-m, radix)

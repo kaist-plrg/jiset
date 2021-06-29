@@ -107,7 +107,7 @@ trait Walker {
     case EContains(list, elem) => EContains(walk(list), walk(elem))
     case EReturnIfAbrupt(expr, check) => EReturnIfAbrupt(walk(expr), check)
     case ECopy(obj) => ECopy(walk(obj))
-    case EKeys(obj) => EKeys(walk(obj))
+    case EKeys(obj, intSorted) => EKeys(walk(obj), intSorted)
     case ENotSupported(msg) => ENotSupported(walk(msg))
   }
 

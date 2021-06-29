@@ -24,12 +24,11 @@ case object Load extends PhaseObj[Script, LoadConfig, State] {
     script: Script,
     filename: String
   ): State = script match {
-    case Script0(Some(body), _, _) => Initialize(
-      inst = Inst(s"app $RESULT = (RunJobs)"),
-      body = body,
+    case Script0(bodyOpt, _, _) => Initialize(
+      inst = Inst(if (bodyOpt.isDefined) s"app $RESULT = (RunJobs)" else "{}"),
+      bodyOpt = bodyOpt,
       filename = filename,
     )
-    case _ => State()
   }
 
   def defaultConfig: LoadConfig = LoadConfig()

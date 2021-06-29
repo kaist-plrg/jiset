@@ -17,18 +17,15 @@ def [METHOD] ECMAScriptFunctionObject.Construct(F)(argumentsList, newTarget) = {
   9:let constructorEnv = __x3__
   10:app __x4__ = (OrdinaryCallEvaluateBody F argumentsList)
   10:let result = __x4__
-  11:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) {
-    let __x5__ = (- EXECUTION_STACK.length 1i)
-    (pop EXECUTION_STACK __x5__)
-  } else {}
+  11:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))
   11:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   16:if (= result.Type CONST_return) {
     13:if (= (typeof result.Value) Object) return result.Value else 7:{}
     14:if (= kind CONST_base) return thisArgument else 7:{}
     15:if (! (= result.Value undefined)) throw TypeError else 7:{}
   } else [? result]
-  17:app __x6__ = (constructorEnv.GetThisBinding constructorEnv)
-  17:return [? __x6__]
+  17:app __x5__ = (constructorEnv.GetThisBinding constructorEnv)
+  17:return [? __x5__]
 }
 - id: "sec-ecmascript-function-objects-construct-argumentslist-newtarget"
 - code:

@@ -135,7 +135,7 @@ trait UnitWalker {
       walk(expr)
     case ECopy(obj) =>
       walk(obj)
-    case EKeys(obj) =>
+    case EKeys(obj, intSorted) =>
       walk(obj)
     case ENotSupported(msg) =>
       walk(msg)

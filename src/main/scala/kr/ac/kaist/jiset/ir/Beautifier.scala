@@ -155,7 +155,10 @@ class Beautifier(
       case EReturnIfAbrupt(expr, check) =>
         app >> "[" >> (if (check) "?" else "!") >> " " >> expr >> "]"
       case ECopy(obj) => app >> "(copy-obj " >> obj >> ")"
-      case EKeys(obj) => app >> "(map-keys " >> obj >> ")"
+      case EKeys(obj, intSorted) =>
+        app >> "(map-keys " >> obj
+        if (intSorted) app >> " [int-sorted]"
+        app >> ")"
       case ENotSupported(msg) => app >> "??? \"" >> normStr(msg) >> "\""
     }
   }

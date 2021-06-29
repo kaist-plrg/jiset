@@ -67,7 +67,7 @@ case class State(
     { heap.prepend(addr, value); this }
   def pop(addr: Addr, idx: Value): Value = heap.pop(addr, idx)
   def copyObj(addr: Addr): Addr = heap.copyObj(addr)
-  def keys(addr: Addr): Addr = heap.keys(addr)
+  def keys(addr: Addr, intSorted: Boolean): Addr = heap.keys(addr, intSorted)
   def allocMap(ty: Ty, map: Map[Value, Value] = Map()): Addr = heap.allocMap(ty, map)
   def allocList(list: List[Value]): Addr = heap.allocList(list)
   def allocSymbol(desc: Value): Addr = heap.allocSymbol(desc)

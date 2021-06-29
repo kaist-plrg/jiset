@@ -91,7 +91,8 @@ class BeautifierTinyTest extends IRTest {
       EReturnIfAbrupt(ENum(3.0), true) -> "[? 3.0]",
       EReturnIfAbrupt(ENum(3.0), false) -> "[! 3.0]",
       ECopy(EStr("obj")) -> "(copy-obj \"obj\")",
-      EKeys(EStr("obj")) -> "(map-keys \"obj\")",
+      EKeys(EStr("obj"), false) -> "(map-keys \"obj\")",
+      EKeys(EStr("obj"), true) -> "(map-keys \"obj\" [int-sorted])",
       ENotSupported("hi") -> "??? \"hi\""
     )
     test("Ref")(

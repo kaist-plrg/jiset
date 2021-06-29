@@ -3,7 +3,7 @@ def [BUILTIN] Array.prototype.join(separator) = {
   0:let O = [? __x0__]
   1:app __x1__ = (LengthOfArrayLike O)
   1:let len = [? __x1__]
-  2:??? "If id:{separator} is value:{undefined} , let id:{sep} be the single - element String value:{\",\"} ."
+  2:if (= separator undefined) let sep = "," else {}
   3:app sep = (ToString separator)
   3:[? sep]
   4:let R = ""

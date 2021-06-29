@@ -9,28 +9,30 @@ import scala.collection.mutable.{ Map => MMap }
 // initialize states
 object Initialize {
   // initial state
-  def apply(inst: Inst, body: ScriptBody, filename: String): State =
-    initState(inst, body, filename)
+  def apply(
+    inst: Inst = Inst(s"app $RESULT = (RunJobs)"),
+    bodyOpt: Option[ScriptBody] = None,
+    filename: String = ""
+  ): State = initState(inst, bodyOpt, filename)
   def initState(
     inst: Inst,
-    body: ScriptBody,
+    bodyOpt: Option[ScriptBody],
     filename: String
   ): State = State(
     context = Context(insts = List(inst)),
     ctxtStack = Nil,
-    globals = initGlobal(body, filename),
+    globals = initGlobal(bodyOpt, filename),
     heap = initHeap,
   )
 
   // initial global variables
   def initGlobal(
-    body: ScriptBody,
+    bodyOpt: Option[ScriptBody],
     filename: String
   ): MMap[Id, Value] = {
-    val map = MMap[Id, Value](
-      Id(SCRIPT_BODY) -> ASTVal(body),
-      Id(FILENAME) -> Str(filename),
-    )
+    val map = MMap[Id, Value]()
+    bodyOpt.map(body => map += Id(SCRIPT_BODY) -> ASTVal(body))
+    map += Id(FILENAME) -> Str(filename)
     for (c <- consts) {
       map += Id(CONST_PREFIX + c) -> NamedAddr(CONST_PREFIX + c)
     }

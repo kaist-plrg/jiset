@@ -9,10 +9,7 @@ def [METHOD] BuiltinFunctionObject.Call(F)(thisArgument, argumentsList) = {
   8:append calleeContext -> EXECUTION_STACK
   8:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   9:app result = (F.Code thisArgument argumentsList undefined)
-  10:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) {
-    let __x0__ = (- EXECUTION_STACK.length 1i)
-    (pop EXECUTION_STACK __x0__)
-  } else {}
+  10:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))
   10:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   11:return result
 }

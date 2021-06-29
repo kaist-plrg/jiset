@@ -366,8 +366,8 @@ private class Interp(
       case addr: Addr => st.copyObj(addr)
       case v => error(s"not an address: ${v.beautified}")
     }
-    case EKeys(mobj) => interp(mobj).escaped(st) match {
-      case addr: Addr => st.keys(addr)
+    case EKeys(mobj, intSorted) => interp(mobj).escaped(st) match {
+      case addr: Addr => st.keys(addr, intSorted)
       case v => error(s"not an address: ${v.beautified}")
     }
     case ENotSupported(msg) => throw NotSupported(msg)
@@ -538,6 +538,7 @@ object Interp {
   // type update algorithms
   val setTypeMap: Map[String, Ty] = Map(
     "OrdinaryFunctionCreate" -> Ty("ECMAScriptFunctionObject"),
+    "ArrayCreate" -> Ty("ArrayExoticObject"),
   )
 
   // simple functions

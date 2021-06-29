@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.error.NotSupported
+import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.{ Map => MMap }
 
@@ -57,12 +58,23 @@ case class Heap(
   def copyObj(addr: Addr): Addr = alloc(this(addr).copy)
 
   // keys of map
-  def keys(addr: Addr): Addr = this(addr) match {
-    case (m: IRMap) =>
-      val newL = m.props.toList.sortBy(_._2._2).map(_._1).toVector
-      alloc(IRList(newL))
+  def keys(addr: Addr, intSorted: Boolean): Addr = alloc(IRList(this(addr) match {
+    case (m: IRMap) if !intSorted => m
+      .props
+      .toVector
+      .sortBy(_._2._2)
+      .map(_._1)
+    case (m: IRMap) if intSorted => (for {
+      (Str(s), _) <- m.props.toVector
+      d = ESValueParser.str2num(s)
+      if toStringHelper(d) == s
+      i = d.toInt
+      if d == i
+    } yield (s, i))
+      .sortBy(_._2)
+      .map { case (s, _) => Str(s) }
     case v => error(s"not a map: $v")
-  }
+  }))
 
   // map allocations
   def allocMap(

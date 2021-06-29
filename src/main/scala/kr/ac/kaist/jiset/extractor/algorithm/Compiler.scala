@@ -245,7 +245,30 @@ class Compiler private (
         let $n = (+ $ev ${de}i)
         while (< $k $n) $body
       }"""))
-    }
+    } ||| (
+      ("for each own property key" ~> id) ~
+      ("of" ~> id) ~
+      ("that is an array index , whose numeric value is greater than or equal to" ~> id) ~
+      (", in descending numeric index order , do" ~> stmt)
+    ) ^^ {
+        case x ~ y ~ l ~ b =>
+          val body = b.beautified
+          val keys = getTemp
+          val n = getTemp
+          val c = getTemp
+          val i = getTemp
+          Inst(s"""{
+            let $keys = (map-keys $y.SubMap [int-sorted])
+            let $i = $keys.length
+            while (< 0i $i) {
+              $i = (- $i 1i)
+              let $x = $keys[$i]
+              let $n = (convert $x str2num)
+              app $c = (IsArrayIndex $x)
+              if (&& $c (! (< $n $l))) $body else {}
+            }
+          }""")
+      }
 
   // append statements
   lazy val appendStmt: P[Inst] = ("append" | "add") ~> (
@@ -305,28 +328,25 @@ class Compiler private (
     } ||| "remove the last element of" ~> id ^^ {
       case x => Inst(s"(pop $x (- $x.length 1i))")
     } ||| ("remove the" ~ ("own property with name" | "binding for") ~> id <~ "from") ~ id ^^ {
-      case p ~ x => Inst(s"delete $x[$p]")
-    } ||| "remove" ~> id <~ "from the execution context stack and restore" <~ rest ^^ {
-      case x => {
-        val idx = getTemp
+      case p ~ x => Inst(s"delete $x.SubMap[$p]")
+    } ||| (
+      "remove" ~ id ~ "from the execution context stack and restore" |
+      "pop" ~ id ~ "from the execution context stack"
+    ) <~ rest ^^^ {
         Inst(s"""{
-        if (= $executionStack[(- $executionStack.length 1i)] $x) {
-          let $idx = (- $executionStack.length 1i)
-          (pop $executionStack $idx)
-        } else {}
+        (pop $executionStack (- $executionStack.length 1i))
         $context = $executionStack[(- $executionStack.length 1i)]
       }""")
-      }
-    } ||| ("remove" ~ opt("all occurrences of") ~> id <~ "from") ~ (opt("the list of waiters in") ~> id) ^^ {
-      case x ~ list =>
-        val idx = getTemp
-        Inst(s"""{
+      } ||| ("remove" ~ opt("all occurrences of") ~> id <~ "from") ~ (opt("the list of waiters in") ~> id) ^^ {
+        case x ~ list =>
+          val idx = getTemp
+          Inst(s"""{
           let $idx = 0i
           while (< $idx $list.length)
             if (= $list[$idx] $x) (pop $list $idx)
             else $idx = (+ $idx 1i)
         }""")
-    }
+      }
   )
 
   // suspend statements

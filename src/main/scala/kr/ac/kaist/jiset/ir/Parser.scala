@@ -98,7 +98,8 @@ trait Parsers extends BasicParsers {
     "[" ~> "?" ~> expr <~ "]" ^^ { case e => EReturnIfAbrupt(e, true) } |
     "[" ~> "!" ~> expr <~ "]" ^^ { case e => EReturnIfAbrupt(e, false) } |
     "(" ~> "copy-obj" ~> expr <~ ")" ^^ { case e => ECopy(e) } |
-    "(" ~> "map-keys" ~> expr <~ ")" ^^ { case e => EKeys(e) }
+    "(" ~> "map-keys" ~> expr <~ ")" ^^ { case e => EKeys(e, false) } |
+    "(" ~> "map-keys" ~> expr <~ "[int-sorted]" ~ ")" ^^ { case e => EKeys(e, true) }
   ) ^^ {
       case k ~ (e: AllocExpr) =>
         e.asite = k.fold(-1)(_.toInt); e

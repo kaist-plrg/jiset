@@ -1,7 +1,8 @@
 def PrepareForTailCall() = {
   0:let leafContext = CONTEXT
   1:CONTEXT = null
-  2:??? "Pop id:{leafContext} from the execution context stack . The execution context now on the top of the stack becomes the running execution context ."
+  2:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))
+  2:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
 }
 - id: "sec-preparefortailcall"
 - code:
