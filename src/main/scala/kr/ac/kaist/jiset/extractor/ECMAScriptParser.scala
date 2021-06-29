@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.extractor
 
+import kr.ac.kaist.jiset.{ error => _, _ }
 import kr.ac.kaist.jiset.ir.{ Id, UnitWalker }
 import kr.ac.kaist.jiset.extractor.algorithm.{ AlgoParser, HeadParser }
 import kr.ac.kaist.jiset.extractor.grammar.GrammarParser
@@ -8,7 +9,6 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.{ ECMA262_DIR, SPEC_HTML, LINE_SEP, VERSION, RESOURCE_DIR }
 import org.jsoup._
 import org.jsoup.nodes._
 import scala.collection.mutable.Stack
@@ -262,9 +262,12 @@ object ECMAScriptParser {
 
   // parse manual algorithms
   def manualAlgos(version: String): Iterable[Algo] = for {
-    file <- walkTree(s"$RESOURCE_DIR/algo")
+    file <- walkTree(s"$VERSION_DIR/manual-algo") ++ (
+      if (BUGFIX) walkTree(s"$VERSION_DIR/bugfix-algo")
+      else Nil
+    )
     filename = file.toString
-    if irFilter(filename)
+    if algoFilter(filename)
   } yield Algo(readFile(file.toString))
 
   // get special names

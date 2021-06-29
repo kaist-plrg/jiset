@@ -49,8 +49,7 @@ object AlgoParser {
         heads.map(head => Algo(head, id, handleRetCont(rawBody, head), code))
       }
     } catch {
-      case e: Throwable =>
-        Nil
+      case e: Throwable => Nil
     }
     result.foreach(algo => (new LocWalker).walk(algo.rawBody))
     result

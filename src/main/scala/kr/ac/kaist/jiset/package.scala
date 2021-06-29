@@ -43,7 +43,7 @@ package object jiset {
 
   // Resource directory
   val RESOURCE_DIR = s"$BASE_DIR/src/main/resources"
-  val MODEL_DIR = s"$RESOURCE_DIR/model"
+  val VERSION_DIR = s"$RESOURCE_DIR/$VERSION"
   val ID_START_JSON = s"$RESOURCE_DIR/ID_Start.json"
   val ID_CONTINUE_JSON = s"$RESOURCE_DIR/ID_Continue.json"
 
@@ -58,6 +58,9 @@ package object jiset {
 
   // Interactive debugging mode
   var INTERACTIVE: Boolean = false
+
+  // Bugfix mode
+  var BUGFIX: Boolean = false
 
   // Logging mode
   var LOG: Boolean = false

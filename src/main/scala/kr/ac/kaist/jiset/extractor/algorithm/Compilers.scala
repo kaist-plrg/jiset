@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.extractor.algorithm
 
-import kr.ac.kaist.jiset.RESOURCE_DIR
+import kr.ac.kaist.jiset.{ error => _, _ }
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.algorithm.token._
 import kr.ac.kaist.jiset.util.Useful._
@@ -53,12 +53,12 @@ trait Compilers extends TokenListParsers {
   private case class Pair(tokens: String, inst: Inst)
   val manualSteps: Map[String, Inst] = try {
     implicit lazy val PairProtocol = jsonFormat2(Pair)
-    val pairs = readJson[List[Pair]](s"$RESOURCE_DIR/rule.json")
+    val pairs = readJson[List[Pair]](s"$VERSION_DIR/rule.json")
     (for (Pair(str, inst) <- pairs) yield str -> inst).toMap
   } catch {
     case e: Throwable =>
       println
-      printlnColor(RED)(s"Failed to load $RESOURCE_DIR/rule.json")
+      printlnColor(RED)(s"Failed to load $VERSION_DIR/rule.json")
       println
       printlnColor(RED)(e.getMessage)
       Map()

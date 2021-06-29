@@ -89,7 +89,7 @@ class Compiler private (
       case i ~ y => i match {
         case ISeq(list) => (list.reverse, y) match {
           case (IReturn(e) :: rest, Some("genContext")) =>
-            val newInst = Inst(s"app _ = ((pop $y.ReturnCont 0i) ${e.beautified})")
+            val newInst = Inst(s"app _ = ((pop genContext.ReturnCont 0i) ${e.beautified})")
             ISeq((newInst :: rest).reverse)
           case (IReturn(e) :: rest, Some("asyncContext")) =>
             val newInst = Inst(s"app _ = ($retcont ${e.beautified})")

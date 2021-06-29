@@ -10,7 +10,7 @@ case class ModelGenerator(spec: ECMAScript, parser: Boolean) {
   val grammar = spec.grammar
 
   // generate model/VERSION in resource directory
-  spec.dumpTo(s"$MODEL_DIR/$VERSION")
+  spec.dumpTo(s"$VERSION_DIR/generated")
 
   // generate js/ast/*.scala in source code directory
   ASTGenerator(grammar)

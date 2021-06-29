@@ -111,6 +111,8 @@ object JISET {
       "turn on the debub mode."),
     ("interactive", BoolOption(c => INTERACTIVE = true),
       "turn on the interactive mode."),
+    ("bugfix", BoolOption(c => BUGFIX = true),
+      "turn on the bugfix mode."),
     ("log", BoolOption(c => LOG = true),
       "turn on the logging."),
     ("time", BoolOption(c => c.time = true),
