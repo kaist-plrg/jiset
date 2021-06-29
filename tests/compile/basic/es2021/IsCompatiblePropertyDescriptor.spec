@@ -1,1 +1,0 @@
-          1. Return ValidateAndApplyPropertyDescriptor(*undefined*, *undefined*, _Extensible_, _Desc_, _Current_).

@@ -81,10 +81,6 @@ object AlgoParser {
 
   // handle special return for continuation
   def handleRetCont(inst: Inst, head: Head): Inst = head.name match {
-    case "Await" => inst match {
-      case ISeq(list) => ISeq(list.dropRight(1) :+ Inst("app _ = (RET_CONT undefined)"))
-      case _ => inst
-    }
     case x if retContStartNames contains x => RetContWalker.walk(inst)
     case _ => inst
   }

@@ -1,1 +1,0 @@
-        1. Return InstantiateArrowFunctionExpression of |ArrowFunction| with argument _name_.

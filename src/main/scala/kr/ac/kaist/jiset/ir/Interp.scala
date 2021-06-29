@@ -49,7 +49,7 @@ private class Interp(
   }
 
   // transition for instructions
-  def interp(inst: Inst): Unit = {
+  def interp(inst: Inst): Unit = try {
     instCount += 1
     if (instCount % CHECK_PERIOD == 0) timeLimit.map(limit => {
       val duration = (System.currentTimeMillis - startTime) / 1000
@@ -178,7 +178,10 @@ private class Interp(
       case ISeq(insts) => st.context.insts = insts ++ st.context.insts
     }
     if (instCount % 100000 == 0) GC.gc(st)
-  }
+  } catch { case ReturnValue(value) => doReturn(value) }
+
+  // return value
+  private case class ReturnValue(value: Value) extends Throwable
 
   // return helper
   def doReturn(value: Value): Unit = st.ctxtStack match {
@@ -376,7 +379,7 @@ private class Interp(
       case obj @ IRMap(Ty("Completion"), _, _) => obj(Str("Type")) match {
         case NamedAddr("CONST_normal") => obj(Str("Value"))
         case _ => {
-          if (check) ??? // TODO do return
+          if (check) throw ReturnValue(addr)
           else error("unchecked abrupt completion")
         }
       }

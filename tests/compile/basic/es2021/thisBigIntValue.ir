@@ -1,8 +1,0 @@
-{
-  if (= (typeof value) BigInt) return value else {}
-  if (&& (= (typeof value) Object) (! (= value.BigIntData absent))) {
-    assert (= (typeof value.BigIntData) BigInt)
-    return value.BigIntData
-  } else {}
-  throw TypeError
-}

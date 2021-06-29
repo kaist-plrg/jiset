@@ -10,7 +10,7 @@ def GeneratorYield(iterNextObj) = {
   } else {}
   6:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   7:genContext.ResumeCont = (resumptionValue) [=>] return resumptionValue
-  10:return iterNextObj
+  11:app _ = ((pop genContext.ReturnCont 0i) iterNextObj)
 }
 - id: "sec-generatoryield"
 - code:

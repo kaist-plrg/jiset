@@ -1,1 +1,0 @@
-TimeFromYear(_y_) = msPerDay × DayFromYear(_y_)

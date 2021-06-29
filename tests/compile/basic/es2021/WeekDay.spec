@@ -1,1 +1,0 @@
-WeekDay(_t_) = 𝔽(ℝ(Day(_t_) + *4* <sub>𝔽</sub>) modulo 7)

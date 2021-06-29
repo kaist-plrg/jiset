@@ -33,8 +33,8 @@ trait Parsers extends BasicParsers with ir.Parsers {
   implicit lazy val algorithm: Parser[Algo] = (
     ("def" ~> head <~ "=") ~
     inst ~
-    ("- id:" ~> string) ~
-    ("- code:(?s).*".r)
+    (opt("- id:" ~> string) ^^ { _.getOrElse("") }) ~
+    (opt("- code:(?s).*".r) ^^ { _.getOrElse("") })
   ) ^^ { case h ~ i ~ x ~ s => Algo(h, x, i, s.split(LINE_SEP).drop(1)) }
 
   // algorithm heads

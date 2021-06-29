@@ -1,9 +1,0 @@
-{
-  if (= (typeof value) Number) return value else {}
-  if (&& (= (typeof value) Object) (! (= value.NumberData absent))) {
-    let n = value.NumberData
-    assert (= (typeof n) Number)
-    return n
-  } else {}
-  throw TypeError
-}

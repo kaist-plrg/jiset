@@ -1,1 +1,0 @@
-msPerHour = *3600000* <sub>𝔽</sub> = msPerMinute × 𝔽(MinutesPerHour)

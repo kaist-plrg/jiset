@@ -1,2 +1,0 @@
-            1. If _envRec_.[[ThisBindingStatus]] is ~lexical~, return *false*.
-            1. If _envRec_.[[FunctionObject]].[[HomeObject]] has the value *undefined*, return *false*; otherwise, return *true*.

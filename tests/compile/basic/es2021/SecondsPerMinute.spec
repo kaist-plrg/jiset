@@ -1,1 +1,0 @@
-SecondsPerMinute = 60

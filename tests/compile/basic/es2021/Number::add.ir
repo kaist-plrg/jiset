@@ -1,9 +1,0 @@
-{
-  if (|| (= x NaN) (= y NaN)) return NaN else {}
-  if (&& (= x Infinity) (= y -Infinity)) return NaN else {}
-  if (&& (= x -Infinity) (= y Infinity)) return NaN else {}
-  if (|| (= x Infinity) (= x -Infinity)) return x else {}
-  if (|| (= y Infinity) (= y -Infinity)) return y else {}
-  if (&& (= x -0.0) (= y -0.0)) return -0.0 else {}
-  return (+ x y)
-}

@@ -1,7 +1,0 @@
-{
-  ??? "Let id:{n} be the number of code points in nt:{DecimalDigits} , excluding all occurrences of nt:{NumericLiteralSeparator} ."
-  access __nzd__ = (NonZeroDigit "MV")
-  access __dds__ = (DecimalDigits "MV")
-  let mv = (+ (* __nzd__ 10.0) __dds__)
-  return (convert mv num2bigint )
-}

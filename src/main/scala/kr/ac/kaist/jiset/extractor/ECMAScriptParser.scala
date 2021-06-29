@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.extractor
 
-import kr.ac.kaist.jiset.ir.{ Id, IRParser, UnitWalker }
+import kr.ac.kaist.jiset.ir.{ Id, UnitWalker }
 import kr.ac.kaist.jiset.extractor.algorithm.{ AlgoParser, HeadParser }
 import kr.ac.kaist.jiset.extractor.grammar.GrammarParser
 import kr.ac.kaist.jiset.spec._
@@ -265,7 +265,7 @@ object ECMAScriptParser {
     file <- walkTree(s"$RESOURCE_DIR/algo")
     filename = file.toString
     if irFilter(filename)
-  } yield IRParser.parseAlgo(readFile(file.toString))
+  } yield Algo(readFile(file.toString))
 
   // get special names
   private val constPattern = "CONST_(.*)".r

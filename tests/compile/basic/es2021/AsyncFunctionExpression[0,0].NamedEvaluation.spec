@@ -1,1 +1,0 @@
-        1. Return InstantiateAsyncFunctionExpression of |AsyncFunctionExpression| with argument _name_.

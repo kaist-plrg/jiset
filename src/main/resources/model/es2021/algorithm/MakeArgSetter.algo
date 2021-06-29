@@ -1,3 +1,17 @@
-def MakeArgSetter(name, env) = return (new BuiltinFunctionObject())
-- id: ""
+def MakeArgSetter(value) = {
+  0:let steps = ALGORITHM.ArgSetter
+  1:let length = 1.0
+  2:app setter = (CreateBuiltinFunction steps length "" (new ["Name", "Env"]))
+  2:[! setter]
+  3:setter.Name = name
+  4:setter.Env = env
+  5:return setter
+}
+- id: "sec-makeargsetter"
 - code:
+            1. Let _steps_ be the steps of an ArgSetter function as specified below.
+            1. Let _length_ be the number of non-optional parameters of an ArgSetter function as specified below.
+            1. Let _setter_ be ! CreateBuiltinFunction(_steps_, _length_, *""*, &laquo; [[Name]], [[Env]] &raquo;).
+            1. Set _setter_.[[Name]] to _name_.
+            1. Set _setter_.[[Env]] to _env_.
+            1. Return _setter_.

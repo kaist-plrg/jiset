@@ -1,1 +1,0 @@
-        1. Return InstantiateAsyncArrowFunctionExpression of |AsyncArrowFunction| with argument _name_.

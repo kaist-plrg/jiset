@@ -1,1 +1,0 @@
-          1. Return ! OrdinaryObjectCreate(%Object.prototype%).

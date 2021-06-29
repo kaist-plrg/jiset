@@ -85,7 +85,20 @@ class Compiler private (
   lazy val returnStmt: P[Inst] = "return" ~> (
     ("completion" | "normalcompletion") ~ "(" ~> returnInner <~ ")" |
     returnInner
-  )
+  ) ~ opt(opt(".") ~ next ~ "NOTE: This returns to the evaluation of the operation that had most previously resumed evaluation of" ~> id <~ ".") ^^ {
+      case i ~ y => i match {
+        case ISeq(list) => (list.reverse, y) match {
+          case (IReturn(e) :: rest, Some("genContext")) =>
+            val newInst = Inst(s"app _ = ((pop $y.ReturnCont 0i) ${e.beautified})")
+            ISeq((newInst :: rest).reverse)
+          case (IReturn(e) :: rest, Some("asyncContext")) =>
+            val newInst = Inst(s"app _ = ($retcont ${e.beautified})")
+            ISeq((newInst :: rest).reverse)
+          case _ => i
+        }
+        case _ => i
+      }
+    }
   lazy val returnInner: P[Inst] = (
     opt(expr) ^^ { getRet(_) } |||
     rep1sep(expr ~ ("if" ~> cond), "and") ~ opt(

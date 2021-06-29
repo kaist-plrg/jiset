@@ -1,1 +1,0 @@
-          1. Return the SV of |StringLiteral| as defined in <emu-xref href="#sec-static-semantics-sv"></emu-xref>.

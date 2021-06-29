@@ -1,2 +1,0 @@
-            1. If _x_ < *0*<sub>ℤ</sub>, return the string-concatenation of the String *"-"* and ! BigInt::toString(-_x_).
-            1. Return the String value consisting of the code units of the digits of the decimal representation of _x_.

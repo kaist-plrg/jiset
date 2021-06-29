@@ -274,5 +274,9 @@
   {
     "tokens": "If the binding for id:{N} in id:{envRec} is an uninitialized binding , throw a value:{ReferenceError} exception .",
     "inst": "if (! envRec.SubMap[N].initialized) throw ReferenceError else {}"
+  },
+  {
+    "tokens": "If id:{call} is not contained within a nt:{FunctionBody} , nt:{ConciseBody} , or nt:{AsyncConciseBody} , return value:{false} .",
+    "inst": "{ let __contained__ = false let body = call while (&& (! __contained__) (! (= body absent))) { __contained__ = (|| __contained__ (is-instance-of body FunctionBody)) __contained__ = (|| __contained__ (is-instance-of body ConciseBody)) __contained__ = (|| __contained__ (is-instance-of body AsyncConciseBody)) access body = (body \"parent\") } if (! __contained__) return false else {} }"
   }
 ]

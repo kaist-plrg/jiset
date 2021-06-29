@@ -1,1 +1,0 @@
-MinutesPerHour = 60

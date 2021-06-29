@@ -1,8 +1,0 @@
-{
-  app __x0__ = (ToNumber x)
-  let n = [? __x0__]
-  if (|| (|| (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) (= n Infinity)) (= n -Infinity)) return n else {}
-  if (&& (< n 1i) (< 0i n)) return 0i else {}
-  if (&& (< n 0i) (< -1i n)) return -0.0 else {}
-  ??? "Return the integral Number nearest id:{n} in the direction of value:{+0} ."
-}

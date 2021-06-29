@@ -1,1 +1,0 @@
-HoursPerDay = 24

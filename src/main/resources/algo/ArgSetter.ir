@@ -1,0 +1,13 @@
+def [BUILTIN] ArgSetter (value) = {
+  0:let f = CONTEXT.Function
+  1:let name = f.Name
+  2:let env = f.Env
+  3:app __x0__ = (env.SetMutableBinding env name value false)
+  3:return __x0__
+}
+- id: "sec-makeargsetter"
+- code:
+            1. Let _f_ be the active function object.
+            1. Let _name_ be _f_.[[Name]].
+            1. Let _env_ be _f_.[[Env]].
+            1. Return _env_.SetMutableBinding(_name_, _value_, *false*).
