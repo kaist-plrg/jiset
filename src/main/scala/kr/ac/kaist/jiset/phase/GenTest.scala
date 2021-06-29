@@ -32,7 +32,6 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
       (input, spec)
     })
     genGrammarTest(extracted)
-    genBasicTest(extracted)
   }
 
   // util
@@ -46,36 +45,6 @@ case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
       val filename = s"$GRAMMAR_DIR/$VERSION.grammar"
       dumpFile(spec.grammar.beautified, filename)
     })
-
-  // generate basic test
-  def genBasicTest(extracted: Extracted): Unit = {
-    val (input, spec) = extracted
-    time(s"generate $VERSION tests", {
-      val baseDir = s"$BASIC_COMPILE_DIR/$VERSION"
-
-      // get spec, document, grammar, secIds
-      implicit val (lines, document, region) = input
-      implicit val grammar = spec.grammar
-      val (secIds, _) = ECMAScriptParser.parseHeads()
-
-      mkdir(baseDir)
-      for {
-        algo <- spec.algos
-        if algo.code != Nil
-      } {
-        val Algo(head, ids, rawBody, code) = algo
-        // file name
-        val filename = s"$baseDir/${algo.name}"
-        // dump code
-        dumpFile(algo.code.mkString(LINE_SEP), s"$filename.spec")
-        // dump tokens of steps
-        val tokens = TokenParser.getTokens(code)
-        dumpJson(tokens, s"$filename.json")
-        // dump ir
-        dumpFile(rawBody.beautified(index = false, asite = false), s"$filename.ir")
-      }
-    })
-  }
 
   def defaultConfig: GenTestConfig = GenTestConfig()
   val options: List[PhaseOption[GenTestConfig]] = Nil
