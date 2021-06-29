@@ -1,0 +1,64 @@
+def [BUILTIN] TypedArray.prototype.fill(value, start?, end?) = {
+  0:let O = this
+  1:app __x0__ = (ValidateTypedArray O)
+  1:[? __x0__]
+  2:let len = O.ArrayLength
+  4:if (= O.ContentType CONST_BigInt) {
+    app __x1__ = (ToBigInt value)
+    value = [? __x1__]
+  } else {
+    app __x2__ = (ToNumber value)
+    value = [? __x2__]
+  }
+  5:app __x3__ = (ToIntegerOrInfinity start)
+  5:let relativeStart = [? __x3__]
+  8:if (= relativeStart -Infinity) let k = 0i else if (< relativeStart 0i) {
+    app __x4__ = (max (+ len relativeStart) 0i)
+    let k = __x4__
+  } else {
+    app __x5__ = (min relativeStart len)
+    let k = __x5__
+  }
+  9:if (= end undefined) let relativeEnd = len else {
+    app __x6__ = (ToIntegerOrInfinity end)
+    let relativeEnd = [? __x6__]
+  }
+  12:if (= relativeEnd -Infinity) let final = 0i else if (< relativeEnd 0i) {
+    app __x7__ = (max (+ len relativeEnd) 0i)
+    let final = __x7__
+  } else {
+    app __x8__ = (min relativeEnd len)
+    let final = __x8__
+  }
+  13:app __x9__ = (IsDetachedBuffer O.ViewedArrayBuffer)
+  13:if (= __x9__ true) throw TypeError else 17:{}
+  14:while (< k final) {
+    15:app __x10__ = (ToString k)
+    15:let Pk = [! __x10__]
+    16:app __x11__ = (Set O Pk value true)
+    16:[! __x11__]
+    17:k = (+ k 1i)
+  }
+  18:return O
+}
+- id: "sec-%typedarray%.prototype.fill"
+- code:
+          1. Let _O_ be the *this* value.
+          1. Perform ? ValidateTypedArray(_O_).
+          1. Let _len_ be _O_.[[ArrayLength]].
+          1. If _O_.[[ContentType]] is ~BigInt~, set _value_ to ? ToBigInt(_value_).
+          1. Otherwise, set _value_ to ? ToNumber(_value_).
+          1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).
+          1. If _relativeStart_ is -∞, let _k_ be 0.
+          1. Else if _relativeStart_ < 0, let _k_ be max(_len_ + _relativeStart_, 0).
+          1. Else, let _k_ be min(_relativeStart_, _len_).
+          1. If _end_ is *undefined*, let _relativeEnd_ be _len_; else let _relativeEnd_ be ? ToIntegerOrInfinity(_end_).
+          1. If _relativeEnd_ is -∞, let _final_ be 0.
+          1. Else if _relativeEnd_ < 0, let _final_ be max(_len_ + _relativeEnd_, 0).
+          1. Else, let _final_ be min(_relativeEnd_, _len_).
+          1. If IsDetachedBuffer(_O_.[[ViewedArrayBuffer]]) is *true*, throw a *TypeError* exception.
+          1. Repeat, while _k_ < _final_,
+            1. Let _Pk_ be ! ToString(𝔽(_k_)).
+            1. Perform ! Set(_O_, _Pk_, _value_, *true*).
+            1. Set _k_ to _k_ + 1.
+          1. Return _O_.

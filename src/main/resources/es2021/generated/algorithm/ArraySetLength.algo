@@ -28,6 +28,7 @@ def ArraySetLength(A, Desc) = {
   19:app __x6__ = (OrdinaryDefineOwnProperty A "length" newLenDesc)
   19:let succeeded = [! __x6__]
   20:if (= succeeded false) return false else 16:{}
+  21:??? "For each own property key id:{P} of id:{A} that is an array index , whose numeric value is greater than or equal to id:{newLen} , in descending numeric index order , do in:{} out:{}"
   28:if (= newWritable false) {
     29:app __x7__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Writable" -> false)))
     29:let succeeded = [! __x7__]

@@ -250,7 +250,7 @@ object Heap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> Func(algos("GLOBAL.getSymbol.prototype.description")),
+        "Code" -> Func(algos("GLOBAL.Symbol.prototype.description")),
       ),
       nmap = NMap(
         "name" -> DataProperty(Str("get description"), F, F, T),
@@ -392,7 +392,7 @@ object Heap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> Func(algos("GLOBAL.getArray[SYMBOL_species]")),
+        "Code" -> Func(algos("GLOBAL.Array[SYMBOL_species]")),
       ),
       nmap = NMap(
         "name" -> DataProperty(Str("get [Symbol.species]"), F, F, T),
@@ -459,7 +459,7 @@ object Heap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> Func(algos("GLOBAL.getMap[SYMBOL_species]")),
+        "Code" -> Func(algos("GLOBAL.Map[SYMBOL_species]")),
       ),
       nmap = NMap(
         "name" -> DataProperty(Str("get [Symbol.species]"), F, F, T),
@@ -484,7 +484,7 @@ object Heap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> Func(algos("GLOBAL.getMap.prototype.size")),
+        "Code" -> Func(algos("GLOBAL.Map.prototype.size")),
       ),
       nmap = NMap(
         "name" -> DataProperty(Str("get size"), F, F, T),
@@ -519,7 +519,7 @@ object Heap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> Func(algos("GLOBAL.getSet[SYMBOL_species]")),
+        "Code" -> Func(algos("GLOBAL.Set[SYMBOL_species]")),
       ),
       nmap = NMap(
         "name" -> DataProperty(Str("get [Symbol.species]"), F, F, T),
@@ -545,7 +545,7 @@ object Heap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> Func(algos("GLOBAL.getSet.prototype.size")),
+        "Code" -> Func(algos("GLOBAL.Set.prototype.size")),
       ),
       nmap = NMap(
         "name" -> DataProperty(Str("get size"), F, F, T),
@@ -728,7 +728,7 @@ object Heap {
       imap = IMap(
         "Extensible" -> Bool(true),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> Func(algos("GLOBAL.getPromise[SYMBOL_species]")),
+        "Code" -> Func(algos("GLOBAL.Promise[SYMBOL_species]")),
       ),
       nmap = NMap(
         "name" -> DataProperty(Str("get [Symbol.species]"), F, F, T),

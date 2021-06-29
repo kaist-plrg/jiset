@@ -1,0 +1,12 @@
+def [BUILTIN] TypedArray.prototype.values() = {
+  0:let O = this
+  1:app __x0__ = (ValidateTypedArray O)
+  1:[? __x0__]
+  2:app __x1__ = (CreateArrayIterator O CONST_value)
+  2:return __x1__
+}
+- id: "sec-%typedarray%.prototype.values"
+- code:
+          1. Let _O_ be the *this* value.
+          1. Perform ? ValidateTypedArray(_O_).
+          1. Return CreateArrayIterator(_O_, ~value~).

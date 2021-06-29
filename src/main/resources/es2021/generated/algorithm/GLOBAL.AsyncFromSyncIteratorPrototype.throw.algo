@@ -1,0 +1,60 @@
+def [BUILTIN] AsyncFromSyncIteratorPrototype.throw(value?) = {
+  0:let O = this
+  1:assert (&& (= (typeof O) Object) (! (= O.SyncIteratorRecord absent)))
+  2:app __x0__ = (NewPromiseCapability INTRINSIC_Promise)
+  2:let promiseCapability = [! __x0__]
+  3:let syncIterator = O.SyncIteratorRecord.Iterator
+  4:app __x1__ = (GetMethod syncIterator "throw")
+  4:let throw = __x1__
+  5:if (is-completion throw) if (= throw.Type CONST_normal) throw = throw.Value else {
+    app __x2__ = (Call promiseCapability.Reject undefined (new [throw.Value]))
+    if (&& (is-completion __x2__) (! (= __x2__.Type CONST_normal))) return __x2__ else 7:{}
+    return promiseCapability.Promise
+  } else 7:{}
+  5:throw
+  6:if (= throw undefined) {
+    7:app __x3__ = (Call promiseCapability.Reject undefined (new [value]))
+    7:[! __x3__]
+    8:return promiseCapability.Promise
+  } else 7:{}
+  11:if (! (= value absent)) {
+    10:app __x4__ = (Call throw syncIterator (new [value]))
+    10:let result = __x4__
+  } else {
+    12:app __x5__ = (Call throw syncIterator)
+    12:let result = __x5__
+  }
+  13:if (is-completion result) if (= result.Type CONST_normal) result = result.Value else {
+    app __x6__ = (Call promiseCapability.Reject undefined (new [result.Value]))
+    if (&& (is-completion __x6__) (! (= __x6__.Type CONST_normal))) return __x6__ else 7:{}
+    return promiseCapability.Promise
+  } else 7:{}
+  13:result
+  14:if (! (= (typeof result) Object)) {
+    15:app __x7__ = (Call promiseCapability.Reject undefined (new [(new OrdinaryObject())]))
+    15:[! __x7__]
+    16:return promiseCapability.Promise
+  } else 7:{}
+  17:app __x8__ = (AsyncFromSyncIteratorContinuation result promiseCapability)
+  17:return [! __x8__]
+}
+- id: "sec-%asyncfromsynciteratorprototype%.throw"
+- code:
+            1. Let _O_ be the *this* value.
+            1. Assert: Type(_O_) is Object and _O_ has a [[SyncIteratorRecord]] internal slot.
+            1. Let _promiseCapability_ be ! NewPromiseCapability(%Promise%).
+            1. Let _syncIterator_ be _O_.[[SyncIteratorRecord]].[[Iterator]].
+            1. Let _throw_ be GetMethod(_syncIterator_, *"throw"*).
+            1. IfAbruptRejectPromise(_throw_, _promiseCapability_).
+            1. If _throw_ is *undefined*, then
+              1. Perform ! Call(_promiseCapability_.[[Reject]], *undefined*, « _value_ »).
+              1. Return _promiseCapability_.[[Promise]].
+            1. If _value_ is present, then
+              1. Let _result_ be Call(_throw_, _syncIterator_, « _value_ »).
+            1. Else,
+              1. Let _result_ be Call(_throw_, _syncIterator_).
+            1. IfAbruptRejectPromise(_result_, _promiseCapability_).
+            1. If Type(_result_) is not Object, then
+              1. Perform ! Call(_promiseCapability_.[[Reject]], *undefined*, « a newly created *TypeError* object »).
+              1. Return _promiseCapability_.[[Promise]].
+            1. Return ! AsyncFromSyncIteratorContinuation(_result_, _promiseCapability_).

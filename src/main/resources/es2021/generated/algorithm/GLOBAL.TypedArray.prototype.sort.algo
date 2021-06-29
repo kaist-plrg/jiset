@@ -1,0 +1,19 @@
+def [BUILTIN] TypedArray.prototype.sort(comparefn) = {
+  0:let __x0__ = true
+  0:__x0__ = (! (= comparefn undefined))
+  0:if __x0__ {
+    app __x1__ = (IsCallable comparefn)
+    __x0__ = (= __x1__ false)
+  } else 31:{}
+  0:if __x0__ throw TypeError else 31:{}
+  1:let obj = this
+  2:app __x2__ = (ValidateTypedArray obj)
+  2:let buffer = [? __x2__]
+  3:let len = obj.ArrayLength
+}
+- id: "sec-%typedarray%.prototype.sort"
+- code:
+          1. If _comparefn_ is not *undefined* and IsCallable(_comparefn_) is *false*, throw a *TypeError* exception.
+          1. Let _obj_ be the *this* value.
+          1. Let _buffer_ be ? ValidateTypedArray(_obj_).
+          1. Let _len_ be _obj_.[[ArrayLength]].

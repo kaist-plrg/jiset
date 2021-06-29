@@ -541,12 +541,22 @@ object Interp {
   )
 
   // simple functions
-  type SimpleFunc = (State, List[Value]) => Value
+  type SimpleFunc = PartialFunction[(State, List[Value]), Value]
   def arityCheck(pair: (String, SimpleFunc)): (String, SimpleFunc) = {
     val (name, f) = pair
-    name -> ((st, args) => optional(f(st, args)).getOrElse {
-      error(s"wrong arguments: $name(${args.map(_.beautified).mkString(", ")})")
-    })
+    name -> {
+      case (st, args) => optional(f(st, args)).getOrElse {
+        error(s"wrong arguments: $name(${args.map(_.beautified).mkString(", ")})")
+      }
+    }
+  }
+  def numericSimpleFunc(op: (BigDecimal, BigDecimal) => BigDecimal): SimpleFunc = {
+    case (st, list @ _ :: _) =>
+      val ds = list.collect { case x: Numeric => x.toBigDecimal }
+      val d = ds.reduce(op)
+      if (d.toLong == d) INum(d.toLong)
+      else if (d.toBigInt == d) BigINum(d.toBigInt)
+      else Num(d.toDouble)
   }
   val simpleFuncs: Map[String, SimpleFunc] = Map(
     // TODO min, max
@@ -557,11 +567,13 @@ object Interp {
       }
     }),
     arityCheck("IsArrayIndex" -> {
-      case (st, List(n: Numeric)) =>
-        val d = n.toBigDecimal
+      case (st, List(Str(s))) =>
+        val d = ESValueParser.str2num(s)
         Bool(0 <= d && d.toInt == d)
-      case (_, List(_)) => Bool(false)
+      case (st, List(v)) => Bool(false)
     }),
+    arityCheck("min" -> numericSimpleFunc(_ min _)),
+    arityCheck("max" -> numericSimpleFunc(_ max _)),
     arityCheck("abs" -> {
       case (st, List(Num(n))) => Num(n.abs)
       case (st, List(INum(n))) => INum(n.abs)

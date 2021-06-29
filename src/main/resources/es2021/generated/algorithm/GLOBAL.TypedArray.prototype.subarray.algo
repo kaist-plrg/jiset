@@ -1,0 +1,59 @@
+def [BUILTIN] TypedArray.prototype.subarray(begin, end) = {
+  0:let O = this
+  1:app __x0__ = (RequireInternalSlot O "TypedArrayName")
+  1:[? __x0__]
+  2:assert (! (= O.ViewedArrayBuffer absent))
+  3:let buffer = O.ViewedArrayBuffer
+  4:let srcLength = O.ArrayLength
+  5:app __x1__ = (ToIntegerOrInfinity begin)
+  5:let relativeBegin = [? __x1__]
+  8:if (= relativeBegin -Infinity) let beginIndex = 0i else if (< relativeBegin 0i) {
+    app __x2__ = (max (+ srcLength relativeBegin) 0i)
+    let beginIndex = __x2__
+  } else {
+    app __x3__ = (min relativeBegin srcLength)
+    let beginIndex = __x3__
+  }
+  9:if (= end undefined) let relativeEnd = srcLength else {
+    app __x4__ = (ToIntegerOrInfinity end)
+    let relativeEnd = [? __x4__]
+  }
+  12:if (= relativeEnd -Infinity) let endIndex = 0i else if (< relativeEnd 0i) {
+    app __x5__ = (max (+ srcLength relativeEnd) 0i)
+    let endIndex = __x5__
+  } else {
+    app __x6__ = (min relativeEnd srcLength)
+    let endIndex = __x6__
+  }
+  13:app __x7__ = (max (- endIndex beginIndex) 0i)
+  13:let newLength = __x7__
+  14:let constructorName = O.TypedArrayName
+  15:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for id:{constructorName} ."
+  16:let srcByteOffset = O.ByteOffset
+  17:let beginByteOffset = (* (+ srcByteOffset beginIndex) elementSize)
+  18:let argumentsList = (new [buffer, beginByteOffset, newLength])
+  19:app __x8__ = (TypedArraySpeciesCreate O argumentsList)
+  19:return [? __x8__]
+}
+- id: "sec-%typedarray%.prototype.subarray"
+- code:
+          1. Let _O_ be the *this* value.
+          1. Perform ? RequireInternalSlot(_O_, [[TypedArrayName]]).
+          1. Assert: _O_ has a [[ViewedArrayBuffer]] internal slot.
+          1. Let _buffer_ be _O_.[[ViewedArrayBuffer]].
+          1. Let _srcLength_ be _O_.[[ArrayLength]].
+          1. Let _relativeBegin_ be ? ToIntegerOrInfinity(_begin_).
+          1. If _relativeBegin_ is -∞, let _beginIndex_ be 0.
+          1. Else if _relativeBegin_ < 0, let _beginIndex_ be max(_srcLength_ + _relativeBegin_, 0).
+          1. Else, let _beginIndex_ be min(_relativeBegin_, _srcLength_).
+          1. If _end_ is *undefined*, let _relativeEnd_ be _srcLength_; else let _relativeEnd_ be ? ToIntegerOrInfinity(_end_).
+          1. If _relativeEnd_ is -∞, let _endIndex_ be 0.
+          1. Else if _relativeEnd_ < 0, let _endIndex_ be max(_srcLength_ + _relativeEnd_, 0).
+          1. Else, let _endIndex_ be min(_relativeEnd_, _srcLength_).
+          1. Let _newLength_ be max(_endIndex_ - _beginIndex_, 0).
+          1. Let _constructorName_ be the String value of _O_.[[TypedArrayName]].
+          1. Let _elementSize_ be the Element Size value specified in <emu-xref href="#table-the-typedarray-constructors"></emu-xref> for _constructorName_.
+          1. Let _srcByteOffset_ be _O_.[[ByteOffset]].
+          1. Let _beginByteOffset_ be _srcByteOffset_ + _beginIndex_ × _elementSize_.
+          1. Let _argumentsList_ be « _buffer_, 𝔽(_beginByteOffset_), 𝔽(_newLength_) ».
+          1. Return ? TypedArraySpeciesCreate(_O_, _argumentsList_).
