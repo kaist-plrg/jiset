@@ -9,6 +9,9 @@ package object jiset {
   // Base project directory root
   val BASE_DIR = System.getenv("JISET_HOME")
 
+  // TypeScript base project directory root
+  val TSBASE_DIR = System.getenv("JSDBG_HOME")
+
   // Log directory
   val LOG_DIR = s"$BASE_DIR/logs"
   val EXTRACT_LOG_DIR = s"$LOG_DIR/extract"

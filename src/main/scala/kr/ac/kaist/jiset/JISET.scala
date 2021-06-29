@@ -62,6 +62,7 @@ object JISET {
     // JISET
     CmdExtract,
     CmdGenModel,
+    CmdGenTsModel,
     CmdCompileREPL,
     CmdGenTest,
 
@@ -88,6 +89,7 @@ object JISET {
     // JISET
     Extract,
     GenModel,
+    GenTsModel,
     CompileREPL,
     GenTest,
 

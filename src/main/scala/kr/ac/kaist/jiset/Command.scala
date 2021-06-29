@@ -61,6 +61,9 @@ case object CmdExtract extends CommandObj("extract", CmdBase >> Extract) {
 // gen-model
 case object CmdGenModel extends CommandObj("gen-model", CmdExtract >> GenModel)
 
+// gen-tsmodel
+case object CmdGenTsModel extends CommandObj("gen-tsmodel", CmdExtract >> GenTsModel)
+
 // compile-repl
 case object CmdCompileREPL extends CommandObj("compile-repl", CmdBase >> CompileREPL)
 
