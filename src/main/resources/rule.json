@@ -278,5 +278,13 @@
   {
     "tokens": "If id:{call} is not contained within a nt:{FunctionBody} , nt:{ConciseBody} , or nt:{AsyncConciseBody} , return value:{false} .",
     "inst": "{ let __contained__ = false let body = call while (&& (! __contained__) (! (= body absent))) { __contained__ = (|| __contained__ (is-instance-of body FunctionBody)) __contained__ = (|| __contained__ (is-instance-of body ConciseBody)) __contained__ = (|| __contained__ (is-instance-of body AsyncConciseBody)) access body = (body \"parent\") } if (! __contained__) return false else {} }"
+  },
+  {
+    "tokens": "If id:{q} can be the string - concatenation of id:{p} and some other String id:{r} , return value:{true} . Otherwise , return value:{false} .",
+    "inst": "return (< p q)"
+  },
+  {
+    "tokens": "Let id:{opText} be the sequence of Unicode code points associated with id:{assignmentOpText} in the following table : in:{} out:{}",
+    "inst": "let opText = (- assignmentOpText 1i)"
   }
 ]

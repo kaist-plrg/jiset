@@ -549,12 +549,18 @@ object Interp {
     })
   }
   val simpleFuncs: Map[String, SimpleFunc] = Map(
-    // TODO IsDuplicate, IsArrayIndex, min, max
+    // TODO min, max
     arityCheck("IsDuplicate" -> {
       case (st, List(addr: Addr)) => st(addr) match {
         case IRList(vs) => Bool(vs.toSet.size != vs.length)
         case _ => error(s"non-list @ IsDuplicate: ${addr.beautified}")
       }
+    }),
+    arityCheck("IsArrayIndex" -> {
+      case (st, List(n: Numeric)) =>
+        val d = n.toBigDecimal
+        Bool(0 <= d && d.toInt == d)
+      case (_, List(_)) => Bool(false)
     }),
     arityCheck("abs" -> {
       case (st, List(Num(n))) => Num(n.abs)

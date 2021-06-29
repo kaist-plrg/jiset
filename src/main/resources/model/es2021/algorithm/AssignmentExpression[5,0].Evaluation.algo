@@ -8,7 +8,7 @@ def [SYNTAX] AssignmentExpression[5,0].Evaluation<LeftHandSideExpression Assignm
   3:app __x3__ = (GetValue rref)
   3:let rval = [? __x3__]
   4:let assignmentOpText = (get-syntax AssignmentOperator)
-  5:??? "Let id:{opText} be the sequence of Unicode code points associated with id:{assignmentOpText} in the following table : in:{} out:{}"
+  5:let opText = (- assignmentOpText 1i)
   25:app __x4__ = (ApplyStringOrNumericBinaryOperator lval opText rval)
   25:let r = __x4__
   26:app __x5__ = (PutValue lref r)

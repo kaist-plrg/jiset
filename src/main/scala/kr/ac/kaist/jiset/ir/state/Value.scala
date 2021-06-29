@@ -84,7 +84,18 @@ case class Cont(params: List[Id], body: Inst, context: Context, ctxtStack: List[
 
 // IR Constants
 sealed trait Const extends Value
-case class Num(double: Double) extends Const {
+
+// IR Numeric
+sealed trait Numeric extends Const {
+  // conversion to big decimal
+  def toBigDecimal: BigDecimal = this match {
+    case Num(double) => BigDecimal(double)
+    case INum(long) => BigDecimal(long)
+    case BigINum(bigint) => BigDecimal(bigint)
+  }
+}
+
+case class Num(double: Double) extends Numeric {
   override def equals(that: Any): Boolean = that match {
     case that: Num => doubleEquals(this.double, that.double)
     case _ => false
@@ -92,8 +103,8 @@ case class Num(double: Double) extends Const {
 }
 case class ASTVal(ast: AST) extends Value
 case class ASTMethod(func: Func, env: MMap[Id, Value]) extends Value
-case class INum(long: Long) extends Const
-case class BigINum(b: BigInt) extends Const
+case class INum(long: Long) extends Numeric
+case class BigINum(b: BigInt) extends Numeric
 case class Str(str: String) extends Const
 case class Bool(bool: Boolean) extends Const
 case object Undef extends Const
