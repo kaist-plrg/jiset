@@ -125,6 +125,8 @@ private class Interp(
             case _ => error(s"invalid Lexical access: $kind.$name")
           })
           case (ASTVal(ast), Str("parent")) => Some(ast.parent.map(ASTVal).getOrElse(Absent))
+          case (ASTVal(ast), Str("children")) => Some(st.allocList(ast.children))
+          case (ASTVal(ast), Str("kind")) => Some(Str(ast.kind))
           case (ASTVal(ast), Str(name)) => ast.semantics(name) match {
             case Some((algo, asts)) => {
               val head = algo.head
@@ -458,6 +460,7 @@ private class Interp(
     case (ODiv, INum(l), INum(r)) => Num(l / r)
     case (OUMod, INum(l), INum(r)) => INum(unsigned_modulo(l, r).toLong)
     case (OMod, INum(l), INum(r)) => INum(modulo(l, r).toLong)
+    case (OPow, INum(l), INum(r)) => number(math.pow(l, r))
     case (OLt, INum(l), INum(r)) => Bool(l < r)
     case (OBAnd, INum(l), INum(r)) => INum(l & r)
     case (OBOr, INum(l), INum(r)) => INum(l | r)

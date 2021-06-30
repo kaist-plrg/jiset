@@ -3,8 +3,8 @@ def [BUILTIN] Math.imul(x, y) = {
   0:let a = [? __x0__]
   1:app __x1__ = (ToUint32 y)
   1:let b = [? __x1__]
-  2:let product = (%% (* a b) (** 2.0 32i))
-  3:if (! (< product (** 2.0 31i))) return (- product (** 2.0 32i)) else return product
+  2:let product = (%% (* a b) (** 2i 32i))
+  3:if (! (< product (** 2i 31i))) return (- product (** 2i 32i)) else return product
 }
 - id: "sec-math.imul"
 - code:

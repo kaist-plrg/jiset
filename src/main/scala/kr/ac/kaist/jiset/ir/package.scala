@@ -24,6 +24,14 @@ package object ir {
     else m
   }
 
+  // get proper number value
+  def number(x: Numeric): Value = number(x.toBigDecimal)
+  def number(x: BigDecimal): Value = {
+    if (x.toLong == x) INum(x.toLong)
+    else if (x.toBigInt == x) BigINum(x.toBigInt)
+    else Num(x.toDouble)
+  }
+
   // negative zero check
   def isNegZero(double: Double): Boolean = (1 / double).isNegInfinity
 

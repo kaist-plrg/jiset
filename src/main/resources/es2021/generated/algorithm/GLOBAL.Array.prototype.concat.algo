@@ -15,7 +15,7 @@ def [BUILTIN] Array.prototype.concat(...items) = {
       7:let k = 0i
       8:app __x5__ = (LengthOfArrayLike E)
       8:let len = [? __x5__]
-      9:if (< (- (** 2.0 53i) 1i) (+ n len)) throw TypeError else 19:{}
+      9:if (< (- (** 2i 53i) 1i) (+ n len)) throw TypeError else 19:{}
       10:while (< k len) {
         11:app __x6__ = (ToString k)
         11:let P = [! __x6__]
@@ -32,7 +32,7 @@ def [BUILTIN] Array.prototype.concat(...items) = {
         17:k = (+ k 1i)
       }
     } else {
-      20:if (! (< n (- (** 2.0 53i) 1i))) throw TypeError else 19:{}
+      20:if (! (< n (- (** 2i 53i) 1i))) throw TypeError else 19:{}
       21:app __x11__ = (ToString n)
       21:app __x12__ = (CreateDataPropertyOrThrow A [! __x11__] E)
       21:[? __x12__]

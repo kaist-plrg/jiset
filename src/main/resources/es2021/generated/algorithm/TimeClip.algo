@@ -1,7 +1,7 @@
 def TimeClip(time) = {
   0:if (|| (= time Infinity) (= time -Infinity)) return NaN else 2:{}
   1:app __x0__ = (abs time)
-  1:if (< (* 8.64 (** 10.0 15i)) __x0__) return NaN else 2:{}
+  1:if (< (* 8.64 (** 10i 15i)) __x0__) return NaN else 2:{}
   2:app __x1__ = (ToIntegerOrInfinity time)
   2:return [! __x1__]
 }

@@ -9,14 +9,14 @@ def BigIntBitwiseOp(op, x, y) = {
     7:let yDigit = (%% y 2i)
     10:if (= op "&") {
       app __x0__ = (BinaryAnd xDigit yDigit)
-      result = (* (+ result (** 2.0 shift)) __x0__)
+      result = (* (+ result (** 2i shift)) __x0__)
     } else if (= op "|") {
       app __x1__ = (BinaryOr xDigit yDigit)
-      result = (* (+ result (** 2.0 shift)) __x1__)
+      result = (* (+ result (** 2i shift)) __x1__)
     } else {
       11:assert (= op "^")
       12:app __x2__ = (BinaryXor xDigit yDigit)
-      12:result = (* (+ result (** 2.0 shift)) __x2__)
+      12:result = (* (+ result (** 2i shift)) __x2__)
     }
     13:shift = (+ shift 1i)
     14:x = (/ (- x xDigit) 2i)
@@ -33,7 +33,7 @@ def BigIntBitwiseOp(op, x, y) = {
     20:app __x5__ = (BinaryXor (%% x 2i) (%% y 2i))
     20:let tmp = __x5__
   }
-  21:if (! (== tmp 0i)) result = (- result (** 2.0 shift)) else 23:{}
+  21:if (! (== tmp 0i)) result = (- result (** 2i shift)) else 23:{}
   24:return (convert result num2bigint )
 }
 - id: "sec-bigintbitwiseop"

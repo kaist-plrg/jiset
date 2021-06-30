@@ -1,5 +1,5 @@
 def ArrayCreate(length, proto?) = {
-  0:if (< (- (** 2.0 32i) 1i) length) throw RangeError else 8:{}
+  0:if (< (- (** 2i 32i) 1i) length) throw RangeError else 8:{}
   1:if (= proto absent) proto = INTRINSIC_Array_prototype else 8:{}
   2:app __x0__ = (MakeBasicObject (new ["Prototype", "Extensible"]))
   2:let A = [! __x0__]

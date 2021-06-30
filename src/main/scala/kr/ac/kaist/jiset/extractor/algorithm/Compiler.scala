@@ -985,7 +985,7 @@ class Compiler private (
     number ~ sup.filter(ts => parseAll(expr, ts).successful) ^^ {
       case x ~ ts => {
         val i ~ e = parseAll(expr, ts).get
-        pair(i, EBOp(OPow, ENum(x.toDouble), e))
+        pair(i, EBOp(OPow, EINum(x.toLong), e))
       }
     }
   )

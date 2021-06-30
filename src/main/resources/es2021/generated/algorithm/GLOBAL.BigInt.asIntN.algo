@@ -3,8 +3,8 @@ def [BUILTIN] BigInt.asIntN(bits, bigint) = {
   0:bits = [? __x0__]
   1:app __x1__ = (ToBigInt bigint)
   1:bigint = [? __x1__]
-  2:let mod = (%% bigint (** 2.0 bits))
-  3:if (! (< mod (** 2.0 (- bits 1i)))) return (convert (- mod (** 2.0 bits)) num2bigint ) else return (convert mod num2bigint )
+  2:let mod = (%% bigint (** 2i bits))
+  3:if (! (< mod (** 2i (- bits 1i)))) return (convert (- mod (** 2i bits)) num2bigint ) else return (convert mod num2bigint )
 }
 - id: "sec-bigint.asintn"
 - code:

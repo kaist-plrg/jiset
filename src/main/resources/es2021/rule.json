@@ -128,10 +128,6 @@
     "inst": "let r = (% n d)"
   },
   {
-    "tokens": "Perform the following substeps in an implementation - defined order , possibly interleaving parsing and error detection : in:{} out:{}",
-    "inst": "{ let parameterGoal = AST_FormalParameters let script = AST_Script let body = AST_ScriptBody }"
-  },
-  {
     "tokens": "Let id:{elementType} be the Element Type value in link:{table-the-typedarray-constructors} for id:{arrayTypeName} .",
     "inst": "let elementType = CONST_Int8"
   },
@@ -286,5 +282,9 @@
   {
     "tokens": "If id:{separator} is value:{undefined} , let id:{sep} be the single - element String value:{\",\"} .",
     "inst": "if (= separator undefined) let sep = \",\" else {}"
+  },
+  {
+    "tokens": "If nt:{ScriptBody} is present and the Directive Prologue of nt:{ScriptBody} contains a Use Strict Directive , return value:{true} ; otherwise , return value:{false} .",
+    "inst": "return true"
   }
 ]

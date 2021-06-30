@@ -24,7 +24,7 @@ def [BUILTIN] Array.prototype.splice(start, deleteCount, ...items) = {
     14:let dc = [? __x5__]
     15:??? "Let id:{actualDeleteCount} be the result of clamping id:{dc} between 0 and id:{len} - id:{actualStart} ."
   }
-  16:if (< (- (** 2.0 53i) 1i) (- (+ len insertCount) actualDeleteCount)) throw TypeError else 25:{}
+  16:if (< (- (** 2i 53i) 1i) (- (+ len insertCount) actualDeleteCount)) throw TypeError else 25:{}
   17:app __x6__ = (ArraySpeciesCreate O actualDeleteCount)
   17:let A = [? __x6__]
   18:let k = 0i

@@ -23,6 +23,11 @@ package object js {
   lazy val algos: Map[String, Algo] =
     spec.algos.map(algo => algo.name -> algo).toMap
 
+  // default algorithm for `Contains` static semantics
+  lazy val defaultContains: Algo = algos.getOrElse("Contains", {
+    error("cannot find default `Contains` algorithm")
+  })
+
   // conversion intrinsics to address
   def intrinsicToAddr(name: String): Addr = {
     val newName = name

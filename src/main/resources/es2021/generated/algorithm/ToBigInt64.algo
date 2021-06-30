@@ -1,8 +1,8 @@
 def ToBigInt64(argument) = {
   0:app __x0__ = (ToBigInt argument)
   0:let n = [? __x0__]
-  1:let int64bit = (%% n (** 2.0 64i))
-  2:if (! (< int64bit (** 2.0 63i))) return (convert (- int64bit (** 2.0 64i)) num2bigint ) else return (convert int64bit num2bigint )
+  1:let int64bit = (%% n (** 2i 64i))
+  2:if (! (< int64bit (** 2i 63i))) return (convert (- int64bit (** 2i 64i)) num2bigint ) else return (convert int64bit num2bigint )
 }
 - id: "sec-tobigint64"
 - code:

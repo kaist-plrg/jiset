@@ -58,6 +58,9 @@ trait AST {
     case _ => true
   }
 
+  // children
+  def children: List[Value] = list.map(_._2)
+
   // semantic map
   def semMap: Map[String, Algo] = AST.getSemMap((kind, idx))
 
@@ -67,6 +70,7 @@ trait AST {
       case Some(f) => Some((f, ASTVal(this) :: list.map(_._2)))
       case None => semMap.get(fname + maxK.toString) match {
         case Some(f) => Some((f, ASTVal(this) :: fullList.map(_._2)))
+        case None if fname == "Contains" => Some((defaultContains, List(ASTVal(this))))
         case None => list match {
           case List((_, ASTVal(x))) => x.semantics(fname)
           case _ => None
