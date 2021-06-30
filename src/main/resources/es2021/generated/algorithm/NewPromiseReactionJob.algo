@@ -1,9 +1,39 @@
 def NewPromiseReactionJob(reaction, argument) = {
-  0:??? "Let id:{job} be a new Job Abstract Closure with no parameters that captures id:{reaction} and id:{argument} and performs the following steps when called : in:{} out:{}"
+  0:let job = ()[reaction, argument] => {
+    2:let promiseCapability = reaction.Capability
+    3:let type = reaction.Type
+    4:let handler = reaction.Handler
+    10:if (= handler CONST_empty) if (= type CONST_Fulfill) {
+      app __x0__ = (NormalCompletion argument)
+      let handlerResult = __x0__
+    } else {
+      8:assert (= type CONST_Reject)
+      9:app __x1__ = (ThrowCompletion argument)
+      9:let handlerResult = __x1__
+    } else {
+      app __x2__ = (HostCallJobCallback handler undefined (new [argument]))
+      let handlerResult = __x2__
+    }
+    11:if (= promiseCapability undefined) {
+      12:app __x3__ = (IsAbruptCompletion handlerResult)
+      12:assert (! __x3__)
+      13:return CONST_empty
+    } else 25:{}
+    14:assert (is-instance-of promiseCapability PromiseCapabilityRecord)
+    17:app __x4__ = (IsAbruptCompletion handlerResult)
+    17:if __x4__ {
+      16:app __x5__ = (Call promiseCapability.Reject undefined (new [handlerResult.Value]))
+      16:let status = __x5__
+    } else {
+      18:app __x6__ = (Call promiseCapability.Resolve undefined (new [handlerResult.Value]))
+      18:let status = __x6__
+    }
+    19:return status
+  }
   20:let handlerRealm = null
   21:if (! (= reaction.Handler CONST_empty)) {
-    22:app __x0__ = (GetFunctionRealm reaction.Handler.Callback)
-    22:let getHandlerRealmResult = __x0__
+    22:app __x7__ = (GetFunctionRealm reaction.Handler.Callback)
+    22:let getHandlerRealmResult = __x7__
     24:if (&& (is-completion getHandlerRealmResult) (= getHandlerRealmResult.Type CONST_normal)) handlerRealm = getHandlerRealmResult.Value else handlerRealm = REALM
   } else 25:{}
   26:return (new Record("Job" -> job, "Realm" -> handlerRealm))

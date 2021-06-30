@@ -286,5 +286,117 @@
   {
     "tokens": "If nt:{ScriptBody} is present and the Directive Prologue of nt:{ScriptBody} contains a Use Strict Directive , return value:{true} ; otherwise , return value:{false} .",
     "inst": "return true"
+  },
+  {
+    "tokens": "Let id:{steps} be the algorithm steps defined in link:{sec-getcapabilitiesexecutor-functions} .",
+    "inst": "let steps = ALGORITHM[\"GLOBAL.GetCapabilitiesExecutorFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{length} be the number of non - optional parameters of the function definition in link:{sec-getcapabilitiesexecutor-functions} .",
+    "inst": "let length = 2i"
+  },
+  {
+    "tokens": "Let id:{stepsResolve} be the algorithm steps defined in link:{sec-promise-resolve-functions} .",
+    "inst": "let stepsResolve = ALGORITHM[\"GLOBAL.PromiseResolveFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{lengthResolve} be the number of non - optional parameters of the function definition in link:{sec-promise-resolve-functions} .",
+    "inst": "let lengthResolve = 1i"
+  },
+  {
+    "tokens": "Let id:{stepsReject} be the algorithm steps defined in link:{sec-promise-reject-functions} .",
+    "inst": "let stepsReject = ALGORITHM[\"GLOBAL.PromiseRejectFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{lengthReject} be the number of non - optional parameters of the function definition in link:{sec-promise-reject-functions} .",
+    "inst": "let lengthReject = 1i"
+  },
+  {
+    "tokens": "Let id:{steps} be the algorithm steps defined in link:{sec-async-from-sync-iterator-value-unwrap-functions} .",
+    "inst": "let steps = ALGORITHM[\"GLOBAL.AsyncfromSyncIteratorValueUnwrapFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{length} be the number of non - optional parameters of the function definition in link:{sec-async-from-sync-iterator-value-unwrap-functions} .",
+    "inst": "let length = 1i"
+  },
+  {
+    "tokens": "Let id:{stepsFulfilled} be the algorithm steps defined in link:{async-generator-resume-next-return-processor-fulfilled} .",
+    "inst": "let stepsFulfilled = ALGORITHM[\"GLOBAL.AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in link:{async-generator-resume-next-return-processor-fulfilled} .",
+    "inst": "let lengthFulfilled = 1i"
+  },
+  {
+    "tokens": "Let id:{stepsRejected} be the algorithm steps defined in link:{async-generator-resume-next-return-processor-rejected} .",
+    "inst": "let stepsRejected = ALGORITHM[\"GLOBAL.AsyncGeneratorResumeNextReturnProcessorRejectedFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{lengthRejected} be the number of non - optional parameters of the function definition in link:{async-generator-resume-next-return-processor-rejected} .",
+    "inst": "let lengthRejected = 1i"
+  },
+  {
+    "tokens": "Let id:{stepsFulfilled} be the algorithm steps defined in link:{await-fulfilled} .",
+    "inst": "let stepsFulfilled = ALGORITHM[\"GLOBAL.AwaitFulfilledFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{lengthFulfilled} be the number of non - optional parameters of the function definition in link:{await-fulfilled} .",
+    "inst": "let lengthFulfilled = 1i"
+  },
+  {
+    "tokens": "Let id:{stepsRejected} be the algorithm steps defined in link:{await-rejected} .",
+    "inst": "let stepsRejected = ALGORITHM[\"GLOBAL.AwaitRejectedFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{lengthRejected} be the number of non - optional parameters of the function definition in link:{await-rejected} .",
+    "inst": "let lengthRejected = 1i"
+  },
+  {
+    "tokens": "Let id:{stepsDefine} be the algorithm steps defined in link:{sec-create-data-property-on-object-functions} .",
+    "inst": "let stepsDefine = ALGORITHM[\"GLOBAL.CreateDataPropertyOnObjectFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{lengthDefine} be the number of non - optional parameters of the function definition in link:{sec-create-data-property-on-object-functions} .",
+    "inst": "let lengthDefine = 2i"
+  },
+  {
+    "tokens": "Let id:{stepsThenFinally} be the algorithm steps defined in link:{sec-thenfinallyfunctions} .",
+    "inst": "let stepsThenFinally = ALGORITHM[\"GLOBAL.ThenFinallyFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{lengthThenFinally} be the number of non - optional parameters of the function definition in link:{sec-thenfinallyfunctions} .",
+    "inst": "let lengthThenFinally = 1i"
+  },
+  {
+    "tokens": "Let id:{stepsCatchFinally} be the algorithm steps defined in link:{sec-catchfinallyfunctions} .",
+    "inst": "let stepsCatchFinally = ALGORITHM[\"GLOBAL.CatchFinallyFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{lengthCatchFinally} be the number of non - optional parameters of the function definition in link:{sec-catchfinallyfunctions} .",
+    "inst": "let lengthCatchFinally = 1i"
+  },
+  {
+    "tokens": "Let id:{steps} be the algorithm steps defined in link:{sec-default-constructor-functions} .",
+    "inst": "let steps = ALGORITHM[\"GLOBAL.DefaultConstructorFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{steps} be the algorithm steps defined in link:{sec-proxy-revocation-functions} .",
+    "inst": "let steps = ALGORITHM[\"GLOBAL.ProxyRevocationFunctions\"]"
+  },
+  {
+    "tokens": "Let id:{length} be the number of non - optional parameters of the function definition in link:{sec-proxy-revocation-functions} .",
+    "inst": "let length = 0i"
+  },
+  {
+    "tokens": "Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} , and an [ [ InitialName ] ] internal slot .",
+    "inst": "{ let func = (new BuiltinFunctionObject()) delete func.Construct func.Code = steps func.SubMap.name = (new DataProperty(\"Value\" -> name, \"Writable\" -> false, \"Enumerable\" -> false, \"Configurable\" -> true)) func.SubMap.length = (new DataProperty(\"Value\" -> length, \"Writable\" -> false, \"Enumerable\" -> false, \"Configurable\" -> true)) }"
+  },
+  {
+    "tokens": "Let id:{thrower} be equivalent to a function that throws id:{reason} .",
+    "inst": "let thrower = (new OrdinaryObject(\"Call\" -> ()[reason] => { app thrown = (ThrowCompletion reason) return thrown }))"
+  },
+  {
+    "tokens": "Let id:{valueThunk} be equivalent to a function that returns id:{value} .",
+    "inst": "let valueThunk = (new OrdinaryObject(\"Call\" -> ()[value] => { return value }))"
   }
 ]

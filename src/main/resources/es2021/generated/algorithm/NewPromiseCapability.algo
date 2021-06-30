@@ -2,8 +2,8 @@ def NewPromiseCapability(C) = {
   0:app __x0__ = (IsConstructor C)
   0:if (= __x0__ false) throw TypeError else 1:{}
   2:let promiseCapability = (new PromiseCapabilityRecord("Promise" -> undefined, "Resolve" -> undefined, "Reject" -> undefined))
-  3:??? "Let id:{steps} be the algorithm steps defined in link:{sec-getcapabilitiesexecutor-functions} ."
-  4:??? "Let id:{length} be the number of non - optional parameters of the function definition in link:{sec-getcapabilitiesexecutor-functions} ."
+  3:let steps = ALGORITHM["GLOBAL.GetCapabilitiesExecutorFunctions"]
+  4:let length = 2i
   5:app __x1__ = (CreateBuiltinFunction steps length "" (new ["Capability"]))
   5:let executor = [! __x1__]
   6:executor.Capability = promiseCapability

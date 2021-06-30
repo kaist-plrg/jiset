@@ -23,8 +23,8 @@ def AsyncFromSyncIteratorContinuation(result, promiseCapability) = {
     return promiseCapability.Promise
   } else 7:{}
   5:valueWrapper
-  6:??? "Let id:{steps} be the algorithm steps defined in link:{sec-async-from-sync-iterator-value-unwrap-functions} ."
-  7:??? "Let id:{length} be the number of non - optional parameters of the function definition in link:{sec-async-from-sync-iterator-value-unwrap-functions} ."
+  6:let steps = ALGORITHM["GLOBAL.AsyncfromSyncIteratorValueUnwrapFunctions"]
+  7:let length = 1i
   8:app __x6__ = (CreateBuiltinFunction steps length "" (new ["Done"]))
   8:let onFulfilled = [! __x6__]
   9:onFulfilled.Done = done

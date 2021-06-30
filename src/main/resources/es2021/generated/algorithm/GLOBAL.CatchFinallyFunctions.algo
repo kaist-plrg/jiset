@@ -1,4 +1,4 @@
-def CatchFinallyFunctions() = {
+def [BUILTIN] CatchFinallyFunctions(reason) = {
   0:let F = CONTEXT.Function
   1:let onFinally = F.OnFinally
   2:app __x0__ = (IsCallable onFinally)
@@ -10,7 +10,10 @@ def CatchFinallyFunctions() = {
   5:assert (= __x2__ true)
   6:app __x3__ = (PromiseResolve C result)
   6:let promise = [? __x3__]
-  7:??? "Let id:{thrower} be equivalent to a function that throws id:{reason} ."
+  7:let thrower = (new OrdinaryObject("Call" -> ()[reason] => {
+    app thrown = (ThrowCompletion reason)
+    return thrown
+  }))
   8:app __x4__ = (Invoke promise "then" (new [thrower]))
   8:return [? __x4__]
 }

@@ -1,0 +1,9 @@
+def [BUILTIN] AsyncfromSyncIteratorValueUnwrapFunctions(value) = {
+  0:let F = CONTEXT.Function
+  1:app __x0__ = (CreateIterResultObject value F.Done)
+  1:return [! __x0__]
+}
+- id: "sec-async-from-sync-iterator-value-unwrap-functions"
+- code:
+            1. Let _F_ be the active function object.
+            1. Return ! CreateIterResultObject(_value_, _F_.[[Done]]).

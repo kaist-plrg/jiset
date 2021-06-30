@@ -36,7 +36,7 @@ object HeadParser extends HeadParsers {
     val from = str.indexOf("(")
     var name = if (from == -1) str else str.substring(0, from)
     name = prefixPattern.replaceFirstIn(name, "").trim
-    name = "[/\\s]".r.replaceAllIn(name, "")
+    name = "[-/\\s]".r.replaceAllIn(name, "")
     if (!nameCheck(name)) error(s"not target algorithm: $str")
 
     // extract parameters
@@ -47,9 +47,7 @@ object HeadParser extends HeadParsers {
 
     // classify head
     val prev = elem.previousElementSibling
-    if (isManualNormalHead(name))
-      getNormalHead(name, params)
-    else if (isEquation(elem))
+    if (isEquation(elem))
       getEquationHead(name, params)
     else if (isSyntaxDirected(prev))
       getSyntaxDirectedHead(name, headElem, prev)
@@ -57,8 +55,8 @@ object HeadParser extends HeadParsers {
       getEnvMethodHead(name, prev, elem, params)
     else if (isObjMethod(name))
       getObjMethodHead(name, prev, elem, params)
-    else if (isBuiltin(prev, elem, builtinLine))
-      getBuiltinHead(name, params)
+    else if (isBuiltin(name, elem, builtinLine))
+      getBuiltinHead(name, headElem, params)
     else if (isThisValue(prev, elem, builtinLine))
       getThisValueHead(prev)
     else
@@ -71,25 +69,6 @@ object HeadParser extends HeadParsers {
       }
       Nil
   }
-
-  // set of normal heads which are mistakenly interpreted as builtin heads
-  val manualNormalHeadSet = Set(
-    "CreateResolvingFunctions",
-    "GetGeneratorKind",
-    "PerformPromiseThen",
-    "FlattenIntoArray",
-    "PromiseReactionJob",
-    "NumberToBigInt",
-    "AsyncFunctionAwait",
-    "PromiseResolveFunctions",
-    "PromiseRejectFunctions",
-    "CreateDataPropertyOnObjectFunctions",
-    "ThenFinallyFunctions",
-    "CatchFinallyFunctions"
-  )
-
-  // check whether current algorithm head is manual normal head.
-  def isManualNormalHead(name: String): Boolean = manualNormalHeadSet contains name
 
   // normal head
   def getNormalHead(name: String, params: List[Param]): List[Head] =
@@ -111,6 +90,18 @@ object HeadParser extends HeadParsers {
   def isSyntaxDirected(prev: Element): Boolean =
     isCoreSyntax(prev) || isRegexpSyntax(prev)
 
+  // get with parameters
+  def getWithParams(headElem: Element): List[Param] = {
+    val text = getText(headElem, false)
+    val isParams = ".*[wW]ith (optional )?(parameter|argument).*".r.matches(text)
+    if (!isParams) Nil else {
+      val optionalParamText: String = optionalParamPattern.findFirstIn(text).getOrElse("")
+      val optionalParams: List[String] = withParamPattern.findAllMatchIn(optionalParamText).toList.map(trimParam)
+      val normalParams: List[String] = withParamPattern.findAllMatchIn(text).toList.map(trimParam) diff optionalParams
+      normalParams.map(Param(_, Param.Kind.Normal)) ++ optionalParams.map(Param(_, Param.Kind.Optional))
+    }
+  }
+
   // syntax directed head
   def getSyntaxDirectedHead(
     tempName: String,
@@ -126,19 +117,7 @@ object HeadParser extends HeadParsers {
     val idxMap = grammar.idxMap
 
     // with parameters
-    val withParams: List[Param] = {
-      val prevElem = headElem.nextElementSibling
-      val isParagraph = prevElem.tagName == "p"
-      val text = prevElem.text
-      val isParams = "[wW]ith (optional )?(parameter|argument).*".r.matches(text)
-      if (!isParagraph || !isParams) Nil
-      else {
-        val optionalParamText: String = optionalParamPattern.findFirstIn(text).getOrElse("")
-        val optionalParams: List[String] = withParamPattern.findAllMatchIn(optionalParamText).toList.map(trimParam)
-        val normalParams: List[String] = withParamPattern.findAllMatchIn(text).toList.map(trimParam) diff optionalParams
-        normalParams.map(Param(_, Param.Kind.Normal)) ++ optionalParams.map(Param(_, Param.Kind.Optional))
-      }
-    }
+    val withParams = getWithParams(headElem)
 
     // extract emu-grammar
     val target =
@@ -265,21 +244,54 @@ object HeadParser extends HeadParsers {
     }
   }
 
+  // get sequential <p> tagged text
+  def getText(elem: Element, toPrev: Boolean = true): String = {
+    var text = ""
+    var keep = true
+    val prevs = toArray {
+      if (toPrev) elem.previousElementSiblings
+      else elem.nextElementSiblings
+    }
+    for (prev <- prevs if keep) {
+      if (prev.tagName == "p") text += prev.text
+      else keep = false
+    }
+    text
+  }
+
   // check whether current algorithm head is for built-in functions.
   private val absOpPattern = ".*abstract operation.*".r
+  private val argPattern = "An Arg[GS]etter function is.*".r
+  private val builtinPattern = ".*is an anonymous built-in function.*".r
+  private val manualBuiltins = Set("DefaultConstructorFunctions")
   def isBuiltin(
-    prev: Element,
+    name: String,
     elem: Element,
     builtinLine: Int
-  )(implicit lines: Array[String]): Boolean = getRange(elem) match {
-    case None => false
-    case Some((start, _)) =>
-      start >= builtinLine && !absOpPattern.matches(prev.text)
+  )(implicit lines: Array[String]): Boolean = {
+    val text = getText(elem)
+    val rangeCheck = getRange(elem) match {
+      case None => false
+      case Some((start, _)) =>
+        start >= builtinLine && !absOpPattern.matches(text)
+    }
+    val prevCommentCheck =
+      !argPattern.matches(text) && builtinPattern.matches(text)
+    val manualCheck = manualBuiltins contains name
+    rangeCheck || prevCommentCheck || manualCheck
   }
 
   // builtin head
-  def getBuiltinHead(name: String, params: List[Param]): List[Head] =
-    List(BuiltinHead(parseAll(ref, name).get, params))
+  def getBuiltinHead(
+    name: String,
+    headElem: Element,
+    params: List[Param]
+  ): List[Head] = {
+    val newParams =
+      if (params.isEmpty) getWithParams(headElem)
+      else params
+    List(BuiltinHead(parseAll(ref, name).get, newParams))
+  }
 
   // check whether current algorithm head is for thisValue
   def isThisValue(

@@ -1071,7 +1071,7 @@ class Compiler private (
   )
 
   lazy val closureExpr: P[I[Expr]] = (
-    ("a new abstract closure with" ~> ("no parameters" ^^^ Nil | "parameters (" ~> repsep(id, ",") <~ ")")) ~
+    ("a new" ~ opt("job") ~ "abstract closure with" ~> ("no parameters" ^^^ Nil | "parameters (" ~> repsep(id, ",") <~ ")")) ~
     ("that captures" ~> repsep(id, sep("and")) <~ "and performs the following steps when called:") ~
     stmt
   ) ^^ { case ps ~ cs ~ b => pair(Nil, EClo(ps.map(IRId), cs.map(IRId), b)) }

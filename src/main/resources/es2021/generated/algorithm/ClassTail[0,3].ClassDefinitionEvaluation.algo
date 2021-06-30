@@ -38,7 +38,7 @@ def [SYNTAX] ClassTail[0,3].ClassDefinitionEvaluation<ClassHeritage? `{` ClassBo
   }
   23:CONTEXT.LexicalEnvironment = classScope
   27:if (= constructor CONST_empty) {
-    25:??? "Let id:{steps} be the algorithm steps defined in link:{sec-default-constructor-functions} ."
+    25:let steps = ALGORITHM["GLOBAL.DefaultConstructorFunctions"]
     26:app __x9__ = (CreateBuiltinFunction steps 0i className (new ["ConstructorKind", "SourceText"]) CONST_empty constructorParent)
     26:let F = [! __x9__]
   } else {

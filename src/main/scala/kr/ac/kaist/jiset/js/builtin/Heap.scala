@@ -164,7 +164,7 @@ object Heap {
       imap = IMap(
         "Extensible" -> Bool(false),
         "Prototype" -> NamedAddr("GLOBAL.Function.prototype"),
-        "Code" -> Func(algos("%ThrowTypeError%")),
+        "Code" -> Func(algos("GLOBAL.ThrowTypeError")),
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(0.0), F, F, F),

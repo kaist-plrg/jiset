@@ -1,4 +1,4 @@
-def ThenFinallyFunctions() = {
+def [BUILTIN] ThenFinallyFunctions(value) = {
   0:let F = CONTEXT.Function
   1:let onFinally = F.OnFinally
   2:app __x0__ = (IsCallable onFinally)
@@ -10,7 +10,7 @@ def ThenFinallyFunctions() = {
   5:assert (= __x2__ true)
   6:app __x3__ = (PromiseResolve C result)
   6:let promise = [? __x3__]
-  7:??? "Let id:{valueThunk} be equivalent to a function that returns id:{value} ."
+  7:let valueThunk = (new OrdinaryObject("Call" -> ()[value] => return value))
   8:app __x4__ = (Invoke promise "then" (new [valueThunk]))
   8:return [? __x4__]
 }
