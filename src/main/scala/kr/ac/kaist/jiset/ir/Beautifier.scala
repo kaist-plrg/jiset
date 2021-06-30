@@ -41,6 +41,7 @@ class Beautifier(
     case node: Heap => HeapApp(app, node)
     case node: Obj => ObjApp(app, node)
     case node: Value => ValueApp(app, node)
+    case node: RefValue => RefValueApp(app, node)
   }
 
   //////////////////////////////////////////////////////////////////////////////
