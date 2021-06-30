@@ -153,7 +153,7 @@
   },
   {
     "tokens": "Return an Iterator object ( link:{sec-iterator-interface} ) whose code:{next} method iterates over all the String - valued keys of enumerable properties of id:{O} . The iterator object is never directly accessible to ECMAScript code . The mechanics and order of enumerating the properties is not specified but must conform to the rules specified below .",
-    "inst": "return (new Object())"
+    "inst": "{ app list = (EnumerateObjectPropertiesHelper O (new []) (new [])) app iteratorRecord = (CreateListIteratorRecord list) let iterator = iteratorRecord.Iterator app _ = (Set iterator \"next\" iteratorRecord.NextMethod false) return iterator }"
   },
   {
     "tokens": "Return the result of appending to id:{declarations} the elements of the VarScopedDeclarations of the second nt:{CaseClauses} .",
@@ -389,7 +389,7 @@
   },
   {
     "tokens": "Let id:{func} be a new built - in function object that when called performs the action described by id:{steps} . The new function object has internal slots whose names are the elements of id:{internalSlotsList} , and an [ [ InitialName ] ] internal slot .",
-    "inst": "{ let func = (new BuiltinFunctionObject()) delete func.Construct func.Code = steps func.SubMap.name = (new DataProperty(\"Value\" -> name, \"Writable\" -> false, \"Enumerable\" -> false, \"Configurable\" -> true)) func.SubMap.length = (new DataProperty(\"Value\" -> length, \"Writable\" -> false, \"Enumerable\" -> false, \"Configurable\" -> true)) }"
+    "inst": "{ let func = (new BuiltinFunctionObject()) func.Code = steps func.SubMap.name = (new DataProperty(\"Value\" -> name, \"Writable\" -> false, \"Enumerable\" -> false, \"Configurable\" -> true)) func.SubMap.length = (new DataProperty(\"Value\" -> length, \"Writable\" -> false, \"Enumerable\" -> false, \"Configurable\" -> true)) }"
   },
   {
     "tokens": "Let id:{thrower} be equivalent to a function that throws id:{reason} .",
@@ -398,5 +398,17 @@
   {
     "tokens": "Let id:{valueThunk} be equivalent to a function that returns id:{value} .",
     "inst": "let valueThunk = (new OrdinaryObject(\"Call\" -> ()[value] => { return value }))"
+  },
+  {
+    "tokens": "If id:{N} is an element of id:{varNames} , remove that element from the id:{varNames} .",
+    "inst": "{ let i = 0i while (&& (< i varNames.length) (! (= varNames[i] N))) i = (+ i 1i) if (< i varNames.length) (pop varNames i) else {} }"
+  },
+  {
+    "tokens": "Return a new unique Symbol value whose [ [ Description ] ] value is id:{descString} .",
+    "inst": "return (new 'descString)"
+  },
+  {
+    "tokens": "Return a String according to link:{table-typeof-operator-results} .",
+    "inst": "{ let t = (typeof val) if (= t Undefined) return \"undefined\" else if (= t Null) return \"object\" else if (= t Boolean) return \"boolean\" else if (= t Number) return \"number\" else if (= t String) return \"string\" else if (= t Symbol) return \"symbol\" else if (= t BigInt) return \"bigint\" else if (= t Object) { if (= val.Call absent) return \"object\" else return \"function\" } else ??? \"invalid for `typeof` operator\" }"
   }
 ]

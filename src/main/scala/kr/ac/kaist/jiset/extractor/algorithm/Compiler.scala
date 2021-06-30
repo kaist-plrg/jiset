@@ -679,6 +679,7 @@ class Compiler private (
     operatorExpr |||
     primitiveExpr |||
     closureExpr |||
+    getElemsExpr |||
     starExpr
   ))
 
@@ -843,7 +844,7 @@ class Compiler private (
     ("a new list containing the same values as the list" ~> expr <~ "in the same order followed by the same values as the list") ~ (expr <~ "in the same order") ^^ { case x ~ y => getCopyList(x, y) } |||
     "a List whose elements are the elements of" ~> {
       (expr <~ (opt(",") ~ "followed by" ~ opt("the elements of"))) ~ expr
-    } ^^ { case ie0 ~ ie1 => { getCopyList(ie0, List(ie1)) } }
+    } ^^ { case ie0 ~ ie1 => { getCopyList(ie0, ie1) } }
   )
 
   // algorithm expressions
@@ -1070,12 +1071,6 @@ class Compiler private (
     callExpr
   )
 
-  lazy val closureExpr: P[I[Expr]] = (
-    ("a new" ~ opt("job") ~ "abstract closure with" ~> ("no parameters" ^^^ Nil | "parameters (" ~> repsep(id, ",") <~ ")")) ~
-    ("that captures" ~> repsep(id, sep("and")) <~ "and performs the following steps when called:") ~
-    stmt
-  ) ^^ { case ps ~ cs ~ b => pair(Nil, EClo(ps.map(IRId), cs.map(IRId), b)) }
-
   lazy val dateConst: P[Int] = (
     "msPerDay" ^^^ msPerDay |
     "msPerHour" ^^^ msPerHour |
@@ -1089,6 +1084,18 @@ class Compiler private (
   val msPerHour = 3600000
   val msPerMinute = 60000
   val msPerSecond = 1000
+
+  // closure expressions
+  lazy val closureExpr: P[I[Expr]] = (
+    ("a new" ~ opt("job") ~ "abstract closure with" ~> ("no parameters" ^^^ Nil | "parameters (" ~> repsep(id, ",") <~ ")")) ~
+    ("that captures" ~> repsep(id, sep("and")) <~ "and performs the following steps when called:") ~
+    stmt
+  ) ^^ { case ps ~ cs ~ b => pair(Nil, EClo(ps.map(IRId), cs.map(IRId), b)) }
+
+  // get-elems expressions
+  lazy val getElemsExpr: P[I[Expr]] = (
+    ("the list of" ~> nt) ~ ("items in" ~> expr <~ opt(", in source text order"))
+  ) ^^ { case x ~ (i ~ e) => pair(i, EGetElems(e, x)) }
 
   ////////////////////////////////////////////////////////////////////////////////
   // values

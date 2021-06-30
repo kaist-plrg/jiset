@@ -1,5 +1,3 @@
-def GetArgument (argumentsList, idx) = {
-  let arg = argumentsList[idx]
-  if (= arg absent) return undefined
-  else return arg
+def GetArgument(args) = {
+  if (= args.length 0i) return undefined else return (pop args 0i)
 }

@@ -1,6 +1,6 @@
 def [SYNTAX] CaseBlock[1,3].CaseBlockEvaluation<`{` CaseClauses? DefaultClause CaseClauses? `}`>(input) = {
   0:let V = undefined
-  3:if (! (= CaseClauses0 absent)) ??? "Let id:{A} be the List of nt:{CaseClause} items in the first nt:{CaseClauses} , in source text order ." else let A = (new [])
+  3:if (! (= CaseClauses0 absent)) let A = (get-elems CaseClauses0 CaseClause) else let A = (new [])
   5:let found = false
   6:let __x0__ = A
   6:let __x1__ = 0i
@@ -23,7 +23,7 @@ def [SYNTAX] CaseBlock[1,3].CaseBlockEvaluation<`{` CaseClauses? DefaultClause C
     __x1__ = (+ __x1__ 1i)
   }
   13:let foundInB = false
-  16:if (! (= CaseClauses1 absent)) ??? "Let id:{B} be the List of nt:{CaseClause} items in the second nt:{CaseClauses} , in source text order ." else let B = (new [])
+  16:if (! (= CaseClauses1 absent)) let B = (get-elems CaseClauses1 CaseClause) else let B = (new [])
   18:if (= found false) {
     19:let __x6__ = B
     19:let __x7__ = 0i

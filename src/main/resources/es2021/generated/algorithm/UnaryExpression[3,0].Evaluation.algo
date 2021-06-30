@@ -7,7 +7,8 @@ def [SYNTAX] UnaryExpression[3,0].Evaluation<`typeof` UnaryExpression>() = {
   } else 3:{}
   3:app __x2__ = (GetValue val)
   3:val = [? __x2__]
-  4:??? "Return a String according to link:{table-typeof-operator-results} ."
+  4:let t = (typeof val)
+  4:if (= t Undefined) return "undefined" else if (= t Null) return "object" else if (= t Boolean) return "boolean" else if (= t Number) return "number" else if (= t String) return "string" else if (= t Symbol) return "symbol" else if (= t BigInt) return "bigint" else if (= t Object) if (= val.Call absent) return "object" else return "function" else ??? "invalid for `typeof` operator"
 }
 - id: "sec-typeof-operator-runtime-semantics-evaluation"
 - code:

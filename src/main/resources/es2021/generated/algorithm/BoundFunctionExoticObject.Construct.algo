@@ -4,12 +4,18 @@ def [METHOD] BoundFunctionExoticObject.Construct(F)(argumentsList, newTarget) = 
   1:assert (= __x0__ true)
   2:let boundArgs = F.BoundArguments
   3:let __x1__ = (copy-obj boundArgs)
-  3:append argumentsList -> __x1__
+  3:let __x2__ = argumentsList
+  3:let __x3__ = 0i
+  3:while (< __x3__ __x2__.length) {
+    let __x4__ = __x2__[__x3__]
+    append __x4__ -> __x1__
+    __x3__ = (+ __x3__ 1i)
+  }
   3:let args = __x1__
-  4:app __x2__ = (SameValue F newTarget)
-  4:if (= __x2__ true) newTarget = target else 0:{}
-  5:app __x3__ = (Construct target args newTarget)
-  5:return [? __x3__]
+  4:app __x5__ = (SameValue F newTarget)
+  4:if (= __x5__ true) newTarget = target else 0:{}
+  5:app __x6__ = (Construct target args newTarget)
+  5:return [? __x6__]
 }
 - id: "sec-bound-function-exotic-objects-construct-argumentslist-newtarget"
 - code:
