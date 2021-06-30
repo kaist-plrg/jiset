@@ -38,6 +38,17 @@ package object ir {
   def toERef(name: String): ERef = ERef(RefId(Id(name)))
   def toRef(name: String): Ref = RefId(Id(name))
 
+  // get completion
+  def getCompletion(st: State)(
+    value: Value,
+    ty: Value = NamedAddr("CONST_normal"),
+    target: Value = NamedAddr("CONST_empty")
+  ): Addr = st.allocMap(Ty("Completion"), Map(
+    Str("Value") -> value,
+    Str("Type") -> ty,
+    Str("Target") -> target,
+  ))
+
   // conversion number to string
   def toStringHelper(m: Double, radix: Int = 10): String = {
     if (m.isNaN) "NaN"

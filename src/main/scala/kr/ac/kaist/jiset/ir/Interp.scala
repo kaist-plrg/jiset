@@ -72,7 +72,9 @@ private class Interp(
         case v => error(s"not a boolean: ${v.beautified}")
       }
       case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => {
-        val vs = args.map(arg => interp(arg).escaped(st))
+        val vs =
+          if (name == "IsAbruptCompletion") args.map(interp)
+          else args.map(interp(_).escaped(st))
         st.context.locals += id -> simpleFuncs(name)(st, vs)
       }
       case IApp(id, fexpr, args) => interp(fexpr) match {
@@ -161,7 +163,13 @@ private class Interp(
         case v => error(s"not an address: ${v.beautified}")
       }
       case IReturn(expr) => doReturn(interp(expr))
-      case IThrow(name) => ???
+      case IThrow(name) => {
+        val addr = st.allocMap(Ty("OrdinaryObject"), Map(
+          Str("Prototype") -> NamedAddr(s"GLOBAL.$name.prototype"),
+          Str("ErrorData") -> Undef
+        ))
+        doReturn(addr.wrapCompletion(st, CompletionType.Throw))
+      }
       case IAssert(expr) => interp(expr).escaped(st) match {
         case Bool(true) =>
         case v => error(s"assertion failure: ${expr.beautified}")

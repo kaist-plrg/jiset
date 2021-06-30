@@ -33,14 +33,9 @@ sealed trait Value extends IRNode {
   // completion type
   def completionType(st: State): CompletionType = this match {
     case (addr: Addr) => st(addr) match {
-      case m @ IRMap(Ty("Completion"), _, _) => m(Str("Type")) match {
-        case NamedAddr("CONST_normal") => CompletionType.Normal
-        case NamedAddr("CONST_break") => CompletionType.Break
-        case NamedAddr("CONST_continue") => CompletionType.Continue
-        case NamedAddr("CONST_return") => CompletionType.Return
-        case NamedAddr("CONST_throw") => CompletionType.Throw
-        case _ => error(s"invalid completion record: ${m.beautified}")
-      }
+      case m @ IRMap(Ty("Completion"), _, _) => CompletionType
+        .toType(m(Str("Type")))
+        .getOrElse { error(s"invalid completion record: ${m.beautified}") }
       case _ => CompletionType.NoCompl
     }
     case _ => CompletionType.NoCompl
@@ -49,14 +44,16 @@ sealed trait Value extends IRNode {
   // wrap completion
   def wrapCompletion(
     st: State,
-    ty: CompletionType = CompletionType.Normal
-  ): Value = completionType(st) match {
-    case CompletionType.NoCompl => st.allocMap(Ty("Completion"), Map(
-      Str("Value") -> this,
-      Str("Type") -> NamedAddr("CONST_normal"),
-      Str("Target") -> NamedAddr("CONST_empty"),
-    ))
-    case _ => this
+    newTy: CompletionType = CompletionType.Normal
+  ): Value = CompletionType.toAddr(newTy) match {
+    case Some(newAddr) => this match {
+      case addr: Addr => st(addr) match {
+        case m @ IRMap(Ty("Completion"), _, _) => this
+        case _ => getCompletion(st)(value = this, ty = newAddr)
+      }
+      case _ => getCompletion(st)(value = this, ty = newAddr)
+    }
+    case None => this
   }
 }
 
