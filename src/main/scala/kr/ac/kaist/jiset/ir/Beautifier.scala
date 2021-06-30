@@ -293,7 +293,8 @@ class Beautifier(
   }
 
   // AST values
-  implicit lazy val ASTValApp: App[ASTVal] = (app, ast) => app >> ast.ast.toString
+  implicit lazy val ASTValApp: App[ASTVal] =
+    (app, ast) => app >> "☊[" >> ast.ast.kind >> "](" >> ast.ast.toString >> ")"
 
   // AST methods
   implicit lazy val ASTMethodApp: App[ASTMethod] = (app, method) => {

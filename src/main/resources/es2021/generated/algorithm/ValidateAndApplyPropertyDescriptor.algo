@@ -19,7 +19,14 @@ def ValidateAndApplyPropertyDescriptor(O, P, extensible, Desc, current) = {
     } else {} else {
       7:app __x3__ = (IsAccessorDescriptor Desc)
       7:assert (= [! __x3__] true)
-      8:if (= O undefined) {} else {}
+      8:if (! (= O undefined)) {
+        let ap = (new AccessorProperty())
+        if (= Desc.Get absent) ap.Get = undefined else ap.Get = Desc.Get
+        if (= Desc.Set absent) ap.Set = undefined else ap.Set = Desc.Set
+        if (= Desc.Enumerable absent) ap.Enumerable = false else ap.Enumerable = Desc.Enumerable
+        if (= Desc.Configurable absent) ap.Configurable = false else ap.Configurable = Desc.Configurable
+        O.SubMap[P] = ap
+      } else {}
     }
     9:return true
   } else 15:{}
@@ -42,7 +49,13 @@ def ValidateAndApplyPropertyDescriptor(O, P, extensible, Desc, current) = {
     if (= [! __x9__] false) {
       17:if (= current.Configurable false) return false else 15:{}
       20:app __x10__ = (IsDataDescriptor current)
-      20:if (= __x10__ true) if (= O undefined) {} else {} else if (= O undefined) {} else {}
+      20:if (= __x10__ true) if (! (= O undefined)) {
+        let dp = O.SubMap[P]
+        O.SubMap[P] = (new AccessorProperty("Get" -> undefined, "Set" -> undefined, "Configurable" -> dp.Configurable, "Enumerable" -> dp.Enumerable))
+      } else {} else if (! (= O undefined)) {
+        let ap = O.SubMap[P]
+        O.SubMap[P] = (new DataProperty("Value" -> undefined, "Writable" -> false, "Configurable" -> ap.Configurable, "Enumerable" -> ap.Enumerable))
+      } else {}
     } else {
       app __x11__ = (IsDataDescriptor current)
       app __x12__ = (IsDataDescriptor Desc)

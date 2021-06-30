@@ -61,15 +61,15 @@
   },
   {
     "tokens": "If id:{O} is not value:{undefined} , create an own accessor property named id:{P} of object id:{O} whose [ [ Get ] ] , [ [ Set ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > .",
-    "inst": "if (= O undefined) {} else {}"
-  },
-  {
-    "tokens": "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from an accessor property to a data property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > .",
-    "inst": "if (= O undefined) {} else {}"
+    "inst": "if (! (= O undefined)) { let ap = (new AccessorProperty()) if (= Desc.Get absent) ap.Get = undefined else ap.Get = Desc.Get if (= Desc.Set absent) ap.Set = undefined else ap.Set = Desc.Set if (= Desc.Enumerable absent) ap.Enumerable = false else ap.Enumerable = Desc.Enumerable if (= Desc.Configurable absent) ap.Configurable = false else ap.Configurable = Desc.Configurable O.SubMap[P] = ap } else {}"
   },
   {
     "tokens": "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from a data property to an accessor property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > .",
-    "inst": "if (= O undefined) {} else {}"
+    "inst": "if (! (= O undefined)) { let dp = O.SubMap[P] O.SubMap[P] = (new AccessorProperty(\"Get\" -> undefined, \"Set\" -> undefined, \"Configurable\" -> dp.Configurable, \"Enumerable\" -> dp.Enumerable)) } else {}"
+  },
+  {
+    "tokens": "If id:{O} is not value:{undefined} , convert the property named id:{P} of object id:{O} from an accessor property to a data property . Preserve the existing values of the converted property ' s [ [ Configurable ] ] and [ [ Enumerable ] ] attributes and set the rest of the property ' s attributes to their < emu - xref href = \" # table - default - attribute - values \" > default values < / emu - xref > .",
+    "inst": "if (! (= O undefined)) { let ap = O.SubMap[P] O.SubMap[P] = (new DataProperty(\"Value\" -> undefined, \"Writable\" -> false, \"Configurable\" -> ap.Configurable, \"Enumerable\" -> ap.Enumerable)) } else {}"
   },
   {
     "tokens": "Set id:{obj} . [ [ RegExpMatcher ] ] to the Abstract Closure that evaluates id:{parseResult} by applying the semantics provided in link:{sec-pattern-semantics} using id:{patternCharacters} as the pattern ' s List of nt:{SourceCharacter} values and id:{F} as the flag parameters .",
