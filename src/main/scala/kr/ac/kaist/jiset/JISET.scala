@@ -71,6 +71,9 @@ object JISET {
     CmdLoad,
     CmdEval,
 
+    // test262
+    CmdFilterMeta,
+
     // IRES
     CmdIRParse,
     CmdIRLoad,
