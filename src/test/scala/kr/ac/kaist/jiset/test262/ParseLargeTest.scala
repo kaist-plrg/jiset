@@ -11,12 +11,14 @@ class ParseLargeTest extends Test262Test {
   // registration
   val config = FilterMeta.test262configSummary
 
+  // parser timeout
   val PARSE_TIMEOUT = 100 // second
 
   // registration
   def init: Unit = check(name, {
+    mkdir(logDir)
     val targets = config.normal.map(_.name)
-    val nf = getPrintWriter("./test262-parse-failed.log")
+    val nf = getPrintWriter(s"$logDir/test262-parse-failed.log")
     var failed = 0
     ProgressBar("test262 parse test", targets).foreach(name => {
       val jsName = s"$TEST262_TEST_DIR/$name"

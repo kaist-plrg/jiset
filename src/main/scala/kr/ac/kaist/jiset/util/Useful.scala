@@ -2,6 +2,8 @@ package kr.ac.kaist.jiset.util
 
 import java.io.{ Reader, File, PrintWriter }
 import java.nio.file.{ Files, StandardCopyOption }
+import java.text.SimpleDateFormat
+import java.util.Date
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.error._
 import org.apache.commons.text.StringEscapeUtils
@@ -292,6 +294,11 @@ object Useful {
   def timeout[T](f: => T, limit: Long): T = timeout(f, limit.seconds)
   def timeout[T](f: => T, duration: Duration): T =
     Await.result(Future(f), duration)
+
+  // date format string
+  def dateStr: String = (new SimpleDateFormat("yyMMdd_HH_mm")
+    .format(new Date()))
+    .toString
 
   // show failure message
   def failMsg(msg: String): String = setColor(RED)("[FAIL] " + msg)

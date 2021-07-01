@@ -19,7 +19,8 @@ trait JSTest extends IRTest {
   //   Script(executeCmd(s"bin/esparse $filename").parseJson)
 
   // eval JS codes
-  def eval(str: String): State = Interp(Load(parse(str)))
+  def eval(script: Script): State = Interp(Load(script))
+  def eval(str: String): State = eval(parse(str))
   def evalFile(filename: String): State =
     Interp(Load(parseFile(filename), filename), filename)
 
@@ -40,6 +41,7 @@ trait JSTest extends IRTest {
     case Absent => fail("no return value")
     case v => fail(s"return not an address: ${v.beautified}")
   }
+  def evalTest(script: Script): Unit = evalTest(eval(script))
   def evalTest(str: String): Unit = evalTest(eval(str))
   def evalTestFile(filename: String): Unit = evalTest(evalFile(filename))
 

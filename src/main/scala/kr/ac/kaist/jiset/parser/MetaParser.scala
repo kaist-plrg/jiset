@@ -19,7 +19,7 @@ object MetaParser {
         val flagsn = if (line contains "flags:") line.dropWhile(_ != '[').tail.takeWhile(_ != ']').split(", ").toList else flags
         val (includesn, isIncluden) = if (line contains "includes:") line.dropWhile(_ != '[') match {
           case "" => (List(), true)
-          case s => (s.tail.takeWhile(_ != ']').split(", ").toList, isInclude)
+          case s => (s.tail.takeWhile(_ != ']').split(",").toList.map(_.trim), isInclude)
         }
         else (includes, isInclude)
         val includesn2 = if (isInclude && (line contains ".js")) includesn :+ (line.split(' ').last) else includesn
