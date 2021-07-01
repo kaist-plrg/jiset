@@ -205,8 +205,6 @@ trait UnitWalker {
   def walk(v: Value): Unit = v match {
     case addr: Addr => walk(addr)
     case ast: ASTVal => walk(ast)
-    case ASTMethod(func, locals) =>
-      walk(func); walkMap[Id, Value](locals, walk, walk)
     case func: Func => walk(func)
     case clo: Clo => walk(clo)
     case cont: Cont => walk(cont)

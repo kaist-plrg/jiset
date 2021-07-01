@@ -244,7 +244,7 @@ class Beautifier(
       app.listWrap(insts, true) >> LINE_SEP
     }
     app :> "local-vars: "
-    app.listWrap(locals)
+    app.listWrap(locals) >> LINE_SEP
   }
 
   // heaps
@@ -273,7 +273,6 @@ class Beautifier(
   implicit lazy val ValueApp: App[Value] = (app, v) => v match {
     case addr: Addr => AddrApp(app, addr)
     case ast: ASTVal => ASTValApp(app, ast)
-    case method: ASTMethod => ASTMethodApp(app, method)
     case func: Func => FuncApp(app, func)
     case clo: Clo => CloApp(app, clo)
     case cont: Cont => ContApp(app, cont)
@@ -296,12 +295,6 @@ class Beautifier(
   // AST values
   implicit lazy val ASTValApp: App[ASTVal] =
     (app, ast) => app >> "☊[" >> ast.ast.kind >> "](" >> ast.ast.toString >> ")"
-
-  // AST methods
-  implicit lazy val ASTMethodApp: App[ASTMethod] = (app, method) => {
-    app >> "ASTMethod(" >> method.func >> ", "
-    app.listWrap(method.env)
-  }
 
   // functions
   implicit lazy val FuncApp: App[Func] = (app, func) => {

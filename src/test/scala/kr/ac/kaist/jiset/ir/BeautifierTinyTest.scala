@@ -28,17 +28,17 @@ class BeautifierTinyTest extends IRTest {
       }
   })
   def init: Unit = {
-    val IRMapElems = List(
+    val irMapElems = List(
       EBool(true) -> EStr("true"),
       ENull -> EStr("null")
     )
-    val SMapElems = "(true -> \"true\", null -> \"null\")"
-    val IRList_ = List(ENull, EAbsent)
-    val SList = "(new [null, absent])"
-    val IRReturn = IReturn(EINum(4))
-    val SReturn = "return 4i"
-    val IdList = List(Id("x"), Id("y"))
-    val SIdList = "(x, y)"
+    val sMapElems = "(true -> \"true\", null -> \"null\")"
+    val irList = List(ENull, EAbsent)
+    val sList = "(new [null, absent])"
+    val irReturn = IReturn(EINum(4))
+    val sReturn = "return 4i"
+    val idList = List(Id("x"), Id("y"))
+    val sIdList = "(x, y)"
 
     // Syntax
     test("Inst")(
@@ -46,25 +46,25 @@ class BeautifierTinyTest extends IRTest {
       ILet(Id("x"), EINum(4)) -> "let x = 4i",
       IAssign(RefId(Id("x")), ENum(3.0)) -> "x = 3.0",
       IDelete(RefId(Id("ref"))) -> "delete ref",
-      IAppend(EUndef, EList(IRList_)) -> s"append undefined -> $SList",
-      IPrepend(EUndef, EList(IRList_)) -> s"prepend undefined -> $SList",
-      IRReturn -> SReturn,
+      IAppend(EUndef, EList(irList)) -> s"append undefined -> $sList",
+      IPrepend(EUndef, EList(irList)) -> s"prepend undefined -> $sList",
+      irReturn -> sReturn,
       IThrow("SyntaxError") -> "throw SyntaxError",
-      IIf(EBool(true), IRReturn, IExpr(ENum(3.0))) ->
-        s"if true $SReturn else 3.0",
-      IWhile(EBool(false), IRReturn) -> s"while false $SReturn",
+      IIf(EBool(true), irReturn, IExpr(ENum(3.0))) ->
+        s"if true $sReturn else 3.0",
+      IWhile(EBool(false), irReturn) -> s"while false $sReturn",
       ISeq(List()) -> "{}",
-      ISeq(List(IRReturn, IExpr(ENull))) -> s"{\n  $SReturn\n  null\n}",
+      ISeq(List(irReturn, IExpr(ENull))) -> s"{\n  $sReturn\n  null\n}",
       IAssert(EBool(false)) -> "assert false",
       IPrint(EBool(false)) -> "print false",
-      IApp(Id("x"), EStr("f"), IRList_) ->
+      IApp(Id("x"), EStr("f"), irList) ->
         "app x = (\"f\" null absent)",
       IAccess(Id("x"), EStr("b"), ENum(3.0), Nil) ->
         "access x = (\"b\" 3.0)",
       IAccess(Id("x"), EStr("b"), ENum(3.0), List(EStr("x"), ENull)) ->
         "access x = (\"b\" 3.0 \"x\" null)",
-      IWithCont(Id("x"), IdList, IRReturn) ->
-        s"withcont x $SIdList = $SReturn",
+      IWithCont(Id("x"), idList, irReturn) ->
+        s"withcont x $sIdList = $sReturn",
     )
     test("Expr")(
       ENum(3.0) -> "3.0",
@@ -75,12 +75,14 @@ class BeautifierTinyTest extends IRTest {
       EUndef -> "undefined",
       ENull -> "null",
       EAbsent -> "absent",
-      EMap(Ty("T"), IRMapElems) -> s"(new T$SMapElems)",
-      EList(IRList_) -> SList,
-      EPop(EList(IRList_), EINum(0)) -> s"(pop $SList 0i)",
+      EMap(Ty("T"), irMapElems) -> s"(new T$sMapElems)",
+      EList(irList) -> sList,
+      EPop(EList(irList), EINum(0)) -> s"(pop $sList 0i)",
       ERef(RefId(Id("x"))) -> "x",
-      ECont(IdList, IExpr(EINum(4))) ->
-        s"$SIdList [=>] 4i",
+      EClo(idList, idList, IExpr(EINum(4))) ->
+        s"$sIdList[x, y] => 4i",
+      ECont(idList, IExpr(EINum(4))) ->
+        s"$sIdList [=>] 4i",
       EUOp(ONeg, EINum(4)) -> "(- 4i)",
       EBOp(ODiv, ENum(3.0), ENum(7.0)) -> "(/ 3.0 7.0)",
       ETypeOf(EBool(false)) -> "(typeof false)",
@@ -92,9 +94,9 @@ class BeautifierTinyTest extends IRTest {
       EGetSyntax(EAbsent) -> "(get-syntax absent)",
       EParseSyntax(EStr("code"), EStr("rule"), EStr("flag"))
         -> "(parse-syntax \"code\" \"rule\" \"flag\")",
-      EConvert(EStr("4"), CStrToNum, IRList_) ->
+      EConvert(EStr("4"), CStrToNum, irList) ->
         "(convert \"4\" str2num null absent)",
-      EContains(EList(IRList_), ENull) -> s"(contains $SList null)",
+      EContains(EList(irList), ENull) -> s"(contains $sList null)",
       EReturnIfAbrupt(ENum(3.0), true) -> "[? 3.0]",
       EReturnIfAbrupt(ENum(3.0), false) -> "[! 3.0]",
       ECopy(EStr("obj")) -> "(copy-obj \"obj\")",
@@ -150,7 +152,8 @@ class BeautifierTinyTest extends IRTest {
       |  name: TOP_LEVEL
       |  return: RETURN
       |  insts: {}
-      |  local-vars: {}}
+      |  local-vars: {}
+      |}
       |context-stack: []
       |globals: {}
       |heap: (SIZE = 0): {}""".stripMargin
@@ -160,7 +163,8 @@ class BeautifierTinyTest extends IRTest {
         |  name: TOP_LEVEL
         |  return: RETURN
         |  insts: {}
-        |  local-vars: {}}""".stripMargin
+        |  local-vars: {}
+        |}""".stripMargin
     )
     test("Heap")(
       Heap(MMap(NamedAddr("namedaddr") -> IRSymbol(Num(3.0))), 1) ->
@@ -169,36 +173,32 @@ class BeautifierTinyTest extends IRTest {
         |}""".stripMargin
     )
     test("Obj")(
-      IRSymbol(Num(3.0)) -> "(Symbol 3.0)",
+      IRSymbol(Str("const")) -> """(Symbol "const")""",
       IRMap(Ty("T"), MMap(Num(3.0) -> (Num(2.0), 4)), 1) ->
         """(TYPE = T) {
         |  3.0 -> 2.0
         |}""".stripMargin,
       IRList(Vector(Num(3.0))) -> "[3.0]",
-      IRNotSupported("tyname", "desc") -> "(NotSupported \"tyname\" \"desc\")"
+      IRList(Vector(Num(3.0), INum(42))) -> "[3.0, 42i]",
+      IRNotSupported("tyname", "desc") -> """(NotSupported "tyname" "desc")"""
     )
     test("Value")(
       Num(3.0) -> "3.0",
       INum(2) -> "2i",
-      BigINum(2) -> "2n",
-      Str("hello") -> "\"hello\"",
+      BigINum(BigInt("1920380182930189023")) -> "1920380182930189023n",
+      Str("hello") -> """"hello"""",
       Bool(true) -> "true",
+      Bool(false) -> "false",
       Undef -> "undefined",
       Null -> "null",
       Absent -> "absent"
     )
     test("Addr")(
-      NamedAddr("namedaddr") -> "#namedaddr",
+      NamedAddr("GLOBAL") -> "#GLOBAL",
       DynamicAddr(3) -> "#3"
     )
     test("ASTVal")(
       ASTVal(PrimaryExpression0(List(), Span())) -> "☊[PrimaryExpression](this)"
-    )
-    test("ASTMethod")(
-      ASTMethod(Func(Algo(NormalHead("name", List()), "x", IExpr(EINum(4)), List())), MMap(Id("y") -> INum(3))) ->
-        """ASTMethod(λ(name), {
-        |  y -> 3i
-        |}""".stripMargin
     )
     test("Func")(
       Func(Algo(NormalHead("normalname", List()), "x", IExpr(EINum(4)), List())) ->
@@ -213,16 +213,17 @@ class BeautifierTinyTest extends IRTest {
         "λ(GLOBAL.id[3.0])"
     )
     test("Clo")(
-      Clo("clo", IdList, MMap[Id, Value](Id("z") -> Num(3.0)), IExpr(EINum(4))) ->
+      Clo("clo", idList, MMap[Id, Value](Id("z") -> Num(3.0)), IExpr(EINum(4))) ->
         "clo:closure(x, y)[z -> 3.0] => 4i"
     )
     test("Cont")(
-      Cont(IdList, IExpr(EINum(4)), Context(), List()) -> "TOP_LEVEL(x, y) [=>] 4i",
+      Cont(idList, IExpr(EINum(4)), Context(), List()) -> "TOP_LEVEL(x, y) [=>] 4i",
     )
     test("RefValue")(
       RefValueId(Id("x")) -> "x",
       RefValueProp(NamedAddr("namedaddr"), Num(3.0)) -> "#namedaddr[3.0]",
-      RefValueString("hello", Num(3.0)) -> "\"hello\"[3.0]"
+      RefValueProp(NamedAddr("namedaddr"), Str("abc")) -> """#namedaddr["abc"]""",
+      RefValueString("hello", Num(3.0)) -> """"hello"[3.0]"""
     )
   }
   init

@@ -99,7 +99,6 @@ case class Num(double: Double) extends Numeric {
   }
 }
 case class ASTVal(ast: AST) extends Value
-case class ASTMethod(func: Func, env: MMap[Id, Value]) extends Value
 case class INum(long: Long) extends Numeric
 case class BigINum(b: BigInt) extends Numeric
 case class Str(str: String) extends Const

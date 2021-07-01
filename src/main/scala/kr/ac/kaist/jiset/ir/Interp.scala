@@ -272,7 +272,6 @@ private class Interp(
       case Clo(_, _, _, _) => "Closure"
       case Cont(_, _, _, _) => "Continuation"
       case ASTVal(_) => "AST"
-      case ASTMethod(_, _) => "ASTMethod"
     })
     case EIsCompletion(expr) => Bool(interp(expr).isCompletion(st))
     case EIsInstanceOf(base, name) => interp(base).escaped(st) match {
