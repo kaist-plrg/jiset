@@ -31,11 +31,23 @@ case class TsASTGenerator(grammar: Grammar) {
   nfIndex.println(s"""import { Lexical } from "@js/lexical";""")
   nfIndex.println(s"""export { Lexical };""")
   for (Production(lhs, rhsList) <- prods if !Grammar.isExtNT(lhs.name)) {
+    // lhs
     val name = lhs.name
     val nf = getPrintWriter(s"$srcPath/js/ast/$name.ts")
     genLhs(nf, name, rhsList)
+
+    // rhs
     for ((rhs, i) <- rhsList.zipWithIndex) genRhs(nf, name, rhs, i)
-    val importList = name :: s"${name}Type" :: List.range(0, rhsList.size).map((i) => s"$name$i")
+
+    // decompressor
+    genDecompressor(nf, name, rhsList)
+
+    // import, export
+    val importList = List(
+      name,
+      s"${name}Type",
+      s"${name}Decompress"
+    ) ++ List.range(0, rhsList.size).map((i) => s"$name$i")
     val importStr = s"{ ${importList.mkString(", ")} }"
     nfIndex.println(s"""import $importStr from "@js/ast/$name";""")
     nfIndex.println(s"""export $importStr;""")
@@ -46,7 +58,11 @@ case class TsASTGenerator(grammar: Grammar) {
   nfIndex.close()
 
   // generate type & abstract class for Lhs
-  private def genLhs(nf: PrintWriter, name: String, rhsList: List[Rhs]): Unit = {
+  private def genLhs(
+    nf: PrintWriter,
+    name: String,
+    rhsList: List[Rhs]
+  ): Unit = {
     val rhsNames = List.range(0, rhsList.size).map((i) => s"$name$i")
     val typeStr = rhsNames.mkString(" | ")
     val typeName = name + "Type"
@@ -56,13 +72,16 @@ case class TsASTGenerator(grammar: Grammar) {
       ntName = nt match {
         case NonTerminal(ntName, _, _) => ntName
       }
-      if ntName != name
+      if ntName != name && !lexNames.contains(ntName)
     } yield ntName).toSet
+    val rhsImportList: Set[String] = for {
+      nt <- rhsNTs
+      id <- List(nt, s"${nt}Decompress")
+    } yield id
 
-    if (rhsNTs.exists(lexNames.contains(_)))
-      nf.println(s"""import { Lexical } from "@js/lexical";""")
-    nf.println(s"""import { _AST, Span } from "@js/AST";""")
-    nf.println(s"""import { ASTType, ${rhsNTs.filter(!lexNames.contains(_)).mkString(", ")} } from "@js/ast/index";""")
+    nf.println(s"""import { Lexical } from "@js/lexical";""")
+    nf.println(s"""import { _AST, Span, Pos, CompressedData, ProductionInfo } from "@js/AST";""")
+    nf.println(s"""import { ASTType, ${rhsImportList.mkString(", ")} } from "@js/ast/index";""")
     nf.println(s"""import { Option, Some, None } from "@util/option";""")
     nf.println(s"""import { Value } from "@ir/semantics";""")
     nf.println
@@ -101,6 +120,7 @@ case class TsASTGenerator(grammar: Grammar) {
     val paramsStr = params.map { case (x, t) => s"$x: $t" }.mkString(", ")
     val paramsOfStr = params.map { case (x, _) => s"$x" }.mkString(", ")
 
+    // class definition
     nf.println
     nf.println(s"""export class $name$i extends _$name {""")
     // properties
@@ -138,7 +158,55 @@ case class TsASTGenerator(grammar: Grammar) {
     nf.println(s"""    return `$string`;""")
     nf.println(s"""  }""")
     nf.println(s"""}""")
+  }
 
+  // generator Decompressor of esparse
+  private def genDecompressor(
+    nf: PrintWriter,
+    name: String,
+    rhsList: List[Rhs]
+  ): Unit = {
+    // decompressor
+    nf.println
+    nf.println(s"""export function ${name}Decompress(data: CompressedData): $name {""")
+    // production info
+    nf.println
+    nf.println(s"""  const ${name}ProductionInfo: ProductionInfo = {""")
+    for {
+      (rhs, i) <- rhsList.zipWithIndex
+      prodName = s"$name$i"
+      rhsNTs = rhs.getNTs
+      decompNames = rhsNTs.map(nt =>
+        if (lexNames.contains(nt.name)) s"undefined"
+        else s"${nt.name}Decompress")
+      opts = rhsNTs.map(nt => nt.optional)
+    } {
+      nf.println(s"""    "$prodName": {""")
+      nf.println(s"""      decompressors: [${decompNames.mkString(", ")}],""")
+      nf.println(s"""      optional: [${opts.mkString(", ")}],""")
+      nf.println(s"""      cons: $prodName,""")
+      nf.println(s"""    },""")
+    }
+    nf.println(s"""  };""")
+    nf.println
+
+    nf.println(s"""  const [idx, rhsDatas, paramsData, spanData] = data;""")
+    nf.println(s"""  const {decompressors, optional, cons} = ${name}ProductionInfo["$name" + idx.toString()];""")
+    nf.println(s"""  const children = rhsDatas.map((rhsData, rhsIdx) => {""")
+    nf.println(s"""    if (rhsData === null) return None.of();""")
+    nf.println(s"""    else if (typeof rhsData === "string") return Lexical.of(rhsData, [], Span.of());""")
+    nf.println(s"""    else {""")
+    nf.println(s"""      const opt = optional[rhsIdx];""")
+    nf.println(s"""      const node = (decompressors[rhsIdx] as Function)(rhsData);""")
+    nf.println(s"""      return opt ? Some.of(node) : node;""")
+    nf.println(s"""    }""")
+    nf.println(s"""  });""")
+    nf.println(s"""  const parserParams = paramsData.map(_ => Boolean(_));""")
+    nf.println(s"""  const [sLine, sCol, eLine, eCol] = spanData;""")
+    nf.println(s"""  const span = Span.of(Pos.of(sLine, sCol), Pos.of(eLine, eCol));""")
+    nf.println(s"""  return (cons.of.apply(null, children.concat([parserParams, span])) as $name);""")
+    nf.println(s"""}""")
+    nf.println
   }
 
   private def handleParams(l: List[String]): List[String] = {
