@@ -12,7 +12,6 @@ case class State(
 ) extends IRNode {
   // return id and its value
   def retId: Id = context.retId
-  def retVal: Value = this(retId)
 
   // get local variable maps
   def locals: MMap[Id, Value] = context.locals

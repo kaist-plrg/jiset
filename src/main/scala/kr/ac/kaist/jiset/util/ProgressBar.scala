@@ -6,6 +6,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import kr.ac.kaist.jiset.LINE_SEP
 
 case class ProgressBar[T](msg: String, seq: Iterable[T]) {
+  var postfix: () => String = () => ""
   val size = seq.size
   val MAX = 40
   val term = 1000 // 1 second
@@ -18,7 +19,7 @@ case class ProgressBar[T](msg: String, seq: Iterable[T]) {
       val percent = count.toDouble / size * 100
       val len = count * MAX / size
       val progress = (BAR * len) + (" " * (MAX - len))
-      val msg = f"[$progress] $percent%2.2f%% ($count/$size)"
+      val msg = f"[$progress] $percent%2.2f%% ($count/$size)${postfix()}"
       print("\b" * prev + msg)
       prev = msg.length
       if (count == size) {

@@ -31,7 +31,7 @@ trait JSTest extends IRTest {
   }
 
   // tests for JS interpreter
-  def evalTest(st: State): State = st.retVal match {
+  def evalTest(st: State): State = st(Id(RESULT)) match {
     case addr: Addr => st(addr, Str("Type")) match {
       case (addr: Addr) =>
         assert(addr == st(Id("CONST_normal")))

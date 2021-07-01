@@ -60,11 +60,14 @@ class EvalLargeTest extends Test262Test {
   // registration
   def init: Unit = check(name, {
     mkdir(logDir)
+    var success = 0
+    val snf = getPrintWriter(s"$logDir/test262-eval-success.log")
     var notyet = 0
     val ynf = getPrintWriter(s"$logDir/test262-eval-notyet.log")
     var failed = 0
     val nf = getPrintWriter(s"$logDir/test262-eval-failed.log")
     val progress = ProgressBar("test262 eval test", config.normal)
+    progress.postfix = () => s" - Y/F/P = $notyet/$failed/$success"
     for (config <- progress) {
       val NormalTestConfig(name, includes) = config
       val jsName = s"$TEST262_TEST_DIR/$name"
@@ -80,6 +83,9 @@ class EvalLargeTest extends Test262Test {
         }
         val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
         evalTest(mergeStmt(stmts))
+        success += 1
+        snf.println(name)
+        snf.flush()
       }.foreach {
         case NotSupported(msg) => {
           notyet += 1
@@ -95,6 +101,7 @@ class EvalLargeTest extends Test262Test {
     }
     if (notyet > 0) println(s"$notyet tests are not yet supported.")
     if (failed > 0) fail(s"$failed tests are failed.")
+    snf.close()
     ynf.close()
     nf.close()
   })

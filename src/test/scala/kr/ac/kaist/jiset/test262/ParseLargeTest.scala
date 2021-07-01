@@ -18,19 +18,27 @@ class ParseLargeTest extends Test262Test {
   def init: Unit = check(name, {
     mkdir(logDir)
     val targets = config.normal.map(_.name)
-    val nf = getPrintWriter(s"$logDir/test262-parse-failed.log")
+    var success = 0
+    val snf = getPrintWriter(s"$logDir/test262-eval-success.log")
     var failed = 0
-    ProgressBar("test262 parse test", targets).foreach(name => {
+    val nf = getPrintWriter(s"$logDir/test262-parse-failed.log")
+    val progress = ProgressBar("test262 parse test", targets)
+    progress.postfix = () => s" - F/P = $failed/$success"
+    for (name <- progress) {
       val jsName = s"$TEST262_TEST_DIR/$name"
       getError {
         timeout(parseTest(parseFile(jsName)), PARSE_TIMEOUT)
+        success += 1
+        snf.println(name)
+        snf.flush()
       }.foreach(e => {
         failed += 1
         nf.println(s"$name: ${e.getMessage}")
         nf.flush()
       })
-    })
+    }
     if (failed > 0) fail(s"$failed tests are failed to be parsed")
+    snf.close()
     nf.close()
   })
   init
