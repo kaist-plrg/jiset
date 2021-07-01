@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.ir
 
-import kr.ac.kaist.jiset.{ DEBUG, TIMEOUT }
+import kr.ac.kaist.jiset.{ DEBUG, TIMEOUT, TEST_MODE }
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.error.NotSupported
@@ -174,9 +174,9 @@ private class Interp(
         case Bool(true) =>
         case v => error(s"assertion failure: ${expr.beautified}")
       }
-      case IPrint(expr) => interp(expr) match {
-        case (addr: Addr) => println(st.getString(addr))
-        case v => println(v.beautified)
+      case IPrint(expr) => {
+        val v = interp(expr)
+        if (!TEST_MODE) st.getString(v)
       }
       case IWithCont(id, params, bodyInst) => {
         val State(context, ctxtStack, _, _) = st
