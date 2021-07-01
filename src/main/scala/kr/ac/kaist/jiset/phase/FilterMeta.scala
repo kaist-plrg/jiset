@@ -245,6 +245,7 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     .remove("module", m => (
       (m.flags contains "module") ||
       (m.name startsWith "language/module-code/") ||
+      (m.name startsWith "language/import/") ||
       (m.name startsWith "language/expressions/dynamic-import/") ||
       (m.name startsWith "language/expressions/import.meta/")
     ))
@@ -272,7 +273,7 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
 
   def apply(
     unit: Unit,
-    JISETConfig: JISETConfig,
+    jisetConfig: JISETConfig,
     config: FilterMetaConfig
   ): Unit = {
     println(s"Total ${allTests.length} tests")
