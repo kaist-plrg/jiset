@@ -37,5 +37,14 @@ object MetaParser {
   }
 }
 
-case class MetaData(name: String, negative: Option[String], flags: List[String], includes: List[String], locales: List[String], features: List[String])
-
+case class MetaData(
+  name: String,
+  negative: Option[String],
+  flags: List[String],
+  includes: List[String],
+  locales: List[String],
+  features: List[String]
+) extends Ordered[MetaData] {
+  def compare(that: MetaData): Int =
+    Ordering.String.compare(this.name, that.name)
+}

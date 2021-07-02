@@ -66,6 +66,9 @@ class EvalLargeTest extends Test262Test {
   // registration
   def init: Unit = check(name, {
     mkdir(logDir)
+    summary.yets.setPath(s"$logDir/eval-yet.log")
+    summary.fails.setPath(s"$logDir/eval-fail.log")
+    summary.passes.setPath(s"$logDir/eval-pass.log")
     for (config <- progress) {
       val NormalTestConfig(name, includes) = config
       val jsName = s"$TEST262_TEST_DIR/$name"
@@ -81,15 +84,13 @@ class EvalLargeTest extends Test262Test {
         }
         val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
         evalTest(mergeStmt(stmts))
-        summary.passes :+= name
+        summary.passes += name
       }.foreach {
-        case NotSupported(msg) => summary.yets :+= s"$name: $msg"
-        case e => summary.fails :+= s"$name: ${e.getMessage}"
+        case NotSupported(msg) => summary.yets += s"$name: $msg"
+        case e => summary.fails += s"$name: ${e.getMessage}"
       }
     }
-    dumpFile(summary.yets.mkString(LINE_SEP), s"$logDir/eval-yet.log")
-    dumpFile(summary.fails.mkString(LINE_SEP), s"$logDir/eval-fail.log")
-    dumpFile(summary.passes.mkString(LINE_SEP), s"$logDir/eval-pass.log")
+    summary.close
     dumpFile(summary, s"$logDir/eval-summary")
     if (summary.yet > 0) println(s"${summary.yet} tests are not yet supported.")
     if (summary.fail > 0) fail(s"${summary.fail} tests are failed.")

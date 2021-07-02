@@ -1,19 +1,23 @@
 package kr.ac.kaist.jiset.util
 
+import java.io.PrintWriter
 import kr.ac.kaist.jiset.LINE_SEP
 
 class Summary {
   // not yet supported
-  var yets: Vector[String] = Vector()
-  def yet: Int = yets.length
+  val yets: SummaryElem = new SummaryElem
+  def yet: Int = yets.size
 
   // fail
-  var fails: Vector[String] = Vector()
-  def fail: Int = fails.length
+  val fails: SummaryElem = new SummaryElem
+  def fail: Int = fails.size
 
   // pass
-  var passes: Vector[String] = Vector()
-  def pass: Int = passes.length
+  val passes: SummaryElem = new SummaryElem
+  def pass: Int = passes.size
+
+  // close all print writers
+  def close: Unit = { yets.close; fails.close; passes.close }
 
   // time
   var timeMillis: Long = 0L
@@ -42,5 +46,25 @@ class Summary {
     app >> f"- pass: $pass%,d" >> LINE_SEP
     app >> f"pass-rate: $pass%,d/$supported%,d ($successRate%2.2f%%)"
     app.toString
+  }
+}
+
+class SummaryElem {
+  // vector
+  private var vector: Vector[String] = Vector()
+
+  // print writer
+  var nfOpt: Option[PrintWriter] = None
+  def setPath(nf: PrintWriter): Unit = nfOpt = Some(nf)
+  def setPath(filename: String): Unit = setPath(Useful.getPrintWriter(filename))
+  def close: Unit = nfOpt.map(_.close())
+
+  // size
+  def size: Int = vector.size
+
+  // add data
+  def +=(data: String): Unit = {
+    nfOpt.map(_.println(data))
+    vector :+= data
   }
 }

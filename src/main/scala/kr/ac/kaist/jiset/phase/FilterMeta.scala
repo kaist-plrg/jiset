@@ -105,6 +105,7 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
       .toList
       .filter(f => jsFilter(f.getName))
       .map(x => MetaParser(x.toString, test262Dir.toString))
+      .sorted
   )
 
   lazy val manualNonstrict = List(

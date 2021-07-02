@@ -26,17 +26,18 @@ class ParseLargeTest extends Test262Test {
   // registration
   def init: Unit = check(name, {
     mkdir(logDir)
+    summary.fails.setPath(s"$logDir/eval-fail.log")
+    summary.passes.setPath(s"$logDir/eval-pass.log")
     for (name <- progress) {
       val jsName = s"$TEST262_TEST_DIR/$name"
       getError {
         timeout(parseTest(parseFile(jsName)), PARSE_TIMEOUT)
-        summary.passes :+= name
+        summary.passes += name
       }.foreach(e => {
-        summary.fails :+= name
+        summary.fails += name
       })
     }
-    dumpFile(summary.fails.mkString(LINE_SEP), s"$logDir/parse-fail.log")
-    dumpFile(summary.passes.mkString(LINE_SEP), s"$logDir/parse-pass.log")
+    summary.close
     dumpFile(summary, s"$logDir/parse-summary")
     if (summary.fail > 0) fail(s"${summary.fail} tests are failed.")
   })
