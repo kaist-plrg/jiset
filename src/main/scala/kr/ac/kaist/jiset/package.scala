@@ -39,7 +39,7 @@ package object jiset {
   val CUR_DIR = System.getProperty("user.dir")
 
   // ECMAScript version (ES12 / ECMASCript 2021 / es2021)
-  val VERSION = "es2021"
+  var VERSION = "es2021"
 
   // Source code directory
   val SRC_DIR = s"$BASE_DIR/src/main/scala/kr/ac/kaist/jiset"

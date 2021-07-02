@@ -11,7 +11,7 @@ import spray.json._
 // Parse phase
 case object Parse extends PhaseObj[Unit, ParseConfig, Script] {
   val name = "parse"
-  val help = "Parses AST files."
+  val help = "parses a JavaScript file using the generated parser."
 
   def apply(
     unit: Unit,

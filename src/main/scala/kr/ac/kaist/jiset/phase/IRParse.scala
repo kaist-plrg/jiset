@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util.Useful._
 // IRParse phase
 case object IRParse extends PhaseObj[Unit, IRParseConfig, Program] {
   val name = "parse-ir"
-  val help = "Parse IR files."
+  val help = "parses an IR file."
 
   def apply(
     unit: Unit,

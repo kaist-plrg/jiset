@@ -111,17 +111,17 @@ object JISET {
   // global options
   val options: List[PhaseOption[JISETConfig]] = List(
     ("silent", BoolOption(c => c.silent = true),
-      "final results are not displayed."),
+      "does not show final results."),
     ("debug", BoolOption(c => DEBUG = true),
-      "turn on the debub mode."),
+      "turns on the debug mode."),
     ("interactive", BoolOption(c => INTERACTIVE = true),
-      "turn on the interactive mode."),
+      "turns on the interactive mode."),
     ("no-bugfix", BoolOption(c => BUGFIX = false),
-      "turn off the bugfix mode."),
+      "uses semantics including specification bugs."),
     ("log", BoolOption(c => LOG = true),
-      "turn on the logging."),
+      "turns on the logging mode."),
     ("time", BoolOption(c => c.time = true),
-      "display duration time.")
+      "displays the duration time.")
   )
 
   // indentation

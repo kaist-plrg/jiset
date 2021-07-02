@@ -176,7 +176,7 @@ private class Interp(
       }
       case IPrint(expr) => {
         val v = interp(expr)
-        if (!TEST_MODE) st.getString(v)
+        if (!TEST_MODE) println(st.getString(v))
       }
       case IWithCont(id, params, bodyInst) => {
         val State(context, ctxtStack, _, _) = st

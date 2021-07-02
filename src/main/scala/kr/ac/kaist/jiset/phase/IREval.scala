@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.util.Useful._
 // IREval phase
 case object IREval extends PhaseObj[State, IREvalConfig, State] {
   val name: String = "eval-ir"
-  val help: String = "evaluates JavaScript source files to IR."
+  val help: String = "evaluates a given IR state."
 
   def apply(
     st: State,

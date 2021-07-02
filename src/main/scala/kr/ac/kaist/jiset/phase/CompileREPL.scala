@@ -9,7 +9,7 @@ import kr.ac.kaist.jiset.util._
 // CompileREPL phase
 case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {
   val name = "compile-repl"
-  val help = "REPL for printing compile result of particular step"
+  val help = "performs REPL for printing compile result of particular step."
 
   def apply(
     unit: Unit,

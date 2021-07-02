@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.util._
 // IRLoad phase
 case object IRLoad extends PhaseObj[Program, IRLoadConfig, State] {
   val name: String = "load-ir"
-  val help: String = "Load IR program into IR State"
+  val help: String = "loads an IR AST to the initial IR states."
 
   def apply(
     program: Program,

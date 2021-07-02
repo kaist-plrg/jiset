@@ -10,7 +10,7 @@ import kr.ac.kaist.jiset.util.Useful._
 // BuildCFG phase
 case object BuildCFG extends PhaseObj[ECMAScript, BuildCFGConfig, CFG] {
   val name = "build-cfg"
-  val help = "build control flow graph (CFG)"
+  val help = "builds control flow graph (CFG)."
 
   def apply(
     spec: ECMAScript,

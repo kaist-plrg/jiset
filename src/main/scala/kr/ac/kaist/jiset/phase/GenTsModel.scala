@@ -10,7 +10,7 @@ import spray.json._
 // GenTsModel phase
 case object GenTsModel extends PhaseObj[ECMAScript, GenTsModelConfig, Unit] {
   val name: String = "gen-tsmodel"
-  val help: String = "generate ECMAScript models in TypeScript."
+  val help: String = "generates ECMAScript models."
 
   def apply(
     spec: ECMAScript,
