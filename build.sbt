@@ -1,6 +1,8 @@
 import scalariform.formatter.preferences._
 import sbtassembly.AssemblyPlugin.defaultUniversalScript
 
+enablePlugins(ScalaJSPlugin)
+
 ThisBuild / version       := "1.0"
 ThisBuild / scalaVersion  := "2.13.1"
 ThisBuild / organization  := "kr.ac.kaist.jiset"
@@ -51,8 +53,7 @@ lazy val jiset = (project in file("."))
     name := "JISET",
     libraryDependencies ++= Seq(
       "io.spray" %% "spray-json" % "1.3.5",
-      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-      "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2",
+      "org.scala-lang.modules" %%% "scala-parser-combinators" % "1.1.2",
       "org.scalatest" %% "scalatest" % "3.0.8" % "test",
       "org.jsoup" % "jsoup" % "1.13.1",
       "org.jline" % "jline" % "3.13.3",
