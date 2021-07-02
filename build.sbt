@@ -57,7 +57,8 @@ lazy val jiset = (project in file("."))
       "org.scalatest" %% "scalatest" % "3.0.8" % "test",
       "org.jsoup" % "jsoup" % "1.13.1",
       "org.jline" % "jline" % "3.13.3",
-      "org.apache.commons" % "commons-text" % "1.8"
+      "org.apache.commons" % "commons-text" % "1.8",
+      "org.scala-js" %% "scalajs-stubs" % "1.0.0" % "provided",
     ),
     retrieveManaged := true,
     // test setting
