@@ -57,17 +57,15 @@ class EvalLargeTest extends Test262Test {
     y <- includeMap("sta.js")
   } yield x ++ y
 
+  // progress bar
+  val progress = ProgressBar("test262 eval test", config.normal)
+
+  // summary
+  val summary = progress.summary
+
   // registration
   def init: Unit = check(name, {
     mkdir(logDir)
-    var success = 0
-    val snf = getPrintWriter(s"$logDir/test262-eval-success.log")
-    var notyet = 0
-    val ynf = getPrintWriter(s"$logDir/test262-eval-notyet.log")
-    var failed = 0
-    val nf = getPrintWriter(s"$logDir/test262-eval-failed.log")
-    val progress = ProgressBar("test262 eval test", config.normal)
-    progress.postfix = () => s" - Y/F/P = $notyet/$failed/$success"
     for (config <- progress) {
       val NormalTestConfig(name, includes) = config
       val jsName = s"$TEST262_TEST_DIR/$name"
@@ -83,27 +81,18 @@ class EvalLargeTest extends Test262Test {
         }
         val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
         evalTest(mergeStmt(stmts))
-        success += 1
-        snf.println(name)
-        snf.flush()
+        summary.passes :+= name
       }.foreach {
-        case NotSupported(msg) => {
-          notyet += 1
-          ynf.println(s"$name: $msg")
-          ynf.flush()
-        }
-        case e => {
-          failed += 1
-          nf.println(s"$name: ${e.getMessage}")
-          nf.flush()
-        }
+        case NotSupported(msg) => summary.yets :+= s"$name: $msg"
+        case e => summary.fails :+= s"$name: ${e.getMessage}"
       }
     }
-    if (notyet > 0) println(s"$notyet tests are not yet supported.")
-    if (failed > 0) fail(s"$failed tests are failed.")
-    snf.close()
-    ynf.close()
-    nf.close()
+    dumpFile(summary.yets.mkString(LINE_SEP), s"$logDir/eval-yet.log")
+    dumpFile(summary.fails.mkString(LINE_SEP), s"$logDir/eval-fail.log")
+    dumpFile(summary.passes.mkString(LINE_SEP), s"$logDir/eval-pass.log")
+    dumpFile(summary, s"$logDir/eval-summary")
+    if (summary.yet > 0) println(s"${summary.yet} tests are not yet supported.")
+    if (summary.fail > 0) fail(s"${summary.fail} tests are failed.")
   })
   init
 }

@@ -14,32 +14,31 @@ class ParseLargeTest extends Test262Test {
   // parser timeout
   val PARSE_TIMEOUT = 100 // second
 
+  // targets
+  val targets = config.normal.map(_.name)
+
+  // progress bar
+  val progress = ProgressBar("test262 parse test", targets)
+
+  // summary
+  val summary = progress.summary
+
   // registration
   def init: Unit = check(name, {
     mkdir(logDir)
-    val targets = config.normal.map(_.name)
-    var success = 0
-    val snf = getPrintWriter(s"$logDir/test262-parse-success.log")
-    var failed = 0
-    val nf = getPrintWriter(s"$logDir/test262-parse-failed.log")
-    val progress = ProgressBar("test262 parse test", targets)
-    progress.postfix = () => s" - F/P = $failed/$success"
     for (name <- progress) {
       val jsName = s"$TEST262_TEST_DIR/$name"
       getError {
         timeout(parseTest(parseFile(jsName)), PARSE_TIMEOUT)
-        success += 1
-        snf.println(name)
-        snf.flush()
+        summary.passes :+= name
       }.foreach(e => {
-        failed += 1
-        nf.println(s"$name: ${e.getMessage}")
-        nf.flush()
+        summary.fails :+= name
       })
     }
-    if (failed > 0) fail(s"$failed tests are failed to be parsed")
-    snf.close()
-    nf.close()
+    dumpFile(summary.fails.mkString(LINE_SEP), s"$logDir/parse-fail.log")
+    dumpFile(summary.passes.mkString(LINE_SEP), s"$logDir/parse-pass.log")
+    dumpFile(summary, s"$logDir/parse-summary")
+    if (summary.fail > 0) fail(s"${summary.fail} tests are failed.")
   })
   init
 }
