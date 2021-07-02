@@ -19,7 +19,7 @@ class ParseLargeTest extends Test262Test {
     mkdir(logDir)
     val targets = config.normal.map(_.name)
     var success = 0
-    val snf = getPrintWriter(s"$logDir/test262-eval-success.log")
+    val snf = getPrintWriter(s"$logDir/test262-parse-success.log")
     var failed = 0
     val nf = getPrintWriter(s"$logDir/test262-parse-failed.log")
     val progress = ProgressBar("test262 parse test", targets)
