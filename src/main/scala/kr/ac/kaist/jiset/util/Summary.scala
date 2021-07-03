@@ -28,8 +28,9 @@ class Summary {
   // supported total cases
   def supported: Int = fail + pass
 
-  // success rate
-  def successRate: Double = pass.toDouble / supported
+  // pass rate
+  def passRate: Double = pass.toDouble / supported
+  def passPercent: Double = passRate * 100
 
   // get simple string
   def simpleString: String =
@@ -44,7 +45,7 @@ class Summary {
     if (yet > 0) app >> f"- yet: $yet%,d" >> LINE_SEP
     app >> f"- fail: $fail%,d" >> LINE_SEP
     app >> f"- pass: $pass%,d" >> LINE_SEP
-    app >> f"pass-rate: $pass%,d/$supported%,d ($successRate%2.2f%%)"
+    app >> f"pass-rate: $pass%,d/$supported%,d ($passPercent%2.2f%%)"
     app.toString
   }
 }
