@@ -40,7 +40,7 @@ case class NoObjError(str: String) extends ArgParseError({
   s"The json '$str' should be an object type."
 })
 
-case class NoOptError(str: String, cmd: Command) extends ArgParseError({
+case class NoOptError(str: String, cmd: Command[_]) extends ArgParseError({
   s"The option '-$str' is not available for the command '${cmd.name}'."
 })
 

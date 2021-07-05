@@ -27,7 +27,7 @@ object JISET {
   }
 
   def apply[Result](
-    command: CommandObj[Result],
+    command: Command[Result],
     runner: JISETConfig => Result,
     config: JISETConfig
   ): Result = {
@@ -56,7 +56,7 @@ object JISET {
   }
 
   // commands
-  val commands: List[Command] = List(
+  val commands: List[Command[_]] = List(
     CmdHelp,
 
     // JISET
@@ -81,7 +81,7 @@ object JISET {
     CmdIRREPL,
     CmdBuildCFG,
   )
-  val cmdMap = commands.foldLeft[Map[String, Command]](Map()) {
+  val cmdMap = commands.foldLeft[Map[String, Command[_]]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
   }
 
@@ -126,45 +126,43 @@ object JISET {
 
   // indentation
   private val INDENT = 20
+  private def wrap(str: String): String = s"%-${INDENT}s".format(str)
 
   // print help message.
   val help: String = {
-    val s: StringBuilder = new StringBuilder
-    s.append("* command list:").append(LINE_SEP)
-    s.append("    Each command consists of following phases.").append(LINE_SEP)
-    s.append("    format: {command} {phase} [>> {phase}]*").append(LINE_SEP).append(LINE_SEP)
-    commands foreach (cmd => {
-      s.append(s"    %-${INDENT}s".format(cmd.name))
-        .append(cmd.toString.replace(LINE_SEP, LINE_SEP + "    " + " " * INDENT))
-        .append(LINE_SEP)
-    })
-    s.append(LINE_SEP)
-    s.append("* phase list:").append(LINE_SEP)
-    s.append("    Each phase has following options.").append(LINE_SEP)
-    s.append("    format: {phase} [-{phase}:{option}[={input}]]*").append(LINE_SEP).append(LINE_SEP)
-    phases foreach (phase => {
-      s.append(s"    %-${INDENT}s".format(phase.name))
-      Useful.indentation(s, phase.help, INDENT + 4)
-      s.append(LINE_SEP)
-        .append(LINE_SEP)
-      phase.getOptDescs foreach {
-        case (name, desc) =>
-          s.append(s"%${INDENT + 4}s".format("") + s"If $name is given, $desc").append(LINE_SEP)
-      }
-      s.append(LINE_SEP)
-    })
-    s.append("* global option:").append(LINE_SEP).append(LINE_SEP)
-    options.foreach {
-      case (opt, kind, desc) =>
-        val name = s"-${opt}${kind.postfix}"
-        s.append(s"    If $name is given, $desc").append(LINE_SEP)
+    val app = new Appender
+    app >> "* command list:" >> LINE_SEP
+    app >> "    Each command consists of following phases." >> LINE_SEP
+    app >> "    format: {command} {phase} [>> {phase}]*" >> LINE_SEP
+    app >> LINE_SEP
+    for (cmd <- commands) {
+      app >> "    " >> wrap(cmd.name) >> cmd.help >> LINE_SEP
+      app >> "    " >> " " * INDENT >> "(" >> cmd.pList.toString >> ")" >> LINE_SEP
     }
-    s.toString
+    app >> LINE_SEP
+    app >> "* phase list:" >> LINE_SEP
+    app >> "    Each phase has following options." >> LINE_SEP
+    app >> "    format: {phase} [-{phase}:{option}[={input}]]*" >> LINE_SEP
+    app >> LINE_SEP
+    for (phase <- phases) {
+      app >> "    " >> wrap(phase.name) >> phase.help >> LINE_SEP
+      app >> LINE_SEP
+      for ((name, desc) <- phase.getOptDescs) {
+        app >> "    " >> " " * INDENT >> "If " >> name >> " is given, " >> desc >> LINE_SEP
+      }
+      app >> LINE_SEP
+    }
+    app >> "* global option:" >> LINE_SEP
+    app >> LINE_SEP
+    for ((opt, kind, desc) <- options) {
+      app >> "    If -" >> opt >> kind.postfix >> " is given, " >> desc >> LINE_SEP
+    }
+    app.toString
   }
 }
 
 case class JISETConfig(
-  var command: Command,
+  var command: Command[_],
   var args: List[String] = Nil,
   var silent: Boolean = false,
   var debug: Boolean = false,

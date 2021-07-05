@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.error._
 import spray.json._
 
 // Argument parser by using Scala RegexParsers.
-class ArgParser(cmd: Command, jisetConfig: JISETConfig) extends RegexParsers {
+class ArgParser(cmd: Command[_], jisetConfig: JISETConfig) extends RegexParsers {
   var ruleList: List[Parser[Unit]] = Nil
 
   var optNameSet: Set[String] = Set()
