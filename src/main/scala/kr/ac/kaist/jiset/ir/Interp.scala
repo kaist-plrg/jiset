@@ -254,12 +254,9 @@ private class Interp(
       interp(bop, l, r)
     }
     case ETypeOf(expr) => Str(interp(expr).escaped(st) match {
-      case (addr: Addr) => st(addr) match {
-        case IRNotSupported(tyname, desc) => tyname
-        case obj => {
-          val name = obj.ty.name
-          if (name endsWith "Object") "Object" else name
-        }
+      case (addr: Addr) => st(addr).ty.name match {
+        case name if name endsWith "Object" => "Object"
+        case name => name
       }
       case Num(_) | INum(_) => "Number"
       case BigINum(_) => "BigInt"
