@@ -577,7 +577,9 @@ object Interp {
     arityCheck("IsArrayIndex" -> {
       case (st, List(Str(s))) =>
         val d = ESValueParser.str2num(s)
-        Bool(0 <= d && d.toInt == d)
+        val UPPER = (1L << 32) - 1
+        val l = d.toLong
+        Bool(0 <= l && d == l && l < UPPER)
       case (st, List(v)) => Bool(false)
     }),
     arityCheck("min" -> numericSimpleFunc(_ min _)),
