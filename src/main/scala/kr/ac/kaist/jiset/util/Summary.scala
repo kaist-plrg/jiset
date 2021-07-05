@@ -65,7 +65,10 @@ class SummaryElem {
 
   // add data
   def +=(data: String): Unit = {
-    nfOpt.map(_.println(data))
+    nfOpt.map(nf => {
+      nf.println(data)
+      nf.flush()
+    })
     vector :+= data
   }
 }
