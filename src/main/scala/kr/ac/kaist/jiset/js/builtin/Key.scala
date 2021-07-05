@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.js.builtin
 
+import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.ir._
 
 // builtin model keys
@@ -19,7 +20,7 @@ sealed trait Key {
   // conversion to property string
   def toPropString: String = this match {
     case StrKey(name) => s".$name"
-    case SymbolKey(name) => s"[Symbol_$name]"
+    case SymbolKey(name) => s"[$SYMBOL_PREFIX$name]"
   }
 }
 case class StrKey(name: String) extends Key

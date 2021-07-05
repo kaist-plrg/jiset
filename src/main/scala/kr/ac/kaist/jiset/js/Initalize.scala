@@ -81,7 +81,8 @@ object Initialize {
         Some(GLOBAL + "." + ref.beautified, prop, Str(prop), prop)
       case RefProp(ref, ERef(RefId(Id(name)))) if name startsWith SYMBOL_PREFIX =>
         val symbolName = name.substring(SYMBOL_PREFIX.length)
-        Some(GLOBAL + "." + ref.beautified, name, NamedAddr(name), s"[Symbol.$symbolName]")
+        val symbolAddr = NamedAddr(GLOBAL + ".Symbol." + symbolName)
+        Some(GLOBAL + "." + ref.beautified, name, symbolAddr, s"[Symbol.$symbolName]")
       case _ => None
     }
     baseAddr = NamedAddr(s"$base.SubMap")
@@ -91,19 +92,19 @@ object Initialize {
     }
     name <- propV match {
       case Str(name) => Some(s"$base.$prop")
-      case NamedAddr(name) => Some(s"$base[$name]")
+      case NamedAddr(name) => Some(s"$base[$prop]")
       case _ => None
     }
     addr = NamedAddr(s"$name")
     descAddr = NamedAddr(s"DESC:$name")
   } {
     irMap.update(propV, descAddr)
-    map += descAddr -> IRMap("PropertyDescriptor")(List(
+    map.getOrElse(descAddr, map += descAddr -> IRMap("PropertyDescriptor")(List(
       Str("Value") -> addr,
       Str("Writable") -> Bool(true),
       Str("Enumerable") -> Bool(false),
       Str("Configurable") -> Bool(true),
-    ))
+    )))
     map.get(addr) match {
       case Some(irMap: IRMap) => {
         irMap.update(Str("Extensible"), Bool(true))
@@ -119,21 +120,24 @@ object Initialize {
         Str("SubMap") -> NamedAddr(s"$name.SubMap"),
       ))
     }
-    map += NamedAddr(s"$name.SubMap") -> IRMap("SubMap")(List(
+    val subAddr = NamedAddr(s"$name.SubMap")
+    map.getOrElse(subAddr, map += subAddr -> IRMap("SubMap")(List(
       Str("name") -> NamedAddr(s"DESC:$name.name"),
       Str("length") -> NamedAddr(s"DESC:$name.length"),
-    ))
-    map += NamedAddr(s"DESC:$name.name") -> IRMap("PropertyDescriptor")(List(
+    )))
+    val nameAddr = NamedAddr(s"DESC:$name.name")
+    map.getOrElse(nameAddr, map += nameAddr -> IRMap("PropertyDescriptor")(List(
       Str("Value") -> Str(propName),
       Str("Writable") -> Bool(false),
       Str("Enumerable") -> Bool(false),
       Str("Configurable") -> Bool(true),
-    ))
-    map += NamedAddr(s"DESC:$name.length") -> IRMap("PropertyDescriptor")(List(
+    )))
+    val lengthAddr = NamedAddr(s"DESC:$name.length")
+    map.getOrElse(lengthAddr, map += lengthAddr -> IRMap("PropertyDescriptor")(List(
       Str("Value") -> Num(head.origParams.length),
       Str("Writable") -> Bool(false),
       Str("Enumerable") -> Bool(false),
       Str("Configurable") -> Bool(true),
-    ))
+    )))
   }
 }
