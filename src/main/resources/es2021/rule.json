@@ -1,7 +1,7 @@
 [
   {
     "tokens": "If no such execution context exists , return value:{null} . Otherwise , return id:{ec} ' s ScriptOrModule .",
-    "inst": "return ec.ScriptOrModule"
+    "inst": "if (= ec null) return null else return ec.ScriptOrModule"
   },
   {
     "tokens": "Create an immutable binding in id:{envRec} for id:{N} and record that it is uninitialized . If id:{S} is value:{true} , record that the newly created binding is a strict binding .",
@@ -13,7 +13,7 @@
   },
   {
     "tokens": "Let id:{ec} be the topmost execution context on the execution context stack whose ScriptOrModule component is not value:{null} .",
-    "inst": "let ec = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]"
+    "inst": "{ let ec = null let idx = EXECUTION_STACK.length while (&& (= ec null) (< 0i idx)) { idx = (- idx 1i) ec = EXECUTION_STACK[idx] if (= ec.ScriptOrModule absent) ec = null else {} } }"
   },
   {
     "tokens": "Return the String value consisting of the code units of the digits of the decimal representation of id:{x} .",

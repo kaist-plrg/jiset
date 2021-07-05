@@ -5,7 +5,7 @@ def AsyncFunctionStart(promiseCapability, asyncFunctionBody) = {
     4:access __x0__ = (asyncFunctionBody "Evaluation")
     4:let result = __x0__
     5:RET_CONT = (pop asyncContext.ReturnCont 0i)
-    6:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))
+    6:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] asyncContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
     6:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
     11:if (= result.Type CONST_normal) {
       8:app __x1__ = (Call promiseCapability.Resolve undefined (new [undefined]))

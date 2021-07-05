@@ -17,7 +17,7 @@ def [METHOD] ECMAScriptFunctionObject.Construct(F)(argumentsList, newTarget) = {
   9:let constructorEnv = __x3__
   10:app __x4__ = (OrdinaryCallEvaluateBody F argumentsList)
   10:let result = __x4__
-  11:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))
+  11:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
   11:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   16:if (= result.Type CONST_return) {
     13:if (= (typeof result.Value) Object) return result.Value else 7:{}

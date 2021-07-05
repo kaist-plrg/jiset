@@ -330,13 +330,15 @@ class Compiler private (
     } ||| ("remove the" ~ ("own property with name" | "binding for") ~> id <~ "from") ~ id ^^ {
       case p ~ x => Inst(s"delete $x.SubMap[$p]")
     } ||| (
-      "remove" ~ id ~ "from the execution context stack and restore" |
-      "pop" ~ id ~ "from the execution context stack"
-    ) <~ rest ^^^ {
-        Inst(s"""{
-        (pop $executionStack (- $executionStack.length 1i))
-        $context = $executionStack[(- $executionStack.length 1i)]
-      }""")
+      "remove" ~> id <~ "from the execution context stack and restore" |
+      "pop" ~> id <~ "from the execution context stack"
+    ) <~ rest ^^ {
+        case x => Inst(s"""{
+          if (= $executionStack[(- $executionStack.length 1i)] $x) {
+            (pop $executionStack (- $executionStack.length 1i))
+          } else {}
+          $context = $executionStack[(- $executionStack.length 1i)]
+        }""")
       } ||| ("remove" ~ opt("all occurrences of") ~> id <~ "from") ~ (opt("the list of waiters in") ~> id) ^^ {
         case x ~ list =>
           val idx = getTemp

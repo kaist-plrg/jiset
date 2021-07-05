@@ -11,7 +11,7 @@ def GeneratorStart(generator, generatorBody) = {
       8:let result = __x1__
     }
     9:RET_CONT = (pop genContext.ReturnCont 0i)
-    10:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))
+    10:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
     10:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
     11:generator.GeneratorState = CONST_completed
     15:if (= result.Type CONST_normal) let resultValue = undefined else if (= result.Type CONST_return) let resultValue = result.Value else {

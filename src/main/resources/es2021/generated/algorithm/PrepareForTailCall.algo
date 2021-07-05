@@ -1,7 +1,7 @@
 def PrepareForTailCall() = {
   0:let leafContext = CONTEXT
   1:CONTEXT = null
-  2:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))
+  2:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] leafContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
   2:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
 }
 - id: "sec-preparefortailcall"

@@ -6,7 +6,7 @@ def AsyncGeneratorYield(value) = {
   4:app __x1__ = (Await value)
   4:value = [? __x1__]
   5:generator.AsyncGeneratorState = CONST_suspendedYield
-  6:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i))
+  6:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
   6:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   7:genContext.ResumeCont = (resumptionValue) [=>] {
     8:if (! (= resumptionValue.Type CONST_return)) return resumptionValue else 13:{}
