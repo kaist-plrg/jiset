@@ -10,7 +10,7 @@ sealed trait Obj extends IRNode {
   def ty: Ty
 
   // copy of object
-  def copy: Obj
+  def copied: Obj
 }
 
 // IR symbols
@@ -24,7 +24,7 @@ case class IRSymbol(desc: Value) extends Obj {
   }
 
   // copy of object
-  def copy: IRSymbol = IRSymbol(desc)
+  def copied: IRSymbol = IRSymbol(desc)
 }
 
 // IR maps
@@ -63,7 +63,7 @@ case class IRMap(
     { props -= prop; this }
 
   // copy of object
-  def copy: IRMap = {
+  def copied: IRMap = {
     val newProps = MMap[Value, (Value, Long)]()
     newProps ++= props
     IRMap(ty, newProps, size)
@@ -114,7 +114,7 @@ case class IRList(var values: Vector[Value] = Vector()) extends Obj {
   }
 
   // copy of object
-  def copy: IRList = IRList(values)
+  def copied: IRList = IRList(values)
 }
 
 // IR not supported objects
@@ -122,5 +122,5 @@ case class IRNotSupported(tyname: String, desc: String) extends Obj {
   val ty: Ty = Ty(tyname)
 
   // copy of object
-  def copy: IRNotSupported = IRNotSupported(tyname, desc)
+  def copied: IRNotSupported = IRNotSupported(tyname, desc)
 }

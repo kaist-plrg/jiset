@@ -61,7 +61,7 @@ object Initialize {
       map += NamedAddr(s"$GLOBAL.Symbol.$s") -> IRSymbol(Str("Symbol." + s))
     }
     for ((addr, obj) <- BaseModel.heap) {
-      map += addr -> obj
+      map += addr -> obj.copied
     }
     addBuiltin(map)
     Heap(map)

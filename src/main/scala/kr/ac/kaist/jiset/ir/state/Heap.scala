@@ -55,7 +55,7 @@ case class Heap(
   }
 
   // copy objects
-  def copyObj(addr: Addr): Addr = alloc(this(addr).copy)
+  def copyObj(addr: Addr): Addr = alloc(this(addr).copied)
 
   // keys of map
   def keys(addr: Addr, intSorted: Boolean): Addr = alloc(IRList(this(addr) match {
