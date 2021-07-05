@@ -4,8 +4,10 @@ import kr.ac.kaist.jiset.TEST262_TEST_DIR
 import scala.io.Source
 
 object MetaParser {
-  def apply(filename: String, dirname: String) = {
-    val relName = filename.drop(TEST262_TEST_DIR.length + 1)
+  def apply(filename: String) = {
+    val relName =
+      if (!filename.startsWith(TEST262_TEST_DIR)) filename
+      else filename.drop(TEST262_TEST_DIR.length + 1)
     val source = Source.fromFile(filename)
     val lines = try source.getLines.toList finally source.close()
     val metadata = lines.dropWhile((x) => !(x contains "/*---")) match {

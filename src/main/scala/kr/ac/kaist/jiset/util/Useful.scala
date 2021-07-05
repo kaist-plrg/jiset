@@ -201,6 +201,9 @@ object Useful {
     (interval, res)
   }
 
+  // print duration time with loading message and only get data
+  def showTime[T](msg: String, f: => T): T = time(f)._2
+
   // catch exceptions with Option[_]
   def optional[T](f: => T): Option[T] = try Some(f) catch {
     case e: Throwable => if (DEBUG) println(e); None

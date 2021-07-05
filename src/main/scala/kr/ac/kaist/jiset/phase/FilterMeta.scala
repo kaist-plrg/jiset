@@ -11,7 +11,7 @@ import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.TestConfigJsonProtocol._
 
 // FilterMeta phase
-case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
+case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Test262ConfigSummary] {
   val name = "extract-meta"
   val help = "extracts and filters out metadata of test262 tests."
 
@@ -105,7 +105,7 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     walkTree(test262Dir)
       .toList
       .filter(f => jsFilter(f.getName))
-      .map(x => MetaParser(x.toString, test262Dir.toString))
+      .map(x => MetaParser(x.toString))
       .sorted
   )
 
@@ -277,15 +277,13 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Unit] {
     unit: Unit,
     jisetConfig: JISETConfig,
     config: FilterMetaConfig
-  ): Unit = {
+  ): Test262ConfigSummary = showTime("extracting and filtering out metadata of test262 tests", {
     println(s"Total ${allTests.length} tests")
     val summary = test262configSummary
     println(s"negative applicable tests: ${summary.error.length}")
     println(s"positive applicable tests: ${summary.normal.length}")
-    val pw = new PrintWriter(new File(s"$TEST_DIR/test262.json"))
-    pw.println(summary.toJson.prettyPrint)
-    pw.close()
-  }
+    summary
+  })
 
   def defaultConfig: FilterMetaConfig = FilterMetaConfig()
   val options: List[PhaseOption[FilterMetaConfig]] = List()
