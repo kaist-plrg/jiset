@@ -27,7 +27,6 @@ case class ASTGenerator(grammar: Grammar) {
     nf.println
     nf.println(s"""import $PACKAGE_NAME.ir._""")
     nf.println(s"""import $PACKAGE_NAME.util.Span""")
-    nf.println(s"""import spray.json._""")
     nf.println
     nf.println(s"""trait $name extends AST { val kind: String = "$name" }""")
   }

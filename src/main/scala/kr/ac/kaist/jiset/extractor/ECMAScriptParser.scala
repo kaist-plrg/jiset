@@ -12,7 +12,6 @@ import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup._
 import org.jsoup.nodes._
 import scala.collection.mutable.Stack
-import spray.json._
 
 object ECMAScriptParser {
   def apply(

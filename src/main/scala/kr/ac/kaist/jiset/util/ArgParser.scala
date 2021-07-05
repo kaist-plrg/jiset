@@ -5,7 +5,7 @@ import scala.io.Source
 import kr.ac.kaist.jiset.{ JISET, Command, JISETConfig }
 import kr.ac.kaist.jiset.phase.{ PhaseOption, Config }
 import kr.ac.kaist.jiset.error._
-import spray.json._
+import io.circe._, io.circe.syntax._, io.circe.parser.{ parse => parseJson }
 
 // Argument parser by using Scala RegexParsers.
 class ArgParser(cmd: Command[_], jisetConfig: JISETConfig) extends RegexParsers {
@@ -42,11 +42,12 @@ class ArgParser(cmd: Command[_], jisetConfig: JISETConfig) extends RegexParsers 
     val str = ".*".r ^^ { s => s }
 
     // add arguments from JSON
-    def addArg(prefix: String, value: (String, JsValue)): Unit = value match {
-      case (opt, JsBoolean(true)) => jsonArgs ::= s"-$prefix$opt"
-      case (opt, JsBoolean(false)) =>
-      case (opt, JsNumber(num)) => jsonArgs ::= s"-$prefix$opt=$num"
-      case (opt, JsString(str)) if !str.isEmpty => jsonArgs ::= s"-$prefix$opt=$str"
+    def addArg(prefix: String, value: (String, Json)): Unit = value match {
+      case (opt, Json.True) => jsonArgs ::= s"-$prefix$opt"
+      case (opt, Json.False) =>
+      case (opt, num) if num.isNumber => jsonArgs ::= s"-$prefix$opt=${num.asNumber.get}"
+      case (opt, str) if str.isString && !str.asString.get.isEmpty =>
+        jsonArgs ::= s"-$prefix$opt=${str.asString.get}"
       // TODO case (opt, JsArray(lst)) =>
       case (opt, jsValue) => NoSupportError(jsValue.toString)
     }
@@ -54,21 +55,24 @@ class ArgParser(cmd: Command[_], jisetConfig: JISETConfig) extends RegexParsers 
     // setting options using a JSON file.
     lazy val json: Parser[Unit] = ("-config=" ~> str) ^^ {
       case fileName => {
-        Source.fromFile(fileName)("UTF-8").mkString.parseJson match {
-          case (obj: JsObject) => obj.fields.foreach {
-            case (phase, value: JsObject) => {
-              if (JISET.phases.map(_.name).contains(phase))
-                value.fields.foreach(addArg(s"$phase:", _))
-              else throw NoPhaseError(phase)
+        parseJson(Source.fromFile(fileName)("UTF-8").mkString) match {
+          case Left(err) => throw err
+          case Right(json) => json match {
+            case obj if json.isObject => obj.asObject.get.toList.foreach {
+              case (phase, value) if value.isObject => {
+                if (JISET.phases.map(_.name).contains(phase))
+                  value.asObject.get.toList.foreach(addArg(s"$phase:", _))
+                else throw NoPhaseError(phase)
+              }
+              case ("file", lst) if json.isArray => lst.asArray.get.foreach {
+                case fileName if json.isString => jsonArgs ::= fileName.asString.get
+                case value => throw NoFileName(value.toString)
+              }
+              case ("file", value) => throw NoFileList(value.toString)
+              case pair => addArg("", pair)
             }
-            case ("file", JsArray(lst)) => lst.foreach {
-              case JsString(fileName) => jsonArgs ::= fileName
-              case value => throw NoFileName(value.toString)
-            }
-            case ("file", value) => throw NoFileList(value.toString)
-            case pair => addArg("", pair)
+            case value => throw NoObjError(value.toString)
           }
-          case value => throw NoObjError(value.toString)
         }
       }
     }

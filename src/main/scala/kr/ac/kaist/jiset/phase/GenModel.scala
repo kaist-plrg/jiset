@@ -5,7 +5,6 @@ import kr.ac.kaist.jiset.generator._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
-import spray.json._
 
 // GenModel phase
 case object GenModel extends PhaseObj[ECMAScript, GenModelConfig, Unit] {

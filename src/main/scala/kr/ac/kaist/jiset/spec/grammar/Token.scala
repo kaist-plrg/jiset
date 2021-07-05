@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
 
 // ECMAScript grammar tokens
-trait Token extends SpecComponent {
+sealed trait Token extends SpecComponent {
   // normalize tokens
   def norm: Option[NonTerminal] = this match {
     case ButNot(base, _) => base.norm

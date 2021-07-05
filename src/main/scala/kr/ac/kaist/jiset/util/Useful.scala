@@ -18,7 +18,7 @@ import scala.concurrent.duration._
 import scala.io.Source
 import scala.sys.process._
 import scala.util.Random.shuffle
-import spray.json._
+import io.circe._, io.circe.syntax._, io.circe.parser._
 
 object Useful {
   val ENC = "utf8"
@@ -84,15 +84,13 @@ object Useful {
   def dumpJson[T](
     data: T,
     filename: String
-  )(implicit writer: JsonWriter[T]): Unit = {
-    val json = data.toJson
-    dumpFile(json.prettyPrint, filename)
-  }
+  )(implicit encoder: Encoder[T]): Unit =
+    dumpFile(data.asJson.spaces2, filename)
   def dumpJson[T](
     name: String,
     data: T,
     filename: String
-  )(implicit writer: JsonWriter[T]): Unit = {
+  )(implicit encoder: Encoder[T]): Unit = {
     dumpJson(data, filename)
     println(s"dumped $name to $filename in a JSON format.")
   }
@@ -106,8 +104,14 @@ object Useful {
     Source.fromFile(filename, ENC).mkString
 
   // read JSON
-  def readJson[T](filename: String)(implicit reader: JsonReader[T]): T =
-    readFile(filename).parseJson.convertTo[T]
+  def readJson[T](filename: String)(implicit decoder: Decoder[T]): T =
+    parse(readFile(filename)) match {
+      case Left(err) => throw err
+      case Right(json) => json.as[T] match {
+        case Left(err) => throw err
+        case Right(v) => v
+      }
+    }
 
   // read HTML
   def readHtml(filename: String): Document = Jsoup.parse(readFile(filename))

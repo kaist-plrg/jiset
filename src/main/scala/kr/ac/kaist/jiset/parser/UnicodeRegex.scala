@@ -3,7 +3,6 @@ package kr.ac.kaist.jiset.parser
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.util.parsing.combinator.RegexParsers
-import spray.json._
 
 trait UnicodeRegex extends { _: RegexParsers =>
   // datas

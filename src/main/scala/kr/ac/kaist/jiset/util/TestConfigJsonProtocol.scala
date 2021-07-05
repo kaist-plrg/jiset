@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.util
 
 import kr.ac.kaist.jiset.DEBUG
 import kr.ac.kaist.jiset.parser.{ MetaParser, MetaData }
-import spray.json._
+import io.circe._, io.circe.generic.semiauto._, io.circe.generic.auto._
 
 case class Test262Config(name: String, negative: Option[String], includes: List[String])
 
@@ -12,10 +12,15 @@ case class ErrorTestConfig(name: String, errorName: String, includes: List[Strin
 
 case class Test262ConfigSummary(normal: List[NormalTestConfig], error: List[ErrorTestConfig])
 
-object TestConfigJsonProtocol extends DefaultJsonProtocol {
-  implicit val normalTestConfigFormat = jsonFormat2(NormalTestConfig)
-  implicit val errorTestConfigFormat = jsonFormat3(ErrorTestConfig)
-  implicit val test262ConfigFormat = jsonFormat2(Test262ConfigSummary)
+object TestConfigJsonProtocol {
+  implicit val normalTestConfigDecoder: Decoder[NormalTestConfig] = deriveDecoder
+  implicit val normalTestConfigEncoder: Encoder[NormalTestConfig] = deriveEncoder
+  implicit val errorTestConfigDecoder: Decoder[ErrorTestConfig] = deriveDecoder
+  implicit val errorTestConfigEncoder: Encoder[ErrorTestConfig] = deriveEncoder
+  implicit val test262ConfigDecoder: Decoder[Test262Config] = deriveDecoder
+  implicit val test262ConfigEncoder: Encoder[Test262Config] = deriveEncoder
+  implicit val test262ConfigSummaryDecoder: Decoder[Test262ConfigSummary] = deriveDecoder
+  implicit val test262ConfigSummaryEncoder: Encoder[Test262ConfigSummary] = deriveEncoder
 }
 
 case class TestList(list: List[MetaData]) {

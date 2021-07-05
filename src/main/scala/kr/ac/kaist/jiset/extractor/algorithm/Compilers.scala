@@ -5,7 +5,8 @@ import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.algorithm.token._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console.RED
-import spray.json._
+import io.circe._, io.circe.generic.semiauto._, io.circe.generic.auto._
+import io.circe.syntax._
 
 trait Compilers extends TokenListParsers {
   import kr.ac.kaist.jiset.ir._
@@ -52,7 +53,8 @@ trait Compilers extends TokenListParsers {
   // manual steps
   private case class Pair(tokens: String, inst: Inst)
   val manualSteps: Map[String, Inst] = try {
-    implicit lazy val PairProtocol = jsonFormat2(Pair)
+    implicit lazy val PairDecoder: Decoder[Pair] = deriveDecoder
+    implicit lazy val PairEncoder: Encoder[Pair] = deriveEncoder
     val pairs = readJson[List[Pair]](s"$VERSION_DIR/rule.json")
     (for (Pair(str, inst) <- pairs) yield str -> inst).toMap
   } catch {

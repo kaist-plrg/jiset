@@ -12,7 +12,6 @@ import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.extractor.algorithm.TokenParser
 import org.jsoup.nodes._
-import spray.json._
 
 // GenTest phase
 case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {

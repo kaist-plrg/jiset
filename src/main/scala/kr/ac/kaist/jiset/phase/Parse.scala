@@ -8,7 +8,6 @@ import kr.ac.kaist.jiset.parser.{ MetaParser, MetaData }
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.io.Source
-import spray.json._
 
 // Parse phase
 case object Parse extends PhaseObj[Unit, ParseConfig, Script] {
@@ -28,7 +27,7 @@ case object Parse extends PhaseObj[Unit, ParseConfig, Script] {
     config.jsonFile match {
       case Some(name) =>
         val nf = getPrintWriter(name)
-        nf.println(ast.toJson.prettyPrint)
+        nf.println(ast.toJson.spaces2)
         nf.close()
       case None =>
     }

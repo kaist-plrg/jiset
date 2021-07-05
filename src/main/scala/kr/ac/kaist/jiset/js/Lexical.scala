@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.error.InvalidAST
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.{ Span, Pos }
-import spray.json._
+import io.circe._, io.circe.syntax._
 
 case class Lexical(kind: String, str: String) extends AST {
   def idx: Int = 0
@@ -19,7 +19,7 @@ case class Lexical(kind: String, str: String) extends AST {
   override def name: String = kind
 
   // to JSON format
-  override def toJson: JsValue = JsString(str)
+  override def toJson: Json = Json.fromString(str)
 
   // conversion to string
   override def toString: String = str

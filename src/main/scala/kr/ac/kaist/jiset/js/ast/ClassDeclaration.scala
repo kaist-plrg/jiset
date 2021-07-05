@@ -2,7 +2,6 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
-import spray.json._
 
 trait ClassDeclaration extends AST { val kind: String = "ClassDeclaration" }
 

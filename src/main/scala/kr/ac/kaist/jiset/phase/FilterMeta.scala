@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.parser.{ MetaParser, MetaData }
 import kr.ac.kaist.jiset.util.Useful._
 import java.io._
 
-import spray.json._
+import io.circe._, io.circe.syntax._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.TestConfigJsonProtocol._
 
@@ -271,7 +271,8 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Test262ConfigSum
     .remove("non veryLongTest", m => !(veryLongTest contains removedExt(m.name)))
     .getSummary
 
-  lazy val test262ManualconfigSummary = readFile(s"$TEST_DIR/test262.json").parseJson.convertTo[Test262ConfigSummary]
+  lazy val test262ManualconfigSummary =
+    readJson[Test262ConfigSummary](s"$TEST_DIR/test262.json")
 
   def apply(
     unit: Unit,
@@ -284,7 +285,6 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Test262ConfigSum
     println(s"positive applicable tests: ${summary.normal.length}")
     summary
   })
-
   def defaultConfig: FilterMetaConfig = FilterMetaConfig()
   val options: List[PhaseOption[FilterMetaConfig]] = List()
 }

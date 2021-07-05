@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.error._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.{ Span, Pos }
 import kr.ac.kaist.jiset.util.Useful.cached
-import spray.json._
+import io.circe._, io.circe.syntax._
 
 trait AST {
   var parent: Option[AST] = None
@@ -27,14 +27,14 @@ trait AST {
   def name: String = kind + idx
 
   // to JSON format
-  def toJson: JsValue = JsArray(
-    JsNumber(idx),
-    JsArray(fullList.map {
+  def toJson: Json = Json.arr(
+    Json.fromInt(idx),
+    Json.arr(fullList.map {
       case (_, ASTVal(ast)) => ast.toJson
-      case _ => JsNull
+      case _ => Json.Null
     }: _*),
-    JsArray(parserParams.map(p => JsNumber(if (p) 1 else 0)): _*),
-    JsArray(JsNumber(-1), JsNumber(-1), JsNumber(-1), JsNumber(-1)),
+    Json.arr(parserParams.map(p => Json.fromInt(if (p) 1 else 0)): _*),
+    Json.arr(Json.fromInt(-1), Json.fromInt(-1), Json.fromInt(-1), Json.fromInt(-1))
   )
 
   // get possible kinds
