@@ -67,6 +67,15 @@ object Initialize {
     Heap(map)
   }
 
+  // get length value from origParams
+  def getLength(params: List[Param]): Int = {
+    import Param.Kind._
+    params.count(_.kind match {
+      case Normal => true
+      case _ => false
+    })
+  }
+
   // add builtin object
   def addBuiltin(map: MMap[Addr, Obj]): Unit = for {
     (_, algo) <- algos
@@ -134,7 +143,7 @@ object Initialize {
     )))
     val lengthAddr = NamedAddr(s"DESC:$name.length")
     map.getOrElse(lengthAddr, map += lengthAddr -> IRMap("PropertyDescriptor")(List(
-      Str("Value") -> Num(head.origParams.length),
+      Str("Value") -> Num(getLength(head.origParams)),
       Str("Writable") -> Bool(false),
       Str("Enumerable") -> Bool(false),
       Str("Configurable") -> Bool(true),
