@@ -8,15 +8,8 @@ def [SYNTAX] TemplateSpans[1,0].TemplateStrings<TemplateMiddleList TemplateTail>
     4:access __x2__ = (TemplateTail "TRV")
     4:let tail = __x2__
   }
-  5:let __x3__ = (copy-obj middle)
-  5:let __x4__ = tail
-  5:let __x5__ = 0i
-  5:while (< __x5__ __x4__.length) {
-    let __x6__ = __x4__[__x5__]
-    append __x6__ -> __x3__
-    __x5__ = (+ __x5__ 1i)
-  }
-  5:return __x3__
+  5:append tail -> middle
+  5:return middle
 }
 - id: "sec-static-semantics-templatestrings"
 - code:

@@ -814,14 +814,9 @@ class Compiler private (
   // list expressions
   lazy val listExpr: P[I[Expr]] = ("an empty set" | "a new empty list") ^^^ pair(Nil, EList(Nil)) ||| {
     // multiple expressions
-    "«" ~> repsep(expr, ",") <~ "»" |||
-      ("a" ~ opt("new") ~ "list" ~ opt("containing")) ~> (
-        // one element
-        opt("whose sole" ~ ("item" | "element") ~ "is" | "only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> expr ^^ { List(_) } |||
-        // two elements
-        (("the elements, in order, of" ~> expr <~ "followed by") ~ expr |
-          (expr <~ "followed by the elements , in order , of") ~ expr) ^^ { case x ~ y => List(x, y) }
-      )
+    "«" ~> repsep(expr, ",") <~ "»" ||| ("a" ~ opt("new") ~ "list" ~ opt("containing")) ~> (
+      opt("whose sole" ~ ("item" | "element") ~ "is" | "only" | ("the" ~ ("one" | "single") ~ "element" ~ opt("," | "which is"))) ~> expr ^^ { List(_) }
+    )
   } ^^ { getList(_) } ||| {
     "a List whose first element is" ~> expr ~
       ("and whose subsequent elements are the elements of" ~> expr) <~ opt(rest)
@@ -844,9 +839,10 @@ class Compiler private (
     ("a copy of" | "a new list of") ~> expr ~ ("with" ~> expr <~ "appended") ^^ { case x ~ y => getCopyList(x, List(y)) } |||
     "a copy of" ~ opt("the List") ~> (expr <~ "with all the elements of") ~ (expr <~ "appended") ^^ { case x ~ y => getCopyList(x, y) } |||
     ("a new list containing the same values as the list" ~> expr <~ "in the same order followed by the same values as the list") ~ (expr <~ "in the same order") ^^ { case x ~ y => getCopyList(x, y) } |||
-    "a List whose elements are the elements of" ~> {
-      (expr <~ (opt(",") ~ "followed by" ~ opt("the elements of"))) ~ expr
-    } ^^ { case ie0 ~ ie1 => { getCopyList(ie0, ie1) } }
+    "a List whose elements are the elements of" ~> (
+      (expr <~ opt(",") ~ "followed by the elements of") ~ expr ^^ { case ie0 ~ ie1 => getCopyList(ie0, ie1) } |||
+      (expr <~ opt(",") ~ "followed by") ~ expr ^^ { case (i0 ~ e0) ~ (i1 ~ e1) => pair(i0 ++ i1 :+ IAppend(e1, e0), e0) }
+    )
   )
 
   // algorithm expressions

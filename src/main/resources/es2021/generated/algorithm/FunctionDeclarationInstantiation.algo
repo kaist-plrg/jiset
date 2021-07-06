@@ -81,103 +81,96 @@ def FunctionDeclarationInstantiation(func, argumentsList) = {
     }
     56:app __x23__ = (env.InitializeBinding env "arguments" ao)
     56:__x23__
-    57:let __x24__ = (copy-obj parameterNames)
-    57:let __x25__ = "arguments"
-    57:let __x26__ = 0i
-    57:while (< __x26__ __x25__.length) {
-      let __x27__ = __x25__[__x26__]
-      append __x27__ -> __x24__
-      __x26__ = (+ __x26__ 1i)
-    }
-    57:let parameterBindings = __x24__
+    57:append "arguments" -> parameterNames
+    57:let parameterBindings = parameterNames
   } else let parameterBindings = parameterNames
-  60:app __x28__ = (CreateListIteratorRecord argumentsList)
-  60:let iteratorRecord = __x28__
+  60:app __x24__ = (CreateListIteratorRecord argumentsList)
+  60:let iteratorRecord = __x24__
   63:if (= hasDuplicates true) {
-    62:access __x29__ = (formals "IteratorBindingInitialization" iteratorRecord undefined)
-    62:[? __x29__]
+    62:access __x25__ = (formals "IteratorBindingInitialization" iteratorRecord undefined)
+    62:[? __x25__]
   } else {
-    64:access __x30__ = (formals "IteratorBindingInitialization" iteratorRecord env)
-    64:[? __x30__]
+    64:access __x26__ = (formals "IteratorBindingInitialization" iteratorRecord env)
+    64:[? __x26__]
   }
   74:if (= hasParameterExpressions false) {
     67:let instantiatedVarNames = (copy-obj parameterBindings)
-    68:let __x31__ = varNames
-    68:let __x32__ = 0i
-    68:while (< __x32__ __x31__.length) {
-      let n = __x31__[__x32__]
+    68:let __x27__ = varNames
+    68:let __x28__ = 0i
+    68:while (< __x28__ __x27__.length) {
+      let n = __x27__[__x28__]
       69:if (! (contains instantiatedVarNames n)) {
         70:append n -> instantiatedVarNames
-        71:app __x33__ = (env.CreateMutableBinding env n false)
-        71:[! __x33__]
-        72:app __x34__ = (env.InitializeBinding env n undefined)
-        72:__x34__
+        71:app __x29__ = (env.CreateMutableBinding env n false)
+        71:[! __x29__]
+        72:app __x30__ = (env.InitializeBinding env n undefined)
+        72:__x30__
       } else 96:{}
-      __x32__ = (+ __x32__ 1i)
+      __x28__ = (+ __x28__ 1i)
     }
     73:let varEnv = env
   } else {
-    76:app __x35__ = (NewDeclarativeEnvironment env)
-    76:let varEnv = __x35__
+    76:app __x31__ = (NewDeclarativeEnvironment env)
+    76:let varEnv = __x31__
     77:calleeContext.VariableEnvironment = varEnv
     78:let instantiatedVarNames = (new [])
-    79:let __x36__ = varNames
-    79:let __x37__ = 0i
-    79:while (< __x37__ __x36__.length) {
-      let n = __x36__[__x37__]
+    79:let __x32__ = varNames
+    79:let __x33__ = 0i
+    79:while (< __x33__ __x32__.length) {
+      let n = __x32__[__x33__]
       80:if (! (contains instantiatedVarNames n)) {
         81:append n -> instantiatedVarNames
-        82:app __x38__ = (varEnv.CreateMutableBinding varEnv n false)
-        82:[! __x38__]
+        82:app __x34__ = (varEnv.CreateMutableBinding varEnv n false)
+        82:[! __x34__]
         84:if (|| (! (contains parameterBindings n)) (contains functionNames n)) let initialValue = undefined else {
-          85:app __x39__ = (env.GetBindingValue env n false)
-          85:let initialValue = [! __x39__]
+          85:app __x35__ = (env.GetBindingValue env n false)
+          85:let initialValue = [! __x35__]
         }
-        86:app __x40__ = (varEnv.InitializeBinding varEnv n initialValue)
-        86:__x40__
+        86:app __x36__ = (varEnv.InitializeBinding varEnv n initialValue)
+        86:__x36__
       } else 96:{}
-      __x37__ = (+ __x37__ 1i)
+      __x33__ = (+ __x33__ 1i)
     }
   }
   92:if (= strict false) {
-    90:app __x41__ = (NewDeclarativeEnvironment varEnv)
-    90:let lexEnv = __x41__
+    90:app __x37__ = (NewDeclarativeEnvironment varEnv)
+    90:let lexEnv = __x37__
   } else let lexEnv = varEnv
   93:calleeContext.LexicalEnvironment = lexEnv
-  94:access __x42__ = (code "LexicallyScopedDeclarations")
-  94:let lexDeclarations = __x42__
-  95:let __x43__ = lexDeclarations
-  95:let __x44__ = 0i
-  95:while (< __x44__ __x43__.length) {
-    let d = __x43__[__x44__]
-    97:access __x45__ = (d "BoundNames")
-    97:let __x46__ = __x45__
-    97:let __x47__ = 0i
-    97:while (< __x47__ __x46__.length) {
-      let dn = __x46__[__x47__]
-      100:access __x48__ = (d "IsConstantDeclaration")
-      100:if (= __x48__ true) {
-        99:app __x49__ = (lexEnv.CreateImmutableBinding lexEnv dn true)
-        99:[! __x49__]
+  94:access __x38__ = (code "LexicallyScopedDeclarations")
+  94:let lexDeclarations = __x38__
+  95:let __x39__ = lexDeclarations
+  95:let __x40__ = 0i
+  95:while (< __x40__ __x39__.length) {
+    let d = __x39__[__x40__]
+    97:access __x41__ = (d "BoundNames")
+    97:let __x42__ = __x41__
+    97:let __x43__ = 0i
+    97:while (< __x43__ __x42__.length) {
+      let dn = __x42__[__x43__]
+      100:access __x44__ = (d "IsConstantDeclaration")
+      100:if (= __x44__ true) {
+        99:app __x45__ = (lexEnv.CreateImmutableBinding lexEnv dn true)
+        99:[! __x45__]
       } else {
-        101:app __x50__ = (lexEnv.CreateMutableBinding lexEnv dn false)
-        101:[! __x50__]
+        101:app __x46__ = (lexEnv.CreateMutableBinding lexEnv dn false)
+        101:[! __x46__]
       }
-      __x47__ = (+ __x47__ 1i)
+      __x43__ = (+ __x43__ 1i)
     }
-    __x44__ = (+ __x44__ 1i)
+    __x40__ = (+ __x40__ 1i)
   }
-  102:let __x51__ = functionsToInitialize
-  102:let __x52__ = 0i
-  102:while (< __x52__ __x51__.length) {
-    let f = __x51__[__x52__]
-    103:access __x53__ = (f "BoundNames")
-    103:let fn = __x53__[0i]
-    104:access __x54__ = (f "InstantiateFunctionObject" lexEnv)
-    104:let fo = __x54__
-    105:app __x55__ = (varEnv.SetMutableBinding varEnv fn fo false)
-    105:[! __x55__]
-    __x52__ = (+ __x52__ 1i)
+  102:let __x47__ = functionsToInitialize
+  102:let __x48__ = 0i
+  102:while (< __x48__ __x47__.length) {
+    let f = __x47__[__x48__]
+    103:access __x49__ = (f "BoundNames")
+    103:let fn = __x49__[0i]
+    104:access __x50__ = (f "InstantiateFunctionObject" lexEnv)
+    104:let fo = __x50__
+    105:app __x51__ = (varEnv.SetMutableBinding varEnv fn fo false)
+    105:[! __x51__]
+    __x48__ = (+ __x48__ 1i)
   }
   106:return CONST_empty
 }
