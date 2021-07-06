@@ -89,19 +89,19 @@
   },
   {
     "tokens": "Return a new Number object whose [ [ NumberData ] ] internal slot is set to id:{argument} . See link:{sec-number-objects} for a description of Number objects .",
-    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_Number_prototype, \"NumberData\" -> argument)) return obj}"
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_Number_prototype, \"NumberData\" -> argument, \"Extensible\" -> true)) return obj}"
   },
   {
     "tokens": "Return a new String object whose [ [ StringData ] ] internal slot is set to id:{argument} . See link:{sec-string-objects} for a description of String objects .",
-    "inst": "{let obj = (new StringExoticObject(\"Prototype\" -> INTRINSIC_String_prototype, \"StringData\" -> argument)) return obj}"
+    "inst": "{let obj = (new StringExoticObject(\"Prototype\" -> INTRINSIC_String_prototype, \"StringData\" -> argument, \"Extensible\" -> true)) return obj}"
   },
   {
     "tokens": "Return a new Symbol object whose [ [ SymbolData ] ] internal slot is set to id:{argument} . See link:{sec-symbol-objects} for a description of Symbol objects .",
-    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_Symbol_prototype, \"SymbolData\" -> argument)) return obj}"
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_Symbol_prototype, \"SymbolData\" -> argument, \"Extensible\" -> true)) return obj}"
   },
   {
     "tokens": "Return a new BigInt object whose [ [ BigIntData ] ] internal slot is set to id:{argument} . See link:{sec-bigint-objects} for a description of BigInt objects .",
-    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_BigInt_prototype, \"BigIntData\" -> argument)) return obj}"
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_BigInt_prototype, \"BigIntData\" -> argument, \"Extensible\" -> true)) return obj}"
   },
   {
     "tokens": "Let id:{operation} be the abstract operation associated with id:{opText} in the following table : in:{} out:{}",

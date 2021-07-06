@@ -6,19 +6,19 @@ def ToObject(argument) = {
     4:return obj
   } else 8:{}
   7:if (= (typeof argument) Number) {
-    6:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_Number_prototype, "NumberData" -> argument))
+    6:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_Number_prototype, "NumberData" -> argument, "Extensible" -> true))
     6:return obj
   } else 8:{}
   9:if (= (typeof argument) String) {
-    8:let obj = (new StringExoticObject("Prototype" -> INTRINSIC_String_prototype, "StringData" -> argument))
+    8:let obj = (new StringExoticObject("Prototype" -> INTRINSIC_String_prototype, "StringData" -> argument, "Extensible" -> true))
     8:return obj
   } else 8:{}
   11:if (= (typeof argument) Symbol) {
-    10:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_Symbol_prototype, "SymbolData" -> argument))
+    10:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_Symbol_prototype, "SymbolData" -> argument, "Extensible" -> true))
     10:return obj
   } else 8:{}
   13:if (= (typeof argument) BigInt) {
-    12:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_BigInt_prototype, "BigIntData" -> argument))
+    12:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_BigInt_prototype, "BigIntData" -> argument, "Extensible" -> true))
     12:return obj
   } else 8:{}
   15:if (= (typeof argument) Object) return argument else 8:{}
