@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.util.Useful._
 import org.scalatest._
-import spray.json._
+import io.circe._, io.circe.syntax._, io.circe.parser._
 
 trait JISETTest extends FunSuite with BeforeAndAfterAll {
   // set test mode
@@ -18,18 +18,18 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
   case class Yet(msg: String) extends Result
   case object Fail extends Result
   protected var resMap: Map[String, Result] = Map()
-  implicit object ResultFormat extends RootJsonFormat[Result] {
-    override def read(json: JsValue): Result = json match {
-      case JsString(text) => Yet(text)
-      case JsBoolean(bool) => if (bool) Pass else Fail
-      case v => deserializationError(s"unknown Result: $v")
+  implicit val ResultDecoder: Decoder[Result] = new Decoder[Result] {
+    final def apply(c: HCursor): Decoder.Result[Result] = c.value match {
+      case Json.True => Right(Pass)
+      case Json.False => Right(Fail)
+      case v if v.isString => Right(Yet(v.asString.get))
+      case _ => Left(DecodingFailure(s"unknown Result: ${c.value}", c.history))
     }
-
-    override def write(result: Result): JsValue = result match {
-      case Pass => JsTrue
-      case Fail => JsFalse
-      case Yet(msg) => JsString(msg)
-    }
+  }
+  implicit val ResultEncoder: Encoder[Result] = Encoder.instance {
+    case Pass => Json.True
+    case Fail => Json.False
+    case Yet(msg) => Json.fromString(msg)
   }
 
   // count tests
@@ -64,8 +64,6 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
 
   // check backward-compatibility after all tests
   override def afterAll(): Unit = {
-    import DefaultJsonProtocol._
-
     // check backward-compatibility
     var breakCount = 0
     def error(msg: String): Unit = {
@@ -77,8 +75,8 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
     val filename = s"$TEST_DIR/result/$category/$this.json"
     for {
       str <- optional(readFile(filename))
-      json = str.parseJson
-      map = json.convertTo[Map[String, Result]]
+      json <- parse(str)
+      map <- json.as[Map[String, Result]]
       (name, result) <- map.toSeq.sortBy(_._1)
     } (resMap.get(name), result) match {
       case (None, _) => error(s"'[$tag] $name' test is removed")
@@ -95,7 +93,7 @@ trait JISETTest extends FunSuite with BeforeAndAfterAll {
     pw.close()
 
     val jpw = getPrintWriter(filename)
-    jpw.println(resMap.toJson.sortedPrint)
+    jpw.println(resMap.asJson.spaces2SortKeys)
     jpw.close()
   }
 

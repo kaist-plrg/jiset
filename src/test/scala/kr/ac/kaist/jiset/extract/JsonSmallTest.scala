@@ -4,9 +4,9 @@ import kr.ac.kaist.jiset.JISETTest
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.spec.JsonProtocol._
-import spray.json._
 import org.scalatest._
 import kr.ac.kaist.jiset.spec.algorithm.Diff
+import io.circe._, io.circe.syntax._
 
 class JsonSmallTest extends ExtractTest {
   val name: String = "extractJsonTest"
@@ -15,14 +15,15 @@ class JsonSmallTest extends ExtractTest {
   def init: Unit = {
     check("ECMAScript (recent)", {
       val spec = JISETTest.spec
-      val json = spec.toJson
-      val loaded = json.convertTo[ECMAScript]
-      val diff = new Diff
-      diff.deep = true
-      assert(spec == loaded)
-      (spec.algos zip loaded.algos).foreach {
-        case (l, r) => {
-          assert(diff.compare(l.rawBody, r.rawBody))
+      val json = spec.asJson
+      for (loaded <- json.as[ECMAScript]) {
+        val diff = new Diff
+        diff.deep = true
+        assert(spec == loaded)
+        (spec.algos zip loaded.algos).foreach {
+          case (l, r) => {
+            assert(diff.compare(l.rawBody, r.rawBody))
+          }
         }
       }
     })
