@@ -124,6 +124,7 @@ private class Interp(
             case ("TemplateMiddle", "TRV") => Str(ESValueParser.parseTRVTemplateMiddle(str))
             case ("TemplateTail", "TRV") => Str(ESValueParser.parseTRVTemplateTail(str))
             case (_, "Contains") => Bool(false)
+            case ("RegularExpressionLiteral", name) => throw NotSupported(s"RegularExpressionLiteral.$name")
             case _ => error(s"invalid Lexical access: $kind.$name")
           })
           case (ASTVal(ast), Str("parent")) => Some(ast.parent.map(ASTVal).getOrElse(Absent))
