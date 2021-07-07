@@ -201,7 +201,8 @@ private class Interp(
     case ctxt :: rest => {
       // proper type handle
       (value, setTypeMap.get(st.context.name)) match {
-        case (addr: Addr, Some(ty)) => st.setType(addr, ty)
+        case (addr: Addr, Some(ty)) if !addr.isCompletion(st) =>
+          st.setType(addr, ty)
         case _ =>
       }
 
