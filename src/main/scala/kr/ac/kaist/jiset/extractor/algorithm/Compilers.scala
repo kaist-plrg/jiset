@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.{ error => _, _ }
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.algorithm.token._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import scala.Console.RED
 import io.circe._, io.circe.generic.semiauto._, io.circe.generic.auto._
 import io.circe.syntax._

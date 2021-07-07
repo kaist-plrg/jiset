@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.phase
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util._
-import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 // IREval phase
 case object IREval extends PhaseObj[State, IREvalConfig, State] {

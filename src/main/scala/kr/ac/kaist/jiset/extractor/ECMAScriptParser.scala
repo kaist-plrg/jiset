@@ -8,6 +8,7 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup._
 import org.jsoup.nodes._

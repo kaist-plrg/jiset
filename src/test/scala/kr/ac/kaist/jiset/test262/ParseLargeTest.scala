@@ -5,6 +5,7 @@ import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.phase.FilterMeta
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 class ParseLargeTest extends Test262Test {
   val name: String = "test262ParseTest"

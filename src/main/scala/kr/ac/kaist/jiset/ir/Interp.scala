@@ -298,10 +298,7 @@ private class Interp(
         case v => error(s"not a string: $v")
       }
       v match {
-        case ASTVal(ast) => ASTVal(timeout(
-          ESParser.parse(p(ast.parserParams), ast.toString).get,
-          timeLimit
-        ).checkSupported)
+        case ASTVal(ast) => ASTVal(ESParser.parse(p(ast.parserParams), ast.toString).get.checkSupported)
         case Str(str) =>
           val ps = interp(parserParams).escaped(st) match {
             case addr: Addr => st(addr) match {
@@ -313,10 +310,7 @@ private class Interp(
             }
             case v => error(s"not an address: ${v.beautified}")
           }
-          ASTVal(timeout(
-            ESParser.parse(p(ps), str).get,
-            timeLimit
-          ).checkSupported)
+          ASTVal(ESParser.parse(p(ps), str).get.checkSupported)
         case v => error(s"not an AST value or a string: $v")
       }
     }

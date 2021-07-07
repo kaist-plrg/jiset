@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.generator
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.spec.grammar.token._
-import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 case class WalkerGenerator(grammar: Grammar) {
   val Grammar(lexProds, prods) = grammar

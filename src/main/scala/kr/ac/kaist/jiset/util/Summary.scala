@@ -57,7 +57,7 @@ class SummaryElem {
   // print writer
   var nfOpt: Option[PrintWriter] = None
   def setPath(nf: PrintWriter): Unit = nfOpt = Some(nf)
-  def setPath(filename: String): Unit = setPath(Useful.getPrintWriter(filename))
+  def setPath(filename: String): Unit = setPath(JvmUseful.getPrintWriter(filename))
   def close: Unit = nfOpt.map(_.close())
 
   // size

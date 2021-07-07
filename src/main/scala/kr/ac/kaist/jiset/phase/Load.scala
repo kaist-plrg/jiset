@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.js.{ Parser => JSParser, _ }
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import scala.io.Source
 
 // Load phase
@@ -23,12 +23,15 @@ case object Load extends PhaseObj[Script, LoadConfig, State] {
   def apply(
     script: Script,
     filename: String
-  ): State = script match {
-    case Script0(bodyOpt, _, _) => Initialize(
-      inst = Inst(if (bodyOpt.isDefined) s"app $RESULT = (RunJobs)" else "{}"),
-      bodyOpt = bodyOpt,
-      filename = filename,
-    )
+  ): State = {
+    setTarget(loadSpec(s"$VERSION_DIR/generated"))
+    script match {
+      case Script0(bodyOpt, _, _) => Initialize(
+        inst = Inst(if (bodyOpt.isDefined) s"app $RESULT = (RunJobs)" else "{}"),
+        bodyOpt = bodyOpt,
+        filename = filename,
+      )
+    }
   }
 
   def defaultConfig: LoadConfig = LoadConfig()

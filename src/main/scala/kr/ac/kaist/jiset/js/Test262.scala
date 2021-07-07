@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.phase.FilterMeta
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 object Test262 {
   // parsing result

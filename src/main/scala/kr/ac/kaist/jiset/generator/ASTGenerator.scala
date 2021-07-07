@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.spec.algorithm.Algo
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.spec.grammar.token._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import scala.util.matching.Regex
 
 case class ASTGenerator(grammar: Grammar) {

@@ -9,8 +9,10 @@ trait IRTest extends JISETTest {
   // eval IR codes
   def irEval(st: State): State = Interp(st)
   def irEval(str: String): State = Interp(State(Program(str)))
-  def irEvalFile(filename: String): State =
+  def irEvalFile(filename: String): State = {
+    val _ = JISETTest.spec
     Interp(State(Program.fromFile(filename)), filename)
+  }
 
   // tests for IR parser
   def irParseTest(program: Program): Program = {

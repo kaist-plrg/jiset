@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.parser
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.error._
 import kr.ac.kaist.jiset.js.ast.Script
-import kr.ac.kaist.jiset.util.PureUseful._
+import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.{ INTERACTIVE, LINE_SEP }
 import scala.collection.mutable
 import scala.util.matching.Regex

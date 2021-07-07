@@ -9,6 +9,7 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.UIdGen
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.extractor.algorithm.TokenParser
 import org.jsoup.nodes._

@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.extractor.grammar.ProductionParser
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import org.jsoup.nodes._
 import scala.util.matching.Regex._
 

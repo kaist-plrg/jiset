@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.generator
 
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec.grammar.Grammar

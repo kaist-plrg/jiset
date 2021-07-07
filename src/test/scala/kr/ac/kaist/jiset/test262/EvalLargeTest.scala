@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 class EvalLargeTest extends Test262Test {
   val name: String = "test262EvalTest"

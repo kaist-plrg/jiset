@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.generator
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.spec.grammar.Grammar
@@ -10,7 +11,7 @@ case class ModelGenerator(spec: ECMAScript, parser: Boolean) {
   val grammar = spec.grammar
 
   // generate model/VERSION in resource directory
-  spec.dumpTo(s"$VERSION_DIR/generated")
+  dumpSpec(spec, s"$VERSION_DIR/generated")
 
   // generate js/ast/*.scala in source code directory
   ASTGenerator(grammar)

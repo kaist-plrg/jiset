@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.spec
 
-import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import org.jsoup._
 import org.jsoup.nodes._
 

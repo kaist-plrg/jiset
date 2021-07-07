@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.JS_DIR
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.phase._
-import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 class EvalSmallTest extends JSTest {
   val name: String = "jsEvalTest"

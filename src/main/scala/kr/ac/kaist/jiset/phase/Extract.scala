@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm.Algo
 import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util._
 
 // Extract phase

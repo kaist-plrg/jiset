@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.js
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.js._
-import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 class ParseSmallTest extends JSTest {
   val name: String = "jsParseTest"

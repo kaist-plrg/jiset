@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.extractor.grammar
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import org.jsoup._
 import org.jsoup.nodes._
 

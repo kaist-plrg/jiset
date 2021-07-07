@@ -11,8 +11,7 @@ import kr.ac.kaist.jiset.util.Useful._
 
 package object js {
   // current ECMAScript model
-  lazy val spec: ECMAScript =
-    targetSpec.getOrElse(ECMAScript(s"$VERSION_DIR/generated"))
+  lazy val spec: ECMAScript = targetSpec.get
 
   // set current ECMAScript model
   def setTarget(spec: ECMAScript): Unit = targetSpec = Some(spec)

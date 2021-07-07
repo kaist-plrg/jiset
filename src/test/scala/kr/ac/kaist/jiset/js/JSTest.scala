@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.js.{ Parser => JSParser }
 import kr.ac.kaist.jiset.js.ast._
-import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 trait JSTest extends IRTest {
   override def category: String = "js"

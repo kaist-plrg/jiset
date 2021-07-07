@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
 import kr.ac.kaist.jiset.parser.{ MetaParser, MetaData }
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import java.io._
 
 import io.circe._, io.circe.syntax._

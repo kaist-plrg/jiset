@@ -5,6 +5,7 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.JISETConfig
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 
 // BuildCFG phase
