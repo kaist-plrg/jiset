@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.algorithm._
+import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.{ Map => MMap }
 
@@ -85,10 +86,10 @@ sealed trait Const extends Value
 // IR Numeric
 sealed trait Numeric extends Const {
   // conversion to big decimal
-  def toBigDecimal: BigDecimal = this match {
-    case Num(double) => BigDecimal(double)
-    case INum(long) => BigDecimal(long)
-    case BigINum(bigint) => BigDecimal(bigint)
+  def toMathValue: MathValue = this match {
+    case Num(double) => MathValue(double)
+    case INum(long) => MathValue(long)
+    case BigINum(bigint) => MathValue(bigint)
   }
 }
 

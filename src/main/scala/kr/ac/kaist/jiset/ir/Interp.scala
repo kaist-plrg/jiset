@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.{ DEBUG, TIMEOUT, TEST_MODE }
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.error.NotSupported
+import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.js.{ Parser => ESParser, _ }
 import kr.ac.kaist.jiset.parser.ESValueParser
@@ -559,16 +560,18 @@ object Interp {
       }
     }
   }
-  def numericSimpleFunc(op: (BigDecimal, BigDecimal) => BigDecimal): SimpleFunc = {
-    case (st, list @ _ :: _) =>
-      val ds = list.collect { case x: Numeric => x.toBigDecimal }
+  def numericSimpleFunc(op: (MathValue, MathValue) => MathValue): SimpleFunc = {
+    case (st, list @ _ :: _) => {
+      val ds = list.collect { case x: Numeric => x.toMathValue }
       val d = ds.reduce(op)
-      if (d.toLong == d) INum(d.toLong)
-      else if (d.toBigInt == d) BigINum(d.toBigInt)
-      else Num(d.toDouble)
+      d.toLong.map(INum).getOrElse {
+        d.toBigInt.map(BigINum).getOrElse {
+          Num(d.toDouble)
+        }
+      }
+    }
   }
   val simpleFuncs: Map[String, SimpleFunc] = Map(
-    // TODO min, max
     arityCheck("IsDuplicate" -> {
       case (st, List(addr: Addr)) => st(addr) match {
         case IRList(vs) => Bool(vs.toSet.size != vs.length)
