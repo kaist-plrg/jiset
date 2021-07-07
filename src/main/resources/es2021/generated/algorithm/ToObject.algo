@@ -2,7 +2,7 @@ def ToObject(argument) = {
   1:if (= (typeof argument) Undefined) throw TypeError else 8:{}
   3:if (= (typeof argument) Null) throw TypeError else 8:{}
   5:if (= (typeof argument) Boolean) {
-    4:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_Boolean_prototype, "BooleanData" -> argument))
+    4:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_Boolean_prototype, "BooleanData" -> argument, "Extensible" -> true))
     4:return obj
   } else 8:{}
   7:if (= (typeof argument) Number) {
