@@ -64,11 +64,6 @@ case object CmdGenModel extends Command("gen-model", CmdExtract >> GenModel) {
   override def help = "generates ECMAScript models."
 }
 
-// gen-tsmodel
-case object CmdGenTsModel extends Command("gen-tsmodel", CmdExtract >> GenTsModel) {
-  override def help = "generates ECMAScript models in TypeScript."
-}
-
 // compile-repl
 case object CmdCompileREPL extends Command("compile-repl", CmdBase >> CompileREPL) {
   override def help = "performs REPL for printing compile result of particular step."

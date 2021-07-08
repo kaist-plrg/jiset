@@ -57,7 +57,7 @@ package object jiset {
   val TIMEOUT = 10
 
   // Debugging mode
-  var DEBUG: Boolean = true
+  var DEBUG: Boolean = false
 
   // Interactive debugging mode
   var INTERACTIVE: Boolean = false

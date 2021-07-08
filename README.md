@@ -89,7 +89,6 @@ with the following sub-commands:
 - `help` shows the help message.
 - `extract` extracts ECMAScript model from `ecma262/spec.html`.
 - `gen-model` generates ECMAScript models.
-- `gen-tsmodel` generates ECMAScript models in TypeScript.
 - `compile-repl` performs REPL for printing compile result of particular step.
 - `gen-test` generates tests with the current implementation as the oracle.
 - `parse` parses a JavaScript file using the generated parser.
