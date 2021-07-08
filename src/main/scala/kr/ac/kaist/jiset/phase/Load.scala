@@ -24,7 +24,7 @@ case object Load extends PhaseObj[Script, LoadConfig, State] {
     script: Script,
     filename: String
   ): State = {
-    setTarget(loadSpec(s"$VERSION_DIR/generated"))
+    if (needTarget) setTarget(loadSpec(s"$VERSION_DIR/generated"))
     script match {
       case Script0(bodyOpt, _, _) => Initialize(
         inst = Inst(if (bodyOpt.isDefined) s"app $RESULT = (RunJobs)" else "{}"),

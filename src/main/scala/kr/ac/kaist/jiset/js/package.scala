@@ -15,6 +15,7 @@ package object js {
 
   // set current ECMAScript model
   def setTarget(spec: ECMAScript): Unit = targetSpec = Some(spec)
+  def needTarget: Boolean = targetSpec.isEmpty
   private var targetSpec: Option[ECMAScript] = None
 
   // ECMAScript components
