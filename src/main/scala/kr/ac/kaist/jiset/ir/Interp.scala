@@ -234,6 +234,7 @@ private class Interp(
     case EList(exprs) => st.allocList(exprs.map(interp))
     case ESymbol(desc) => interp(desc) match {
       case (str: Str) => st.allocSymbol(str)
+      case Undef => st.allocSymbol(Undef)
       case v => error(s"not a string: ${v.beautified}")
     }
     case EPop(list, idx) => interp(list).escaped(st) match {
