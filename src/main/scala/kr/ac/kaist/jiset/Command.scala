@@ -40,7 +40,7 @@ case object CmdHelp extends Command("help", CmdBase >> Help) {
 ////////////////////////////////////////////////////////////////////////////////
 // extract
 case object CmdExtract extends Command("extract", CmdBase >> Extract) {
-  override def help = "extracts ECMAScript model from ecma262/spec.html."
+  def help = "extracts ECMAScript model from ecma262/spec.html."
   override def display(spec: ECMAScript): Unit = {
     val ECMAScript(version, grammar, algos, consts, intrinsics, symbols, aoids, section) = spec
     println(s"* version: $version")
@@ -61,17 +61,17 @@ case object CmdExtract extends Command("extract", CmdBase >> Extract) {
 
 // gen-model
 case object CmdGenModel extends Command("gen-model", CmdExtract >> GenModel) {
-  override def help = "generates ECMAScript models."
+  def help = "generates ECMAScript models."
 }
 
 // compile-repl
 case object CmdCompileREPL extends Command("compile-repl", CmdBase >> CompileREPL) {
-  override def help = "performs REPL for printing compile result of particular step."
+  def help = "performs REPL for printing compile result of particular step."
 }
 
 // gen-test
 case object CmdGenTest extends Command("gen-test", CmdBase >> GenTest) {
-  override def help = "generates tests with the current implementation as the oracle."
+  def help = "generates tests with the current implementation as the oracle."
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,19 +79,19 @@ case object CmdGenTest extends Command("gen-test", CmdBase >> GenTest) {
 ////////////////////////////////////////////////////////////////////////////////
 // parse
 case object CmdParse extends Command("parse", CmdBase >> Parse) {
-  override def help = "parses a JavaScript file using the generated parser."
+  def help = "parses a JavaScript file using the generated parser."
   override def display(script: Script): Unit = println(script)
 }
 
 // load
 case object CmdLoad extends Command("load", CmdParse >> Load) {
-  override def help = "loads a JavaScript AST to the initial IR states."
+  def help = "loads a JavaScript AST to the initial IR states."
   override def display(st: ir.State): Unit = println(st.beautified)
 }
 
 // eval
 case object CmdEval extends Command("eval", CmdLoad >> IREval) {
-  override def help = "evaluates a JavaScript file using generated interpreter."
+  def help = "evaluates a JavaScript file using generated interpreter."
   override def display(st: ir.State): Unit = println(st.beautified)
 }
 
@@ -100,7 +100,7 @@ case object CmdEval extends Command("eval", CmdLoad >> IREval) {
 ////////////////////////////////////////////////////////////////////////////////
 // filter
 case object CmdFilterMeta extends Command("filter-meta", CmdBase >> FilterMeta) {
-  override def help = "extracts and filters out metadata of test262 tests."
+  def help = "extracts and filters out metadata of test262 tests."
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -108,28 +108,28 @@ case object CmdFilterMeta extends Command("filter-meta", CmdBase >> FilterMeta) 
 ////////////////////////////////////////////////////////////////////////////////
 // parse-ir
 case object CmdIRParse extends Command("parse-ir", CmdBase >> IRParse) {
-  override def help = "parses an IR file."
+  def help = "parses an IR file."
   override def display(pgm: ir.Program): Unit = println(pgm.beautified)
 }
 
 // load-ir
 case object CmdIRLoad extends Command("load-ir", CmdIRParse >> IRLoad) {
-  override def help = "loads an IR AST to the initial IR states."
+  def help = "loads an IR AST to the initial IR states."
   override def display(st: ir.State): Unit = println(st.beautified)
 }
 
 // eval-ir
 case object CmdIREval extends Command("eval-ir", CmdIRLoad >> IREval) {
-  override def help = "evaluates an IR file."
+  def help = "evaluates an IR file."
   override def display(st: ir.State): Unit = println(st.beautified)
 }
 
 // repl-ir
 case object CmdIRREPL extends Command("repl-ir", CmdIRLoad >> IRREPL) {
-  override def help = "performs REPL for IR instructions."
+  def help = "performs REPL for IR instructions."
 }
 
 // build-cfg
 case object CmdBuildCFG extends Command("build-cfg", CmdExtract >> BuildCFG) {
-  override def help = "builds control flow graph (CFG)."
+  def help = "builds control flow graph (CFG)."
 }

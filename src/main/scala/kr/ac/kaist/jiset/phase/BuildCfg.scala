@@ -43,9 +43,9 @@ case object BuildCFG extends PhaseObj[ECMAScript, BuildCFGConfig, CFG] {
   def defaultConfig: BuildCFGConfig = BuildCFGConfig()
   val options: List[PhaseOption[BuildCFGConfig]] = List(
     ("dot", BoolOption(c => c.dot = true),
-      "dump the cfg in a dot format"),
+      "dump the cfg in a dot format."),
     ("pdf", BoolOption(c => { c.dot = true; c.pdf = true }),
-      "dump the cfg in a dot and pdf format")
+      "dump the cfg in a dot and pdf format.")
   )
 }
 
