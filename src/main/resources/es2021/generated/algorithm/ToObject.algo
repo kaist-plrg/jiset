@@ -11,6 +11,7 @@ def ToObject(argument) = {
   } else 8:{}
   9:if (= (typeof argument) String) {
     8:let obj = (new StringExoticObject("Prototype" -> INTRINSIC_String_prototype, "StringData" -> argument, "Extensible" -> true))
+    8:obj.SubMap.length = (new DataProperty("Value" -> argument.length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false))
     8:return obj
   } else 8:{}
   11:if (= (typeof argument) Symbol) {
