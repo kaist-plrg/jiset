@@ -84,7 +84,7 @@ object Initialize {
       case _ => None
     }
     (base, prop, propV, propName) <- head.ref match {
-      case RefId(Id(name)) if name.head.isLower =>
+      case RefId(Id(name)) =>
         Some(GLOBAL, name, Str(name), name)
       case RefProp(ref, EStr(prop)) =>
         Some(GLOBAL + "." + ref.beautified, prop, Str(prop), prop)
@@ -130,10 +130,14 @@ object Initialize {
       ))
     }
     val subAddr = NamedAddr(s"$name.SubMap")
-    map.getOrElse(subAddr, map += subAddr -> IRMap("SubMap")(List(
-      Str("name") -> NamedAddr(s"DESC:$name.name"),
-      Str("length") -> NamedAddr(s"DESC:$name.length"),
-    )))
+    val subMap = map.get(subAddr) match {
+      case Some(m: IRMap) => m
+      case _ => IRMap("SubMap")(Nil)
+    }
+    subMap
+      .update(Str("name"), NamedAddr(s"DESC:$name.name"))
+      .update(Str("length"), NamedAddr(s"DESC:$name.length"))
+    map += subAddr -> subMap
     val nameAddr = NamedAddr(s"DESC:$name.name")
     map.getOrElse(nameAddr, map += nameAddr -> IRMap("PropertyDescriptor")(List(
       Str("Value") -> Str(propName),
