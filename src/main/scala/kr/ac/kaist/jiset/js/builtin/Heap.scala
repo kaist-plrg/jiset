@@ -772,6 +772,60 @@ object Heap {
         "constructor" -> DataProperty(NamedAddr("GLOBAL.AsyncFunction"), F, F, T),
         "@toStringTag" -> DataProperty(Str("AsyncFunction"), F, F, T),
       )
+    ),
+    "GLOBAL.Object.assign" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      nmap = NMap(
+        "length" -> DataProperty(Num(2.0), F, F, T)
+      )
+    ),
+    "GLOBAL.Number.prototype.toString" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T)
+      )
+    ),
+    "GLOBAL.String.fromCharCode" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T)
+      )
+    ),
+    "GLOBAL.String.fromCodePoint" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T)
+      )
+    ),
+    "GLOBAL.String.prototype.concat" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T)
+      )
+    ),
+    "GLOBAL.Array.prototype.concat" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T)
+      )
+    ),
+    "GLOBAL.Array.prototype.push" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T)
+      )
+    ),
+    "GLOBAL.Array.prototype.unshift" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T)
+      )
+    ),
+    "GLOBAL.Object.assign" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      nmap = NMap(
+        "length" -> DataProperty(Num(2.0), F, F, T)
+      )
     )
   )
 

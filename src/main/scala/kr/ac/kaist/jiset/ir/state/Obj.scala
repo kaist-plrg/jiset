@@ -49,6 +49,14 @@ case class IRMap(
   }
 
   // setters
+  def findOrUpdate(prop: Value, value: Value): this.type = {
+    props.get(prop) match {
+      case Some(_) => this
+      case _ => update(prop, value)
+    }
+  }
+
+  // getorelse
   def update(prop: Value, value: Value): this.type = {
     val id = props
       .get(prop)

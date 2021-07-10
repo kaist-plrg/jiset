@@ -5,8 +5,8 @@ import kr.ac.kaist.jiset.ir._
 // builtin model structure
 case class Struct(
   typeName: String,
-  imap: IMap,
-  nmap: NMap
+  imap: IMap = IMap(),
+  nmap: NMap = NMap()
 ) {
   // conversion to map structure
   def toMap(name: String): Map[Addr, Obj] = {
