@@ -892,7 +892,7 @@ class Compiler private (
 
   // string expressions
   lazy val stringExpr: P[I[Expr]] = (
-    ("the String value" | "the String") ~> expr ^^ {
+    ("the String value" | "the" ~ opt("single-element") ~ "String") ~> expr ^^ {
       case ie => ie
     } ||| ("the code unit at index" ~> expr <~ "within") ~ ref ^^ {
       case (i0 ~ k) ~ (i1 ~ s) =>

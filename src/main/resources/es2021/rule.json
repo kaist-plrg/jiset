@@ -192,10 +192,6 @@
     "inst": "let func = (new BuiltinFunctionObject())"
   },
   {
-    "tokens": "Else , let id:{sep} be ? ToString ( id:{separator} ) .",
-    "inst": "{ app sep = (ToString separator) [? sep] }"
-  },
-  {
     "tokens": "Let id:{internalSlotsList} be the internal slots listed in link:{table-internal-slots-of-bound-function-exotic-objects} , plus [ [ Prototype ] ] and [ [ Extensible ] ] .",
     "inst": "let internalSlotsList = (new [\"BoundTargetFunction\", \"BoundThis\", \"BoundArguments\", \"Prototype\", \"Extensible\"])"
   },
@@ -278,10 +274,6 @@
   {
     "tokens": "Let id:{opText} be the sequence of Unicode code points associated with id:{assignmentOpText} in the following table : in:{} out:{}",
     "inst": "let opText = (- assignmentOpText 1i)"
-  },
-  {
-    "tokens": "If id:{separator} is value:{undefined} , let id:{sep} be the single - element String value:{\",\"} .",
-    "inst": "if (= separator undefined) let sep = \",\" else {}"
   },
   {
     "tokens": "If nt:{ScriptBody} is present and the Directive Prologue of nt:{ScriptBody} contains a Use Strict Directive , return value:{true} ; otherwise , return value:{false} .",
