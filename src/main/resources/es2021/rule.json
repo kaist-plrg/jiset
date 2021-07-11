@@ -410,5 +410,13 @@
   {
     "tokens": "Return a String according to link:{table-typeof-operator-results} .",
     "inst": "{ let t = (typeof val) if (= t Undefined) return \"undefined\" else if (= t Null) return \"object\" else if (= t Boolean) return \"boolean\" else if (= t Number) return \"number\" else if (= t String) return \"string\" else if (= t Symbol) return \"symbol\" else if (= t BigInt) return \"bigint\" else if (= t Object) { if (= val.Call absent) return \"object\" else return \"function\" } else ??? \"invalid for `typeof` operator\" }"
+  },
+  {
+    "tokens": "Let id:{resultStr} be the String value of length 1 , containing one code unit from id:{str} , specifically the code unit at index ℝ ( id:{index} ) .",
+    "inst": "let resultStr = str[index]"
+  },
+  {
+    "tokens": "Return the String value of length 1 , containing one code unit from id:{S} , namely the code unit at index id:{position} .",
+    "inst": "return S[position]"
   }
 ]

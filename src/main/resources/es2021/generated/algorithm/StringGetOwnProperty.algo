@@ -12,7 +12,7 @@ def StringGetOwnProperty(S, P) = {
   8:assert (= (typeof str) String)
   9:let len = str.length
   10:if (|| (< index 0i) (! (< index len))) return undefined else 0:{}
-  11:??? "Let id:{resultStr} be the String value of length 1 , containing one code unit from id:{str} , specifically the code unit at index ℝ ( id:{index} ) ."
+  11:let resultStr = str[index]
   12:return (new PropertyDescriptor("Value" -> resultStr, "Writable" -> false, "Enumerable" -> true, "Configurable" -> false))
 }
 - id: "sec-stringgetownproperty"
