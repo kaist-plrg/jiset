@@ -23,6 +23,8 @@ class EvalLargeTest extends Test262Test {
   // registration
   def init: Unit = check(name, {
     mkdir(logDir)
+    dumpFile(js.spec.version, s"$logDir/ecma262-version")
+    dumpFile(currentVersion(BASE_DIR), s"$logDir/jiset-version")
     summary.yets.setPath(s"$logDir/eval-yet.log")
     summary.fails.setPath(s"$logDir/eval-fail.log")
     summary.passes.setPath(s"$logDir/eval-pass.log")
