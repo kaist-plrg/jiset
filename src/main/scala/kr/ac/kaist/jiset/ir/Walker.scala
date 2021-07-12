@@ -146,6 +146,7 @@ trait Walker {
   def walk(ctxt: Context): Context = Context(
     walk(ctxt.retId),
     walk(ctxt.name),
+    ctxt.algo,
     walkList[Inst](ctxt.insts, walk),
     walkMap[Id, Value](ctxt.locals, walk, walk)
   )

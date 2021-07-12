@@ -84,14 +84,14 @@ private class Interp(
           val body = algo.getBody
           val vs = args.map(interp)
           val locals = getLocals(head.params, vs)
-          val context = Context(id, head.name, List(body), locals)
+          val context = Context(id, head.name, Some(algo), List(body), locals)
           st.ctxtStack ::= st.context
           st.context = context
         }
         case Clo(ctxtName, params, locals, body) => {
           val vs = args.map(interp)
           val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
-          val context = Context(id, ctxtName + ":closure", List(body), locals)
+          val context = Context(id, ctxtName + ":closure", None, List(body), locals)
           st.ctxtStack ::= st.context
           st.context = context
         }
@@ -137,7 +137,7 @@ private class Interp(
               val body = algo.getBody
               val vs = asts ++ args.map(interp)
               val locals = getLocals(head.params, vs)
-              val context = Context(id, head.name, List(body), locals)
+              val context = Context(id, head.name, Some(algo), List(body), locals)
               st.ctxtStack ::= st.context
               st.context = context
               None
@@ -252,6 +252,10 @@ private class Interp(
     }
     case EBOp(OAnd, left, right) => shortCircuit(OAnd, left, right)
     case EBOp(OOr, left, right) => shortCircuit(OOr, left, right)
+    case EBOp(OEq, ERef(RefId(id)), EAbsent) => {
+      val defined = (st.globals.keys ++ st.locals.keys).toSet.contains(id)
+      if (defined) Bool(st.directLookup(id) == Absent) else Bool(true)
+    }
     case EBOp(bop, left, right) => {
       val l = interp(left).escaped(st)
       val r = interp(right).escaped(st)

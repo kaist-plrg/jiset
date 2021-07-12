@@ -57,7 +57,7 @@ case class Algo(
         case (Param(name, Variadic), i) =>
           Inst(s"let ${name} = $ARGS_LIST")
         case (Param(name, _), i) =>
-          Inst(s"app ${name} = (GetArgument $ARGS_LIST)")
+          Inst(s"{ app ${name} = (GetArgument $ARGS_LIST) ${name} = [! ${name}]}")
       }
       prepend(prefix, rawBody)
     // handle abstract relational comparison

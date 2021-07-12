@@ -59,6 +59,12 @@ trait Head extends SpecComponent {
     })
     (types, optional)
   }
+
+  // check builtin
+  def isBuiltin: Boolean = this match {
+    case _: BuiltinHead => true
+    case _ => false
+  }
 }
 object Head extends Parser[Head] {
   // get names and parameters
