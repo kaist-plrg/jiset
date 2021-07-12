@@ -26,11 +26,9 @@ case class State(
     case RefValueProp(addr, value) => this(addr, value)
     case RefValueString(str, value) => this(str, value)
   }
-  def apply(x: Id): Value = {
-    directLookup(x) match {
-      case Absent if context.isBuiltin => Undef
-      case v => v
-    }
+  def apply(x: Id): Value = directLookup(x) match {
+    case Absent if context.isBuiltin => Undef
+    case v => v
   }
   def apply(addr: Addr, key: Value): Value = heap(addr, key)
   def apply(str: String, key: Value): Value = key match {
