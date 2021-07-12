@@ -85,7 +85,10 @@ object Initialize {
     }
     (base, prop, propV, propName) <- head.ref match {
       case RefId(Id(name)) =>
-        Some(GLOBAL, name, Str(name), name)
+        map.getOrElse(NamedAddr(s"GLOBAL.$name"), None) match {
+          case IRNotSupported(tyname, desc) => None
+          case _ => Some(GLOBAL, name, Str(name), name)
+        }
       case RefProp(ref, EStr(prop)) =>
         Some(GLOBAL + "." + ref.beautified, prop, Str(prop), prop)
       case RefProp(ref, ERef(RefId(Id(name)))) if name startsWith SYMBOL_PREFIX =>
