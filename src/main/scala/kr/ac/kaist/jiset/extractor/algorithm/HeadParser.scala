@@ -94,12 +94,16 @@ object HeadParser extends HeadParsers {
   // get with parameters
   def getWithParams(headElem: Element): List[Param] = {
     val text = getText(headElem, false)
-    val isParams = ".*[wW]ith (optional )?(parameter|argument).*".r.matches(text)
+    val isParams = ".*[wW]ith (optional |zero or more )?(parameter|argument).*".r.matches(text)
     if (!isParams) Nil else {
       val optionalParamText: String = optionalParamPattern.findFirstIn(text).getOrElse("")
       val optionalParams: List[String] = withParamPattern.findAllMatchIn(optionalParamText).toList.map(trimParam)
-      val normalParams: List[String] = withParamPattern.findAllMatchIn(text).toList.map(trimParam) diff optionalParams
-      normalParams.map(Param(_, Param.Kind.Normal)) ++ optionalParams.map(Param(_, Param.Kind.Optional))
+      val restParamText: String = restParamPattern.findFirstIn(text).getOrElse("")
+      val restParams: List[String] = withParamPattern.findAllMatchIn(restParamText).toList.map(trimParam)
+      val normalParams: List[String] = withParamPattern.findAllMatchIn(text).toList.map(trimParam) diff (optionalParams ++ restParams)
+      normalParams.map(Param(_, Param.Kind.Normal)) ++
+        optionalParams.map(Param(_, Param.Kind.Optional)) ++
+        restParams.map(Param(_, Param.Kind.Variadic))
     }
   }
 
