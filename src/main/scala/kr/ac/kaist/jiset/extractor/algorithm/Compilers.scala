@@ -108,7 +108,8 @@ trait Compilers extends TokenListParsers {
   }
 
   // get error objects
-  def getErrorObj(name: String): Expr = Expr("(new OrdinaryObject())")
+  def getErrorObj(name: String): Expr =
+    Expr(s"""(new OrdinaryObject("Prototype" -> INTRINSIC_${name}.SubMap.prototype.Value, "ErrorData" -> undefined))""")
 
   // for-each instrutions for lists
   def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {

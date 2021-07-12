@@ -33,7 +33,7 @@ def [BUILTIN] AsyncFromSyncIteratorPrototype.return(value?) = {
   } else 7:{}
   14:result
   15:if (! (= (typeof result) Object)) {
-    16:app __x8__ = (Call promiseCapability.Reject undefined (new [(new OrdinaryObject())]))
+    16:app __x8__ = (Call promiseCapability.Reject undefined (new [(new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.SubMap.prototype.Value, "ErrorData" -> undefined))]))
     16:[! __x8__]
     17:return promiseCapability.Promise
   } else 7:{}

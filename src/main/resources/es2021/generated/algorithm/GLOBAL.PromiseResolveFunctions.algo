@@ -6,7 +6,7 @@ def [BUILTIN] PromiseResolveFunctions(resolution) = {
   5:alreadyResolved.Value = true
   6:app __x0__ = (SameValue resolution promise)
   6:if (= __x0__ true) {
-    7:let selfResolutionError = (new OrdinaryObject())
+    7:let selfResolutionError = (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.SubMap.prototype.Value, "ErrorData" -> undefined))
     8:app __x1__ = (RejectPromise promise selfResolutionError)
     8:return __x1__
   } else 1:{}
