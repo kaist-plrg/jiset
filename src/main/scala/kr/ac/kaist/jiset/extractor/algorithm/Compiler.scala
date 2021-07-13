@@ -1236,11 +1236,12 @@ class Compiler private (
 
   // conditions for arguments
   lazy val argumentCond: P[I[Expr]] = (
-    "no arguments were passed to this function invocation" ^^^ {
+    ("no arguments were passed to this function invocation" | "only one argument was passed") ^^^ {
       pair(Nil, Expr("(= argumentsList.length 0i)"))
-    } ||| "only one argument was passed" ^^^ {
-      pair(Nil, Expr("(= argumentsList.length 1i)"))
     }
+  // ^^^ {
+  //   pair(Nil, Expr("(= argumentsList.length 1i)"))
+  // }
   )
 
   // same conditions
