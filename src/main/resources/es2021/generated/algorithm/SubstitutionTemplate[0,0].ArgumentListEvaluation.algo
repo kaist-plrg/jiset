@@ -5,7 +5,8 @@ def [SYNTAX] SubstitutionTemplate[0,0].ArgumentListEvaluation<TemplateHead Expre
   1:let firstSub = [? __x1__]
   2:access __x2__ = (TemplateSpans "SubstitutionEvaluation")
   2:let restSub = [? __x2__]
-  4:return (new [firstSub, restSub])
+  4:prepend firstSub -> restSub
+  4:return restSub
 }
 - id: "sec-runtime-semantics-argumentlistevaluation"
 - code:

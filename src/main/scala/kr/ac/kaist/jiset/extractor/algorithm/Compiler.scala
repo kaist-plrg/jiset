@@ -820,7 +820,7 @@ class Compiler private (
   } ^^ { getList(_) } ||| {
     "a List whose first element is" ~> expr ~
       ("and whose subsequent elements are the elements of" ~> expr) <~ opt(rest)
-  } ^^ { case (i0 ~ e0) ~ (i1 ~ e1) => pair(i0 ++ i1, EList(List(e0, e1))) }
+  } ^^ { case (i0 ~ e0) ~ (i1 ~ e1) => pair(i0 ++ i1 :+ IPrepend(e0, e1), e1) }
 
   // multiple expressions
   lazy val multiExpr: P[I[Expr]] = (
