@@ -11,6 +11,7 @@ Details of the JISET framework are available in our papers:
   Toolchain](https://doi.org/10.1145/3324884.3416632)
 - [ICSE 2021] [JEST: N+1-version Differential Testing of Both JavaScript
   Engines](https://doi.org/10.1109/ICSE43902.2021.00015)
+- [ASE 2021] JSTAR: JavaScript Specification Type Analyzer using Refinement
 
 ## Overall Structure
 
