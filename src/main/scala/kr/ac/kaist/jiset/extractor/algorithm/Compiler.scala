@@ -911,7 +911,7 @@ class Compiler private (
         val inst = Inst(s"""{
            let $substr = ""
            let $idx = $from
-           while (< $idx (+ $to 1i)) {
+           while (< $idx $to) {
              access $char = ($base $idx)
              $substr = (+ $substr $char)
              $idx = (+ $idx 1i)
