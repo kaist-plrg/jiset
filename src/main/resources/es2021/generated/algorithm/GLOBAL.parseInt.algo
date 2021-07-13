@@ -17,7 +17,7 @@ def [BUILTIN] parseInt(string, radix) = {
   16:??? "If id:{S} contains a code unit that is not a radix - id:{R} digit , let id:{end} be the index within id:{S} of the first such code unit ; otherwise , let id:{end} be the length of id:{S} ."
   17:let __x3__ = ""
   17:let __x4__ = 0i
-  17:while (< __x4__ (+ end 1i)) {
+  17:while (< __x4__ end) {
     access __x5__ = (S __x4__)
     __x3__ = (+ __x3__ __x5__)
     __x4__ = (+ __x4__ 1i)

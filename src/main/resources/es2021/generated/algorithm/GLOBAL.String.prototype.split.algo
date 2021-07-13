@@ -42,7 +42,7 @@ def [BUILTIN] String.prototype.split(separator, limit) = {
     24:if (= e CONST_notDASHmatched) q = (+ q 1i) else if (== e p) q = (+ q 1i) else {
       28:let __x10__ = ""
       28:let __x11__ = p
-      28:while (< __x11__ (+ q 1i)) {
+      28:while (< __x11__ q) {
         access __x12__ = (S __x11__)
         __x10__ = (+ __x10__ __x12__)
         __x11__ = (+ __x11__ 1i)
@@ -59,7 +59,7 @@ def [BUILTIN] String.prototype.split(separator, limit) = {
   }
   34:let __x15__ = ""
   34:let __x16__ = p
-  34:while (< __x16__ (+ s 1i)) {
+  34:while (< __x16__ s) {
     access __x17__ = (S __x16__)
     __x15__ = (+ __x15__ __x17__)
     __x16__ = (+ __x16__ 1i)
