@@ -243,7 +243,10 @@ class Compiler private (
         ISeq(i0 ++ i1 :+ Inst(s"""{
         let $k = (+ $sv ${ds}i)
         let $n = (+ $ev ${de}i)
-        while (< $k $n) $body
+        while (< $k $n) {
+          $body
+          $k = (+ $k 1i)
+        }
       }"""))
     } ||| (
       ("for each own property key" ~> id) ~
