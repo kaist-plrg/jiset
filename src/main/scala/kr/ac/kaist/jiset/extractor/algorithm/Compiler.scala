@@ -810,7 +810,7 @@ class Compiler private (
   lazy val extraFields: P[List[(Expr, Expr)]] = (
     "a" ~> internalName <~ "internal slot" ^^ { case x => List(x -> EUndef) } |||
     "internal slots" ~> rep1sep(internalName, sep("and")) ^^ { case xs => xs.map(_ -> EUndef) } |||
-    id <~ "as the binding object" ^^ { case x => List(EStr("BindingObject") -> toERef(x)) } |||
+    id <~ "as the binding object" ^^ { case x => List(EStr("BindingObject") -> toERef(x), EStr("withEnvironment") -> EBool(false)) } |||
     ("the internal slots listed in table" ~ number | opt("initially has") ~> "no fields" | "no bindings") ^^^ Nil
   )
 

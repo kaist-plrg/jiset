@@ -1,5 +1,5 @@
 def NewObjectEnvironment(O, E) = {
-  0:let env = (new ObjectEnvironmentRecord("BindingObject" -> O))
+  0:let env = (new ObjectEnvironmentRecord("BindingObject" -> O, "withEnvironment" -> false))
   1:env.OuterEnv = E
   2:return env
 }

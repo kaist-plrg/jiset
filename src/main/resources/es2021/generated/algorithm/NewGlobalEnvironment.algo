@@ -1,5 +1,5 @@
 def NewGlobalEnvironment(G, thisValue) = {
-  0:let objRec = (new ObjectEnvironmentRecord("BindingObject" -> G))
+  0:let objRec = (new ObjectEnvironmentRecord("BindingObject" -> G, "withEnvironment" -> false))
   1:let dclRec = (new DeclarativeEnvironmentRecord())
   2:let env = (new GlobalEnvironmentRecord())
   3:env.ObjectRecord = objRec
