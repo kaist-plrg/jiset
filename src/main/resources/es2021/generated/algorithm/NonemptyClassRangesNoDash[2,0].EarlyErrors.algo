@@ -11,15 +11,13 @@ def [SYNTAX] NonemptyClassRangesNoDash[2,0].EarlyErrors<ClassAtomNoDash `-` Clas
   1:access __x4__ = (ClassAtomNoDash "IsCharacterClass")
   1:__x3__ = (= __x4__ false)
   1:if __x3__ {
-    let __x5__ = true
-    access __x6__ = (ClassAtom "IsCharacterClass")
-    __x5__ = (= __x6__ false)
-    if __x5__ {
-      access __x7__ = (ClassAtomNoDash "CharacterValue")
-      access __x8__ = (ClassAtom "CharacterValue")
-      __x5__ = (< __x8__ __x7__)
+    access __x5__ = (ClassAtom "IsCharacterClass")
+    __x3__ = (= __x5__ false)
+    if __x3__ {
+      access __x6__ = (ClassAtomNoDash "CharacterValue")
+      access __x7__ = (ClassAtom "CharacterValue")
+      __x3__ = (< __x7__ __x6__)
     } else 2:{}
-    __x3__ = __x5__
   } else 2:{}
   1:if __x3__ throw SyntaxError else 2:{}
 }

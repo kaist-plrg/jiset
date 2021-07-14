@@ -1,5 +1,5 @@
 def MakeDay(year, month, date) = {
-  0:if (|| (|| (|| (= year Infinity) (= year -Infinity)) (= year NaN)) (|| (|| (|| (= month Infinity) (= month -Infinity)) (= month NaN)) (|| (|| (= date Infinity) (= date -Infinity)) (= date NaN)))) return NaN else 2:{}
+  0:if (|| (|| (|| (|| (= year Infinity) (= year -Infinity)) (= year NaN)) (|| (|| (= month Infinity) (= month -Infinity)) (= month NaN))) (|| (|| (= date Infinity) (= date -Infinity)) (= date NaN))) return NaN else 2:{}
   1:app __x0__ = (ToIntegerOrInfinity year)
   1:let y = [! __x0__]
   2:app __x1__ = (ToIntegerOrInfinity month)

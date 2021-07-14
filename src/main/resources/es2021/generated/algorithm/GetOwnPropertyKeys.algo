@@ -8,7 +8,7 @@ def GetOwnPropertyKeys(O, type) = {
   3:let __x3__ = 0i
   3:while (< __x3__ __x2__.length) {
     let nextKey = __x2__[__x3__]
-    4:if (&& (= (typeof nextKey) Symbol) (|| (= type CONST_symbol) (&& (= (typeof nextKey) String) (= type CONST_string)))) append nextKey -> nameList else 2:{}
+    4:if (|| (&& (= (typeof nextKey) Symbol) (= type CONST_symbol)) (&& (= (typeof nextKey) String) (= type CONST_string))) append nextKey -> nameList else {}
     __x3__ = (+ __x3__ 1i)
   }
   6:app __x4__ = (CreateArrayFromList nameList)

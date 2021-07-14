@@ -410,5 +410,9 @@
   {
     "tokens": "Return the String value of length 1 , containing one code unit from id:{S} , namely the code unit at index id:{position} .",
     "inst": "return S[position]"
+  },
+  {
+    "tokens": "If Type ( id:{nextKey} ) is Symbol and id:{type} is const:{symbol} or Type ( id:{nextKey} ) is String and id:{type} is const:{string} , then in:{} out:{}",
+    "inst": "if (|| (&& (= (typeof nextKey) Symbol) (= type CONST_symbol)) (&& (= (typeof nextKey) String) (= type CONST_string))) append nextKey -> nameList else {}"
   }
 ]

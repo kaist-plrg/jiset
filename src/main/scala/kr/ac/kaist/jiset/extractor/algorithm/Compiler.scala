@@ -1208,7 +1208,7 @@ class Compiler private (
     sameCond |||
     bopCond |||
     condOpCond |||
-    weekCondOpCond |||
+    noCommaCondOpCond |||
     rhsCond |||
     bothCond |||
     eitherCond |||
@@ -1278,7 +1278,6 @@ class Compiler private (
 
   // conditional operators
   lazy val _condOpCond = (
-    weekCondOpCond |||
     rhsCond |||
     bopCond |||
     containsCond |||
@@ -1289,7 +1288,7 @@ class Compiler private (
     duplicateCond |||
     earlyErrorCond
   )
-  lazy val condOpCond: P[I[Expr]] = rep1sep(_condOpCond, ",") ~ ("," ~> condOp <~ opt("if")) ~ _cond ^^ {
+  lazy val condOpCond: P[I[Expr]] = rep1sep(noCommaCondOpCond, ",") ~ ("," ~> condOp <~ opt("if")) ~ _cond ^^ {
     case il ~ ((op, _)) ~ (i1 ~ r) if il.tail.forall { case i ~ e => isEmptyInsts(i) } && isEmptyInsts(i1) => {
       val i ~ l = il.reduce[I[Expr]] {
         case ((i0 ~ x), (i1 ~ y)) => pair(i0 ++ i1, EBOp(op, x, y))
@@ -1310,11 +1309,23 @@ class Compiler private (
       pair(List(ILet(temp, EBool(true)), inst), toERef(temp))
     }
   }
-  lazy val weekCondOpCond: P[I[Expr]] = _condOpCond ~ (condOp <~ opt("if")) ~ _condOpCond ^^ {
-    case (i0 ~ l) ~ ((op, _)) ~ (i1 ~ r) if isEmptyInsts(i1) => pair(i0 ++ i1, EBOp(op, l, r))
-    case ie0 ~ ((op, f)) ~ ie1 => {
+  lazy val noCommaCondOpCond: P[I[Expr]] = (
+    getCondOpCond("or", OOr, orFunc) |||
+    getCondOpCond("and", OAnd, andFunc)
+  )
+  private def getCondOpCond(
+    sep: String,
+    op: BOp,
+    f: Inst => (Inst, Inst)
+  ): P[I[Expr]] = rep1sep(_condOpCond, sep <~ opt("if")) ^^ {
+    case il if il.tail.forall { case i ~ e => isEmptyInsts(i) } => {
+      il.reduce[I[Expr]] {
+        case ((i0 ~ x), (i1 ~ y)) => pair(i0 ++ i1, EBOp(op, x, y))
+      }
+    }
+    case il => {
       var temp = getTempId
-      val inst = List(ie0, ie1).foldRight(emptyInst) {
+      val inst = il.foldRight(emptyInst) {
         case (i ~ expr, iacc) => {
           val (t, e) = f(iacc)
           val ifInst =
@@ -1326,9 +1337,11 @@ class Compiler private (
       pair(List(ILet(temp, EBool(true)), inst), toERef(temp))
     }
   }
+  val orFunc = (x: Inst) => (emptyInst, x)
+  val andFunc = (x: Inst) => (x, emptyInst)
   lazy val condOp: P[(BOp, Inst => (Inst, Inst))] = (
-    "or" ^^^ { (OOr, (x: Inst) => (emptyInst, x)) } |||
-    "and" ^^^ { (OAnd, (x: Inst) => (x, emptyInst)) }
+    "or" ^^^ { (OOr, orFunc) } |||
+    "and" ^^^ { (OAnd, andFunc) }
   )
 
   // right-hand side conditions
