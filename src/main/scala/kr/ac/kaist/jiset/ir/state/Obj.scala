@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.js
 import scala.collection.mutable.{ Map => MMap }
 
 // IR Objects
@@ -40,12 +39,8 @@ case class IRMap(
 
   // getters
   def apply(prop: Value): Value = (props.get(prop), ty, prop) match {
-    case (Some((value, _)), _, _) =>
-      value
-    case (None, Ty(js.ALGORITHM), Str(str)) =>
-      js.algos.get(str).map(Func).getOrElse(Absent)
-    case _ =>
-      Absent
+    case (Some((value, _)), _, _) => value
+    case _ => Absent
   }
 
   // setters

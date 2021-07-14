@@ -59,23 +59,6 @@ object Useful {
   def printColor(color: String): Any => Unit = x => print(setColor(color)(x))
   def printlnColor(color: String): Any => Unit = x => println(setColor(color)(x))
 
-  // get name that could be used in Scala identifiers
-  private val symbolRegex = "@@([^@]+)".r
-  private val intrinsicRegex = "%([^%]+)%".r
-  def getScalaName(str: String): String = {
-    val replaces = Map(
-      "\\." -> "DOT",
-      ":" -> "COLON"
-    )
-    replaces.foldLeft(str) {
-      case (str, (from, to)) => str.replaceAll(from, to)
-    } match {
-      case intrinsicRegex(x) => "INTRINSIC_" + x
-      case symbolRegex(x) => "SYMBOL_" + x
-      case x => x
-    }
-  }
-
   // print duration time with loading message and only get data
   def showTime[T](msg: String, f: => T): T = time(f)._2
 

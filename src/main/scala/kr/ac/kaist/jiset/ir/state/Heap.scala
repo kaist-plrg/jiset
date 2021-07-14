@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.error.NotSupported
 import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.js
 import scala.collection.mutable.{ Map => MMap }
 
 // IR Heaps
@@ -15,6 +16,24 @@ case class Heap(
     map.getOrElse(addr, error(s"unknown address: ${addr.beautified}"))
   def apply(addr: Addr, key: Value): Value = this(addr) match {
     case (s: IRSymbol) => s(key)
+    case (IRMap(Ty(js.ALGORITHM), _, _)) => key match {
+      case Str(str) =>
+        js.algos.get(str).map(Func).getOrElse(Absent)
+      case _ => error(s"invalid algorithm: $key")
+    }
+    case (IRMap(Ty(js.INTRINSICS), _, _)) => key match {
+      case Str(str) if js.intrinsicRegex.matches(str) =>
+        // resolve %A.B.C%
+        val js.intrinsicRegex(path) = str
+        path.split("\\.").toList match {
+          case base :: rest =>
+            val baseAddr = js.intrinsicToAddr(base)
+            rest.foldLeft(baseAddr: Value)(getPropValue)
+          case Nil =>
+            error(s"invalid intrinsics: $key")
+        }
+      case _ => error(s"invalid intrinsics: $key")
+    }
     case (m: IRMap) => m(key)
     case (l: IRList) => l(key)
     case IRNotSupported(_, msg) => throw NotSupported(msg)
@@ -102,6 +121,25 @@ case class Heap(
     map += newAddr -> obj
     size += 1
     newAddr
+  }
+
+  // property access helper
+  private def getAddrValue(
+    addr: Addr,
+    propName: String
+  ): Addr = this(addr, Str(propName)) match {
+    case addr: Addr => addr
+    case v => error(s"not an address: $v")
+  }
+  private def getPropValue(
+    addr: Value,
+    propName: String
+  ): Value = addr match {
+    case addr: Addr =>
+      val submap = getAddrValue(addr, "SubMap")
+      val prop = getAddrValue(submap, propName)
+      this(prop, Str("Value"))
+    case _ => error(s"not an address: $addr")
   }
 
   // set type of objects

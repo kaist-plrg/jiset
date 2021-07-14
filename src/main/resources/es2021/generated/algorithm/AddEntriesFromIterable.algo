@@ -10,7 +10,7 @@ def AddEntriesFromIterable(target, iterable, adder) = {
     6:app __x3__ = (IteratorValue next)
     6:let nextItem = [? __x3__]
     7:if (! (= (typeof nextItem) Object)) {
-      8:app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.SubMap.prototype.Value, "ErrorData" -> undefined)))
+      8:app __x4__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSICS["%TypeError.prototype%"], "ErrorData" -> undefined)))
       8:let error = __x4__
       9:app __x5__ = (IteratorClose iteratorRecord error)
       9:return [? __x5__]

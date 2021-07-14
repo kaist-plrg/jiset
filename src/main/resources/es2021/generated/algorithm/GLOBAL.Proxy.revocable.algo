@@ -6,7 +6,7 @@ def [BUILTIN] Proxy.revocable(target, handler) = {
   3:app __x1__ = (CreateBuiltinFunction steps length "" (new ["RevocableProxy"]))
   3:let revoker = [! __x1__]
   4:revoker.RevocableProxy = p
-  5:app __x2__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+  5:app __x2__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"])
   5:let result = [! __x2__]
   6:app __x3__ = (CreateDataPropertyOrThrow result "proxy" p)
   6:[! __x3__]

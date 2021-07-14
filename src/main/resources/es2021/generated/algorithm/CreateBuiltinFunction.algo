@@ -1,7 +1,7 @@
 def CreateBuiltinFunction(steps, length, name, internalSlotsList, realm?, prototype?, prefix?) = {
   1:if (|| (= realm absent) (= realm CONST_empty)) realm = REALM else 0:{}
   2:assert (is-instance-of realm RealmRecord)
-  3:if (= prototype absent) prototype = realm.Intrinsics.INTRINSIC_Function_prototype else 0:{}
+  3:if (= prototype absent) prototype = realm.Intrinsics["%Function.prototype%"] else 0:{}
   4:let func = (new BuiltinFunctionObject())
   4:func.Code = steps
   4:func.SubMap.name = (new DataProperty("Value" -> name, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true))

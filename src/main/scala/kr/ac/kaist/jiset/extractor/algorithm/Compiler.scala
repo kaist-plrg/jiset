@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.ir.Parser._
 import kr.ac.kaist.jiset.ir.{ Id => IRId, _ }
 import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.js.{ INTRINSICS }
 import scala.util.{ Try, Success, Failure }
 
 class Compiler private (
@@ -1146,8 +1147,10 @@ class Compiler private (
 
   // values with tag `code`
   lazy val codeValue: P[Expr] = opt("the" ~ ("code unit" | "element" | opt("single - element") ~ "string" ~ opt("value"))) ~> code <~ opt("(" ~ rep(normal.filter(_ != Text(")"))) ~ ")") ^^ {
-    case s if s.startsWith("\"%") && s.endsWith("%\"") => ERef(RefId(IRId(INTRINSIC_PRE + s.slice(2, s.length - 2))))
-    case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
+    case s if s.startsWith("\"%") && s.endsWith("%\"") =>
+      ERef(RefProp(toRef(INTRINSICS), EStr(s.slice(1, s.length - 1))))
+    case s if s.startsWith("\"") && s.endsWith("\"") =>
+      EStr(s.slice(1, s.length - 1))
     case s @ ("super" | "this" | "&" | "^" | "|" | "**" | "+" | "-" | ">>" | ">>>" | "<<" | "%" | "/" | "*") => EStr(s)
     case s if s.endsWith("n") => EBigINum(s.dropRight(1).toLong)
     case s => ENotSupported(s)
@@ -1578,7 +1581,8 @@ class Compiler private (
     lastElemRef |||
     fieldRef |||
     lengthRef |||
-    flagRef
+    flagRef |||
+    intrinsicsRef
   )
 
   // link-based references
@@ -1643,6 +1647,12 @@ class Compiler private (
     case x ~ (i ~ r) if x == "withEnvironment" => pair(i, RefProp(r, EStr(x)))
   }
 
+  // intrinsics references
+  lazy val intrinsicsRef: P[I[Ref]] =
+    opt("the") ~> opt("intrinsic" ~ ("object" | "function")) ~> intrinsicsName ^^ {
+      case intrin => pair(Nil, RefProp(toRef(INTRINSICS), intrin))
+    }
+
   lazy val refBase: P[String] = opt("the") ~ opt("corresponding") ~> (
     "surrounding agent's agent record" ^^^ agent |||
     "agent record of the surrounding agent" ^^^ agent |||
@@ -1655,7 +1665,6 @@ class Compiler private (
     "this" ~ opt(nt | "this" | ty | camelWord ~ "object") ^^^ "this" |||
     value.filter(_ == "this") ~ "value" ^^^ "this" |||
     "reference" ~> id |||
-    intrinsicName |||
     symbolName |||
     camelWord |||
     opt(ordinal) ~ nt ^^ { case k ~ x => x + k.getOrElse("") } |||
@@ -1676,7 +1685,9 @@ class Compiler private (
     "third" ^^^ 2
   )
   lazy val field: P[I[Expr]] = (
-    "." ~> internalName ^^ {
+    "." ~> ("[[" ~> intrinsicsName <~ "]]") ^^ {
+      case intrin => pair(Nil, intrin)
+    } | "." ~> internalName ^^ {
       case x => pair(Nil, x)
     } | "[" ~> expr <~ "]" ^^ {
       case i ~ e => pair(i, e)
@@ -1699,14 +1710,13 @@ class Compiler private (
   // Names
   ////////////////////////////////////////////////////////////////////////////////
   lazy val name: P[String] = refBase
-  lazy val intrinsicName: P[String] =
-    opt("the") ~> opt("intrinsic" ~ ("object" | "function")) ~> "%" ~> rep1sep(word, ".") <~ "%" ^^ {
-      case ls => s"${INTRINSIC_PRE}${ls.mkString("_")}"
-    }
   lazy val symbolName: P[String] =
     "@@" ~> word ^^ { case x => s"SYMBOL_$x" }
   lazy val internalName: P[Expr] =
-    "[[" ~> (intrinsicName ||| symbolName ||| word) <~ "]]" ^^ { EStr(_) }
+    "[[" ~> (symbolName ||| word) <~ "]]" ^^ { EStr(_) }
+  lazy val intrinsicsName: P[Expr] = "%" ~> rep1sep(word, ".") <~ "%" ^^ {
+    case ws => EStr(s"%${ws.mkString(".")}%")
+  }
 
   ////////////////////////////////////////////////////////////////////////////////
   // Etc parsers

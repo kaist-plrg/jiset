@@ -3,7 +3,7 @@ def [SYNTAX] MethodDefinition[0,0].DefineMethod<PropertyName `(` UniqueFormalPar
   0:let propKey = __x0__
   1:[? propKey]
   2:let scope = CONTEXT.LexicalEnvironment
-  5:if (! (= functionPrototype absent)) let prototype = functionPrototype else let prototype = INTRINSIC_Function_prototype
+  5:if (! (= functionPrototype absent)) let prototype = functionPrototype else let prototype = INTRINSICS["%Function.prototype%"]
   7:let sourceText = (get-syntax MethodDefinition)
   8:app __x1__ = (OrdinaryFunctionCreate prototype sourceText UniqueFormalParameters FunctionBody CONST_nonDASHlexicalDASHthis scope)
   8:let closure = __x1__

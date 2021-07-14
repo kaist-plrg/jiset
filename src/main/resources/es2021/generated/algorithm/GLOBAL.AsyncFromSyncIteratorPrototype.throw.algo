@@ -1,7 +1,7 @@
 def [BUILTIN] AsyncFromSyncIteratorPrototype.throw(value?) = {
   0:let O = this
   1:assert (&& (= (typeof O) Object) (! (= O.SyncIteratorRecord absent)))
-  2:app __x0__ = (NewPromiseCapability INTRINSIC_Promise)
+  2:app __x0__ = (NewPromiseCapability INTRINSICS["%Promise%"])
   2:let promiseCapability = [! __x0__]
   3:let syncIterator = O.SyncIteratorRecord.Iterator
   4:app __x1__ = (GetMethod syncIterator "throw")
@@ -31,7 +31,7 @@ def [BUILTIN] AsyncFromSyncIteratorPrototype.throw(value?) = {
   } else 7:{}
   13:result
   14:if (! (= (typeof result) Object)) {
-    15:app __x7__ = (Call promiseCapability.Reject undefined (new [(new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.SubMap.prototype.Value, "ErrorData" -> undefined))]))
+    15:app __x7__ = (Call promiseCapability.Reject undefined (new [(new OrdinaryObject("Prototype" -> INTRINSICS["%TypeError.prototype%"], "ErrorData" -> undefined))]))
     15:[! __x7__]
     16:return promiseCapability.Promise
   } else 7:{}

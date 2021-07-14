@@ -5,7 +5,7 @@ def [SYNTAX] ArrowFunction[0,0].InstantiateArrowFunctionExpression<ArrowParamete
   2:let sourceText = (get-syntax ArrowFunction)
   3:access __x1__ = (ArrowParameters "CoveredFormalsList")
   3:let parameters = __x1__
-  4:app __x2__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype sourceText parameters ConciseBody CONST_lexicalDASHthis scope)
+  4:app __x2__ = (OrdinaryFunctionCreate INTRINSICS["%Function.prototype%"] sourceText parameters ConciseBody CONST_lexicalDASHthis scope)
   4:let closure = __x2__
   5:app __x3__ = (SetFunctionName closure name)
   5:__x3__

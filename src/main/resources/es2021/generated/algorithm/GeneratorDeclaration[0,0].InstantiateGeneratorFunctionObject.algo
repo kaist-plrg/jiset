@@ -2,11 +2,11 @@ def [SYNTAX] GeneratorDeclaration[0,0].InstantiateGeneratorFunctionObject<`funct
   0:access __x0__ = (BindingIdentifier "StringValue")
   0:let name = __x0__
   1:let sourceText = (get-syntax GeneratorDeclaration)
-  2:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_GeneratorFunction_prototype sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  2:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%GeneratorFunction.prototype%"] sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
   2:let F = __x1__
   3:app __x2__ = (SetFunctionName F name)
   3:__x2__
-  4:app __x3__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction_prototype_prototype)
+  4:app __x3__ = (OrdinaryObjectCreate INTRINSICS["%GeneratorFunction.prototype.prototype%"])
   4:let prototype = [! __x3__]
   5:app __x4__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
   5:__x4__

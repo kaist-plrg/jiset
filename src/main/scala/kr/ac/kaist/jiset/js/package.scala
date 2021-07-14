@@ -31,9 +31,9 @@ package object js {
   })
 
   // conversion intrinsics to address
+  val intrinsicRegex = "%([^%]+)%".r
   def intrinsicToAddr(name: String): Addr = {
     val newName = name
-      .replaceAll("_", ".")
       .replaceAll("Function.prototype.prototype", ".prototype")
     NamedAddr(GLOBAL + "." + newName)
   }
@@ -60,7 +60,6 @@ package object js {
 
   // prefixes
   val CONST_PREFIX = "CONST_"
-  val INTRINSIC_PREFIX = "INTRINSIC_"
   val SYMBOL_PREFIX = "SYMBOL_"
 
   // flatten statements

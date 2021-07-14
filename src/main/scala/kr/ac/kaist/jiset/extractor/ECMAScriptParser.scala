@@ -38,9 +38,11 @@ object ECMAScriptParser {
       else getElems(document, query).toList.flatMap(parseAlgo(version, _, detail))
     ) ++ manualAlgos(version))
 
+    // parse intrincis
+    val intrinsics = parseIntrinsic
+
     // special names
-    var (consts, intrinsics, symbols) = getNames(algos)
-    intrinsics ++= parseIntrinsic
+    var (consts, symbols) = getNames(algos)
     symbols ++= parseSymbol
     val aoids = parseAoids
 
@@ -272,16 +274,13 @@ object ECMAScriptParser {
 
   // get special names
   private val constPattern = "CONST_(.*)".r
-  private val intrinsicPattern = "INTRINSIC_(.*)".r
   private val symbolPattern = "SYMBOL_(.*)".r
-  def getNames(algos: List[Algo]): (Set[String], Set[String], Set[String]) = {
+  def getNames(algos: List[Algo]): (Set[String], Set[String]) = {
     var consts: Set[String] = Set()
-    var intrinsics: Set[String] = Set()
     var symbols: Set[String] = Set()
     object ConstExtractor extends UnitWalker {
       override def walk(id: Id) = id.name match {
         case constPattern(name) => consts += name
-        case intrinsicPattern(name) => intrinsics += name
         case symbolPattern(name) => symbols += name
         case _ =>
       }
@@ -289,7 +288,6 @@ object ECMAScriptParser {
     for (algo <- algos) ConstExtractor.walk(algo.rawBody)
     (
       consts,
-      intrinsics,
       symbols
     )
   }

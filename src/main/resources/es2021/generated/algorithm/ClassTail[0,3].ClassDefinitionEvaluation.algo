@@ -8,8 +8,8 @@ def [SYNTAX] ClassTail[0,3].ClassDefinitionEvaluation<ClassHeritage? `{` ClassBo
     3:__x2__
   } else 33:{}
   7:if (= ClassHeritage absent) {
-    5:let protoParent = INTRINSIC_Object_prototype
-    6:let constructorParent = INTRINSIC_Function_prototype
+    5:let protoParent = INTRINSICS["%Object.prototype%"]
+    6:let constructorParent = INTRINSICS["%Function.prototype%"]
   } else {
     8:CONTEXT.LexicalEnvironment = classScope
     9:access __x3__ = (ClassHeritage "Evaluation")
@@ -19,7 +19,7 @@ def [SYNTAX] ClassTail[0,3].ClassDefinitionEvaluation<ClassHeritage? `{` ClassBo
     11:let superclass = [? __x4__]
     16:if (= superclass null) {
       13:let protoParent = null
-      14:let constructorParent = INTRINSIC_Function_prototype
+      14:let constructorParent = INTRINSICS["%Function.prototype%"]
     } else {
       app __x5__ = (IsConstructor superclass)
       if (= __x5__ false) throw TypeError else {

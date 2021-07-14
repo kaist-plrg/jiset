@@ -1,7 +1,7 @@
 def [BUILTIN] Promise.prototype.finally(onFinally) = {
   0:let promise = this
   1:if (! (= (typeof promise) Object)) throw TypeError else 10:{}
-  2:app __x0__ = (SpeciesConstructor promise INTRINSIC_Promise)
+  2:app __x0__ = (SpeciesConstructor promise INTRINSICS["%Promise%"])
   2:let C = [? __x0__]
   3:app __x1__ = (IsConstructor C)
   3:assert (= __x1__ true)

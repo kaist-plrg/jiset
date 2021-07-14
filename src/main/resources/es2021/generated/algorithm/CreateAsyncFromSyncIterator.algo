@@ -1,5 +1,5 @@
 def CreateAsyncFromSyncIterator(syncIteratorRecord) = {
-  0:app __x0__ = (OrdinaryObjectCreate INTRINSIC_AsyncFromSyncIteratorPrototype (new ["SyncIteratorRecord"]))
+  0:app __x0__ = (OrdinaryObjectCreate INTRINSICS["%AsyncFromSyncIteratorPrototype%"] (new ["SyncIteratorRecord"]))
   0:let asyncIterator = [! __x0__]
   1:asyncIterator.SyncIteratorRecord = syncIteratorRecord
   2:app __x1__ = (Get asyncIterator "next")

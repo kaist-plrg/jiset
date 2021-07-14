@@ -5,7 +5,7 @@ def [SYNTAX] ImportCall[0,0].Evaluation<`import` `(` AssignmentExpression `)`>()
   1:let argRef = __x1__
   2:app __x2__ = (GetValue argRef)
   2:let specifier = [? __x2__]
-  3:app __x3__ = (NewPromiseCapability INTRINSIC_Promise)
+  3:app __x3__ = (NewPromiseCapability INTRINSICS["%Promise%"])
   3:let promiseCapability = [! __x3__]
   4:app __x4__ = (ToString specifier)
   4:let specifierString = __x4__

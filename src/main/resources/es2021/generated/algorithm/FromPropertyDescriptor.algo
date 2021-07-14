@@ -1,6 +1,6 @@
 def FromPropertyDescriptor(Desc) = {
   0:if (= Desc undefined) return undefined else 2:{}
-  1:app __x0__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+  1:app __x0__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"])
   1:let obj = [! __x0__]
   3:if (! (= Desc.Value absent)) {
     4:app __x1__ = (CreateDataPropertyOrThrow obj "value" Desc.Value)

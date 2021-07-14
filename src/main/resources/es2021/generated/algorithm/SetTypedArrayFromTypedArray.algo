@@ -26,7 +26,7 @@ def SetTypedArrayFromTypedArray(target, targetOffset, source) = {
   }
   26:if (= same true) {
     22:let srcByteLength = source.ByteLength
-    23:app __x5__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSIC_ArrayBuffer)
+    23:app __x5__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSICS["%ArrayBuffer%"])
     23:srcBuffer = [? __x5__]
     25:let srcByteIndex = 0i
   } else let srcByteIndex = srcByteOffset

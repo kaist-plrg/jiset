@@ -21,7 +21,7 @@ def [BUILTIN] Array.from(items, mapfn?, thisArg?) = {
     12:let k = 0i
     13:while true {
       14:if (! (< k (- (** 2i 53i) 1i))) {
-        15:app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.SubMap.prototype.Value, "ErrorData" -> undefined)))
+        15:app __x6__ = (ThrowCompletion (new OrdinaryObject("Prototype" -> INTRINSICS["%TypeError.prototype%"], "ErrorData" -> undefined)))
         15:let error = __x6__
         16:app __x7__ = (IteratorClose iteratorRecord error)
         16:return [? __x7__]

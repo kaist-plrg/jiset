@@ -14,7 +14,7 @@ def AsyncGeneratorResumeNext(generator) = {
     } else 40:{}
     13:if (= state CONST_completed) if (= completion.Type CONST_return) {
       15:generator.AsyncGeneratorState = CONST_awaitingDASHreturn
-      16:app __x1__ = (PromiseResolve INTRINSIC_Promise completion.Value)
+      16:app __x1__ = (PromiseResolve INTRINSICS["%Promise%"] completion.Value)
       16:let promise = [? __x1__]
       17:let stepsFulfilled = ALGORITHM["GLOBAL.AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions"]
       18:let lengthFulfilled = 1i

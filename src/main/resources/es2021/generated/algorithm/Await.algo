@@ -1,6 +1,6 @@
 def Await(value) = {
   0:let asyncContext = CONTEXT
-  1:app __x0__ = (PromiseResolve INTRINSIC_Promise value)
+  1:app __x0__ = (PromiseResolve INTRINSICS["%Promise%"] value)
   1:let promise = [? __x0__]
   2:let stepsFulfilled = ALGORITHM["GLOBAL.AwaitFulfilledFunctions"]
   3:let lengthFulfilled = 1i

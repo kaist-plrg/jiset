@@ -30,9 +30,7 @@ object BaseModel {
 
   lazy val heap: Map[Addr, Obj] = builtin.Heap.map ++ Map(
     NamedAddr(ALGORITHM) -> IRMap(ALGORITHM)(Nil),
-    NamedAddr(INTRINSICS) -> IRMap(INTRINSICS)(
-      for (i <- intrinsics) yield Str(INTRINSIC_PREFIX + i) -> intrinsicToAddr(i)
-    ),
+    NamedAddr(INTRINSICS) -> IRMap(INTRINSICS)(Nil),
     NamedAddr(EXECUTION_STACK) -> IRList(),
     NamedAddr(JOB_QUEUE) -> IRList(),
     NamedAddr(PRIMITIVE) -> IRMap(PRIMITIVE)(List(

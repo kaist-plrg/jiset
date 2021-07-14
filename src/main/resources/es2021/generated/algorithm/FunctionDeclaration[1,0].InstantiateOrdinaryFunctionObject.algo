@@ -1,6 +1,6 @@
 def [SYNTAX] FunctionDeclaration[1,0].InstantiateOrdinaryFunctionObject<`function` `(` FormalParameters `)` `{` FunctionBody `}`>(scope) = {
   0:let sourceText = (get-syntax FunctionDeclaration)
-  1:app __x0__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype sourceText FormalParameters FunctionBody CONST_nonDASHlexicalDASHthis scope)
+  1:app __x0__ = (OrdinaryFunctionCreate INTRINSICS["%Function.prototype%"] sourceText FormalParameters FunctionBody CONST_nonDASHlexicalDASHthis scope)
   1:let F = __x0__
   2:app __x1__ = (SetFunctionName F "default")
   2:__x1__

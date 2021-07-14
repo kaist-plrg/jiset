@@ -4,7 +4,7 @@ def [BUILTIN] Array.prototype.toString() = {
   1:app __x1__ = (Get array "join")
   1:let func = [? __x1__]
   2:app __x2__ = (IsCallable func)
-  2:if (= __x2__ false) func = INTRINSIC_Object_prototype_toString else 25:{}
+  2:if (= __x2__ false) func = INTRINSICS["%Object.prototype.toString%"] else 25:{}
   3:app __x3__ = (Call func array)
   3:return [? __x3__]
 }

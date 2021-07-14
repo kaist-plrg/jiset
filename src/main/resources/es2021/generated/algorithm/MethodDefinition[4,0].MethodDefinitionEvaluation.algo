@@ -5,7 +5,7 @@ def [SYNTAX] MethodDefinition[4,0].MethodDefinitionEvaluation<`get` PropertyName
   2:let scope = CONTEXT.LexicalEnvironment
   3:let sourceText = (get-syntax MethodDefinition)
   4:??? "Let id:{formalParameterList} be an instance of the production grammar:{FormalParameters0, []} ."
-  5:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_Function_prototype sourceText formalParameterList FunctionBody CONST_nonDASHlexicalDASHthis scope)
+  5:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%Function.prototype%"] sourceText formalParameterList FunctionBody CONST_nonDASHlexicalDASHthis scope)
   5:let closure = __x1__
   6:app __x2__ = (MakeMethod closure object)
   6:__x2__

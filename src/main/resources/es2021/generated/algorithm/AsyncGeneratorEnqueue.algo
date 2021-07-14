@@ -1,11 +1,11 @@
 def AsyncGeneratorEnqueue(generator, completion, generatorBrand) = {
-  0:app __x0__ = (NewPromiseCapability INTRINSIC_Promise)
+  0:app __x0__ = (NewPromiseCapability INTRINSICS["%Promise%"])
   0:let promiseCapability = [! __x0__]
   1:app __x1__ = (AsyncGeneratorValidate generator generatorBrand)
   1:let check = __x1__
   2:app __x2__ = (IsAbruptCompletion check)
   2:if __x2__ {
-    3:let badGeneratorError = (new OrdinaryObject("Prototype" -> INTRINSIC_TypeError.SubMap.prototype.Value, "ErrorData" -> undefined))
+    3:let badGeneratorError = (new OrdinaryObject("Prototype" -> INTRINSICS["%TypeError.prototype%"], "ErrorData" -> undefined))
     4:app __x3__ = (Call promiseCapability.Reject undefined (new [badGeneratorError]))
     4:[! __x3__]
     5:return promiseCapability.Promise

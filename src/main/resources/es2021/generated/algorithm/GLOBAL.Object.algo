@@ -4,7 +4,7 @@ def [BUILTIN] Object(value?) = {
     1:return [? __x0__]
   } else 71:{}
   2:if (|| (= value undefined) (= value null)) {
-    app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+    app __x1__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"])
     return [! __x1__]
   } else 71:{}
   3:app __x2__ = (ToObject value)

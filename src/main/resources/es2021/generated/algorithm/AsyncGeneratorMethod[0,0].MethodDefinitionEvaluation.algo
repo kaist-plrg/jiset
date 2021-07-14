@@ -4,13 +4,13 @@ def [SYNTAX] AsyncGeneratorMethod[0,0].MethodDefinitionEvaluation<`async` `*` Pr
   1:[? propKey]
   2:let scope = CONTEXT.LexicalEnvironment
   3:let sourceText = (get-syntax AsyncGeneratorMethod)
-  4:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGeneratorFunction_prototype sourceText UniqueFormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  4:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncGeneratorFunction.prototype%"] sourceText UniqueFormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
   4:let closure = [! __x1__]
   5:app __x2__ = (MakeMethod closure object)
   5:[! __x2__]
   6:app __x3__ = (SetFunctionName closure propKey)
   6:[! __x3__]
-  7:app __x4__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
+  7:app __x4__ = (OrdinaryObjectCreate INTRINSICS["%AsyncGeneratorFunction.prototype.prototype%"])
   7:let prototype = [! __x4__]
   8:app __x5__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
   8:[! __x5__]

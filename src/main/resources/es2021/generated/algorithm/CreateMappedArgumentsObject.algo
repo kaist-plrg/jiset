@@ -7,7 +7,7 @@ def CreateMappedArgumentsObject(func, formals, argumentsList, env) = {
   5:obj.Get = ALGORITHM["ArgumentsExoticObject.Get"]
   6:obj.Set = ALGORITHM["ArgumentsExoticObject.Set"]
   7:obj.Delete = ALGORITHM["ArgumentsExoticObject.Delete"]
-  8:obj.Prototype = INTRINSIC_Object_prototype
+  8:obj.Prototype = INTRINSICS["%Object.prototype%"]
   9:app __x1__ = (OrdinaryObjectCreate null)
   9:let map = [! __x1__]
   10:obj.ParameterMap = map
@@ -42,7 +42,7 @@ def CreateMappedArgumentsObject(func, formals, argumentsList, env) = {
     } else 0:{}
     29:index = (- index 1i)
   }
-  30:app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor("Value" -> INTRINSIC_Array_prototype_values, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  30:app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor("Value" -> INTRINSICS["%Array.prototype.values%"], "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
   30:[! __x10__]
   31:app __x11__ = (DefinePropertyOrThrow obj "callee" (new PropertyDescriptor("Value" -> func, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
   31:[! __x11__]

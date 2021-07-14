@@ -1,7 +1,7 @@
 def [BUILTIN] AsyncFromSyncIteratorPrototype.next(value?) = {
   0:let O = this
   1:assert (&& (= (typeof O) Object) (! (= O.SyncIteratorRecord absent)))
-  2:app __x0__ = (NewPromiseCapability INTRINSIC_Promise)
+  2:app __x0__ = (NewPromiseCapability INTRINSICS["%Promise%"])
   2:let promiseCapability = [! __x0__]
   3:let syncIteratorRecord = O.SyncIteratorRecord
   6:if (! (= value absent)) {

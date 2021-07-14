@@ -56,12 +56,12 @@ def CreateDynamicFunction(constructor, newTarget, kind, args) = {
   65:app __x7__ = (SetFunctionName F "anonymous")
   65:__x7__
   72:if (= kind CONST_generator) {
-    67:app __x8__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction_prototype_prototype)
+    67:app __x8__ = (OrdinaryObjectCreate INTRINSICS["%GeneratorFunction.prototype.prototype%"])
     67:let prototype = [! __x8__]
     68:app __x9__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     68:__x9__
   } else if (= kind CONST_asyncGenerator) {
-    70:app __x10__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
+    70:app __x10__ = (OrdinaryObjectCreate INTRINSICS["%AsyncGeneratorFunction.prototype.prototype%"])
     70:let prototype = [! __x10__]
     71:app __x11__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     71:__x11__

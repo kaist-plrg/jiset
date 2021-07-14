@@ -2,24 +2,24 @@ def ToObject(argument) = {
   1:if (= (typeof argument) Undefined) throw TypeError else 8:{}
   3:if (= (typeof argument) Null) throw TypeError else 8:{}
   5:if (= (typeof argument) Boolean) {
-    4:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_Boolean_prototype, "BooleanData" -> argument, "Extensible" -> true))
+    4:let obj = (new OrdinaryObject("Prototype" -> INTRINSICS["%Boolean.prototype%"], "BooleanData" -> argument, "Extensible" -> true))
     4:return obj
   } else 8:{}
   7:if (= (typeof argument) Number) {
-    6:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_Number_prototype, "NumberData" -> argument, "Extensible" -> true))
+    6:let obj = (new OrdinaryObject("Prototype" -> INTRINSICS["%Number.prototype%"], "NumberData" -> argument, "Extensible" -> true))
     6:return obj
   } else 8:{}
   9:if (= (typeof argument) String) {
-    8:let obj = (new StringExoticObject("Prototype" -> INTRINSIC_String_prototype, "StringData" -> argument, "Extensible" -> true))
+    8:let obj = (new StringExoticObject("Prototype" -> INTRINSICS["%String.prototype%"], "StringData" -> argument, "Extensible" -> true))
     8:obj.SubMap.length = (new DataProperty("Value" -> argument.length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false))
     8:return obj
   } else 8:{}
   11:if (= (typeof argument) Symbol) {
-    10:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_Symbol_prototype, "SymbolData" -> argument, "Extensible" -> true))
+    10:let obj = (new OrdinaryObject("Prototype" -> INTRINSICS["%Symbol.prototype%"], "SymbolData" -> argument, "Extensible" -> true))
     10:return obj
   } else 8:{}
   13:if (= (typeof argument) BigInt) {
-    12:let obj = (new OrdinaryObject("Prototype" -> INTRINSIC_BigInt_prototype, "BigIntData" -> argument, "Extensible" -> true))
+    12:let obj = (new OrdinaryObject("Prototype" -> INTRINSICS["%BigInt.prototype%"], "BigIntData" -> argument, "Extensible" -> true))
     12:return obj
   } else 8:{}
   15:if (= (typeof argument) Object) return argument else 8:{}

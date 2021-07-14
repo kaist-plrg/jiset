@@ -15,7 +15,7 @@ def AsyncFromSyncIteratorContinuation(result, promiseCapability) = {
     return promiseCapability.Promise
   } else 7:{}
   3:value
-  4:app __x4__ = (PromiseResolve INTRINSIC_Promise value)
+  4:app __x4__ = (PromiseResolve INTRINSICS["%Promise%"] value)
   4:let valueWrapper = __x4__
   5:if (is-completion valueWrapper) if (= valueWrapper.Type CONST_normal) valueWrapper = valueWrapper.Value else {
     app __x5__ = (Call promiseCapability.Reject undefined (new [valueWrapper.Value]))

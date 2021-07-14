@@ -36,9 +36,6 @@ object Initialize {
     for (c <- consts) {
       map += Id(CONST_PREFIX + c) -> NamedAddr(CONST_PREFIX + c)
     }
-    for (i <- intrinsics) {
-      map += Id(INTRINSIC_PREFIX + i) -> intrinsicToAddr(i)
-    }
     for (s <- symbols) {
       map += Id(SYMBOL_PREFIX + s) -> NamedAddr(s"$GLOBAL.Symbol.$s")
     }

@@ -1,6 +1,6 @@
 def CreateForInIterator(object) = {
   0:assert (= (typeof object) Object)
-  1:app __x0__ = (OrdinaryObjectCreate INTRINSIC_ForInIteratorPrototype (new ["Object", "ObjectWasVisited", "VisitedKeys", "RemainingKeys"]))
+  1:app __x0__ = (OrdinaryObjectCreate INTRINSICS["%ForInIteratorPrototype%"] (new ["Object", "ObjectWasVisited", "VisitedKeys", "RemainingKeys"]))
   1:let iterator = [! __x0__]
   2:iterator.Object = object
   3:iterator.ObjectWasVisited = false

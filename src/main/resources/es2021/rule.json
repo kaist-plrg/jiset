@@ -85,23 +85,23 @@
   },
   {
     "tokens": "Return a new Boolean object whose [ [ BooleanData ] ] internal slot is set to id:{argument} . See link:{sec-boolean-objects} for a description of Boolean objects .",
-    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_Boolean_prototype, \"BooleanData\" -> argument, \"Extensible\" -> true)) return obj}"
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSICS[\"%Boolean.prototype%\"], \"BooleanData\" -> argument, \"Extensible\" -> true)) return obj}"
   },
   {
     "tokens": "Return a new Number object whose [ [ NumberData ] ] internal slot is set to id:{argument} . See link:{sec-number-objects} for a description of Number objects .",
-    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_Number_prototype, \"NumberData\" -> argument, \"Extensible\" -> true)) return obj}"
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSICS[\"%Number.prototype%\"], \"NumberData\" -> argument, \"Extensible\" -> true)) return obj}"
   },
   {
     "tokens": "Return a new String object whose [ [ StringData ] ] internal slot is set to id:{argument} . See link:{sec-string-objects} for a description of String objects .",
-    "inst": "{let obj = (new StringExoticObject(\"Prototype\" -> INTRINSIC_String_prototype, \"StringData\" -> argument, \"Extensible\" -> true)) obj.SubMap.length = (new DataProperty(\"Value\" -> argument.length, \"Writable\" -> false, \"Enumerable\" -> false, \"Configurable\" -> false)) return obj}"
+    "inst": "{let obj = (new StringExoticObject(\"Prototype\" -> INTRINSICS[\"%String.prototype%\"], \"StringData\" -> argument, \"Extensible\" -> true)) obj.SubMap.length = (new DataProperty(\"Value\" -> argument.length, \"Writable\" -> false, \"Enumerable\" -> false, \"Configurable\" -> false)) return obj}"
   },
   {
     "tokens": "Return a new Symbol object whose [ [ SymbolData ] ] internal slot is set to id:{argument} . See link:{sec-symbol-objects} for a description of Symbol objects .",
-    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_Symbol_prototype, \"SymbolData\" -> argument, \"Extensible\" -> true)) return obj}"
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSICS[\"%Symbol.prototype%\"], \"SymbolData\" -> argument, \"Extensible\" -> true)) return obj}"
   },
   {
     "tokens": "Return a new BigInt object whose [ [ BigIntData ] ] internal slot is set to id:{argument} . See link:{sec-bigint-objects} for a description of BigInt objects .",
-    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSIC_BigInt_prototype, \"BigIntData\" -> argument, \"Extensible\" -> true)) return obj}"
+    "inst": "{let obj = (new OrdinaryObject(\"Prototype\" -> INTRINSICS[\"%BigInt.prototype%\"], \"BigIntData\" -> argument, \"Extensible\" -> true)) return obj}"
   },
   {
     "tokens": "Let id:{operation} be the abstract operation associated with id:{opText} in the following table : in:{} out:{}",
@@ -213,7 +213,7 @@
   },
   {
     "tokens": "Perform ! DefinePropertyOrThrow ( id:{obj} , @ @ iterator , PropertyDescriptor { [ [ Value ] ] : % ArrayProto _ values % , [ [ Writable ] ] : value:{true} , [ [ Enumerable ] ] : value:{false} , [ [ Configurable ] ] : value:{true} } ) .",
-    "inst": "app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor(\"Value\" -> INTRINSIC_Array_prototype_values, \"Writable\" -> true, \"Enumerable\" -> false, \"Configurable\" -> true)))"
+    "inst": "app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor(\"Value\" -> INTRINSICS[\"%Array.prototype.values\"], \"Writable\" -> true, \"Enumerable\" -> false, \"Configurable\" -> true)))"
   },
   {
     "tokens": "If every field in id:{Desc} is absent , return value:{true} .",

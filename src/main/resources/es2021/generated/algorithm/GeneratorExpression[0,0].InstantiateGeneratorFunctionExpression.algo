@@ -3,11 +3,11 @@ def [SYNTAX] GeneratorExpression[0,0].InstantiateGeneratorFunctionExpression<`fu
   1:access __x0__ = (CONTEXT "LexicalEnvironment")
   1:let scope = __x0__
   2:let sourceText = (get-syntax GeneratorExpression)
-  3:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_GeneratorFunction_prototype sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  3:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%GeneratorFunction.prototype%"] sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
   3:let closure = __x1__
   4:app __x2__ = (SetFunctionName closure name)
   4:__x2__
-  5:app __x3__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction_prototype_prototype)
+  5:app __x3__ = (OrdinaryObjectCreate INTRINSICS["%GeneratorFunction.prototype.prototype%"])
   5:let prototype = [! __x3__]
   6:app __x4__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
   6:__x4__

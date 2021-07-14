@@ -1,6 +1,6 @@
 def CreateUnmappedArgumentsObject(argumentsList) = {
   0:let len = argumentsList.length
-  1:app __x0__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype (new ["ParameterMap"]))
+  1:app __x0__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"] (new ["ParameterMap"]))
   1:let obj = [! __x0__]
   2:obj.ParameterMap = undefined
   3:app __x1__ = (DefinePropertyOrThrow obj "length" (new PropertyDescriptor("Value" -> len, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
@@ -13,9 +13,9 @@ def CreateUnmappedArgumentsObject(argumentsList) = {
     7:[! __x3__]
     8:index = (+ index 1i)
   }
-  9:app __x4__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor("Value" -> INTRINSIC_Array_prototype_values, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
+  9:app __x4__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor("Value" -> INTRINSICS["%Array.prototype.values%"], "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
   9:[! __x4__]
-  10:app __x5__ = (DefinePropertyOrThrow obj "callee" (new PropertyDescriptor("Get" -> INTRINSIC_ThrowTypeError, "Set" -> INTRINSIC_ThrowTypeError, "Enumerable" -> false, "Configurable" -> false)))
+  10:app __x5__ = (DefinePropertyOrThrow obj "callee" (new PropertyDescriptor("Get" -> INTRINSICS["%ThrowTypeError%"], "Set" -> INTRINSICS["%ThrowTypeError%"], "Enumerable" -> false, "Configurable" -> false)))
   10:[! __x5__]
   11:return obj
 }

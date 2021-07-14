@@ -1,6 +1,6 @@
 def [SYNTAX] AsyncFunctionDeclaration[1,0].InstantiateAsyncFunctionObject<`async` `function` `(` FormalParameters `)` `{` AsyncFunctionBody `}`>(scope) = {
   0:let sourceText = (get-syntax AsyncFunctionDeclaration)
-  1:app __x0__ = (OrdinaryFunctionCreate INTRINSIC_AsyncFunction_prototype sourceText FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)
+  1:app __x0__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncFunction.prototype%"] sourceText FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)
   1:let F = [! __x0__]
   2:app __x1__ = (SetFunctionName F "default")
   2:[! __x1__]

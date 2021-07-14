@@ -8,11 +8,11 @@ def [SYNTAX] GeneratorExpression[0,1].InstantiateGeneratorFunctionExpression<`fu
   4:app __x2__ = (funcEnv.CreateImmutableBinding funcEnv name false)
   4:__x2__
   5:let sourceText = (get-syntax GeneratorExpression)
-  6:app __x3__ = (OrdinaryFunctionCreate INTRINSIC_GeneratorFunction_prototype sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis funcEnv)
+  6:app __x3__ = (OrdinaryFunctionCreate INTRINSICS["%GeneratorFunction.prototype%"] sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis funcEnv)
   6:let closure = __x3__
   7:app __x4__ = (SetFunctionName closure name)
   7:__x4__
-  8:app __x5__ = (OrdinaryObjectCreate INTRINSIC_GeneratorFunction_prototype_prototype)
+  8:app __x5__ = (OrdinaryObjectCreate INTRINSICS["%GeneratorFunction.prototype.prototype%"])
   8:let prototype = [! __x5__]
   9:app __x6__ = (DefinePropertyOrThrow closure "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
   9:__x6__

@@ -13,7 +13,7 @@ def ArraySpeciesCreate(originalArray, length) = {
     5:app __x4__ = (GetFunctionRealm C)
     5:let realmC = [? __x4__]
     6:if (! (= thisRealm realmC)) {
-      7:app __x5__ = (SameValue C realmC.Intrinsics.INTRINSIC_Array)
+      7:app __x5__ = (SameValue C realmC.Intrinsics["%Array%"])
       7:if (= __x5__ true) C = undefined else 8:{}
     } else 8:{}
   } else 8:{}

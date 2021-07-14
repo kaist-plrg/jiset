@@ -3,7 +3,7 @@ def AllocateTypedArrayBuffer(O, length) = {
   2:let constructorName = O.TypedArrayName
   3:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for id:{constructorName} ."
   4:let byteLength = (* elementSize length)
-  5:app __x0__ = (AllocateArrayBuffer INTRINSIC_ArrayBuffer byteLength)
+  5:app __x0__ = (AllocateArrayBuffer INTRINSICS["%ArrayBuffer%"] byteLength)
   5:let data = [? __x0__]
   6:O.ViewedArrayBuffer = data
   7:O.ByteLength = byteLength

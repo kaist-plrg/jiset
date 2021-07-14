@@ -109,7 +109,7 @@ trait Compilers extends TokenListParsers {
 
   // get error objects
   def getErrorObj(name: String): Expr =
-    Expr(s"""(new OrdinaryObject("Prototype" -> INTRINSIC_${name}.SubMap.prototype.Value, "ErrorData" -> undefined))""")
+    Expr(s"""(new OrdinaryObject("Prototype" -> INTRINSICS["%${name}.prototype%"], "ErrorData" -> undefined))""")
 
   // for-each instrutions for lists
   def forEachList(id: Id, expr: Expr, body: Inst, reversed: Boolean = false): Inst = {
@@ -381,9 +381,6 @@ trait Compilers extends TokenListParsers {
 
   // metions
   lazy val mention: P[String] = literal("(") ~ rep1(normal.filter(_ != Text(")"))) ~ literal(")") ^^^ ""
-
-  // intrinsic prefix
-  val INTRINSIC_PRE = "INTRINSIC_"
 
   // suspend context
   def suspend(x: String, removed: Boolean = false): Inst = {

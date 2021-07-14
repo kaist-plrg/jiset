@@ -1,10 +1,10 @@
 def [SYNTAX] AsyncGeneratorDeclaration[1,0].InstantiateAsyncGeneratorFunctionObject<`async` `function` `*` `(` FormalParameters `)` `{` AsyncGeneratorBody `}`>(scope) = {
   0:let sourceText = (get-syntax AsyncGeneratorDeclaration)
-  1:app __x0__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGeneratorFunction_prototype sourceText FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  1:app __x0__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncGeneratorFunction.prototype%"] sourceText FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
   1:let F = __x0__
   2:app __x1__ = (SetFunctionName F "default")
   2:__x1__
-  3:app __x2__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
+  3:app __x2__ = (OrdinaryObjectCreate INTRINSICS["%AsyncGeneratorFunction.prototype.prototype%"])
   3:let prototype = [! __x2__]
   4:app __x3__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
   4:__x3__

@@ -1,7 +1,7 @@
 def [BUILTIN] Object.fromEntries(iterable) = {
   0:app __x0__ = (RequireObjectCoercible iterable)
   0:[? __x0__]
-  1:app __x1__ = (OrdinaryObjectCreate INTRINSIC_Object_prototype)
+  1:app __x1__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"])
   1:let obj = [! __x1__]
   3:let stepsDefine = ALGORITHM["GLOBAL.CreateDataPropertyOnObjectFunctions"]
   4:let lengthDefine = 2i

@@ -2,11 +2,11 @@ def [SYNTAX] AsyncGeneratorDeclaration[0,0].InstantiateAsyncGeneratorFunctionObj
   0:access __x0__ = (BindingIdentifier "StringValue")
   0:let name = __x0__
   1:let sourceText = (get-syntax AsyncGeneratorDeclaration)
-  2:app __x1__ = (OrdinaryFunctionCreate INTRINSIC_AsyncGeneratorFunction_prototype sourceText FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  2:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncGeneratorFunction.prototype%"] sourceText FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
   2:let F = [! __x1__]
   3:app __x2__ = (SetFunctionName F name)
   3:[! __x2__]
-  4:app __x3__ = (OrdinaryObjectCreate INTRINSIC_AsyncGeneratorFunction_prototype_prototype)
+  4:app __x3__ = (OrdinaryObjectCreate INTRINSICS["%AsyncGeneratorFunction.prototype.prototype%"])
   4:let prototype = [! __x3__]
   5:app __x4__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
   5:[! __x4__]

@@ -10,9 +10,9 @@ def CreateListIteratorRecord(list) = {
     }
     3:return undefined
   }
-  4:app __x3__ = (CreateIteratorFromClosure closure CONST_empty INTRINSIC_IteratorPrototype)
+  4:app __x3__ = (CreateIteratorFromClosure closure CONST_empty INTRINSICS["%IteratorPrototype%"])
   4:let iterator = [! __x3__]
-  5:return (new Record("Iterator" -> iterator, "NextMethod" -> INTRINSIC_GeneratorFunction_prototype_prototype_next, "Done" -> false))
+  5:return (new Record("Iterator" -> iterator, "NextMethod" -> INTRINSICS["%GeneratorFunction.prototype.prototype.next%"], "Done" -> false))
 }
 - id: "sec-createlistiteratorRecord"
 - code:
