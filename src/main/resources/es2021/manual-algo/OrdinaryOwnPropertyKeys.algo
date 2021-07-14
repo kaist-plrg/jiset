@@ -16,6 +16,7 @@ def OrdinaryOwnPropertyKeys(O) = {
     if (&& (= (typeof P) String) (! c)) append P -> keys else {}
     i = (+ i 1i)
   }
+  i = 0i
   while (< i generalKeys.length) {
     let P = generalKeys[i]
     if (= (typeof P) Symbol) append P -> keys else {}
