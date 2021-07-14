@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.ir
 
-import kr.ac.kaist.jiset.{ DEBUG, TIMEOUT, TEST_MODE }
+import kr.ac.kaist.jiset.{ DEBUG, TIMEOUT, TEST_MODE, STAT }
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.error.NotSupported
@@ -85,6 +85,7 @@ private class Interp(
           val vs = args.map(interp)
           val locals = getLocals(head.params, vs)
           val context = Context(id, head.name, Some(algo), List(body), locals)
+          if (STAT) Stat.touchAlgo(algo.name)
           st.ctxtStack ::= st.context
           st.context = context
         }
@@ -138,6 +139,7 @@ private class Interp(
               val vs = asts ++ args.map(interp)
               val locals = getLocals(head.params, vs)
               val context = Context(id, head.name, Some(algo), List(body), locals)
+              if (STAT) Stat.touchAlgo(algo.name)
               st.ctxtStack ::= st.context
               st.context = context
               None

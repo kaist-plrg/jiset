@@ -13,6 +13,9 @@ import kr.ac.kaist.jiset.util.JvmUseful._
 trait Test262Test extends JSTest {
   override val category: String = "test262"
 
+  // gather statistical information
+  STAT = true
+
   // directory name
   val logDir = s"$LOG_DIR/test262_$dateStr"
 
@@ -51,6 +54,7 @@ trait Test262Test extends JSTest {
       }
     }
     summary.close
+    dumpFile(Stat, s"$logDir/$name-stat")
     dumpFile(summary, s"$logDir/$name-summary")
     if (summary.yet > 0) println(s"${summary.yet} tests are not yet supported.")
     if (summary.fail > 0) fail(s"${summary.fail} tests are failed.")

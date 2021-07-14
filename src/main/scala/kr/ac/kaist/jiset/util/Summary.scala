@@ -40,7 +40,8 @@ class Summary {
   // conversion to string
   override def toString: String = {
     val app = new Appender
-    app >> f"time: $timeMillis%,d ms" >> LINE_SEP
+    val hours = timeMillis / 3600000.0
+    app >> f"time: $timeMillis%,d ms ($hours%.1f hours)" >> LINE_SEP
     app >> f"total: $total%,d" >> LINE_SEP
     if (yet > 0) app >> f"- yet: $yet%,d" >> LINE_SEP
     app >> f"- fail: $fail%,d" >> LINE_SEP

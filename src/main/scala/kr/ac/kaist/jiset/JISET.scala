@@ -51,6 +51,9 @@ object JISET {
       println(s"The command '$name' took $duration ms.")
     }
 
+    // display statistical information
+    if (STAT) println(Stat)
+
     // return result
     result
   }
@@ -112,6 +115,8 @@ object JISET {
       "do not show final results."),
     ("debug", BoolOption(c => DEBUG = true),
       "turn on the debug mode."),
+    ("stat", BoolOption(c => STAT = true),
+      "gather statistical information."),
     ("interactive", BoolOption(c => INTERACTIVE = true),
       "turn on the interactive mode."),
     ("no-bugfix", BoolOption(c => BUGFIX = false),

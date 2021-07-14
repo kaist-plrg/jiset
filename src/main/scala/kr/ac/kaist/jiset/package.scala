@@ -59,6 +59,9 @@ package object jiset {
   // Debugging mode
   var DEBUG: Boolean = false
 
+  // Get statistics
+  var STAT: Boolean = false
+
   // Interactive debugging mode
   var INTERACTIVE: Boolean = false
 
