@@ -27,7 +27,6 @@ package object ir {
   // get proper number value
   def number(x: BigDecimal): Value = {
     if (x.toLong == x) INum(x.toLong)
-    else if (x.toBigInt == x) BigINum(x.toBigInt)
     else Num(x.toDouble)
   }
 

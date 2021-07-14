@@ -425,9 +425,11 @@ private class Interp(
   def interp(uop: UOp, operand: Value): Value = (uop, operand) match {
     case (ONeg, Num(n)) => Num(-n)
     case (ONeg, INum(n)) => INum(-n)
+    case (ONeg, BigINum(b)) => BigINum(-b)
     case (ONot, Bool(b)) => Bool(!b)
     case (OBNot, Num(n)) => INum(~(n.toInt))
     case (OBNot, INum(n)) => INum(~n)
+    case (OBNot, BigINum(b)) => BigINum(~b)
     case (_, value) => error(s"wrong type of value for the operator ${uop.beautified}: ${value.beautified}")
   }
 
@@ -491,6 +493,10 @@ private class Interp(
     case (OEq, INum(l), Num(r)) => Bool(!(r equals -0.0) && l == r)
     case (OEq, Num(l), INum(r)) => Bool(!(l equals -0.0) && l == r)
     case (OEq, Num(l), Num(r)) => Bool(l equals r)
+    case (OEq, Num(l), BigINum(r)) => Bool(l == r)
+    case (OEq, BigINum(l), Num(r)) => Bool(l == r)
+    case (OEq, INum(l), BigINum(r)) => Bool(l == r)
+    case (OEq, BigINum(l), INum(r)) => Bool(l == r)
     case (OEq, l, r) => Bool(l == r)
 
     // double equality operations
@@ -498,6 +504,36 @@ private class Interp(
     case (OEqual, Num(l), INum(r)) => Bool(l == r)
     case (OEqual, Num(l), Num(r)) => Bool(l == r)
     case (OEqual, l, r) => Bool(l == r)
+
+    // double with big integers
+    case (OLt, BigINum(l), Num(r)) =>
+      Bool(new java.math.BigDecimal(l.bigInteger).compareTo(new java.math.BigDecimal(r)) < 0)
+    case (OLt, BigINum(l), INum(r)) =>
+      Bool(new java.math.BigDecimal(l.bigInteger).compareTo(new java.math.BigDecimal(r)) < 0)
+    case (OLt, Num(l), BigINum(r)) =>
+      Bool(new java.math.BigDecimal(l).compareTo(new java.math.BigDecimal(r.bigInteger)) < 0)
+    case (OLt, INum(l), BigINum(r)) =>
+      Bool(new java.math.BigDecimal(l).compareTo(new java.math.BigDecimal(r.bigInteger)) < 0)
+
+    // big integers
+    case (OPlus, BigINum(l), BigINum(r)) => BigINum(l + r)
+    case (OLShift, BigINum(l), BigINum(r)) => BigINum(l << r.toInt)
+    case (OSRShift, BigINum(l), BigINum(r)) => BigINum(l >> r.toInt)
+    case (OSub, BigINum(l), BigINum(r)) => BigINum(l - r)
+    case (OSub, BigINum(l), INum(r)) => BigINum(l - r)
+    case (OMul, BigINum(l), BigINum(r)) => BigINum(l * r)
+    case (ODiv, BigINum(l), BigINum(r)) => BigINum(l / r)
+    //case (OMod, BigINum(l), BigINum(r)) => BigINum(modulo(l, r))
+    //case (OUMod, BigINum(l), BigINum(r)) => BigINum(unsigned_modulo(l, r))
+    //case (OUMod, BigINum(l), INum(r)) => BigINum(unsigned_modulo(l, r))
+    case (OLt, BigINum(l), BigINum(r)) => Bool(l < r)
+    case (OBAnd, BigINum(l), BigINum(r)) => BigINum(l & r)
+    case (OBOr, BigINum(l), BigINum(r)) => BigINum(l | r)
+    case (OBXOr, BigINum(l), BigINum(r)) => BigINum(l ^ r)
+    case (OPow, BigINum(l), BigINum(r)) => BigINum(l.pow(r.toInt))
+    case (OPow, BigINum(l), INum(r)) => BigINum(l.pow(r.toInt))
+    case (OPow, BigINum(l), Num(r)) =>
+      if (r.toInt < 0) Num(math.pow(l.toDouble, r)) else BigINum(l.pow(r.toInt))
 
     case (_, lval, rval) => error(s"wrong type: ${lval.beautified} ${bop.beautified} ${rval.beautified}")
   }
