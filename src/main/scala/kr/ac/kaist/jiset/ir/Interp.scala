@@ -253,8 +253,8 @@ private class Interp(
     case EBOp(OAnd, left, right) => shortCircuit(OAnd, left, right)
     case EBOp(OOr, left, right) => shortCircuit(OOr, left, right)
     case EBOp(OEq, ERef(RefId(id)), EAbsent) => {
-      val defined = (st.globals.keys ++ st.locals.keys).toSet.contains(id)
-      if (defined) Bool(st.directLookup(id) == Absent) else Bool(true)
+      val defined = st.globals.contains(id) || st.locals.contains(id)
+      Bool(!defined || st.directLookup(id) == Absent)
     }
     case EBOp(bop, left, right) => {
       val l = interp(left).escaped(st)
@@ -572,6 +572,12 @@ object Interp {
     }
   }
   val simpleFuncs: Map[String, SimpleFunc] = Map(
+    arityCheck("GetArgument" -> {
+      case (st, List(addr: Addr)) => st(addr) match {
+        case list @ IRList(vs) => if (vs.isEmpty) Absent else list.pop(INum(0))
+        case _ => error(s"non-list @ GetArgument: ${addr.beautified}")
+      }
+    }),
     arityCheck("IsDuplicate" -> {
       case (st, List(addr: Addr)) => st(addr) match {
         case IRList(vs) => Bool(vs.toSet.size != vs.length)

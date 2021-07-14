@@ -12,8 +12,5 @@ case class Context(
   val locals: MMap[Id, Value] = MMap()
 ) extends IRNode {
   def copied: Context = copy(locals = MMap.from(locals))
-  def isBuiltin: Boolean = algo match {
-    case Some(algo) => algo.head.isBuiltin
-    case _ => false
-  }
+  def isBuiltin: Boolean = algo.fold(false)(_.isBuiltin)
 }

@@ -1239,9 +1239,6 @@ class Compiler private (
     ("no arguments were passed to this function invocation" | "only one argument was passed") ^^^ {
       pair(Nil, Expr("(= argumentsList.length 0i)"))
     }
-  // ^^^ {
-  //   pair(Nil, Expr("(= argumentsList.length 1i)"))
-  // }
   )
 
   // same conditions

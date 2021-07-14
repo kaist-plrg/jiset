@@ -21,6 +21,9 @@ case class Algo(
   def name: String = head.name
   def params: List[Param] = head.params
 
+  // check builtin
+  def isBuiltin: Boolean = head.isBuiltin
+
   // add instructions
   private def prepend(p: List[Inst], i: Inst): Inst = add(p, i, true)
   private def append(a: List[Inst], i: Inst): Inst = add(a, i, false)
@@ -57,7 +60,7 @@ case class Algo(
         case (Param(name, Variadic), i) =>
           Inst(s"let ${name} = $ARGS_LIST")
         case (Param(name, _), i) =>
-          Inst(s"{ app ${name} = (GetArgument $ARGS_LIST) ${name} = [! ${name}]}")
+          Inst(s"app ${name} = (GetArgument $ARGS_LIST)")
       }
       prepend(prefix, rawBody)
     // handle abstract relational comparison
