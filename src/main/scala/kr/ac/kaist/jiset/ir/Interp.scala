@@ -280,19 +280,16 @@ private class Interp(
     })
     case EIsCompletion(expr) => Bool(interp(expr).isCompletion(st))
     case EIsInstanceOf(base, name) => {
-      val b = interp(base)
-      if (b.isAbruptCompletion(st))
-        Bool(false)
-      else {
-        b.escaped(st) match {
-          case ASTVal(ast) => Bool(ast.name == name || ast.getKinds.contains(name))
-          case Str(str) => Bool(str == name)
-          case addr: Addr => st(addr) match {
-            case IRMap(ty, _, _) => Bool(ty < Ty(name))
-            case _ => Bool(false)
-          }
+      val bv = interp(base)
+      if (bv.isAbruptCompletion(st)) Bool(false)
+      else bv.escaped(st) match {
+        case ASTVal(ast) => Bool(ast.name == name || ast.getKinds.contains(name))
+        case Str(str) => Bool(str == name)
+        case addr: Addr => st(addr) match {
+          case IRMap(ty, _, _) => Bool(ty < Ty(name))
           case _ => Bool(false)
         }
+        case _ => Bool(false)
       }
     }
     case EGetElems(base, name) => interp(base).escaped(st) match {
