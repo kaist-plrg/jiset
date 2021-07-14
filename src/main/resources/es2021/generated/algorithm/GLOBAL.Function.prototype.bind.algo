@@ -13,7 +13,7 @@ def [BUILTIN] Function.prototype.bind(thisArg, ...args) = {
     7:if (= (typeof targetLen) Number) if (= targetLen Infinity) L = Infinity else if (= targetLen -Infinity) L = 0i else {
       11:app __x4__ = (ToIntegerOrInfinity targetLen)
       11:let targetLenAsInt = [! __x4__]
-      12:assert (! (|| (= targetLenAsInt Infinity) (= targetLenAsInt -Infinity)))
+      12:assert (! (|| (|| (= targetLenAsInt Infinity) (= targetLenAsInt -Infinity)) (= targetLenAsInt NaN)))
       13:let argCount = args.length
       14:app __x5__ = (max (- targetLenAsInt argCount) 0i)
       14:L = __x5__

@@ -1,7 +1,7 @@
 def MakeDate(day, time) = {
-  0:if (|| (|| (= day Infinity) (= day -Infinity)) (|| (= time Infinity) (= time -Infinity))) return NaN else 2:{}
+  0:if (|| (|| (|| (= day Infinity) (= day -Infinity)) (= day NaN)) (|| (|| (= time Infinity) (= time -Infinity)) (= time NaN))) return NaN else 2:{}
   1:let tv = (+ (* day 8.64E7) time)
-  2:if (|| (= tv Infinity) (= tv -Infinity)) return NaN else 2:{}
+  2:if (|| (|| (= tv Infinity) (= tv -Infinity)) (= tv NaN)) return NaN else 2:{}
   3:return tv
 }
 - id: "sec-makedate"

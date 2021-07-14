@@ -1,5 +1,5 @@
 def MakeTime(hour, min, sec, ms) = {
-  0:if (|| (|| (= hour Infinity) (= hour -Infinity)) (|| (|| (= min Infinity) (= min -Infinity)) (|| (|| (= sec Infinity) (= sec -Infinity)) (|| (= ms Infinity) (= ms -Infinity))))) return NaN else 2:{}
+  0:if (|| (|| (|| (= hour Infinity) (= hour -Infinity)) (= hour NaN)) (|| (|| (|| (= min Infinity) (= min -Infinity)) (= min NaN)) (|| (|| (|| (= sec Infinity) (= sec -Infinity)) (= sec NaN)) (|| (|| (= ms Infinity) (= ms -Infinity)) (= ms NaN))))) return NaN else 2:{}
   1:app __x0__ = (ToIntegerOrInfinity hour)
   1:let h = [! __x0__]
   2:app __x1__ = (ToIntegerOrInfinity min)

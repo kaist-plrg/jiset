@@ -7,7 +7,7 @@ def [BUILTIN] Number.prototype.toPrecision(precision) = {
   } else 2:{}
   2:app __x2__ = (ToIntegerOrInfinity precision)
   2:let p = [? __x2__]
-  3:if (|| (= x Infinity) (= x -Infinity)) {
+  3:if (|| (|| (= x Infinity) (= x -Infinity)) (= x NaN)) {
     app __x3__ = (PRIMITIVE[Number].toString x)
     return [! __x3__]
   } else 2:{}

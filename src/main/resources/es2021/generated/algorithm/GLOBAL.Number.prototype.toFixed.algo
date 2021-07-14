@@ -3,9 +3,9 @@ def [BUILTIN] Number.prototype.toFixed(fractionDigits) = {
   0:let x = [? __x0__]
   1:app __x1__ = (ToIntegerOrInfinity fractionDigits)
   1:let f = [? __x1__]
-  3:if (|| (= f Infinity) (= f -Infinity)) throw RangeError else 2:{}
+  3:if (|| (|| (= f Infinity) (= f -Infinity)) (= f NaN)) throw RangeError else 2:{}
   4:if (|| (< f 0i) (< 100i f)) throw RangeError else 2:{}
-  5:if (|| (= x Infinity) (= x -Infinity)) {
+  5:if (|| (|| (= x Infinity) (= x -Infinity)) (= x NaN)) {
     app __x2__ = (PRIMITIVE[Number].toString x)
     return [! __x2__]
   } else 2:{}

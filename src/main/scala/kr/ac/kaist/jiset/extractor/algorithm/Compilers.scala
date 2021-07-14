@@ -406,6 +406,16 @@ trait Compilers extends TokenListParsers {
     EBOp(OEq, expr, ENum(Double.NegativeInfinity))
   )
 
+  // NaN check
+  def isNaN(expr: Expr): Expr = EBOp(OEq, expr, ENum(Double.NaN))
+
+  // finite check
+  def isFinite(expr: Expr): Expr = EUOp(ONot, EBOp(
+    OOr,
+    isInfinity(expr),
+    isNaN(expr)
+  ))
+
   // select rather than not supported
   def select(left: Parser[I[Expr]], right: Parser[I[Expr]]): Parser[I[Expr]] = new Parser[I[Expr]] {
     def apply(in: Input) = {

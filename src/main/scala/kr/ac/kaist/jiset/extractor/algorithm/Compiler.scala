@@ -1461,9 +1461,9 @@ class Compiler private (
   // finite conditions
   lazy val finiteCond: P[I[Expr]] = (
     expr <~ "is finite" ^^ {
-      case i ~ e => pair(i, not(isInfinity(e)))
+      case i ~ e => pair(i, isFinite(e))
     } ||| expr <~ "is not finite" ^^ {
-      case i ~ e => pair(i, isInfinity(e))
+      case i ~ e => pair(i, not(isFinite(e)))
     }
   )
 

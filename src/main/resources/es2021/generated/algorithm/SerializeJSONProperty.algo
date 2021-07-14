@@ -29,7 +29,7 @@ def SerializeJSONProperty(state, key, holder) = {
     return __x7__
   } else 7:{}
   20:if (= (typeof value) Number) {
-    21:if (! (|| (= value Infinity) (= value -Infinity))) {
+    21:if (! (|| (|| (= value Infinity) (= value -Infinity)) (= value NaN))) {
       app __x8__ = (ToString value)
       return [! __x8__]
     } else 7:{}

@@ -6,7 +6,7 @@ def RemoveWaiters(WL, c) = {
     5:append W -> L
     6:let __x0__ = 0i
     6:while (< __x0__ S.length) if (= S[__x0__] W) (pop S __x0__) else __x0__ = (+ __x0__ 1i)
-    7:if (! (|| (= c Infinity) (= c -Infinity))) c = (- c 1i) else 0:{}
+    7:if (! (|| (|| (= c Infinity) (= c -Infinity)) (= c NaN))) c = (- c 1i) else 0:{}
   }
   8:return L
 }
