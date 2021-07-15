@@ -1,4 +1,4 @@
-def [SYNTAX] AssignmentExpression[4,0].Evaluation<LeftHandSideExpression `=` AssignmentExpression>() = {
+def [SYNTAX] AssignmentExpression[4,0].Evaluation<(LeftHandSideExpression, AssignmentExpression),false>() = {
   0:if (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral))) {
     1:access __x0__ = (LeftHandSideExpression "Evaluation")
     1:let lref = __x0__

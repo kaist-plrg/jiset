@@ -1,4 +1,4 @@
-def [SYNTAX] WithStatement[0,0].EarlyErrors<`with` `(` Expression `)` Statement>() = {
+def [SYNTAX] WithStatement[0,0].EarlyErrors<(Expression, Statement),true>() = {
   0:if true throw SyntaxError else 2:{}
   1:app __x0__ = (IsLabelledFunction Statement)
   1:if (= __x0__ true) throw SyntaxError else 2:{}

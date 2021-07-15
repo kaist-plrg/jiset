@@ -1,4 +1,4 @@
-def [SYNTAX] CaseClause[0,1].LexicallyScopedDeclarations<`case` Expression `:` StatementList?>() = {
+def [SYNTAX] CaseClause[0,1].LexicallyScopedDeclarations<(Expression, StatementList),true>() = {
   0:if (! (= StatementList absent)) {
     access __x0__ = (StatementList "LexicallyScopedDeclarations")
     return __x0__

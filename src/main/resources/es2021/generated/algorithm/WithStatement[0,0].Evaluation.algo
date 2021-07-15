@@ -1,4 +1,4 @@
-def [SYNTAX] WithStatement[0,0].Evaluation<`with` `(` Expression `)` Statement>() = {
+def [SYNTAX] WithStatement[0,0].Evaluation<(Expression, Statement),true>() = {
   0:access __x0__ = (Expression "Evaluation")
   0:let val = __x0__
   1:app __x1__ = (GetValue val)

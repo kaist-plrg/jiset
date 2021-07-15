@@ -1,0 +1,12 @@
+def [SYNTAX] ForStatement[1,2].ForLoopEvaluation<(VariableDeclarationList, Expression0, Expression1, Statement),true>(labelSet) = {
+  0:access __x0__ = (VariableDeclarationList "Evaluation")
+  0:let varDcl = __x0__
+  1:[? varDcl]
+  2:app __x1__ = (ForBodyEvaluation Expression0 Expression1 Statement (new []) labelSet)
+  2:return [? __x1__]
+}
+- id: "sec-runtime-semantics-forloopevaluation"
+- code:
+          1. Let _varDcl_ be the result of evaluating |VariableDeclarationList|.
+          1. ReturnIfAbrupt(_varDcl_).
+          1. Return ? ForBodyEvaluation(the first |Expression|, the second |Expression|, |Statement|, « », _labelSet_).

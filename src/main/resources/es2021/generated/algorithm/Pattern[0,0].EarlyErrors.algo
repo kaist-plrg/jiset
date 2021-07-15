@@ -1,4 +1,4 @@
-def [SYNTAX] Pattern[0,0].EarlyErrors<Disjunction>() = {
+def [SYNTAX] Pattern[0,0].EarlyErrors<(Disjunction),true>() = {
   0:if (! (< NcapturingParens (- (** 2i 32i) 1i))) throw SyntaxError else 2:{}
   1:??? "It is a Syntax Error if nt:{Pattern} contains multiple nt:{GroupSpecifier} s whose enclosed nt:{RegExpIdentifierName} s have the same CapturingGroupName ."
 }

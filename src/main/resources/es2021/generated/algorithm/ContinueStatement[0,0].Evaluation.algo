@@ -1,4 +1,4 @@
-def [SYNTAX] ContinueStatement[0,0].Evaluation<`continue` `;`>() = return (new Completion("Type" -> CONST_continue, "Value" -> CONST_empty, "Target" -> CONST_empty))
+def [SYNTAX] ContinueStatement[0,0].Evaluation<(),true>() = return (new Completion("Type" -> CONST_continue, "Value" -> CONST_empty, "Target" -> CONST_empty))
 - id: "sec-continue-statement-runtime-semantics-evaluation"
 - code:
         1. Return Completion { [[Type]]: ~continue~, [[Value]]: ~empty~, [[Target]]: ~empty~ }.

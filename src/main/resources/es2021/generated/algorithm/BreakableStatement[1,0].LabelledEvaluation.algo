@@ -1,4 +1,4 @@
-def [SYNTAX] BreakableStatement[1,0].LabelledEvaluation<SwitchStatement>(labelSet) = {
+def [SYNTAX] BreakableStatement[1,0].LabelledEvaluation<(SwitchStatement),true>(labelSet) = {
   0:access __x0__ = (SwitchStatement "Evaluation")
   0:let stmtResult = __x0__
   1:if (= stmtResult.Type CONST_break) if (= stmtResult.Target CONST_empty) if (= stmtResult.Value CONST_empty) {

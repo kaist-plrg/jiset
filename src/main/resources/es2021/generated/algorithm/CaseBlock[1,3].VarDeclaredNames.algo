@@ -1,4 +1,4 @@
-def [SYNTAX] CaseBlock[1,3].VarDeclaredNames<`{` CaseClauses? DefaultClause CaseClauses? `}`>() = {
+def [SYNTAX] CaseBlock[1,3].VarDeclaredNames<(CaseClauses0, DefaultClause, CaseClauses1),true>() = {
   1:if (! (= CaseClauses0 absent)) {
     access __x0__ = (CaseClauses0 "VarDeclaredNames")
     let names = __x0__

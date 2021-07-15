@@ -1,4 +1,4 @@
-def [SYNTAX] ElementList[2,1].ArrayAccumulation<ElementList `,` Elision? AssignmentExpression>(array, nextIndex) = {
+def [SYNTAX] ElementList[2,1].ArrayAccumulation<(ElementList, Elision, AssignmentExpression),false>(array, nextIndex) = {
   0:access __x0__ = (ElementList "ArrayAccumulation" array nextIndex)
   0:nextIndex = __x0__
   1:[? nextIndex]

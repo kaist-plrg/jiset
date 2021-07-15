@@ -1,4 +1,4 @@
-def [SYNTAX] TryStatement[0,0].ContainsUndefinedContinueTarget<`try` Block Catch>(iterationSet, labelSet) = {
+def [SYNTAX] TryStatement[0,0].ContainsUndefinedContinueTarget<(Block, Catch),true>(iterationSet, labelSet) = {
   0:access __x0__ = (Block "ContainsUndefinedContinueTarget" iterationSet (new []))
   0:let hasUndefinedLabels = __x0__
   1:if (= hasUndefinedLabels true) return true else 1:{}

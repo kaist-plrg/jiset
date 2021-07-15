@@ -22,6 +22,9 @@ trait Parsers extends BasicParsers with ir.Parsers {
   // name
   lazy val name: Parser[String] = "[^\\[\\]\\s(),?\\.|{}<>]+".r
 
+  // boolean
+  lazy val boolean: Parser[Boolean] = "true" ^^^ { true } | "false" ^^^ { false }
+
   // section
   implicit lazy val section: Parser[Section] = (
     string ~ (":" ~ "{" ~> rep(section) <~ "}") ^^ {
@@ -43,8 +46,8 @@ trait Parsers extends BasicParsers with ir.Parsers {
       case x ~ ps => NormalHead(x, ps)
     } | "[METHOD]" ~> name ~ ("." ~> name) ~ ("(" ~> param <~ ")") ~ params ^^ {
       case b ~ f ~ r ~ ps => MethodHead(b, f, r, ps)
-    } | "[SYNTAX]" ~> name ~ ("[" ~> int) ~ ("," ~> int <~ "].") ~ name ~ ("<" ~> rhs <~ ">") ~ params ^^ {
-      case l ~ i ~ j ~ m ~ r ~ ps => SyntaxDirectedHead(l, i, j, r, m, ps)
+    } | "[SYNTAX]" ~> name ~ ("[" ~> int) ~ ("," ~> int <~ "].") ~ name ~ ("<" ~> params <~ ",") ~ (boolean <~ ">") ~ params ^^ {
+      case l ~ i ~ j ~ m ~ rs ~ b ~ ps => SyntaxDirectedHead(l, i, j, rs, m, ps, b)
     } | "[BUILTIN]" ~> ref ~ params ^^ {
       case r ~ ps => BuiltinHead(r, ps)
     }

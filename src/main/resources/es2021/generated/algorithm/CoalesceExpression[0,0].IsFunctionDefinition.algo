@@ -1,4 +1,4 @@
-def [SYNTAX] CoalesceExpression[0,0].IsFunctionDefinition<CoalesceExpressionHead `??` BitwiseORExpression>() = return false
+def [SYNTAX] CoalesceExpression[0,0].IsFunctionDefinition<(CoalesceExpressionHead, BitwiseORExpression),true>() = return false
 - id: "sec-static-semantics-isfunctiondefinition"
 - code:
         1. Return *false*.

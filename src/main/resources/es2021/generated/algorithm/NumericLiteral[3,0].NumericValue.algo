@@ -1,4 +1,4 @@
-def [SYNTAX] NumericLiteral[3,0].NumericValue<NonDecimalIntegerLiteral BigIntLiteralSuffix>() = {
+def [SYNTAX] NumericLiteral[3,0].NumericValue<(NonDecimalIntegerLiteral, BigIntLiteralSuffix),true>() = {
   0:access __x0__ = (NonDecimalIntegerLiteral "MV")
   0:return (convert __x0__ num2bigint )
 }

@@ -1,4 +1,4 @@
-def [SYNTAX] ForInOfStatement[0,0].ForInOfLoopEvaluation<`for` `(` LeftHandSideExpression `in` Expression `)` Statement>(labelSet) = {
+def [SYNTAX] ForInOfStatement[0,0].ForInOfLoopEvaluation<(LeftHandSideExpression, Expression, Statement),true>(labelSet) = {
   0:app __x0__ = (ForInOfHeadEvaluation (new []) Expression CONST_enumerate)
   0:let keyResult = [? __x0__]
   1:app __x1__ = (ForInOfBodyEvaluation LeftHandSideExpression Statement keyResult CONST_enumerate CONST_assignment labelSet)

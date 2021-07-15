@@ -1,4 +1,4 @@
-def [SYNTAX] AwaitExpression[0,0].Evaluation<`await` UnaryExpression>() = {
+def [SYNTAX] AwaitExpression[0,0].Evaluation<(UnaryExpression),true>() = {
   0:access __x0__ = (UnaryExpression "Evaluation")
   0:let exprRef = __x0__
   1:app __x1__ = (GetValue exprRef)

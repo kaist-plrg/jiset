@@ -1,4 +1,4 @@
-def [SYNTAX] ClassExpression[0,0].Evaluation<`class` ClassTail>() = {
+def [SYNTAX] ClassExpression[0,0].Evaluation<(BindingIdentifier, ClassTail),true>() = {
   0:access __x0__ = (ClassTail "ClassDefinitionEvaluation" undefined "")
   0:let value = [? __x0__]
   1:value.SourceText = (get-syntax ClassExpression)

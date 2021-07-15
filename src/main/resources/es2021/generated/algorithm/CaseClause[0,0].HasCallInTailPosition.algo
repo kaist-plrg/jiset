@@ -1,0 +1,11 @@
+def [SYNTAX] CaseClause[0,0].HasCallInTailPosition<(Expression, StatementList),true>(call) = {
+  0:if (! (= StatementList absent)) {
+    access __x0__ = (StatementList "HasCallInTailPosition" call)
+    return __x0__
+  } else 8:{}
+  1:return false
+}
+- id: "sec-statement-rules"
+- code:
+          1. If |StatementList| is present, return HasCallInTailPosition of |StatementList| with argument _call_.
+          1. Return *false*.

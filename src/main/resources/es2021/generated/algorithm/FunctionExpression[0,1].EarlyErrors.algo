@@ -1,4 +1,4 @@
-def [SYNTAX] FunctionExpression[0,1].EarlyErrors<`function` BindingIdentifier? `(` FormalParameters `)` `{` FunctionBody `}`>() = {
+def [SYNTAX] FunctionExpression[0,1].EarlyErrors<(BindingIdentifier, FormalParameters, FunctionBody),true>() = {
   0:??? "If the source code matching nt:{FormalParameters} is strict mode code , the Early Error rules for grammar:{UniqueFormalParameters0, [FormalParameters]} are applied ."
   1:if (&& (! (= BindingIdentifier absent)) true) {
     access __x0__ = (BindingIdentifier "StringValue")

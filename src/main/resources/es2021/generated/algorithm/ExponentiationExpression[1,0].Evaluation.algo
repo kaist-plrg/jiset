@@ -1,4 +1,4 @@
-def [SYNTAX] ExponentiationExpression[1,0].Evaluation<UpdateExpression `**` ExponentiationExpression>() = {
+def [SYNTAX] ExponentiationExpression[1,0].Evaluation<(UpdateExpression, ExponentiationExpression),false>() = {
   0:app __x0__ = (EvaluateStringOrNumericBinaryExpression UpdateExpression "**" ExponentiationExpression)
   0:return [? __x0__]
 }

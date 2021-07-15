@@ -1,4 +1,4 @@
-def [SYNTAX] LexicalDeclaration[0,0].EarlyErrors<LetOrConst BindingList `;`>() = {
+def [SYNTAX] LexicalDeclaration[0,0].EarlyErrors<(LetOrConst, BindingList),true>() = {
   0:access __x0__ = (BindingList "BoundNames")
   0:if (contains __x0__ "let") throw SyntaxError else 2:{}
   1:access __x1__ = (BindingList "BoundNames")

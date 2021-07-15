@@ -1,4 +1,4 @@
-def [SYNTAX] IfStatement[0,0].Evaluation<`if` `(` Expression `)` Statement `else` Statement>() = {
+def [SYNTAX] IfStatement[0,0].Evaluation<(Expression, Statement0, Statement1),true>() = {
   0:access __x0__ = (Expression "Evaluation")
   0:let exprRef = __x0__
   1:app __x1__ = (GetValue exprRef)

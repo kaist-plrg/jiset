@@ -1,4 +1,4 @@
-def [SYNTAX] CaseClause[0,1].VarScopedDeclarations<`case` Expression `:` StatementList?>() = {
+def [SYNTAX] CaseClause[0,1].VarScopedDeclarations<(Expression, StatementList),true>() = {
   0:if (! (= StatementList absent)) {
     access __x0__ = (StatementList "VarScopedDeclarations")
     return __x0__

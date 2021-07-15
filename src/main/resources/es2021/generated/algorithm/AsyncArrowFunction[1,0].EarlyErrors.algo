@@ -1,4 +1,4 @@
-def [SYNTAX] AsyncArrowFunction[1,0].EarlyErrors<CoverCallExpressionAndAsyncArrowHead `=>` AsyncConciseBody>() = {
+def [SYNTAX] AsyncArrowFunction[1,0].EarlyErrors<(CoverCallExpressionAndAsyncArrowHead, AsyncConciseBody),true>() = {
   0:access __x0__ = (CoverCallExpressionAndAsyncArrowHead "Contains" "YieldExpression")
   0:if (= __x0__ true) throw SyntaxError else 2:{}
   1:access __x1__ = (CoverCallExpressionAndAsyncArrowHead "Contains" "AwaitExpression")

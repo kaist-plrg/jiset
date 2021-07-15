@@ -1,4 +1,4 @@
-def [SYNTAX] ForStatement[1,3].VarScopedDeclarations<`for` `(` `var` VariableDeclarationList `;` Expression? `;` Expression? `)` Statement>() = {
+def [SYNTAX] ForStatement[1,3].VarScopedDeclarations<(VariableDeclarationList, Expression0, Expression1, Statement),true>() = {
   0:access __x0__ = (VariableDeclarationList "VarScopedDeclarations")
   0:let declarations = __x0__
   1:access __x1__ = (Statement "VarScopedDeclarations")

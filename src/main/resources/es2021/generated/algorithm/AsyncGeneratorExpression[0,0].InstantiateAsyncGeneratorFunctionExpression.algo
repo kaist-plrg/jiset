@@ -1,4 +1,4 @@
-def [SYNTAX] AsyncGeneratorExpression[0,0].InstantiateAsyncGeneratorFunctionExpression<`async` `function` `*` `(` FormalParameters `)` `{` AsyncGeneratorBody `}`>(name?) = {
+def [SYNTAX] AsyncGeneratorExpression[0,0].InstantiateAsyncGeneratorFunctionExpression<(BindingIdentifier, FormalParameters, AsyncGeneratorBody),true>(name?) = {
   0:if (= name absent) name = "" else 33:{}
   1:access __x0__ = (CONTEXT "LexicalEnvironment")
   1:let scope = __x0__

@@ -1,4 +1,4 @@
-def [SYNTAX] RegExpIdentifierPart[2,0].EarlyErrors<`\` RegExpUnicodeEscapeSequence[+U]>() = ??? "It is a Syntax Error if the CharacterValue of nt:{RegExpUnicodeEscapeSequence} is not the code point value of value:{\"$\"} , value:{\"_\"} , < ZWNJ > , < ZWJ > , or some code point matched by the nt:{UnicodeIDContinue} lexical grammar production ."
+def [SYNTAX] RegExpIdentifierPart[2,0].EarlyErrors<(RegExpUnicodeEscapeSequence),true>() = ??? "It is a Syntax Error if the CharacterValue of nt:{RegExpUnicodeEscapeSequence} is not the code point value of value:{\"$\"} , value:{\"_\"} , < ZWNJ > , < ZWJ > , or some code point matched by the nt:{UnicodeIDContinue} lexical grammar production ."
 - id: "sec-patterns-static-semantics-early-errors"
 - code:
           <li>

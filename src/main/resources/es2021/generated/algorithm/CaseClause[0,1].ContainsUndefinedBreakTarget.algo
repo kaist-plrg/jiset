@@ -1,4 +1,4 @@
-def [SYNTAX] CaseClause[0,1].ContainsUndefinedBreakTarget<`case` Expression `:` StatementList?>(labelSet) = {
+def [SYNTAX] CaseClause[0,1].ContainsUndefinedBreakTarget<(Expression, StatementList),true>(labelSet) = {
   0:if (! (= StatementList absent)) {
     access __x0__ = (StatementList "ContainsUndefinedBreakTarget" labelSet)
     return __x0__

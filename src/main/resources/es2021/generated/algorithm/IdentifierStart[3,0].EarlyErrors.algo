@@ -1,4 +1,4 @@
-def [SYNTAX] IdentifierStart[3,0].EarlyErrors<`\` UnicodeEscapeSequence>() = ??? "It is a Syntax Error if the SV of nt:{UnicodeEscapeSequence} is none of value:{\"$\"} , or value:{\"_\"} , or ! UTF16EncodeCodePoint ( id:{cp} ) for some Unicode code point id:{cp} matched by the nt:{UnicodeIDStart} lexical grammar production ."
+def [SYNTAX] IdentifierStart[3,0].EarlyErrors<(UnicodeEscapeSequence),true>() = ??? "It is a Syntax Error if the SV of nt:{UnicodeEscapeSequence} is none of value:{\"$\"} , or value:{\"_\"} , or ! UTF16EncodeCodePoint ( id:{cp} ) for some Unicode code point id:{cp} matched by the nt:{UnicodeIDStart} lexical grammar production ."
 - id: "sec-identifier-names-static-semantics-early-errors"
 - code:
           <li>

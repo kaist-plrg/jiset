@@ -1,4 +1,4 @@
-def [SYNTAX] StatementList[1,0].ContainsUndefinedBreakTarget<StatementList StatementListItem>(labelSet) = {
+def [SYNTAX] StatementList[1,0].ContainsUndefinedBreakTarget<(StatementList, StatementListItem),false>(labelSet) = {
   0:access __x0__ = (StatementList "ContainsUndefinedBreakTarget" labelSet)
   0:let hasUndefinedLabels = __x0__
   1:if (= hasUndefinedLabels true) return true else 1:{}

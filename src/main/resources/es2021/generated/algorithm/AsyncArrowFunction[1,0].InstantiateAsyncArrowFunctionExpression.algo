@@ -1,4 +1,4 @@
-def [SYNTAX] AsyncArrowFunction[1,0].InstantiateAsyncArrowFunctionExpression<CoverCallExpressionAndAsyncArrowHead `=>` AsyncConciseBody>(name?) = {
+def [SYNTAX] AsyncArrowFunction[1,0].InstantiateAsyncArrowFunctionExpression<(CoverCallExpressionAndAsyncArrowHead, AsyncConciseBody),true>(name?) = {
   0:if (= name absent) name = "" else 8:{}
   1:access __x0__ = (CONTEXT "LexicalEnvironment")
   1:let scope = __x0__

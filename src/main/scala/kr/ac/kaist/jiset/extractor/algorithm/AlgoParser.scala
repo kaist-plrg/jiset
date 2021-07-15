@@ -30,25 +30,8 @@ object AlgoParser {
       val (start, end) = getRange(elem).get
       // get code
       var code = getRawBody(elem)
-
-      // old bitwise cases
-      if (("Bitwise.*Expression.*Evaluation.*".r matches heads.head.name) &&
-        (code.mkString contains "_A_")) heads.map {
-        case (head: SyntaxDirectedHead) => head.rhs.tokens match {
-          case List(l: NonTerminal, op: Terminal, r: NonTerminal) =>
-            val newCode = code.map(_
-              .replaceAll("_A_", s"_${l.name}_")
-              .replaceAll("_B_", s"_${r.name}_")
-              .replaceAll("@", s"$op"))
-            val rawBody = getBody(version, newCode, secIds, start)
-            Algo(head, id, rawBody, code)
-          case _ => error("impossible")
-        }
-      }
-      else {
-        val rawBody = getBody(version, code, secIds, start)
-        heads.map(head => Algo(head, id, handleRetCont(rawBody, head), code))
-      }
+      val rawBody = getBody(version, code, secIds, start)
+      heads.map(head => Algo(head, id, handleRetCont(rawBody, head), code))
     } catch {
       case e: Throwable => Nil
     }

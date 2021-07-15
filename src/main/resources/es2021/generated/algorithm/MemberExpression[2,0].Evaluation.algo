@@ -1,4 +1,4 @@
-def [SYNTAX] MemberExpression[2,0].Evaluation<MemberExpression `.` IdentifierName>() = {
+def [SYNTAX] MemberExpression[2,0].Evaluation<(MemberExpression, IdentifierName),false>() = {
   0:access __x0__ = (MemberExpression "Evaluation")
   0:let baseReference = __x0__
   1:app __x1__ = (GetValue baseReference)

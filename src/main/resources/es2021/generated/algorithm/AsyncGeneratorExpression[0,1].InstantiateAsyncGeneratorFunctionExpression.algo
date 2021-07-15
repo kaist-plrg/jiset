@@ -1,4 +1,4 @@
-def [SYNTAX] AsyncGeneratorExpression[0,1].InstantiateAsyncGeneratorFunctionExpression<`async` `function` `*` BindingIdentifier `(` FormalParameters `)` `{` AsyncGeneratorBody `}`>(name?) = {
+def [SYNTAX] AsyncGeneratorExpression[0,1].InstantiateAsyncGeneratorFunctionExpression<(BindingIdentifier, FormalParameters, AsyncGeneratorBody),true>(name?) = {
   0:assert (= name absent)
   1:access __x0__ = (BindingIdentifier "StringValue")
   1:name = __x0__

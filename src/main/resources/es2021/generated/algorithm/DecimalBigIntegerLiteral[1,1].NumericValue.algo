@@ -1,4 +1,4 @@
-def [SYNTAX] DecimalBigIntegerLiteral[1,1].NumericValue<NonZeroDigit DecimalDigits BigIntLiteralSuffix>() = {
+def [SYNTAX] DecimalBigIntegerLiteral[1,1].NumericValue<(NonZeroDigit, DecimalDigits, BigIntLiteralSuffix),true>() = {
   0:??? "Let id:{n} be the number of code points in nt:{DecimalDigits} , excluding all occurrences of nt:{NumericLiteralSeparator} ."
   1:access __nzd__ = (NonZeroDigit "MV")
   1:access __dds__ = (DecimalDigits "MV")

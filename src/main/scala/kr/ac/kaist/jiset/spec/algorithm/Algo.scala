@@ -49,7 +49,7 @@ case class Algo(
 
   // get body with post processing
   def getBody: Inst = head match {
-    case (head: SyntaxDirectedHead) if !head.rhsNames.contains(head.lhsName) =>
+    case (head: SyntaxDirectedHead) if head.needPrefix =>
       val prefix = Insts(s"let ${head.lhsName} = this")
       prepend(prefix, rawBody)
     case (head: MethodHead) if head.isLetThisStep(code) =>

@@ -1,0 +1,15 @@
+def [SYNTAX] ElementList[1,0].ArrayAccumulation<(Elision, SpreadElement),true>(array, nextIndex) = {
+  0:if (! (= Elision absent)) {
+    1:access __x0__ = (Elision "ArrayAccumulation" array nextIndex)
+    1:nextIndex = __x0__
+    2:[? nextIndex]
+  } else 2:{}
+  3:access __x1__ = (SpreadElement "ArrayAccumulation" array nextIndex)
+  3:return __x1__
+}
+- id: "sec-runtime-semantics-arrayaccumulation"
+- code:
+          1. If |Elision| is present, then
+            1. Set _nextIndex_ to the result of performing ArrayAccumulation for |Elision| with arguments _array_ and _nextIndex_.
+            1. ReturnIfAbrupt(_nextIndex_).
+          1. Return the result of performing ArrayAccumulation for |SpreadElement| with arguments _array_ and _nextIndex_.

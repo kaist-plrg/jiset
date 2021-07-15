@@ -67,14 +67,11 @@ trait AST {
   // get semantics
   def semantics(fname: String): Option[(Algo, List[Value])] = {
     semMap.get(fname + k.toString) match {
-      case Some(f) => Some((f, ASTVal(this) :: list.map(_._2)))
-      case None => semMap.get(fname + maxK.toString) match {
-        case Some(f) => Some((f, ASTVal(this) :: fullList.map(_._2)))
-        case None if fname == "Contains" => Some((defaultContains, List(ASTVal(this))))
-        case None => list match {
-          case List((_, ASTVal(x))) => x.semantics(fname)
-          case _ => None
-        }
+      case Some(f) => Some((f, ASTVal(this) :: fullList.map(_._2)))
+      case None if fname == "Contains" => Some((defaultContains, List(ASTVal(this))))
+      case None => list match {
+        case List((_, ASTVal(x))) => x.semantics(fname)
+        case _ => None
       }
     }
   }

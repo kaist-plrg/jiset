@@ -1,4 +1,4 @@
-def [SYNTAX] CaseClause[0,1].ContainsUndefinedContinueTarget<`case` Expression `:` StatementList?>(iterationSet, labelSet) = {
+def [SYNTAX] CaseClause[0,1].ContainsUndefinedContinueTarget<(Expression, StatementList),true>(iterationSet, labelSet) = {
   0:if (! (= StatementList absent)) {
     access __x0__ = (StatementList "ContainsUndefinedContinueTarget" iterationSet (new []))
     return __x0__

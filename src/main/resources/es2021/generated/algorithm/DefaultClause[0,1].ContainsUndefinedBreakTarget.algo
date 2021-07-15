@@ -1,4 +1,4 @@
-def [SYNTAX] DefaultClause[0,1].ContainsUndefinedBreakTarget<`default` `:` StatementList?>(labelSet) = {
+def [SYNTAX] DefaultClause[0,1].ContainsUndefinedBreakTarget<(StatementList),true>(labelSet) = {
   0:if (! (= StatementList absent)) {
     access __x0__ = (StatementList "ContainsUndefinedBreakTarget" labelSet)
     return __x0__

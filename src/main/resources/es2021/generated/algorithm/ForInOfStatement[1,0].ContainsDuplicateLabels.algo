@@ -1,4 +1,4 @@
-def [SYNTAX] ForInOfStatement[1,0].ContainsDuplicateLabels<`for` `(` `var` ForBinding `in` Expression `)` Statement>(labelSet) = {
+def [SYNTAX] ForInOfStatement[1,0].ContainsDuplicateLabels<(ForBinding, Expression, Statement),true>(labelSet) = {
   0:access __x0__ = (Statement "ContainsDuplicateLabels" labelSet)
   0:return __x0__
 }

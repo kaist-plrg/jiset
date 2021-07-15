@@ -1,0 +1,11 @@
+def [SYNTAX] CaseClause[0,0].ContainsUndefinedContinueTarget<(Expression, StatementList),true>(iterationSet, labelSet) = {
+  0:if (! (= StatementList absent)) {
+    access __x0__ = (StatementList "ContainsUndefinedContinueTarget" iterationSet (new []))
+    return __x0__
+  } else 1:{}
+  1:return false
+}
+- id: "sec-static-semantics-containsundefinedcontinuetarget"
+- code:
+        1. If the |StatementList| is present, return ContainsUndefinedContinueTarget of |StatementList| with arguments _iterationSet_ and « ».
+        1. Return *false*.

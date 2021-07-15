@@ -1,4 +1,4 @@
-def [SYNTAX] IfStatement[0,0].ContainsDuplicateLabels<`if` `(` Expression `)` Statement `else` Statement>(labelSet) = {
+def [SYNTAX] IfStatement[0,0].ContainsDuplicateLabels<(Expression, Statement0, Statement1),true>(labelSet) = {
   0:access __x0__ = (Statement0 "ContainsDuplicateLabels" labelSet)
   0:let hasDuplicate = __x0__
   1:if (= hasDuplicate true) return true else 1:{}

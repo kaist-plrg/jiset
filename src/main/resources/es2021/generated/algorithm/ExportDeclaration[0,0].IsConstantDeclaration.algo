@@ -1,4 +1,4 @@
-def [SYNTAX] ExportDeclaration[0,0].IsConstantDeclaration<`export` ExportFromClause FromClause `;`>() = return false
+def [SYNTAX] ExportDeclaration[0,0].IsConstantDeclaration<(ExportFromClause, FromClause),true>() = return false
 - id: "sec-static-semantics-isconstantdeclaration"
 - code:
         1. Return *false*.

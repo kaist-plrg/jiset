@@ -1,0 +1,11 @@
+def [SYNTAX] DefaultClause[0,0].VarScopedDeclarations<(StatementList),true>() = {
+  0:if (! (= StatementList absent)) {
+    access __x0__ = (StatementList "VarScopedDeclarations")
+    return __x0__
+  } else 1:{}
+  1:return (new [])
+}
+- id: "sec-static-semantics-varscopeddeclarations"
+- code:
+        1. If the |StatementList| is present, return the VarScopedDeclarations of |StatementList|.
+        1. Return a new empty List.

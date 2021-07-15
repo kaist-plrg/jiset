@@ -1,4 +1,4 @@
-def [SYNTAX] ExportDeclaration[6,0].Evaluation<`export` `default` AssignmentExpression `;`>() = {
+def [SYNTAX] ExportDeclaration[6,0].Evaluation<(AssignmentExpression),true>() = {
   2:app __x0__ = (IsAnonymousFunctionDefinition AssignmentExpression)
   2:if (= __x0__ true) {
     1:access __x1__ = (AssignmentExpression "NamedEvaluation" "default")

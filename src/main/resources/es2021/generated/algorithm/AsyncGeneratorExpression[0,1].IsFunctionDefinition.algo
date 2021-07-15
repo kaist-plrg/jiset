@@ -1,4 +1,4 @@
-def [SYNTAX] AsyncGeneratorExpression[0,1].IsFunctionDefinition<`async` `function` `*` BindingIdentifier? `(` FormalParameters `)` `{` AsyncGeneratorBody `}`>() = return true
+def [SYNTAX] AsyncGeneratorExpression[0,1].IsFunctionDefinition<(BindingIdentifier, FormalParameters, AsyncGeneratorBody),true>() = return true
 - id: "sec-static-semantics-isfunctiondefinition"
 - code:
         1. Return *true*.

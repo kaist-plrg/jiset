@@ -1,4 +1,4 @@
-def [SYNTAX] AsyncGeneratorDeclaration[1,0].EarlyErrors<`async` `function` `*` `(` FormalParameters `)` `{` AsyncGeneratorBody `}`>() = {
+def [SYNTAX] AsyncGeneratorDeclaration[1,0].EarlyErrors<(FormalParameters, AsyncGeneratorBody),true>() = {
   0:??? "If the source code matching nt:{FormalParameters} is strict mode code , the Early Error rules for grammar:{UniqueFormalParameters0, [FormalParameters]} are applied ."
   1:if (&& (! (= BindingIdentifier absent)) true) {
     access __x0__ = (BindingIdentifier "StringValue")

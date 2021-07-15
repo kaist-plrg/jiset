@@ -1,4 +1,4 @@
-def [SYNTAX] ForInOfStatement[8,0].EarlyErrors<`for` `await` `(` ForDeclaration `of` AssignmentExpression `)` Statement>() = {
+def [SYNTAX] ForInOfStatement[8,0].EarlyErrors<(ForDeclaration, AssignmentExpression, Statement),true>() = {
   0:access __x0__ = (ForDeclaration "BoundNames")
   0:if (contains __x0__ "let") throw SyntaxError else 2:{}
   1:access __x1__ = (ForDeclaration "BoundNames")

@@ -129,30 +129,19 @@ object HeadParser extends HeadParsers {
       if (isCoreSyntax(prev)) prev
       else getElems(prev, "emu-grammar")(0)
 
-    // for old bitwise cases
-    if (target.text() == "A : A @ B") {
-      for {
-        lhs <- List(
-          "BitwiseANDExpression",
-          "BitwiseXORExpression",
-          "BitwiseORExpression"
-        )
-        prod = nameMap(lhs)
-        rhs = prod.rhsList(1)
-      } yield SyntaxDirectedHead(prod.name, 1, 0, rhs, name, Nil)
-    } else {
-      val body = getRawBody(target).map(unescapeHtml(_)).toList
-      // get head
-      for {
-        code <- splitBy(body, "")
-        prod = ProductionParser(code)
-        lhsName = prod.lhs.name
-        rhs <- prod.rhsList
-        rhsName = rhs.name
-        syntax = lhsName + ":" + rhsName
-        (i, j) = idxMap(syntax)
-      } yield SyntaxDirectedHead(lhsName, i, j, rhs, name, withParams)
-    }
+    val body = getRawBody(target).map(unescapeHtml(_)).toList
+    // get head
+    for {
+      code <- splitBy(body, "")
+      prod = ProductionParser(code)
+      lhsName = prod.lhs.name
+      rhs <- prod.rhsList
+      rhsName <- rhs.allNames
+      syntax = lhsName + ":" + rhsName
+      (i, j) = idxMap(syntax)
+      rhsParams = Param.fromGrammar(grammar, lhsName, i)
+      needPrefix = !(rhs.getNTs.map(_.name) contains lhsName)
+    } yield SyntaxDirectedHead(lhsName, i, j, rhsParams, name, withParams, needPrefix)
   }
 
   // check whether current algorithm head is for environment record

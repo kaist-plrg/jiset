@@ -1,4 +1,4 @@
-def [SYNTAX] IfStatement[0,0].ContainsUndefinedBreakTarget<`if` `(` Expression `)` Statement `else` Statement>(labelSet) = {
+def [SYNTAX] IfStatement[0,0].ContainsUndefinedBreakTarget<(Expression, Statement0, Statement1),true>(labelSet) = {
   0:access __x0__ = (Statement0 "ContainsUndefinedBreakTarget" labelSet)
   0:let hasUndefinedLabels = __x0__
   1:if (= hasUndefinedLabels true) return true else 1:{}

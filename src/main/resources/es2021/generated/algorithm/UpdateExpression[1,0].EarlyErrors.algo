@@ -1,4 +1,4 @@
-def [SYNTAX] UpdateExpression[1,0].EarlyErrors<LeftHandSideExpression `++`>() = {
+def [SYNTAX] UpdateExpression[1,0].EarlyErrors<(LeftHandSideExpression),true>() = {
   0:access __x0__ = (LeftHandSideExpression "AssignmentTargetType")
   0:if (! (= __x0__ CONST_simple)) throw SyntaxError else 2:{}
 }

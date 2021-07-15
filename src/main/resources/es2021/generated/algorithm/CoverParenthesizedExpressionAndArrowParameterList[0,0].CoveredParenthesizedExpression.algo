@@ -1,4 +1,4 @@
-def [SYNTAX] CoverParenthesizedExpressionAndArrowParameterList[0,0].CoveredParenthesizedExpression<`(` Expression `)`>() = return (parse-syntax CoverParenthesizedExpressionAndArrowParameterList "ParenthesizedExpression" (new []))
+def [SYNTAX] CoverParenthesizedExpressionAndArrowParameterList[0,0].CoveredParenthesizedExpression<(Expression),true>() = return (parse-syntax CoverParenthesizedExpressionAndArrowParameterList "ParenthesizedExpression" (new []))
 - id: "sec-static-semantics-coveredparenthesizedexpression"
 - code:
           1. Return the |ParenthesizedExpression| that is covered by |CoverParenthesizedExpressionAndArrowParameterList|.

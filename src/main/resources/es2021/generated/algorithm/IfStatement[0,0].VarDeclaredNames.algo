@@ -1,4 +1,4 @@
-def [SYNTAX] IfStatement[0,0].VarDeclaredNames<`if` `(` Expression `)` Statement `else` Statement>() = {
+def [SYNTAX] IfStatement[0,0].VarDeclaredNames<(Expression, Statement0, Statement1),true>() = {
   0:access __x0__ = (Statement0 "VarDeclaredNames")
   0:let names = __x0__
   1:access __x1__ = (Statement1 "VarDeclaredNames")

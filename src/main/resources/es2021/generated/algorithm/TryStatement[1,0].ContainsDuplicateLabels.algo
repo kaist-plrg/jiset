@@ -1,4 +1,4 @@
-def [SYNTAX] TryStatement[1,0].ContainsDuplicateLabels<`try` Block Finally>(labelSet) = {
+def [SYNTAX] TryStatement[1,0].ContainsDuplicateLabels<(Block, Finally),true>(labelSet) = {
   0:access __x0__ = (Block "ContainsDuplicateLabels" labelSet)
   0:let hasDuplicates = __x0__
   1:if (= hasDuplicates true) return true else 1:{}

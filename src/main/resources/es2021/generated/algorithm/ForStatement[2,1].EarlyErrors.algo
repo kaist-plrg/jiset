@@ -1,0 +1,19 @@
+def [SYNTAX] ForStatement[2,1].EarlyErrors<(LexicalDeclaration, Expression0, Expression1, Statement),true>() = {
+  0:access __x0__ = (LexicalDeclaration "BoundNames")
+  0:access __x1__ = (Statement "VarDeclaredNames")
+  0:let __x2__ = __x0__
+  0:let __x3__ = __x1__
+  0:let __x4__ = 0i
+  0:let __x5__ = 0i
+  0:let __x6__ = false
+  0:while (< __x4__ __x2__.length) {
+    __x5__ = 0i
+    while (< __x5__ __x3__.length) if (= __x2__[__x4__] __x3__[__x5__]) __x6__ = true else 2:{}
+  }
+  0:if __x6__ throw SyntaxError else 2:{}
+}
+- id: "sec-for-statement-static-semantics-early-errors"
+- code:
+          <li>
+            It is a Syntax Error if any element of the BoundNames of |LexicalDeclaration| also occurs in the VarDeclaredNames of |Statement|.
+          </li>

@@ -1,4 +1,4 @@
-def [SYNTAX] MethodDefinition[0,0].MethodDefinitionEvaluation<PropertyName `(` UniqueFormalParameters `)` `{` FunctionBody `}`>(object, enumerable) = {
+def [SYNTAX] MethodDefinition[0,0].MethodDefinitionEvaluation<(PropertyName, UniqueFormalParameters, FunctionBody),true>(object, enumerable) = {
   0:access __x0__ = (MethodDefinition "DefineMethod" object)
   0:let methodDef = [? __x0__]
   1:app __x1__ = (SetFunctionName methodDef.Closure methodDef.Key)

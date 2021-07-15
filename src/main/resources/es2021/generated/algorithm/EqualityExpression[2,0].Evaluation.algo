@@ -1,4 +1,4 @@
-def [SYNTAX] EqualityExpression[2,0].Evaluation<EqualityExpression `!=` RelationalExpression>() = {
+def [SYNTAX] EqualityExpression[2,0].Evaluation<(EqualityExpression, RelationalExpression),false>() = {
   0:access __x0__ = (EqualityExpression "Evaluation")
   0:let lref = __x0__
   1:app __x1__ = (GetValue lref)

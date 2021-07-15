@@ -1,4 +1,4 @@
-def [SYNTAX] ForInOfStatement[1,0].EarlyErrors<`for` `(` `var` ForBinding `in` Expression `)` Statement>() = {
+def [SYNTAX] ForInOfStatement[1,0].EarlyErrors<(ForBinding, Expression, Statement),true>() = {
   0:app __x0__ = (IsLabelledFunction Statement)
   0:if (= __x0__ true) throw SyntaxError else 2:{}
 }

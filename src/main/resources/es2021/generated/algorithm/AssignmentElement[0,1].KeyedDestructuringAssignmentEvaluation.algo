@@ -1,4 +1,4 @@
-def [SYNTAX] AssignmentElement[0,1].KeyedDestructuringAssignmentEvaluation<DestructuringAssignmentTarget Initializer?>(value, propertyName) = {
+def [SYNTAX] AssignmentElement[0,1].KeyedDestructuringAssignmentEvaluation<(DestructuringAssignmentTarget, Initializer),true>(value, propertyName) = {
   0:if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) {
     1:access __x0__ = (DestructuringAssignmentTarget "Evaluation")
     1:let lref = __x0__

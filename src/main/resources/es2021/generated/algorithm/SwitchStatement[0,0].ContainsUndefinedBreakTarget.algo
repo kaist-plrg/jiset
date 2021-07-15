@@ -1,4 +1,4 @@
-def [SYNTAX] SwitchStatement[0,0].ContainsUndefinedBreakTarget<`switch` `(` Expression `)` CaseBlock>(labelSet) = {
+def [SYNTAX] SwitchStatement[0,0].ContainsUndefinedBreakTarget<(Expression, CaseBlock),true>(labelSet) = {
   0:access __x0__ = (CaseBlock "ContainsUndefinedBreakTarget" labelSet)
   0:return __x0__
 }

@@ -1,4 +1,4 @@
-def [SYNTAX] GeneratorExpression[0,0].InstantiateGeneratorFunctionExpression<`function` `*` `(` FormalParameters `)` `{` GeneratorBody `}`>(name?) = {
+def [SYNTAX] GeneratorExpression[0,0].InstantiateGeneratorFunctionExpression<(BindingIdentifier, FormalParameters, GeneratorBody),true>(name?) = {
   0:if (= name absent) name = "" else 0:{}
   1:access __x0__ = (CONTEXT "LexicalEnvironment")
   1:let scope = __x0__

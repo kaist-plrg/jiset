@@ -1,4 +1,4 @@
-def [SYNTAX] NewExpression[1,0].Evaluation<`new` NewExpression>() = {
+def [SYNTAX] NewExpression[1,0].Evaluation<(NewExpression),false>() = {
   0:app __x0__ = (EvaluateNew NewExpression CONST_empty)
   0:return [? __x0__]
 }

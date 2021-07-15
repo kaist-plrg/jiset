@@ -1,4 +1,4 @@
-def [SYNTAX] ForInOfStatement[5,0].ForInOfLoopEvaluation<`for` `(` ForDeclaration `of` AssignmentExpression `)` Statement>(labelSet) = {
+def [SYNTAX] ForInOfStatement[5,0].ForInOfLoopEvaluation<(ForDeclaration, AssignmentExpression, Statement),true>(labelSet) = {
   0:access __x0__ = (ForDeclaration "BoundNames")
   0:app __x1__ = (ForInOfHeadEvaluation __x0__ AssignmentExpression CONST_iterate)
   0:let keyResult = [? __x1__]

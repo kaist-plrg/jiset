@@ -1,4 +1,4 @@
-def [SYNTAX] TryStatement[1,0].ContainsUndefinedBreakTarget<`try` Block Finally>(labelSet) = {
+def [SYNTAX] TryStatement[1,0].ContainsUndefinedBreakTarget<(Block, Finally),true>(labelSet) = {
   0:access __x0__ = (Block "ContainsUndefinedBreakTarget" labelSet)
   0:let hasUndefinedLabels = __x0__
   1:if (= hasUndefinedLabels true) return true else 1:{}

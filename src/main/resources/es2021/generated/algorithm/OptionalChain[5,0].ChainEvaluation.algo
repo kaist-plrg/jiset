@@ -1,4 +1,4 @@
-def [SYNTAX] OptionalChain[5,0].ChainEvaluation<OptionalChain `[` Expression `]`>(baseValue, baseReference) = {
+def [SYNTAX] OptionalChain[5,0].ChainEvaluation<(OptionalChain, Expression),false>(baseValue, baseReference) = {
   0:let optionalChain = OptionalChain
   1:access __x0__ = (optionalChain "ChainEvaluation" baseValue baseReference)
   1:let newReference = [? __x0__]

@@ -1,4 +1,4 @@
-def [SYNTAX] DoWhileStatement[0,0].EarlyErrors<`do` Statement `while` `(` Expression `)` `;`>() = {
+def [SYNTAX] DoWhileStatement[0,0].EarlyErrors<(Statement, Expression),true>() = {
   0:app __x0__ = (IsLabelledFunction Statement)
   0:if (= __x0__ true) throw SyntaxError else 2:{}
 }

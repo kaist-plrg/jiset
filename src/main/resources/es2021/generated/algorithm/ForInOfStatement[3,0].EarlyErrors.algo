@@ -1,4 +1,4 @@
-def [SYNTAX] ForInOfStatement[3,0].EarlyErrors<`for` `(` LeftHandSideExpression `of` AssignmentExpression `)` Statement>() = {
+def [SYNTAX] ForInOfStatement[3,0].EarlyErrors<(LeftHandSideExpression, AssignmentExpression, Statement),true>() = {
   0:app __x0__ = (IsLabelledFunction Statement)
   0:if (= __x0__ true) throw SyntaxError else 2:{}
 }

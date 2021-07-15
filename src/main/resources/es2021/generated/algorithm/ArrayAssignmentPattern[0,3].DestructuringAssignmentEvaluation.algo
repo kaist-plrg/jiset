@@ -1,4 +1,4 @@
-def [SYNTAX] ArrayAssignmentPattern[0,3].DestructuringAssignmentEvaluation<`[` Elision? AssignmentRestElement `]`>(value) = {
+def [SYNTAX] ArrayAssignmentPattern[0,3].DestructuringAssignmentEvaluation<(Elision, AssignmentRestElement),true>(value) = {
   0:app __x0__ = (GetIterator value)
   0:let iteratorRecord = [? __x0__]
   1:if (! (= Elision absent)) {

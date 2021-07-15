@@ -1,4 +1,4 @@
-def [SYNTAX] CallExpression[5,0].Contains<CallExpression `.` IdentifierName>(symbol) = {
+def [SYNTAX] CallExpression[5,0].Contains<(CallExpression, IdentifierName),false>(symbol) = {
   0:access __x0__ = (CallExpression "Contains" symbol)
   0:if (= __x0__ true) return true else 1:{}
   1:return false
