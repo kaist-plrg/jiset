@@ -24,6 +24,18 @@ package object ir {
     else m
   }
 
+  // modulo operation for bigints
+  def modulo(l: BigInt, r: BigInt): BigInt = {
+    l % r
+  }
+
+  // unsigned modulo operation for bigints
+  def unsigned_modulo(l: BigInt, r: BigInt): BigInt = {
+    val m = l % r
+    if (m * r < 0) m + r
+    else m
+  }
+
   // get proper number value
   def number(x: BigDecimal): Value = {
     if (x.toLong == x) INum(x.toLong)
