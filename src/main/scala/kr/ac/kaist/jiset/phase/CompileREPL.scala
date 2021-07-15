@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
 
 // CompileREPL phase
-case object CompileREPL extends PhaseObj[Unit, CompileREPLConfig, Unit] {
+case object CompileREPL extends Phase[Unit, CompileREPLConfig, Unit] {
   val name = "compile-repl"
   val help = "performs REPL for printing compile result of particular step."
 

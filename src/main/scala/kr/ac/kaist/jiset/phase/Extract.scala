@@ -10,7 +10,7 @@ import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util._
 
 // Extract phase
-case object Extract extends PhaseObj[Unit, ExtractConfig, ECMAScript] {
+case object Extract extends Phase[Unit, ExtractConfig, ECMAScript] {
   val name = "extract"
   val help = "extracts ECMAScript model from ecma262/spec.html."
 

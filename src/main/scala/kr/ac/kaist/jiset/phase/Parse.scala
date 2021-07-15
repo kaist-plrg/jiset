@@ -10,7 +10,7 @@ import kr.ac.kaist.jiset.util.JvmUseful._
 import scala.io.Source
 
 // Parse phase
-case object Parse extends PhaseObj[Unit, ParseConfig, Script] {
+case object Parse extends Phase[Unit, ParseConfig, Script] {
   val name = "parse"
   val help = "parses a JavaScript file using the generated parser."
 

@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.util.JvmUseful._
 import scala.io.Source
 
 // Load phase
-case object Load extends PhaseObj[Script, LoadConfig, State] {
+case object Load extends Phase[Script, LoadConfig, State] {
   val name = "load"
   val help = "loads a JavaScript AST to the initial IR states."
 

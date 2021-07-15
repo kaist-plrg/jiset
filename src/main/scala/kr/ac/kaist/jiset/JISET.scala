@@ -88,7 +88,7 @@ object JISET {
   }
 
   // phases
-  var phases: List[Phase] = List(
+  var phases: List[Phase[_, _ <: Config, _]] = List(
     Help,
 
     // JISET

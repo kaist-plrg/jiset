@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.JvmUseful._
 
 // IREval phase
-case object IREval extends PhaseObj[State, IREvalConfig, State] {
+case object IREval extends Phase[State, IREvalConfig, State] {
   val name: String = "eval-ir"
   val help: String = "evaluates a given IR state."
 

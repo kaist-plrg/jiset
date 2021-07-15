@@ -3,13 +3,7 @@ package kr.ac.kaist.jiset.phase
 import kr.ac.kaist.jiset.JISETConfig
 import kr.ac.kaist.jiset.util.ArgParser
 
-abstract class Phase {
-  val name: String
-  val help: String
-  def getOptShapes: List[String]
-  def getOptDescs: List[(String, String)]
-}
-abstract class PhaseObj[Input, PhaseConfig <: Config, Output] extends Phase {
+trait Phase[Input, PhaseConfig <: Config, Output] {
   val name: String
   val help: String
   def apply(

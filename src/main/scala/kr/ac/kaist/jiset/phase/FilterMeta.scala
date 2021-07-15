@@ -12,7 +12,7 @@ import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.TestConfigJsonProtocol._
 
 // FilterMeta phase
-case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Test262ConfigSummary] {
+case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummary] {
   val name = "extract-meta"
   val help = "extracts and filters out metadata of test262 tests."
 

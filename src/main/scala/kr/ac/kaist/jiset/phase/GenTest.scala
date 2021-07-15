@@ -15,7 +15,7 @@ import kr.ac.kaist.jiset.extractor.algorithm.TokenParser
 import org.jsoup.nodes._
 
 // GenTest phase
-case object GenTest extends PhaseObj[Unit, GenTestConfig, Unit] {
+case object GenTest extends Phase[Unit, GenTestConfig, Unit] {
   val name: String = "gen-test"
   val help: String = "generates tests with the current implementation as the oracle."
 

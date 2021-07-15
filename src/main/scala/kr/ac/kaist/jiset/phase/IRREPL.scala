@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
 
 // IRREPL phase
-case object IRREPL extends PhaseObj[State, IRREPLConfig, Unit] {
+case object IRREPL extends Phase[State, IRREPLConfig, Unit] {
   val name = "repl-ir"
   val help = "performs REPL for IR instructions."
 

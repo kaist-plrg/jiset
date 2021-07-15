@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 
 // GenModel phase
-case object GenModel extends PhaseObj[ECMAScript, GenModelConfig, Unit] {
+case object GenModel extends Phase[ECMAScript, GenModelConfig, Unit] {
   val name: String = "gen-model"
   val help: String = "generates ECMAScript models."
 

@@ -32,8 +32,9 @@ $ git clone https://github.com/kaist-plrg/jiset.git
 Insert the following commands to `~/.bashrc` (or `~/.zshrc`):
 ```bash
 # for JISET
-export JISET_HOME="<path to JISET>"
-export PATH="$JISET_HOME/bin:$PATH"
+export JISET_HOME="<path to JISET>" # IMPORTANT!!!
+export PATH="$JISET_HOME/bin:$PATH" # for executables `jiset` and etc.
+source $JISET_HOME/jiset-auto-completion # for auto completion
 ```
 The `<path to JISET>` should be the absolute path of JISET repository.
 

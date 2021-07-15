@@ -22,7 +22,7 @@ sealed abstract class Command[Result](
 
   override def toString: String = pList.toString
 
-  def >>[C <: Config, R](phase: PhaseObj[Result, C, R]): PhaseList[R] = pList >> phase
+  def >>[C <: Config, R](phase: Phase[Result, C, R]): PhaseList[R] = pList >> phase
 }
 
 // base command
