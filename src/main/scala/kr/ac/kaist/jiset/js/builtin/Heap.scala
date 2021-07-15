@@ -667,7 +667,7 @@ object Heap {
         "Prototype" -> NamedAddr("GLOBAL.IteratorPrototype")
       ),
       nmap = NMap(
-        "constructor" -> DataProperty(NamedAddr("GLOBAL.Generator"), F, F, T),
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.GeneratorFunction.prototype"), F, F, T),
         "@toStringTag" -> DataProperty(Str("Generator"), F, F, T),
       )
     ),
@@ -706,7 +706,7 @@ object Heap {
         "Prototype" -> NamedAddr("GLOBAL.AsyncIteratorPrototype")
       ),
       nmap = NMap(
-        "constructor" -> DataProperty(NamedAddr("GLOBAL.AsyncGenerator"), F, F, T),
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.AsyncGeneratorFunction.prototype"), F, F, T),
         "@toStringTag" -> DataProperty(Str("AsyncGenerator"), F, F, T),
       )
     ),
