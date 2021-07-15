@@ -826,7 +826,30 @@ object Heap {
       nmap = NMap(
         "length" -> DataProperty(Num(2.0), F, F, T)
       )
-    )
+    ),
+    "GLOBAL.AggregateError" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Extensible" -> Bool(true),
+        "Prototype" -> NamedAddr("GLOBAL.Error"),
+        "Construct" -> Func(algos("BuiltinFunctionObject.Construct")),
+      ),
+      nmap = NMap(
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.AggregateError.prototype"), F, F, F),
+      ),
+    ),
+    "GLOBAL.AggregateError.prototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Extensible" -> Bool(true),
+        "Prototype" -> NamedAddr("GLOBAL.Error.prototype"),
+      ),
+      nmap = NMap(
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.AggregateError"), T, F, T),
+        "message" -> DataProperty(Str(""), T, F, T),
+        "name" -> DataProperty(Str("AggregateError"), T, F, T),
+      ),
+    ),
   )
 
   private def errors: Map[String, Struct] = (for {

@@ -96,10 +96,10 @@ case object FilterMeta extends PhaseObj[Unit, FilterMetaConfig, Test262ConfigSum
     "Uint8ClampedArray",
     "WeakMap",
     "WeakSet",
-    // XXX: See appendix B Additional ECMAScript Features for Web Browsers
-    // "__proto__",
-    // "__getter__",
-    // "__setter__",
+  // XXX: See appendix B Additional ECMAScript Features for Web Browsers
+  // "__proto__",
+  // "__getter__",
+  // "__setter__",
   )
 
   lazy val test262Dir = new File(s"$TEST_DIR/test262/test")
