@@ -21,8 +21,8 @@ private class Runtime(
 
   // iteration period for check
   val CHECK_PERIOD = 10000
-  
-  // step target 
+
+  // step target
   trait StepTarget
   case object Terminate extends StepTarget
   case object ReturnUndef extends StepTarget
@@ -32,15 +32,16 @@ private class Runtime(
   def nextTarget: StepTarget = st.context.insts match {
     case Nil => st.ctxtStack match {
       case Nil => Terminate
-      case _ => ReturnUndef 
+      case _ => ReturnUndef
     }
     case inst :: rest => NextInst(inst, rest)
   }
-  
+
   // step
   final def step: Boolean = nextTarget match {
     case Terminate => false
-    case ReturnUndef => interp.doReturn(Undef); true
+    case ReturnUndef =>
+      interp.doReturn(Undef); true
     case NextInst(inst, rest) => {
       // print stat
       instCount += 1
