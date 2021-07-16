@@ -12,7 +12,7 @@ _jiset_completions() {
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
-  cmdList="help extract gen-model compile-repl gen-test parse load eval filter-meta parse-ir load-ir eval-ir repl-ir build-cfg "
+  cmdList="help extract gen-model compile-repl gen-test parse load eval filter-meta parse-ir load-ir eval-ir repl-ir build-cfg analyze "
   globalOpt="-silent -debug -stat -interactive -no-bugfix -log -time "
   helpOpt=""
   extractOpt="-extract:version -extract:query -extract:load -extract:json -extract:detail "
@@ -26,6 +26,7 @@ _jiset_completions() {
   evalirOpt="-eval-ir:timeout "
   replirOpt="-repl-ir:detail -repl-ir:timeout "
   buildcfgOpt="-build-cfg:dot -build-cfg:pdf "
+  analyzeOpt="-analyze:dot -analyze:pdf -analyze:no-prune -analyze:insens -analyze:check-alarm -analyze:target -analyze:repl "
 
   # completion for commands
   case "${COMP_CWORD}" in
@@ -94,6 +95,10 @@ _jiset_completions() {
           ;;
         build-cfg)
           COMPREPLY=($(compgen -W "${globalOpt} ${buildcfgOpt} ${extractOpt}"))
+          return 0
+          ;;
+        analyze)
+          COMPREPLY=($(compgen -W "${globalOpt} ${analyzeOpt} ${buildcfgOpt} ${extractOpt}"))
           return 0
           ;;
       esac

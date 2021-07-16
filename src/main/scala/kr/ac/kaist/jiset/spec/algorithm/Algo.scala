@@ -101,5 +101,9 @@ case class Algo(
     case _: NormalHead => true
     case _ => false
   }
+
+  // ancestor check
+  def isAncestor(spec: ECMAScript, id: String): Boolean =
+    ??? // TODO ids contains id
 }
 object Algo extends Parser[Algo]

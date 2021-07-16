@@ -2,14 +2,18 @@ package kr.ac.kaist.jiset
 
 import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.js.ast.Script
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.ArgParser
+import scala.Console.CYAN
 
 sealed abstract class Command[Result](
   val name: String,
   val pList: PhaseList[Result]
 ) {
   def help: String
+  def display(res: Result): Unit = ()
+
   def apply(args: List[String]): Result = {
     val jisetConfig = JISETConfig(this)
     val parser = new ArgParser(this, jisetConfig)
@@ -18,8 +22,6 @@ sealed abstract class Command[Result](
     JISET(this, runner(_), jisetConfig)
   }
 
-  def display(res: Result): Unit = ()
-
   override def toString: String = pList.toString
 
   def >>[C <: Config, R](phase: Phase[Result, C, R]): PhaseList[R] = pList >> phase
@@ -27,12 +29,12 @@ sealed abstract class Command[Result](
 
 // base command
 case object CmdBase extends Command("", PhaseNil) {
-  def help: String = "does nothing."
+  def help = "does nothing."
 }
 
 // help
 case object CmdHelp extends Command("help", CmdBase >> Help) {
-  def help: String = "shows help messages."
+  def help = "shows help messages."
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +131,19 @@ case object CmdIRREPL extends Command("repl-ir", CmdIRLoad >> IRREPL) {
   def help = "performs REPL for IR instructions."
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// analysis
+////////////////////////////////////////////////////////////////////////////////
 // build-cfg
 case object CmdBuildCFG extends Command("build-cfg", CmdExtract >> BuildCFG) {
   def help = "builds control flow graph (CFG)."
+}
+
+// analyze
+case object CmdAnalyze extends Command("analyze", CmdBuildCFG >> Analyze) {
+  def help = "performs type anaysis for specifications."
+  override def display(unit: Unit): Unit = {
+    println(AbsSemantics.getString(CYAN))
+    println(AbsSemantics.getInfo)
+  }
 }

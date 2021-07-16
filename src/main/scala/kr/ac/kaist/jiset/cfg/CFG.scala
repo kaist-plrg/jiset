@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.cfg
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec.ECMAScript
-import kr.ac.kaist.jiset.spec.algorithm.{ NormalHead, MethodHead }
+import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.UIdGen
 
 // control flow graph
@@ -29,6 +29,49 @@ class CFG(val spec: ECMAScript) {
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
+  // get fids of syntax-directed algorithms
+  def getSyntaxFids(lhs: String, method: String): Set[Int] =
+    getSyntaxAlgo(lhs, method).map(algo2fid(_))
+
+  // syntax algorithms
+  lazy val syntaxAlgos: List[(Algo, SyntaxDirectedHead)] = spec.algos.collect {
+    case algo @ Algo(head: SyntaxDirectedHead, _, _, _) => (algo, head)
+  }
+
+  // get syntax directed algos
+  def getSyntaxAlgo(lhs: String, method: String): Set[String] = {
+    val grammar = spec.grammar
+    var names = Set[String]()
+    var visited = Set[String]()
+    def aux(lhs: String): Unit = if (!(visited contains lhs)) {
+      visited += lhs
+      val rhsList = grammar.nameMap(lhs).rhsList
+      var excludes = Set[Int]()
+
+      // direct
+      for ((algo, head) <- syntaxAlgos) {
+        if (head.lhsName == lhs && head.methodName == method) {
+          excludes += head.idx
+          names += algo.name
+        }
+      }
+
+      // chain
+      for {
+        idx <- 0 until rhsList.length
+        if !(excludes contains idx)
+        rhs = rhsList(idx)
+        nt <- rhs.toNTs match {
+          case List(nt) => Some(nt)
+          case _ => None
+        }
+      } aux(nt.name)
+    }
+
+    aux(lhs)
+    names
+  }
+
   // get constant names
   def getNames = {
     var consts: Set[String] = Set()
