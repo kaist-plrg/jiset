@@ -28,7 +28,6 @@ object TyModel {
     )),
     I("BuiltinFunctionObject", parent = "FunctionObject", Map(
       "Call" -> algos("BuiltinFunctionObject.Call"),
-      "Construct" -> algos("BuiltinFunctionObject.Construct"),
     )),
     I("BoundFunctionExoticObject", parent = "Object", Map(
       "Call" -> algos("BoundFunctionExoticObject.Call"),
