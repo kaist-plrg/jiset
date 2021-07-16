@@ -18,10 +18,10 @@ trait JSTest extends IRTest {
   //   Script(executeCmd(s"bin/esparse $filename").parseJson)
 
   // eval JS codes
-  def eval(script: Script): State = Runtime(Load(script))
+  def eval(script: Script): State = Interp(Load(script))
   def eval(str: String): State = eval(parse(str))
   def evalFile(filename: String): State =
-    Runtime(Load(parseFile(filename), filename))
+    Interp(Load(parseFile(filename), filename))
 
   // tests for JS parser
   def parseTest(ast: AST): Unit = {

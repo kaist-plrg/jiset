@@ -7,11 +7,11 @@ trait IRTest extends JISETTest {
   def category: String = "ir"
 
   // eval IR codes
-  def irEval(st: State): State = Runtime(st)
-  def irEval(str: String): State = Runtime(State(Program(str)))
+  def irEval(st: State): State = Interp(st)
+  def irEval(str: String): State = Interp(State(Program(str)))
   def irEvalFile(filename: String): State = {
     val _ = JISETTest.spec
-    Runtime(State(Program.fromFile(filename)))
+    Interp(State(Program.fromFile(filename)))
   }
 
   // tests for IR parser

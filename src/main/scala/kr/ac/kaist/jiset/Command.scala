@@ -97,6 +97,11 @@ case object CmdEval extends Command("eval", CmdLoad >> IREval) {
   override def display(st: ir.State): Unit = println(st.beautified)
 }
 
+// repl
+case object CmdREPL extends Command("repl", CmdLoad >> IRREPL) {
+  def help = "performs REPL for a JavaScript file"
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // test262
 ////////////////////////////////////////////////////////////////////////////////

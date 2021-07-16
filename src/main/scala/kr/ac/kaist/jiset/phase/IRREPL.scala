@@ -13,19 +13,11 @@ case object IRREPL extends Phase[State, IRREPLConfig, Unit] {
     st: State,
     jisetConfig: JISETConfig,
     config: IRREPLConfig
-  ): Unit = REPL.run(st, config.detail, config.timeout)
+  ): Unit = REPL(st)
 
   def defaultConfig: IRREPLConfig = IRREPLConfig()
-  val options: List[PhaseOption[IRREPLConfig]] = List(
-    ("detail", BoolOption(c => c.detail = true),
-      "Show detailed status of the current state."),
-    ("timeout", NumOption((c, i) => c.timeout = if (i == 0) None else Some(i)),
-      "set timeout of interpreter(second), 0 for unlimited.")
-  )
+  val options: List[PhaseOption[IRREPLConfig]] = List()
 }
 
 // IRREPL phase config
-case class IRREPLConfig(
-  var detail: Boolean = false,
-  var timeout: Option[Long] = Some(10)
-) extends Config
+case class IRREPLConfig() extends Config

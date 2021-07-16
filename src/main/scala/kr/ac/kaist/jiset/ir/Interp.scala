@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.ir
 
-import kr.ac.kaist.jiset.{ TEST_MODE, STAT }
+import kr.ac.kaist.jiset.{ TEST_MODE, STAT, DEBUG, TIMEOUT }
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.error.NotSupported
@@ -12,8 +12,74 @@ import scala.collection.mutable.{ Map => MMap }
 import scala.annotation.tailrec
 
 // IR Interpreter
-class Interp(st: State) {
+class Interp(
+  st: State,
+  timeLimit: Option[Long] = Some(TIMEOUT)
+) {
   import Interp._
+
+  // set start time of interpreter
+  val startTime: Long = System.currentTimeMillis
+
+  // the number of instructions
+  def getInstCount: Int = instCount
+  var instCount: Int = 0
+
+  // iteration period for check
+  val CHECK_PERIOD = 10000
+
+  // step target
+  trait StepTarget {
+    override def toString: String = this match {
+      case Terminate => "TERMINATED"
+      case ReturnUndef => "RETURN"
+      case NextInst(inst, _) => inst.beautified
+    }
+  }
+  case object Terminate extends StepTarget
+  case object ReturnUndef extends StepTarget
+  case class NextInst(inst: Inst, rest: List[Inst]) extends StepTarget
+
+  // get next step target
+  def nextTarget: StepTarget = st.context.insts match {
+    case Nil => st.ctxtStack match {
+      case Nil => Terminate
+      case _ => ReturnUndef
+    }
+    case inst :: rest => NextInst(inst, rest)
+  }
+
+  // step
+  final def step: Boolean = nextTarget match {
+    case Terminate => false
+    case ReturnUndef =>
+      doReturn(Undef); true
+    case NextInst(inst, rest) => {
+      // print stat
+      instCount += 1
+      if (instCount % CHECK_PERIOD == 0) timeLimit.map(limit => {
+        val duration = (System.currentTimeMillis - startTime) / 1000
+        if (duration > limit) error("TIMEOUT")
+      })
+      if (DEBUG) inst match {
+        case ISeq(_) =>
+        case _ => println(s"${st.context.name}: ${inst.beautified}")
+      }
+
+      // interp inst
+      st.context.insts = rest
+      interp(inst)
+      if (instCount % 100000 == 0) GC.gc(st)
+      true
+    }
+  }
+
+  // fixpoint
+  @tailrec
+  final def fixpoint: State = step match {
+    case true => fixpoint
+    case false => st
+  }
 
   // transition for instructions
   def interp(inst: Inst): Unit = try {
@@ -437,7 +503,7 @@ class Interp(st: State) {
     case (OBXOr, INum(l), INum(r)) => INum(l ^ r)
     case (OLShift, INum(l), INum(r)) => INum((l.toInt << r.toInt).toLong)
     case (OSRShift, INum(l), INum(r)) => INum((l.toInt >> r.toInt).toLong)
-    case (OURShift, INum(l), INum(r)) => INum(((l & 0xffffffffL) >>> modulo(r, 32).toInt).toLong)
+    case (OURShift, INum(l), INum(r)) => INum(((l.toInt >>> r.toInt) & 0xffffffff).toLong)
 
     // logical operations
     case (OAnd, Bool(l), Bool(r)) => Bool(l && r)
@@ -533,6 +599,15 @@ class Interp(st: State) {
   }
 }
 object Interp {
+  def apply(
+    st: State,
+    timeLimit: Option[Long] = Some(TIMEOUT)
+  ): State = {
+    val interp = new Interp(st, timeLimit)
+    interp.fixpoint
+    st
+  }
+
   // type update algorithms
   val setTypeMap: Map[String, Ty] = Map(
     "OrdinaryFunctionCreate" -> Ty("ECMAScriptFunctionObject"),

@@ -4,107 +4,146 @@ import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.ir.Parser._
 import kr.ac.kaist.jiset.util.Useful._
 import org.jline.builtins.Completers.TreeCompleter
-import org.jline.builtins.Completers.TreeCompleter._
+import org.jline.builtins.Completers.TreeCompleter.{ Node => CNode, node }
 import org.jline.reader._
 import org.jline.reader.impl._
 import org.jline.terminal._
 import org.jline.utils.InfoCmp.Capability
 import org.jline.utils._
-import scala.util.{ Try, Success, Failure }
-import scala.Console.CYAN
+import scala.Console._
+import scala.collection.mutable.ArrayBuffer
+import scala.util.matching.Regex
 
 // REPL
-object REPL {
-  def run(initial: State, detail: Boolean, timeLimit: Option[Long]): Unit = ???
-  // {
-  //   val builder: TerminalBuilder = TerminalBuilder.builder()
-  //   val terminal: Terminal = builder.build()
-  //   val completer: TreeCompleter = new TreeCompleter(
-  //     node("delete"),
-  //     node("function"),
-  //     node("return"),
-  //     node("if"),
-  //     node("while"),
-  //     node("label"),
-  //     node("break"),
-  //     node("try"),
-  //     node("throw"),
-  //     node("assert"),
-  //     node("print")
-  //   )
-  //   val reader: LineReader = LineReaderBuilder.builder()
-  //     .terminal(terminal)
-  //     .completer(completer)
-  //     .build()
-  //   val writer = terminal.writer()
+class REPL(override val st: State) extends Debugger {
+  import interp._
 
-  //   def clear: Unit = {
-  //     print("\u001b[2J\u001b[1;1H")
-  //   }
-  //   def stopMessage(msg: String): Unit = {
-  //     print(msg)
-  //     System.console().reader().read
-  //   }
+  // continue
+  var continue = false
 
-  //   var st: State = initial
-  //   val interp: Interp = new Interp(timeLimit)
-  //   def pre: String = "Instruction: " + st.context.insts.map(inst => LINE_SEP + "  " + inst.beautified(detail = detail)).mkString
-  //   def prompt: String = pre + LINE_SEP + setColor(CYAN)("ir> ")
-  //   def fixMsg: String = pre + LINE_SEP + "Please press the enter key..."
+  // stop
+  private def stop(): Unit = { continue = true }
 
-  //   def fixpoint: Unit = {
-  //     st.context.insts match {
-  //       case inst :: rest =>
-  //         // clear
-  //         // stopMessage(fixMsg)
-  //         st = interp(inst)(st.copy(context = st.context.copy(insts = rest)))
-  //         fixpoint
-  //       case Nil =>
-  //         st.ctxtStack match {
-  //           case Nil => ()
-  //           case ctxt :: rest =>
-  //             st = st.copy(context = ctxt.copy(locals = ctxt.locals + (ctxt.retId -> Absent)), ctxtStack = rest)
-  //             fixpoint
-  //         }
-  //     }
-  //   }
+  // completer
+  private val completer: TreeCompleter =
+    new TreeCompleter(Command.commands.map(cmd => node(cmd.name)): _*)
 
-  //   var keep: Boolean = true
-  //   while (keep) {
-  //     // clear screen
-  //     // terminal.puts(Capability.clear_screen)
+  // jline
+  private val terminal: Terminal = TerminalBuilder.builder().build()
+  private val reader: LineReader = LineReaderBuilder.builder()
+    .terminal(terminal)
+    .completer(completer)
+    .build()
+  private val prompt: String = LINE_SEP + s"${MAGENTA}jiset>${RESET} "
 
-  //     // fixpoint
-  //     fixpoint
+  // print next target
+  private def printNextTarget: Unit = println(s"[NEXT] ${st.context.name}: ${nextTarget}")
 
-  //     st.context.locals.get(st.context.retId) match {
-  //       case Some(addr: Addr) => st.heap(addr, Str("Type")) match {
-  //         case (addr: Addr) =>
-  //           if (addr != st.globals.getOrElse(Id("CONST_normal"), Absent)) {
-  //             stopMessage(s"$addr is not normal")
-  //           }
-  //         case v => stopMessage(s"invalid completion type: $v")
-  //       }
-  //       case Some(v) => stopMessage(s"return not an address: $v")
-  //       case None => stopMessage("no return value")
-  //     }
+  def loop: Unit = {
+    try while (reader.readLine(prompt) match {
+      case null =>
+        stop(); false
+      case line => line.split("\\s+").toList match {
+        // help
+        case CmdHelp.name :: _ =>
+          Command.help; true
 
-  //     // reader
-  //     try {
-  //       reader.readLine(prompt) match {
-  //         case null =>
-  //         case "exit" => keep = false
-  //         case line =>
-  //           val inst = parseInst(line)
-  //           st = interp(inst)(st)
-  //           terminal.flush()
-  //       }
-  //     } catch {
-  //       case e: EndOfFileException => keep = false
-  //       case e: UserInterruptException => keep = false
-  //       case e: java.lang.RuntimeException => stopMessage(s"Parsing failed..")
-  //       case e: Throwable => stopMessage(s"ERROR: $e")
-  //     }
-  //   }
-  // }
+        // step
+        case CmdStepOver.name :: _ => ???
+        case CmdStepOut.name :: _ => ???
+        case CmdStep.name :: _ | Nil | List("") =>
+          printNextTarget; step
+
+        // breakpoints
+        case CmdBreak.name :: _ => ???
+        case CmdLsBreak.name :: _ => ???
+        case CmdRmBreak.name :: _ => ???
+
+        // state info
+        case CmdInfo.name :: _ => ???
+        case CmdContext.name :: _ => ???
+
+        // watch
+        case CmdWatch.name :: _ => ???
+        case CmdLsWatch.name :: _ => ???
+        case CmdAddWatch.name :: _ => ???
+        case CmdRmWatch.name :: _ => ???
+
+        case cmd :: _ =>
+          println(s"The command `$cmd` does not exist. (Try `help`)")
+          true
+      }
+    }) {}
+    catch {
+      case e: EndOfFileException => error("stop REPL")
+    }
+  }
 }
+
+object REPL {
+  def apply(st: State) = {
+    val repl = new REPL(st)
+    repl.loop
+  }
+}
+
+// command
+private abstract class Command(
+  val name: String,
+  val info: String = ""
+) { val options = List[String]() }
+
+private object Command {
+  val commands: List[Command] = List(
+    CmdHelp,
+
+    // step
+    CmdStep,
+    CmdStepOver,
+    CmdStepOut,
+
+    // breakpoints
+    CmdBreak,
+    CmdLsBreak,
+    CmdRmBreak,
+
+    // state info
+    CmdInfo,
+    CmdContext,
+
+    // watch
+    CmdWatch,
+    CmdLsWatch,
+    CmdAddWatch,
+    CmdRmWatch,
+  )
+  val cmdMap: Map[String, Command] = commands.map(cmd => (cmd.name, cmd)).toMap
+
+  def help = {
+    println
+    println("command list:")
+    for (cmd <- commands) println("- %-25s%s".format(cmd.name, cmd.info))
+  }
+}
+
+private case object CmdHelp extends Command("help")
+
+// step
+private case object CmdStep extends Command("step")
+private case object CmdStepOver extends Command("step-over")
+private case object CmdStepOut extends Command("step-out")
+
+// breakpoints
+private case object CmdBreak extends Command("break")
+private case object CmdLsBreak extends Command("ls-break")
+private case object CmdRmBreak extends Command("rm-break")
+
+// state info
+private case object CmdInfo extends Command("info")
+private case object CmdContext extends Command("context")
+
+// watch
+private case object CmdWatch extends Command("watch")
+private case object CmdLsWatch extends Command("ls-watch")
+private case object CmdAddWatch extends Command("add-watch")
+private case object CmdRmWatch extends Command("rm-watch")
