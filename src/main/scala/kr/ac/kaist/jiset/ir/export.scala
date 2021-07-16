@@ -16,7 +16,7 @@ object Export {
         bodyOpt = bodyOpt,
       )
     }
-    Interp(initState)
+    Runtime(initState)
   }
 
   @JSExportTopLevel("setSpec")

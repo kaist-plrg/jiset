@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.ir
 
-import kr.ac.kaist.jiset.{ DEBUG, TIMEOUT, TEST_MODE, STAT }
+import kr.ac.kaist.jiset.{ TEST_MODE, STAT }
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.error.NotSupported
@@ -12,54 +12,11 @@ import scala.collection.mutable.{ Map => MMap }
 import scala.annotation.tailrec
 
 // IR Interpreter
-private class Interp(
-  st: State,
-  filename: String = "unknown",
-  timeLimit: Option[Long] = Some(TIMEOUT)
-) {
+class Interp(st: State) {
   import Interp._
-
-  // set start time of interpreter
-  val startTime: Long = System.currentTimeMillis
-
-  // the number of instructions
-  def getInstCount: Int = instCount
-  var instCount: Int = 0
-
-  // iteration period for check
-  val CHECK_PERIOD = 10000
-
-  // start
-  fixpoint
-
-  // perform transition until instructions are empty
-  @tailrec
-  final def fixpoint: Unit = st.context.insts match {
-    case Nil => st.ctxtStack match {
-      case Nil =>
-      case _ => {
-        doReturn(Undef)
-        fixpoint
-      }
-    }
-    case inst :: rest => {
-      st.context.insts = rest
-      interp(inst)
-      fixpoint
-    }
-  }
 
   // transition for instructions
   def interp(inst: Inst): Unit = try {
-    instCount += 1
-    if (instCount % CHECK_PERIOD == 0) timeLimit.map(limit => {
-      val duration = (System.currentTimeMillis - startTime) / 1000
-      if (duration > limit) error("TIMEOUT")
-    })
-    if (DEBUG) inst match {
-      case ISeq(_) =>
-      case _ => println(s"${st.context.name}: ${inst.beautified}")
-    }
     inst match {
       case IIf(cond, thenInst, elseInst) =>
         interp(cond).escaped(st) match {
@@ -191,7 +148,6 @@ private class Interp(
       }
       case ISeq(insts) => st.context.insts = insts ++ st.context.insts
     }
-    if (instCount % 100000 == 0) GC.gc(st)
   } catch { case ReturnValue(value) => doReturn(value) }
 
   // return value
@@ -577,15 +533,6 @@ private class Interp(
   }
 }
 object Interp {
-  def apply(
-    st: State,
-    filename: String = "unknown",
-    timeLimit: Option[Long] = Some(TIMEOUT)
-  ): State = {
-    new Interp(st, filename, timeLimit)
-    st
-  }
-
   // type update algorithms
   val setTypeMap: Map[String, Ty] = Map(
     "OrdinaryFunctionCreate" -> Ty("ECMAScriptFunctionObject"),

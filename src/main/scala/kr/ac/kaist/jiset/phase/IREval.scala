@@ -15,8 +15,8 @@ case object IREval extends Phase[State, IREvalConfig, State] {
     jisetConfig: JISETConfig,
     config: IREvalConfig
   ): State = {
-    val filename = getFirstFilename(jisetConfig, "eval-ir")
-    Interp(st, filename, config.timeout)
+    // val filename = getFirstFilename(jisetConfig, "eval-ir")
+    Runtime(st, config.timeout)
   }
 
   def defaultConfig: IREvalConfig = IREvalConfig()
