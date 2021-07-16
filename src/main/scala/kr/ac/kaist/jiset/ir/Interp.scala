@@ -437,7 +437,7 @@ class Interp(st: State) {
     case (OBXOr, INum(l), INum(r)) => INum(l ^ r)
     case (OLShift, INum(l), INum(r)) => INum((l.toInt << r.toInt).toLong)
     case (OSRShift, INum(l), INum(r)) => INum((l.toInt >> r.toInt).toLong)
-    case (OURShift, INum(l), INum(r)) => INum(((l.toInt >>> r.toInt) & 0xffffffff).toLong)
+    case (OURShift, INum(l), INum(r)) => INum(((l & 0xffffffffL) >>> modulo(r, 32).toInt).toLong)
 
     // logical operations
     case (OAnd, Bool(l), Bool(r)) => Bool(l && r)
