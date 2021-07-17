@@ -148,4 +148,11 @@ case class Heap(
       irMap.ty = ty; this
     case _ => error(s"invalid type update: ${addr.beautified}")
   }
+
+  // copied
+  def copied: Heap = {
+    val newMap = MMap[Addr, Obj]()
+    newMap ++= map
+    Heap(newMap, size)
+  }
 }

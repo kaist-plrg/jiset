@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.UIdGen
 import scala.collection.mutable.{ Map => MMap }
 
 // IR States
@@ -84,9 +85,21 @@ case class State(
     case addr: Addr => addr.beautified + " -> " + heap(addr).beautified
     case _ => value.beautified
   }
+
+  // copied
+  def copied: State = {
+    val newContext = context.copied
+    val newCtxtStack = ctxtStack.map(_.copied)
+    val newGlobals = MMap.from(globals)
+    val newHeap = heap.copied
+    State(newContext, newCtxtStack, newGlobals, newHeap)
+  }
+
 }
 object State {
   def apply(program: Program): State = State(
     context = Context(insts = program.insts)
   )
+  // context id gen
+  val cidGen = new UIdGen
 }

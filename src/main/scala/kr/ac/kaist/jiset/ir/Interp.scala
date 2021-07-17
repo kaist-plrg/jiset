@@ -14,7 +14,8 @@ import scala.annotation.tailrec
 // IR Interpreter
 class Interp(
   st: State,
-  timeLimit: Option[Long] = Some(TIMEOUT)
+  timeLimit: Option[Long] = Some(TIMEOUT),
+  useHook: Boolean = false
 ) {
   import Interp._
 
@@ -111,6 +112,9 @@ class Interp(
           if (STAT) Stat.touchAlgo(algo.name)
           st.ctxtStack ::= st.context
           st.context = context
+
+          // use hooks
+          if (useHook) notify(Event.Call)
         }
         case Clo(ctxtName, params, locals, body) => {
           val vs = args.map(interp)
@@ -118,6 +122,9 @@ class Interp(
           val context = Context(id, ctxtName + ":closure", None, List(body), locals)
           st.ctxtStack ::= st.context
           st.context = context
+
+          // use hooks
+          if (useHook) notify(Event.Call)
         }
         case Cont(params, body, context, ctxtStack) => {
           val vs = args.map(interp)
@@ -125,6 +132,9 @@ class Interp(
           st.context.insts = List(body)
           st.context.locals ++= params zip vs
           st.ctxtStack = ctxtStack.map(_.copied)
+
+          // use hooks
+          if (useHook) notify(Event.Cont)
         }
         case v => error(s"not a function: ${fexpr.beautified} -> ${v.beautified}")
       }
@@ -165,6 +175,9 @@ class Interp(
               if (STAT) Stat.touchAlgo(algo.name)
               st.ctxtStack ::= st.context
               st.context = context
+
+              // use hooks
+              if (useHook) notify(Event.Call)
               None
             }
             case None => Some(ast.subs(name).getOrElse {
@@ -233,6 +246,9 @@ class Interp(
       ctxt.locals += st.context.retId -> value.wrapCompletion(st)
       st.context = ctxt
       st.ctxtStack = rest
+
+      // use hooks
+      if (useHook) notify(Event.Return)
     }
   }
 
@@ -597,7 +613,30 @@ class Interp(
     aux(params, args)
     map
   }
+
+  // hooks
+  private var hooks: Map[Int, InterpHook] = Map()
+  def subscribe(name: String, kind: Event, f: State => Unit): Int = {
+    val hook = InterpHook(name, kind, f)
+    hooks += hook.uid -> hook
+    hook.uid
+  }
+  def notify(event: Event): Unit = hooks.foreach {
+    case (_, InterpHook(_, kind, f, _)) if kind == event => f(st)
+    case _ =>
+  }
+  def unsubscribe(hid: Int): Unit = hooks -= hid
 }
+
+// interp hook
+case class InterpHook(
+  name: String,
+  kind: Interp.Event,
+  f: State => Unit,
+  uidGen: UIdGen = Interp.hidGen
+) extends UId
+
+// interp object
 object Interp {
   def apply(
     st: State,
@@ -683,4 +722,11 @@ object Interp {
       case (st, List(value)) => Bool(value.isAbruptCompletion(st))
     }),
   )
+
+  // interp event
+  val hidGen = new UIdGen
+  type Event = Event.Value
+  object Event extends Enumeration {
+    val Call, Return, Cont = Value
+  }
 }
