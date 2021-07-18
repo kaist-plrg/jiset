@@ -5,6 +5,7 @@ import kr.ac.kaist.jiset.js.{ Parser => JSParser, _ }
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.JvmUseful._
+import kr.ac.kaist.jiset.spec.NativeHelper._
 import scala.io.Source
 
 // Load phase
