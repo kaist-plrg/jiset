@@ -103,7 +103,7 @@ case class Algo(
   }
 
   // ancestor check
-  def isAncestor(spec: ECMAScript, id: String): Boolean =
-    ??? // TODO ids contains id
+  def isAncestor(spec: ECMAScript, targetId: String): Boolean =
+    spec.getAncestors(id) contains targetId
 }
 object Algo extends Parser[Algo]

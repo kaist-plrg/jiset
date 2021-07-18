@@ -223,11 +223,15 @@ object AbsSemantics {
   // types map
 
   // get arguments
-  def getArgs(head: SyntaxDirectedHead): List[AbsType] = ???
+  def getArgs(head: SyntaxDirectedHead): List[AbsType] =
+    getSyntaxAlgoTypes(head).map { case (_, ty) => ty.abs }
 
   //////////////////////////////////////////////////////////////////////////////
   // Private Helper Functions
   //////////////////////////////////////////////////////////////////////////////
+  private lazy val spec = cfg.spec
+  private lazy val grammar = spec.grammar
+
   // initialization of node points with abstract states
   private def initNpMap: Map[NodePoint[_ <: Node], AbsState] = (for {
     func <- cfg.funcs.toList
@@ -258,27 +262,38 @@ object AbsSemantics {
   }
 
   private def isRegex(algo: Algo): Boolean =
-    algo.isAncestor(cfg.spec, "sec-regexp-regular-expression-objects") // 22.2 RegExp
+    algo.isAncestor(spec, "sec-regexp-regular-expression-objects") // 22.2 RegExp
 
   private def isEarlyErrors(algo: Algo): Boolean =
     algo.name.endsWith("EarlyErrors")
 
+  private def getSyntaxAlgoTypes = {
+    cached[SyntaxDirectedHead, List[(String, Type)]](head => {
+      val prod = grammar.nameMap(head.lhsName)
+      val rhs = prod.rhsList(head.idx)
+      val names = rhs.getNTs.map(_.name)
+      var subIdx = head.subIdx
+      val pairs = (head.rhsParams.reverse zip names.reverse).map {
+        case (param, name) => param.name -> (if (param.isOptional) {
+          val ty = if (subIdx % 2 == 0) AAbsent else AstT(name)
+          subIdx /= 2
+          ty
+        } else AstT(name))
+      }.reverse
+      (THIS_PARAM, AstT(head.lhsName)) :: pairs
+    })
+  }
+
   // initial abstract state for syntax-directed algorithms
   private def getAlgoTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
     case (head: SyntaxDirectedHead) if isTarget(algo) => {
-      ???
-      // head.optional.subsets.map(opt => {
-      //   var st = AbsState.Empty
-      //   val tys = head.types.map {
-      //     case (name, _) if opt contains name =>
-      //       st = st.define(name, AAbsent.abs)
-      //       Absent
-      //     case (name, astName) =>
-      //       st = st.define(name, AstT(astName).abs)
-      //       AstT(astName)
-      //   }
-      //   (tys, st)
-      // }).toList
+      val types = getSyntaxAlgoTypes(head)
+      var st = AbsState.Empty
+      val tys = for {
+        (name, ty) <- types
+        _ = { st = st.define(name, ty.abs) }
+      } yield ty
+      List((tys, st))
     }
     case (head: BuiltinHead) if isTarget(algo) =>
       val tys = Nil

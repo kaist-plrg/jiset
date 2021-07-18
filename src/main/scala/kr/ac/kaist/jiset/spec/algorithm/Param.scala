@@ -10,7 +10,7 @@ case class Param(
   kind: Param.Kind = Param.Kind.Normal
 ) extends SpecComponent {
   import Param.Kind._
-
+  def isOptional: Boolean = kind == Optional
   def toOptional: Param = Param(name, Optional)
 }
 object Param extends Parser[Param] {
