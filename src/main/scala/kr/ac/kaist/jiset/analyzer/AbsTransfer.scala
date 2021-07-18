@@ -80,8 +80,7 @@ object AbsTransfer {
     import helper._
     node match {
       case (entry: Entry) =>
-        val newSt = handleThis(func, st)
-        sem += NodePoint(cfg.next(entry), view) -> newSt
+        sem += NodePoint(cfg.next(entry), view) -> st
       case (exit: Exit) =>
         sem.doReturn(ret, AUndef)
       case (block: Block) =>
@@ -102,15 +101,6 @@ object AbsTransfer {
           sem += np -> prune(st, expr, false)(newSt)
         }
     }
-  }
-
-  // handle this value for syntax-directed algorithms
-  def handleThis(func: Function, st: AbsState): AbsState = func.algo.head match {
-    case (head: SyntaxDirectedHead) =>
-      val lhsName = head.lhsName
-      if (head.params.map(_.name) contains lhsName) st
-      else st.define(lhsName, st.lookupVar("this"))
-    case _ => st
   }
 
   // transfer function for return points
