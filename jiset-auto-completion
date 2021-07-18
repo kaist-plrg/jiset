@@ -12,7 +12,7 @@ _jiset_completions() {
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
-  cmdList="help extract gen-model compile-repl gen-test parse load eval filter-meta parse-ir load-ir eval-ir repl-ir build-cfg analyze "
+  cmdList="help extract gen-model compile-repl gen-test parse load eval repl filter-meta parse-ir load-ir eval-ir repl-ir build-cfg type-check "
   globalOpt="-silent -debug -stat -interactive -no-bugfix -log -time "
   helpOpt=""
   extractOpt="-extract:version -extract:query -extract:load -extract:json -extract:detail "
@@ -24,9 +24,9 @@ _jiset_completions() {
   parseirOpt=""
   loadirOpt=""
   evalirOpt="-eval-ir:timeout "
-  replirOpt="-repl-ir:detail -repl-ir:timeout "
+  replirOpt=""
   buildcfgOpt="-build-cfg:dot -build-cfg:pdf "
-  analyzeOpt="-analyze:dot -analyze:pdf -analyze:no-prune -analyze:insens -analyze:check-alarm -analyze:target -analyze:repl "
+  typecheckOpt="-type-check:dot -type-check:pdf -type-check:no-prune -type-check:insens -type-check:check-alarm -type-check:target -type-check:repl "
 
   # completion for commands
   case "${COMP_CWORD}" in
@@ -73,6 +73,10 @@ _jiset_completions() {
           COMPREPLY=($(compgen -W "${globalOpt} ${evalirOpt} ${loadOpt} ${parseOpt}"))
           return 0
           ;;
+        repl)
+          COMPREPLY=($(compgen -W "${globalOpt} ${replirOpt} ${loadOpt} ${parseOpt}"))
+          return 0
+          ;;
         filter-meta)
           COMPREPLY=($(compgen -W "${globalOpt} ${extractmetaOpt}"))
           return 0
@@ -97,8 +101,8 @@ _jiset_completions() {
           COMPREPLY=($(compgen -W "${globalOpt} ${buildcfgOpt} ${extractOpt}"))
           return 0
           ;;
-        analyze)
-          COMPREPLY=($(compgen -W "${globalOpt} ${analyzeOpt} ${buildcfgOpt} ${extractOpt}"))
+        type-check)
+          COMPREPLY=($(compgen -W "${globalOpt} ${typecheckOpt} ${buildcfgOpt} ${extractOpt}"))
           return 0
           ;;
       esac

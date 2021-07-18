@@ -7,23 +7,23 @@ import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset._
 
-// Analyze phase
-case object Analyze extends Phase[CFG, AnalyzeConfig, Unit] {
-  val name = "analyze"
+// TypeCheck phase
+case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
+  val name = "type-check"
   val help = "performs type anaysis for specifications."
 
   def apply(
     cfg: CFG,
     jisetConfig: JISETConfig,
-    config: AnalyzeConfig
+    config: TypeCheckConfig
   ): Unit = {
     init(cfg)
     AnalysisStat.analysisStartTime = System.currentTimeMillis
     AbsTransfer.compute
   }
 
-  def defaultConfig: AnalyzeConfig = AnalyzeConfig()
-  val options: List[PhaseOption[AnalyzeConfig]] = List(
+  def defaultConfig: TypeCheckConfig = TypeCheckConfig()
+  val options: List[PhaseOption[TypeCheckConfig]] = List(
     ("dot", BoolOption(c => DOT = true),
       "dump the analyzed cfg in a dot format."),
     ("pdf", BoolOption(c => { DOT = true; PDF = true }),
@@ -41,5 +41,5 @@ case object Analyze extends Phase[CFG, AnalyzeConfig, Unit] {
   )
 }
 
-// Analyze phase config
-case class AnalyzeConfig() extends Config
+// TypeCheck phase config
+case class TypeCheckConfig() extends Config

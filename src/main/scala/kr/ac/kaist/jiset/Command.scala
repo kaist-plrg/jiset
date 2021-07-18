@@ -144,8 +144,8 @@ case object CmdBuildCFG extends Command("build-cfg", CmdExtract >> BuildCFG) {
   def help = "builds control flow graph (CFG)."
 }
 
-// analyze
-case object CmdAnalyze extends Command("analyze", CmdBuildCFG >> Analyze) {
+// type-check
+case object CmdTypeCheck extends Command("type-check", CmdBuildCFG >> TypeCheck) {
   def help = "performs type anaysis for specifications."
   override def display(unit: Unit): Unit = {
     println(AbsSemantics.getString(CYAN))

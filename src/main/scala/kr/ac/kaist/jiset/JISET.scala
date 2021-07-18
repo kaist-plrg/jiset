@@ -85,7 +85,7 @@ object JISET {
 
     // analysis
     CmdBuildCFG,
-    CmdAnalyze,
+    CmdTypeCheck,
   )
   val cmdMap = commands.foldLeft[Map[String, Command[_]]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
@@ -113,7 +113,7 @@ object JISET {
 
     // analysis
     BuildCFG,
-    Analyze,
+    TypeCheck,
   )
 
   // global options
