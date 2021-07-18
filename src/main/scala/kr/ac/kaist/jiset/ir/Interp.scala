@@ -70,7 +70,7 @@ class Interp(
       // interp inst
       st.context.insts = rest
       interp(inst)
-      if (instCount % 100000 == 0) GC.gc(st)
+      if (instCount % 100000 == 0) GC(st)
       true
     }
   }
