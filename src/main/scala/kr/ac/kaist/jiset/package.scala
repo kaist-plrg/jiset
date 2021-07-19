@@ -14,6 +14,7 @@ package object jiset {
   val LOG_DIR = s"$BASE_DIR/logs"
   val EXTRACT_LOG_DIR = s"$LOG_DIR/extract"
   val ANALYZE_LOG_DIR = s"$LOG_DIR/analyze"
+  val CFG_LOG_DIR = s"$LOG_DIR/cfg"
 
   // Specification directory
   val ECMA262_DIR = s"$BASE_DIR/ecma262"
@@ -31,9 +32,6 @@ package object jiset {
   val JS_DIR = s"$TEST_DIR/js"
   val TEST262_DIR = s"$TEST_DIR/test262"
   val TEST262_TEST_DIR = s"$TEST262_DIR/test"
-
-  // Result directory for CFG
-  val CFG_DIR = s"$BASE_DIR/cfg"
 
   // Current directory root
   val CUR_DIR = System.getProperty("user.dir")

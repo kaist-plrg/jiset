@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.{ CFG_DIR, LOG }
+import kr.ac.kaist.jiset.LOG
 import kr.ac.kaist.jiset.ir.{ REPL => IRREPL, _ }
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead

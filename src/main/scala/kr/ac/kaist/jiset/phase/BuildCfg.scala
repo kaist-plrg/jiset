@@ -21,10 +21,10 @@ case object BuildCFG extends Phase[ECMAScript, BuildCFGConfig, CFG] {
     val (cfgTime, cfg) = time("build CFG", new CFG(spec))
 
     if (config.dot) {
-      mkdir(CFG_DIR)
+      mkdir(CFG_LOG_DIR)
       val format = if (config.pdf) "DOT/PDF" else "DOT"
       ProgressBar(s"dump CFG in a $format format", cfg.funcs).foreach(f => {
-        val name = s"${CFG_DIR}/${f.name}"
+        val name = s"${CFG_LOG_DIR}/${f.name}"
         dumpFile(f.toDot, s"$name.dot")
         if (config.pdf) {
           // check whether dot is available

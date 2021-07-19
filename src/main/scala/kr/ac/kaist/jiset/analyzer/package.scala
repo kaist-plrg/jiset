@@ -83,7 +83,8 @@ package object analyzer {
     }
   }
 
-  // TODO refactor dumpCFG
+  // analysis cfg path
+  val CFG_PATH = s"$ANALYZE_LOG_DIR/cfg"
 
   // dump CFG in DOT/PDF format
   def dumpCFG(
@@ -92,12 +93,12 @@ package object analyzer {
     depth: Option[Int] = None
   ): Unit = try {
     val dot = (new DotPrinter)(cp, depth).toString
-    dumpFile(dot, s"$CFG_DIR.dot")
+    dumpFile(dot, s"$CFG_PATH.dot")
     if (pdf) {
-      executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")
-      executeCmd(s"""dot -Tpdf "${CFG_DIR}_trans.dot" -o "$CFG_DIR.pdf"""")
-      println(s"Dumped CFG to $CFG_DIR.pdf")
-    } else println(s"Dumped CFG to $CFG_DIR.dot")
+      executeCmd(s"""unflatten -l 10 -o ${CFG_PATH}_trans.dot $CFG_PATH.dot""")
+      executeCmd(s"""dot -Tpdf "${CFG_PATH}_trans.dot" -o "$CFG_PATH.pdf"""")
+      println(s"Dumped CFG to $CFG_PATH.pdf")
+    } else println(s"Dumped CFG to $CFG_PATH.dot")
   } catch {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
@@ -108,12 +109,12 @@ package object analyzer {
     pdf: Boolean = true
   ): Unit = try {
     val dot = (new DotPrinter)(func).toString
-    dumpFile(dot, s"$CFG_DIR.dot")
+    dumpFile(dot, s"$CFG_PATH.dot")
     if (pdf) {
-      executeCmd(s"""unflatten -l 10 -o ${CFG_DIR}_trans.dot $CFG_DIR.dot""")
-      executeCmd(s"""dot -Tpdf "${CFG_DIR}_trans.dot" -o "$CFG_DIR.pdf"""")
-      println(s"Dumped CFG to $CFG_DIR.pdf")
-    } else println(s"Dumped CFG to $CFG_DIR.dot")
+      executeCmd(s"""unflatten -l 10 -o ${CFG_PATH}_trans.dot $CFG_PATH.dot""")
+      executeCmd(s"""dot -Tpdf "${CFG_PATH}_trans.dot" -o "$CFG_PATH.pdf"""")
+      println(s"Dumped CFG to $CFG_PATH.pdf")
+    } else println(s"Dumped CFG to $CFG_PATH.dot")
   } catch {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
