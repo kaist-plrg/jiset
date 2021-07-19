@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 // IR Instructions
-sealed trait Inst extends IRNode { var line: Int = -1 }
+sealed trait Inst extends IRNode { var line: Option[Int] = None }
 object Insts extends Parser[List[Inst]]
 object Inst extends Parser[Inst]
 
@@ -11,7 +11,7 @@ case class IIf(cond: Expr, thenInst: Inst, elseInst: Inst) extends CondInst
 case class IWhile(cond: Expr, body: Inst) extends CondInst
 
 // call instructions
-sealed trait CallInst extends Inst { val id: Id; var csite: Int = -1 }
+sealed trait CallInst extends Inst { val id: Id; var csite: Option[Int] = None }
 case class IApp(id: Id, fexpr: Expr, args: List[Expr]) extends CallInst
 case class IAccess(id: Id, bexpr: Expr, expr: Expr, args: List[Expr]) extends CallInst
 
@@ -24,7 +24,7 @@ case class IDelete(ref: Ref) extends NormalInst
 case class IAppend(expr: Expr, list: Expr) extends NormalInst
 case class IPrepend(expr: Expr, list: Expr) extends NormalInst
 case class IReturn(expr: Expr) extends NormalInst
-case class IThrow(name: String) extends NormalInst { var asite: Int = -1 }
+case class IThrow(name: String) extends NormalInst { var asite: Option[Int] = None }
 case class IAssert(expr: Expr) extends NormalInst
 case class IPrint(expr: Expr) extends NormalInst
 case class IWithCont(id: Id, params: List[Id], bodyInst: Inst) extends NormalInst

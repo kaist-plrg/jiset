@@ -25,6 +25,12 @@ class Beautifier(
     app >> t >> " -> " >> u
   }
 
+  // line info appender
+  implicit def lineApp: App[Option[Int]] = (app, line) => line match {
+    case None => app
+    case Some(i) => app >> i
+  }
+
   // IR nodes
   implicit lazy val IRNodeApp: App[IRNode] = (app, node) => node match {
     case node: Program => ProgramApp(app, node)
@@ -59,8 +65,10 @@ class Beautifier(
 
   // instructions
   implicit lazy val InstApp: App[Inst] = (app, inst) => {
-    val k = inst.line
-    if (index && k != -1) app >> s"$k:"
+    inst.line match {
+      case None =>
+      case Some(i) => app >> s"$i:"
+    }
     inst match {
       case IExpr(expr) => app >> expr
       case ILet(id, expr) => app >> "let " >> id >> " = " >> expr
@@ -70,8 +78,10 @@ class Beautifier(
       case IPrepend(expr, list) => app >> "prepend " >> expr >> " -> " >> list
       case IReturn(expr) => app >> "return " >> expr
       case ithrow @ IThrow(id) =>
-        if (asite && ithrow.asite != -1)
-          app >> s"(" >> ithrow.asite >> ") "
+        if (asite) ithrow.asite match {
+          case Some(k) => app >> "(" >> k >> ") "
+          case _ =>
+        }
         app >> "throw " >> id
       case IIf(cond, thenInst, elseInst) =>
         implicit val d = DetailInstApp
@@ -84,14 +94,18 @@ class Beautifier(
       case IPrint(expr) => app >> "print " >> expr
       case iapp @ IApp(id, fexpr, args) =>
         implicit val l = ListApp[Expr](sep = " ")
-        if (asite && iapp.csite != -1)
-          app >> s"(" >> iapp.csite >> ") "
+        if (asite) iapp.csite match {
+          case Some(k) => app >> "(" >> k >> ") "
+          case _ =>
+        }
         app >> "app " >> id >> " = (" >> fexpr
         if (!args.isEmpty) app >> " " >> args
         app >> ")"
       case iaccess @ IAccess(id, bexpr, expr, args) =>
-        if (asite && iaccess.csite != -1)
-          app >> s"(" >> iaccess.csite >> ") "
+        if (asite) iaccess.csite match {
+          case Some(k) => app >> "(" >> k >> ") "
+          case _ =>
+        }
         implicit val l = ListApp[Expr](sep = " ")
         app >> "access " >> id >> " = (" >> bexpr >> " " >> expr
         if (!args.isEmpty) app >> " " >> args
@@ -106,8 +120,10 @@ class Beautifier(
   // expressions
   implicit lazy val ExprApp: App[Expr] = (app, expr) => {
     expr match {
-      case expr: AllocExpr if asite && expr.asite != -1 =>
-        app >> s"(" >> expr.asite >> ") "
+      case expr: AllocExpr if asite => expr.asite match {
+        case Some(k) => app >> s"(" >> k >> ") "
+        case _ =>
+      }
       case _ =>
     }
     expr match {

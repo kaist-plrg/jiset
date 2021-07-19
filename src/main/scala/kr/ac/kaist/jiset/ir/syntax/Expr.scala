@@ -5,7 +5,7 @@ sealed trait Expr extends IRNode
 object Expr extends Parser[Expr]
 
 // allocation expression
-sealed trait AllocExpr { var asite: Int = -1 }
+sealed trait AllocExpr { var asite: Option[Int] = None }
 
 case class ENum(n: Double) extends Expr {
   override def equals(that: Any): Boolean = that match {

@@ -47,7 +47,7 @@ trait Compilers extends TokenListParsers {
       failed += k -> tokens
       val str = tokens.map(_.beautified).mkString(" ")
       val failedInst = manualSteps.getOrElse(str, IExpr(ENotSupported(str)))
-      failedInst.line = k
+      failedInst.line = Some(k)
       failedInst
   }
 
@@ -79,7 +79,7 @@ trait Compilers extends TokenListParsers {
 
   // list of statements
   lazy val stmts: P[List[Inst]] =
-    rep(stmt ~ next ^^ { case i ~ k => i.line = k; i } | failedStep)
+    rep(stmt ~ next ^^ { case i ~ k => i.line = Some(k); i } | failedStep)
 
   // start notations
   lazy val starStmt: P[Inst] = star ^^ { case s => IExpr(ENotSupported(s"stmt: $s")) }
@@ -247,8 +247,10 @@ trait Compilers extends TokenListParsers {
   object FlattenWalker extends Walker {
     override def walk(inst: Inst): Inst = inst match {
       case ISeq(insts) =>
-        def assign(insts: List[Inst], k: Int): List[Inst] =
-          if (k == -1) insts else insts.map(i => { i.line = k; i })
+        def assign(insts: List[Inst], k: Option[Int]): List[Inst] = k match {
+          case None => insts
+          case _ => insts.map(i => { i.line = k; i })
+        }
         def aux(cur: List[Inst], remain: List[Inst]): List[Inst] = remain match {
           case Nil => cur.reverse
           case (seq @ ISeq(list)) :: rest => aux(cur, assign(list, seq.line) ++ rest)

@@ -39,16 +39,16 @@ trait Parsers extends BasicParsers {
     ("withcont " ~> id) ~ ("(" ~> repsep(id, ",") <~ ")" <~ "=") ~ inst ^^ { case x ~ ps ~ b => IWithCont(x, ps, b) } |
     (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
     expr ^^ { case e => IExpr(e) }
-  ) ^^ { case k ~ i => i.line = k.fold(-1)(_.toInt); i }
+  ) ^^ { case k ~ i => i.line = k.map(_.toInt); i }
 
   lazy val throwInst: Parser[IThrow] = opt("(" ~> integer <~ ")") ~ (
     "throw " ~> ident ^^ { case x => IThrow(x) }
-  ) ^^ { case k ~ i => i.asite = k.fold(-1)(_.toInt); i }
+  ) ^^ { case k ~ i => i.asite = k.map(_.toInt); i }
 
   lazy val callInst: Parser[CallInst] = opt("(" ~> integer <~ ")") ~ (
     ("app " ~> id <~ "=") ~ ("(" ~> expr) ~ (rep(expr) <~ ")") ^^ { case x ~ f ~ as => IApp(x, f, as) } |
     ("access " ~> id <~ "=") ~ ("(" ~> expr) ~ expr ~ (rep(expr) <~ ")") ^^ { case x ~ e1 ~ e2 ~ e3 => IAccess(x, e1, e2, e3) }
-  ) ^^ { case k ~ i => i.csite = k.fold(-1)(_.toInt); i }
+  ) ^^ { case k ~ i => i.csite = k.map(_.toInt); i }
 
   // expressions
   implicit lazy val expr: Parser[Expr] = opt("(" ~> integer <~ ")") ~ (
@@ -102,7 +102,7 @@ trait Parsers extends BasicParsers {
     "(" ~> "map-keys" ~> expr <~ "[int-sorted]" ~ ")" ^^ { case e => EKeys(e, true) }
   ) ^^ {
       case k ~ (e: AllocExpr) =>
-        e.asite = k.fold(-1)(_.toInt); e
+        e.asite = k.map(_.toInt); e
       case k ~ e =>
         if (k != None) println(e.beautified, k)
         assert(k == None)

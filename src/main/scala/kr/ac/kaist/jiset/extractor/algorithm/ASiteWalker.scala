@@ -9,15 +9,15 @@ class LocWalker extends UnitWalker {
   private def newCsite: Int = { val result = csiteCount; csiteCount += 1; result }
   override def walk(inst: Inst): Unit = {
     inst match {
-      case (ithrow: IThrow) => ithrow.asite = newAsite
-      case (call: CallInst) => call.csite = newCsite
+      case (ithrow: IThrow) => ithrow.asite = Some(newAsite)
+      case (call: CallInst) => call.csite = Some(newCsite)
       case _ =>
     }
     super.walk(inst)
   }
   override def walk(expr: Expr): Unit = {
     expr match {
-      case expr: AllocExpr => expr.asite = newAsite
+      case expr: AllocExpr => expr.asite = Some(newAsite)
       case _ =>
     }
     super.walk(expr)
