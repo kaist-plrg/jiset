@@ -24,6 +24,7 @@ package object analyzer {
   var REPL: Boolean = false
   var DOT: Boolean = false
   var PDF: Boolean = false
+  var PARTIAL_MODEL: Option[String] = None
 
   // initialize
   mkdir(ANALYZE_LOG_DIR)

@@ -18,6 +18,7 @@ class DotPrinter {
     this >> "}"
   }
 
+  // show previous traces with depth
   def showPrev(rp: ReturnPoint, depth: Int): Unit = {
     var visited = Set[(Function, View)]()
     def aux(rp: ReturnPoint, depth: Int): Unit = if (depth > 0) {

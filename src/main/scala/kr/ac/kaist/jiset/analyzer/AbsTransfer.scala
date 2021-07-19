@@ -92,11 +92,14 @@ object AbsTransfer {
       case branch @ Branch(_, expr) =>
         val (t, newSt) = transfer(expr)(st)
         val cond = t.escaped(expr)
+        val bp = NodePoint(branch, view)
         if (AT ⊑ cond) {
+          sem.thenBranches += bp
           val np = NodePoint(cfg.thenNext(branch), view)
           sem += np -> prune(st, expr, true)(newSt)
         }
         if (AF ⊑ cond) {
+          sem.elseBranches += bp
           val np = NodePoint(cfg.elseNext(branch), view)
           sem += np -> prune(st, expr, false)(newSt)
         }

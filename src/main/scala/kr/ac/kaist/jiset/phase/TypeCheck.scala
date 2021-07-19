@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.JISETConfig
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset._
 
@@ -20,6 +21,14 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
     init(cfg)
     AnalysisStat.analysisStartTime = System.currentTimeMillis
     AbsTransfer.compute
+    PARTIAL_MODEL.map(dirname => time(s"dump models to $dirname", {
+      mkdir(dirname)
+      for (algo <- cfg.spec.algos) {
+        val name = algo.name
+        val filename = s"$dirname/$name.model"
+        dumpFile(PartialModel.getString(algo), filename)
+      }
+    }))
   }
 
   def defaultConfig: TypeCheckConfig = TypeCheckConfig()
@@ -38,6 +47,8 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
       "set the target of analysis."),
     ("repl", BoolOption(c => REPL = true),
       "use analyze-repl."),
+    ("partial-model", StrOption((c, s) => PARTIAL_MODEL = Some(s)),
+      "dump partial models using type check results."),
   )
 }
 

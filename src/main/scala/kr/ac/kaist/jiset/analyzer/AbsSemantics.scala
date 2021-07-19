@@ -20,6 +20,10 @@ object AbsSemantics {
   var npMap: Map[NP, AbsState] = initNpMap
   var rpMap: Map[ReturnPoint, AbsType] = Map()
 
+  // internal map for reachable branches
+  var thenBranches: Set[NodePoint[Branch]] = Set()
+  var elseBranches: Set[NodePoint[Branch]] = Set()
+
   // internal map for return edges
   var retEdges: Map[ReturnPoint, Set[(NodePoint[Call], String)]] = Map()
 
@@ -219,8 +223,6 @@ object AbsSemantics {
       s"$k -> $v"
     } else k
   }
-
-  // types map
 
   // get arguments
   def getArgs(head: SyntaxDirectedHead): List[AbsType] =
