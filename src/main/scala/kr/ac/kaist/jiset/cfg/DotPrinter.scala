@@ -193,9 +193,10 @@ class DotPrinter {
   override def toString: String = app.toString
 
   // normalize beautified ir nodes
-
   private def norm(node: IRNode, useUId: Boolean): String =
     escapeHtml(node.beautified(index = !useUId))
+      .replaceAll("\u0000", "U+0000")
+
   // normalize beautified view
   private val normPattern = """[\[\](),\s~?"]""".r
   private def norm(view: View): String = normPattern.replaceAllIn(view.tys.map {
