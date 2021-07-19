@@ -36,6 +36,23 @@ object AbsSemantics {
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
+  // conversion to analysis result
+  def toResult: AnalysisResult = AnalysisResult(
+    npMap, rpMap, thenBranches, elseBranches, retEdges,
+    unknownVars, assertions,
+  )
+
+  // load from analysis result
+  def load(result: AnalysisResult): Unit = {
+    this.npMap = result.npMap
+    this.rpMap = result.rpMap
+    this.thenBranches = result.thenBranches
+    this.elseBranches = result.elseBranches
+    this.retEdges = result.retEdges
+    this.unknownVars = result.unknownVars
+    this.assertions = result.assertions
+  }
+
   // get node points by id
   def getNodePointsById(uid: Int): Set[NP] =
     npMap.keySet.filter(x => (x.node: Node).uid == uid)

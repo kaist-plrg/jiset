@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.phase
 import kr.ac.kaist.jiset.JISETConfig
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.analyzer.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util._
@@ -19,8 +20,21 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
     config: TypeCheckConfig
   ): Unit = {
     init(cfg)
-    AnalysisStat.analysisStartTime = System.currentTimeMillis
-    AbsTransfer.compute
+
+    val result = config.load match {
+      case Some(filename) =>
+        val (_, result) = time(
+          s"loading type anaysis results from $filename",
+          readJson[AnalysisResult](filename)
+        )
+        AbsSemantics.load(result)
+        result
+      case None =>
+        AnalysisStat.analysisStartTime = System.currentTimeMillis
+        AbsTransfer.compute
+        AbsSemantics.toResult
+    }
+
     PARTIAL_MODEL.map(dirname => time(s"dump models to $dirname", {
       mkdir(dirname)
       for (algo <- cfg.spec.algos) {
@@ -29,6 +43,9 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
         dumpFile(PartialModel.getString(algo), filename)
       }
     }))
+
+    // dump in a JSON fomrat
+    config.json.map(dumpJson("type analysis results", result, _))
   }
 
   def defaultConfig: TypeCheckConfig = TypeCheckConfig()
@@ -49,8 +66,15 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
       "use analyze-repl."),
     ("partial-model", StrOption((c, s) => PARTIAL_MODEL = Some(s)),
       "dump partial models using type check results."),
+    ("load", StrOption((c, s) => c.load = Some(s)),
+      "load type analysis results from JSON."),
+    ("json", StrOption((c, s) => c.json = Some(s)),
+      "dump type analysis results in a JSON format."),
   )
 }
 
 // TypeCheck phase config
-case class TypeCheckConfig() extends Config
+case class TypeCheckConfig(
+  var load: Option[String] = None,
+  var json: Option[String] = None
+) extends Config

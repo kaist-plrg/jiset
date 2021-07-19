@@ -37,7 +37,7 @@ case object Extract extends Phase[Unit, ExtractConfig, ECMAScript] {
     // logging
     if (LOG) dumpIncompleteAlgos(spec.incompletedAlgos)
 
-    // Dump JSON
+    // dump in a JSON format
     config.json.map(dumpJson("specification", spec, _))
 
     spec
