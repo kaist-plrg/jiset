@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.{ TEST_MODE, STAT, DEBUG, TIMEOUT }
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.spec.algorithm._
-import kr.ac.kaist.jiset.error.NotSupported
+import kr.ac.kaist.jiset.error.{ InterpTimeout, NotSupported }
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.js.{ Parser => ESParser, _ }
@@ -60,7 +60,7 @@ class Interp(
       instCount += 1
       if (instCount % CHECK_PERIOD == 0) timeLimit.map(limit => {
         val duration = (System.currentTimeMillis - startTime) / 1000
-        if (duration > limit) error("TIMEOUT")
+        if (duration > limit) throw InterpTimeout
       })
       if (DEBUG) inst match {
         case ISeq(_) =>

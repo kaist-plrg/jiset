@@ -18,6 +18,10 @@ case class NotSupported(msg: String) extends ModelError({
   s"[NotSupported]: $msg"
 })
 
+case object InterpTimeout extends ModelError({
+  s"timeout during the conrete interpretation."
+})
+
 case object InvalidAST extends ModelError({
   s"invald abstract syntax tree"
 })

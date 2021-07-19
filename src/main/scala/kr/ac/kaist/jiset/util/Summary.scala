@@ -8,6 +8,10 @@ class Summary {
   val yets: SummaryElem = new SummaryElem
   def yet: Int = yets.size
 
+  // timeout
+  val timeouts: SummaryElem = new SummaryElem
+  def timeout: Int = timeouts.size
+
   // fail
   val fails: SummaryElem = new SummaryElem
   def fail: Int = fails.size
@@ -17,13 +21,14 @@ class Summary {
   def pass: Int = passes.size
 
   // close all print writers
-  def close: Unit = { yets.close; fails.close; passes.close }
+  def close: Unit = { yets.close; timeouts.close; fails.close; passes.close }
 
   // time
   var timeMillis: Long = 0L
+  def timeHours = timeMillis / 3600000.0
 
   // total cases
-  def total: Int = yet + fail + pass
+  def total: Int = yet + timeout + fail + pass
 
   // supported total cases
   def supported: Int = fail + pass
@@ -33,15 +38,21 @@ class Summary {
   def passPercent: Double = passRate * 100
 
   // get simple string
-  def simpleString: String =
-    if (yet > 0) s"Y/F/P = $yet/$fail/$pass"
-    else s"F/P = $fail/$pass"
+  def simpleString: String = {
+    var pairs = List(("P", pass))
+    if (fail > 0) pairs ::= ("F", fail)
+    if (yet > 0) pairs ::= ("Y", yet)
+    if (timeout > 0) pairs ::= ("T", timeout)
+    val (names, counts) = pairs.unzip
+    val namesStr = names.mkString("/")
+    val countsStr = counts.mkString("/")
+    f"$namesStr = $countsStr ($passPercent%2.2f%%)"
+  }
 
   // conversion to string
   override def toString: String = {
     val app = new Appender
-    val hours = timeMillis / 3600000.0
-    app >> f"time: $timeMillis%,d ms ($hours%.1f hours)" >> LINE_SEP
+    app >> f"time: $timeMillis%,d ms ($timeHours%.1f hours)" >> LINE_SEP
     app >> f"total: $total%,d" >> LINE_SEP
     if (yet > 0) app >> f"- yet: $yet%,d" >> LINE_SEP
     app >> f"- fail: $fail%,d" >> LINE_SEP

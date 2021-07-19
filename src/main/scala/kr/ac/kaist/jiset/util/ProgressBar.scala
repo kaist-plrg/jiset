@@ -35,13 +35,11 @@ case class ProgressBar[T](msg: String, seq: Iterable[T]) {
       val percent = count.toDouble / size * 100
       val len = count * BAR_LEN / size
       val progress = (BAR * len) + (" " * (BAR_LEN - len))
-      val msg = f"[$progress] $percent%2.2f%% ($count%,d/$size%,d)$postfix"
+      updateTime
+      val msg = f"[$progress] $percent%2.2f%% ($count%,d/$size%,d)$postfix (${summary.timeMillis}%,d ms ~= ${summary.timeHours}%.1f hours)"
       print("\b" * prev + msg)
       prev = msg.length
-      if (count == size) {
-        updateTime
-        println(f" (${summary.timeMillis}%,d ms)")
-      } else { Thread.sleep(term); show }
+      if (count != size) { Thread.sleep(term); show }
     }
     println(msg + "...")
     val future = show
