@@ -39,8 +39,8 @@ trait Debugger {
 
   // step-over
   final def stepOver: Unit = {
-    val cid = st.context.uid
-    stepUntil { cid != st.context.uid }
+    val stackSize = st.ctxtStack.size
+    stepUntil { stackSize != st.ctxtStack.size }
   }
 
   // step-out

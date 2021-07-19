@@ -100,6 +100,4 @@ object State {
   def apply(program: Program): State = State(
     context = Context(insts = program.insts)
   )
-  // context id gen
-  val cidGen = new UIdGen
 }
