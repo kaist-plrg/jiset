@@ -8,14 +8,17 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import scala.scalajs.js.annotation.JSExportTopLevel
 
 object Export {
+  @JSExportTopLevel("getInitialState")
+  def getInitialState(script: Script): State = script match {
+    case Script0(bodyOpt, _, _) => Initialize(
+      inst = Inst(if (bodyOpt.isDefined) s"app $RESULT = (RunJobs)" else "{}"),
+      bodyOpt = bodyOpt,
+    )
+  }
+
   @JSExportTopLevel("eval")
   def eval(script: Script): Unit = {
-    val initState = script match {
-      case Script0(bodyOpt, _, _) => Initialize(
-        inst = Inst(if (bodyOpt.isDefined) s"app $RESULT = (RunJobs)" else "{}"),
-        bodyOpt = bodyOpt,
-      )
-    }
+    val initState = getInitialState(script)
     Interp(initState)
   }
 
