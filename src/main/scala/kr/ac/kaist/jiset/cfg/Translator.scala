@@ -9,8 +9,8 @@ import scala.collection.mutable.Queue
 object Translator {
   def apply(
     algo: Algo,
-    fidGen: UIdGen = new UIdGen,
-    nidGen: UIdGen = new UIdGen
+    fidGen: UIdGen[Function] = new UIdGen,
+    nidGen: UIdGen[Node] = new UIdGen
   ): Function = {
     // internal mutable nodes
     trait MNode { val node: Node }

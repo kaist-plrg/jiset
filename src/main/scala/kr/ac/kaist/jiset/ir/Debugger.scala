@@ -50,30 +50,30 @@ trait Debugger {
   }
 
   // breakpoints
-  val breakpoints = ArrayBuffer[(Int, BreakPoint)]()
+  val breakpoints = ArrayBuffer[(InterpHook, BreakPoint)]()
 
   // add break
   final def addBreak(algoName: String) = {
     val bp = AlgoBreakPoint(algoName)
-    val hid = interp.subscribe(algoName, Interp.Event.Call, st => {
+    val hook = interp.subscribe(algoName, Interp.Event.Call, st => {
       st.context.algo match {
         case Some(algo) => bp.check(algo.name)
         case None =>
       }
     })
-    breakpoints += ((hid, bp))
+    breakpoints += ((hook, bp))
   }
 
   // remove break
   final def rmBreak(opt: String) = opt match {
     case "all" =>
-      breakpoints.foreach { case (hid, _) => interp.unsubscribe(hid) }
+      breakpoints.foreach { case (hook, _) => interp.unsubscribe(hook) }
       breakpoints.clear
     case idx => optional(idx.toInt) match {
       case Some(idx) if idx < breakpoints.size =>
-        val (hid, _) = breakpoints(idx)
+        val (hook, _) = breakpoints(idx)
         breakpoints.remove(idx)
-        interp.unsubscribe(hid)
+        interp.unsubscribe(hook)
       case None => error("wrong breakpoints index: $idx")
     }
   }

@@ -25,3 +25,7 @@ case object InterpTimeout extends ModelError({
 case object InvalidAST extends ModelError({
   s"invald abstract syntax tree"
 })
+
+case class WrongUId(uid: Int) extends ModelError({
+  s"[WrongUId] uid $uid does not exist."
+})

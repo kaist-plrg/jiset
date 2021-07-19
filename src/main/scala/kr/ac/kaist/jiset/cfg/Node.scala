@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.{ UId, UIdGen }
 
 // CFG nodes
-trait Node extends UId {
+trait Node extends UId[Node] {
   // conversion to string
   override def toString: String = s"${getClass.getSimpleName}[$uid]"
 }
@@ -13,16 +13,16 @@ trait Node extends UId {
 trait Linear extends Node
 
 // entry nodes
-case class Entry(uidGen: UIdGen) extends Linear
+case class Entry(uidGen: UIdGen[Node]) extends Linear
 
 // blocks
-case class Block(uidGen: UIdGen, insts: List[NormalInst]) extends Linear
+case class Block(uidGen: UIdGen[Node], insts: List[NormalInst]) extends Linear
 
 // call nodes
-case class Call(uidGen: UIdGen, inst: CallInst) extends Linear
+case class Call(uidGen: UIdGen[Node], inst: CallInst) extends Linear
 
 // branches
-case class Branch(uidGen: UIdGen, cond: Expr) extends Node
+case class Branch(uidGen: UIdGen[Node], cond: Expr) extends Node
 
 // exit nodes
-case class Exit(uidGen: UIdGen) extends Node
+case class Exit(uidGen: UIdGen[Node]) extends Node

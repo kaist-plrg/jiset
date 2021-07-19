@@ -615,26 +615,25 @@ class Interp(
   }
 
   // hooks
-  private var hooks: Map[Int, InterpHook] = Map()
-  def subscribe(name: String, kind: Event, f: State => Unit): Int = {
+  private var hooks: Set[InterpHook] = Set()
+  def subscribe(name: String, kind: Event, f: State => Unit): InterpHook = {
     val hook = InterpHook(name, kind, f)
-    hooks += hook.uid -> hook
-    hook.uid
+    hooks += hook
+    hook
   }
   def notify(event: Event): Unit = hooks.foreach {
-    case (_, InterpHook(_, kind, f, _)) if kind == event => f(st)
+    case InterpHook(_, kind, f) if kind == event => f(st)
     case _ =>
   }
-  def unsubscribe(hid: Int): Unit = hooks -= hid
+  def unsubscribe(hook: InterpHook): Unit = hooks -= hook
 }
 
 // interp hook
 case class InterpHook(
   name: String,
   kind: Interp.Event,
-  f: State => Unit,
-  uidGen: UIdGen = Interp.hidGen
-) extends UId
+  f: State => Unit
+)
 
 // interp object
 object Interp {

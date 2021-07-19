@@ -5,13 +5,13 @@ import kr.ac.kaist.jiset.util.{ UId, UIdGen }
 
 // CFG functions
 case class Function(
-  uidGen: UIdGen,
+  uidGen: UIdGen[Function],
   algo: Algo,
   entry: Entry,
   exit: Exit,
   nodes: Set[Node],
   edges: Set[Edge]
-) extends UId {
+) extends UId[Function] {
   // completion check (not containing ??? or !!! in the algorithm body)
   val complete: Boolean = algo.isComplete
 

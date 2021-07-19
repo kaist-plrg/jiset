@@ -7,8 +7,8 @@ import kr.ac.kaist.jiset.util.UIdGen
 
 // control flow graph
 class CFG(val spec: ECMAScript) {
-  val fidGen: UIdGen = new UIdGen
-  val nidGen: UIdGen = new UIdGen
+  val fidGen = new UIdGen[Function]
+  val nidGen = new UIdGen[Node]
   val funcs: List[Function] = spec.algos.map(Translator(_, fidGen, nidGen))
   val nodes: List[Node] = funcs.flatMap(_.nodes)
   val edges: List[Edge] = funcs.flatMap(_.edges)
