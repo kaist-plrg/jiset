@@ -271,7 +271,7 @@ class Interp(
       }
       addr
     }
-    case EList(exprs) => st.allocList(exprs.map(interp))
+    case EList(exprs) => st.allocList(exprs.map(expr => interp(expr).escaped(st)))
     case ESymbol(desc) => interp(desc) match {
       case (str: Str) => st.allocSymbol(str)
       case Undef => st.allocSymbol(Undef)
