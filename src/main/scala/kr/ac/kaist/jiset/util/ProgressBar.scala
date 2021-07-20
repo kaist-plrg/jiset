@@ -40,6 +40,7 @@ case class ProgressBar[T](msg: String, seq: Iterable[T]) {
       print("\b" * prev + msg)
       prev = msg.length
       if (count != size) { Thread.sleep(term); show }
+      else println
     }
     println(msg + "...")
     val future = show
