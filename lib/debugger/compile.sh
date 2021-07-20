@@ -6,7 +6,7 @@ DEBUGGER_LIB_PATH=$JISET_HOME/lib/debugger/src/lib/jiset.js
 
 cd $JISET_HOME
 mv $SBT_FILE $SBT_TEMP_FILE
-{ echo 'enablePlugins(ScalaJSPlugin)'; echo 'scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }'; cat $SBT_TEMP_FILE; } > $SBT_FILE
+{ echo 'enablePlugins(ScalaJSPlugin)'; echo 'scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) }'; cat $SBT_TEMP_FILE; } > $SBT_FILE
 sbt fastLinkJS
 cp $JS_FILE $DEBUGGER_LIB_PATH
 mv $SBT_TEMP_FILE $SBT_FILE
