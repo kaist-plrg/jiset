@@ -17,7 +17,7 @@ object JISET {
     case Nil => throw NoInputError
   } catch {
     // JISETError: print the error message.
-    case ex: JISETError =>
+    case ex: JISETError if !DEBUG =>
       Console.err.println(ex.getMessage)
     // Unexpected: print the stack trace.
     case ex: Throwable =>

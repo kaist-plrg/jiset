@@ -7,15 +7,61 @@ import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 
 package object analyzer {
-  // inputs
-  lazy val cfg: CFG = _cfg
+  // initialization
+  def init(cfg: CFG): Unit = {
+    // set CFG
+    _cfg = Some(cfg)
+
+    // create log directory
+    mkdir(ANALYZE_LOG_DIR)
+
+    // set the beginning time of analysis
+    AnalysisStat.analysisStartTime = System.currentTimeMillis
+
+    // initialize type infos
+    Type.infos
+  }
+
+  // analyze with initialization
+  def analyze(cfg: CFG): AnalysisResult = {
+    // initialization
+    init(cfg)
+
+    // fixpoint computation
+    AbsTransfer.compute
+
+    // return analysis result
+    AbsSemantics.toResult
+  }
+
+  // load analysis result with initialization
+  def load(cfg: CFG, result: AnalysisResult): AnalysisResult = {
+    // initialization
+    init(cfg)
+
+    // load result
+    AbsSemantics.load(result)
+
+    // return analysis result
+    result
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // global data defined after initialization
+  //////////////////////////////////////////////////////////////////////////////
+  // CFG
+  private var _cfg: Option[CFG] = None
+  lazy val cfg: CFG = _cfg.getOrElse {
+    error("Please initialize CFG before performing type analysis.")
+  }
+
+  // worklists
   lazy val worklist: Worklist[ControlPoint] =
     new StackWorklist(AbsSemantics.npMap.keySet)
 
-  // initialization
-  private var _cfg: CFG = null
-  def init(cfg: CFG): Unit = _cfg = cfg
-
+  //////////////////////////////////////////////////////////////////////////////
+  // global mutable data
+  //////////////////////////////////////////////////////////////////////////////
   // options
   var TARGET: Option[String] = None
   var USE_VIEW: Boolean = true
@@ -26,14 +72,16 @@ package object analyzer {
   var PDF: Boolean = false
   var PARTIAL_MODEL: Option[String] = None
 
-  // initialize
-  mkdir(ANALYZE_LOG_DIR)
-  val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
-  val nfErrors = getPrintWriter(s"$ANALYZE_LOG_DIR/errors")
-
   // alarm
   var alarmCP: ControlPoint = null
   var alarmCPStr: String = ""
+
+  //////////////////////////////////////////////////////////////////////////////
+  // global helpers
+  //////////////////////////////////////////////////////////////////////////////
+  // print writers
+  val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
+  val nfErrors = getPrintWriter(s"$ANALYZE_LOG_DIR/errors")
 
   // size
   def numError = errorMap.foldLeft(0) { case (n, (_, s)) => n + s.size }

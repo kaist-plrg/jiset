@@ -19,22 +19,18 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
     jisetConfig: JISETConfig,
     config: TypeCheckConfig
   ): Unit = {
-    init(cfg)
-
+    // get anaysis result
     val result = config.load match {
       case Some(filename) =>
         val (_, result) = time(
           s"loading type anaysis results from $filename",
           readJson[AnalysisResult](filename)
         )
-        AbsSemantics.load(result)
-        result
-      case None =>
-        AnalysisStat.analysisStartTime = System.currentTimeMillis
-        AbsTransfer.compute
-        AbsSemantics.toResult
+        load(cfg, result)
+      case None => analyze(cfg)
     }
 
+    // dump partial models
     PARTIAL_MODEL.map(dirname => time(s"dump models to $dirname", {
       mkdir(dirname)
       for (algo <- cfg.spec.algos) {
