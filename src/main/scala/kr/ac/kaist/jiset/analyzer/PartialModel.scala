@@ -32,7 +32,29 @@ object PartialModel {
 
   // get partial models for an algorithm with a specific view
   def getModel(func: Function, body: Inst, view: View): Inst = {
-    body // TODO implement
+    // auxiliary function
+    def aux(pair: (Inst, Node)): Inst = pair match {
+      case (inst, entry: Entry) => aux(inst, cfg.next(entry))
+      case (inst @ IIf(cond, thenInst, elseInst), branch: Branch) => {
+        val np = NodePoint(branch, view)
+        val isThen = sem.thenBranches contains np
+        val isElse = sem.elseBranches contains np
+        val thenNode = cfg.thenNext(branch)
+        val elseNode = cfg.elseNext(branch)
+        lazy val newThen = aux(thenInst, thenNode)
+        lazy val newElse = aux(elseInst, elseNode)
+        (isThen, isElse) match {
+          case (true, false) => newThen
+          case (false, true) => newElse
+          case _ => IIf(cond, newThen, newElse)
+        }
+      }
+      case (ISeq(hd :: tl), node) => ISeq(aux(hd, node) :: tl)
+      case (inst, node) => inst
+    }
+
+    // final result
+    aux(body, func.entry)
   }
 
   // get string of a partial model

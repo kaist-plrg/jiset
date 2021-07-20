@@ -97,6 +97,7 @@ case class AbsType private (
       case (to, from) :: remain if from subsetOf set =>
         set --= from
         set += to
+        aux(remain)
       case _ :: remain if set.size >= 2 => aux(remain)
       case _ =>
     }

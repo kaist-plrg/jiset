@@ -46,6 +46,10 @@ lazy val test262ParseTest = taskKey[Unit]("Launch parse test262 tests (large)")
 lazy val test262EvalTest = taskKey[Unit]("Launch eval test262 tests (large)")
 lazy val test262ManualTest = taskKey[Unit]("Launch manual eval test262 tests (large)")
 
+// analyzer
+lazy val analyzerTest = taskKey[Unit]("Launch analyzer tests")
+lazy val analyzerJsonTest = taskKey[Unit]("Launch json analyzer tests (middle)")
+
 // jiset
 lazy val jiset = (project in file("."))
   .settings(
@@ -73,7 +77,6 @@ lazy val jiset = (project in file("."))
     test := (testOnly in Test).toTask(List(
       "*TinyTest",
       "*SmallTest",
-      "*MiddleTest",
     ).mkString(" ", " ", "")).value,
     // assembly setting
     test in assembly := {},
@@ -103,5 +106,8 @@ lazy val jiset = (project in file("."))
     // test262
     test262ParseTest := (testOnly in Test).toTask(" *.test262.Parse*Test").value,
     test262EvalTest := (testOnly in Test).toTask(" *.test262.Eval*Test").value,
-    test262ManualTest := (testOnly in Test).toTask(" *.test262.Manual*Test").value
+    test262ManualTest := (testOnly in Test).toTask(" *.test262.Manual*Test").value,
+    // js
+    analyzerTest := (testOnly in Test).toTask(" *.analyzer.*Test").value,
+    analyzerJsonTest := (testOnly in Test).toTask(" *.analyzer.Json*Test").value
   )
