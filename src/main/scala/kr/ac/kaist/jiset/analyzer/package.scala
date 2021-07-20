@@ -1,22 +1,33 @@
 package kr.ac.kaist.jiset
 
-import scala.Console.RED
+import kr.ac.kaist.jiset.analyzer.JsonProtocol._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
+import scala.Console.RED
 
 package object analyzer {
-  // initialization
-  def init(
+  // perform type analysis
+  private var alreadyAnalyzed: Boolean = false
+  def performTypeAnalysis(
     cfg: CFG,
-    _semOpt: Option[AbsSemantics] = None
+    fnameOpt: Option[String] = None
   ): Unit = {
+    // check whether already analyzed
+    if (alreadyAnalyzed) error(s"Trying to perform type analysis more than once")
+    alreadyAnalyzed = true
+
     // set CFG
     cfgOpt = Some(cfg)
 
     // set abstract semantics
-    semOpt = Some(_semOpt.getOrElse(AbsSemantics(AbsSemantics.initNpMap)))
+    semOpt = Some(fnameOpt.map(filename => time(
+      s"loading abstract semantics from $filename",
+      readJson[AbsSemantics](filename)
+    )._2).getOrElse {
+      AbsSemantics(AbsSemantics.initNpMap)
+    })
 
     // set worklist
     worklistOpt = Some(new StackWorklist(sem.npMap.keySet))
@@ -29,6 +40,9 @@ package object analyzer {
 
     // initialize type infos
     Type.infos
+
+    // perform type analysis
+    if (fnameOpt.isEmpty) AbsTransfer.compute
   }
 
   //////////////////////////////////////////////////////////////////////////////

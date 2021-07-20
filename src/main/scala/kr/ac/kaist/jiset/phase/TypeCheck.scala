@@ -19,17 +19,8 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, AbsSemantics] {
     jisetConfig: JISETConfig,
     config: TypeCheckConfig
   ): AbsSemantics = {
-    // get anaysis result
-    config.load match {
-      case Some(filename) => time(s"loading abstract semantics from $filename", {
-        val sem = readJson[AbsSemantics](filename)
-        init(cfg, Some(sem))
-      })
-      case None => {
-        init(cfg)
-        AbsTransfer.compute
-      }
-    }
+    // perform type anaysis
+    performTypeAnalysis(cfg, config.load)
 
     // dump partial models
     PARTIAL_MODEL.map(dirname => time(s"dump models to $dirname", {
