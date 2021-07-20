@@ -75,9 +75,13 @@ class WebREPL(override val st: State) extends Debugger {
     printNextTarget
   }
 
-  def getAlgo(): js.Array[String] = {
+  def getAlgo(opt: String): js.Array[String] = {
     st.context.algo match {
-      case Some(algo) => algo.code.toJSArray
+      case Some(algo) => opt match {
+        case "id" => js.Array(algo.name)
+        case "code" => algo.code.toJSArray
+        case _ => js.Array()
+      }
       case None => js.Array()
     }
   }

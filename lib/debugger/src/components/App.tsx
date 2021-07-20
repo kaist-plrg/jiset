@@ -85,7 +85,8 @@ const App = () => {
               <button onClick={handleDebugRun}>run</button>
             </div>
             <div className="app-algo">
-              {repl.current.getAlgo().map((algo: string) => <div>{algo}</div>)}
+              {repl.current.getAlgo("id").map((id: string) => <div>{"Current Algorithm: "+id}</div>)}
+              {repl.current.getAlgo("code").map((algo: string) => <div>{algo}</div>)}
             </div>
           </div>
         )}
