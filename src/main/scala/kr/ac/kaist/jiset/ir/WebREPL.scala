@@ -8,11 +8,16 @@ import scala.Console._
 import scala.collection.mutable.ArrayBuffer
 import scala.util.matching.Regex
 import scala.scalajs.js.annotation._
+import scala.scalajs.js
+import scala.scalajs.js.JSConverters._
 
 @JSExportTopLevel("WebREPL")
 @JSExportAll
 class WebREPL(override val st: State) extends Debugger {
   val detail = true
+
+  // print next target
+  private def printNextTarget: Unit = println(s"[NEXT] ${st.context.name}: ${interp.nextTarget}")
 
   def execute(line: String): Unit = {
     line.split("\\s+").toList match {
@@ -65,6 +70,15 @@ class WebREPL(override val st: State) extends Debugger {
 
       case cmd :: _ =>
         println(s"The command `$cmd` does not exist. (Try `help`)")
+    }
+
+    printNextTarget
+  }
+
+  def getAlgo(): js.Array[String] = {
+    st.context.algo match {
+      case Some(algo) => algo.code.toJSArray
+      case None => js.Array()
     }
   }
 }

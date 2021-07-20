@@ -84,6 +84,9 @@ const App = () => {
               <input type="text" value={debugLine} onChange={handleDebugLineChange} style={{ flex: 1 }}/>
               <button onClick={handleDebugRun}>run</button>
             </div>
+            <div className="app-algo">
+              {repl.current.getAlgo().map((algo: string) => <div>{algo}</div>)}
+            </div>
           </div>
         )}
       </div>
