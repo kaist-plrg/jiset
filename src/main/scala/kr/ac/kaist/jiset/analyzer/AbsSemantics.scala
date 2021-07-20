@@ -12,46 +12,29 @@ import scala.Console._
 import scala.util.matching.Regex
 import scala.annotation.tailrec
 
-object AbsSemantics {
-  // ECMAScript
-  type NP = NodePoint[_ <: Node]
-
+case class AbsSemantics(
   // internal map from control points to abstract states
-  var npMap: Map[NP, AbsState] = initNpMap
-  var rpMap: Map[ReturnPoint, AbsType] = Map()
+  var npMap: Map[NodePoint[_ <: Node], AbsState] = Map(),
+  var rpMap: Map[ReturnPoint, AbsType] = Map(),
 
   // internal map for reachable branches
-  var thenBranches: Set[NodePoint[Branch]] = Set()
-  var elseBranches: Set[NodePoint[Branch]] = Set()
+  var thenBranches: Set[NodePoint[Branch]] = Set(),
+  var elseBranches: Set[NodePoint[Branch]] = Set(),
 
   // internal map for return edges
-  var retEdges: Map[ReturnPoint, Set[(NodePoint[Call], String)]] = Map()
+  var retEdges: Map[ReturnPoint, Set[(NodePoint[Call], String)]] = Map(),
 
   // internal set of unknown variables with control points
-  var unknownVars: Set[(ControlPoint, String)] = Set()
+  var unknownVars: Set[(ControlPoint, String)] = Set(),
 
   // assertion control points
   var assertions: Map[ControlPoint, (AbsType, Expr)] = Map()
+) {
+  // load helpers
+  import AbsSemantics._
 
-  //////////////////////////////////////////////////////////////////////////////
-  // Helper Functions
-  //////////////////////////////////////////////////////////////////////////////
-  // conversion to analysis result
-  def toResult: AnalysisResult = AnalysisResult(
-    npMap, rpMap, thenBranches, elseBranches, retEdges,
-    unknownVars, assertions,
-  )
-
-  // load from analysis result
-  def load(result: AnalysisResult): Unit = {
-    this.npMap = result.npMap
-    this.rpMap = result.rpMap
-    this.thenBranches = result.thenBranches
-    this.elseBranches = result.elseBranches
-    this.retEdges = result.retEdges
-    this.unknownVars = result.unknownVars
-    this.assertions = result.assertions
-  }
+  // ECMAScript
+  type NP = NodePoint[_ <: Node]
 
   // get node points by id
   def getNodePointsById(uid: Int): Set[NP] =
@@ -244,6 +227,15 @@ object AbsSemantics {
   // get arguments
   def getArgs(head: SyntaxDirectedHead): List[AbsType] =
     getSyntaxAlgoTypes(head).map { case (_, ty) => ty.abs }
+}
+object AbsSemantics {
+  // initialization of node points with abstract states
+  def initNpMap: Map[NodePoint[_ <: Node], AbsState] = (for {
+    func <- cfg.funcs.toList
+    (tys, st) <- getAlgoTypes(func.algo)
+    view = View(tys)
+    cp = NodePoint(func.entry, view)
+  } yield cp -> st).toMap
 
   //////////////////////////////////////////////////////////////////////////////
   // Private Helper Functions
@@ -251,13 +243,26 @@ object AbsSemantics {
   private lazy val spec = cfg.spec
   private lazy val grammar = spec.grammar
 
-  // initialization of node points with abstract states
-  private def initNpMap: Map[NodePoint[_ <: Node], AbsState] = (for {
-    func <- cfg.funcs.toList
-    (tys, st) <- getAlgoTypes(func.algo)
-    view = View(tys)
-    cp = NodePoint(func.entry, view)
-  } yield cp -> st).toMap
+  // initial abstract state for syntax-directed algorithms
+  private def getAlgoTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
+    case (head: SyntaxDirectedHead) if isTarget(algo) => {
+      val types = getSyntaxAlgoTypes(head)
+      var st = AbsState.Empty
+      val tys = for {
+        (name, ty) <- types
+        _ = { st = st.define(name, ty.abs) }
+      } yield ty
+      List((tys, st))
+    }
+    case (head: BuiltinHead) if isTarget(algo) =>
+      val tys = Nil
+      var st = AbsState.Empty
+      st = st.define(THIS_PARAM, ESValueT)
+      st = st.define(ARGS_LIST, ListT(ESValueT))
+      st = st.define(NEW_TARGET, AbsType(NameT("Object"), AUndef))
+      List((tys, st))
+    case _ => Nil
+  }
 
   private def isTarget(algo: Algo): Boolean = (
     isTargetHead(algo.head) &&
@@ -283,9 +288,6 @@ object AbsSemantics {
   private def isRegex(algo: Algo): Boolean =
     algo.isAncestor(spec, "sec-regexp-regular-expression-objects") // 22.2 RegExp
 
-  private def isEarlyErrors(algo: Algo): Boolean =
-    algo.name.endsWith("EarlyErrors")
-
   private def getSyntaxAlgoTypes = {
     cached[SyntaxDirectedHead, List[(String, Type)]](head => {
       val prod = grammar.nameMap(head.lhsName)
@@ -303,26 +305,8 @@ object AbsSemantics {
     })
   }
 
-  // initial abstract state for syntax-directed algorithms
-  private def getAlgoTypes(algo: Algo): List[(List[Type], AbsState)] = algo.head match {
-    case (head: SyntaxDirectedHead) if isTarget(algo) => {
-      val types = getSyntaxAlgoTypes(head)
-      var st = AbsState.Empty
-      val tys = for {
-        (name, ty) <- types
-        _ = { st = st.define(name, ty.abs) }
-      } yield ty
-      List((tys, st))
-    }
-    case (head: BuiltinHead) if isTarget(algo) =>
-      val tys = Nil
-      var st = AbsState.Empty
-      st = st.define(THIS_PARAM, ESValueT)
-      st = st.define(ARGS_LIST, ListT(ESValueT))
-      st = st.define(NEW_TARGET, AbsType(NameT("Object"), AUndef))
-      List((tys, st))
-    case _ => Nil
-  }
+  private def isEarlyErrors(algo: Algo): Boolean =
+    algo.name.endsWith("EarlyErrors")
 
   // get types from abstract values
   private def getTypes(args: List[AbsType]): List[List[Type]] = {

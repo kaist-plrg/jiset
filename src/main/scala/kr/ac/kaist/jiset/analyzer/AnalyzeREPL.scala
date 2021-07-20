@@ -17,8 +17,6 @@ import scala.util.matching.Regex
 
 // analyze repl
 object AnalyzeREPL {
-  val sem = AbsSemantics
-
   // breakpoints
   private var continue = false
   private val breakpoints = ArrayBuffer[(String, String)]()

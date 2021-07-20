@@ -12,7 +12,7 @@ import kr.ac.kaist.jiset.util.JvmUseful._
 object PartialModel {
   // views for each function
   lazy val viewMap: Map[Function, List[View]] = {
-    AbsSemantics.rpMap.keySet.toList.groupBy(_.func).map {
+    sem.rpMap.keySet.toList.groupBy(_.func).map {
       case (func, rps) => func -> rps.map(_.view)
     }
   }

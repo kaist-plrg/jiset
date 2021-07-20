@@ -10,7 +10,7 @@ import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset._
 
 // TypeCheck phase
-case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
+case object TypeCheck extends Phase[CFG, TypeCheckConfig, AbsSemantics] {
   val name = "type-check"
   val help = "performs type anaysis for specifications."
 
@@ -18,16 +18,17 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
     cfg: CFG,
     jisetConfig: JISETConfig,
     config: TypeCheckConfig
-  ): Unit = {
+  ): AbsSemantics = {
     // get anaysis result
-    val result = config.load match {
-      case Some(filename) =>
-        val (_, result) = time(
-          s"loading type anaysis results from $filename",
-          readJson[AnalysisResult](filename)
-        )
-        load(cfg, result)
-      case None => analyze(cfg)
+    config.load match {
+      case Some(filename) => time(s"loading abstract semantics from $filename", {
+        val sem = readJson[AbsSemantics](filename)
+        init(cfg, Some(sem))
+      })
+      case None => {
+        init(cfg)
+        AbsTransfer.compute
+      }
     }
 
     // dump partial models
@@ -41,7 +42,10 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
     }))
 
     // dump in a JSON fomrat
-    config.json.map(dumpJson("type analysis results", result, _))
+    config.json.map(dumpJson("abstract semantics", sem, _))
+
+    // result
+    sem
   }
 
   def defaultConfig: TypeCheckConfig = TypeCheckConfig()
@@ -61,11 +65,11 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, Unit] {
     ("repl", BoolOption(c => REPL = true),
       "use analyze-repl."),
     ("partial-model", StrOption((c, s) => PARTIAL_MODEL = Some(s)),
-      "dump partial models using type check results."),
+      "dump partial models using type analysis results."),
     ("load", StrOption((c, s) => c.load = Some(s)),
-      "load type analysis results from JSON."),
+      "load abstract semantics from JSON."),
     ("json", StrOption((c, s) => c.json = Some(s)),
-      "dump type analysis results in a JSON format."),
+      "dump abstract semantics in a JSON format."),
   )
 }
 

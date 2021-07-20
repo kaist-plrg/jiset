@@ -14,9 +14,6 @@ object AbsTransfer {
   // result of abstract transfer
   import AbsState.monad._
 
-  // abstract semantics
-  val sem = AbsSemantics
-
   // initialize type infos
   Type.infos
 

@@ -8,9 +8,18 @@ import kr.ac.kaist.jiset.util.Useful._
 
 package object analyzer {
   // initialization
-  def init(cfg: CFG): Unit = {
+  def init(
+    cfg: CFG,
+    _semOpt: Option[AbsSemantics] = None
+  ): Unit = {
     // set CFG
-    _cfg = Some(cfg)
+    cfgOpt = Some(cfg)
+
+    // set abstract semantics
+    semOpt = Some(_semOpt.getOrElse(AbsSemantics(AbsSemantics.initNpMap)))
+
+    // set worklist
+    worklistOpt = Some(new StackWorklist(sem.npMap.keySet))
 
     // create log directory
     mkdir(ANALYZE_LOG_DIR)
@@ -22,42 +31,20 @@ package object analyzer {
     Type.infos
   }
 
-  // analyze with initialization
-  def analyze(cfg: CFG): AnalysisResult = {
-    // initialization
-    init(cfg)
-
-    // fixpoint computation
-    AbsTransfer.compute
-
-    // return analysis result
-    AbsSemantics.toResult
-  }
-
-  // load analysis result with initialization
-  def load(cfg: CFG, result: AnalysisResult): AnalysisResult = {
-    // initialization
-    init(cfg)
-
-    // load result
-    AbsSemantics.load(result)
-
-    // return analysis result
-    result
-  }
-
   //////////////////////////////////////////////////////////////////////////////
   // global data defined after initialization
   //////////////////////////////////////////////////////////////////////////////
   // CFG
-  private var _cfg: Option[CFG] = None
-  lazy val cfg: CFG = _cfg.getOrElse {
-    error("Please initialize CFG before performing type analysis.")
-  }
+  private var cfgOpt: Option[CFG] = None
+  lazy val cfg: CFG = get("CFG", cfgOpt)
+
+  // abstract semantics
+  private var semOpt: Option[AbsSemantics] = None
+  lazy val sem: AbsSemantics = get("AbsSemantics", semOpt)
 
   // worklists
-  lazy val worklist: Worklist[ControlPoint] =
-    new StackWorklist(AbsSemantics.npMap.keySet)
+  private var worklistOpt: Option[Worklist[ControlPoint]] = None
+  lazy val worklist: Worklist[ControlPoint] = get("Worklist", worklistOpt)
 
   //////////////////////////////////////////////////////////////////////////////
   // global mutable data
@@ -79,6 +66,11 @@ package object analyzer {
   //////////////////////////////////////////////////////////////////////////////
   // global helpers
   //////////////////////////////////////////////////////////////////////////////
+  // get global data
+  private def get[T](name: String, dataOpt: Option[T]): T = dataOpt.getOrElse {
+    error(s"Please initialize $name before performing type analysis.")
+  }
+
   // print writers
   val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
   val nfErrors = getPrintWriter(s"$ANALYZE_LOG_DIR/errors")
@@ -112,7 +104,7 @@ package object analyzer {
     if (!(set contains msg)) {
       alarmMap += key -> (set + msg)
       val errMsg = s"[Bug] $msg @ $cpStr"
-      val func = AbsSemantics.funcOf(cp)
+      val func = sem.funcOf(cp)
       if (error && func.complete) {
         val key = func.uid
         val set = errorMap.getOrElse(key, Set())

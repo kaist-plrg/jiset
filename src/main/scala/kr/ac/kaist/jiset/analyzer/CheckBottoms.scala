@@ -5,8 +5,8 @@ import kr.ac.kaist.jiset.util.Useful._
 // check variables in env, list/map objects in heap has bottoms
 object CheckBottoms {
   def apply(cp: ControlPoint): Unit = cp match {
-    case (np: NodePoint[_]) => this(AbsSemantics(np))
-    case rp: ReturnPoint => this(AbsSemantics(rp), "a return value")
+    case (np: NodePoint[_]) => this(sem(np))
+    case rp: ReturnPoint => this(sem(rp), "a return value")
   }
 
   def apply(st: AbsState): Unit =

@@ -5,14 +5,14 @@ import io.circe.syntax._
 
 object JsonProtocol {
   //////////////////////////////////////////////////////////////////////////////
-  // AnalysisResult
+  // AbsSemantics
   //////////////////////////////////////////////////////////////////////////////
-  implicit lazy val AnalysisResultDecoder: Decoder[AnalysisResult] =
-    new Decoder[AnalysisResult] {
-      final def apply(c: HCursor): Decoder.Result[AnalysisResult] = Right(null)
+  implicit lazy val AbsSemanticsDecoder: Decoder[AbsSemantics] =
+    new Decoder[AbsSemantics] {
+      final def apply(c: HCursor): Decoder.Result[AbsSemantics] = Right(null)
     }
-  implicit lazy val AnalysisResultEncoder: Encoder[AnalysisResult] =
-    new Encoder[AnalysisResult] {
-      final def apply(result: AnalysisResult): Json = Json.fromString("")
+  implicit lazy val AbsSemanticsEncoder: Encoder[AbsSemantics] =
+    new Encoder[AbsSemantics] {
+      final def apply(result: AbsSemantics): Json = Json.fromString("")
     }
 }

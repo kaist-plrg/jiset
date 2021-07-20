@@ -1,6 +1,5 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.analyzer.AbsSemantics._
 import kr.ac.kaist.jiset.{ LINE_SEP, LOG, ANALYZE_LOG_DIR }
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.JvmUseful._
@@ -54,12 +53,12 @@ object AnalysisStat {
 
   // dump stats
   def dump(): Unit = {
-    val (numFunc, numAlgo, numRp) = numOfFuncAlgoRp
+    val (numFunc, numAlgo, numRp) = sem.numOfFuncAlgoRp
     val analTime = analysisTime
 
     // dump summary
     log(
-      f"$iter%,3d", f"$analTime%,3d", worklist.size, AbsSemantics.size,
+      f"$iter%,3d", f"$analTime%,3d", worklist.size, sem.size,
       f"$avg%.2f", numRp, numFunc, numAlgo, numError, numWarning
     )
 
@@ -75,11 +74,11 @@ object AnalysisStat {
       parseTime,
       checkerTime,
       analTime,
-      AbsSemantics.rpMap.keySet.map(_.func).toSet.filter(_.algo.isComplete).size,
+      sem.rpMap.keySet.map(_.func).toSet.filter(_.algo.isComplete).size,
       numFunc,
-      npMap.size,
+      sem.npMap.size,
       numRp,
-      npMap.size + numRp
+      sem.npMap.size + numRp
     )
     dumpFile(evalItems.map(_.toString).mkString("\t"), s"$ANALYZE_LOG_DIR/stat_summary")
   }

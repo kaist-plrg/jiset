@@ -3,7 +3,6 @@ package kr.ac.kaist.jiset.cfg
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer._
-import kr.ac.kaist.jiset.analyzer.AbsSemantics._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender
@@ -23,8 +22,8 @@ class DotPrinter {
     var visited = Set[(Function, View)]()
     def aux(rp: ReturnPoint, depth: Int): Unit = if (depth > 0) {
       val entry = NodePoint(rp.func.entry, rp.view)
-      for ((np, _) <- getRetEdges(rp)) {
-        val func = funcOf(np)
+      for ((np, _) <- sem.getRetEdges(rp)) {
+        val func = sem.funcOf(np)
         val pair = (func, np.view)
         if (!(visited contains pair)) {
           visited += pair
@@ -47,7 +46,7 @@ class DotPrinter {
     // print functions
     (cur, depth) match {
       case (Some(cp), Some(depth)) =>
-        val func = funcOf(cp)
+        val func = sem.funcOf(cp)
         val view = cp.view
         doCluster((func, view), cur)
 
@@ -56,11 +55,11 @@ class DotPrinter {
         showPrev(rp, depth)
       case _ =>
         val funcs: Set[(Function, View)] =
-          getAllControlPoints.map(cp => (funcOf(cp), cp.view))
+          sem.getAllControlPoints.map(cp => (sem.funcOf(cp), cp.view))
         funcs.foreach(doCluster(_, cur))
 
         // print call edges
-        retEdges.foreach {
+        sem.retEdges.foreach {
           case (ReturnPoint(func, rv), calls) => {
             val entry = NodePoint(func.entry, rv)
             for ((np, _) <- calls) {
@@ -114,7 +113,7 @@ class DotPrinter {
       case (true, Some(view)) =>
         val fromNP = NodePoint(from, view)
         val toNP = NodePoint(to, view)
-        if (AbsSemantics(fromNP).isBottom || AbsSemantics(toNP).isBottom) NON_REACH
+        if (sem(fromNP).isBottom || sem(toNP).isBottom) NON_REACH
         else REACH
     }
 
@@ -143,7 +142,7 @@ class DotPrinter {
     val colors = {
       if (Some(np) == cur) (REACH, CURRENT)
       else if (worklist has np) (REACH, IN_WORKLIST)
-      else if (!AbsSemantics(np).isBottom) (REACH, NORMAL)
+      else if (!sem(np).isBottom) (REACH, NORMAL)
       else (NON_REACH, NORMAL)
     }
     doNode(node, np2str(np), colors, true)

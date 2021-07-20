@@ -97,11 +97,11 @@ case class AbsState(
     val t = AbsType(local ++ global)
     val needCheck = check || (arg && !names.contains(x))
     if (needCheck && t.isMustAbsent && !isTemporalId(x)) {
-      AbsSemantics.unknownVars += ((alarmCP, x))
+      sem.unknownVars += ((alarmCP, x))
       if (cfg.spec.grammar.nameMap.keySet contains x) AstT(x)
       else AAbsent
     } else {
-      AbsSemantics.unknownVars -= ((alarmCP, x))
+      sem.unknownVars -= ((alarmCP, x))
       t
     }
   }

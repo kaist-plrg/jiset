@@ -147,8 +147,8 @@ case object CmdBuildCFG extends Command("build-cfg", CmdExtract >> BuildCFG) {
 // type-check
 case object CmdTypeCheck extends Command("type-check", CmdBuildCFG >> TypeCheck) {
   def help = "performs type anaysis for specifications."
-  override def display(unit: Unit): Unit = {
-    println(AbsSemantics.getString(CYAN))
-    println(AbsSemantics.getInfo)
+  override def display(sem: AbsSemantics): Unit = {
+    println(sem.getString(CYAN))
+    println(sem.getInfo)
   }
 }
