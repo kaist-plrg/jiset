@@ -14,7 +14,7 @@ import scala.annotation.tailrec
 
 case class AbsSemantics(
   // internal map from control points to abstract states
-  var npMap: Map[NodePoint[_ <: Node], AbsState] = Map(),
+  var npMap: Map[NodePoint[Node], AbsState] = Map(),
   var rpMap: Map[ReturnPoint, AbsType] = Map(),
 
   // internal map for reachable branches
@@ -34,7 +34,7 @@ case class AbsSemantics(
   import AbsSemantics._
 
   // ECMAScript
-  type NP = NodePoint[_ <: Node]
+  type NP = NodePoint[Node]
 
   // get node points by id
   def getNodePointsById(uid: Int): Set[NP] =
@@ -96,7 +96,7 @@ case class AbsSemantics(
   def size: Int = npMap.size + rpMap.size
 
   // update internal map
-  def +=[T <: Node](pair: (NodePoint[T], AbsState)): Boolean = {
+  def +=(pair: (NP, AbsState)): Boolean = {
     val (np, newSt) = pair
     val oldSt = this(np)
     if (!(newSt ⊑ oldSt)) {

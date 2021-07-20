@@ -5,11 +5,12 @@ import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.algorithm.token._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.spec.grammar.token.{ Token => GToken, _ }
+import kr.ac.kaist.jiset.util.BasicJsonProtocol
 import cats.syntax.functor._
 import io.circe._, io.circe.generic.semiauto._, io.circe.generic.auto._
 import io.circe.syntax._
 
-object JsonProtocol {
+object JsonProtocol extends BasicJsonProtocol {
   //////////////////////////////////////////////////////////////////////////////
   // Grammar
   //////////////////////////////////////////////////////////////////////////////

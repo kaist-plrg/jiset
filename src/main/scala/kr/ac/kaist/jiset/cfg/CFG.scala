@@ -25,6 +25,7 @@ class CFG(val spec: ECMAScript) {
   }).toMap
   val fidMap: Map[Int, Function] = (for (f <- funcs) yield f.uid -> f).toMap
   val algo2fid: Map[String, Int] = (for (f <- funcs) yield f.name -> f.uid).toMap
+  val jsonProtocol: JsonProtocol = new JsonProtocol(this)
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
