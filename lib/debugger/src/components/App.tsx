@@ -8,7 +8,7 @@ const App = () => {
   const [log, setLog] = useState<string>("");
 
   useEffect(() => {
-    fetch('./src/data/spec.json')
+    fetch('./src/lib/spec.json')
       .then(res => res.text())
       .then(setSpec);
   }, []);
