@@ -2,8 +2,31 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait AsyncGeneratorDeclaration extends AST { val kind: String = "AsyncGeneratorDeclaration" }
+
+object AsyncGeneratorDeclaration {
+  def apply(data: Json): AsyncGeneratorDeclaration = AST(data) match {
+    case Some(compressed) => AsyncGeneratorDeclaration(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): AsyncGeneratorDeclaration = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(BindingIdentifier(_)).get
+        val x1 = subs(1).map(FormalParameters(_)).get
+        val x2 = subs(2).map(AsyncGeneratorBody(_)).get
+        AsyncGeneratorDeclaration0(x0, x1, x2, params, span)
+      case 1 =>
+        val x0 = subs(0).map(FormalParameters(_)).get
+        val x1 = subs(1).map(AsyncGeneratorBody(_)).get
+        AsyncGeneratorDeclaration1(x0, x1, params, span)
+    }
+  }
+}
 
 case class AsyncGeneratorDeclaration0(x4: BindingIdentifier, x6: FormalParameters, x9: AsyncGeneratorBody, parserParams: List[Boolean], span: Span) extends AsyncGeneratorDeclaration {
   x4.parent = Some(this)

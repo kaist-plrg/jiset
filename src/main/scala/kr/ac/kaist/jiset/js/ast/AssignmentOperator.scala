@@ -2,8 +2,46 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait AssignmentOperator extends AST { val kind: String = "AssignmentOperator" }
+
+object AssignmentOperator {
+  def apply(data: Json): AssignmentOperator = AST(data) match {
+    case Some(compressed) => AssignmentOperator(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): AssignmentOperator = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        AssignmentOperator0(params, span)
+      case 1 =>
+        AssignmentOperator1(params, span)
+      case 2 =>
+        AssignmentOperator2(params, span)
+      case 3 =>
+        AssignmentOperator3(params, span)
+      case 4 =>
+        AssignmentOperator4(params, span)
+      case 5 =>
+        AssignmentOperator5(params, span)
+      case 6 =>
+        AssignmentOperator6(params, span)
+      case 7 =>
+        AssignmentOperator7(params, span)
+      case 8 =>
+        AssignmentOperator8(params, span)
+      case 9 =>
+        AssignmentOperator9(params, span)
+      case 10 =>
+        AssignmentOperator10(params, span)
+      case 11 =>
+        AssignmentOperator11(params, span)
+    }
+  }
+}
 
 case class AssignmentOperator0(parserParams: List[Boolean], span: Span) extends AssignmentOperator {
   def idx: Int = 0

@@ -2,8 +2,30 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait ObjectLiteral extends AST { val kind: String = "ObjectLiteral" }
+
+object ObjectLiteral {
+  def apply(data: Json): ObjectLiteral = AST(data) match {
+    case Some(compressed) => ObjectLiteral(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): ObjectLiteral = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        ObjectLiteral0(params, span)
+      case 1 =>
+        val x0 = subs(0).map(PropertyDefinitionList(_)).get
+        ObjectLiteral1(x0, params, span)
+      case 2 =>
+        val x0 = subs(0).map(PropertyDefinitionList(_)).get
+        ObjectLiteral2(x0, params, span)
+    }
+  }
+}
 
 case class ObjectLiteral0(parserParams: List[Boolean], span: Span) extends ObjectLiteral {
   def idx: Int = 0

@@ -2,8 +2,32 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait ArrayLiteral extends AST { val kind: String = "ArrayLiteral" }
+
+object ArrayLiteral {
+  def apply(data: Json): ArrayLiteral = AST(data) match {
+    case Some(compressed) => ArrayLiteral(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): ArrayLiteral = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(Elision(_))
+        ArrayLiteral0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(ElementList(_)).get
+        ArrayLiteral1(x0, params, span)
+      case 2 =>
+        val x0 = subs(0).map(ElementList(_)).get
+        val x1 = subs(1).map(Elision(_))
+        ArrayLiteral2(x0, x1, params, span)
+    }
+  }
+}
 
 case class ArrayLiteral0(x1: Option[Elision], parserParams: List[Boolean], span: Span) extends ArrayLiteral {
   x1.foreach((m) => m.parent = Some(this))

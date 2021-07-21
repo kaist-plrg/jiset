@@ -2,8 +2,60 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait PrimaryExpression extends AST { val kind: String = "PrimaryExpression" }
+
+object PrimaryExpression {
+  def apply(data: Json): PrimaryExpression = AST(data) match {
+    case Some(compressed) => PrimaryExpression(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): PrimaryExpression = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        PrimaryExpression0(params, span)
+      case 1 =>
+        val x0 = subs(0).map(IdentifierReference(_)).get
+        PrimaryExpression1(x0, params, span)
+      case 2 =>
+        val x0 = subs(0).map(Literal(_)).get
+        PrimaryExpression2(x0, params, span)
+      case 3 =>
+        val x0 = subs(0).map(ArrayLiteral(_)).get
+        PrimaryExpression3(x0, params, span)
+      case 4 =>
+        val x0 = subs(0).map(ObjectLiteral(_)).get
+        PrimaryExpression4(x0, params, span)
+      case 5 =>
+        val x0 = subs(0).map(FunctionExpression(_)).get
+        PrimaryExpression5(x0, params, span)
+      case 6 =>
+        val x0 = subs(0).map(ClassExpression(_)).get
+        PrimaryExpression6(x0, params, span)
+      case 7 =>
+        val x0 = subs(0).map(GeneratorExpression(_)).get
+        PrimaryExpression7(x0, params, span)
+      case 8 =>
+        val x0 = subs(0).map(AsyncFunctionExpression(_)).get
+        PrimaryExpression8(x0, params, span)
+      case 9 =>
+        val x0 = subs(0).map(AsyncGeneratorExpression(_)).get
+        PrimaryExpression9(x0, params, span)
+      case 10 =>
+        val x0 = subs(0).map(Lexical(_)).get
+        PrimaryExpression10(x0, params, span)
+      case 11 =>
+        val x0 = subs(0).map(TemplateLiteral(_)).get
+        PrimaryExpression11(x0, params, span)
+      case 12 =>
+        val x0 = subs(0).map(CoverParenthesizedExpressionAndArrowParameterList(_)).get
+        PrimaryExpression12(x0, params, span)
+    }
+  }
+}
 
 case class PrimaryExpression0(parserParams: List[Boolean], span: Span) extends PrimaryExpression {
   def idx: Int = 0

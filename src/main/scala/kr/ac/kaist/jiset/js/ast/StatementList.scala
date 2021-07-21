@@ -2,8 +2,29 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait StatementList extends AST { val kind: String = "StatementList" }
+
+object StatementList {
+  def apply(data: Json): StatementList = AST(data) match {
+    case Some(compressed) => StatementList(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): StatementList = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(StatementListItem(_)).get
+        StatementList0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(StatementList(_)).get
+        val x1 = subs(1).map(StatementListItem(_)).get
+        StatementList1(x0, x1, params, span)
+    }
+  }
+}
 
 case class StatementList0(x0: StatementListItem, parserParams: List[Boolean], span: Span) extends StatementList {
   x0.parent = Some(this)

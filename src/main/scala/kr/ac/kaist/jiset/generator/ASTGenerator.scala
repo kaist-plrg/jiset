@@ -18,6 +18,7 @@ case class ASTGenerator(grammar: Grammar) {
     val name = lhs.name
     val nf = getPrintWriter(s"$SRC_DIR/js/ast/$name.scala")
     genTrait(nf, name, rhsList)
+    genObj(nf, name, rhsList)
     for ((rhs, i) <- rhsList.zipWithIndex) genClass(nf, name, rhs, i)
     nf.close()
   }
@@ -28,8 +29,44 @@ case class ASTGenerator(grammar: Grammar) {
     nf.println
     nf.println(s"""import $PACKAGE_NAME.ir._""")
     nf.println(s"""import $PACKAGE_NAME.util.Span""")
+    nf.println(s"""import $PACKAGE_NAME.util.Useful._""")
+    nf.println(s"""import io.circe._, io.circe.syntax._""")
     nf.println
     nf.println(s"""trait $name extends AST { val kind: String = "$name" }""")
+  }
+
+  // generate object for Lhs
+  private def genObj(nf: PrintWriter, name: String, rhsList: List[Rhs]): Unit = {
+    def genCase(rhs: Rhs, idx: Int): Unit = {
+      val NTs = for {
+        (nt, i) <- rhs.getNTs.zipWithIndex
+        ntName = if (lexNames contains nt.name) "Lexical" else nt.name
+      } yield (s"x$i", i, ntName, if (nt.optional) "" else ".get")
+      val NTArgsStr = NTs match {
+        case Nil => ""
+        case _ => NTs.map(_._1).mkString(", ") + ", "
+      }
+
+      nf.println(s"""      case $idx =>""")
+      NTs.foreach {
+        case (varName, i, ntName, opt) =>
+          nf.println(s"""        val $varName = subs($i).map($ntName(_))$opt""")
+      }
+      nf.println(s"""        $name$idx(${NTArgsStr}params, span)""")
+    }
+    nf.println
+    nf.println(s"""object $name {""")
+    nf.println(s"""  def apply(data: Json): $name = AST(data) match {""")
+    nf.println(s"""    case Some(compressed) => $name(compressed)""")
+    nf.println(s"""    case None => error("invalid AST data: $$data")""")
+    nf.println(s"""  }""")
+    nf.println(s"""  def apply(data: AST.Compressed): $name = {""")
+    nf.println(s"""    val AST.NormalCompressed(idx, subs, params, span) = data""")
+    nf.println(s"""    idx match {""")
+    for ((rhs, i) <- rhsList.zipWithIndex) genCase(rhs, i)
+    nf.println(s"""    }""")
+    nf.println(s"""  }""")
+    nf.println(s"""}""")
   }
 
   // generate case classes for Rhs
@@ -101,14 +138,6 @@ case class ASTGenerator(grammar: Grammar) {
     (token, i) <- rhs.tokens.zipWithIndex
     paramType = getType(token)
   } yield if (lexNames contains paramType) "Lexical" else paramType
-
-  private def getConstructor(token: Token, x: String): Option[String] = optional(token match {
-    case NonTerminal(name, _, _) if lexNames contains name => s"""lex("$name", $x)"""
-    case NonTerminal(name, _, true) => s"opt($x, $name.apply)"
-    case NonTerminal(name, _, false) => s"$name($x)"
-    case ButNot(NonTerminal(name, _, _), List(NonTerminal(notName, _, _))) =>
-      s"""lex("($name \\\\ ($notName))", $x)"""
-  })
 
   private def getType(token: Token): String = token match {
     case NonTerminal(name, _, optional) => if (optional) s"Option[$name]" else name

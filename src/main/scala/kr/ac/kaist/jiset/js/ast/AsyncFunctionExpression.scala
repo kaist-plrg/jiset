@@ -2,8 +2,27 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait AsyncFunctionExpression extends AST { val kind: String = "AsyncFunctionExpression" }
+
+object AsyncFunctionExpression {
+  def apply(data: Json): AsyncFunctionExpression = AST(data) match {
+    case Some(compressed) => AsyncFunctionExpression(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): AsyncFunctionExpression = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(BindingIdentifier(_))
+        val x1 = subs(1).map(FormalParameters(_)).get
+        val x2 = subs(2).map(AsyncFunctionBody(_)).get
+        AsyncFunctionExpression0(x0, x1, x2, params, span)
+    }
+  }
+}
 
 case class AsyncFunctionExpression0(x3: Option[BindingIdentifier], x5: FormalParameters, x8: AsyncFunctionBody, parserParams: List[Boolean], span: Span) extends AsyncFunctionExpression {
   x3.foreach((m) => m.parent = Some(this))

@@ -2,8 +2,30 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait NamedExports extends AST { val kind: String = "NamedExports" }
+
+object NamedExports {
+  def apply(data: Json): NamedExports = AST(data) match {
+    case Some(compressed) => NamedExports(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): NamedExports = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        NamedExports0(params, span)
+      case 1 =>
+        val x0 = subs(0).map(ExportsList(_)).get
+        NamedExports1(x0, params, span)
+      case 2 =>
+        val x0 = subs(0).map(ExportsList(_)).get
+        NamedExports2(x0, params, span)
+    }
+  }
+}
 
 case class NamedExports0(parserParams: List[Boolean], span: Span) extends NamedExports {
   def idx: Int = 0

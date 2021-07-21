@@ -2,8 +2,25 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait AssignmentRestElement extends AST { val kind: String = "AssignmentRestElement" }
+
+object AssignmentRestElement {
+  def apply(data: Json): AssignmentRestElement = AST(data) match {
+    case Some(compressed) => AssignmentRestElement(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): AssignmentRestElement = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(DestructuringAssignmentTarget(_)).get
+        AssignmentRestElement0(x0, params, span)
+    }
+  }
+}
 
 case class AssignmentRestElement0(x1: DestructuringAssignmentTarget, parserParams: List[Boolean], span: Span) extends AssignmentRestElement {
   x1.parent = Some(this)

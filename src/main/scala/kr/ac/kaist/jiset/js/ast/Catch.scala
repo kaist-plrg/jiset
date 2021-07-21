@@ -2,8 +2,29 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait Catch extends AST { val kind: String = "Catch" }
+
+object Catch {
+  def apply(data: Json): Catch = AST(data) match {
+    case Some(compressed) => Catch(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): Catch = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(CatchParameter(_)).get
+        val x1 = subs(1).map(Block(_)).get
+        Catch0(x0, x1, params, span)
+      case 1 =>
+        val x0 = subs(0).map(Block(_)).get
+        Catch1(x0, params, span)
+    }
+  }
+}
 
 case class Catch0(x2: CatchParameter, x4: Block, parserParams: List[Boolean], span: Span) extends Catch {
   x2.parent = Some(this)

@@ -2,8 +2,64 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait Statement extends AST { val kind: String = "Statement" }
+
+object Statement {
+  def apply(data: Json): Statement = AST(data) match {
+    case Some(compressed) => Statement(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): Statement = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(BlockStatement(_)).get
+        Statement0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(VariableStatement(_)).get
+        Statement1(x0, params, span)
+      case 2 =>
+        val x0 = subs(0).map(EmptyStatement(_)).get
+        Statement2(x0, params, span)
+      case 3 =>
+        val x0 = subs(0).map(ExpressionStatement(_)).get
+        Statement3(x0, params, span)
+      case 4 =>
+        val x0 = subs(0).map(IfStatement(_)).get
+        Statement4(x0, params, span)
+      case 5 =>
+        val x0 = subs(0).map(BreakableStatement(_)).get
+        Statement5(x0, params, span)
+      case 6 =>
+        val x0 = subs(0).map(ContinueStatement(_)).get
+        Statement6(x0, params, span)
+      case 7 =>
+        val x0 = subs(0).map(BreakStatement(_)).get
+        Statement7(x0, params, span)
+      case 8 =>
+        val x0 = subs(0).map(ReturnStatement(_)).get
+        Statement8(x0, params, span)
+      case 9 =>
+        val x0 = subs(0).map(WithStatement(_)).get
+        Statement9(x0, params, span)
+      case 10 =>
+        val x0 = subs(0).map(LabelledStatement(_)).get
+        Statement10(x0, params, span)
+      case 11 =>
+        val x0 = subs(0).map(ThrowStatement(_)).get
+        Statement11(x0, params, span)
+      case 12 =>
+        val x0 = subs(0).map(TryStatement(_)).get
+        Statement12(x0, params, span)
+      case 13 =>
+        val x0 = subs(0).map(DebuggerStatement(_)).get
+        Statement13(x0, params, span)
+    }
+  }
+}
 
 case class Statement0(x0: BlockStatement, parserParams: List[Boolean], span: Span) extends Statement {
   x0.parent = Some(this)

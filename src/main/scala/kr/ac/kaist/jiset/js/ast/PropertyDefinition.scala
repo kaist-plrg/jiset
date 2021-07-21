@@ -2,8 +2,38 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait PropertyDefinition extends AST { val kind: String = "PropertyDefinition" }
+
+object PropertyDefinition {
+  def apply(data: Json): PropertyDefinition = AST(data) match {
+    case Some(compressed) => PropertyDefinition(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): PropertyDefinition = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(IdentifierReference(_)).get
+        PropertyDefinition0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(CoverInitializedName(_)).get
+        PropertyDefinition1(x0, params, span)
+      case 2 =>
+        val x0 = subs(0).map(PropertyName(_)).get
+        val x1 = subs(1).map(AssignmentExpression(_)).get
+        PropertyDefinition2(x0, x1, params, span)
+      case 3 =>
+        val x0 = subs(0).map(MethodDefinition(_)).get
+        PropertyDefinition3(x0, params, span)
+      case 4 =>
+        val x0 = subs(0).map(AssignmentExpression(_)).get
+        PropertyDefinition4(x0, params, span)
+    }
+  }
+}
 
 case class PropertyDefinition0(x0: IdentifierReference, parserParams: List[Boolean], span: Span) extends PropertyDefinition {
   x0.parent = Some(this)

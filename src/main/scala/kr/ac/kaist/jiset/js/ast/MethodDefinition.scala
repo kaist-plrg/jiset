@@ -2,8 +2,45 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait MethodDefinition extends AST { val kind: String = "MethodDefinition" }
+
+object MethodDefinition {
+  def apply(data: Json): MethodDefinition = AST(data) match {
+    case Some(compressed) => MethodDefinition(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): MethodDefinition = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(PropertyName(_)).get
+        val x1 = subs(1).map(UniqueFormalParameters(_)).get
+        val x2 = subs(2).map(FunctionBody(_)).get
+        MethodDefinition0(x0, x1, x2, params, span)
+      case 1 =>
+        val x0 = subs(0).map(GeneratorMethod(_)).get
+        MethodDefinition1(x0, params, span)
+      case 2 =>
+        val x0 = subs(0).map(AsyncMethod(_)).get
+        MethodDefinition2(x0, params, span)
+      case 3 =>
+        val x0 = subs(0).map(AsyncGeneratorMethod(_)).get
+        MethodDefinition3(x0, params, span)
+      case 4 =>
+        val x0 = subs(0).map(PropertyName(_)).get
+        val x1 = subs(1).map(FunctionBody(_)).get
+        MethodDefinition4(x0, x1, params, span)
+      case 5 =>
+        val x0 = subs(0).map(PropertyName(_)).get
+        val x1 = subs(1).map(PropertySetParameterList(_)).get
+        val x2 = subs(2).map(FunctionBody(_)).get
+        MethodDefinition5(x0, x1, x2, params, span)
+    }
+  }
+}
 
 case class MethodDefinition0(x0: PropertyName, x2: UniqueFormalParameters, x5: FunctionBody, parserParams: List[Boolean], span: Span) extends MethodDefinition {
   x0.parent = Some(this)

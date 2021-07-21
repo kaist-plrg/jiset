@@ -2,8 +2,50 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait OptionalChain extends AST { val kind: String = "OptionalChain" }
+
+object OptionalChain {
+  def apply(data: Json): OptionalChain = AST(data) match {
+    case Some(compressed) => OptionalChain(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): OptionalChain = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(Arguments(_)).get
+        OptionalChain0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(Expression(_)).get
+        OptionalChain1(x0, params, span)
+      case 2 =>
+        val x0 = subs(0).map(Lexical(_)).get
+        OptionalChain2(x0, params, span)
+      case 3 =>
+        val x0 = subs(0).map(TemplateLiteral(_)).get
+        OptionalChain3(x0, params, span)
+      case 4 =>
+        val x0 = subs(0).map(OptionalChain(_)).get
+        val x1 = subs(1).map(Arguments(_)).get
+        OptionalChain4(x0, x1, params, span)
+      case 5 =>
+        val x0 = subs(0).map(OptionalChain(_)).get
+        val x1 = subs(1).map(Expression(_)).get
+        OptionalChain5(x0, x1, params, span)
+      case 6 =>
+        val x0 = subs(0).map(OptionalChain(_)).get
+        val x1 = subs(1).map(Lexical(_)).get
+        OptionalChain6(x0, x1, params, span)
+      case 7 =>
+        val x0 = subs(0).map(OptionalChain(_)).get
+        val x1 = subs(1).map(TemplateLiteral(_)).get
+        OptionalChain7(x0, x1, params, span)
+    }
+  }
+}
 
 case class OptionalChain0(x1: Arguments, parserParams: List[Boolean], span: Span) extends OptionalChain {
   x1.parent = Some(this)

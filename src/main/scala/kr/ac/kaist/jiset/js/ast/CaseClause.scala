@@ -2,8 +2,26 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait CaseClause extends AST { val kind: String = "CaseClause" }
+
+object CaseClause {
+  def apply(data: Json): CaseClause = AST(data) match {
+    case Some(compressed) => CaseClause(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): CaseClause = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(Expression(_)).get
+        val x1 = subs(1).map(StatementList(_))
+        CaseClause0(x0, x1, params, span)
+    }
+  }
+}
 
 case class CaseClause0(x1: Expression, x3: Option[StatementList], parserParams: List[Boolean], span: Span) extends CaseClause {
   x1.parent = Some(this)

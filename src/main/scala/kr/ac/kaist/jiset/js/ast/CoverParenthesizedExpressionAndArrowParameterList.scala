@@ -2,8 +2,44 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait CoverParenthesizedExpressionAndArrowParameterList extends AST { val kind: String = "CoverParenthesizedExpressionAndArrowParameterList" }
+
+object CoverParenthesizedExpressionAndArrowParameterList {
+  def apply(data: Json): CoverParenthesizedExpressionAndArrowParameterList = AST(data) match {
+    case Some(compressed) => CoverParenthesizedExpressionAndArrowParameterList(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): CoverParenthesizedExpressionAndArrowParameterList = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(Expression(_)).get
+        CoverParenthesizedExpressionAndArrowParameterList0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(Expression(_)).get
+        CoverParenthesizedExpressionAndArrowParameterList1(x0, params, span)
+      case 2 =>
+        CoverParenthesizedExpressionAndArrowParameterList2(params, span)
+      case 3 =>
+        val x0 = subs(0).map(BindingIdentifier(_)).get
+        CoverParenthesizedExpressionAndArrowParameterList3(x0, params, span)
+      case 4 =>
+        val x0 = subs(0).map(BindingPattern(_)).get
+        CoverParenthesizedExpressionAndArrowParameterList4(x0, params, span)
+      case 5 =>
+        val x0 = subs(0).map(Expression(_)).get
+        val x1 = subs(1).map(BindingIdentifier(_)).get
+        CoverParenthesizedExpressionAndArrowParameterList5(x0, x1, params, span)
+      case 6 =>
+        val x0 = subs(0).map(Expression(_)).get
+        val x1 = subs(1).map(BindingPattern(_)).get
+        CoverParenthesizedExpressionAndArrowParameterList6(x0, x1, params, span)
+    }
+  }
+}
 
 case class CoverParenthesizedExpressionAndArrowParameterList0(x1: Expression, parserParams: List[Boolean], span: Span) extends CoverParenthesizedExpressionAndArrowParameterList {
   x1.parent = Some(this)

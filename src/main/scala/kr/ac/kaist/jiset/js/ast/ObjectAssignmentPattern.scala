@@ -2,8 +2,34 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait ObjectAssignmentPattern extends AST { val kind: String = "ObjectAssignmentPattern" }
+
+object ObjectAssignmentPattern {
+  def apply(data: Json): ObjectAssignmentPattern = AST(data) match {
+    case Some(compressed) => ObjectAssignmentPattern(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): ObjectAssignmentPattern = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        ObjectAssignmentPattern0(params, span)
+      case 1 =>
+        val x0 = subs(0).map(AssignmentRestProperty(_)).get
+        ObjectAssignmentPattern1(x0, params, span)
+      case 2 =>
+        val x0 = subs(0).map(AssignmentPropertyList(_)).get
+        ObjectAssignmentPattern2(x0, params, span)
+      case 3 =>
+        val x0 = subs(0).map(AssignmentPropertyList(_)).get
+        val x1 = subs(1).map(AssignmentRestProperty(_))
+        ObjectAssignmentPattern3(x0, x1, params, span)
+    }
+  }
+}
 
 case class ObjectAssignmentPattern0(parserParams: List[Boolean], span: Span) extends ObjectAssignmentPattern {
   def idx: Int = 0

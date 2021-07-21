@@ -2,8 +2,29 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait BindingElement extends AST { val kind: String = "BindingElement" }
+
+object BindingElement {
+  def apply(data: Json): BindingElement = AST(data) match {
+    case Some(compressed) => BindingElement(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): BindingElement = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(SingleNameBinding(_)).get
+        BindingElement0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(BindingPattern(_)).get
+        val x1 = subs(1).map(Initializer(_))
+        BindingElement1(x0, x1, params, span)
+    }
+  }
+}
 
 case class BindingElement0(x0: SingleNameBinding, parserParams: List[Boolean], span: Span) extends BindingElement {
   x0.parent = Some(this)

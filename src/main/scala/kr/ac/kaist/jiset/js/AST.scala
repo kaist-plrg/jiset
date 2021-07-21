@@ -124,4 +124,27 @@ object AST {
       } yield methodName -> algo).toMap
     }
   }
+
+  // compressed AST data
+  trait Compressed
+  case class NormalCompressed(
+    idx: Int,
+    subs: Array[Option[Compressed]],
+    params: List[Boolean],
+    span: Span
+  ) extends Compressed
+  case class LexicalCompressed(str: String) extends Compressed
+  def apply(data: Json): Option[Compressed] = data match {
+    case arr if data.isArray =>
+      val List(jIdx, jSubs, jParams, jSpan) = arr.asArray.get.toList
+      val idx = jIdx.asNumber.get.toInt.get
+      val subs = jSubs.asArray.get.toArray.map(AST(_))
+      val params = jParams.asArray.get.toList.map(_.asBoolean.get)
+      val List(sl, sc, el, ec) =
+        jSpan.asArray.get.toList.map(_.asNumber.get.toInt.get)
+      Some(NormalCompressed(idx, subs, params, Span(Pos(sl, sc), Pos(el, ec))))
+    case str if data.isString => Some(LexicalCompressed(str.asString.get))
+    case none if data.isNull => None
+    case _ => ???
+  }
 }

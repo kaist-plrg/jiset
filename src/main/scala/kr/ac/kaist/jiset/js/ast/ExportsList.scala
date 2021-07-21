@@ -2,8 +2,29 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait ExportsList extends AST { val kind: String = "ExportsList" }
+
+object ExportsList {
+  def apply(data: Json): ExportsList = AST(data) match {
+    case Some(compressed) => ExportsList(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): ExportsList = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(ExportSpecifier(_)).get
+        ExportsList0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(ExportsList(_)).get
+        val x1 = subs(1).map(ExportSpecifier(_)).get
+        ExportsList1(x0, x1, params, span)
+    }
+  }
+}
 
 case class ExportsList0(x0: ExportSpecifier, parserParams: List[Boolean], span: Span) extends ExportsList {
   x0.parent = Some(this)

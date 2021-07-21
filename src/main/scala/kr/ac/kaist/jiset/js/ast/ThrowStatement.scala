@@ -2,8 +2,25 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait ThrowStatement extends AST { val kind: String = "ThrowStatement" }
+
+object ThrowStatement {
+  def apply(data: Json): ThrowStatement = AST(data) match {
+    case Some(compressed) => ThrowStatement(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): ThrowStatement = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(Expression(_)).get
+        ThrowStatement0(x0, params, span)
+    }
+  }
+}
 
 case class ThrowStatement0(x2: Expression, parserParams: List[Boolean], span: Span) extends ThrowStatement {
   x2.parent = Some(this)

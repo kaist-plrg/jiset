@@ -2,8 +2,47 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait MemberExpression extends AST { val kind: String = "MemberExpression" }
+
+object MemberExpression {
+  def apply(data: Json): MemberExpression = AST(data) match {
+    case Some(compressed) => MemberExpression(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): MemberExpression = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(PrimaryExpression(_)).get
+        MemberExpression0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(MemberExpression(_)).get
+        val x1 = subs(1).map(Expression(_)).get
+        MemberExpression1(x0, x1, params, span)
+      case 2 =>
+        val x0 = subs(0).map(MemberExpression(_)).get
+        val x1 = subs(1).map(Lexical(_)).get
+        MemberExpression2(x0, x1, params, span)
+      case 3 =>
+        val x0 = subs(0).map(MemberExpression(_)).get
+        val x1 = subs(1).map(TemplateLiteral(_)).get
+        MemberExpression3(x0, x1, params, span)
+      case 4 =>
+        val x0 = subs(0).map(SuperProperty(_)).get
+        MemberExpression4(x0, params, span)
+      case 5 =>
+        val x0 = subs(0).map(MetaProperty(_)).get
+        MemberExpression5(x0, params, span)
+      case 6 =>
+        val x0 = subs(0).map(MemberExpression(_)).get
+        val x1 = subs(1).map(Arguments(_)).get
+        MemberExpression6(x0, x1, params, span)
+    }
+  }
+}
 
 case class MemberExpression0(x0: PrimaryExpression, parserParams: List[Boolean], span: Span) extends MemberExpression {
   x0.parent = Some(this)

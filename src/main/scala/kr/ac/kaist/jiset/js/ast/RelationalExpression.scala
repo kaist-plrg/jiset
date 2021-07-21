@@ -2,8 +2,49 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait RelationalExpression extends AST { val kind: String = "RelationalExpression" }
+
+object RelationalExpression {
+  def apply(data: Json): RelationalExpression = AST(data) match {
+    case Some(compressed) => RelationalExpression(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): RelationalExpression = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(ShiftExpression(_)).get
+        RelationalExpression0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(RelationalExpression(_)).get
+        val x1 = subs(1).map(ShiftExpression(_)).get
+        RelationalExpression1(x0, x1, params, span)
+      case 2 =>
+        val x0 = subs(0).map(RelationalExpression(_)).get
+        val x1 = subs(1).map(ShiftExpression(_)).get
+        RelationalExpression2(x0, x1, params, span)
+      case 3 =>
+        val x0 = subs(0).map(RelationalExpression(_)).get
+        val x1 = subs(1).map(ShiftExpression(_)).get
+        RelationalExpression3(x0, x1, params, span)
+      case 4 =>
+        val x0 = subs(0).map(RelationalExpression(_)).get
+        val x1 = subs(1).map(ShiftExpression(_)).get
+        RelationalExpression4(x0, x1, params, span)
+      case 5 =>
+        val x0 = subs(0).map(RelationalExpression(_)).get
+        val x1 = subs(1).map(ShiftExpression(_)).get
+        RelationalExpression5(x0, x1, params, span)
+      case 6 =>
+        val x0 = subs(0).map(RelationalExpression(_)).get
+        val x1 = subs(1).map(ShiftExpression(_)).get
+        RelationalExpression6(x0, x1, params, span)
+    }
+  }
+}
 
 case class RelationalExpression0(x0: ShiftExpression, parserParams: List[Boolean], span: Span) extends RelationalExpression {
   x0.parent = Some(this)

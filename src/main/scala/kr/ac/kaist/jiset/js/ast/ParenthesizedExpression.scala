@@ -2,8 +2,25 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait ParenthesizedExpression extends AST { val kind: String = "ParenthesizedExpression" }
+
+object ParenthesizedExpression {
+  def apply(data: Json): ParenthesizedExpression = AST(data) match {
+    case Some(compressed) => ParenthesizedExpression(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): ParenthesizedExpression = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(Expression(_)).get
+        ParenthesizedExpression0(x0, params, span)
+    }
+  }
+}
 
 case class ParenthesizedExpression0(x1: Expression, parserParams: List[Boolean], span: Span) extends ParenthesizedExpression {
   x1.parent = Some(this)

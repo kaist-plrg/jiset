@@ -2,8 +2,26 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait LabelledStatement extends AST { val kind: String = "LabelledStatement" }
+
+object LabelledStatement {
+  def apply(data: Json): LabelledStatement = AST(data) match {
+    case Some(compressed) => LabelledStatement(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): LabelledStatement = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(LabelIdentifier(_)).get
+        val x1 = subs(1).map(LabelledItem(_)).get
+        LabelledStatement0(x0, x1, params, span)
+    }
+  }
+}
 
 case class LabelledStatement0(x0: LabelIdentifier, x2: LabelledItem, parserParams: List[Boolean], span: Span) extends LabelledStatement {
   x0.parent = Some(this)

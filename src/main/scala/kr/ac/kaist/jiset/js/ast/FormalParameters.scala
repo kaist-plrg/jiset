@@ -2,8 +2,37 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait FormalParameters extends AST { val kind: String = "FormalParameters" }
+
+object FormalParameters {
+  def apply(data: Json): FormalParameters = AST(data) match {
+    case Some(compressed) => FormalParameters(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): FormalParameters = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        FormalParameters0(params, span)
+      case 1 =>
+        val x0 = subs(0).map(FunctionRestParameter(_)).get
+        FormalParameters1(x0, params, span)
+      case 2 =>
+        val x0 = subs(0).map(FormalParameterList(_)).get
+        FormalParameters2(x0, params, span)
+      case 3 =>
+        val x0 = subs(0).map(FormalParameterList(_)).get
+        FormalParameters3(x0, params, span)
+      case 4 =>
+        val x0 = subs(0).map(FormalParameterList(_)).get
+        val x1 = subs(1).map(FunctionRestParameter(_)).get
+        FormalParameters4(x0, x1, params, span)
+    }
+  }
+}
 
 case class FormalParameters0(parserParams: List[Boolean], span: Span) extends FormalParameters {
   def idx: Int = 0

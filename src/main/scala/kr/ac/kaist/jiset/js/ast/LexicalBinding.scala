@@ -2,8 +2,30 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait LexicalBinding extends AST { val kind: String = "LexicalBinding" }
+
+object LexicalBinding {
+  def apply(data: Json): LexicalBinding = AST(data) match {
+    case Some(compressed) => LexicalBinding(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): LexicalBinding = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(BindingIdentifier(_)).get
+        val x1 = subs(1).map(Initializer(_))
+        LexicalBinding0(x0, x1, params, span)
+      case 1 =>
+        val x0 = subs(0).map(BindingPattern(_)).get
+        val x1 = subs(1).map(Initializer(_)).get
+        LexicalBinding1(x0, x1, params, span)
+    }
+  }
+}
 
 case class LexicalBinding0(x0: BindingIdentifier, x1: Option[Initializer], parserParams: List[Boolean], span: Span) extends LexicalBinding {
   x0.parent = Some(this)

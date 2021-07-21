@@ -7,6 +7,17 @@ import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.{ Span, Pos }
 import io.circe._, io.circe.syntax._
 
+object Lexical {
+  def apply(data: Json): Lexical = AST(data) match {
+    case Some(compressed) => Lexical(compressed)
+    case None => ???
+  }
+  def apply(data: AST.Compressed): Lexical = {
+    val AST.LexicalCompressed(str) = data
+    Lexical("", str) // TODO handle kind
+  }
+}
+
 case class Lexical(kind: String, str: String) extends AST {
   def idx: Int = 0
   def k: Int = 0

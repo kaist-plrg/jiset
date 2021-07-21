@@ -2,8 +2,25 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait AsyncFunctionBody extends AST { val kind: String = "AsyncFunctionBody" }
+
+object AsyncFunctionBody {
+  def apply(data: Json): AsyncFunctionBody = AST(data) match {
+    case Some(compressed) => AsyncFunctionBody(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): AsyncFunctionBody = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(FunctionBody(_)).get
+        AsyncFunctionBody0(x0, params, span)
+    }
+  }
+}
 
 case class AsyncFunctionBody0(x0: FunctionBody, parserParams: List[Boolean], span: Span) extends AsyncFunctionBody {
   x0.parent = Some(this)

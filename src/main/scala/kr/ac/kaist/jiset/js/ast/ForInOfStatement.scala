@@ -2,8 +2,67 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait ForInOfStatement extends AST { val kind: String = "ForInOfStatement" }
+
+object ForInOfStatement {
+  def apply(data: Json): ForInOfStatement = AST(data) match {
+    case Some(compressed) => ForInOfStatement(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): ForInOfStatement = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(LeftHandSideExpression(_)).get
+        val x1 = subs(1).map(Expression(_)).get
+        val x2 = subs(2).map(Statement(_)).get
+        ForInOfStatement0(x0, x1, x2, params, span)
+      case 1 =>
+        val x0 = subs(0).map(ForBinding(_)).get
+        val x1 = subs(1).map(Expression(_)).get
+        val x2 = subs(2).map(Statement(_)).get
+        ForInOfStatement1(x0, x1, x2, params, span)
+      case 2 =>
+        val x0 = subs(0).map(ForDeclaration(_)).get
+        val x1 = subs(1).map(Expression(_)).get
+        val x2 = subs(2).map(Statement(_)).get
+        ForInOfStatement2(x0, x1, x2, params, span)
+      case 3 =>
+        val x0 = subs(0).map(LeftHandSideExpression(_)).get
+        val x1 = subs(1).map(AssignmentExpression(_)).get
+        val x2 = subs(2).map(Statement(_)).get
+        ForInOfStatement3(x0, x1, x2, params, span)
+      case 4 =>
+        val x0 = subs(0).map(ForBinding(_)).get
+        val x1 = subs(1).map(AssignmentExpression(_)).get
+        val x2 = subs(2).map(Statement(_)).get
+        ForInOfStatement4(x0, x1, x2, params, span)
+      case 5 =>
+        val x0 = subs(0).map(ForDeclaration(_)).get
+        val x1 = subs(1).map(AssignmentExpression(_)).get
+        val x2 = subs(2).map(Statement(_)).get
+        ForInOfStatement5(x0, x1, x2, params, span)
+      case 6 =>
+        val x0 = subs(0).map(LeftHandSideExpression(_)).get
+        val x1 = subs(1).map(AssignmentExpression(_)).get
+        val x2 = subs(2).map(Statement(_)).get
+        ForInOfStatement6(x0, x1, x2, params, span)
+      case 7 =>
+        val x0 = subs(0).map(ForBinding(_)).get
+        val x1 = subs(1).map(AssignmentExpression(_)).get
+        val x2 = subs(2).map(Statement(_)).get
+        ForInOfStatement7(x0, x1, x2, params, span)
+      case 8 =>
+        val x0 = subs(0).map(ForDeclaration(_)).get
+        val x1 = subs(1).map(AssignmentExpression(_)).get
+        val x2 = subs(2).map(Statement(_)).get
+        ForInOfStatement8(x0, x1, x2, params, span)
+    }
+  }
+}
 
 case class ForInOfStatement0(x3: LeftHandSideExpression, x5: Expression, x7: Statement, parserParams: List[Boolean], span: Span) extends ForInOfStatement {
   x3.parent = Some(this)

@@ -2,8 +2,41 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait EqualityExpression extends AST { val kind: String = "EqualityExpression" }
+
+object EqualityExpression {
+  def apply(data: Json): EqualityExpression = AST(data) match {
+    case Some(compressed) => EqualityExpression(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): EqualityExpression = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(RelationalExpression(_)).get
+        EqualityExpression0(x0, params, span)
+      case 1 =>
+        val x0 = subs(0).map(EqualityExpression(_)).get
+        val x1 = subs(1).map(RelationalExpression(_)).get
+        EqualityExpression1(x0, x1, params, span)
+      case 2 =>
+        val x0 = subs(0).map(EqualityExpression(_)).get
+        val x1 = subs(1).map(RelationalExpression(_)).get
+        EqualityExpression2(x0, x1, params, span)
+      case 3 =>
+        val x0 = subs(0).map(EqualityExpression(_)).get
+        val x1 = subs(1).map(RelationalExpression(_)).get
+        EqualityExpression3(x0, x1, params, span)
+      case 4 =>
+        val x0 = subs(0).map(EqualityExpression(_)).get
+        val x1 = subs(1).map(RelationalExpression(_)).get
+        EqualityExpression4(x0, x1, params, span)
+    }
+  }
+}
 
 case class EqualityExpression0(x0: RelationalExpression, parserParams: List[Boolean], span: Span) extends EqualityExpression {
   x0.parent = Some(this)

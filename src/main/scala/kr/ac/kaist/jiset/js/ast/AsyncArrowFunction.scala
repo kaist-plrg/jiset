@@ -2,8 +2,30 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait AsyncArrowFunction extends AST { val kind: String = "AsyncArrowFunction" }
+
+object AsyncArrowFunction {
+  def apply(data: Json): AsyncArrowFunction = AST(data) match {
+    case Some(compressed) => AsyncArrowFunction(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): AsyncArrowFunction = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(AsyncArrowBindingIdentifier(_)).get
+        val x1 = subs(1).map(AsyncConciseBody(_)).get
+        AsyncArrowFunction0(x0, x1, params, span)
+      case 1 =>
+        val x0 = subs(0).map(CoverCallExpressionAndAsyncArrowHead(_)).get
+        val x1 = subs(1).map(AsyncConciseBody(_)).get
+        AsyncArrowFunction1(x0, x1, params, span)
+    }
+  }
+}
 
 case class AsyncArrowFunction0(x2: AsyncArrowBindingIdentifier, x5: AsyncConciseBody, parserParams: List[Boolean], span: Span) extends AsyncArrowFunction {
   x2.parent = Some(this)

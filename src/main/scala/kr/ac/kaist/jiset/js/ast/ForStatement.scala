@@ -2,8 +2,40 @@ package kr.ac.kaist.jiset.js.ast
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.Useful._
+import io.circe._, io.circe.syntax._
 
 trait ForStatement extends AST { val kind: String = "ForStatement" }
+
+object ForStatement {
+  def apply(data: Json): ForStatement = AST(data) match {
+    case Some(compressed) => ForStatement(compressed)
+    case None => error("invalid AST data: $data")
+  }
+  def apply(data: AST.Compressed): ForStatement = {
+    val AST.NormalCompressed(idx, subs, params, span) = data
+    idx match {
+      case 0 =>
+        val x0 = subs(0).map(Expression(_))
+        val x1 = subs(1).map(Expression(_))
+        val x2 = subs(2).map(Expression(_))
+        val x3 = subs(3).map(Statement(_)).get
+        ForStatement0(x0, x1, x2, x3, params, span)
+      case 1 =>
+        val x0 = subs(0).map(VariableDeclarationList(_)).get
+        val x1 = subs(1).map(Expression(_))
+        val x2 = subs(2).map(Expression(_))
+        val x3 = subs(3).map(Statement(_)).get
+        ForStatement1(x0, x1, x2, x3, params, span)
+      case 2 =>
+        val x0 = subs(0).map(LexicalDeclaration(_)).get
+        val x1 = subs(1).map(Expression(_))
+        val x2 = subs(2).map(Expression(_))
+        val x3 = subs(3).map(Statement(_)).get
+        ForStatement2(x0, x1, x2, x3, params, span)
+    }
+  }
+}
 
 case class ForStatement0(x3: Option[Expression], x5: Option[Expression], x7: Option[Expression], x9: Statement, parserParams: List[Boolean], span: Span) extends ForStatement {
   x3.foreach((m) => m.parent = Some(this))
