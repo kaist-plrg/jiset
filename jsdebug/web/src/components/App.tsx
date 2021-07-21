@@ -85,6 +85,8 @@ const App = () => {
               <button onClick={handleDebugRun}>run</button>
             </div>
             <div className="app-algo">
+              <div>Current Algorithm: {repl.current.getAlgoName()} </div>
+              <div>Current Line Number: {repl.current.getInstNum()} </div>
               {JSON.parse(repl.current.getAlgoCode()).map((algo: string) => <div>{algo}</div>)}
             </div>
           </div>

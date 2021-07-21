@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.{ DEBUG, TIMEOUT }
+import kr.ac.kaist.jiset.spec.algorithm._
 import scala.collection.mutable.ArrayBuffer
 import scala.annotation.tailrec
 
@@ -25,12 +26,16 @@ trait Debugger {
   val st: State
   val interp = new Interp(st, None, true)
   val detail: Boolean
+  var currentAlgo: Option[Algo] = None
+  var currentInst: Option[Inst] = None
 
   // step until predicate
   @tailrec
   private def stepUntil(pred: => Boolean): Unit = {
     DEBUG = true
     if (!isBreak) {
+      currentAlgo = st.context.algo
+      currentInst = st.context.insts.headOption
       val keep = interp.step
       if (pred && keep) stepUntil(pred)
       else DEBUG = false

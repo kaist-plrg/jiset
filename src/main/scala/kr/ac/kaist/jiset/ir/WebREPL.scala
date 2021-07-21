@@ -30,6 +30,8 @@ class WebREPL(override val st: State) extends Debugger {
       case CmdStepOut.name :: _ =>
         stepOut
       case CmdStep.name :: _ | Nil | List("") =>
+        currentAlgo = st.context.algo
+        currentInst = st.context.insts.headOption
         interp.step
 
       // breakpoints
@@ -74,10 +76,42 @@ class WebREPL(override val st: State) extends Debugger {
     printNextTarget
   }
 
+  // def getAlgoName(): String = {
+  //   st.context.algo match {
+  //     case Some(algo) => algo.name
+  //     case None => ""
+  //   }
+  // }
+
+  // def getInstNum(): Int = st.context.insts match {
+  //   case i :: l => i.line.getOrElse(-1)
+  //   case _ => -1
+  // }
+
+  // def getAlgoCode(): String = {
+  //   st.context.algo match {
+  //     case Some(algo) => algo.code.toArray.asJson.toString
+  //     case None => Json.arr().toString
+  //   }
+  // }
+
+  def getAlgoName(): String = {
+    currentAlgo match {
+      case Some(algo) => algo.name
+      case None => ""
+    }
+  }
+
+  def getInstNum(): Int = currentInst match {
+    case Some(i) => i.line.getOrElse(-1)
+    case None => -1
+  }
+
   def getAlgoCode(): String = {
-    st.context.algo match {
+    currentAlgo match {
       case Some(algo) => algo.code.toArray.asJson.toString
       case None => Json.arr().toString
     }
   }
+
 }
