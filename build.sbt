@@ -28,7 +28,6 @@ lazy val extractTest = taskKey[Unit]("Launch extract tests")
 lazy val extractTokenTest = taskKey[Unit]("Launch token extract tests (tiny)")
 lazy val extractJsonTest = taskKey[Unit]("Launch json extract tests (small)")
 lazy val extractGrammarTest = taskKey[Unit]("Launch grammar extract tests (small)")
-lazy val extractLineTest = taskKey[Unit]("Launch spec line number tests")
 
 // ir
 lazy val irTest = taskKey[Unit]("Launch ir tests")
@@ -93,7 +92,6 @@ lazy val jiset = (project in file("."))
     extractTokenTest := (testOnly in Test).toTask(" *.extract.Token*Test").value,
 		extractJsonTest := (testOnly in Test).toTask(" *.extract.Json*Test").value,
     extractGrammarTest := (testOnly in Test).toTask(" *.extract.Grammar*Test").value,
-    extractLineTest := (testOnly in Test).toTask(" *.extract.LineTest").value,
     // ir
     irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
     irParseTest := (testOnly in Test).toTask(" *.ir.Parse*Test").value,
