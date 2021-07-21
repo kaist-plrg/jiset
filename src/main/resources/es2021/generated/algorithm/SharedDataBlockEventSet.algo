@@ -3,10 +3,10 @@ def SharedDataBlockEventSet(execution) = {
   1:app __x0__ = (EventSet execution)
   1:let __x1__ = __x0__
   1:let __x2__ = 0i
-  1:while (< __x2__ __x1__.length) {
-    let E = __x1__[__x2__]
-    2:if (|| (|| (is-instance-of E ReadSharedMemory) (is-instance-of E WriteSharedMemory)) (is-instance-of E ReadModifyWriteSharedMemory)) append E -> events else 4:{}
-    __x2__ = (+ __x2__ 1i)
+  1:while (< __x2__ __x1__.length) 1:{
+    1:let E = __x1__[__x2__]
+    1:__x2__ = (+ __x2__ 1i)
+    2:if (|| (|| (is-instance-of E ReadSharedMemory) (is-instance-of E WriteSharedMemory)) (is-instance-of E ReadModifyWriteSharedMemory)) 2:append E -> events else 2:{}
   }
   3:return events
 }

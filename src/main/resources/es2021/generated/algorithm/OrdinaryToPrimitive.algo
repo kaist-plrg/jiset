@@ -1,20 +1,20 @@
 def OrdinaryToPrimitive(O, hint) = {
   0:assert (= (typeof O) Object)
   1:assert (|| (= hint CONST_string) (= hint CONST_number))
-  4:if (= hint CONST_string) let methodNames = (new ["toString", "valueOf"]) else let methodNames = (new ["valueOf", "toString"])
+  2:if (= hint CONST_string) 3:let methodNames = (new ["toString", "valueOf"]) else 2:let methodNames = (new ["valueOf", "toString"])
   6:let __x0__ = methodNames
   6:let __x1__ = 0i
-  6:while (< __x1__ __x0__.length) {
-    let name = __x0__[__x1__]
+  6:while (< __x1__ __x0__.length) 6:{
+    6:let name = __x0__[__x1__]
+    6:__x1__ = (+ __x1__ 1i)
     7:app __x2__ = (Get O name)
     7:let method = [? __x2__]
     8:app __x3__ = (IsCallable method)
-    8:if (= __x3__ true) {
+    8:if (= __x3__ true) 8:{
       9:app __x4__ = (Call method O)
       9:let result = [? __x4__]
-      10:if (! (= (typeof result) Object)) return result else 0:{}
-    } else 0:{}
-    __x1__ = (+ __x1__ 1i)
+      10:if (! (= (typeof result) Object)) 10:return result else 10:{}
+    } else 8:{}
   }
   11:throw TypeError
 }

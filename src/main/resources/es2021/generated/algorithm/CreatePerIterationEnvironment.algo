@@ -1,5 +1,5 @@
 def CreatePerIterationEnvironment(perIterationBindings) = {
-  0:if (< 0i perIterationBindings.length) {
+  0:if (< 0i perIterationBindings.length) 0:{
     1:let lastIterationEnv = CONTEXT.LexicalEnvironment
     2:let outer = lastIterationEnv.OuterEnv
     3:assert (! (= outer null))
@@ -7,18 +7,18 @@ def CreatePerIterationEnvironment(perIterationBindings) = {
     4:let thisIterationEnv = __x0__
     5:let __x1__ = perIterationBindings
     5:let __x2__ = 0i
-    5:while (< __x2__ __x1__.length) {
-      let bn = __x1__[__x2__]
+    5:while (< __x2__ __x1__.length) 5:{
+      5:let bn = __x1__[__x2__]
+      5:__x2__ = (+ __x2__ 1i)
       6:app __x3__ = (thisIterationEnv.CreateMutableBinding thisIterationEnv bn false)
       6:[! __x3__]
       7:app __x4__ = (lastIterationEnv.GetBindingValue lastIterationEnv bn true)
       7:let lastValue = [? __x4__]
       8:app __x5__ = (thisIterationEnv.InitializeBinding thisIterationEnv bn lastValue)
       8:__x5__
-      __x2__ = (+ __x2__ 1i)
     }
     9:CONTEXT.LexicalEnvironment = thisIterationEnv
-  } else 10:{}
+  } else 0:{}
   10:return undefined
 }
 - id: "sec-createperiterationenvironment"

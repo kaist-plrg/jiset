@@ -3,24 +3,24 @@ def [SYNTAX] ImportMeta[0,0].Evaluation<(),true>() = {
   0:let module = [! __x0__]
   1:assert (is-instance-of module SourceTextModuleRecord)
   2:let importMeta = module.ImportMeta
-  11:if (= importMeta CONST_empty) {
+  3:if (= importMeta CONST_empty) 3:{
     4:app __x1__ = (OrdinaryObjectCreate null)
     4:importMeta = [! __x1__]
     5:app __x2__ = (HostGetImportMetaProperties module)
     5:let importMetaValues = [! __x2__]
     6:let __x3__ = importMetaValues
     6:let __x4__ = 0i
-    6:while (< __x4__ __x3__.length) {
-      let p = __x3__[__x4__]
+    6:while (< __x4__ __x3__.length) 6:{
+      6:let p = __x3__[__x4__]
+      6:__x4__ = (+ __x4__ 1i)
       7:app __x5__ = (CreateDataPropertyOrThrow importMeta p.Key p.Value)
       7:[! __x5__]
-      __x4__ = (+ __x4__ 1i)
     }
     8:app __x6__ = (HostFinalizeImportMeta importMeta module)
     8:[! __x6__]
     9:module.ImportMeta = importMeta
     10:return importMeta
-  } else {
+  } else 11:{
     12:assert (= (typeof importMeta) Object)
     13:return importMeta
   }

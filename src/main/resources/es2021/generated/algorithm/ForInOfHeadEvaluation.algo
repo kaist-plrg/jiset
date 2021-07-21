@@ -1,25 +1,25 @@
 def ForInOfHeadEvaluation(uninitializedBoundNames, expr, iterationKind) = {
   0:let oldEnv = CONTEXT.LexicalEnvironment
-  1:if (< 0i uninitializedBoundNames.length) {
+  1:if (< 0i uninitializedBoundNames.length) 1:{
     3:app __x0__ = (NewDeclarativeEnvironment oldEnv)
     3:let newEnv = __x0__
     4:let __x1__ = uninitializedBoundNames
     4:let __x2__ = 0i
-    4:while (< __x2__ __x1__.length) {
-      let name = __x1__[__x2__]
+    4:while (< __x2__ __x1__.length) 4:{
+      4:let name = __x1__[__x2__]
+      4:__x2__ = (+ __x2__ 1i)
       5:app __x3__ = (newEnv.CreateMutableBinding newEnv name false)
       5:[! __x3__]
-      __x2__ = (+ __x2__ 1i)
     }
     6:CONTEXT.LexicalEnvironment = newEnv
-  } else 2:{}
+  } else 1:{}
   7:access __x4__ = (expr "Evaluation")
   7:let exprRef = __x4__
   8:CONTEXT.LexicalEnvironment = oldEnv
   9:app __x5__ = (GetValue exprRef)
   9:let exprValue = [? __x5__]
-  17:if (= iterationKind CONST_enumerate) {
-    11:if (|| (= exprValue undefined) (= exprValue null)) return (new Completion("Type" -> CONST_break, "Value" -> CONST_empty, "Target" -> CONST_empty)) else 2:{}
+  10:if (= iterationKind CONST_enumerate) 10:{
+    11:if (|| (= exprValue undefined) (= exprValue null)) 12:return (new Completion("Type" -> CONST_break, "Value" -> CONST_empty, "Target" -> CONST_empty)) else 11:{}
     13:app __x6__ = (ToObject exprValue)
     13:let obj = [! __x6__]
     14:app __x7__ = (EnumerateObjectProperties obj)
@@ -27,9 +27,9 @@ def ForInOfHeadEvaluation(uninitializedBoundNames, expr, iterationKind) = {
     15:app __x8__ = (GetV iterator "next")
     15:let nextMethod = [! __x8__]
     16:return (new Record("Iterator" -> iterator, "NextMethod" -> nextMethod, "Done" -> false))
-  } else {
+  } else 17:{
     18:assert (|| (= iterationKind CONST_iterate) (= iterationKind CONST_asyncDASHiterate))
-    20:if (= iterationKind CONST_asyncDASHiterate) let iteratorHint = CONST_async else let iteratorHint = CONST_sync
+    19:if (= iterationKind CONST_asyncDASHiterate) 19:let iteratorHint = CONST_async else 19:let iteratorHint = CONST_sync
     21:app __x9__ = (GetIterator exprValue iteratorHint)
     21:return [? __x9__]
   }

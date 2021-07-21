@@ -1,12 +1,12 @@
 def [SYNTAX] Elision[0,0].IteratorDestructuringAssignmentEvaluation<(),true>(iteratorRecord) = {
-  0:if (= iteratorRecord.Done false) {
+  0:if (= iteratorRecord.Done false) 0:{
     1:app __x0__ = (IteratorStep iteratorRecord)
     1:let next = __x0__
     2:app __x1__ = (IsAbruptCompletion next)
-    2:if __x1__ iteratorRecord.Done = true else 10:{}
+    2:if __x1__ 2:iteratorRecord.Done = true else 2:{}
     3:[? next]
-    4:if (= next false) iteratorRecord.Done = true else 10:{}
-  } else 10:{}
+    4:if (= next false) 4:iteratorRecord.Done = true else 4:{}
+  } else 0:{}
   5:return CONST_empty
 }
 - id: "sec-runtime-semantics-iteratordestructuringassignmentevaluation"

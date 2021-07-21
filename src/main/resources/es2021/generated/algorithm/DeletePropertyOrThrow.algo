@@ -4,7 +4,7 @@ def DeletePropertyOrThrow(O, P) = {
   1:assert (= __x0__ true)
   2:app __x1__ = (O.Delete O P)
   2:let success = [? __x1__]
-  3:if (= success false) throw TypeError else 4:{}
+  3:if (= success false) 3:throw TypeError else 3:{}
   4:return success
 }
 - id: "sec-deletepropertyorthrow"

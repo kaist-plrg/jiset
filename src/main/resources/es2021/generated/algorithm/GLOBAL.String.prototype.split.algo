@@ -1,68 +1,68 @@
 def [BUILTIN] String.prototype.split(separator, limit) = {
   0:app __x0__ = (RequireObjectCoercible this)
   0:let O = [? __x0__]
-  1:if (! (|| (= separator undefined) (= separator null))) {
+  1:if (! (|| (= separator undefined) (= separator null))) 1:{
     2:app __x1__ = (GetMethod separator SYMBOL_split)
     2:let splitter = [? __x1__]
-    3:if (! (= splitter undefined)) {
+    3:if (! (= splitter undefined)) 3:{
       4:app __x2__ = (Call splitter separator (new [O, limit]))
       4:return [? __x2__]
-    } else 25:{}
-  } else 25:{}
+    } else 3:{}
+  } else 1:{}
   5:app __x3__ = (ToString O)
   5:let S = [? __x3__]
   6:app __x4__ = (ArrayCreate 0i)
   6:let A = [! __x4__]
   7:let lengthA = 0i
-  8:if (= limit undefined) let lim = (- (** 2i 32i) 1i) else {
-    app __x5__ = (ToUint32 limit)
-    let lim = [? __x5__]
+  8:if (= limit undefined) 8:let lim = (- (** 2i 32i) 1i) else 9:{
+    9:app __x5__ = (ToUint32 limit)
+    9:let lim = [? __x5__]
   }
   9:app __x6__ = (ToString separator)
   9:let R = [? __x6__]
-  10:if (== lim 0i) return A else 25:{}
-  11:if (= separator undefined) {
+  10:if (== lim 0i) 10:return A else 10:{}
+  11:if (= separator undefined) 11:{
     12:app __x7__ = (CreateDataPropertyOrThrow A "0" S)
     12:[! __x7__]
     13:return A
-  } else 25:{}
+  } else 11:{}
   14:let s = S.length
-  15:if (== s 0i) {
-    16:if (! (= R "")) {
+  15:if (== s 0i) 15:{
+    16:if (! (= R "")) 16:{
       17:app __x8__ = (CreateDataPropertyOrThrow A "0" S)
       17:[! __x8__]
-    } else 25:{}
+    } else 16:{}
     18:return A
-  } else 25:{}
+  } else 15:{}
   19:let p = 0i
   20:let q = p
-  21:while (! (== q s)) {
+  21:while (! (== q s)) 21:{
     22:app __x9__ = (SplitMatch S q R)
     22:let e = __x9__
-    24:if (= e CONST_notDASHmatched) q = (+ q 1i) else if (== e p) q = (+ q 1i) else {
+    23:if (= e CONST_notDASHmatched) 23:q = (+ q 1i) else 23:if (== e p) 26:q = (+ q 1i) else 27:{
       28:let __x10__ = ""
       28:let __x11__ = p
-      28:while (< __x11__ q) {
-        access __x12__ = (S __x11__)
-        __x10__ = (+ __x10__ __x12__)
-        __x11__ = (+ __x11__ 1i)
+      28:while (< __x11__ q) 28:{
+        28:access __x12__ = (S __x11__)
+        28:__x10__ = (+ __x10__ __x12__)
+        28:__x11__ = (+ __x11__ 1i)
       }
       28:let T = __x10__
       29:app __x13__ = (ToString lengthA)
       29:app __x14__ = (CreateDataPropertyOrThrow A [! __x13__] T)
       29:[! __x14__]
       30:lengthA = (+ lengthA 1i)
-      31:if (== lengthA lim) return A else 25:{}
+      31:if (== lengthA lim) 31:return A else 31:{}
       32:p = e
       33:q = p
     }
   }
   34:let __x15__ = ""
   34:let __x16__ = p
-  34:while (< __x16__ s) {
-    access __x17__ = (S __x16__)
-    __x15__ = (+ __x15__ __x17__)
-    __x16__ = (+ __x16__ 1i)
+  34:while (< __x16__ s) 34:{
+    34:access __x17__ = (S __x16__)
+    34:__x15__ = (+ __x15__ __x17__)
+    34:__x16__ = (+ __x16__ 1i)
   }
   34:let T = __x15__
   35:app __x18__ = (ToString lengthA)

@@ -3,37 +3,37 @@ def FlattenIntoArray(target, source, sourceLen, start, depth, mapperFunction?, t
   1:assert (= (typeof source) Object)
   3:let targetIndex = start
   4:let sourceIndex = 0i
-  5:while (< sourceIndex sourceLen) {
+  5:while (< sourceIndex sourceLen) 5:{
     6:app __x0__ = (ToString sourceIndex)
     6:let P = [! __x0__]
     7:app __x1__ = (HasProperty source P)
     7:let exists = [? __x1__]
-    8:if (= exists true) {
+    8:if (= exists true) 8:{
       9:app __x2__ = (Get source P)
       9:let element = [? __x2__]
-      10:if (! (= mapperFunction absent)) {
+      10:if (! (= mapperFunction absent)) 10:{
         11:app __x3__ = (Call mapperFunction thisArg (new [element, sourceIndex, source]))
         11:element = [? __x3__]
-      } else 2:{}
+      } else 10:{}
       12:let shouldFlatten = false
-      13:if (< 0i depth) {
+      13:if (< 0i depth) 13:{
         14:app __x4__ = (IsArray element)
         14:shouldFlatten = [? __x4__]
-      } else 2:{}
-      20:if (= shouldFlatten true) {
-        17:if (= depth Infinity) let newDepth = Infinity else let newDepth = (- depth 1i)
+      } else 13:{}
+      15:if (= shouldFlatten true) 15:{
+        16:if (= depth Infinity) 16:let newDepth = Infinity else 16:let newDepth = (- depth 1i)
         18:app __x5__ = (LengthOfArrayLike element)
         18:let elementLen = [? __x5__]
         19:app __x6__ = (FlattenIntoArray target element elementLen targetIndex newDepth)
         19:targetIndex = [? __x6__]
-      } else {
-        21:if (! (< targetIndex (- (** 2i 53i) 1i))) throw TypeError else 2:{}
+      } else 20:{
+        21:if (! (< targetIndex (- (** 2i 53i) 1i))) 21:throw TypeError else 21:{}
         22:app __x7__ = (ToString targetIndex)
         22:app __x8__ = (CreateDataPropertyOrThrow target [! __x7__] element)
         22:[? __x8__]
         23:targetIndex = (+ targetIndex 1i)
       }
-    } else 2:{}
+    } else 8:{}
     24:sourceIndex = (+ sourceIndex 1i)
   }
   25:return targetIndex

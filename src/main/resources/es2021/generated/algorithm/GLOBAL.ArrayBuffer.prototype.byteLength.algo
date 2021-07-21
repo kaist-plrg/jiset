@@ -3,9 +3,9 @@ def [BUILTIN] ArrayBuffer.prototype.byteLength() = {
   1:app __x0__ = (RequireInternalSlot O "ArrayBufferData")
   1:[? __x0__]
   2:app __x1__ = (IsSharedArrayBuffer O)
-  2:if (= __x1__ true) throw TypeError else 11:{}
+  2:if (= __x1__ true) 2:throw TypeError else 2:{}
   3:app __x2__ = (IsDetachedBuffer O)
-  3:if (= __x2__ true) return 0i else 11:{}
+  3:if (= __x2__ true) 3:return 0i else 3:{}
   4:let length = O.ArrayBufferByteLength
   5:return length
 }

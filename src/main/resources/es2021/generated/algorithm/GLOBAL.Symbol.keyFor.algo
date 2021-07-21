@@ -1,12 +1,12 @@
 def [BUILTIN] Symbol.keyFor(sym) = {
-  0:if (! (= (typeof sym) Symbol)) throw TypeError else 3:{}
+  0:if (! (= (typeof sym) Symbol)) 0:throw TypeError else 0:{}
   1:let __x0__ = SYMBOL_REGISTRY
   1:let __x1__ = 0i
-  1:while (< __x1__ __x0__.length) {
-    let e = __x0__[__x1__]
+  1:while (< __x1__ __x0__.length) 1:{
+    1:let e = __x0__[__x1__]
+    1:__x1__ = (+ __x1__ 1i)
     2:app __x2__ = (SameValue e.Symbol sym)
-    2:if (= __x2__ true) return e.Key else 3:{}
-    __x1__ = (+ __x1__ 1i)
+    2:if (= __x2__ true) 2:return e.Key else 2:{}
   }
   4:return undefined
 }

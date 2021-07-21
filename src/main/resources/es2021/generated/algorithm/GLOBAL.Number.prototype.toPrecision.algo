@@ -1,47 +1,47 @@
 def [BUILTIN] Number.prototype.toPrecision(precision) = {
   0:app __x0__ = (thisNumberValue this)
   0:let x = [? __x0__]
-  1:if (= precision undefined) {
-    app __x1__ = (ToString x)
-    return [! __x1__]
-  } else 2:{}
+  1:if (= precision undefined) 1:{
+    1:app __x1__ = (ToString x)
+    1:return [! __x1__]
+  } else 1:{}
   2:app __x2__ = (ToIntegerOrInfinity precision)
   2:let p = [? __x2__]
-  3:if (|| (|| (= x Infinity) (= x -Infinity)) (= x NaN)) {
-    app __x3__ = (PRIMITIVE[Number].toString x)
-    return [! __x3__]
-  } else 2:{}
-  4:if (|| (< p 1i) (< 100i p)) throw RangeError else 2:{}
+  3:if (|| (|| (= x Infinity) (= x -Infinity)) (= x NaN)) 3:{
+    3:app __x3__ = (PRIMITIVE[Number].toString x)
+    3:return [! __x3__]
+  } else 3:{}
+  4:if (|| (< p 1i) (< 100i p)) 4:throw RangeError else 4:{}
   5:x = x
   6:let s = ""
-  7:if (< x 0i) {
+  7:if (< x 0i) 7:{
     8:s = "-"
     9:x = (- x)
-  } else 2:{}
-  13:if (== x 0i) {
+  } else 7:{}
+  10:if (== x 0i) 10:{
     11:??? "Let id:{m} be the String value consisting of id:{p} occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
     12:let e = 0i
-  } else {
+  } else 13:{
     14:??? "Let id:{e} and id:{n} be integers such that 10 sup:{id:{p} - 1} ≤ id:{n} < 10 sup:{id:{p}} and for which id:{n} × 10 sup:{id:{e} - id:{p} + 1} - id:{x} is as close to zero as possible . If there are two such sets of id:{e} and id:{n} , pick the id:{e} and id:{n} for which id:{n} × 10 sup:{id:{e} - id:{p} + 1} is larger ."
     15:??? "Let id:{m} be the String value consisting of the digits of the decimal representation of id:{n} ( in order , with no leading zeroes ) ."
-    16:if (|| (< e -6i) (! (< e p))) {
+    16:if (|| (< e -6i) (! (< e p))) 16:{
       17:assert (! (== e 0i))
-      18:if (! (== p 1i)) {
+      18:if (! (== p 1i)) 18:{
         19:??? "Let id:{a} be the first code unit of id:{m} ."
         20:??? "Let id:{b} be the other id:{p} - 1 code units of id:{m} ."
         21:m = (+ (+ a ".") b)
-      } else 2:{}
-      24:if (< 0i e) let c = "+" else {
+      } else 18:{}
+      22:if (< 0i e) 23:let c = "+" else 24:{
         25:assert (< e 0i)
         26:let c = "-"
         27:e = (- e)
       }
       28:??? "Let id:{d} be the String value consisting of the digits of the decimal representation of id:{e} ( in order , with no leading zeroes ) ."
       29:return (+ (+ (+ (+ s m) "e") c) d)
-    } else 2:{}
+    } else 16:{}
   }
-  30:if (== e (- p 1i)) return (+ s m) else 2:{}
-  33:if (! (< e 0i)) ??? "Set id:{m} to the string - concatenation of the first id:{e} + 1 code units of id:{m} , the code unit 0x002E ( FULL STOP ) , and the remaining id:{p} - ( id:{e} + 1 ) code units of id:{m} ." else ??? "Set id:{m} to the string - concatenation of the code unit 0x0030 ( DIGIT ZERO ) , the code unit 0x002E ( FULL STOP ) , - ( id:{e} + 1 ) occurrences of the code unit 0x0030 ( DIGIT ZERO ) , and the String id:{m} ."
+  30:if (== e (- p 1i)) 30:return (+ s m) else 30:{}
+  31:if (! (< e 0i)) 32:??? "Set id:{m} to the string - concatenation of the first id:{e} + 1 code units of id:{m} , the code unit 0x002E ( FULL STOP ) , and the remaining id:{p} - ( id:{e} + 1 ) code units of id:{m} ." else 31:??? "Set id:{m} to the string - concatenation of the code unit 0x0030 ( DIGIT ZERO ) , the code unit 0x002E ( FULL STOP ) , - ( id:{e} + 1 ) occurrences of the code unit 0x0030 ( DIGIT ZERO ) , and the String id:{m} ."
   35:return (+ s m)
 }
 - id: "sec-number.prototype.toprecision"

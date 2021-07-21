@@ -3,13 +3,13 @@ def [METHOD] GlobalEnvironmentRecord.CreateGlobalFunctionBinding(envRec)(N, V, D
   1:let globalObject = ObjRec.BindingObject
   2:app __x0__ = (globalObject.GetOwnProperty globalObject N)
   2:let existingProp = [? __x0__]
-  5:if (|| (= existingProp undefined) (= existingProp.Configurable true)) let desc = (new PropertyDescriptor("Value" -> V, "Writable" -> true, "Enumerable" -> true, "Configurable" -> D)) else let desc = (new PropertyDescriptor("Value" -> V))
+  3:if (|| (= existingProp undefined) (= existingProp.Configurable true)) 4:let desc = (new PropertyDescriptor("Value" -> V, "Writable" -> true, "Enumerable" -> true, "Configurable" -> D)) else 3:let desc = (new PropertyDescriptor("Value" -> V))
   7:app __x1__ = (DefinePropertyOrThrow globalObject N desc)
   7:[? __x1__]
   8:app __x2__ = (Set globalObject N V false)
   8:[? __x2__]
   9:let varDeclaredNames = envRec.VarNames
-  10:if (! (contains varDeclaredNames N)) append N -> varDeclaredNames else 3:{}
+  10:if (! (contains varDeclaredNames N)) 11:append N -> varDeclaredNames else 10:{}
   12:return CONST_empty
 }
 - id: "sec-createglobalfunctionbinding"

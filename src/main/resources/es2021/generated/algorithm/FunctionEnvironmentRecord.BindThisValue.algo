@@ -1,6 +1,6 @@
 def [METHOD] FunctionEnvironmentRecord.BindThisValue(envRec)(V) = {
   0:assert (! (= envRec.ThisBindingStatus CONST_lexical))
-  1:if (= envRec.ThisBindingStatus CONST_initialized) throw ReferenceError else 0:{}
+  1:if (= envRec.ThisBindingStatus CONST_initialized) 1:throw ReferenceError else 1:{}
   2:envRec.ThisValue = V
   3:envRec.ThisBindingStatus = CONST_initialized
   4:return V

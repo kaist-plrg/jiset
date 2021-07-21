@@ -1,12 +1,12 @@
 def RequireObjectCoercible(argument) = {
-  1:if (= (typeof argument) Undefined) throw TypeError else 8:{}
-  3:if (= (typeof argument) Null) throw TypeError else 8:{}
-  5:if (= (typeof argument) Boolean) return argument else 8:{}
-  7:if (= (typeof argument) Number) return argument else 8:{}
-  9:if (= (typeof argument) String) return argument else 8:{}
-  11:if (= (typeof argument) Symbol) return argument else 8:{}
-  13:if (= (typeof argument) BigInt) return argument else 8:{}
-  15:if (= (typeof argument) Object) return argument else 8:{}
+  1:if (= (typeof argument) Undefined) 0:throw TypeError else 1:{}
+  3:if (= (typeof argument) Null) 2:throw TypeError else 3:{}
+  5:if (= (typeof argument) Boolean) 4:return argument else 5:{}
+  7:if (= (typeof argument) Number) 6:return argument else 7:{}
+  9:if (= (typeof argument) String) 8:return argument else 9:{}
+  11:if (= (typeof argument) Symbol) 10:return argument else 11:{}
+  13:if (= (typeof argument) BigInt) 12:return argument else 13:{}
+  15:if (= (typeof argument) Object) 14:return argument else 15:{}
   16:assert false
 }
 - id: "table-requireobjectcoercible-results"

@@ -1,20 +1,20 @@
 def [METHOD] ModuleNamespaceExoticObject.DefineOwnProperty(O)(P, Desc) = {
-  0:if (= (typeof P) Symbol) {
-    app __x0__ = (OrdinaryDefineOwnProperty O P Desc)
-    return __x0__
+  0:if (= (typeof P) Symbol) 0:{
+    0:app __x0__ = (OrdinaryDefineOwnProperty O P Desc)
+    0:return __x0__
   } else 0:{}
   1:app __x1__ = (O.GetOwnProperty O P)
   1:let current = [? __x1__]
-  2:if (= current undefined) return false else 0:{}
-  3:if (= Desc.Configurable true) return false else 0:{}
-  4:if (= Desc.Enumerable false) return false else 0:{}
+  2:if (= current undefined) 2:return false else 2:{}
+  3:if (= Desc.Configurable true) 3:return false else 3:{}
+  4:if (= Desc.Enumerable false) 4:return false else 4:{}
   5:app __x2__ = (IsAccessorDescriptor Desc)
-  5:if (= [! __x2__] true) return false else 0:{}
-  6:if (= Desc.Writable false) return false else 0:{}
-  7:if (! (= Desc.Value absent)) {
-    app __x3__ = (SameValue Desc.Value current.Value)
-    return __x3__
-  } else 0:{}
+  5:if (= [! __x2__] true) 5:return false else 5:{}
+  6:if (= Desc.Writable false) 6:return false else 6:{}
+  7:if (! (= Desc.Value absent)) 7:{
+    7:app __x3__ = (SameValue Desc.Value current.Value)
+    7:return __x3__
+  } else 7:{}
   8:return true
 }
 - id: "sec-module-namespace-exotic-objects-defineownproperty-p-desc"

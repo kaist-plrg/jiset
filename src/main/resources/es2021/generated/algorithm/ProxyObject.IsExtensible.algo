@@ -1,21 +1,21 @@
 def [METHOD] ProxyObject.IsExtensible(O)() = {
   0:let handler = O.ProxyHandler
-  1:if (= handler null) throw TypeError else 0:{}
+  1:if (= handler null) 1:throw TypeError else 1:{}
   2:assert (= (typeof handler) Object)
   3:let target = O.ProxyTarget
   4:app __x0__ = (GetMethod handler "isExtensible")
   4:let trap = [? __x0__]
-  5:if (= trap undefined) {
+  5:if (= trap undefined) 5:{
     6:app __x1__ = (IsExtensible target)
     6:return [? __x1__]
-  } else 0:{}
+  } else 5:{}
   7:app __x2__ = (Call trap handler (new [target]))
   7:app __x3__ = (ToBoolean [? __x2__])
   7:let booleanTrapResult = [! __x3__]
   8:app __x4__ = (IsExtensible target)
   8:let targetResult = [? __x4__]
   9:app __x5__ = (SameValue booleanTrapResult targetResult)
-  9:if (= __x5__ false) throw TypeError else 0:{}
+  9:if (= __x5__ false) 9:throw TypeError else 9:{}
   10:return booleanTrapResult
 }
 - id: "sec-proxy-object-internal-methods-and-internal-slots-isextensible"

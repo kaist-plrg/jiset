@@ -3,21 +3,21 @@ def InitializeTypedArrayFromArrayBuffer(O, buffer, byteOffset, length) = {
   3:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for id:{constructorName} ."
   4:app __x0__ = (ToIndex byteOffset)
   4:let offset = [? __x0__]
-  5:if (! (== (%% offset elementSize) 0i)) throw RangeError else 1:{}
-  6:if (! (= length undefined)) {
+  5:if (! (== (%% offset elementSize) 0i)) 5:throw RangeError else 5:{}
+  6:if (! (= length undefined)) 6:{
     7:app __x1__ = (ToIndex length)
     7:let newLength = [? __x1__]
-  } else 1:{}
+  } else 6:{}
   8:app __x2__ = (IsDetachedBuffer buffer)
-  8:if (= __x2__ true) throw TypeError else 1:{}
+  8:if (= __x2__ true) 8:throw TypeError else 8:{}
   9:let bufferByteLength = buffer.ArrayBufferByteLength
-  14:if (= length undefined) {
-    11:if (! (== (%% bufferByteLength elementSize) 0i)) throw RangeError else 1:{}
+  10:if (= length undefined) 10:{
+    11:if (! (== (%% bufferByteLength elementSize) 0i)) 11:throw RangeError else 11:{}
     12:let newByteLength = (- bufferByteLength offset)
-    13:if (< newByteLength 0i) throw RangeError else 1:{}
-  } else {
+    13:if (< newByteLength 0i) 13:throw RangeError else 13:{}
+  } else 14:{
     15:let newByteLength = (* newLength elementSize)
-    16:if (< bufferByteLength (+ offset newByteLength)) throw RangeError else 1:{}
+    16:if (< bufferByteLength (+ offset newByteLength)) 16:throw RangeError else 16:{}
   }
   17:O.ViewedArrayBuffer = buffer
   18:O.ByteLength = newByteLength

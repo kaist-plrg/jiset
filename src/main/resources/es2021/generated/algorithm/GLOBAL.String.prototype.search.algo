@@ -1,14 +1,14 @@
 def [BUILTIN] String.prototype.search(regexp) = {
   0:app __x0__ = (RequireObjectCoercible this)
   0:let O = [? __x0__]
-  1:if (! (|| (= regexp undefined) (= regexp null))) {
+  1:if (! (|| (= regexp undefined) (= regexp null))) 1:{
     2:app __x1__ = (GetMethod regexp SYMBOL_search)
     2:let searcher = [? __x1__]
-    3:if (! (= searcher undefined)) {
+    3:if (! (= searcher undefined)) 3:{
       4:app __x2__ = (Call searcher regexp (new [O]))
       4:return [? __x2__]
-    } else 5:{}
-  } else 5:{}
+    } else 3:{}
+  } else 1:{}
   5:app __x3__ = (ToString O)
   5:let string = [? __x3__]
   6:app __x4__ = (RegExpCreate regexp undefined)

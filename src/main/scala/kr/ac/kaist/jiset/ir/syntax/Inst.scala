@@ -1,7 +1,13 @@
 package kr.ac.kaist.jiset.ir
 
 // IR Instructions
-sealed trait Inst extends IRNode { var line: Option[Int] = None }
+sealed trait Inst extends IRNode {
+  var line: Option[Int] = None
+  def setLine(k: Option[Int]): Unit = line match {
+    case None => line = k
+    case _ =>
+  }
+}
 object Insts extends Parser[List[Inst]]
 object Inst extends Parser[Inst]
 

@@ -3,11 +3,11 @@ def GetPrototypeFromConstructor(constructor, intrinsicDefaultProto) = {
   1:assert (= __x0__ true)
   2:app __x1__ = (Get constructor "prototype")
   2:let proto = [? __x1__]
-  3:if (! (= (typeof proto) Object)) {
+  3:if (! (= (typeof proto) Object)) 3:{
     4:app __x2__ = (GetFunctionRealm constructor)
     4:let realm = [? __x2__]
     5:proto = INTRINSICS[intrinsicDefaultProto]
-  } else 0:{}
+  } else 3:{}
   6:return proto
 }
 - id: "sec-getprototypefromconstructor"

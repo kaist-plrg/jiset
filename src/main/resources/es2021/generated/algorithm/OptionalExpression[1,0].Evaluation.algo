@@ -3,7 +3,7 @@ def [SYNTAX] OptionalExpression[1,0].Evaluation<(CallExpression, OptionalChain),
   0:let baseReference = __x0__
   1:app __x1__ = (GetValue baseReference)
   1:let baseValue = [? __x1__]
-  2:if (|| (= baseValue undefined) (= baseValue null)) return undefined else 3:{}
+  2:if (|| (= baseValue undefined) (= baseValue null)) 3:return undefined else 2:{}
   4:access __x2__ = (OptionalChain "ChainEvaluation" baseValue baseReference)
   4:return __x2__
 }

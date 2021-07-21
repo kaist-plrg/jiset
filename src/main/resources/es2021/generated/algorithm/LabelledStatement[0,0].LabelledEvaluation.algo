@@ -6,14 +6,14 @@ def [SYNTAX] LabelledStatement[0,0].LabelledEvaluation<(LabelIdentifier, Labelle
   2:let stmtResult = __x1__
   3:let __x2__ = true
   3:__x2__ = (= stmtResult.Type CONST_break)
-  3:if __x2__ {
-    app __x3__ = (SameValue stmtResult.Target label)
-    __x2__ = (= __x3__ true)
-  } else 0:{}
-  3:if __x2__ {
+  3:if __x2__ 3:{
+    3:app __x3__ = (SameValue stmtResult.Target label)
+    3:__x2__ = (= __x3__ true)
+  } else 3:{}
+  3:if __x2__ 3:{
     4:app __x4__ = (NormalCompletion stmtResult.Value)
     4:stmtResult = __x4__
-  } else 0:{}
+  } else 3:{}
   5:return stmtResult
 }
 - id: "sec-runtime-semantics-labelledevaluation"

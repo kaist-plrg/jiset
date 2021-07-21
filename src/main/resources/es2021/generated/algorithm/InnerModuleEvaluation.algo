@@ -1,11 +1,11 @@
 def InnerModuleEvaluation(module, stack, index) = {
-  0:if (! (is-instance-of module CyclicModuleRecord)) {
+  0:if (! (is-instance-of module CyclicModuleRecord)) 0:{
     1:app __x0__ = (module.Evaluate module)
     1:[? __x0__]
     2:return index
-  } else 23:{}
-  3:if (= module.Status CONST_evaluated) if (= module.EvaluationError undefined) return index else return module.EvaluationError else 23:{}
-  6:if (= module.Status CONST_evaluating) return index else 23:{}
+  } else 0:{}
+  3:if (= module.Status CONST_evaluated) 4:if (= module.EvaluationError undefined) 4:return index else 4:return module.EvaluationError else 3:{}
+  6:if (= module.Status CONST_evaluating) 6:return index else 6:{}
   7:assert (= module.Status CONST_linked)
   8:module.Status = CONST_evaluating
   9:module.DFSIndex = index
@@ -14,34 +14,34 @@ def InnerModuleEvaluation(module, stack, index) = {
   12:append module -> stack
   13:let __x1__ = module.RequestedModules
   13:let __x2__ = 0i
-  13:while (< __x2__ __x1__.length) {
-    let required = __x1__[__x2__]
+  13:while (< __x2__ __x1__.length) 13:{
+    13:let required = __x1__[__x2__]
+    13:__x2__ = (+ __x2__ 1i)
     14:app __x3__ = (HostResolveImportedModule module required)
     14:let requiredModule = [! __x3__]
     16:app __x4__ = (InnerModuleEvaluation requiredModule stack index)
     16:index = [? __x4__]
-    17:if (is-instance-of requiredModule CyclicModuleRecord) {
+    17:if (is-instance-of requiredModule CyclicModuleRecord) 17:{
       18:assert (|| (= requiredModule.Status CONST_evaluating) (= requiredModule.Status CONST_evaluated))
-      20:if (= requiredModule.Status CONST_evaluating) {
+      20:if (= requiredModule.Status CONST_evaluating) 20:{
         21:app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
         21:module.DFSAncestorIndex = __x5__
-      } else 23:{}
-    } else 23:{}
-    __x2__ = (+ __x2__ 1i)
+      } else 20:{}
+    } else 17:{}
   }
   22:app __x6__ = (module.ExecuteModule module)
   22:[? __x6__]
   24:assert (! (< module.DFSIndex module.DFSAncestorIndex))
-  25:if (== module.DFSAncestorIndex module.DFSIndex) {
+  25:if (== module.DFSAncestorIndex module.DFSIndex) 25:{
     26:let done = false
-    27:while (= done false) {
+    27:while (= done false) 27:{
       28:let requiredModule = stack[(- stack.length 1i)]
       29:(pop stack (- stack.length 1i))
       30:assert (is-instance-of requiredModule CyclicModuleRecord)
       31:requiredModule.Status = CONST_evaluated
-      32:if (= requiredModule module) done = true else 23:{}
+      32:if (= requiredModule module) 32:done = true else 32:{}
     }
-  } else 23:{}
+  } else 25:{}
   33:return index
 }
 - id: "sec-innermoduleevaluation"

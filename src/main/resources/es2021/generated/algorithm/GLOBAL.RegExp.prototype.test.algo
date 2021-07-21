@@ -1,11 +1,11 @@
 def [BUILTIN] RegExp.prototype.test(S) = {
   0:let R = this
-  1:if (! (= (typeof R) Object)) throw TypeError else 56:{}
+  1:if (! (= (typeof R) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (ToString S)
   2:let string = [? __x0__]
   3:app __x1__ = (RegExpExec R string)
   3:let match = [? __x1__]
-  4:if (! (= match null)) return true else return false
+  4:if (! (= match null)) 4:return true else 4:return false
 }
 - id: "sec-regexp.prototype.test"
 - code:

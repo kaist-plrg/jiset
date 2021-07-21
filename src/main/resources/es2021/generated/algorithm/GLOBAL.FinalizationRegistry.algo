@@ -1,7 +1,7 @@
 def [BUILTIN] FinalizationRegistry(cleanupCallback) = {
-  0:if (= NewTarget undefined) throw TypeError else 7:{}
+  0:if (= NewTarget undefined) 0:throw TypeError else 0:{}
   1:app __x0__ = (IsCallable cleanupCallback)
-  1:if (= __x0__ false) throw TypeError else 7:{}
+  1:if (= __x0__ false) 1:throw TypeError else 1:{}
   2:app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%FinalizationRegistry.prototype%" (new ["Realm", "CleanupCallback", "Cells"]))
   2:let finalizationRegistry = [? __x1__]
   3:let fn = CONTEXT.Function

@@ -3,11 +3,11 @@ def [SYNTAX] AsyncConciseBody[0,0].EvaluateAsyncConciseBody<(ExpressionBody),tru
   0:let promiseCapability = [! __x0__]
   1:app __x1__ = (FunctionDeclarationInstantiation functionObject argumentsList)
   1:let declResult = __x1__
-  4:app __x2__ = (IsAbruptCompletion declResult)
-  4:if (! __x2__) {
+  2:app __x2__ = (IsAbruptCompletion declResult)
+  2:if (! __x2__) 2:{
     3:app __x3__ = (AsyncFunctionStart promiseCapability ExpressionBody)
     3:[! __x3__]
-  } else {
+  } else 4:{
     5:app __x4__ = (Call promiseCapability.Reject undefined (new [declResult.Value]))
     5:[! __x4__]
   }

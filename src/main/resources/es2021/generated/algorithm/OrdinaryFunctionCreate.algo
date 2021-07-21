@@ -7,9 +7,9 @@ def OrdinaryFunctionCreate(functionPrototype, sourceText, ParameterList, Body, t
   4:F.SourceText = sourceText
   5:F.FormalParameters = ParameterList
   6:F.ECMAScriptCode = Body
-  7:if true let Strict = true else let Strict = false
+  7:if true 7:let Strict = true else 7:let Strict = false
   8:F.Strict = Strict
-  11:if (= thisMode CONST_lexicalDASHthis) F.ThisMode = CONST_lexical else if (= Strict true) F.ThisMode = CONST_strict else F.ThisMode = CONST_global
+  9:if (= thisMode CONST_lexicalDASHthis) 9:F.ThisMode = CONST_lexical else 9:if (= Strict true) 10:F.ThisMode = CONST_strict else 9:F.ThisMode = CONST_global
   12:F.IsClassConstructor = false
   13:F.Environment = Scope
   14:app __x1__ = (GetActiveScriptOrModule)

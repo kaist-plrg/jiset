@@ -1,25 +1,25 @@
 def PutValue(V, W) = {
   0:[? V]
   1:[? W]
-  2:if (! (is-instance-of V ReferenceRecord)) throw ReferenceError else 0:{}
+  2:if (! (is-instance-of V ReferenceRecord)) 2:throw ReferenceError else 2:{}
   3:app __x0__ = (IsUnresolvableReference V)
-  3:if (= __x0__ true) {
-    4:if (= V.Strict true) throw ReferenceError else 0:{}
+  3:if (= __x0__ true) 3:{
+    4:if (= V.Strict true) 4:throw ReferenceError else 4:{}
     5:app __x1__ = (GetGlobalObject)
     5:let globalObj = __x1__
     6:app __x2__ = (Set globalObj V.ReferencedName W false)
     6:return [? __x2__]
-  } else 0:{}
-  12:app __x3__ = (IsPropertyReference V)
-  12:if (= __x3__ true) {
+  } else 3:{}
+  7:app __x3__ = (IsPropertyReference V)
+  7:if (= __x3__ true) 7:{
     8:app __x4__ = (ToObject V.Base)
     8:let baseObj = [! __x4__]
     9:app __x5__ = (GetThisValue V)
     9:app __x6__ = (baseObj.Set baseObj V.ReferencedName W __x5__)
     9:let succeeded = [? __x6__]
-    10:if (&& (= succeeded false) (= V.Strict true)) throw TypeError else 0:{}
+    10:if (&& (= succeeded false) (= V.Strict true)) 10:throw TypeError else 10:{}
     11:return undefined
-  } else {
+  } else 12:{
     13:let base = V.Base
     14:assert (is-instance-of base EnvironmentRecord)
     15:app __x7__ = (base.SetMutableBinding base V.ReferencedName W V.Strict)

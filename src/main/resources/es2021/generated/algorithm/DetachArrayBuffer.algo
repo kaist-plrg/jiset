@@ -1,9 +1,9 @@
 def DetachArrayBuffer(arrayBuffer, key?) = {
   1:app __x0__ = (IsSharedArrayBuffer arrayBuffer)
   1:assert (= __x0__ false)
-  2:if (= key absent) key = undefined else 0:{}
+  2:if (= key absent) 2:key = undefined else 2:{}
   3:app __x1__ = (SameValue arrayBuffer.ArrayBufferDetachKey key)
-  3:if (= __x1__ false) throw TypeError else 0:{}
+  3:if (= __x1__ false) 3:throw TypeError else 3:{}
   4:arrayBuffer.ArrayBufferData = null
   5:arrayBuffer.ArrayBufferByteLength = 0i
   6:return null

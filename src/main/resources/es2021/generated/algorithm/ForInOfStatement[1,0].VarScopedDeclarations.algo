@@ -3,10 +3,10 @@ def [SYNTAX] ForInOfStatement[1,0].VarScopedDeclarations<(ForBinding, Expression
   1:access __x0__ = (Statement "VarScopedDeclarations")
   1:let __x1__ = __x0__
   1:let __x2__ = 0i
-  1:while (< __x2__ __x1__.length) {
-    let __x3__ = __x1__[__x2__]
-    append __x3__ -> declarations
-    __x2__ = (+ __x2__ 1i)
+  1:while (< __x2__ __x1__.length) 1:{
+    1:let __x3__ = __x1__[__x2__]
+    1:__x2__ = (+ __x2__ 1i)
+    1:append __x3__ -> declarations
   }
   2:return declarations
 }

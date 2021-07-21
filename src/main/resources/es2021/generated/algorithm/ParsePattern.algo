@@ -1,5 +1,5 @@
 def ParsePattern(patternText, u) = {
-  2:if (= u true) let parseResult = (parse-syntax patternText "Pattern" (new [true, true])) else {
+  0:if (= u true) 1:let parseResult = (parse-syntax patternText "Pattern" (new [true, true])) else 2:{
     3:let parseResult = (parse-syntax patternText "Pattern" (new [false, false]))
     4:parseResult = (parse-syntax patternText "Pattern" (new [false, true]))
   }

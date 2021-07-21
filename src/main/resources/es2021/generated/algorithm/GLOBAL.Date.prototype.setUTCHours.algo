@@ -3,26 +3,26 @@ def [BUILTIN] Date.prototype.setUTCHours(hour, min?, sec?, ms?) = {
   0:let t = [? __x0__]
   1:app __x1__ = (ToNumber hour)
   1:let h = [? __x1__]
-  2:if (= min absent) {
-    app __x2__ = (MinFromTime t)
-    let m = __x2__
-  } else {
-    app __x3__ = (ToNumber min)
-    let m = [? __x3__]
+  2:if (= min absent) 2:{
+    2:app __x2__ = (MinFromTime t)
+    2:let m = __x2__
+  } else 3:{
+    3:app __x3__ = (ToNumber min)
+    3:let m = [? __x3__]
   }
-  3:if (= sec absent) {
-    app __x4__ = (SecFromTime t)
-    let s = __x4__
-  } else {
-    app __x5__ = (ToNumber sec)
-    let s = [? __x5__]
+  3:if (= sec absent) 3:{
+    3:app __x4__ = (SecFromTime t)
+    3:let s = __x4__
+  } else 4:{
+    4:app __x5__ = (ToNumber sec)
+    4:let s = [? __x5__]
   }
-  4:if (= ms absent) {
-    app __x6__ = (msFromTime t)
-    let milli = __x6__
-  } else {
-    app __x7__ = (ToNumber ms)
-    let milli = [? __x7__]
+  4:if (= ms absent) 4:{
+    4:app __x6__ = (msFromTime t)
+    4:let milli = __x6__
+  } else 5:{
+    5:app __x7__ = (ToNumber ms)
+    5:let milli = [? __x7__]
   }
   5:app __x8__ = (Day t)
   5:app __x9__ = (MakeTime h m s milli)

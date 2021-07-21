@@ -2,24 +2,24 @@ def GeneratorStart(generator, generatorBody) = {
   0:assert (= generator.GeneratorState undefined)
   1:let genContext = CONTEXT
   2:genContext.Generator = generator
-  3:genContext.ResumeCont = () [=>] {
-    6:if (= (typeof generatorBody) "AST") {
+  3:genContext.ResumeCont = () [=>] 3:{
+    4:if (= (typeof generatorBody) "AST") 4:{
       5:access __x0__ = (generatorBody "Evaluation")
       5:let result = __x0__
-    } else {
+    } else 6:{
       8:app __x1__ = (generatorBody)
       8:let result = __x1__
     }
     9:RET_CONT = (pop genContext.ReturnCont 0i)
-    10:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
+    10:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) 10:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 10:{}
     10:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
     11:generator.GeneratorState = CONST_completed
-    15:if (= result.Type CONST_normal) let resultValue = undefined else if (= result.Type CONST_return) let resultValue = result.Value else {
+    13:if (= result.Type CONST_normal) 13:let resultValue = undefined else 13:if (= result.Type CONST_return) 14:let resultValue = result.Value else 15:{
       16:assert (= result.Type CONST_throw)
-      app _ = (RET_CONT result)
+      17:app _ = (RET_CONT result)
     }
     18:app __x2__ = (CreateIterResultObject resultValue true)
-    app _ = (RET_CONT __x2__)
+    18:app _ = (RET_CONT __x2__)
   }
   19:generator.GeneratorContext = genContext
   20:generator.GeneratorState = CONST_suspendedStart

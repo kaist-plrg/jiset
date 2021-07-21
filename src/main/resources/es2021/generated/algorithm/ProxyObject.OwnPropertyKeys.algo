@@ -1,20 +1,20 @@
 def [METHOD] ProxyObject.OwnPropertyKeys(O)() = {
   0:let handler = O.ProxyHandler
-  1:if (= handler null) throw TypeError else 13:{}
+  1:if (= handler null) 1:throw TypeError else 1:{}
   2:assert (= (typeof handler) Object)
   3:let target = O.ProxyTarget
   4:app __x0__ = (GetMethod handler "ownKeys")
   4:let trap = [? __x0__]
-  5:if (= trap undefined) {
+  5:if (= trap undefined) 5:{
     6:app __x1__ = (target.OwnPropertyKeys target)
     6:return [? __x1__]
-  } else 13:{}
+  } else 5:{}
   7:app __x2__ = (Call trap handler (new [target]))
   7:let trapResultArray = [? __x2__]
   8:app __x3__ = (CreateListFromArrayLike trapResultArray (new [String, Symbol]))
   8:let trapResult = [? __x3__]
   9:app __x4__ = (IsDuplicate trapResult)
-  9:if __x4__ throw TypeError else 13:{}
+  9:if __x4__ 9:throw TypeError else 9:{}
   10:app __x5__ = (IsExtensible target)
   10:let extensibleTarget = [? __x5__]
   11:app __x6__ = (target.OwnPropertyKeys target)
@@ -23,35 +23,35 @@ def [METHOD] ProxyObject.OwnPropertyKeys(O)() = {
   15:let targetNonconfigurableKeys = (new [])
   16:let __x7__ = targetKeys
   16:let __x8__ = 0i
-  16:while (< __x8__ __x7__.length) {
-    let key = __x7__[__x8__]
+  16:while (< __x8__ __x7__.length) 16:{
+    16:let key = __x7__[__x8__]
+    16:__x8__ = (+ __x8__ 1i)
     17:app __x9__ = (target.GetOwnProperty target key)
     17:let desc = [? __x9__]
-    20:if (&& (! (= desc undefined)) (= desc.Configurable false)) append key -> targetNonconfigurableKeys else append key -> targetConfigurableKeys
-    __x8__ = (+ __x8__ 1i)
+    18:if (&& (! (= desc undefined)) (= desc.Configurable false)) 19:append key -> targetNonconfigurableKeys else 18:append key -> targetConfigurableKeys
   }
-  22:if (&& (= extensibleTarget true) (= targetNonconfigurableKeys.length 0i)) return trapResult else 13:{}
+  22:if (&& (= extensibleTarget true) (= targetNonconfigurableKeys.length 0i)) 23:return trapResult else 22:{}
   24:let uncheckedResultKeys = (copy-obj trapResult)
   25:let __x10__ = targetNonconfigurableKeys
   25:let __x11__ = 0i
-  25:while (< __x11__ __x10__.length) {
-    let key = __x10__[__x11__]
-    26:if (! (contains uncheckedResultKeys key)) throw TypeError else 13:{}
+  25:while (< __x11__ __x10__.length) 25:{
+    25:let key = __x10__[__x11__]
+    25:__x11__ = (+ __x11__ 1i)
+    26:if (! (contains uncheckedResultKeys key)) 26:throw TypeError else 26:{}
     27:let __x12__ = 0i
-    27:while (< __x12__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x12__] key) (pop uncheckedResultKeys __x12__) else __x12__ = (+ __x12__ 1i)
-    __x11__ = (+ __x11__ 1i)
+    27:while (< __x12__ uncheckedResultKeys.length) 27:if (= uncheckedResultKeys[__x12__] key) 27:(pop uncheckedResultKeys __x12__) else 27:__x12__ = (+ __x12__ 1i)
   }
-  28:if (= extensibleTarget true) return trapResult else 13:{}
+  28:if (= extensibleTarget true) 28:return trapResult else 28:{}
   29:let __x13__ = targetConfigurableKeys
   29:let __x14__ = 0i
-  29:while (< __x14__ __x13__.length) {
-    let key = __x13__[__x14__]
-    30:if (! (contains uncheckedResultKeys key)) throw TypeError else 13:{}
+  29:while (< __x14__ __x13__.length) 29:{
+    29:let key = __x13__[__x14__]
+    29:__x14__ = (+ __x14__ 1i)
+    30:if (! (contains uncheckedResultKeys key)) 30:throw TypeError else 30:{}
     31:let __x15__ = 0i
-    31:while (< __x15__ uncheckedResultKeys.length) if (= uncheckedResultKeys[__x15__] key) (pop uncheckedResultKeys __x15__) else __x15__ = (+ __x15__ 1i)
-    __x14__ = (+ __x14__ 1i)
+    31:while (< __x15__ uncheckedResultKeys.length) 31:if (= uncheckedResultKeys[__x15__] key) 31:(pop uncheckedResultKeys __x15__) else 31:__x15__ = (+ __x15__ 1i)
   }
-  32:if (< 0i uncheckedResultKeys.length) throw TypeError else 13:{}
+  32:if (< 0i uncheckedResultKeys.length) 32:throw TypeError else 32:{}
   33:return trapResult
 }
 - id: "sec-proxy-object-internal-methods-and-internal-slots-ownpropertykeys"

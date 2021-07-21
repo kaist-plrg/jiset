@@ -1,17 +1,17 @@
 def [SYNTAX] CaseBlock[1,0].HasCallInTailPosition<(CaseClauses0, DefaultClause, CaseClauses1),true>(call) = {
   0:let has = false
-  1:if (! (= CaseClauses0 absent)) {
-    access __x0__ = (CaseClauses0 "HasCallInTailPosition" call)
-    let has = __x0__
-  } else 8:{}
-  2:if (= has true) return true else 8:{}
+  1:if (! (= CaseClauses0 absent)) 1:{
+    1:access __x0__ = (CaseClauses0 "HasCallInTailPosition" call)
+    1:let has = __x0__
+  } else 1:{}
+  2:if (= has true) 2:return true else 2:{}
   3:access __x1__ = (DefaultClause "HasCallInTailPosition" call)
   3:let has = __x1__
-  4:if (= has true) return true else 8:{}
-  5:if (! (= CaseClauses1 absent)) {
-    access __x2__ = (CaseClauses1 "HasCallInTailPosition" call)
-    let has = __x2__
-  } else 8:{}
+  4:if (= has true) 4:return true else 4:{}
+  5:if (! (= CaseClauses1 absent)) 5:{
+    5:access __x2__ = (CaseClauses1 "HasCallInTailPosition" call)
+    5:let has = __x2__
+  } else 5:{}
   6:return has
 }
 - id: "sec-statement-rules"

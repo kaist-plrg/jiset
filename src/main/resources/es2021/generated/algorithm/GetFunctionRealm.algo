@@ -1,18 +1,18 @@
 def GetFunctionRealm(obj) = {
   0:app __x0__ = (IsCallable obj)
   0:assert (= [! __x0__] true)
-  1:if (! (= obj.Realm absent)) return obj.Realm else 0:{}
-  3:if (is-instance-of obj BoundFunctionExoticObject) {
+  1:if (! (= obj.Realm absent)) 2:return obj.Realm else 1:{}
+  3:if (is-instance-of obj BoundFunctionExoticObject) 3:{
     4:let target = obj.BoundTargetFunction
     5:app __x1__ = (GetFunctionRealm target)
     5:return [? __x1__]
-  } else 0:{}
-  6:if (is-instance-of obj ProxyExoticObject) {
-    7:if (= obj.ProxyHandler null) throw TypeError else 0:{}
+  } else 3:{}
+  6:if (is-instance-of obj ProxyExoticObject) 6:{
+    7:if (= obj.ProxyHandler null) 7:throw TypeError else 7:{}
     8:let proxyTarget = obj.ProxyTarget
     9:app __x2__ = (GetFunctionRealm proxyTarget)
     9:return [? __x2__]
-  } else 0:{}
+  } else 6:{}
   10:return REALM
 }
 - id: "sec-getfunctionrealm"

@@ -1,15 +1,15 @@
 def [BUILTIN] BigInt.prototype.toString(radix?) = {
   0:app __x0__ = (thisBigIntValue this)
   0:let x = [? __x0__]
-  2:if (= radix undefined) let radixMV = 10i else {
-    app __x1__ = (ToIntegerOrInfinity radix)
-    let radixMV = [? __x1__]
+  1:if (= radix undefined) 1:let radixMV = 10i else 2:{
+    2:app __x1__ = (ToIntegerOrInfinity radix)
+    2:let radixMV = [? __x1__]
   }
-  3:if (|| (< radixMV 2i) (< 36i radixMV)) throw RangeError else 2:{}
-  4:if (== radixMV 10i) {
-    app __x2__ = (ToString x)
-    return [! __x2__]
-  } else 2:{}
+  3:if (|| (< radixMV 2i) (< 36i radixMV)) 3:throw RangeError else 3:{}
+  4:if (== radixMV 10i) 4:{
+    4:app __x2__ = (ToString x)
+    4:return [! __x2__]
+  } else 4:{}
   5:??? "Return the String representation of this Number value using the radix specified by id:{radixMV} . Letters code:{a} - code:{z} are used for digits with values 10 through 35 . The precise algorithm is implementation - defined , however the algorithm should be a generalization of that specified in link:{sec-numeric-types-bigint-tostring} ."
 }
 - id: "sec-bigint.prototype.tostring"

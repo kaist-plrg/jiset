@@ -2,12 +2,12 @@ def [SYNTAX] FormalParameters[2,0].EarlyErrors<(FormalParameterList),true>() = {
   0:let __x0__ = true
   0:access __x1__ = (FormalParameterList "IsSimpleParameterList")
   0:__x0__ = (= __x1__ false)
-  0:if __x0__ {
-    access __x2__ = (FormalParameterList "BoundNames")
-    app __x3__ = (IsDuplicate __x2__)
-    __x0__ = __x3__
-  } else 2:{}
-  0:if __x0__ throw SyntaxError else 2:{}
+  0:if __x0__ 0:{
+    0:access __x2__ = (FormalParameterList "BoundNames")
+    0:app __x3__ = (IsDuplicate __x2__)
+    0:__x0__ = __x3__
+  } else 0:{}
+  0:if __x0__ 0:throw SyntaxError else 0:{}
 }
 - id: "sec-parameter-lists-static-semantics-early-errors"
 - code:

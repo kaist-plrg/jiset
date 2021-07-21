@@ -11,24 +11,24 @@ def [SYNTAX] CallExpression[0,0].Evaluation<(CoverCallExpressionAndAsyncArrowHea
   4:let func = [? __x4__]
   5:let __x5__ = true
   5:__x5__ = (is-instance-of ref ReferenceRecord)
-  5:if __x5__ {
-    app __x6__ = (IsPropertyReference ref)
-    __x5__ = (= __x6__ false)
-    if __x5__ __x5__ = (= ref.ReferencedName "eval") else 8:{}
-  } else 8:{}
-  5:if __x5__ {
+  5:if __x5__ 5:{
+    5:app __x6__ = (IsPropertyReference ref)
+    5:__x5__ = (= __x6__ false)
+    5:if __x5__ 5:__x5__ = (= ref.ReferencedName "eval") else 5:{}
+  } else 5:{}
+  5:if __x5__ 5:{
     6:app __x7__ = (SameValue func INTRINSICS["%eval%"])
-    6:if (= __x7__ true) {
+    6:if (= __x7__ true) 6:{
       7:access __x8__ = (arguments "ArgumentListEvaluation")
       7:let argList = [? __x8__]
-      8:if (= argList.length 0i) return undefined else 8:{}
+      8:if (= argList.length 0i) 8:return undefined else 8:{}
       9:let evalArg = argList[0i]
-      10:if true let strictCaller = true else let strictCaller = false
+      10:if true 10:let strictCaller = true else 10:let strictCaller = false
       11:let evalRealm = REALM
       12:app __x9__ = (PerformEval evalArg evalRealm strictCaller true)
       12:return [? __x9__]
-    } else 8:{}
-  } else 8:{}
+    } else 6:{}
+  } else 5:{}
   13:let thisCall = this
   14:app __x10__ = (IsInTailPosition thisCall)
   14:let tailCall = __x10__

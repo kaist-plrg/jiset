@@ -1,20 +1,20 @@
 def [METHOD] BuiltinFunctionObject.Construct (F) (argumentsList, newTarget) = {
-  let callerContext = CONTEXT
-  if (= callerContext null) CONTEXT = null else {}
-  let calleeContext = (new ExecutionContext())
-  calleeContext.Function = F
-  let calleeRealm = F.Realm
-  calleeContext.Realm = calleeRealm
-  calleeContext.ScriptOrModule = null
-  append calleeContext -> EXECUTION_STACK
-  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  app result = (F.Code undefined argumentsList newTarget)
-  if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) {
-    let __x0__ = (- EXECUTION_STACK.length 1i)
-    (pop EXECUTION_STACK __x0__)
-  } else {}
-  CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  return result
+  0:let callerContext = CONTEXT
+  1:if (= callerContext null) 1:CONTEXT = null else 1:{}
+  2:let calleeContext = (new ExecutionContext())
+  3:calleeContext.Function = F
+  4:let calleeRealm = F.Realm
+  5:calleeContext.Realm = calleeRealm
+  6:calleeContext.ScriptOrModule = null
+  8:append calleeContext -> EXECUTION_STACK
+  8:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
+  9:app result = (F.Code undefined argumentsList newTarget)
+  10:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) {
+    10:let __x0__ = (- EXECUTION_STACK.length 1i)
+    10:(pop EXECUTION_STACK __x0__)
+  } else 10:{}
+  10:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
+  11:return result
 }
 - id: "sec-built-in-function-objects-construct-argumentslist-newtarget"
 - code:

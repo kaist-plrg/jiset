@@ -5,51 +5,51 @@ def [BUILTIN] TypedArray.prototype.copyWithin(target, start, end?) = {
   2:let len = O.ArrayLength
   3:app __x1__ = (ToIntegerOrInfinity target)
   3:let relativeTarget = [? __x1__]
-  6:if (= relativeTarget -Infinity) let to = 0i else if (< relativeTarget 0i) {
-    app __x2__ = (max (+ len relativeTarget) 0i)
-    let to = __x2__
-  } else {
-    app __x3__ = (min relativeTarget len)
-    let to = __x3__
+  4:if (= relativeTarget -Infinity) 4:let to = 0i else 4:if (< relativeTarget 0i) 5:{
+    5:app __x2__ = (max (+ len relativeTarget) 0i)
+    5:let to = __x2__
+  } else 6:{
+    6:app __x3__ = (min relativeTarget len)
+    6:let to = __x3__
   }
   7:app __x4__ = (ToIntegerOrInfinity start)
   7:let relativeStart = [? __x4__]
-  10:if (= relativeStart -Infinity) let from = 0i else if (< relativeStart 0i) {
-    app __x5__ = (max (+ len relativeStart) 0i)
-    let from = __x5__
-  } else {
-    app __x6__ = (min relativeStart len)
-    let from = __x6__
+  8:if (= relativeStart -Infinity) 8:let from = 0i else 8:if (< relativeStart 0i) 9:{
+    9:app __x5__ = (max (+ len relativeStart) 0i)
+    9:let from = __x5__
+  } else 10:{
+    10:app __x6__ = (min relativeStart len)
+    10:let from = __x6__
   }
-  11:if (= end undefined) let relativeEnd = len else {
-    app __x7__ = (ToIntegerOrInfinity end)
-    let relativeEnd = [? __x7__]
+  11:if (= end undefined) 11:let relativeEnd = len else 12:{
+    12:app __x7__ = (ToIntegerOrInfinity end)
+    12:let relativeEnd = [? __x7__]
   }
-  14:if (= relativeEnd -Infinity) let final = 0i else if (< relativeEnd 0i) {
-    app __x8__ = (max (+ len relativeEnd) 0i)
-    let final = __x8__
-  } else {
-    app __x9__ = (min relativeEnd len)
-    let final = __x9__
+  12:if (= relativeEnd -Infinity) 12:let final = 0i else 12:if (< relativeEnd 0i) 13:{
+    13:app __x8__ = (max (+ len relativeEnd) 0i)
+    13:let final = __x8__
+  } else 14:{
+    14:app __x9__ = (min relativeEnd len)
+    14:let final = __x9__
   }
   15:app __x10__ = (min (- final from) (- len to))
   15:let count = __x10__
-  16:if (< 0i count) {
+  16:if (< 0i count) 16:{
     18:let buffer = O.ViewedArrayBuffer
     19:app __x11__ = (IsDetachedBuffer buffer)
-    19:if (= __x11__ true) throw TypeError else 17:{}
+    19:if (= __x11__ true) 19:throw TypeError else 19:{}
     20:let typedArrayName = O.TypedArrayName
     21:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for id:{typedArrayName} ."
     22:let byteOffset = O.ByteOffset
     23:let toByteIndex = (+ (* to elementSize) byteOffset)
     24:let fromByteIndex = (+ (* from elementSize) byteOffset)
     25:let countBytes = (* count elementSize)
-    30:if (&& (< fromByteIndex toByteIndex) (< toByteIndex (+ fromByteIndex countBytes))) {
+    26:if (&& (< fromByteIndex toByteIndex) (< toByteIndex (+ fromByteIndex countBytes))) 26:{
       27:let direction = -1i
       28:fromByteIndex = (- (+ fromByteIndex countBytes) 1i)
       29:toByteIndex = (- (+ toByteIndex countBytes) 1i)
-    } else let direction = 1i
-    32:while (< 0i countBytes) {
+    } else 26:let direction = 1i
+    32:while (< 0i countBytes) 32:{
       33:app __x12__ = (GetValueFromBuffer buffer fromByteIndex CONST_Uint8 true CONST_Unordered)
       33:let value = __x12__
       34:app __x13__ = (SetValueInBuffer buffer toByteIndex CONST_Uint8 value true CONST_Unordered)
@@ -58,7 +58,7 @@ def [BUILTIN] TypedArray.prototype.copyWithin(target, start, end?) = {
       36:toByteIndex = (+ toByteIndex direction)
       37:countBytes = (- countBytes 1i)
     }
-  } else 17:{}
+  } else 16:{}
   38:return O
 }
 - id: "sec-%typedarray%.prototype.copywithin"

@@ -3,9 +3,9 @@ def GetMethod(V, P) = {
   0:assert (= __x0__ true)
   1:app __x1__ = (GetV V P)
   1:let func = [? __x1__]
-  2:if (|| (= func undefined) (= func null)) return undefined else 4:{}
+  2:if (|| (= func undefined) (= func null)) 2:return undefined else 2:{}
   3:app __x2__ = (IsCallable func)
-  3:if (= __x2__ false) throw TypeError else 4:{}
+  3:if (= __x2__ false) 3:throw TypeError else 3:{}
   4:return func
 }
 - id: "sec-getmethod"

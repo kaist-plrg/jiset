@@ -1,6 +1,6 @@
 def NewPromiseCapability(C) = {
   0:app __x0__ = (IsConstructor C)
-  0:if (= __x0__ false) throw TypeError else 1:{}
+  0:if (= __x0__ false) 0:throw TypeError else 0:{}
   2:let promiseCapability = (new PromiseCapabilityRecord("Promise" -> undefined, "Resolve" -> undefined, "Reject" -> undefined))
   3:let steps = ALGORITHM["GLOBAL.GetCapabilitiesExecutorFunctions"]
   4:let length = 2i
@@ -10,9 +10,9 @@ def NewPromiseCapability(C) = {
   7:app __x2__ = (Construct C (new [executor]))
   7:let promise = [? __x2__]
   8:app __x3__ = (IsCallable promiseCapability.Resolve)
-  8:if (= __x3__ false) throw TypeError else 1:{}
+  8:if (= __x3__ false) 8:throw TypeError else 8:{}
   9:app __x4__ = (IsCallable promiseCapability.Reject)
-  9:if (= __x4__ false) throw TypeError else 1:{}
+  9:if (= __x4__ false) 9:throw TypeError else 9:{}
   10:promiseCapability.Promise = promise
   11:return promiseCapability
 }

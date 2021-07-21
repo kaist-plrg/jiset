@@ -5,10 +5,10 @@ def [SYNTAX] AssignmentPropertyList[1,0].PropertyDestructuringAssignmentEvaluati
   1:let nextNames = [? __x1__]
   2:let __x2__ = nextNames
   2:let __x3__ = 0i
-  2:while (< __x3__ __x2__.length) {
-    let __x4__ = __x2__[__x3__]
-    append __x4__ -> propertyNames
-    __x3__ = (+ __x3__ 1i)
+  2:while (< __x3__ __x2__.length) 2:{
+    2:let __x4__ = __x2__[__x3__]
+    2:__x3__ = (+ __x3__ 1i)
+    2:append __x4__ -> propertyNames
   }
   3:return propertyNames
 }

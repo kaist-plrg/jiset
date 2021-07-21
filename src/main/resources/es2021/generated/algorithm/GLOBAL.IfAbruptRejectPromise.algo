@@ -1,10 +1,10 @@
 def [BUILTIN] IfAbruptRejectPromise(value, capability) = {
-  3:app __x0__ = (IsAbruptCompletion value)
-  3:if __x0__ {
+  0:app __x0__ = (IsAbruptCompletion value)
+  0:if __x0__ 0:{
     1:app __x1__ = (Call capability.Reject undefined (new [value.Value]))
     1:[? __x1__]
     2:return capability.Promise
-  } else if (is-completion value) value = value.Value else 7:{}
+  } else 0:if (is-completion value) 3:value = value.Value else 0:{}
 }
 - id: "sec-ifabruptrejectpromise"
 - code:

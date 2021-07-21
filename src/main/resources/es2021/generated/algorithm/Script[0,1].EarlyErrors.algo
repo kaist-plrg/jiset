@@ -1,7 +1,7 @@
 def [SYNTAX] Script[0,1].EarlyErrors<(ScriptBody),true>() = {
   0:access __x0__ = (ScriptBody "LexicallyDeclaredNames")
   0:app __x1__ = (IsDuplicate __x0__)
-  0:if __x1__ throw SyntaxError else 2:{}
+  0:if __x1__ 0:throw SyntaxError else 0:{}
   1:access __x2__ = (ScriptBody "LexicallyDeclaredNames")
   1:access __x3__ = (ScriptBody "VarDeclaredNames")
   1:let __x4__ = __x2__
@@ -9,11 +9,11 @@ def [SYNTAX] Script[0,1].EarlyErrors<(ScriptBody),true>() = {
   1:let __x6__ = 0i
   1:let __x7__ = 0i
   1:let __x8__ = false
-  1:while (< __x6__ __x4__.length) {
-    __x7__ = 0i
-    while (< __x7__ __x5__.length) if (= __x4__[__x6__] __x5__[__x7__]) __x8__ = true else 2:{}
+  1:while (< __x6__ __x4__.length) 1:{
+    1:__x7__ = 0i
+    1:while (< __x7__ __x5__.length) 1:if (= __x4__[__x6__] __x5__[__x7__]) 1:__x8__ = true else 1:{}
   }
-  1:if __x8__ throw SyntaxError else 2:{}
+  1:if __x8__ 1:throw SyntaxError else 1:{}
 }
 - id: "sec-scripts-static-semantics-early-errors"
 - code:

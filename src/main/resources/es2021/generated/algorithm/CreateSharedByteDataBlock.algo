@@ -6,10 +6,10 @@ def CreateSharedByteDataBlock(size) = {
   4:let zero = (new [0i])
   5:let __x0__ = db
   5:let __x1__ = 0i
-  5:while (< __x1__ __x0__.length) {
-    let i = __x0__[__x1__]
+  5:while (< __x1__ __x0__.length) 5:{
+    5:let i = __x0__[__x1__]
+    5:__x1__ = (+ __x1__ 1i)
     6:append (new WriteSharedMemory("Order" -> CONST_Init, "NoTear" -> true, "Block" -> db, "ByteIndex" -> i, "ElementSize" -> 1i, "Payload" -> zero)) -> eventList
-    __x1__ = (+ __x1__ 1i)
   }
   7:return db
 }

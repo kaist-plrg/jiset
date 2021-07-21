@@ -1,7 +1,7 @@
 def [BUILTIN] Promise.prototype.then(onFulfilled, onRejected) = {
   0:let promise = this
   1:app __x0__ = (IsPromise promise)
-  1:if (= __x0__ false) throw TypeError else 10:{}
+  1:if (= __x0__ false) 1:throw TypeError else 1:{}
   2:app __x1__ = (SpeciesConstructor promise INTRINSICS["%Promise%"])
   2:let C = [? __x1__]
   3:app __x2__ = (NewPromiseCapability C)

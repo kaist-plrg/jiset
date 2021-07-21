@@ -4,30 +4,30 @@ def [SYNTAX] ArrayAssignmentPattern[2,1].DestructuringAssignmentEvaluation<(Assi
   1:access __x1__ = (AssignmentElementList "IteratorDestructuringAssignmentEvaluation" iteratorRecord)
   1:let status = __x1__
   2:app __x2__ = (IsAbruptCompletion status)
-  2:if __x2__ {
-    3:if (= iteratorRecord.Done false) {
-      app __x3__ = (IteratorClose iteratorRecord status)
-      return [? __x3__]
-    } else 10:{}
+  2:if __x2__ 2:{
+    3:if (= iteratorRecord.Done false) 3:{
+      3:app __x3__ = (IteratorClose iteratorRecord status)
+      3:return [? __x3__]
+    } else 3:{}
     4:return status
-  } else 10:{}
-  5:if (! (= Elision absent)) {
+  } else 2:{}
+  5:if (! (= Elision absent)) 5:{
     6:access __x4__ = (Elision "IteratorDestructuringAssignmentEvaluation" iteratorRecord)
     6:status = __x4__
     7:app __x5__ = (IsAbruptCompletion status)
-    7:if __x5__ {
+    7:if __x5__ 7:{
       8:assert (= iteratorRecord.Done true)
       9:return status
-    } else 10:{}
-  } else 10:{}
-  10:if (! (= AssignmentRestElement absent)) {
+    } else 7:{}
+  } else 5:{}
+  10:if (! (= AssignmentRestElement absent)) 10:{
     11:access __x6__ = (AssignmentRestElement "IteratorDestructuringAssignmentEvaluation" iteratorRecord)
     11:status = __x6__
   } else 10:{}
-  12:if (= iteratorRecord.Done false) {
-    app __x7__ = (IteratorClose iteratorRecord status)
-    return [? __x7__]
-  } else 10:{}
+  12:if (= iteratorRecord.Done false) 12:{
+    12:app __x7__ = (IteratorClose iteratorRecord status)
+    12:return [? __x7__]
+  } else 12:{}
   13:return status
 }
 - id: "sec-runtime-semantics-destructuringassignmentevaluation"

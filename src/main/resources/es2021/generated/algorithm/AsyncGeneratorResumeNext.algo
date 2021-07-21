@@ -1,18 +1,18 @@
 def AsyncGeneratorResumeNext(generator) = {
   1:let state = generator.AsyncGeneratorState
   2:assert (! (= state CONST_executing))
-  3:if (= state CONST_awaitingDASHreturn) return undefined else 40:{}
+  3:if (= state CONST_awaitingDASHreturn) 3:return undefined else 3:{}
   4:let queue = generator.AsyncGeneratorQueue
-  5:if (= queue.length 0i) return undefined else 40:{}
+  5:if (= queue.length 0i) 5:return undefined else 5:{}
   6:let next = queue[0i]
   8:let completion = next.Completion
-  31:app __x0__ = (IsAbruptCompletion completion)
-  31:if __x0__ {
-    10:if (= state CONST_suspendedStart) {
+  9:app __x0__ = (IsAbruptCompletion completion)
+  9:if __x0__ 9:{
+    10:if (= state CONST_suspendedStart) 10:{
       11:generator.AsyncGeneratorState = CONST_completed
       12:state = CONST_completed
-    } else 40:{}
-    13:if (= state CONST_completed) if (= completion.Type CONST_return) {
+    } else 10:{}
+    13:if (= state CONST_completed) 14:if (= completion.Type CONST_return) 14:{
       15:generator.AsyncGeneratorState = CONST_awaitingDASHreturn
       16:app __x1__ = (PromiseResolve INTRINSICS["%Promise%"] completion.Value)
       16:let promise = [? __x1__]
@@ -29,16 +29,16 @@ def AsyncGeneratorResumeNext(generator) = {
       25:app __x4__ = (PerformPromiseThen promise onFulfilled onRejected)
       25:[! __x4__]
       26:return undefined
-    } else {
+    } else 27:{
       28:assert (= completion.Type CONST_throw)
       29:app __x5__ = (AsyncGeneratorReject generator completion.Value)
       29:[! __x5__]
       30:return undefined
-    } else 40:{}
-  } else if (= state CONST_completed) {
-    app __x6__ = (AsyncGeneratorResolve generator undefined true)
-    return [! __x6__]
-  } else 40:{}
+    } else 13:{}
+  } else 9:if (= state CONST_completed) 14:{
+    14:app __x6__ = (AsyncGeneratorResolve generator undefined true)
+    14:return [! __x6__]
+  } else 9:{}
   32:assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))
   33:let genContext = generator.AsyncGeneratorContext
   34:let callerContext = CONTEXT
@@ -46,10 +46,10 @@ def AsyncGeneratorResumeNext(generator) = {
   36:generator.AsyncGeneratorState = CONST_executing
   37:append genContext -> EXECUTION_STACK
   37:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  38:withcont __x7__ (result) = {
-    if (= genContext.ReturnCont absent) genContext.ReturnCont = (new []) else {}
-    append __x7__ -> genContext.ReturnCont
-    app _ = (genContext.ResumeCont completion)
+  38:withcont __x7__ (result) = 38:{
+    38:if (= genContext.ReturnCont absent) 38:genContext.ReturnCont = (new []) else 38:{}
+    38:append __x7__ -> genContext.ReturnCont
+    38:app _ = (genContext.ResumeCont completion)
   }
   41:return undefined
 }

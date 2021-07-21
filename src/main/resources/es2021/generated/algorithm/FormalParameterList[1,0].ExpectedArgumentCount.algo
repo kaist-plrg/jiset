@@ -4,11 +4,11 @@ def [SYNTAX] FormalParameterList[1,0].ExpectedArgumentCount<(FormalParameterList
   1:let __x1__ = true
   1:access __x2__ = (FormalParameterList "HasInitializer")
   1:__x1__ = (= __x2__ true)
-  1:if __x1__ 0:{} else {
-    access __x3__ = (FormalParameter "HasInitializer")
-    __x1__ = (= __x3__ true)
+  1:if __x1__ 9:{} else 10:{
+    10:access __x3__ = (FormalParameter "HasInitializer")
+    10:__x1__ = (= __x3__ true)
   }
-  1:if __x1__ return count else 0:{}
+  1:if __x1__ 1:return count else 1:{}
   2:return (+ count 1i)
 }
 - id: "sec-static-semantics-expectedargumentcount"

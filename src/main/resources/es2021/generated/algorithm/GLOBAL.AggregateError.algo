@@ -1,14 +1,14 @@
 def [BUILTIN] AggregateError(errors, message) = {
-  0:if (= NewTarget undefined) let newTarget = CONTEXT.Function else let newTarget = NewTarget
+  0:if (= NewTarget undefined) 0:let newTarget = CONTEXT.Function else 0:let newTarget = NewTarget
   1:app __x0__ = (OrdinaryCreateFromConstructor newTarget "%AggregateError.prototype%" (new ["ErrorData"]))
   1:let O = [? __x0__]
-  2:if (! (= message undefined)) {
+  2:if (! (= message undefined)) 2:{
     3:app __x1__ = (ToString message)
     3:let msg = [? __x1__]
     4:let msgDesc = (new PropertyDescriptor("Value" -> msg, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true))
     5:app __x2__ = (DefinePropertyOrThrow O "message" msgDesc)
     5:[! __x2__]
-  } else 3:{}
+  } else 2:{}
   6:app __x3__ = (IterableToList errors)
   6:let errorsList = [? __x3__]
   7:app __x4__ = (CreateArrayFromList errorsList)

@@ -6,7 +6,7 @@ def CreateUnmappedArgumentsObject(argumentsList) = {
   3:app __x1__ = (DefinePropertyOrThrow obj "length" (new PropertyDescriptor("Value" -> len, "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))
   3:__x1__
   4:let index = 0i
-  5:while (< index len) {
+  5:while (< index len) 5:{
     6:let val = argumentsList[index]
     7:app __x2__ = (ToString index)
     7:app __x3__ = (CreateDataPropertyOrThrow obj [! __x2__] val)

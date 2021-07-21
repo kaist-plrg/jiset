@@ -1,6 +1,6 @@
 def BigInt::exponentiate(base, exponent) = {
-  0:if (< exponent 0i) throw RangeError else 9:{}
-  1:if (&& (= base 0i) (= exponent 0i)) return 1i else 9:{}
+  0:if (< exponent 0i) 0:throw RangeError else 0:{}
+  1:if (&& (= base 0i) (= exponent 0i)) 1:return 1i else 1:{}
   2:return (convert (** base exponent) num2bigint )
 }
 - id: "sec-numeric-types-bigint-exponentiate"

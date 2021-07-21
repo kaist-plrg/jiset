@@ -1,14 +1,14 @@
 def [METHOD] IntegerIndexedExoticObject.Set(O)(P, V, Receiver) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
-  1:if (= (typeof P) String) {
+  1:if (= (typeof P) String) 1:{
     2:app __x1__ = (CanonicalNumericIndexString P)
     2:let numericIndex = [! __x1__]
-    3:if (! (= numericIndex undefined)) {
+    3:if (! (= numericIndex undefined)) 3:{
       4:app __x2__ = (IntegerIndexedElementSet O numericIndex V)
       4:[? __x2__]
       5:return true
-    } else 1:{}
+    } else 3:{}
   } else 1:{}
   6:app __x3__ = (OrdinarySet O P V Receiver)
   6:return [? __x3__]

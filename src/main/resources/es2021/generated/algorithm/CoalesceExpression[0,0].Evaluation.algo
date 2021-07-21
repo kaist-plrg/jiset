@@ -3,12 +3,12 @@ def [SYNTAX] CoalesceExpression[0,0].Evaluation<(CoalesceExpressionHead, Bitwise
   0:let lref = __x0__
   1:app __x1__ = (GetValue lref)
   1:let lval = [? __x1__]
-  5:if (|| (= lval undefined) (= lval null)) {
+  2:if (|| (= lval undefined) (= lval null)) 2:{
     3:access __x2__ = (BitwiseORExpression "Evaluation")
     3:let rref = __x2__
     4:app __x3__ = (GetValue rref)
     4:return [? __x3__]
-  } else return lval
+  } else 2:return lval
 }
 - id: "sec-binary-logical-operators-runtime-semantics-evaluation"
 - code:

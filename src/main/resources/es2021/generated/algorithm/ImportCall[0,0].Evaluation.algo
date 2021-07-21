@@ -9,11 +9,11 @@ def [SYNTAX] ImportCall[0,0].Evaluation<(AssignmentExpression),true>() = {
   3:let promiseCapability = [! __x3__]
   4:app __x4__ = (ToString specifier)
   4:let specifierString = __x4__
-  5:if (is-completion specifierString) if (= specifierString.Type CONST_normal) specifierString = specifierString.Value else {
-    app __x5__ = (Call promiseCapability.Reject undefined (new [specifierString.Value]))
-    if (&& (is-completion __x5__) (! (= __x5__.Type CONST_normal))) return __x5__ else 3:{}
-    return promiseCapability.Promise
-  } else 3:{}
+  5:if (is-completion specifierString) 5:if (= specifierString.Type CONST_normal) 5:specifierString = specifierString.Value else 6:{
+    6:app __x5__ = (Call promiseCapability.Reject undefined (new [specifierString.Value]))
+    6:if (&& (is-completion __x5__) (! (= __x5__.Type CONST_normal))) 6:return __x5__ else 6:{}
+    6:return promiseCapability.Promise
+  } else 5:{}
   5:specifierString
   6:app __x6__ = (HostImportModuleDynamically referencingScriptOrModule specifierString promiseCapability)
   6:[! __x6__]

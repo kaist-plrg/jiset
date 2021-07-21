@@ -3,27 +3,27 @@ def [BUILTIN] Array.prototype.shift() = {
   0:let O = [? __x0__]
   1:app __x1__ = (LengthOfArrayLike O)
   1:let len = [? __x1__]
-  2:if (== len 0i) {
+  2:if (== len 0i) 2:{
     3:app __x2__ = (Set O "length" 0i true)
     3:[? __x2__]
     4:return undefined
-  } else 25:{}
+  } else 2:{}
   5:app __x3__ = (Get O "0")
   5:let first = [? __x3__]
   6:let k = 1i
-  7:while (< k len) {
+  7:while (< k len) 7:{
     8:app __x4__ = (ToString k)
     8:let from = [! __x4__]
     9:app __x5__ = (ToString (- k 1i))
     9:let to = [! __x5__]
     10:app __x6__ = (HasProperty O from)
     10:let fromPresent = [? __x6__]
-    14:if (= fromPresent true) {
+    11:if (= fromPresent true) 11:{
       12:app __x7__ = (Get O from)
       12:let fromVal = [? __x7__]
       13:app __x8__ = (Set O to fromVal true)
       13:[? __x8__]
-    } else {
+    } else 14:{
       15:assert (= fromPresent false)
       16:app __x9__ = (DeletePropertyOrThrow O to)
       16:[? __x9__]

@@ -1,11 +1,11 @@
 def IsConcatSpreadable(O) = {
-  0:if (! (= (typeof O) Object)) return false else 19:{}
+  0:if (! (= (typeof O) Object)) 0:return false else 0:{}
   1:app __x0__ = (Get O SYMBOL_isConcatSpreadable)
   1:let spreadable = [? __x0__]
-  2:if (! (= spreadable undefined)) {
-    app __x1__ = (ToBoolean spreadable)
-    return [! __x1__]
-  } else 19:{}
+  2:if (! (= spreadable undefined)) 2:{
+    2:app __x1__ = (ToBoolean spreadable)
+    2:return [! __x1__]
+  } else 2:{}
   3:app __x2__ = (IsArray O)
   3:return [? __x2__]
 }

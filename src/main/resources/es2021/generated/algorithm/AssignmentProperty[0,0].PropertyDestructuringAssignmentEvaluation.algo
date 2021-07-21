@@ -5,18 +5,18 @@ def [SYNTAX] AssignmentProperty[0,0].PropertyDestructuringAssignmentEvaluation<(
   1:let lref = [? __x1__]
   2:app __x2__ = (GetV value P)
   2:let v = [? __x2__]
-  3:if (&& (! (= Initializer absent)) (= v undefined)) {
-    6:app __x3__ = (IsAnonymousFunctionDefinition Initializer)
-    6:if (= __x3__ true) {
+  3:if (&& (! (= Initializer absent)) (= v undefined)) 3:{
+    4:app __x3__ = (IsAnonymousFunctionDefinition Initializer)
+    4:if (= __x3__ true) 4:{
       5:access __x4__ = (Initializer "NamedEvaluation" P)
       5:v = __x4__
-    } else {
+    } else 6:{
       7:access __x5__ = (Initializer "Evaluation")
       7:let defaultValue = __x5__
       8:app __x6__ = (GetValue defaultValue)
       8:v = [? __x6__]
     }
-  } else 10:{}
+  } else 3:{}
   9:app __x7__ = (PutValue lref v)
   9:[? __x7__]
   10:return (new [P])

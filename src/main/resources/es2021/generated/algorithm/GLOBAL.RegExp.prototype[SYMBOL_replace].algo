@@ -1,37 +1,37 @@
 def [BUILTIN] RegExp.prototype[SYMBOL_replace](string, replaceValue) = {
   0:let rx = this
-  1:if (! (= (typeof rx) Object)) throw TypeError else 56:{}
+  1:if (! (= (typeof rx) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (ToString string)
   2:let S = [? __x0__]
   3:let lengthS = S.length
   4:app __x1__ = (IsCallable replaceValue)
   4:let functionalReplace = __x1__
-  5:if (= functionalReplace false) {
+  5:if (= functionalReplace false) 5:{
     6:app __x2__ = (ToString replaceValue)
     6:replaceValue = [? __x2__]
-  } else 56:{}
+  } else 5:{}
   7:app __x3__ = (Get rx "global")
   7:app __x4__ = (ToBoolean [? __x3__])
   7:let global = [! __x4__]
-  8:if (= global true) {
+  8:if (= global true) 8:{
     9:app __x5__ = (Get rx "unicode")
     9:app __x6__ = (ToBoolean [? __x5__])
     9:let fullUnicode = [! __x6__]
     10:app __x7__ = (Set rx "lastIndex" 0i true)
     10:[? __x7__]
-  } else 56:{}
+  } else 8:{}
   11:let results = (new [])
   12:let done = false
-  13:while (= done false) {
+  13:while (= done false) 13:{
     14:app __x8__ = (RegExpExec rx S)
     14:let result = [? __x8__]
-    16:if (= result null) done = true else {
+    15:if (= result null) 15:done = true else 16:{
       17:append result -> results
-      19:if (= global false) done = true else {
+      18:if (= global false) 18:done = true else 19:{
         20:app __x9__ = (Get result "0")
         20:app __x10__ = (ToString [? __x9__])
         20:let matchStr = [? __x10__]
-        21:if (= matchStr "") {
+        21:if (= matchStr "") 21:{
           22:app __x11__ = (Get rx "lastIndex")
           22:app __x12__ = (ToLength [? __x11__])
           22:let thisIndex = [? __x12__]
@@ -39,7 +39,7 @@ def [BUILTIN] RegExp.prototype[SYMBOL_replace](string, replaceValue) = {
           23:let nextIndex = __x13__
           24:app __x14__ = (Set rx "lastIndex" nextIndex true)
           24:[? __x14__]
-        } else 56:{}
+        } else 21:{}
       }
     }
   }
@@ -47,8 +47,9 @@ def [BUILTIN] RegExp.prototype[SYMBOL_replace](string, replaceValue) = {
   26:let nextSourcePosition = 0i
   27:let __x15__ = results
   27:let __x16__ = 0i
-  27:while (< __x16__ __x15__.length) {
-    let result = __x15__[__x16__]
+  27:while (< __x16__ __x15__.length) 27:{
+    27:let result = __x15__[__x16__]
+    27:__x16__ = (+ __x16__ 1i)
     28:app __x17__ = (LengthOfArrayLike result)
     28:let resultLength = [? __x17__]
     29:app __x18__ = (max (- resultLength 1i) 0i)
@@ -63,57 +64,56 @@ def [BUILTIN] RegExp.prototype[SYMBOL_replace](string, replaceValue) = {
     33:??? "Set id:{position} to the result of clamping id:{position} between 0 and id:{lengthS} ."
     34:let n = 1i
     35:let captures = (new [])
-    36:while (! (< nCaptures n)) {
+    36:while (! (< nCaptures n)) 36:{
       37:app __x23__ = (ToString n)
       37:app __x24__ = (Get result [! __x23__])
       37:let capN = [? __x24__]
-      38:if (! (= capN undefined)) {
+      38:if (! (= capN undefined)) 38:{
         39:app __x25__ = (ToString capN)
         39:capN = [? __x25__]
-      } else 56:{}
+      } else 38:{}
       40:append capN -> captures
       41:n = (+ n 1i)
     }
     42:app __x26__ = (Get result "groups")
     42:let namedCaptures = [? __x26__]
-    51:if (= functionalReplace true) {
+    43:if (= functionalReplace true) 43:{
       44:let replacerArgs = (new [matched])
       45:let __x27__ = captures
       45:let __x28__ = 0i
-      45:while (< __x28__ __x27__.length) {
-        let __x29__ = __x27__[__x28__]
-        append __x29__ -> replacerArgs
-        __x28__ = (+ __x28__ 1i)
+      45:while (< __x28__ __x27__.length) 45:{
+        45:let __x29__ = __x27__[__x28__]
+        45:__x28__ = (+ __x28__ 1i)
+        45:append __x29__ -> replacerArgs
       }
       46:append position -> replacerArgs
       46:append S -> replacerArgs
-      47:if (! (= namedCaptures undefined)) append namedCaptures -> replacerArgs else 56:{}
+      47:if (! (= namedCaptures undefined)) 48:append namedCaptures -> replacerArgs else 47:{}
       49:app __x30__ = (Call replaceValue undefined replacerArgs)
       49:let replValue = [? __x30__]
       50:app __x31__ = (ToString replValue)
       50:let replacement = [? __x31__]
-    } else {
-      52:if (! (= namedCaptures undefined)) {
+    } else 51:{
+      52:if (! (= namedCaptures undefined)) 52:{
         53:app __x32__ = (ToObject namedCaptures)
         53:namedCaptures = [? __x32__]
-      } else 56:{}
+      } else 52:{}
       54:app __x33__ = (GetSubstitution matched S position captures namedCaptures replaceValue)
       54:let replacement = [? __x33__]
     }
-    55:if (! (< position nextSourcePosition)) {
+    55:if (! (< position nextSourcePosition)) 55:{
       57:let __x34__ = ""
       57:let __x35__ = nextSourcePosition
-      57:while (< __x35__ position) {
-        access __x36__ = (S __x35__)
-        __x34__ = (+ __x34__ __x36__)
-        __x35__ = (+ __x35__ 1i)
+      57:while (< __x35__ position) 57:{
+        57:access __x36__ = (S __x35__)
+        57:__x34__ = (+ __x34__ __x36__)
+        57:__x35__ = (+ __x35__ 1i)
       }
       57:accumulatedResult = (+ (+ accumulatedResult __x34__) replacement)
       58:nextSourcePosition = (+ position matchLength)
-    } else 56:{}
-    __x16__ = (+ __x16__ 1i)
+    } else 55:{}
   }
-  59:if (! (< nextSourcePosition lengthS)) return accumulatedResult else 56:{}
+  59:if (! (< nextSourcePosition lengthS)) 59:return accumulatedResult else 59:{}
   60:??? "Return the string - concatenation of id:{accumulatedResult} and the substring of id:{S} from id:{nextSourcePosition} ."
 }
 - id: "sec-regexp.prototype-@@replace"

@@ -4,20 +4,20 @@ def AsyncGeneratorEnqueue(generator, completion, generatorBrand) = {
   1:app __x1__ = (AsyncGeneratorValidate generator generatorBrand)
   1:let check = __x1__
   2:app __x2__ = (IsAbruptCompletion check)
-  2:if __x2__ {
+  2:if __x2__ 2:{
     3:let badGeneratorError = (new OrdinaryObject("Prototype" -> INTRINSICS["%TypeError.prototype%"], "ErrorData" -> undefined))
     4:app __x3__ = (Call promiseCapability.Reject undefined (new [badGeneratorError]))
     4:[! __x3__]
     5:return promiseCapability.Promise
-  } else 40:{}
+  } else 2:{}
   6:let queue = generator.AsyncGeneratorQueue
   7:let request = (new AsyncGeneratorRequest("Completion" -> completion, "Capability" -> promiseCapability))
   8:append request -> queue
   9:let state = generator.AsyncGeneratorState
-  10:if (! (= state CONST_executing)) {
+  10:if (! (= state CONST_executing)) 10:{
     11:app __x4__ = (AsyncGeneratorResumeNext generator)
     11:[! __x4__]
-  } else 40:{}
+  } else 10:{}
   12:return promiseCapability.Promise
 }
 - id: "sec-asyncgeneratorenqueue"

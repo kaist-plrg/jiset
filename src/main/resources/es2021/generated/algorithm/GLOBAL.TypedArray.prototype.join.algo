@@ -3,20 +3,20 @@ def [BUILTIN] TypedArray.prototype.join(separator) = {
   1:app __x0__ = (ValidateTypedArray O)
   1:[? __x0__]
   2:let len = O.ArrayLength
-  4:if (= separator undefined) let sep = "," else {
-    app __x1__ = (ToString separator)
-    let sep = [? __x1__]
+  3:if (= separator undefined) 3:let sep = "," else 4:{
+    4:app __x1__ = (ToString separator)
+    4:let sep = [? __x1__]
   }
   5:let R = ""
   6:let k = 0i
-  7:while (< k len) {
-    8:if (< 0i k) R = (+ R sep) else 5:{}
+  7:while (< k len) 7:{
+    8:if (< 0i k) 8:R = (+ R sep) else 8:{}
     9:app __x2__ = (ToString k)
     9:app __x3__ = (Get O [! __x2__])
     9:let element = [! __x3__]
-    10:if (= element undefined) let next = "" else {
-      app __x4__ = (ToString element)
-      let next = [! __x4__]
+    10:if (= element undefined) 10:let next = "" else 11:{
+      11:app __x4__ = (ToString element)
+      11:let next = [! __x4__]
     }
     11:R = (+ R next)
     12:k = (+ k 1i)

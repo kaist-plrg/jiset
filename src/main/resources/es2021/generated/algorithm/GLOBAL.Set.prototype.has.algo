@@ -5,16 +5,16 @@ def [BUILTIN] Set.prototype.has(value) = {
   2:let entries = S.SetData
   3:let __x1__ = entries
   3:let __x2__ = 0i
-  3:while (< __x2__ __x1__.length) {
-    let e = __x1__[__x2__]
+  3:while (< __x2__ __x1__.length) 3:{
+    3:let e = __x1__[__x2__]
+    3:__x2__ = (+ __x2__ 1i)
     4:let __x3__ = true
     4:__x3__ = (! (= e CONST_empty))
-    4:if __x3__ {
-      app __x4__ = (SameValueZero e value)
-      __x3__ = (= __x4__ true)
-    } else 16:{}
-    4:if __x3__ return true else 16:{}
-    __x2__ = (+ __x2__ 1i)
+    4:if __x3__ 4:{
+      4:app __x4__ = (SameValueZero e value)
+      4:__x3__ = (= __x4__ true)
+    } else 4:{}
+    4:if __x3__ 4:return true else 4:{}
   }
   5:return false
 }

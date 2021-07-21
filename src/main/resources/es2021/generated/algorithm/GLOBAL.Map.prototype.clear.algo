@@ -5,11 +5,11 @@ def [BUILTIN] Map.prototype.clear() = {
   2:let entries = M.MapData
   3:let __x1__ = entries
   3:let __x2__ = 0i
-  3:while (< __x2__ __x1__.length) {
-    let p = __x1__[__x2__]
+  3:while (< __x2__ __x1__.length) 3:{
+    3:let p = __x1__[__x2__]
+    3:__x2__ = (+ __x2__ 1i)
     4:p.Key = CONST_empty
     5:p.Value = CONST_empty
-    __x2__ = (+ __x2__ 1i)
   }
   6:return undefined
 }

@@ -1,8 +1,8 @@
 def AdvanceStringIndex(S, index, unicode) = {
   0:assert (! (< (- (** 2i 53i) 1i) index))
-  1:if (= unicode false) return (+ index 1i) else 52:{}
+  1:if (= unicode false) 1:return (+ index 1i) else 1:{}
   2:let length = S.length
-  3:if (! (< (+ index 1i) length)) return (+ index 1i) else 52:{}
+  3:if (! (< (+ index 1i) length)) 3:return (+ index 1i) else 3:{}
   4:app __x0__ = (CodePointAt S index)
   4:let cp = [! __x0__]
   5:return (+ index cp.CodeUnitCount)

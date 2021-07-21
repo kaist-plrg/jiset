@@ -1,7 +1,7 @@
 def [METHOD] GlobalEnvironmentRecord.HasBinding(envRec)(N) = {
   0:let DclRec = envRec.DeclarativeRecord
   1:app __x0__ = (DclRec.HasBinding DclRec N)
-  1:if (= __x0__ true) return true else 0:{}
+  1:if (= __x0__ true) 1:return true else 1:{}
   2:let ObjRec = envRec.ObjectRecord
   3:app __x1__ = (ObjRec.HasBinding ObjRec N)
   3:return [? __x1__]

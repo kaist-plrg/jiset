@@ -5,7 +5,7 @@ def Set(O, P, V, Throw) = {
   2:assert (= (typeof Throw) Boolean)
   3:app __x1__ = (O.Set O P V O)
   3:let success = [? __x1__]
-  4:if (&& (= success false) (= Throw true)) throw TypeError else 4:{}
+  4:if (&& (= success false) (= Throw true)) 4:throw TypeError else 4:{}
   5:return success
 }
 - id: "sec-set-o-p-v-throw"

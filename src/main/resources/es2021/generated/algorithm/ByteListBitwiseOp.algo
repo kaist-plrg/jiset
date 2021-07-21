@@ -4,14 +4,15 @@ def ByteListBitwiseOp(op, xBytes, yBytes) = {
   3:let i = 0i
   4:let __x0__ = xBytes
   4:let __x1__ = 0i
-  4:while (< __x1__ __x0__.length) {
-    let xByte = __x0__[__x1__]
+  4:while (< __x1__ __x0__.length) 4:{
+    4:let xByte = __x0__[__x1__]
+    4:__x1__ = (+ __x1__ 1i)
     5:let yByte = yBytes[i]
-    7:if (= op "&") let resultByte = (& xByte yByte) else if (= op "^") let resultByte = (^ xByte yByte) else 1:{}
+    6:??? "If id:{op} is code:{&} , let id:{resultByte} be the result of applying the bitwise AND operation to id:{xByte} and id:{yByte} ."
+    7:??? "Else if id:{op} is code:{^} , let id:{resultByte} be the result of applying the bitwise exclusive OR ( XOR ) operation to id:{xByte} and id:{yByte} ."
     8:??? "Else , id:{op} is code:{|} . Let id:{resultByte} be the result of applying the bitwise inclusive OR operation to id:{xByte} and id:{yByte} ."
     9:i = (+ i 1i)
     10:append resultByte -> result
-    __x1__ = (+ __x1__ 1i)
   }
   11:return result
 }

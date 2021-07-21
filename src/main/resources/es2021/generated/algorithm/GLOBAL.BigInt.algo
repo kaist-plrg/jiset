@@ -1,13 +1,13 @@
 def [BUILTIN] BigInt(value) = {
-  0:if (! (= NewTarget undefined)) throw TypeError else 2:{}
+  0:if (! (= NewTarget undefined)) 0:throw TypeError else 0:{}
   1:app __x0__ = (ToPrimitive value CONST_number)
   1:let prim = [? __x0__]
-  3:if (= (typeof prim) Number) {
-    app __x1__ = (NumberToBigInt prim)
-    return [? __x1__]
-  } else {
-    app __x2__ = (ToBigInt value)
-    return [? __x2__]
+  2:if (= (typeof prim) Number) 2:{
+    2:app __x1__ = (NumberToBigInt prim)
+    2:return [? __x1__]
+  } else 3:{
+    3:app __x2__ = (ToBigInt value)
+    3:return [? __x2__]
   }
 }
 - id: "sec-bigint-constructor-number-value"

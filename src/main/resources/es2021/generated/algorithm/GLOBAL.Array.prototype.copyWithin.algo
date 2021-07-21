@@ -5,53 +5,53 @@ def [BUILTIN] Array.prototype.copyWithin(target, start, end?) = {
   1:let len = [? __x1__]
   2:app __x2__ = (ToIntegerOrInfinity target)
   2:let relativeTarget = [? __x2__]
-  5:if (= relativeTarget -Infinity) let to = 0i else if (< relativeTarget 0i) {
-    app __x3__ = (max (+ len relativeTarget) 0i)
-    let to = __x3__
-  } else {
-    app __x4__ = (min relativeTarget len)
-    let to = __x4__
+  3:if (= relativeTarget -Infinity) 3:let to = 0i else 3:if (< relativeTarget 0i) 4:{
+    4:app __x3__ = (max (+ len relativeTarget) 0i)
+    4:let to = __x3__
+  } else 5:{
+    5:app __x4__ = (min relativeTarget len)
+    5:let to = __x4__
   }
   6:app __x5__ = (ToIntegerOrInfinity start)
   6:let relativeStart = [? __x5__]
-  9:if (= relativeStart -Infinity) let from = 0i else if (< relativeStart 0i) {
-    app __x6__ = (max (+ len relativeStart) 0i)
-    let from = __x6__
-  } else {
-    app __x7__ = (min relativeStart len)
-    let from = __x7__
+  7:if (= relativeStart -Infinity) 7:let from = 0i else 7:if (< relativeStart 0i) 8:{
+    8:app __x6__ = (max (+ len relativeStart) 0i)
+    8:let from = __x6__
+  } else 9:{
+    9:app __x7__ = (min relativeStart len)
+    9:let from = __x7__
   }
-  10:if (= end undefined) let relativeEnd = len else {
-    app __x8__ = (ToIntegerOrInfinity end)
-    let relativeEnd = [? __x8__]
+  10:if (= end undefined) 10:let relativeEnd = len else 11:{
+    11:app __x8__ = (ToIntegerOrInfinity end)
+    11:let relativeEnd = [? __x8__]
   }
-  13:if (= relativeEnd -Infinity) let final = 0i else if (< relativeEnd 0i) {
-    app __x9__ = (max (+ len relativeEnd) 0i)
-    let final = __x9__
-  } else {
-    app __x10__ = (min relativeEnd len)
-    let final = __x10__
+  11:if (= relativeEnd -Infinity) 11:let final = 0i else 11:if (< relativeEnd 0i) 12:{
+    12:app __x9__ = (max (+ len relativeEnd) 0i)
+    12:let final = __x9__
+  } else 13:{
+    13:app __x10__ = (min relativeEnd len)
+    13:let final = __x10__
   }
   14:app __x11__ = (min (- final from) (- len to))
   14:let count = __x11__
-  19:if (&& (< from to) (< to (+ from count))) {
+  15:if (&& (< from to) (< to (+ from count))) 15:{
     16:let direction = -1i
     17:from = (- (+ from count) 1i)
     18:to = (- (+ to count) 1i)
-  } else let direction = 1i
-  21:while (< 0i count) {
+  } else 15:let direction = 1i
+  21:while (< 0i count) 21:{
     22:app __x12__ = (ToString from)
     22:let fromKey = [! __x12__]
     23:app __x13__ = (ToString to)
     23:let toKey = [! __x13__]
     24:app __x14__ = (HasProperty O fromKey)
     24:let fromPresent = [? __x14__]
-    28:if (= fromPresent true) {
+    25:if (= fromPresent true) 25:{
       26:app __x15__ = (Get O fromKey)
       26:let fromVal = [? __x15__]
       27:app __x16__ = (Set O toKey fromVal true)
       27:[? __x16__]
-    } else {
+    } else 28:{
       29:assert (= fromPresent false)
       30:app __x17__ = (DeletePropertyOrThrow O toKey)
       30:[? __x17__]

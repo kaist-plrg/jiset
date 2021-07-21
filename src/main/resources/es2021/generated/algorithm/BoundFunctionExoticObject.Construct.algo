@@ -6,14 +6,14 @@ def [METHOD] BoundFunctionExoticObject.Construct(F)(argumentsList, newTarget) = 
   3:let __x1__ = (copy-obj boundArgs)
   3:let __x2__ = argumentsList
   3:let __x3__ = 0i
-  3:while (< __x3__ __x2__.length) {
-    let __x4__ = __x2__[__x3__]
-    append __x4__ -> __x1__
-    __x3__ = (+ __x3__ 1i)
+  3:while (< __x3__ __x2__.length) 3:{
+    3:let __x4__ = __x2__[__x3__]
+    3:__x3__ = (+ __x3__ 1i)
+    3:append __x4__ -> __x1__
   }
   3:let args = __x1__
   4:app __x5__ = (SameValue F newTarget)
-  4:if (= __x5__ true) newTarget = target else 0:{}
+  4:if (= __x5__ true) 4:newTarget = target else 4:{}
   5:app __x6__ = (Construct target args newTarget)
   5:return [? __x6__]
 }

@@ -2,7 +2,7 @@ def [METHOD] ObjectEnvironmentRecord.SetMutableBinding(envRec)(N, V, S) = {
   0:let bindings = envRec.BindingObject
   1:app __x0__ = (HasProperty bindings N)
   1:let stillExists = [? __x0__]
-  2:if (&& (= stillExists false) (= S true)) throw ReferenceError else 0:{}
+  2:if (&& (= stillExists false) (= S true)) 2:throw ReferenceError else 2:{}
   3:app __x1__ = (Set bindings N V S)
   3:return [? __x1__]
 }

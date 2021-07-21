@@ -1,14 +1,14 @@
 def [METHOD] ProxyObject.Call(O)(thisArgument, argumentsList) = {
   0:let handler = O.ProxyHandler
-  1:if (= handler null) throw TypeError else 13:{}
+  1:if (= handler null) 1:throw TypeError else 1:{}
   2:assert (= (typeof handler) Object)
   3:let target = O.ProxyTarget
   4:app __x0__ = (GetMethod handler "apply")
   4:let trap = [? __x0__]
-  5:if (= trap undefined) {
+  5:if (= trap undefined) 5:{
     6:app __x1__ = (Call target thisArgument argumentsList)
     6:return [? __x1__]
-  } else 13:{}
+  } else 5:{}
   7:app __x2__ = (CreateArrayFromList argumentsList)
   7:let argArray = [! __x2__]
   8:app __x3__ = (Call trap handler (new [target, thisArgument, argArray]))

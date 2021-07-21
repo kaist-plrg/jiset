@@ -5,61 +5,61 @@ def [BUILTIN] Array.prototype.splice(start, deleteCount, ...items) = {
   1:let len = [? __x1__]
   2:app __x2__ = (ToIntegerOrInfinity start)
   2:let relativeStart = [? __x2__]
-  5:if (= relativeStart -Infinity) let actualStart = 0i else if (< relativeStart 0i) {
-    app __x3__ = (max (+ len relativeStart) 0i)
-    let actualStart = __x3__
-  } else {
-    app __x4__ = (min relativeStart len)
-    let actualStart = __x4__
+  3:if (= relativeStart -Infinity) 3:let actualStart = 0i else 3:if (< relativeStart 0i) 4:{
+    4:app __x3__ = (max (+ len relativeStart) 0i)
+    4:let actualStart = __x3__
+  } else 5:{
+    5:app __x4__ = (min relativeStart len)
+    5:let actualStart = __x4__
   }
-  12:if (= start absent) {
+  6:if (= start absent) 6:{
     7:let insertCount = 0i
     8:let actualDeleteCount = 0i
-  } else if (= deleteCount absent) {
+  } else 6:if (= deleteCount absent) 9:{
     10:let insertCount = 0i
     11:let actualDeleteCount = (- len actualStart)
-  } else {
+  } else 12:{
     13:let insertCount = items.length
     14:app __x5__ = (ToIntegerOrInfinity deleteCount)
     14:let dc = [? __x5__]
     15:??? "Let id:{actualDeleteCount} be the result of clamping id:{dc} between 0 and id:{len} - id:{actualStart} ."
   }
-  16:if (< (- (** 2i 53i) 1i) (- (+ len insertCount) actualDeleteCount)) throw TypeError else 25:{}
+  16:if (< (- (** 2i 53i) 1i) (- (+ len insertCount) actualDeleteCount)) 16:throw TypeError else 16:{}
   17:app __x6__ = (ArraySpeciesCreate O actualDeleteCount)
   17:let A = [? __x6__]
   18:let k = 0i
-  19:while (< k actualDeleteCount) {
+  19:while (< k actualDeleteCount) 19:{
     20:app __x7__ = (ToString (+ actualStart k))
     20:let from = [! __x7__]
     21:app __x8__ = (HasProperty O from)
     21:let fromPresent = [? __x8__]
-    22:if (= fromPresent true) {
+    22:if (= fromPresent true) 22:{
       23:app __x9__ = (Get O from)
       23:let fromValue = [? __x9__]
       24:app __x10__ = (ToString k)
       24:app __x11__ = (CreateDataPropertyOrThrow A [! __x10__] fromValue)
       24:[? __x11__]
-    } else 25:{}
+    } else 22:{}
     25:k = (+ k 1i)
   }
   26:app __x12__ = (Set A "length" actualDeleteCount true)
   26:[? __x12__]
   27:let itemCount = items.length
-  45:if (< itemCount actualDeleteCount) {
+  28:if (< itemCount actualDeleteCount) 28:{
     29:k = actualStart
-    30:while (< k (- len actualDeleteCount)) {
+    30:while (< k (- len actualDeleteCount)) 30:{
       31:app __x13__ = (ToString (+ k actualDeleteCount))
       31:let from = [! __x13__]
       32:app __x14__ = (ToString (+ k itemCount))
       32:let to = [! __x14__]
       33:app __x15__ = (HasProperty O from)
       33:let fromPresent = [? __x15__]
-      37:if (= fromPresent true) {
+      34:if (= fromPresent true) 34:{
         35:app __x16__ = (Get O from)
         35:let fromValue = [? __x16__]
         36:app __x17__ = (Set O to fromValue true)
         36:[? __x17__]
-      } else {
+      } else 37:{
         38:assert (= fromPresent false)
         39:app __x18__ = (DeletePropertyOrThrow O to)
         39:[? __x18__]
@@ -67,44 +67,44 @@ def [BUILTIN] Array.prototype.splice(start, deleteCount, ...items) = {
       40:k = (+ k 1i)
     }
     41:k = len
-    42:while (< (+ (- len actualDeleteCount) itemCount) k) {
+    42:while (< (+ (- len actualDeleteCount) itemCount) k) 42:{
       43:app __x19__ = (ToString (- k 1i))
       43:app __x20__ = (DeletePropertyOrThrow O [! __x19__])
       43:[? __x20__]
       44:k = (- k 1i)
     }
-  } else if (< actualDeleteCount itemCount) {
+  } else 28:if (< actualDeleteCount itemCount) 43:{
     46:k = (- len actualDeleteCount)
-    47:while (< actualStart k) {
+    47:while (< actualStart k) 47:{
       48:app __x21__ = (ToString (- (+ k actualDeleteCount) 1i))
       48:let from = [! __x21__]
       49:app __x22__ = (ToString (- (+ k itemCount) 1i))
       49:let to = [! __x22__]
       50:app __x23__ = (HasProperty O from)
       50:let fromPresent = [? __x23__]
-      54:if (= fromPresent true) {
+      51:if (= fromPresent true) 51:{
         52:app __x24__ = (Get O from)
         52:let fromValue = [? __x24__]
         53:app __x25__ = (Set O to fromValue true)
         53:[? __x25__]
-      } else {
+      } else 54:{
         55:assert (= fromPresent false)
         56:app __x26__ = (DeletePropertyOrThrow O to)
         56:[? __x26__]
       }
       57:k = (- k 1i)
     }
-  } else 25:{}
+  } else 28:{}
   58:k = actualStart
   59:let __x27__ = items
   59:let __x28__ = 0i
-  59:while (< __x28__ __x27__.length) {
-    let E = __x27__[__x28__]
+  59:while (< __x28__ __x27__.length) 59:{
+    59:let E = __x27__[__x28__]
+    59:__x28__ = (+ __x28__ 1i)
     60:app __x29__ = (ToString k)
     60:app __x30__ = (Set O [! __x29__] E true)
     60:[? __x30__]
     61:k = (+ k 1i)
-    __x28__ = (+ __x28__ 1i)
   }
   62:app __x31__ = (Set O "length" (+ (- len actualDeleteCount) itemCount) true)
   62:[? __x31__]

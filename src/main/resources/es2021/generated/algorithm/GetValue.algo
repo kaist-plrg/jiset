@@ -1,16 +1,16 @@
 def GetValue(V) = {
   0:[? V]
-  1:if (! (is-instance-of V ReferenceRecord)) return V else 0:{}
+  1:if (! (is-instance-of V ReferenceRecord)) 1:return V else 1:{}
   2:app __x0__ = (IsUnresolvableReference V)
-  2:if (= __x0__ true) throw ReferenceError else 0:{}
-  6:app __x1__ = (IsPropertyReference V)
-  6:if (= __x1__ true) {
+  2:if (= __x0__ true) 2:throw ReferenceError else 2:{}
+  3:app __x1__ = (IsPropertyReference V)
+  3:if (= __x1__ true) 3:{
     4:app __x2__ = (ToObject V.Base)
     4:let baseObj = [! __x2__]
     5:app __x3__ = (GetThisValue V)
     5:app __x4__ = (baseObj.Get baseObj V.ReferencedName __x3__)
     5:return [? __x4__]
-  } else {
+  } else 6:{
     7:let base = V.Base
     8:assert (is-instance-of base EnvironmentRecord)
     9:app __x5__ = (base.GetBindingValue base V.ReferencedName V.Strict)

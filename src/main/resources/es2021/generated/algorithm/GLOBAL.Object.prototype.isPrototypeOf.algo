@@ -1,13 +1,13 @@
 def [BUILTIN] Object.prototype.isPrototypeOf(V) = {
-  0:if (! (= (typeof V) Object)) return false else 2:{}
+  0:if (! (= (typeof V) Object)) 0:return false else 0:{}
   1:app __x0__ = (ToObject this)
   1:let O = [? __x0__]
-  2:while true {
+  2:while true 2:{
     3:app __x1__ = (V.GetPrototypeOf V)
     3:V = [? __x1__]
-    4:if (= V null) return false else 2:{}
+    4:if (= V null) 4:return false else 4:{}
     5:app __x2__ = (SameValue O V)
-    5:if (= __x2__ true) return true else 2:{}
+    5:if (= __x2__ true) 5:return true else 5:{}
   }
 }
 - id: "sec-object.prototype.isprototypeof"

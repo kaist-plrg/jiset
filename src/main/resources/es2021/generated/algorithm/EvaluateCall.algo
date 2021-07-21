@@ -1,25 +1,25 @@
 def EvaluateCall(func, ref, arguments, tailPosition) = {
-  7:if (is-instance-of ref ReferenceRecord) {
-    3:app __x0__ = (IsPropertyReference ref)
-    3:if (= __x0__ true) {
+  0:if (is-instance-of ref ReferenceRecord) 0:{
+    1:app __x0__ = (IsPropertyReference ref)
+    1:if (= __x0__ true) 1:{
       2:app __x1__ = (GetThisValue ref)
       2:let thisValue = __x1__
-    } else {
+    } else 3:{
       4:let refEnv = ref.Base
       5:assert (is-instance-of refEnv EnvironmentRecord)
       6:app __x2__ = (refEnv.WithBaseObject refEnv)
       6:let thisValue = __x2__
     }
-  } else let thisValue = undefined
+  } else 0:let thisValue = undefined
   9:access __x3__ = (arguments "ArgumentListEvaluation")
   9:let argList = [? __x3__]
-  10:if (! (= (typeof func) Object)) throw TypeError else 15:{}
+  10:if (! (= (typeof func) Object)) 10:throw TypeError else 10:{}
   11:app __x4__ = (IsCallable func)
-  11:if (= __x4__ false) throw TypeError else 15:{}
-  12:if (= tailPosition true) {
-    app __x5__ = (PrepareForTailCall)
-    __x5__
-  } else 15:{}
+  11:if (= __x4__ false) 11:throw TypeError else 11:{}
+  12:if (= tailPosition true) 12:{
+    12:app __x5__ = (PrepareForTailCall)
+    12:__x5__
+  } else 12:{}
   13:app __x6__ = (Call func thisValue argList)
   13:let result = __x6__
   16:return result

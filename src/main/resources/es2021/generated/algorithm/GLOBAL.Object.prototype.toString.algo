@@ -1,14 +1,14 @@
 def [BUILTIN] Object.prototype.toString() = {
-  0:if (= this undefined) return "[object Undefined]" else 2:{}
-  1:if (= this null) return "[object Null]" else 2:{}
+  0:if (= this undefined) 0:return "[object Undefined]" else 0:{}
+  1:if (= this null) 1:return "[object Null]" else 1:{}
   2:app __x0__ = (ToObject this)
   2:let O = [! __x0__]
   3:app __x1__ = (IsArray O)
   3:let isArray = [? __x1__]
-  13:if (= isArray true) let builtinTag = "Array" else if (! (= O.ParameterMap absent)) let builtinTag = "Arguments" else if (! (= O.Call absent)) let builtinTag = "Function" else if (! (= O.ErrorData absent)) let builtinTag = "Error" else if (! (= O.BooleanData absent)) let builtinTag = "Boolean" else if (! (= O.NumberData absent)) let builtinTag = "Number" else if (! (= O.StringData absent)) let builtinTag = "String" else if (! (= O.DateValue absent)) let builtinTag = "Date" else if (! (= O.RegExpMatcher absent)) let builtinTag = "RegExp" else let builtinTag = "Object"
+  4:if (= isArray true) 4:let builtinTag = "Array" else 4:if (! (= O.ParameterMap absent)) 5:let builtinTag = "Arguments" else 4:if (! (= O.Call absent)) 6:let builtinTag = "Function" else 4:if (! (= O.ErrorData absent)) 7:let builtinTag = "Error" else 4:if (! (= O.BooleanData absent)) 8:let builtinTag = "Boolean" else 4:if (! (= O.NumberData absent)) 9:let builtinTag = "Number" else 4:if (! (= O.StringData absent)) 10:let builtinTag = "String" else 4:if (! (= O.DateValue absent)) 11:let builtinTag = "Date" else 4:if (! (= O.RegExpMatcher absent)) 12:let builtinTag = "RegExp" else 4:let builtinTag = "Object"
   14:app __x2__ = (Get O SYMBOL_toStringTag)
   14:let tag = [? __x2__]
-  15:if (! (= (typeof tag) String)) tag = builtinTag else 2:{}
+  15:if (! (= (typeof tag) String)) 15:tag = builtinTag else 15:{}
   16:return (+ (+ "[object " tag) "]")
 }
 - id: "sec-object.prototype.tostring"

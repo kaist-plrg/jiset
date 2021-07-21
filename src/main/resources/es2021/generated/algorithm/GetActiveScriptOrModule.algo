@@ -1,13 +1,13 @@
 def GetActiveScriptOrModule() = {
-  0:if (= EXECUTION_STACK.length 0i) return null else 2:{}
+  0:if (= EXECUTION_STACK.length 0i) 0:return null else 0:{}
   1:let ec = null
   1:let idx = EXECUTION_STACK.length
-  1:while (&& (= ec null) (< 0i idx)) {
-    idx = (- idx 1i)
-    ec = EXECUTION_STACK[idx]
-    if (= ec.ScriptOrModule absent) ec = null else {}
+  1:while (&& (= ec null) (< 0i idx)) 1:{
+    1:idx = (- idx 1i)
+    1:ec = EXECUTION_STACK[idx]
+    1:if (= ec.ScriptOrModule absent) 1:ec = null else 1:{}
   }
-  2:if (= ec null) return null else return ec.ScriptOrModule
+  2:if (= ec null) 2:return null else 2:return ec.ScriptOrModule
 }
 - id: "sec-getactivescriptormodule"
 - code:

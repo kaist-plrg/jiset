@@ -3,10 +3,10 @@ def [SYNTAX] ArrayAssignmentPattern[1,0].DestructuringAssignmentEvaluation<(Assi
   0:let iteratorRecord = [? __x0__]
   1:access __x1__ = (AssignmentElementList "IteratorDestructuringAssignmentEvaluation" iteratorRecord)
   1:let result = __x1__
-  2:if (= iteratorRecord.Done false) {
-    app __x2__ = (IteratorClose iteratorRecord result)
-    return [? __x2__]
-  } else 10:{}
+  2:if (= iteratorRecord.Done false) 2:{
+    2:app __x2__ = (IteratorClose iteratorRecord result)
+    2:return [? __x2__]
+  } else 2:{}
   3:return result
 }
 - id: "sec-runtime-semantics-destructuringassignmentevaluation"

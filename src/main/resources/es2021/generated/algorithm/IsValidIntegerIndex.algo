@@ -1,10 +1,10 @@
 def IsValidIntegerIndex(O, index) = {
   1:app __x0__ = (IsDetachedBuffer O.ViewedArrayBuffer)
-  1:if (= __x0__ true) return false else 0:{}
+  1:if (= __x0__ true) 1:return false else 1:{}
   2:app __x1__ = (IsIntegralNumber index)
-  2:if (= [! __x1__] false) return false else 0:{}
-  3:if (= index -0.0) return false else 0:{}
-  4:if (|| (< index 0i) (! (< index O.ArrayLength))) return false else 0:{}
+  2:if (= [! __x1__] false) 2:return false else 2:{}
+  3:if (= index -0.0) 3:return false else 3:{}
+  4:if (|| (< index 0i) (! (< index O.ArrayLength))) 4:return false else 4:{}
   5:return true
 }
 - id: "sec-isvalidintegerindex"

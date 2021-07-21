@@ -1,5 +1,5 @@
 def [METHOD] DeclarativeEnvironmentRecord.GetBindingValue(envRec)(N, S) = {
-  1:if (! envRec.SubMap[N].initialized) throw ReferenceError else {}
+  1:if (! envRec.SubMap[N].initialized) 1:throw ReferenceError else 1:{}
   2:return envRec.SubMap[N].BoundValue
 }
 - id: "sec-declarative-environment-records-getbindingvalue-n-s"

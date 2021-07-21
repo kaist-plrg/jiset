@@ -1,8 +1,8 @@
 def [BUILTIN] Math.acos(x) = {
   0:app __x0__ = (ToNumber x)
   0:let n = [? __x0__]
-  1:if (|| (|| (= n NaN) (< 1i n)) (< n -1i)) return NaN else 2:{}
-  2:if (= n 1i) return 0i else 2:{}
+  1:if (|| (|| (= n NaN) (< 1i n)) (< n -1i)) 1:return NaN else 1:{}
+  2:if (= n 1i) 2:return 0i else 2:{}
   3:??? "Return an implementation - approximated value representing the result of the inverse cosine of ℝ ( id:{n} ) ."
 }
 - id: "sec-math.acos"

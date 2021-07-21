@@ -3,145 +3,145 @@ def EvalDeclarationInstantiation(body, varEnv, lexEnv, strict) = {
   0:let varNames = __x0__
   1:access __x1__ = (body "VarScopedDeclarations")
   1:let varDeclarations = __x1__
-  2:if (= strict false) {
-    3:if (is-instance-of varEnv GlobalEnvironmentRecord) {
+  2:if (= strict false) 2:{
+    3:if (is-instance-of varEnv GlobalEnvironmentRecord) 3:{
       4:let __x2__ = varNames
       4:let __x3__ = 0i
-      4:while (< __x3__ __x2__.length) {
-        let name = __x2__[__x3__]
+      4:while (< __x3__ __x2__.length) 4:{
+        4:let name = __x2__[__x3__]
+        4:__x3__ = (+ __x3__ 1i)
         5:app __x4__ = (varEnv.HasLexicalDeclaration varEnv name)
-        5:if (= __x4__ true) throw SyntaxError else 71:{}
-        __x3__ = (+ __x3__ 1i)
+        5:if (= __x4__ true) 5:throw SyntaxError else 5:{}
       }
-    } else 71:{}
+    } else 3:{}
     7:let thisEnv = lexEnv
-    9:while (! (= thisEnv varEnv)) {
-      10:if (! (is-instance-of thisEnv ObjectEnvironmentRecord)) {
+    9:while (! (= thisEnv varEnv)) 9:{
+      10:if (! (is-instance-of thisEnv ObjectEnvironmentRecord)) 10:{
         12:let __x5__ = varNames
         12:let __x6__ = 0i
-        12:while (< __x6__ __x5__.length) {
-          let name = __x5__[__x6__]
+        12:while (< __x6__ __x5__.length) 12:{
+          12:let name = __x5__[__x6__]
+          12:__x6__ = (+ __x6__ 1i)
           13:app __x7__ = (thisEnv.HasBinding thisEnv name)
-          13:if (= __x7__ true) throw SyntaxError else 71:{}
-          __x6__ = (+ __x6__ 1i)
+          13:if (= __x7__ true) 14:throw SyntaxError else 13:{}
         }
-      } else 71:{}
+      } else 10:{}
       17:thisEnv = thisEnv.OuterEnv
     }
-  } else 71:{}
+  } else 2:{}
   18:let functionsToInitialize = (new [])
   19:let declaredFunctionNames = (new [])
   20:let __x8__ = varDeclarations
   20:let __x9__ = __x8__.length
-  20:while (< 0i __x9__) {
-    __x9__ = (- __x9__ 1i)
-    let d = __x8__[__x9__]
-    21:if (! (|| (|| (is-instance-of d VariableDeclaration) (is-instance-of d ForBinding)) (is-instance-of d BindingIdentifier))) {
+  20:while (< 0i __x9__) 20:{
+    20:__x9__ = (- __x9__ 1i)
+    20:let d = __x8__[__x9__]
+    21:if (! (|| (|| (is-instance-of d VariableDeclaration) (is-instance-of d ForBinding)) (is-instance-of d BindingIdentifier))) 21:{
       22:assert (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration))
       24:access __x10__ = (d "BoundNames")
       24:let fn = __x10__[0i]
-      25:if (! (contains declaredFunctionNames fn)) {
-        26:if (is-instance-of varEnv GlobalEnvironmentRecord) {
+      25:if (! (contains declaredFunctionNames fn)) 25:{
+        26:if (is-instance-of varEnv GlobalEnvironmentRecord) 26:{
           27:app __x11__ = (varEnv.CanDeclareGlobalFunction varEnv fn)
           27:let fnDefinable = [? __x11__]
-          28:if (= fnDefinable false) throw TypeError else 71:{}
-        } else 71:{}
+          28:if (= fnDefinable false) 28:throw TypeError else 28:{}
+        } else 26:{}
         29:append fn -> declaredFunctionNames
         30:prepend d -> functionsToInitialize
-      } else 71:{}
-    } else 71:{}
+      } else 25:{}
+    } else 21:{}
   }
   32:let declaredVarNames = (new [])
   33:let __x12__ = varDeclarations
   33:let __x13__ = 0i
-  33:while (< __x13__ __x12__.length) {
-    let d = __x12__[__x13__]
-    34:if (|| (|| (is-instance-of d VariableDeclaration) (is-instance-of d ForBinding)) (is-instance-of d BindingIdentifier)) {
+  33:while (< __x13__ __x12__.length) 33:{
+    33:let d = __x12__[__x13__]
+    33:__x13__ = (+ __x13__ 1i)
+    34:if (|| (|| (is-instance-of d VariableDeclaration) (is-instance-of d ForBinding)) (is-instance-of d BindingIdentifier)) 34:{
       35:access __x14__ = (d "BoundNames")
       35:let __x15__ = __x14__
       35:let __x16__ = 0i
-      35:while (< __x16__ __x15__.length) {
-        let vn = __x15__[__x16__]
-        36:if (! (contains declaredFunctionNames vn)) {
-          37:if (is-instance-of varEnv GlobalEnvironmentRecord) {
+      35:while (< __x16__ __x15__.length) 35:{
+        35:let vn = __x15__[__x16__]
+        35:__x16__ = (+ __x16__ 1i)
+        36:if (! (contains declaredFunctionNames vn)) 36:{
+          37:if (is-instance-of varEnv GlobalEnvironmentRecord) 37:{
             38:app __x17__ = (varEnv.CanDeclareGlobalVar varEnv vn)
             38:let vnDefinable = [? __x17__]
-            39:if (= vnDefinable false) throw TypeError else 71:{}
-          } else 71:{}
-          40:if (! (contains declaredVarNames vn)) append vn -> declaredVarNames else 71:{}
-        } else 71:{}
-        __x16__ = (+ __x16__ 1i)
+            39:if (= vnDefinable false) 39:throw TypeError else 39:{}
+          } else 37:{}
+          40:if (! (contains declaredVarNames vn)) 41:append vn -> declaredVarNames else 40:{}
+        } else 36:{}
       }
-    } else 71:{}
-    __x13__ = (+ __x13__ 1i)
+    } else 34:{}
   }
   43:access __x18__ = (body "LexicallyScopedDeclarations")
   43:let lexDeclarations = __x18__
   44:let __x19__ = lexDeclarations
   44:let __x20__ = 0i
-  44:while (< __x20__ __x19__.length) {
-    let d = __x19__[__x20__]
+  44:while (< __x20__ __x19__.length) 44:{
+    44:let d = __x19__[__x20__]
+    44:__x20__ = (+ __x20__ 1i)
     46:access __x21__ = (d "BoundNames")
     46:let __x22__ = __x21__
     46:let __x23__ = 0i
-    46:while (< __x23__ __x22__.length) {
-      let dn = __x22__[__x23__]
-      49:access __x24__ = (d "IsConstantDeclaration")
-      49:if (= __x24__ true) {
+    46:while (< __x23__ __x22__.length) 46:{
+      46:let dn = __x22__[__x23__]
+      46:__x23__ = (+ __x23__ 1i)
+      47:access __x24__ = (d "IsConstantDeclaration")
+      47:if (= __x24__ true) 47:{
         48:app __x25__ = (lexEnv.CreateImmutableBinding lexEnv dn true)
         48:[? __x25__]
-      } else {
+      } else 49:{
         50:app __x26__ = (lexEnv.CreateMutableBinding lexEnv dn false)
         50:[? __x26__]
       }
-      __x23__ = (+ __x23__ 1i)
     }
-    __x20__ = (+ __x20__ 1i)
   }
   51:let __x27__ = functionsToInitialize
   51:let __x28__ = 0i
-  51:while (< __x28__ __x27__.length) {
-    let f = __x27__[__x28__]
+  51:while (< __x28__ __x27__.length) 51:{
+    51:let f = __x27__[__x28__]
+    51:__x28__ = (+ __x28__ 1i)
     52:access __x29__ = (f "BoundNames")
     52:let fn = __x29__[0i]
     53:access __x30__ = (f "InstantiateFunctionObject" lexEnv)
     53:let fo = __x30__
-    56:if (is-instance-of varEnv GlobalEnvironmentRecord) {
+    54:if (is-instance-of varEnv GlobalEnvironmentRecord) 54:{
       55:app __x31__ = (varEnv.CreateGlobalFunctionBinding varEnv fn fo true)
       55:[? __x31__]
-    } else {
+    } else 56:{
       57:app __x32__ = (varEnv.HasBinding varEnv fn)
       57:let bindingExists = __x32__
-      62:if (= bindingExists false) {
+      58:if (= bindingExists false) 58:{
         59:app __x33__ = (varEnv.CreateMutableBinding varEnv fn true)
         59:let status = [! __x33__]
         61:app __x34__ = (varEnv.InitializeBinding varEnv fn fo)
         61:[! __x34__]
-      } else {
+      } else 62:{
         63:app __x35__ = (varEnv.SetMutableBinding varEnv fn fo false)
         63:[! __x35__]
       }
     }
-    __x28__ = (+ __x28__ 1i)
   }
   64:let __x36__ = declaredVarNames
   64:let __x37__ = 0i
-  64:while (< __x37__ __x36__.length) {
-    let vn = __x36__[__x37__]
-    67:if (is-instance-of varEnv GlobalEnvironmentRecord) {
+  64:while (< __x37__ __x36__.length) 64:{
+    64:let vn = __x36__[__x37__]
+    64:__x37__ = (+ __x37__ 1i)
+    65:if (is-instance-of varEnv GlobalEnvironmentRecord) 65:{
       66:app __x38__ = (varEnv.CreateGlobalVarBinding varEnv vn true)
       66:[? __x38__]
-    } else {
+    } else 67:{
       68:app __x39__ = (varEnv.HasBinding varEnv vn)
       68:let bindingExists = __x39__
-      69:if (= bindingExists false) {
+      69:if (= bindingExists false) 69:{
         70:app __x40__ = (varEnv.CreateMutableBinding varEnv vn true)
         70:let status = [! __x40__]
         72:app __x41__ = (varEnv.InitializeBinding varEnv vn undefined)
         72:[! __x41__]
-      } else 71:{}
+      } else 69:{}
     }
-    __x37__ = (+ __x37__ 1i)
   }
   73:return CONST_empty
 }

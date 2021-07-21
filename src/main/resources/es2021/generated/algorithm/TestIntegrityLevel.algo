@@ -3,26 +3,26 @@ def TestIntegrityLevel(O, level) = {
   1:assert (|| (= level CONST_sealed) (= level CONST_frozen))
   2:app __x0__ = (IsExtensible O)
   2:let extensible = [? __x0__]
-  3:if (= extensible true) return false else 4:{}
+  3:if (= extensible true) 3:return false else 3:{}
   5:app __x1__ = (O.OwnPropertyKeys O)
   5:let keys = [? __x1__]
   6:let __x2__ = keys
   6:let __x3__ = 0i
-  6:while (< __x3__ __x2__.length) {
-    let k = __x2__[__x3__]
+  6:while (< __x3__ __x2__.length) 6:{
+    6:let k = __x2__[__x3__]
+    6:__x3__ = (+ __x3__ 1i)
     7:app __x4__ = (O.GetOwnProperty O k)
     7:let currentDesc = [? __x4__]
-    8:if (! (= currentDesc undefined)) {
-      9:if (= currentDesc.Configurable true) return false else 4:{}
+    8:if (! (= currentDesc undefined)) 8:{
+      9:if (= currentDesc.Configurable true) 9:return false else 9:{}
       10:let __x5__ = true
       10:__x5__ = (= level CONST_frozen)
-      10:if __x5__ {
-        app __x6__ = (IsDataDescriptor currentDesc)
-        __x5__ = (= __x6__ true)
-      } else 4:{}
-      10:if __x5__ if (= currentDesc.Writable true) return false else 4:{} else 4:{}
-    } else 4:{}
-    __x3__ = (+ __x3__ 1i)
+      10:if __x5__ 10:{
+        10:app __x6__ = (IsDataDescriptor currentDesc)
+        10:__x5__ = (= __x6__ true)
+      } else 10:{}
+      10:if __x5__ 11:if (= currentDesc.Writable true) 11:return false else 11:{} else 10:{}
+    } else 8:{}
   }
   12:return true
 }

@@ -4,12 +4,12 @@ def [BUILTIN] Date.prototype.setSeconds(sec, ms?) = {
   0:let t = __x1__
   1:app __x2__ = (ToNumber sec)
   1:let s = [? __x2__]
-  2:if (= ms absent) {
-    app __x3__ = (msFromTime t)
-    let milli = __x3__
-  } else {
-    app __x4__ = (ToNumber ms)
-    let milli = [? __x4__]
+  2:if (= ms absent) 2:{
+    2:app __x3__ = (msFromTime t)
+    2:let milli = __x3__
+  } else 3:{
+    3:app __x4__ = (ToNumber ms)
+    3:let milli = [? __x4__]
   }
   3:app __x5__ = (Day t)
   3:app __x6__ = (HourFromTime t)

@@ -1,17 +1,17 @@
 def GeneratorResumeAbrupt(generator, abruptCompletion, generatorBrand) = {
   0:app __x0__ = (GeneratorValidate generator generatorBrand)
   0:let state = [? __x0__]
-  1:if (= state CONST_suspendedStart) {
+  1:if (= state CONST_suspendedStart) 1:{
     2:generator.GeneratorState = CONST_completed
     4:state = CONST_completed
-  } else 16:{}
-  5:if (= state CONST_completed) {
-    6:if (= abruptCompletion.Type CONST_return) {
+  } else 1:{}
+  5:if (= state CONST_completed) 5:{
+    6:if (= abruptCompletion.Type CONST_return) 6:{
       7:app __x1__ = (CreateIterResultObject abruptCompletion.Value true)
       7:return __x1__
-    } else 16:{}
+    } else 6:{}
     8:return abruptCompletion
-  } else 16:{}
+  } else 5:{}
   9:assert (= state CONST_suspendedYield)
   10:let genContext = generator.GeneratorContext
   11:let methodContext = CONTEXT
@@ -19,10 +19,10 @@ def GeneratorResumeAbrupt(generator, abruptCompletion, generatorBrand) = {
   13:generator.GeneratorState = CONST_executing
   14:append genContext -> EXECUTION_STACK
   14:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  15:withcont __x2__ (result) = {
-    if (= genContext.ReturnCont absent) genContext.ReturnCont = (new []) else {}
-    append __x2__ -> genContext.ReturnCont
-    app _ = (genContext.ResumeCont abruptCompletion)
+  15:withcont __x2__ (result) = 15:{
+    15:if (= genContext.ReturnCont absent) 15:genContext.ReturnCont = (new []) else 15:{}
+    15:append __x2__ -> genContext.ReturnCont
+    15:app _ = (genContext.ResumeCont abruptCompletion)
   }
   17:return result
 }

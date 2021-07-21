@@ -1,6 +1,6 @@
 def UTF16EncodeCodePoint(cp) = {
   0:assert (&& (! (< cp 0i)) (! (< 1114111i cp)))
-  1:if (! (< 65535i cp)) return cp else 3:{}
+  1:if (! (< 65535i cp)) 1:return cp else 1:{}
   2:app __x0__ = (floor (/ (- cp 65536i) 1024i))
   2:let cu1 = (+ __x0__ 55296i)
   3:let cu2 = (+ (%% (- cp 65536i) 1024i) 56320i)

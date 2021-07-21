@@ -1,9 +1,9 @@
 def [BUILTIN] Math.tanh(x) = {
   0:app __x0__ = (ToNumber x)
   0:let n = [? __x0__]
-  1:if (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) return n else 2:{}
-  2:if (= n Infinity) return 1i else 2:{}
-  3:if (= n -Infinity) return -1i else 2:{}
+  1:if (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) 1:return n else 1:{}
+  2:if (= n Infinity) 2:return 1i else 2:{}
+  3:if (= n -Infinity) 3:return -1i else 3:{}
   4:??? "Return an implementation - approximated value representing the result of the hyperbolic tangent of ℝ ( id:{n} ) ."
 }
 - id: "sec-math.tanh"

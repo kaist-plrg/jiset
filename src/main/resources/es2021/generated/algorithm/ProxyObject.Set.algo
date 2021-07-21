@@ -2,30 +2,30 @@ def [METHOD] ProxyObject.Set(O)(P, V, Receiver) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
   1:let handler = O.ProxyHandler
-  2:if (= handler null) throw TypeError else 0:{}
+  2:if (= handler null) 2:throw TypeError else 2:{}
   3:assert (= (typeof handler) Object)
   4:let target = O.ProxyTarget
   5:app __x1__ = (GetMethod handler "set")
   5:let trap = [? __x1__]
-  6:if (= trap undefined) {
+  6:if (= trap undefined) 6:{
     7:app __x2__ = (target.Set target P V Receiver)
     7:return [? __x2__]
-  } else 0:{}
+  } else 6:{}
   8:app __x3__ = (Call trap handler (new [target, P, V, Receiver]))
   8:app __x4__ = (ToBoolean [? __x3__])
   8:let booleanTrapResult = [! __x4__]
-  9:if (= booleanTrapResult false) return false else 0:{}
+  9:if (= booleanTrapResult false) 9:return false else 9:{}
   10:app __x5__ = (target.GetOwnProperty target P)
   10:let targetDesc = [? __x5__]
-  11:if (&& (! (= targetDesc undefined)) (= targetDesc.Configurable false)) {
+  11:if (&& (! (= targetDesc undefined)) (= targetDesc.Configurable false)) 11:{
     12:app __x6__ = (IsDataDescriptor targetDesc)
-    12:if (&& (= __x6__ true) (= targetDesc.Writable false)) {
+    12:if (&& (= __x6__ true) (= targetDesc.Writable false)) 12:{
       13:app __x7__ = (SameValue V targetDesc.Value)
-      13:if (= __x7__ false) throw TypeError else 0:{}
-    } else 0:{}
+      13:if (= __x7__ false) 13:throw TypeError else 13:{}
+    } else 12:{}
     14:app __x8__ = (IsAccessorDescriptor targetDesc)
-    14:if (= __x8__ true) if (= targetDesc.Set undefined) throw TypeError else 0:{} else 0:{}
-  } else 0:{}
+    14:if (= __x8__ true) 15:if (= targetDesc.Set undefined) 15:throw TypeError else 15:{} else 14:{}
+  } else 11:{}
   16:return true
 }
 - id: "sec-proxy-object-internal-methods-and-internal-slots-set-p-v-receiver"

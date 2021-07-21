@@ -1,14 +1,14 @@
 def [SYNTAX] AssignmentExpression[4,0].Evaluation<(LeftHandSideExpression, AssignmentExpression),false>() = {
-  0:if (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral))) {
+  0:if (! (|| (is-instance-of LeftHandSideExpression ObjectLiteral) (is-instance-of LeftHandSideExpression ArrayLiteral))) 0:{
     1:access __x0__ = (LeftHandSideExpression "Evaluation")
     1:let lref = __x0__
     2:[? lref]
-    5:app __x1__ = (IsAnonymousFunctionDefinition AssignmentExpression)
-    5:access __x2__ = (LeftHandSideExpression "IsIdentifierRef")
-    5:if (&& (= __x1__ true) (= __x2__ true)) {
+    3:app __x1__ = (IsAnonymousFunctionDefinition AssignmentExpression)
+    3:access __x2__ = (LeftHandSideExpression "IsIdentifierRef")
+    3:if (&& (= __x1__ true) (= __x2__ true)) 3:{
       4:access __x3__ = (AssignmentExpression "NamedEvaluation" lref.ReferencedName)
       4:let rval = __x3__
-    } else {
+    } else 5:{
       6:access __x4__ = (AssignmentExpression "Evaluation")
       6:let rref = __x4__
       7:app __x5__ = (GetValue rref)
@@ -17,7 +17,7 @@ def [SYNTAX] AssignmentExpression[4,0].Evaluation<(LeftHandSideExpression, Assig
     8:app __x6__ = (PutValue lref rval)
     8:[? __x6__]
     9:return rval
-  } else 3:{}
+  } else 0:{}
   10:let assignmentPattern = (parse-syntax LeftHandSideExpression "AssignmentPattern" (new []))
   11:access __x7__ = (AssignmentExpression "Evaluation")
   11:let rref = __x7__

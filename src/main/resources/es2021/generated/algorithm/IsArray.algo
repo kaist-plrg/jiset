@@ -1,12 +1,12 @@
 def IsArray(argument) = {
-  0:if (! (= (typeof argument) Object)) return false else 0:{}
-  1:if (is-instance-of argument ArrayExoticObject) return true else 0:{}
-  2:if (is-instance-of argument ProxyExoticObject) {
-    3:if (= argument.ProxyHandler null) throw TypeError else 0:{}
+  0:if (! (= (typeof argument) Object)) 0:return false else 0:{}
+  1:if (is-instance-of argument ArrayExoticObject) 1:return true else 1:{}
+  2:if (is-instance-of argument ProxyExoticObject) 2:{
+    3:if (= argument.ProxyHandler null) 3:throw TypeError else 3:{}
     4:let target = argument.ProxyTarget
     5:app __x0__ = (IsArray target)
     5:return [? __x0__]
-  } else 0:{}
+  } else 2:{}
   6:return false
 }
 - id: "sec-isarray"

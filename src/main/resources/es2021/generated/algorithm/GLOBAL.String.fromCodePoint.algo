@@ -2,16 +2,16 @@ def [BUILTIN] String.fromCodePoint(...codePoints) = {
   0:let result = ""
   1:let __x0__ = codePoints
   1:let __x1__ = 0i
-  1:while (< __x1__ __x0__.length) {
-    let next = __x0__[__x1__]
+  1:while (< __x1__ __x0__.length) 1:{
+    1:let next = __x0__[__x1__]
+    1:__x1__ = (+ __x1__ 1i)
     2:app __x2__ = (ToNumber next)
     2:let nextCP = [? __x2__]
     3:app __x3__ = (IsIntegralNumber nextCP)
-    3:if (= [! __x3__] false) throw RangeError else 6:{}
-    4:if (|| (< nextCP 0i) (< 1114111i nextCP)) throw RangeError else 6:{}
+    3:if (= [! __x3__] false) 3:throw RangeError else 3:{}
+    4:if (|| (< nextCP 0i) (< 1114111i nextCP)) 4:throw RangeError else 4:{}
     5:app __x4__ = (UTF16EncodeCodePoint nextCP)
     5:result = (+ result [! __x4__])
-    __x1__ = (+ __x1__ 1i)
   }
   7:return result
 }

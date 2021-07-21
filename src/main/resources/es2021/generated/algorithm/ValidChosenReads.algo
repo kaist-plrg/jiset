@@ -2,17 +2,17 @@ def ValidChosenReads() = {
   0:app __x0__ = (SharedDataBlockEventSet execution)
   0:let __x1__ = __x0__
   0:let __x2__ = 0i
-  0:while (< __x2__ __x1__.length) {
-    let R = __x1__[__x2__]
+  0:while (< __x2__ __x1__.length) 0:{
+    0:let R = __x1__[__x2__]
+    0:__x2__ = (+ __x2__ 1i)
     1:??? "Let id:{chosenValueRecord} be the element of id:{execution} . [ [ ChosenValues ] ] whose [ [ Event ] ] field is id:{R} ."
     2:let chosenValue = chosenValueRecord.ChosenValue
     3:app __x3__ = (ValueOfReadEvent execution R)
     3:let readValue = __x3__
     4:let chosenLen = chosenValue.length
     5:let readLen = readValue.length
-    6:if (! (== chosenLen readLen)) return false else 2:{}
+    6:if (! (== chosenLen readLen)) 7:return false else 6:{}
     8:??? "If id:{chosenValue} [ id:{i} ] ≠ id:{readValue} [ id:{i} ] for any integer value id:{i} in the range 0 through id:{chosenLen} , exclusive , then in:{} out:{}"
-    __x2__ = (+ __x2__ 1i)
   }
   10:return true
 }

@@ -4,21 +4,21 @@ def Link() = {
   2:app __x0__ = (InnerModuleLinking module stack 0i)
   2:let result = __x0__
   3:app __x1__ = (IsAbruptCompletion result)
-  3:if __x1__ {
+  3:if __x1__ 3:{
     4:let __x2__ = stack
     4:let __x3__ = 0i
-    4:while (< __x3__ __x2__.length) {
-      let m = __x2__[__x3__]
+    4:while (< __x3__ __x2__.length) 4:{
+      4:let m = __x2__[__x3__]
+      4:__x3__ = (+ __x3__ 1i)
       5:assert (= m.Status CONST_linking)
       6:m.Status = CONST_unlinked
       7:m.Environment = undefined
       8:m.DFSIndex = undefined
       9:m.DFSAncestorIndex = undefined
-      __x3__ = (+ __x3__ 1i)
     }
     10:assert (= module.Status CONST_unlinked)
     11:return result
-  } else 36:{}
+  } else 3:{}
   12:assert (|| (= module.Status CONST_linked) (= module.Status CONST_evaluated))
   13:assert (= stack.length 0i)
   14:return undefined

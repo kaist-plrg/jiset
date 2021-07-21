@@ -2,21 +2,21 @@ def StringIndexOf(string, searchValue, fromIndex) = {
   0:assert (= (typeof string) String)
   1:assert (= (typeof searchValue) String)
   3:let len = string.length
-  4:if (&& (= searchValue "") (! (< len fromIndex))) return fromIndex else 2:{}
+  4:if (&& (= searchValue "") (! (< len fromIndex))) 4:return fromIndex else 4:{}
   5:let searchLen = searchValue.length
   6:let i = (+ fromIndex 0i)
   6:let __x0__ = (+ (- len searchLen) 1i)
-  6:while (< i __x0__) {
-    let __x1__ = ""
-    let __x2__ = i
-    while (< __x2__ (+ i searchLen)) {
-      access __x3__ = (string __x2__)
-      __x1__ = (+ __x1__ __x3__)
-      __x2__ = (+ __x2__ 1i)
+  6:while (< i __x0__) 6:{
+    7:let __x1__ = ""
+    7:let __x2__ = i
+    7:while (< __x2__ (+ i searchLen)) 7:{
+      7:access __x3__ = (string __x2__)
+      7:__x1__ = (+ __x1__ __x3__)
+      7:__x2__ = (+ __x2__ 1i)
     }
-    let candidate = __x1__
-    if (= candidate searchValue) return i else {}
-    i = (+ i 1i)
+    7:let candidate = __x1__
+    8:if (= candidate searchValue) 8:return i else 8:{}
+    6:i = (+ i 1i)
   }
   9:return -1i
 }

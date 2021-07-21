@@ -5,8 +5,8 @@ def [BUILTIN] String.prototype.repeat(count) = {
   1:let S = [? __x1__]
   2:app __x2__ = (ToIntegerOrInfinity count)
   2:let n = [? __x2__]
-  3:if (|| (< n 0i) (= n Infinity)) throw RangeError else 4:{}
-  4:if (= n 0i) return "" else 4:{}
+  3:if (|| (< n 0i) (= n Infinity)) 3:throw RangeError else 3:{}
+  4:if (= n 0i) 4:return "" else 4:{}
   5:??? "Return the String value that is made from id:{n} copies of id:{S} appended together ."
 }
 - id: "sec-string.prototype.repeat"

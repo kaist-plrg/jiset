@@ -3,26 +3,26 @@ def [BUILTIN] Array.prototype.indexOf(searchElement, fromIndex?) = {
   0:let O = [? __x0__]
   1:app __x1__ = (LengthOfArrayLike O)
   1:let len = [? __x1__]
-  2:if (= len 0i) return -1i else 4:{}
+  2:if (= len 0i) 2:return -1i else 2:{}
   3:app __x2__ = (ToIntegerOrInfinity fromIndex)
   3:let n = [? __x2__]
-  6:if (= n Infinity) return -1i else if (= n -Infinity) n = 0i else 4:{}
-  9:if (! (< n 0i)) let k = n else {
+  5:if (= n Infinity) 5:return -1i else 5:if (= n -Infinity) 6:n = 0i else 5:{}
+  7:if (! (< n 0i)) 8:let k = n else 9:{
     10:let k = (+ len n)
-    11:if (< k 0i) k = 0i else 4:{}
+    11:if (< k 0i) 11:k = 0i else 11:{}
   }
-  12:while (< k len) {
+  12:while (< k len) 12:{
     13:app __x3__ = (ToString k)
     13:app __x4__ = (HasProperty O [! __x3__])
     13:let kPresent = [? __x4__]
-    14:if (= kPresent true) {
+    14:if (= kPresent true) 14:{
       15:app __x5__ = (ToString k)
       15:app __x6__ = (Get O [! __x5__])
       15:let elementK = [? __x6__]
       16:app __x7__ = (StrictEqualityComparison searchElement elementK)
       16:let same = __x7__
-      17:if (= same true) return k else 4:{}
-    } else 4:{}
+      17:if (= same true) 17:return k else 17:{}
+    } else 14:{}
     18:k = (+ k 1i)
   }
   19:return -1i

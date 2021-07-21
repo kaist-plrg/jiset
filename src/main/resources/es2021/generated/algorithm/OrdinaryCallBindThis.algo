@@ -1,14 +1,14 @@
 def OrdinaryCallBindThis(F, calleeContext, thisArgument) = {
   0:let thisMode = F.ThisMode
-  1:if (= thisMode CONST_lexical) return undefined else 14:{}
+  1:if (= thisMode CONST_lexical) 1:return undefined else 1:{}
   2:let calleeRealm = F.Realm
   3:access __x0__ = (calleeContext "LexicalEnvironment")
   3:let localEnv = __x0__
-  5:if (= thisMode CONST_strict) let thisValue = thisArgument else if (|| (= thisArgument undefined) (= thisArgument null)) {
+  4:if (= thisMode CONST_strict) 4:let thisValue = thisArgument else 4:if (|| (= thisArgument undefined) (= thisArgument null)) 6:{
     7:let globalEnv = calleeRealm.GlobalEnv
     8:assert (is-instance-of globalEnv GlobalEnvironmentRecord)
     9:let thisValue = globalEnv.GlobalThisValue
-  } else {
+  } else 10:{
     11:app __x1__ = (ToObject thisArgument)
     11:let thisValue = [! __x1__]
   }

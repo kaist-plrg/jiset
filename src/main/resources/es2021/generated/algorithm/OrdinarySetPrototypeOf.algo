@@ -1,14 +1,14 @@
 def OrdinarySetPrototypeOf(O, V) = {
   1:let current = O.Prototype
   2:app __x0__ = (SameValue V current)
-  2:if (= __x0__ true) return true else 0:{}
+  2:if (= __x0__ true) 2:return true else 2:{}
   3:let extensible = O.Extensible
-  4:if (= extensible false) return false else 0:{}
+  4:if (= extensible false) 4:return false else 4:{}
   5:let p = V
   6:let done = false
-  7:while (= done false) if (= p null) done = true else {
-    app __x1__ = (SameValue p O)
-    if (= __x1__ true) return false else if (! (= p.GetPrototypeOf ALGORITHM["OrdinaryObject.GetPrototypeOf"])) done = true else p = p.Prototype
+  7:while (= done false) 8:if (= p null) 8:done = true else 9:{
+    9:app __x1__ = (SameValue p O)
+    9:if (= __x1__ true) 9:return false else 9:if (! (= p.GetPrototypeOf ALGORITHM["OrdinaryObject.GetPrototypeOf"])) 11:done = true else 9:p = p.Prototype
   }
   13:O.Prototype = V
   14:return true

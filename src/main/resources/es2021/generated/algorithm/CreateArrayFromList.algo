@@ -4,13 +4,13 @@ def CreateArrayFromList(elements) = {
   2:let n = 0i
   3:let __x1__ = elements
   3:let __x2__ = 0i
-  3:while (< __x2__ __x1__.length) {
-    let e = __x1__[__x2__]
+  3:while (< __x2__ __x1__.length) 3:{
+    3:let e = __x1__[__x2__]
+    3:__x2__ = (+ __x2__ 1i)
     4:app __x3__ = (ToString n)
     4:app __x4__ = (CreateDataPropertyOrThrow array [! __x3__] e)
     4:[! __x4__]
     5:n = (+ n 1i)
-    __x2__ = (+ __x2__ 1i)
   }
   6:return array
 }

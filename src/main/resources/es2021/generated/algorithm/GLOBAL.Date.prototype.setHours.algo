@@ -4,26 +4,26 @@ def [BUILTIN] Date.prototype.setHours(hour, min?, sec?, ms?) = {
   0:let t = __x1__
   1:app __x2__ = (ToNumber hour)
   1:let h = [? __x2__]
-  2:if (= min absent) {
-    app __x3__ = (MinFromTime t)
-    let m = __x3__
-  } else {
-    app __x4__ = (ToNumber min)
-    let m = [? __x4__]
+  2:if (= min absent) 2:{
+    2:app __x3__ = (MinFromTime t)
+    2:let m = __x3__
+  } else 3:{
+    3:app __x4__ = (ToNumber min)
+    3:let m = [? __x4__]
   }
-  3:if (= sec absent) {
-    app __x5__ = (SecFromTime t)
-    let s = __x5__
-  } else {
-    app __x6__ = (ToNumber sec)
-    let s = [? __x6__]
+  3:if (= sec absent) 3:{
+    3:app __x5__ = (SecFromTime t)
+    3:let s = __x5__
+  } else 4:{
+    4:app __x6__ = (ToNumber sec)
+    4:let s = [? __x6__]
   }
-  4:if (= ms absent) {
-    app __x7__ = (msFromTime t)
-    let milli = __x7__
-  } else {
-    app __x8__ = (ToNumber ms)
-    let milli = [? __x8__]
+  4:if (= ms absent) 4:{
+    4:app __x7__ = (msFromTime t)
+    4:let milli = __x7__
+  } else 5:{
+    5:app __x8__ = (ToNumber ms)
+    5:let milli = [? __x8__]
   }
   5:app __x9__ = (Day t)
   5:app __x10__ = (MakeTime h m s milli)

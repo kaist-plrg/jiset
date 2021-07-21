@@ -6,13 +6,13 @@ def AsyncGeneratorYield(value) = {
   4:app __x1__ = (Await value)
   4:value = [? __x1__]
   5:generator.AsyncGeneratorState = CONST_suspendedYield
-  6:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
+  6:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) 6:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 6:{}
   6:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  7:genContext.ResumeCont = (resumptionValue) [=>] {
-    8:if (! (= resumptionValue.Type CONST_return)) return resumptionValue else 13:{}
+  7:genContext.ResumeCont = (resumptionValue) [=>] 7:{
+    8:if (! (= resumptionValue.Type CONST_return)) 8:return resumptionValue else 8:{}
     9:app __x2__ = (Await resumptionValue.Value)
     9:let awaited = __x2__
-    10:if (= awaited.Type CONST_throw) return awaited else 13:{}
+    10:if (= awaited.Type CONST_throw) 10:return awaited else 10:{}
     11:assert (= awaited.Type CONST_normal)
     12:return (new Completion("Type" -> CONST_return, "Value" -> awaited.Value, "Target" -> CONST_empty))
   }

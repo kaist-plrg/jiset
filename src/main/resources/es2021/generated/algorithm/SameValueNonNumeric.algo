@@ -1,12 +1,12 @@
 def SameValueNonNumeric(x, y) = {
   0:assert (! (|| (= (typeof x) Number) (= (typeof x) BigInt)))
   1:assert (= (typeof x) (typeof y))
-  2:if (= (typeof x) Undefined) return true else 0:{}
-  3:if (= (typeof x) Null) return true else 0:{}
-  4:if (= (typeof x) String) return (= x y) else 0:{}
-  6:if (= (typeof x) Boolean) if (|| (&& (= x true) (= y true)) (&& (= x false) (= y false))) return true else return false else 0:{}
-  8:if (= (typeof x) Symbol) if (= x y) return true else return false else 0:{}
-  10:if (= x y) return true else return false
+  2:if (= (typeof x) Undefined) 2:return true else 2:{}
+  3:if (= (typeof x) Null) 3:return true else 3:{}
+  4:if (= (typeof x) String) 5:return (= x y) else 4:{}
+  6:if (= (typeof x) Boolean) 7:if (|| (&& (= x true) (= y true)) (&& (= x false) (= y false))) 7:return true else 7:return false else 6:{}
+  8:if (= (typeof x) Symbol) 9:if (= x y) 9:return true else 9:return false else 8:{}
+  10:if (= x y) 10:return true else 10:return false
 }
 - id: "sec-samevaluenonnumeric"
 - code:

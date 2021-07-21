@@ -3,20 +3,20 @@ def [METHOD] ECMAScriptFunctionObject.Call(F)(thisArgument, argumentsList) = {
   1:let callerContext = CONTEXT
   2:app __x0__ = (PrepareForOrdinaryCall F undefined)
   2:let calleeContext = __x0__
-  4:if (= F.IsClassConstructor true) {
+  4:if (= F.IsClassConstructor true) 4:{
     5:let error = (new OrdinaryObject("Prototype" -> INTRINSICS["%TypeError.prototype%"], "ErrorData" -> undefined))
-    7:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
+    7:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) 7:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 7:{}
     7:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
     8:app __x1__ = (ThrowCompletion error)
     8:return __x1__
-  } else 6:{}
+  } else 4:{}
   9:app __x2__ = (OrdinaryCallBindThis F calleeContext thisArgument)
   9:__x2__
   10:app __x3__ = (OrdinaryCallEvaluateBody F argumentsList)
   10:let result = __x3__
-  11:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
+  11:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) 11:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 11:{}
   11:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  12:if (= result.Type CONST_return) return result.Value else 6:{}
+  12:if (= result.Type CONST_return) 12:return result.Value else 12:{}
   13:[? result]
   14:return undefined
 }

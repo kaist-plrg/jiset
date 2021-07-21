@@ -1,7 +1,7 @@
 def [SYNTAX] FunctionBody[0,0].EarlyErrors<(FunctionStatementList),true>() = {
   0:access __x0__ = (FunctionStatementList "LexicallyDeclaredNames")
   0:app __x1__ = (IsDuplicate __x0__)
-  0:if __x1__ throw SyntaxError else 2:{}
+  0:if __x1__ 0:throw SyntaxError else 0:{}
   1:access __x2__ = (FunctionStatementList "LexicallyDeclaredNames")
   1:access __x3__ = (FunctionStatementList "VarDeclaredNames")
   1:let __x4__ = __x2__
@@ -9,17 +9,17 @@ def [SYNTAX] FunctionBody[0,0].EarlyErrors<(FunctionStatementList),true>() = {
   1:let __x6__ = 0i
   1:let __x7__ = 0i
   1:let __x8__ = false
-  1:while (< __x6__ __x4__.length) {
-    __x7__ = 0i
-    while (< __x7__ __x5__.length) if (= __x4__[__x6__] __x5__[__x7__]) __x8__ = true else 2:{}
+  1:while (< __x6__ __x4__.length) 1:{
+    1:__x7__ = 0i
+    1:while (< __x7__ __x5__.length) 1:if (= __x4__[__x6__] __x5__[__x7__]) 1:__x8__ = true else 1:{}
   }
-  1:if __x8__ throw SyntaxError else 2:{}
+  1:if __x8__ 1:throw SyntaxError else 1:{}
   2:access __x9__ = (FunctionStatementList "ContainsDuplicateLabels" (new []))
-  2:if (= __x9__ true) throw SyntaxError else 2:{}
+  2:if (= __x9__ true) 2:throw SyntaxError else 2:{}
   3:access __x10__ = (FunctionStatementList "ContainsUndefinedBreakTarget" (new []))
-  3:if (= __x10__ true) throw SyntaxError else 2:{}
+  3:if (= __x10__ true) 3:throw SyntaxError else 3:{}
   4:access __x11__ = (FunctionStatementList "ContainsUndefinedContinueTarget" (new []) (new []))
-  4:if (= __x11__ true) throw SyntaxError else 2:{}
+  4:if (= __x11__ true) 4:throw SyntaxError else 4:{}
 }
 - id: "sec-function-definitions-static-semantics-early-errors"
 - code:

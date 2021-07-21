@@ -1,14 +1,14 @@
 def OrdinaryObjectCreate(proto, additionalInternalSlotsList?) = {
   0:let internalSlotsList = (new ["Prototype", "Extensible"])
-  1:if (! (= additionalInternalSlotsList absent)) {
-    let __x0__ = additionalInternalSlotsList
-    let __x1__ = 0i
-    while (< __x1__ __x0__.length) {
-      let __x2__ = __x0__[__x1__]
-      append __x2__ -> internalSlotsList
-      __x1__ = (+ __x1__ 1i)
+  1:if (! (= additionalInternalSlotsList absent)) 1:{
+    1:let __x0__ = additionalInternalSlotsList
+    1:let __x1__ = 0i
+    1:while (< __x1__ __x0__.length) 1:{
+      1:let __x2__ = __x0__[__x1__]
+      1:__x1__ = (+ __x1__ 1i)
+      1:append __x2__ -> internalSlotsList
     }
-  } else 17:{}
+  } else 1:{}
   2:app __x3__ = (MakeBasicObject internalSlotsList)
   2:let O = [! __x3__]
   3:O.Prototype = proto

@@ -4,23 +4,23 @@ def [SYNTAX] CaseBlock[0,1].CaseBlockEvaluation<(CaseClauses),true>(input) = {
   2:let found = false
   3:let __x0__ = A
   3:let __x1__ = 0i
-  3:while (< __x1__ __x0__.length) {
-    let C = __x0__[__x1__]
-    4:if (= found false) {
+  3:while (< __x1__ __x0__.length) 3:{
+    3:let C = __x0__[__x1__]
+    3:__x1__ = (+ __x1__ 1i)
+    4:if (= found false) 4:{
       5:app __x2__ = (CaseClauseIsSelected C input)
       5:found = [? __x2__]
-    } else 2:{}
-    6:if (= found true) {
+    } else 4:{}
+    6:if (= found true) 6:{
       7:access __x3__ = (C "Evaluation")
       7:let R = __x3__
-      8:if (! (= R.Value CONST_empty)) V = R.Value else 2:{}
+      8:if (! (= R.Value CONST_empty)) 8:V = R.Value else 8:{}
       9:app __x4__ = (IsAbruptCompletion R)
-      9:if __x4__ {
-        app __x5__ = (UpdateEmpty R V)
-        return __x5__
-      } else 2:{}
-    } else 2:{}
-    __x1__ = (+ __x1__ 1i)
+      9:if __x4__ 9:{
+        9:app __x5__ = (UpdateEmpty R V)
+        9:return __x5__
+      } else 9:{}
+    } else 6:{}
   }
   10:return V
 }

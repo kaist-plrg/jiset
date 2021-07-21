@@ -1,8 +1,8 @@
 def GetGeneratorKind() = {
   0:let genContext = CONTEXT
-  1:if (= genContext.Generator absent) return CONST_nonDASHgenerator else 16:{}
+  1:if (= genContext.Generator absent) 1:return CONST_nonDASHgenerator else 1:{}
   2:let generator = genContext.Generator
-  4:if (! (= generator.AsyncGeneratorState absent)) return CONST_async else return CONST_sync
+  3:if (! (= generator.AsyncGeneratorState absent)) 3:return CONST_async else 3:return CONST_sync
 }
 - id: "sec-getgeneratorkind"
 - code:

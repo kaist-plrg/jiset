@@ -6,12 +6,12 @@ def [BUILTIN] String.prototype.concat(...args) = {
   2:let R = S
   3:let __x2__ = args
   3:let __x3__ = 0i
-  3:while (< __x3__ __x2__.length) {
-    let next = __x2__[__x3__]
+  3:while (< __x3__ __x2__.length) 3:{
+    3:let next = __x2__[__x3__]
+    3:__x3__ = (+ __x3__ 1i)
     4:app __x4__ = (ToString next)
     4:let nextString = [? __x4__]
     5:R = (+ R nextString)
-    __x3__ = (+ __x3__ 1i)
   }
   6:return R
 }

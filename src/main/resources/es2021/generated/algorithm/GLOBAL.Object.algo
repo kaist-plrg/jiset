@@ -1,12 +1,12 @@
 def [BUILTIN] Object(value?) = {
-  0:if (! (|| (= NewTarget undefined) (= NewTarget CONTEXT.Function))) {
+  0:if (! (|| (= NewTarget undefined) (= NewTarget CONTEXT.Function))) 0:{
     1:app __x0__ = (OrdinaryCreateFromConstructor NewTarget "%Object.prototype%")
     1:return [? __x0__]
-  } else 71:{}
-  2:if (|| (= value undefined) (= value null)) {
-    app __x1__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"])
-    return [! __x1__]
-  } else 71:{}
+  } else 0:{}
+  2:if (|| (= value undefined) (= value null)) 2:{
+    2:app __x1__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"])
+    2:return [! __x1__]
+  } else 2:{}
   3:app __x2__ = (ToObject value)
   3:return [! __x2__]
 }

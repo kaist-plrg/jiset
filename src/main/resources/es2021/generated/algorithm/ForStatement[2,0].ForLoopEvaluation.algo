@@ -8,26 +8,26 @@ def [SYNTAX] ForStatement[2,0].ForLoopEvaluation<(LexicalDeclaration, Expression
   3:let boundNames = __x2__
   4:let __x3__ = boundNames
   4:let __x4__ = 0i
-  4:while (< __x4__ __x3__.length) {
-    let dn = __x3__[__x4__]
-    7:if (= isConst true) {
+  4:while (< __x4__ __x3__.length) 4:{
+    4:let dn = __x3__[__x4__]
+    4:__x4__ = (+ __x4__ 1i)
+    5:if (= isConst true) 5:{
       6:app __x5__ = (loopEnv.CreateImmutableBinding loopEnv dn true)
       6:[! __x5__]
-    } else {
+    } else 7:{
       8:app __x6__ = (loopEnv.CreateMutableBinding loopEnv dn false)
       8:[! __x6__]
     }
-    __x4__ = (+ __x4__ 1i)
   }
   9:CONTEXT.LexicalEnvironment = loopEnv
   10:access __x7__ = (LexicalDeclaration "Evaluation")
   10:let forDcl = __x7__
   11:app __x8__ = (IsAbruptCompletion forDcl)
-  11:if __x8__ {
+  11:if __x8__ 11:{
     12:CONTEXT.LexicalEnvironment = oldEnv
     13:return forDcl
-  } else 10:{}
-  14:if (= isConst false) let perIterationLets = boundNames else let perIterationLets = (new [])
+  } else 11:{}
+  14:if (= isConst false) 14:let perIterationLets = boundNames else 14:let perIterationLets = (new [])
   15:app __x9__ = (ForBodyEvaluation Expression0 Expression1 Statement perIterationLets labelSet)
   15:let bodyResult = __x9__
   16:CONTEXT.LexicalEnvironment = oldEnv

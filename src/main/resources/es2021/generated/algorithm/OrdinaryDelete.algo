@@ -3,11 +3,11 @@ def OrdinaryDelete(O, P) = {
   0:assert (= __x0__ true)
   1:app __x1__ = (O.GetOwnProperty O P)
   1:let desc = [? __x1__]
-  2:if (= desc undefined) return true else 17:{}
-  3:if (= desc.Configurable true) {
+  2:if (= desc undefined) 2:return true else 2:{}
+  3:if (= desc.Configurable true) 3:{
     4:delete O.SubMap[P]
     5:return true
-  } else 17:{}
+  } else 3:{}
   6:return false
 }
 - id: "sec-ordinarydelete"

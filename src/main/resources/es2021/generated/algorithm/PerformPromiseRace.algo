@@ -3,20 +3,20 @@ def PerformPromiseRace(iteratorRecord, constructor, resultCapability, promiseRes
   0:assert (= __x0__ true)
   1:app __x1__ = (IsCallable promiseResolve)
   1:assert (= __x1__ true)
-  2:while true {
+  2:while true 2:{
     3:app __x2__ = (IteratorStep iteratorRecord)
     3:let next = __x2__
     4:app __x3__ = (IsAbruptCompletion next)
-    4:if __x3__ iteratorRecord.Done = true else 10:{}
+    4:if __x3__ 4:iteratorRecord.Done = true else 4:{}
     5:[? next]
-    6:if (= next false) {
+    6:if (= next false) 6:{
       7:iteratorRecord.Done = true
       8:return resultCapability.Promise
-    } else 10:{}
+    } else 6:{}
     9:app __x4__ = (IteratorValue next)
     9:let nextValue = __x4__
     10:app __x5__ = (IsAbruptCompletion nextValue)
-    10:if __x5__ iteratorRecord.Done = true else 10:{}
+    10:if __x5__ 10:iteratorRecord.Done = true else 10:{}
     11:[? nextValue]
     12:app __x6__ = (Call promiseResolve constructor (new [nextValue]))
     12:let nextPromise = [? __x6__]

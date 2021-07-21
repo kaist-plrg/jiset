@@ -3,7 +3,7 @@ def [METHOD] StringExoticObject.GetOwnProperty(S)(P) = {
   0:assert (= __x0__ true)
   1:app __x1__ = (OrdinaryGetOwnProperty S P)
   1:let desc = __x1__
-  2:if (! (= desc undefined)) return desc else 16:{}
+  2:if (! (= desc undefined)) 2:return desc else 2:{}
   3:app __x2__ = (StringGetOwnProperty S P)
   3:return [! __x2__]
 }

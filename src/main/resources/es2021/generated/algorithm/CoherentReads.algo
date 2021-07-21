@@ -2,21 +2,21 @@ def CoherentReads() = {
   0:app __x0__ = (SharedDataBlockEventSet execution)
   0:let __x1__ = __x0__
   0:let __x2__ = 0i
-  0:while (< __x2__ __x1__.length) {
-    let R = __x1__[__x2__]
+  0:while (< __x2__ __x1__.length) 0:{
+    0:let R = __x1__[__x2__]
+    0:__x2__ = (+ __x2__ 1i)
     1:app __x3__ = (execution.ReadsBytesFrom execution R)
     1:let Ws = __x3__
     2:let byteLocation = R.ByteIndex
     3:let __x4__ = Ws
     3:let __x5__ = 0i
-    3:while (< __x5__ __x4__.length) {
-      let W = __x4__[__x5__]
-      4:if (contains execution.HappensBefore (new [R, W])) return false else 2:{}
+    3:while (< __x5__ __x4__.length) 3:{
+      3:let W = __x4__[__x5__]
+      3:__x5__ = (+ __x5__ 1i)
+      4:if (contains execution.HappensBefore (new [R, W])) 5:return false else 4:{}
       6:??? "If there is a WriteSharedMemory or ReadModifyWriteSharedMemory event id:{V} that has id:{byteLocation} in its range such that the pairs ( id:{W} , id:{V} ) and ( id:{V} , id:{R} ) are in id:{execution} . [ [ HappensBefore ] ] , then in:{} out:{}"
       8:byteLocation = (+ byteLocation 1i)
-      __x5__ = (+ __x5__ 1i)
     }
-    __x2__ = (+ __x2__ 1i)
   }
   9:return true
 }

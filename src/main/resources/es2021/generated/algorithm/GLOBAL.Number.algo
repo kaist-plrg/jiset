@@ -1,10 +1,10 @@
 def [BUILTIN] Number(value) = {
-  4:if (! (= value absent)) {
+  0:if (! (= value absent)) 0:{
     1:app __x0__ = (ToNumeric value)
     1:let prim = [? __x0__]
-    3:if (= (typeof prim) BigInt) let n = prim else let n = prim
-  } else let n = 0i
-  6:if (= NewTarget undefined) return n else 3:{}
+    2:if (= (typeof prim) BigInt) 2:let n = prim else 2:let n = prim
+  } else 0:let n = 0i
+  6:if (= NewTarget undefined) 6:return n else 6:{}
   7:app __x1__ = (OrdinaryCreateFromConstructor NewTarget "%Number.prototype%" (new ["NumberData"]))
   7:let O = [? __x1__]
   8:O.NumberData = n

@@ -2,13 +2,13 @@ def TearFreeReads() = {
   0:app __x0__ = (SharedDataBlockEventSet execution)
   0:let __x1__ = __x0__
   0:let __x2__ = 0i
-  0:while (< __x2__ __x1__.length) {
-    let R = __x1__[__x2__]
-    1:if (= R.NoTear true) {
+  0:while (< __x2__ __x1__.length) 0:{
+    0:let R = __x1__[__x2__]
+    0:__x2__ = (+ __x2__ 1i)
+    1:if (= R.NoTear true) 1:{
       2:assert (= (% R.ByteIndex R.ElementSize) 0i)
       3:??? "For each event id:{W} such that ( id:{R} , id:{W} ) is in id:{execution} . [ [ ReadsFrom ] ] and id:{W} . [ [ NoTear ] ] is value:{true} , do in:{} out:{}"
-    } else 2:{}
-    __x2__ = (+ __x2__ 1i)
+    } else 1:{}
   }
   6:return true
 }

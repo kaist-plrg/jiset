@@ -1,31 +1,31 @@
 def FromPropertyDescriptor(Desc) = {
-  0:if (= Desc undefined) return undefined else 2:{}
+  0:if (= Desc undefined) 0:return undefined else 0:{}
   1:app __x0__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"])
   1:let obj = [! __x0__]
-  3:if (! (= Desc.Value absent)) {
+  3:if (! (= Desc.Value absent)) 3:{
     4:app __x1__ = (CreateDataPropertyOrThrow obj "value" Desc.Value)
     4:[! __x1__]
-  } else 2:{}
-  5:if (! (= Desc.Writable absent)) {
+  } else 3:{}
+  5:if (! (= Desc.Writable absent)) 5:{
     6:app __x2__ = (CreateDataPropertyOrThrow obj "writable" Desc.Writable)
     6:[! __x2__]
-  } else 2:{}
-  7:if (! (= Desc.Get absent)) {
+  } else 5:{}
+  7:if (! (= Desc.Get absent)) 7:{
     8:app __x3__ = (CreateDataPropertyOrThrow obj "get" Desc.Get)
     8:[! __x3__]
-  } else 2:{}
-  9:if (! (= Desc.Set absent)) {
+  } else 7:{}
+  9:if (! (= Desc.Set absent)) 9:{
     10:app __x4__ = (CreateDataPropertyOrThrow obj "set" Desc.Set)
     10:[! __x4__]
-  } else 2:{}
-  11:if (! (= Desc.Enumerable absent)) {
+  } else 9:{}
+  11:if (! (= Desc.Enumerable absent)) 11:{
     12:app __x5__ = (CreateDataPropertyOrThrow obj "enumerable" Desc.Enumerable)
     12:[! __x5__]
-  } else 2:{}
-  13:if (! (= Desc.Configurable absent)) {
+  } else 11:{}
+  13:if (! (= Desc.Configurable absent)) 13:{
     14:app __x6__ = (CreateDataPropertyOrThrow obj "configurable" Desc.Configurable)
     14:[! __x6__]
-  } else 2:{}
+  } else 13:{}
   15:return obj
 }
 - id: "sec-frompropertydescriptor"

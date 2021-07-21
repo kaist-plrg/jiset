@@ -1,10 +1,10 @@
 def GeneratorResume(generator, value, generatorBrand) = {
   0:app __x0__ = (GeneratorValidate generator generatorBrand)
   0:let state = [? __x0__]
-  1:if (= state CONST_completed) {
-    app __x1__ = (CreateIterResultObject undefined true)
-    return __x1__
-  } else 9:{}
+  1:if (= state CONST_completed) 1:{
+    1:app __x1__ = (CreateIterResultObject undefined true)
+    1:return __x1__
+  } else 1:{}
   2:assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))
   3:let genContext = generator.GeneratorContext
   4:let methodContext = CONTEXT
@@ -13,10 +13,10 @@ def GeneratorResume(generator, value, generatorBrand) = {
   7:append genContext -> EXECUTION_STACK
   7:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   8:app __x2__ = (NormalCompletion value)
-  8:withcont __x3__ (result) = {
-    if (= genContext.ReturnCont absent) genContext.ReturnCont = (new []) else {}
-    append __x3__ -> genContext.ReturnCont
-    app _ = (genContext.ResumeCont __x2__)
+  8:withcont __x3__ (result) = 8:{
+    8:if (= genContext.ReturnCont absent) 8:genContext.ReturnCont = (new []) else 8:{}
+    8:append __x3__ -> genContext.ReturnCont
+    8:app _ = (genContext.ResumeCont __x2__)
   }
   10:return result
 }

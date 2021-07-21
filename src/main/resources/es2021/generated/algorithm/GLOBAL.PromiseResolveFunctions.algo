@@ -2,31 +2,31 @@ def [BUILTIN] PromiseResolveFunctions(resolution) = {
   0:let F = CONTEXT.Function
   2:let promise = F.Promise
   3:let alreadyResolved = F.AlreadyResolved
-  4:if (= alreadyResolved.Value true) return undefined else 1:{}
+  4:if (= alreadyResolved.Value true) 4:return undefined else 4:{}
   5:alreadyResolved.Value = true
   6:app __x0__ = (SameValue resolution promise)
-  6:if (= __x0__ true) {
+  6:if (= __x0__ true) 6:{
     7:let selfResolutionError = (new OrdinaryObject("Prototype" -> INTRINSICS["%TypeError.prototype%"], "ErrorData" -> undefined))
     8:app __x1__ = (RejectPromise promise selfResolutionError)
     8:return __x1__
-  } else 1:{}
-  9:if (! (= (typeof resolution) Object)) {
+  } else 6:{}
+  9:if (! (= (typeof resolution) Object)) 9:{
     10:app __x2__ = (FulfillPromise promise resolution)
     10:return __x2__
-  } else 1:{}
+  } else 9:{}
   11:app __x3__ = (Get resolution "then")
   11:let then = __x3__
   12:app __x4__ = (IsAbruptCompletion then)
-  12:if __x4__ {
+  12:if __x4__ 12:{
     13:app __x5__ = (RejectPromise promise then.Value)
     13:return __x5__
-  } else 1:{}
+  } else 12:{}
   14:let thenAction = then.Value
   15:app __x6__ = (IsCallable thenAction)
-  15:if (= __x6__ false) {
+  15:if (= __x6__ false) 15:{
     16:app __x7__ = (FulfillPromise promise resolution)
     16:return __x7__
-  } else 1:{}
+  } else 15:{}
   17:app __x8__ = (HostMakeJobCallback thenAction)
   17:let thenJobCallback = __x8__
   18:app __x9__ = (NewPromiseResolveThenableJob promise resolution thenJobCallback)

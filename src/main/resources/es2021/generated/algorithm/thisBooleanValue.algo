@@ -1,10 +1,10 @@
 def thisBooleanValue(value) = {
-  0:if (= (typeof value) Boolean) return value else 73:{}
-  1:if (&& (= (typeof value) Object) (! (= value.BooleanData absent))) {
+  0:if (= (typeof value) Boolean) 0:return value else 0:{}
+  1:if (&& (= (typeof value) Object) (! (= value.BooleanData absent))) 1:{
     2:let b = value.BooleanData
     3:assert (= (typeof b) Boolean)
     4:return b
-  } else 73:{}
+  } else 1:{}
   5:throw TypeError
 }
 - id: "sec-properties-of-the-boolean-prototype-object"

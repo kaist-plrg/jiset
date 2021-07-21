@@ -1,27 +1,27 @@
 def RepeatMatcher(m, min, max, greedy, x, c, parenIndex, parenCount) = {
-  0:if (== max 0i) {
-    app __x0__ = (c x)
-    return __x0__
-  } else 2:{}
+  0:if (== max 0i) 0:{
+    0:app __x0__ = (c x)
+    0:return __x0__
+  } else 0:{}
   1:??? "Let id:{d} be a new Continuation with parameters ( id:{y} ) that captures id:{m} , id:{min} , id:{max} , id:{greedy} , id:{x} , id:{c} , id:{parenIndex} , and id:{parenCount} and performs the following steps when called : in:{} out:{}"
   7:let cap = (copy-obj x.captures)
   8:??? "For each integer id:{k} such that id:{parenIndex} < id:{k} and id:{k} ≤ id:{parenIndex} + id:{parenCount} , set id:{cap} [ id:{k} ] to value:{undefined} ."
   9:let e = x.endIndex
   10:let xr = (new [e, cap])
-  11:if (! (== min 0i)) {
-    app __x1__ = (m xr d)
-    return __x1__
-  } else 2:{}
-  12:if (= greedy false) {
+  11:if (! (== min 0i)) 11:{
+    11:app __x1__ = (m xr d)
+    11:return __x1__
+  } else 11:{}
+  12:if (= greedy false) 12:{
     13:app __x2__ = (c x)
     13:let z = __x2__
-    14:if (! (= z CONST_failure)) return z else 2:{}
+    14:if (! (= z CONST_failure)) 14:return z else 14:{}
     15:app __x3__ = (m xr d)
     15:return __x3__
-  } else 2:{}
+  } else 12:{}
   16:app __x4__ = (m xr d)
   16:let z = __x4__
-  17:if (! (= z CONST_failure)) return z else 2:{}
+  17:if (! (= z CONST_failure)) 17:return z else 17:{}
   18:app __x5__ = (c x)
   18:return __x5__
 }

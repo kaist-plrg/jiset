@@ -4,19 +4,19 @@ def AsyncIteratorClose(iteratorRecord, completion) = {
   2:let iterator = iteratorRecord.Iterator
   3:app __x0__ = (GetMethod iterator "return")
   3:let innerResult = __x0__
-  4:if (= innerResult.Type CONST_normal) {
+  4:if (= innerResult.Type CONST_normal) 4:{
     5:let return = innerResult.Value
-    6:if (= return undefined) return completion else 1:{}
+    6:if (= return undefined) 6:return completion else 6:{}
     7:app __x1__ = (Call return iterator)
     7:innerResult = __x1__
-    8:if (= innerResult.Type CONST_normal) {
-      app __x2__ = (Await innerResult.Value)
-      innerResult = __x2__
-    } else 1:{}
-  } else 1:{}
-  9:if (= completion.Type CONST_throw) return completion else 1:{}
-  10:if (= innerResult.Type CONST_throw) return innerResult else 1:{}
-  11:if (! (= (typeof innerResult.Value) Object)) throw TypeError else 1:{}
+    8:if (= innerResult.Type CONST_normal) 8:{
+      8:app __x2__ = (Await innerResult.Value)
+      8:innerResult = __x2__
+    } else 8:{}
+  } else 4:{}
+  9:if (= completion.Type CONST_throw) 9:return completion else 9:{}
+  10:if (= innerResult.Type CONST_throw) 10:return innerResult else 10:{}
+  11:if (! (= (typeof innerResult.Value) Object)) 11:throw TypeError else 11:{}
   12:return completion
 }
 - id: "sec-asynciteratorclose"

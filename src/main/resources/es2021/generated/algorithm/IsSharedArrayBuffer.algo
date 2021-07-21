@@ -1,7 +1,7 @@
 def IsSharedArrayBuffer(obj) = {
   1:let bufferData = obj.ArrayBufferData
-  2:if (= bufferData null) return false else 0:{}
-  3:if (is-instance-of bufferData DataBlock) return false else 0:{}
+  2:if (= bufferData null) 2:return false else 2:{}
+  3:if (is-instance-of bufferData DataBlock) 3:return false else 3:{}
   4:assert (is-instance-of bufferData SharedDataBlock)
   5:return true
 }

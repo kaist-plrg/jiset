@@ -7,23 +7,23 @@ def [BUILTIN] TypedArray.prototype.subarray(begin, end) = {
   4:let srcLength = O.ArrayLength
   5:app __x1__ = (ToIntegerOrInfinity begin)
   5:let relativeBegin = [? __x1__]
-  8:if (= relativeBegin -Infinity) let beginIndex = 0i else if (< relativeBegin 0i) {
-    app __x2__ = (max (+ srcLength relativeBegin) 0i)
-    let beginIndex = __x2__
-  } else {
-    app __x3__ = (min relativeBegin srcLength)
-    let beginIndex = __x3__
+  6:if (= relativeBegin -Infinity) 6:let beginIndex = 0i else 6:if (< relativeBegin 0i) 7:{
+    7:app __x2__ = (max (+ srcLength relativeBegin) 0i)
+    7:let beginIndex = __x2__
+  } else 8:{
+    8:app __x3__ = (min relativeBegin srcLength)
+    8:let beginIndex = __x3__
   }
-  9:if (= end undefined) let relativeEnd = srcLength else {
-    app __x4__ = (ToIntegerOrInfinity end)
-    let relativeEnd = [? __x4__]
+  9:if (= end undefined) 9:let relativeEnd = srcLength else 10:{
+    10:app __x4__ = (ToIntegerOrInfinity end)
+    10:let relativeEnd = [? __x4__]
   }
-  12:if (= relativeEnd -Infinity) let endIndex = 0i else if (< relativeEnd 0i) {
-    app __x5__ = (max (+ srcLength relativeEnd) 0i)
-    let endIndex = __x5__
-  } else {
-    app __x6__ = (min relativeEnd srcLength)
-    let endIndex = __x6__
+  10:if (= relativeEnd -Infinity) 10:let endIndex = 0i else 10:if (< relativeEnd 0i) 11:{
+    11:app __x5__ = (max (+ srcLength relativeEnd) 0i)
+    11:let endIndex = __x5__
+  } else 12:{
+    12:app __x6__ = (min relativeEnd srcLength)
+    12:let endIndex = __x6__
   }
   13:app __x7__ = (max (- endIndex beginIndex) 0i)
   13:let newLength = __x7__

@@ -1,7 +1,7 @@
 def [SYNTAX] ArrowFunction[0,0].Contains<(ArrowParameters, ConciseBody),true>(symbol) = {
-  0:if (! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol "super")) (= symbol "this"))) return false else 1:{}
+  0:if (! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol "super")) (= symbol "this"))) 0:return false else 0:{}
   1:access __x0__ = (ArrowParameters "Contains" symbol)
-  1:if (= __x0__ true) return true else 1:{}
+  1:if (= __x0__ true) 1:return true else 1:{}
   2:access __x1__ = (ConciseBody "Contains" symbol)
   2:return __x1__
 }

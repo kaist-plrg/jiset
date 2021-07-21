@@ -3,7 +3,7 @@ def [SYNTAX] CallExpression[5,0].Evaluation<(CallExpression, IdentifierName),fal
   0:let baseReference = __x0__
   1:app __x1__ = (GetValue baseReference)
   1:let baseValue = [? __x1__]
-  2:if true let strict = true else let strict = false
+  2:if true 2:let strict = true else 2:let strict = false
   3:app __x2__ = (EvaluatePropertyAccessWithIdentifierKey baseValue IdentifierName strict)
   3:return [? __x2__]
 }

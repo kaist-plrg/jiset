@@ -6,7 +6,7 @@ def DateString(tv) = {
   4:??? "Let id:{day} be the String representation of DateFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary ."
   5:app __x0__ = (YearFromTime tv)
   5:let yv = __x0__
-  6:if (! (< yv 0i)) let yearSign = "" else let yearSign = "-"
+  6:if (! (< yv 0i)) 6:let yearSign = "" else 6:let yearSign = "-"
   7:??? "Let id:{year} be the String representation of abs ( ℝ ( id:{yv} ) ) , formatted as a decimal number ."
   8:app __x1__ = (StringPad year 4i "0" CONST_start)
   8:let paddedYear = [! __x1__]

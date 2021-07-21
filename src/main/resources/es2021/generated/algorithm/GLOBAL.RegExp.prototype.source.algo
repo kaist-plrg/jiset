@@ -1,10 +1,10 @@
 def [BUILTIN] RegExp.prototype.source() = {
   0:let R = this
-  1:if (! (= (typeof R) Object)) throw TypeError else 56:{}
-  2:if (= R.OriginalSource absent) {
-    4:app __x0__ = (SameValue R INTRINSICS["%RegExp.prototype%"])
-    4:if (= __x0__ true) return "(?:)" else throw TypeError
-  } else 56:{}
+  1:if (! (= (typeof R) Object)) 1:throw TypeError else 1:{}
+  2:if (= R.OriginalSource absent) 2:{
+    3:app __x0__ = (SameValue R INTRINSICS["%RegExp.prototype%"])
+    3:if (= __x0__ true) 3:return "(?:)" else 3:throw TypeError
+  } else 2:{}
   5:assert (! (= R.OriginalFlags absent))
   6:let src = R.OriginalSource
   7:let flags = R.OriginalFlags

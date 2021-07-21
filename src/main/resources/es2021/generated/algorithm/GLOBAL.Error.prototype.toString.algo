@@ -1,20 +1,20 @@
 def [BUILTIN] Error.prototype.toString() = {
   0:let O = this
-  1:if (! (= (typeof O) Object)) throw TypeError else 3:{}
+  1:if (! (= (typeof O) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (Get O "name")
   2:let name = [? __x0__]
-  3:if (= name undefined) name = "Error" else {
-    app __x1__ = (ToString name)
-    name = [? __x1__]
+  3:if (= name undefined) 3:name = "Error" else 4:{
+    4:app __x1__ = (ToString name)
+    4:name = [? __x1__]
   }
   4:app __x2__ = (Get O "message")
   4:let msg = [? __x2__]
-  5:if (= msg undefined) msg = "" else {
-    app __x3__ = (ToString msg)
-    msg = [? __x3__]
+  5:if (= msg undefined) 5:msg = "" else 6:{
+    6:app __x3__ = (ToString msg)
+    6:msg = [? __x3__]
   }
-  6:if (= name "") return msg else 3:{}
-  7:if (= msg "") return name else 3:{}
+  6:if (= name "") 6:return msg else 6:{}
+  7:if (= msg "") 7:return name else 7:{}
   8:return (+ (+ (+ name ":") " ") msg)
 }
 - id: "sec-error.prototype.tostring"

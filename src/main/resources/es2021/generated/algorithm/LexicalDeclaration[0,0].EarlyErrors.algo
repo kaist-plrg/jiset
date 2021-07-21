@@ -1,9 +1,9 @@
 def [SYNTAX] LexicalDeclaration[0,0].EarlyErrors<(LetOrConst, BindingList),true>() = {
   0:access __x0__ = (BindingList "BoundNames")
-  0:if (contains __x0__ "let") throw SyntaxError else 2:{}
+  0:if (contains __x0__ "let") 0:throw SyntaxError else 0:{}
   1:access __x1__ = (BindingList "BoundNames")
   1:app __x2__ = (IsDuplicate __x1__)
-  1:if __x2__ throw SyntaxError else 2:{}
+  1:if __x2__ 1:throw SyntaxError else 1:{}
 }
 - id: "sec-let-and-const-declarations-static-semantics-early-errors"
 - code:

@@ -6,29 +6,29 @@ def PerformPromiseAny(iteratorRecord, constructor, resultCapability, promiseReso
   2:let errors = (new [])
   3:let remainingElementsCount = (new Record("Value" -> 1i))
   4:let index = 0i
-  5:while true {
+  5:while true 5:{
     6:app __x2__ = (IteratorStep iteratorRecord)
     6:let next = __x2__
     7:app __x3__ = (IsAbruptCompletion next)
-    7:if __x3__ iteratorRecord.Done = true else 10:{}
+    7:if __x3__ 7:iteratorRecord.Done = true else 7:{}
     8:[? next]
-    9:if (= next false) {
+    9:if (= next false) 9:{
       10:iteratorRecord.Done = true
       11:remainingElementsCount.Value = (- remainingElementsCount.Value 1i)
-      12:if (= remainingElementsCount.Value 0i) {
+      12:if (= remainingElementsCount.Value 0i) 12:{
         13:??? "Let id:{error} be a newly created code:{AggregateError} object ."
         14:app __x4__ = (CreateArrayFromList errors)
         14:app __x5__ = (DefinePropertyOrThrow error "errors" (new PropertyDescriptor("Configurable" -> true, "Enumerable" -> false, "Writable" -> true, "Value" -> [! __x4__])))
         14:[! __x5__]
         15:app __x6__ = (ThrowCompletion error)
         15:return __x6__
-      } else 10:{}
+      } else 12:{}
       16:return resultCapability.Promise
-    } else 10:{}
+    } else 9:{}
     17:app __x7__ = (IteratorValue next)
     17:let nextValue = __x7__
     18:app __x8__ = (IsAbruptCompletion nextValue)
-    18:if __x8__ iteratorRecord.Done = true else 10:{}
+    18:if __x8__ 18:iteratorRecord.Done = true else 18:{}
     19:[? nextValue]
     20:append undefined -> errors
     21:app __x9__ = (Call promiseResolve constructor (new [nextValue]))

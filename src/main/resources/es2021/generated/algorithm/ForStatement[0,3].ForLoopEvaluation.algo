@@ -1,10 +1,10 @@
 def [SYNTAX] ForStatement[0,3].ForLoopEvaluation<(Expression0, Expression1, Expression2, Statement),true>(labelSet) = {
-  0:if (! (= Expression0 absent)) {
+  0:if (! (= Expression0 absent)) 0:{
     1:access __x0__ = (Expression0 "Evaluation")
     1:let exprRef = __x0__
     2:app __x1__ = (GetValue exprRef)
     2:[? __x1__]
-  } else 10:{}
+  } else 0:{}
   3:app __x2__ = (ForBodyEvaluation Expression1 Expression2 Statement (new []) labelSet)
   3:return [? __x2__]
 }

@@ -2,23 +2,23 @@ def [SYNTAX] BindingRestElement[1,0].IteratorBindingInitialization<(BindingPatte
   0:app __x0__ = (ArrayCreate 0i)
   0:let A = [! __x0__]
   1:let n = 0i
-  2:while true {
-    3:if (= iteratorRecord.Done false) {
+  2:while true 2:{
+    3:if (= iteratorRecord.Done false) 3:{
       4:app __x1__ = (IteratorStep iteratorRecord)
       4:let next = __x1__
       5:app __x2__ = (IsAbruptCompletion next)
-      5:if __x2__ iteratorRecord.Done = true else 1:{}
+      5:if __x2__ 5:iteratorRecord.Done = true else 5:{}
       6:[? next]
-      7:if (= next false) iteratorRecord.Done = true else 1:{}
-    } else 1:{}
-    8:if (= iteratorRecord.Done true) {
+      7:if (= next false) 7:iteratorRecord.Done = true else 7:{}
+    } else 3:{}
+    8:if (= iteratorRecord.Done true) 8:{
       9:access __x3__ = (BindingPattern "BindingInitialization" A environment)
       9:return __x3__
-    } else 1:{}
+    } else 8:{}
     10:app __x4__ = (IteratorValue next)
     10:let nextValue = __x4__
     11:app __x5__ = (IsAbruptCompletion nextValue)
-    11:if __x5__ iteratorRecord.Done = true else 1:{}
+    11:if __x5__ 11:iteratorRecord.Done = true else 11:{}
     12:[? nextValue]
     13:app __x6__ = (ToString n)
     13:app __x7__ = (CreateDataPropertyOrThrow A [! __x6__] nextValue)

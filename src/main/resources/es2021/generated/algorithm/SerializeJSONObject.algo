@@ -1,33 +1,33 @@
 def SerializeJSONObject(state, value) = {
-  0:if (contains state.Stack value) throw TypeError else 7:{}
+  0:if (contains state.Stack value) 0:throw TypeError else 0:{}
   1:append value -> state.Stack
   2:let stepback = state.Indent
   3:state.Indent = (+ state.Indent state.Gap)
-  6:if (! (= state.PropertyList undefined)) let K = state.PropertyList else {
+  4:if (! (= state.PropertyList undefined)) 5:let K = state.PropertyList else 6:{
     7:app __x0__ = (EnumerableOwnPropertyNames value CONST_key)
     7:let K = [? __x0__]
   }
   8:let partial = (new [])
   9:let __x1__ = K
   9:let __x2__ = 0i
-  9:while (< __x2__ __x1__.length) {
-    let P = __x1__[__x2__]
+  9:while (< __x2__ __x1__.length) 9:{
+    9:let P = __x1__[__x2__]
+    9:__x2__ = (+ __x2__ 1i)
     10:app __x3__ = (SerializeJSONProperty state P value)
     10:let strP = [? __x3__]
-    11:if (! (= strP undefined)) {
+    11:if (! (= strP undefined)) 11:{
       12:app __x4__ = (QuoteJSONString P)
       12:let member = __x4__
       13:member = (+ member ":")
-      14:if (! (= state.Gap "")) member = (+ member " ") else 7:{}
+      14:if (! (= state.Gap "")) 15:member = (+ member " ") else 14:{}
       16:member = (+ member strP)
       17:append member -> partial
-    } else 7:{}
-    __x2__ = (+ __x2__ 1i)
+    } else 11:{}
   }
-  20:if (= partial.length 0i) let final = "{}" else if (= state.Gap "") {
+  18:if (= partial.length 0i) 19:let final = "{}" else 18:if (= state.Gap "") 21:{
     22:??? "Let id:{properties} be the String value formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with the code unit 0x002C ( COMMA ) . A comma is not inserted either before the first String or after the last String ."
     23:let final = (+ (+ "{" properties) "}")
-  } else {
+  } else 24:{
     25:let separator = (+ (+ "," "\n") state.Indent)
     26:??? "Let id:{properties} be the String value formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with id:{separator} . The id:{separator} String is not inserted either before the first String or after the last String ."
     27:let final = (+ (+ (+ (+ (+ (+ "{" "\n") state.Indent) properties) "\n") stepback) "}")

@@ -1,21 +1,21 @@
 def GetModuleNamespace(module) = {
   2:let namespace = module.Namespace
-  3:if (= namespace undefined) {
+  3:if (= namespace undefined) 3:{
     4:app __x0__ = (module.GetExportedNames module)
     4:let exportedNames = [? __x0__]
     5:let unambiguousNames = (new [])
     6:let __x1__ = exportedNames
     6:let __x2__ = 0i
-    6:while (< __x2__ __x1__.length) {
-      let name = __x1__[__x2__]
+    6:while (< __x2__ __x1__.length) 6:{
+      6:let name = __x1__[__x2__]
+      6:__x2__ = (+ __x2__ 1i)
       7:app __x3__ = (module.ResolveExport module name)
       7:let resolution = [? __x3__]
-      8:if (is-instance-of resolution ResolvedBindingRecord) append name -> unambiguousNames else 1:{}
-      __x2__ = (+ __x2__ 1i)
+      8:if (is-instance-of resolution ResolvedBindingRecord) 8:append name -> unambiguousNames else 8:{}
     }
     9:app __x4__ = (ModuleNamespaceCreate module unambiguousNames)
     9:namespace = __x4__
-  } else 1:{}
+  } else 3:{}
   10:return namespace
 }
 - id: "sec-getmodulenamespace"

@@ -3,33 +3,33 @@ def SetIntegrityLevel(O, level) = {
   1:assert (|| (= level CONST_sealed) (= level CONST_frozen))
   2:app __x0__ = (O.PreventExtensions O)
   2:let status = [? __x0__]
-  3:if (= status false) return false else 4:{}
+  3:if (= status false) 3:return false else 3:{}
   4:app __x1__ = (O.OwnPropertyKeys O)
   4:let keys = [? __x1__]
-  8:if (= level CONST_sealed) {
+  5:if (= level CONST_sealed) 5:{
     6:let __x2__ = keys
     6:let __x3__ = 0i
-    6:while (< __x3__ __x2__.length) {
-      let k = __x2__[__x3__]
+    6:while (< __x3__ __x2__.length) 6:{
+      6:let k = __x2__[__x3__]
+      6:__x3__ = (+ __x3__ 1i)
       7:app __x4__ = (DefinePropertyOrThrow O k (new PropertyDescriptor("Configurable" -> false)))
       7:[? __x4__]
-      __x3__ = (+ __x3__ 1i)
     }
-  } else {
+  } else 7:{
     9:assert (= level CONST_frozen)
     10:let __x5__ = keys
     10:let __x6__ = 0i
-    10:while (< __x6__ __x5__.length) {
-      let k = __x5__[__x6__]
+    10:while (< __x6__ __x5__.length) 10:{
+      10:let k = __x5__[__x6__]
+      10:__x6__ = (+ __x6__ 1i)
       11:app __x7__ = (O.GetOwnProperty O k)
       11:let currentDesc = [? __x7__]
-      12:if (! (= currentDesc undefined)) {
-        15:app __x8__ = (IsAccessorDescriptor currentDesc)
-        15:if (= __x8__ true) let desc = (new PropertyDescriptor("Configurable" -> false)) else let desc = (new PropertyDescriptor("Configurable" -> false, "Writable" -> false))
+      12:if (! (= currentDesc undefined)) 12:{
+        13:app __x8__ = (IsAccessorDescriptor currentDesc)
+        13:if (= __x8__ true) 14:let desc = (new PropertyDescriptor("Configurable" -> false)) else 13:let desc = (new PropertyDescriptor("Configurable" -> false, "Writable" -> false))
         17:app __x9__ = (DefinePropertyOrThrow O k desc)
         17:[? __x9__]
-      } else 4:{}
-      __x6__ = (+ __x6__ 1i)
+      } else 12:{}
     }
   }
   18:return true

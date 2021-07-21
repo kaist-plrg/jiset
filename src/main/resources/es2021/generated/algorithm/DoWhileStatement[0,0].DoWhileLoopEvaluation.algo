@@ -1,20 +1,20 @@
 def [SYNTAX] DoWhileStatement[0,0].DoWhileLoopEvaluation<(Statement, Expression),true>(labelSet) = {
   0:let V = undefined
-  1:while true {
+  1:while true 1:{
     2:access __x0__ = (Statement "Evaluation")
     2:let stmtResult = __x0__
     3:app __x1__ = (LoopContinues stmtResult labelSet)
-    3:if (= __x1__ false) {
-      app __x2__ = (UpdateEmpty stmtResult V)
-      return __x2__
-    } else 10:{}
-    4:if (! (= stmtResult.Value CONST_empty)) V = stmtResult.Value else 10:{}
+    3:if (= __x1__ false) 3:{
+      3:app __x2__ = (UpdateEmpty stmtResult V)
+      3:return __x2__
+    } else 3:{}
+    4:if (! (= stmtResult.Value CONST_empty)) 4:V = stmtResult.Value else 4:{}
     5:access __x3__ = (Expression "Evaluation")
     5:let exprRef = __x3__
     6:app __x4__ = (GetValue exprRef)
     6:let exprValue = [? __x4__]
     7:app __x5__ = (ToBoolean exprValue)
-    7:if (= [! __x5__] false) return V else 10:{}
+    7:if (= [! __x5__] false) 7:return V else 7:{}
   }
 }
 - id: "sec-runtime-semantics-dowhileloopevaluation"

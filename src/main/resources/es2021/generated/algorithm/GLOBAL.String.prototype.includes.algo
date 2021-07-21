@@ -5,7 +5,7 @@ def [BUILTIN] String.prototype.includes(searchString, position?) = {
   1:let S = [? __x1__]
   2:app __x2__ = (IsRegExp searchString)
   2:let isRegExp = [? __x2__]
-  3:if (= isRegExp true) throw TypeError else 6:{}
+  3:if (= isRegExp true) 3:throw TypeError else 3:{}
   4:app __x3__ = (ToString searchString)
   4:let searchStr = [? __x3__]
   5:app __x4__ = (ToIntegerOrInfinity position)
@@ -14,7 +14,7 @@ def [BUILTIN] String.prototype.includes(searchString, position?) = {
   8:??? "Let id:{start} be the result of clamping id:{pos} between 0 and id:{len} ."
   9:app __x5__ = (StringIndexOf S searchStr start)
   9:let index = [! __x5__]
-  10:if (! (= index -1i)) return true else 6:{}
+  10:if (! (= index -1i)) 10:return true else 10:{}
   11:return false
 }
 - id: "sec-string.prototype.includes"

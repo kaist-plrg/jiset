@@ -1,24 +1,24 @@
 def [METHOD] ModuleNamespaceExoticObject.Get(O)(P, Receiver) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
-  1:if (= (typeof P) Symbol) {
+  1:if (= (typeof P) Symbol) 1:{
     2:app __x1__ = (OrdinaryGet O P Receiver)
     2:return [? __x1__]
-  } else 0:{}
+  } else 1:{}
   3:let exports = O.Exports
-  4:if (! (contains exports P)) return undefined else 0:{}
+  4:if (! (contains exports P)) 4:return undefined else 4:{}
   5:let m = O.Module
   6:app __x2__ = (m.ResolveExport m P)
   6:let binding = [! __x2__]
   7:assert (is-instance-of binding ResolvedBindingRecord)
   8:let targetModule = binding.Module
   9:assert (! (= targetModule undefined))
-  10:if (= binding.BindingName "*namespace*") {
+  10:if (= binding.BindingName "*namespace*") 10:{
     11:app __x3__ = (GetModuleNamespace targetModule)
     11:return [? __x3__]
-  } else 0:{}
+  } else 10:{}
   12:let targetEnv = targetModule.Environment
-  13:if (= targetEnv undefined) throw ReferenceError else 0:{}
+  13:if (= targetEnv undefined) 13:throw ReferenceError else 13:{}
   14:app __x4__ = (targetEnv.GetBindingValue targetEnv binding.BindingName true)
   14:return [? __x4__]
 }

@@ -6,10 +6,10 @@ def [SYNTAX] ArgumentList[1,0].ArgumentListEvaluation<(AssignmentExpression),tru
   2:let spreadObj = [? __x1__]
   3:app __x2__ = (GetIterator spreadObj)
   3:let iteratorRecord = [? __x2__]
-  4:while true {
+  4:while true 4:{
     5:app __x3__ = (IteratorStep iteratorRecord)
     5:let next = [? __x3__]
-    6:if (= next false) return list else 5:{}
+    6:if (= next false) 6:return list else 6:{}
     7:app __x4__ = (IteratorValue next)
     7:let nextArg = [? __x4__]
     8:append nextArg -> list

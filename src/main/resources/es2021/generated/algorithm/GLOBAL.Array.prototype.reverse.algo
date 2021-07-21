@@ -6,7 +6,7 @@ def [BUILTIN] Array.prototype.reverse() = {
   2:app __x2__ = (floor (/ len 2i))
   2:let middle = __x2__
   3:let lower = 0i
-  4:while (! (== lower middle)) {
+  4:while (! (== lower middle)) 4:{
     5:let upper = (- (- len lower) 1i)
     6:app __x3__ = (ToString upper)
     6:let upperP = [! __x3__]
@@ -14,32 +14,32 @@ def [BUILTIN] Array.prototype.reverse() = {
     7:let lowerP = [! __x4__]
     8:app __x5__ = (HasProperty O lowerP)
     8:let lowerExists = [? __x5__]
-    9:if (= lowerExists true) {
+    9:if (= lowerExists true) 9:{
       10:app __x6__ = (Get O lowerP)
       10:let lowerValue = [? __x6__]
-    } else 25:{}
+    } else 9:{}
     11:app __x7__ = (HasProperty O upperP)
     11:let upperExists = [? __x7__]
-    12:if (= upperExists true) {
+    12:if (= upperExists true) 12:{
       13:app __x8__ = (Get O upperP)
       13:let upperValue = [? __x8__]
-    } else 25:{}
-    23:if (&& (= lowerExists true) (= upperExists true)) {
+    } else 12:{}
+    14:if (&& (= lowerExists true) (= upperExists true)) 14:{
       15:app __x9__ = (Set O lowerP upperValue true)
       15:[? __x9__]
       16:app __x10__ = (Set O upperP lowerValue true)
       16:[? __x10__]
-    } else if (&& (= lowerExists false) (= upperExists true)) {
+    } else 14:if (&& (= lowerExists false) (= upperExists true)) 17:{
       18:app __x11__ = (Set O lowerP upperValue true)
       18:[? __x11__]
       19:app __x12__ = (DeletePropertyOrThrow O upperP)
       19:[? __x12__]
-    } else if (&& (= lowerExists true) (= upperExists false)) {
+    } else 14:if (&& (= lowerExists true) (= upperExists false)) 20:{
       21:app __x13__ = (DeletePropertyOrThrow O lowerP)
       21:[? __x13__]
       22:app __x14__ = (Set O upperP lowerValue true)
       22:[? __x14__]
-    } else assert (&& (= lowerExists false) (= upperExists false))
+    } else 14:assert (&& (= lowerExists false) (= upperExists false))
     26:lower = (+ lower 1i)
   }
   27:return O

@@ -3,10 +3,10 @@ def TimeZoneString(tv) = {
   1:assert (! (= tv NaN))
   2:app __x0__ = (LocalTZA tv true)
   2:let offset = __x0__
-  6:if (! (< offset 0i)) {
+  3:if (! (< offset 0i)) 3:{
     4:let offsetSign = "+"
     5:let absOffset = offset
-  } else {
+  } else 6:{
     7:let offsetSign = "-"
     8:let absOffset = (- offset)
   }

@@ -2,13 +2,13 @@ def SpeciesConstructor(O, defaultConstructor) = {
   0:assert (= (typeof O) Object)
   1:app __x0__ = (Get O "constructor")
   1:let C = [? __x0__]
-  2:if (= C undefined) return defaultConstructor else 0:{}
-  3:if (! (= (typeof C) Object)) throw TypeError else 0:{}
+  2:if (= C undefined) 2:return defaultConstructor else 2:{}
+  3:if (! (= (typeof C) Object)) 3:throw TypeError else 3:{}
   4:app __x1__ = (Get C SYMBOL_species)
   4:let S = [? __x1__]
-  5:if (|| (= S undefined) (= S null)) return defaultConstructor else 0:{}
+  5:if (|| (= S undefined) (= S null)) 5:return defaultConstructor else 5:{}
   6:app __x2__ = (IsConstructor S)
-  6:if (= __x2__ true) return S else 0:{}
+  6:if (= __x2__ true) 6:return S else 6:{}
   7:throw TypeError
 }
 - id: "sec-speciesconstructor"

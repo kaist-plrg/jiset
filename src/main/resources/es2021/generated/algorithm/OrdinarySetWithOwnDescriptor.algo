@@ -1,36 +1,36 @@
 def OrdinarySetWithOwnDescriptor(O, P, V, Receiver, ownDesc) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
-  1:if (= ownDesc undefined) {
+  1:if (= ownDesc undefined) 1:{
     2:app __x1__ = (O.GetPrototypeOf O)
     2:let parent = [? __x1__]
-    5:if (! (= parent null)) {
+    3:if (! (= parent null)) 3:{
       4:app __x2__ = (parent.Set parent P V Receiver)
       4:return [? __x2__]
-    } else ownDesc = (new PropertyDescriptor("Value" -> undefined, "Writable" -> true, "Enumerable" -> true, "Configurable" -> true))
-  } else 17:{}
+    } else 3:ownDesc = (new PropertyDescriptor("Value" -> undefined, "Writable" -> true, "Enumerable" -> true, "Configurable" -> true))
+  } else 1:{}
   7:app __x3__ = (IsDataDescriptor ownDesc)
-  7:if (= __x3__ true) {
-    8:if (= ownDesc.Writable false) return false else 17:{}
-    9:if (! (= (typeof Receiver) Object)) return false else 17:{}
+  7:if (= __x3__ true) 7:{
+    8:if (= ownDesc.Writable false) 8:return false else 8:{}
+    9:if (! (= (typeof Receiver) Object)) 9:return false else 9:{}
     10:app __x4__ = (Receiver.GetOwnProperty Receiver P)
     10:let existingDescriptor = [? __x4__]
-    16:if (! (= existingDescriptor undefined)) {
+    11:if (! (= existingDescriptor undefined)) 11:{
       12:app __x5__ = (IsAccessorDescriptor existingDescriptor)
-      12:if (= __x5__ true) return false else 17:{}
-      13:if (= existingDescriptor.Writable false) return false else 17:{}
+      12:if (= __x5__ true) 12:return false else 12:{}
+      13:if (= existingDescriptor.Writable false) 13:return false else 13:{}
       14:let valueDesc = (new PropertyDescriptor("Value" -> V))
       15:app __x6__ = (Receiver.DefineOwnProperty Receiver P valueDesc)
       15:return [? __x6__]
-    } else {
+    } else 16:{
       18:app __x7__ = (CreateDataProperty Receiver P V)
       18:return [? __x7__]
     }
-  } else 17:{}
+  } else 7:{}
   19:app __x8__ = (IsAccessorDescriptor ownDesc)
   19:assert (= __x8__ true)
   20:let setter = ownDesc.Set
-  21:if (= setter undefined) return false else 17:{}
+  21:if (= setter undefined) 21:return false else 21:{}
   22:app __x9__ = (Call setter Receiver (new [V]))
   22:[? __x9__]
   23:return true

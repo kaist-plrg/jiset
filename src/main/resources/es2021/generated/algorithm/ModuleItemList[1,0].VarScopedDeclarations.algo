@@ -4,10 +4,10 @@ def [SYNTAX] ModuleItemList[1,0].VarScopedDeclarations<(ModuleItemList, ModuleIt
   1:access __x1__ = (ModuleItem "VarScopedDeclarations")
   1:let __x2__ = __x1__
   1:let __x3__ = 0i
-  1:while (< __x3__ __x2__.length) {
-    let __x4__ = __x2__[__x3__]
-    append __x4__ -> declarations
-    __x3__ = (+ __x3__ 1i)
+  1:while (< __x3__ __x2__.length) 1:{
+    1:let __x4__ = __x2__[__x3__]
+    1:__x3__ = (+ __x3__ 1i)
+    1:append __x4__ -> declarations
   }
   2:return declarations
 }

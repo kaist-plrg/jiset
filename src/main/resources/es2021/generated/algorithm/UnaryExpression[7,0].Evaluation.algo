@@ -4,7 +4,7 @@ def [SYNTAX] UnaryExpression[7,0].Evaluation<(UnaryExpression),false>() = {
   1:app __x1__ = (GetValue expr)
   1:app __x2__ = (ToBoolean [? __x1__])
   1:let oldValue = [! __x2__]
-  2:if (= oldValue true) return false else 3:{}
+  2:if (= oldValue true) 2:return false else 2:{}
   3:return true
 }
 - id: "sec-logical-not-operator-runtime-semantics-evaluation"

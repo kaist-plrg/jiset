@@ -1,6 +1,6 @@
 def [BUILTIN] Promise.resolve(x) = {
   0:let C = this
-  1:if (! (= (typeof C) Object)) throw TypeError else 10:{}
+  1:if (! (= (typeof C) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (PromiseResolve C x)
   2:return [? __x0__]
 }

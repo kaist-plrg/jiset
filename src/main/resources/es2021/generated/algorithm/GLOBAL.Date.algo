@@ -1,55 +1,55 @@
 def [BUILTIN] Date(...values) = {
-  0:if (= NewTarget undefined) {
+  0:if (= NewTarget undefined) 0:{
     1:??? "Let id:{now} be the time value ( UTC ) identifying the current time ."
     2:app __x0__ = (ToDateString now)
     2:return __x0__
-  } else 13:{}
+  } else 0:{}
   3:let numberOfArgs = values.length
-  18:if (== numberOfArgs 0i) ??? "Let id:{dv} be the time value ( UTC ) identifying the current time ." else if (== numberOfArgs 1i) {
+  4:if (== numberOfArgs 0i) 5:??? "Let id:{dv} be the time value ( UTC ) identifying the current time ." else 4:if (== numberOfArgs 1i) 6:{
     7:let value = values[0i]
-    10:if (&& (= (typeof value) Object) (! (= value.DateValue absent))) {
+    8:if (&& (= (typeof value) Object) (! (= value.DateValue absent))) 8:{
       9:app __x1__ = (thisTimeValue value)
       9:let tv = [! __x1__]
-    } else {
+    } else 10:{
       11:app __x2__ = (ToPrimitive value)
       11:let v = [? __x2__]
-      15:if (= (typeof v) String) ??? "Let id:{tv} be the result of parsing id:{v} as a date , in exactly the same manner as for the code:{parse} method ( link:{sec-date.parse} ) ." else {
+      12:if (= (typeof v) String) 14:??? "Let id:{tv} be the result of parsing id:{v} as a date , in exactly the same manner as for the code:{parse} method ( link:{sec-date.parse} ) ." else 15:{
         16:app __x3__ = (ToNumber v)
         16:let tv = [? __x3__]
       }
     }
     17:app __x4__ = (TimeClip tv)
     17:let dv = __x4__
-  } else {
+  } else 18:{
     19:assert (! (< numberOfArgs 2i))
     20:app __x5__ = (ToNumber values[0i])
     20:let y = [? __x5__]
     21:app __x6__ = (ToNumber values[1i])
     21:let m = [? __x6__]
-    22:if (< 2i numberOfArgs) {
-      app __x7__ = (ToNumber values[2i])
-      let dt = [? __x7__]
-    } else let dt = 1i
-    23:if (< 3i numberOfArgs) {
-      app __x8__ = (ToNumber values[3i])
-      let h = [? __x8__]
-    } else let h = 0i
-    24:if (< 4i numberOfArgs) {
-      app __x9__ = (ToNumber values[4i])
-      let min = [? __x9__]
-    } else let min = 0i
-    25:if (< 5i numberOfArgs) {
-      app __x10__ = (ToNumber values[5i])
-      let s = [? __x10__]
-    } else let s = 0i
-    26:if (< 6i numberOfArgs) {
-      app __x11__ = (ToNumber values[6i])
-      let milli = [? __x11__]
-    } else let milli = 0i
-    28:if (= y NaN) let yr = NaN else {
+    22:if (< 2i numberOfArgs) 22:{
+      22:app __x7__ = (ToNumber values[2i])
+      22:let dt = [? __x7__]
+    } else 22:let dt = 1i
+    23:if (< 3i numberOfArgs) 23:{
+      23:app __x8__ = (ToNumber values[3i])
+      23:let h = [? __x8__]
+    } else 23:let h = 0i
+    24:if (< 4i numberOfArgs) 24:{
+      24:app __x9__ = (ToNumber values[4i])
+      24:let min = [? __x9__]
+    } else 24:let min = 0i
+    25:if (< 5i numberOfArgs) 25:{
+      25:app __x10__ = (ToNumber values[5i])
+      25:let s = [? __x10__]
+    } else 25:let s = 0i
+    26:if (< 6i numberOfArgs) 26:{
+      26:app __x11__ = (ToNumber values[6i])
+      26:let milli = [? __x11__]
+    } else 26:let milli = 0i
+    27:if (= y NaN) 27:let yr = NaN else 28:{
       29:app __x12__ = (ToIntegerOrInfinity y)
       29:let yi = [! __x12__]
-      30:if (&& (! (< yi 0i)) (! (< 99i yi))) let yr = (+ 1900i yi) else let yr = y
+      30:if (&& (! (< yi 0i)) (! (< 99i yi))) 30:let yr = (+ 1900i yi) else 30:let yr = y
     }
     31:app __x13__ = (MakeDay yr m dt)
     31:app __x14__ = (MakeTime h min s milli)

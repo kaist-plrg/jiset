@@ -6,10 +6,10 @@ def [SYNTAX] BindingRestProperty[0,0].RestBindingInitialization<(BindingIdentifi
   1:let restObj = [! __x2__]
   2:app __x3__ = (CopyDataProperties restObj value excludedNames)
   2:[? __x3__]
-  3:if (= environment undefined) {
-    app __x4__ = (PutValue lhs restObj)
-    return __x4__
-  } else 10:{}
+  3:if (= environment undefined) 3:{
+    3:app __x4__ = (PutValue lhs restObj)
+    3:return __x4__
+  } else 3:{}
   4:app __x5__ = (InitializeReferencedBinding lhs restObj)
   4:return __x5__
 }

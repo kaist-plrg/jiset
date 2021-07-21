@@ -1,8 +1,8 @@
 def LoopContinues(completion, labelSet) = {
-  0:if (= completion.Type CONST_normal) return true else 10:{}
-  1:if (! (= completion.Type CONST_continue)) return false else 10:{}
-  2:if (= completion.Target CONST_empty) return true else 10:{}
-  3:if (contains labelSet completion.Target) return true else 10:{}
+  0:if (= completion.Type CONST_normal) 0:return true else 0:{}
+  1:if (! (= completion.Type CONST_continue)) 1:return false else 1:{}
+  2:if (= completion.Target CONST_empty) 2:return true else 2:{}
+  3:if (contains labelSet completion.Target) 3:return true else 3:{}
   4:return false
 }
 - id: "sec-loopcontinues"

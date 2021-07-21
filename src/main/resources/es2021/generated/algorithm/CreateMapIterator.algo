@@ -6,11 +6,11 @@ def CreateMapIterator(map, kind) = {
     3:let entries = map.MapData
     4:let index = 0i
     5:let numEntries = entries.length
-    6:while (< index numEntries) {
+    6:while (< index numEntries) 6:{
       7:??? "Let id:{e} be the Record { [ [ Key ] ] , [ [ Value ] ] } that is the value of id:{entries} [ id:{index} ] ."
       8:index = (+ index 1i)
-      9:if (! (= e.Key CONST_empty)) {
-        12:if (= kind CONST_key) let result = e.Key else if (= kind CONST_value) let result = e.Value else {
+      9:if (! (= e.Key CONST_empty)) 9:{
+        10:if (= kind CONST_key) 10:let result = e.Key else 10:if (= kind CONST_value) 11:let result = e.Value else 12:{
           13:assert (= kind CONST_keyPLUSvalue)
           14:app __x1__ = (CreateArrayFromList (new [e.Key, e.Value]))
           14:let result = [! __x1__]
@@ -18,7 +18,7 @@ def CreateMapIterator(map, kind) = {
         15:app __x2__ = (Yield result)
         15:[? __x2__]
         17:numEntries = entries.length
-      } else 16:{}
+      } else 9:{}
     }
     18:return undefined
   }

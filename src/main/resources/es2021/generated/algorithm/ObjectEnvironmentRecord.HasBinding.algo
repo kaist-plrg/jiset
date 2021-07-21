@@ -2,16 +2,16 @@ def [METHOD] ObjectEnvironmentRecord.HasBinding(envRec)(N) = {
   0:let bindings = envRec.BindingObject
   1:app __x0__ = (HasProperty bindings N)
   1:let foundBinding = [? __x0__]
-  2:if (= foundBinding false) return false else 0:{}
-  3:if (= envRec.withEnvironment false) return true else 0:{}
+  2:if (= foundBinding false) 2:return false else 2:{}
+  3:if (= envRec.withEnvironment false) 3:return true else 3:{}
   4:app __x1__ = (Get bindings SYMBOL_unscopables)
   4:let unscopables = [? __x1__]
-  5:if (= (typeof unscopables) Object) {
+  5:if (= (typeof unscopables) Object) 5:{
     6:app __x2__ = (Get unscopables N)
     6:app __x3__ = (ToBoolean [? __x2__])
     6:let blocked = [! __x3__]
-    7:if (= blocked true) return false else 0:{}
-  } else 0:{}
+    7:if (= blocked true) 7:return false else 7:{}
+  } else 5:{}
   8:return true
 }
 - id: "sec-object-environment-records-hasbinding-n"

@@ -1,7 +1,7 @@
 def [BUILTIN] isFinite(number) = {
   0:app __x0__ = (ToNumber number)
   0:let num = [? __x0__]
-  2:if (|| (|| (= num NaN) (= num Infinity)) (= num -Infinity)) return false else return true
+  1:if (|| (|| (= num NaN) (= num Infinity)) (= num -Infinity)) 1:return false else 1:return true
 }
 - id: "sec-isfinite-number"
 - code:

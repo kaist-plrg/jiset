@@ -5,10 +5,10 @@ def [METHOD] StringExoticObject.OwnPropertyKeys(O)() = {
   3:let len = str.length
   4:let i = (+ 0i 0i)
   4:let __x0__ = (+ len 0i)
-  4:while (< i __x0__) {
-    app __x1__ = (ToString i)
-    append [! __x1__] -> keys
-    i = (+ i 1i)
+  4:while (< i __x0__) 4:{
+    5:app __x1__ = (ToString i)
+    5:append [! __x1__] -> keys
+    4:i = (+ i 1i)
   }
   6:??? "For each own property key id:{P} of id:{O} such that id:{P} is an array index and ! ToIntegerOrInfinity ( id:{P} ) ≥ id:{len} , in ascending numeric index order , do in:{} out:{}"
   8:??? "For each own property key id:{P} of id:{O} such that Type ( id:{P} ) is String and id:{P} is not an array index , in ascending chronological order of property creation , do in:{} out:{}"

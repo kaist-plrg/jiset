@@ -1,18 +1,18 @@
 def ValidateIntegerTypedArray(typedArray, waitable?) = {
-  0:if (= waitable absent) waitable = false else 0:{}
+  0:if (= waitable absent) 0:waitable = false else 0:{}
   1:app __x0__ = (ValidateTypedArray typedArray)
   1:let buffer = [? __x0__]
   2:let typeName = typedArray.TypedArrayName
   3:??? "Let id:{type} be the Element Type value in link:{table-the-typedarray-constructors} for id:{typeName} ."
-  6:if (= waitable true) if (! (|| (= typeName "Int32Array") (= typeName "BigInt64Array"))) throw TypeError else 0:{} else {
+  4:if (= waitable true) 5:if (! (|| (= typeName "Int32Array") (= typeName "BigInt64Array"))) 5:throw TypeError else 5:{} else 6:{
     7:let __x1__ = true
     7:app __x2__ = (IsUnclampedIntegerElementType type)
     7:__x1__ = (= [! __x2__] false)
-    7:if __x1__ {
-      app __x3__ = (IsBigIntElementType type)
-      __x1__ = (= [! __x3__] false)
-    } else 0:{}
-    7:if __x1__ throw TypeError else 0:{}
+    7:if __x1__ 7:{
+      7:app __x3__ = (IsBigIntElementType type)
+      7:__x1__ = (= [! __x3__] false)
+    } else 7:{}
+    7:if __x1__ 7:throw TypeError else 7:{}
   }
   8:return buffer
 }

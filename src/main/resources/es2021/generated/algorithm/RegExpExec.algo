@@ -4,12 +4,12 @@ def RegExpExec(R, S) = {
   2:app __x0__ = (Get R "exec")
   2:let exec = [? __x0__]
   3:app __x1__ = (IsCallable exec)
-  3:if (= __x1__ true) {
+  3:if (= __x1__ true) 3:{
     4:app __x2__ = (Call exec R (new [S]))
     4:let result = [? __x2__]
-    5:if (! (|| (= (typeof result) Object) (= (typeof result) Null))) throw TypeError else 14:{}
+    5:if (! (|| (= (typeof result) Object) (= (typeof result) Null))) 5:throw TypeError else 5:{}
     6:return result
-  } else 14:{}
+  } else 3:{}
   7:app __x3__ = (RequireInternalSlot R "RegExpMatcher")
   7:[? __x3__]
   8:app __x4__ = (RegExpBuiltinExec R S)

@@ -3,13 +3,13 @@ def OrdinaryHasProperty(O, P) = {
   0:assert (= __x0__ true)
   1:app __x1__ = (O.GetOwnProperty O P)
   1:let hasOwn = [? __x1__]
-  2:if (! (= hasOwn undefined)) return true else 15:{}
+  2:if (! (= hasOwn undefined)) 2:return true else 2:{}
   3:app __x2__ = (O.GetPrototypeOf O)
   3:let parent = [? __x2__]
-  4:if (! (= parent null)) {
+  4:if (! (= parent null)) 4:{
     5:app __x3__ = (parent.HasProperty parent P)
     5:return [? __x3__]
-  } else 15:{}
+  } else 4:{}
   6:return false
 }
 - id: "sec-ordinaryhasproperty"

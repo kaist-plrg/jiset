@@ -1,14 +1,14 @@
 def ProxyCreate(target, handler) = {
-  0:if (! (= (typeof target) Object)) throw TypeError else 3:{}
-  1:if (! (= (typeof handler) Object)) throw TypeError else 3:{}
+  0:if (! (= (typeof target) Object)) 0:throw TypeError else 0:{}
+  1:if (! (= (typeof handler) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (MakeBasicObject (new ["ProxyHandler", "ProxyTarget"]))
   2:let P = [! __x0__]
   4:app __x1__ = (IsCallable target)
-  4:if (= __x1__ true) {
+  4:if (= __x1__ true) 4:{
     5:P.Call = ALGORITHM["ProxyObject.Call"]
     6:app __x2__ = (IsConstructor target)
-    6:if (= __x2__ true) P.Construct = ALGORITHM["ProxyObject.Construct"] else 3:{}
-  } else 3:{}
+    6:if (= __x2__ true) 7:P.Construct = ALGORITHM["ProxyObject.Construct"] else 6:{}
+  } else 4:{}
   8:P.ProxyTarget = target
   9:P.ProxyHandler = handler
   10:return P

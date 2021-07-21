@@ -3,28 +3,28 @@ def [BUILTIN] TypedArray.prototype.lastIndexOf(searchElement, fromIndex?) = {
   1:app __x0__ = (ValidateTypedArray O)
   1:[? __x0__]
   2:let len = O.ArrayLength
-  3:if (= len 0i) return -1i else 5:{}
-  4:if (! (= fromIndex absent)) {
-    app __x1__ = (ToIntegerOrInfinity fromIndex)
-    let n = [? __x1__]
-  } else let n = (- len 1i)
-  5:if (= n -Infinity) return -1i else 5:{}
-  8:if (! (< n 0i)) {
+  3:if (= len 0i) 3:return -1i else 3:{}
+  4:if (! (= fromIndex absent)) 4:{
+    4:app __x1__ = (ToIntegerOrInfinity fromIndex)
+    4:let n = [? __x1__]
+  } else 4:let n = (- len 1i)
+  5:if (= n -Infinity) 5:return -1i else 5:{}
+  6:if (! (< n 0i)) 6:{
     7:app __x2__ = (min n (- len 1i))
     7:let k = __x2__
-  } else let k = (+ len n)
-  10:while (! (< k 0i)) {
+  } else 6:let k = (+ len n)
+  10:while (! (< k 0i)) 10:{
     11:app __x3__ = (ToString k)
     11:app __x4__ = (HasProperty O [! __x3__])
     11:let kPresent = [! __x4__]
-    12:if (= kPresent true) {
+    12:if (= kPresent true) 12:{
       13:app __x5__ = (ToString k)
       13:app __x6__ = (Get O [! __x5__])
       13:let elementK = [! __x6__]
       14:app __x7__ = (StrictEqualityComparison searchElement elementK)
       14:let same = __x7__
-      15:if (= same true) return k else 5:{}
-    } else 5:{}
+      15:if (= same true) 15:return k else 15:{}
+    } else 12:{}
     16:k = (- k 1i)
   }
   17:return -1i

@@ -3,17 +3,17 @@ def [BUILTIN] Map.prototype.forEach(callbackfn, thisArg?) = {
   1:app __x0__ = (RequireInternalSlot M "MapData")
   1:[? __x0__]
   2:app __x1__ = (IsCallable callbackfn)
-  2:if (= __x1__ false) throw TypeError else 1:{}
+  2:if (= __x1__ false) 2:throw TypeError else 2:{}
   3:let entries = M.MapData
   4:let __x2__ = entries
   4:let __x3__ = 0i
-  4:while (< __x3__ __x2__.length) {
-    let e = __x2__[__x3__]
-    5:if (! (= e.Key CONST_empty)) {
+  4:while (< __x3__ __x2__.length) 4:{
+    4:let e = __x2__[__x3__]
+    4:__x3__ = (+ __x3__ 1i)
+    5:if (! (= e.Key CONST_empty)) 5:{
       6:app __x4__ = (Call callbackfn thisArg (new [e.Value, e.Key, M]))
       6:[? __x4__]
-    } else 1:{}
-    __x3__ = (+ __x3__ 1i)
+    } else 5:{}
   }
   7:return undefined
 }

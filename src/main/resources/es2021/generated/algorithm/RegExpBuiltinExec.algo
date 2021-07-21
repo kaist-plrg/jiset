@@ -5,41 +5,41 @@ def RegExpBuiltinExec(R, S) = {
   3:app __x1__ = (ToLength [? __x0__])
   3:let lastIndex = [? __x1__]
   4:let flags = R.OriginalFlags
-  5:if (contains flags "g") let global = true else let global = false
-  6:if (contains flags "y") let sticky = true else let sticky = false
-  7:if (&& (= global false) (= sticky false)) lastIndex = 0i else 52:{}
+  5:if (contains flags "g") 5:let global = true else 5:let global = false
+  6:if (contains flags "y") 6:let sticky = true else 6:let sticky = false
+  7:if (&& (= global false) (= sticky false)) 7:lastIndex = 0i else 7:{}
   8:let matcher = R.RegExpMatcher
-  9:if (contains flags "u") let fullUnicode = true else let fullUnicode = false
+  9:if (contains flags "u") 9:let fullUnicode = true else 9:let fullUnicode = false
   10:let matchSucceeded = false
-  11:while (= matchSucceeded false) {
-    12:if (< length lastIndex) {
-      13:if (|| (= global true) (= sticky true)) {
+  11:while (= matchSucceeded false) 11:{
+    12:if (< length lastIndex) 12:{
+      13:if (|| (= global true) (= sticky true)) 13:{
         14:app __x2__ = (Set R "lastIndex" 0i true)
         14:[? __x2__]
-      } else 52:{}
+      } else 13:{}
       15:return null
-    } else 52:{}
+    } else 12:{}
     16:app __x3__ = (matcher S lastIndex)
     16:let r = __x3__
-    22:if (= r CONST_failure) {
-      18:if (= sticky true) {
+    17:if (= r CONST_failure) 17:{
+      18:if (= sticky true) 18:{
         19:app __x4__ = (Set R "lastIndex" 0i true)
         19:[? __x4__]
         20:return null
-      } else 52:{}
+      } else 18:{}
       21:app __x5__ = (AdvanceStringIndex S lastIndex fullUnicode)
       21:lastIndex = __x5__
-    } else matchSucceeded = true
+    } else 17:matchSucceeded = true
   }
   25:let e = r.endIndex
-  26:if (= fullUnicode true) {
+  26:if (= fullUnicode true) 26:{
     27:??? "id:{e} is an index into the id:{Input} character list , derived from id:{S} , matched by id:{matcher} . Let id:{eUTF} be the smallest index into id:{S} that corresponds to the character at element id:{e} of id:{Input} . If id:{e} is greater than or equal to the number of elements in id:{Input} , then id:{eUTF} is the number of code units in id:{S} ."
     28:e = eUTF
-  } else 52:{}
-  29:if (|| (= global true) (= sticky true)) {
+  } else 26:{}
+  29:if (|| (= global true) (= sticky true)) 29:{
     30:app __x6__ = (Set R "lastIndex" e true)
     30:[? __x6__]
-  } else 52:{}
+  } else 29:{}
   31:??? "Let id:{n} be the number of elements in id:{r} ' s id:{captures} List . ( This is the same value as link:{sec-notation} ' s id:{NcapturingParens} . )"
   32:assert (< n (- (** 2i 32i) 1i))
   33:app __x7__ = (ArrayCreate (+ n 1i))
@@ -50,10 +50,10 @@ def RegExpBuiltinExec(R, S) = {
   36:[! __x9__]
   37:let __x10__ = ""
   37:let __x11__ = lastIndex
-  37:while (< __x11__ e) {
-    access __x12__ = (S __x11__)
-    __x10__ = (+ __x10__ __x12__)
-    __x11__ = (+ __x11__ 1i)
+  37:while (< __x11__ e) 37:{
+    37:access __x12__ = (S __x11__)
+    37:__x10__ = (+ __x10__ __x12__)
+    37:__x11__ = (+ __x11__ 1i)
   }
   37:let matchedSubstr = __x10__
   38:app __x13__ = (CreateDataPropertyOrThrow A "0" matchedSubstr)

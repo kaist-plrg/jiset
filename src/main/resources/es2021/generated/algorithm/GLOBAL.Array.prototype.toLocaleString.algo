@@ -6,17 +6,17 @@ def [BUILTIN] Array.prototype.toLocaleString(reserved1?, reserved2?) = {
   2:??? "Let id:{separator} be the String value for the list - separator String appropriate for the host environment ' s current locale ( this is derived in an implementation - defined way ) ."
   3:let R = ""
   4:let k = 0i
-  5:while (< k len) {
-    6:if (< 0i k) R = (+ R separator) else 25:{}
+  5:while (< k len) 5:{
+    6:if (< 0i k) 7:R = (+ R separator) else 6:{}
     8:app __x2__ = (ToString k)
     8:app __x3__ = (Get array [! __x2__])
     8:let nextElement = [? __x3__]
-    9:if (! (|| (= nextElement undefined) (= nextElement null))) {
+    9:if (! (|| (= nextElement undefined) (= nextElement null))) 9:{
       10:app __x4__ = (Invoke nextElement "toLocaleString")
       10:app __x5__ = (ToString [? __x4__])
       10:let S = [? __x5__]
       11:R = (+ R S)
-    } else 25:{}
+    } else 9:{}
     12:k = (+ k 1i)
   }
   13:return R

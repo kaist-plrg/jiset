@@ -1,25 +1,25 @@
 def [BUILTIN] RegExp.prototype[SYMBOL_search](string) = {
   0:let rx = this
-  1:if (! (= (typeof rx) Object)) throw TypeError else 56:{}
+  1:if (! (= (typeof rx) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (ToString string)
   2:let S = [? __x0__]
   3:app __x1__ = (Get rx "lastIndex")
   3:let previousLastIndex = [? __x1__]
   4:app __x2__ = (SameValue previousLastIndex 0i)
-  4:if (= __x2__ false) {
+  4:if (= __x2__ false) 4:{
     5:app __x3__ = (Set rx "lastIndex" 0i true)
     5:[? __x3__]
-  } else 56:{}
+  } else 4:{}
   6:app __x4__ = (RegExpExec rx S)
   6:let result = [? __x4__]
   7:app __x5__ = (Get rx "lastIndex")
   7:let currentLastIndex = [? __x5__]
   8:app __x6__ = (SameValue currentLastIndex previousLastIndex)
-  8:if (= __x6__ false) {
+  8:if (= __x6__ false) 8:{
     9:app __x7__ = (Set rx "lastIndex" previousLastIndex true)
     9:[? __x7__]
-  } else 56:{}
-  10:if (= result null) return -1i else 56:{}
+  } else 8:{}
+  10:if (= result null) 10:return -1i else 10:{}
   11:app __x8__ = (Get result "index")
   11:return [? __x8__]
 }

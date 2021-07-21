@@ -3,22 +3,22 @@ def [BUILTIN] WeakMap.prototype.set(key, value) = {
   1:app __x0__ = (RequireInternalSlot M "WeakMapData")
   1:[? __x0__]
   2:let entries = M.WeakMapData
-  3:if (! (= (typeof key) Object)) throw TypeError else 15:{}
+  3:if (! (= (typeof key) Object)) 3:throw TypeError else 3:{}
   4:let __x1__ = entries
   4:let __x2__ = 0i
-  4:while (< __x2__ __x1__.length) {
-    let p = __x1__[__x2__]
+  4:while (< __x2__ __x1__.length) 4:{
+    4:let p = __x1__[__x2__]
+    4:__x2__ = (+ __x2__ 1i)
     5:let __x3__ = true
     5:__x3__ = (! (= p.Key CONST_empty))
-    5:if __x3__ {
-      app __x4__ = (SameValue p.Key key)
-      __x3__ = (= __x4__ true)
-    } else 15:{}
-    5:if __x3__ {
+    5:if __x3__ 5:{
+      5:app __x4__ = (SameValue p.Key key)
+      5:__x3__ = (= __x4__ true)
+    } else 5:{}
+    5:if __x3__ 5:{
       6:p.Value = value
       7:return M
-    } else 15:{}
-    __x2__ = (+ __x2__ 1i)
+    } else 5:{}
   }
   8:let p = (new Record("Key" -> key, "Value" -> value))
   9:append p -> entries

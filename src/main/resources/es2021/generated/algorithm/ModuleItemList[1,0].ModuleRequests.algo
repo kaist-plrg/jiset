@@ -4,7 +4,7 @@ def [SYNTAX] ModuleItemList[1,0].ModuleRequests<(ModuleItemList, ModuleItem),fal
   1:access __x1__ = (ModuleItem "ModuleRequests")
   1:let additionalNames = __x1__
   2:let __i__ = 0i
-  2:while (< __i__ additionalNames.length) if (contains moduleNames additionalNames[__i__]) {} else append additionalNames[__i__] -> moduleNames
+  2:while (< __i__ additionalNames.length) 2:if (contains moduleNames additionalNames[__i__]) 2:{} else 2:append additionalNames[__i__] -> moduleNames
   3:return moduleNames
 }
 - id: "sec-static-semantics-modulerequests"

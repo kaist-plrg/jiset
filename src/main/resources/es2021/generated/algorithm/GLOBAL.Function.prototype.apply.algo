@@ -1,13 +1,13 @@
 def [BUILTIN] Function.prototype.apply(thisArg, argArray) = {
   0:let func = this
   1:app __x0__ = (IsCallable func)
-  1:if (= __x0__ false) throw TypeError else 73:{}
-  2:if (|| (= argArray undefined) (= argArray null)) {
+  1:if (= __x0__ false) 1:throw TypeError else 1:{}
+  2:if (|| (= argArray undefined) (= argArray null)) 2:{
     3:app __x1__ = (PrepareForTailCall)
     3:__x1__
     4:app __x2__ = (Call func thisArg)
     4:return [? __x2__]
-  } else 73:{}
+  } else 2:{}
   5:app __x3__ = (CreateListFromArrayLike argArray)
   5:let argList = [? __x3__]
   6:app __x4__ = (PrepareForTailCall)

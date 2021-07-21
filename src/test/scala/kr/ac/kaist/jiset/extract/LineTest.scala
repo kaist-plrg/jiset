@@ -34,7 +34,7 @@ class LineTest extends ExtractTest {
       _ = checker.walk(body)
     } checker.targetInst match {
       case Some(i) =>
-        fail(s"${algo.name} has an instruction with no line (${i.beautified})")
+        fail(s"${algo.name} has an instruction with no line (${i.beautified})\n${body.beautified(asite = true)}")
       case None =>
     }
   }

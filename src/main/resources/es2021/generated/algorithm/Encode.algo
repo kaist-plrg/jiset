@@ -2,24 +2,24 @@ def Encode(string, unescapedSet) = {
   0:let strLen = string.length
   1:let R = ""
   2:let k = 0i
-  3:while true {
-    4:if (== k strLen) return R else 71:{}
+  3:while true 3:{
+    4:if (== k strLen) 4:return R else 4:{}
     5:let C = string[k]
-    9:if (contains unescapedSet C) {
+    6:if (contains unescapedSet C) 6:{
       7:k = (+ k 1i)
       8:R = (+ R C)
-    } else {
+    } else 9:{
       10:app __x0__ = (CodePointAt string k)
       10:let cp = [! __x0__]
-      11:if (= cp.IsUnpairedSurrogate true) throw URIError else 71:{}
+      11:if (= cp.IsUnpairedSurrogate true) 11:throw URIError else 11:{}
       12:k = (+ k cp.CodeUnitCount)
       13:??? "Let id:{Octets} be the List of octets resulting by applying the UTF - 8 transformation to id:{cp} . [ [ CodePoint ] ] ."
       14:let __x1__ = Octets
       14:let __x2__ = 0i
-      14:while (< __x2__ __x1__.length) {
-        let octet = __x1__[__x2__]
+      14:while (< __x2__ __x1__.length) 14:{
+        14:let octet = __x1__[__x2__]
+        14:__x2__ = (+ __x2__ 1i)
         15:R = (+ (+ R "%") ??? "StringOp")
-        __x2__ = (+ __x2__ 1i)
       }
     }
   }

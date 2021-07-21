@@ -2,10 +2,10 @@ def [SYNTAX] BreakableStatement[0,0].ContainsUndefinedContinueTarget<(IterationS
   0:let __x0__ = (copy-obj iterationSet)
   0:let __x1__ = labelSet
   0:let __x2__ = 0i
-  0:while (< __x2__ __x1__.length) {
-    let __x3__ = __x1__[__x2__]
-    append __x3__ -> __x0__
-    __x2__ = (+ __x2__ 1i)
+  0:while (< __x2__ __x1__.length) 0:{
+    0:let __x3__ = __x1__[__x2__]
+    0:__x2__ = (+ __x2__ 1i)
+    0:append __x3__ -> __x0__
   }
   0:let newIterationSet = __x0__
   1:access __x4__ = (IterationStatement "ContainsUndefinedContinueTarget" newIterationSet (new []))

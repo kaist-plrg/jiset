@@ -7,10 +7,10 @@ def [BUILTIN] String.raw(template, ...substitutions) = {
   2:let raw = [? __x2__]
   3:app __x3__ = (LengthOfArrayLike raw)
   3:let literalSegments = [? __x3__]
-  4:if (! (< 0i literalSegments)) return "" else 6:{}
+  4:if (! (< 0i literalSegments)) 4:return "" else 4:{}
   5:let stringElements = (new [])
   6:let nextIndex = 0i
-  7:while true {
+  7:while true 7:{
     8:app __x4__ = (ToString nextIndex)
     8:let nextKey = [! __x4__]
     9:app __x5__ = (Get raw nextKey)
@@ -18,21 +18,21 @@ def [BUILTIN] String.raw(template, ...substitutions) = {
     9:let nextSeg = [? __x6__]
     10:let __x7__ = nextSeg
     10:let __x8__ = 0i
-    10:while (< __x8__ __x7__.length) {
-      let __x9__ = __x7__[__x8__]
-      append __x9__ -> stringElements
-      __x8__ = (+ __x8__ 1i)
+    10:while (< __x8__ __x7__.length) 10:{
+      10:let __x9__ = __x7__[__x8__]
+      10:__x8__ = (+ __x8__ 1i)
+      10:append __x9__ -> stringElements
     }
-    11:if (== (+ nextIndex 1i) literalSegments) ??? "Return the String value whose code units are the elements in the List id:{stringElements} . If id:{stringElements} has no elements , the empty String is returned ." else 6:{}
-    14:if (< nextIndex numberOfSubstitutions) let next = substitutions[nextIndex] else let next = ""
+    11:if (== (+ nextIndex 1i) literalSegments) 12:??? "Return the String value whose code units are the elements in the List id:{stringElements} . If id:{stringElements} has no elements , the empty String is returned ." else 11:{}
+    13:if (< nextIndex numberOfSubstitutions) 13:let next = substitutions[nextIndex] else 13:let next = ""
     15:app __x10__ = (ToString next)
     15:let nextSub = [? __x10__]
     16:let __x11__ = nextSub
     16:let __x12__ = 0i
-    16:while (< __x12__ __x11__.length) {
-      let __x13__ = __x11__[__x12__]
-      append __x13__ -> stringElements
-      __x12__ = (+ __x12__ 1i)
+    16:while (< __x12__ __x11__.length) 16:{
+      16:let __x13__ = __x11__[__x12__]
+      16:__x12__ = (+ __x12__ 1i)
+      16:append __x13__ -> stringElements
     }
     17:nextIndex = (+ nextIndex 1i)
   }

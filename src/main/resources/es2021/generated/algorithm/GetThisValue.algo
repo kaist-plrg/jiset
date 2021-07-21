@@ -2,7 +2,7 @@ def GetThisValue(V) = {
   0:app __x0__ = (IsPropertyReference V)
   0:assert (= __x0__ true)
   1:app __x1__ = (IsSuperReference V)
-  1:if (= __x1__ true) return V.ThisValue else return V.Base
+  1:if (= __x1__ true) 1:return V.ThisValue else 1:return V.Base
 }
 - id: "sec-getthisvalue"
 - code:

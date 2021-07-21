@@ -3,11 +3,11 @@ def [SYNTAX] VariableDeclaration[0,1].Evaluation<(BindingIdentifier, Initializer
   0:let bindingId = __x0__
   1:app __x1__ = (ResolveBinding bindingId)
   1:let lhs = [? __x1__]
-  4:app __x2__ = (IsAnonymousFunctionDefinition Initializer)
-  4:if (= __x2__ true) {
+  2:app __x2__ = (IsAnonymousFunctionDefinition Initializer)
+  2:if (= __x2__ true) 2:{
     3:access __x3__ = (Initializer "NamedEvaluation" bindingId)
     3:let value = __x3__
-  } else {
+  } else 4:{
     5:access __x4__ = (Initializer "Evaluation")
     5:let rhs = __x4__
     6:app __x5__ = (GetValue rhs)

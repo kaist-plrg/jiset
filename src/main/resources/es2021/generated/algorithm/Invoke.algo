@@ -1,7 +1,7 @@
 def Invoke(V, P, argumentsList?) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
-  1:if (= argumentsList absent) argumentsList = (new []) else 0:{}
+  1:if (= argumentsList absent) 1:argumentsList = (new []) else 1:{}
   2:app __x1__ = (GetV V P)
   2:let func = [? __x1__]
   3:app __x2__ = (Call func V argumentsList)

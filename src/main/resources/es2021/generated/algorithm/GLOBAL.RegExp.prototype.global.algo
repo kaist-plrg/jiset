@@ -1,12 +1,12 @@
 def [BUILTIN] RegExp.prototype.global() = {
   0:let R = this
-  1:if (! (= (typeof R) Object)) throw TypeError else 52:{}
-  2:if (= R.OriginalFlags absent) {
-    4:app __x0__ = (SameValue R INTRINSICS["%RegExp.prototype%"])
-    4:if (= __x0__ true) return undefined else throw TypeError
-  } else 52:{}
+  1:if (! (= (typeof R) Object)) 1:throw TypeError else 1:{}
+  2:if (= R.OriginalFlags absent) 2:{
+    3:app __x0__ = (SameValue R INTRINSICS["%RegExp.prototype%"])
+    3:if (= __x0__ true) 3:return undefined else 3:throw TypeError
+  } else 2:{}
   5:let flags = R.OriginalFlags
-  6:if (contains flags "g") return true else 52:{}
+  6:if (contains flags "g") 6:return true else 6:{}
   7:return false
 }
 - id: "sec-get-regexp.prototype.global"

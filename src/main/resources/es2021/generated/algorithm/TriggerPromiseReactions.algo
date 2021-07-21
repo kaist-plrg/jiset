@@ -1,13 +1,13 @@
 def TriggerPromiseReactions(reactions, argument) = {
   0:let __x0__ = reactions
   0:let __x1__ = 0i
-  0:while (< __x1__ __x0__.length) {
-    let reaction = __x0__[__x1__]
+  0:while (< __x1__ __x0__.length) 0:{
+    0:let reaction = __x0__[__x1__]
+    0:__x1__ = (+ __x1__ 1i)
     1:app __x2__ = (NewPromiseReactionJob reaction argument)
     1:let job = __x2__
     2:app __x3__ = (HostEnqueuePromiseJob job.Job job.Realm)
     2:__x3__
-    __x1__ = (+ __x1__ 1i)
   }
   3:return undefined
 }

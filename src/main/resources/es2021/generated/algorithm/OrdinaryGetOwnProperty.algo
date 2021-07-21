@@ -1,14 +1,14 @@
 def OrdinaryGetOwnProperty(O, P) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
-  1:if (= O.SubMap[P] absent) return undefined else 0:{}
+  1:if (= O.SubMap[P] absent) 1:return undefined else 1:{}
   2:let D = (new PropertyDescriptor())
   3:let X = O.SubMap[P]
-  7:app __x1__ = (IsDataDescriptor X)
-  7:if __x1__ {
+  4:app __x1__ = (IsDataDescriptor X)
+  4:if __x1__ 4:{
     5:D.Value = X.Value
     6:D.Writable = X.Writable
-  } else {
+  } else 7:{
     8:app __x2__ = (IsAccessorDescriptor X)
     8:assert __x2__
     9:D.Get = X.Get

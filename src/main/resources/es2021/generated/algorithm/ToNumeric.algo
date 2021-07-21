@@ -1,7 +1,7 @@
 def ToNumeric(value) = {
   0:app __x0__ = (ToPrimitive value CONST_number)
   0:let primValue = [? __x0__]
-  1:if (= (typeof primValue) BigInt) return primValue else 0:{}
+  1:if (= (typeof primValue) BigInt) 1:return primValue else 1:{}
   2:app __x1__ = (ToNumber primValue)
   2:return [? __x1__]
 }

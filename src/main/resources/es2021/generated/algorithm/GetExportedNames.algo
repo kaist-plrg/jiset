@@ -1,39 +1,39 @@
 def GetExportedNames(exportStarSet?) = {
-  0:if (= exportStarSet absent) exportStarSet = (new []) else 11:{}
-  2:if (contains exportStarSet module) return (new []) else 11:{}
+  0:if (= exportStarSet absent) 0:exportStarSet = (new []) else 0:{}
+  2:if (contains exportStarSet module) 4:return (new []) else 2:{}
   5:append module -> exportStarSet
   6:let exportedNames = (new [])
   7:let __x0__ = module.LocalExportEntries
   7:let __x1__ = 0i
-  7:while (< __x1__ __x0__.length) {
-    let e = __x0__[__x1__]
+  7:while (< __x1__ __x0__.length) 7:{
+    7:let e = __x0__[__x1__]
+    7:__x1__ = (+ __x1__ 1i)
     9:append e.ExportName -> exportedNames
-    __x1__ = (+ __x1__ 1i)
   }
   10:let __x2__ = module.IndirectExportEntries
   10:let __x3__ = 0i
-  10:while (< __x3__ __x2__.length) {
-    let e = __x2__[__x3__]
+  10:while (< __x3__ __x2__.length) 10:{
+    10:let e = __x2__[__x3__]
+    10:__x3__ = (+ __x3__ 1i)
     12:append e.ExportName -> exportedNames
-    __x3__ = (+ __x3__ 1i)
   }
   13:let __x4__ = module.StarExportEntries
   13:let __x5__ = 0i
-  13:while (< __x5__ __x4__.length) {
-    let e = __x4__[__x5__]
+  13:while (< __x5__ __x4__.length) 13:{
+    13:let e = __x4__[__x5__]
+    13:__x5__ = (+ __x5__ 1i)
     14:app __x6__ = (HostResolveImportedModule module e.ModuleRequest)
     14:let requestedModule = [? __x6__]
     15:app __x7__ = (requestedModule.GetExportedNames requestedModule exportStarSet)
     15:let starNames = [? __x7__]
     16:let __x8__ = starNames
     16:let __x9__ = 0i
-    16:while (< __x9__ __x8__.length) {
-      let n = __x8__[__x9__]
+    16:while (< __x9__ __x8__.length) 16:{
+      16:let n = __x8__[__x9__]
+      16:__x9__ = (+ __x9__ 1i)
       17:app __x10__ = (SameValue n "default")
-      17:if (= __x10__ false) if (! (contains exportedNames n)) append n -> exportedNames else 11:{} else 11:{}
-      __x9__ = (+ __x9__ 1i)
+      17:if (= __x10__ false) 18:if (! (contains exportedNames n)) 19:append n -> exportedNames else 18:{} else 17:{}
     }
-    __x5__ = (+ __x5__ 1i)
   }
   20:return exportedNames
 }

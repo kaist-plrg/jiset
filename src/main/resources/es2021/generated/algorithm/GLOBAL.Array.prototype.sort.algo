@@ -1,39 +1,39 @@
 def [BUILTIN] Array.prototype.sort(comparefn) = {
   0:let __x0__ = true
   0:__x0__ = (! (= comparefn undefined))
-  0:if __x0__ {
-    app __x1__ = (IsCallable comparefn)
-    __x0__ = (= __x1__ false)
-  } else 25:{}
-  0:if __x0__ throw TypeError else 25:{}
+  0:if __x0__ 0:{
+    0:app __x1__ = (IsCallable comparefn)
+    0:__x0__ = (= __x1__ false)
+  } else 0:{}
+  0:if __x0__ 0:throw TypeError else 0:{}
   1:app __x2__ = (ToObject this)
   1:let obj = [? __x2__]
   2:app __x3__ = (LengthOfArrayLike obj)
   2:let len = [? __x3__]
   3:let items = (new [])
   4:let k = 0i
-  5:while (< k len) {
+  5:while (< k len) 5:{
     6:app __x4__ = (ToString k)
     6:let Pk = [! __x4__]
     7:app __x5__ = (HasProperty obj Pk)
     7:let kPresent = [? __x5__]
-    8:if (= kPresent true) {
+    8:if (= kPresent true) 8:{
       9:app __x6__ = (Get obj Pk)
       9:let kValue = [? __x6__]
       10:append kValue -> items
-    } else 25:{}
+    } else 8:{}
     11:k = (+ k 1i)
   }
   12:let itemCount = items.length
   13:??? "Sort id:{items} using an implementation - defined sequence of calls to SortCompare . If any such call returns an abrupt completion , stop before performing any further calls to SortCompare or steps in this algorithm and return that completion ."
   14:let j = 0i
-  15:while (< j itemCount) {
+  15:while (< j itemCount) 15:{
     16:app __x7__ = (ToString j)
     16:app __x8__ = (Set obj [! __x7__] items[j] true)
     16:[? __x8__]
     17:j = (+ j 1i)
   }
-  18:while (< j len) {
+  18:while (< j len) 18:{
     19:app __x9__ = (ToString j)
     19:app __x10__ = (DeletePropertyOrThrow obj [! __x9__])
     19:[? __x10__]

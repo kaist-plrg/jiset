@@ -3,7 +3,7 @@ def [BUILTIN] Atomics.notify(typedArray, index, count) = {
   0:let buffer = [? __x0__]
   1:app __x1__ = (ValidateAtomicAccess typedArray index)
   1:let indexedPosition = [? __x1__]
-  3:if (= count undefined) let c = Infinity else {
+  2:if (= count undefined) 2:let c = Infinity else 3:{
     4:app __x2__ = (ToIntegerOrInfinity count)
     4:let intCount = [? __x2__]
     5:app __x3__ = (max intCount 0i)
@@ -12,7 +12,7 @@ def [BUILTIN] Atomics.notify(typedArray, index, count) = {
   6:let block = buffer.ArrayBufferData
   7:let arrayTypeName = typedArray.TypedArrayName
   8:app __x4__ = (IsSharedArrayBuffer buffer)
-  8:if (= __x4__ false) return 0i else 22:{}
+  8:if (= __x4__ false) 8:return 0i else 8:{}
   9:app __x5__ = (GetWaiterList block indexedPosition)
   9:let WL = __x5__
   10:let n = 0i
@@ -20,7 +20,7 @@ def [BUILTIN] Atomics.notify(typedArray, index, count) = {
   11:__x6__
   12:app __x7__ = (RemoveWaiters WL c)
   12:let S = __x7__
-  13:while (< 0i S.length) {
+  13:while (< 0i S.length) 13:{
     14:let W = S[0i]
     15:(pop S 0i)
     16:app __x8__ = (NotifyWaiter WL W)

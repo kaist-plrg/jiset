@@ -1,22 +1,22 @@
 def [BUILTIN] Date.prototype.setUTCFullYear(year, month?, date?) = {
   0:app __x0__ = (thisTimeValue this)
   0:let t = [? __x0__]
-  1:if (= t NaN) t = 0i else 13:{}
+  1:if (= t NaN) 1:t = 0i else 1:{}
   2:app __x1__ = (ToNumber year)
   2:let y = [? __x1__]
-  3:if (= month absent) {
-    app __x2__ = (MonthFromTime t)
-    let m = __x2__
-  } else {
-    app __x3__ = (ToNumber month)
-    let m = [? __x3__]
+  3:if (= month absent) 3:{
+    3:app __x2__ = (MonthFromTime t)
+    3:let m = __x2__
+  } else 4:{
+    4:app __x3__ = (ToNumber month)
+    4:let m = [? __x3__]
   }
-  4:if (= date absent) {
-    app __x4__ = (DateFromTime t)
-    let dt = __x4__
-  } else {
-    app __x5__ = (ToNumber date)
-    let dt = [? __x5__]
+  4:if (= date absent) 4:{
+    4:app __x4__ = (DateFromTime t)
+    4:let dt = __x4__
+  } else 5:{
+    5:app __x5__ = (ToNumber date)
+    5:let dt = [? __x5__]
   }
   5:app __x6__ = (MakeDay y m dt)
   5:app __x7__ = (TimeWithinDay t)

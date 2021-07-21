@@ -1,10 +1,10 @@
 def [SYNTAX] StatementListItem[1,0].TopLevelVarScopedDeclarations<(Declaration),true>() = {
-  0:if (is-instance-of Declaration Declaration0) {
-    access HoistableDeclaration = (Declaration "HoistableDeclaration")
+  0:if (is-instance-of Declaration Declaration0) 0:{
+    0:access HoistableDeclaration = (Declaration "HoistableDeclaration")
     1:access __x0__ = (HoistableDeclaration "DeclarationPart")
     1:let declaration = __x0__
     2:return (new [declaration])
-  } else 1:{}
+  } else 0:{}
   3:return (new [])
 }
 - id: "sec-static-semantics-toplevelvarscopeddeclarations"

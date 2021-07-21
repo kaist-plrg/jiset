@@ -3,19 +3,19 @@ def OrdinaryGet(O, P, Receiver) = {
   0:assert (= __x0__ true)
   1:app __x1__ = (O.GetOwnProperty O P)
   1:let desc = [? __x1__]
-  2:if (= desc undefined) {
+  2:if (= desc undefined) 2:{
     3:app __x2__ = (O.GetPrototypeOf O)
     3:let parent = [? __x2__]
-    4:if (= parent null) return undefined else 15:{}
+    4:if (= parent null) 4:return undefined else 4:{}
     5:app __x3__ = (parent.Get parent P Receiver)
     5:return [? __x3__]
-  } else 15:{}
+  } else 2:{}
   6:app __x4__ = (IsDataDescriptor desc)
-  6:if (= __x4__ true) return desc.Value else 15:{}
+  6:if (= __x4__ true) 6:return desc.Value else 6:{}
   7:app __x5__ = (IsAccessorDescriptor desc)
   7:assert (= __x5__ true)
   8:let getter = desc.Get
-  9:if (= getter undefined) return undefined else 15:{}
+  9:if (= getter undefined) 9:return undefined else 9:{}
   10:app __x6__ = (Call getter Receiver)
   10:return [? __x6__]
 }

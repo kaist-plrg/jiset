@@ -1,16 +1,16 @@
 def [METHOD] IntegerIndexedExoticObject.GetOwnProperty(O)(P) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
-  2:if (= (typeof P) String) {
+  2:if (= (typeof P) String) 2:{
     3:app __x1__ = (CanonicalNumericIndexString P)
     3:let numericIndex = [! __x1__]
-    4:if (! (= numericIndex undefined)) {
+    4:if (! (= numericIndex undefined)) 4:{
       5:app __x2__ = (IntegerIndexedElementGet O numericIndex)
       5:let value = [! __x2__]
-      6:if (= value undefined) return undefined else 1:{}
+      6:if (= value undefined) 6:return undefined else 6:{}
       7:return (new PropertyDescriptor("Value" -> value, "Writable" -> true, "Enumerable" -> true, "Configurable" -> true))
-    } else 1:{}
-  } else 1:{}
+    } else 4:{}
+  } else 2:{}
   8:app __x3__ = (OrdinaryGetOwnProperty O P)
   8:return __x3__
 }

@@ -1,25 +1,25 @@
 def [BUILTIN] Date.prototype.setFullYear(year, month?, date?) = {
   0:app __x0__ = (thisTimeValue this)
   0:let t = [? __x0__]
-  1:if (= t NaN) t = 0i else {
-    app __x1__ = (LocalTime t)
-    t = __x1__
+  1:if (= t NaN) 1:t = 0i else 2:{
+    2:app __x1__ = (LocalTime t)
+    2:t = __x1__
   }
   2:app __x2__ = (ToNumber year)
   2:let y = [? __x2__]
-  3:if (= month absent) {
-    app __x3__ = (MonthFromTime t)
-    let m = __x3__
-  } else {
-    app __x4__ = (ToNumber month)
-    let m = [? __x4__]
+  3:if (= month absent) 3:{
+    3:app __x3__ = (MonthFromTime t)
+    3:let m = __x3__
+  } else 4:{
+    4:app __x4__ = (ToNumber month)
+    4:let m = [? __x4__]
   }
-  4:if (= date absent) {
-    app __x5__ = (DateFromTime t)
-    let dt = __x5__
-  } else {
-    app __x6__ = (ToNumber date)
-    let dt = [? __x6__]
+  4:if (= date absent) 4:{
+    4:app __x5__ = (DateFromTime t)
+    4:let dt = __x5__
+  } else 5:{
+    5:app __x6__ = (ToNumber date)
+    5:let dt = [? __x6__]
   }
   5:app __x7__ = (MakeDay y m dt)
   5:app __x8__ = (TimeWithinDay t)

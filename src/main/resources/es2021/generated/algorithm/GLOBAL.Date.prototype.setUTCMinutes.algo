@@ -3,17 +3,17 @@ def [BUILTIN] Date.prototype.setUTCMinutes(min, sec?, ms?) = {
   0:let t = [? __x0__]
   1:app __x1__ = (ToNumber min)
   1:let m = [? __x1__]
-  3:if (= sec absent) {
-    app __x2__ = (SecFromTime t)
-    let s = __x2__
-  } else {
+  2:if (= sec absent) 2:{
+    2:app __x2__ = (SecFromTime t)
+    2:let s = __x2__
+  } else 3:{
     4:app __x3__ = (ToNumber sec)
     4:let s = [? __x3__]
   }
-  6:if (= ms absent) {
-    app __x4__ = (msFromTime t)
-    let milli = __x4__
-  } else {
+  5:if (= ms absent) 5:{
+    5:app __x4__ = (msFromTime t)
+    5:let milli = __x4__
+  } else 6:{
     7:app __x5__ = (ToNumber ms)
     7:let milli = [? __x5__]
   }

@@ -1,27 +1,27 @@
 def ApplyStringOrNumericBinaryOperator(lval, opText, rval) = {
-  1:if (= opText "+") {
+  1:if (= opText "+") 1:{
     2:app __x0__ = (ToPrimitive lval)
     2:let lprim = [? __x0__]
     3:app __x1__ = (ToPrimitive rval)
     3:let rprim = [? __x1__]
-    4:if (|| (= (typeof lprim) String) (= (typeof rprim) String)) {
+    4:if (|| (= (typeof lprim) String) (= (typeof rprim) String)) 4:{
       5:app __x2__ = (ToString lprim)
       5:let lstr = [? __x2__]
       6:app __x3__ = (ToString rprim)
       6:let rstr = [? __x3__]
       7:return (+ lstr rstr)
-    } else 10:{}
+    } else 4:{}
     8:lval = lprim
     9:rval = rprim
-  } else 10:{}
+  } else 1:{}
   11:app __x4__ = (ToNumeric lval)
   11:let lnum = [? __x4__]
   12:app __x5__ = (ToNumeric rval)
   12:let rnum = [? __x5__]
-  13:if (! (= (typeof lnum) (typeof rnum))) throw TypeError else 10:{}
+  13:if (! (= (typeof lnum) (typeof rnum))) 13:throw TypeError else 13:{}
   14:let T = (typeof lnum)
   15:let m = PRIMITIVE[T]
-  15:if (= opText "**") let operation = m.exponentiate else if (= opText "*") let operation = m.multiply else if (= opText "/") let operation = m.divide else if (= opText "%") let operation = m.remainder else if (= opText "+") let operation = m.add else if (= opText "-") let operation = m.subtract else if (= opText "<<") let operation = m.leftShift else if (= opText ">>") let operation = m.signedRightShift else if (= opText ">>>") let operation = m.unsignedRightShift else if (= opText "&") let operation = m.bitwiseAND else if (= opText "^") let operation = m.bitwiseXOR else if (= opText "|") let operation = m.bitwiseOR else return 0i
+  15:if (= opText "**") 15:let operation = m.exponentiate else 15:if (= opText "*") 16:let operation = m.multiply else 15:if (= opText "/") 17:let operation = m.divide else 15:if (= opText "%") 18:let operation = m.remainder else 15:if (= opText "+") 19:let operation = m.add else 15:if (= opText "-") 20:let operation = m.subtract else 15:if (= opText "<<") 21:let operation = m.leftShift else 15:if (= opText ">>") 22:let operation = m.signedRightShift else 15:if (= opText ">>>") 23:let operation = m.unsignedRightShift else 15:if (= opText "&") 24:let operation = m.bitwiseAND else 15:if (= opText "^") 25:let operation = m.bitwiseXOR else 15:if (= opText "|") 26:let operation = m.bitwiseOR else 15:return 0i
   35:app __x6__ = (operation lnum rnum)
   35:return [? __x6__]
 }

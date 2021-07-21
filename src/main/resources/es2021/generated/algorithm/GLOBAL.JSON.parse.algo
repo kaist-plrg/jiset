@@ -8,8 +8,8 @@ def [BUILTIN] JSON.parse(text, reviver?) = {
   4:assert (= (typeof script) "AST")
   5:??? "Let id:{completion} be the result of evaluating id:{script} . The extended PropertyDefinitionEvaluation semantics defined in link:{sec-__proto__-property-names-in-object-initializers} must not be used during the evaluation ."
   6:let unfiltered = completion.Value
-  13:app __x2__ = (IsCallable reviver)
-  13:if (= __x2__ true) {
+  8:app __x2__ = (IsCallable reviver)
+  8:if (= __x2__ true) 8:{
     9:app __x3__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"])
     9:let root = [! __x3__]
     10:let rootName = ""
@@ -17,7 +17,7 @@ def [BUILTIN] JSON.parse(text, reviver?) = {
     11:[! __x4__]
     12:app __x5__ = (InternalizeJSONProperty root rootName reviver)
     12:return [? __x5__]
-  } else return unfiltered
+  } else 8:return unfiltered
 }
 - id: "sec-json.parse"
 - code:

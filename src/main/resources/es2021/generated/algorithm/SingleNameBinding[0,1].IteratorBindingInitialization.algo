@@ -3,37 +3,37 @@ def [SYNTAX] SingleNameBinding[0,1].IteratorBindingInitialization<(BindingIdenti
   0:let bindingId = __x0__
   1:app __x1__ = (ResolveBinding bindingId environment)
   1:let lhs = [? __x1__]
-  2:if (= iteratorRecord.Done false) {
+  2:if (= iteratorRecord.Done false) 2:{
     3:app __x2__ = (IteratorStep iteratorRecord)
     3:let next = __x2__
     4:app __x3__ = (IsAbruptCompletion next)
-    4:if __x3__ iteratorRecord.Done = true else 1:{}
+    4:if __x3__ 4:iteratorRecord.Done = true else 4:{}
     5:[? next]
-    7:if (= next false) iteratorRecord.Done = true else {
+    6:if (= next false) 6:iteratorRecord.Done = true else 7:{
       8:app __x4__ = (IteratorValue next)
       8:let v = __x4__
       9:app __x5__ = (IsAbruptCompletion v)
-      9:if __x5__ iteratorRecord.Done = true else 1:{}
+      9:if __x5__ 9:iteratorRecord.Done = true else 9:{}
       10:[? v]
     }
-  } else 1:{}
-  11:if (= iteratorRecord.Done true) let v = undefined else 1:{}
-  12:if (&& (! (= Initializer absent)) (= v undefined)) {
-    15:app __x6__ = (IsAnonymousFunctionDefinition Initializer)
-    15:if (= __x6__ true) {
+  } else 2:{}
+  11:if (= iteratorRecord.Done true) 11:let v = undefined else 11:{}
+  12:if (&& (! (= Initializer absent)) (= v undefined)) 12:{
+    13:app __x6__ = (IsAnonymousFunctionDefinition Initializer)
+    13:if (= __x6__ true) 13:{
       14:access __x7__ = (Initializer "NamedEvaluation" bindingId)
       14:v = __x7__
-    } else {
+    } else 15:{
       16:access __x8__ = (Initializer "Evaluation")
       16:let defaultValue = __x8__
       17:app __x9__ = (GetValue defaultValue)
       17:v = [? __x9__]
     }
-  } else 1:{}
-  18:if (= environment undefined) {
-    app __x10__ = (PutValue lhs v)
-    return [? __x10__]
-  } else 1:{}
+  } else 12:{}
+  18:if (= environment undefined) 18:{
+    18:app __x10__ = (PutValue lhs v)
+    18:return [? __x10__]
+  } else 18:{}
   19:app __x11__ = (InitializeReferencedBinding lhs v)
   19:return __x11__
 }

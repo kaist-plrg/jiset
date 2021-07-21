@@ -1,16 +1,16 @@
 def CreateListFromArrayLike(obj, elementTypes?) = {
-  0:if (= elementTypes absent) elementTypes = (new [Undefined, Null, Boolean, String, Symbol, Number, BigInt, Object]) else 0:{}
-  1:if (! (= (typeof obj) Object)) throw TypeError else 0:{}
+  0:if (= elementTypes absent) 0:elementTypes = (new [Undefined, Null, Boolean, String, Symbol, Number, BigInt, Object]) else 0:{}
+  1:if (! (= (typeof obj) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (LengthOfArrayLike obj)
   2:let len = [? __x0__]
   3:let list = (new [])
   4:let index = 0i
-  5:while (< index len) {
+  5:while (< index len) 5:{
     6:app __x1__ = (ToString index)
     6:let indexName = [! __x1__]
     7:app __x2__ = (Get obj indexName)
     7:let next = [? __x2__]
-    8:if (! (contains elementTypes (typeof next))) throw TypeError else 0:{}
+    8:if (! (contains elementTypes (typeof next))) 8:throw TypeError else 8:{}
     9:append next -> list
     10:index = (+ index 1i)
   }

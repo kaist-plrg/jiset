@@ -3,27 +3,27 @@ def [BUILTIN] SharedArrayBuffer.prototype.slice(start, end) = {
   1:app __x0__ = (RequireInternalSlot O "ArrayBufferData")
   1:[? __x0__]
   2:app __x1__ = (IsSharedArrayBuffer O)
-  2:if (= __x1__ false) throw TypeError else 0:{}
+  2:if (= __x1__ false) 2:throw TypeError else 2:{}
   3:let len = O.ArrayBufferByteLength
   4:app __x2__ = (ToIntegerOrInfinity start)
   4:let relativeStart = [? __x2__]
-  7:if (= relativeStart -Infinity) let first = 0i else if (< relativeStart 0i) {
-    app __x3__ = (max (+ len relativeStart) 0i)
-    let first = __x3__
-  } else {
-    app __x4__ = (min relativeStart len)
-    let first = __x4__
+  5:if (= relativeStart -Infinity) 5:let first = 0i else 5:if (< relativeStart 0i) 6:{
+    6:app __x3__ = (max (+ len relativeStart) 0i)
+    6:let first = __x3__
+  } else 7:{
+    7:app __x4__ = (min relativeStart len)
+    7:let first = __x4__
   }
-  8:if (= end undefined) let relativeEnd = len else {
-    app __x5__ = (ToIntegerOrInfinity end)
-    let relativeEnd = [? __x5__]
+  8:if (= end undefined) 8:let relativeEnd = len else 9:{
+    9:app __x5__ = (ToIntegerOrInfinity end)
+    9:let relativeEnd = [? __x5__]
   }
-  11:if (= relativeEnd -Infinity) let final = 0i else if (< relativeEnd 0i) {
-    app __x6__ = (max (+ len relativeEnd) 0i)
-    let final = __x6__
-  } else {
-    app __x7__ = (min relativeEnd len)
-    let final = __x7__
+  9:if (= relativeEnd -Infinity) 9:let final = 0i else 9:if (< relativeEnd 0i) 10:{
+    10:app __x6__ = (max (+ len relativeEnd) 0i)
+    10:let final = __x6__
+  } else 11:{
+    11:app __x7__ = (min relativeEnd len)
+    11:let final = __x7__
   }
   12:app __x8__ = (max (- final first) 0i)
   12:let newLen = __x8__
@@ -34,9 +34,9 @@ def [BUILTIN] SharedArrayBuffer.prototype.slice(start, end) = {
   15:app __x11__ = (RequireInternalSlot new "ArrayBufferData")
   15:[? __x11__]
   16:app __x12__ = (IsSharedArrayBuffer new)
-  16:if (= __x12__ false) throw TypeError else 0:{}
-  17:if (= new.ArrayBufferData O.ArrayBufferData) throw TypeError else 0:{}
-  18:if (< new.ArrayBufferByteLength newLen) throw TypeError else 0:{}
+  16:if (= __x12__ false) 16:throw TypeError else 16:{}
+  17:if (= new.ArrayBufferData O.ArrayBufferData) 17:throw TypeError else 17:{}
+  18:if (< new.ArrayBufferByteLength newLen) 18:throw TypeError else 18:{}
   19:let fromBuf = O.ArrayBufferData
   20:let toBuf = new.ArrayBufferData
   21:app __x13__ = (CopyDataBlockBytes toBuf 0i fromBuf first newLen)

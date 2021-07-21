@@ -7,38 +7,38 @@ def [BUILTIN] Array.prototype.concat(...items) = {
   3:??? "Prepend id:{O} to id:{items} ."
   4:let __x2__ = items
   4:let __x3__ = 0i
-  4:while (< __x3__ __x2__.length) {
-    let E = __x2__[__x3__]
+  4:while (< __x3__ __x2__.length) 4:{
+    4:let E = __x2__[__x3__]
+    4:__x3__ = (+ __x3__ 1i)
     5:app __x4__ = (IsConcatSpreadable E)
     5:let spreadable = [? __x4__]
-    18:if (= spreadable true) {
+    6:if (= spreadable true) 6:{
       7:let k = 0i
       8:app __x5__ = (LengthOfArrayLike E)
       8:let len = [? __x5__]
-      9:if (< (- (** 2i 53i) 1i) (+ n len)) throw TypeError else 19:{}
-      10:while (< k len) {
+      9:if (< (- (** 2i 53i) 1i) (+ n len)) 9:throw TypeError else 9:{}
+      10:while (< k len) 10:{
         11:app __x6__ = (ToString k)
         11:let P = [! __x6__]
         12:app __x7__ = (HasProperty E P)
         12:let exists = [? __x7__]
-        13:if (= exists true) {
+        13:if (= exists true) 13:{
           14:app __x8__ = (Get E P)
           14:let subElement = [? __x8__]
           15:app __x9__ = (ToString n)
           15:app __x10__ = (CreateDataPropertyOrThrow A [! __x9__] subElement)
           15:[? __x10__]
-        } else 19:{}
+        } else 13:{}
         16:n = (+ n 1i)
         17:k = (+ k 1i)
       }
-    } else {
-      20:if (! (< n (- (** 2i 53i) 1i))) throw TypeError else 19:{}
+    } else 11:{
+      20:if (! (< n (- (** 2i 53i) 1i))) 20:throw TypeError else 20:{}
       21:app __x11__ = (ToString n)
       21:app __x12__ = (CreateDataPropertyOrThrow A [! __x11__] E)
       21:[? __x12__]
       22:n = (+ n 1i)
     }
-    __x3__ = (+ __x3__ 1i)
   }
   23:app __x13__ = (Set A "length" n true)
   23:[? __x13__]

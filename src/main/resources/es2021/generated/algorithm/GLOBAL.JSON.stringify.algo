@@ -3,46 +3,46 @@ def [BUILTIN] JSON.stringify(value, replacer?, space?) = {
   1:let indent = ""
   2:let PropertyList = undefined
   2:let ReplacerFunction = undefined
-  3:if (= (typeof replacer) Object) {
-    6:app __x0__ = (IsCallable replacer)
-    6:if (= __x0__ true) ReplacerFunction = replacer else {
+  3:if (= (typeof replacer) Object) 3:{
+    4:app __x0__ = (IsCallable replacer)
+    4:if (= __x0__ true) 5:ReplacerFunction = replacer else 6:{
       7:app __x1__ = (IsArray replacer)
       7:let isArray = [? __x1__]
-      8:if (= isArray true) {
+      8:if (= isArray true) 8:{
         9:PropertyList = (new [])
         10:app __x2__ = (LengthOfArrayLike replacer)
         10:let len = [? __x2__]
         11:let k = 0i
-        12:while (< k len) {
+        12:while (< k len) 12:{
           13:app __x3__ = (ToString k)
           13:let prop = [! __x3__]
           14:app __x4__ = (Get replacer prop)
           14:let v = [? __x4__]
           15:let item = undefined
-          18:if (= (typeof v) String) item = v else if (= (typeof v) Number) {
-            app __x5__ = (ToString v)
-            item = [! __x5__]
-          } else if (= (typeof v) Object) ??? "If id:{v} has a [ [ StringData ] ] or [ [ NumberData ] ] internal slot , set id:{item} to ? ToString ( id:{v} ) ." else 7:{}
+          16:if (= (typeof v) String) 16:item = v else 16:if (= (typeof v) Number) 17:{
+            17:app __x5__ = (ToString v)
+            17:item = [! __x5__]
+          } else 16:if (= (typeof v) Object) 19:??? "If id:{v} has a [ [ StringData ] ] or [ [ NumberData ] ] internal slot , set id:{item} to ? ToString ( id:{v} ) ." else 16:{}
           20:??? "If id:{item} is not value:{undefined} and id:{item} is not currently an element of id:{PropertyList} , then in:{} out:{}"
           22:k = (+ k 1i)
         }
-      } else 7:{}
+      } else 8:{}
     }
-  } else 7:{}
-  23:if (= (typeof space) Object) if (! (= space.NumberData absent)) {
+  } else 3:{}
+  23:if (= (typeof space) Object) 24:if (! (= space.NumberData absent)) 24:{
     25:app __x6__ = (ToNumber space)
     25:space = [? __x6__]
-  } else if (! (= space.StringData absent)) {
+  } else 24:if (! (= space.StringData absent)) 26:{
     27:app __x7__ = (ToString space)
     27:space = [? __x7__]
-  } else 7:{} else 7:{}
-  34:if (= (typeof space) Number) {
+  } else 24:{} else 23:{}
+  28:if (= (typeof space) Number) 28:{
     29:app __x8__ = (ToIntegerOrInfinity space)
     29:let spaceMV = [! __x8__]
     30:app __x9__ = (min 10i spaceMV)
     30:spaceMV = __x9__
     31:??? "If id:{spaceMV} < 1 , let id:{gap} be the empty String ; otherwise let id:{gap} be the String value containing id:{spaceMV} occurrences of the code unit 0x0020 ( SPACE ) ."
-  } else if (= (typeof space) String) ??? "If the length of id:{space} is 10 or less , let id:{gap} be id:{space} ; otherwise let id:{gap} be the substring of id:{space} from 0 to 10 ." else let gap = ""
+  } else 28:if (= (typeof space) String) 33:??? "If the length of id:{space} is 10 or less , let id:{gap} be id:{space} ; otherwise let id:{gap} be the substring of id:{space} from 0 to 10 ." else 28:let gap = ""
   36:app __x10__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"])
   36:let wrapper = [! __x10__]
   37:app __x11__ = (CreateDataPropertyOrThrow wrapper "" value)

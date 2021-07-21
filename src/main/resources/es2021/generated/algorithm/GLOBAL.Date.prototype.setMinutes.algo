@@ -4,19 +4,19 @@ def [BUILTIN] Date.prototype.setMinutes(min, sec?, ms?) = {
   0:let t = __x1__
   1:app __x2__ = (ToNumber min)
   1:let m = [? __x2__]
-  2:if (= sec absent) {
-    app __x3__ = (SecFromTime t)
-    let s = __x3__
-  } else {
-    app __x4__ = (ToNumber sec)
-    let s = [? __x4__]
+  2:if (= sec absent) 2:{
+    2:app __x3__ = (SecFromTime t)
+    2:let s = __x3__
+  } else 3:{
+    3:app __x4__ = (ToNumber sec)
+    3:let s = [? __x4__]
   }
-  3:if (= ms absent) {
-    app __x5__ = (msFromTime t)
-    let milli = __x5__
-  } else {
-    app __x6__ = (ToNumber ms)
-    let milli = [? __x6__]
+  3:if (= ms absent) 3:{
+    3:app __x5__ = (msFromTime t)
+    3:let milli = __x5__
+  } else 4:{
+    4:app __x6__ = (ToNumber ms)
+    4:let milli = [? __x6__]
   }
   4:app __x7__ = (Day t)
   4:app __x8__ = (HourFromTime t)

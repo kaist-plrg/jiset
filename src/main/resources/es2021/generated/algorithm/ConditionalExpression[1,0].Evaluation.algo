@@ -4,12 +4,12 @@ def [SYNTAX] ConditionalExpression[1,0].Evaluation<(ShortCircuitExpression, Assi
   1:app __x1__ = (GetValue lref)
   1:app __x2__ = (ToBoolean [? __x1__])
   1:let lval = [! __x2__]
-  5:if (= lval true) {
+  2:if (= lval true) 2:{
     3:access __x3__ = (AssignmentExpression0 "Evaluation")
     3:let trueRef = __x3__
     4:app __x4__ = (GetValue trueRef)
     4:return [? __x4__]
-  } else {
+  } else 5:{
     6:access __x5__ = (AssignmentExpression1 "Evaluation")
     6:let falseRef = __x5__
     7:app __x6__ = (GetValue falseRef)

@@ -4,7 +4,7 @@ def [SYNTAX] OptionalChain[5,0].ChainEvaluation<(OptionalChain, Expression),fals
   1:let newReference = [? __x0__]
   2:app __x1__ = (GetValue newReference)
   2:let newValue = [? __x1__]
-  3:if true let strict = true else let strict = false
+  3:if true 3:let strict = true else 3:let strict = false
   4:app __x2__ = (EvaluatePropertyAccessWithExpressionKey newValue Expression strict)
   4:return [? __x2__]
 }

@@ -3,11 +3,11 @@ def [METHOD] StringExoticObject.DefineOwnProperty(S)(P, Desc) = {
   0:assert (= __x0__ true)
   1:app __x1__ = (StringGetOwnProperty S P)
   1:let stringDesc = [! __x1__]
-  2:if (! (= stringDesc undefined)) {
+  2:if (! (= stringDesc undefined)) 2:{
     3:let extensible = S.Extensible
     4:app __x2__ = (IsCompatiblePropertyDescriptor extensible Desc stringDesc)
     4:return [! __x2__]
-  } else 16:{}
+  } else 2:{}
   5:app __x3__ = (OrdinaryDefineOwnProperty S P Desc)
   5:return [! __x3__]
 }

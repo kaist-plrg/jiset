@@ -1,13 +1,13 @@
 def [BUILTIN] String(value) = {
-  1:if (= value absent) let s = "" else {
-    2:if (&& (= NewTarget undefined) (= (typeof value) Symbol)) {
-      app __x0__ = (SymbolDescriptiveString value)
-      return __x0__
-    } else 13:{}
+  0:if (= value absent) 0:let s = "" else 1:{
+    2:if (&& (= NewTarget undefined) (= (typeof value) Symbol)) 2:{
+      2:app __x0__ = (SymbolDescriptiveString value)
+      2:return __x0__
+    } else 2:{}
     3:app __x1__ = (ToString value)
     3:let s = [? __x1__]
   }
-  4:if (= NewTarget undefined) return s else 13:{}
+  4:if (= NewTarget undefined) 4:return s else 4:{}
   5:app __x2__ = (GetPrototypeFromConstructor NewTarget "%String.prototype%")
   5:app __x3__ = (StringCreate s [? __x2__])
   5:return [! __x3__]

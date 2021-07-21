@@ -14,13 +14,13 @@ class Compiler private (
   val secIds: Map[String, String]
 ) extends Compilers {
   def apply(tokens: List[Token], start: Int = 0): Inst =
-    postProcess(ISeq(parseAll(stmts, tokens).getOrElse(Nil)))
+    parseAll(normalizedStmts, tokens).getOrElse(ISeq(Nil))
 
   ////////////////////////////////////////////////////////////////////////////////
   // Instructions
   ////////////////////////////////////////////////////////////////////////////////
   lazy val normalizedStmts: P[Inst] = stmts ^^ {
-    case list => normalizeTempIds(flatten(ISeq(list)))
+    case list => postProcess(ISeq(list))
   }
 
   lazy val stmt: P[Inst] = {
@@ -134,21 +134,27 @@ class Compiler private (
   // if-then-else statements
   lazy val ifStmt = {
     ("if" ~> cond <~ "," ~
-      opt("then")) ~ stmt ~ opt(opt("." | ";" | ",") ~ opt(next) ~
-        ("else" | "otherwise") ~ opt(",") ~ opt(ignoreCond | cond) ~ opt("," | ";") ~> stmt)
+      opt("then")) ~ stmt ~ opt(opt("." | ";" | ",") ~> opt(next) <~ guard("else" | "otherwise")) ~
+      opt(("else" | "otherwise") ~ opt(",") ~ opt(ignoreCond | cond) ~ opt("," | ";") ~> stmt)
   } ^^ {
-    case (i ~ c) ~ t ~ None => ISeq(i :+ IIf(c, t, emptyInst))
-    case (i ~ c) ~ t ~ Some(e) => ISeq(i :+ IIf(c, t, e))
+    case (i ~ c) ~ t ~ line ~ e =>
+      val ifInst = IIf(c, t, e.getOrElse(emptyInst))
+      val insts = i :+ ifInst
+      insts.foreach(_.setLine(line.getOrElse(None)))
+      ISeq(insts)
   } ||| ("if" ~> (nt | id) <~ "is" ~ opt("the production")) ~ grammar ~ ("," ~ opt("then") ~> stmt) ^^ {
     case x ~ Gr(y, ss) ~ s =>
       val pre = ss.map(s => IAccess(IRId(s), toERef(x), EStr(s), Nil))
       IIf(EIsInstanceOf(toERef(x), y), ISeq(pre :+ s), emptyInst)
   } ||| {
-    stmt ~ (opt(",") ~> "if" ~> cond) ~ opt(opt("." | ";" | ",") ~ opt(next) ~
-      ("else" | "otherwise") ~ opt(ignoreCond | cond) ~ opt(",") ~> stmt)
+    stmt ~ (opt(",") ~> "if" ~> cond) ~ opt(opt("." | ";" | ",") ~> opt(next) <~ guard("else" | "otherwise")) ~
+      opt(("else" | "otherwise") ~ opt(ignoreCond | cond) ~ opt(",") ~> stmt)
   } ^^ {
-    case t ~ (i ~ c) ~ Some(e) => ISeq(i :+ IIf(c, t, e))
-    case t ~ (i ~ c) ~ None => ISeq(i :+ IIf(c, t, emptyInst))
+    case t ~ (i ~ c) ~ line ~ e =>
+      val ifInst = IIf(c, t, e.getOrElse(emptyInst))
+      val insts = i :+ ifInst
+      insts.foreach(_.setLine(line.getOrElse(None)))
+      ISeq(insts)
   }
 
   lazy val ignoreCond: P[I[Expr]] = (

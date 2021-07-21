@@ -1,73 +1,73 @@
 def [SYNTAX] CaseBlock[1,0].CaseBlockEvaluation<(CaseClauses0, DefaultClause, CaseClauses1),true>(input) = {
   0:let V = undefined
-  3:if (! (= CaseClauses0 absent)) let A = (get-elems CaseClauses0 CaseClause) else let A = (new [])
+  1:if (! (= CaseClauses0 absent)) 2:let A = (get-elems CaseClauses0 CaseClause) else 1:let A = (new [])
   5:let found = false
   6:let __x0__ = A
   6:let __x1__ = 0i
-  6:while (< __x1__ __x0__.length) {
-    let C = __x0__[__x1__]
-    7:if (= found false) {
+  6:while (< __x1__ __x0__.length) 6:{
+    6:let C = __x0__[__x1__]
+    6:__x1__ = (+ __x1__ 1i)
+    7:if (= found false) 7:{
       8:app __x2__ = (CaseClauseIsSelected C input)
       8:found = [? __x2__]
-    } else 30:{}
-    9:if (= found true) {
+    } else 7:{}
+    9:if (= found true) 9:{
       10:access __x3__ = (C "Evaluation")
       10:let R = __x3__
-      11:if (! (= R.Value CONST_empty)) V = R.Value else 30:{}
+      11:if (! (= R.Value CONST_empty)) 11:V = R.Value else 11:{}
       12:app __x4__ = (IsAbruptCompletion R)
-      12:if __x4__ {
-        app __x5__ = (UpdateEmpty R V)
-        return __x5__
-      } else 30:{}
-    } else 30:{}
-    __x1__ = (+ __x1__ 1i)
+      12:if __x4__ 12:{
+        12:app __x5__ = (UpdateEmpty R V)
+        12:return __x5__
+      } else 12:{}
+    } else 9:{}
   }
   13:let foundInB = false
-  16:if (! (= CaseClauses1 absent)) let B = (get-elems CaseClauses1 CaseClause) else let B = (new [])
-  18:if (= found false) {
+  14:if (! (= CaseClauses1 absent)) 15:let B = (get-elems CaseClauses1 CaseClause) else 14:let B = (new [])
+  18:if (= found false) 18:{
     19:let __x6__ = B
     19:let __x7__ = 0i
-    19:while (< __x7__ __x6__.length) {
-      let C = __x6__[__x7__]
-      20:if (= foundInB false) {
+    19:while (< __x7__ __x6__.length) 19:{
+      19:let C = __x6__[__x7__]
+      19:__x7__ = (+ __x7__ 1i)
+      20:if (= foundInB false) 20:{
         21:app __x8__ = (CaseClauseIsSelected C input)
         21:foundInB = [? __x8__]
-      } else 30:{}
-      22:if (= foundInB true) {
+      } else 20:{}
+      22:if (= foundInB true) 22:{
         23:access __x9__ = (C "Evaluation")
         23:let R = __x9__
-        24:if (! (= R.Value CONST_empty)) V = R.Value else 30:{}
+        24:if (! (= R.Value CONST_empty)) 24:V = R.Value else 24:{}
         25:app __x10__ = (IsAbruptCompletion R)
-        25:if __x10__ {
-          app __x11__ = (UpdateEmpty R V)
-          return __x11__
-        } else 30:{}
-      } else 30:{}
-      __x7__ = (+ __x7__ 1i)
+        25:if __x10__ 25:{
+          25:app __x11__ = (UpdateEmpty R V)
+          25:return __x11__
+        } else 25:{}
+      } else 22:{}
     }
-  } else 30:{}
-  26:if (= foundInB true) return V else 30:{}
+  } else 18:{}
+  26:if (= foundInB true) 26:return V else 26:{}
   27:access __x12__ = (DefaultClause "Evaluation")
   27:let R = __x12__
-  28:if (! (= R.Value CONST_empty)) V = R.Value else 30:{}
+  28:if (! (= R.Value CONST_empty)) 28:V = R.Value else 28:{}
   29:app __x13__ = (IsAbruptCompletion R)
-  29:if __x13__ {
-    app __x14__ = (UpdateEmpty R V)
-    return __x14__
-  } else 30:{}
+  29:if __x13__ 29:{
+    29:app __x14__ = (UpdateEmpty R V)
+    29:return __x14__
+  } else 29:{}
   31:let __x15__ = B
   31:let __x16__ = 0i
-  31:while (< __x16__ __x15__.length) {
-    let C = __x15__[__x16__]
+  31:while (< __x16__ __x15__.length) 31:{
+    31:let C = __x15__[__x16__]
+    31:__x16__ = (+ __x16__ 1i)
     32:access __x17__ = (C "Evaluation")
     32:let R = __x17__
-    33:if (! (= R.Value CONST_empty)) V = R.Value else 30:{}
+    33:if (! (= R.Value CONST_empty)) 33:V = R.Value else 33:{}
     34:app __x18__ = (IsAbruptCompletion R)
-    34:if __x18__ {
-      app __x19__ = (UpdateEmpty R V)
-      return __x19__
-    } else 30:{}
-    __x16__ = (+ __x16__ 1i)
+    34:if __x18__ 34:{
+      34:app __x19__ = (UpdateEmpty R V)
+      34:return __x19__
+    } else 34:{}
   }
   35:return V
 }

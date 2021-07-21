@@ -1,24 +1,24 @@
 def [BUILTIN] String.prototype.matchAll(regexp) = {
   0:app __x0__ = (RequireObjectCoercible this)
   0:let O = [? __x0__]
-  1:if (! (|| (= regexp undefined) (= regexp null))) {
+  1:if (! (|| (= regexp undefined) (= regexp null))) 1:{
     2:app __x1__ = (IsRegExp regexp)
     2:let isRegExp = [? __x1__]
-    3:if (= isRegExp true) {
+    3:if (= isRegExp true) 3:{
       4:app __x2__ = (Get regexp "flags")
       4:let flags = [? __x2__]
       5:app __x3__ = (RequireObjectCoercible flags)
       5:[? __x3__]
       6:app __x4__ = (ToString flags)
-      6:if (! (contains [? __x4__] "g")) throw TypeError else 4:{}
-    } else 4:{}
+      6:if (! (contains [? __x4__] "g")) 6:throw TypeError else 6:{}
+    } else 3:{}
     7:app __x5__ = (GetMethod regexp SYMBOL_matchAll)
     7:let matcher = [? __x5__]
-    8:if (! (= matcher undefined)) {
+    8:if (! (= matcher undefined)) 8:{
       9:app __x6__ = (Call matcher regexp (new [O]))
       9:return [? __x6__]
-    } else 4:{}
-  } else 4:{}
+    } else 8:{}
+  } else 1:{}
   10:app __x7__ = (ToString O)
   10:let S = [? __x7__]
   11:app __x8__ = (RegExpCreate regexp "g")

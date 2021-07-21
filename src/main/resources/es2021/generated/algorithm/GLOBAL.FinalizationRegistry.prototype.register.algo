@@ -2,13 +2,13 @@ def [BUILTIN] FinalizationRegistry.prototype.register(target, heldValue, unregis
   0:let finalizationRegistry = this
   1:app __x0__ = (RequireInternalSlot finalizationRegistry "Cells")
   1:[? __x0__]
-  2:if (! (= (typeof target) Object)) throw TypeError else 7:{}
+  2:if (! (= (typeof target) Object)) 2:throw TypeError else 2:{}
   3:app __x1__ = (SameValue target heldValue)
-  3:if (= __x1__ true) throw TypeError else 7:{}
-  4:if (! (= (typeof unregisterToken) Object)) {
-    5:if (! (= unregisterToken undefined)) throw TypeError else 7:{}
+  3:if (= __x1__ true) 3:throw TypeError else 3:{}
+  4:if (! (= (typeof unregisterToken) Object)) 4:{
+    5:if (! (= unregisterToken undefined)) 5:throw TypeError else 5:{}
     6:unregisterToken = CONST_empty
-  } else 7:{}
+  } else 4:{}
   7:let cell = (new Record("WeakRefTarget" -> target, "HeldValue" -> heldValue, "UnregisterToken" -> unregisterToken))
   8:append cell -> finalizationRegistry.Cells
   9:return undefined

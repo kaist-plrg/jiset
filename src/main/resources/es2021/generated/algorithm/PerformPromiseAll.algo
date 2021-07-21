@@ -6,27 +6,27 @@ def PerformPromiseAll(iteratorRecord, constructor, resultCapability, promiseReso
   2:let values = (new [])
   3:let remainingElementsCount = (new Record("Value" -> 1i))
   4:let index = 0i
-  5:while true {
+  5:while true 5:{
     6:app __x2__ = (IteratorStep iteratorRecord)
     6:let next = __x2__
     7:app __x3__ = (IsAbruptCompletion next)
-    7:if __x3__ iteratorRecord.Done = true else 10:{}
+    7:if __x3__ 7:iteratorRecord.Done = true else 7:{}
     8:[? next]
-    9:if (= next false) {
+    9:if (= next false) 9:{
       10:iteratorRecord.Done = true
       11:remainingElementsCount.Value = (- remainingElementsCount.Value 1i)
-      12:if (= remainingElementsCount.Value 0i) {
+      12:if (= remainingElementsCount.Value 0i) 12:{
         13:app __x4__ = (CreateArrayFromList values)
         13:let valuesArray = [! __x4__]
         14:app __x5__ = (Call resultCapability.Resolve undefined (new [valuesArray]))
         14:[? __x5__]
-      } else 10:{}
+      } else 12:{}
       15:return resultCapability.Promise
-    } else 10:{}
+    } else 9:{}
     16:app __x6__ = (IteratorValue next)
     16:let nextValue = __x6__
     17:app __x7__ = (IsAbruptCompletion nextValue)
-    17:if __x7__ iteratorRecord.Done = true else 10:{}
+    17:if __x7__ 17:iteratorRecord.Done = true else 17:{}
     18:[? nextValue]
     19:append undefined -> values
     20:app __x8__ = (Call promiseResolve constructor (new [nextValue]))

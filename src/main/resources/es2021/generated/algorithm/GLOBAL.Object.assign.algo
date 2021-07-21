@@ -1,32 +1,32 @@
 def [BUILTIN] Object.assign(target, ...sources) = {
   0:app __x0__ = (ToObject target)
   0:let to = [? __x0__]
-  1:if (= argumentsList.length 0i) return to else 71:{}
+  1:if (= argumentsList.length 0i) 1:return to else 1:{}
   2:let __x1__ = sources
   2:let __x2__ = 0i
-  2:while (< __x2__ __x1__.length) {
-    let nextSource = __x1__[__x2__]
-    3:if (! (|| (= nextSource undefined) (= nextSource null))) {
+  2:while (< __x2__ __x1__.length) 2:{
+    2:let nextSource = __x1__[__x2__]
+    2:__x2__ = (+ __x2__ 1i)
+    3:if (! (|| (= nextSource undefined) (= nextSource null))) 3:{
       4:app __x3__ = (ToObject nextSource)
       4:let from = [! __x3__]
       5:app __x4__ = (from.OwnPropertyKeys from)
       5:let keys = [? __x4__]
       6:let __x5__ = keys
       6:let __x6__ = 0i
-      6:while (< __x6__ __x5__.length) {
-        let nextKey = __x5__[__x6__]
+      6:while (< __x6__ __x5__.length) 6:{
+        6:let nextKey = __x5__[__x6__]
+        6:__x6__ = (+ __x6__ 1i)
         7:app __x7__ = (from.GetOwnProperty from nextKey)
         7:let desc = [? __x7__]
-        8:if (&& (! (= desc undefined)) (= desc.Enumerable true)) {
+        8:if (&& (! (= desc undefined)) (= desc.Enumerable true)) 8:{
           9:app __x8__ = (Get from nextKey)
           9:let propValue = [? __x8__]
           10:app __x9__ = (Set to nextKey propValue true)
           10:[? __x9__]
-        } else 71:{}
-        __x6__ = (+ __x6__ 1i)
+        } else 8:{}
       }
-    } else 71:{}
-    __x2__ = (+ __x2__ 1i)
+    } else 3:{}
   }
   11:return to
 }

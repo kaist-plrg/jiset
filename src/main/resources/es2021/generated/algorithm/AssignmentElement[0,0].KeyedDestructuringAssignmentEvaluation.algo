@@ -1,29 +1,29 @@
 def [SYNTAX] AssignmentElement[0,0].KeyedDestructuringAssignmentEvaluation<(DestructuringAssignmentTarget, Initializer),true>(value, propertyName) = {
-  0:if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) {
+  0:if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) 0:{
     1:access __x0__ = (DestructuringAssignmentTarget "Evaluation")
     1:let lref = __x0__
     2:[? lref]
-  } else 10:{}
+  } else 0:{}
   3:app __x1__ = (GetV value propertyName)
   3:let v = [? __x1__]
-  10:if (&& (! (= Initializer absent)) (= v undefined)) {
-    7:app __x2__ = (IsAnonymousFunctionDefinition Initializer)
-    7:access __x3__ = (DestructuringAssignmentTarget "IsIdentifierRef")
-    7:if (&& (= __x2__ true) (= __x3__ true)) {
+  4:if (&& (! (= Initializer absent)) (= v undefined)) 4:{
+    5:app __x2__ = (IsAnonymousFunctionDefinition Initializer)
+    5:access __x3__ = (DestructuringAssignmentTarget "IsIdentifierRef")
+    5:if (&& (= __x2__ true) (= __x3__ true)) 5:{
       6:access __x4__ = (Initializer "NamedEvaluation" lref.ReferencedName)
       6:let rhsValue = [? __x4__]
-    } else {
+    } else 7:{
       8:access __x5__ = (Initializer "Evaluation")
       8:let defaultValue = __x5__
       9:app __x6__ = (GetValue defaultValue)
       9:let rhsValue = [? __x6__]
     }
-  } else let rhsValue = v
-  11:if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) {
+  } else 4:let rhsValue = v
+  11:if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) 11:{
     12:let assignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
     13:access __x7__ = (assignmentPattern "DestructuringAssignmentEvaluation" rhsValue)
     13:return __x7__
-  } else 10:{}
+  } else 11:{}
   14:app __x8__ = (PutValue lref rhsValue)
   14:return [? __x8__]
 }

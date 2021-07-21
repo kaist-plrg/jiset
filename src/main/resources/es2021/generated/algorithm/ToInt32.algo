@@ -1,10 +1,10 @@
 def ToInt32(argument) = {
   0:app __x0__ = (ToNumber argument)
   0:let number = [? __x0__]
-  1:if (|| (|| (|| (|| (= number NaN) (= number 0i)) (= number -0.0)) (= number Infinity)) (= number -Infinity)) return 0i else 0:{}
+  1:if (|| (|| (|| (|| (= number NaN) (= number 0i)) (= number -0.0)) (= number Infinity)) (= number -Infinity)) 1:return 0i else 1:{}
   2:let int = (convert number num2int )
   3:let int32bit = (%% int (** 2i 32i))
-  4:if (! (< int32bit (** 2i 31i))) return (- int32bit (** 2i 32i)) else return int32bit
+  4:if (! (< int32bit (** 2i 31i))) 4:return (- int32bit (** 2i 32i)) else 4:return int32bit
 }
 - id: "sec-toint32"
 - code:

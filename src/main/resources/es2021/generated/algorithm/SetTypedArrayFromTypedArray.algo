@@ -1,11 +1,11 @@
 def SetTypedArrayFromTypedArray(target, targetOffset, source) = {
   1:let targetBuffer = target.ViewedArrayBuffer
   2:app __x0__ = (IsDetachedBuffer targetBuffer)
-  2:if (= __x0__ true) throw TypeError else 30:{}
+  2:if (= __x0__ true) 2:throw TypeError else 2:{}
   3:let targetLength = target.ArrayLength
   4:let srcBuffer = source.ViewedArrayBuffer
   5:app __x1__ = (IsDetachedBuffer srcBuffer)
-  5:if (= __x1__ true) throw TypeError else 30:{}
+  5:if (= __x1__ true) 5:throw TypeError else 5:{}
   6:let targetName = target.TypedArrayName
   7:??? "Let id:{targetType} be the Element Type value in link:{table-the-typedarray-constructors} for id:{targetName} ."
   8:??? "Let id:{targetElementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for id:{targetName} ."
@@ -15,31 +15,31 @@ def SetTypedArrayFromTypedArray(target, targetOffset, source) = {
   12:??? "Let id:{srcElementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for id:{srcName} ."
   13:let srcLength = source.ArrayLength
   14:let srcByteOffset = source.ByteOffset
-  15:if (= targetOffset Infinity) throw RangeError else 30:{}
-  16:if (< targetLength (+ srcLength targetOffset)) throw RangeError else 30:{}
-  17:if (! (== target.ContentType source.ContentType)) throw TypeError else 30:{}
-  20:app __x2__ = (IsSharedArrayBuffer srcBuffer)
-  20:app __x3__ = (IsSharedArrayBuffer targetBuffer)
-  20:if (&& (= __x2__ true) (= __x3__ true)) if (= srcBuffer.ArrayBufferData targetBuffer.ArrayBufferData) let same = true else let same = false else {
-    app __x4__ = (SameValue srcBuffer targetBuffer)
-    let same = __x4__
+  15:if (= targetOffset Infinity) 15:throw RangeError else 15:{}
+  16:if (< targetLength (+ srcLength targetOffset)) 16:throw RangeError else 16:{}
+  17:if (! (== target.ContentType source.ContentType)) 17:throw TypeError else 17:{}
+  18:app __x2__ = (IsSharedArrayBuffer srcBuffer)
+  18:app __x3__ = (IsSharedArrayBuffer targetBuffer)
+  18:if (&& (= __x2__ true) (= __x3__ true)) 19:if (= srcBuffer.ArrayBufferData targetBuffer.ArrayBufferData) 19:let same = true else 19:let same = false else 20:{
+    20:app __x4__ = (SameValue srcBuffer targetBuffer)
+    20:let same = __x4__
   }
-  26:if (= same true) {
+  21:if (= same true) 21:{
     22:let srcByteLength = source.ByteLength
     23:app __x5__ = (CloneArrayBuffer srcBuffer srcByteOffset srcByteLength INTRINSICS["%ArrayBuffer%"])
     23:srcBuffer = [? __x5__]
     25:let srcByteIndex = 0i
-  } else let srcByteIndex = srcByteOffset
+  } else 21:let srcByteIndex = srcByteOffset
   27:let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)
   28:let limit = (* (+ targetByteIndex targetElementSize) srcLength)
-  36:if (= srcType targetType) while (< targetByteIndex limit) {
+  29:if (= srcType targetType) 31:while (< targetByteIndex limit) 31:{
     32:app __x6__ = (GetValueFromBuffer srcBuffer srcByteIndex CONST_Uint8 true CONST_Unordered)
     32:let value = __x6__
     33:app __x7__ = (SetValueInBuffer targetBuffer targetByteIndex CONST_Uint8 value true CONST_Unordered)
     33:__x7__
     34:srcByteIndex = (+ srcByteIndex 1i)
     35:targetByteIndex = (+ targetByteIndex 1i)
-  } else while (< targetByteIndex limit) {
+  } else 29:while (< targetByteIndex limit) 37:{
     38:app __x8__ = (GetValueFromBuffer srcBuffer srcByteIndex srcType true CONST_Unordered)
     38:let value = __x8__
     39:app __x9__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)

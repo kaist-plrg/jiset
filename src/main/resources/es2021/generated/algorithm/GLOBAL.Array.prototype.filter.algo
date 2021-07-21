@@ -4,29 +4,29 @@ def [BUILTIN] Array.prototype.filter(callbackfn, thisArg?) = {
   1:app __x1__ = (LengthOfArrayLike O)
   1:let len = [? __x1__]
   2:app __x2__ = (IsCallable callbackfn)
-  2:if (= __x2__ false) throw TypeError else 19:{}
+  2:if (= __x2__ false) 2:throw TypeError else 2:{}
   3:app __x3__ = (ArraySpeciesCreate O 0i)
   3:let A = [? __x3__]
   4:let k = 0i
   5:let to = 0i
-  6:while (< k len) {
+  6:while (< k len) 6:{
     7:app __x4__ = (ToString k)
     7:let Pk = [! __x4__]
     8:app __x5__ = (HasProperty O Pk)
     8:let kPresent = [? __x5__]
-    9:if (= kPresent true) {
+    9:if (= kPresent true) 9:{
       10:app __x6__ = (Get O Pk)
       10:let kValue = [? __x6__]
       11:app __x7__ = (Call callbackfn thisArg (new [kValue, k, O]))
       11:app __x8__ = (ToBoolean [? __x7__])
       11:let selected = [! __x8__]
-      12:if (= selected true) {
+      12:if (= selected true) 12:{
         13:app __x9__ = (ToString to)
         13:app __x10__ = (CreateDataPropertyOrThrow A [! __x9__] kValue)
         13:[? __x10__]
         14:to = (+ to 1i)
-      } else 19:{}
-    } else 19:{}
+      } else 12:{}
+    } else 9:{}
     15:k = (+ k 1i)
   }
   16:return A

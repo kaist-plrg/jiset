@@ -7,7 +7,7 @@ def [SYNTAX] RelationalExpression[6,0].Evaluation<(RelationalExpression, ShiftEx
   2:let rref = __x2__
   3:app __x3__ = (GetValue rref)
   3:let rval = [? __x3__]
-  4:if (! (= (typeof rval) Object)) throw TypeError else 3:{}
+  4:if (! (= (typeof rval) Object)) 4:throw TypeError else 4:{}
   5:app __x4__ = (ToPropertyKey lval)
   5:app __x5__ = (HasProperty rval [? __x4__])
   5:return [? __x5__]

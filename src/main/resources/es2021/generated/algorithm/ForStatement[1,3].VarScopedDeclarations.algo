@@ -4,10 +4,10 @@ def [SYNTAX] ForStatement[1,3].VarScopedDeclarations<(VariableDeclarationList, E
   1:access __x1__ = (Statement "VarScopedDeclarations")
   1:let __x2__ = __x1__
   1:let __x3__ = 0i
-  1:while (< __x3__ __x2__.length) {
-    let __x4__ = __x2__[__x3__]
-    append __x4__ -> declarations
-    __x3__ = (+ __x3__ 1i)
+  1:while (< __x3__ __x2__.length) 1:{
+    1:let __x4__ = __x2__[__x3__]
+    1:__x3__ = (+ __x3__ 1i)
+    1:append __x4__ -> declarations
   }
   2:return declarations
 }

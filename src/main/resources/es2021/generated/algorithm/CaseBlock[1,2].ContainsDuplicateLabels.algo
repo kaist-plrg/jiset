@@ -1,13 +1,13 @@
 def [SYNTAX] CaseBlock[1,2].ContainsDuplicateLabels<(CaseClauses0, DefaultClause, CaseClauses1),true>(labelSet) = {
-  0:if (! (= CaseClauses0 absent)) {
+  0:if (! (= CaseClauses0 absent)) 0:{
     1:access __x0__ = (CaseClauses0 "ContainsDuplicateLabels" labelSet)
     1:let hasDuplicates = __x0__
-    2:if (= hasDuplicates true) return true else 1:{}
-  } else 1:{}
+    2:if (= hasDuplicates true) 2:return true else 2:{}
+  } else 0:{}
   3:access __x1__ = (DefaultClause "ContainsDuplicateLabels" labelSet)
   3:let hasDuplicates = __x1__
-  4:if (= hasDuplicates true) return true else 1:{}
-  5:if (= CaseClauses1 absent) return false else 1:{}
+  4:if (= hasDuplicates true) 4:return true else 4:{}
+  5:if (= CaseClauses1 absent) 5:return false else 5:{}
   6:access __x2__ = (CaseClauses1 "ContainsDuplicateLabels" labelSet)
   6:return __x2__
 }

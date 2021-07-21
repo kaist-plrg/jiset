@@ -4,19 +4,19 @@ def Evaluate() = {
   3:app __x0__ = (InnerModuleEvaluation module stack 0i)
   3:let result = __x0__
   4:app __x1__ = (IsAbruptCompletion result)
-  4:if __x1__ {
+  4:if __x1__ 4:{
     5:let __x2__ = stack
     5:let __x3__ = 0i
-    5:while (< __x3__ __x2__.length) {
-      let m = __x2__[__x3__]
+    5:while (< __x3__ __x2__.length) 5:{
+      5:let m = __x2__[__x3__]
+      5:__x3__ = (+ __x3__ 1i)
       6:assert (= m.Status CONST_evaluating)
       7:m.Status = CONST_evaluated
       8:m.EvaluationError = result
-      __x3__ = (+ __x3__ 1i)
     }
     9:assert (&& (= module.Status CONST_evaluated) (= module.EvaluationError result))
     10:return result
-  } else 0:{}
+  } else 4:{}
   11:assert (&& (= module.Status CONST_evaluated) (= module.EvaluationError undefined))
   12:assert (= stack.length 0i)
   13:return undefined

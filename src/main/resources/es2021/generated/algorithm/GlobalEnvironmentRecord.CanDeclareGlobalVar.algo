@@ -3,7 +3,7 @@ def [METHOD] GlobalEnvironmentRecord.CanDeclareGlobalVar(envRec)(N) = {
   1:let globalObject = ObjRec.BindingObject
   2:app __x0__ = (HasOwnProperty globalObject N)
   2:let hasProperty = [? __x0__]
-  3:if (= hasProperty true) return true else 3:{}
+  3:if (= hasProperty true) 3:return true else 3:{}
   4:app __x1__ = (IsExtensible globalObject)
   4:return [? __x1__]
 }

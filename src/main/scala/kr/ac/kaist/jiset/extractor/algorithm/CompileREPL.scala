@@ -81,7 +81,7 @@ object CompileREPL {
       val (tokens, result) = target.parse(code, raw)
       println(s"[Tokens] ${tokens.map(_.beautified).mkString(" ")}")
       if (result.successful) {
-        val resultStr = result.get.beautified(index = true)
+        val resultStr = result.get.beautified(index = true, asite = true)
         println(s"[Success] $resultStr")
       } else {
         println(s"[Failed] $result")

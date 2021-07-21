@@ -3,12 +3,12 @@ def ByteListEqual(xBytes, yBytes) = {
   1:let i = 0i
   2:let __x0__ = xBytes
   2:let __x1__ = 0i
-  2:while (< __x1__ __x0__.length) {
-    let xByte = __x0__[__x1__]
+  2:while (< __x1__ __x0__.length) 2:{
+    2:let xByte = __x0__[__x1__]
+    2:__x1__ = (+ __x1__ 1i)
     3:let yByte = yBytes[i]
-    4:if (! (== xByte yByte)) return false else 1:{}
+    4:if (! (== xByte yByte)) 4:return false else 4:{}
     5:i = (+ i 1i)
-    __x1__ = (+ __x1__ 1i)
   }
   6:return true
 }

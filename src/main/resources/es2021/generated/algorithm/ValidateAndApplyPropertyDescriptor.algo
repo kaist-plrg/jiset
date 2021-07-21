@@ -1,107 +1,107 @@
 def ValidateAndApplyPropertyDescriptor(O, P, extensible, Desc, current) = {
-  1:if (= current undefined) {
-    2:if (= extensible false) return false else 15:{}
+  1:if (= current undefined) 1:{
+    2:if (= extensible false) 2:return false else 2:{}
     3:assert (= extensible true)
-    6:let __x0__ = true
-    6:app __x1__ = (IsGenericDescriptor Desc)
-    6:__x0__ = (= __x1__ true)
-    6:if __x0__ 15:{} else {
-      app __x2__ = (IsDataDescriptor Desc)
-      __x0__ = (= __x2__ true)
+    4:let __x0__ = true
+    4:app __x1__ = (IsGenericDescriptor Desc)
+    4:__x0__ = (= __x1__ true)
+    4:if __x0__ 35:{} else 16:{
+      16:app __x2__ = (IsDataDescriptor Desc)
+      16:__x0__ = (= __x2__ true)
     }
-    6:if __x0__ if (! (= O undefined)) {
-      let dp = (new DataProperty())
-      if (! (= absent Desc.Value)) dp.Value = Desc.Value else dp.Value = undefined
-      if (! (= absent Desc.Writable)) dp.Writable = Desc.Writable else dp.Writable = false
-      if (! (= absent Desc.Enumerable)) dp.Enumerable = Desc.Enumerable else dp.Enumerable = false
-      if (! (= absent Desc.Configurable)) dp.Configurable = Desc.Configurable else dp.Configurable = false
-      O.SubMap[P] = dp
-    } else {} else {
+    4:if __x0__ 5:if (! (= O undefined)) 5:{
+      5:let dp = (new DataProperty())
+      5:if (! (= absent Desc.Value)) 5:dp.Value = Desc.Value else 5:dp.Value = undefined
+      5:if (! (= absent Desc.Writable)) 5:dp.Writable = Desc.Writable else 5:dp.Writable = false
+      5:if (! (= absent Desc.Enumerable)) 5:dp.Enumerable = Desc.Enumerable else 5:dp.Enumerable = false
+      5:if (! (= absent Desc.Configurable)) 5:dp.Configurable = Desc.Configurable else 5:dp.Configurable = false
+      5:O.SubMap[P] = dp
+    } else 5:{} else 6:{
       7:app __x3__ = (IsAccessorDescriptor Desc)
       7:assert (= [! __x3__] true)
-      8:if (! (= O undefined)) {
-        let ap = (new AccessorProperty())
-        if (= Desc.Get absent) ap.Get = undefined else ap.Get = Desc.Get
-        if (= Desc.Set absent) ap.Set = undefined else ap.Set = Desc.Set
-        if (= Desc.Enumerable absent) ap.Enumerable = false else ap.Enumerable = Desc.Enumerable
-        if (= Desc.Configurable absent) ap.Configurable = false else ap.Configurable = Desc.Configurable
-        O.SubMap[P] = ap
-      } else {}
+      8:if (! (= O undefined)) 8:{
+        8:let ap = (new AccessorProperty())
+        8:if (= Desc.Get absent) 8:ap.Get = undefined else 8:ap.Get = Desc.Get
+        8:if (= Desc.Set absent) 8:ap.Set = undefined else 8:ap.Set = Desc.Set
+        8:if (= Desc.Enumerable absent) 8:ap.Enumerable = false else 8:ap.Enumerable = Desc.Enumerable
+        8:if (= Desc.Configurable absent) 8:ap.Configurable = false else 8:ap.Configurable = Desc.Configurable
+        8:O.SubMap[P] = ap
+      } else 8:{}
     }
     9:return true
-  } else 15:{}
-  10:if (&& (= absent Desc.Value) (&& (= absent Desc.Writable) (&& (= absent Desc.Get) (&& (= absent Desc.Set) (&& (= absent Desc.Enumerable) (= absent Desc.Configurable)))))) return true else {}
-  11:if (= current.Configurable false) {
-    12:if (= Desc.Configurable true) return false else 15:{}
+  } else 1:{}
+  10:if (&& (= absent Desc.Value) (&& (= absent Desc.Writable) (&& (= absent Desc.Get) (&& (= absent Desc.Set) (&& (= absent Desc.Enumerable) (= absent Desc.Configurable)))))) 10:return true else 10:{}
+  11:if (= current.Configurable false) 11:{
+    12:if (= Desc.Configurable true) 12:return false else 12:{}
     13:let __x4__ = true
     13:__x4__ = (! (= Desc.Enumerable absent))
-    13:if __x4__ {
-      app __x5__ = (SameValue Desc.Enumerable current.Enumerable)
-      __x4__ = (= [! __x5__] false)
-    } else 15:{}
-    13:if __x4__ return false else 15:{}
-  } else 15:{}
-  27:app __x6__ = (IsGenericDescriptor Desc)
-  27:if (= [! __x6__] true) {} else {
-    app __x7__ = (IsDataDescriptor current)
-    app __x8__ = (IsDataDescriptor Desc)
-    app __x9__ = (SameValue [! __x7__] [! __x8__])
-    if (= [! __x9__] false) {
-      17:if (= current.Configurable false) return false else 15:{}
-      20:app __x10__ = (IsDataDescriptor current)
-      20:if (= __x10__ true) if (! (= O undefined)) {
-        let dp = O.SubMap[P]
-        O.SubMap[P] = (new AccessorProperty("Get" -> undefined, "Set" -> undefined, "Configurable" -> dp.Configurable, "Enumerable" -> dp.Enumerable))
-      } else {} else if (! (= O undefined)) {
-        let ap = O.SubMap[P]
-        O.SubMap[P] = (new DataProperty("Value" -> undefined, "Writable" -> false, "Configurable" -> ap.Configurable, "Enumerable" -> ap.Enumerable))
-      } else {}
-    } else {
-      app __x11__ = (IsDataDescriptor current)
-      app __x12__ = (IsDataDescriptor Desc)
-      if (&& (= __x11__ true) (= __x12__ true)) if (&& (= current.Configurable false) (= current.Writable false)) {
-        24:if (&& (! (= Desc.Writable absent)) (= Desc.Writable true)) return false else 15:{}
+    13:if __x4__ 13:{
+      13:app __x5__ = (SameValue Desc.Enumerable current.Enumerable)
+      13:__x4__ = (= [! __x5__] false)
+    } else 13:{}
+    13:if __x4__ 13:return false else 13:{}
+  } else 11:{}
+  14:app __x6__ = (IsGenericDescriptor Desc)
+  14:if (= [! __x6__] true) 14:{} else 17:{
+    16:app __x7__ = (IsDataDescriptor current)
+    16:app __x8__ = (IsDataDescriptor Desc)
+    16:app __x9__ = (SameValue [! __x7__] [! __x8__])
+    16:if (= [! __x9__] false) 16:{
+      17:if (= current.Configurable false) 17:return false else 17:{}
+      18:app __x10__ = (IsDataDescriptor current)
+      18:if (= __x10__ true) 19:if (! (= O undefined)) 19:{
+        19:let dp = O.SubMap[P]
+        19:O.SubMap[P] = (new AccessorProperty("Get" -> undefined, "Set" -> undefined, "Configurable" -> dp.Configurable, "Enumerable" -> dp.Enumerable))
+      } else 19:{} else 18:if (! (= O undefined)) 21:{
+        21:let ap = O.SubMap[P]
+        21:O.SubMap[P] = (new DataProperty("Value" -> undefined, "Writable" -> false, "Configurable" -> ap.Configurable, "Enumerable" -> ap.Enumerable))
+      } else 18:{}
+    } else 21:{
+      22:app __x11__ = (IsDataDescriptor current)
+      22:app __x12__ = (IsDataDescriptor Desc)
+      22:if (&& (= __x11__ true) (= __x12__ true)) 23:if (&& (= current.Configurable false) (= current.Writable false)) 23:{
+        24:if (&& (! (= Desc.Writable absent)) (= Desc.Writable true)) 24:return false else 24:{}
         25:let __x13__ = true
         25:__x13__ = (! (= Desc.Value absent))
-        25:if __x13__ {
-          app __x14__ = (SameValue Desc.Value current.Value)
-          __x13__ = (= __x14__ false)
-        } else 15:{}
-        25:if __x13__ return false else 15:{}
+        25:if __x13__ 25:{
+          25:app __x14__ = (SameValue Desc.Value current.Value)
+          25:__x13__ = (= __x14__ false)
+        } else 25:{}
+        25:if __x13__ 25:return false else 25:{}
         26:return true
-      } else 15:{} else {
+      } else 23:{} else 24:{
         28:app __x15__ = (IsAccessorDescriptor current)
         28:app __x16__ = (IsAccessorDescriptor Desc)
         28:assert (&& (= [! __x15__] true) (= [! __x16__] true))
-        29:if (= current.Configurable false) {
+        29:if (= current.Configurable false) 29:{
           30:let __x17__ = true
           30:__x17__ = (! (= Desc.Set absent))
-          30:if __x17__ {
-            app __x18__ = (SameValue Desc.Set current.Set)
-            __x17__ = (= __x18__ false)
-          } else 15:{}
-          30:if __x17__ return false else 15:{}
+          30:if __x17__ 30:{
+            30:app __x18__ = (SameValue Desc.Set current.Set)
+            30:__x17__ = (= __x18__ false)
+          } else 30:{}
+          30:if __x17__ 30:return false else 30:{}
           31:let __x19__ = true
           31:__x19__ = (! (= Desc.Get absent))
-          31:if __x19__ {
-            app __x20__ = (SameValue Desc.Get current.Get)
-            __x19__ = (= __x20__ false)
-          } else 15:{}
-          31:if __x19__ return false else 15:{}
+          31:if __x19__ 31:{
+            31:app __x20__ = (SameValue Desc.Get current.Get)
+            31:__x19__ = (= __x20__ false)
+          } else 31:{}
+          31:if __x19__ 31:return false else 31:{}
           32:return true
-        } else 15:{}
+        } else 29:{}
       }
     }
   }
-  33:if (! (= O undefined)) {
+  33:if (! (= O undefined)) 33:{
     34:let __keys__ = (map-keys Desc)
     34:let __i__ = 0i
-    34:while (< __i__ __keys__.length) {
-      let __key__ = __keys__[__i__]
-      O.SubMap[P][__key__] = Desc[__key__]
-      __i__ = (+ __i__ 1i)
+    34:while (< __i__ __keys__.length) 34:{
+      34:let __key__ = __keys__[__i__]
+      34:O.SubMap[P][__key__] = Desc[__key__]
+      34:__i__ = (+ __i__ 1i)
     }
-  } else 15:{}
+  } else 33:{}
   35:return true
 }
 - id: "sec-validateandapplypropertydescriptor"

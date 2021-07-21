@@ -1,5 +1,5 @@
 def SerializeJSONArray(state, value) = {
-  0:if (contains state.Stack value) throw TypeError else 7:{}
+  0:if (contains state.Stack value) 0:throw TypeError else 0:{}
   1:append value -> state.Stack
   2:let stepback = state.Indent
   3:state.Indent = (+ state.Indent state.Gap)
@@ -7,17 +7,17 @@ def SerializeJSONArray(state, value) = {
   5:app __x0__ = (LengthOfArrayLike value)
   5:let len = [? __x0__]
   6:let index = 0i
-  7:while (< index len) {
+  7:while (< index len) 7:{
     8:app __x1__ = (ToString index)
     8:app __x2__ = (SerializeJSONProperty state [! __x1__] value)
     8:let strP = [? __x2__]
-    11:if (= strP undefined) append "null" -> partial else append strP -> partial
+    9:if (= strP undefined) 10:append "null" -> partial else 9:append strP -> partial
     13:index = (+ index 1i)
   }
-  16:if (= partial.length 0i) let final = "[]" else if (= state.Gap "") {
+  14:if (= partial.length 0i) 15:let final = "[]" else 14:if (= state.Gap "") 17:{
     18:??? "Let id:{properties} be the String value formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with the code unit 0x002C ( COMMA ) . A comma is not inserted either before the first String or after the last String ."
     19:let final = (+ (+ "[" properties) "]")
-  } else {
+  } else 20:{
     21:let separator = (+ (+ "," "\n") state.Indent)
     22:??? "Let id:{properties} be the String value formed by concatenating all the element Strings of id:{partial} with each adjacent pair of Strings separated with id:{separator} . The id:{separator} String is not inserted either before the first String or after the last String ."
     23:let final = (+ (+ (+ (+ (+ (+ "[" "\n") state.Indent) properties) "\n") stepback) "]")

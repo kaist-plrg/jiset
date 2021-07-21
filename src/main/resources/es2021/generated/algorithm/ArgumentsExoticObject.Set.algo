@@ -1,14 +1,14 @@
 def [METHOD] ArgumentsExoticObject.Set(args)(P, V, Receiver) = {
-  2:app __x0__ = (SameValue args Receiver)
-  2:if (= __x0__ false) let isMapped = false else {
+  0:app __x0__ = (SameValue args Receiver)
+  0:if (= __x0__ false) 1:let isMapped = false else 2:{
     3:let map = args.ParameterMap
     4:app __x1__ = (HasOwnProperty map P)
     4:let isMapped = [! __x1__]
   }
-  5:if (= isMapped true) {
+  5:if (= isMapped true) 5:{
     6:app __x2__ = (Set map P V false)
     6:let setStatus = __x2__
-  } else 7:{}
+  } else 5:{}
   8:app __x3__ = (OrdinarySet args P V Receiver)
   8:return [? __x3__]
 }

@@ -1,21 +1,21 @@
 def [METHOD] ProxyObject.Construct(O)(argumentsList, newTarget) = {
   0:let handler = O.ProxyHandler
-  1:if (= handler null) throw TypeError else 13:{}
+  1:if (= handler null) 1:throw TypeError else 1:{}
   2:assert (= (typeof handler) Object)
   3:let target = O.ProxyTarget
   4:app __x0__ = (IsConstructor target)
   4:assert (= __x0__ true)
   5:app __x1__ = (GetMethod handler "construct")
   5:let trap = [? __x1__]
-  6:if (= trap undefined) {
+  6:if (= trap undefined) 6:{
     7:app __x2__ = (Construct target argumentsList newTarget)
     7:return [? __x2__]
-  } else 13:{}
+  } else 6:{}
   8:app __x3__ = (CreateArrayFromList argumentsList)
   8:let argArray = [! __x3__]
   9:app __x4__ = (Call trap handler (new [target, argArray, newTarget]))
   9:let newObj = [? __x4__]
-  10:if (! (= (typeof newObj) Object)) throw TypeError else 13:{}
+  10:if (! (= (typeof newObj) Object)) 10:throw TypeError else 10:{}
   11:return newObj
 }
 - id: "sec-proxy-object-internal-methods-and-internal-slots-construct-argumentslist-newtarget"

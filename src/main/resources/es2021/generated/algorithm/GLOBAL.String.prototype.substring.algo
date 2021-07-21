@@ -6,9 +6,9 @@ def [BUILTIN] String.prototype.substring(start, end) = {
   2:let len = S.length
   3:app __x2__ = (ToIntegerOrInfinity start)
   3:let intStart = [? __x2__]
-  4:if (= end undefined) let intEnd = len else {
-    app __x3__ = (ToIntegerOrInfinity end)
-    let intEnd = [? __x3__]
+  4:if (= end undefined) 4:let intEnd = len else 5:{
+    5:app __x3__ = (ToIntegerOrInfinity end)
+    5:let intEnd = [? __x3__]
   }
   5:??? "Let id:{finalStart} be the result of clamping id:{intStart} between 0 and id:{len} ."
   6:??? "Let id:{finalEnd} be the result of clamping id:{intEnd} between 0 and id:{len} ."
@@ -18,10 +18,10 @@ def [BUILTIN] String.prototype.substring(start, end) = {
   8:let to = __x5__
   9:let __x6__ = ""
   9:let __x7__ = from
-  9:while (< __x7__ to) {
-    access __x8__ = (S __x7__)
-    __x6__ = (+ __x6__ __x8__)
-    __x7__ = (+ __x7__ 1i)
+  9:while (< __x7__ to) 9:{
+    9:access __x8__ = (S __x7__)
+    9:__x6__ = (+ __x6__ __x8__)
+    9:__x7__ = (+ __x7__ 1i)
   }
   9:return __x6__
 }

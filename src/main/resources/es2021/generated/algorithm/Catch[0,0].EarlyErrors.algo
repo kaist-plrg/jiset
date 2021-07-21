@@ -1,7 +1,7 @@
 def [SYNTAX] Catch[0,0].EarlyErrors<(CatchParameter, Block),true>() = {
   0:access __x0__ = (CatchParameter "BoundNames")
   0:app __x1__ = (IsDuplicate __x0__)
-  0:if __x1__ throw SyntaxError else 2:{}
+  0:if __x1__ 0:throw SyntaxError else 0:{}
   1:access __x2__ = (CatchParameter "BoundNames")
   1:access __x3__ = (Block "LexicallyDeclaredNames")
   1:let __x4__ = __x2__
@@ -9,11 +9,11 @@ def [SYNTAX] Catch[0,0].EarlyErrors<(CatchParameter, Block),true>() = {
   1:let __x6__ = 0i
   1:let __x7__ = 0i
   1:let __x8__ = false
-  1:while (< __x6__ __x4__.length) {
-    __x7__ = 0i
-    while (< __x7__ __x5__.length) if (= __x4__[__x6__] __x5__[__x7__]) __x8__ = true else 2:{}
+  1:while (< __x6__ __x4__.length) 1:{
+    1:__x7__ = 0i
+    1:while (< __x7__ __x5__.length) 1:if (= __x4__[__x6__] __x5__[__x7__]) 1:__x8__ = true else 1:{}
   }
-  1:if __x8__ throw SyntaxError else 2:{}
+  1:if __x8__ 1:throw SyntaxError else 1:{}
   2:access __x9__ = (CatchParameter "BoundNames")
   2:access __x10__ = (Block "VarDeclaredNames")
   2:let __x11__ = __x9__
@@ -21,11 +21,11 @@ def [SYNTAX] Catch[0,0].EarlyErrors<(CatchParameter, Block),true>() = {
   2:let __x13__ = 0i
   2:let __x14__ = 0i
   2:let __x15__ = false
-  2:while (< __x13__ __x11__.length) {
-    __x14__ = 0i
-    while (< __x14__ __x12__.length) if (= __x11__[__x13__] __x12__[__x14__]) __x15__ = true else 2:{}
+  2:while (< __x13__ __x11__.length) 2:{
+    2:__x14__ = 0i
+    2:while (< __x14__ __x12__.length) 2:if (= __x11__[__x13__] __x12__[__x14__]) 2:__x15__ = true else 2:{}
   }
-  2:if __x15__ throw SyntaxError else 2:{}
+  2:if __x15__ 2:throw SyntaxError else 2:{}
 }
 - id: "sec-try-statement-static-semantics-early-errors"
 - code:

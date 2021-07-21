@@ -4,20 +4,20 @@ def CreateDynamicFunction(constructor, newTarget, kind, args) = {
   3:let calleeRealm = REALM
   4:app __x0__ = (HostEnsureCanCompileStrings callerRealm calleeRealm)
   4:[? __x0__]
-  5:if (= newTarget undefined) newTarget = constructor else 73:{}
-  18:if (= kind CONST_normal) {
+  5:if (= newTarget undefined) 5:newTarget = constructor else 5:{}
+  6:if (= kind CONST_normal) 6:{
     7:??? "Let id:{goal} be the grammar symbol | FunctionBody [ ~ Yield , ~ Await ] | ."
     8:??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ ~ Yield , ~ Await ] | ."
     9:let fallbackProto = "%Function.prototype%"
-  } else if (= kind CONST_generator) {
+  } else 6:if (= kind CONST_generator) 10:{
     11:let goal = "GeneratorBody"
     12:??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ + Yield , ~ Await ] | ."
     13:let fallbackProto = "%GeneratorFunction.prototype%"
-  } else if (= kind CONST_async) {
+  } else 6:if (= kind CONST_async) 14:{
     15:let goal = "AsyncFunctionBody"
     16:??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ ~ Yield , + Await ] | ."
     17:let fallbackProto = "%AsyncFunction.prototype%"
-  } else {
+  } else 18:{
     19:assert (= kind CONST_asyncGenerator)
     20:let goal = "AsyncGeneratorBody"
     21:??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ + Yield , + Await ] | ."
@@ -25,13 +25,13 @@ def CreateDynamicFunction(constructor, newTarget, kind, args) = {
   }
   23:let argCount = args.length
   24:let P = ""
-  27:if (== argCount 0i) let bodyArg = "" else if (== argCount 1i) let bodyArg = args[0i] else {
+  25:if (== argCount 0i) 25:let bodyArg = "" else 25:if (== argCount 1i) 26:let bodyArg = args[0i] else 27:{
     28:assert (< 1i argCount)
     29:let firstArg = args[0i]
     30:app __x1__ = (ToString firstArg)
     30:P = [? __x1__]
     31:let k = 1i
-    32:while (< k (- argCount 1i)) {
+    32:while (< k (- argCount 1i)) 32:{
       33:let nextArg = args[k]
       34:app __x2__ = (ToString nextArg)
       34:let nextArgString = [? __x2__]
@@ -55,20 +55,20 @@ def CreateDynamicFunction(constructor, newTarget, kind, args) = {
   64:let F = [! __x6__]
   65:app __x7__ = (SetFunctionName F "anonymous")
   65:__x7__
-  72:if (= kind CONST_generator) {
+  66:if (= kind CONST_generator) 66:{
     67:app __x8__ = (OrdinaryObjectCreate INTRINSICS["%GeneratorFunction.prototype.prototype%"])
     67:let prototype = [! __x8__]
     68:app __x9__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     68:__x9__
-  } else if (= kind CONST_asyncGenerator) {
+  } else 66:if (= kind CONST_asyncGenerator) 69:{
     70:app __x10__ = (OrdinaryObjectCreate INTRINSICS["%AsyncGeneratorFunction.prototype.prototype%"])
     70:let prototype = [! __x10__]
     71:app __x11__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     71:__x11__
-  } else if (= kind CONST_normal) {
-    app __x12__ = (MakeConstructor F)
-    __x12__
-  } else 73:{}
+  } else 66:if (= kind CONST_normal) 72:{
+    72:app __x12__ = (MakeConstructor F)
+    72:__x12__
+  } else 66:{}
   74:return F
 }
 - id: "sec-createdynamicfunction"

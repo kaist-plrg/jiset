@@ -1,6 +1,6 @@
 def Construct(F, argumentsList?, newTarget?) = {
-  0:if (= newTarget absent) newTarget = F else 4:{}
-  1:if (= argumentsList absent) argumentsList = (new []) else 4:{}
+  0:if (= newTarget absent) 0:newTarget = F else 0:{}
+  1:if (= argumentsList absent) 1:argumentsList = (new []) else 1:{}
   2:app __x0__ = (IsConstructor F)
   2:assert (= __x0__ true)
   3:app __x1__ = (IsConstructor newTarget)

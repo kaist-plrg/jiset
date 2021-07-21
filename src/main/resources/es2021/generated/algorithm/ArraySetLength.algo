@@ -1,15 +1,15 @@
 def ArraySetLength(A, Desc) = {
-  0:if (= Desc.Value absent) {
+  0:if (= Desc.Value absent) 0:{
     1:app __x0__ = (OrdinaryDefineOwnProperty A "length" Desc)
     1:return __x0__
-  } else 16:{}
+  } else 0:{}
   2:let newLenDesc = (copy-obj Desc)
   3:app __x1__ = (ToUint32 Desc.Value)
   3:let newLen = [? __x1__]
   4:app __x2__ = (ToNumber Desc.Value)
   4:let numberLen = [? __x2__]
   5:app __x3__ = (SameValueZero newLen numberLen)
-  5:if (= __x3__ false) throw RangeError else 16:{}
+  5:if (= __x3__ false) 5:throw RangeError else 5:{}
   6:newLenDesc.Value = newLen
   7:app __x4__ = (OrdinaryGetOwnProperty A "length")
   7:let oldLenDesc = [! __x4__]
@@ -17,43 +17,43 @@ def ArraySetLength(A, Desc) = {
   8:assert (= [! __x5__] true)
   9:assert (= oldLenDesc.Configurable false)
   10:let oldLen = oldLenDesc.Value
-  11:if (! (< newLen oldLen)) {
+  11:if (! (< newLen oldLen)) 11:{
     12:app __x6__ = (OrdinaryDefineOwnProperty A "length" newLenDesc)
     12:return __x6__
-  } else 16:{}
-  13:if (= oldLenDesc.Writable false) return false else 16:{}
-  15:if (|| (= newLenDesc.Writable absent) (= newLenDesc.Writable true)) let newWritable = true else {
+  } else 11:{}
+  13:if (= oldLenDesc.Writable false) 13:return false else 13:{}
+  14:if (|| (= newLenDesc.Writable absent) (= newLenDesc.Writable true)) 14:let newWritable = true else 15:{
     17:let newWritable = false
     18:newLenDesc.Writable = true
   }
   19:app __x7__ = (OrdinaryDefineOwnProperty A "length" newLenDesc)
   19:let succeeded = [! __x7__]
-  20:if (= succeeded false) return false else 16:{}
+  20:if (= succeeded false) 20:return false else 20:{}
   21:let __x8__ = (map-keys A.SubMap [int-sorted])
   21:let __x9__ = __x8__.length
-  21:while (< 0i __x9__) {
-    __x9__ = (- __x9__ 1i)
-    let P = __x8__[__x9__]
-    let __x10__ = (convert P str2num )
-    app __x11__ = (IsArrayIndex P)
-    if (&& __x11__ (! (< __x10__ newLen))) {
-      app __x12__ = (A.Delete A P)
-      let deleteSucceeded = [! __x12__]
-      if (= deleteSucceeded false) {
-        app __x13__ = (ToUint32 P)
-        newLenDesc.Value = [! (+ __x13__ 1i)]
-        if (= newWritable false) newLenDesc.Writable = false else {}
-        app __x14__ = (OrdinaryDefineOwnProperty A "length" newLenDesc)
-        [! __x14__]
-        return false
-      } else {}
-    } else {}
+  21:while (< 0i __x9__) 21:{
+    21:__x9__ = (- __x9__ 1i)
+    21:let P = __x8__[__x9__]
+    21:let __x10__ = (convert P str2num )
+    21:app __x11__ = (IsArrayIndex P)
+    21:if (&& __x11__ (! (< __x10__ newLen))) 21:{
+      22:app __x12__ = (A.Delete A P)
+      22:let deleteSucceeded = [! __x12__]
+      23:if (= deleteSucceeded false) 23:{
+        24:app __x13__ = (ToUint32 P)
+        24:newLenDesc.Value = [! (+ __x13__ 1i)]
+        25:if (= newWritable false) 25:newLenDesc.Writable = false else 25:{}
+        26:app __x14__ = (OrdinaryDefineOwnProperty A "length" newLenDesc)
+        26:[! __x14__]
+        27:return false
+      } else 23:{}
+    } else 21:{}
   }
-  28:if (= newWritable false) {
+  28:if (= newWritable false) 28:{
     29:app __x15__ = (OrdinaryDefineOwnProperty A "length" (new PropertyDescriptor("Writable" -> false)))
     29:let succeeded = [! __x15__]
     30:assert (= succeeded true)
-  } else 16:{}
+  } else 28:{}
   31:return true
 }
 - id: "sec-arraysetlength"
@@ -65,7 +65,7 @@ def ArraySetLength(A, Desc) = {
           1. [id="step-arraysetlength-numberlen"] Let _numberLen_ be ? ToNumber(_Desc_.[[Value]]).
           1. If SameValueZero(_newLen_, _numberLen_) is *false*, throw a *RangeError* exception.
           1. Set _newLenDesc_.[[Value]] to _newLen_.
-          1. Let _oldLenDesc_ be OrdinaryGetOwnProperty(_A_, *"length"*).
+          1. Let _oldLenDesc_ be ! OrdinaryGetOwnProperty(_A_, *"length"*).
           1. Assert: ! IsDataDescriptor(_oldLenDesc_) is *true*.
           1. Assert: _oldLenDesc_.[[Configurable]] is *false*.
           1. Let _oldLen_ be _oldLenDesc_.[[Value]].

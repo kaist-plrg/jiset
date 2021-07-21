@@ -1,6 +1,6 @@
 def [METHOD] DeclarativeEnvironmentRecord.CreateMutableBinding(envRec)(N, D) = {
   1:envRec.SubMap[N] = (new MutableBinding("initialized" -> false))
-  1:if (= D true) envRec.SubMap[N].maybeDeleted = true else {}
+  1:if (= D true) 1:envRec.SubMap[N].maybeDeleted = true else 1:{}
   2:return CONST_empty
 }
 - id: "sec-declarative-environment-records-createmutablebinding-n-d"

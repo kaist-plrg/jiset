@@ -1,12 +1,12 @@
 def IsRegExp(argument) = {
-  0:if (! (= (typeof argument) Object)) return false else 0:{}
+  0:if (! (= (typeof argument) Object)) 0:return false else 0:{}
   1:app __x0__ = (Get argument SYMBOL_match)
   1:let matcher = [? __x0__]
-  2:if (! (= matcher undefined)) {
-    app __x1__ = (ToBoolean matcher)
-    return [! __x1__]
-  } else 0:{}
-  3:if (! (= argument.RegExpMatcher absent)) return true else 0:{}
+  2:if (! (= matcher undefined)) 2:{
+    2:app __x1__ = (ToBoolean matcher)
+    2:return [! __x1__]
+  } else 2:{}
+  3:if (! (= argument.RegExpMatcher absent)) 3:return true else 3:{}
   4:return false
 }
 - id: "sec-isregexp"

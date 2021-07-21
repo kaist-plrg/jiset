@@ -3,35 +3,35 @@ def [BUILTIN] Number.prototype.toFixed(fractionDigits) = {
   0:let x = [? __x0__]
   1:app __x1__ = (ToIntegerOrInfinity fractionDigits)
   1:let f = [? __x1__]
-  3:if (|| (|| (= f Infinity) (= f -Infinity)) (= f NaN)) throw RangeError else 2:{}
-  4:if (|| (< f 0i) (< 100i f)) throw RangeError else 2:{}
-  5:if (|| (|| (= x Infinity) (= x -Infinity)) (= x NaN)) {
-    app __x2__ = (PRIMITIVE[Number].toString x)
-    return [! __x2__]
-  } else 2:{}
+  3:if (|| (|| (= f Infinity) (= f -Infinity)) (= f NaN)) 3:throw RangeError else 3:{}
+  4:if (|| (< f 0i) (< 100i f)) 4:throw RangeError else 4:{}
+  5:if (|| (|| (= x Infinity) (= x -Infinity)) (= x NaN)) 5:{
+    5:app __x2__ = (PRIMITIVE[Number].toString x)
+    5:return [! __x2__]
+  } else 5:{}
   6:x = x
   7:let s = ""
-  8:if (< x 0i) {
+  8:if (< x 0i) 8:{
     9:s = "-"
     10:x = (- x)
-  } else 2:{}
-  13:if (! (< x (** 10i 21i))) {
+  } else 8:{}
+  11:if (! (< x (** 10i 21i))) 11:{
     12:app __x3__ = (ToString x)
     12:let m = [! __x3__]
-  } else {
+  } else 13:{
     14:??? "Let id:{n} be an integer for which id:{n} / 10 sup:{id:{f}} - id:{x} is as close to zero as possible . If there are two such id:{n} , pick the larger id:{n} ."
     15:??? "If id:{n} = 0 , let id:{m} be the String value:{\"0\"} . Otherwise , let id:{m} be the String value consisting of the digits of the decimal representation of id:{n} ( in order , with no leading zeroes ) ."
-    16:if (! (== f 0i)) {
+    16:if (! (== f 0i)) 16:{
       17:let k = m.length
-      18:if (! (< f k)) {
+      18:if (! (< f k)) 18:{
         19:??? "Let id:{z} be the String value consisting of id:{f} + 1 - id:{k} occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
         20:m = (+ z m)
         21:k = (+ f 1i)
-      } else 2:{}
+      } else 18:{}
       22:??? "Let id:{a} be the first id:{k} - id:{f} code units of id:{m} ."
       23:??? "Let id:{b} be the other id:{f} code units of id:{m} ."
       24:m = (+ (+ a ".") b)
-    } else 2:{}
+    } else 16:{}
   }
   25:return (+ s m)
 }

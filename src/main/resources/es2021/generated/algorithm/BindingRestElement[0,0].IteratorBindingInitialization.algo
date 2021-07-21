@@ -5,27 +5,27 @@ def [SYNTAX] BindingRestElement[0,0].IteratorBindingInitialization<(BindingIdent
   1:app __x2__ = (ArrayCreate 0i)
   1:let A = [! __x2__]
   2:let n = 0i
-  3:while true {
-    4:if (= iteratorRecord.Done false) {
+  3:while true 3:{
+    4:if (= iteratorRecord.Done false) 4:{
       5:app __x3__ = (IteratorStep iteratorRecord)
       5:let next = __x3__
       6:app __x4__ = (IsAbruptCompletion next)
-      6:if __x4__ iteratorRecord.Done = true else 1:{}
+      6:if __x4__ 6:iteratorRecord.Done = true else 6:{}
       7:[? next]
-      8:if (= next false) iteratorRecord.Done = true else 1:{}
-    } else 1:{}
-    9:if (= iteratorRecord.Done true) {
-      10:if (= environment undefined) {
-        app __x5__ = (PutValue lhs A)
-        return [? __x5__]
-      } else 1:{}
+      8:if (= next false) 8:iteratorRecord.Done = true else 8:{}
+    } else 4:{}
+    9:if (= iteratorRecord.Done true) 9:{
+      10:if (= environment undefined) 10:{
+        10:app __x5__ = (PutValue lhs A)
+        10:return [? __x5__]
+      } else 10:{}
       11:app __x6__ = (InitializeReferencedBinding lhs A)
       11:return __x6__
-    } else 1:{}
+    } else 9:{}
     12:app __x7__ = (IteratorValue next)
     12:let nextValue = __x7__
     13:app __x8__ = (IsAbruptCompletion nextValue)
-    13:if __x8__ iteratorRecord.Done = true else 1:{}
+    13:if __x8__ 13:iteratorRecord.Done = true else 13:{}
     14:[? nextValue]
     15:app __x9__ = (ToString n)
     15:app __x10__ = (CreateDataPropertyOrThrow A [! __x9__] nextValue)

@@ -2,22 +2,22 @@ def [BUILTIN] Math.max(...args) = {
   0:let coerced = (new [])
   1:let __x0__ = args
   1:let __x1__ = 0i
-  1:while (< __x1__ __x0__.length) {
-    let arg = __x0__[__x1__]
+  1:while (< __x1__ __x0__.length) 1:{
+    1:let arg = __x0__[__x1__]
+    1:__x1__ = (+ __x1__ 1i)
     2:app __x2__ = (ToNumber arg)
     2:let n = [? __x2__]
     3:append n -> coerced
-    __x1__ = (+ __x1__ 1i)
   }
   4:let highest = -Infinity
   5:let __x3__ = coerced
   5:let __x4__ = 0i
-  5:while (< __x4__ __x3__.length) {
-    let number = __x3__[__x4__]
-    6:if (= number NaN) return NaN else 2:{}
-    7:if (&& (= number 0i) (= highest -0.0)) highest = 0i else 2:{}
-    8:if (< highest number) highest = number else 2:{}
-    __x4__ = (+ __x4__ 1i)
+  5:while (< __x4__ __x3__.length) 5:{
+    5:let number = __x3__[__x4__]
+    5:__x4__ = (+ __x4__ 1i)
+    6:if (= number NaN) 6:return NaN else 6:{}
+    7:if (&& (= number 0i) (= highest -0.0)) 7:highest = 0i else 7:{}
+    8:if (< highest number) 8:highest = number else 8:{}
   }
   9:return highest
 }

@@ -1,10 +1,10 @@
 def [METHOD] ModuleNamespaceExoticObject.GetOwnProperty(O)(P) = {
-  0:if (= (typeof P) Symbol) {
-    app __x0__ = (OrdinaryGetOwnProperty O P)
-    return __x0__
+  0:if (= (typeof P) Symbol) 0:{
+    0:app __x0__ = (OrdinaryGetOwnProperty O P)
+    0:return __x0__
   } else 0:{}
   1:let exports = O.Exports
-  2:if (! (contains exports P)) return undefined else 0:{}
+  2:if (! (contains exports P)) 2:return undefined else 2:{}
   3:app __x1__ = (O.Get O P O)
   3:let value = [? __x1__]
   4:return (new PropertyDescriptor("Value" -> value, "Writable" -> true, "Enumerable" -> true, "Configurable" -> false))

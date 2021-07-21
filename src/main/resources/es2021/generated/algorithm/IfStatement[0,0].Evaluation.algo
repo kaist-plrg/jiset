@@ -4,10 +4,10 @@ def [SYNTAX] IfStatement[0,0].Evaluation<(Expression, Statement0, Statement1),tr
   1:app __x1__ = (GetValue exprRef)
   1:app __x2__ = (ToBoolean [? __x1__])
   1:let exprValue = [! __x2__]
-  4:if (= exprValue true) {
+  2:if (= exprValue true) 2:{
     3:access __x3__ = (Statement0 "Evaluation")
     3:let stmtCompletion = __x3__
-  } else {
+  } else 4:{
     5:access __x4__ = (Statement1 "Evaluation")
     5:let stmtCompletion = __x4__
   }

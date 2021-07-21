@@ -1,7 +1,7 @@
 def Call(F, V, argumentsList?) = {
-  0:if (= argumentsList absent) argumentsList = (new []) else 4:{}
+  0:if (= argumentsList absent) 0:argumentsList = (new []) else 0:{}
   1:app __x0__ = (IsCallable F)
-  1:if (= __x0__ false) throw TypeError else 4:{}
+  1:if (= __x0__ false) 1:throw TypeError else 1:{}
   2:app __x1__ = (F.Call F V argumentsList)
   2:return [? __x1__]
 }

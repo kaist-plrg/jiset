@@ -1,10 +1,10 @@
 def [BUILTIN] Math.log(x) = {
   0:app __x0__ = (ToNumber x)
   0:let n = [? __x0__]
-  1:if (|| (= n NaN) (= n Infinity)) return n else 2:{}
-  2:if (= n 1i) return 0i else 2:{}
-  3:if (|| (= n 0i) (= n -0.0)) return -Infinity else 2:{}
-  4:if (< n 0i) return NaN else 2:{}
+  1:if (|| (= n NaN) (= n Infinity)) 1:return n else 1:{}
+  2:if (= n 1i) 2:return 0i else 2:{}
+  3:if (|| (= n 0i) (= n -0.0)) 3:return -Infinity else 3:{}
+  4:if (< n 0i) 4:return NaN else 4:{}
   5:??? "Return an implementation - approximated value representing the result of the natural logarithm of ℝ ( id:{n} ) ."
 }
 - id: "sec-math.log"

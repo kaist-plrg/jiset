@@ -2,28 +2,28 @@ def [METHOD] ProxyObject.GetOwnProperty(O)(P) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
   1:let handler = O.ProxyHandler
-  2:if (= handler null) throw TypeError else 0:{}
+  2:if (= handler null) 2:throw TypeError else 2:{}
   3:assert (= (typeof handler) Object)
   4:let target = O.ProxyTarget
   5:app __x1__ = (GetMethod handler "getOwnPropertyDescriptor")
   5:let trap = [? __x1__]
-  6:if (= trap undefined) {
+  6:if (= trap undefined) 6:{
     7:app __x2__ = (target.GetOwnProperty target P)
     7:return [? __x2__]
-  } else 0:{}
+  } else 6:{}
   8:app __x3__ = (Call trap handler (new [target, P]))
   8:let trapResultObj = [? __x3__]
-  9:if (! (|| (= (typeof trapResultObj) Object) (= (typeof trapResultObj) Undefined))) throw TypeError else 0:{}
+  9:if (! (|| (= (typeof trapResultObj) Object) (= (typeof trapResultObj) Undefined))) 9:throw TypeError else 9:{}
   10:app __x4__ = (target.GetOwnProperty target P)
   10:let targetDesc = [? __x4__]
-  11:if (= trapResultObj undefined) {
-    12:if (= targetDesc undefined) return undefined else 0:{}
-    13:if (= targetDesc.Configurable false) throw TypeError else 0:{}
+  11:if (= trapResultObj undefined) 11:{
+    12:if (= targetDesc undefined) 12:return undefined else 12:{}
+    13:if (= targetDesc.Configurable false) 13:throw TypeError else 13:{}
     14:app __x5__ = (IsExtensible target)
     14:let extensibleTarget = [? __x5__]
-    15:if (= extensibleTarget false) throw TypeError else 0:{}
+    15:if (= extensibleTarget false) 15:throw TypeError else 15:{}
     16:return undefined
-  } else 0:{}
+  } else 11:{}
   17:app __x6__ = (IsExtensible target)
   17:let extensibleTarget = [? __x6__]
   18:app __x7__ = (ToPropertyDescriptor trapResultObj)
@@ -32,11 +32,11 @@ def [METHOD] ProxyObject.GetOwnProperty(O)(P) = {
   19:__x8__
   20:app __x9__ = (IsCompatiblePropertyDescriptor extensibleTarget resultDesc targetDesc)
   20:let valid = __x9__
-  21:if (= valid false) throw TypeError else 0:{}
-  22:if (= resultDesc.Configurable false) {
-    23:if (|| (= targetDesc undefined) (= targetDesc.Configurable true)) throw TypeError else 0:{}
-    25:if (&& (! (= resultDesc.Writable absent)) (= resultDesc.Writable false)) if (= targetDesc.Writable true) throw TypeError else 0:{} else 0:{}
-  } else 0:{}
+  21:if (= valid false) 21:throw TypeError else 21:{}
+  22:if (= resultDesc.Configurable false) 22:{
+    23:if (|| (= targetDesc undefined) (= targetDesc.Configurable true)) 24:throw TypeError else 23:{}
+    25:if (&& (! (= resultDesc.Writable absent)) (= resultDesc.Writable false)) 26:if (= targetDesc.Writable true) 26:throw TypeError else 26:{} else 25:{}
+  } else 22:{}
   27:return resultDesc
 }
 - id: "sec-proxy-object-internal-methods-and-internal-slots-getownproperty-p"

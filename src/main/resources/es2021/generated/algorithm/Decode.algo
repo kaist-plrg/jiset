@@ -2,36 +2,36 @@ def Decode(string, reservedSet) = {
   0:let strLen = string.length
   1:let R = ""
   2:let k = 0i
-  3:while true {
-    4:if (== k strLen) return R else 71:{}
+  3:while true 3:{
+    4:if (== k strLen) 4:return R else 4:{}
     5:let C = string[k]
-    8:if (! (= C "%")) let S = C else {
+    6:if (! (= C "%")) 7:let S = C else 8:{
       9:let start = k
-      10:if (! (< (+ k 2i) strLen)) throw URIError else 71:{}
+      10:if (! (< (+ k 2i) strLen)) 10:throw URIError else 10:{}
       11:??? "If the code units at index ( id:{k} + 1 ) and ( id:{k} + 2 ) within id:{string} do not represent hexadecimal digits , throw a value:{URIError} exception ."
       12:??? "Let id:{B} be the 8 - bit value represented by the two hexadecimal digits at index ( id:{k} + 1 ) and ( id:{k} + 2 ) ."
       13:k = (+ k 2i)
       14:??? "Let id:{n} be the number of leading 1 bits in id:{B} ."
-      21:if (== n 0i) {
+      15:if (== n 0i) 15:{
         16:let C = B
-        19:if (! (contains reservedSet C)) let S = C else {
+        17:if (! (contains reservedSet C)) 18:let S = C else 19:{
           20:let __x0__ = ""
           20:let __x1__ = start
-          20:while (< __x1__ (+ k 1i)) {
-            access __x2__ = (string __x1__)
-            __x0__ = (+ __x0__ __x2__)
-            __x1__ = (+ __x1__ 1i)
+          20:while (< __x1__ (+ k 1i)) 20:{
+            20:access __x2__ = (string __x1__)
+            20:__x0__ = (+ __x0__ __x2__)
+            20:__x1__ = (+ __x1__ 1i)
           }
           20:let S = __x0__
         }
-      } else {
-        22:if (|| (== n 1i) (< 4i n)) throw URIError else 71:{}
-        23:if (! (< (+ k (* 3i (- n 1i))) strLen)) throw URIError else 71:{}
+      } else 20:{
+        22:if (|| (== n 1i) (< 4i n)) 22:throw URIError else 22:{}
+        23:if (! (< (+ k (* 3i (- n 1i))) strLen)) 23:throw URIError else 23:{}
         24:let Octets = (new [B])
         25:let j = 1i
-        26:while (< j n) {
+        26:while (< j n) 26:{
           27:k = (+ k 1i)
-          28:if (! (= string[k] "%")) throw URIError else 71:{}
+          28:if (! (= string[k] "%")) 28:throw URIError else 28:{}
           29:??? "If the code units at index ( id:{k} + 1 ) and ( id:{k} + 2 ) within id:{string} do not represent hexadecimal digits , throw a value:{URIError} exception ."
           30:??? "Let id:{B} be the 8 - bit value represented by the two hexadecimal digits at index ( id:{k} + 1 ) and ( id:{k} + 2 ) ."
           31:k = (+ k 2i)

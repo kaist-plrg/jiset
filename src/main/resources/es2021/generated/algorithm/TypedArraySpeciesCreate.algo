@@ -4,7 +4,7 @@ def TypedArraySpeciesCreate(exemplar, argumentList) = {
   2:let constructor = [? __x0__]
   3:app __x1__ = (TypedArrayCreate constructor argumentList)
   3:let result = [? __x1__]
-  5:if (! (== result.ContentType exemplar.ContentType)) throw TypeError else 4:{}
+  5:if (! (== result.ContentType exemplar.ContentType)) 5:throw TypeError else 5:{}
   6:return result
 }
 - id: "typedarray-species-create"

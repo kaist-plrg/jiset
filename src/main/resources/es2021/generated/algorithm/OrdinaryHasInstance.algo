@@ -1,21 +1,21 @@
 def OrdinaryHasInstance(C, O) = {
   0:app __x0__ = (IsCallable C)
-  0:if (= __x0__ false) return false else 0:{}
-  1:if (! (= C.BoundTargetFunction absent)) {
+  0:if (= __x0__ false) 0:return false else 0:{}
+  1:if (! (= C.BoundTargetFunction absent)) 1:{
     2:let BC = C.BoundTargetFunction
     3:app __x1__ = (InstanceofOperator O BC)
     3:return [? __x1__]
-  } else 0:{}
-  4:if (! (= (typeof O) Object)) return false else 0:{}
+  } else 1:{}
+  4:if (! (= (typeof O) Object)) 4:return false else 4:{}
   5:app __x2__ = (Get C "prototype")
   5:let P = [? __x2__]
-  6:if (! (= (typeof P) Object)) throw TypeError else 0:{}
-  7:while true {
+  6:if (! (= (typeof P) Object)) 6:throw TypeError else 6:{}
+  7:while true 7:{
     8:app __x3__ = (O.GetPrototypeOf O)
     8:O = [? __x3__]
-    9:if (= O null) return false else 0:{}
+    9:if (= O null) 9:return false else 9:{}
     10:app __x4__ = (SameValue P O)
-    10:if (= __x4__ true) return true else 0:{}
+    10:if (= __x4__ true) 10:return true else 10:{}
   }
 }
 - id: "sec-ordinaryhasinstance"

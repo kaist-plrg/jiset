@@ -1,14 +1,14 @@
 def [METHOD] IntegerIndexedExoticObject.Delete(O)(P) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
-  2:if (= (typeof P) String) {
+  2:if (= (typeof P) String) 2:{
     3:app __x1__ = (CanonicalNumericIndexString P)
     3:let numericIndex = [! __x1__]
-    4:if (! (= numericIndex undefined)) {
+    4:if (! (= numericIndex undefined)) 4:{
       5:app __x2__ = (IsValidIntegerIndex O numericIndex)
-      5:if (= [! __x2__] false) return true else return false
-    } else 1:{}
-  } else 1:{}
+      5:if (= [! __x2__] false) 5:return true else 5:return false
+    } else 4:{}
+  } else 2:{}
   6:app __x3__ = (OrdinaryDelete O P)
   6:return [? __x3__]
 }

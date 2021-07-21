@@ -3,10 +3,10 @@ def [BUILTIN] Date.prototype.setUTCMonth(month, date?) = {
   0:let t = [? __x0__]
   1:app __x1__ = (ToNumber month)
   1:let m = [? __x1__]
-  3:if (= date absent) {
-    app __x2__ = (DateFromTime t)
-    let dt = __x2__
-  } else {
+  2:if (= date absent) 2:{
+    2:app __x2__ = (DateFromTime t)
+    2:let dt = __x2__
+  } else 3:{
     4:app __x3__ = (ToNumber date)
     4:let dt = [? __x3__]
   }

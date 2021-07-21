@@ -5,10 +5,10 @@ def [SYNTAX] SpreadElement[0,0].ArrayAccumulation<(AssignmentExpression),true>(a
   1:let spreadObj = [? __x1__]
   2:app __x2__ = (GetIterator spreadObj)
   2:let iteratorRecord = [? __x2__]
-  3:while true {
+  3:while true 3:{
     4:app __x3__ = (IteratorStep iteratorRecord)
     4:let next = [? __x3__]
-    5:if (= next false) return nextIndex else 2:{}
+    5:if (= next false) 5:return nextIndex else 5:{}
     6:app __x4__ = (IteratorValue next)
     6:let nextValue = [? __x4__]
     7:app __x5__ = (ToString nextIndex)

@@ -4,18 +4,18 @@ def [BUILTIN] AsyncFromSyncIteratorPrototype.next(value?) = {
   2:app __x0__ = (NewPromiseCapability INTRINSICS["%Promise%"])
   2:let promiseCapability = [! __x0__]
   3:let syncIteratorRecord = O.SyncIteratorRecord
-  6:if (! (= value absent)) {
+  4:if (! (= value absent)) 4:{
     5:app __x1__ = (IteratorNext syncIteratorRecord value)
     5:let result = __x1__
-  } else {
+  } else 6:{
     7:app __x2__ = (IteratorNext syncIteratorRecord)
     7:let result = __x2__
   }
-  8:if (is-completion result) if (= result.Type CONST_normal) result = result.Value else {
-    app __x3__ = (Call promiseCapability.Reject undefined (new [result.Value]))
-    if (&& (is-completion __x3__) (! (= __x3__.Type CONST_normal))) return __x3__ else 7:{}
-    return promiseCapability.Promise
-  } else 7:{}
+  8:if (is-completion result) 8:if (= result.Type CONST_normal) 8:result = result.Value else 9:{
+    9:app __x3__ = (Call promiseCapability.Reject undefined (new [result.Value]))
+    9:if (&& (is-completion __x3__) (! (= __x3__.Type CONST_normal))) 9:return __x3__ else 9:{}
+    9:return promiseCapability.Promise
+  } else 8:{}
   8:result
   9:app __x4__ = (AsyncFromSyncIteratorContinuation result promiseCapability)
   9:return [! __x4__]

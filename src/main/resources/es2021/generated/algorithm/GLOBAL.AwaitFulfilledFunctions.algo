@@ -6,10 +6,10 @@ def [BUILTIN] AwaitFulfilledFunctions(value) = {
   4:append asyncContext -> EXECUTION_STACK
   4:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   5:app __x0__ = (NormalCompletion value)
-  5:withcont __x1__ () = {
-    if (= asyncContext.ReturnCont absent) asyncContext.ReturnCont = (new []) else {}
-    append __x1__ -> asyncContext.ReturnCont
-    app _ = (asyncContext.ResumeCont __x0__)
+  5:withcont __x1__ () = 5:{
+    5:if (= asyncContext.ReturnCont absent) 5:asyncContext.ReturnCont = (new []) else 5:{}
+    5:append __x1__ -> asyncContext.ReturnCont
+    5:app _ = (asyncContext.ResumeCont __x0__)
   }
   7:return undefined
 }

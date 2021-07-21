@@ -5,14 +5,14 @@ def [METHOD] GlobalEnvironmentRecord.CreateGlobalVarBinding(envRec)(N, D) = {
   2:let hasProperty = [? __x0__]
   3:app __x1__ = (IsExtensible globalObject)
   3:let extensible = [? __x1__]
-  4:if (&& (= hasProperty false) (= extensible true)) {
+  4:if (&& (= hasProperty false) (= extensible true)) 4:{
     5:app __x2__ = (ObjRec.CreateMutableBinding ObjRec N D)
     5:[? __x2__]
     6:app __x3__ = (ObjRec.InitializeBinding ObjRec N undefined)
     6:[? __x3__]
-  } else 3:{}
+  } else 4:{}
   7:let varDeclaredNames = envRec.VarNames
-  8:if (! (contains varDeclaredNames N)) append N -> varDeclaredNames else 3:{}
+  8:if (! (contains varDeclaredNames N)) 9:append N -> varDeclaredNames else 8:{}
   10:return CONST_empty
 }
 - id: "sec-createglobalvarbinding"

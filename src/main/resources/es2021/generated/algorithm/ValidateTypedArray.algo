@@ -4,7 +4,7 @@ def ValidateTypedArray(O) = {
   1:assert (! (= O.ViewedArrayBuffer absent))
   2:let buffer = O.ViewedArrayBuffer
   3:app __x1__ = (IsDetachedBuffer buffer)
-  3:if (= __x1__ true) throw TypeError else 4:{}
+  3:if (= __x1__ true) 3:throw TypeError else 3:{}
   4:return buffer
 }
 - id: "sec-validatetypedarray"

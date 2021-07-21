@@ -1,7 +1,7 @@
 def BinaryXor(x, y) = {
   0:assert (|| (= x 0i) (= x 1i))
   1:assert (|| (= y 0i) (= y 1i))
-  4:if (&& (= x 1i) (= y 0i)) return 1i else if (&& (= x 0i) (= y 1i)) return 1i else return 0i
+  2:if (&& (= x 1i) (= y 0i)) 2:return 1i else 2:if (&& (= x 0i) (= y 1i)) 3:return 1i else 2:return 0i
 }
 - id: "sec-binaryxor"
 - code:

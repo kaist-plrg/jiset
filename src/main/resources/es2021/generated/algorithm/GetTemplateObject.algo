@@ -3,10 +3,10 @@ def GetTemplateObject(templateLiteral) = {
   1:let templateRegistry = realm.TemplateMap
   2:let __x0__ = templateRegistry
   2:let __x1__ = 0i
-  2:while (< __x1__ __x0__.length) {
-    let e = __x0__[__x1__]
+  2:while (< __x1__ __x0__.length) 2:{
+    2:let e = __x0__[__x1__]
+    2:__x1__ = (+ __x1__ 1i)
     3:??? "If id:{e} . [ [ Site ] ] is the same Parse Node as id:{templateLiteral} , then in:{} out:{}"
-    __x1__ = (+ __x1__ 1i)
   }
   5:access __x2__ = (templateLiteral "TemplateStrings" true)
   5:let rawStrings = __x2__
@@ -19,7 +19,7 @@ def GetTemplateObject(templateLiteral) = {
   10:app __x5__ = (ArrayCreate count)
   10:let rawObj = [! __x5__]
   11:let index = 0i
-  12:while (< index count) {
+  12:while (< index count) 12:{
     13:app __x6__ = (ToString index)
     13:let prop = [! __x6__]
     14:let cookedValue = cookedStrings[index]

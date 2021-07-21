@@ -5,15 +5,15 @@ def StringPad(O, maxLength, fillString, placement) = {
   2:app __x1__ = (ToLength maxLength)
   2:let intMaxLength = [? __x1__]
   3:let stringLength = S.length
-  4:if (! (< stringLength intMaxLength)) return S else 4:{}
-  6:if (= fillString undefined) let filler = " " else {
-    app __x2__ = (ToString fillString)
-    let filler = [? __x2__]
+  4:if (! (< stringLength intMaxLength)) 4:return S else 4:{}
+  5:if (= fillString undefined) 5:let filler = " " else 6:{
+    6:app __x2__ = (ToString fillString)
+    6:let filler = [? __x2__]
   }
-  7:if (= filler "") return S else 4:{}
+  7:if (= filler "") 7:return S else 7:{}
   8:let fillLen = (- intMaxLength stringLength)
   9:??? "Let id:{truncatedStringFiller} be the String value consisting of repeated concatenations of id:{filler} truncated to length id:{fillLen} ."
-  11:if (= placement CONST_start) return (+ truncatedStringFiller S) else return (+ S truncatedStringFiller)
+  10:if (= placement CONST_start) 10:return (+ truncatedStringFiller S) else 10:return (+ S truncatedStringFiller)
 }
 - id: "sec-stringpad"
 - code:

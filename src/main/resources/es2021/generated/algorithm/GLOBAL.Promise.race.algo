@@ -4,35 +4,35 @@ def [BUILTIN] Promise.race(iterable) = {
   1:let promiseCapability = [? __x0__]
   2:app __x1__ = (GetPromiseResolve C)
   2:let promiseResolve = __x1__
-  3:if (is-completion promiseResolve) if (= promiseResolve.Type CONST_normal) promiseResolve = promiseResolve.Value else {
-    app __x2__ = (Call promiseCapability.Reject undefined (new [promiseResolve.Value]))
-    if (&& (is-completion __x2__) (! (= __x2__.Type CONST_normal))) return __x2__ else 10:{}
-    return promiseCapability.Promise
-  } else 10:{}
+  3:if (is-completion promiseResolve) 3:if (= promiseResolve.Type CONST_normal) 3:promiseResolve = promiseResolve.Value else 4:{
+    4:app __x2__ = (Call promiseCapability.Reject undefined (new [promiseResolve.Value]))
+    4:if (&& (is-completion __x2__) (! (= __x2__.Type CONST_normal))) 4:return __x2__ else 4:{}
+    4:return promiseCapability.Promise
+  } else 3:{}
   3:promiseResolve
   4:app __x3__ = (GetIterator iterable)
   4:let iteratorRecord = __x3__
-  5:if (is-completion iteratorRecord) if (= iteratorRecord.Type CONST_normal) iteratorRecord = iteratorRecord.Value else {
-    app __x4__ = (Call promiseCapability.Reject undefined (new [iteratorRecord.Value]))
-    if (&& (is-completion __x4__) (! (= __x4__.Type CONST_normal))) return __x4__ else 10:{}
-    return promiseCapability.Promise
-  } else 10:{}
+  5:if (is-completion iteratorRecord) 5:if (= iteratorRecord.Type CONST_normal) 5:iteratorRecord = iteratorRecord.Value else 6:{
+    6:app __x4__ = (Call promiseCapability.Reject undefined (new [iteratorRecord.Value]))
+    6:if (&& (is-completion __x4__) (! (= __x4__.Type CONST_normal))) 6:return __x4__ else 6:{}
+    6:return promiseCapability.Promise
+  } else 5:{}
   5:iteratorRecord
   6:app __x5__ = (PerformPromiseRace iteratorRecord C promiseCapability promiseResolve)
   6:let result = __x5__
   7:app __x6__ = (IsAbruptCompletion result)
-  7:if __x6__ {
-    8:if (= iteratorRecord.Done false) {
-      app __x7__ = (IteratorClose iteratorRecord result)
-      result = __x7__
-    } else 10:{}
-    9:if (is-completion result) if (= result.Type CONST_normal) result = result.Value else {
-      app __x8__ = (Call promiseCapability.Reject undefined (new [result.Value]))
-      if (&& (is-completion __x8__) (! (= __x8__.Type CONST_normal))) return __x8__ else 10:{}
-      return promiseCapability.Promise
-    } else 10:{}
+  7:if __x6__ 7:{
+    8:if (= iteratorRecord.Done false) 8:{
+      8:app __x7__ = (IteratorClose iteratorRecord result)
+      8:result = __x7__
+    } else 8:{}
+    9:if (is-completion result) 9:if (= result.Type CONST_normal) 9:result = result.Value else 10:{
+      10:app __x8__ = (Call promiseCapability.Reject undefined (new [result.Value]))
+      10:if (&& (is-completion __x8__) (! (= __x8__.Type CONST_normal))) 10:return __x8__ else 10:{}
+      10:return promiseCapability.Promise
+    } else 9:{}
     9:result
-  } else 10:{}
+  } else 7:{}
   10:return result
 }
 - id: "sec-promise.race"

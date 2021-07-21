@@ -3,18 +3,18 @@ def [SYNTAX] AssignmentExpression[8,0].Evaluation<(LeftHandSideExpression, Assig
   0:let lref = __x0__
   1:app __x1__ = (GetValue lref)
   1:let lval = [? __x1__]
-  2:if (! (|| (= lval undefined) (= lval null))) return lval else 3:{}
-  5:let __x2__ = true
-  5:app __x3__ = (IsAnonymousFunctionDefinition AssignmentExpression)
-  5:__x2__ = (= __x3__ true)
-  5:if __x2__ {
-    access __x4__ = (LeftHandSideExpression "IsIdentifierRef")
-    __x2__ = (= __x4__ true)
+  2:if (! (|| (= lval undefined) (= lval null))) 2:return lval else 2:{}
+  3:let __x2__ = true
+  3:app __x3__ = (IsAnonymousFunctionDefinition AssignmentExpression)
+  3:__x2__ = (= __x3__ true)
+  3:if __x2__ 3:{
+    3:access __x4__ = (LeftHandSideExpression "IsIdentifierRef")
+    3:__x2__ = (= __x4__ true)
   } else 3:{}
-  5:if __x2__ {
+  3:if __x2__ 3:{
     4:access __x5__ = (AssignmentExpression "NamedEvaluation" lref.ReferencedName)
     4:let rval = __x5__
-  } else {
+  } else 5:{
     6:access __x6__ = (AssignmentExpression "Evaluation")
     6:let rref = __x6__
     7:app __x7__ = (GetValue rref)

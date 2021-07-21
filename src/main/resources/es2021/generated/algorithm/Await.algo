@@ -14,10 +14,10 @@ def Await(value) = {
   9:onRejected.AsyncContext = asyncContext
   10:app __x3__ = (PerformPromiseThen promise onFulfilled onRejected)
   10:[! __x3__]
-  11:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] asyncContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
+  11:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] asyncContext) 11:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 11:{}
   11:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   12:RET_CONT = (pop asyncContext.ReturnCont 0i)
-  12:asyncContext.ResumeCont = (completion) [=>] return completion
+  12:asyncContext.ResumeCont = (completion) [=>] 12:return completion
   14:app _ = (RET_CONT undefined)
 }
 - id: "await"

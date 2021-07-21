@@ -1,10 +1,10 @@
 def InitializeBoundName(name, value, environment) = {
   0:assert (= (typeof name) String)
-  4:if (! (= environment undefined)) {
+  1:if (! (= environment undefined)) 1:{
     2:app __x0__ = (environment.InitializeBinding environment name value)
     2:__x0__
     3:return undefined
-  } else {
+  } else 4:{
     5:app __x1__ = (ResolveBinding name)
     5:let lhs = __x1__
     6:app __x2__ = (PutValue lhs value)

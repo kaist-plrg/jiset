@@ -1,14 +1,14 @@
 def [SYNTAX] UnaryExpression[3,0].Evaluation<(UnaryExpression),false>() = {
   0:access __x0__ = (UnaryExpression "Evaluation")
   0:let val = __x0__
-  1:if (is-instance-of val ReferenceRecord) {
+  1:if (is-instance-of val ReferenceRecord) 1:{
     2:app __x1__ = (IsUnresolvableReference val)
-    2:if (= __x1__ true) return "undefined" else 3:{}
-  } else 3:{}
+    2:if (= __x1__ true) 2:return "undefined" else 2:{}
+  } else 1:{}
   3:app __x2__ = (GetValue val)
   3:val = [? __x2__]
   4:let t = (typeof val)
-  4:if (= t Undefined) return "undefined" else if (= t Null) return "object" else if (= t Boolean) return "boolean" else if (= t Number) return "number" else if (= t String) return "string" else if (= t Symbol) return "symbol" else if (= t BigInt) return "bigint" else if (= t Object) if (= val.Call absent) return "object" else return "function" else ??? "invalid for `typeof` operator"
+  4:if (= t Undefined) 4:return "undefined" else 4:if (= t Null) 5:return "object" else 4:if (= t Boolean) 6:return "boolean" else 4:if (= t Number) 7:return "number" else 4:if (= t String) 8:return "string" else 4:if (= t Symbol) 9:return "symbol" else 4:if (= t BigInt) 10:return "bigint" else 4:if (= t Object) 11:if (= val.Call absent) 11:return "object" else 11:return "function" else 4:??? "invalid for `typeof` operator"
 }
 - id: "sec-typeof-operator-runtime-semantics-evaluation"
 - code:

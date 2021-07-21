@@ -3,18 +3,18 @@ def GetModifySetValueInBuffer(arrayBuffer, byteIndex, type, value, op, isLittleE
   0:assert (= __x0__ false)
   3:let block = arrayBuffer.ArrayBufferData
   4:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for Element Type id:{type} ."
-  5:if (= isLittleEndian absent) isLittleEndian = AGENT.LittleEndian else 11:{}
+  5:if (= isLittleEndian absent) 5:isLittleEndian = AGENT.LittleEndian else 5:{}
   6:app __x1__ = (NumericToRawBytes type value isLittleEndian)
   6:let rawBytes = __x1__
-  15:app __x2__ = (IsSharedArrayBuffer arrayBuffer)
-  15:if (= __x2__ true) {
+  7:app __x2__ = (IsSharedArrayBuffer arrayBuffer)
+  7:if (= __x2__ true) 7:{
     8:let execution = AGENT.CandidateExecution
     9:??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
     10:??? "Let id:{rawBytesRead} be a List of length id:{elementSize} whose elements are nondeterministically chosen byte values ."
     12:let rmwEvent = (new ReadModifyWriteSharedMemory("Order" -> CONST_SeqCst, "NoTear" -> true, "Block" -> block, "ByteIndex" -> byteIndex, "ElementSize" -> elementSize, "Payload" -> rawBytes, "ModifyOp" -> op))
     13:append rmwEvent -> eventList
     14:append (new ChosenValueRecord("Event" -> rmwEvent, "ChosenValue" -> rawBytesRead)) -> execution.ChosenValues
-  } else {
+  } else 15:{
     16:??? "Let id:{rawBytesRead} be a List of length id:{elementSize} whose elements are the sequence of id:{elementSize} bytes starting with id:{block} [ id:{byteIndex} ] ."
     17:app __x3__ = (op rawBytesRead rawBytes)
     17:let rawBytesModified = __x3__

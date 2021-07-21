@@ -1,12 +1,12 @@
 def RemoveWaiters(WL, c) = {
   1:let L = (new [])
   2:??? "Let id:{S} be a reference to the list of waiters in id:{WL} ."
-  3:while (&& (< 0i c) (< 0i S.length)) {
+  3:while (&& (< 0i c) (< 0i S.length)) 3:{
     4:let W = S[0i]
     5:append W -> L
     6:let __x0__ = 0i
-    6:while (< __x0__ S.length) if (= S[__x0__] W) (pop S __x0__) else __x0__ = (+ __x0__ 1i)
-    7:if (! (|| (|| (= c Infinity) (= c -Infinity)) (= c NaN))) c = (- c 1i) else 0:{}
+    6:while (< __x0__ S.length) 6:if (= S[__x0__] W) 6:(pop S __x0__) else 6:__x0__ = (+ __x0__ 1i)
+    7:if (! (|| (|| (= c Infinity) (= c -Infinity)) (= c NaN))) 7:c = (- c 1i) else 7:{}
   }
   8:return L
 }

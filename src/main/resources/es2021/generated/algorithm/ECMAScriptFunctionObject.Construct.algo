@@ -3,27 +3,27 @@ def [METHOD] ECMAScriptFunctionObject.Construct(F)(argumentsList, newTarget) = {
   1:assert (= (typeof newTarget) Object)
   2:let callerContext = CONTEXT
   3:let kind = F.ConstructorKind
-  4:if (= kind CONST_base) {
+  4:if (= kind CONST_base) 4:{
     5:app __x0__ = (OrdinaryCreateFromConstructor newTarget "%Object.prototype%")
     5:let thisArgument = [? __x0__]
-  } else 7:{}
+  } else 4:{}
   6:app __x1__ = (PrepareForOrdinaryCall F newTarget)
   6:let calleeContext = __x1__
-  8:if (= kind CONST_base) {
-    app __x2__ = (OrdinaryCallBindThis F calleeContext thisArgument)
-    __x2__
-  } else 7:{}
+  8:if (= kind CONST_base) 8:{
+    8:app __x2__ = (OrdinaryCallBindThis F calleeContext thisArgument)
+    8:__x2__
+  } else 8:{}
   9:access __x3__ = (calleeContext "LexicalEnvironment")
   9:let constructorEnv = __x3__
   10:app __x4__ = (OrdinaryCallEvaluateBody F argumentsList)
   10:let result = __x4__
-  11:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else {}
+  11:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] calleeContext) 11:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 11:{}
   11:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  16:if (= result.Type CONST_return) {
-    13:if (= (typeof result.Value) Object) return result.Value else 7:{}
-    14:if (= kind CONST_base) return thisArgument else 7:{}
-    15:if (! (= result.Value undefined)) throw TypeError else 7:{}
-  } else [? result]
+  12:if (= result.Type CONST_return) 12:{
+    13:if (= (typeof result.Value) Object) 13:return result.Value else 13:{}
+    14:if (= kind CONST_base) 14:return thisArgument else 14:{}
+    15:if (! (= result.Value undefined)) 15:throw TypeError else 15:{}
+  } else 12:[? result]
   17:app __x5__ = (constructorEnv.GetThisBinding constructorEnv)
   17:return [? __x5__]
 }

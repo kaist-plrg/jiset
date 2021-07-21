@@ -1,23 +1,23 @@
 def [SYNTAX] AssignmentRestElement[0,0].IteratorDestructuringAssignmentEvaluation<(DestructuringAssignmentTarget),true>(iteratorRecord) = {
-  0:if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) {
+  0:if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) 0:{
     1:access __x0__ = (DestructuringAssignmentTarget "Evaluation")
     1:let lref = __x0__
     2:[? lref]
-  } else 10:{}
+  } else 0:{}
   3:app __x1__ = (ArrayCreate 0i)
   3:let A = [! __x1__]
   4:let n = 0i
-  5:while (= iteratorRecord.Done false) {
+  5:while (= iteratorRecord.Done false) 5:{
     6:app __x2__ = (IteratorStep iteratorRecord)
     6:let next = __x2__
     7:app __x3__ = (IsAbruptCompletion next)
-    7:if __x3__ iteratorRecord.Done = true else 10:{}
+    7:if __x3__ 7:iteratorRecord.Done = true else 7:{}
     8:[? next]
-    10:if (= next false) iteratorRecord.Done = true else {
+    9:if (= next false) 9:iteratorRecord.Done = true else 10:{
       11:app __x4__ = (IteratorValue next)
       11:let nextValue = __x4__
       12:app __x5__ = (IsAbruptCompletion nextValue)
-      12:if __x5__ iteratorRecord.Done = true else 10:{}
+      12:if __x5__ 12:iteratorRecord.Done = true else 12:{}
       13:[? nextValue]
       14:app __x6__ = (ToString n)
       14:app __x7__ = (CreateDataPropertyOrThrow A [! __x6__] nextValue)
@@ -25,10 +25,10 @@ def [SYNTAX] AssignmentRestElement[0,0].IteratorDestructuringAssignmentEvaluatio
       15:n = (+ n 1i)
     }
   }
-  16:if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) {
+  16:if (! (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral))) 16:{
     17:app __x8__ = (PutValue lref A)
     17:return [? __x8__]
-  } else 10:{}
+  } else 16:{}
   18:let nestedAssignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
   19:access __x9__ = (nestedAssignmentPattern "DestructuringAssignmentEvaluation" A)
   19:return __x9__

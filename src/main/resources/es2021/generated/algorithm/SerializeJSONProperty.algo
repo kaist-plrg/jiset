@@ -1,57 +1,57 @@
 def SerializeJSONProperty(state, key, holder) = {
   0:app __x0__ = (Get holder key)
   0:let value = [? __x0__]
-  1:if (|| (= (typeof value) Object) (= (typeof value) BigInt)) {
+  1:if (|| (= (typeof value) Object) (= (typeof value) BigInt)) 1:{
     2:app __x1__ = (GetV value "toJSON")
     2:let toJSON = [? __x1__]
     3:app __x2__ = (IsCallable toJSON)
-    3:if (= __x2__ true) {
+    3:if (= __x2__ true) 3:{
       4:app __x3__ = (Call toJSON value (new [key]))
       4:value = [? __x3__]
-    } else 7:{}
-  } else 7:{}
-  5:if (! (= state.ReplacerFunction undefined)) {
+    } else 3:{}
+  } else 1:{}
+  5:if (! (= state.ReplacerFunction undefined)) 5:{
     6:app __x4__ = (Call state.ReplacerFunction holder (new [key, value]))
     6:value = [? __x4__]
-  } else 7:{}
-  7:if (= (typeof value) Object) if (! (= value.NumberData absent)) {
+  } else 5:{}
+  7:if (= (typeof value) Object) 8:if (! (= value.NumberData absent)) 8:{
     9:app __x5__ = (ToNumber value)
     9:value = [? __x5__]
-  } else if (! (= value.StringData absent)) {
+  } else 8:if (! (= value.StringData absent)) 10:{
     11:app __x6__ = (ToString value)
     11:value = [? __x6__]
-  } else if (! (= value.BooleanData absent)) value = value.BooleanData else if (! (= value.BigIntData absent)) value = value.BigIntData else 7:{} else 7:{}
-  16:if (= value null) return "null" else 7:{}
-  17:if (= value true) return "true" else 7:{}
-  18:if (= value false) return "false" else 7:{}
-  19:if (= (typeof value) String) {
-    app __x7__ = (QuoteJSONString value)
-    return __x7__
-  } else 7:{}
-  20:if (= (typeof value) Number) {
-    21:if (! (|| (|| (= value Infinity) (= value -Infinity)) (= value NaN))) {
-      app __x8__ = (ToString value)
-      return [! __x8__]
-    } else 7:{}
+  } else 8:if (! (= value.BooleanData absent)) 13:value = value.BooleanData else 8:if (! (= value.BigIntData absent)) 15:value = value.BigIntData else 8:{} else 7:{}
+  16:if (= value null) 16:return "null" else 16:{}
+  17:if (= value true) 17:return "true" else 17:{}
+  18:if (= value false) 18:return "false" else 18:{}
+  19:if (= (typeof value) String) 19:{
+    19:app __x7__ = (QuoteJSONString value)
+    19:return __x7__
+  } else 19:{}
+  20:if (= (typeof value) Number) 20:{
+    21:if (! (|| (|| (= value Infinity) (= value -Infinity)) (= value NaN))) 21:{
+      21:app __x8__ = (ToString value)
+      21:return [! __x8__]
+    } else 21:{}
     22:return "null"
-  } else 7:{}
-  23:if (= (typeof value) BigInt) throw TypeError else 7:{}
+  } else 20:{}
+  23:if (= (typeof value) BigInt) 23:throw TypeError else 23:{}
   24:let __x9__ = true
   24:__x9__ = (= (typeof value) Object)
-  24:if __x9__ {
-    app __x10__ = (IsCallable value)
-    __x9__ = (= __x10__ false)
-  } else 7:{}
-  24:if __x9__ {
+  24:if __x9__ 24:{
+    24:app __x10__ = (IsCallable value)
+    24:__x9__ = (= __x10__ false)
+  } else 24:{}
+  24:if __x9__ 24:{
     25:app __x11__ = (IsArray value)
     25:let isArray = [? __x11__]
-    26:if (= isArray true) {
-      app __x12__ = (SerializeJSONArray state value)
-      return [? __x12__]
-    } else 7:{}
+    26:if (= isArray true) 26:{
+      26:app __x12__ = (SerializeJSONArray state value)
+      26:return [? __x12__]
+    } else 26:{}
     27:app __x13__ = (SerializeJSONObject state value)
     27:return [? __x13__]
-  } else 7:{}
+  } else 24:{}
   28:return undefined
 }
 - id: "sec-serializejsonproperty"

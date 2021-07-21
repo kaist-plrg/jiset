@@ -1,26 +1,26 @@
 def [BUILTIN] RegExp(pattern, flags) = {
   0:app __x0__ = (IsRegExp pattern)
   0:let patternIsRegExp = [? __x0__]
-  6:if (= NewTarget undefined) {
+  1:if (= NewTarget undefined) 1:{
     2:let newTarget = CONTEXT.Function
-    3:if (&& (= patternIsRegExp true) (= flags undefined)) {
+    3:if (&& (= patternIsRegExp true) (= flags undefined)) 3:{
       4:app __x1__ = (Get pattern "constructor")
       4:let patternConstructor = [? __x1__]
       5:app __x2__ = (SameValue newTarget patternConstructor)
-      5:if (= __x2__ true) return pattern else 0:{}
-    } else 0:{}
-  } else let newTarget = NewTarget
-  16:if (&& (= (typeof pattern) Object) (! (= pattern.RegExpMatcher absent))) {
+      5:if (= __x2__ true) 5:return pattern else 5:{}
+    } else 3:{}
+  } else 1:let newTarget = NewTarget
+  7:if (&& (= (typeof pattern) Object) (! (= pattern.RegExpMatcher absent))) 7:{
     8:let P = pattern.OriginalSource
-    10:if (= flags undefined) let F = pattern.OriginalFlags else let F = flags
-  } else if (= patternIsRegExp true) {
+    9:if (= flags undefined) 9:let F = pattern.OriginalFlags else 9:let F = flags
+  } else 7:if (= patternIsRegExp true) 11:{
     12:app __x3__ = (Get pattern "source")
     12:let P = [? __x3__]
-    15:if (= flags undefined) {
+    13:if (= flags undefined) 13:{
       14:app __x4__ = (Get pattern "flags")
       14:let F = [? __x4__]
-    } else let F = flags
-  } else {
+    } else 13:let F = flags
+  } else 16:{
     17:let P = pattern
     18:let F = flags
   }

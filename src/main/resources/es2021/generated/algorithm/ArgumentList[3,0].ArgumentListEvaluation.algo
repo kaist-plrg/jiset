@@ -6,10 +6,10 @@ def [SYNTAX] ArgumentList[3,0].ArgumentListEvaluation<(ArgumentList, AssignmentE
   2:app __x2__ = (GetValue spreadRef)
   2:app __x3__ = (GetIterator [? __x2__])
   2:let iteratorRecord = [? __x3__]
-  3:while true {
+  3:while true 3:{
     4:app __x4__ = (IteratorStep iteratorRecord)
     4:let next = [? __x4__]
-    5:if (= next false) return precedingArgs else 5:{}
+    5:if (= next false) 5:return precedingArgs else 5:{}
     6:app __x5__ = (IteratorValue next)
     6:let nextArg = [? __x5__]
     7:append nextArg -> precedingArgs

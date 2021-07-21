@@ -4,20 +4,20 @@ def %ForInIteratorPrototype%.next() = {
   3:let object = O.Object
   4:let visited = O.VisitedKeys
   5:let remaining = O.RemainingKeys
-  6:while true {
-    7:if (= O.ObjectWasVisited false) {
+  6:while true 6:{
+    7:if (= O.ObjectWasVisited false) 7:{
       8:app __x0__ = (object.OwnPropertyKeys object)
       8:let keys = [? __x0__]
       9:let __x1__ = keys
       9:let __x2__ = 0i
-      9:while (< __x2__ __x1__.length) {
-        let key = __x1__[__x2__]
-        10:if (= (typeof key) String) append key -> remaining else 2:{}
-        __x2__ = (+ __x2__ 1i)
+      9:while (< __x2__ __x1__.length) 9:{
+        9:let key = __x1__[__x2__]
+        9:__x2__ = (+ __x2__ 1i)
+        10:if (= (typeof key) String) 11:append key -> remaining else 10:{}
       }
       12:O.ObjectWasVisited = true
-    } else 2:{}
-    13:while (< 0i remaining.length) {
+    } else 7:{}
+    13:while (< 0i remaining.length) 13:{
       14:let r = remaining[0i]
       15:let __x3__ = (pop remaining 0i)
       16:??? "If there does not exist an element id:{v} of id:{visited} such that SameValue ( id:{r} , id:{v} ) is value:{true} , then in:{} out:{}"
@@ -26,10 +26,10 @@ def %ForInIteratorPrototype%.next() = {
     21:object = [? __x4__]
     22:O.Object = object
     23:O.ObjectWasVisited = false
-    24:if (= object null) {
-      app __x5__ = (CreateIterResultObject undefined true)
-      return __x5__
-    } else 2:{}
+    24:if (= object null) 24:{
+      24:app __x5__ = (CreateIterResultObject undefined true)
+      24:return __x5__
+    } else 24:{}
   }
 }
 - id: "sec-%foriniteratorprototype%.next"

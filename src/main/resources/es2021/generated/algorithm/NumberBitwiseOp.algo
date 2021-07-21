@@ -6,8 +6,9 @@ def NumberBitwiseOp(op, x, y) = {
   2:let rnum = [! __x1__]
   3:let lbits = lnum
   4:let rbits = rnum
-  6:if (= op "&") let result = (& lbits rbits) else if (= op "^") let result = (^ lbits rbits) else 9:{}
-  7:if (= op "|") let result = (| lbits rbits) else {}
+  5:??? "If id:{op} is code:{&} , let id:{result} be the result of applying the bitwise AND operation to id:{lbits} and id:{rbits} ."
+  6:??? "Else if id:{op} is code:{^} , let id:{result} be the result of applying the bitwise exclusive OR ( XOR ) operation to id:{lbits} and id:{rbits} ."
+  7:if (= op "|") 7:let result = (| lbits rbits) else 7:{}
   8:return result
 }
 - id: "sec-numberbitwiseop"

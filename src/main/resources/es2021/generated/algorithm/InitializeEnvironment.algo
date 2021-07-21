@@ -1,13 +1,13 @@
 def InitializeEnvironment() = {
   0:let __x0__ = module.IndirectExportEntries
   0:let __x1__ = 0i
-  0:while (< __x1__ __x0__.length) {
-    let e = __x0__[__x1__]
+  0:while (< __x1__ __x0__.length) 0:{
+    0:let e = __x0__[__x1__]
+    0:__x1__ = (+ __x1__ 1i)
     1:app __x2__ = (module.ResolveExport module e.ExportName)
     1:let resolution = [? __x2__]
-    2:if (|| (= resolution null) (= resolution "ambiguous")) throw SyntaxError else 11:{}
+    2:if (|| (= resolution null) (= resolution "ambiguous")) 2:throw SyntaxError else 2:{}
     3:assert (is-instance-of resolution ResolvedBindingRecord)
-    __x1__ = (+ __x1__ 1i)
   }
   5:let realm = module.Realm
   6:assert (! (= realm undefined))
@@ -16,34 +16,34 @@ def InitializeEnvironment() = {
   8:module.Environment = env
   9:let __x4__ = module.ImportEntries
   9:let __x5__ = 0i
-  9:while (< __x5__ __x4__.length) {
-    let in = __x4__[__x5__]
+  9:while (< __x5__ __x4__.length) 9:{
+    9:let in = __x4__[__x5__]
+    9:__x5__ = (+ __x5__ 1i)
     10:app __x6__ = (HostResolveImportedModule module in.ModuleRequest)
     10:let importedModule = [! __x6__]
-    16:if (= in.ImportName "*") {
+    12:if (= in.ImportName "*") 12:{
       13:app __x7__ = (GetModuleNamespace importedModule)
       13:let namespace = [? __x7__]
       14:app __x8__ = (env.CreateImmutableBinding env in.LocalName true)
       14:[! __x8__]
       15:app __x9__ = (env.InitializeBinding env in.LocalName namespace)
       15:__x9__
-    } else {
+    } else 16:{
       17:app __x10__ = (importedModule.ResolveExport importedModule in.ImportName)
       17:let resolution = [? __x10__]
-      18:if (|| (= resolution null) (= resolution "ambiguous")) throw SyntaxError else 11:{}
-      23:if (= resolution.BindingName "*namespace*") {
+      18:if (|| (= resolution null) (= resolution "ambiguous")) 18:throw SyntaxError else 18:{}
+      19:if (= resolution.BindingName "*namespace*") 19:{
         20:app __x11__ = (GetModuleNamespace resolution.Module)
         20:let namespace = [? __x11__]
         21:app __x12__ = (env.CreateImmutableBinding env in.LocalName true)
         21:[! __x12__]
         22:app __x13__ = (env.InitializeBinding env in.LocalName namespace)
         22:__x13__
-      } else {
+      } else 23:{
         24:app __x14__ = (env.CreateImportBinding env in.LocalName resolution.Module resolution.BindingName)
         24:__x14__
       }
     }
-    __x5__ = (+ __x5__ 1i)
   }
   25:let moduleContext = (new ExecutionContext())
   26:moduleContext.Function = null
@@ -61,52 +61,52 @@ def InitializeEnvironment() = {
   36:let declaredVarNames = (new [])
   37:let __x16__ = varDeclarations
   37:let __x17__ = 0i
-  37:while (< __x17__ __x16__.length) {
-    let d = __x16__[__x17__]
+  37:while (< __x17__ __x16__.length) 37:{
+    37:let d = __x16__[__x17__]
+    37:__x17__ = (+ __x17__ 1i)
     38:access __x18__ = (d "BoundNames")
     38:let __x19__ = __x18__
     38:let __x20__ = 0i
-    38:while (< __x20__ __x19__.length) {
-      let dn = __x19__[__x20__]
-      39:if (! (contains declaredVarNames dn)) {
+    38:while (< __x20__ __x19__.length) 38:{
+      38:let dn = __x19__[__x20__]
+      38:__x20__ = (+ __x20__ 1i)
+      39:if (! (contains declaredVarNames dn)) 39:{
         40:app __x21__ = (env.CreateMutableBinding env dn false)
         40:[! __x21__]
         41:app __x22__ = (env.InitializeBinding env dn undefined)
         41:__x22__
         42:append dn -> declaredVarNames
-      } else 11:{}
-      __x20__ = (+ __x20__ 1i)
+      } else 39:{}
     }
-    __x17__ = (+ __x17__ 1i)
   }
   43:access __x23__ = (code "LexicallyScopedDeclarations")
   43:let lexDeclarations = __x23__
   44:let __x24__ = lexDeclarations
   44:let __x25__ = 0i
-  44:while (< __x25__ __x24__.length) {
-    let d = __x24__[__x25__]
+  44:while (< __x25__ __x24__.length) 44:{
+    44:let d = __x24__[__x25__]
+    44:__x25__ = (+ __x25__ 1i)
     45:access __x26__ = (d "BoundNames")
     45:let __x27__ = __x26__
     45:let __x28__ = 0i
-    45:while (< __x28__ __x27__.length) {
-      let dn = __x27__[__x28__]
-      48:access __x29__ = (d "IsConstantDeclaration")
-      48:if (= __x29__ true) {
+    45:while (< __x28__ __x27__.length) 45:{
+      45:let dn = __x27__[__x28__]
+      45:__x28__ = (+ __x28__ 1i)
+      46:access __x29__ = (d "IsConstantDeclaration")
+      46:if (= __x29__ true) 46:{
         47:app __x30__ = (env.CreateImmutableBinding env dn true)
         47:[! __x30__]
-      } else {
+      } else 48:{
         49:app __x31__ = (env.CreateMutableBinding env dn false)
         49:[! __x31__]
       }
-      50:if (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration)) {
+      50:if (|| (|| (|| (is-instance-of d FunctionDeclaration) (is-instance-of d GeneratorDeclaration)) (is-instance-of d AsyncFunctionDeclaration)) (is-instance-of d AsyncGeneratorDeclaration)) 50:{
         51:access __x32__ = (d "InstantiateFunctionObject" env)
         51:let fo = __x32__
         52:app __x33__ = (env.InitializeBinding env dn fo)
         52:__x33__
-      } else 11:{}
-      __x28__ = (+ __x28__ 1i)
+      } else 50:{}
     }
-    __x25__ = (+ __x25__ 1i)
   }
   53:??? "Remove id:{moduleContext} from the execution context stack ."
   54:return CONST_empty

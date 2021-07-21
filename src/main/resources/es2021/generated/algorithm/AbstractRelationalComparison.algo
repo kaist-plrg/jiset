@@ -1,52 +1,52 @@
 def AbstractRelationalComparison(x, y, LeftFirst?) = {
-  3:if (= LeftFirst true) {
+  0:if (= LeftFirst true) 0:{
     1:app __x0__ = (ToPrimitive x CONST_number)
     1:let px = [? __x0__]
     2:app __x1__ = (ToPrimitive y CONST_number)
     2:let py = [? __x1__]
-  } else {
+  } else 3:{
     5:app __x2__ = (ToPrimitive y CONST_number)
     5:let py = [? __x2__]
     6:app __x3__ = (ToPrimitive x CONST_number)
     6:let px = [? __x3__]
   }
-  14:if (&& (= (typeof px) String) (= (typeof py) String)) {
+  7:if (&& (= (typeof px) String) (= (typeof py) String)) 7:{
     8:app __x4__ = (IsStringPrefix py px)
-    8:if (= __x4__ true) return false else 23:{}
+    8:if (= __x4__ true) 8:return false else 8:{}
     9:app __x5__ = (IsStringPrefix px py)
-    9:if (= __x5__ true) return true else 23:{}
+    9:if (= __x5__ true) 9:return true else 9:{}
     10:??? "Let id:{k} be the smallest non - negative integer such that the code unit at index id:{k} within id:{px} is different from the code unit at index id:{k} within id:{py} . ( There must be such a id:{k} , for neither String is a prefix of the other . )"
     11:??? "Let id:{m} be the integer that is the numeric value of the code unit at index id:{k} within id:{px} ."
     12:??? "Let id:{n} be the integer that is the numeric value of the code unit at index id:{k} within id:{py} ."
-    13:if (< m n) return true else return false
-  } else {
-    15:if (&& (= (typeof px) BigInt) (= (typeof py) String)) {
+    13:if (< m n) 13:return true else 13:return false
+  } else 14:{
+    15:if (&& (= (typeof px) BigInt) (= (typeof py) String)) 15:{
       16:app __x6__ = (StringToBigInt py)
       16:let ny = [! __x6__]
-      17:if (= ny NaN) return undefined else 23:{}
+      17:if (= ny NaN) 17:return undefined else 17:{}
       18:app __x7__ = (PRIMITIVE[BigInt].lessThan px ny)
       18:return __x7__
-    } else 23:{}
-    19:if (&& (= (typeof px) String) (= (typeof py) BigInt)) {
+    } else 15:{}
+    19:if (&& (= (typeof px) String) (= (typeof py) BigInt)) 19:{
       20:app __x8__ = (StringToBigInt px)
       20:let nx = [! __x8__]
-      21:if (= nx NaN) return undefined else 23:{}
+      21:if (= nx NaN) 21:return undefined else 21:{}
       22:app __x9__ = (PRIMITIVE[BigInt].lessThan nx py)
       22:return __x9__
-    } else 23:{}
+    } else 19:{}
     24:app __x10__ = (ToNumeric px)
     24:let nx = [? __x10__]
     25:app __x11__ = (ToNumeric py)
     25:let ny = [? __x11__]
-    26:if (= (typeof nx) (typeof ny)) {
-      app __x12__ = (PRIMITIVE[(typeof nx)].lessThan nx ny)
-      return __x12__
-    } else 23:{}
+    26:if (= (typeof nx) (typeof ny)) 26:{
+      26:app __x12__ = (PRIMITIVE[(typeof nx)].lessThan nx ny)
+      26:return __x12__
+    } else 26:{}
     27:assert (|| (&& (= (typeof nx) BigInt) (= (typeof ny) Number)) (&& (= (typeof nx) Number) (= (typeof ny) BigInt)))
-    28:if (|| (= nx NaN) (= ny NaN)) return undefined else 23:{}
-    29:if (|| (= nx -Infinity) (= ny Infinity)) return true else 23:{}
-    30:if (|| (= nx Infinity) (= ny -Infinity)) return false else 23:{}
-    31:if (< nx ny) return true else return false
+    28:if (|| (= nx NaN) (= ny NaN)) 28:return undefined else 28:{}
+    29:if (|| (= nx -Infinity) (= ny Infinity)) 29:return true else 29:{}
+    30:if (|| (= nx Infinity) (= ny -Infinity)) 30:return false else 30:{}
+    31:if (< nx ny) 31:return true else 31:return false
   }
 }
 - id: "sec-abstract-relational-comparison"

@@ -1,10 +1,10 @@
 def InnerModuleLinking(module, stack, index) = {
-  0:if (! (is-instance-of module CyclicModuleRecord)) {
+  0:if (! (is-instance-of module CyclicModuleRecord)) 0:{
     1:app __x0__ = (module.Link module)
     1:[? __x0__]
     2:return index
-  } else 20:{}
-  3:if (|| (|| (= module.Status CONST_linking) (= module.Status CONST_linked)) (= module.Status CONST_evaluated)) return index else 20:{}
+  } else 0:{}
+  3:if (|| (|| (= module.Status CONST_linking) (= module.Status CONST_linked)) (= module.Status CONST_evaluated)) 4:return index else 3:{}
   5:assert (= module.Status CONST_unlinked)
   6:module.Status = CONST_linking
   7:module.DFSIndex = index
@@ -13,34 +13,34 @@ def InnerModuleLinking(module, stack, index) = {
   10:append module -> stack
   11:let __x1__ = module.RequestedModules
   11:let __x2__ = 0i
-  11:while (< __x2__ __x1__.length) {
-    let required = __x1__[__x2__]
+  11:while (< __x2__ __x1__.length) 11:{
+    11:let required = __x1__[__x2__]
+    11:__x2__ = (+ __x2__ 1i)
     12:app __x3__ = (HostResolveImportedModule module required)
     12:let requiredModule = [? __x3__]
     13:app __x4__ = (InnerModuleLinking requiredModule stack index)
     13:index = [? __x4__]
-    14:if (is-instance-of requiredModule CyclicModuleRecord) {
+    14:if (is-instance-of requiredModule CyclicModuleRecord) 14:{
       15:assert (|| (|| (= requiredModule.Status CONST_linking) (= requiredModule.Status CONST_linked)) (= requiredModule.Status CONST_evaluated))
-      17:if (= requiredModule.Status CONST_linking) {
+      17:if (= requiredModule.Status CONST_linking) 17:{
         18:app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
         18:module.DFSAncestorIndex = __x5__
-      } else 20:{}
-    } else 20:{}
-    __x2__ = (+ __x2__ 1i)
+      } else 17:{}
+    } else 14:{}
   }
   19:app __x6__ = (module.InitializeEnvironment module)
   19:[? __x6__]
   21:assert (! (< module.DFSIndex module.DFSAncestorIndex))
-  22:if (== module.DFSAncestorIndex module.DFSIndex) {
+  22:if (== module.DFSAncestorIndex module.DFSIndex) 22:{
     23:let done = false
-    24:while (= done false) {
+    24:while (= done false) 24:{
       25:let requiredModule = stack[(- stack.length 1i)]
       26:(pop stack (- stack.length 1i))
       27:assert (is-instance-of requiredModule CyclicModuleRecord)
       28:requiredModule.Status = CONST_linked
-      29:if (= requiredModule module) done = true else 20:{}
+      29:if (= requiredModule module) 29:done = true else 29:{}
     }
-  } else 20:{}
+  } else 22:{}
   30:return index
 }
 - id: "sec-InnerModuleLinking"

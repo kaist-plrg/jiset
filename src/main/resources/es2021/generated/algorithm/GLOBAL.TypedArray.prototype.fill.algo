@@ -3,36 +3,36 @@ def [BUILTIN] TypedArray.prototype.fill(value, start?, end?) = {
   1:app __x0__ = (ValidateTypedArray O)
   1:[? __x0__]
   2:let len = O.ArrayLength
-  4:if (= O.ContentType CONST_BigInt) {
-    app __x1__ = (ToBigInt value)
-    value = [? __x1__]
-  } else {
-    app __x2__ = (ToNumber value)
-    value = [? __x2__]
+  3:if (= O.ContentType CONST_BigInt) 3:{
+    3:app __x1__ = (ToBigInt value)
+    3:value = [? __x1__]
+  } else 4:{
+    4:app __x2__ = (ToNumber value)
+    4:value = [? __x2__]
   }
   5:app __x3__ = (ToIntegerOrInfinity start)
   5:let relativeStart = [? __x3__]
-  8:if (= relativeStart -Infinity) let k = 0i else if (< relativeStart 0i) {
-    app __x4__ = (max (+ len relativeStart) 0i)
-    let k = __x4__
-  } else {
-    app __x5__ = (min relativeStart len)
-    let k = __x5__
+  6:if (= relativeStart -Infinity) 6:let k = 0i else 6:if (< relativeStart 0i) 7:{
+    7:app __x4__ = (max (+ len relativeStart) 0i)
+    7:let k = __x4__
+  } else 8:{
+    8:app __x5__ = (min relativeStart len)
+    8:let k = __x5__
   }
-  9:if (= end undefined) let relativeEnd = len else {
-    app __x6__ = (ToIntegerOrInfinity end)
-    let relativeEnd = [? __x6__]
+  9:if (= end undefined) 9:let relativeEnd = len else 10:{
+    10:app __x6__ = (ToIntegerOrInfinity end)
+    10:let relativeEnd = [? __x6__]
   }
-  12:if (= relativeEnd -Infinity) let final = 0i else if (< relativeEnd 0i) {
-    app __x7__ = (max (+ len relativeEnd) 0i)
-    let final = __x7__
-  } else {
-    app __x8__ = (min relativeEnd len)
-    let final = __x8__
+  10:if (= relativeEnd -Infinity) 10:let final = 0i else 10:if (< relativeEnd 0i) 11:{
+    11:app __x7__ = (max (+ len relativeEnd) 0i)
+    11:let final = __x7__
+  } else 12:{
+    12:app __x8__ = (min relativeEnd len)
+    12:let final = __x8__
   }
   13:app __x9__ = (IsDetachedBuffer O.ViewedArrayBuffer)
-  13:if (= __x9__ true) throw TypeError else 17:{}
-  14:while (< k final) {
+  13:if (= __x9__ true) 13:throw TypeError else 13:{}
+  14:while (< k final) 14:{
     15:app __x10__ = (ToString k)
     15:let Pk = [! __x10__]
     16:app __x11__ = (Set O Pk value true)

@@ -2,28 +2,28 @@ def [METHOD] ProxyObject.HasProperty(O)(P) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
   1:let handler = O.ProxyHandler
-  2:if (= handler null) throw TypeError else 0:{}
+  2:if (= handler null) 2:throw TypeError else 2:{}
   3:assert (= (typeof handler) Object)
   4:let target = O.ProxyTarget
   5:app __x1__ = (GetMethod handler "has")
   5:let trap = [? __x1__]
-  6:if (= trap undefined) {
+  6:if (= trap undefined) 6:{
     7:app __x2__ = (target.HasProperty target P)
     7:return [? __x2__]
-  } else 0:{}
+  } else 6:{}
   8:app __x3__ = (Call trap handler (new [target, P]))
   8:app __x4__ = (ToBoolean [? __x3__])
   8:let booleanTrapResult = [! __x4__]
-  9:if (= booleanTrapResult false) {
+  9:if (= booleanTrapResult false) 9:{
     10:app __x5__ = (target.GetOwnProperty target P)
     10:let targetDesc = [? __x5__]
-    11:if (! (= targetDesc undefined)) {
-      12:if (= targetDesc.Configurable false) throw TypeError else 0:{}
+    11:if (! (= targetDesc undefined)) 11:{
+      12:if (= targetDesc.Configurable false) 12:throw TypeError else 12:{}
       13:app __x6__ = (IsExtensible target)
       13:let extensibleTarget = [? __x6__]
-      14:if (= extensibleTarget false) throw TypeError else 0:{}
-    } else 0:{}
-  } else 0:{}
+      14:if (= extensibleTarget false) 14:throw TypeError else 14:{}
+    } else 11:{}
+  } else 9:{}
   15:return booleanTrapResult
 }
 - id: "sec-proxy-object-internal-methods-and-internal-slots-hasproperty-p"

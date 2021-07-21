@@ -2,13 +2,13 @@ def [BUILTIN] Date.prototype.toUTCString() = {
   0:let O = this
   1:app __x0__ = (thisTimeValue O)
   1:let tv = [? __x0__]
-  2:if (= tv NaN) return "Invalid Date" else 13:{}
+  2:if (= tv NaN) 2:return "Invalid Date" else 2:{}
   3:??? "Let id:{weekday} be the Name of the entry in link:{sec-todatestring-day-names} with the Number WeekDay ( id:{tv} ) ."
   4:??? "Let id:{month} be the Name of the entry in link:{sec-todatestring-month-names} with the Number MonthFromTime ( id:{tv} ) ."
   5:??? "Let id:{day} be the String representation of DateFromTime ( id:{tv} ) , formatted as a two - digit decimal number , padded to the left with the code unit 0x0030 ( DIGIT ZERO ) if necessary ."
   6:app __x1__ = (YearFromTime tv)
   6:let yv = __x1__
-  7:if (! (< yv 0i)) let yearSign = "" else let yearSign = "-"
+  7:if (! (< yv 0i)) 7:let yearSign = "" else 7:let yearSign = "-"
   8:??? "Let id:{year} be the String representation of abs ( ℝ ( id:{yv} ) ) , formatted as a decimal number ."
   9:app __x2__ = (StringPad year 4i "0" CONST_start)
   9:let paddedYear = [! __x2__]

@@ -1,8 +1,8 @@
 def DaysInYear(y) = {
-  0:if (! (== (%% y 4i) 0i)) return 365i else 8:{}
-  1:if (&& (== (%% y 4i) 0i) (! (== (%% y 100i) 0i))) return 366i else 8:{}
-  2:if (&& (== (%% y 100i) 0i) (! (== (%% y 400i) 0i))) return 365i else 8:{}
-  3:if (== (%% y 400i) 0i) return 366i else 8:{}
+  0:if (! (== (%% y 4i) 0i)) 0:return 365i else 0:{}
+  1:if (&& (== (%% y 4i) 0i) (! (== (%% y 100i) 0i))) 1:return 366i else 1:{}
+  2:if (&& (== (%% y 100i) 0i) (! (== (%% y 400i) 0i))) 2:return 365i else 2:{}
+  3:if (== (%% y 400i) 0i) 3:return 366i else 3:{}
 }
 - id: "eqn-DaysInYear"
 - code:

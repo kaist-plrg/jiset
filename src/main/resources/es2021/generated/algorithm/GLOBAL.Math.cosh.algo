@@ -1,8 +1,8 @@
 def [BUILTIN] Math.cosh(x) = {
   0:app __x0__ = (ToNumber x)
   0:let n = [? __x0__]
-  1:if (|| (|| (= n NaN) (= n Infinity)) (= n -Infinity)) return n else 2:{}
-  2:if (|| (= n 0i) (= n -0.0)) return 1i else 2:{}
+  1:if (|| (|| (= n NaN) (= n Infinity)) (= n -Infinity)) 1:return n else 1:{}
+  2:if (|| (= n 0i) (= n -0.0)) 2:return 1i else 2:{}
   3:??? "Return an implementation - approximated value representing the result of the hyperbolic cosine of ℝ ( id:{n} ) ."
 }
 - id: "sec-math.cosh"

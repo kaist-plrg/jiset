@@ -3,11 +3,11 @@ def [BUILTIN] String.prototype.normalize(form?) = {
   0:let O = [? __x0__]
   1:app __x1__ = (ToString O)
   1:let S = [? __x1__]
-  3:if (= form undefined) let f = "NFC" else {
-    app __x2__ = (ToString form)
-    let f = [? __x2__]
+  2:if (= form undefined) 2:let f = "NFC" else 3:{
+    3:app __x2__ = (ToString form)
+    3:let f = [? __x2__]
   }
-  4:if (! (|| (|| (|| (= f "NFC") (= f "NFD")) (= f "NFKC")) (= f "NFKD"))) throw RangeError else 4:{}
+  4:if (! (|| (|| (|| (= f "NFC") (= f "NFD")) (= f "NFKC")) (= f "NFKD"))) 4:throw RangeError else 4:{}
   5:??? "Let id:{ns} be the String value that is the result of normalizing id:{S} into the normalization form named by id:{f} as specified in < a href = \" https : / / unicode . org / reports / tr15 / \" > https : / / unicode . org / reports / tr15 / < / a > ."
   6:return ns
 }

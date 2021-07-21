@@ -1,21 +1,21 @@
 def ToPrimitive(input, preferredType?) = {
-  1:if (= (typeof input) Object) {
+  1:if (= (typeof input) Object) 1:{
     2:app __x0__ = (GetMethod input SYMBOL_toPrimitive)
     2:let exoticToPrim = [? __x0__]
-    3:if (! (= exoticToPrim undefined)) {
-      6:if (= preferredType absent) let hint = "default" else if (= preferredType CONST_string) let hint = "string" else {
+    3:if (! (= exoticToPrim undefined)) 3:{
+      4:if (= preferredType absent) 4:let hint = "default" else 4:if (= preferredType CONST_string) 5:let hint = "string" else 6:{
         7:assert (= preferredType CONST_number)
         8:let hint = "number"
       }
       9:app __x1__ = (Call exoticToPrim input (new [hint]))
       9:let result = [? __x1__]
-      10:if (! (= (typeof result) Object)) return result else 0:{}
+      10:if (! (= (typeof result) Object)) 10:return result else 10:{}
       11:throw TypeError
-    } else 0:{}
-    12:if (= preferredType absent) let preferredType = CONST_number else 0:{}
+    } else 3:{}
+    12:if (= preferredType absent) 12:let preferredType = CONST_number else 12:{}
     13:app __x2__ = (OrdinaryToPrimitive input preferredType)
     13:return [? __x2__]
-  } else 0:{}
+  } else 1:{}
   14:return input
 }
 - id: "sec-toprimitive"

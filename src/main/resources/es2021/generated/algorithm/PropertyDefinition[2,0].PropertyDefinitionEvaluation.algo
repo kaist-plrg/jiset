@@ -2,11 +2,11 @@ def [SYNTAX] PropertyDefinition[2,0].PropertyDefinitionEvaluation<(PropertyName,
   0:access __x0__ = (PropertyName "Evaluation")
   0:let propKey = __x0__
   1:[? propKey]
-  4:app __x1__ = (IsAnonymousFunctionDefinition AssignmentExpression)
-  4:if (= __x1__ true) {
+  2:app __x1__ = (IsAnonymousFunctionDefinition AssignmentExpression)
+  2:if (= __x1__ true) 2:{
     3:access __x2__ = (AssignmentExpression "NamedEvaluation" propKey)
     3:let propValue = [? __x2__]
-  } else {
+  } else 4:{
     5:access __x3__ = (AssignmentExpression "Evaluation")
     5:let exprValueRef = __x3__
     6:app __x4__ = (GetValue exprValueRef)

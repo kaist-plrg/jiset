@@ -4,12 +4,12 @@ def [BUILTIN] Date.prototype.setMonth(month, date?) = {
   0:let t = __x1__
   1:app __x2__ = (ToNumber month)
   1:let m = [? __x2__]
-  2:if (= date absent) {
-    app __x3__ = (DateFromTime t)
-    let dt = __x3__
-  } else {
-    app __x4__ = (ToNumber date)
-    let dt = [? __x4__]
+  2:if (= date absent) 2:{
+    2:app __x3__ = (DateFromTime t)
+    2:let dt = __x3__
+  } else 3:{
+    3:app __x4__ = (ToNumber date)
+    3:let dt = [? __x4__]
   }
   3:app __x5__ = (YearFromTime t)
   3:app __x6__ = (MakeDay __x5__ m dt)

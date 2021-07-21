@@ -1,20 +1,20 @@
 def [SYNTAX] WhileStatement[0,0].WhileLoopEvaluation<(Expression, Statement),true>(labelSet) = {
   0:let V = undefined
-  1:while true {
+  1:while true 1:{
     2:access __x0__ = (Expression "Evaluation")
     2:let exprRef = __x0__
     3:app __x1__ = (GetValue exprRef)
     3:let exprValue = [? __x1__]
     4:app __x2__ = (ToBoolean exprValue)
-    4:if (= [! __x2__] false) return V else 10:{}
+    4:if (= [! __x2__] false) 4:return V else 4:{}
     5:access __x3__ = (Statement "Evaluation")
     5:let stmtResult = __x3__
     6:app __x4__ = (LoopContinues stmtResult labelSet)
-    6:if (= __x4__ false) {
-      app __x5__ = (UpdateEmpty stmtResult V)
-      return __x5__
-    } else 10:{}
-    7:if (! (= stmtResult.Value CONST_empty)) V = stmtResult.Value else 10:{}
+    6:if (= __x4__ false) 6:{
+      6:app __x5__ = (UpdateEmpty stmtResult V)
+      6:return __x5__
+    } else 6:{}
+    7:if (! (= stmtResult.Value CONST_empty)) 7:V = stmtResult.Value else 7:{}
   }
 }
 - id: "sec-runtime-semantics-whileloopevaluation"

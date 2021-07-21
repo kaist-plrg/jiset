@@ -7,28 +7,28 @@ def ObjectDefineProperties(O, Properties) = {
   3:let descriptors = (new [])
   4:let __x2__ = keys
   4:let __x3__ = 0i
-  4:while (< __x3__ __x2__.length) {
-    let nextKey = __x2__[__x3__]
+  4:while (< __x3__ __x2__.length) 4:{
+    4:let nextKey = __x2__[__x3__]
+    4:__x3__ = (+ __x3__ 1i)
     5:app __x4__ = (props.GetOwnProperty props nextKey)
     5:let propDesc = [? __x4__]
-    6:if (&& (! (= propDesc undefined)) (= propDesc.Enumerable true)) {
+    6:if (&& (! (= propDesc undefined)) (= propDesc.Enumerable true)) 6:{
       7:app __x5__ = (Get props nextKey)
       7:let descObj = [? __x5__]
       8:app __x6__ = (ToPropertyDescriptor descObj)
       8:let desc = [? __x6__]
       9:append (new [nextKey, desc]) -> descriptors
-    } else 71:{}
-    __x3__ = (+ __x3__ 1i)
+    } else 6:{}
   }
   10:let __x7__ = descriptors
   10:let __x8__ = 0i
-  10:while (< __x8__ __x7__.length) {
-    let pair = __x7__[__x8__]
+  10:while (< __x8__ __x7__.length) 10:{
+    10:let pair = __x7__[__x8__]
+    10:__x8__ = (+ __x8__ 1i)
     11:let P = pair[0i]
     12:let desc = pair[1i]
     13:app __x9__ = (DefinePropertyOrThrow O P desc)
     13:[? __x9__]
-    __x8__ = (+ __x8__ 1i)
   }
   14:return O
 }

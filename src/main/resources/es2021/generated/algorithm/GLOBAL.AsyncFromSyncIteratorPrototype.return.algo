@@ -6,37 +6,37 @@ def [BUILTIN] AsyncFromSyncIteratorPrototype.return(value?) = {
   3:let syncIterator = O.SyncIteratorRecord.Iterator
   4:app __x1__ = (GetMethod syncIterator "return")
   4:let return = __x1__
-  5:if (is-completion return) if (= return.Type CONST_normal) return = return.Value else {
-    app __x2__ = (Call promiseCapability.Reject undefined (new [return.Value]))
-    if (&& (is-completion __x2__) (! (= __x2__.Type CONST_normal))) return __x2__ else 7:{}
-    return promiseCapability.Promise
-  } else 7:{}
+  5:if (is-completion return) 5:if (= return.Type CONST_normal) 5:return = return.Value else 6:{
+    6:app __x2__ = (Call promiseCapability.Reject undefined (new [return.Value]))
+    6:if (&& (is-completion __x2__) (! (= __x2__.Type CONST_normal))) 6:return __x2__ else 6:{}
+    6:return promiseCapability.Promise
+  } else 5:{}
   5:return
-  6:if (= return undefined) {
+  6:if (= return undefined) 6:{
     7:app __x3__ = (CreateIterResultObject value true)
     7:let iterResult = [! __x3__]
     8:app __x4__ = (Call promiseCapability.Resolve undefined (new [iterResult]))
     8:[! __x4__]
     9:return promiseCapability.Promise
-  } else 7:{}
-  12:if (! (= value absent)) {
+  } else 6:{}
+  10:if (! (= value absent)) 10:{
     11:app __x5__ = (Call return syncIterator (new [value]))
     11:let result = __x5__
-  } else {
+  } else 12:{
     13:app __x6__ = (Call return syncIterator)
     13:let result = __x6__
   }
-  14:if (is-completion result) if (= result.Type CONST_normal) result = result.Value else {
-    app __x7__ = (Call promiseCapability.Reject undefined (new [result.Value]))
-    if (&& (is-completion __x7__) (! (= __x7__.Type CONST_normal))) return __x7__ else 7:{}
-    return promiseCapability.Promise
-  } else 7:{}
+  14:if (is-completion result) 14:if (= result.Type CONST_normal) 14:result = result.Value else 15:{
+    15:app __x7__ = (Call promiseCapability.Reject undefined (new [result.Value]))
+    15:if (&& (is-completion __x7__) (! (= __x7__.Type CONST_normal))) 15:return __x7__ else 15:{}
+    15:return promiseCapability.Promise
+  } else 14:{}
   14:result
-  15:if (! (= (typeof result) Object)) {
+  15:if (! (= (typeof result) Object)) 15:{
     16:app __x8__ = (Call promiseCapability.Reject undefined (new [(new OrdinaryObject("Prototype" -> INTRINSICS["%TypeError.prototype%"], "ErrorData" -> undefined))]))
     16:[! __x8__]
     17:return promiseCapability.Promise
-  } else 7:{}
+  } else 15:{}
   18:app __x9__ = (AsyncFromSyncIteratorContinuation result promiseCapability)
   18:return [! __x9__]
 }

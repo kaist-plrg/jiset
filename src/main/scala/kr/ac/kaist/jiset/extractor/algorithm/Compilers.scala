@@ -47,7 +47,7 @@ trait Compilers extends TokenListParsers {
       failed += k -> tokens
       val str = tokens.map(_.beautified).mkString(" ")
       val failedInst = manualSteps.getOrElse(str, IExpr(ENotSupported(str)))
-      failedInst.line = Some(k)
+      failedInst.setLine(Some(k))
       failedInst
   }
 
@@ -129,8 +129,8 @@ trait Compilers extends TokenListParsers {
       ILet(idx, EINum(0)),
       IWhile(EBOp(OLt, toERef(idx), toERef(list, "length")), ISeq(List(
         ILet(id, toERef(list, toERef(idx))),
-        body,
-        IAssign(toRef(idx), EBOp(OPlus, toERef(idx), EINum(1)))
+        IAssign(toRef(idx), EBOp(OPlus, toERef(idx), EINum(1))),
+        body
       )))
     ))
   }
@@ -240,7 +240,13 @@ trait Compilers extends TokenListParsers {
     insts.forall(inst => flatten(inst) == ISeq(Nil))
 
   // post process
-  def postProcess(inst: Inst): Inst = normalizeTempIds(flatten(inst))
+  def postProcess(inst: Inst): Inst = {
+    val lined = assignLine(inst)
+    val flattened = flatten(lined)
+    val normalized = normalizeTempIds(flattened)
+    val fixed = fixLine(normalized)
+    fixed
+  }
 
   // flatten instructions
   def flatten(inst: Inst): Inst = FlattenWalker.walk(inst)
@@ -249,7 +255,7 @@ trait Compilers extends TokenListParsers {
       case ISeq(insts) =>
         def assign(insts: List[Inst], k: Option[Int]): List[Inst] = k match {
           case None => insts
-          case _ => insts.map(i => { i.line = k; i })
+          case _ => insts.map(i => { i.setLine(k); i })
         }
         def aux(cur: List[Inst], remain: List[Inst]): List[Inst] = remain match {
           case Nil => cur.reverse
@@ -260,9 +266,54 @@ trait Compilers extends TokenListParsers {
           case List(inst) => inst
           case insts => ISeq(insts)
         }
-        newInst.line = inst.line
+        newInst.setLine(inst.line)
         newInst
       case i => super.walk(i)
+    }
+  }
+
+  // assign lines
+  def assignLine(inst: Inst): Inst = { LineWalker.walk(inst); inst }
+  object LineWalker extends UnitWalker {
+    private def nextLine(inst: Inst): Option[Int] = inst match {
+      case ISeq(insts @ (h :: t)) => insts.reverse.head.line.map(_ + 1)
+      case inst => inst.line.map(_ + 1)
+    }
+    override def walk(inst: Inst) = inst match {
+      case IIf(_, thenInst, elseInst) =>
+        thenInst.setLine(inst.line)
+        walk(thenInst)
+        val elseLine = nextLine(thenInst)
+        (elseInst.line, elseLine) match {
+          case (Some(l0), Some(l1)) if l0 < l1 => elseInst.line = Some(l1)
+          case _ => elseInst.setLine(elseLine)
+        }
+        walk(elseInst)
+      case IWhile(_, bodyInst) =>
+        bodyInst.setLine(inst.line)
+        walk(bodyInst)
+      case ISeq(insts) =>
+        insts.foreach(_.setLine(inst.line))
+        super.walk(inst)
+      case IWithCont(_, _, bodyInst) =>
+        bodyInst.setLine(inst.line)
+        walk(bodyInst)
+      case IAssign(_, ECont(_, bodyInst)) =>
+        bodyInst.setLine(inst.line)
+        walk(bodyInst)
+      case _ => super.walk(inst)
+    }
+  }
+
+  // fix else lines
+  def fixLine(inst: Inst): Inst = { FixLineWalker.walk(inst); inst }
+  object FixLineWalker extends UnitWalker {
+    override def walk(inst: Inst) = inst match {
+      case IIf(c, t, e) => e match {
+        case ISeq(_ :: _) => super.walk(inst)
+        case _ => { e.line = inst.line; super.walk(inst) }
+      }
+      case _ => super.walk(inst)
     }
   }
 

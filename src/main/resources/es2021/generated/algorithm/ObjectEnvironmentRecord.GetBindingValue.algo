@@ -2,7 +2,7 @@ def [METHOD] ObjectEnvironmentRecord.GetBindingValue(envRec)(N, S) = {
   0:let bindings = envRec.BindingObject
   1:app __x0__ = (HasProperty bindings N)
   1:let value = [? __x0__]
-  2:if (= value false) if (= S false) return undefined else throw ReferenceError else 0:{}
+  2:if (= value false) 3:if (= S false) 3:return undefined else 3:throw ReferenceError else 2:{}
   4:app __x1__ = (Get bindings N)
   4:return [? __x1__]
 }

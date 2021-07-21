@@ -4,10 +4,10 @@ def [METHOD] ArgumentsExoticObject.Delete(args)(P) = {
   1:let isMapped = [! __x0__]
   2:app __x1__ = (OrdinaryDelete args P)
   2:let result = [? __x1__]
-  3:if (&& (= result true) (= isMapped true)) {
+  3:if (&& (= result true) (= isMapped true)) 3:{
     4:app __x2__ = (map.Delete map P)
     4:__x2__
-  } else 7:{}
+  } else 3:{}
   5:return result
 }
 - id: "sec-arguments-exotic-objects-delete-p"

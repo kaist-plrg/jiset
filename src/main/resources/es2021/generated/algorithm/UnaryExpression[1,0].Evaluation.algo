@@ -2,23 +2,23 @@ def [SYNTAX] UnaryExpression[1,0].Evaluation<(UnaryExpression),false>() = {
   0:access __x0__ = (UnaryExpression "Evaluation")
   0:let ref = __x0__
   1:[? ref]
-  2:if (! (is-instance-of ref ReferenceRecord)) return true else 3:{}
+  2:if (! (is-instance-of ref ReferenceRecord)) 2:return true else 2:{}
   3:app __x1__ = (IsUnresolvableReference ref)
-  3:if (= __x1__ true) {
+  3:if (= __x1__ true) 3:{
     4:assert (= ref.Strict false)
     5:return true
   } else 3:{}
-  12:app __x2__ = (IsPropertyReference ref)
-  12:if (= __x2__ true) {
+  6:app __x2__ = (IsPropertyReference ref)
+  6:if (= __x2__ true) 6:{
     7:app __x3__ = (IsSuperReference ref)
-    7:if (= __x3__ true) throw ReferenceError else 3:{}
+    7:if (= __x3__ true) 7:throw ReferenceError else 7:{}
     8:app __x4__ = (ToObject ref.Base)
     8:let baseObj = [! __x4__]
     9:app __x5__ = (baseObj.Delete baseObj ref.ReferencedName)
     9:let deleteStatus = [? __x5__]
-    10:if (&& (= deleteStatus false) (= ref.Strict true)) throw TypeError else 3:{}
+    10:if (&& (= deleteStatus false) (= ref.Strict true)) 10:throw TypeError else 10:{}
     11:return deleteStatus
-  } else {
+  } else 12:{
     13:let base = ref.Base
     14:assert (is-instance-of base EnvironmentRecord)
     15:app __x6__ = (base.DeleteBinding base ref.ReferencedName)

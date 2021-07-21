@@ -1,8 +1,8 @@
 def GetIdentifierReference(env, name, strict) = {
-  0:if (= env null) return (new ReferenceRecord("Base" -> CONST_unresolvable, "ReferencedName" -> name, "Strict" -> strict, "ThisValue" -> CONST_empty)) else 2:{}
+  0:if (= env null) 1:return (new ReferenceRecord("Base" -> CONST_unresolvable, "ReferencedName" -> name, "Strict" -> strict, "ThisValue" -> CONST_empty)) else 0:{}
   2:app __x0__ = (env.HasBinding env name)
   2:let exists = [? __x0__]
-  5:if (= exists true) return (new ReferenceRecord("Base" -> env, "ReferencedName" -> name, "Strict" -> strict, "ThisValue" -> CONST_empty)) else {
+  3:if (= exists true) 4:return (new ReferenceRecord("Base" -> env, "ReferencedName" -> name, "Strict" -> strict, "ThisValue" -> CONST_empty)) else 5:{
     6:let outer = env.OuterEnv
     7:app __x1__ = (GetIdentifierReference outer name strict)
     7:return [? __x1__]

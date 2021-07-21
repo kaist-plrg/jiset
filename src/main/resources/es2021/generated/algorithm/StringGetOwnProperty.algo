@@ -1,17 +1,17 @@
 def StringGetOwnProperty(S, P) = {
   1:app __x0__ = (IsPropertyKey P)
   1:assert (= __x0__ true)
-  2:if (! (= (typeof P) String)) return undefined else 0:{}
+  2:if (! (= (typeof P) String)) 2:return undefined else 2:{}
   3:app __x1__ = (CanonicalNumericIndexString P)
   3:let index = [! __x1__]
-  4:if (= index undefined) return undefined else 0:{}
+  4:if (= index undefined) 4:return undefined else 4:{}
   5:app __x2__ = (IsIntegralNumber index)
-  5:if (= __x2__ false) return undefined else 0:{}
-  6:if (= index -0.0) return undefined else 0:{}
+  5:if (= __x2__ false) 5:return undefined else 5:{}
+  6:if (= index -0.0) 6:return undefined else 6:{}
   7:let str = S.StringData
   8:assert (= (typeof str) String)
   9:let len = str.length
-  10:if (|| (< index 0i) (! (< index len))) return undefined else 0:{}
+  10:if (|| (< index 0i) (! (< index len))) 10:return undefined else 10:{}
   11:let resultStr = str[index]
   12:return (new PropertyDescriptor("Value" -> resultStr, "Writable" -> false, "Enumerable" -> true, "Configurable" -> false))
 }

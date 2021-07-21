@@ -4,23 +4,23 @@ def SetViewValue(view, requestIndex, isLittleEndian, type, value) = {
   1:assert (! (= view.ViewedArrayBuffer absent))
   2:app __x1__ = (ToIndex requestIndex)
   2:let getIndex = [? __x1__]
-  4:app __x2__ = (IsBigIntElementType type)
-  4:if (= [! __x2__] true) {
-    app __x3__ = (ToBigInt value)
-    let numberValue = [? __x3__]
-  } else {
-    app __x4__ = (ToNumber value)
-    let numberValue = [? __x4__]
+  3:app __x2__ = (IsBigIntElementType type)
+  3:if (= [! __x2__] true) 3:{
+    3:app __x3__ = (ToBigInt value)
+    3:let numberValue = [? __x3__]
+  } else 4:{
+    4:app __x4__ = (ToNumber value)
+    4:let numberValue = [? __x4__]
   }
   5:app __x5__ = (ToBoolean isLittleEndian)
   5:isLittleEndian = [! __x5__]
   6:let buffer = view.ViewedArrayBuffer
   7:app __x6__ = (IsDetachedBuffer buffer)
-  7:if (= __x6__ true) throw TypeError else 0:{}
+  7:if (= __x6__ true) 7:throw TypeError else 7:{}
   8:let viewOffset = view.ByteOffset
   9:let viewSize = view.ByteLength
   10:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for Element Type id:{type} ."
-  11:if (< viewSize (+ getIndex elementSize)) throw RangeError else 0:{}
+  11:if (< viewSize (+ getIndex elementSize)) 11:throw RangeError else 11:{}
   12:let bufferIndex = (+ getIndex viewOffset)
   13:app __x7__ = (SetValueInBuffer buffer bufferIndex type numberValue false CONST_Unordered isLittleEndian)
   13:return __x7__

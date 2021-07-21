@@ -2,20 +2,20 @@ def [BUILTIN] WeakSet.prototype.add(value) = {
   0:let S = this
   1:app __x0__ = (RequireInternalSlot S "WeakSetData")
   1:[? __x0__]
-  2:if (! (= (typeof value) Object)) throw TypeError else 15:{}
+  2:if (! (= (typeof value) Object)) 2:throw TypeError else 2:{}
   3:let entries = S.WeakSetData
   4:let __x1__ = entries
   4:let __x2__ = 0i
-  4:while (< __x2__ __x1__.length) {
-    let e = __x1__[__x2__]
+  4:while (< __x2__ __x1__.length) 4:{
+    4:let e = __x1__[__x2__]
+    4:__x2__ = (+ __x2__ 1i)
     5:let __x3__ = true
     5:__x3__ = (! (= e CONST_empty))
-    5:if __x3__ {
-      app __x4__ = (SameValue e value)
-      __x3__ = (= __x4__ true)
-    } else 15:{}
-    5:if __x3__ return S else 15:{}
-    __x2__ = (+ __x2__ 1i)
+    5:if __x3__ 5:{
+      5:app __x4__ = (SameValue e value)
+      5:__x3__ = (= __x4__ true)
+    } else 5:{}
+    5:if __x3__ 6:return S else 5:{}
   }
   7:append value -> entries
   8:return S

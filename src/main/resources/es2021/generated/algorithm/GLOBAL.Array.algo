@@ -1,33 +1,33 @@
 def [BUILTIN] Array(...values) = {
-  0:if (= NewTarget undefined) let newTarget = CONTEXT.Function else let newTarget = NewTarget
+  0:if (= NewTarget undefined) 0:let newTarget = CONTEXT.Function else 0:let newTarget = NewTarget
   1:app __x0__ = (GetPrototypeFromConstructor newTarget "%Array.prototype%")
   1:let proto = [? __x0__]
   2:let numberOfArgs = values.length
-  16:if (== numberOfArgs 0i) {
+  3:if (== numberOfArgs 0i) 3:{
     4:app __x1__ = (ArrayCreate 0i proto)
     4:return [! __x1__]
-  } else if (== numberOfArgs 1i) {
+  } else 3:if (== numberOfArgs 1i) 5:{
     6:let len = values[0i]
     7:app __x2__ = (ArrayCreate 0i proto)
     7:let array = [! __x2__]
-    11:if (! (= (typeof len) Number)) {
+    8:if (! (= (typeof len) Number)) 8:{
       9:app __x3__ = (CreateDataPropertyOrThrow array "0" len)
       9:[! __x3__]
       10:let intLen = 1i
-    } else {
+    } else 11:{
       12:app __x4__ = (ToUint32 len)
       12:let intLen = [! __x4__]
-      13:if (! (= intLen len)) throw RangeError else 25:{}
+      13:if (! (= intLen len)) 13:throw RangeError else 13:{}
     }
     14:app __x5__ = (Set array "length" intLen true)
     14:[! __x5__]
     15:return array
-  } else {
+  } else 16:{
     17:assert (! (< numberOfArgs 2i))
     18:app __x6__ = (ArrayCreate numberOfArgs proto)
     18:let array = [? __x6__]
     19:let k = 0i
-    20:while (< k numberOfArgs) {
+    20:while (< k numberOfArgs) 20:{
       21:app __x7__ = (ToString k)
       21:let Pk = [! __x7__]
       22:let itemK = values[k]

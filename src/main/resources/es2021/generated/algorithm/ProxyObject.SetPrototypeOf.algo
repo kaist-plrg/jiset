@@ -1,25 +1,25 @@
 def [METHOD] ProxyObject.SetPrototypeOf(O)(V) = {
   1:let handler = O.ProxyHandler
-  2:if (= handler null) throw TypeError else 0:{}
+  2:if (= handler null) 2:throw TypeError else 2:{}
   3:assert (= (typeof handler) Object)
   4:let target = O.ProxyTarget
   5:app __x0__ = (GetMethod handler "setPrototypeOf")
   5:let trap = [? __x0__]
-  6:if (= trap undefined) {
+  6:if (= trap undefined) 6:{
     7:app __x1__ = (target.SetPrototypeOf target V)
     7:return [? __x1__]
-  } else 0:{}
+  } else 6:{}
   8:app __x2__ = (Call trap handler (new [target, V]))
   8:app __x3__ = (ToBoolean [? __x2__])
   8:let booleanTrapResult = [! __x3__]
-  9:if (= booleanTrapResult false) return false else 0:{}
+  9:if (= booleanTrapResult false) 9:return false else 9:{}
   10:app __x4__ = (IsExtensible target)
   10:let extensibleTarget = [? __x4__]
-  11:if (= extensibleTarget true) return true else 0:{}
+  11:if (= extensibleTarget true) 11:return true else 11:{}
   12:app __x5__ = (target.GetPrototypeOf target)
   12:let targetProto = [? __x5__]
   13:app __x6__ = (SameValue V targetProto)
-  13:if (= __x6__ false) throw TypeError else 0:{}
+  13:if (= __x6__ false) 13:throw TypeError else 13:{}
   14:return true
 }
 - id: "sec-proxy-object-internal-methods-and-internal-slots-setprototypeof-v"

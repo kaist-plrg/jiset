@@ -1,10 +1,10 @@
 def [BUILTIN] Math.abs(x) = {
   0:app __x0__ = (ToNumber x)
   0:let n = [? __x0__]
-  1:if (= n NaN) return NaN else 2:{}
-  2:if (= n -0.0) return 0i else 2:{}
-  3:if (= n -Infinity) return Infinity else 2:{}
-  4:if (< n 0i) return (- n) else 2:{}
+  1:if (= n NaN) 1:return NaN else 1:{}
+  2:if (= n -0.0) 2:return 0i else 2:{}
+  3:if (= n -Infinity) 3:return Infinity else 3:{}
+  4:if (< n 0i) 4:return (- n) else 4:{}
   5:return n
 }
 - id: "sec-math.abs"

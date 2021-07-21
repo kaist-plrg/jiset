@@ -3,20 +3,20 @@ def [BUILTIN] Array.prototype.includes(searchElement, fromIndex?) = {
   0:let O = [? __x0__]
   1:app __x1__ = (LengthOfArrayLike O)
   1:let len = [? __x1__]
-  2:if (= len 0i) return false else 4:{}
+  2:if (= len 0i) 2:return false else 2:{}
   3:app __x2__ = (ToIntegerOrInfinity fromIndex)
   3:let n = [? __x2__]
-  6:if (= n Infinity) return false else if (= n -Infinity) n = 0i else 4:{}
-  9:if (! (< n 0i)) let k = n else {
+  5:if (= n Infinity) 5:return false else 5:if (= n -Infinity) 6:n = 0i else 5:{}
+  7:if (! (< n 0i)) 8:let k = n else 9:{
     10:let k = (+ len n)
-    11:if (< k 0i) k = 0i else 4:{}
+    11:if (< k 0i) 11:k = 0i else 11:{}
   }
-  12:while (< k len) {
+  12:while (< k len) 12:{
     13:app __x3__ = (ToString k)
     13:app __x4__ = (Get O [! __x3__])
     13:let elementK = [? __x4__]
     14:app __x5__ = (SameValueZero searchElement elementK)
-    14:if (= __x5__ true) return true else 4:{}
+    14:if (= __x5__ true) 14:return true else 14:{}
     15:k = (+ k 1i)
   }
   16:return false

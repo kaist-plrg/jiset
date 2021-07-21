@@ -2,35 +2,35 @@ def [METHOD] ProxyObject.DefineOwnProperty(O)(P, Desc) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
   1:let handler = O.ProxyHandler
-  2:if (= handler null) throw TypeError else 0:{}
+  2:if (= handler null) 2:throw TypeError else 2:{}
   3:assert (= (typeof handler) Object)
   4:let target = O.ProxyTarget
   5:app __x1__ = (GetMethod handler "defineProperty")
   5:let trap = [? __x1__]
-  6:if (= trap undefined) {
+  6:if (= trap undefined) 6:{
     7:app __x2__ = (target.DefineOwnProperty target P Desc)
     7:return [? __x2__]
-  } else 0:{}
+  } else 6:{}
   8:app __x3__ = (FromPropertyDescriptor Desc)
   8:let descObj = __x3__
   9:app __x4__ = (Call trap handler (new [target, P, descObj]))
   9:app __x5__ = (ToBoolean [? __x4__])
   9:let booleanTrapResult = [! __x5__]
-  10:if (= booleanTrapResult false) return false else 0:{}
+  10:if (= booleanTrapResult false) 10:return false else 10:{}
   11:app __x6__ = (target.GetOwnProperty target P)
   11:let targetDesc = [? __x6__]
   12:app __x7__ = (IsExtensible target)
   12:let extensibleTarget = [? __x7__]
-  15:if (&& (! (= Desc.Configurable absent)) (= Desc.Configurable false)) let settingConfigFalse = true else let settingConfigFalse = false
-  19:if (= targetDesc undefined) {
-    17:if (= extensibleTarget false) throw TypeError else 0:{}
-    18:if (= settingConfigFalse true) throw TypeError else 0:{}
-  } else {
+  13:if (&& (! (= Desc.Configurable absent)) (= Desc.Configurable false)) 14:let settingConfigFalse = true else 13:let settingConfigFalse = false
+  16:if (= targetDesc undefined) 16:{
+    17:if (= extensibleTarget false) 17:throw TypeError else 17:{}
+    18:if (= settingConfigFalse true) 18:throw TypeError else 18:{}
+  } else 19:{
     20:app __x8__ = (IsCompatiblePropertyDescriptor extensibleTarget Desc targetDesc)
-    20:if (= __x8__ false) throw TypeError else 0:{}
-    21:if (&& (= settingConfigFalse true) (= targetDesc.Configurable true)) throw TypeError else 0:{}
+    20:if (= __x8__ false) 20:throw TypeError else 20:{}
+    21:if (&& (= settingConfigFalse true) (= targetDesc.Configurable true)) 21:throw TypeError else 21:{}
     22:app __x9__ = (IsDataDescriptor targetDesc)
-    22:if (&& (&& (= __x9__ true) (= targetDesc.Configurable false)) (= targetDesc.Writable true)) if (&& (! (= Desc.Writable absent)) (= Desc.Writable false)) throw TypeError else 0:{} else 0:{}
+    22:if (&& (&& (= __x9__ true) (= targetDesc.Configurable false)) (= targetDesc.Writable true)) 23:if (&& (! (= Desc.Writable absent)) (= Desc.Writable false)) 23:throw TypeError else 23:{} else 22:{}
   }
   24:return true
 }

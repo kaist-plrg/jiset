@@ -1,22 +1,22 @@
 def CompletePropertyDescriptor(Desc) = {
   0:assert (is-instance-of Desc PropertyDescriptor)
   1:let like = (new Record("Value" -> undefined, "Writable" -> false, "Get" -> undefined, "Set" -> undefined, "Enumerable" -> false, "Configurable" -> false))
-  5:let __x0__ = true
-  5:app __x1__ = (IsGenericDescriptor Desc)
-  5:__x0__ = (= __x1__ true)
-  5:if __x0__ 2:{} else {
-    app __x2__ = (IsDataDescriptor Desc)
-    __x0__ = (= __x2__ true)
+  2:let __x0__ = true
+  2:app __x1__ = (IsGenericDescriptor Desc)
+  2:__x0__ = (= __x1__ true)
+  2:if __x0__ 30:{} else 31:{
+    31:app __x2__ = (IsDataDescriptor Desc)
+    31:__x0__ = (= __x2__ true)
   }
-  5:if __x0__ {
-    3:if (= Desc.Value absent) Desc.Value = like.Value else 2:{}
-    4:if (= Desc.Writable absent) Desc.Writable = like.Writable else 2:{}
-  } else {
-    6:if (= Desc.Get absent) Desc.Get = like.Get else 2:{}
-    7:if (= Desc.Set absent) Desc.Set = like.Set else 2:{}
+  2:if __x0__ 2:{
+    3:if (= Desc.Value absent) 3:Desc.Value = like.Value else 3:{}
+    4:if (= Desc.Writable absent) 4:Desc.Writable = like.Writable else 4:{}
+  } else 5:{
+    6:if (= Desc.Get absent) 6:Desc.Get = like.Get else 6:{}
+    7:if (= Desc.Set absent) 7:Desc.Set = like.Set else 7:{}
   }
-  8:if (= Desc.Enumerable absent) Desc.Enumerable = like.Enumerable else 2:{}
-  9:if (= Desc.Configurable absent) Desc.Configurable = like.Configurable else 2:{}
+  8:if (= Desc.Enumerable absent) 8:Desc.Enumerable = like.Enumerable else 8:{}
+  9:if (= Desc.Configurable absent) 9:Desc.Configurable = like.Configurable else 9:{}
   10:return Desc
 }
 - id: "sec-completepropertydescriptor"

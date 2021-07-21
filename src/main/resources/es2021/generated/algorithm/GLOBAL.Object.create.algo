@@ -1,11 +1,11 @@
 def [BUILTIN] Object.create(O, Properties) = {
-  0:if (! (|| (= (typeof O) Object) (= (typeof O) Null))) throw TypeError else 71:{}
+  0:if (! (|| (= (typeof O) Object) (= (typeof O) Null))) 0:throw TypeError else 0:{}
   1:app __x0__ = (OrdinaryObjectCreate O)
   1:let obj = [! __x0__]
-  2:if (! (= Properties undefined)) {
+  2:if (! (= Properties undefined)) 2:{
     3:app __x1__ = (ObjectDefineProperties obj Properties)
     3:return [? __x1__]
-  } else 71:{}
+  } else 2:{}
   4:return obj
 }
 - id: "sec-object.create"

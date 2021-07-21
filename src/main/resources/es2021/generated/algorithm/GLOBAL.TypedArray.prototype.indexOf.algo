@@ -3,26 +3,26 @@ def [BUILTIN] TypedArray.prototype.indexOf(searchElement, fromIndex?) = {
   1:app __x0__ = (ValidateTypedArray O)
   1:[? __x0__]
   2:let len = O.ArrayLength
-  3:if (= len 0i) return -1i else 5:{}
+  3:if (= len 0i) 3:return -1i else 3:{}
   4:app __x1__ = (ToIntegerOrInfinity fromIndex)
   4:let n = [? __x1__]
-  7:if (= n Infinity) return -1i else if (= n -Infinity) n = 0i else 5:{}
-  10:if (! (< n 0i)) let k = n else {
+  6:if (= n Infinity) 6:return -1i else 6:if (= n -Infinity) 7:n = 0i else 6:{}
+  8:if (! (< n 0i)) 9:let k = n else 10:{
     11:let k = (+ len n)
-    12:if (< k 0i) k = 0i else 5:{}
+    12:if (< k 0i) 12:k = 0i else 12:{}
   }
-  13:while (< k len) {
+  13:while (< k len) 13:{
     14:app __x2__ = (ToString k)
     14:app __x3__ = (HasProperty O [! __x2__])
     14:let kPresent = [! __x3__]
-    15:if (= kPresent true) {
+    15:if (= kPresent true) 15:{
       16:app __x4__ = (ToString k)
       16:app __x5__ = (Get O [! __x4__])
       16:let elementK = [! __x5__]
       17:app __x6__ = (StrictEqualityComparison searchElement elementK)
       17:let same = __x6__
-      18:if (= same true) return k else 5:{}
-    } else 5:{}
+      18:if (= same true) 18:return k else 18:{}
+    } else 15:{}
     19:k = (+ k 1i)
   }
   20:return -1i

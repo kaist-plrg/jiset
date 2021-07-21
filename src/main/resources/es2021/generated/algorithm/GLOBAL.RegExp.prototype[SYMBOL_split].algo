@@ -1,6 +1,6 @@
 def [BUILTIN] RegExp.prototype[SYMBOL_split](string, limit) = {
   0:let rx = this
-  1:if (! (= (typeof rx) Object)) throw TypeError else 56:{}
+  1:if (! (= (typeof rx) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (ToString string)
   2:let S = [? __x0__]
   3:app __x1__ = (SpeciesConstructor rx INTRINSICS["%RegExp%"])
@@ -8,67 +8,67 @@ def [BUILTIN] RegExp.prototype[SYMBOL_split](string, limit) = {
   4:app __x2__ = (Get rx "flags")
   4:app __x3__ = (ToString [? __x2__])
   4:let flags = [? __x3__]
-  6:if (contains flags "u") let unicodeMatching = true else let unicodeMatching = false
-  8:if (contains flags "y") let newFlags = flags else let newFlags = (+ flags "y")
+  5:if (contains flags "u") 5:let unicodeMatching = true else 5:let unicodeMatching = false
+  7:if (contains flags "y") 7:let newFlags = flags else 7:let newFlags = (+ flags "y")
   9:app __x4__ = (Construct C (new [rx, newFlags]))
   9:let splitter = [? __x4__]
   10:app __x5__ = (ArrayCreate 0i)
   10:let A = [! __x5__]
   11:let lengthA = 0i
-  12:if (= limit undefined) let lim = (- (** 2i 32i) 1i) else {
-    app __x6__ = (ToUint32 limit)
-    let lim = [? __x6__]
+  12:if (= limit undefined) 12:let lim = (- (** 2i 32i) 1i) else 13:{
+    13:app __x6__ = (ToUint32 limit)
+    13:let lim = [? __x6__]
   }
-  13:if (= lim 0i) return A else 56:{}
+  13:if (= lim 0i) 13:return A else 13:{}
   14:let size = S.length
-  15:if (= size 0i) {
+  15:if (= size 0i) 15:{
     16:app __x7__ = (RegExpExec splitter S)
     16:let z = [? __x7__]
-    17:if (! (= z null)) return A else 56:{}
+    17:if (! (= z null)) 17:return A else 17:{}
     18:app __x8__ = (CreateDataPropertyOrThrow A "0" S)
     18:[! __x8__]
     19:return A
-  } else 56:{}
+  } else 15:{}
   20:let p = 0i
   21:let q = p
-  22:while (< q size) {
+  22:while (< q size) 22:{
     23:app __x9__ = (Set splitter "lastIndex" q true)
     23:[? __x9__]
     24:app __x10__ = (RegExpExec splitter S)
     24:let z = [? __x10__]
-    26:if (= z null) {
-      app __x11__ = (AdvanceStringIndex S q unicodeMatching)
-      q = __x11__
-    } else {
+    25:if (= z null) 25:{
+      25:app __x11__ = (AdvanceStringIndex S q unicodeMatching)
+      25:q = __x11__
+    } else 26:{
       27:app __x12__ = (Get splitter "lastIndex")
       27:app __x13__ = (ToLength [? __x12__])
       27:let e = [? __x13__]
       28:app __x14__ = (min e size)
       28:e = __x14__
-      30:if (== e p) {
-        app __x15__ = (AdvanceStringIndex S q unicodeMatching)
-        q = __x15__
-      } else {
+      29:if (== e p) 29:{
+        29:app __x15__ = (AdvanceStringIndex S q unicodeMatching)
+        29:q = __x15__
+      } else 30:{
         31:let __x16__ = ""
         31:let __x17__ = p
-        31:while (< __x17__ q) {
-          access __x18__ = (S __x17__)
-          __x16__ = (+ __x16__ __x18__)
-          __x17__ = (+ __x17__ 1i)
+        31:while (< __x17__ q) 31:{
+          31:access __x18__ = (S __x17__)
+          31:__x16__ = (+ __x16__ __x18__)
+          31:__x17__ = (+ __x17__ 1i)
         }
         31:let T = __x16__
         32:app __x19__ = (ToString lengthA)
         32:app __x20__ = (CreateDataPropertyOrThrow A [! __x19__] T)
         32:[! __x20__]
         33:lengthA = (+ lengthA 1i)
-        34:if (== lengthA lim) return A else 56:{}
+        34:if (== lengthA lim) 34:return A else 34:{}
         35:p = e
         36:app __x21__ = (LengthOfArrayLike z)
         36:let numberOfCaptures = [? __x21__]
         37:app __x22__ = (max (- numberOfCaptures 1i) 0i)
         37:numberOfCaptures = __x22__
         38:let i = 1i
-        39:while (! (< numberOfCaptures i)) {
+        39:while (! (< numberOfCaptures i)) 39:{
           40:app __x23__ = (ToString i)
           40:app __x24__ = (Get z [! __x23__])
           40:let nextCapture = [? __x24__]
@@ -77,7 +77,7 @@ def [BUILTIN] RegExp.prototype[SYMBOL_split](string, limit) = {
           41:[! __x26__]
           42:i = (+ i 1i)
           43:lengthA = (+ lengthA 1i)
-          44:if (== lengthA lim) return A else 56:{}
+          44:if (== lengthA lim) 44:return A else 44:{}
         }
         45:q = p
       }
@@ -85,10 +85,10 @@ def [BUILTIN] RegExp.prototype[SYMBOL_split](string, limit) = {
   }
   46:let __x27__ = ""
   46:let __x28__ = p
-  46:while (< __x28__ size) {
-    access __x29__ = (S __x28__)
-    __x27__ = (+ __x27__ __x29__)
-    __x28__ = (+ __x28__ 1i)
+  46:while (< __x28__ size) 46:{
+    46:access __x29__ = (S __x28__)
+    46:__x27__ = (+ __x27__ __x29__)
+    46:__x28__ = (+ __x28__ 1i)
   }
   46:let T = __x27__
   47:app __x30__ = (ToString lengthA)

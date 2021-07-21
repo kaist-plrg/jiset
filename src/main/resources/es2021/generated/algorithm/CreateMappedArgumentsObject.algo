@@ -15,7 +15,7 @@ def CreateMappedArgumentsObject(func, formals, argumentsList, env) = {
   11:let parameterNames = __x2__
   12:let numberOfParameters = parameterNames.length
   13:let index = 0i
-  14:while (< index len) {
+  14:while (< index len) 14:{
     15:let val = argumentsList[index]
     16:app __x3__ = (ToString index)
     16:app __x4__ = (CreateDataPropertyOrThrow obj [! __x3__] val)
@@ -26,11 +26,11 @@ def CreateMappedArgumentsObject(func, formals, argumentsList, env) = {
   18:[! __x5__]
   19:let mappedNames = (new [])
   20:let index = (- numberOfParameters 1i)
-  21:while (! (< index 0i)) {
+  21:while (! (< index 0i)) 21:{
     22:let name = parameterNames[index]
-    23:if (! (contains mappedNames name)) {
+    23:if (! (contains mappedNames name)) 23:{
       24:append name -> mappedNames
-      25:if (< index len) {
+      25:if (< index len) 25:{
         26:app __x6__ = (MakeArgGetter name env)
         26:let g = __x6__
         27:app __x7__ = (MakeArgSetter name env)
@@ -38,8 +38,8 @@ def CreateMappedArgumentsObject(func, formals, argumentsList, env) = {
         28:app __x8__ = (ToString index)
         28:app __x9__ = (map.DefineOwnProperty map [! __x8__] (new PropertyDescriptor("Set" -> p, "Get" -> g, "Enumerable" -> false, "Configurable" -> true)))
         28:__x9__
-      } else 0:{}
-    } else 0:{}
+      } else 25:{}
+    } else 23:{}
     29:index = (- index 1i)
   }
   30:app __x10__ = (DefinePropertyOrThrow obj SYMBOL_iterator (new PropertyDescriptor("Value" -> INTRINSICS["%Array.prototype.values%"], "Writable" -> true, "Enumerable" -> false, "Configurable" -> true)))

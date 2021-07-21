@@ -3,7 +3,7 @@ def NewFunctionEnvironment(F, newTarget) = {
   1:assert (|| (= (typeof newTarget) Undefined) (= (typeof newTarget) Object))
   2:let env = (new FunctionEnvironmentRecord())
   3:env.FunctionObject = F
-  5:if (= F.ThisMode CONST_lexical) env.ThisBindingStatus = CONST_lexical else env.ThisBindingStatus = CONST_uninitialized
+  4:if (= F.ThisMode CONST_lexical) 4:env.ThisBindingStatus = CONST_lexical else 4:env.ThisBindingStatus = CONST_uninitialized
   6:env.NewTarget = newTarget
   7:env.OuterEnv = F.Environment
   8:return env

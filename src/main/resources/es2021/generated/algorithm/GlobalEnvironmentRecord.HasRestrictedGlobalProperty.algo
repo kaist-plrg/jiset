@@ -3,8 +3,8 @@ def [METHOD] GlobalEnvironmentRecord.HasRestrictedGlobalProperty(envRec)(N) = {
   1:let globalObject = ObjRec.BindingObject
   2:app __x0__ = (globalObject.GetOwnProperty globalObject N)
   2:let existingProp = [? __x0__]
-  3:if (= existingProp undefined) return false else 3:{}
-  4:if (= existingProp.Configurable true) return false else 3:{}
+  3:if (= existingProp undefined) 3:return false else 3:{}
+  4:if (= existingProp.Configurable true) 4:return false else 4:{}
   5:return true
 }
 - id: "sec-hasrestrictedglobalproperty"

@@ -3,34 +3,34 @@ def [BUILTIN] Number.prototype.toExponential(fractionDigits) = {
   0:let x = [? __x0__]
   1:app __x1__ = (ToIntegerOrInfinity fractionDigits)
   1:let f = [? __x1__]
-  3:if (|| (|| (= x Infinity) (= x -Infinity)) (= x NaN)) {
-    app __x2__ = (PRIMITIVE[Number].toString x)
-    return [! __x2__]
-  } else 2:{}
-  4:if (|| (< f 0i) (< 100i f)) throw RangeError else 2:{}
+  3:if (|| (|| (= x Infinity) (= x -Infinity)) (= x NaN)) 3:{
+    3:app __x2__ = (PRIMITIVE[Number].toString x)
+    3:return [! __x2__]
+  } else 3:{}
+  4:if (|| (< f 0i) (< 100i f)) 4:throw RangeError else 4:{}
   5:x = x
   6:let s = ""
-  7:if (< x 0i) {
+  7:if (< x 0i) 7:{
     8:s = "-"
     9:x = (- x)
-  } else 2:{}
-  13:if (== x 0i) {
+  } else 7:{}
+  10:if (== x 0i) 10:{
     11:??? "Let id:{m} be the String value consisting of id:{f} + 1 occurrences of the code unit 0x0030 ( DIGIT ZERO ) ."
     12:let e = 0i
-  } else {
-    16:if (! (= fractionDigits undefined)) ??? "Let id:{e} and id:{n} be integers such that 10 sup:{id:{f}} ≤ id:{n} < 10 sup:{id:{f} + 1} and for which id:{n} × 10 sup:{id:{e} - id:{n}} - id:{x} is as close to zero as possible . If there are two such sets of id:{e} and id:{n} , pick the id:{e} and id:{n} for which id:{n} × 10 sup:{id:{e} - id:{f}} is larger ." else ??? "Let id:{e} , id:{n} , and id:{f} be integers such that id:{f} ≥ 0 , 10 sup:{id:{f}} ≤ id:{n} < 10 sup:{id:{f} + 1} , id:{n} × 10 sup:{id:{e} - id:{f}} is id:{x} , and id:{f} is as small as possible . Note that the decimal representation of id:{n} has id:{f} + 1 digits , id:{n} is not divisible by 10 , and the least significant digit of id:{n} is not necessarily uniquely determined by these criteria ."
+  } else 13:{
+    14:if (! (= fractionDigits undefined)) 15:??? "Let id:{e} and id:{n} be integers such that 10 sup:{id:{f}} ≤ id:{n} < 10 sup:{id:{f} + 1} and for which id:{n} × 10 sup:{id:{e} - id:{n}} - id:{x} is as close to zero as possible . If there are two such sets of id:{e} and id:{n} , pick the id:{e} and id:{n} for which id:{n} × 10 sup:{id:{e} - id:{f}} is larger ." else 14:??? "Let id:{e} , id:{n} , and id:{f} be integers such that id:{f} ≥ 0 , 10 sup:{id:{f}} ≤ id:{n} < 10 sup:{id:{f} + 1} , id:{n} × 10 sup:{id:{e} - id:{f}} is id:{x} , and id:{f} is as small as possible . Note that the decimal representation of id:{n} has id:{f} + 1 digits , id:{n} is not divisible by 10 , and the least significant digit of id:{n} is not necessarily uniquely determined by these criteria ."
     18:??? "Let id:{m} be the String value consisting of the digits of the decimal representation of id:{n} ( in order , with no leading zeroes ) ."
   }
-  19:if (! (== f 0i)) {
+  19:if (! (== f 0i)) 19:{
     20:??? "Let id:{a} be the first code unit of id:{m} ."
     21:??? "Let id:{b} be the other id:{f} code units of id:{m} ."
     22:m = (+ (+ a ".") b)
-  } else 2:{}
-  26:if (== e 0i) {
+  } else 19:{}
+  23:if (== e 0i) 23:{
     24:let c = "+"
     25:let d = "0"
-  } else {
-    28:if (< 0i e) let c = "+" else {
+  } else 26:{
+    27:if (< 0i e) 27:let c = "+" else 28:{
       29:assert (< e 0i)
       30:let c = "-"
       31:e = (- e)

@@ -1,41 +1,41 @@
 def [BUILTIN] String.prototype.replace(searchValue, replaceValue) = {
   0:app __x0__ = (RequireObjectCoercible this)
   0:let O = [? __x0__]
-  1:if (! (|| (= searchValue undefined) (= searchValue null))) {
+  1:if (! (|| (= searchValue undefined) (= searchValue null))) 1:{
     2:app __x1__ = (GetMethod searchValue SYMBOL_replace)
     2:let replacer = [? __x1__]
-    3:if (! (= replacer undefined)) {
+    3:if (! (= replacer undefined)) 3:{
       4:app __x2__ = (Call replacer searchValue (new [O, replaceValue]))
       4:return [? __x2__]
-    } else 4:{}
-  } else 4:{}
+    } else 3:{}
+  } else 1:{}
   5:app __x3__ = (ToString O)
   5:let string = [? __x3__]
   6:app __x4__ = (ToString searchValue)
   6:let searchString = [? __x4__]
   7:app __x5__ = (IsCallable replaceValue)
   7:let functionalReplace = __x5__
-  8:if (= functionalReplace false) {
+  8:if (= functionalReplace false) 8:{
     9:app __x6__ = (ToString replaceValue)
     9:replaceValue = [? __x6__]
-  } else 4:{}
+  } else 8:{}
   10:let searchLength = searchString.length
   11:app __x7__ = (StringIndexOf string searchString 0i)
   11:let position = [! __x7__]
-  12:if (= position -1i) return string else 4:{}
+  12:if (= position -1i) 12:return string else 12:{}
   13:let __x8__ = ""
   13:let __x9__ = 0i
-  13:while (< __x9__ position) {
-    access __x10__ = (string __x9__)
-    __x8__ = (+ __x8__ __x10__)
-    __x9__ = (+ __x9__ 1i)
+  13:while (< __x9__ position) 13:{
+    13:access __x10__ = (string __x9__)
+    13:__x8__ = (+ __x8__ __x10__)
+    13:__x9__ = (+ __x9__ 1i)
   }
   13:let preserved = __x8__
-  16:if (= functionalReplace true) {
+  14:if (= functionalReplace true) 14:{
     15:app __x11__ = (Call replaceValue undefined (new [searchString, position, string]))
     15:app __x12__ = (ToString [? __x11__])
     15:let replacement = [? __x12__]
-  } else {
+  } else 16:{
     17:assert (= (typeof replaceValue) String)
     18:let captures = (new [])
     19:app __x13__ = (GetSubstitution searchString string position captures undefined replaceValue)

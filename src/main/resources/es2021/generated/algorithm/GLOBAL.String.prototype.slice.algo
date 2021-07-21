@@ -6,31 +6,31 @@ def [BUILTIN] String.prototype.slice(start, end) = {
   2:let len = S.length
   3:app __x2__ = (ToIntegerOrInfinity start)
   3:let intStart = [? __x2__]
-  6:if (= intStart -Infinity) let from = 0i else if (< intStart 0i) {
-    app __x3__ = (max (+ len intStart) 0i)
-    let from = __x3__
-  } else {
-    app __x4__ = (min intStart len)
-    let from = __x4__
+  4:if (= intStart -Infinity) 4:let from = 0i else 4:if (< intStart 0i) 5:{
+    5:app __x3__ = (max (+ len intStart) 0i)
+    5:let from = __x3__
+  } else 6:{
+    6:app __x4__ = (min intStart len)
+    6:let from = __x4__
   }
-  7:if (= end undefined) let intEnd = len else {
-    app __x5__ = (ToIntegerOrInfinity end)
-    let intEnd = [? __x5__]
+  7:if (= end undefined) 7:let intEnd = len else 8:{
+    8:app __x5__ = (ToIntegerOrInfinity end)
+    8:let intEnd = [? __x5__]
   }
-  10:if (= intEnd -Infinity) let to = 0i else if (< intEnd 0i) {
-    app __x6__ = (max (+ len intEnd) 0i)
-    let to = __x6__
-  } else {
-    app __x7__ = (min intEnd len)
-    let to = __x7__
+  8:if (= intEnd -Infinity) 8:let to = 0i else 8:if (< intEnd 0i) 9:{
+    9:app __x6__ = (max (+ len intEnd) 0i)
+    9:let to = __x6__
+  } else 10:{
+    10:app __x7__ = (min intEnd len)
+    10:let to = __x7__
   }
-  11:if (! (< from to)) return "" else 5:{}
+  11:if (! (< from to)) 11:return "" else 11:{}
   12:let __x8__ = ""
   12:let __x9__ = from
-  12:while (< __x9__ to) {
-    access __x10__ = (S __x9__)
-    __x8__ = (+ __x8__ __x10__)
-    __x9__ = (+ __x9__ 1i)
+  12:while (< __x9__ to) 12:{
+    12:access __x10__ = (S __x9__)
+    12:__x8__ = (+ __x8__ __x10__)
+    12:__x9__ = (+ __x9__ 1i)
   }
   12:return __x8__
 }

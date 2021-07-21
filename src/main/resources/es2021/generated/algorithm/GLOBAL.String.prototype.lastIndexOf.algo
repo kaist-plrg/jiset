@@ -7,9 +7,9 @@ def [BUILTIN] String.prototype.lastIndexOf(searchString, position?) = {
   2:let searchStr = [? __x2__]
   3:app __x3__ = (ToNumber position)
   3:let numPos = [? __x3__]
-  5:if (= numPos NaN) let pos = Infinity else {
-    app __x4__ = (ToIntegerOrInfinity numPos)
-    let pos = [! __x4__]
+  5:if (= numPos NaN) 5:let pos = Infinity else 6:{
+    6:app __x4__ = (ToIntegerOrInfinity numPos)
+    6:let pos = [! __x4__]
   }
   6:let len = S.length
   7:??? "Let id:{start} be the result of clamping id:{pos} between 0 and id:{len} ."

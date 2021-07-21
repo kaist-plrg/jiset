@@ -1,35 +1,35 @@
 def [BUILTIN] TypedArray.from(source, mapfn?, thisArg?) = {
   0:let C = this
   1:app __x0__ = (IsConstructor C)
-  1:if (= __x0__ false) throw TypeError else 22:{}
-  3:if (= mapfn undefined) let mapping = false else {
+  1:if (= __x0__ false) 1:throw TypeError else 1:{}
+  2:if (= mapfn undefined) 2:let mapping = false else 3:{
     4:app __x1__ = (IsCallable mapfn)
-    4:if (= __x1__ false) throw TypeError else 22:{}
+    4:if (= __x1__ false) 4:throw TypeError else 4:{}
     5:let mapping = true
   }
   6:app __x2__ = (GetMethod source SYMBOL_iterator)
   6:let usingIterator = [? __x2__]
-  7:if (! (= usingIterator undefined)) {
+  7:if (! (= usingIterator undefined)) 7:{
     8:app __x3__ = (IterableToList source usingIterator)
     8:let values = [? __x3__]
     9:let len = values.length
     10:app __x4__ = (TypedArrayCreate C (new [len]))
     10:let targetObj = [? __x4__]
     11:let k = 0i
-    12:while (< k len) {
+    12:while (< k len) 12:{
       13:app __x5__ = (ToString k)
       13:let Pk = [! __x5__]
       14:let kValue = (pop values 0i)
-      17:if (= mapping true) {
+      15:if (= mapping true) 15:{
         16:app __x6__ = (Call mapfn thisArg (new [kValue, k]))
         16:let mappedValue = [? __x6__]
-      } else let mappedValue = kValue
+      } else 15:let mappedValue = kValue
       18:app __x7__ = (Set targetObj Pk mappedValue true)
       18:[? __x7__]
       19:k = (+ k 1i)
     }
     21:return targetObj
-  } else 22:{}
+  } else 7:{}
   23:app __x8__ = (ToObject source)
   23:let arrayLike = [! __x8__]
   24:app __x9__ = (LengthOfArrayLike arrayLike)
@@ -37,15 +37,15 @@ def [BUILTIN] TypedArray.from(source, mapfn?, thisArg?) = {
   25:app __x10__ = (TypedArrayCreate C (new [len]))
   25:let targetObj = [? __x10__]
   26:let k = 0i
-  27:while (< k len) {
+  27:while (< k len) 27:{
     28:app __x11__ = (ToString k)
     28:let Pk = [! __x11__]
     29:app __x12__ = (Get arrayLike Pk)
     29:let kValue = [? __x12__]
-    32:if (= mapping true) {
+    30:if (= mapping true) 30:{
       31:app __x13__ = (Call mapfn thisArg (new [kValue, k]))
       31:let mappedValue = [? __x13__]
-    } else let mappedValue = kValue
+    } else 30:let mappedValue = kValue
     33:app __x14__ = (Set targetObj Pk mappedValue true)
     33:[? __x14__]
     34:k = (+ k 1i)

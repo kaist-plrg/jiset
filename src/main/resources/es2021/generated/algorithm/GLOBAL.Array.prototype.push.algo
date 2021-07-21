@@ -4,16 +4,16 @@ def [BUILTIN] Array.prototype.push(...items) = {
   1:app __x1__ = (LengthOfArrayLike O)
   1:let len = [? __x1__]
   2:let argCount = items.length
-  3:if (< (- (** 2i 53i) 1i) (+ len argCount)) throw TypeError else 4:{}
+  3:if (< (- (** 2i 53i) 1i) (+ len argCount)) 3:throw TypeError else 3:{}
   4:let __x2__ = items
   4:let __x3__ = 0i
-  4:while (< __x3__ __x2__.length) {
-    let E = __x2__[__x3__]
+  4:while (< __x3__ __x2__.length) 4:{
+    4:let E = __x2__[__x3__]
+    4:__x3__ = (+ __x3__ 1i)
     5:app __x4__ = (ToString len)
     5:app __x5__ = (Set O [! __x4__] E true)
     5:[? __x5__]
     6:len = (+ len 1i)
-    __x3__ = (+ __x3__ 1i)
   }
   7:app __x6__ = (Set O "length" len true)
   7:[? __x6__]

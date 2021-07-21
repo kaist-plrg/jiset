@@ -4,9 +4,9 @@ def [BUILTIN] Atomics.load(typedArray, index) = {
   1:app __x1__ = (ValidateAtomicAccess typedArray index)
   1:let indexedPosition = [? __x1__]
   2:app __x2__ = (IsDetachedBuffer buffer)
-  2:if (= __x2__ true) throw TypeError else 3:{}
+  2:if (= __x2__ true) 2:throw TypeError else 2:{}
   4:let arrayTypeName = typedArray.TypedArrayName
-  5:let elementType = CONST_Int8
+  6:let elementType = CONST_Int8
   6:app __x3__ = (GetValueFromBuffer buffer indexedPosition elementType true CONST_SeqCst)
   6:return __x3__
 }

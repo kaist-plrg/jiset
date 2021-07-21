@@ -1,12 +1,12 @@
 def [SYNTAX] BindingElement[1,1].KeyedBindingInitialization<(BindingPattern, Initializer),true>(value, environment, propertyName) = {
   0:app __x0__ = (GetV value propertyName)
   0:let v = [? __x0__]
-  1:if (&& (! (= Initializer absent)) (= v undefined)) {
+  1:if (&& (! (= Initializer absent)) (= v undefined)) 1:{
     2:access __x1__ = (Initializer "Evaluation")
     2:let defaultValue = __x1__
     3:app __x2__ = (GetValue defaultValue)
     3:v = [? __x2__]
-  } else 10:{}
+  } else 1:{}
   4:access __x3__ = (BindingPattern "BindingInitialization" v environment)
   4:return __x3__
 }

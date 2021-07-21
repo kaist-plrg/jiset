@@ -1,22 +1,22 @@
 def [SYNTAX] CaseBlock[1,2].VarScopedDeclarations<(CaseClauses0, DefaultClause, CaseClauses1),true>() = {
-  1:if (! (= CaseClauses0 absent)) {
-    access __x0__ = (CaseClauses0 "VarScopedDeclarations")
-    let declarations = __x0__
-  } else let declarations = (new [])
+  0:if (! (= CaseClauses0 absent)) 0:{
+    0:access __x0__ = (CaseClauses0 "VarScopedDeclarations")
+    0:let declarations = __x0__
+  } else 0:let declarations = (new [])
   2:access __x1__ = (DefaultClause "VarScopedDeclarations")
   2:let __x2__ = __x1__
   2:let __x3__ = 0i
-  2:while (< __x3__ __x2__.length) {
-    let __x4__ = __x2__[__x3__]
-    append __x4__ -> declarations
-    __x3__ = (+ __x3__ 1i)
+  2:while (< __x3__ __x2__.length) 2:{
+    2:let __x4__ = __x2__[__x3__]
+    2:__x3__ = (+ __x3__ 1i)
+    2:append __x4__ -> declarations
   }
-  3:if (= CaseClauses1 absent) return declarations else 1:{}
+  3:if (= CaseClauses1 absent) 3:return declarations else 3:{}
   4:access decls = (CaseClauses1 "VarScopedDeclarations")
   4:let __i__ = 0i
-  4:while (< __i__ decls.length) {
-    append decls[__i__] -> declarations
-    __i__ = (+ __i__ 1i)
+  4:while (< __i__ decls.length) 4:{
+    4:append decls[__i__] -> declarations
+    4:__i__ = (+ __i__ 1i)
   }
   4:return decls
 }

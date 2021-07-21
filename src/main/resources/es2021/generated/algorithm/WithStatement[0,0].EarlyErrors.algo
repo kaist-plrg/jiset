@@ -1,7 +1,7 @@
 def [SYNTAX] WithStatement[0,0].EarlyErrors<(Expression, Statement),true>() = {
-  0:if true throw SyntaxError else 2:{}
+  0:if true 0:throw SyntaxError else 0:{}
   1:app __x0__ = (IsLabelledFunction Statement)
-  1:if (= __x0__ true) throw SyntaxError else 2:{}
+  1:if (= __x0__ true) 1:throw SyntaxError else 1:{}
 }
 - id: "sec-with-statement-static-semantics-early-errors"
 - code:

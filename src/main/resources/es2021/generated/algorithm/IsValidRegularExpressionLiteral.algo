@@ -4,15 +4,15 @@ def IsValidRegularExpressionLiteral(literal) = {
   2:access __x0__ = (literal "BodyText")
   2:let patternText = __x0__
   3:access __x1__ = (literal "FlagText")
-  3:if (contains __x1__ ??? "u") let u = true else let u = false
-  4:if (= u false) {
+  3:if (contains __x1__ ??? "u") 3:let u = true else 3:let u = false
+  4:if (= u false) 4:{
     5:app __x2__ = (CodePointsToString patternText)
     5:let stringValue = __x2__
     6:??? "Set id:{patternText} to the sequence of code points resulting from interpreting each of the 16 - bit elements of id:{stringValue} as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements ."
-  } else 8:{}
+  } else 4:{}
   7:app __x3__ = (ParsePattern patternText u)
   7:let parseResult = __x3__
-  8:if (= (typeof parseResult) "AST") return true else return false
+  8:if (= (typeof parseResult) "AST") 8:return true else 8:return false
 }
 - id: "sec-isvalidregularexpressionliteral"
 - code:

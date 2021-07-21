@@ -1,13 +1,13 @@
 def [SYNTAX] BreakableStatement[1,0].LabelledEvaluation<(SwitchStatement),true>(labelSet) = {
   0:access __x0__ = (SwitchStatement "Evaluation")
   0:let stmtResult = __x0__
-  1:if (= stmtResult.Type CONST_break) if (= stmtResult.Target CONST_empty) if (= stmtResult.Value CONST_empty) {
-    app __x1__ = (NormalCompletion undefined)
-    stmtResult = __x1__
-  } else {
-    app __x2__ = (NormalCompletion stmtResult.Value)
-    stmtResult = __x2__
-  } else 0:{} else 0:{}
+  1:if (= stmtResult.Type CONST_break) 2:if (= stmtResult.Target CONST_empty) 3:if (= stmtResult.Value CONST_empty) 3:{
+    3:app __x1__ = (NormalCompletion undefined)
+    3:stmtResult = __x1__
+  } else 4:{
+    4:app __x2__ = (NormalCompletion stmtResult.Value)
+    4:stmtResult = __x2__
+  } else 2:{} else 1:{}
   5:return stmtResult
 }
 - id: "sec-runtime-semantics-labelledevaluation"

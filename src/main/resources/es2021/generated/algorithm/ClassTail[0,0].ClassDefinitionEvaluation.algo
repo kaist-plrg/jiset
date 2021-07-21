@@ -3,45 +3,45 @@ def [SYNTAX] ClassTail[0,0].ClassDefinitionEvaluation<(ClassHeritage, ClassBody)
   0:let env = __x0__
   1:app __x1__ = (NewDeclarativeEnvironment env)
   1:let classScope = __x1__
-  2:if (! (= classBinding undefined)) {
+  2:if (! (= classBinding undefined)) 2:{
     3:app __x2__ = (classScope.CreateImmutableBinding classScope classBinding true)
     3:__x2__
-  } else 33:{}
-  7:if (= ClassHeritage absent) {
+  } else 2:{}
+  4:if (= ClassHeritage absent) 4:{
     5:let protoParent = INTRINSICS["%Object.prototype%"]
     6:let constructorParent = INTRINSICS["%Function.prototype%"]
-  } else {
+  } else 7:{
     8:CONTEXT.LexicalEnvironment = classScope
     9:access __x3__ = (ClassHeritage "Evaluation")
     9:let superclassRef = __x3__
     10:CONTEXT.LexicalEnvironment = env
     11:app __x4__ = (GetValue superclassRef)
     11:let superclass = [? __x4__]
-    16:if (= superclass null) {
+    12:if (= superclass null) 12:{
       13:let protoParent = null
       14:let constructorParent = INTRINSICS["%Function.prototype%"]
-    } else {
-      app __x5__ = (IsConstructor superclass)
-      if (= __x5__ false) throw TypeError else {
+    } else 15:{
+      15:app __x5__ = (IsConstructor superclass)
+      15:if (= __x5__ false) 15:throw TypeError else 16:{
         17:app __x6__ = (Get superclass "prototype")
         17:let protoParent = [? __x6__]
-        18:if (! (|| (= (typeof protoParent) Object) (= (typeof protoParent) Null))) throw TypeError else 33:{}
+        18:if (! (|| (= (typeof protoParent) Object) (= (typeof protoParent) Null))) 18:throw TypeError else 18:{}
         19:let constructorParent = superclass
       }
     }
   }
   20:app __x7__ = (OrdinaryObjectCreate protoParent)
   20:let proto = [! __x7__]
-  22:if (= ClassBody absent) let constructor = CONST_empty else {
-    access __x8__ = (ClassBody "ConstructorMethod")
-    let constructor = __x8__
+  21:if (= ClassBody absent) 21:let constructor = CONST_empty else 22:{
+    22:access __x8__ = (ClassBody "ConstructorMethod")
+    22:let constructor = __x8__
   }
   23:CONTEXT.LexicalEnvironment = classScope
-  27:if (= constructor CONST_empty) {
+  24:if (= constructor CONST_empty) 24:{
     25:let steps = ALGORITHM["GLOBAL.DefaultConstructorFunctions"]
     26:app __x9__ = (CreateBuiltinFunction steps 0i className (new ["ConstructorKind", "SourceText"]) CONST_empty constructorParent)
     26:let F = [! __x9__]
-  } else {
+  } else 27:{
     28:access __x10__ = (constructor "DefineMethod" proto constructorParent)
     28:let constructorInfo = [! __x10__]
     29:let F = constructorInfo.Closure
@@ -52,37 +52,37 @@ def [SYNTAX] ClassTail[0,0].ClassDefinitionEvaluation<(ClassHeritage, ClassBody)
   }
   32:app __x13__ = (MakeConstructor F false proto)
   32:[! __x13__]
-  33:if (! (= ClassHeritage absent)) F.ConstructorKind = CONST_derived else 33:{}
+  33:if (! (= ClassHeritage absent)) 33:F.ConstructorKind = CONST_derived else 33:{}
   34:app __x14__ = (CreateMethodProperty proto "constructor" F)
   34:[! __x14__]
-  36:if (= ClassBody absent) let methods = (new []) else {
-    access __x15__ = (ClassBody "NonConstructorMethodDefinitions")
-    let methods = __x15__
+  35:if (= ClassBody absent) 35:let methods = (new []) else 36:{
+    36:access __x15__ = (ClassBody "NonConstructorMethodDefinitions")
+    36:let methods = __x15__
   }
   37:let __x16__ = methods
   37:let __x17__ = 0i
-  37:while (< __x17__ __x16__.length) {
-    let m = __x16__[__x17__]
-    40:access __x18__ = (m "IsStatic")
-    40:if (= __x18__ false) {
+  37:while (< __x17__ __x16__.length) 37:{
+    37:let m = __x16__[__x17__]
+    37:__x17__ = (+ __x17__ 1i)
+    38:access __x18__ = (m "IsStatic")
+    38:if (= __x18__ false) 38:{
       39:access __x19__ = (m "PropertyDefinitionEvaluation" proto false)
       39:let status = __x19__
-    } else {
+    } else 40:{
       41:access __x20__ = (m "PropertyDefinitionEvaluation" F false)
       41:let status = __x20__
     }
     42:app __x21__ = (IsAbruptCompletion status)
-    42:if __x21__ {
+    42:if __x21__ 42:{
       43:CONTEXT.LexicalEnvironment = env
       44:return status
-    } else 33:{}
-    __x17__ = (+ __x17__ 1i)
+    } else 42:{}
   }
   45:CONTEXT.LexicalEnvironment = env
-  46:if (! (= classBinding undefined)) {
+  46:if (! (= classBinding undefined)) 46:{
     47:app __x22__ = (classScope.InitializeBinding classScope classBinding F)
     47:__x22__
-  } else 33:{}
+  } else 46:{}
   48:return F
 }
 - id: "sec-runtime-semantics-classdefinitionevaluation"

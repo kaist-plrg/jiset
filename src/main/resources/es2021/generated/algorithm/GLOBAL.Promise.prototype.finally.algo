@@ -1,15 +1,15 @@
 def [BUILTIN] Promise.prototype.finally(onFinally) = {
   0:let promise = this
-  1:if (! (= (typeof promise) Object)) throw TypeError else 10:{}
+  1:if (! (= (typeof promise) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (SpeciesConstructor promise INTRINSICS["%Promise%"])
   2:let C = [? __x0__]
   3:app __x1__ = (IsConstructor C)
   3:assert (= __x1__ true)
-  7:app __x2__ = (IsCallable onFinally)
-  7:if (= __x2__ false) {
+  4:app __x2__ = (IsCallable onFinally)
+  4:if (= __x2__ false) 4:{
     5:let thenFinally = onFinally
     6:let catchFinally = onFinally
-  } else {
+  } else 7:{
     8:let stepsThenFinally = ALGORITHM["GLOBAL.ThenFinallyFunctions"]
     9:let lengthThenFinally = 1i
     10:app __x3__ = (CreateBuiltinFunction stepsThenFinally lengthThenFinally "" (new ["Constructor", "OnFinally"]))

@@ -5,20 +5,20 @@ def [SYNTAX] Catch[0,0].CatchClauseEvaluation<(CatchParameter, Block),true>(thro
   2:access __x1__ = (CatchParameter "BoundNames")
   2:let __x2__ = __x1__
   2:let __x3__ = 0i
-  2:while (< __x3__ __x2__.length) {
-    let argName = __x2__[__x3__]
+  2:while (< __x3__ __x2__.length) 2:{
+    2:let argName = __x2__[__x3__]
+    2:__x3__ = (+ __x3__ 1i)
     3:app __x4__ = (catchEnv.CreateMutableBinding catchEnv argName false)
     3:[! __x4__]
-    __x3__ = (+ __x3__ 1i)
   }
   4:CONTEXT.LexicalEnvironment = catchEnv
   5:access __x5__ = (CatchParameter "BindingInitialization" thrownValue catchEnv)
   5:let status = __x5__
   6:app __x6__ = (IsAbruptCompletion status)
-  6:if __x6__ {
+  6:if __x6__ 6:{
     7:CONTEXT.LexicalEnvironment = oldEnv
     8:return status
-  } else 0:{}
+  } else 6:{}
   9:access __x7__ = (Block "Evaluation")
   9:let B = __x7__
   10:CONTEXT.LexicalEnvironment = oldEnv

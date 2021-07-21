@@ -4,36 +4,36 @@ def [BUILTIN] Array.prototype.reduceRight(callbackfn, initialValue?) = {
   1:app __x1__ = (LengthOfArrayLike O)
   1:let len = [? __x1__]
   2:app __x2__ = (IsCallable callbackfn)
-  2:if (= __x2__ false) throw TypeError else 4:{}
-  3:if (&& (= len 0i) (= initialValue absent)) throw TypeError else 4:{}
+  2:if (= __x2__ false) 2:throw TypeError else 2:{}
+  3:if (&& (= len 0i) (= initialValue absent)) 3:throw TypeError else 3:{}
   4:let k = (- len 1i)
   5:let accumulator = undefined
-  8:if (! (= initialValue absent)) accumulator = initialValue else {
+  6:if (! (= initialValue absent)) 7:accumulator = initialValue else 8:{
     9:let kPresent = false
-    10:while (&& (= kPresent false) (! (< k 0i))) {
+    10:while (&& (= kPresent false) (! (< k 0i))) 10:{
       11:app __x3__ = (ToString k)
       11:let Pk = [! __x3__]
       12:app __x4__ = (HasProperty O Pk)
       12:kPresent = [? __x4__]
-      13:if (= kPresent true) {
+      13:if (= kPresent true) 13:{
         14:app __x5__ = (Get O Pk)
         14:accumulator = [? __x5__]
-      } else 4:{}
+      } else 13:{}
       15:k = (- k 1i)
     }
-    16:if (= kPresent false) throw TypeError else 4:{}
+    16:if (= kPresent false) 16:throw TypeError else 16:{}
   }
-  17:while (! (< k 0i)) {
+  17:while (! (< k 0i)) 17:{
     18:app __x6__ = (ToString k)
     18:let Pk = [! __x6__]
     19:app __x7__ = (HasProperty O Pk)
     19:let kPresent = [? __x7__]
-    20:if (= kPresent true) {
+    20:if (= kPresent true) 20:{
       21:app __x8__ = (Get O Pk)
       21:let kValue = [? __x8__]
       22:app __x9__ = (Call callbackfn undefined (new [accumulator, kValue, k, O]))
       22:accumulator = [? __x9__]
-    } else 4:{}
+    } else 20:{}
     23:k = (- k 1i)
   }
   24:return accumulator

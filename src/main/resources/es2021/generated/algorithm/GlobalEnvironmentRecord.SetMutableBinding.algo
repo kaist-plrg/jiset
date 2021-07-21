@@ -1,10 +1,10 @@
 def [METHOD] GlobalEnvironmentRecord.SetMutableBinding(envRec)(N, V, S) = {
   0:let DclRec = envRec.DeclarativeRecord
   1:app __x0__ = (DclRec.HasBinding DclRec N)
-  1:if (= __x0__ true) {
+  1:if (= __x0__ true) 1:{
     2:app __x1__ = (DclRec.SetMutableBinding DclRec N V S)
     2:return __x1__
-  } else 3:{}
+  } else 1:{}
   3:let ObjRec = envRec.ObjectRecord
   4:app __x2__ = (ObjRec.SetMutableBinding ObjRec N V S)
   4:return [? __x2__]

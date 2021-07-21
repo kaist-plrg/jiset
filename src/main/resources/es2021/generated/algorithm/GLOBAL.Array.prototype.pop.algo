@@ -3,11 +3,11 @@ def [BUILTIN] Array.prototype.pop() = {
   0:let O = [? __x0__]
   1:app __x1__ = (LengthOfArrayLike O)
   1:let len = [? __x1__]
-  5:if (== len 0i) {
+  2:if (== len 0i) 2:{
     3:app __x2__ = (Set O "length" 0i true)
     3:[? __x2__]
     4:return undefined
-  } else {
+  } else 5:{
     6:assert (< 0i len)
     7:let newLen = (- len 1i)
     8:app __x3__ = (ToString newLen)

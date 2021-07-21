@@ -1,19 +1,19 @@
 def RegExpInitialize(obj, pattern, flags) = {
-  1:if (= pattern undefined) let P = "" else {
-    app __x0__ = (ToString pattern)
-    let P = [? __x0__]
+  0:if (= pattern undefined) 0:let P = "" else 1:{
+    1:app __x0__ = (ToString pattern)
+    1:let P = [? __x0__]
   }
-  3:if (= flags undefined) let F = "" else {
-    app __x1__ = (ToString flags)
-    let F = [? __x1__]
+  2:if (= flags undefined) 2:let F = "" else 3:{
+    3:app __x1__ = (ToString flags)
+    3:let F = [? __x1__]
   }
   4:??? "If id:{F} contains any code unit other than value:{\"g\"} , value:{\"i\"} , value:{\"m\"} , value:{\"s\"} , value:{\"u\"} , or value:{\"y\"} or if it contains the same code unit more than once , throw a value:{SyntaxError} exception ."
-  5:if (contains F "u") let u = true else let u = false
-  9:if (= u true) {
+  5:if (contains F "u") 5:let u = true else 5:let u = false
+  6:if (= u true) 6:{
     7:app __x2__ = (StringToCodePoints P)
     7:let patternText = [! __x2__]
     8:??? "Let id:{patternCharacters} be a List whose elements are the code points of id:{patternText} ."
-  } else {
+  } else 9:{
     10:??? "Let id:{patternText} be the result of interpreting each of id:{P} ' s 16 - bit elements as a Unicode BMP code point . UTF - 16 decoding is not applied to the elements ."
     11:??? "Let id:{patternCharacters} be a List whose elements are the code unit elements of id:{P} ."
   }

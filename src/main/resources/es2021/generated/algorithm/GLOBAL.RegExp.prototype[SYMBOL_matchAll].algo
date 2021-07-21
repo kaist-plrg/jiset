@@ -1,6 +1,6 @@
 def [BUILTIN] RegExp.prototype[SYMBOL_matchAll](string) = {
   0:let R = this
-  1:if (! (= (typeof R) Object)) throw TypeError else 52:{}
+  1:if (! (= (typeof R) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (ToString string)
   2:let S = [? __x0__]
   3:app __x1__ = (SpeciesConstructor R INTRINSICS["%RegExp%"])
@@ -15,8 +15,8 @@ def [BUILTIN] RegExp.prototype[SYMBOL_matchAll](string) = {
   6:let lastIndex = [? __x6__]
   7:app __x7__ = (Set matcher "lastIndex" lastIndex true)
   7:[? __x7__]
-  9:if (contains flags "g") let global = true else let global = false
-  11:if (contains flags "u") let fullUnicode = true else let fullUnicode = false
+  8:if (contains flags "g") 8:let global = true else 8:let global = false
+  10:if (contains flags "u") 10:let fullUnicode = true else 10:let fullUnicode = false
   12:app __x8__ = (CreateRegExpStringIterator matcher S global fullUnicode)
   12:return [! __x8__]
 }

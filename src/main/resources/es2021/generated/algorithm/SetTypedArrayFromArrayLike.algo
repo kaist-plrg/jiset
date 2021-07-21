@@ -1,7 +1,7 @@
 def SetTypedArrayFromArrayLike(target, targetOffset, source) = {
   1:let targetBuffer = target.ViewedArrayBuffer
   2:app __x0__ = (IsDetachedBuffer targetBuffer)
-  2:if (= __x0__ true) throw TypeError else 0:{}
+  2:if (= __x0__ true) 2:throw TypeError else 2:{}
   3:let targetLength = target.ArrayLength
   4:let targetName = target.TypedArrayName
   5:??? "Let id:{targetElementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for id:{targetName} ."
@@ -11,25 +11,25 @@ def SetTypedArrayFromArrayLike(target, targetOffset, source) = {
   8:let src = [? __x1__]
   9:app __x2__ = (LengthOfArrayLike src)
   9:let srcLength = [? __x2__]
-  10:if (= targetOffset Infinity) throw RangeError else 0:{}
-  11:if (< targetLength (+ srcLength targetOffset)) throw RangeError else 0:{}
+  10:if (= targetOffset Infinity) 10:throw RangeError else 10:{}
+  11:if (< targetLength (+ srcLength targetOffset)) 11:throw RangeError else 11:{}
   12:let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)
   13:let k = 0i
   14:let limit = (* (+ targetByteIndex targetElementSize) srcLength)
-  15:while (< targetByteIndex limit) {
+  15:while (< targetByteIndex limit) 15:{
     16:app __x3__ = (ToString k)
     16:let Pk = [! __x3__]
     17:app __x4__ = (Get src Pk)
     17:let value = [? __x4__]
-    19:if (= target.ContentType CONST_BigInt) {
-      app __x5__ = (ToBigInt value)
-      value = [? __x5__]
-    } else {
-      app __x6__ = (ToNumber value)
-      value = [? __x6__]
+    18:if (= target.ContentType CONST_BigInt) 18:{
+      18:app __x5__ = (ToBigInt value)
+      18:value = [? __x5__]
+    } else 19:{
+      19:app __x6__ = (ToNumber value)
+      19:value = [? __x6__]
     }
     20:app __x7__ = (IsDetachedBuffer targetBuffer)
-    20:if (= __x7__ true) throw TypeError else 0:{}
+    20:if (= __x7__ true) 20:throw TypeError else 20:{}
     21:app __x8__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
     21:__x8__
     22:k = (+ k 1i)

@@ -1,29 +1,29 @@
 def [BUILTIN] Function.prototype.bind(thisArg, ...args) = {
   0:let Target = this
   1:app __x0__ = (IsCallable Target)
-  1:if (= __x0__ false) throw TypeError else 73:{}
+  1:if (= __x0__ false) 1:throw TypeError else 1:{}
   2:app __x1__ = (BoundFunctionCreate Target thisArg args)
   2:let F = [? __x1__]
   3:let L = 0i
   4:app __x2__ = (HasOwnProperty Target "length")
   4:let targetHasLength = [? __x2__]
-  5:if (= targetHasLength true) {
+  5:if (= targetHasLength true) 5:{
     6:app __x3__ = (Get Target "length")
     6:let targetLen = [? __x3__]
-    7:if (= (typeof targetLen) Number) if (= targetLen Infinity) L = Infinity else if (= targetLen -Infinity) L = 0i else {
+    7:if (= (typeof targetLen) Number) 8:if (= targetLen Infinity) 8:L = Infinity else 8:if (= targetLen -Infinity) 9:L = 0i else 10:{
       11:app __x4__ = (ToIntegerOrInfinity targetLen)
       11:let targetLenAsInt = [! __x4__]
       12:assert (! (|| (|| (= targetLenAsInt Infinity) (= targetLenAsInt -Infinity)) (= targetLenAsInt NaN)))
       13:let argCount = args.length
       14:app __x5__ = (max (- targetLenAsInt argCount) 0i)
       14:L = __x5__
-    } else 73:{}
-  } else 73:{}
+    } else 7:{}
+  } else 5:{}
   15:app __x6__ = (SetFunctionLength F L)
   15:[! __x6__]
   16:app __x7__ = (Get Target "name")
   16:let targetName = [? __x7__]
-  17:if (! (= (typeof targetName) String)) targetName = "" else 73:{}
+  17:if (! (= (typeof targetName) String)) 17:targetName = "" else 17:{}
   18:app __x8__ = (SetFunctionName F targetName "bound")
   18:__x8__
   19:return F

@@ -3,22 +3,10 @@ def SetValueInBuffer(arrayBuffer, byteIndex, type, value, isTypedArray, order, i
   0:assert (= __x0__ false)
   3:let block = arrayBuffer.ArrayBufferData
   4:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for Element Type id:{type} ."
-  5:if (= isLittleEndian absent) isLittleEndian = AGENT.LittleEndian else 2:{}
+  5:if (= isLittleEndian absent) 5:isLittleEndian = AGENT.LittleEndian else 5:{}
   6:app __x1__ = (NumericToRawBytes type value isLittleEndian)
   6:let rawBytes = __x1__
-  7:app __x2__ = (IsSharedArrayBuffer arrayBuffer)
-  7:if (= __x2__ true) {
-    8:let execution = AGENT.CandidateExecution
-    9:??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
-    10:let __x3__ = true
-    10:__x3__ = (= isTypedArray true)
-    10:if __x3__ {
-      app __x4__ = (IsNoTearConfiguration type order)
-      __x3__ = (= __x4__ true)
-    } else 2:{}
-    10:if __x3__ let noTear = true else let noTear = false
-    11:append (new WriteSharedMemory("Order" -> order, "NoTear" -> noTear, "Block" -> block, "ByteIndex" -> byteIndex, "ElementSize" -> elementSize, "Payload" -> rawBytes)) -> eventList
-  } else 2:{}
+  7:??? "If IsSharedArrayBuffer ( id:{arrayBuffer} ) is value:{true} , then in:{} out:{}"
   12:??? "Else , store the individual bytes of id:{rawBytes} into id:{block} , starting at id:{block} [ id:{byteIndex} ] ."
   13:return undefined
 }

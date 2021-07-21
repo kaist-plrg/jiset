@@ -1,12 +1,12 @@
 def IteratorNext(iteratorRecord, value?) = {
-  2:if (= value absent) {
+  0:if (= value absent) 0:{
     1:app __x0__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator)
     1:let result = [? __x0__]
-  } else {
+  } else 2:{
     3:app __x1__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator (new [value]))
     3:let result = [? __x1__]
   }
-  4:if (! (= (typeof result) Object)) throw TypeError else 1:{}
+  4:if (! (= (typeof result) Object)) 4:throw TypeError else 4:{}
   5:return result
 }
 - id: "sec-iteratornext"

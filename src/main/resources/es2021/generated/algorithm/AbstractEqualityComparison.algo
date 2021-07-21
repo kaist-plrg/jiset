@@ -1,55 +1,55 @@
 def AbstractEqualityComparison(x, y) = {
-  0:if (= (typeof x) (typeof y)) {
+  0:if (= (typeof x) (typeof y)) 0:{
     1:app __x0__ = (StrictEqualityComparison x y)
     1:return __x0__
-  } else 4:{}
-  2:if (&& (= x null) (= y undefined)) return true else 4:{}
-  3:if (&& (= x undefined) (= y null)) return true else 4:{}
-  5:if (&& (= (typeof x) Number) (= (typeof y) String)) {
-    app __x1__ = (ToNumber y)
-    app __x2__ = (AbstractEqualityComparison x [! __x1__])
-    return __x2__
-  } else 4:{}
-  6:if (&& (= (typeof x) String) (= (typeof y) Number)) {
-    app __x3__ = (ToNumber x)
-    app __x4__ = (AbstractEqualityComparison [! __x3__] y)
-    return __x4__
-  } else 4:{}
-  7:if (&& (= (typeof x) BigInt) (= (typeof y) String)) {
+  } else 0:{}
+  2:if (&& (= x null) (= y undefined)) 2:return true else 2:{}
+  3:if (&& (= x undefined) (= y null)) 3:return true else 3:{}
+  5:if (&& (= (typeof x) Number) (= (typeof y) String)) 5:{
+    5:app __x1__ = (ToNumber y)
+    5:app __x2__ = (AbstractEqualityComparison x [! __x1__])
+    5:return __x2__
+  } else 5:{}
+  6:if (&& (= (typeof x) String) (= (typeof y) Number)) 6:{
+    6:app __x3__ = (ToNumber x)
+    6:app __x4__ = (AbstractEqualityComparison [! __x3__] y)
+    6:return __x4__
+  } else 6:{}
+  7:if (&& (= (typeof x) BigInt) (= (typeof y) String)) 7:{
     8:app __x5__ = (StringToBigInt y)
     8:let n = [! __x5__]
-    9:if (= n NaN) return false else 4:{}
+    9:if (= n NaN) 9:return false else 9:{}
     10:app __x6__ = (AbstractEqualityComparison x n)
     10:return __x6__
-  } else 4:{}
-  11:if (&& (= (typeof x) String) (= (typeof y) BigInt)) {
-    app __x7__ = (AbstractEqualityComparison y x)
-    return __x7__
-  } else 4:{}
-  12:if (= (typeof x) Boolean) {
-    app __x8__ = (ToNumber x)
-    app __x9__ = (AbstractEqualityComparison [! __x8__] y)
-    return __x9__
-  } else 4:{}
-  13:if (= (typeof y) Boolean) {
-    app __x10__ = (ToNumber y)
-    app __x11__ = (AbstractEqualityComparison x [! __x10__])
-    return __x11__
-  } else 4:{}
-  14:if (&& (|| (|| (|| (= (typeof x) String) (= (typeof x) Number)) (= (typeof x) BigInt)) (= (typeof x) Symbol)) (= (typeof y) Object)) {
-    app __x12__ = (ToPrimitive y)
-    app __x13__ = (AbstractEqualityComparison x [? __x12__])
-    return __x13__
-  } else 4:{}
-  15:if (&& (= (typeof x) Object) (|| (|| (|| (= (typeof y) String) (= (typeof y) Number)) (= (typeof y) BigInt)) (= (typeof y) Symbol))) {
-    app __x14__ = (ToPrimitive x)
-    app __x15__ = (AbstractEqualityComparison [? __x14__] y)
-    return __x15__
-  } else 4:{}
-  16:if (|| (&& (= (typeof x) BigInt) (= (typeof y) Number)) (&& (= (typeof x) Number) (= (typeof y) BigInt))) {
-    17:if (|| (|| (|| (= x NaN) (= x Infinity)) (= x -Infinity)) (|| (|| (= y NaN) (= y Infinity)) (= y -Infinity))) return false else 4:{}
-    18:if (== x y) return true else return false
-  } else 4:{}
+  } else 7:{}
+  11:if (&& (= (typeof x) String) (= (typeof y) BigInt)) 11:{
+    11:app __x7__ = (AbstractEqualityComparison y x)
+    11:return __x7__
+  } else 11:{}
+  12:if (= (typeof x) Boolean) 12:{
+    12:app __x8__ = (ToNumber x)
+    12:app __x9__ = (AbstractEqualityComparison [! __x8__] y)
+    12:return __x9__
+  } else 12:{}
+  13:if (= (typeof y) Boolean) 13:{
+    13:app __x10__ = (ToNumber y)
+    13:app __x11__ = (AbstractEqualityComparison x [! __x10__])
+    13:return __x11__
+  } else 13:{}
+  14:if (&& (|| (|| (|| (= (typeof x) String) (= (typeof x) Number)) (= (typeof x) BigInt)) (= (typeof x) Symbol)) (= (typeof y) Object)) 14:{
+    14:app __x12__ = (ToPrimitive y)
+    14:app __x13__ = (AbstractEqualityComparison x [? __x12__])
+    14:return __x13__
+  } else 14:{}
+  15:if (&& (= (typeof x) Object) (|| (|| (|| (= (typeof y) String) (= (typeof y) Number)) (= (typeof y) BigInt)) (= (typeof y) Symbol))) 15:{
+    15:app __x14__ = (ToPrimitive x)
+    15:app __x15__ = (AbstractEqualityComparison [? __x14__] y)
+    15:return __x15__
+  } else 15:{}
+  16:if (|| (&& (= (typeof x) BigInt) (= (typeof y) Number)) (&& (= (typeof x) Number) (= (typeof y) BigInt))) 16:{
+    17:if (|| (|| (|| (= x NaN) (= x Infinity)) (= x -Infinity)) (|| (|| (= y NaN) (= y Infinity)) (= y -Infinity))) 17:return false else 17:{}
+    18:if (== x y) 18:return true else 18:return false
+  } else 16:{}
   19:return false
 }
 - id: "sec-abstract-equality-comparison"

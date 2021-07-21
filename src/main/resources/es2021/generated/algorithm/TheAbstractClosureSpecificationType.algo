@@ -1,6 +1,6 @@
 def TheAbstractClosureSpecificationType() = {
   0:let addend = 41i
-  1:let closure = (x)[addend] => return (+ x addend)
+  1:let closure = (x)[addend] => 2:return (+ x addend)
   3:app __x0__ = (closure 1i)
   3:let val = __x0__
   4:assert (= val 42i)

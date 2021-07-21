@@ -2,16 +2,16 @@ def EventSet(execution) = {
   0:let events = (new [])
   1:let __x0__ = execution.EventsRecords
   1:let __x1__ = 0i
-  1:while (< __x1__ __x0__.length) {
-    let aer = __x0__[__x1__]
+  1:while (< __x1__ __x0__.length) 1:{
+    1:let aer = __x0__[__x1__]
+    1:__x1__ = (+ __x1__ 1i)
     2:let __x2__ = aer.EventList
     2:let __x3__ = 0i
-    2:while (< __x3__ __x2__.length) {
-      let E = __x2__[__x3__]
+    2:while (< __x3__ __x2__.length) 2:{
+      2:let E = __x2__[__x3__]
+      2:__x3__ = (+ __x3__ 1i)
       3:append E -> events
-      __x3__ = (+ __x3__ 1i)
     }
-    __x1__ = (+ __x1__ 1i)
   }
   4:return events
 }

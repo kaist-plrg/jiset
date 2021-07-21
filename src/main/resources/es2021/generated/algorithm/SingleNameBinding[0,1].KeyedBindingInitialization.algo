@@ -5,22 +5,22 @@ def [SYNTAX] SingleNameBinding[0,1].KeyedBindingInitialization<(BindingIdentifie
   1:let lhs = [? __x1__]
   2:app __x2__ = (GetV value propertyName)
   2:let v = [? __x2__]
-  3:if (&& (! (= Initializer absent)) (= v undefined)) {
-    6:app __x3__ = (IsAnonymousFunctionDefinition Initializer)
-    6:if (= __x3__ true) {
+  3:if (&& (! (= Initializer absent)) (= v undefined)) 3:{
+    4:app __x3__ = (IsAnonymousFunctionDefinition Initializer)
+    4:if (= __x3__ true) 4:{
       5:access __x4__ = (Initializer "NamedEvaluation" bindingId)
       5:v = __x4__
-    } else {
+    } else 6:{
       7:access __x5__ = (Initializer "Evaluation")
       7:let defaultValue = __x5__
       8:app __x6__ = (GetValue defaultValue)
       8:v = [? __x6__]
     }
-  } else 10:{}
-  9:if (= environment undefined) {
-    app __x7__ = (PutValue lhs v)
-    return [? __x7__]
-  } else 10:{}
+  } else 3:{}
+  9:if (= environment undefined) 9:{
+    9:app __x7__ = (PutValue lhs v)
+    9:return [? __x7__]
+  } else 9:{}
   10:app __x8__ = (InitializeReferencedBinding lhs v)
   10:return __x8__
 }

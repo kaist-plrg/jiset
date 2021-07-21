@@ -1,8 +1,8 @@
 def [BUILTIN] Math.sign(x) = {
   0:app __x0__ = (ToNumber x)
   0:let n = [? __x0__]
-  1:if (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) return n else 2:{}
-  2:if (< n 0i) return -1i else 2:{}
+  1:if (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) 1:return n else 1:{}
+  2:if (< n 0i) 2:return -1i else 2:{}
   3:return 1i
 }
 - id: "sec-math.sign"

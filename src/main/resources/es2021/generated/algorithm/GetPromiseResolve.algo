@@ -4,7 +4,7 @@ def GetPromiseResolve(promiseConstructor) = {
   1:app __x1__ = (Get promiseConstructor "resolve")
   1:let promiseResolve = [? __x1__]
   2:app __x2__ = (IsCallable promiseResolve)
-  2:if (= __x2__ false) throw TypeError else 10:{}
+  2:if (= __x2__ false) 2:throw TypeError else 2:{}
   3:return promiseResolve
 }
 - id: "sec-getpromiseresolve"

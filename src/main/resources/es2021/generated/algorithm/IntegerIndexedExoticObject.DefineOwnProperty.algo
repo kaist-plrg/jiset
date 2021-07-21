@@ -1,24 +1,24 @@
 def [METHOD] IntegerIndexedExoticObject.DefineOwnProperty(O)(P, Desc) = {
   0:app __x0__ = (IsPropertyKey P)
   0:assert (= __x0__ true)
-  2:if (= (typeof P) String) {
+  2:if (= (typeof P) String) 2:{
     3:app __x1__ = (CanonicalNumericIndexString P)
     3:let numericIndex = [! __x1__]
-    4:if (! (= numericIndex undefined)) {
+    4:if (! (= numericIndex undefined)) 4:{
       5:app __x2__ = (IsValidIntegerIndex O numericIndex)
-      5:if (= [! __x2__] false) return false else 1:{}
-      6:if (&& (! (= Desc.Configurable absent)) (= Desc.Configurable false)) return false else 1:{}
-      7:if (&& (! (= Desc.Enumerable absent)) (= Desc.Enumerable false)) return false else 1:{}
+      5:if (= [! __x2__] false) 5:return false else 5:{}
+      6:if (&& (! (= Desc.Configurable absent)) (= Desc.Configurable false)) 6:return false else 6:{}
+      7:if (&& (! (= Desc.Enumerable absent)) (= Desc.Enumerable false)) 7:return false else 7:{}
       8:app __x3__ = (IsAccessorDescriptor Desc)
-      8:if (= [! __x3__] true) return false else 1:{}
-      9:if (&& (! (= Desc.Writable absent)) (= Desc.Writable false)) return false else 1:{}
-      10:if (! (= Desc.Value absent)) {
-        app __x4__ = (IntegerIndexedElementSet O numericIndex Desc.Value)
-        [? __x4__]
-      } else 1:{}
+      8:if (= [! __x3__] true) 8:return false else 8:{}
+      9:if (&& (! (= Desc.Writable absent)) (= Desc.Writable false)) 9:return false else 9:{}
+      10:if (! (= Desc.Value absent)) 10:{
+        10:app __x4__ = (IntegerIndexedElementSet O numericIndex Desc.Value)
+        10:[? __x4__]
+      } else 10:{}
       11:return true
-    } else 1:{}
-  } else 1:{}
+    } else 4:{}
+  } else 2:{}
   12:app __x5__ = (OrdinaryDefineOwnProperty O P Desc)
   12:return [! __x5__]
 }

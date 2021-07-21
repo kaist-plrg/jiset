@@ -1,11 +1,11 @@
-def ToIndex(value) = if (= value undefined) return 0i else {
+def ToIndex(value) = 0:if (= value undefined) 1:return 0i else 2:{
   3:app __x0__ = (ToIntegerOrInfinity value)
   3:let integerIndex = [? __x0__]
-  4:if (< integerIndex 0i) throw RangeError else 0:{}
+  4:if (< integerIndex 0i) 4:throw RangeError else 4:{}
   5:app __x1__ = (ToLength integerIndex)
   5:let index = [! __x1__]
   6:app __x2__ = (SameValue integerIndex index)
-  6:if (= [! __x2__] false) throw RangeError else 0:{}
+  6:if (= [! __x2__] false) 6:throw RangeError else 6:{}
   7:return index
 }
 - id: "sec-toindex"

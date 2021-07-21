@@ -4,10 +4,10 @@ def [SYNTAX] ExportDeclaration[2,0].ExportEntries<(VariableStatement),true>() = 
   1:let names = __x0__
   2:let __x1__ = names
   2:let __x2__ = 0i
-  2:while (< __x2__ __x1__.length) {
-    let name = __x1__[__x2__]
+  2:while (< __x2__ __x1__.length) 2:{
+    2:let name = __x1__[__x2__]
+    2:__x2__ = (+ __x2__ 1i)
     3:append (new ExportEntryRecord("ModuleRequest" -> null, "ImportName" -> null, "LocalName" -> name, "ExportName" -> name)) -> entries
-    __x2__ = (+ __x2__ 1i)
   }
   4:return entries
 }

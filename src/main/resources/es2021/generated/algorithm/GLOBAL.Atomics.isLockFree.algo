@@ -2,10 +2,10 @@ def [BUILTIN] Atomics.isLockFree(size) = {
   0:app __x0__ = (ToIntegerOrInfinity size)
   0:let n = [? __x0__]
   1:let AR = AGENT
-  2:if (== n 1i) return AR.IsLockFree1 else 22:{}
-  3:if (== n 2i) return AR.IsLockFree2 else 22:{}
-  4:if (== n 4i) return true else 22:{}
-  5:if (== n 8i) return AR.IsLockFree8 else 22:{}
+  2:if (== n 1i) 2:return AR.IsLockFree1 else 2:{}
+  3:if (== n 2i) 3:return AR.IsLockFree2 else 3:{}
+  4:if (== n 4i) 4:return true else 4:{}
+  5:if (== n 8i) 5:return AR.IsLockFree8 else 5:{}
   6:return false
 }
 - id: "sec-atomics.islockfree"

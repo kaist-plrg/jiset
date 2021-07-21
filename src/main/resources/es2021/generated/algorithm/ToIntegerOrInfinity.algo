@@ -1,13 +1,13 @@
 def ToIntegerOrInfinity(argument) = {
   0:app __x0__ = (ToNumber argument)
   0:let number = [? __x0__]
-  1:if (|| (|| (= number NaN) (= number 0i)) (= number -0.0)) return 0i else 0:{}
-  2:if (= number Infinity) return Infinity else 0:{}
-  3:if (= number -Infinity) return -Infinity else 0:{}
+  1:if (|| (|| (= number NaN) (= number 0i)) (= number -0.0)) 1:return 0i else 1:{}
+  2:if (= number Infinity) 2:return Infinity else 2:{}
+  3:if (= number -Infinity) 3:return -Infinity else 3:{}
   4:app __x1__ = (abs number)
   4:app __x2__ = (floor __x1__)
   4:let integer = __x2__
-  5:if (< number 0i) integer = (- integer) else 0:{}
+  5:if (< number 0i) 5:integer = (- integer) else 5:{}
   6:return integer
 }
 - id: "sec-tointegerorinfinity"

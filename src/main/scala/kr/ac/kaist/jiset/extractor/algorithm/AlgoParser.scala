@@ -76,7 +76,11 @@ object AlgoParser {
       case _ => super.walk(expr)
     }
     override def walk(inst: Inst): Inst = inst match {
-      case IReturn(expr) if inCont => IApp(Id("_"), Expr("RET_CONT"), List(expr))
+      case IReturn(expr) if inCont => {
+        val i = IApp(Id("_"), Expr("RET_CONT"), List(expr))
+        i.line = inst.line
+        i
+      }
       case _ => super.walk(inst)
     }
   }
