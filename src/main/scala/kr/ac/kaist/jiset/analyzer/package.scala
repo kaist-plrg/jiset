@@ -145,9 +145,10 @@ package object analyzer {
   def dumpCFG(
     cp: Option[ControlPoint] = None,
     pdf: Boolean = true,
-    depth: Option[Int] = None
+    depth: Option[Int] = None,
+    path: Option[Path] = None
   ): Unit = try {
-    val dot = (new DotPrinter)(cp, depth).toString
+    val dot = (new DotPrinter)(cp, depth, path).toString
     dumpFile(dot, s"$CFG_PATH.dot")
     if (pdf) {
       executeCmd(s"""unflatten -l 10 -o ${CFG_PATH}_trans.dot $CFG_PATH.dot""")
@@ -235,4 +236,7 @@ package object analyzer {
   implicit def string2str(x: String) = AStr(x)
   implicit def boolean2bool(x: Boolean) = ABool(x)
   implicit def type2atype[T](t: T)(implicit f: T => Type) = t.abs
+
+  // path type
+  type Path = List[NodePoint[Call]]
 }

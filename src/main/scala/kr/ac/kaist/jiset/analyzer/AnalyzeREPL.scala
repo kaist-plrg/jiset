@@ -12,6 +12,7 @@ import org.jline.terminal._
 import org.jline.utils.InfoCmp.Capability
 import org.jline.utils._
 import scala.Console._
+import scala.annotation.tailrec
 import scala.collection.mutable.ArrayBuffer
 import scala.util.matching.Regex
 
@@ -149,29 +150,62 @@ object AnalyzeREPL {
   }
 
   // entry
-  var visited: Set[ReturnPoint] = Set()
-  private def getEntryFunc(cp: ControlPoint): Set[String] = {
-    val rp = getRpOf(cp)
-    if (visited contains rp) Set()
-    else {
-      visited += rp
-      rp.func.algo.head match {
-        case head: SyntaxDirectedHead if head.withParams.isEmpty =>
-          Set(rp.func.name)
-        case _ => getCallNodes(rp).flatMap(getEntryFunc(_))
+  private def entry(cp: ControlPoint, args: List[String]): Unit = {
+    import CmdEntry._
+    var paths = Map[ControlPoint, Path]()
+    var visited = Set[ControlPoint]()
+    val worklist = new QueueWorklist[Path](List(Nil))
+
+    @tailrec
+    def aux: Unit = worklist.next match {
+      case Some(path) => {
+        val curCp = path.headOption.getOrElse(cp)
+        val func = sem.funcOf(curCp)
+        val view = curCp.view
+        val rp = ReturnPoint(func, view)
+        visited += curCp
+        func.head match {
+          case head: SyntaxDirectedHead if head.withParams.isEmpty =>
+            if (!(paths contains curCp)) paths += curCp -> path.reverse
+          case _ => for {
+            (nextCp, _) <- sem.getRetEdges(rp)
+            if !(visited contains nextCp)
+          } {
+            worklist += nextCp :: path
+          }
+        }
+        aux
       }
+      case _ =>
+    }
+    aux
+
+    // get only names
+
+    // options
+    args match {
+      case "-path" :: _ => for {
+        (_, path) <- paths
+        len = path.length
+        _ = println(s"[LENGTH = $len]")
+        np <- path
+        func = sem.funcOf(np)
+        name = func.name
+      } println(s"   <- $name:$np")
+      case "-graph" :: _ => {
+        val (topCp, shortest) = paths.toList.minBy(_._2.length)
+        val func = sem.funcOf(topCp)
+        val name = func.name
+        println(s"- entry with the shortest path: $name:$topCp")
+        dumpCFG(Some(cp), path = Some(shortest))
+      }
+      case _ => for {
+        (topCp, _) <- paths
+        f = sem.funcOf(topCp)
+        name = f.name
+      } println(name)
     }
   }
-  private def getRpOf(cp: ControlPoint): ReturnPoint = cp match {
-    case rp @ ReturnPoint(_, _) => rp
-    case NodePoint(node, view) =>
-      cfg.funcs.find(x => x.nodes.exists(x => x.uid == node.uid)) match {
-        case None => ???
-        case Some(f) => ReturnPoint(f, view)
-      }
-  }
-  private def getCallNodes(rp: ReturnPoint): Set[NodePoint[Call]] =
-    sem.getRetEdges(rp).map(_._1)
 
   def astList(args: List[String]) = args match {
     case name :: prop :: _ => getAstList(name, prop)
@@ -236,11 +270,8 @@ object AnalyzeREPL {
           stop(); false
         case CmdInfo.name :: args =>
           info(args); true
-        case CmdEntry.name :: _ =>
-          // TODO
-          visited = Set()
-          cp.map(getEntryFunc(_).foreach(println _))
-          true
+        case CmdEntry.name :: args =>
+          cp.map(entry(_, args)); true
         case CmdWorklist.name :: args =>
           worklist.foreach(println(_)); true
         case CmdAstList.name :: args =>
@@ -322,7 +353,11 @@ private case object CmdInfo extends Command("info", "Show abstract state of node
   override val options = List(ret, block)
 }
 
-private case object CmdEntry extends Command("entry", "Show the set of entry functions of current function")
+private case object CmdEntry extends Command("entry", "Show the set of entry functions of current function") {
+  val path = "path"
+  val graph = "graph"
+  override val options = List(path, graph)
+}
 
 private case object CmdWorklist extends Command("worklist", "Show all the control points in the worklist")
 

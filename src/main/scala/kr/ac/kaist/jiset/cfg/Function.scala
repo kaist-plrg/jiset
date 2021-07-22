@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.cfg
 
-import kr.ac.kaist.jiset.spec.algorithm.Algo
+import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head }
 import kr.ac.kaist.jiset.util.{ UId, UIdGen }
 
 // CFG functions
@@ -14,6 +14,9 @@ case class Function(
 ) extends UId[Function] {
   // completion check (not containing ??? or !!! in the algorithm body)
   val complete: Boolean = algo.isComplete
+
+  // algorithm head
+  def head: Head = algo.head
 
   // function name
   def name: String = algo.name

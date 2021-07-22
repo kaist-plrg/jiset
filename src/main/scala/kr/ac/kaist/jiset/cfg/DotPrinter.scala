@@ -39,13 +39,27 @@ class DotPrinter {
   // for debugging analysis
   def apply(
     cur: Option[ControlPoint],
-    depth: Option[Int] = None
+    depth: Option[Int] = None,
+    path: Option[Path] = None
   ): DotPrinter = {
     this >> "digraph {"
 
     // print functions
-    (cur, depth) match {
-      case (Some(cp), Some(depth)) =>
+    (cur, depth, path) match {
+      case (Some(cp), _, Some(path)) =>
+        val func = sem.funcOf(cp)
+        val view = cp.view
+        var entry = NodePoint(func.entry, view)
+        doCluster((func, view), cur)
+        for (np <- path) {
+          val func = sem.funcOf(np)
+          val view = np.view
+          val pair = (func, view)
+          doCluster(pair, None)
+          doEdge(np2str(np), np2str(entry), REACH, s"label=<call>")
+          entry = NodePoint(func.entry, view)
+        }
+      case (Some(cp), Some(depth), _) =>
         val func = sem.funcOf(cp)
         val view = cp.view
         doCluster((func, view), cur)

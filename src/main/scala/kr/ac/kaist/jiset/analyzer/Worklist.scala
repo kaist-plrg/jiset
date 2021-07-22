@@ -6,6 +6,7 @@ import scala.collection.mutable.{ Stack, Queue }
 trait Worklist[T] {
   def all: Set[T]
   def +=(x: T): Unit
+  def ++=(xs: Iterable[T]): Unit = xs.foreach(this += _)
   def next: Option[T]
   def size: Int
   def foreach(f: T => Unit): Unit
