@@ -126,6 +126,11 @@ object JvmUseful {
   // create directories
   def mkdir(name: String): Unit = new File(name).mkdirs
 
+  // clean directories
+  def cleanDir(name: String) = for (file <- walkTree(name)) {
+    file.delete
+  }
+
   // file existence check
   def exists(name: String): Boolean = new File(name).exists
 

@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.js
 
+import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.js.{ Parser => JSParser }
@@ -34,18 +35,26 @@ trait JSTest extends IRTest {
   }
 
   // tests for esparse
-  def esparseTest(filename: String): Unit = {
-    val answer = parseFile(filename)
-    val json = esparseFile(filename)
+  def esparseTest(jsName: String, filename: String): Unit = {
+    val answer = parseFile(jsName)
+    val toJsonName = changeExt("js", "json")
+    try {
+      val json = esparseFile(jsName)
+      // check compressed form equality
+      val comp0 = AST(answer.toJson).get
+      val comp1 = AST(json).get
+      assert(comp0.equals(comp1))
 
-    // check compressed form equality
-    val comp0 = AST(answer.toJson).get
-    val comp1 = AST(json).get
-    assert(comp0.equals(comp1))
-
-    // check AST equality
-    val esAST = Script(comp1)
-    assert(answer.toString == esAST.toString)
+      // check AST equality
+      val esAST = Script(comp1)
+      assert(answer.toString == esAST.toString)
+    } catch {
+      // save answer to tests/ast for debugging
+      case e: Throwable =>
+        val jsonName = toJsonName(filename)
+        dumpFile(answer.toJson.noSpaces, s"$AST_DIR/$jsonName")
+        fail(s"esparse failed: $jsName")
+    }
   }
 
   // tests for JS interpreter

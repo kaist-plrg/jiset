@@ -30,6 +30,7 @@ package object jiset {
   val GRAMMAR_DIR = s"$TEST_DIR/grammar"
   val IR_DIR = s"$TEST_DIR/ir"
   val JS_DIR = s"$TEST_DIR/js"
+  val AST_DIR = s"$TEST_DIR/ast"
   val TEST262_DIR = s"$TEST_DIR/test262"
   val TEST262_TEST_DIR = s"$TEST262_DIR/test"
 

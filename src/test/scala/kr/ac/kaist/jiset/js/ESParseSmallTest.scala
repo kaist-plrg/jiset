@@ -8,12 +8,17 @@ class ESParseSmallTest extends JSTest {
   val name: String = "jsESParseTest"
 
   // registration
-  def init: Unit = for (file <- walkTree(JS_DIR)) {
-    val filename = file.getName
-    if (jsFilter(filename)) check(filename, {
-      val jsName = file.toString
-      esparseTest(jsName)
-    })
+  def init: Unit = {
+    mkdir(AST_DIR)
+    cleanDir(AST_DIR)
+
+    for (file <- walkTree(JS_DIR)) {
+      val filename = file.getName
+      if (jsFilter(filename)) check(filename, {
+        val jsName = file.toString
+        esparseTest(jsName, filename)
+      })
+    }
   }
   init
 }
