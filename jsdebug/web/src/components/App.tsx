@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import * as jiset from '../lib/jiset'
 import './App.css';
 import SpecBox from './SpecBox';
@@ -12,6 +12,15 @@ const App = () => {
   const [debugging, setDebugging] = useState<boolean>(false);
   const [debugLine, setDebugLine] = useState('');
   const repl = useRef<any>(null);
+
+  const algoName = repl.current?.getAlgoName();
+  const instLineNum = repl.current?.getInstNum();
+  const algoCode = useMemo(() => {
+    if (algoName === undefined)
+      return [];
+    else
+      return JSON.parse(repl.current.getAlgoCode());
+  }, [algoName]);
 
   useEffect(() => {
     fetch('./src/lib/spec.json')
@@ -86,9 +95,9 @@ const App = () => {
               <button onClick={handleDebugRun}>run</button>
             </div>
             <div className="app-algo">
-              <div>Current Algorithm: {repl.current.getAlgoName()} </div>
-              <div>Current Line Number: {repl.current.getInstNum()} </div>
-              <SpecBox algos={JSON.parse(repl.current.getAlgoCode())} />
+              <div>Current Algorithm: {algoName} </div>
+              <div>Current Line Number: {instLineNum} </div>
+              <SpecBox algos={algoCode} />
             </div>
           </div>
         )}

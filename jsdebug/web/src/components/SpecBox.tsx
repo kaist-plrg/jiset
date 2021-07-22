@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 interface AlgoWithIndent {
   description: string;
@@ -84,7 +84,7 @@ interface Props {
 };
 
 const SpecBox: React.FC<Props> = ({ algos }) => {
-  const parsedAlgos = parseAlgo(algos.map(encodeWithIndent));
+  const parsedAlgos = useMemo(() => parseAlgo(algos.map(encodeWithIndent)), [algos]);
   return <SpecChild algos={parsedAlgos} />;
 }
 
