@@ -94,7 +94,10 @@ const App = () => {
         )}
       </div>
       <div className="app-log">
-        {log.split('\n').map((line, index) => <div key={index} className="app-log-line">{line}</div>)}
+        <span>
+          {/* this `span` can be any element. it acts as a wrapper for maintaining bottom scroll */}
+          {log.split('\n').map((line, index) => <div key={index} className="app-log-line">{line}</div>)}
+        </span>
       </div>
     </div>
   )

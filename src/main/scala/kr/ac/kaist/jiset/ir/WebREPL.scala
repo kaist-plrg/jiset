@@ -83,15 +83,15 @@ class WebREPL(override val st: State) extends Debugger {
     }
   }
 
+  def getInstNum(): Int = currentInst match {
+    case Some(i) => i.line.getOrElse(-1)
+    case None => -1
+  }
+
   def getAlgoCode(): String = {
     currentAlgo match {
       case Some(algo) => algo.code.toArray.asJson.toString
       case None => Json.arr().toString
     }
-  }
-
-  def getInstNum(): Int = currentInst match {
-    case Some(i) => i.line.getOrElse(-1)
-    case None => -1
   }
 }
