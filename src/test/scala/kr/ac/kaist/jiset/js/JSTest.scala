@@ -5,6 +5,7 @@ import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.js.{ Parser => JSParser }
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.util.JvmUseful._
+import io.circe._, io.circe.syntax._, io.circe.parser.{ parse => parseJson }
 
 trait JSTest extends IRTest {
   override def category: String = "js"
@@ -14,8 +15,11 @@ trait JSTest extends IRTest {
     JSParser.parse(JSParser.Script(Nil), str).get
   def parseFile(filename: String): Script =
     JSParser.parse(JSParser.Script(Nil), fileReader(filename)).get
-  // TODO def esparseFile(filename: String): Script =
-  //   Script(executeCmd(s"bin/esparse $filename").parseJson)
+  def esparseFile(filename: String): Json =
+    parseJson(executeCmd(s"bin/esparse $filename")) match {
+      case Left(jsonFail) => fail(jsonFail)
+      case Right(json) => json
+    }
 
   // eval JS codes
   def eval(script: Script): State = Interp(Load(script))
@@ -27,6 +31,21 @@ trait JSTest extends IRTest {
   def parseTest(ast: AST): Unit = {
     val newAST = parse(ast.toString)
     assert(ast == newAST)
+  }
+
+  // tests for esparse
+  def esparseTest(filename: String): Unit = {
+    val answer = parseFile(filename)
+    val json = esparseFile(filename)
+
+    // check compressed form equality
+    val comp0 = AST(answer.toJson).get
+    val comp1 = AST(json).get
+    assert(comp0.equals(comp1))
+
+    // check AST equality
+    val esAST = Script(comp1)
+    assert(answer.toString == esAST.toString)
   }
 
   // tests for JS interpreter

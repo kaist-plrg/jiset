@@ -126,7 +126,25 @@ object AST {
   }
 
   // compressed AST data
-  trait Compressed
+  trait Compressed {
+    // equality of two compressed objects
+    def equals(that: Compressed): Boolean = (this, that) match {
+      case (c0: NormalCompressed, c1: NormalCompressed) =>
+        // ignore span info
+        val b0 = c0.idx == c1.idx
+        val b1 = c0.subs.size == c1.subs.size &&
+          c0.subs.zip(c1.subs).map {
+            case (None, None) => true
+            case (Some(s0), Some(s1)) => s0.equals(s1)
+            case _ => false
+          }.forall(_ == true)
+        val b2 = c0.params.size == c1.params.size &&
+          c0.params.zip(c1.params).map { case (p0, p1) => p0 == p1 }.forall(_ == true)
+        b0 && b2
+      case (LexicalCompressed(s0), LexicalCompressed(s1)) => s0 == s1
+      case _ => false
+    }
+  }
   case class NormalCompressed(
     idx: Int,
     subs: Array[Option[Compressed]],
@@ -134,12 +152,14 @@ object AST {
     span: Span
   ) extends Compressed
   case class LexicalCompressed(str: String) extends Compressed
+
+  // convert json to compressed form
   def apply(data: Json): Option[Compressed] = data match {
     case arr if data.isArray =>
       val List(jIdx, jSubs, jParams, jSpan) = arr.asArray.get.toList
       val idx = jIdx.asNumber.get.toInt.get
       val subs = jSubs.asArray.get.toArray.map(AST(_))
-      val params = jParams.asArray.get.toList.map(_.asBoolean.get)
+      val params = jParams.asArray.get.toList.map(_.asNumber.get.toInt.get == 1)
       val List(sl, sc, el, ec) =
         jSpan.asArray.get.toList.map(_.asNumber.get.toInt.get)
       Some(NormalCompressed(idx, subs, params, Span(Pos(sl, sc), Pos(el, ec))))
