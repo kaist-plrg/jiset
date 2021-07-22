@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface AlgoWithIndent {
   description: string;
@@ -48,10 +48,14 @@ interface SpecChildProps {
 const SpecChild: React.FC<SpecChildProps> = ({ algos, style }) => {
   const [visibleStates, setVisibleStates] = useState<boolean[]>(Array(algos.length).fill(false));
 
+  useEffect(() => {
+    setVisibleStates(Array(algos.length).fill(false));
+  }, [algos]);
+
   const handleCollapseToggle =
     (index: number) =>
     (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      setVisibleStates(arr => arr.map((v, idx) => idx === index ? !v : v));
+      setVisibleStates(states => states.map((v, idx) => idx === index ? !v : v));
 
       // prevent parent element from listening to the event.
       // otherwise the parent will toggle visibility as well.
@@ -81,12 +85,7 @@ interface Props {
 
 const SpecBox: React.FC<Props> = ({ algos }) => {
   const parsedAlgos = parseAlgo(algos.map(encodeWithIndent));
-
-  return (
-    <div>
-      <SpecChild algos={parsedAlgos} />
-    </div>
-  );
+  return <SpecChild algos={parsedAlgos} />;
 }
 
 export default SpecBox;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as jiset from '../lib/jiset'
 import './App.css';
+import SpecBox from './SpecBox';
 
 const oldLog = console.log;
 
@@ -75,10 +76,10 @@ const App = () => {
       <div className="app-code">
         <textarea rows={30} cols={50} value={code} onChange={handleCodeChange} disabled={debugging}></textarea>
         <button onClick={run} disabled={debugging}>Run!</button>
-        <button onClick={start}>Test</button>
+        <button onClick={start} disabled={debugging}>Test</button>
         {spec === null ? <div>Loading Spec...</div> : <div>Loaded Spec</div>}
         {debugging && (
-          <div>
+          <div className="app-debug-session">
             <div style={{ display: 'flex', justifyContent: 'center' }}>Debugging session started</div>
             <div style={{ width: '100%', display: 'flex' }}>
               <input type="text" value={debugLine} onChange={handleDebugLineChange} style={{ flex: 1 }}/>
@@ -87,7 +88,7 @@ const App = () => {
             <div className="app-algo">
               <div>Current Algorithm: {repl.current.getAlgoName()} </div>
               <div>Current Line Number: {repl.current.getInstNum()} </div>
-              {JSON.parse(repl.current.getAlgoCode()).map((algo: string) => <div>{algo}</div>)}
+              <SpecBox algos={JSON.parse(repl.current.getAlgoCode())} />
             </div>
           </div>
         )}
