@@ -52,7 +52,8 @@ trait JSTest extends IRTest {
       // save answer to tests/ast for debugging
       case e: Throwable =>
         val jsonName = toJsonName(filename)
-        dumpFile(answer.toJson.noSpaces, s"$AST_DIR/$jsonName")
+        dumpFile(answer.toString, s"$ESPARSE_DIR/$filename")
+        dumpFile(answer.toJson.noSpaces, s"$ESPARSE_DIR/$jsonName")
         fail(s"esparse failed: $jsName")
     }
   }

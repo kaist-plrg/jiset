@@ -24,8 +24,10 @@ class ESParseLargeTest extends Test262Test {
   // registration
   def init: Unit = check(name, {
     mkdir(logDir)
-    mkdir(AST_DIR)
-    cleanDir(AST_DIR)
+
+    cleanDir(ESPARSE_DIR)
+    mkdir(ESPARSE_DIR)
+
     dumpFile(JISETTest.spec.version, s"$logDir/ecma262-version")
     dumpFile(currentVersion(BASE_DIR), s"$logDir/jiset-version")
     summary.fails.setPath(s"$logDir/esparse-fail.log")
@@ -33,8 +35,9 @@ class ESParseLargeTest extends Test262Test {
     for (config <- progress) {
       val name = config.name
       val jsName = s"$TEST262_TEST_DIR/$name"
+      val filename = name.split("/").last
       getError {
-        timeout(esparseTest(jsName, name), PARSE_TIMEOUT)
+        timeout(esparseTest(jsName, filename), PARSE_TIMEOUT)
         summary.passes += name
       }.foreach(e => {
         summary.fails += name

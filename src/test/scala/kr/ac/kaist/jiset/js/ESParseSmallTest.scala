@@ -10,8 +10,8 @@ class ESParseSmallTest extends JSTest {
   // registration
   def init: Unit = {
 
-    cleanDir(AST_DIR)
-    mkdir(AST_DIR)
+    cleanDir(ESPARSE_DIR)
+    mkdir(ESPARSE_DIR)
 
     for (file <- walkTree(JS_DIR)) {
       val filename = file.getName
