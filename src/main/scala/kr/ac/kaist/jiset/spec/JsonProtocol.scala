@@ -25,7 +25,7 @@ object JsonProtocol extends BasicJsonProtocol {
   implicit lazy val LookaheadEncoder: Encoder[Lookahead] = deriveEncoder
   implicit lazy val CharacterDecoder: Decoder[Character] = new Decoder[Character] {
     final def apply(c: HCursor): Decoder.Result[Character] = c.value.asString match {
-      case None => Left(DecodingFailure(s"unknown Character: ${c.value}", c.history))
+      case None => decodeFail(s"unknown Character: ${c.value}", c)
       case Some(name) => Right(Character.nameMap.getOrElse(name, Unicode(name)))
     }
   }
@@ -47,7 +47,7 @@ object JsonProtocol extends BasicJsonProtocol {
           case 3 => LookaheadDecoder(c)
           case 4 => Right(EmptyToken)
           case 5 => Right(NoLineTerminatorToken)
-          case _ => Left(DecodingFailure(s"unknown Token: $obj", c.history))
+          case _ => decodeFail(s"unknown Token: $obj", c)
         }
     }
   }
@@ -133,7 +133,7 @@ object JsonProtocol extends BasicJsonProtocol {
           case 9 => NextDecoder(c)
           case 10 => Right(In)
           case 11 => Right(Out)
-          case _ => Left(DecodingFailure(s"unknown Token: $obj", c.history))
+          case _ => decodeFail(s"unknown Token: $obj", c)
         }
     }
   }

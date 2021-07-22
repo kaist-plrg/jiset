@@ -12,9 +12,7 @@ trait BasicJsonProtocol {
   ): (Encoder[T], Decoder[T]) = {
     val decoder = new Decoder[T] {
       final def apply(c: HCursor): Decoder.Result[T] = c.value.asString match {
-        case None => Left(
-          DecodingFailure(s"Expected a string instead of ${c.value}", c.history)
-        )
+        case None => decodeFail(s"Expected a string instead of ${c.value}", c)
         case Some(str) => Right(parser(str))
       }
     }
@@ -73,8 +71,24 @@ trait BasicJsonProtocol {
     final def apply(data: T): Json = data.uid.asJson
   }
 
+  // for double values
+  implicit lazy val DoubleDecoder: Decoder[Double] = new Decoder[Double] {
+    final def apply(c: HCursor): Decoder.Result[Double] = {
+      optional(Right(c.value.asString match {
+        case Some(name) => name match {
+          case "Infinity" => Double.PositiveInfinity
+          case "-Infinity" => Double.NegativeInfinity
+          case "NaN" => Double.NaN
+        }
+        case None => c.value.asNumber.get.toDouble
+      })).getOrElse(decodeFail(s"invalid double: ${c.value}", c))
+    }
+  }
+  implicit lazy val DoubleEncoder: Encoder[Double] = Encoder.instance {
+    case t => Json.fromDoubleOrString(t)
+  }
+
   // decoding failure
-  // TODO use this helper for all cases
   def decodeFail[T](msg: String, c: HCursor): Decoder.Result[T] =
     Left(DecodingFailure(msg, c.history))
 }
