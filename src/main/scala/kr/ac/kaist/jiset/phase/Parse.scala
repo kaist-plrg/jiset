@@ -27,7 +27,7 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
     config.jsonFile match {
       case Some(name) =>
         val nf = getPrintWriter(name)
-        nf.println(ast.toJson.spaces2)
+        nf.println(ast.toJson.noSpaces)
         nf.close()
       case None =>
     }
