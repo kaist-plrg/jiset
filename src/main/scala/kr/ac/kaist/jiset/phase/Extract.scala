@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
+import kr.ac.kaist.jiset.js.{ Parser => JSParser, _ }
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm.Algo
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -39,6 +40,9 @@ case object Extract extends Phase[Unit, ExtractConfig, ECMAScript] {
 
     // dump in a JSON format
     config.json.map(dumpJson("specification", spec, _))
+
+    // set target for js
+    setTarget(spec)
 
     spec
   }

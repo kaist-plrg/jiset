@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.ir.{ doubleEquals, Expr }
+import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
 
@@ -180,8 +181,15 @@ case object ESValueT extends PureType
 // norminal types
 case class NameT(name: String) extends PureType {
   // lookup properties
-  def apply(prop: String): AbsType =
-    Type.propMap.getOrElse(name, Map()).getOrElse(prop, AAbsent)
+  def apply(prop: String): AbsType = name match {
+    case "ALGORITHM" => (for {
+      algo <- js.algos.get(prop)
+      fid <- cfg.algo2fid.get(algo.name)
+    } yield CloT(fid)).getOrElse(AAbsent).abs
+    case _ => Type.propMap
+      .getOrElse(name, Map())
+      .getOrElse(prop, AAbsent)
+  }
 }
 
 // record types

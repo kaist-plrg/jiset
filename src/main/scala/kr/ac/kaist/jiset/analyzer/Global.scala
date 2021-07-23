@@ -14,6 +14,7 @@ object Global {
     globalMethods ++
     getPredefs ++
     Map(
+      "ALGORITHM" -> NameT("ALGORITHM"),
       "CONTEXT" -> NameT("ExecutionContext"),
       "EXECUTION_STACK" -> ListT(NameT("ExecutionContext")),
       "INTRINSICS" -> MapT(NameT("OrdinaryObject")),
