@@ -67,6 +67,9 @@ case class AbsType private (
     else if (set contains F) Set(false)
     else Set()
 
+  // get a set of list types
+  def listSet: Set[ListT] = set.collect { case t: ListT => t }
+
   // get AST types
   def ast: AbsType = new AbsType(set.collect { case t: AstT => t })
 

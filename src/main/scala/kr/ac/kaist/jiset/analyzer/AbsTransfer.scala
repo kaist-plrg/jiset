@@ -184,9 +184,9 @@ object AbsTransfer {
 
     // transfer function for call instructions
     def transfer(call: Call, view: View): Updater = call.inst match {
-      case IApp(Id(x), ERef(RefId(Id(name))), args) if predAlgos contains name => for {
+      case IApp(Id(x), ERef(RefId(Id(name))), args) if simpleFuncs contains name => for {
         as <- join(args.map(transfer))
-        ty <- get(predAlgos(name)(_, args zip as))
+        ty <- get(simpleFuncs(name)(_, args zip as))
         _ <- modify(_.define(x, ty))
       } yield ()
       case IApp(Id(x), fexpr, args) => for {
@@ -235,27 +235,32 @@ object AbsTransfer {
     } else false
 
     // unary algorithms
-    type PredAlgo = (AbsState, List[(Expr, AbsType)]) => AbsType
-    def arityCheck(name: String, f: PredAlgo): (String, PredAlgo) =
+    type SimpleFunc = (AbsState, List[(Expr, AbsType)]) => AbsType
+    def arityCheck(name: String, f: SimpleFunc): (String, SimpleFunc) =
       (name, (st, pairs) => AnalysisStat.doCheck(optional(f(st, pairs)).getOrElse {
         alarm(s"arity mismatch for $name")
         AbsType.Bot
       }))
-    val predAlgos: Map[String, PredAlgo] = Map(
+    val simpleFuncs: Map[String, SimpleFunc] = Map(
+      arityCheck("GetArgument", {
+        case (_, List((_, ty))) => AbsType(ty.listSet.map(_.elem: Type))
+      }),
       arityCheck("IsDuplicate", { case (_, List(_)) => BoolT }),
       arityCheck("IsArrayIndex", { case (_, List(_)) => BoolT }),
+      arityCheck("min", { case (_, _) => NumT }),
+      arityCheck("max", { case (_, _) => NumT }),
+      arityCheck("abs", { case (_, _) => NumT }),
+      arityCheck("floor", { case (_, _) => NumT }),
+      arityCheck("fround", {
+        case (_, List((expr, ty))) =>
+          AnalysisStat.doCheck {
+            if (!(ty ⊑ NumT)) alarm(s"non-number types: ${expr.beautified}")
+          }
+          NumT
+      }),
       arityCheck("ThrowCompletion", { case (_, List(_)) => AbruptT }),
       arityCheck("NormalCompletion", { case (_, List((_, ty))) => ty.toComp }),
       arityCheck("IsAbruptCompletion", { case (_, List((_, ty))) => ty =^= AbruptT }),
-      arityCheck("floor", { case (_, List(_)) => NumT }),
-      arityCheck("abs", { case (_, List(_)) => NumT }),
-      arityCheck("fround", {
-        case (_, List((expr, ty))) =>
-          AnalysisStat.doCheck(if (!(ty ⊑ NumT)) alarm(s"non-number types: ${expr.beautified}"))
-          NumT
-      }),
-      arityCheck("min", { case (_, _) => NumT }),
-      arityCheck("max", { case (_, _) => NumT }),
     )
 
     // integer post-fix pattern
