@@ -438,7 +438,7 @@ object TypeModel {
 
   // get function closure by name
   private lazy val cloMap: Map[String, AbsType] =
-    (for (func <- cfg.funcs) yield func.name -> CloT(func.uid).abs).toMap
+    (for (func <- cfg.funcs) yield func.name -> FuncT(func.uid).abs).toMap
   private def getClo(name: String): AbsType = cloMap.getOrElse(name, {
     warning(s"unknown function name: $name")
     AAbsent

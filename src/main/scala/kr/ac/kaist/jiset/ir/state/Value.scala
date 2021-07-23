@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.{ Map => MMap }
 
-// IR Values
+// values
 sealed trait Value extends IRNode {
   // escape completion
   def escaped(st: State): Value = this match {
@@ -58,15 +58,15 @@ sealed trait Value extends IRNode {
   }
 }
 
-// IR Addresses
+// addresses
 sealed trait Addr extends Value
 case class NamedAddr(name: String) extends Addr
 case class DynamicAddr(long: Long) extends Addr
 
-// IR Functions
+// functions
 case class Func(algo: Algo) extends Value
 
-// IR Closures
+// closures
 case class Clo(
   ctxtName: String,
   params: List[Id],
@@ -77,14 +77,19 @@ case class Clo(
   def name: String = ctxtName + ":closure"
 }
 
-// IR Continuations
-case class Cont(params: List[Id], body: Inst, context: Context, ctxtStack: List[Context]) extends Value
+// continuations
+case class Cont(
+  params: List[Id],
+  body: Inst,
+  context: Context,
+  ctxtStack: List[Context]
+) extends Value
 
-// IR Constants
-sealed trait Const extends Value
+// AST values
+case class ASTVal(ast: AST) extends Value
 
-// IR Numeric
-sealed trait Numeric extends Const {
+// numeric values
+sealed trait Numeric extends Value {
   // conversion to big decimal
   def toMathValue: MathValue = this match {
     case Num(double) => MathValue(double)
@@ -93,17 +98,31 @@ sealed trait Numeric extends Const {
   }
 }
 
+// floating-point number values
 case class Num(double: Double) extends Numeric {
   override def equals(that: Any): Boolean = that match {
     case that: Num => doubleEquals(this.double, that.double)
     case _ => false
   }
 }
-case class ASTVal(ast: AST) extends Value
+
+// integers
 case class INum(long: Long) extends Numeric
+
+// big integers
 case class BigINum(b: BigInt) extends Numeric
-case class Str(str: String) extends Const
-case class Bool(bool: Boolean) extends Const
-case object Undef extends Const
-case object Null extends Const
-case object Absent extends Const
+
+// strings
+case class Str(str: String) extends Value
+
+// booleans
+case class Bool(bool: Boolean) extends Value
+
+// undefined
+case object Undef extends Value
+
+// null
+case object Null extends Value
+
+// absent
+case object Absent extends Value

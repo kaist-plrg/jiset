@@ -131,7 +131,7 @@ sealed trait Type {
     }.mkString("{ ", ", ", " }")
     case AstT(name) => s"☊($name)"
     case ConstT(name) => s"~$name~"
-    case CloT(fid) => s"λ[$fid]"
+    case FuncT(fid) => s"λ[$fid]"
     case ESValueT => s"ESValue"
     case PrimT => "prim"
     case ArithT => "arith"
@@ -178,6 +178,9 @@ sealed trait PureType extends Type {
 // ECMAScript value types
 case object ESValueT extends PureType
 
+// single concrete type
+sealed trait SingleT extends PureType
+
 // norminal types
 case class NameT(name: String) extends PureType {
   // lookup properties
@@ -185,7 +188,7 @@ case class NameT(name: String) extends PureType {
     case "ALGORITHM" => (for {
       algo <- js.algos.get(prop)
       fid <- cfg.algo2fid.get(algo.name)
-    } yield CloT(fid)).getOrElse(AAbsent).abs
+    } yield FuncT(fid)).getOrElse(AAbsent).abs
     case _ => Type.propMap
       .getOrElse(name, Map())
       .getOrElse(prop, AAbsent)
@@ -208,14 +211,11 @@ object RecordT {
   def apply(pairs: (String, AbsType)*): RecordT = RecordT(pairs.toMap)
 }
 
-// AST types
-case class AstT(name: String) extends PureType
-
 // constant types
 case class ConstT(name: String) extends PureType with SingleT
 
-// closure types
-case class CloT(fid: Int) extends PureType with SingleT
+// symbol types
+case object SymbolT extends PureType
 
 // list types
 case object NilT extends PureType with SingleT
@@ -224,31 +224,54 @@ case class ListT(elem: PureType) extends PureType
 // sub mapping types
 case class MapT(elem: PureType) extends PureType
 
-// symbol types
-case object SymbolT extends PureType
+// function types
+case class FuncT(fid: Int) extends PureType with SingleT
+
+// TODO closure types
+// TODO continuation types
+
+// AST types
+case class AstT(name: String) extends PureType
 
 // primitive types
 case object PrimT extends PureType
-case object ArithT extends PureType
-case object NumericT extends PureType
-case object NumT extends PureType
-case object BigIntT extends PureType
-case object StrT extends PureType
-case object BoolT extends PureType
 
-// single concrete type
-sealed trait SingleT extends PureType
+// arithmetic types
+case object ArithT extends PureType
+
+// numeric types
+case object NumericT extends PureType
+
+// floating-point number types
+case object NumT extends PureType
 case class ANum(double: Double) extends SingleT {
   override def equals(that: Any): Boolean = that match {
     case that: ANum => doubleEquals(this.double, that.double)
     case _ => false
   }
 }
+
+// TODO integer types
+
+// big integer types
+case object BigIntT extends PureType
 case class ABigInt(bigint: scala.BigInt) extends SingleT
+
+// string types
+case object StrT extends PureType
 case class AStr(str: String) extends SingleT
+
+// boolean types
+case object BoolT extends PureType
 case class ABool(bool: Boolean) extends SingleT
+
+// undefined type
 case object AUndef extends SingleT
+
+// null type
 case object ANull extends SingleT
+
+// absent type
 case object AAbsent extends SingleT
 
 // modeling

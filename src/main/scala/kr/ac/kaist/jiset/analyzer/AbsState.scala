@@ -122,7 +122,7 @@ case class AbsState(
       else pureT
     case (AbruptT, "Type") => AbsType(BREAK, CONTINUE, RETURN, THROW)
     case (AbruptT, "Value") => AbsType(ESValueT, EMPTY)
-    case (AbruptT, "Target") => AbsType(StrT)
+    case (AbruptT, "Target") => AbsType(StrT, EMPTY)
     case _ => base.escaped(expr).fold(AbsType.Bot)(_ match {
       case ESValueT => ESValueT.bases.foldLeft(AbsType.Bot) {
         case (t, base) => lookupStrProp(expr, base, prop, check)

@@ -48,7 +48,7 @@ object Global {
       case MethodHead(base, methodName, _, _) => Some(s"${base}DOT${methodName}")
       case _ => None
     }
-  } yield name -> CloT(func.uid).abs).toMap
+  } yield name -> FuncT(func.uid).abs).toMap
 
   // get pre-defined global variables
   private def getPredefs: Map[String, AbsType] = {

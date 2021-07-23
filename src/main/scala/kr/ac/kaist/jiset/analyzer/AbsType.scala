@@ -43,7 +43,7 @@ case class AbsType private (
   def compSet: Set[Type] = set.collect { case comp: CompType => comp }
 
   // closure set
-  def fidSet: Set[Int] = set.collect { case CloT(fid) => fid }
+  def fidSet: Set[Int] = set.collect { case FuncT(fid) => fid }
 
   // absent check
   def isMustAbsent: Boolean = set == Set(AAbsent)
