@@ -86,6 +86,7 @@ package object analyzer {
   }
 
   // print writers
+  mkdir(ANALYZE_LOG_DIR)
   val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
   val nfErrors = getPrintWriter(s"$ANALYZE_LOG_DIR/errors")
 
