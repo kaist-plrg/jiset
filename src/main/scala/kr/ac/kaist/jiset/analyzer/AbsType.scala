@@ -117,7 +117,10 @@ case class AbsType private (
   }
 
   // optionally get a type
-  def getSingle: Option[Type] = set.headOption
+  def getSingle: Option[Type] = set.headOption match {
+    case Some(s: SingleT) if set.size == 1 => Some(s)
+    case _ => None
+  }
 
   // abstract numeric negation
   def unary_-(): AbsType = new AbsType(set.collect {
