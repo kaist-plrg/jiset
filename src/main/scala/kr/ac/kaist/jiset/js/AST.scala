@@ -37,6 +37,15 @@ trait AST {
     Json.arr(Json.fromInt(-1), Json.fromInt(-1), Json.fromInt(-1), Json.fromInt(-1))
   )
 
+  def prettify: Json = Json.arr(
+    Json.fromString(this.getClass.getSimpleName),
+    Json.arr(fullList.map {
+      case (_, ASTVal(ast)) => ast.prettify
+      case _ => Json.Null
+    }: _*),
+    Json.arr(parserParams.map(Json.fromBoolean): _*),
+  )
+
   // get possible kinds
   def getKinds: Set[String] = (list match {
     case List((_, ASTVal(ast))) => ast.getKinds
