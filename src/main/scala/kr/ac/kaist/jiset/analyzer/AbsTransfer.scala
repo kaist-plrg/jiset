@@ -375,6 +375,9 @@ object AbsTransfer {
         v <- transfer(base)
         t <- get(_.isInstanceOf(v.escaped(base), name))
       } yield t
+      case EGetElems(base, name) => for {
+        b <- transfer(base)
+      } yield ListT(AstT(name))
       case EGetSyntax(base) => for {
         b <- transfer(base)
       } yield b.escaped(base).getSingle match {
