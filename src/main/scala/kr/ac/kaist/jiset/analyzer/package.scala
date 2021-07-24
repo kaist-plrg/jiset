@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset
 
-import kr.ac.kaist.jiset.analyzer.JsonProtocol._
+import kr.ac.kaist.jiset.analyzer.NativeHelper._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.JvmUseful._
@@ -12,7 +12,7 @@ package object analyzer {
   private var alreadyAnalyzed: Boolean = false
   def performTypeAnalysis(
     cfg: CFG,
-    fnameOpt: Option[String] = None
+    dirOpt: Option[String] = None
   ): Unit = {
     // check whether already analyzed
     if (alreadyAnalyzed) error(s"Trying to perform type analysis more than once")
@@ -22,12 +22,13 @@ package object analyzer {
     cfgOpt = Some(cfg)
 
     // set abstract semantics
-    semOpt = Some(fnameOpt.map(filename => time(
-      s"loading abstract semantics from $filename",
-      readJson[AbsSemantics](filename)
-    )._2).getOrElse {
-      AbsSemantics(AbsSemantics.initNpMap)
-    })
+    semOpt = Some(dirOpt.map(dir => {
+      val (_, sem) = time(
+        s"loading abstract semantics from $dir",
+        loadSem(dir)
+      )
+      sem
+    }).getOrElse(AbsSemantics(AbsSemantics.initNpMap)))
 
     // set worklist
     worklistOpt = Some(new StackWorklist(sem.npMap.keySet))
@@ -42,7 +43,7 @@ package object analyzer {
     Type.infos
 
     // perform type analysis
-    if (fnameOpt.isEmpty) AbsTransfer.compute
+    if (dirOpt.isEmpty) AbsTransfer.compute
   }
 
   //////////////////////////////////////////////////////////////////////////////

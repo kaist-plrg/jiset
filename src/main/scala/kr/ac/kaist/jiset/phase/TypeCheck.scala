@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.phase
 import kr.ac.kaist.jiset.JISETConfig
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.analyzer.NativeHelper._
 import kr.ac.kaist.jiset.analyzer.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.JvmUseful._
@@ -32,8 +33,10 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, AbsSemantics] {
       }
     }))
 
-    // dump in a JSON fomrat
-    config.json.map(dumpJson("abstract semantics", sem, _))
+    // dump abstract semantics
+    config.dump.map(dirname => time("dump abstract semantics", {
+      dumpSem(sem, dirname)
+    }))
 
     // result
     sem
@@ -58,14 +61,14 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, AbsSemantics] {
     ("partial-model", StrOption((c, s) => PARTIAL_MODEL = Some(s)),
       "dump partial models using type analysis results."),
     ("load", StrOption((c, s) => c.load = Some(s)),
-      "load abstract semantics from JSON."),
-    ("json", StrOption((c, s) => c.json = Some(s)),
-      "dump abstract semantics in a JSON format."),
+      "load abstract semantics from a directory."),
+    ("dump", StrOption((c, s) => c.dump = Some(s)),
+      "dump abstract semantics to a directory."),
   )
 }
 
 // TypeCheck phase config
 case class TypeCheckConfig(
   var load: Option[String] = None,
-  var json: Option[String] = None
+  var dump: Option[String] = None
 ) extends Config
