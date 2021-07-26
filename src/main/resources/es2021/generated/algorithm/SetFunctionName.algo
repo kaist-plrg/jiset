@@ -7,7 +7,7 @@ def SetFunctionName(F, name, prefix?) = {
   7:if (! (= F.InitialName absent)) 8:F.InitialName = name else 7:{}
   9:if (! (= prefix absent)) 9:{
     10:name = (+ (+ prefix " ") name)
-    11:if (! (= F.InitialName absent)) 12:if AnyBool 12:F.InitialName = name else 12:{} else 11:{}
+    11:if (! (= F.InitialName absent)) 11:{} else 11:{}
   } else 9:{}
   13:app __x0__ = (DefinePropertyOrThrow F "name" (new PropertyDescriptor("Value" -> name, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
   13:return [! __x0__]

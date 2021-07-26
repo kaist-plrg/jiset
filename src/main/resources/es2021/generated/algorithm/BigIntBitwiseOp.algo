@@ -4,34 +4,17 @@ def BigIntBitwiseOp(op, x, y) = {
   2:y = y
   3:let result = 0i
   4:let shift = 0i
-  5:while AnyBool 5:{
-    6:let xDigit = (%% x 2i)
-    7:let yDigit = (%% y 2i)
-    8:if (= op "&") 8:{
-      8:app __x0__ = (BinaryAnd xDigit yDigit)
-      8:result = (* (+ result (** 2i shift)) __x0__)
-    } else 8:if (= op "|") 9:{
-      9:app __x1__ = (BinaryOr xDigit yDigit)
-      9:result = (* (+ result (** 2i shift)) __x1__)
-    } else 10:{
-      11:assert (= op "^")
-      12:app __x2__ = (BinaryXor xDigit yDigit)
-      12:result = (* (+ result (** 2i shift)) __x2__)
-    }
-    13:shift = (+ shift 1i)
-    14:x = (/ (- x xDigit) 2i)
-    15:y = (/ (- y yDigit) 2i)
-  }
+  5:??? "Repeat , until ( id:{x} = 0 or id:{x} = - 1 ) and ( id:{y} = 0 or id:{y} = - 1 ) , in:{} out:{}"
   16:if (= op "&") 16:{
-    16:app __x3__ = (BinaryAnd (%% x 2i) (%% y 2i))
-    16:let tmp = __x3__
+    16:app __x0__ = (BinaryAnd (%% x 2i) (%% y 2i))
+    16:let tmp = __x0__
   } else 16:if (= op "|") 17:{
-    17:app __x4__ = (BinaryOr (%% x 2i) (%% y 2i))
-    17:let tmp = __x4__
+    17:app __x1__ = (BinaryOr (%% x 2i) (%% y 2i))
+    17:let tmp = __x1__
   } else 18:{
     19:assert (= op "^")
-    20:app __x5__ = (BinaryXor (%% x 2i) (%% y 2i))
-    20:let tmp = __x5__
+    20:app __x2__ = (BinaryXor (%% x 2i) (%% y 2i))
+    20:let tmp = __x2__
   }
   21:if (! (== tmp 0i)) 22:result = (- result (** 2i shift)) else 21:{}
   24:return (convert result num2bigint )

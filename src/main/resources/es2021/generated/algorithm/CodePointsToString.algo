@@ -1,4 +1,15 @@
-def CodePointsToString(x) = return AnyStr
+def CodePointsToString(text) = {
+  0:let result = ""
+  1:let __x0__ = text
+  1:let __x1__ = 0i
+  1:while (< __x1__ __x0__.length) 1:{
+    1:let cp = __x0__[__x1__]
+    1:__x1__ = (+ __x1__ 1i)
+    2:app __x2__ = (UTF16EncodeCodePoint cp)
+    2:result = (+ result [! __x2__])
+  }
+  3:return result
+}
 - id: "sec-codepointstostring"
 - code:
         1. Let _result_ be the empty String.

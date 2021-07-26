@@ -219,11 +219,7 @@ class Compiler private (
   ) ~ stmt ^^ {
       case Some(i ~ c) ~ s => ISeq(i :+ IWhile(c, s))
       case None ~ s => IWhile(EBool(true), s)
-    } | (
-      "repeat" ~ opt(",") ~> "until" ~ rest ~> stmt ^^ {
-        case i => IWhile(toERef("AnyBool"), i)
-      }
-    )
+    }
 
   // for-each statements
   lazy val forEachStmt = {
@@ -433,9 +429,7 @@ class Compiler private (
   ) ^^ { case x => Inst(s"$retcont = (pop $x.ReturnCont 0i)") }
 
   // optional statements
-  lazy val optionalStmt: P[Inst] = ("optionally" ~ opt(",")) ~> stmt ^^ {
-    case i => IIf(toERef(ANY_BOOL), i, emptyInst)
-  }
+  lazy val optionalStmt: P[Inst] = ("optionally" ~ opt(",")) ~> stmt ^^^ emptyInst
 
   // assignment statements
   lazy val assignmentStmt: P[Inst] = opt(word) ~ rep1("=" ~> expr) ^^ {
