@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
 
-sealed trait Type {
+sealed trait Type extends Component {
   import Type._
 
   // conversion to abstract type
@@ -121,38 +121,6 @@ sealed trait Type {
     case NormalT(t) => NormalT(t.upcast)
     case p: PureType => p.upcast
     case _ => this
-  }
-
-  // conversion to string
-  override def toString: String = this match {
-    case NameT(name) => s"$name"
-    case RecordT(props) => props.map {
-      case (p, t) => s"$p -> $t"
-    }.mkString("{ ", ", ", " }")
-    case AstT(name) => s"☊($name)"
-    case ConstT(name) => s"~$name~"
-    case FuncT(fid) => s"λ[$fid]"
-    case ESValueT => s"ESValue"
-    case PrimT => "prim"
-    case ArithT => "arith"
-    case NumericT => "numeric"
-    case NumT => "num"
-    case BigIntT => "bigint"
-    case StrT => "str"
-    case BoolT => "bool"
-    case NilT => s"[]"
-    case ListT(elem) => s"[$elem]"
-    case MapT(elem) => s"{ _ |-> $elem }"
-    case SymbolT => "symbol"
-    case NormalT(t) => s"Normal($t)"
-    case AbruptT => s"Abrupt"
-    case ANum(n) => s"$n"
-    case ABigInt(b) => s"${b}n"
-    case AStr(str) => "\"" + str + "\""
-    case ABool(b) => s"$b"
-    case AUndef => "undef"
-    case ANull => "null"
-    case AAbsent => "?"
   }
 }
 
@@ -275,7 +243,7 @@ case object ANull extends SingleT
 case object AAbsent extends SingleT
 
 // modeling
-object Type {
+object Type extends Parser[Type] {
   // type aliases
   val typeAlias: List[(Type, Set[Type])] = List(
     BoolT -> Set[Type](ABool(true), ABool(false)),

@@ -68,6 +68,9 @@ class BeautifierTinyTest extends IRTest {
     )
     test("Expr")(
       ENum(3.0) -> "3.0",
+      ENum(Double.PositiveInfinity) -> "Infinity",
+      ENum(Double.NegativeInfinity) -> "-Infinity",
+      ENum(Double.NaN) -> "NaN",
       EINum(4) -> "4i",
       EBigINum(1024) -> "1024n",
       EStr("hi") -> "\"hi\"",

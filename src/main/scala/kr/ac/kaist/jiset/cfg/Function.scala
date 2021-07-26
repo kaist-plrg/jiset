@@ -13,7 +13,7 @@ case class Function(
   edges: Set[Edge]
 ) extends UId[Function] {
   // completion check (not containing ??? or !!! in the algorithm body)
-  val complete: Boolean = algo.isComplete
+  lazy val complete: Boolean = algo.isComplete
 
   // algorithm head
   def head: Head = algo.head

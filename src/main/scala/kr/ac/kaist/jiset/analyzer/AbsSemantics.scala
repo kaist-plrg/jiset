@@ -12,6 +12,7 @@ import scala.Console._
 import scala.util.matching.Regex
 import scala.annotation.tailrec
 
+// abstract semantics
 case class AbsSemantics(
   // internal map from control points to abstract states
   var npMap: Map[NodePoint[Node], AbsState] = Map(),
@@ -29,7 +30,7 @@ case class AbsSemantics(
 
   // assertion control points
   var assertions: Map[ControlPoint, (AbsType, Expr)] = Map()
-) {
+) extends Component {
   // load helpers
   import AbsSemantics._
 
@@ -187,8 +188,7 @@ case class AbsSemantics(
     case ReturnPoint(func, _) => func
   }
 
-  // conversion to string
-  override def toString: String = getString("")
+  // get information string
   def getInfo: String = {
     val app = new Appender
     val (numFunc, numAlgo, numRp) = numOfFuncAlgoRp
@@ -197,6 +197,8 @@ case class AbsSemantics(
     app >> "# of iterations: " >> AnalysisStat.iter
     app.toString
   }
+
+  // numbers of function
   def numOfFuncAlgoRp: (Int, Int, Int) = (
     rpMap.keySet.map(_.func).toSet.size,
     cfg.spec.algos.length,

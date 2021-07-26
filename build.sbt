@@ -49,6 +49,8 @@ lazy val test262ManualTest = taskKey[Unit]("Launch manual eval test262 tests (la
 // analyzer
 lazy val analyzerTest = taskKey[Unit]("Launch analyzer tests")
 lazy val analyzerJsonTest = taskKey[Unit]("Launch json analyzer tests (middle)")
+lazy val analyzerBeautifierTest = taskKey[Unit]("Launch beautifier analyzer tests (tiny)")
+lazy val analyzerParseTest = taskKey[Unit]("Launch parse analyzer tests (tiny)")
 
 // jiset
 lazy val jiset = (project in file("."))
@@ -91,12 +93,12 @@ lazy val jiset = (project in file("."))
     // extract
     extractTest := (testOnly in Test).toTask(" *.extract.*Test").value,
     extractTokenTest := (testOnly in Test).toTask(" *.extract.Token*Test").value,
-		extractJsonTest := (testOnly in Test).toTask(" *.extract.Json*Test").value,
+    extractJsonTest := (testOnly in Test).toTask(" *.extract.Json*Test").value,
     extractGrammarTest := (testOnly in Test).toTask(" *.extract.Grammar*Test").value,
     // ir
     irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
     irParseTest := (testOnly in Test).toTask(" *.ir.Parse*Test").value,
-		irBeautifierTest := (testOnly in Test).toTask(" *.ir.Beautifier*Test").value,
+    irBeautifierTest := (testOnly in Test).toTask(" *.ir.Beautifier*Test").value,
     irEvalTest := (testOnly in Test).toTask(" *.ir.Eval*Test").value,
     // js
     jsTest := (testOnly in Test).toTask(" *.js.*Test").value,
@@ -109,5 +111,7 @@ lazy val jiset = (project in file("."))
     test262ManualTest := (testOnly in Test).toTask(" *.test262.Manual*Test").value,
     // js
     analyzerTest := (testOnly in Test).toTask(" *.analyzer.*Test").value,
-    analyzerJsonTest := (testOnly in Test).toTask(" *.analyzer.Json*Test").value
+    analyzerJsonTest := (testOnly in Test).toTask(" *.analyzer.Json*Test").value,
+    analyzerBeautifierTest := (testOnly in Test).toTask(" *.analyzer.Beautifier*Test").value,
+    analyzerParseTest := (testOnly in Test).toTask(" *.analyzer.Parse*Test").value
   )

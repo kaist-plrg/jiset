@@ -11,11 +11,14 @@ case class AbsState(
   reachable: Boolean,
   map: Map[String, AbsType] = Map(),
   names: Set[String] = Set()
-) {
+) extends Component {
   import AbsState._
 
   // bottom check
   def isBottom: Boolean = !reachable
+
+  // empty check
+  def isEmpty: Boolean = reachable && map.size == 0
 
   // normalization
   def normalized: AbsState = {
@@ -221,15 +224,6 @@ case class AbsState(
     else BoolT
   }
   def isInstanceOf(t: AbsType, name: String, k: Int): AbsType = BoolT
-
-  // conversion to string
-  override def toString: String = {
-    val app = new Appender
-    app.wrap(for ((x, t) <- map) {
-      app :> x >> " -> " >> t.toString >> LINE_SEP
-    })
-    app.toString
-  }
 
   // private helper functions
   private def norm(f: => AbsState): AbsState = if (isBottom) Bot else f

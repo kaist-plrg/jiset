@@ -130,7 +130,7 @@ class Beautifier(
       case ENum(n) => app >> s"$n"
       case EINum(n) => app >> s"${n}i"
       case EBigINum(b) => app >> s"${b}n"
-      case EStr(str) => app >> "\"" + normStr(str) + "\""
+      case EStr(str) => app >> "\"" >> normStr(str) >> "\""
       case EBool(b) => app >> s"$b"
       case EUndef => app >> "undefined"
       case ENull => app >> "null"

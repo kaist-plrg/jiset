@@ -1,14 +1,13 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.ir.Expr
 import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
 
 // abstract states
 case class AbsType private (
   val set: Set[Type]
-) {
+) extends Component {
   // bottom check
   def isBottom: Boolean = set.isEmpty
 
@@ -156,15 +155,8 @@ case class AbsType private (
     l <- left.bool
     r <- right.bool
   } yield bop(l, r)).norm
-
-  // conversion to string
-  override def toString: String = {
-    if (set.size == 0) "⊥"
-    else if (set.size == 1) set.head.toString
-    else set.mkString("(", " | ", ")")
-  }
 }
-object AbsType {
+object AbsType extends Parser[AbsType] {
   // bottom value
   val Bot: AbsType = new AbsType(Set())
 

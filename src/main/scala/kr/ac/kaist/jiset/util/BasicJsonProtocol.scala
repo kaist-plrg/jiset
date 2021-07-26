@@ -30,18 +30,20 @@ trait BasicJsonProtocol {
   ): Decoder[Map[K, V]] = new Decoder[Map[K, V]] {
     final def apply(c: HCursor): Decoder.Result[Map[K, V]] = {
       val pairs: Vector[Json] = c.value.asArray.get
-      optional(for {
-        pairJson <- pairs
-        pair <- pairJson.asArray
-        (kJson, vJson) <- pair match {
-          case Vector(kJson, vJson) => Some((kJson, vJson))
-          case _ => None
-        }
-        k <- KDecoder(kJson.hcursor).toOption
-        v <- VDecoder(vJson.hcursor).toOption
-      } yield k -> v) match {
-        case Some(vec) => Right(vec.toMap)
-        case None =>
+      try {
+        Right((for {
+          pairJson <- pairs
+          pair <- pairJson.asArray
+          (kJson, vJson) <- pair match {
+            case Vector(kJson, vJson) => Some((kJson, vJson))
+            case _ => None
+          }
+          k <- KDecoder(kJson.hcursor).toOption
+          v <- VDecoder(vJson.hcursor).toOption
+        } yield k -> v).toMap)
+      } catch {
+        case e: Throwable =>
+          println(e)
           decodeFail(s"invalid format for map structures: ${c.value}", c)
       }
     }

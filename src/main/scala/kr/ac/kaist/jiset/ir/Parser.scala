@@ -54,7 +54,7 @@ trait Parsers extends BasicParsers {
   implicit lazy val expr: Parser[Expr] = opt("(" ~> integer <~ ")") ~ (
     ref ^^ { ERef(_) } |
     s"${integer}i".r ^^ { case s => EINum(s.dropRight(1).toLong) } |
-    s"${integer}n".r ^^ { case s => EBigINum(BigInt(s.dropRight(1).toLong)) } |
+    s"${integer}n".r ^^ { case s => EBigINum(BigInt(s.dropRight(1))) } |
     floatingPointNumber ^^ { case s => ENum(s.toDouble) } |
     "Infinity" ^^ { case s => ENum(Double.PositiveInfinity) } |
     "+Infinity" ^^ { case s => ENum(Double.PositiveInfinity) } |
@@ -171,7 +171,4 @@ trait Parsers extends BasicParsers {
     "num2bigint" ^^^ CNumToBigInt |
     "bigint2num" ^^^ CBigIntToNum
   )
-
-  // integers
-  val integer = "(0|-?[1-9]\\d*)".r
 }
