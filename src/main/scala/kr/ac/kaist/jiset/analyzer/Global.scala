@@ -30,13 +30,6 @@ object Global {
       "Reference" -> "Reference",
       "Number" -> "Number",
       "BigInt" -> "BigInt",
-      "StrList" -> ListT(StrT),
-      "NumList" -> ListT(NumT),
-      "AnyStr" -> StrT,
-      "AnyBool" -> BoolT,
-      "AnyNum" -> NumT,
-      "AnyBigInt" -> BigIntT,
-      "AnyResult" -> AbsType(NormalT(ESValueT), AbruptT),
     )
   )
 
