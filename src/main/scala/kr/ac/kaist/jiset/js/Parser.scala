@@ -80,6 +80,7 @@ object Parser extends ESParsers {
     StringLiteral |||
     Template
   )
+  // TODO automatically synthesize this part: handling unicodes
   lazy val IdentifierName: Lexer = (
     IdentifierStart |||
     IdentifierName % IdentifierPart
@@ -956,12 +957,14 @@ object Parser extends ESParsers {
       log((MATCH <~ t("||")) ~ LogicalANDExpression(List(pIn, pYield, pAwait)) ^^ { case _ ~ x0 => ((x: LogicalORExpression) => LogicalORExpression1(x, x0, args, Span())) })("LogicalORExpression1")
     )))("LogicalORExpression")
   })
+  // TODO automatically synthesize this part: left recursion
   lazy val CoalesceExpression: ESParser[CoalesceExpression] = memo(args => {
     val List(pIn, pYield, pAwait) = getArgsN("CoalesceExpression", args, 3)
     log((
       log((MATCH ~ CoalesceExpressionHead(List(pIn, pYield, pAwait)) <~ t("??")) ~ BitwiseORExpression(List(pIn, pYield, pAwait)) ^^ { case _ ~ x0 ~ x1 => CoalesceExpression0(x0, x1, args, Span()) })("CoalesceExpression0")
     ))("CoalesceExpression")
   })
+  // TODO automatically synthesize this part: left recursion
   lazy val CoalesceExpressionHead: ESParser[CoalesceExpressionHead] = memo(args => {
     val List(pIn, pYield, pAwait) = getArgsN("CoalesceExpressionHead", args, 3)
     log(resolveLR((
@@ -1323,6 +1326,7 @@ object Parser extends ESParsers {
       log(MATCH ~ ForInOfStatement(List(pYield, pAwait, pReturn)) ^^ { case _ ~ x0 => IterationStatement3(x0, args, Span()) })("IterationStatement3")
     ))("IterationStatement")
   })
+  // TODO automatically synthesize this part: do-while token for automatic semicolon insertion
   lazy val DoWhileStatement: ESParser[DoWhileStatement] = memo(args => {
     val List(pYield, pAwait, pReturn) = getArgsN("DoWhileStatement", args, 3)
     log((
