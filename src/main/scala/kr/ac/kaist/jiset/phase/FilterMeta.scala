@@ -96,10 +96,11 @@ case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummar
     "Uint8ClampedArray",
     "WeakMap",
     "WeakSet",
-  // XXX: See appendix B Additional ECMAScript Features for Web Browsers
-  // "__proto__",
-  // "__getter__",
-  // "__setter__",
+    // XXX: See appendix B Additional ECMAScript Features for Web Browsers
+    // "__proto__",
+    // "__getter__",
+    // "__setter__",
+    "BigInt", // BigInt: https://github.com/tc39/proposal-bigint
   )
 
   lazy val test262Dir = new File(s"$TEST_DIR/test262/test")

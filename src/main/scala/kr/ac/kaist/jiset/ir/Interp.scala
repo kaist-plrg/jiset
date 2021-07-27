@@ -148,7 +148,7 @@ class Interp(
         val vOpt = (base, prop) match {
           case (ASTVal(Lexical(kind, str)), Str(name)) => Some((kind, name) match {
             case ("(IdentifierName \\ (ReservedWord))" | "IdentifierName", "StringValue") => Str(str)
-            case ("NumericLiteral", "MV" | "NumericValue") => Num(ESValueParser.parseNumber(str))
+            case ("NumericLiteral", "MV" | "NumericValue") => ESValueParser.parseNumber(str)
             case ("StringLiteral", "SV" | "StringValue") => Str(ESValueParser.parseString(str))
             case ("NoSubstitutionTemplate", "TV") => Str(ESValueParser.parseTVNoSubstitutionTemplate(str))
             case ("TemplateHead", "TV") => Str(ESValueParser.parseTVTemplateHead(str))
@@ -366,6 +366,7 @@ class Interp(
     case EConvert(source, target, flags) => interp(source).escaped(st) match {
       case Str(s) => target match {
         case CStrToNum => Num(ESValueParser.str2num(s))
+        case CStrToBigInt => ESValueParser.str2bigint(s)
         case _ => error(s"not convertable option: Str to ${target.beautified}")
       }
       case INum(n) => {
@@ -380,6 +381,7 @@ class Interp(
         target match {
           case CNumToStr => Str(toStringHelper(n, radix))
           case CNumToInt => INum(n)
+          case CNumToBigInt => BigINum(BigInt(n))
           case _ => error(s"not convertable option: INum to $target")
         }
       }
@@ -395,8 +397,15 @@ class Interp(
         target match {
           case CNumToStr => Str(toStringHelper(n, radix))
           case CNumToInt => INum((math.signum(n) * math.floor(math.abs(n))).toLong)
+          case CNumToBigInt => BigINum(BigInt(new java.math.BigDecimal(n).toBigInteger))
           case _ => error(s"not convertable option: INum to $target")
         }
+      }
+      case BigINum(b) => target match {
+        case CNumToBigInt => BigINum(b)
+        case CNumToStr => Str(b.toString)
+        case CBigIntToNum => Num(b.toDouble)
+        case _ => error(s"not convertable option: BigINum to $target")
       }
       case v => error(s"not an convertable value: ${v.beautified}")
     }
