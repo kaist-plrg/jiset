@@ -72,25 +72,20 @@ case class AbsSemantics(
     val set = npMap.keySet.map {
       case NodePoint(node, view) => ReturnPoint(cfg.funcOf(node), view)
     } -- rpMap.keySet
-    for (rp <- set) warning(s"no return: ${getString(rp, "", false)}")
+    for (rp <- set) typeWarning(s"no return: ${getString(rp, "", false)}")
   }
 
   // reference check
   def referenceCheck: Unit = AnalysisStat.doCheck({
     for ((cp, x) <- unknownVars) {
-      val cpStr = getString(cp, "", false)
-      alarm(s"unknown variable: $x", cp = cp, cpStr = cpStr)
+      typeBug(s"unknown variable: $x", cp = cp)
     }
   })
 
   // assertions check
-  def assertionCheck: Unit = AnalysisStat.doCheck({
-    assertions.foreach {
-      case (cp, (t, expr)) =>
-        val cpStr = getString(cp, "", false)
-        if (!(AT ⊑ t)) alarm(s"assertion failed: ${expr.beautified}", cp = cp, cpStr = cpStr)
-        else if (AF ⊑ t) warning(s"maybe assertion failed: ${expr.beautified}", cp = cp, cpStr = cpStr)
-    }
+  def assertionCheck: Unit = AnalysisStat.doCheck(assertions.foreach {
+    case (cp, (t, expr)) =>
+      if (!(AT ⊑ t)) typeBug(s"assertion failed: ${expr.beautified}", cp = cp)
   })
 
   // get size
@@ -125,15 +120,15 @@ case class AbsSemantics(
         aux(pl, al)
       case (Param(name, kind) :: tl, Nil) =>
         if (kind == Normal) {
-          AnalysisStat.doCheck(alarm(s"remaining parameter: $name"))
+          AnalysisStat.doCheck(typeBug(s"remaining parameter: $name"))
           st = AbsState.Bot
         } else st = st.define(name, AAbsent.abs, param = true)
         aux(tl, Nil)
       case (Nil, Nil) =>
       case (Nil, args) =>
-        AnalysisStat.doCheck(alarm(s"remaining arguments: ${args.mkString(", ")}"))
+        AnalysisStat.doCheck(typeBug(s"remaining arguments: ${args.mkString(", ")}"))
       case _ =>
-        warning(s"consider variadic: (${params.mkString(", ")}) and (${args.mkString(", ")}) @ $call")
+        typeWarning(s"consider variadic: (${params.mkString(", ")}) and (${args.mkString(", ")}) @ $call")
     }
     aux(params, args)
     st

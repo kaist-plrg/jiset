@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console.RED
+import scala.collection.mutable.{ Map => MMap }
 
 package object analyzer {
   // perform type analysis
@@ -68,15 +69,14 @@ package object analyzer {
   var TARGET: Option[String] = None
   var USE_VIEW: Boolean = true
   var PRUNE: Boolean = true
-  var CHECK_ALARM: Boolean = false
+  var CHECK_BUG: Boolean = false
   var REPL: Boolean = false
   var DOT: Boolean = false
   var PDF: Boolean = false
   var PARTIAL_MODEL: Option[String] = None
 
-  // alarm
+  // current control points for alarms
   var alarmCP: ControlPoint = null
-  var alarmCPStr: String = ""
 
   //////////////////////////////////////////////////////////////////////////////
   // global helpers
@@ -88,55 +88,47 @@ package object analyzer {
 
   // print writers
   mkdir(ANALYZE_LOG_DIR)
-  val nfAlarms = getPrintWriter(s"$ANALYZE_LOG_DIR/alarms")
-  val nfErrors = getPrintWriter(s"$ANALYZE_LOG_DIR/errors")
+  val nfWarn = getPrintWriter(s"$ANALYZE_LOG_DIR/warnings")
+  val nfBug = getPrintWriter(s"$ANALYZE_LOG_DIR/bugs")
 
-  // size
-  def numError = errorMap.foldLeft(0) { case (n, (_, s)) => n + s.size }
-  def numWarning = alarmMap.foldLeft(0) { case (n, (_, s)) => n + s.size }
+  // type warnings
+  private val warnMap: MMap[Int, Set[String]] = MMap()
+  def numWarn = warnMap.foldLeft(0) { case (n, (_, s)) => n + s.size }
+  def typeWarning(
+    msg: String,
+    cp: ControlPoint = alarmCP
+  ): Unit = typeAlarm(msg, bug = false, cp = cp)
 
-  private var alarmMap: Map[String, Set[String]] = Map()
-  private var errorMap: Map[Int, Set[String]] = Map()
-  def warning(
+  // type bugs
+  private val bugMap: MMap[Int, Set[String]] = MMap()
+  def numBug = bugMap.foldLeft(0) { case (n, (_, s)) => n + s.size }
+  def typeBug(
     msg: String,
-    cp: ControlPoint = alarmCP,
-    cpStr: String = alarmCPStr
-  ): Unit = alarm(msg, error = false, cp, cpStr)
-  def alarm(
+    cp: ControlPoint = alarmCP
+  ): Unit = typeAlarm(msg, bug = true, cp = cp)
+
+  // type alarms
+  def typeAlarm(
     msg: String,
-    error: Boolean = true,
-    cp: ControlPoint = alarmCP,
-    cpStr: String = alarmCPStr
-  ): Unit = if (TEST_MODE) {
-  } else if (cp == null) {
-    nfAlarms.println(msg)
-    nfAlarms.flush()
-  } else {
-    val key = cp match {
-      case NodePoint(node, _) => s"node${node.uid}"
-      case ReturnPoint(func, _) => s"func${func.uid}"
-    }
-    val set = alarmMap.getOrElse(key, Set())
-    if (!(set contains msg)) {
-      alarmMap += key -> (set + msg)
-      val errMsg = s"[Bug] $msg @ $cpStr"
+    bug: Boolean,
+    cp: ControlPoint
+  ): Unit = if (!TEST_MODE) {
+    val (fid, postfix, isBug) = if (cp == null) (-1, "", bug) else {
       val func = sem.funcOf(cp)
-      if (error && func.complete) {
-        val key = func.uid
-        val set = errorMap.getOrElse(key, Set())
-        if (!(set contains msg)) {
-          errorMap += key -> (set + msg)
-          val errMsg = s"[Bug] $msg @ ${func.name}"
-          if (!LOG) Console.err.println(setColor(RED)(errMsg))
-          nfErrors.println(errMsg)
-          nfErrors.flush()
-          if (CHECK_ALARM) AnalyzeREPL.run(cp)
-        }
-      }
-      if (LOG) {
-        nfAlarms.println(errMsg)
-        nfAlarms.flush()
-      }
+      (func.uid, s" @ ${func.name}", bug && func.complete)
+    }
+    val (map, nf) =
+      if (isBug) (bugMap, nfBug)
+      else (warnMap, nfWarn)
+    val set = map.getOrElse(fid, Set())
+    if (!(set contains msg)) {
+      map += fid -> (set + msg)
+      val head = if (isBug) "Bug" else "Warning"
+      val alarm = s"[$head] $msg$postfix"
+      if (isBug) Console.err.println(setColor(RED)(alarm))
+      nf.println(alarm)
+      nf.flush()
+      if (isBug && CHECK_BUG) AnalyzeREPL.run(cp)
     }
   }
 

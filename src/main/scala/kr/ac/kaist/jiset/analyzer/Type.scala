@@ -105,7 +105,7 @@ sealed trait Type extends Component {
     case (t: PureType) => Some(t)
     case NormalT(t) => Some(t)
     case AbruptT =>
-      AnalysisStat.doCheck(alarm(s"unchecked abrupt completions: ${expr.beautified}"))
+      AnalysisStat.doCheck(typeBug(s"unchecked abrupt completions: ${expr.beautified}"))
       None
   }
 

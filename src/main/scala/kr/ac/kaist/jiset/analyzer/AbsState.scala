@@ -82,7 +82,7 @@ case class AbsState(
     } else {
       AnalysisStat.doCheck({
         if (check && exists(toERef(x), AbsId(x)) == AT && !isTemporalId(x))
-          alarm(s"already defined variable: $x")
+          typeBug(s"already defined variable: $x")
       })
       copy(map = map + (x -> t), names = names + x)
     }
@@ -132,7 +132,7 @@ case class AbsState(
       }
       case (nameT: NameT) =>
         val t = nameT(prop)
-        if (check && t.isMustAbsent) warning(s"unknown property: $base.$prop")
+        if (check && t.isMustAbsent) typeWarning(s"unknown property: $base.$prop")
         t
       case NilT if prop == "length" => ANum(0)
       case ListT(_) | StrT | AStr(_) if prop == "length" => NumT
@@ -182,7 +182,7 @@ case class AbsState(
   def update(expr: Expr, ref: AbsRef, t: AbsType): AbsState = norm(ref match {
     case AbsId(x) => define(x, t)
     case AbsStrProp(_, _) if (lookup(expr, ref) ⊓ t).isBottom =>
-      warning(s"invalid property update: ${ref} with ${t}")
+      typeWarning(s"invalid property update: ${ref} with ${t}")
       this
     case _ => this
   })
@@ -198,10 +198,10 @@ case class AbsState(
   def prepend(t: AbsType, list: AbsType): AbsState = notyet("prepend")
   def delete(ref: AbsRef): AbsState = notyet("delete")
   def pop(list: AbsType, k: AbsType): (AbsType, AbsState) = {
-    if (k !⊑ NumericT) warning(s"invalid pop index: ${k}")
+    if (k !⊑ NumericT) typeWarning(s"invalid pop index: ${k}")
     val ty = list.set.foldLeft(AbsType.Bot) {
       case (ty, ListT(elem)) => ty ⊔ elem
-      case (ty, _) => warning(s"invalid pop expression: ${list}"); ty
+      case (ty, _) => typeWarning(s"invalid pop expression: ${list}"); ty
     }
     (norm(ty), this)
   }
@@ -233,7 +233,7 @@ case class AbsState(
   private def notyet(t: AbsType, name: String): (AbsType, AbsState) =
     (t, notyet(name))
   private def notyet(name: String) = norm {
-    warning(s"not yet implemented: AbsState.$name")
+    typeWarning(s"not yet implemented: AbsState.$name")
     this
   }
 }

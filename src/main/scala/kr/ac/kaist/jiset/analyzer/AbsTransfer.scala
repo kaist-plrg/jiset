@@ -40,7 +40,6 @@ object AbsTransfer {
       compute
     case None =>
       alarmCP = null
-      alarmCPStr = ""
       sem.noReturnCheck
       sem.referenceCheck
       sem.assertionCheck
@@ -51,14 +50,13 @@ object AbsTransfer {
       }
       if (LOG) AnalysisStat.dump()
       AnalysisStat.close()
-      nfAlarms.close()
-      nfErrors.close()
+      nfBug.close()
+      nfWarn.close()
   }
 
   // transfer function for control points
   def apply(cp: ControlPoint): Unit = {
     alarmCP = cp
-    alarmCPStr = sem.getString(cp, "", false)
     CheckBottoms(cp)
     cp match {
       case (np: NodePoint[_]) => this(np)
@@ -121,7 +119,7 @@ object AbsTransfer {
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = bottomCheck((inst match {
       case IExpr(expr @ ENotSupported(msg)) => st => {
-        warning(expr.beautified)
+        typeWarning(expr.beautified)
         st
       }
       case IExpr(expr) => for {
@@ -177,7 +175,7 @@ object AbsTransfer {
         _ = printlnColor(GREEN)(s"[PRINT] $t")
       } yield ()
       case _ => st => {
-        warning(s"not yet implemented: ${inst.beautified}")
+        typeWarning(s"not yet implemented: ${inst.beautified}")
         st
       }
     }): Updater)
@@ -194,7 +192,7 @@ object AbsTransfer {
         as <- join(args.map(argTransfer))
         _ <- put(AbsState.Bot)
         fids = f.fidSet
-      } yield if (fids.isEmpty) warning("no function") else fids.foreach(fid => {
+      } yield if (fids.isEmpty) typeWarning("no function") else fids.foreach(fid => {
         val func = cfg.fidMap(fid)
         sem.doCall(call, view, func, as, x)
       })
@@ -213,7 +211,7 @@ object AbsTransfer {
         }
       } yield ()
       case inst => st => {
-        warning(s"not yet implemented: ${inst.beautified}")
+        typeWarning(s"not yet implemented: ${inst.beautified}")
         st
       }
     }
@@ -230,7 +228,7 @@ object AbsTransfer {
       for (t <- f) yield { bottomCheck(t, target); t }
     def bottomCheck(t: AbsType): Boolean = bottomCheck(t, "")
     def bottomCheck(t: AbsType, target: Any): Boolean = if (t.isBottom) {
-      warning("bottom result" + (if (target == "") target else s" @ $target"))
+      typeWarning("bottom result" + (if (target == "") target else s" @ $target"))
       true
     } else false
 
@@ -238,7 +236,7 @@ object AbsTransfer {
     type SimpleFunc = (AbsState, List[(Expr, AbsType)]) => AbsType
     def arityCheck(name: String, f: SimpleFunc): (String, SimpleFunc) =
       (name, (st, pairs) => AnalysisStat.doCheck(optional(f(st, pairs)).getOrElse {
-        alarm(s"arity mismatch for $name")
+        typeBug(s"arity mismatch for $name")
         AbsType.Bot
       }))
     val simpleFuncs: Map[String, SimpleFunc] = Map(
@@ -254,7 +252,7 @@ object AbsTransfer {
       arityCheck("fround", {
         case (_, List((expr, ty))) =>
           AnalysisStat.doCheck {
-            if (!(ty ⊑ NumT)) alarm(s"non-number types: ${expr.beautified}")
+            if (!(ty ⊑ NumT)) typeBug(s"non-number types: ${expr.beautified}")
           }
           NumT
       }),
@@ -320,11 +318,11 @@ object AbsTransfer {
             case (prop, _) if prop == "SubMap" => // ignore SubMap
             case (prop, propT) if pmap contains prop =>
               if ((propT ⊓ pmap(prop)).isBottom) {
-                warning(s"invalid property type: ${pmap(prop)} is expected at ${ty}.${prop}(current: ${propT})")
+                typeWarning(s"invalid property type: ${pmap(prop)} is expected at ${ty}.${prop}(current: ${propT})")
               }
-            case (prop, _) => warning(s"unknown property: ${ty}.${prop}")
+            case (prop, _) => typeWarning(s"unknown property: ${ty}.${prop}")
           }
-          case None if ty != "SubMap" => warning(s"unknown type: ${ty}")
+          case None if ty != "SubMap" => typeWarning(s"unknown type: ${ty}")
           case _ =>
         }
 
@@ -427,11 +425,11 @@ object AbsTransfer {
         t <- transfer(obj)
       } yield ListT(StrT)
       case ENotSupported(msg) => st => {
-        warning(expr.beautified)
+        typeWarning(expr.beautified)
         (AAbsent, st)
       }
       case expr => st => {
-        warning(s"not yet implemented: ${expr.beautified}")
+        typeWarning(s"not yet implemented: ${expr.beautified}")
         (AAbsent, st)
       }
     }, expr, expr.beautified)
@@ -521,7 +519,7 @@ object AbsTransfer {
             if (!((l ⊑ NumericT && r ⊑ NumericT) || (l ⊑ StrT && r ⊑ StrT))) {
               val l = left.beautified
               val r = right.beautified
-              alarm(s"non-numeric or non-string types: $l and $r")
+              typeBug(s"non-numeric or non-string types: $l and $r")
             }
             BoolT
           })
@@ -557,7 +555,7 @@ object AbsTransfer {
       AbsType(t.set.flatMap[Type] {
         case AbruptT =>
           if (check) sem.doReturn(ret, AbruptT)
-          else warning(s"Unchecked abrupt completions")
+          else typeWarning(s"Unchecked abrupt completions")
           None
         case NormalT(t) => Some(t)
         case (t: PureType) => Some(t)
@@ -600,7 +598,7 @@ object AbsTransfer {
       case _ => cfg.getSyntaxFids(name, prop).toList match {
         case Nil if prop == "Contains" => BoolT
         case Nil =>
-          warning(s"$name.$prop does not exist")
+          typeWarning(s"$name.$prop does not exist")
           AbsType.Bot
         case fids =>
           fids.foreach(fid => {

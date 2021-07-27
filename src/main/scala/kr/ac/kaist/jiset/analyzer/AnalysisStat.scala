@@ -59,7 +59,7 @@ object AnalysisStat {
     // dump summary
     log(
       f"$iter%,3d", f"$analTime%,3d", worklist.size, sem.size,
-      f"$avg%.2f", numRp, numFunc, numAlgo, numError, numWarning
+      f"$avg%.2f", numRp, numFunc, numAlgo, numBug, numWarn
     )
 
     // dump worklist
