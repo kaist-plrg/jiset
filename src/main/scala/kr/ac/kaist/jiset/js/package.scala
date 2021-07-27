@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset
 
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
+import kr.ac.kaist.jiset.cfg.CFG
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -12,6 +13,9 @@ import kr.ac.kaist.jiset.util.Useful._
 package object js {
   // current ECMAScript model
   lazy val spec: ECMAScript = targetSpec.get
+
+  // current control-flow graph (CFG)
+  lazy val cfg: CFG = new CFG(spec)
 
   // set current ECMAScript model
   def setTarget(spec: ECMAScript): Unit = targetSpec = Some(spec)

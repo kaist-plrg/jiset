@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.ir.{ doubleEquals, Expr }
+import kr.ac.kaist.jiset.ir.{ doubleEquals, Expr, Addr, Value, State }
 import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
@@ -126,6 +126,19 @@ sealed trait Type extends Component {
 
 // completion types
 sealed trait CompType extends Type
+object CompType {
+  // type creation from values
+  def apply(addr: Addr, st: State): CompType = {
+    import kr.ac.kaist.jiset.ir._
+    import CompletionType._
+    addr.completionType(st) match {
+      case Normal =>
+        val value = st(addr, Str("Value"))
+        NormalT(PureType(value, st))
+      case _ => AbruptT
+    }
+  }
+}
 case class NormalT(value: PureType) extends CompType
 case object AbruptT extends CompType
 
@@ -140,6 +153,42 @@ sealed trait PureType extends Type {
     case AStr(_) => StrT
     case ABool(_) => BoolT
     case _ => this
+  }
+}
+object PureType {
+  // pure type creation from values
+  def apply(value: Value, st: State): PureType = {
+    import kr.ac.kaist.jiset.ir._
+    import kr.ac.kaist.jiset.js._
+    value match {
+      case NamedAddr(name) if name startsWith CONST_PREFIX =>
+        ConstT(name.substring(CONST_PREFIX.length))
+      case addr: Addr => st(addr) match {
+        case m @ IRMap(Ty(tname), props, _) => tname match {
+          case "" => RecordT() // TODO fill props
+          case "SubMap" => MapT(???) // TODO fill elem
+          case _ => NameT(tname)
+        }
+        case IRList(values) => values.toList match {
+          case Nil => NilT
+          case hd :: _ => PureType(hd, st) // TODO current: only head
+        }
+        case IRSymbol(_) => SymbolT
+        case IRNotSupported(tname, _) => NameT(tname)
+      }
+      case ast: ASTVal => AstT(ast.ast.kind)
+      case func: Func => FuncT(cfg.algo2fid(func.algo.name))
+      case clo: Clo => ??? // TODO
+      case cont: Cont => ??? // TODO
+      case Num(double) => NumT
+      case INum(long) => NumT
+      case BigINum(bigint) => BigIntT
+      case Str(str) => StrT
+      case Bool(bool) => BoolT
+      case Undef => AUndef
+      case Null => ANull
+      case Absent => AAbsent
+    }
   }
 }
 
@@ -244,6 +293,15 @@ case object AAbsent extends SingleT
 
 // modeling
 object Type extends Parser[Type] {
+  // type creation from values
+  def apply(value: Value, st: State): Type = {
+    import kr.ac.kaist.jiset.ir._
+    value match {
+      case addr: Addr if value.isCompletion(st) => CompType(addr, st)
+      case _ => PureType(value, st)
+    }
+  }
+
   // type aliases
   val typeAlias: List[(Type, Set[Type])] = List(
     BoolT -> Set[Type](ABool(true), ABool(false)),
