@@ -7,11 +7,13 @@ def EnumerateObjectPropertiesHelper(O, listAll, listEnum) = {
     if (&& (= (typeof P) String) (! (contains listAll P))) {
       append P -> listAll
       app desc = (O.GetOwnProperty O P)
+      [? desc]
       if (= desc.Enumerable true) append P -> listEnum else {}
     } else {}
     __x0__ = (+ __x0__ 1i)
   }
   app proto = (O.GetPrototypeOf O)
+  [? proto]
   if (= null proto) return listEnum
   else {
     app __x1__ = (EnumerateObjectPropertiesHelper proto listAll listEnum)
