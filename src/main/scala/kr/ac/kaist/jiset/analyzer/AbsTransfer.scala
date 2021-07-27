@@ -516,14 +516,15 @@ object AbsTransfer {
         case OMod => numericBOp(l, r)
         case OLt => (l.getSingle, r.getSingle) match {
           case (Some(ANum(l)), Some(ANum(r))) => ABool(l < r)
-          case _ =>
-            AnalysisStat.doCheck({
-              if (!(l ⊑ NumericT))
-                alarm(s"non-numeric types: ${left.beautified}")
-              if (!(r ⊑ NumericT))
-                alarm(s"non-numeric types: ${right.beautified}")
-            })
+          case (Some(AStr(l)), Some(AStr(r))) => ABool(l < r)
+          case _ => AnalysisStat.doCheck({
+            if (!((l ⊑ NumericT && r ⊑ NumericT) || (l ⊑ StrT && r ⊑ StrT))) {
+              val l = left.beautified
+              val r = right.beautified
+              alarm(s"non-numeric or non-string types: $l and $r")
+            }
             BoolT
+          })
         }
         case OEq => l =^= r
         case OEqual => BoolT
