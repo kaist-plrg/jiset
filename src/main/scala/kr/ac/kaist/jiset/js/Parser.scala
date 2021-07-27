@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.parser.ESParsers
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.parser.ESValueParser
 
 object Parser extends ESParsers {
   lazy val StringNumericLiteral: Lexer = (
@@ -84,7 +85,7 @@ object Parser extends ESParsers {
   lazy val IdentifierName: Lexer = (
     IdentifierStart |||
     IdentifierName % IdentifierPart
-  )
+  ) ^^ { case str => ESValueParser.parseIdentifier(str) }
   lazy val IdentifierStart: Lexer = (
     UnicodeIDStart |||
     "$" |||

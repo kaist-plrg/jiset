@@ -147,7 +147,7 @@ class Interp(
         }
         val vOpt = (base, prop) match {
           case (ASTVal(Lexical(kind, str)), Str(name)) => Some((kind, name) match {
-            case ("(IdentifierName \\ (ReservedWord))" | "IdentifierName", "StringValue") => Str(ESValueParser.parseIdentifier(str))
+            case ("(IdentifierName \\ (ReservedWord))" | "IdentifierName", "StringValue") => Str(str)
             case ("NumericLiteral", "MV" | "NumericValue") => Num(ESValueParser.parseNumber(str))
             case ("StringLiteral", "SV" | "StringValue") => Str(ESValueParser.parseString(str))
             case ("NoSubstitutionTemplate", "TV") => Str(ESValueParser.parseTVNoSubstitutionTemplate(str))
