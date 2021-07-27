@@ -41,12 +41,3 @@ case class EReturnIfAbrupt(expr: Expr, check: Boolean) extends Expr
 case class ECopy(obj: Expr) extends Expr with AllocExpr
 case class EKeys(mobj: Expr, intSorted: Boolean) extends Expr with AllocExpr
 case class ENotSupported(msg: String) extends Expr with AllocExpr
-
-sealed trait COp extends IRNode
-object COp extends Parser[COp]
-case object CStrToNum extends COp
-case object CStrToBigInt extends COp
-case object CNumToStr extends COp
-case object CNumToInt extends COp
-case object CNumToBigInt extends COp
-case object CBigIntToNum extends COp
