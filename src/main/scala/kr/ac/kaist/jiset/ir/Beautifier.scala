@@ -166,7 +166,9 @@ class Beautifier(
         app >> "(parse-syntax " >> code >> " " >> rule >> " " >> parserParams >> ")"
       case EConvert(expr, cop, list) =>
         implicit val l = ListApp[Expr](sep = " ")
-        app >> "(convert " >> expr >> " " >> cop >> " " >> list >> ")"
+        app >> "(convert " >> expr >> " " >> cop
+        for (l <- list) app >> " " >> l
+        app >> ")"
       case EContains(list, elem) =>
         app >> "(contains " >> list >> " " >> elem >> ")"
       case EReturnIfAbrupt(expr, check) =>

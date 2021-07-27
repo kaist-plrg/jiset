@@ -97,6 +97,8 @@ class BeautifierTinyTest extends IRTest {
       EGetSyntax(EAbsent) -> "(get-syntax absent)",
       EParseSyntax(EStr("code"), EStr("rule"), EStr("flag"))
         -> "(parse-syntax \"code\" \"rule\" \"flag\")",
+      EConvert(ENull, CNumToBigInt, Nil) ->
+        "(convert null num2bigint)",
       EConvert(EStr("4"), CStrToNum, irList) ->
         "(convert \"4\" str2num null absent)",
       EContains(EList(irList), ENull) -> s"(contains $sList null)",
