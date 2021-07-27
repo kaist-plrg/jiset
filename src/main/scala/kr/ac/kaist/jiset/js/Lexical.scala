@@ -29,6 +29,12 @@ case class Lexical(kind: String, str: String) extends AST {
   // name
   override def name: String = kind
 
+  // pretty printer
+  override def prettify: Json = Json.arr(
+    Json.fromString(kind),
+    Json.fromString(str),
+  )
+
   // to JSON format
   override def toJson: Json = Json.fromString(str)
 

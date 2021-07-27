@@ -37,8 +37,9 @@ trait AST {
     Json.arr(Json.fromInt(-1), Json.fromInt(-1), Json.fromInt(-1), Json.fromInt(-1))
   )
 
+  // pretty printer
   def prettify: Json = Json.arr(
-    Json.fromString(this.getClass.getSimpleName),
+    Json.fromString(s"$kind[$idx,$k]"),
     Json.arr(fullList.map {
       case (_, ASTVal(ast)) => ast.prettify
       case _ => Json.Null
