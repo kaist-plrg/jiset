@@ -1,6 +1,6 @@
-def MakeArgSetter (value) = {
-  0:let steps = ALGORITHM.ArgSetter
-  1:let length = 0
+def MakeArgSetter (name, env) = {
+  0:let steps = ALGORITHM["GLOBAL.ArgSetter"]
+  1:let length = 0i
   2:app setter = (CreateBuiltinFunction steps length "" (new ["Name", "Env"]))
   2:[! setter]
   3:setter.Name = name

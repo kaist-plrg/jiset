@@ -1,6 +1,6 @@
-def MakeArgGetter(value) = {
-  0:let steps = ALGORITHM.ArgGetter
-  1:let length = 0.0
+def MakeArgGetter(name, env) = {
+  0:let steps = ALGORITHM["GLOBAL.ArgGetter"]
+  1:let length = 0i
   2:app getter = (CreateBuiltinFunction steps length "" (new ["Name", "Env"]))
   2:[! getter]
   3:getter.Name = name
