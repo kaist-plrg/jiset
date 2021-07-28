@@ -603,8 +603,8 @@ object AbsTransfer {
         case fids =>
           fids.foreach(fid => {
             val func = cfg.fidMap(fid)
-            func.algo.head match {
-              case (head: SyntaxDirectedHead) =>
+            func.headOption match {
+              case Some(head: SyntaxDirectedHead) =>
                 val baseArgs = sem.getArgs(head)
                 sem.doCall(call, view, func, baseArgs ++ args, x)
               case _ =>

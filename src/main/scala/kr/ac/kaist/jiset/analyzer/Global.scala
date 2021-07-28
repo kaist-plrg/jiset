@@ -36,7 +36,8 @@ object Global {
   // get global methods
   private def globalMethods: Map[String, AbsType] = (for {
     func <- cfg.funcs
-    name <- func.algo.head match {
+    head <- func.headOption
+    name <- head match {
       case NormalHead(name, _) => Some(name)
       case MethodHead(base, methodName, _, _) => Some(s"${base}DOT${methodName}")
       case _ => None

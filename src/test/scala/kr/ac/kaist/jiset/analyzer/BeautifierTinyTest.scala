@@ -30,7 +30,7 @@ class BeautifierTinyTest extends AnalyzerTest {
     val fidGen = new UIdGen[Function]
     val entry = Entry(nidGen)
     val exit = Exit(nidGen)
-    val func = Function(fidGen, null, entry, exit, Set(), Set())
+    val func = Function(fidGen, null, entry, exit, Set(), Set(), false)
     val base = AbsType(NameT("A"))
 
     test("AbsRef")(

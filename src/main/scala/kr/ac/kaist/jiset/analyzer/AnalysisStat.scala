@@ -67,6 +67,9 @@ object AnalysisStat {
     worklist.foreach(wapp >> _.toString >> LINE_SEP)
     dumpFile(wapp, s"$ANALYZE_LOG_DIR/worklist")
 
+    // the number of full functions
+    val fullFuncNum = sem.rpMap.keySet.count(_.func.complete)
+
     // dump stat for evaluation
     // # iter, parse, checker, analyze, full, all, node, return, all
     val evalItems = List(
@@ -74,7 +77,7 @@ object AnalysisStat {
       parseTime,
       checkerTime,
       analTime,
-      sem.rpMap.keySet.map(_.func).toSet.filter(_.algo.isComplete).size,
+      fullFuncNum,
       numFunc,
       sem.npMap.size,
       numRp,

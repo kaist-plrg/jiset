@@ -18,14 +18,17 @@ object PartialModel {
   }
 
   // partial models from result of type check
-  lazy val models: Map[Algo, Map[View, Inst]] =
-    (for (func <- cfg.funcs) yield func.algo -> getModel(func)).toMap
+  lazy val models: Map[Algo, Map[View, Inst]] = (for {
+    func <- cfg.funcs
+    algo <- func.algoOption
+  } yield algo -> getModel(func)).toMap
 
   // get partial models for an algorithm
   def getModel(func: Function): Map[View, Inst] = {
-    val body = func.algo.body
     (for {
       view <- viewMap.getOrElse(func, Nil)
+      algo <- func.algoOption
+      body = algo.body
       model = getModel(func, body, view)
     } yield view -> model).toMap
   }

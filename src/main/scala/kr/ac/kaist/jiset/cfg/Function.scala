@@ -1,26 +1,33 @@
 package kr.ac.kaist.jiset.cfg
 
-import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head }
+import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head, Param }
 import kr.ac.kaist.jiset.util.{ UId, UIdGen }
 
 // CFG functions
 case class Function(
   uidGen: UIdGen[Function],
-  algo: Algo,
+  origin: Origin,
   entry: Entry,
   exit: Exit,
   nodes: Set[Node],
-  edges: Set[Edge]
+  edges: Set[Edge],
+  complete: Boolean
 ) extends UId[Function] {
-  // completion check (not containing ??? or !!! in the algorithm body)
-  lazy val complete: Boolean = algo.isComplete
+  // optionally get algorithm
+  def algoOption: Option[Algo] = origin match {
+    case AlgoOrigin(algo) => Some(algo)
+    case _ => None
+  }
 
-  // algorithm head
-  def head: Head = algo.head
+  // optionally get algorithm head
+  def headOption: Option[Head] = algoOption.map(_.head)
 
   // function name
-  def name: String = algo.name
+  lazy val name: String = origin.name
+
+  // function name
+  lazy val params: List[Param] = origin.params
 
   // conversion to DOT
-  def toDot: String = (new DotPrinter)(this).toString
+  lazy val toDot: String = (new DotPrinter)(this).toString
 }

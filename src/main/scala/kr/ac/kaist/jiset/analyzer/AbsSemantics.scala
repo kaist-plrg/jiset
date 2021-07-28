@@ -136,8 +136,8 @@ case class AbsSemantics(
 
   // pruning this value for method algorithms
   def pruneThis(func: Function, args: List[AbsType]): List[AbsType] = {
-    (func.algo.head, args) match {
-      case (head: MethodHead, thisT :: args) => NameT(head.base) :: args
+    (func.headOption, args) match {
+      case (Some(head: MethodHead), thisT :: args) => NameT(head.base) :: args
       case _ => args
     }
   }
@@ -153,7 +153,7 @@ case class AbsSemantics(
     tys <- getTypes(pruneThis(func, args))
     view = View(tys)
   } {
-    val params = func.algo.params
+    val params = func.params
     val entrySt = getEntryState(call, params, tys)
     val np = NodePoint(func.entry, view)
     this += np -> entrySt
@@ -229,7 +229,8 @@ object AbsSemantics {
   // initialization of node points with abstract states
   def initNpMap: Map[NodePoint[_ <: Node], AbsState] = (for {
     func <- cfg.funcs.toList
-    (tys, st) <- getAlgoTypes(func.algo)
+    algo <- func.algoOption.toList
+    (tys, st) <- getAlgoTypes(algo)
     view = View(tys)
     cp = NodePoint(func.entry, view)
   } yield cp -> st).toMap

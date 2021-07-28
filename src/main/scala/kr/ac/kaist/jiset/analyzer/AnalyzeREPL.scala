@@ -164,8 +164,8 @@ object AnalyzeREPL {
         val view = curCp.view
         val rp = ReturnPoint(func, view)
         visited += curCp
-        func.head match {
-          case head: SyntaxDirectedHead if head.withParams.isEmpty =>
+        func.headOption match {
+          case Some(head: SyntaxDirectedHead) if head.withParams.isEmpty =>
             if (!(paths contains curCp)) paths += curCp -> path.reverse
           case _ => for {
             (nextCp, _) <- sem.getRetEdges(rp)
@@ -231,8 +231,8 @@ object AnalyzeREPL {
       case Some(fids) =>
         fids.foreach(fid => {
           val func = cfg.fidMap(fid)
-          func.algo.head match {
-            case (head: SyntaxDirectedHead) => println(func.name)
+          func.headOption match {
+            case Some(head: SyntaxDirectedHead) => println(func.name)
             case _ =>
           }
         })

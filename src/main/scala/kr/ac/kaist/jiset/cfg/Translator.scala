@@ -47,14 +47,18 @@ class Translator {
       node = mnode.node
     } iidMap += node -> iidSet
 
+    // check whether the created function is complete or not
+    val complete: Boolean = algo.isComplete
+
     // functions
     Function(
       uidGen = fidGen,
-      algo = algo,
+      origin = AlgoOrigin(algo),
       entry = entry.node,
       exit = exit.node,
       nodes = mnodes.map(_.node).toSet,
-      edges = edges.toSet
+      edges = edges.toSet,
+      complete = complete,
     )
   }
 
@@ -118,7 +122,9 @@ class Translator {
         connect(prev, block)
         List((block, Normal))
     }
-    case (inst: ArrowInst) => ??? // TODO
+    case (inst: ArrowInst) =>
+      // TODO handle this case
+      prev
     case ISeq(insts) => {
       insts.foldLeft(prev)(translate)
     }
