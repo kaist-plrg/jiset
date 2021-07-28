@@ -218,11 +218,11 @@ class BeautifierTinyTest extends IRTest {
         "λ(GLOBAL.id[3.0])"
     )
     test("Clo")(
-      Clo("clo", idList, MMap[Id, Value](Id("z") -> Num(3.0)), IExpr(EINum(4))) ->
-        "clo:closure(x, y)[z -> 3.0] => 4i"
+      Clo("clo", idList, MMap[Id, Value](Id("z") -> Num(3.0)), InstCursor(Nil)) ->
+        "clo:closure(x, y)[z -> 3.0] => ..."
     )
     test("Cont")(
-      Cont(idList, IExpr(EINum(4)), Context(), List()) -> "TOP_LEVEL(x, y) [=>] 4i",
+      Cont(idList, Context(), List()) -> "TOP_LEVEL(x, y) [=>] ...",
     )
     test("RefValue")(
       RefValueId(Id("x")) -> "x",

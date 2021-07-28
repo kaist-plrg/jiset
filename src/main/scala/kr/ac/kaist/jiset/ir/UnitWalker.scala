@@ -22,6 +22,7 @@ trait UnitWalker {
     case v: Value => walk(v)
     case refV: RefValue => walk(refV)
     case ctxt: Context => walk(ctxt)
+    case cursor: Cursor => walk(cursor)
   }
 
   // strings
@@ -178,10 +179,16 @@ trait UnitWalker {
   }
 
   def walk(ctxt: Context): Unit = {
+    walk(ctxt.cursor)
     walk(ctxt.retId)
     walk(ctxt.name)
-    walkList[Inst](ctxt.insts, walk)
     walkMap[Id, Value](ctxt.locals, walk, walk)
+  }
+
+  // cursors
+  def walk(cursor: Cursor): Unit = cursor match {
+    case InstCursor(insts) => walkList[Inst](insts, walk)
+    case NodeCursor(node) =>
   }
 
   // heaps
@@ -226,18 +233,17 @@ trait UnitWalker {
 
   // closure
   def walk(clo: Clo): Unit = clo match {
-    case Clo(ctxtName, params, locals, body) =>
+    case Clo(ctxtName, params, locals, cursor) =>
       walk(ctxtName)
       walkList[Id](params, walk)
       walkMap[Id, Value](locals, walk, walk)
-      walk(body)
+      walk(cursor)
   }
 
   // continuation
   def walk(cont: Cont): Unit = cont match {
-    case Cont(params, body, context, ctxtStack) =>
+    case Cont(params, context, ctxtStack) =>
       walkList[Id](params, walk)
-      walk(body)
       walk(context)
       walkList[Context](ctxtStack, walk)
   }

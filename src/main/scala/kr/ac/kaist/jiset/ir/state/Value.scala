@@ -71,7 +71,7 @@ case class Clo(
   ctxtName: String,
   params: List[Id],
   locals: MMap[Id, Value],
-  body: Inst
+  cursor: Cursor
 ) extends Value {
   // get name
   def name: String = ctxtName + ":closure"
@@ -80,7 +80,6 @@ case class Clo(
 // continuations
 case class Cont(
   params: List[Id],
-  body: Inst,
   context: Context,
   ctxtStack: List[Context]
 ) extends Value

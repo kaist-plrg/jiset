@@ -21,6 +21,7 @@ trait Walker {
     case v: Value => walk(v)
     case refV: RefValue => walk(refV)
     case ctxt: Context => walk(ctxt)
+    case cursor: Cursor => walk(cursor)
   }
 
   // strings
@@ -144,13 +145,20 @@ trait Walker {
     walk(st.heap)
   )
 
+  // contexts
   def walk(ctxt: Context): Context = Context(
+    walk(ctxt.cursor),
     walk(ctxt.retId),
     walk(ctxt.name),
     ctxt.algo,
-    walkList[Inst](ctxt.insts, walk),
     walkMap[Id, Value](ctxt.locals, walk, walk)
   )
+
+  // cursors
+  def walk(cursor: Cursor): Cursor = cursor match {
+    case InstCursor(insts) => InstCursor(walkList[Inst](insts, walk))
+    case NodeCursor(node) => NodeCursor(node)
+  }
 
   // heaps
   def walk(heap: Heap): Heap = Heap(walkMap[Addr, Obj](heap.map, walk, walk))
@@ -192,14 +200,21 @@ trait Walker {
 
   // closure
   def walk(clo: Clo): Clo = clo match {
-    case Clo(ctxtName, params, locals, body) =>
-      Clo(ctxtName, walkList[Id](params, walk), walkMap[Id, Value](locals, walk, walk), walk(body))
+    case Clo(ctxtName, params, locals, cursor) => Clo(
+      ctxtName,
+      walkList[Id](params, walk),
+      walkMap[Id, Value](locals, walk, walk),
+      walk(cursor)
+    )
   }
 
   // continuation
   def walk(cont: Cont): Cont = cont match {
-    case Cont(params, body, context, ctxtStack) =>
-      Cont(walkList[Id](params, walk), walk(body), walk(context), walkList[Context](ctxtStack, walk))
+    case Cont(params, context, ctxtStack) => Cont(
+      walkList[Id](params, walk),
+      walk(context),
+      walkList[Context](ctxtStack, walk),
+    )
   }
 
   // AST values

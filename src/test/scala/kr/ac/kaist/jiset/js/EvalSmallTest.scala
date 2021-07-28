@@ -19,7 +19,7 @@ class EvalSmallTest extends JSTest {
 
       val irName = js2ir(jsName)
       val program = Program.fromFile(irName)
-      st.context.insts = program.insts
+      st.context.cursor = InstCursor(program.insts)
       Interp(st)
     })
   }

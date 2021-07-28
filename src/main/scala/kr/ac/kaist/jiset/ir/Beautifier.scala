@@ -44,6 +44,7 @@ class Beautifier(
     case node: COp => COpApp(app, node)
     case node: State => StateApp(app, node)
     case node: Context => ContextApp(app, node)
+    case node: Cursor => CursorApp(app, node)
     case node: Heap => HeapApp(app, node)
     case node: Obj => ObjApp(app, node)
     case node: Value => ValueApp(app, node)
@@ -251,19 +252,27 @@ class Beautifier(
 
   // contexts
   implicit lazy val ContextApp: App[Context] = (app, context) => app.wrap {
-    val Context(retId, name, _, insts, locals) = context
+    val Context(cursor, retId, name, _, locals) = context
     app :> "name: " >> name >> LINE_SEP
     app :> "return: " >> retId >> LINE_SEP
-    app :> "insts: "
-    if (detail) app.listWrap(insts) >> LINE_SEP
-    else {
-      val newInsts = (insts.slice(0, VISIBLE_LENGTH) ++
-        (if (insts.length > VISIBLE_LENGTH) Some("...") else None))
-      app.listWrap(insts, true) >> LINE_SEP
+    cursor match {
+      case InstCursor(insts) => {
+        app :> "insts: "
+        if (detail) app.listWrap(insts) >> LINE_SEP
+        else {
+          val newInsts = (insts.slice(0, VISIBLE_LENGTH) ++
+            (if (insts.length > VISIBLE_LENGTH) Some("...") else None))
+          app.listWrap(insts, true) >> LINE_SEP
+        }
+      }
+      case _ => ??? // TODO
     }
     app :> "local-vars: "
     app.listWrap(locals) >> LINE_SEP
   }
+
+  // cursors
+  implicit lazy val CursorApp: App[Cursor] = (app, cursor) => ??? // TODO
 
   // heaps
   implicit lazy val HeapApp: App[Heap] = (app, heap) => {
@@ -324,15 +333,15 @@ class Beautifier(
   implicit lazy val CloApp: App[Clo] = (app, clo) => {
     implicit val p = ListApp[Id]("(", ", ", ")")
     implicit val l = ListApp[(Id, Value)]("[", ", ", "]")
-    val Clo(_, params, locals, body) = clo
-    app >> clo.name >> params >> locals.toList >> " => " >> body
+    val Clo(_, params, locals, _) = clo
+    app >> clo.name >> params >> locals.toList >> " => ..."
   }
 
   // continuations
   implicit lazy val ContApp: App[Cont] = (app, cont) => {
     implicit val l = ListApp[Id]("(", ", ", ")")
-    val Cont(params, body, context, ctxtStack) = cont
-    app >> context.name >> params >> " [=>] " >> body
+    val Cont(params, context, ctxtStack) = cont
+    app >> context.name >> params >> " [=>] ..."
   }
 
   // reference values

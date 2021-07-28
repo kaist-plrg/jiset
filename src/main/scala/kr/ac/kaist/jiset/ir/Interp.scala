@@ -41,13 +41,17 @@ class Interp(
   case object ReturnUndef extends StepTarget
   case class NextInst(inst: Inst, rest: List[Inst]) extends StepTarget
 
+  // get cursor
+  def cursor: Cursor = st.context.cursor
+
   // get next step target
-  def nextTarget: StepTarget = st.context.insts match {
-    case Nil => st.ctxtStack match {
+  def nextTarget: StepTarget = cursor match {
+    case InstCursor(Nil) => st.ctxtStack match {
       case Nil => Terminate
       case _ => ReturnUndef
     }
-    case inst :: rest => NextInst(inst, rest)
+    case InstCursor(inst :: rest) => NextInst(inst, rest)
+    case _ => ??? // TODO
   }
 
   // step
@@ -68,7 +72,7 @@ class Interp(
       }
 
       // interp inst
-      st.context.insts = rest
+      st.context.cursor = cursor.next
       interp(inst)
       if (instCount % 100000 == 0) GC(st)
       true
@@ -87,12 +91,12 @@ class Interp(
     inst match {
       case IIf(cond, thenInst, elseInst) =>
         interp(cond).escaped(st) match {
-          case Bool(true) => st.context.insts ::= thenInst
-          case Bool(false) => st.context.insts ::= elseInst
+          case Bool(true) => st.context.cursor ::= thenInst
+          case Bool(false) => st.context.cursor ::= elseInst
           case v => error(s"not a boolean: ${v.beautified}")
         }
       case IWhile(cond, body) => interp(cond).escaped(st) match {
-        case Bool(true) => st.context.insts = body :: inst :: st.context.insts
+        case Bool(true) => st.context.cursor = body :: inst :: st.context.cursor
         case Bool(false) =>
         case v => error(s"not a boolean: ${v.beautified}")
       }
@@ -108,7 +112,8 @@ class Interp(
           val body = algo.body
           val vs = args.map(interp)
           val locals = getLocals(head.params, vs)
-          val context = Context(id, head.name, Some(algo), List(body), locals)
+          val newCursor = cursor.replaceWith(body)
+          val context = Context(newCursor, id, head.name, Some(algo), locals)
           if (STAT) Stat.touchAlgo(algo.name)
           st.ctxtStack ::= st.context
           st.context = context
@@ -116,20 +121,19 @@ class Interp(
           // use hooks
           if (useHook) notify(Event.Call)
         }
-        case Clo(ctxtName, params, locals, body) => {
+        case Clo(ctxtName, params, locals, cursor) => {
           val vs = args.map(interp)
           val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
-          val context = Context(id, ctxtName + ":closure", None, List(body), locals)
+          val context = Context(cursor, id, ctxtName + ":closure", None, locals)
           st.ctxtStack ::= st.context
           st.context = context
 
           // use hooks
           if (useHook) notify(Event.Call)
         }
-        case Cont(params, body, context, ctxtStack) => {
+        case Cont(params, context, ctxtStack) => {
           val vs = args.map(interp)
           st.context = context.copied
-          st.context.insts = List(body)
           st.context.locals ++= params zip vs
           st.ctxtStack = ctxtStack.map(_.copied)
 
@@ -171,7 +175,8 @@ class Interp(
               val body = algo.body
               val vs = asts ++ args.map(interp)
               val locals = getLocals(head.params, vs)
-              val context = Context(id, head.name, Some(algo), List(body), locals)
+              val newCursor = cursor.replaceWith(body)
+              val context = Context(newCursor, id, head.name, Some(algo), locals)
               if (STAT) Stat.touchAlgo(algo.name)
               st.ctxtStack ::= st.context
               st.context = context
@@ -222,22 +227,26 @@ class Interp(
         st.context.name,
         params,
         MMap.from(captured.map(x => x -> st(x))),
-        body
+        cursor.replaceWith(body),
       )
-      case ICont(id, params, body) => st.context.locals += id -> Cont(
-        params,
-        body,
-        st.context.copied,
-        st.ctxtStack.map(_.copied)
-      )
+      case ICont(id, params, body) => {
+        val newCtxt = st.context.copied
+        newCtxt.cursor = cursor.replaceWith(body)
+        val newCtxtStack = st.ctxtStack.map(_.copied)
+        st.context.locals += id -> Cont(
+          params,
+          newCtxt,
+          newCtxtStack,
+        )
+      }
       case IWithCont(id, params, body) => {
         val State(context, ctxtStack, _, _) = st
         st.context = context.copied
-        st.context.insts = List(body)
-        st.context.locals += id -> Cont(params, ISeq(context.insts), context, ctxtStack)
+        st.context.cursor = cursor.replaceWith(body)
+        st.context.locals += id -> Cont(params, context, ctxtStack)
         st.ctxtStack = ctxtStack.map(_.copied)
       }
-      case ISeq(insts) => st.context.insts = insts ++ st.context.insts
+      case ISeq(insts) => st.context.cursor = insts ++: cursor
     }
   } catch { case ReturnValue(value) => doReturn(value) }
 
@@ -323,7 +332,7 @@ class Interp(
       case Absent => "Absent"
       case Func(_) => "Function"
       case Clo(_, _, _, _) => "Closure"
-      case Cont(_, _, _, _) => "Continuation"
+      case Cont(_, _, _) => "Continuation"
       case ASTVal(_) => "AST"
     })
     case EIsCompletion(expr) => Bool(interp(expr).isCompletion(st))

@@ -31,7 +31,7 @@ class WebREPL(override val st: State) extends Debugger {
         stepOut
       case CmdStep.name :: _ | Nil | List("") =>
         currentAlgo = st.context.algo
-        currentInst = st.context.insts.headOption
+        currentInst = st.context.currentInst
         interp.step
 
       // breakpoints
