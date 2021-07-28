@@ -20,12 +20,12 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 // for Scala.js
 enablePlugins(ScalaJSPlugin)
-scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) }
+// scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) }
 
 // command for create and copy JavaScript files
 commands += Command.command("copyJS") { state =>
   val JS_FILE=s"./target/scala-2.13/jiset-fastopt/main.js"
-  val WEB_PATH=s"./web/src/lib/jiset.js"
+  val WEB_PATH=s"./web/public/jiset.js"
   sbt.io.IO.copyFile(new File(JS_FILE), new File(WEB_PATH))
   state
 }
