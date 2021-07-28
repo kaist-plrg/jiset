@@ -23,7 +23,7 @@ object PartialModel {
 
   // get partial models for an algorithm
   def getModel(func: Function): Map[View, Inst] = {
-    val body = func.algo.getBody
+    val body = func.algo.body
     (for {
       view <- viewMap.getOrElse(func, Nil)
       model = getModel(func, body, view)

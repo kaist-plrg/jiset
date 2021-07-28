@@ -105,7 +105,7 @@ class Interp(
       case IApp(id, fexpr, args) => interp(fexpr) match {
         case Func(algo) => {
           val head = algo.head
-          val body = algo.getBody
+          val body = algo.body
           val vs = args.map(interp)
           val locals = getLocals(head.params, vs)
           val context = Context(id, head.name, Some(algo), List(body), locals)
@@ -168,7 +168,7 @@ class Interp(
           case (ASTVal(ast), Str(name)) => ast.semantics(name) match {
             case Some((algo, asts)) => {
               val head = algo.head
-              val body = algo.getBody
+              val body = algo.body
               val vs = asts ++ args.map(interp)
               val locals = getLocals(head.params, vs)
               val context = Context(id, head.name, Some(algo), List(body), locals)

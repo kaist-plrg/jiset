@@ -91,7 +91,7 @@ object Translator {
     // translate algorithm bodies
     val entry = MEntry()
     val exit = MExit()
-    val prev = translate(List((assign(entry), Normal)), algo.getBody)
+    val prev = translate(List((assign(entry), Normal)), algo.body)
     connect(prev, assign(exit))
 
     // functions
