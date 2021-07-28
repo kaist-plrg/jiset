@@ -59,8 +59,8 @@ object TypeModel {
       "HomeObject" -> NameT("Object"),
       "SourceText" -> StrT,
       "IsClassConstructor" -> BoolT,
-      "Call" -> getClo("ECMAScriptFunctionObject.Call"),
-      "Construct" -> getClo("ECMAScriptFunctionObject.Construct"),
+      "Call" -> AbsType(getClo("ECMAScriptFunctionObject.Call"), AAbsent),
+      "Construct" -> AbsType(getClo("ECMAScriptFunctionObject.Construct"), AAbsent),
     )),
     I("BuiltinFunctionObject", parent = "FunctionObject", Map(
       "InitialName" -> AbsType(StrT, ANull),
@@ -437,9 +437,9 @@ object TypeModel {
   )
 
   // get function closure by name
-  private lazy val cloMap: Map[String, AbsType] =
-    (for (func <- cfg.funcs) yield func.name -> FuncT(func.uid).abs).toMap
-  private def getClo(name: String): AbsType = cloMap.getOrElse(name, {
+  private lazy val cloMap: Map[String, Type] =
+    (for (func <- cfg.funcs) yield func.name -> FuncT(func.uid)).toMap
+  private def getClo(name: String): Type = cloMap.getOrElse(name, {
     typeWarning(s"unknown function name: $name")
     AAbsent
   })
