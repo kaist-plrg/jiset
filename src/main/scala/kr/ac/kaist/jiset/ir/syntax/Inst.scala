@@ -3,8 +3,9 @@ package kr.ac.kaist.jiset.ir
 // IR Instructions
 sealed trait Inst extends IRNode {
   // unique ids
-  private var uid = -1
-  def setUId(uid: Int): Unit = this.uid = uid
+  private var _uid = -1
+  def uid = _uid
+  def setUId(uid: Int): Unit = _uid = uid
 
   // line information
   var line: Option[Int] = None

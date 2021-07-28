@@ -7,9 +7,8 @@ import kr.ac.kaist.jiset.util.UIdGen
 
 // control flow graph
 class CFG(val spec: ECMAScript) {
-  val fidGen = new UIdGen[Function]
-  val nidGen = new UIdGen[Node]
-  val funcs: List[Function] = spec.algos.map(Translator(_, fidGen, nidGen))
+  val trans: Translator = new Translator
+  val funcs: List[Function] = spec.algos.map(trans(_))
   val nodes: List[Node] = funcs.flatMap(_.nodes)
   val edges: List[Edge] = funcs.flatMap(_.edges)
   val funcOf: Map[Node, Function] = funcs.flatMap(f => f.nodes.map(_ -> f)).toMap
@@ -30,6 +29,12 @@ class CFG(val spec: ECMAScript) {
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
+  // nodes to sets of instruciton ids
+  def iidMap: Map[Node, Set[Int]] = trans.getIIdMap
+
+  // unique id generators
+  def fidGen: UIdGen[Function] = trans.fidGen
+  def nidGen: UIdGen[Node] = trans.nidGen
   // get fids of syntax-directed algorithms
   def getSyntaxFids(lhs: String, method: String): Set[Int] =
     getSyntaxAlgo(lhs, method).map(algo2fid(_))
