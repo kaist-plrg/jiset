@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.spec
 
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.Useful._
@@ -16,6 +17,13 @@ case class ECMAScript(
   aoids: Set[String],
   section: Section
 ) extends SpecComponent {
+  // mapping from ids to instructions
+  val idMap: Map[Int, Inst] = {
+    val setter = new InstIdSetter
+    for (algo <- algos) setter.walk(algo.body)
+    setter.getIdMap
+  }
+
   // completed/incompleted algorithms
   lazy val (completedAlgos, incompletedAlgos): (List[Algo], List[Algo]) =
     algos.partition(_.isComplete)

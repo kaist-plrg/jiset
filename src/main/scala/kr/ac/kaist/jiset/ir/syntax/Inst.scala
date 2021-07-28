@@ -2,6 +2,11 @@ package kr.ac.kaist.jiset.ir
 
 // IR Instructions
 sealed trait Inst extends IRNode {
+  // unique ids
+  private var uid = -1
+  def setUId(uid: Int): Unit = this.uid = uid
+
+  // line information
   var line: Option[Int] = None
   def setLine(k: Option[Int]): Unit = line match {
     case None => line = k

@@ -48,6 +48,7 @@ case class Algo(
   }
 
   // get body with post processing
+  lazy val body: Inst = getBody
   def getBody: Inst = head match {
     case (head: SyntaxDirectedHead) if head.needPrefix =>
       val prefix = Insts(s"let ${head.lhsName} = this")
