@@ -444,12 +444,29 @@ class Compiler private (
     ("Set the code evaluation state of" ~> id) ~
     ("such that when evaluation is resumed" ~> ("with a Completion" ~> id ^^ { List(_) } | "for that execution context" ^^^ Nil)) ~
     ("the following steps will be performed:" ~> stmt)
-  ) ^^ { case x ~ ps ~ s => IAssign(Ref(s"$x.ResumeCont"), ECont(ps.map(IRId), s)) }
+  ) ^^ {
+      case x ~ ps ~ s => {
+        val t = getTempId
+        ISeq(List(
+          ICont(t, ps.map(IRId), s),
+          IAssign(Ref(s"$x.ResumeCont"), toERef(t)),
+        ))
+      }
+    }
   lazy val complexContStmt: P[Inst] = (
     ("Set the code evaluation state of" ~> id) ~
     ("such that when evaluation is resumed with a Completion" ~> id) <~
     (", the following steps of the algorithm that invoked Await will be performed, with" ~> id <~ "available.")
-  ) ^^ { case x ~ y => Inst(s"""{ $retcont = (pop $x.ReturnCont 0i) $x.ResumeCont = ($y) [=>] return $y }""") }
+  ) ^^ {
+      case x ~ y => {
+        val t = getTemp
+        Inst(s"""{
+        $retcont = (pop $x.ReturnCont 0i)
+        cont $t = ($y) [=>] return $y
+        $x.ResumeCont = $t
+      }""")
+      }
+    }
 
   // early errors
   lazy val earlyErrorStmt: P[Inst] = (("it is" | "always throw") ~ ("a syntax error" | "an early syntax error") ~ "if") ~> cond ^^ {
@@ -1092,7 +1109,12 @@ class Compiler private (
     ("a new" ~ opt("job") ~ "abstract closure with" ~> ("no parameters" ^^^ Nil | "parameters (" ~> repsep(id, ",") <~ ")")) ~
     ("that captures" ~> repsep(id, sep("and")) <~ "and performs the following steps when called:") ~
     stmt
-  ) ^^ { case ps ~ cs ~ b => pair(Nil, EClo(ps.map(IRId), cs.map(IRId), b)) }
+  ) ^^ {
+      case ps ~ cs ~ b => {
+        val t = getTempId
+        pair(List(IClo(t, ps.map(IRId), cs.map(IRId), b)), toERef(t))
+      }
+    }
 
   // get-elems expressions
   lazy val getElemsExpr: P[I[Expr]] = (

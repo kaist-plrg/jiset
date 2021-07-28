@@ -218,6 +218,18 @@ class Interp(
         val v = interp(expr)
         if (!TEST_MODE) println(st.getString(v))
       }
+      case IClo(id, params, captured, body) => st.context.locals += id -> Clo(
+        st.context.name,
+        params,
+        MMap.from(captured.map(x => x -> st(x))),
+        body
+      )
+      case ICont(id, params, body) => st.context.locals += id -> Cont(
+        params,
+        body,
+        st.context.copied,
+        st.ctxtStack.map(_.copied)
+      )
       case IWithCont(id, params, bodyInst) => {
         val State(context, ctxtStack, _, _) = st
         st.context = context.copied
@@ -282,10 +294,6 @@ class Interp(
       case v => error(s"not an address: ${v.beautified}")
     }
     case ERef(ref) => st(interp(ref))
-    case EClo(params, captured, body) =>
-      Clo(st.context.name, params, MMap.from(captured.map(x => x -> st(x))), body)
-    case ECont(params, body) =>
-      Cont(params, body, st.context.copied, st.ctxtStack.map(_.copied))
     case EUOp(uop, expr) => {
       val x = interp(expr).escaped(st)
       interp(uop, x)

@@ -10,7 +10,8 @@ def [BUILTIN] ThenFinallyFunctions(value) = {
   5:assert (= __x2__ true)
   6:app __x3__ = (PromiseResolve C result)
   6:let promise = [? __x3__]
-  7:let valueThunk = (new OrdinaryObject("Call" -> ()[value] => return value))
+  7:clo closure = ()[value] => return value
+  7:let valueThunk = (new OrdinaryObject("Call" -> closure))
   8:app __x4__ = (Invoke promise "then" (new [valueThunk]))
   8:return [? __x4__]
 }

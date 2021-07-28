@@ -10,10 +10,11 @@ def [BUILTIN] CatchFinallyFunctions(reason) = {
   5:assert (= __x2__ true)
   6:app __x3__ = (PromiseResolve C result)
   6:let promise = [? __x3__]
-  7:let thrower = (new OrdinaryObject("Call" -> ()[reason] => {
+  7:clo closure = ()[reason] => {
     app thrown = (ThrowCompletion reason)
     return thrown
-  }))
+  }
+  7:let thrower = (new OrdinaryObject("Call" -> closure))
   8:app __x4__ = (Invoke promise "then" (new [thrower]))
   8:return [? __x4__]
 }

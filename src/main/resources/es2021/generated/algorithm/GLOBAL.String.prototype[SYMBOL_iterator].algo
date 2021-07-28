@@ -3,29 +3,30 @@ def [BUILTIN] String.prototype[SYMBOL_iterator]() = {
   0:let O = [? __x0__]
   1:app __x1__ = (ToString O)
   1:let s = [? __x1__]
-  2:let closure = ()[s] => {
+  2:clo __x2__ = ()[s] => {
     3:let position = 0i
     4:let len = s.length
     5:while (< position len) 5:{
-      6:app __x2__ = (CodePointAt s position)
-      6:let cp = [! __x2__]
+      6:app __x3__ = (CodePointAt s position)
+      6:let cp = [! __x3__]
       7:let nextIndex = (+ position cp.CodeUnitCount)
-      8:let __x3__ = ""
-      8:let __x4__ = position
-      8:while (< __x4__ nextIndex) 8:{
-        8:access __x5__ = (s __x4__)
-        8:__x3__ = (+ __x3__ __x5__)
-        8:__x4__ = (+ __x4__ 1i)
+      8:let __x4__ = ""
+      8:let __x5__ = position
+      8:while (< __x5__ nextIndex) 8:{
+        8:access __x6__ = (s __x5__)
+        8:__x4__ = (+ __x4__ __x6__)
+        8:__x5__ = (+ __x5__ 1i)
       }
-      8:let resultString = __x3__
+      8:let resultString = __x4__
       9:position = nextIndex
-      10:app __x6__ = (Yield resultString)
-      10:[? __x6__]
+      10:app __x7__ = (Yield resultString)
+      10:[? __x7__]
     }
     11:return undefined
   }
-  12:app __x7__ = (CreateIteratorFromClosure closure "%StringIteratorPrototype%" INTRINSICS["%StringIteratorPrototype%"])
-  12:return [! __x7__]
+  2:let closure = __x2__
+  12:app __x8__ = (CreateIteratorFromClosure closure "%StringIteratorPrototype%" INTRINSICS["%StringIteratorPrototype%"])
+  12:return [! __x8__]
 }
 - id: "sec-string.prototype-@@iterator"
 - code:

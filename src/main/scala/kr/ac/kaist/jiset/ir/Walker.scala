@@ -73,6 +73,10 @@ trait Walker {
       case IApp(id, fexpr, args) => IApp(walk(id), walk(fexpr), walkList[Expr](args, walk))
       case IAccess(id, bexpr, expr, args) =>
         IAccess(walk(id), walk(bexpr), walk(expr), walkList[Expr](args, walk))
+      case IClo(id, params, captured, body) =>
+        IClo(walk(id), walkList[Id](params, walk), walkList[Id](captured, walk), walk(body))
+      case ICont(id, params, body) =>
+        ICont(walk(id), walkList[Id](params, walk), walk(body))
       case IWithCont(id, params, body) => IWithCont(walk(id), walkList[Id](params, walk), walk(body))
     }
     newInst.line = inst.line
@@ -90,9 +94,6 @@ trait Walker {
     case ESymbol(desc) => ESymbol(walk(desc))
     case EPop(list, idx) => EPop(walk(list), walk(idx))
     case ERef(ref) => ERef(walk(ref))
-    case EClo(params, captured, body) =>
-      EClo(walkList[Id](params, walk), walkList[Id](captured, walk), walk(body))
-    case ECont(params, body) => ECont(walkList[Id](params, walk), walk(body))
     case EUOp(uop, expr) => EUOp(walk(uop), walk(expr))
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
     case ETypeOf(expr) => ETypeOf(walk(expr))

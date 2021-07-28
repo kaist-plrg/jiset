@@ -87,6 +87,15 @@ trait UnitWalker {
       walk(id); walk(fexpr); walkList[Expr](args, walk)
     case IAccess(id, bexpr, expr, args) =>
       walk(id); walk(bexpr); walk(expr); walkList[Expr](args, walk)
+    case IClo(id, params, captured, body) =>
+      walk(id)
+      walkList[Id](params, walk)
+      walkList[Id](captured, walk)
+      walk(body)
+    case ICont(id, params, body) =>
+      walk(id)
+      walkList[Id](params, walk)
+      walk(body)
     case IWithCont(id, params, body) =>
       walk(id); walkList[Id](params, walk); walk(body)
   }
@@ -104,13 +113,6 @@ trait UnitWalker {
       walk(list); walk(idx)
     case ERef(ref) =>
       walk(ref)
-    case EClo(params, captured, body) =>
-      walkList[Id](params, walk);
-      walkList[Id](captured, walk);
-      walk(body)
-    case ECont(params, body) =>
-      walkList[Id](params, walk);
-      walk(body)
     case EUOp(uop, expr) =>
       walk(uop); walk(expr)
     case EBOp(bop, left, right) =>

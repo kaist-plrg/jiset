@@ -63,6 +63,10 @@ class BeautifierTinyTest extends IRTest {
         "access x = (\"b\" 3.0)",
       IAccess(Id("x"), EStr("b"), ENum(3.0), List(EStr("x"), ENull)) ->
         "access x = (\"b\" 3.0 \"x\" null)",
+      IClo(Id("x"), idList, idList, IExpr(EINum(4))) ->
+        s"clo x = $sIdList[x, y] => 4i",
+      ICont(Id("x"), idList, IExpr(EINum(4))) ->
+        s"cont x = $sIdList [=>] 4i",
       IWithCont(Id("x"), idList, irReturn) ->
         s"withcont x $sIdList = $sReturn",
     )
@@ -82,10 +86,6 @@ class BeautifierTinyTest extends IRTest {
       EList(irList) -> sList,
       EPop(EList(irList), EINum(0)) -> s"(pop $sList 0i)",
       ERef(RefId(Id("x"))) -> "x",
-      EClo(idList, idList, IExpr(EINum(4))) ->
-        s"$sIdList[x, y] => 4i",
-      ECont(idList, IExpr(EINum(4))) ->
-        s"$sIdList [=>] 4i",
       EUOp(ONeg, EINum(4)) -> "(- 4i)",
       EBOp(ODiv, ENum(3.0), ENum(7.0)) -> "(/ 3.0 7.0)",
       ETypeOf(EBool(false)) -> "(typeof false)",

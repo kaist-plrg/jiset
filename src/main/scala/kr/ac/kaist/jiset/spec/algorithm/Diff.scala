@@ -84,6 +84,10 @@ class Diff {
         compare(li, ri) && compare(lf, rf) && compare(la, ra)
       case (IAccess(li, lb, le, la), IAccess(ri, rb, re, ra)) =>
         compare(li, ri) && compare(lb, rb) && compare(le, re) && compare(la, ra)
+      case (IClo(li, lp, lc, lb), IClo(ri, rp, rc, rb)) =>
+        compare(li, ri) && compare(lp, rp) && compare(lc, rc) && compare(lb, rb)
+      case (ICont(li, lp, lb), ICont(ri, rp, rb)) =>
+        compare(li, ri) && compare(lp, rp) && compare(lb, rb)
       case (IWithCont(li, lp, lb), IWithCont(ri, rp, rb)) =>
         compare(li, ri) && compare(lp, rp) && compare(lb, rb)
       case (_, ISeq(ri)) => ri.forall {
@@ -136,8 +140,6 @@ class Diff {
       case (ESymbol(ld), ESymbol(rd)) => compare(ld, rd)
       case (EPop(ll, li), EPop(rl, ri)) => compare(ll, rl) && compare(li, ri)
       case (ERef(lr), ERef(rr)) => compare(lr, rr)
-      case (EClo(lp, lc, lb), EClo(rp, rc, rb)) => compare(lp, rp) && compare(lc, rc) && compare(lb, rb)
-      case (ECont(lp, lb), ECont(rp, rb)) => compare(lp, rp) && compare(lb, rb)
       case (EUOp(lu, le), EUOp(ru, re)) => lu == ru && compare(le, re)
       case (EBOp(lb, ll, lr), EBOp(rb, rl, rr)) =>
         lb == rb && compare(ll, rl) && compare(lr, rr)

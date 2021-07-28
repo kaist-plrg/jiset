@@ -1,41 +1,42 @@
 def CreateArrayIterator(array, kind) = {
   0:assert (= (typeof array) Object)
   1:assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))
-  2:let closure = ()[kind, array] => {
+  2:clo __x0__ = ()[kind, array] => {
     3:let index = 0i
     4:while true 4:{
       5:if (! (= array.TypedArrayName absent)) 5:{
-        6:app __x0__ = (IsDetachedBuffer array.ViewedArrayBuffer)
-        6:if (= __x0__ true) 6:throw TypeError else 6:{}
+        6:app __x1__ = (IsDetachedBuffer array.ViewedArrayBuffer)
+        6:if (= __x1__ true) 6:throw TypeError else 6:{}
         7:let len = array.ArrayLength
       } else 8:{
-        9:app __x1__ = (LengthOfArrayLike array)
-        9:let len = [? __x1__]
+        9:app __x2__ = (LengthOfArrayLike array)
+        9:let len = [? __x2__]
       }
       10:if (! (< index len)) 10:return undefined else 10:{}
       11:if (= kind CONST_key) 11:{
-        11:app __x2__ = (Yield index)
-        11:[? __x2__]
+        11:app __x3__ = (Yield index)
+        11:[? __x3__]
       } else 12:{
-        13:app __x3__ = (ToString index)
-        13:let elementKey = [! __x3__]
-        14:app __x4__ = (Get array elementKey)
-        14:let elementValue = [? __x4__]
+        13:app __x4__ = (ToString index)
+        13:let elementKey = [! __x4__]
+        14:app __x5__ = (Get array elementKey)
+        14:let elementValue = [? __x5__]
         15:if (= kind CONST_value) 15:{
-          15:app __x5__ = (Yield elementValue)
-          15:[? __x5__]
+          15:app __x6__ = (Yield elementValue)
+          15:[? __x6__]
         } else 16:{
           17:assert (= kind CONST_keyPLUSvalue)
-          18:app __x6__ = (CreateArrayFromList (new [index, elementValue]))
-          18:app __x7__ = (Yield [! __x6__])
-          18:[? __x7__]
+          18:app __x7__ = (CreateArrayFromList (new [index, elementValue]))
+          18:app __x8__ = (Yield [! __x7__])
+          18:[? __x8__]
         }
       }
       19:index = (+ index 1i)
     }
   }
-  20:app __x8__ = (CreateIteratorFromClosure closure "%ArrayIteratorPrototype%" INTRINSICS["%ArrayIteratorPrototype%"])
-  20:return [! __x8__]
+  2:let closure = __x0__
+  20:app __x9__ = (CreateIteratorFromClosure closure "%ArrayIteratorPrototype%" INTRINSICS["%ArrayIteratorPrototype%"])
+  20:return [! __x9__]
 }
 - id: "sec-createarrayiterator"
 - code:

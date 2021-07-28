@@ -1,7 +1,7 @@
 def [SYNTAX] Pattern[0,0].Evaluation<(Disjunction),true>() = {
   0:access __x0__ = (Disjunction "Evaluation" 1i)
   0:let m = __x0__
-  1:return (str, index)[m] => {
+  1:clo __x1__ = (str, index)[m] => {
     2:assert (= (typeof str) String)
     4:??? "If id:{Unicode} is value:{true} , let id:{Input} be ! StringToCodePoints ( id:{str} ) . Otherwise , let id:{Input} be a List whose elements are the code units that are the elements of id:{str} . id:{Input} will be used throughout the algorithms in link:{sec-pattern-semantics} . Each element of id:{Input} is considered to be a character ."
     5:??? "Let id:{InputLength} be the number of characters contained in id:{Input} . This alias will be used throughout the algorithms in link:{sec-pattern-semantics} ."
@@ -9,9 +9,10 @@ def [SYNTAX] Pattern[0,0].Evaluation<(Disjunction),true>() = {
     7:??? "Let id:{c} be a new Continuation with parameters ( id:{y} ) that captures nothing and performs the following steps when called : in:{} out:{}"
     10:??? "Let id:{cap} be a List of id:{NcapturingParens} value:{undefined} values , indexed 1 through id:{NcapturingParens} ."
     11:let x = (new [listIndex, cap])
-    12:app __x1__ = (m x c)
-    12:return __x1__
+    12:app __x2__ = (m x c)
+    12:return __x2__
   }
+  1:return __x1__
 }
 - id: "sec-pattern"
 - code:

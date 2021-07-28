@@ -298,7 +298,7 @@ trait Compilers extends TokenListParsers {
       case IWithCont(_, _, bodyInst) =>
         bodyInst.setLine(inst.line)
         walk(bodyInst)
-      case IAssign(_, ECont(_, bodyInst)) =>
+      case ICont(_, _, bodyInst) =>
         bodyInst.setLine(inst.line)
         walk(bodyInst)
       case _ => super.walk(inst)

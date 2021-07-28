@@ -118,6 +118,7 @@ class Translator {
         connect(prev, block)
         List((block, Normal))
     }
+    case (inst: ArrowInst) => ??? // TODO
     case ISeq(insts) => {
       insts.foldLeft(prev)(translate)
     }

@@ -1,19 +1,20 @@
 def NewPromiseResolveThenableJob(promiseToResolve, thenable, then) = {
-  0:let job = ()[promiseToResolve, thenable, then] => {
-    1:app __x0__ = (CreateResolvingFunctions promiseToResolve)
-    1:let resolvingFunctions = __x0__
-    2:app __x1__ = (HostCallJobCallback then thenable (new [resolvingFunctions.Resolve, resolvingFunctions.Reject]))
-    2:let thenCallResult = __x1__
-    3:app __x2__ = (IsAbruptCompletion thenCallResult)
-    3:if __x2__ 3:{
-      4:app __x3__ = (Call resolvingFunctions.Reject undefined (new [thenCallResult.Value]))
-      4:let status = __x3__
+  0:clo __x0__ = ()[promiseToResolve, thenable, then] => {
+    1:app __x1__ = (CreateResolvingFunctions promiseToResolve)
+    1:let resolvingFunctions = __x1__
+    2:app __x2__ = (HostCallJobCallback then thenable (new [resolvingFunctions.Resolve, resolvingFunctions.Reject]))
+    2:let thenCallResult = __x2__
+    3:app __x3__ = (IsAbruptCompletion thenCallResult)
+    3:if __x3__ 3:{
+      4:app __x4__ = (Call resolvingFunctions.Reject undefined (new [thenCallResult.Value]))
+      4:let status = __x4__
       5:return status
     } else 3:{}
     6:return thenCallResult
   }
-  7:app __x4__ = (GetFunctionRealm then.Callback)
-  7:let getThenRealmResult = __x4__
+  0:let job = __x0__
+  7:app __x5__ = (GetFunctionRealm then.Callback)
+  7:let getThenRealmResult = __x5__
   8:if (&& (is-completion getThenRealmResult) (= getThenRealmResult.Type CONST_normal)) 8:let thenRealm = getThenRealmResult.Value else 8:let thenRealm = REALM
   11:return (new Record("Job" -> job, "Realm" -> thenRealm))
 }

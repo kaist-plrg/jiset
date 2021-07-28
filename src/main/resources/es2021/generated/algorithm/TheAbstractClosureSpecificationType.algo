@@ -1,8 +1,9 @@
 def TheAbstractClosureSpecificationType() = {
   0:let addend = 41i
-  1:let closure = (x)[addend] => 2:return (+ x addend)
-  3:app __x0__ = (closure 1i)
-  3:let val = __x0__
+  1:clo __x0__ = (x)[addend] => 2:return (+ x addend)
+  1:let closure = __x0__
+  3:app __x1__ = (closure 1i)
+  3:let val = __x1__
   4:assert (= val 42i)
 }
 - id: "sec-abstract-closure"

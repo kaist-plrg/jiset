@@ -8,16 +8,17 @@ def AsyncGeneratorYield(value) = {
   5:generator.AsyncGeneratorState = CONST_suspendedYield
   6:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) 6:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 6:{}
   6:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  7:genContext.ResumeCont = (resumptionValue) [=>] 7:{
+  7:cont __x2__ = (resumptionValue) [=>] 7:{
     8:if (! (= resumptionValue.Type CONST_return)) 8:return resumptionValue else 8:{}
-    9:app __x2__ = (Await resumptionValue.Value)
-    9:let awaited = __x2__
+    9:app __x3__ = (Await resumptionValue.Value)
+    9:let awaited = __x3__
     10:if (= awaited.Type CONST_throw) 10:return awaited else 10:{}
     11:assert (= awaited.Type CONST_normal)
     12:return (new Completion("Type" -> CONST_return, "Value" -> awaited.Value, "Target" -> CONST_empty))
   }
-  15:app __x3__ = (AsyncGeneratorResolve generator value false)
-  15:app _ = ((pop genContext.ReturnCont 0i) [! __x3__])
+  7:genContext.ResumeCont = __x2__
+  15:app __x4__ = (AsyncGeneratorResolve generator value false)
+  15:app _ = ((pop genContext.ReturnCont 0i) [! __x4__])
 }
 - id: "sec-asyncgeneratoryield"
 - code:

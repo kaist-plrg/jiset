@@ -110,6 +110,14 @@ class Beautifier(
         app >> "access " >> id >> " = (" >> bexpr >> " " >> expr
         if (!args.isEmpty) app >> " " >> args
         app >> ")"
+      case IClo(id, params, captured, body) =>
+        implicit val d = DetailInstApp
+        implicit val p = ListApp[Id](sep = ", ")
+        app >> "clo " >> id >> " = (" >> params >> ")[" >> captured >> "] => " >> body
+      case ICont(id, params, body) =>
+        implicit val d = DetailInstApp
+        implicit val l = ListApp[Id]("(", ", ", ")")
+        app >> "cont " >> id >> " = " >> params >> " [=>] " >> body
       case IWithCont(id, params, inst) =>
         implicit val d = DetailInstApp
         implicit val l = ListApp[Id]("(", ", ", ")")
@@ -144,14 +152,6 @@ class Beautifier(
       case ESymbol(desc) => app >> "(new '" >> desc >> ")"
       case EPop(list, idx) => app >> "(pop " >> list >> " " >> idx >> ")"
       case ERef(ref) => app >> ref
-      case EClo(params, captured, body) =>
-        implicit val d = DetailInstApp
-        implicit val p = ListApp[Id](sep = ", ")
-        app >> "(" >> params >> ")[" >> captured >> "] => " >> body
-      case ECont(params, body) =>
-        implicit val d = DetailInstApp
-        implicit val l = ListApp[Id]("(", ", ", ")")
-        app >> params >> " [=>] " >> body
       case EUOp(uop, expr) => app >> "(" >> uop >> " " >> expr >> ")"
       case EBOp(bop, left, right) =>
         app >> "(" >> bop >> " " >> left >> " " >> right >> ")"

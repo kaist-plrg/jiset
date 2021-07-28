@@ -2,7 +2,7 @@ def CreateSetIterator(set, kind) = {
   0:assert (|| (= kind CONST_keyPLUSvalue) (= kind CONST_value))
   1:app __x0__ = (RequireInternalSlot set "SetData")
   1:[? __x0__]
-  2:let closure = ()[set, kind] => {
+  2:clo __x1__ = ()[set, kind] => {
     3:let index = 0i
     4:let entries = set.SetData
     5:let numEntries = entries.length
@@ -11,21 +11,22 @@ def CreateSetIterator(set, kind) = {
       8:index = (+ index 1i)
       9:if (! (= e CONST_empty)) 9:{
         10:if (= kind CONST_keyPLUSvalue) 10:{
-          11:app __x1__ = (CreateArrayFromList (new [e, e]))
-          11:app __x2__ = (Yield [! __x1__])
-          11:[? __x2__]
+          11:app __x2__ = (CreateArrayFromList (new [e, e]))
+          11:app __x3__ = (Yield [! __x2__])
+          11:[? __x3__]
         } else 12:{
           13:assert (= kind CONST_value)
-          14:app __x3__ = (Yield e)
-          14:[? __x3__]
+          14:app __x4__ = (Yield e)
+          14:[? __x4__]
         }
         16:numEntries = entries.length
       } else 9:{}
     }
     17:return undefined
   }
-  18:app __x4__ = (CreateIteratorFromClosure closure "%SetIteratorPrototype%" INTRINSICS["%SetIteratorPrototype%"])
-  18:return [! __x4__]
+  2:let closure = __x1__
+  18:app __x5__ = (CreateIteratorFromClosure closure "%SetIteratorPrototype%" INTRINSICS["%SetIteratorPrototype%"])
+  18:return [! __x5__]
 }
 - id: "sec-createsetiterator"
 - code:

@@ -2,13 +2,13 @@ def AsyncGeneratorStart(generator, generatorBody) = {
   1:assert (= generator.AsyncGeneratorState undefined)
   2:let genContext = CONTEXT
   3:genContext.Generator = generator
-  4:genContext.ResumeCont = () [=>] 4:{
+  4:cont __x0__ = () [=>] 4:{
     5:if (= (typeof generatorBody) "AST") 5:{
-      6:access __x0__ = (generatorBody "Evaluation")
-      6:let result = __x0__
+      6:access __x1__ = (generatorBody "Evaluation")
+      6:let result = __x1__
     } else 7:{
-      9:app __x1__ = (generatorBody)
-      9:let result = __x1__
+      9:app __x2__ = (generatorBody)
+      9:let result = __x2__
     }
     10:RET_CONT = (pop genContext.ReturnCont 0i)
     11:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) 11:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 11:{}
@@ -17,13 +17,14 @@ def AsyncGeneratorStart(generator, generatorBody) = {
     13:if (&& (is-completion result) (= result.Type CONST_normal)) 13:let resultValue = undefined else 14:{
       15:let resultValue = result.Value
       16:if (! (= result.Type CONST_return)) 16:{
-        17:app __x2__ = (AsyncGeneratorReject generator resultValue)
-        17:app _ = (RET_CONT [! __x2__])
+        17:app __x3__ = (AsyncGeneratorReject generator resultValue)
+        17:app _ = (RET_CONT [! __x3__])
       } else 16:{}
     }
-    18:app __x3__ = (AsyncGeneratorResolve generator resultValue true)
-    18:app _ = (RET_CONT [! __x3__])
+    18:app __x4__ = (AsyncGeneratorResolve generator resultValue true)
+    18:app _ = (RET_CONT [! __x4__])
   }
+  4:genContext.ResumeCont = __x0__
   19:generator.AsyncGeneratorContext = genContext
   20:generator.AsyncGeneratorState = CONST_suspendedStart
   21:generator.AsyncGeneratorQueue = (new [])

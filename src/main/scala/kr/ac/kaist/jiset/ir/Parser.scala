@@ -36,6 +36,8 @@ trait Parsers extends BasicParsers {
     "print " ~> expr ^^ { case e => IPrint(e) } |
     ("let " ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
     callInst |
+    ("clo " ~> id <~ "=") ~ ("(" ~> repsep(id, ",") <~ ")") ~ ("[" ~> repsep(id, ",") <~ "]") ~ ("=>" ~> inst) ^^ { case x ~ ps ~ cs ~ b => IClo(x, ps, cs, b) } |
+    ("cont " ~> id <~ "=") ~ ("(" ~> repsep(id, ",") <~ ")") ~ ("[=>]" ~> inst) ^^ { case x ~ ps ~ b => ICont(x, ps, b) } |
     ("withcont " ~> id) ~ ("(" ~> repsep(id, ",") <~ ")" <~ "=") ~ inst ^^ { case x ~ ps ~ b => IWithCont(x, ps, b) } |
     (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
     expr ^^ { case e => IExpr(e) }
@@ -71,8 +73,6 @@ trait Parsers extends BasicParsers {
     "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
     "(" ~> ("typeof" ~> expr) <~ ")" ^^ { case e => ETypeOf(e) } |
     "(" ~> ("is-completion" ~> expr) <~ ")" ^^ { case e => EIsCompletion(e) } |
-    ("(" ~> repsep(id, ",") <~ ")") ~ ("[" ~> repsep(id, ",") <~ "]") ~ ("=>" ~> inst) ^^ { case ps ~ cs ~ b => EClo(ps, cs, b) } |
-    ("(" ~> repsep(id, ",") <~ ")") ~ ("[=>]" ~> inst) ^^ { case ps ~ b => ECont(ps, b) } |
     ("(" ~> "new" ~> ty) ~ ("(" ~> repsep(prop, ",") <~ ")" <~ ")") ^^ {
       case t ~ props => EMap(t, props)
     } |

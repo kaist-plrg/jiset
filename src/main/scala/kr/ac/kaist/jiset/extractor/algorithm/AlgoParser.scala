@@ -70,12 +70,9 @@ object AlgoParser {
   private val retContStartNames = Set("GeneratorStart", "AsyncGeneratorStart", "AsyncFunctionStart")
   private object RetContWalker extends Walker {
     var inCont = false
-    override def walk(expr: Expr): Expr = expr match {
-      case (_: ECont) =>
-        inCont = true; val res = super.walk(expr); inCont = false; res
-      case _ => super.walk(expr)
-    }
     override def walk(inst: Inst): Inst = inst match {
+      case (_: ICont) =>
+        inCont = true; val res = super.walk(inst); inCont = false; res
       case IReturn(expr) if inCont => {
         val i = IApp(Id("_"), Expr("RET_CONT"), List(expr))
         i.line = inst.line

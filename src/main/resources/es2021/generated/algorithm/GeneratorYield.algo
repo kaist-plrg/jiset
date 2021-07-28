@@ -6,7 +6,8 @@ def GeneratorYield(iterNextObj) = {
   5:generator.GeneratorState = CONST_suspendedYield
   6:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) 6:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 6:{}
   6:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
-  7:genContext.ResumeCont = (resumptionValue) [=>] 8:return resumptionValue
+  7:cont __x1__ = (resumptionValue) [=>] 8:return resumptionValue
+  7:genContext.ResumeCont = __x1__
   11:app _ = ((pop genContext.ReturnCont 0i) iterNextObj)
 }
 - id: "sec-generatoryield"

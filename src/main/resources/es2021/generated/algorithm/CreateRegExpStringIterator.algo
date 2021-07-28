@@ -2,32 +2,33 @@ def CreateRegExpStringIterator(R, S, global, fullUnicode) = {
   0:assert (= (typeof S) String)
   1:assert (= (typeof global) Boolean)
   2:assert (= (typeof fullUnicode) Boolean)
-  3:let closure = ()[R, S, global, fullUnicode] => 4:while true 4:{
-    5:app __x0__ = (RegExpExec R S)
-    5:let match = [? __x0__]
+  3:clo __x0__ = ()[R, S, global, fullUnicode] => 4:while true 4:{
+    5:app __x1__ = (RegExpExec R S)
+    5:let match = [? __x1__]
     6:if (= match null) 6:return undefined else 6:{}
     7:if (= global false) 7:{
-      8:app __x1__ = (Yield match)
-      8:[? __x1__]
+      8:app __x2__ = (Yield match)
+      8:[? __x2__]
       9:return undefined
     } else 7:{}
-    10:app __x2__ = (Get match "0")
-    10:app __x3__ = (ToString [? __x2__])
-    10:let matchStr = [? __x3__]
+    10:app __x3__ = (Get match "0")
+    10:app __x4__ = (ToString [? __x3__])
+    10:let matchStr = [? __x4__]
     11:if (= matchStr "") 11:{
-      12:app __x4__ = (Get R "lastIndex")
-      12:app __x5__ = (ToLength [? __x4__])
-      12:let thisIndex = [? __x5__]
-      13:app __x6__ = (AdvanceStringIndex S thisIndex fullUnicode)
-      13:let nextIndex = [! __x6__]
-      14:app __x7__ = (Set R "lastIndex" nextIndex true)
-      14:[? __x7__]
+      12:app __x5__ = (Get R "lastIndex")
+      12:app __x6__ = (ToLength [? __x5__])
+      12:let thisIndex = [? __x6__]
+      13:app __x7__ = (AdvanceStringIndex S thisIndex fullUnicode)
+      13:let nextIndex = [! __x7__]
+      14:app __x8__ = (Set R "lastIndex" nextIndex true)
+      14:[? __x8__]
     } else 11:{}
-    15:app __x8__ = (Yield match)
-    15:[? __x8__]
+    15:app __x9__ = (Yield match)
+    15:[? __x9__]
   }
-  16:app __x9__ = (CreateIteratorFromClosure closure "%RegExpStringIteratorPrototype%" INTRINSICS["%RegExpStringIteratorPrototype%"])
-  16:return [! __x9__]
+  3:let closure = __x0__
+  16:app __x10__ = (CreateIteratorFromClosure closure "%RegExpStringIteratorPrototype%" INTRINSICS["%RegExpStringIteratorPrototype%"])
+  16:return [! __x10__]
 }
 - id: "sec-createregexpstringiterator"
 - code:

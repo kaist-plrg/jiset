@@ -1,39 +1,40 @@
 def NewPromiseReactionJob(reaction, argument) = {
-  0:let job = ()[reaction, argument] => {
+  0:clo __x0__ = ()[reaction, argument] => {
     2:let promiseCapability = reaction.Capability
     3:let type = reaction.Type
     4:let handler = reaction.Handler
     5:if (= handler CONST_empty) 6:if (= type CONST_Fulfill) 6:{
-      6:app __x0__ = (NormalCompletion argument)
-      6:let handlerResult = __x0__
+      6:app __x1__ = (NormalCompletion argument)
+      6:let handlerResult = __x1__
     } else 7:{
       8:assert (= type CONST_Reject)
-      9:app __x1__ = (ThrowCompletion argument)
-      9:let handlerResult = __x1__
+      9:app __x2__ = (ThrowCompletion argument)
+      9:let handlerResult = __x2__
     } else 8:{
-      8:app __x2__ = (HostCallJobCallback handler undefined (new [argument]))
-      8:let handlerResult = __x2__
+      8:app __x3__ = (HostCallJobCallback handler undefined (new [argument]))
+      8:let handlerResult = __x3__
     }
     11:if (= promiseCapability undefined) 11:{
-      12:app __x3__ = (IsAbruptCompletion handlerResult)
-      12:assert (! __x3__)
+      12:app __x4__ = (IsAbruptCompletion handlerResult)
+      12:assert (! __x4__)
       13:return CONST_empty
     } else 11:{}
     14:assert (is-instance-of promiseCapability PromiseCapabilityRecord)
-    15:app __x4__ = (IsAbruptCompletion handlerResult)
-    15:if __x4__ 15:{
-      16:app __x5__ = (Call promiseCapability.Reject undefined (new [handlerResult.Value]))
-      16:let status = __x5__
+    15:app __x5__ = (IsAbruptCompletion handlerResult)
+    15:if __x5__ 15:{
+      16:app __x6__ = (Call promiseCapability.Reject undefined (new [handlerResult.Value]))
+      16:let status = __x6__
     } else 17:{
-      18:app __x6__ = (Call promiseCapability.Resolve undefined (new [handlerResult.Value]))
-      18:let status = __x6__
+      18:app __x7__ = (Call promiseCapability.Resolve undefined (new [handlerResult.Value]))
+      18:let status = __x7__
     }
     19:return status
   }
+  0:let job = __x0__
   20:let handlerRealm = null
   21:if (! (= reaction.Handler CONST_empty)) 21:{
-    22:app __x7__ = (GetFunctionRealm reaction.Handler.Callback)
-    22:let getHandlerRealmResult = __x7__
+    22:app __x8__ = (GetFunctionRealm reaction.Handler.Callback)
+    22:let getHandlerRealmResult = __x8__
     23:if (&& (is-completion getHandlerRealmResult) (= getHandlerRealmResult.Type CONST_normal)) 23:handlerRealm = getHandlerRealmResult.Value else 23:handlerRealm = REALM
   } else 21:{}
   26:return (new Record("Job" -> job, "Realm" -> handlerRealm))
