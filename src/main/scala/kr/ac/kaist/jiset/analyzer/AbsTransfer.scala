@@ -84,7 +84,11 @@ object AbsTransfer {
       case (call: Call) =>
         val newSt = transfer(call, view)(st)
         sem += NodePoint(cfg.next(call), view) -> newSt
-      case branch @ Branch(_, expr) =>
+      case arrow @ Arrow(_, inst, fid) =>
+        // TODO define closures or continuations
+        sem += NodePoint(cfg.next(arrow), view) -> st
+      case branch @ Branch(_, inst) =>
+        val expr = inst.cond
         val (t, newSt) = transfer(expr)(st)
         val cond = t.escaped(expr)
         val bp = NodePoint(branch, view)

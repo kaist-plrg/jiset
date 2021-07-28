@@ -85,17 +85,7 @@ case class Algo(
   }
 
   // completion check (not containing ??? or !!! in the algorithm body)
-  def isComplete: Boolean = {
-    var complete = true
-    object Walker extends UnitWalker {
-      override def walk(expr: Expr): Unit = expr match {
-        case ENotSupported(_) => complete = false
-        case _ => super.walk(expr)
-      }
-    }
-    Walker.walk(rawBody)
-    complete
-  }
+  def isComplete: Boolean = rawBody.isComplete
 
   // normal check
   def isNormal: Boolean = head match {

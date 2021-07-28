@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.util.UIdGen
 // control flow graph
 class CFG(val spec: ECMAScript) {
   val trans: Translator = new Translator
-  val funcs: List[Function] = spec.algos.map(trans(_))
+  val funcs: List[Function] = spec.algos.flatMap(algo => trans(AlgoOrigin(algo)))
   val nodes: List[Node] = funcs.flatMap(_.nodes)
   val edges: List[Edge] = funcs.flatMap(_.edges)
   val funcOf: Map[Node, Function] = funcs.flatMap(f => f.nodes.map(_ -> f)).toMap
@@ -24,14 +24,12 @@ class CFG(val spec: ECMAScript) {
   }).toMap
   val fidMap: Map[Int, Function] = (for (f <- funcs) yield f.uid -> f).toMap
   val algo2fid: Map[String, Int] = (for (f <- funcs) yield f.name -> f.uid).toMap
+  val iid2fid: Map[Int, Int] = (for (f <- funcs) yield f.body.uid -> f.uid).toMap
   val jsonProtocol: JsonProtocol = new JsonProtocol(this)
 
   //////////////////////////////////////////////////////////////////////////////
   // Helper Functions
   //////////////////////////////////////////////////////////////////////////////
-  // nodes to sets of instruciton ids
-  def iidMap: Map[Node, Set[Int]] = trans.getIIdMap
-
   // unique id generators
   def fidGen: UIdGen[Function] = trans.fidGen
   def nidGen: UIdGen[Node] = trans.nidGen

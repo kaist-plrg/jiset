@@ -28,6 +28,7 @@ trait UnitWalker extends ir.UnitWalker {
     case Exit(_) =>
     case Entry(_) =>
     case Call(_, inst) => walk(inst)
+    case Arrow(_, inst, fid) => walk(inst)
     case Branch(_, cond) => walk(cond)
     case Block(_, insts) => walkList[ir.Inst](insts, walk)
   }

@@ -194,8 +194,10 @@ class DotPrinter {
           s"""  </font>> color=$color fillcolor=$bgColor style=filled]"""
       case Call(_, inst) =>
         this >> s"""  $name [shape=cds, label=<<font color=$color>${norm(inst, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
-      case Branch(_, cond) =>
-        this >> s"""  $name [shape=diamond, label=<<font color=$color>${norm(cond, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
+      case Arrow(_, inst, fid) =>
+        this >> s"""  $name [shape=hexagon, label=<<font color=$color>${norm(inst, useUId, fid)}</font>> color=$color fillcolor=$bgColor style=filled]"""
+      case Branch(_, inst) =>
+        this >> s"""  $name [shape=diamond, label=<<font color=$color>${norm(inst.cond, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
     }
   }
 
@@ -207,9 +209,14 @@ class DotPrinter {
   override def toString: String = app.toString
 
   // normalize beautified ir nodes
-  private def norm(node: IRNode, useUId: Boolean): String =
-    escapeHtml(node.beautified(index = !useUId))
-      .replaceAll("\u0000", "U+0000")
+  private def norm(node: IRNode, useUId: Boolean, fid: Int = -1): String = {
+    val postfix = node match {
+      case arrow: ArrowInst => s" [fid: $fid]"
+      case _ => ""
+    }
+    escapeHtml(node.beautified(detail = false, index = !useUId))
+      .replaceAll("\u0000", "U+0000") + postfix
+  }
 
   // normalize beautified view
   private val normPattern = """[\[\](),\s~?"]""".r

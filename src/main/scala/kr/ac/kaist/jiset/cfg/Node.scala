@@ -21,8 +21,11 @@ case class Block(uidGen: UIdGen[Node], insts: List[NormalInst]) extends Linear
 // call nodes
 case class Call(uidGen: UIdGen[Node], inst: CallInst) extends Linear
 
+// arrow nodes
+case class Arrow(uidGen: UIdGen[Node], inst: ArrowInst, fid: Int) extends Linear
+
 // branches
-case class Branch(uidGen: UIdGen[Node], cond: Expr) extends Node
+case class Branch(uidGen: UIdGen[Node], inst: CondInst) extends Node
 
 // exit nodes
 case class Exit(uidGen: UIdGen[Node]) extends Node

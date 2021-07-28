@@ -230,10 +230,10 @@ class Interp(
         st.context.copied,
         st.ctxtStack.map(_.copied)
       )
-      case IWithCont(id, params, bodyInst) => {
+      case IWithCont(id, params, body) => {
         val State(context, ctxtStack, _, _) = st
         st.context = context.copied
-        st.context.insts = List(bodyInst)
+        st.context.insts = List(body)
         st.context.locals += id -> Cont(params, ISeq(context.insts), context, ctxtStack)
         st.ctxtStack = ctxtStack.map(_.copied)
       }

@@ -13,9 +13,17 @@ sealed trait Inst extends IRNode {
     case None => line = k
     case _ =>
   }
+
+  // complete check (not containing ???)
+  def isComplete: Boolean = {
+    val checker = new CompleteChecker
+    checker.walk(this)
+    checker.complete
+  }
 }
 object Insts extends Parser[List[Inst]]
-object Inst extends Parser[Inst]
+object Inst extends Parser[Inst] {
+}
 
 // conditional instructions
 sealed trait CondInst extends Inst { val cond: Expr }
@@ -41,10 +49,14 @@ case class IAssert(expr: Expr) extends NormalInst
 case class IPrint(expr: Expr) extends NormalInst
 
 // arrow instructions for closures and continuations
-sealed trait ArrowInst extends Inst
+sealed trait ArrowInst extends Inst {
+  val id: Id
+  val params: List[Id]
+  val body: Inst
+}
 case class IClo(id: Id, params: List[Id], captured: List[Id], body: Inst) extends ArrowInst
 case class ICont(id: Id, params: List[Id], body: Inst) extends ArrowInst
-case class IWithCont(id: Id, params: List[Id], bodyInst: Inst) extends ArrowInst
+case class IWithCont(id: Id, params: List[Id], body: Inst) extends ArrowInst
 
 // sequence instructions
 case class ISeq(insts: List[Inst]) extends Inst

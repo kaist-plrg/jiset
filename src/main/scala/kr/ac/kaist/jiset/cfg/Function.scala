@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.cfg
 
+import kr.ac.kaist.jiset.ir.Inst
 import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head, Param }
 import kr.ac.kaist.jiset.util.{ UId, UIdGen }
 
@@ -27,6 +28,9 @@ case class Function(
 
   // function name
   lazy val params: List[Param] = origin.params
+
+  // body instruction
+  lazy val body: Inst = origin.body
 
   // conversion to DOT
   lazy val toDot: String = (new DotPrinter)(this).toString
