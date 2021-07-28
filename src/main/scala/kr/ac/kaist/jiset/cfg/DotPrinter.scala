@@ -184,20 +184,14 @@ class DotPrinter {
         this >> s"""  $name [shape=circle label=" " color=$color fillcolor=$bgColor style=filled]"""
       case Exit(_) =>
         this >> s"""  $name [shape=circle label=" " color=$color fillcolor=$bgColor style=filled]"""
-      case Block(_, insts) =>
-        this >> s"""  $name [shape=none, margin=0, label=<<font color=$color>"""
-        this >> s"""    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">"""
-        insts.foreach(inst => {
-          this >> s"""      <tr><td align="left">${norm(inst, useUId)}</td></tr>"""
-        })
-        this >> s"""    </table>""" >>
-          s"""  </font>> color=$color fillcolor=$bgColor style=filled]"""
+      case Normal(_, inst) =>
+        this >> s"""  $name [shape=box label=<<font color=$color>${norm(inst, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
       case Call(_, inst) =>
-        this >> s"""  $name [shape=cds, label=<<font color=$color>${norm(inst, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
+        this >> s"""  $name [shape=cds label=<<font color=$color>${norm(inst, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
       case Arrow(_, inst, fid) =>
-        this >> s"""  $name [shape=hexagon, label=<<font color=$color>${norm(inst, useUId, fid)}</font>> color=$color fillcolor=$bgColor style=filled]"""
+        this >> s"""  $name [shape=hexagon label=<<font color=$color>${norm(inst, useUId, fid)}</font>> color=$color fillcolor=$bgColor style=filled]"""
       case Branch(_, inst) =>
-        this >> s"""  $name [shape=diamond, label=<<font color=$color>${norm(inst.cond, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
+        this >> s"""  $name [shape=diamond label=<<font color=$color>${norm(inst.cond, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
     }
   }
 

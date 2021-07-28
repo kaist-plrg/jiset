@@ -78,9 +78,9 @@ object AbsTransfer {
         sem += NodePoint(cfg.next(entry), view) -> st
       case (exit: Exit) =>
         sem.doReturn(ret, AUndef)
-      case (block: Block) =>
-        val newSt = join(block.insts.map(transfer))(st)
-        sem += NodePoint(cfg.next(block), view) -> newSt
+      case (normal: Normal) =>
+        val newSt = transfer(normal.inst)(st)
+        sem += NodePoint(cfg.next(normal), view) -> newSt
       case (call: Call) =>
         val newSt = transfer(call, view)(st)
         sem += NodePoint(cfg.next(call), view) -> newSt

@@ -65,22 +65,17 @@ class Translator {
       case (callInst: CallInst) =>
         val call = assign(MCall(callInst))
         connect(prev, call)
-        List((call, Normal))
-      case (normalInst: NormalInst) => prev.map(x => (x._1, mnodes(x._1))) match {
-        case List((mid, block: MBlock)) =>
-          block.insts :+= normalInst
-          List((mid, Normal))
-        case _ =>
-          val block = assign(MBlock(Vector(normalInst)))
-          connect(prev, block)
-          List((block, Normal))
-      }
+        List((call, Base))
+      case (normalInst: NormalInst) =>
+        val normal = assign(MNormal(normalInst))
+        connect(prev, normal)
+        List((normal, Base))
       case (arrowInst: ArrowInst) =>
         val (f, ifs) = translate(ArrowOrigin(algo, arrowInst))
         innerFuncs ++= f :: ifs
         val arrow = assign(MArrow(arrowInst, f.uid))
         connect(prev, arrow)
-        List((arrow, Normal))
+        List((arrow, Base))
       case ISeq(insts) => {
         insts.foldLeft(prev)(aux)
       }
@@ -89,7 +84,7 @@ class Translator {
     // aux the body instruction
     val entry = MEntry()
     val exit = MExit()
-    val prev = aux(List((assign(entry), Normal)), body)
+    val prev = aux(List((assign(entry), Base)), body)
     connect(prev, assign(exit))
 
     // edges
@@ -99,7 +94,7 @@ class Translator {
         case (branch: MBranch) =>
           Some(BranchEdge(branch.node, mnodes(cases(Then)).node, mnodes(cases(Else)).node))
         case (linear: MLinear[_]) =>
-          Some(LinearEdge(linear.node, mnodes(cases(Normal)).node))
+          Some(LinearEdge(linear.node, mnodes(cases(Base)).node))
         case _ => None
       }
     } yield edge
@@ -130,8 +125,8 @@ class Translator {
   private case class MEntry() extends MLinear[Entry] {
     def getNode = Entry(nidGen)
   }
-  private case class MBlock(var insts: Vector[NormalInst]) extends MLinear[Block] {
-    def getNode = Block(nidGen, insts.toList)
+  private case class MNormal(inst: NormalInst) extends MLinear[Normal] {
+    def getNode = Normal(nidGen, inst)
   }
   private case class MCall(inst: CallInst) extends MLinear[Call] {
     def getNode = Call(nidGen, inst)
@@ -148,7 +143,7 @@ class Translator {
 
   // internnal edge cases
   private trait EdgeCase
-  private case object Normal extends EdgeCase
+  private case object Base extends EdgeCase
   private case object Then extends EdgeCase
   private case object Else extends EdgeCase
 }

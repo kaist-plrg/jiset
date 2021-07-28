@@ -15,8 +15,8 @@ trait Linear extends Node
 // entry nodes
 case class Entry(uidGen: UIdGen[Node]) extends Linear
 
-// blocks
-case class Block(uidGen: UIdGen[Node], insts: List[NormalInst]) extends Linear
+// normal nodes
+case class Normal(uidGen: UIdGen[Node], inst: NormalInst) extends Linear
 
 // call nodes
 case class Call(uidGen: UIdGen[Node], inst: CallInst) extends Linear

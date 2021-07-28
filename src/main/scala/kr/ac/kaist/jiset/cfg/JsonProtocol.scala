@@ -21,8 +21,8 @@ class JsonProtocol(cfg: CFG) extends BasicJsonProtocol {
   implicit lazy val EntryDecoder: Decoder[Entry] = UIdDecoder(cfg.nidGen)
   implicit lazy val EntryEncoder: Encoder[Entry] = UIdEncoder
 
-  implicit lazy val BlockDecoder: Decoder[Block] = UIdDecoder(cfg.nidGen)
-  implicit lazy val BlockEncoder: Encoder[Block] = UIdEncoder
+  implicit lazy val NormalDecoder: Decoder[Normal] = UIdDecoder(cfg.nidGen)
+  implicit lazy val NormalEncoder: Encoder[Normal] = UIdEncoder
 
   implicit lazy val CallDecoder: Decoder[Call] = UIdDecoder(cfg.nidGen)
   implicit lazy val CallEncoder: Encoder[Call] = UIdEncoder
