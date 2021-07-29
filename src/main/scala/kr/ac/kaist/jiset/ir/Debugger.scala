@@ -35,7 +35,10 @@ trait Debugger {
     DEBUG = true
     if (!isBreak) {
       currentAlgo = st.context.algo
-      currentInst = st.context.currentInst
+      currentInst = st.context.cursorOpt match {
+        case Some(InstCursor(cur, _)) => Some(cur)
+        case _ => None
+      }
       val keep = interp.step
       if (pred && keep) stepUntil(pred)
       else DEBUG = false

@@ -1,26 +1,36 @@
 package kr.ac.kaist.jiset.js
 
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.js.ast.ScriptBody
+import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.ir._
 import scala.collection.mutable.{ Map => MMap }
 
 // initialize states
 object Initialize {
-  // initial state
   def apply(
-    inst: Inst = Inst(s"app $RESULT = (RunJobs)"),
-    bodyOpt: Option[ScriptBody] = None,
-    filename: String = ""
-  ): State = initState(inst, bodyOpt, filename)
+    script: Script,
+    filename: String = "unknown",
+    cursorGen: CursorGen[_ <: Cursor] = InstCursor
+  ): State = {
+    val Script0(bodyOpt, _, _) = script
+    initState(
+      cursorGen = cursorGen,
+      inst = Inst(if (bodyOpt.isDefined) s"app $RESULT = (RunJobs)" else "{}"),
+      bodyOpt = bodyOpt,
+      filename = filename,
+    )
+  }
+
+  // initial state
   def initState(
+    cursorGen: CursorGen[_ <: Cursor],
     inst: Inst,
     bodyOpt: Option[ScriptBody],
     filename: String
   ): State = State(
-    cursorGen = InstCursor,
-    context = Context(cursorOpt = Some(InstCursor(inst))),
+    cursorGen = cursorGen,
+    context = Context(cursorOpt = cursorGen(inst)),
     ctxtStack = Nil,
     globals = initGlobal(bodyOpt, filename),
     heap = initHeap,

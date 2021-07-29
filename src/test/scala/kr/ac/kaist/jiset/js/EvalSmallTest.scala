@@ -14,13 +14,16 @@ class EvalSmallTest extends JSTest {
     if (jsFilter(filename)) check(filename, {
       val name = removedExt(filename)
 
+      // evaluate a JS file
       val jsName = file.toString
       val st = evalFile(jsName)
 
+      // evaluate the corresponding IR file
       val irName = js2ir(jsName)
       val program = Program.fromFile(irName)
-      st.context.cursorOpt = InstCursor.from(program.insts)
-      Interp(st)
+      val newSt = st.copy(cursorGen = InstCursor)
+      newSt.context.cursorOpt = InstCursor.from(program.insts)
+      Interp(newSt)
     })
   }
   init

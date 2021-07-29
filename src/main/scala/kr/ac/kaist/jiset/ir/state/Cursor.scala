@@ -15,13 +15,13 @@ sealed trait Cursor extends IRComponent {
 
 // generator of evaluation cursors
 sealed trait CursorGen[T <: Cursor] {
-  def apply(inst: Inst): T
+  def apply(inst: Inst): Option[T]
 }
 
 // instruction cursors
 case class InstCursor(cur: Inst, rest: List[Inst]) extends Cursor
 object InstCursor extends CursorGen[InstCursor] {
-  def apply(inst: Inst): InstCursor = InstCursor(inst, Nil)
+  def apply(inst: Inst): Option[InstCursor] = Some(InstCursor(inst, Nil))
   def from(insts: List[Inst]): Option[InstCursor] = insts match {
     case cur :: rest => Some(InstCursor(cur, rest))
     case Nil => None
@@ -31,5 +31,5 @@ object InstCursor extends CursorGen[InstCursor] {
 // CFG node cursors
 case class NodeCursor(node: Node) extends Cursor
 object NodeCursor extends CursorGen[NodeCursor] {
-  def apply(inst: Inst): NodeCursor = ???
+  def apply(inst: Inst): Option[NodeCursor] = ???
 }

@@ -9,12 +9,7 @@ import scala.scalajs.js.annotation.JSExportTopLevel
 
 object Export {
   @JSExportTopLevel("getInitialState")
-  def getInitialState(script: Script): State = script match {
-    case Script0(bodyOpt, _, _) => Initialize(
-      inst = Inst(if (bodyOpt.isDefined) s"app $RESULT = (RunJobs)" else "{}"),
-      bodyOpt = bodyOpt,
-    )
-  }
+  def getInitialState(script: Script): State = Initialize(script)
 
   @JSExportTopLevel("eval")
   def eval(script: Script): Unit = {

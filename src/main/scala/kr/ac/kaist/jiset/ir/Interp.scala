@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.ir
 
+import kr.ac.kaist.jiset.js.cfg
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.error.{ InterpTimeout, NotSupported }
 import kr.ac.kaist.jiset.js.ast.Lexical
@@ -103,12 +104,19 @@ class Interp(
 
   // transition for nodes
   def interp(node: Node): Unit = node match {
-    case Entry(_) => ???
-    case Normal(_, inst) => ???
-    case Call(_, inst) => ???
-    case Arrow(_, inst, fid) => ???
-    case Branch(_, inst) => ???
-    case Exit(_) => ???
+    case Entry(_) => st.moveNext
+    case Normal(_, inst) => interp(inst)
+    case Call(_, inst) => interp(inst)
+    case Arrow(_, inst, fid) => interp(inst)
+    case branch @ Branch(_, inst) => {
+      val (thenNode, elseNode) = cfg.branchOf(branch)
+      st.context.cursorOpt = Some(interp(inst.cond).escaped(st) match {
+        case Bool(true) => NodeCursor(thenNode)
+        case Bool(false) => NodeCursor(elseNode)
+        case v => error(s"not a boolean: ${v.beautified}")
+      })
+    }
+    case Exit(_) => st.context.cursorOpt = None
   }
 
   // transition for instructions
@@ -152,8 +160,8 @@ class Interp(
           val body = algo.body
           val vs = args.map(interp)
           val locals = getLocals(head.params, vs)
-          val newCursor = Some(cursorGen(body))
-          val context = Context(newCursor, id, head.name, Some(algo), locals)
+          val cursorOpt = cursorGen(body)
+          val context = Context(cursorOpt, id, head.name, Some(algo), locals)
           if (STAT) Stat.touchAlgo(algo.name)
           st.ctxtStack ::= st.context
           st.context = context
@@ -161,10 +169,10 @@ class Interp(
           // use hooks
           if (useHook) notify(Event.Call)
         }
-        case Clo(ctxtName, params, locals, cursor) => {
+        case Clo(ctxtName, params, locals, cursorOpt) => {
           val vs = args.map(interp)
           val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
-          val context = Context(Some(cursor), id, ctxtName + ":closure", None, locals)
+          val context = Context(cursorOpt, id, ctxtName + ":closure", None, locals)
           st.ctxtStack ::= st.context
           st.context = context
 
@@ -215,8 +223,8 @@ class Interp(
               val body = algo.body
               val vs = asts ++ args.map(interp)
               val locals = getLocals(head.params, vs)
-              val newCursor = Some(cursorGen(body))
-              val context = Context(newCursor, id, head.name, Some(algo), locals)
+              val cursorOpt = cursorGen(body)
+              val context = Context(cursorOpt, id, head.name, Some(algo), locals)
               if (STAT) Stat.touchAlgo(algo.name)
               st.ctxtStack ::= st.context
               st.context = context
@@ -285,7 +293,7 @@ class Interp(
       )
       case ICont(id, params, body) => {
         val newCtxt = st.context.copied
-        newCtxt.cursorOpt = Some(cursorGen(body))
+        newCtxt.cursorOpt = cursorGen(body)
         val newCtxtStack = st.ctxtStack.map(_.copied)
         st.context.locals += id -> Cont(
           params,
@@ -296,7 +304,7 @@ class Interp(
       case IWithCont(id, params, body) => {
         val State(_, context, ctxtStack, _, _) = st
         st.context = context.copied
-        st.context.cursorOpt = Some(cursorGen(body))
+        st.context.cursorOpt = cursorGen(body)
         st.context.locals += id -> Cont(params, context, ctxtStack)
         st.ctxtStack = ctxtStack.map(_.copied)
       }

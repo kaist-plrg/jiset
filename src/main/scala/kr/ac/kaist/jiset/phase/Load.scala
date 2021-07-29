@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.js.{ Parser => JSParser, _ }
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.spec.NativeHelper._
 import scala.io.Source
@@ -17,27 +18,22 @@ case object Load extends Phase[Script, LoadConfig, State] {
     script: Script,
     jisetConfig: JISETConfig,
     config: LoadConfig
-  ): State = this(script, getFirstFilename(jisetConfig, "load"))
-
-  def apply(script: Script): State = this(script, "unknown")
-
-  def apply(
-    script: Script,
-    filename: String
   ): State = {
-    if (needTarget) setTarget(loadSpec(s"$VERSION_DIR/generated"))
-    script match {
-      case Script0(bodyOpt, _, _) => Initialize(
-        inst = Inst(if (bodyOpt.isDefined) s"app $RESULT = (RunJobs)" else "{}"),
-        bodyOpt = bodyOpt,
-        filename = filename,
-      )
-    }
+    val filename = getFirstFilename(jisetConfig, "load")
+    setTarget(loadSpec(s"$VERSION_DIR/generated"))
+    Initialize(script, filename, config.cursorGen)
   }
 
   def defaultConfig: LoadConfig = LoadConfig()
-  val options: List[PhaseOption[LoadConfig]] = List()
+  val options: List[PhaseOption[LoadConfig]] = List(
+    ("cursor", StrOption((c, s) => s match {
+      case "node" => c.cursorGen = NodeCursor
+      case _ => c.cursorGen = InstCursor
+    }), "set the type of evaluation cursors (default: inst)."),
+  )
 }
 
 // Parse phase config
-case class LoadConfig() extends Config
+case class LoadConfig(
+  var cursorGen: CursorGen[_ <: Cursor] = InstCursor
+) extends Config

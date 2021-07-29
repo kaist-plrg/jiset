@@ -18,8 +18,8 @@ package object js {
   lazy val cfg: CFG = new CFG(spec)
 
   // set current ECMAScript model
-  def setTarget(spec: ECMAScript): Unit = targetSpec = Some(spec)
-  def needTarget: Boolean = targetSpec.isEmpty
+  def setTarget(spec: => ECMAScript): Unit =
+    if (targetSpec.isEmpty) targetSpec = Some(spec)
   private var targetSpec: Option[ECMAScript] = None
 
   // ECMAScript components

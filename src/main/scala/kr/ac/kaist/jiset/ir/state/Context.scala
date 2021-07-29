@@ -11,10 +11,6 @@ case class Context(
   val algo: Option[Algo] = None,
   val locals: MMap[Id, Value] = MMap()
 ) extends IRComponent {
-  def currentInst: Option[Inst] = cursorOpt match {
-    case Some(InstCursor(cur, _)) => Some(cur)
-    case _ => None
-  }
   def copied: Context = copy(locals = MMap.from(locals))
   def isBuiltin: Boolean = algo.fold(false)(_.isBuiltin)
 }

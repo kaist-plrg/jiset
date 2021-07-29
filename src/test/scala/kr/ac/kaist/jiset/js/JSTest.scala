@@ -6,10 +6,14 @@ import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.js.{ Parser => JSParser }
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.util.JvmUseful._
+import kr.ac.kaist.jiset.spec.NativeHelper._
 import io.circe._, io.circe.syntax._, io.circe.parser.{ parse => parseJson }
 
 trait JSTest extends IRTest {
   override def category: String = "js"
+
+  // cursor generator
+  val cursorGen: CursorGen[_ <: Cursor] = InstCursor
 
   // parse JS codes
   def parse(str: String): Script =
@@ -22,11 +26,17 @@ trait JSTest extends IRTest {
       case Right(json) => json
     }
 
+  // load initial codes
+  def load(script: Script, filename: String = "unknown"): State = {
+    setTarget(loadSpec(s"$VERSION_DIR/generated"))
+    Initialize(script, filename, cursorGen)
+  }
+
   // eval JS codes
-  def eval(script: Script): State = Interp(Load(script))
+  def eval(script: Script): State = Interp(load(script))
   def eval(str: String): State = eval(parse(str))
   def evalFile(filename: String): State =
-    Interp(Load(parseFile(filename), filename))
+    Interp(load(parseFile(filename), filename))
 
   // tests for JS parser
   def parseTest(ast: AST): Unit = {

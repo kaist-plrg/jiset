@@ -106,7 +106,7 @@ object State {
     def apply(insts: List[Inst]): State = apply(ISeq(insts))
     def apply(inst: Inst): State = State(
       cursorGen = cursorGen,
-      context = Context(cursorOpt = Some(InstCursor(inst))),
+      context = Context(cursorOpt = cursorGen(inst)),
     )
   }
 }

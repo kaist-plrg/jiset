@@ -239,7 +239,7 @@ trait UnitWalker {
       walk(ctxtName)
       walkList[Id](params, walk)
       walkMap[Id, Value](locals, walk, walk)
-      walk(cursor)
+      walkOpt[Cursor](cursor, walk)
   }
 
   // continuation

@@ -218,7 +218,7 @@ class BeautifierTinyTest extends IRTest {
         "λ(GLOBAL.id[3.0])"
     )
     test("Clo")(
-      Clo("clo", idList, MMap[Id, Value](Id("z") -> Num(3.0)), InstCursor(ISeq(Nil), Nil)) ->
+      Clo("clo", idList, MMap[Id, Value](Id("z") -> Num(3.0)), None) ->
         "clo:closure(x, y)[z -> 3.0] => ..."
     )
     test("Cont")(
