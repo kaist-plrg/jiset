@@ -88,16 +88,18 @@ class Translator {
     connect(prev, assign(exit))
 
     // edges
-    val edges = for {
-      (from, cases) <- forward
-      edge <- mnodes(from) match {
-        case (branch: MBranch) =>
-          Some(BranchEdge(branch.node, mnodes(cases(Then)).node, mnodes(cases(Else)).node))
-        case (linear: MLinear[_]) =>
-          Some(LinearEdge(linear.node, mnodes(cases(Base)).node))
-        case _ => None
-      }
-    } yield edge
+    var nexts = Map[Linear, Node]()
+    var branches = Map[Branch, (Node, Node)]()
+    for ((from, cases) <- forward) mnodes(from) match {
+      case (linear: MLinear[_]) => nexts += linear.node -> (
+        mnodes(cases(Base)).node
+      )
+      case (branch: MBranch) => branches += branch.node -> (
+        mnodes(cases(Then)).node,
+        mnodes(cases(Else)).node
+      )
+      case _ => None
+    }
 
     // check whether the created function is complete or not
     val complete: Boolean = body.isComplete
@@ -109,7 +111,8 @@ class Translator {
       entry = entry.node,
       exit = exit.node,
       nodes = mnodes.map(_.node).toSet,
-      edges = edges.toSet,
+      nexts = nexts,
+      branches = branches,
       complete = complete,
     )
 

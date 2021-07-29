@@ -13,7 +13,8 @@ class DotPrinter {
   def apply(func: Function): DotPrinter = {
     this >> "digraph {"
     func.nodes.foreach(doNode(_, (REACH, NORMAL), false))
-    func.edges.foreach(doEdge(_))
+    func.nexts.foreach { case (f, t) => doNextEdge(f, t) }
+    func.branches.foreach { case (f, (t, e)) => doBranchEdge(f, t, e) }
     this >> "}"
   }
 
@@ -104,45 +105,53 @@ class DotPrinter {
     this >> s"""    label = "${func.name}:$viewName""""
     this >> s"""    style = rounded"""
     func.nodes.foreach(doNode(_, view, cur))
-    func.edges.foreach(doEdge(_, true)(Some(view)))
+    func.nexts.foreach {
+      case (f, t) => doNextEdge(f, t, true)(Some(view))
+    }
+    func.branches.foreach {
+      case (f, (t, e)) => doBranchEdge(f, t, e, true)(Some(view))
+    }
     this >> s"""  }"""
   }
 
-  // print edges
-  def doEdge(
-    edge: Edge,
-    analysis: Boolean = false
+  // colors for edges
+  def edgeColor(
+    from: Node,
+    to: Node,
+    analysis: Boolean
   )(
     implicit
     view: Option[View] = None
-  ): DotPrinter = {
-    // change node to string depending on view
-    def str(n: Node)(implicit v: Option[View]): String = v match {
-      case None => node2str(n)
-      case Some(v) => np2str(NodePoint(n, v))
-    }
-
-    def color(from: Node, to: Node): String = (analysis, view) match {
-      case (false, _) | (_, None) => REACH
-      case (true, Some(view)) =>
-        val fromNP = NodePoint(from, view)
-        val toNP = NodePoint(to, view)
-        if (sem(fromNP).isBottom || sem(toNP).isBottom) NON_REACH
-        else REACH
-    }
-
-    // print edge
-    edge match {
-      case LinearEdge(f, n) =>
-        val c = color(f, n)
-        doEdge(str(f), str(n), c, "")
-      case BranchEdge(f, tn, en) =>
-        val tc = color(f, tn)
-        val ec = color(f, en)
-        doEdge(str(f), str(tn), tc, s"label=<<font color=$tc>true</font>>")
-        doEdge(str(f), str(en), ec, s"label=<<font color=$ec>false</font>>")
-    }
+  ): String = (analysis, view) match {
+    case (false, _) | (_, None) => REACH
+    case (true, Some(view)) =>
+      val fromNP = NodePoint(from, view)
+      val toNP = NodePoint(to, view)
+      if (sem(fromNP).isBottom || sem(toNP).isBottom) NON_REACH
+      else REACH
   }
+
+  // print next edges
+  def doNextEdge(f: Linear, t: Node, analysis: Boolean = false)(
+    implicit
+    view: Option[View] = None
+  ): DotPrinter = {
+    val c = edgeColor(f, t, analysis)
+    doEdge(str(f), str(t), c, "")
+  }
+
+  // print branch edges
+  def doBranchEdge(f: Branch, t: Node, e: Node, analysis: Boolean = false)(
+    implicit
+    view: Option[View] = None
+  ): DotPrinter = {
+    val tc = edgeColor(f, t, analysis)
+    val ec = edgeColor(f, e, analysis)
+    doEdge(str(f), str(t), tc, s"label=<<font color=$tc>true</font>>")
+    doEdge(str(f), str(e), ec, s"label=<<font color=$ec>false</font>>")
+  }
+
+  // print edges
   def doEdge(from: String, to: String, color: String, label: String): DotPrinter =
     this >> s"""  $from -> $to [$label color=$color]"""
 
@@ -219,6 +228,12 @@ class DotPrinter {
     case RecordT(props) => NameT("Record")
     case t => t
   }.toString, "")
+
+  // change node to string depending on view
+  def str(n: Node)(implicit v: Option[View]): String = v match {
+    case None => node2str(n)
+    case Some(v) => np2str(NodePoint(n, v))
+  }
 
   // implicit convertion from Node to String
   private implicit def node2str(n: Node): String = s"node${n.uid}"

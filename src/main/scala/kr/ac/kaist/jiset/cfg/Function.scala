@@ -11,9 +11,10 @@ case class Function(
   entry: Entry,
   exit: Exit,
   nodes: Set[Node],
-  edges: Set[Edge],
+  nexts: Map[Linear, Node],
+  branches: Map[Branch, (Node, Node)],
   complete: Boolean
-) extends UId[Function] {
+) extends Component with UId[Function] {
   // optionally get algorithm
   def algoOption: Option[Algo] = origin match {
     case AlgoOrigin(algo) => Some(algo)

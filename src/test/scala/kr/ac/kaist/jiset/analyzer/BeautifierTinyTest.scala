@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.analyzer.Beautifier._
-import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.cfg.{ Component => _, _ }
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender._
@@ -30,7 +30,7 @@ class BeautifierTinyTest extends AnalyzerTest {
     val fidGen = new UIdGen[Function]
     val entry = Entry(nidGen)
     val exit = Exit(nidGen)
-    val func = Function(fidGen, null, entry, exit, Set(), Set(), false)
+    val func = Function(fidGen, null, entry, exit, Set(), Map(), Map(), false)
     val base = AbsType(NameT("A"))
 
     test("AbsRef")(

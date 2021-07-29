@@ -37,13 +37,12 @@ object PartialModel {
   def getModel(func: Function, body: Inst, view: View): Inst = {
     // auxiliary function
     def aux(pair: (Inst, Node)): Inst = pair match {
-      case (inst, entry: Entry) => aux(inst, cfg.next(entry))
+      case (inst, entry: Entry) => aux(inst, cfg.nextOf(entry))
       case (inst @ IIf(cond, thenInst, elseInst), branch: Branch) => {
         val np = NodePoint(branch, view)
         val isThen = sem.thenBranches contains np
         val isElse = sem.elseBranches contains np
-        val thenNode = cfg.thenNext(branch)
-        val elseNode = cfg.elseNext(branch)
+        val (thenNode, elseNode) = cfg.branchOf(branch)
         lazy val newThen = aux(thenInst, thenNode)
         lazy val newElse = aux(elseInst, elseNode)
         (isThen, isElse) match {

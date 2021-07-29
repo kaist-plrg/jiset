@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.cfg.{ Component => _, _ }
 
 // control points
 trait ControlPoint extends Component {

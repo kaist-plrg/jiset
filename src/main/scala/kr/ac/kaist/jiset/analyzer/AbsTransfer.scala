@@ -75,31 +75,32 @@ object AbsTransfer {
     import helper._
     node match {
       case (entry: Entry) =>
-        sem += NodePoint(cfg.next(entry), view) -> st
+        sem += NodePoint(cfg.nextOf(entry), view) -> st
       case (exit: Exit) =>
         sem.doReturn(ret, AUndef)
       case (normal: Normal) =>
         val newSt = transfer(normal.inst)(st)
-        sem += NodePoint(cfg.next(normal), view) -> newSt
+        sem += NodePoint(cfg.nextOf(normal), view) -> newSt
       case (call: Call) =>
         val newSt = transfer(call, view)(st)
-        sem += NodePoint(cfg.next(call), view) -> newSt
+        sem += NodePoint(cfg.nextOf(call), view) -> newSt
       case arrow @ Arrow(_, inst, fid) =>
         // TODO define closures or continuations
-        sem += NodePoint(cfg.next(arrow), view) -> st
+        sem += NodePoint(cfg.nextOf(arrow), view) -> st
       case branch @ Branch(_, inst) =>
         val expr = inst.cond
         val (t, newSt) = transfer(expr)(st)
         val cond = t.escaped(expr)
         val bp = NodePoint(branch, view)
+        val (thenNode, elseNode) = cfg.branchOf(branch)
         if (AT ⊑ cond) {
           sem.thenBranches += bp
-          val np = NodePoint(cfg.thenNext(branch), view)
+          val np = NodePoint(thenNode, view)
           sem += np -> prune(st, expr, true)(newSt)
         }
         if (AF ⊑ cond) {
           sem.elseBranches += bp
-          val np = NodePoint(cfg.elseNext(branch), view)
+          val np = NodePoint(elseNode, view)
           sem += np -> prune(st, expr, false)(newSt)
         }
     }
@@ -109,7 +110,7 @@ object AbsTransfer {
   def apply(rp: ReturnPoint): Unit = {
     val newT = sem(rp)
     for ((np @ NodePoint(call, view), x) <- sem.getRetEdges(rp)) {
-      val nextNP = np.copy(node = cfg.next(call))
+      val nextNP = np.copy(node = cfg.nextOf(call))
       val newSt = sem(np).define(x, newT)
       sem += nextNP -> newSt
     }

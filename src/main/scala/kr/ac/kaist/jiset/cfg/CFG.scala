@@ -1,27 +1,18 @@
 package kr.ac.kaist.jiset.cfg
 
-import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.ir.{ Id, UnitWalker }
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.UIdGen
 
 // control flow graph
-class CFG(val spec: ECMAScript) {
+class CFG(val spec: ECMAScript) extends Component {
   val trans: Translator = new Translator
   val funcs: List[Function] = spec.algos.flatMap(algo => trans(AlgoOrigin(algo)))
   val nodes: List[Node] = funcs.flatMap(_.nodes)
-  val edges: List[Edge] = funcs.flatMap(_.edges)
   val funcOf: Map[Node, Function] = funcs.flatMap(f => f.nodes.map(_ -> f)).toMap
-  val next: Map[Linear, Node] =
-    (edges.collect { case LinearEdge(x, y) => x -> y }).toMap
-  val thenNext: Map[Branch, Node] =
-    (edges.collect { case BranchEdge(x, y, _) => x -> y }).toMap
-  val elseNext: Map[Branch, Node] =
-    (edges.collect { case BranchEdge(x, _, y) => x -> y }).toMap
-  val nexts: Map[Node, Set[Node]] = (edges.map {
-    case LinearEdge(x, y) => x -> Set(y)
-    case BranchEdge(x, y, z) => x -> Set(y, z)
-  }).toMap
+  val nextOf: Map[Linear, Node] = funcs.flatMap(_.nexts).toMap
+  val branchOf: Map[Branch, (Node, Node)] = funcs.flatMap(_.branches).toMap
   val fidMap: Map[Int, Function] = (for (f <- funcs) yield f.uid -> f).toMap
   val algo2fid: Map[String, Int] = (for (f <- funcs) yield f.name -> f.uid).toMap
   val iid2fid: Map[Int, Int] = (for (f <- funcs) yield f.body.uid -> f.uid).toMap

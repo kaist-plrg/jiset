@@ -1,10 +1,10 @@
 package kr.ac.kaist.jiset.cfg
 
-import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.ir.{ IRNode => _, _ }
 import kr.ac.kaist.jiset.util.{ UId, UIdGen }
 
 // CFG nodes
-trait Node extends UId[Node] {
+trait Node extends Component with UId[Node] {
   // conversion to string
   override def toString: String = s"${getClass.getSimpleName}[$uid]"
 }

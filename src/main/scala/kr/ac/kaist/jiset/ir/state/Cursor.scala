@@ -20,10 +20,6 @@ sealed trait Cursor extends IRNode {
     case (icursor: InstCursor) => InstCursor(List(inst))
     case (ncursor: NodeCursor) => ??? // TODO
   }
-  def next: Cursor = this match {
-    case InstCursor(_ :: rest) => InstCursor(rest)
-    case _ => ??? // TODO
-  }
 }
 case class InstCursor(insts: List[Inst]) extends Cursor
-case class NodeCursor(node: Node) extends Cursor
+case class NodeCursor(nodeOpt: Option[Node]) extends Cursor
