@@ -23,13 +23,13 @@ class CompileTargets(val version: String, secIds: Map[String, String]) {
 
   sealed abstract class CompileTarget(
     val name: String,
-    val parser: Parser[ir.IRNode]
+    val parser: Parser[ir.IRComponent]
   ) {
     // parse input
     def parse(
       code: List[String],
       raw: Boolean = true
-    )(implicit grammar: Grammar, document: Document): (List[Token], ParseResult[ir.IRNode]) = {
+    )(implicit grammar: Grammar, document: Document): (List[Token], ParseResult[ir.IRComponent]) = {
       // get tokens
       val tokens = if (raw) {
         // from raw string
@@ -41,7 +41,7 @@ class CompileTargets(val version: String, secIds: Map[String, String]) {
       (tokens, compiler.parseAll(parser, tokens))
     }
 
-    def parseIR(str: String): ir.IRNode = this match {
+    def parseIR(str: String): ir.IRComponent = this match {
       case TyTarget => ir.Ty(str)
       case _ => ir.Inst(str)
     }

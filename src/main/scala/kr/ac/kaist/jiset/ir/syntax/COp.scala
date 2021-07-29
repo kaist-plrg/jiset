@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.ir
 
-sealed trait COp extends IRNode
+sealed trait COp extends IRComponent
 object COp extends Parser[COp]
 case object CStrToNum extends COp
 case object CStrToBigInt extends COp

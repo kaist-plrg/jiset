@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.{ Map => MMap }
 
 // values
-sealed trait Value extends IRNode {
+sealed trait Value extends IRComponent {
   // escape completion
   def escaped(st: State): Value = this match {
     case addr: Addr => completionType(st) match {

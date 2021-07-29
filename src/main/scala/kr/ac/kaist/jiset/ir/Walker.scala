@@ -6,7 +6,7 @@ import scala.collection.mutable.{ Map => MMap }
 // Walker for IR Language
 trait Walker {
   // all cases
-  def walk(node: IRNode): IRNode = node match {
+  def walk(node: IRComponent): IRComponent = node match {
     case prog: Program => walk(prog)
     case inst: Inst => walk(inst)
     case expr: Expr => walk(expr)

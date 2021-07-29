@@ -1,9 +1,9 @@
 package kr.ac.kaist.jiset.analyzer
 
-import kr.ac.kaist.jiset.cfg.{ Component => _, _ }
+import kr.ac.kaist.jiset.cfg._
 
 // control points
-trait ControlPoint extends Component {
+trait ControlPoint extends AnalyzerComponent {
   // view of control points
   val view: View
 }

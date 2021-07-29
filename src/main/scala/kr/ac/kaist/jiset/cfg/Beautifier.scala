@@ -17,7 +17,7 @@ class Beautifier(
   import irBeautifier._
 
   // CFG components
-  implicit lazy val ComponentApp: App[Component] = (app, comp) => comp match {
+  implicit lazy val CFGComponentApp: App[CFGComponent] = (app, comp) => comp match {
     case comp: CFG => CFGApp(app, comp)
     case comp: Function => FunctionApp(app, comp)
     case comp: Node => NodeApp(app, comp)

@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.analyzer
 
 // view abstraction
-case class View(tys: List[Type]) extends Component
+case class View(tys: List[Type]) extends AnalyzerComponent
 object View {
   def apply(seq: Type*): View =
     if (USE_VIEW) new View(seq.toList) else new View(Nil)

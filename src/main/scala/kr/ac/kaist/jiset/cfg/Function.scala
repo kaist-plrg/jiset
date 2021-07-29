@@ -14,7 +14,7 @@ case class Function(
   nexts: Map[Linear, Node],
   branches: Map[Branch, (Node, Node)],
   complete: Boolean
-) extends Component with UId[Function] {
+) extends CFGComponent with UId[Function] {
   // optionally get algorithm
   def algoOption: Option[Algo] = origin match {
     case AlgoOrigin(algo) => Some(algo)

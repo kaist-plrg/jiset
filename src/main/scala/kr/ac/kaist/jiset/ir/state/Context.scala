@@ -10,7 +10,7 @@ case class Context(
   val name: String = TOP_LEVEL,
   val algo: Option[Algo] = None,
   val locals: MMap[Id, Value] = MMap()
-) extends IRNode {
+) extends IRComponent {
   def currentInst: Option[Inst] = cursor.currentInst
   def copied: Context = copy(locals = MMap.from(locals))
   def isBuiltin: Boolean = algo.fold(false)(_.isBuiltin)

@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 // IR References
-sealed trait Ref extends IRNode {
+sealed trait Ref extends IRComponent {
   def base: String = this match {
     case RefId(Id(name)) => name
     case RefProp(ref, _) => ref.base

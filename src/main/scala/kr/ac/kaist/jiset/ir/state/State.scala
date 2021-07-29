@@ -10,7 +10,7 @@ case class State(
   var ctxtStack: List[Context] = Nil,
   val globals: MMap[Id, Value] = MMap(),
   val heap: Heap = Heap()
-) extends IRNode {
+) extends IRComponent {
   // return id and its value
   def retId: Id = context.retId
 

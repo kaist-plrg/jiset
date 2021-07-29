@@ -6,7 +6,7 @@ class ParseTinyTest extends AnalyzerTest with analyzer.Parsers {
   val name: String = "analyzerParseTest"
 
   // test helper
-  def test[T <: Component](desc: String)(cases: (String, T)*)(
+  def test[T <: AnalyzerComponent](desc: String)(cases: (String, T)*)(
     implicit
     parser: Parser[T]
   ): Unit = check(desc, cases.foreach {

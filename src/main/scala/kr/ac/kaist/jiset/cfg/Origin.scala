@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Param }
 import kr.ac.kaist.jiset.ir._
 
 // origins of CFG functions
-sealed trait Origin extends Component {
+sealed trait Origin extends CFGComponent {
   // algorithm
   val algo: Algo
 

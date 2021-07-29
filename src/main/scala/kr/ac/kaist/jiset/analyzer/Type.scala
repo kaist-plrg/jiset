@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
 
-sealed trait Type extends Component {
+sealed trait Type extends AnalyzerComponent {
   import Type._
 
   // conversion to abstract type

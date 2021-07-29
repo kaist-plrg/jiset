@@ -14,7 +14,7 @@ class BeautifierTinyTest extends IRTest {
   val name: String = "irBeautifierTest"
 
   import BeautifierTinyTest.beautifier._
-  def test[T <: IRNode](desc: String)(cases: (T, String)*)(
+  def test[T <: IRComponent](desc: String)(cases: (T, String)*)(
     implicit
     tApp: App[T]
   ): Unit = check(desc, cases.foreach {

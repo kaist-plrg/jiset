@@ -11,7 +11,7 @@ case class AbsState(
   reachable: Boolean,
   map: Map[String, AbsType] = Map(),
   names: Set[String] = Set()
-) extends Component {
+) extends AnalyzerComponent {
   import AbsState._
 
   // bottom check

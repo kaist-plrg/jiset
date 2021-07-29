@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.analyzer.Beautifier._
-import kr.ac.kaist.jiset.cfg.{ Component => _, _ }
+import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender._
@@ -10,7 +10,7 @@ class BeautifierTinyTest extends AnalyzerTest {
   val name: String = "analyzerBeautifierTest"
 
   // test helper
-  def test[T <: Component](desc: String)(cases: (T, String)*)(
+  def test[T <: AnalyzerComponent](desc: String)(cases: (T, String)*)(
     implicit
     tApp: App[T]
   ): Unit = check(desc, cases.foreach {

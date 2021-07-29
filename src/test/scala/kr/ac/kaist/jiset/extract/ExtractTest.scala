@@ -13,8 +13,8 @@ trait ExtractTest extends JISETTest {
 
   def diffTest(
     filename: String,
-    result: IRNode,
-    answer: IRNode,
+    result: IRComponent,
+    answer: IRComponent,
     deep: Boolean = false
   ): Unit = {
     val diff = new Diff

@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 // IR Binary Operators
-sealed trait BOp extends IRNode
+sealed trait BOp extends IRComponent
 object BOp extends Parser[BOp]
 case object OPlus extends BOp
 case object OSub extends BOp

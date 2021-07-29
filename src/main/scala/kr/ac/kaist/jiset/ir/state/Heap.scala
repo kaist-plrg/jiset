@@ -10,7 +10,7 @@ import scala.collection.mutable.{ Map => MMap }
 case class Heap(
   map: MMap[Addr, Obj] = MMap(),
   var size: Int = 0
-) extends IRNode {
+) extends IRComponent {
   // getters
   def apply(addr: Addr): Obj =
     map.getOrElse(addr, error(s"unknown address: ${addr.beautified}"))

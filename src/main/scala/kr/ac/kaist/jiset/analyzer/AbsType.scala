@@ -7,7 +7,7 @@ import scala.annotation.tailrec
 // abstract states
 case class AbsType private (
   val set: Set[Type]
-) extends Component {
+) extends AnalyzerComponent {
   // bottom check
   def isBottom: Boolean = set.isEmpty
 

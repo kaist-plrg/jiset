@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.cfg._
 
 // evaluation cursor
-sealed trait Cursor extends IRNode {
+sealed trait Cursor extends IRComponent {
   def currentInst: Option[Inst] = this match {
     case InstCursor(insts) => insts.headOption
     case _ => None

@@ -1,21 +1,20 @@
-package kr.ac.kaist.jiset.cfg
+package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.cfg.Beautifier
 
-trait Component {
+trait IRComponent {
   def beautified: String = beautified()
   def beautified(
     detail: Boolean = true,
     index: Boolean = false,
     asite: Boolean = false
   ): String = {
-    val beautifier = Component.getBeautifier((detail, index, asite))
+    val beautifier = IRComponent.getBeautifier((detail, index, asite))
     import beautifier._
     beautify(this)
   }
 }
-object Component {
+object IRComponent {
   private val getBeautifier = {
     cached[(Boolean, Boolean, Boolean), Beautifier](key => {
       val (detail, index, asite) = key

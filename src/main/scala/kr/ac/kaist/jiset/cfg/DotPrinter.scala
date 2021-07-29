@@ -212,7 +212,7 @@ class DotPrinter {
   override def toString: String = app.toString
 
   // normalize beautified ir nodes
-  private def norm(node: IRNode, useUId: Boolean, fid: Int = -1): String = {
+  private def norm(node: IRComponent, useUId: Boolean, fid: Int = -1): String = {
     val postfix = node match {
       case arrow: ArrowInst => s" [fid: $fid]"
       case _ => ""
