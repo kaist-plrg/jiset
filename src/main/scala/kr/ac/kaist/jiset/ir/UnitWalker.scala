@@ -179,7 +179,7 @@ trait UnitWalker {
   }
 
   def walk(ctxt: Context): Unit = {
-    walk(ctxt.cursor)
+    walkOpt[Cursor](ctxt.cursorOpt, walk)
     walk(ctxt.retId)
     walk(ctxt.name)
     walkMap[Id, Value](ctxt.locals, walk, walk)
@@ -187,7 +187,9 @@ trait UnitWalker {
 
   // cursors
   def walk(cursor: Cursor): Unit = cursor match {
-    case InstCursor(insts) => walkList[Inst](insts, walk)
+    case InstCursor(cur, rest) =>
+      walk(cur)
+      walkList[Inst](rest, walk)
     case NodeCursor(node) =>
   }
 

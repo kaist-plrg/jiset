@@ -20,6 +20,9 @@ class Interp(
 ) {
   import Interp._
 
+  // cursor generator
+  val cursorGen: CursorGen[_ <: Cursor] = st.cursorGen
+
   // set start time of interpreter
   val startTime: Long = System.currentTimeMillis
 
@@ -35,63 +38,58 @@ class Interp(
     override def toString: String = this match {
       case Terminate => "TERMINATED"
       case ReturnUndef => "RETURN"
-      case NextInst(inst, _) => inst.beautified
+      case NextStep(cursor) => cursor.beautified(detail = false)
     }
   }
   case object Terminate extends StepTarget
   case object ReturnUndef extends StepTarget
-  case class NextInst(inst: Inst, rest: List[Inst]) extends StepTarget
-  case class NextNode(node: Node) extends StepTarget
-
-  // get cursor
-  def cursor: Cursor = st.context.cursor
+  case class NextStep(cursor: Cursor) extends StepTarget
 
   // get next step target
-  def nextTarget: StepTarget = cursor match {
-    case InstCursor(Nil) | NodeCursor(None) => st.ctxtStack match {
+  def nextTarget: StepTarget = st.context.cursorOpt match {
+    case Some(cursor) => NextStep(cursor)
+    case None => st.ctxtStack match {
       case Nil => Terminate
       case _ => ReturnUndef
     }
-    case InstCursor(inst :: rest) => NextInst(inst, rest)
-    case NodeCursor(Some(node)) => NextNode(node)
   }
 
   // step
   final def step: Boolean = nextTarget match {
-    case Terminate => false
+    case Terminate =>
+      // stop evaluation
+      false
     case ReturnUndef =>
-      doReturn(Undef); true
-    case NextInst(inst, rest) => {
-      // print statistics
-      iter += 1
-      if (iter % CHECK_PERIOD == 0) timeLimit.map(limit => {
-        val duration = (System.currentTimeMillis - startTime) / 1000
-        if (duration > limit) throw InterpTimeout
-      })
-      if (DEBUG) inst match {
-        case ISeq(_) =>
-        case _ => println(s"${st.context.name}: ${inst.beautified(detail = false)}")
-      }
+      // do return
+      doReturn(Undef)
 
-      // interp the current instruction
-      st.context.cursor = InstCursor(rest)
-      interp(inst)
-      if (iter % 100000 == 0) GC(st)
+      // keep going
       true
-    }
-    case NextNode(node) => {
+    case NextStep(cursor) => {
       // print statistics
       iter += 1
       if (iter % CHECK_PERIOD == 0) timeLimit.map(limit => {
         val duration = (System.currentTimeMillis - startTime) / 1000
         if (duration > limit) throw InterpTimeout
       })
+
+      // text-based debugging
       if (DEBUG) {
-        println(s"${st.context.name}: ${node.beautified(detail = false)}")
+        println(s"${st.context.name}: ${cursor.beautified(detail = false)}")
       }
 
-      // interp the current CFG node
-      st.context.cursor = NodeCursor(interp(node))
+      // interp the current cursor
+      catchReturn(cursor match {
+        case cursor @ InstCursor(inst, rest) =>
+          interp(inst, rest)
+        case NodeCursor(node) =>
+          interp(node)
+      })
+
+      // garbage collection
+      if (iter % 100000 == 0) GC(st)
+
+      // keep going
       true
     }
   }
@@ -104,7 +102,7 @@ class Interp(
   }
 
   // transition for nodes
-  def interp(node: Node): Option[Node] = node match {
+  def interp(node: Node): Unit = node match {
     case Entry(_) => ???
     case Normal(_, inst) => ???
     case Call(_, inst) => ???
@@ -114,191 +112,200 @@ class Interp(
   }
 
   // transition for instructions
-  def interp(inst: Inst): Unit = inst match {
-    case inst: CondInst => interp(inst)
+  def interp(inst: Inst, rest: List[Inst]): Unit = inst match {
+    case inst: CondInst => interp(inst, rest)
     case inst: CallInst => interp(inst)
     case inst: NormalInst => interp(inst)
     case inst: ArrowInst => interp(inst)
-    case inst: ISeq => interp(inst)
+    case inst: ISeq => interp(inst, rest)
   }
 
   // transition for conditional instructions
-  def interp(inst: CondInst): Unit = catchReturn(inst match {
-    case IIf(cond, thenInst, elseInst) =>
-      interp(cond).escaped(st) match {
-        case Bool(true) => st.context.cursor ::= thenInst
-        case Bool(false) => st.context.cursor ::= elseInst
+  def interp(inst: CondInst, rest: List[Inst]): Unit = {
+    st.context.cursorOpt = inst match {
+      case IIf(cond, thenInst, elseInst) => interp(cond).escaped(st) match {
+        case Bool(true) => Some(InstCursor(thenInst, rest))
+        case Bool(false) => Some(InstCursor(elseInst, rest))
         case v => error(s"not a boolean: ${v.beautified}")
       }
-    case IWhile(cond, body) => interp(cond).escaped(st) match {
-      case Bool(true) => st.context.cursor = body :: inst :: st.context.cursor
-      case Bool(false) =>
-      case v => error(s"not a boolean: ${v.beautified}")
+      case IWhile(cond, body) => interp(cond).escaped(st) match {
+        case Bool(true) => Some(InstCursor(body, inst :: rest))
+        case Bool(false) => InstCursor.from(rest)
+        case v => error(s"not a boolean: ${v.beautified}")
+      }
     }
-  })
+  }
 
   // transition for call instructions
-  def interp(inst: CallInst): Unit = catchReturn(inst match {
-    case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => {
-      val vs =
-        if (name == "IsAbruptCompletion") args.map(interp)
-        else args.map(interp(_).escaped(st))
-      st.context.locals += id -> simpleFuncs(name)(st, vs)
-    }
-    case IApp(id, fexpr, args) => interp(fexpr) match {
-      case Func(algo) => {
-        val head = algo.head
-        val body = algo.body
-        val vs = args.map(interp)
-        val locals = getLocals(head.params, vs)
-        val newCursor = cursor.replaceWith(body)
-        val context = Context(newCursor, id, head.name, Some(algo), locals)
-        if (STAT) Stat.touchAlgo(algo.name)
-        st.ctxtStack ::= st.context
-        st.context = context
-
-        // use hooks
-        if (useHook) notify(Event.Call)
+  def interp(inst: CallInst): Unit = {
+    st.moveNext
+    inst match {
+      case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => {
+        val vs =
+          if (name == "IsAbruptCompletion") args.map(interp)
+          else args.map(interp(_).escaped(st))
+        st.context.locals += id -> simpleFuncs(name)(st, vs)
       }
-      case Clo(ctxtName, params, locals, cursor) => {
-        val vs = args.map(interp)
-        val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
-        val context = Context(cursor, id, ctxtName + ":closure", None, locals)
-        st.ctxtStack ::= st.context
-        st.context = context
+      case IApp(id, fexpr, args) => interp(fexpr) match {
+        case Func(algo) => {
+          val head = algo.head
+          val body = algo.body
+          val vs = args.map(interp)
+          val locals = getLocals(head.params, vs)
+          val newCursor = Some(cursorGen(body))
+          val context = Context(newCursor, id, head.name, Some(algo), locals)
+          if (STAT) Stat.touchAlgo(algo.name)
+          st.ctxtStack ::= st.context
+          st.context = context
 
-        // use hooks
-        if (useHook) notify(Event.Call)
-      }
-      case Cont(params, context, ctxtStack) => {
-        val vs = args.map(interp)
-        st.context = context.copied
-        st.context.locals ++= params zip vs
-        st.ctxtStack = ctxtStack.map(_.copied)
-
-        // use hooks
-        if (useHook) notify(Event.Cont)
-      }
-      case v => error(s"not a function: ${fexpr.beautified} -> ${v.beautified}")
-    }
-    case IAccess(id, bexpr, expr, args) => {
-      var base = interp(bexpr)
-      val prop = interp(expr).escaped(st)
-      prop match {
-        case Str("Type" | "Value" | "Target") =>
-        case _ => base = base.escaped(st)
-      }
-      val vOpt = (base, prop) match {
-        case (ASTVal(Lexical(kind, str)), Str(name)) => Some((kind, name) match {
-          case ("(IdentifierName \\ (ReservedWord))" | "IdentifierName", "StringValue") => Str(str)
-          case ("NumericLiteral", "MV" | "NumericValue") => ESValueParser.parseNumber(str)
-          case ("StringLiteral", "SV" | "StringValue") => Str(ESValueParser.parseString(str))
-          case ("NoSubstitutionTemplate", "TV") => Str(ESValueParser.parseTVNoSubstitutionTemplate(str))
-          case ("TemplateHead", "TV") => Str(ESValueParser.parseTVTemplateHead(str))
-          case ("TemplateMiddle", "TV") => Str(ESValueParser.parseTVTemplateMiddle(str))
-          case ("TemplateTail", "TV") => Str(ESValueParser.parseTVTemplateTail(str))
-          case ("NoSubstitutionTemplate", "TRV") => Str(ESValueParser.parseTRVNoSubstitutionTemplate(str))
-          case ("TemplateHead", "TRV") => Str(ESValueParser.parseTRVTemplateHead(str))
-          case ("TemplateMiddle", "TRV") => Str(ESValueParser.parseTRVTemplateMiddle(str))
-          case ("TemplateTail", "TRV") => Str(ESValueParser.parseTRVTemplateTail(str))
-          case (_, "Contains") => Bool(false)
-          case ("RegularExpressionLiteral", name) => throw NotSupported(s"RegularExpressionLiteral.$name")
-          case _ => error(s"invalid Lexical access: $kind.$name")
-        })
-        case (ASTVal(ast), Str("parent")) => Some(ast.parent.map(ASTVal).getOrElse(Absent))
-        case (ASTVal(ast), Str("children")) => Some(st.allocList(ast.children))
-        case (ASTVal(ast), Str("kind")) => Some(Str(ast.kind))
-        case (ASTVal(ast), Str(name)) => ast.semantics(name) match {
-          case Some((algo, asts)) => {
-            val head = algo.head
-            val body = algo.body
-            val vs = asts ++ args.map(interp)
-            val locals = getLocals(head.params, vs)
-            val newCursor = cursor.replaceWith(body)
-            val context = Context(newCursor, id, head.name, Some(algo), locals)
-            if (STAT) Stat.touchAlgo(algo.name)
-            st.ctxtStack ::= st.context
-            st.context = context
-
-            // use hooks
-            if (useHook) notify(Event.Call)
-            None
-          }
-          case None => Some(ast.subs(name).getOrElse {
-            error(s"unexpected semantics: ${ast.name}.$name")
-          })
+          // use hooks
+          if (useHook) notify(Event.Call)
         }
-        case (addr: Addr, _) => Some(st(addr, prop))
-        case (Str(str), _) => Some(st(str, prop))
-        case v => error(s"invalid access: ${inst.beautified}")
+        case Clo(ctxtName, params, locals, cursor) => {
+          val vs = args.map(interp)
+          val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
+          val context = Context(Some(cursor), id, ctxtName + ":closure", None, locals)
+          st.ctxtStack ::= st.context
+          st.context = context
+
+          // use hooks
+          if (useHook) notify(Event.Call)
+        }
+        case Cont(params, context, ctxtStack) => {
+          val vs = args.map(interp)
+          st.context = context.copied
+          st.context.locals ++= params zip vs
+          st.ctxtStack = ctxtStack.map(_.copied)
+
+          // use hooks
+          if (useHook) notify(Event.Cont)
+        }
+        case v => error(s"not a function: ${fexpr.beautified} -> ${v.beautified}")
       }
-      vOpt.map(st.context.locals += id -> _)
+      case IAccess(id, bexpr, expr, args) => {
+        var base = interp(bexpr)
+        val prop = interp(expr).escaped(st)
+        prop match {
+          case Str("Type" | "Value" | "Target") =>
+          case _ => base = base.escaped(st)
+        }
+        val vOpt = (base, prop) match {
+          case (ASTVal(Lexical(kind, str)), Str(name)) => Some((kind, name) match {
+            case ("(IdentifierName \\ (ReservedWord))" | "IdentifierName", "StringValue") => Str(str)
+            case ("NumericLiteral", "MV" | "NumericValue") => ESValueParser.parseNumber(str)
+            case ("StringLiteral", "SV" | "StringValue") => Str(ESValueParser.parseString(str))
+            case ("NoSubstitutionTemplate", "TV") => Str(ESValueParser.parseTVNoSubstitutionTemplate(str))
+            case ("TemplateHead", "TV") => Str(ESValueParser.parseTVTemplateHead(str))
+            case ("TemplateMiddle", "TV") => Str(ESValueParser.parseTVTemplateMiddle(str))
+            case ("TemplateTail", "TV") => Str(ESValueParser.parseTVTemplateTail(str))
+            case ("NoSubstitutionTemplate", "TRV") => Str(ESValueParser.parseTRVNoSubstitutionTemplate(str))
+            case ("TemplateHead", "TRV") => Str(ESValueParser.parseTRVTemplateHead(str))
+            case ("TemplateMiddle", "TRV") => Str(ESValueParser.parseTRVTemplateMiddle(str))
+            case ("TemplateTail", "TRV") => Str(ESValueParser.parseTRVTemplateTail(str))
+            case (_, "Contains") => Bool(false)
+            case ("RegularExpressionLiteral", name) => throw NotSupported(s"RegularExpressionLiteral.$name")
+            case _ => error(s"invalid Lexical access: $kind.$name")
+          })
+          case (ASTVal(ast), Str("parent")) => Some(ast.parent.map(ASTVal).getOrElse(Absent))
+          case (ASTVal(ast), Str("children")) => Some(st.allocList(ast.children))
+          case (ASTVal(ast), Str("kind")) => Some(Str(ast.kind))
+          case (ASTVal(ast), Str(name)) => ast.semantics(name) match {
+            case Some((algo, asts)) => {
+              val head = algo.head
+              val body = algo.body
+              val vs = asts ++ args.map(interp)
+              val locals = getLocals(head.params, vs)
+              val newCursor = Some(cursorGen(body))
+              val context = Context(newCursor, id, head.name, Some(algo), locals)
+              if (STAT) Stat.touchAlgo(algo.name)
+              st.ctxtStack ::= st.context
+              st.context = context
+
+              // use hooks
+              if (useHook) notify(Event.Call)
+              None
+            }
+            case None => Some(ast.subs(name).getOrElse {
+              error(s"unexpected semantics: ${ast.name}.$name")
+            })
+          }
+          case (addr: Addr, _) => Some(st(addr, prop))
+          case (Str(str), _) => Some(st(str, prop))
+          case v => error(s"invalid access: ${inst.beautified}")
+        }
+        vOpt.map(st.context.locals += id -> _)
+      }
     }
-  })
+  }
 
   // transition for normal instructions
-  def interp(inst: NormalInst): Unit = catchReturn(inst match {
-    case IExpr(expr) => interp(expr)
-    case ILet(id, expr) => st.context.locals += id -> interp(expr)
-    case IAssign(ref, expr) => st.update(interp(ref), interp(expr))
-    case IDelete(ref) => st.delete(interp(ref))
-    case IAppend(expr, list) => interp(list).escaped(st) match {
-      case (addr: Addr) => st.append(addr, interp(expr).escaped(st))
-      case v => error(s"not an address: ${v.beautified}")
+  def interp(inst: NormalInst): Unit = {
+    st.moveNext
+    inst match {
+      case IExpr(expr) => interp(expr)
+      case ILet(id, expr) => st.context.locals += id -> interp(expr)
+      case IAssign(ref, expr) => st.update(interp(ref), interp(expr))
+      case IDelete(ref) => st.delete(interp(ref))
+      case IAppend(expr, list) => interp(list).escaped(st) match {
+        case (addr: Addr) => st.append(addr, interp(expr).escaped(st))
+        case v => error(s"not an address: ${v.beautified}")
+      }
+      case IPrepend(expr, list) => interp(list).escaped(st) match {
+        case (addr: Addr) => st.prepend(addr, interp(expr).escaped(st))
+        case v => error(s"not an address: ${v.beautified}")
+      }
+      case IReturn(expr) => throw ReturnValue(interp(expr))
+      case IThrow(name) => {
+        val addr = st.allocMap(Ty("OrdinaryObject"), Map(
+          Str("Prototype") -> NamedAddr(s"GLOBAL.$name.prototype"),
+          Str("ErrorData") -> Undef
+        ))
+        throw ReturnValue(addr.wrapCompletion(st, CompletionType.Throw))
+      }
+      case IAssert(expr) => interp(expr).escaped(st) match {
+        case Bool(true) =>
+        case v => error(s"assertion failure: ${expr.beautified}")
+      }
+      case IPrint(expr) => {
+        val v = interp(expr)
+        if (!TEST_MODE) println(st.getString(v))
+      }
     }
-    case IPrepend(expr, list) => interp(list).escaped(st) match {
-      case (addr: Addr) => st.prepend(addr, interp(expr).escaped(st))
-      case v => error(s"not an address: ${v.beautified}")
-    }
-    case IReturn(expr) => doReturn(interp(expr))
-    case IThrow(name) => {
-      val addr = st.allocMap(Ty("OrdinaryObject"), Map(
-        Str("Prototype") -> NamedAddr(s"GLOBAL.$name.prototype"),
-        Str("ErrorData") -> Undef
-      ))
-      doReturn(addr.wrapCompletion(st, CompletionType.Throw))
-    }
-    case IAssert(expr) => interp(expr).escaped(st) match {
-      case Bool(true) =>
-      case v => error(s"assertion failure: ${expr.beautified}")
-    }
-    case IPrint(expr) => {
-      val v = interp(expr)
-      if (!TEST_MODE) println(st.getString(v))
-    }
-  })
+  }
 
   // transition for arrow instructions
-  def interp(inst: ArrowInst): Unit = catchReturn(inst match {
-    case IClo(id, params, captured, body) => st.context.locals += id -> Clo(
-      st.context.name,
-      params,
-      MMap.from(captured.map(x => x -> st(x))),
-      cursor.replaceWith(body),
-    )
-    case ICont(id, params, body) => {
-      val newCtxt = st.context.copied
-      newCtxt.cursor = cursor.replaceWith(body)
-      val newCtxtStack = st.ctxtStack.map(_.copied)
-      st.context.locals += id -> Cont(
+  def interp(inst: ArrowInst): Unit = {
+    st.moveNext
+    inst match {
+      case IClo(id, params, captured, body) => st.context.locals += id -> Clo(
+        st.context.name,
         params,
-        newCtxt,
-        newCtxtStack,
+        MMap.from(captured.map(x => x -> st(x))),
+        cursorGen(body),
       )
+      case ICont(id, params, body) => {
+        val newCtxt = st.context.copied
+        newCtxt.cursorOpt = Some(cursorGen(body))
+        val newCtxtStack = st.ctxtStack.map(_.copied)
+        st.context.locals += id -> Cont(
+          params,
+          newCtxt,
+          newCtxtStack,
+        )
+      }
+      case IWithCont(id, params, body) => {
+        val State(_, context, ctxtStack, _, _) = st
+        st.context = context.copied
+        st.context.cursorOpt = Some(cursorGen(body))
+        st.context.locals += id -> Cont(params, context, ctxtStack)
+        st.ctxtStack = ctxtStack.map(_.copied)
+      }
     }
-    case IWithCont(id, params, body) => {
-      val State(context, ctxtStack, _, _) = st
-      st.context = context.copied
-      st.context.cursor = cursor.replaceWith(body)
-      st.context.locals += id -> Cont(params, context, ctxtStack)
-      st.ctxtStack = ctxtStack.map(_.copied)
-    }
-  })
+  }
 
   // transition for sequence instructions
-  def interp(inst: ISeq): Unit = catchReturn(inst match {
-    case ISeq(insts) => st.context.cursor = insts ++: cursor
-  })
+  def interp(inst: ISeq, rest: List[Inst]): Unit =
+    st.context.cursorOpt = InstCursor.from(inst.insts ++ rest)
 
   // catch return values
   def catchReturn(f: => Unit): Unit =

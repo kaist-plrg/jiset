@@ -156,7 +156,7 @@ class BeautifierTinyTest extends IRTest {
       State() -> """context: {
       |  name: TOP_LEVEL
       |  return: RETURN
-      |  insts: {}
+      |  cursor: [EMPTY]
       |  local-vars: {}
       |}
       |context-stack: []
@@ -167,7 +167,7 @@ class BeautifierTinyTest extends IRTest {
       Context() -> """{
         |  name: TOP_LEVEL
         |  return: RETURN
-        |  insts: {}
+        |  cursor: [EMPTY]
         |  local-vars: {}
         |}""".stripMargin
     )
@@ -218,7 +218,7 @@ class BeautifierTinyTest extends IRTest {
         "λ(GLOBAL.id[3.0])"
     )
     test("Clo")(
-      Clo("clo", idList, MMap[Id, Value](Id("z") -> Num(3.0)), InstCursor(Nil)) ->
+      Clo("clo", idList, MMap[Id, Value](Id("z") -> Num(3.0)), InstCursor(ISeq(Nil), Nil)) ->
         "clo:closure(x, y)[z -> 3.0] => ..."
     )
     test("Cont")(

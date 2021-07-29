@@ -139,6 +139,7 @@ trait Walker {
 
   // states
   def walk(st: State): State = State(
+    st.cursorGen,
     walk(st.context),
     walkList[Context](st.ctxtStack, walk),
     walkMap[Id, Value](st.globals, walk, walk),
@@ -147,7 +148,7 @@ trait Walker {
 
   // contexts
   def walk(ctxt: Context): Context = Context(
-    walk(ctxt.cursor),
+    walkOpt[Cursor](ctxt.cursorOpt, walk),
     walk(ctxt.retId),
     walk(ctxt.name),
     ctxt.algo,
@@ -156,8 +157,10 @@ trait Walker {
 
   // cursors
   def walk(cursor: Cursor): Cursor = cursor match {
-    case InstCursor(insts) => InstCursor(walkList[Inst](insts, walk))
-    case NodeCursor(node) => NodeCursor(node)
+    case InstCursor(cur, rest) =>
+      InstCursor(walk(cur), walkList[Inst](rest, walk))
+    case NodeCursor(node) =>
+      NodeCursor(node)
   }
 
   // heaps

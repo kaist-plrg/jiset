@@ -12,9 +12,6 @@ class Beautifier(
   index: Boolean = false,
   asite: Boolean = false
 ) {
-  // visible length when `detail` is false
-  val VISIBLE_LENGTH = 10
-
   // pair appender
   implicit def pairApp[T, U](
     implicit
@@ -241,7 +238,7 @@ class Beautifier(
   //////////////////////////////////////////////////////////////////////////////
   // states
   implicit lazy val StateApp: App[State] = (app, st) => {
-    val State(context, ctxtStack, globals, heap) = st
+    val State(_, context, ctxtStack, globals, heap) = st
     app >> "context: " >> context >> LINE_SEP
     implicit val c = ListApp[String]("[", ", ", "]")
     app >> "context-stack: " >> ctxtStack.map(_.name) >> LINE_SEP
@@ -252,21 +249,17 @@ class Beautifier(
 
   // contexts
   implicit lazy val ContextApp: App[Context] = (app, context) => app.wrap {
-    val Context(cursor, retId, name, _, locals) = context
+    val Context(cursorOpt, retId, name, _, locals) = context
     app :> "name: " >> name >> LINE_SEP
     app :> "return: " >> retId >> LINE_SEP
-    cursor match {
-      case InstCursor(insts) => {
-        app :> "insts: "
-        if (detail) app.listWrap(insts) >> LINE_SEP
-        else {
-          val newInsts = (insts.slice(0, VISIBLE_LENGTH) ++
-            (if (insts.length > VISIBLE_LENGTH) Some("...") else None))
-          app.listWrap(insts, true) >> LINE_SEP
-        }
-      }
-      case _ => ??? // TODO
+    app :> "cursor: "
+    cursorOpt match {
+      case None => app >> "[EMPTY]"
+      case Some(InstCursor(cur, rest)) =>
+        app >> "[INST] " >> cur >> " [# rest: " >> rest.size >> "]"
+      case Some(NodeCursor(node)) => ??? // TODO
     }
+    app >> LINE_SEP
     app :> "local-vars: "
     app.listWrap(locals) >> LINE_SEP
   }

@@ -6,6 +6,7 @@ import scala.collection.mutable.{ Map => MMap }
 
 // IR States
 case class State(
+  val cursorGen: CursorGen[_ <: Cursor] = InstCursor,
   var context: Context = Context(),
   var ctxtStack: List[Context] = Nil,
   val globals: MMap[Id, Value] = MMap(),
@@ -92,12 +93,20 @@ case class State(
     val newCtxtStack = ctxtStack.map(_.copied)
     val newGlobals = MMap.from(globals)
     val newHeap = heap.copied
-    State(newContext, newCtxtStack, newGlobals, newHeap)
+    State(cursorGen, newContext, newCtxtStack, newGlobals, newHeap)
   }
 
+  // move to the next cursor
+  def moveNext: Unit = context.cursorOpt = context.cursorOpt.flatMap(_.next)
 }
 object State {
-  def apply(program: Program): State = State(
-    context = Context(cursor = InstCursor(program.insts))
-  )
+  def apply[T <: Cursor](cursorGen: CursorGen[T]) = new Generator(cursorGen)
+  class Generator[T <: Cursor](cursorGen: CursorGen[T]) {
+    def apply(program: Program): State = apply(program.insts)
+    def apply(insts: List[Inst]): State = apply(ISeq(insts))
+    def apply(inst: Inst): State = State(
+      cursorGen = cursorGen,
+      context = Context(cursorOpt = Some(InstCursor(inst))),
+    )
+  }
 }

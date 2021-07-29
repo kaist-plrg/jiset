@@ -14,7 +14,7 @@ case object IRLoad extends Phase[Program, IRLoadConfig, State] {
     program: Program,
     jisetConfig: JISETConfig,
     config: IRLoadConfig
-  ): State = State(program)
+  ): State = State(InstCursor)(program)
 
   def defaultConfig: IRLoadConfig = IRLoadConfig()
   val options: List[PhaseOption[IRLoadConfig]] = List()

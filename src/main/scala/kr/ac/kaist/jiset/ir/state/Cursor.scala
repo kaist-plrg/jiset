@@ -1,25 +1,35 @@
 package kr.ac.kaist.jiset.ir
 
+import kr.ac.kaist.jiset.js.cfg
 import kr.ac.kaist.jiset.cfg._
 
-// evaluation cursor
+// evaluation cursors
 sealed trait Cursor extends IRComponent {
-  def currentInst: Option[Inst] = this match {
-    case InstCursor(insts) => insts.headOption
-    case _ => None
-  }
-  def ++:(insts: List[Inst]): Cursor = this match {
-    case (icursor: InstCursor) => InstCursor(insts ++ icursor.insts)
-    case (ncursor: NodeCursor) => ??? // TODO
-  }
-  def ::(inst: Inst): Cursor = this match {
-    case (icursor: InstCursor) => InstCursor(inst :: icursor.insts)
-    case (ncursor: NodeCursor) => ??? // TODO
-  }
-  def replaceWith(inst: Inst): Cursor = this match {
-    case (icursor: InstCursor) => InstCursor(List(inst))
-    case (ncursor: NodeCursor) => ??? // TODO
+  // next cursor
+  def next: Option[Cursor] = this match {
+    case InstCursor(_, rest) => InstCursor.from(rest)
+    case NodeCursor(linear: Linear) => Some(NodeCursor(cfg.nextOf(linear)))
+    case NodeCursor(_) => None
   }
 }
-case class InstCursor(insts: List[Inst]) extends Cursor
-case class NodeCursor(nodeOpt: Option[Node]) extends Cursor
+
+// generator of evaluation cursors
+sealed trait CursorGen[T <: Cursor] {
+  def apply(inst: Inst): T
+}
+
+// instruction cursors
+case class InstCursor(cur: Inst, rest: List[Inst]) extends Cursor
+object InstCursor extends CursorGen[InstCursor] {
+  def apply(inst: Inst): InstCursor = InstCursor(inst, Nil)
+  def from(insts: List[Inst]): Option[InstCursor] = insts match {
+    case cur :: rest => Some(InstCursor(cur, rest))
+    case Nil => None
+  }
+}
+
+// CFG node cursors
+case class NodeCursor(node: Node) extends Cursor
+object NodeCursor extends CursorGen[NodeCursor] {
+  def apply(inst: Inst): NodeCursor = ???
+}

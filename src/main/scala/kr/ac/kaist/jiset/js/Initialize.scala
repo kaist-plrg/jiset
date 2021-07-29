@@ -19,7 +19,8 @@ object Initialize {
     bodyOpt: Option[ScriptBody],
     filename: String
   ): State = State(
-    context = Context(cursor = InstCursor(List(inst))),
+    cursorGen = InstCursor,
+    context = Context(cursorOpt = Some(InstCursor(inst))),
     ctxtStack = Nil,
     globals = initGlobal(bodyOpt, filename),
     heap = initHeap,
