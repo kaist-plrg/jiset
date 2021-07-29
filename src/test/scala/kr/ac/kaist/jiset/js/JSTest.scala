@@ -33,10 +33,11 @@ trait JSTest extends IRTest {
   }
 
   // eval JS codes
-  def eval(script: Script): State = Interp(load(script))
-  def eval(str: String): State = eval(parse(str))
+  def eval(str: String): State = eval(parse(str), None)
   def evalFile(filename: String): State =
-    Interp(load(parseFile(filename), Some(filename)))
+    eval(parseFile(filename), Some(filename))
+  def eval(script: Script, fnameOpt: Option[String]): State =
+    Interp(load(script, fnameOpt))
 
   // tests for JS parser
   def parseTest(ast: AST): Unit = {
@@ -79,9 +80,10 @@ trait JSTest extends IRTest {
     case Absent => fail("no return value")
     case v => fail(s"return not an address: ${v.beautified}")
   }
-  def evalTest(script: Script): Unit = evalTest(eval(script))
   def evalTest(str: String): Unit = evalTest(eval(str))
   def evalTestFile(filename: String): Unit = evalTest(evalFile(filename))
+  def evalTest(script: Script, filename: String): Unit =
+    evalTest(eval(script, Some(filename)))
 
   // conversion extension from .js to .ir
   val js2ir = changeExt("js", "ir")

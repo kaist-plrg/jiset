@@ -58,6 +58,7 @@ class Interp(
   final def step: Boolean = nextTarget match {
     case Terminate =>
       // stop evaluation
+      if (STAT) Stat.recordIter(st.fnameOpt, iter)
       false
     case ReturnUndef =>
       // do return

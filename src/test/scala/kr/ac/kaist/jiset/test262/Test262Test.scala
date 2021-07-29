@@ -47,7 +47,7 @@ trait Test262Test extends JSTest {
           case Left(msg) => throw NotSupported(msg)
         }
         val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
-        evalTest(mergeStmt(stmts))
+        evalTest(mergeStmt(stmts), jsName)
         summary.passes += name
       }.foreach {
         case InterpTimeout => summary.timeouts += name
@@ -56,7 +56,9 @@ trait Test262Test extends JSTest {
       }
     }
     summary.close
-    dumpFile(Stat, s"$logDir/$name-stat")
+
+    // statistics
+    Stat.dumpTo(s"$logDir/$name-stat")
     dumpFile(summary, s"$logDir/$name-summary")
     if (summary.timeout > 0) println(s"${summary.timeout} tests are timeout.")
     if (summary.yet > 0) println(s"${summary.yet} tests are not yet supported.")
