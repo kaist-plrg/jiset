@@ -13,7 +13,7 @@ trait JSTest extends IRTest {
   override def category: String = "js"
 
   // cursor generator
-  val cursorGen: CursorGen[_ <: Cursor] = InstCursor
+  val cursorGen: CursorGen[_ <: Cursor] = NodeCursor
 
   // parse JS codes
   def parse(str: String): Script =

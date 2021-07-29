@@ -326,7 +326,7 @@ class Interp(
   // return helper
   def doReturn(value: Value): Unit = st.ctxtStack match {
     case Nil =>
-      st.context.locals += Id(RESULT) -> value
+      st.context.locals += Id(RESULT) -> value.wrapCompletion(st)
       st.context.cursorOpt = None
     case ctxt :: rest => {
       // proper type handle
