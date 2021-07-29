@@ -81,8 +81,12 @@ object JvmUseful {
     jisetConfig.args.headOption.getOrElse(throw NoFileError(msg))
 
   // read file
-  def readFile(filename: String): String =
-    Source.fromFile(filename, ENC).mkString
+  def readFile(filename: String): String = {
+    val source = Source.fromFile(filename, ENC)
+    val str = source.mkString
+    source.close
+    str
+  }
 
   // read JSON
   def readJson[T](filename: String)(implicit decoder: Decoder[T]): T =
