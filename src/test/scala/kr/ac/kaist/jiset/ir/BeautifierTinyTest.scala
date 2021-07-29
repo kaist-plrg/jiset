@@ -161,7 +161,8 @@ class BeautifierTinyTest extends IRTest {
       |}
       |context-stack: []
       |globals: {}
-      |heap: (SIZE = 0): {}""".stripMargin
+      |heap: (SIZE = 0): {}
+      |filename: UNKNOWN""".stripMargin
     )
     test("Context")(
       Context() -> """{

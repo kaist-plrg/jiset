@@ -27,16 +27,16 @@ trait JSTest extends IRTest {
     }
 
   // load initial codes
-  def load(script: Script, filename: String = "unknown"): State = {
+  def load(script: Script, fnameOpt: Option[String] = None): State = {
     setTarget(loadSpec(s"$VERSION_DIR/generated"))
-    Initialize(script, filename, cursorGen)
+    Initialize(script, fnameOpt, cursorGen)
   }
 
   // eval JS codes
   def eval(script: Script): State = Interp(load(script))
   def eval(str: String): State = eval(parse(str))
   def evalFile(filename: String): State =
-    Interp(load(parseFile(filename), filename))
+    Interp(load(parseFile(filename), Some(filename)))
 
   // tests for JS parser
   def parseTest(ast: AST): Unit = {

@@ -238,13 +238,14 @@ class Beautifier(
   //////////////////////////////////////////////////////////////////////////////
   // states
   implicit lazy val StateApp: App[State] = (app, st) => {
-    val State(_, context, ctxtStack, globals, heap) = st
+    val State(_, context, ctxtStack, globals, heap, fnameOpt) = st
     app >> "context: " >> context >> LINE_SEP
     implicit val c = ListApp[String]("[", ", ", "]")
     app >> "context-stack: " >> ctxtStack.map(_.name) >> LINE_SEP
     app >> "globals: "
     app.listWrap(globals, detail) >> LINE_SEP
-    app >> "heap: " >> heap
+    app >> "heap: " >> heap >> LINE_SEP
+    app >> "filename: " >> fnameOpt.getOrElse("UNKNOWN")
   }
 
   // contexts

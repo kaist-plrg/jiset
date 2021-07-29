@@ -28,7 +28,7 @@ class Interp(
 
   // the number of instructions
   def getIter: Int = iter
-  var iter: Int = 0
+  private var iter: Int = 0
 
   // iteration period for check
   val CHECK_PERIOD = 10000
@@ -303,7 +303,7 @@ class Interp(
         )
       }
       case IWithCont(id, params, body) => {
-        val State(_, context, ctxtStack, _, _) = st
+        val State(_, context, ctxtStack, _, _, _) = st
         st.context = context.copied
         st.context.cursorOpt = cursorGen(body)
         st.context.locals += id -> Cont(params, context, ctxtStack)

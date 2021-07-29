@@ -21,7 +21,7 @@ case object Load extends Phase[Script, LoadConfig, State] {
   ): State = {
     val filename = getFirstFilename(jisetConfig, "load")
     setTarget(loadSpec(s"$VERSION_DIR/generated"))
-    Initialize(script, filename, config.cursorGen)
+    Initialize(script, Some(filename), config.cursorGen)
   }
 
   def defaultConfig: LoadConfig = LoadConfig()

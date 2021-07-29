@@ -100,7 +100,9 @@ case class Heap(
     ty: Ty,
     m: Map[Value, Value] = Map()
   ): Addr = {
-    val irMap = IRMap(ty, ty.methods, 0L)
+    val irMap =
+      if (ty.name == "Record") IRMap(ty, MMap(), 0L)
+      else IRMap(ty, ty.methods, 0L)
     for ((k, v) <- m) irMap.update(k, v)
     if (ty.hasSubMap) {
       val subMap = IRMap(Ty("SubMap"))

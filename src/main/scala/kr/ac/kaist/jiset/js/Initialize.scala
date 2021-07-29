@@ -10,41 +10,27 @@ import scala.collection.mutable.{ Map => MMap }
 object Initialize {
   def apply(
     script: Script,
-    filename: String = "unknown",
+    fnameOpt: Option[String] = None,
     cursorGen: CursorGen[_ <: Cursor] = InstCursor
   ): State = {
     val Script0(bodyOpt, _, _) = script
-    val runJobsAlgo = algos("RunJobs")
-    initState(
+    val cursorOpt =
+      if (bodyOpt.isDefined) cursorGen(algos("RunJobs").body)
+      else None
+    State(
       cursorGen = cursorGen,
-      inst = if (bodyOpt.isDefined) runJobsAlgo.body else ISeq(Nil),
-      bodyOpt = bodyOpt,
-      filename = filename,
+      context = Context(cursorOpt = cursorOpt),
+      ctxtStack = Nil,
+      globals = initGlobal(bodyOpt),
+      heap = initHeap,
+      fnameOpt = fnameOpt,
     )
   }
 
-  // initial state
-  def initState(
-    cursorGen: CursorGen[_ <: Cursor],
-    inst: Inst,
-    bodyOpt: Option[ScriptBody],
-    filename: String
-  ): State = State(
-    cursorGen = cursorGen,
-    context = Context(cursorOpt = cursorGen(inst)),
-    ctxtStack = Nil,
-    globals = initGlobal(bodyOpt, filename),
-    heap = initHeap,
-  )
-
   // initial global variables
-  def initGlobal(
-    bodyOpt: Option[ScriptBody],
-    filename: String
-  ): MMap[Id, Value] = {
+  def initGlobal(bodyOpt: Option[ScriptBody]): MMap[Id, Value] = {
     val map = MMap[Id, Value]()
     bodyOpt.map(body => map += Id(SCRIPT_BODY) -> ASTVal(body))
-    map += Id(FILENAME) -> Str(filename)
     for (c <- consts) {
       map += Id(CONST_PREFIX + c) -> NamedAddr(CONST_PREFIX + c)
     }

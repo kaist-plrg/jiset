@@ -33,7 +33,7 @@ lazy val extractGrammarTest = taskKey[Unit]("Launch grammar extract tests (small
 lazy val irTest = taskKey[Unit]("Launch ir tests")
 lazy val irParseTest = taskKey[Unit]("Launch parse ir tests (tiny)")
 lazy val irBeautifierTest = taskKey[Unit]("Launch beautifier ir tests (tiny)")
-lazy val irEvalTest = taskKey[Unit]("Launch eval ir tests (small)")
+lazy val irEvalTest = taskKey[Unit]("Launch eval ir tests (tiny)")
 
 // js
 lazy val jsTest = taskKey[Unit]("Launch js tests")

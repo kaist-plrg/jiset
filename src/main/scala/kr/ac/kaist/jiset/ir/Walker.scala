@@ -143,7 +143,8 @@ trait Walker {
     walk(st.context),
     walkList[Context](st.ctxtStack, walk),
     walkMap[Id, Value](st.globals, walk, walk),
-    walk(st.heap)
+    walk(st.heap),
+    st.fnameOpt
   )
 
   // contexts

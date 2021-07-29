@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.js.cfg
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.util.Useful._
 
 // evaluation cursors
 sealed trait Cursor extends IRComponent {
@@ -31,7 +32,10 @@ object InstCursor extends CursorGen[InstCursor] {
 // CFG node cursors
 case class NodeCursor(node: Node) extends Cursor
 object NodeCursor extends CursorGen[NodeCursor] {
-  def apply(body: Inst): Option[NodeCursor] = for {
-    func <- cfg.bodyFuncMap.get(body.uid)
-  } yield NodeCursor(func.entry)
+  def apply(body: Inst): Option[NodeCursor] = {
+    val func = cfg.bodyFuncMap.getOrElse(body.uid, {
+      error(s"impossible node cursor: ${body.beautified}")
+    })
+    Some(NodeCursor(func.entry))
+  }
 }

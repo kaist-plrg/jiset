@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.JvmUseful._
 
-class EvalSmallTest extends IRTest {
+class EvalTinyTest extends IRTest {
   val name: String = "irEvalTest"
 
   // registration
