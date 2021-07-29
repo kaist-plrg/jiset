@@ -30,7 +30,10 @@ object Initialize {
   // initial global variables
   def initGlobal(bodyOpt: Option[ScriptBody]): MMap[Id, Value] = {
     val map = MMap[Id, Value]()
-    bodyOpt.map(body => map += Id(SCRIPT_BODY) -> ASTVal(body))
+    bodyOpt.map(body => {
+      CleanStaticMap.walk(body)
+      map += Id(SCRIPT_BODY) -> ASTVal(body)
+    })
     for (c <- consts) {
       map += Id(CONST_PREFIX + c) -> NamedAddr(CONST_PREFIX + c)
     }

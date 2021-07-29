@@ -18,7 +18,7 @@ case class WalkerGenerator(grammar: Grammar) {
     nf.println
     nf.println(s"""import $PACKAGE_NAME.js.ast._""")
     nf.println
-    nf.println(s"""object ASTWalker {""")
+    nf.println(s"""trait ASTWalker {""")
     nf.println(s"""  def job(ast: AST): Unit = {}""")
     nf.println(s"""  def walk[T](opt: Option[T], w: T => Unit): Unit = opt.map(w)""")
     nf.println(s"""  def walk(lex: Lexical): Unit = {}""")

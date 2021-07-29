@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.js
 
 import kr.ac.kaist.jiset.js.ast._
 
-object ASTWalker {
+trait ASTWalker {
   def job(ast: AST): Unit = {}
   def walk[T](opt: Option[T], w: T => Unit): Unit = opt.map(w)
   def walk(lex: Lexical): Unit = {}

@@ -23,6 +23,9 @@ trait AST {
   var start: Int = 0
   var end: Int = 0
 
+  // static semantics
+  var staticMap: Map[String, Value] = Map()
+
   // name
   def name: String = kind + idx
 

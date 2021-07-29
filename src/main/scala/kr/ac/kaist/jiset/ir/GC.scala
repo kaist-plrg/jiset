@@ -2,13 +2,14 @@ package kr.ac.kaist.jiset.ir
 
 // Garbage Collector
 object GC {
-  def apply(st: State): Unit = {
+  def apply(st: State, rootValues: Set[Value]): Unit = {
     var addrSet: Set[Addr] = Set()
     val walker = new UnitWalker {
       override def walk(addr: Addr): Unit = addrSet += addr
       override def walk(heap: Heap): Unit = {}
     }
     walker.walk(st)
+    rootValues.map(walker.walk)
 
     val heap = st.heap
     val map = heap.map

@@ -152,6 +152,7 @@ trait Walker {
     walkOpt[Cursor](ctxt.cursorOpt, walk),
     walk(ctxt.retId),
     walk(ctxt.name),
+    ctxt.astOpt,
     ctxt.algo,
     walkMap[Id, Value](ctxt.locals, walk, walk)
   )

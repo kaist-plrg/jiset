@@ -250,7 +250,7 @@ class Beautifier(
 
   // contexts
   implicit lazy val ContextApp: App[Context] = (app, context) => app.wrap {
-    val Context(cursorOpt, retId, name, _, locals) = context
+    val Context(cursorOpt, retId, name, _, _, locals) = context
     app :> "name: " >> name >> LINE_SEP
     app :> "return: " >> retId >> LINE_SEP
     app :> "cursor: "

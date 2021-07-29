@@ -90,7 +90,7 @@ class Interp(
       })
 
       // garbage collection
-      if (iter % 100000 == 0) GC(st)
+      if (iter % 100000 == 0) GC(st, storedValues)
 
       // keep going
       true
@@ -163,7 +163,7 @@ class Interp(
           val vs = args.map(interp)
           val locals = getLocals(head.params, vs)
           val cursorOpt = cursorGen(body)
-          val context = Context(cursorOpt, id, head.name, Some(algo), locals)
+          val context = Context(cursorOpt, id, head.name, None, Some(algo), locals)
           if (STAT) Stat.touchAlgo(algo.name)
           st.ctxtStack ::= st.context
           st.context = context
@@ -174,7 +174,7 @@ class Interp(
         case Clo(ctxtName, params, locals, cursorOpt) => {
           val vs = args.map(interp)
           val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
-          val context = Context(cursorOpt, id, ctxtName + ":closure", None, locals)
+          val context = Context(cursorOpt, id, ctxtName + ":closure", None, None, locals)
           st.ctxtStack ::= st.context
           st.context = context
 
@@ -219,25 +219,31 @@ class Interp(
           case (ASTVal(ast), Str("parent")) => Some(ast.parent.map(ASTVal).getOrElse(Absent))
           case (ASTVal(ast), Str("children")) => Some(st.allocList(ast.children))
           case (ASTVal(ast), Str("kind")) => Some(Str(ast.kind))
-          case (ASTVal(ast), Str(name)) => ast.semantics(name) match {
-            case Some((algo, asts)) => {
-              val head = algo.head
-              val body = algo.body
-              val vs = asts ++ args.map(interp)
-              val locals = getLocals(head.params, vs)
-              val cursorOpt = cursorGen(body)
-              val context = Context(cursorOpt, id, head.name, Some(algo), locals)
-              if (STAT) Stat.touchAlgo(algo.name)
-              st.ctxtStack ::= st.context
-              st.context = context
+          case (ASTVal(ast), Str(name)) => ast.staticMap.get(name) match {
+            case Some(value) => Some((value match {
+              case addr: DynamicAddr => st.copyObj(addr)
+              case _ => value
+            }).wrapCompletion(st))
+            case None => ast.semantics(name) match {
+              case Some((algo, asts)) => {
+                val head = algo.head
+                val body = algo.body
+                val vs = asts ++ args.map(interp)
+                val locals = getLocals(head.params, vs)
+                val cursorOpt = cursorGen(body)
+                val context = Context(cursorOpt, id, head.name, Some(ast), Some(algo), locals)
+                if (STAT) Stat.touchAlgo(algo.name)
+                st.ctxtStack ::= st.context
+                st.context = context
 
-              // use hooks
-              if (useHook) notify(Event.Call)
-              None
+                // use hooks
+                if (useHook) notify(Event.Call)
+                None
+              }
+              case None => Some(ast.subs(name).getOrElse {
+                error(s"unexpected semantics: ${ast.name}.$name")
+              })
             }
-            case None => Some(ast.subs(name).getOrElse {
-              error(s"unexpected semantics: ${ast.name}.$name")
-            })
           }
           case (addr: Addr, _) => Some(st(addr, prop))
           case (Str(str), _) => Some(st(str, prop))
@@ -324,6 +330,27 @@ class Interp(
   // return value
   private case class ReturnValue(value: Value) extends Throwable
 
+  // store abstract semantics results
+  var storedValues: Set[Value] = Set()
+  def storeStatic(value: Value): Unit = for {
+    ast <- st.context.astOpt
+    algo <- st.context.algo
+    name <- algo.head match {
+      case h: SyntaxDirectedHead if h.isStatic => Some(h.methodName)
+      case _ => None
+    }
+  } {
+    val rawValue = (
+      if (value.isAbruptCompletion(st)) value
+      else value.escaped(st)
+    ) match {
+        case addr: DynamicAddr => st.copyObj(addr)
+        case value => value
+      }
+    ast.staticMap += name -> rawValue
+    storedValues += rawValue
+  }
+
   // return helper
   def doReturn(value: Value): Unit = st.ctxtStack match {
     case Nil =>
@@ -337,6 +364,10 @@ class Interp(
         case _ =>
       }
 
+      // store abstract semantics results
+      storeStatic(value)
+
+      // return wrapped values
       ctxt.locals += st.context.retId -> value.wrapCompletion(st)
       st.context = ctxt
       st.ctxtStack = rest
