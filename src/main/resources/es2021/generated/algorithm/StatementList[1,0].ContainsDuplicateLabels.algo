@@ -1,4 +1,4 @@
-def [SYNTAX] StatementList[1,0].ContainsDuplicateLabels<(StatementList, StatementListItem),false>(labelSet) = {
+def [SYNTAX] StatementList[1,0].ContainsDuplicateLabels[S]<(StatementList, StatementListItem),false>(labelSet) = {
   0:access __x0__ = (StatementList "ContainsDuplicateLabels" labelSet)
   0:let hasDuplicates = __x0__
   1:if (= hasDuplicates true) 1:return true else 1:{}

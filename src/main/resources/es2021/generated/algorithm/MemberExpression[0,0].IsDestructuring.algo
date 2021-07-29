@@ -1,4 +1,4 @@
-def [SYNTAX] MemberExpression[0,0].IsDestructuring<(PrimaryExpression),true>() = {
+def [SYNTAX] MemberExpression[0,0].IsDestructuring[S]<(PrimaryExpression),true>() = {
   0:if (|| (is-instance-of PrimaryExpression ObjectLiteral) (is-instance-of PrimaryExpression ArrayLiteral)) 0:return true else 0:{}
   1:return false
 }

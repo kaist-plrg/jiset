@@ -36,7 +36,12 @@ object HeadParser extends HeadParsers {
     // extract name
     val from = str.indexOf("(")
     var name = if (from == -1) str else str.substring(0, from)
-    name = prefixPattern.replaceFirstIn(name, "").trim
+    val isStatic = name match {
+      case semanticsPattern(kind, x) =>
+        name = x
+        kind == "Static"
+      case _ => false
+    }
     name = "[-/\\s]".r.replaceAllIn(name, "")
     if (!nameCheck(name)) error(s"not target algorithm: $str")
 
@@ -51,7 +56,7 @@ object HeadParser extends HeadParsers {
     if (isEquation(elem))
       getEquationHead(name, params)
     else if (isSyntaxDirected(prev))
-      getSyntaxDirectedHead(name, headElem, prev)
+      getSyntaxDirectedHead(name, isStatic, headElem, prev)
     else if (isEnvMethod(prev, elem, envRange))
       getEnvMethodHead(name, prev, elem, params)
     else if (isObjMethod(name))
@@ -110,6 +115,7 @@ object HeadParser extends HeadParsers {
   // syntax directed head
   def getSyntaxDirectedHead(
     tempName: String,
+    isStatic: Boolean,
     headElem: Element,
     prev: Element
   )(implicit grammar: Grammar, lines: Array[String]): List[Head] = {
@@ -129,7 +135,9 @@ object HeadParser extends HeadParsers {
       if (isCoreSyntax(prev)) prev
       else getElems(prev, "emu-grammar")(0)
 
+    // algorithm body
     val body = getRawBody(target).map(unescapeHtml(_)).toList
+
     // get head
     for {
       code <- splitBy(body, "")
@@ -141,7 +149,10 @@ object HeadParser extends HeadParsers {
       (i, j) = idxMap(syntax)
       rhsParams = Param.fromGrammar(grammar, lhsName, i)
       needPrefix = !(rhs.getNTs.map(_.name) contains lhsName)
-    } yield SyntaxDirectedHead(lhsName, i, j, rhsParams, name, withParams, needPrefix)
+    } yield SyntaxDirectedHead(
+      lhsName, i, j, rhsParams,
+      name, isStatic, withParams, needPrefix
+    )
   }
 
   // check whether current algorithm head is for environment record

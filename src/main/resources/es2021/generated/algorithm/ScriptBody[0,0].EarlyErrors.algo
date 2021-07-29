@@ -1,4 +1,4 @@
-def [SYNTAX] ScriptBody[0,0].EarlyErrors<(StatementList),true>() = {
+def [SYNTAX] ScriptBody[0,0].EarlyErrors[S]<(StatementList),true>() = {
   0:??? "It is a Syntax Error if nt:{StatementList} Contains code:{super} unless the source code containing code:{super} is eval code that is being processed by a direct eval . Additional early error rules for code:{super} within direct eval are defined in link:{sec-performeval} ."
   1:??? "It is a Syntax Error if nt:{StatementList} Contains nt:{NewTarget} unless the source code containing nt:{NewTarget} is eval code that is being processed by a direct eval . Additional early error rules for nt:{NewTarget} in direct eval are defined in link:{sec-performeval} ."
   2:access __x0__ = (StatementList "ContainsDuplicateLabels" (new []))

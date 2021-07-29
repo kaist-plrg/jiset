@@ -17,7 +17,7 @@ trait Head extends SpecComponent {
       name
     case MethodHead(base, methodName, _, _) =>
       s"$base.$methodName"
-    case SyntaxDirectedHead(lhsName, idx, subIdx, _, methodName, _, _) =>
+    case SyntaxDirectedHead(lhsName, idx, subIdx, _, methodName, _, _, _) =>
       s"$lhsName[$idx,$subIdx].$methodName"
     case BuiltinHead(ref, origParams) =>
       s"GLOBAL.${ref.beautified}"
@@ -29,7 +29,7 @@ trait Head extends SpecComponent {
       params
     case MethodHead(_, _, receiverParam, origParams) =>
       receiverParam :: origParams
-    case SyntaxDirectedHead(_, _, _, rhsParams, _, withParams, _) =>
+    case SyntaxDirectedHead(_, _, _, rhsParams, _, _, withParams, _) =>
       Param(THIS_PARAM) :: (rhsParams ++ withParams)
     case BuiltinHead(ref, origParams) =>
       List(THIS_PARAM, ARGS_LIST, NEW_TARGET).map(Param(_))
@@ -46,7 +46,7 @@ object Head extends Parser[Head] {
   val paramPattern = "[^\\s,()\\[\\]]+".r
   val rulePattern = ".*(Statement|Expression)\\s*Rules".r
   val namePattern = "[.:a-zA-Z0-9%\\[\\]@ /`_-]+".r
-  val prefixPattern = ".*Semantics:".r
+  val semanticsPattern = ".*(Static|Runtime) Semantics:(.*)".r
   val withParamPattern = "_\\w+_".r
   val optionalParamPattern = "optional parameter(s?).*".r
   val restParamPattern = "rest parameter(s?).*".r
@@ -87,6 +87,7 @@ case class SyntaxDirectedHead(
   subIdx: Int,
   rhsParams: List[Param],
   methodName: String,
+  isStatic: Boolean,
   withParams: List[Param],
   needPrefix: Boolean
 ) extends Head

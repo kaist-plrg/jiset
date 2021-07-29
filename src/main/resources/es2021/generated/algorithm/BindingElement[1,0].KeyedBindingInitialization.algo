@@ -1,4 +1,4 @@
-def [SYNTAX] BindingElement[1,0].KeyedBindingInitialization<(BindingPattern, Initializer),true>(value, environment, propertyName) = {
+def [SYNTAX] BindingElement[1,0].KeyedBindingInitialization[R]<(BindingPattern, Initializer),true>(value, environment, propertyName) = {
   0:app __x0__ = (GetV value propertyName)
   0:let v = [? __x0__]
   1:if (&& (! (= Initializer absent)) (= v undefined)) 1:{

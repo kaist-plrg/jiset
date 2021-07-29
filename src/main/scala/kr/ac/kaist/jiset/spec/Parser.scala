@@ -46,8 +46,8 @@ trait Parsers extends BasicParsers with ir.Parsers {
       case x ~ ps => NormalHead(x, ps)
     } | "[METHOD]" ~> name ~ ("." ~> name) ~ ("(" ~> param <~ ")") ~ params ^^ {
       case b ~ f ~ r ~ ps => MethodHead(b, f, r, ps)
-    } | "[SYNTAX]" ~> name ~ ("[" ~> int) ~ ("," ~> int <~ "].") ~ name ~ ("<" ~> params <~ ",") ~ (boolean <~ ">") ~ params ^^ {
-      case l ~ i ~ j ~ m ~ rs ~ b ~ ps => SyntaxDirectedHead(l, i, j, rs, m, ps, b)
+    } | "[SYNTAX]" ~> name ~ ("[" ~> int) ~ ("," ~> int <~ "].") ~ name ~ ("[" ~> "[SR]".r <~ "]") ~ ("<" ~> params <~ ",") ~ (boolean <~ ">") ~ params ^^ {
+      case l ~ i ~ j ~ m ~ s ~ rs ~ b ~ ps => SyntaxDirectedHead(l, i, j, rs, m, s == "S", ps, b)
     } | "[BUILTIN]" ~> ref ~ params ^^ {
       case r ~ ps => BuiltinHead(r, ps)
     }

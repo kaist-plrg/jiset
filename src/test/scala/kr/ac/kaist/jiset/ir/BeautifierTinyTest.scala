@@ -210,7 +210,7 @@ class BeautifierTinyTest extends IRTest {
         "λ(normalname)",
       Func(Algo(MethodHead("base", "methodname", Param("p"), List()), "x", IExpr(EINum(4)), List())) ->
         "λ(base.methodname)",
-      Func(Algo(SyntaxDirectedHead("lhsname", 0, 1, List(), "methodname", List(), true), "x", IExpr(EINum(4)), List())) ->
+      Func(Algo(SyntaxDirectedHead("lhsname", 0, 1, List(), "methodname", true, List(), true), "x", IExpr(EINum(4)), List())) ->
         "λ(lhsname[0,1].methodname)",
       Func(Algo(BuiltinHead(RefId(Id("id")), List()), "x", IExpr(EINum(4)), List())) ->
         "λ(GLOBAL.id)",

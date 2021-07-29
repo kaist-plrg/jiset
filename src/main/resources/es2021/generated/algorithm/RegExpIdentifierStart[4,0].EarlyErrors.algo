@@ -1,4 +1,4 @@
-def [SYNTAX] RegExpIdentifierStart[4,0].EarlyErrors<(UnicodeLeadSurrogate, UnicodeTrailSurrogate),true>() = 0:??? "It is a Syntax Error if the result of performing UTF16SurrogatePairToCodePoint on the two code points matched by nt:{UnicodeLeadSurrogate} and nt:{UnicodeTrailSurrogate} respectively is not matched by the nt:{UnicodeIDStart} lexical grammar production ."
+def [SYNTAX] RegExpIdentifierStart[4,0].EarlyErrors[S]<(UnicodeLeadSurrogate, UnicodeTrailSurrogate),true>() = 0:??? "It is a Syntax Error if the result of performing UTF16SurrogatePairToCodePoint on the two code points matched by nt:{UnicodeLeadSurrogate} and nt:{UnicodeTrailSurrogate} respectively is not matched by the nt:{UnicodeIDStart} lexical grammar production ."
 - id: "sec-patterns-static-semantics-early-errors"
 - code:
           <li>

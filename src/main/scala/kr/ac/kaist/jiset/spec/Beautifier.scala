@@ -72,8 +72,10 @@ object Beautifier {
         app >> name >> params
       case MethodHead(_, _, receiverParam, origParams) =>
         app >> "[METHOD] " >> name >> List(receiverParam) >> origParams
-      case SyntaxDirectedHead(_, _, _, rhsParams, _, withParams, needPrefix) =>
-        app >> "[SYNTAX] " >> name >> "<" >> rhsParams >> "," >> needPrefix >> ">" >> withParams
+      case SyntaxDirectedHead(_, _, _, rhsParams, _, isStatic, withParams, needPrefix) =>
+        app >> "[SYNTAX] " >> name
+        app >> "[" >> (if (isStatic) "S" else "R") >> "]"
+        app >> "<" >> rhsParams >> "," >> needPrefix >> ">" >> withParams
       case BuiltinHead(ref, origParams) =>
         app >> "[BUILTIN] " >> ref >> origParams
     }
