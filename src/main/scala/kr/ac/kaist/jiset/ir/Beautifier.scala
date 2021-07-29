@@ -255,9 +255,7 @@ class Beautifier(
     app :> "cursor: "
     cursorOpt match {
       case None => app >> "[EMPTY]"
-      case Some(InstCursor(cur, rest)) =>
-        app >> "[INST] " >> cur >> " [# rest: " >> rest.size >> "]"
-      case Some(NodeCursor(node)) => ??? // TODO
+      case Some(cursor) => app >> cursor
     }
     app >> LINE_SEP
     app :> "local-vars: "
@@ -265,7 +263,12 @@ class Beautifier(
   }
 
   // cursors
-  implicit lazy val CursorApp: App[Cursor] = (app, cursor) => ??? // TODO
+  implicit lazy val CursorApp: App[Cursor] = (app, cursor) => cursor match {
+    case InstCursor(cur, rest) =>
+      app >> cur >> " [# rest: " >> rest.size >> "]"
+    case NodeCursor(node) =>
+      app >> node.beautified(detail, index, asite)
+  }
 
   // heaps
   implicit lazy val HeapApp: App[Heap] = (app, heap) => {

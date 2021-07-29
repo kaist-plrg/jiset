@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.util.Useful._
 
+// IR components
 trait IRComponent {
   def beautified: String = beautified()
   def beautified(
@@ -15,7 +16,7 @@ trait IRComponent {
   }
 }
 object IRComponent {
-  private val getBeautifier = {
+  val getBeautifier = {
     cached[(Boolean, Boolean, Boolean), Beautifier](key => {
       val (detail, index, asite) = key
       new Beautifier(detail, index, asite)

@@ -31,5 +31,7 @@ object InstCursor extends CursorGen[InstCursor] {
 // CFG node cursors
 case class NodeCursor(node: Node) extends Cursor
 object NodeCursor extends CursorGen[NodeCursor] {
-  def apply(inst: Inst): Option[NodeCursor] = ???
+  def apply(body: Inst): Option[NodeCursor] = for {
+    func <- cfg.bodyFuncMap.get(body.uid)
+  } yield NodeCursor(func.entry)
 }

@@ -10,6 +10,10 @@ class Translator {
   val fidGen: UIdGen[Function] = new UIdGen
   val nidGen: UIdGen[Node] = new UIdGen
 
+  // mapping from body instruction ids to functions
+  private var bodyFuncMap: Map[Int, Function] = Map()
+  def getBodyFuncMap: Map[Int, Function] = bodyFuncMap
+
   // translation from origins to CFG functions
   def apply(origin: Origin): List[Function] = {
     val (func, innerFuncs) = translate(origin)
@@ -115,6 +119,9 @@ class Translator {
       branches = branches,
       complete = complete,
     )
+
+    // link body instruction with the corresponding CFG function
+    bodyFuncMap += body.uid -> func
 
     (func, innerFuncs)
   }

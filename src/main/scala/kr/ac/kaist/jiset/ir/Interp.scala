@@ -1,6 +1,5 @@
 package kr.ac.kaist.jiset.ir
 
-import kr.ac.kaist.jiset.js.cfg
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.error.{ InterpTimeout, NotSupported }
 import kr.ac.kaist.jiset.js.ast.Lexical
@@ -75,8 +74,10 @@ class Interp(
       })
 
       // text-based debugging
-      if (DEBUG) {
-        println(s"${st.context.name}: ${cursor.beautified(detail = false)}")
+      if (DEBUG) cursor match {
+        case InstCursor(ISeq(_), _) =>
+        case _ =>
+          println(s"${st.context.name}: ${cursor.beautified(detail = false)}")
       }
 
       // interp the current cursor
@@ -324,7 +325,9 @@ class Interp(
 
   // return helper
   def doReturn(value: Value): Unit = st.ctxtStack match {
-    case Nil => error(s"no remaining calling contexts")
+    case Nil =>
+      st.context.locals += Id(RESULT) -> value
+      st.context.cursorOpt = None
     case ctxt :: rest => {
       // proper type handle
       (value, setTypeMap.get(st.context.name)) match {

@@ -9,6 +9,7 @@ import kr.ac.kaist.jiset.util.UIdGen
 class CFG(val spec: ECMAScript) extends CFGComponent {
   val trans: Translator = new Translator
   val funcs: List[Function] = spec.algos.flatMap(algo => trans(AlgoOrigin(algo)))
+  val bodyFuncMap: Map[Int, Function] = trans.getBodyFuncMap
   val nodes: List[Node] = funcs.flatMap(_.nodes)
   val funcOf: Map[Node, Function] = funcs.flatMap(f => f.nodes.map(_ -> f)).toMap
   val nextOf: Map[Linear, Node] = funcs.flatMap(_.nexts).toMap

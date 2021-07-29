@@ -14,9 +14,10 @@ object Initialize {
     cursorGen: CursorGen[_ <: Cursor] = InstCursor
   ): State = {
     val Script0(bodyOpt, _, _) = script
+    val runJobsAlgo = algos("RunJobs")
     initState(
       cursorGen = cursorGen,
-      inst = Inst(if (bodyOpt.isDefined) s"app $RESULT = (RunJobs)" else "{}"),
+      inst = if (bodyOpt.isDefined) runJobsAlgo.body else ISeq(Nil),
       bodyOpt = bodyOpt,
       filename = filename,
     )
