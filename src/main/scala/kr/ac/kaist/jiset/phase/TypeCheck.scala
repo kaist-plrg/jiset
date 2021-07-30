@@ -13,14 +13,14 @@ import kr.ac.kaist.jiset._
 // TypeCheck phase
 case object TypeCheck extends Phase[CFG, TypeCheckConfig, AbsSemantics] {
   val name = "type-check"
-  val help = "performs type anaysis for specifications."
+  val help = "performs type analysis for specifications."
 
   def apply(
     cfg: CFG,
     jisetConfig: JISETConfig,
     config: TypeCheckConfig
   ): AbsSemantics = {
-    // perform type anaysis
+    // perform type analysis
     performTypeAnalysis(cfg, config.load)
 
     // dump partial models

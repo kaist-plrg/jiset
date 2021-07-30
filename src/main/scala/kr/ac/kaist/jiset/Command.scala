@@ -1,8 +1,6 @@
 package kr.ac.kaist.jiset
 
 import kr.ac.kaist.jiset.phase._
-import kr.ac.kaist.jiset.js.ast.Script
-import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.ArgParser
 import scala.Console.CYAN
@@ -82,7 +80,7 @@ case object CmdGenTest extends Command("gen-test", CmdBase >> GenTest) {
 // parse
 case object CmdParse extends Command("parse", CmdBase >> Parse) {
   def help = "parses a JavaScript file using the generated parser."
-  override def display(script: Script): Unit = println(script)
+  override def display(script: js.ast.Script): Unit = println(script)
 }
 
 // load
@@ -95,6 +93,12 @@ case object CmdLoad extends Command("load", CmdParse >> Load) {
 case object CmdEval extends Command("eval", CmdLoad >> IREval) {
   def help = "evaluates a JavaScript file using generated interpreter."
   override def display(st: ir.State): Unit = println(st.beautified)
+}
+
+// analyze
+case object CmdAnalyze extends Command("analyze", CmdParse >> Analyze) {
+  def help = "performs static analysis for a given JavaScript program."
+  override def display(st: js.analyzer.AbsSemantics): Unit = ???
 }
 
 // repl
@@ -146,8 +150,8 @@ case object CmdBuildCFG extends Command("build-cfg", CmdExtract >> BuildCFG) {
 
 // type-check
 case object CmdTypeCheck extends Command("type-check", CmdBuildCFG >> TypeCheck) {
-  def help = "performs type anaysis for specifications."
-  override def display(sem: AbsSemantics): Unit = {
+  def help = "performs type analysis for specifications."
+  override def display(sem: analyzer.AbsSemantics): Unit = {
     println(sem.getString(CYAN))
     println(sem.getInfo)
   }

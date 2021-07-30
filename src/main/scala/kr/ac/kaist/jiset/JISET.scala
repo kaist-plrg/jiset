@@ -72,6 +72,7 @@ object JISET {
     CmdParse,
     CmdLoad,
     CmdEval,
+    CmdAnalyze,
     CmdREPL,
 
     // test262
