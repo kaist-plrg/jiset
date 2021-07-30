@@ -144,6 +144,9 @@ object JvmUseful {
   // revert character to entity name
   val escapeHtml = StringEscapeUtils.escapeHtml4(_)
 
+  // escape js file to pass it to shell
+  def escapeJS(str: String): String = StringEscapeUtils.escapeXSI(str)
+
   def isNormalExit(given: String): Boolean =
     optional(executeCmd(given)).isDefined
 

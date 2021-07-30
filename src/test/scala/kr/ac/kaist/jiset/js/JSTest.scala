@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.js.{ Parser => JSParser }
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.spec.NativeHelper._
+import scala.sys.process._
 import io.circe._, io.circe.syntax._, io.circe.parser.{ parse => parseJson }
 
 trait JSTest extends IRTest {
@@ -20,6 +21,13 @@ trait JSTest extends IRTest {
     JSParser.parse(JSParser.Script(Nil), str).get
   def parseFile(filename: String): Script =
     JSParser.parse(JSParser.Script(Nil), fileReader(filename)).get
+  def esparse(str: String): Script = {
+    var json = parseJson(executeCmd(s"""bin/esparse -s "$str"""")) match {
+      case Left(jsonFail) => fail(jsonFail)
+      case Right(json) => json
+    }
+    Script(AST(json).get)
+  }
   def esparseFile(filename: String): Json =
     parseJson(executeCmd(s"bin/esparse $filename")) match {
       case Left(jsonFail) => fail(jsonFail)
