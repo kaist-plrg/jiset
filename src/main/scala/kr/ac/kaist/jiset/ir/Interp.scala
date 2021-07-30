@@ -336,7 +336,8 @@ class Interp(
     ast <- st.context.astOpt
     algo <- st.context.algo
     name <- algo.head match {
-      case h: SyntaxDirectedHead if h.isStatic => Some(h.methodName)
+      case h: SyntaxDirectedHead if h.isStatic && h.withParams.isEmpty =>
+        Some(h.methodName)
       case _ => None
     }
   } {
