@@ -8,16 +8,10 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import scala.scalajs.js.annotation.JSExportTopLevel
 
 object Export {
-  @JSExportTopLevel("getInitialState")
-  def getInitialState(script: Script): State = Initialize(script)
+  // @JSExportTopLevel("getInitialState")
+  // def getInitialState(script: Script): State = Initialize(script)
 
-  @JSExportTopLevel("eval")
-  def eval(script: Script): Unit = {
-    val initState = getInitialState(script)
-    Interp(initState)
-  }
-
-  @JSExportTopLevel("setSpec")
+  @JSExportTopLevel("Scala_setSpec")
   def setSpec(raw: String): Unit = {
     for {
       json <- parse(raw)

@@ -1,1 +1,1 @@
-declare function setSpec ( str: string ): void;
+declare function Scala_setSpec(str: string): void;
