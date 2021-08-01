@@ -55,19 +55,24 @@ export class StateMachine {
     const nextState = this._getNextState(payload.type);
     const action = this.actions.get(payload.type);
 
+    // measure time
+    const timeLabel = `[StateMachine::move] ${this._state} -- ${payload.type} --> ${nextState}`;
+    if (this._verbose) console.time(timeLabel);
+
     // TODO handle error
-    if (action === undefined || nextState === undefined) return;
+    if (action === undefined || nextState === undefined) {
+      if (this._verbose) console.timeEnd(timeLabel);
+      return;
+    }
 
     // TODO exception handling
-    action(this.store);
+    action(this.store, payload);
 
     // change redux controller state
+    this._state = nextState;
     this.store.dispatch(move(nextState));
 
     // log
-    if (this._verbose)
-      console.log(
-        `[StateMachine::move] ${this._state} -- ${payload.type} --> ${nextState}`
-      );
+    if (this._verbose) console.timeEnd(timeLabel);
   }
 }

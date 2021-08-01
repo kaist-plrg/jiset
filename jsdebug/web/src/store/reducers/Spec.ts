@@ -2,15 +2,17 @@ import { Spec } from "../../object/Spec";
 
 // redux actions
 export enum SpecActionType {
-  LOAD_SPEC = "AppState/LOAD_SPEC",
+  LOAD = "SpecAction/LOAD",
 }
-export const loadSpec = (spec: Spec) => ({
-  type: SpecActionType.LOAD_SPEC,
-  spec,
-});
+export function loadSpec(spec: Spec): SpecAction {
+  return {
+    type: SpecActionType.LOAD,
+    spec,
+  };
+}
 
 export type SpecAction = {
-  type: SpecActionType.LOAD_SPEC;
+  type: SpecActionType.LOAD;
   spec: Spec;
 };
 
@@ -25,7 +27,7 @@ const initialState: SpecState = {
 // reducer
 export default function (state = initialState, action: SpecAction) {
   switch (action.type) {
-    case SpecActionType.LOAD_SPEC: {
+    case SpecActionType.LOAD: {
       state.spec = action.spec;
       return state;
     }

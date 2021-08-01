@@ -6,19 +6,22 @@ import "prismjs/themes/prism.css";
 import "../styles/JSEditor.css";
 import { Typography, Paper } from "@material-ui/core";
 
-type JSEditorProps = {};
-type JSEditorState = { code: string };
+import { connect, ConnectedProps } from "react-redux";
+import { ReduxState } from "../store";
 
-class JSEditor extends React.Component<JSEditorProps, JSEditorState> {
-  constructor ( props: JSEditorProps ) {
-    super( props );
-    this.state = {
-      code: "var x = 1 + 2;",
-    };
-  }
+import { ActionType } from "../controller/Action";
+import sm from "../controller";
 
+// connect redux store
+const mapStateToProps = (st: ReduxState) => ({
+  code: st.js.code
+});
+const connector = connect(mapStateToProps);
+type JSEditorProps = ConnectedProps<typeof connector>;
+
+class JSEditor extends React.Component<JSEditorProps> {
   onCodeChange ( code: string ) {
-    this.setState( { ...this.state, code } );
+    sm.move({ type: ActionType.EDIT_JS, code });
   }
 
   highlightWithLine ( code: string ): string {
@@ -29,7 +32,7 @@ class JSEditor extends React.Component<JSEditorProps, JSEditorState> {
   }
 
   render () {
-    const { code } = this.state;
+    const { code } = this.props;
     return (
       <Paper className="editor-container" variant="outlined">
         <Typography variant="h6">JavaScript</Typography>
@@ -52,4 +55,4 @@ class JSEditor extends React.Component<JSEditorProps, JSEditorState> {
   }
 }
 
-export default JSEditor;
+export default connector(JSEditor);

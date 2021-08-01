@@ -18,7 +18,7 @@ import scala.util.matching.Regex
 // REPL
 class REPL(override val st: State) extends Debugger {
   // set detail
-  val detail = true
+  detail = true
 
   // completer
   private val completer: TreeCompleter =

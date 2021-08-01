@@ -25,25 +25,28 @@ case class AlgoBreakPoint(name: String) extends BreakPoint {
 trait Debugger {
   val st: State
   val interp = new Interp(st, None, true)
-  val detail: Boolean
-  var currentAlgo: Option[Algo] = None
-  var currentInst: Option[Inst] = None
+  var detail: Boolean = false
+
+  // get current state info
+  def currentAlgo: Option[Algo] = st.context.algo
+  def currentInst: Option[Inst] = st.context.cursorOpt match {
+    case Some(InstCursor(cur, _)) => Some(cur)
+    case _ => None
+  }
 
   // step until predicate
   @tailrec
   private def stepUntil(pred: => Boolean): Unit = {
     DEBUG = true
     if (!isBreak) {
-      currentAlgo = st.context.algo
-      currentInst = st.context.cursorOpt match {
-        case Some(InstCursor(cur, _)) => Some(cur)
-        case _ => None
-      }
       val keep = interp.step
       if (pred && keep) stepUntil(pred)
       else DEBUG = false
     } else DEBUG = false
   }
+
+  // step
+  final def step: Unit = interp.step
 
   // step-over
   final def stepOver: Unit = {

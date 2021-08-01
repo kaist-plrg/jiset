@@ -21,13 +21,10 @@ export const transitions: Transition[] = [
     [ActionType.START_DBG, AppState.DEBUG_READY],
   ]),
   mkTransition(AppState.DEBUG_READY, [
-    [ActionType.STEP, AppState.DEBUG_BUSY],
-    [ActionType.STEP_OVER, AppState.DEBUG_BUSY],
-    [ActionType.STEP_OUT, AppState.DEBUG_BUSY],
-    [ActionType.CONTINUE, AppState.DEBUG_BUSY],
-  ]),
-  mkTransition(AppState.DEBUG_BUSY, [
-    [ActionType.PAUSE, AppState.DEBUG_READY],
+    [ActionType.STEP, AppState.DEBUG_READY],
+    [ActionType.STEP_OVER, AppState.DEBUG_READY],
+    [ActionType.STEP_OUT, AppState.DEBUG_READY],
+    [ActionType.CONTINUE, AppState.DEBUG_READY],
     [ActionType.TERMINATE, AppState.TERMINATED],
   ]),
   mkTransition(AppState.TERMINATED, [[ActionType.STOP_DBG, AppState.JS_INPUT]]),

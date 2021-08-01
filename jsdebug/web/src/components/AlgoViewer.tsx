@@ -27,12 +27,19 @@ class AlgoStep extends React.Component<AlgoStepProps> {
 }
 
 type AlgoViewerProps = {
-  data: Algo;
-  currentStep: number | undefined;
+  data: Algo | undefined;
+  currentStep: number;
 }
 class AlgoViewer extends React.Component<AlgoViewerProps> {
+  // TODO 
+  renderFail() {
+    return (
+        <Typography variant="subtitle1">TODO...</Typography>
+    );
+  }
   render () {
     const { data, currentStep } = this.props;
+    if (data === undefined) return this.renderFail();
     const name = getName( data );
     const curIdx = currentStep ? currentStep : -1;
     return (

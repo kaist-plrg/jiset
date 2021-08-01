@@ -1,16 +1,18 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import { connect, ConnectedProps } from "react-redux";
 import SpecViewer from "./components/SpecViewer";
 import Toolbar from "./components/Toolbar";
 import StateViewer from "./components/StateViewer";
 import Breakpoints from "./components/Breakpoints";
 import JSEditor from "./components/JSEditor";
+import "./styles/App.css";
+
+import { connect, ConnectedProps } from "react-redux";
 import { ReduxState } from "./store";
+
 import { AppState } from "./controller/AppState";
 import { ActionType } from "./controller/Action";
 import sm from "./controller";
-import "./styles/App.css";
 
 // connect redux store
 const mapStateToProps = (st: ReduxState) => ({
@@ -37,7 +39,7 @@ class App extends React.Component<AppProps> {
         </Grid>
         <Grid item xs={ 12 }>
           <Grid container spacing={ 2 }>
-            <Grid container item xs={ 9 } spacing={ 2 } style={ { padding: "0px 8px" } }>
+            <Grid container item xs={ 9 } spacing={ 2 } style={ { padding: "0px 24px" } }>
               <Grid item xs={ 6 }>
                 <JSEditor />
               </Grid>

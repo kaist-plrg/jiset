@@ -3,14 +3,16 @@ import { AppState } from "../../controller/AppState";
 
 // redux actions
 export enum ControllerActionType {
-  MOVE_STATE = "AppState/MOVE_STATE",
+  MOVE = "AppState/MOVE",
 }
-export const move = (nextState: AppState) => ({
-  type: ControllerActionType.MOVE_STATE,
-  nextState,
-});
+export function move(nextState: AppState): ControllerAction {
+  return {
+    type: ControllerActionType.MOVE,
+    nextState,
+  };
+}
 export type ControllerAction = {
-  type: ControllerActionType.MOVE_STATE;
+  type: ControllerActionType.MOVE;
   nextState: AppState;
 };
 
@@ -23,7 +25,7 @@ const initialState: ControllerState = { state: AppState.INIT };
 // reducer
 export default function (state = initialState, action: ControllerAction) {
   switch (action.type) {
-    case ControllerActionType.MOVE_STATE:
+    case ControllerActionType.MOVE:
       return produce(state, (draft) => {
         draft.state = action.nextState;
       });
