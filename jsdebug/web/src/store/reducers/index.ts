@@ -5,10 +5,10 @@ import js from "./JS";
 import webDebugger from "./Debugger";
 import ir from "./IR";
 
-export default combineReducers({
+export default combineReducers( {
   controller,
   spec,
   js,
   webDebugger,
   ir,
-});
+} );

@@ -2,7 +2,7 @@ import rootReducer from "./reducers";
 import { createStore } from "redux";
 
 // create store from reducers
-const store = createStore(rootReducer);
+const store = createStore( rootReducer );
 export default store;
 
 // store type definition

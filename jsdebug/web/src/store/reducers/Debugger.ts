@@ -7,41 +7,41 @@ export enum DebuggerActionType {
   PAUSE = "DebuggerAction/PAUSE",
   TERMINATE = "DebuggerAction/TERMINATE",
 }
-export function loadDebugger(obj: Scala_WebDebugger): DebuggerAction {
+export function loadDebugger ( obj: Scala_WebDebugger ): DebuggerAction {
   return {
     type: DebuggerActionType.LOAD,
     obj,
   };
 }
-export function terminateDebugger(): DebuggerAction {
+export function terminateDebugger (): DebuggerAction {
   return {
     type: DebuggerActionType.TERMINATE,
   };
 }
-export function runDebugger(): DebuggerAction {
+export function runDebugger (): DebuggerAction {
   return {
     type: DebuggerActionType.RUN,
   };
 }
-export function pauseDebugger(): DebuggerAction {
+export function pauseDebugger (): DebuggerAction {
   return {
     type: DebuggerActionType.PAUSE,
   };
 }
 export type DebuggerAction =
   | {
-      type: DebuggerActionType.LOAD;
-      obj: Scala_WebDebugger;
-    }
+    type: DebuggerActionType.LOAD;
+    obj: Scala_WebDebugger;
+  }
   | {
-      type: DebuggerActionType.TERMINATE;
-    }
+    type: DebuggerActionType.TERMINATE;
+  }
   | {
-      type: DebuggerActionType.RUN;
-    }
+    type: DebuggerActionType.RUN;
+  }
   | {
-      type: DebuggerActionType.PAUSE;
-    };
+    type: DebuggerActionType.PAUSE;
+  };
 
 // redux state
 type DebuggerState = {
@@ -58,26 +58,26 @@ const initialState: DebuggerState = {
 };
 
 // reducer
-export default function (state = initialState, action: DebuggerAction) {
-  switch (action.type) {
+export default function ( state = initialState, action: DebuggerAction ) {
+  switch ( action.type ) {
     case DebuggerActionType.TERMINATE:
-      return produce(state, (draft) => {
+      return produce( state, ( draft ) => {
         draft.obj = INVALID_DEBUGGER;
         draft.initialized = false;
-      });
+      } );
     case DebuggerActionType.LOAD:
-      return produce(state, (draft) => {
+      return produce( state, ( draft ) => {
         draft.obj = action.obj;
         draft.initialized = true;
-      });
+      } );
     case DebuggerActionType.PAUSE:
-      return produce(state, (draft) => {
+      return produce( state, ( draft ) => {
         draft.busy = false;
-      });
+      } );
     case DebuggerActionType.RUN:
-      return produce(state, (draft) => {
+      return produce( state, ( draft ) => {
         draft.busy = true;
-      });
+      } );
     default:
       return state;
   }

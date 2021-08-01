@@ -1,18 +1,18 @@
 // IR State
-declare class Scala_IRState {}
+declare class Scala_IRState { }
 
 // IR Debugger
 declare class Scala_WebDebugger {
-  constructor(state: Scala_IRState);
-  _step(): void;
-  _stepOver(): void;
-  _stepOut(): void;
-  getAlgoName(): string;
-  getLine(): number;
+  constructor ( state: Scala_IRState );
+  _step (): void;
+  _stepOver (): void;
+  _stepOut (): void;
+  getAlgoName (): string;
+  getLine (): number;
 }
 
 // call setTarget
-declare function Scala_setSpec(str: string): void;
+declare function Scala_setSpec ( str: string ): void;
 
 // initialize debugger
-declare function Scala_initializeState(compressed: string): Scala_IRState;
+declare function Scala_initializeState ( compressed: string ): Scala_IRState;

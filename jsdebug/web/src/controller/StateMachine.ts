@@ -13,9 +13,9 @@ export class StateMachine {
   private _verbose: boolean;
 
   // constructor
-  constructor(
+  constructor (
     transitions: Transition[],
-    actions: [ActionType, Action][],
+    actions: [ ActionType, Action ][],
     store: Store,
     verbose: boolean = true
   ) {
@@ -24,55 +24,55 @@ export class StateMachine {
 
     // graph contruction
     this.graph = new Map();
-    transitions.forEach(({ from, arrows }) => this.graph.set(from, arrows));
+    transitions.forEach( ( { from, arrows } ) => this.graph.set( from, arrows ) );
 
     // set initial state
     this._state = AppState.INIT;
 
     // set actions
     this.actions = new Map();
-    actions.forEach(([type, action]) => this.actions.set(type, action));
+    actions.forEach( ( [ type, action ] ) => this.actions.set( type, action ) );
 
     // verbose
     this._verbose = verbose;
   }
 
   // get current state
-  getState(): AppState {
+  getState (): AppState {
     return this._state;
   }
 
   // get next state
-  private _getNextState(type: ActionType): AppState | undefined {
-    const actions = this.graph.get(this._state);
+  private _getNextState ( type: ActionType ): AppState | undefined {
+    const actions = this.graph.get( this._state );
     // if state is not defined, return undefined
-    if (actions === undefined) return undefined;
-    return actions.get(type);
+    if ( actions === undefined ) return undefined;
+    return actions.get( type );
   }
 
-  move(payload: ActionPayload): void {
+  move ( payload: ActionPayload ): void {
     // get next state and action
-    const nextState = this._getNextState(payload.type);
-    const action = this.actions.get(payload.type);
+    const nextState = this._getNextState( payload.type );
+    const action = this.actions.get( payload.type );
 
     // measure time
-    const timeLabel = `[StateMachine::move] ${this._state} -- ${payload.type} --> ${nextState}`;
-    if (this._verbose) console.time(timeLabel);
+    const timeLabel = `[StateMachine::move] ${ this._state } -- ${ payload.type } --> ${ nextState }`;
+    if ( this._verbose ) console.time( timeLabel );
 
     // TODO handle error
-    if (action === undefined || nextState === undefined) {
-      if (this._verbose) console.timeEnd(timeLabel);
+    if ( action === undefined || nextState === undefined ) {
+      if ( this._verbose ) console.timeEnd( timeLabel );
       return;
     }
 
     // TODO exception handling
-    action(this.store, payload);
+    action( this.store, payload );
 
     // change redux controller state
     this._state = nextState;
-    this.store.dispatch(move(nextState));
+    this.store.dispatch( move( nextState ) );
 
     // log
-    if (this._verbose) console.timeEnd(timeLabel);
+    if ( this._verbose ) console.timeEnd( timeLabel );
   }
 }

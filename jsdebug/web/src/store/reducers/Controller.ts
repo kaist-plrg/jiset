@@ -5,7 +5,7 @@ import { AppState } from "../../controller/AppState";
 export enum ControllerActionType {
   MOVE = "AppState/MOVE",
 }
-export function move(nextState: AppState): ControllerAction {
+export function move ( nextState: AppState ): ControllerAction {
   return {
     type: ControllerActionType.MOVE,
     nextState,
@@ -23,12 +23,12 @@ type ControllerState = {
 const initialState: ControllerState = { state: AppState.INIT };
 
 // reducer
-export default function (state = initialState, action: ControllerAction) {
-  switch (action.type) {
+export default function ( state = initialState, action: ControllerAction ) {
+  switch ( action.type ) {
     case ControllerActionType.MOVE:
-      return produce(state, (draft) => {
+      return produce( state, ( draft ) => {
         draft.state = action.nextState;
-      });
+      } );
     default:
       return state;
   }

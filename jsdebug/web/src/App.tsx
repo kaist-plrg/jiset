@@ -15,18 +15,18 @@ import { ActionType } from "./controller/Action";
 import sm from "./controller";
 
 // connect redux store
-const mapStateToProps = (st: ReduxState) => ({
+const mapStateToProps = ( st: ReduxState ) => ( {
   appState: st.controller.state
-});
-const connector = connect(mapStateToProps);
+} );
+const connector = connect( mapStateToProps );
 type AppProps = ConnectedProps<typeof connector>;
 
 // App component
 class App extends React.Component<AppProps> {
-  componentDidMount() {
-    sm.move({ type: ActionType.SET_SPEC });
+  componentDidMount () {
+    sm.move( { type: ActionType.SET_SPEC } );
   }
-  renderInit() {
+  renderInit () {
     return (
       <div>Loading ECMAScript 2021...</div>
     );
@@ -56,7 +56,7 @@ class App extends React.Component<AppProps> {
       </Grid>
     );
   }
-  render() {
+  render () {
     const { appState } = this.props;
     switch ( appState ) {
       case AppState.INIT:
@@ -67,4 +67,4 @@ class App extends React.Component<AppProps> {
   }
 }
 
-export default connector(App);
+export default connector( App );

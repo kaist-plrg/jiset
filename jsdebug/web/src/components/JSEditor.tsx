@@ -13,15 +13,15 @@ import { ActionType } from "../controller/Action";
 import sm from "../controller";
 
 // connect redux store
-const mapStateToProps = (st: ReduxState) => ({
+const mapStateToProps = ( st: ReduxState ) => ( {
   code: st.js.code
-});
-const connector = connect(mapStateToProps);
+} );
+const connector = connect( mapStateToProps );
 type JSEditorProps = ConnectedProps<typeof connector>;
 
 class JSEditor extends React.Component<JSEditorProps> {
   onCodeChange ( code: string ) {
-    sm.move({ type: ActionType.EDIT_JS, code });
+    sm.move( { type: ActionType.EDIT_JS, code } );
   }
 
   highlightWithLine ( code: string ): string {
@@ -55,4 +55,4 @@ class JSEditor extends React.Component<JSEditorProps> {
   }
 }
 
-export default connector(JSEditor);
+export default connector( JSEditor );

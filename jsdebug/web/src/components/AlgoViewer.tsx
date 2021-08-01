@@ -32,14 +32,14 @@ type AlgoViewerProps = {
 }
 class AlgoViewer extends React.Component<AlgoViewerProps> {
   // TODO 
-  renderFail() {
+  renderFail () {
     return (
-        <Typography variant="subtitle1">TODO...</Typography>
+      <Typography variant="subtitle1">TODO...</Typography>
     );
   }
   render () {
     const { data, currentStep } = this.props;
-    if (data === undefined) return this.renderFail();
+    if ( data === undefined ) return this.renderFail();
     const name = getName( data );
     const curIdx = currentStep ? currentStep : -1;
     return (

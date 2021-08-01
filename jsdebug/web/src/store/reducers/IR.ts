@@ -4,7 +4,7 @@ import produce from "immer";
 export enum IRActionType {
   UPDATE = "IRAction/UPDATE",
 }
-export function updateIrInfo(algoName: string, line: number): IRAction {
+export function updateIrInfo ( algoName: string, line: number ): IRAction {
   return {
     type: IRActionType.UPDATE,
     algoName,
@@ -29,13 +29,13 @@ const initialState: IRState = {
   line: INVALID_LINE,
 };
 
-export default function (state = initialState, action: IRAction) {
-  switch (action.type) {
+export default function ( state = initialState, action: IRAction ) {
+  switch ( action.type ) {
     case IRActionType.UPDATE:
-      return produce(state, (draft) => {
+      return produce( state, ( draft ) => {
         draft.algoName = action.algoName;
         draft.line = action.line;
-      });
+      } );
     default:
       return state;
   }

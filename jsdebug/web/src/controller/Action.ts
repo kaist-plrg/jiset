@@ -35,9 +35,9 @@ export enum ActionType {
 export type ActionPayload =
   | { type: ActionType.SET_SPEC }
   | {
-      type: ActionType.EDIT_JS;
-      code: string;
-    }
+    type: ActionType.EDIT_JS;
+    code: string;
+  }
   | { type: ActionType.START_DBG }
   | { type: ActionType.STEP }
   | { type: ActionType.STEP_OVER }
@@ -47,48 +47,48 @@ export type ActionPayload =
   | { type: ActionType.STOP_DBG };
 
 // actions
-export type Action = (store: Store, ...args: any[]) => void;
-export const actions: [ActionType, Action][] = [
+export type Action = ( store: Store, ...args: any[] ) => void;
+export const actions: [ ActionType, Action ][] = [
   // set spec
   [
     ActionType.SET_SPEC,
-    (store: Store) => {
+    ( store: Store ) => {
       const spec = es2021 as Spec;
       // set spec for scalaJS
-      Scala_setSpec(JSON.stringify(spec));
+      Scala_setSpec( JSON.stringify( spec ) );
       // load spec
-      store.dispatch(loadSpec(spec));
+      store.dispatch( loadSpec( spec ) );
     },
   ],
   // edit js
   [
     ActionType.EDIT_JS,
-    (store: Store, { code }) => {
-      store.dispatch(editJS(code));
+    ( store: Store, { code } ) => {
+      store.dispatch( editJS( code ) );
     },
   ],
   // start debugger
   [
     ActionType.START_DBG,
-    (store: Store) => {
+    ( store: Store ) => {
       // get js code
       let state = store.getState();
       let code = state.js.code;
       // esparse & decode esparse result
-      let compressed = new ESParse("2021").parseWithCompress(code);
+      let compressed = new ESParse( "2021" ).parseWithCompress( code );
       // initalize state
-      let IRState = Scala_initializeState(compressed);
+      let IRState = Scala_initializeState( compressed );
       // create debugger
-      let webDebugger = new Scala_WebDebugger(IRState);
-      store.dispatch(loadDebugger(webDebugger));
+      let webDebugger = new Scala_WebDebugger( IRState );
+      store.dispatch( loadDebugger( webDebugger ) );
     },
   ],
   // step
   [
     ActionType.STEP,
-    (store: Store) => {
+    ( store: Store ) => {
       // make debugger state busy and get debugger object
-      store.dispatch(runDebugger());
+      store.dispatch( runDebugger() );
       let state = store.getState();
       let webDebugger = state.webDebugger.obj;
 
@@ -98,16 +98,16 @@ export const actions: [ActionType, Action][] = [
       // update ir info
       let algoName = webDebugger.getAlgoName();
       let line = webDebugger.getLine();
-      store.dispatch(updateIrInfo(algoName, line));
-      store.dispatch(pauseDebugger());
+      store.dispatch( updateIrInfo( algoName, line ) );
+      store.dispatch( pauseDebugger() );
     },
   ],
   // step-over
   [
     ActionType.STEP_OVER,
-    (store: Store) => {
+    ( store: Store ) => {
       // make debugger state busy and get debugger object
-      store.dispatch(runDebugger());
+      store.dispatch( runDebugger() );
       let state = store.getState();
       let webDebugger = state.webDebugger.obj;
 
@@ -117,16 +117,16 @@ export const actions: [ActionType, Action][] = [
       // update ir info
       let algoName = webDebugger.getAlgoName();
       let line = webDebugger.getLine();
-      store.dispatch(updateIrInfo(algoName, line));
-      store.dispatch(pauseDebugger());
+      store.dispatch( updateIrInfo( algoName, line ) );
+      store.dispatch( pauseDebugger() );
     },
   ],
   // step-out
   [
     ActionType.STEP_OUT,
-    (store: Store) => {
+    ( store: Store ) => {
       // make debugger state busy and get debugger object
-      store.dispatch(runDebugger());
+      store.dispatch( runDebugger() );
       let state = store.getState();
       let webDebugger = state.webDebugger.obj;
 
@@ -136,8 +136,8 @@ export const actions: [ActionType, Action][] = [
       // update ir info
       let algoName = webDebugger.getAlgoName();
       let line = webDebugger.getLine();
-      store.dispatch(updateIrInfo(algoName, line));
-      store.dispatch(pauseDebugger());
+      store.dispatch( updateIrInfo( algoName, line ) );
+      store.dispatch( pauseDebugger() );
     },
   ],
 ];

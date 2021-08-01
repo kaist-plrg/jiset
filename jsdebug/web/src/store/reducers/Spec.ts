@@ -4,7 +4,7 @@ import { Spec } from "../../object/Spec";
 export enum SpecActionType {
   LOAD = "SpecAction/LOAD",
 }
-export function loadSpec(spec: Spec): SpecAction {
+export function loadSpec ( spec: Spec ): SpecAction {
   return {
     type: SpecActionType.LOAD,
     spec,
@@ -25,8 +25,8 @@ const initialState: SpecState = {
 };
 
 // reducer
-export default function (state = initialState, action: SpecAction) {
-  switch (action.type) {
+export default function ( state = initialState, action: SpecAction ) {
+  switch ( action.type ) {
     case SpecActionType.LOAD: {
       state.spec = action.spec;
       return state;
