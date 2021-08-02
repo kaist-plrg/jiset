@@ -14,27 +14,26 @@ object Initialize {
     fnameOpt: Option[String] = None,
     cursorGen: CursorGen[_ <: Cursor] = InstCursor
   ): State = {
-    val Script0(bodyOpt, _, _) = script
-    val cursorOpt =
-      if (bodyOpt.isDefined) cursorGen(algos("RunJobs").body)
-      else None
-    State(
-      cursorGen = cursorGen,
-      context = Context(cursorOpt = cursorOpt),
-      ctxtStack = Nil,
-      globals = initGlobal(bodyOpt),
-      heap = initHeap,
-      fnameOpt = fnameOpt,
-    )
+    val st = initSt.copied
+    script match {
+      case Script0(Some(body), _, _) => {
+        CleanStaticMap.walk(body)
+        st.globals += Id(SCRIPT_BODY) -> ASTVal(body)
+        st.context.cursorOpt = cursorGen(algos("RunJobs").body)
+      }
+      case _ =>
+    }
+    st.cursorGen = cursorGen
+    st.fnameOpt = fnameOpt
+    st
   }
 
+  // initial states
+  lazy val initSt: State = State(globals = initGlobal, heap = initHeap)
+
   // initial global variables
-  def initGlobal(bodyOpt: Option[ScriptBody]): MMap[Id, Value] = {
+  lazy val initGlobal: MMap[Id, Value] = {
     val map = MMap[Id, Value]()
-    bodyOpt.map(body => {
-      CleanStaticMap.walk(body)
-      map += Id(SCRIPT_BODY) -> ASTVal(body)
-    })
     for (c <- consts) {
       map += Id(CONST_PREFIX + c) -> NamedAddr(CONST_PREFIX + c)
     }
@@ -51,7 +50,7 @@ object Initialize {
   }
 
   // initial heap
-  def initHeap: Heap = {
+  lazy val initHeap: Heap = {
     val map = MMap[Addr, Obj]()
     for (c <- consts) {
       map += NamedAddr(CONST_PREFIX + c) -> IRSymbol(Str(CONST_PREFIX + c))

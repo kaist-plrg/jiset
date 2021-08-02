@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.js.{ Initialize => JSInitialize }
 
 // basic abstract states
 object BasicState extends Domain {
@@ -65,12 +66,31 @@ object BasicState extends Domain {
     // lookup global variables
     def lookupGlobal(x: Id): AbsValue = this match {
       case Bot => AbsValue.Bot
-      case Base(globals, _, _) =>
-        // TODO original globals
-        globals.getOrElse(x, AbsValue.Bot)
+      case Base(_, globals, _) =>
+        globals.getOrElse(x, base.getOrElse(x, AbsValue.Bot))
       case Top => AbsValue.Top
+    }
+
+    // define global variables
+    def defineGlobal(x: Id, v: AbsValue): Elem = {
+      if (v.isBottom) Bot else this match {
+        case Bot | Top => this
+        case (st: Base) => st.copy(globals = st.globals + (x -> v))
+      }
+    }
+
+    // define local variables
+    def defineLocal(x: Id, v: AbsValue): Elem = {
+      if (v.isBottom) Bot else this match {
+        case Bot | Top => this
+        case (st: Base) => st.copy(locals = st.locals + (x -> v))
+      }
     }
   }
 
   // TODO globals from js/Initialize
+  lazy val base: Map[Id, AbsValue] = {
+    JSInitialize.initGlobal
+    ???
+  }
 }

@@ -153,8 +153,9 @@ case class Heap(
 
   // copied
   def copied: Heap = {
-    val newMap = MMap[Addr, Obj]()
-    newMap ++= map
+    val newMap = MMap.from(map.toList.map {
+      case (addr, obj) => addr -> obj.copied
+    })
     Heap(newMap, size)
   }
 }

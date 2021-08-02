@@ -6,12 +6,12 @@ import scala.collection.mutable.{ Map => MMap }
 
 // IR States
 case class State(
-  val cursorGen: CursorGen[_ <: Cursor] = InstCursor,
+  var cursorGen: CursorGen[_ <: Cursor] = InstCursor,
   var context: Context = Context(),
   var ctxtStack: List[Context] = Nil,
   val globals: MMap[Id, Value] = MMap(),
   val heap: Heap = Heap(),
-  val fnameOpt: Option[String] = None
+  var fnameOpt: Option[String] = None
 ) extends IRComponent {
   // move the cursor
   def moveTo(program: Program): State = moveTo(program.insts)

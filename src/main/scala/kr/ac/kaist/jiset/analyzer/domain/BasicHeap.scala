@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.js.{ Initialize => JSInitialize }
 
 // basic abstract heaps
 object BasicHeap extends Domain {
@@ -38,11 +39,14 @@ object BasicHeap extends Domain {
     def apply(loc: Loc): AbsObj = this match {
       case Bot => AbsObj.Bot
       case Base(map) =>
-        // TODO original heap
-        map.getOrElse(loc, AbsObj.Bot)
+        map.getOrElse(loc, base.getOrElse(loc, AbsObj.Bot))
       case Top => AbsObj.Top
     }
   }
 
   // TODO heap from js/Initialize
+  lazy val base: Map[Loc, AbsObj] = {
+    JSInitialize.initHeap
+    ???
+  }
 }
