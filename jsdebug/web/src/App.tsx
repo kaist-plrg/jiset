@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import SpecViewer from "./components/SpecViewer";
 import Toolbar from "./components/Toolbar";
 import StateViewer from "./components/StateViewer";
-import Breakpoints from "./components/Breakpoints";
 import JSEditor from "./components/JSEditor";
 import "./styles/App.css";
 
@@ -49,7 +48,6 @@ class App extends React.Component<AppProps> {
             </Grid>
             <Grid item xs={ 3 }>
               <StateViewer />
-              <Breakpoints />
             </Grid>
           </Grid>
         </Grid>

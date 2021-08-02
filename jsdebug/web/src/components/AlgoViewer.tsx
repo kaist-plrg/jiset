@@ -7,7 +7,7 @@ type AlgoStepProps = {
   content: string;
   step: number;
   highlight: boolean;
-}
+};
 class AlgoStep extends React.Component<AlgoStepProps> {
   getClassName (): string {
     let className = "algo-step";
@@ -22,20 +22,18 @@ class AlgoStep extends React.Component<AlgoStepProps> {
       <Typography variant="body2" className={ className }>
         { content }
       </Typography>
-    )
+    );
   }
 }
 
 type AlgoViewerProps = {
   data: Algo | undefined;
   currentStep: number;
-}
+};
 class AlgoViewer extends React.Component<AlgoViewerProps> {
-  // TODO 
+  // TODO
   renderFail () {
-    return (
-      <Typography variant="subtitle1">TODO...</Typography>
-    );
+    return <Typography variant="subtitle1">TODO...</Typography>;
   }
   render () {
     const { data, currentStep } = this.props;
@@ -45,13 +43,16 @@ class AlgoViewer extends React.Component<AlgoViewerProps> {
     return (
       <div className="algo-container">
         <Typography variant="subtitle1">{ name }</Typography>
-        { data.code.map( ( str, idx ) =>
-          ( <AlgoStep content={ str } step={ idx } highlight={ idx === curIdx } /> )
-        ) }
+        { data.code.map( ( str, idx ) => (
+          <AlgoStep
+            key={ `algo-step-${ name }-${ idx }` }
+            content={ str }
+            step={ idx }
+            highlight={ idx === curIdx }
+          />
+        ) ) }
       </div>
-    )
-
-      ;
+    );
   }
 }
 

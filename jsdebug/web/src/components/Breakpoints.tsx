@@ -59,12 +59,14 @@ class Breakpoints extends React.Component {
       <TableContainer component={ Paper } className="breakpoints-table-container">
         <Table stickyHeader size="small">
           <TableHead>
-            <TableCell>Breakpoint #</TableCell>
-            <TableCell>name</TableCell>
+            <TableRow>
+              <TableCell>Breakpoint #</TableCell>
+              <TableCell>name</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
             { breakpoints.map( ( bp, idx ) => (
-              <BreakpointItem data={ bp } idx={ idx } />
+              <BreakpointItem key={ `breakpoints-${ idx }` } data={ bp } idx={ idx } />
             ) ) }
           </TableBody>
         </Table>

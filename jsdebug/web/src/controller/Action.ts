@@ -98,7 +98,7 @@ export const actions: [ ActionType, Action ][] = [
       // update ir info
       let algoName = webDebugger.getAlgoName();
       let line = webDebugger.getLine();
-      let stackFrames = JSON.parse(webDebugger.getStackInfo());
+      let stackFrames = JSON.parse( webDebugger.getStackInfo() );
       store.dispatch( updateIrInfo( algoName, line, stackFrames ) );
       store.dispatch( pauseDebugger() );
     },
@@ -118,7 +118,7 @@ export const actions: [ ActionType, Action ][] = [
       // update ir info
       let algoName = webDebugger.getAlgoName();
       let line = webDebugger.getLine();
-      let stackFrames = JSON.parse(webDebugger.getStackInfo());
+      let stackFrames = JSON.parse( webDebugger.getStackInfo() );
       store.dispatch( updateIrInfo( algoName, line, stackFrames ) );
       store.dispatch( pauseDebugger() );
     },
@@ -138,7 +138,7 @@ export const actions: [ ActionType, Action ][] = [
       // update ir info
       let algoName = webDebugger.getAlgoName();
       let line = webDebugger.getLine();
-      let stackFrames = JSON.parse(webDebugger.getStackInfo());
+      let stackFrames = JSON.parse( webDebugger.getStackInfo() );
       store.dispatch( updateIrInfo( algoName, line, stackFrames ) );
       store.dispatch( pauseDebugger() );
     },
