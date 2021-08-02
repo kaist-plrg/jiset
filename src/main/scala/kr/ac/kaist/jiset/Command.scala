@@ -36,7 +36,7 @@ case object CmdHelp extends Command("help", CmdBase >> Help) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// JISET
+// JISET (JavaScript IR-based Semantics Extraction Toolchain)
 ////////////////////////////////////////////////////////////////////////////////
 // extract
 case object CmdExtract extends Command("extract", CmdBase >> Extract) {
@@ -95,15 +95,18 @@ case object CmdEval extends Command("eval", CmdLoad >> IREval) {
   override def display(st: ir.State): Unit = println(st.beautified)
 }
 
+// repl
+case object CmdREPL extends Command("repl", CmdLoad >> IRREPL) {
+  def help = "performs REPL for a JavaScript file"
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// JSAVER (JavaScript Static Analyzer via ECMAScript Representations)
+////////////////////////////////////////////////////////////////////////////////
 // analyze
 case object CmdAnalyze extends Command("analyze", CmdParse >> Analyze) {
   def help = "performs static analysis for a given JavaScript program."
   override def display(st: js.analyzer.AbsSemantics): Unit = ???
-}
-
-// repl
-case object CmdREPL extends Command("repl", CmdLoad >> IRREPL) {
-  def help = "performs REPL for a JavaScript file"
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +118,7 @@ case object CmdFilterMeta extends Command("filter-meta", CmdBase >> FilterMeta) 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// IRES
+// IRES (Intermediate Representations for ECMAScript)
 ////////////////////////////////////////////////////////////////////////////////
 // parse-ir
 case object CmdIRParse extends Command("parse-ir", CmdBase >> IRParse) {
@@ -141,7 +144,7 @@ case object CmdIRREPL extends Command("repl-ir", CmdIRLoad >> IRREPL) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// analysis
+// JSTAR (JavaScript Specification Type Analyzer using Refinement)
 ////////////////////////////////////////////////////////////////////////////////
 // build-cfg
 case object CmdBuildCFG extends Command("build-cfg", CmdExtract >> BuildCFG) {
@@ -150,8 +153,8 @@ case object CmdBuildCFG extends Command("build-cfg", CmdExtract >> BuildCFG) {
 
 // type-check
 case object CmdTypeCheck extends Command("type-check", CmdBuildCFG >> TypeCheck) {
-  def help = "performs type analysis for specifications."
-  override def display(sem: analyzer.AbsSemantics): Unit = {
+  def help = "performs type checking for specifications."
+  override def display(sem: checker.AbsSemantics): Unit = {
     println(sem.getString(CYAN))
     println(sem.getInfo)
   }

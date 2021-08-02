@@ -72,8 +72,10 @@ object JISET {
     CmdParse,
     CmdLoad,
     CmdEval,
-    CmdAnalyze,
     CmdREPL,
+
+    // JSAVER
+    CmdAnalyze,
 
     // test262
     CmdFilterMeta,
@@ -84,7 +86,7 @@ object JISET {
     CmdIREval,
     CmdIRREPL,
 
-    // analysis
+    // JSTAR
     CmdBuildCFG,
     CmdTypeCheck,
   )
@@ -106,13 +108,16 @@ object JISET {
     Parse,
     Load,
 
+    // JSAVER
+    Analyze,
+
     // IRES
     IRParse,
     IRLoad,
     IREval,
     IRREPL,
 
-    // analysis
+    // JSTAR
     BuildCFG,
     TypeCheck,
   )

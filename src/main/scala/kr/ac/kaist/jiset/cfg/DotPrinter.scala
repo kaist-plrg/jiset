@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.cfg
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.checker._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender
@@ -37,7 +37,7 @@ class DotPrinter {
     aux(rp, depth)
   }
 
-  // for debugging analysis
+  // for debugging of type checking
   def apply(
     cur: Option[ControlPoint],
     depth: Option[Int] = None,
@@ -118,11 +118,11 @@ class DotPrinter {
   def edgeColor(
     from: Node,
     to: Node,
-    analysis: Boolean
+    check: Boolean
   )(
     implicit
     view: Option[View] = None
-  ): String = (analysis, view) match {
+  ): String = (check, view) match {
     case (false, _) | (_, None) => REACH
     case (true, Some(view)) =>
       val fromNP = NodePoint(from, view)
@@ -132,21 +132,21 @@ class DotPrinter {
   }
 
   // print next edges
-  def doNextEdge(f: Linear, t: Node, analysis: Boolean = false)(
+  def doNextEdge(f: Linear, t: Node, check: Boolean = false)(
     implicit
     view: Option[View] = None
   ): DotPrinter = {
-    val c = edgeColor(f, t, analysis)
+    val c = edgeColor(f, t, check)
     doEdge(str(f), str(t), c, "")
   }
 
   // print branch edges
-  def doBranchEdge(f: Branch, t: Node, e: Node, analysis: Boolean = false)(
+  def doBranchEdge(f: Branch, t: Node, e: Node, check: Boolean = false)(
     implicit
     view: Option[View] = None
   ): DotPrinter = {
-    val tc = edgeColor(f, t, analysis)
-    val ec = edgeColor(f, e, analysis)
+    val tc = edgeColor(f, t, check)
+    val ec = edgeColor(f, e, check)
     doEdge(str(f), str(t), tc, s"label=<<font color=$tc>true</font>>")
     doEdge(str(f), str(e), ec, s"label=<<font color=$ec>false</font>>")
   }

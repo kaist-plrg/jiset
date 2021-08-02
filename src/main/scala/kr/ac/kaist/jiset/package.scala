@@ -13,7 +13,7 @@ package object jiset {
   // Log directory
   val LOG_DIR = s"$BASE_DIR/logs"
   val EXTRACT_LOG_DIR = s"$LOG_DIR/extract"
-  val ANALYZE_LOG_DIR = s"$LOG_DIR/analyze"
+  val CHECK_LOG_DIR = s"$LOG_DIR/check"
   val CFG_LOG_DIR = s"$LOG_DIR/cfg"
 
   // Specification directory
@@ -22,7 +22,7 @@ package object jiset {
 
   // Tests directory root
   val TEST_DIR = s"$BASE_DIR/tests"
-  val ANALYZER_DIR = s"$TEST_DIR/analyzer"
+  val CHECKER_DIR = s"$TEST_DIR/checker"
   val COMPILE_DIR = s"$TEST_DIR/compile"
   val CFG_TEST_DIR = s"$TEST_DIR/cfg"
   val BASIC_COMPILE_DIR = s"$COMPILE_DIR/basic"

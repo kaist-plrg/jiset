@@ -45,13 +45,13 @@ lazy val test262ParseTest = taskKey[Unit]("Launch parse test262 tests (large)")
 lazy val test262ESParseTest = taskKey[Unit]("Launch parse test262 tests using esparse (large)")
 lazy val test262ParserBenchmarkTest = taskKey[Unit]("Launch compare parsing test262 tests using esparse and JSParse")
 lazy val test262EvalTest = taskKey[Unit]("Launch eval test262 tests (large)")
-lazy val test262ManualTest = taskKey[Unit]("Launch manual eval test262 tests (large)")
+lazy val test262ManualTest = taskKey[Unit]("Launch manual eval test262 tests (middle)")
 
-// analyzer
-lazy val analyzerTest = taskKey[Unit]("Launch analyzer tests")
-lazy val analyzerJsonTest = taskKey[Unit]("Launch json analyzer tests (middle)")
-lazy val analyzerBeautifierTest = taskKey[Unit]("Launch beautifier analyzer tests (tiny)")
-lazy val analyzerParseTest = taskKey[Unit]("Launch parse analyzer tests (tiny)")
+// type checker
+lazy val checkerTest = taskKey[Unit]("Launch type checker tests")
+lazy val checkerJsonTest = taskKey[Unit]("Launch json type checker tests (middle)")
+lazy val checkerBeautifierTest = taskKey[Unit]("Launch beautifier type checker tests (tiny)")
+lazy val checkerParseTest = taskKey[Unit]("Launch parse type checker tests (tiny)")
 
 // jiset
 lazy val jiset = (project in file("."))
@@ -111,9 +111,9 @@ lazy val jiset = (project in file("."))
     test262ParserBenchmarkTest := (testOnly in Test).toTask(" *.test262.ParserBenchmark*Test").value,
     test262EvalTest := (testOnly in Test).toTask(" *.test262.Eval*Test").value,
     test262ManualTest := (testOnly in Test).toTask(" *.test262.Manual*Test").value,
-    // js
-    analyzerTest := (testOnly in Test).toTask(" *.analyzer.*Test").value,
-    analyzerJsonTest := (testOnly in Test).toTask(" *.analyzer.Json*Test").value,
-    analyzerBeautifierTest := (testOnly in Test).toTask(" *.analyzer.Beautifier*Test").value,
-    analyzerParseTest := (testOnly in Test).toTask(" *.analyzer.Parse*Test").value
+    // type checker
+    checkerTest := (testOnly in Test).toTask(" *.checker.*Test").value,
+    checkerJsonTest := (testOnly in Test).toTask(" *.checker.Json*Test").value,
+    checkerBeautifierTest := (testOnly in Test).toTask(" *.checker.Beautifier*Test").value,
+    checkerParseTest := (testOnly in Test).toTask(" *.checker.Parse*Test").value
   )

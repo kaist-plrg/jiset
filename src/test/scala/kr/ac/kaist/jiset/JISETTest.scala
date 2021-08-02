@@ -114,5 +114,5 @@ object JISETTest {
     js.spec
   }
   lazy val cfg = new CFG(spec)
-  lazy val sem = { analyzer.performTypeAnalysis(cfg); analyzer.sem }
+  lazy val sem = { checker.performTypeCheck(cfg); checker.sem }
 }

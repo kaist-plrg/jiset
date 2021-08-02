@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.js.Test262
 import kr.ac.kaist.jiset.util.JvmUseful._
 
-class ManualLargeTest extends Test262Test {
+class ManualMiddleTest extends Test262Test {
   val name: String = "test262ManualTest"
 
   // filename for manual target names

@@ -2,9 +2,8 @@ package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset.JISETConfig
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.analyzer._
-import kr.ac.kaist.jiset.analyzer.NativeHelper._
-import kr.ac.kaist.jiset.analyzer.JsonProtocol._
+import kr.ac.kaist.jiset.checker._
+import kr.ac.kaist.jiset.checker.NativeHelper._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util._
@@ -13,15 +12,15 @@ import kr.ac.kaist.jiset._
 // TypeCheck phase
 case object TypeCheck extends Phase[CFG, TypeCheckConfig, AbsSemantics] {
   val name = "type-check"
-  val help = "performs type analysis for specifications."
+  val help = "performs type checks for specifications."
 
   def apply(
     cfg: CFG,
     jisetConfig: JISETConfig,
     config: TypeCheckConfig
   ): AbsSemantics = {
-    // perform type analysis
-    performTypeAnalysis(cfg, config.load)
+    // perform type check
+    performTypeCheck(cfg, config.load)
 
     // dump partial models
     PARTIAL_MODEL.map(dirname => time(s"dump models to $dirname", {
@@ -45,9 +44,9 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, AbsSemantics] {
   def defaultConfig: TypeCheckConfig = TypeCheckConfig()
   val options: List[PhaseOption[TypeCheckConfig]] = List(
     ("dot", BoolOption(c => DOT = true),
-      "dump the analyzed cfg in a dot format."),
+      "dump CFG in a dot format."),
     ("pdf", BoolOption(c => { DOT = true; PDF = true }),
-      "dump the analyze cfg in a dot and pdf format."),
+      "dump CFG in a dot and pdf format."),
     ("no-prune", BoolOption(c => PRUNE = false),
       "no abstract state pruning."),
     ("insens", BoolOption(c => USE_VIEW = false),
@@ -55,11 +54,11 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, AbsSemantics] {
     ("check-bug", BoolOption(c => CHECK_BUG = true),
       "check alarms."),
     ("target", StrOption((c, s) => TARGET = Some(s)),
-      "set the target of analysis."),
-    ("repl", BoolOption(c => REPL = true),
-      "use analyze-repl."),
+      "set the target of type checks."),
+    ("repl", BoolOption(c => USE_REPL = true),
+      "use REPL for type checks."),
     ("partial-model", StrOption((c, s) => PARTIAL_MODEL = Some(s)),
-      "dump partial models using type analysis results."),
+      "dump partial models using type checking results."),
     ("load", StrOption((c, s) => c.load = Some(s)),
       "load abstract semantics from a directory."),
     ("dump", StrOption((c, s) => c.dump = Some(s)),
