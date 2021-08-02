@@ -4,7 +4,6 @@ import java.io._
 import kr.ac.kaist.jiset.error.NotSupported
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.cfg.CFG
-import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.spec.NativeHelper
 import kr.ac.kaist.jiset.util.Useful._
@@ -111,7 +110,7 @@ object JISETTest {
   // extract specifications
   lazy val info = ECMAScriptParser.preprocess(VERSION)
   lazy val spec = {
-    setTarget(NativeHelper.loadSpec(s"$VERSION_DIR/generated"))
+    js.setTarget(NativeHelper.loadSpec(s"$VERSION_DIR/generated"))
     js.spec
   }
   lazy val cfg = new CFG(spec)
