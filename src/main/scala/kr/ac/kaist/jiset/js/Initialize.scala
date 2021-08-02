@@ -8,6 +8,7 @@ import scala.collection.mutable.{ Map => MMap }
 
 // initialize states
 object Initialize {
+  // initialize states with a JavaScript code
   def apply(
     script: Script,
     fnameOpt: Option[String] = None,

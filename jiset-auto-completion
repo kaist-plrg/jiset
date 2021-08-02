@@ -12,7 +12,7 @@ _jiset_completions() {
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD-1]}"
 
-  cmdList="help extract gen-model compile-repl gen-test parse load eval analyze repl filter-meta parse-ir load-ir eval-ir repl-ir build-cfg type-check "
+  cmdList="help extract gen-model compile-repl gen-test parse load eval repl analyze filter-meta parse-ir load-ir eval-ir repl-ir build-cfg type-check "
   globalOpt="-silent -debug -stat -interactive -no-bugfix -log -time "
   helpOpt=""
   extractOpt="-extract:version -extract:query -extract:load -extract:json -extract:detail "
@@ -21,6 +21,7 @@ _jiset_completions() {
   gentestOpt=""
   parseOpt="-parse:json -parse:pprint -parse:esparse -parse:test262 "
   loadOpt="-load:cursor "
+  analyzeOpt=""
   parseirOpt=""
   loadirOpt=""
   evalirOpt="-eval-ir:timeout "
@@ -73,12 +74,12 @@ _jiset_completions() {
           COMPREPLY=($(compgen -W "${globalOpt} ${evalirOpt} ${loadOpt} ${parseOpt}"))
           return 0
           ;;
-        analyze)
-          COMPREPLY=($(compgen -W "${globalOpt} ${analyzeOpt} ${parseOpt}"))
-          return 0
-          ;;
         repl)
           COMPREPLY=($(compgen -W "${globalOpt} ${replirOpt} ${loadOpt} ${parseOpt}"))
+          return 0
+          ;;
+        analyze)
+          COMPREPLY=($(compgen -W "${globalOpt} ${analyzeOpt} ${parseOpt}"))
           return 0
           ;;
         filter-meta)

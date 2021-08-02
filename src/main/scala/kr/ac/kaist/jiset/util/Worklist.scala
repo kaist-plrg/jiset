@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.checker
+package kr.ac.kaist.jiset.util
 
 import scala.collection.mutable.{ Stack, Queue }
 

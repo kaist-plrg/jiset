@@ -177,7 +177,7 @@ object PureType {
         case IRNotSupported(tname, _) => NameT(tname)
       }
       case ast: ASTVal => AstT(ast.ast.kind)
-      case func: Func => FuncT(cfg.algo2fid(func.algo.name))
+      case func: Func => FuncT(cfg.algoFuncMap(func.algo.name).uid)
       case clo: Clo => ??? // TODO
       case cont: Cont => ??? // TODO
       case Num(double) => NumT
@@ -204,8 +204,8 @@ case class NameT(name: String) extends PureType {
   def apply(prop: String): AbsType = name match {
     case "ALGORITHM" => (for {
       algo <- js.algos.get(prop)
-      fid <- cfg.algo2fid.get(algo.name)
-    } yield FuncT(fid)).getOrElse(AAbsent).abs
+      func <- cfg.algoFuncMap.get(algo.name)
+    } yield FuncT(func.uid)).getOrElse(AAbsent).abs
     case _ => Type.propMap
       .getOrElse(name, Map())
       .getOrElse(prop, AAbsent)

@@ -15,8 +15,8 @@ class CFG(val spec: ECMAScript) extends CFGComponent {
   val nextOf: Map[Linear, Node] = funcs.flatMap(_.nexts).toMap
   val branchOf: Map[Branch, (Node, Node)] = funcs.flatMap(_.branches).toMap
   val fidMap: Map[Int, Function] = (for (f <- funcs) yield f.uid -> f).toMap
-  val algo2fid: Map[String, Int] = (for (f <- funcs) yield f.name -> f.uid).toMap
-  val iid2fid: Map[Int, Int] = (for (f <- funcs) yield f.body.uid -> f.uid).toMap
+  val algoFuncMap: Map[String, Function] = (for (f <- funcs) yield f.name -> f).toMap
+  val iidFuncMap: Map[Int, Function] = (for (f <- funcs) yield f.body.uid -> f).toMap
   val jsonProtocol: JsonProtocol = new JsonProtocol(this)
 
   //////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ class CFG(val spec: ECMAScript) extends CFGComponent {
   def nidGen: UIdGen[Node] = trans.nidGen
   // get fids of syntax-directed algorithms
   def getSyntaxFids(lhs: String, method: String): Set[Int] =
-    getSyntaxAlgo(lhs, method).map(algo2fid(_))
+    getSyntaxAlgo(lhs, method).map(algoFuncMap(_).uid)
 
   // syntax algorithms
   lazy val syntaxAlgos: List[(Algo, SyntaxDirectedHead)] = spec.algos.collect {

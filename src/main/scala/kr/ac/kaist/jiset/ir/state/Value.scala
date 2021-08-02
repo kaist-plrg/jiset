@@ -87,8 +87,11 @@ case class Cont(
 // AST values
 case class ASTVal(ast: AST) extends Value
 
+// simple values
+sealed trait SimpleValue extends Value
+
 // numeric values
-sealed trait Numeric extends Value {
+sealed trait Numeric extends SimpleValue {
   // conversion to big decimal
   def toMathValue: MathValue = this match {
     case Num(double) => MathValue(double)
@@ -112,16 +115,16 @@ case class INum(long: Long) extends Numeric
 case class BigINum(b: BigInt) extends Numeric
 
 // strings
-case class Str(str: String) extends Value
+case class Str(str: String) extends SimpleValue
 
 // booleans
-case class Bool(bool: Boolean) extends Value
+case class Bool(bool: Boolean) extends SimpleValue
 
 // undefined
-case object Undef extends Value
+case object Undef extends SimpleValue
 
 // null
-case object Null extends Value
+case object Null extends SimpleValue
 
 // absent
-case object Absent extends Value
+case object Absent extends SimpleValue

@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
-// Aanlyzer Beautifier
+// Checker Beautifier
 object Beautifier {
   val irBeautifier = new ir.Beautifier(index = true)
   import irBeautifier._

@@ -111,4 +111,9 @@ package object ir {
   def getRadixString(d: Long): String = {
     if (d < 10) d.toString else ('a' + (d - 10)).toChar.toString
   }
+
+  // type aliases
+  type Absent = Absent.type
+  type Null = Null.type
+  type Undef = Undef.type
 }

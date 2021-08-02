@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset
 import kr.ac.kaist.jiset.checker.NativeHelper._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.util.{ Worklist, StackWorklist }
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console.RED

@@ -1,8 +1,12 @@
 package kr.ac.kaist.jiset.phase
 
+import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.JISETConfig
 import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
+import kr.ac.kaist.jiset.spec.NativeHelper._
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 // Analyze phase
 case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
@@ -13,7 +17,10 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
     script: Script,
     jisetConfig: JISETConfig,
     config: AnalyzeConfig
-  ): AbsSemantics = ??? // TODO
+  ): AbsSemantics = {
+    setTarget(loadSpec(s"$VERSION_DIR/generated"))
+    AbsSemantics(script).fixpoint
+  }
 
   def defaultConfig: AnalyzeConfig = AnalyzeConfig()
   val options: List[PhaseOption[AnalyzeConfig]] = List()

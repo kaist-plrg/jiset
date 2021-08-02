@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.util.QueueWorklist
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import org.jline.builtins.Completers.TreeCompleter
