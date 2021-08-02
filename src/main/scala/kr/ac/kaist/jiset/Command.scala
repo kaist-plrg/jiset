@@ -106,7 +106,7 @@ case object CmdREPL extends Command("repl", CmdLoad >> IRREPL) {
 // analyze
 case object CmdAnalyze extends Command("analyze", CmdParse >> Analyze) {
   def help = "performs static analysis for a given JavaScript program."
-  override def display(st: js.analyzer.AbsSemantics): Unit = ???
+  override def display(st: analyzer.AbsSemantics): Unit = ???
 }
 
 ////////////////////////////////////////////////////////////////////////////////

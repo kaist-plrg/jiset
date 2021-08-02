@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset.JISETConfig
-import kr.ac.kaist.jiset.js.analyzer._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.js.ast.Script
 
 // Analyze phase

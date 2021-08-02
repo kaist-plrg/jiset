@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.js.analyzer
+package kr.ac.kaist.jiset.analyzer
 
 // abstract semantics
 trait AbsSemantics
