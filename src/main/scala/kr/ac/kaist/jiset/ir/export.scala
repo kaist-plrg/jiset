@@ -27,8 +27,26 @@ object Export {
       case Some(i) => i.line.getOrElse(-1)
       case None => -1
     }
+    var stackFrames: List[(String, Int)] = List()
     def getStackInfo(): String = {
-      val infos: List[String] = (st.context :: st.ctxtStack).map(_.name)
+      stackFrames match {
+        case Nil => { stackFrames = (getAlgoName(), getLine()) :: stackFrames }
+        case fst :: rest => {
+          val (name, _) = fst
+          if (name == getAlgoName()) { stackFrames = (name, getLine()) :: rest }
+          else {
+            rest match {
+              case Nil => { stackFrames = (getAlgoName(), getLine()) :: stackFrames }
+              case snd :: rest2 => {
+                val (name2, _) = snd
+                if (name2 == getAlgoName()) { stackFrames = (name2, getLine()) :: rest2 }
+                else { stackFrames = (getAlgoName(), getLine()) :: stackFrames }
+              }
+            }
+          }
+        }
+      }
+      val infos: List[String] = stackFrames.map { case (n, l) => "step " + l.toString + " @ " + n }
       infos.asJson.noSpaces
     }
   }
