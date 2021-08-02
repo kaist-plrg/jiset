@@ -11,11 +11,25 @@ import StackFrameViewer from "./StackFrameViewer";
 // TODO import StateWatcher from "./StateWatcher";
 import Breakpoints from "./Breakpoints";
 
-class StateViewer extends React.Component {
+import { connect, ConnectedProps } from "react-redux";
+import { ReduxState } from "../store";
+
+import { AppState } from "../controller/AppState";
+
+// connect redux store
+const mapStateToProps = ( st: ReduxState ) => ( {
+  disableStateViewer: st.controller.state !== AppState.DEBUG_READY,
+} );
+const connector = connect( mapStateToProps );
+type StateViewerProps = ConnectedProps<typeof connector>;
+
+class StateViewer extends React.Component<StateViewerProps> {
   render () {
+    const { disableStateViewer } = this.props;
+
     return (
       <div>
-        <Accordion>
+        <Accordion disabled={ disableStateViewer }>
           <AccordionSummary expandIcon={ <Icon>expand_more</Icon> }>
             <Typography>Stack Frame</Typography>
           </AccordionSummary>
@@ -23,7 +37,7 @@ class StateViewer extends React.Component {
             <StackFrameViewer />
           </AccordionDetails>
         </Accordion>
-        <Accordion>
+        <Accordion disabled={ disableStateViewer }>
           <AccordionSummary expandIcon={ <Icon>expand_more</Icon> }>
             <Typography>Breakpoints</Typography>
           </AccordionSummary>
@@ -36,4 +50,4 @@ class StateViewer extends React.Component {
   }
 }
 
-export default StateViewer;
+export default connector( StateViewer );

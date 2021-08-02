@@ -12,11 +12,7 @@ import sm from "../controller";
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
   disableRun: st.controller.state !== AppState.JS_INPUT,
-  disableTerminate: st.controller.state !== AppState.DEBUG_READY,
-  disableStep: st.controller.state !== AppState.DEBUG_READY,
-  disableStepOver: st.controller.state !== AppState.DEBUG_READY,
-  disableStepOut: st.controller.state !== AppState.DEBUG_READY,
-  disableContinue: st.controller.state !== AppState.DEBUG_READY,
+  disableDebuggerBtn: st.controller.state !== AppState.DEBUG_READY,
 } );
 const connector = connect( mapStateToProps );
 type ToolbarProps = ConnectedProps<typeof connector>;
@@ -47,16 +43,16 @@ class Toolbar extends React.Component<ToolbarProps> {
   }
 
   render () {
-    const { disableRun, disableTerminate, disableStep, disableStepOver, disableStepOut, disableContinue } = this.props;
+    const { disableRun, disableDebuggerBtn } = this.props;
     return (
       <div className="toolbar-container">
         <ButtonGroup variant="text" color="primary">
           <Button disabled={ disableRun } onClick={ () => this.onRunButtonClick() }>Run</Button>
-          <Button disabled={ disableTerminate } onClick={ () => this.onTerminateButtonClick() }>Terminate</Button>
-          <Button disabled={ disableStep } onClick={ () => this.onStepButtonClick() }>Step</Button>
-          <Button disabled={ disableStepOver } onClick={ () => this.onStepOverButtonClick() }>Step-Over</Button>
-          <Button disabled={ disableStepOut } onClick={ () => this.onStepOutButtonClick() }>Step-Out</Button>
-          <Button disabled={ disableContinue } onClick={ () => this.onContinueButtonClick() }>Continue</Button>
+          <Button disabled={ disableDebuggerBtn } onClick={ () => this.onTerminateButtonClick() }>Terminate</Button>
+          <Button disabled={ disableDebuggerBtn } onClick={ () => this.onStepButtonClick() }>Step</Button>
+          <Button disabled={ disableDebuggerBtn } onClick={ () => this.onStepOverButtonClick() }>Step-Over</Button>
+          <Button disabled={ disableDebuggerBtn } onClick={ () => this.onStepOutButtonClick() }>Step-Out</Button>
+          <Button disabled={ disableDebuggerBtn } onClick={ () => this.onContinueButtonClick() }>Continue</Button>
         </ButtonGroup>
       </div>
     );
