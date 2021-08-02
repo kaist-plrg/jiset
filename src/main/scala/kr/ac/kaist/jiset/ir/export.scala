@@ -27,6 +27,10 @@ object Export {
       case Some(i) => i.line.getOrElse(-1)
       case None => -1
     }
+    def getStackInfo(): String = {
+      val infos: List[String] = (st.context :: st.ctxtStack).map(_.name)
+      infos.asJson.noSpaces
+    }
   }
 
   @JSExportTopLevel("Scala_initializeState")

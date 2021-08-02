@@ -2,41 +2,42 @@ import React from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@material-ui/core";
 import "../styles/StackFrameViewer.css";
 
+import { connect, ConnectedProps } from "react-redux";
+import { ReduxState } from "../store";
+
+import { ActionType } from "../controller/Action";
+import sm from "../controller";
+
 type StackFrameItemProps = {
-  data: { name: string; step: number; focus: boolean; };
+  // data: { name: string; step: number; focus: boolean; };
+  data: string;
   idx: number;
 }
 class StackFrameItem extends React.Component<StackFrameItemProps> {
   render () {
     const { data, idx } = this.props;
-    const { name, step, focus } = data;
+    // const { name, step, focus } = data;
 
     return (
       <TableRow>
         <TableCell>{ idx }</TableCell>
-        <TableCell>step { step } @ { name }</TableCell>
+        <TableCell>{ data }</TableCell>
       </TableRow>
     );
 
   }
 }
 
-class StackFrameViewer extends React.Component {
+// connect redux store
+const mapStateToProps = ( st: ReduxState ) => ( {
+  stackFrames: st.ir.stackFrames
+} );
+const connector = connect( mapStateToProps );
+type StackFrameViewerProps = ConnectedProps<typeof connector>;
+
+class StackFrameViewer extends React.Component<StackFrameViewerProps> {
   render () {
-    // TODO replace mockup data
-    const contexts = [
-      { name: "ToPrimtive", step: 0, focus: false },
-      { name: "ToPrimtive", step: 1, focus: false },
-      { name: "ToPrimtive", step: 2, focus: false },
-      { name: "ToPrimtive", step: 3, focus: false },
-      { name: "ToPrimtive", step: 4, focus: true },
-      { name: "ToPrimtive", step: 5, focus: false },
-      { name: "ToPrimtive", step: 6, focus: false },
-      { name: "ToPrimtive", step: 7, focus: false },
-      { name: "ToPrimtive", step: 8, focus: false },
-      { name: "ToPrimtive", step: 9, focus: false },
-      { name: "ToPrimtive", step: 10, focus: false },
-    ];
+    const { stackFrames } = this.props;
 
     return ( <div className="stackframe-container">
       <TableContainer component={ Paper } className="stackframe-table-container">
@@ -46,7 +47,7 @@ class StackFrameViewer extends React.Component {
             <TableCell>name</TableCell>
           </TableHead>
           <TableBody>
-            { contexts.map( ( context, idx ) => (
+            { stackFrames.map( ( context, idx ) => (
               <StackFrameItem data={ context } idx={ idx } />
             ) ) }
           </TableBody>
@@ -58,4 +59,4 @@ class StackFrameViewer extends React.Component {
   }
 }
 
-export default StackFrameViewer;
+export default connector(StackFrameViewer);

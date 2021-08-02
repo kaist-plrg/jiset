@@ -9,6 +9,7 @@ declare class Scala_WebDebugger {
   _stepOut (): void;
   getAlgoName (): string;
   getLine (): number;
+  getStackInfo () : string;
 }
 
 // call setTarget
