@@ -1,4 +1,4 @@
-def [BUILTIN] WeakRef(target) = {
+def [BUILTIN] WeakRef(target) = 0:{
   0:if (= NewTarget undefined) 0:throw TypeError else 0:{}
   1:if (! (= (typeof target) Object)) 1:throw TypeError else 1:{}
   2:app __x0__ = (OrdinaryCreateFromConstructor NewTarget "%WeakRef.prototype%" (new ["WeakRefTarget"]))

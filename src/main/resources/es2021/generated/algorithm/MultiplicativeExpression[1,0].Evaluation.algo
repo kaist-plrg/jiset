@@ -1,4 +1,4 @@
-def [SYNTAX] MultiplicativeExpression[1,0].Evaluation[R]<(MultiplicativeExpression, MultiplicativeOperator, ExponentiationExpression),false>() = {
+def [SYNTAX] MultiplicativeExpression[1,0].Evaluation[R]<(MultiplicativeExpression, MultiplicativeOperator, ExponentiationExpression),false>() = 0:{
   0:let opText = (get-syntax MultiplicativeOperator)
   1:app __x0__ = (EvaluateStringOrNumericBinaryExpression MultiplicativeExpression opText ExponentiationExpression)
   1:return [? __x0__]

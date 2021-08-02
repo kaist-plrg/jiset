@@ -1,4 +1,4 @@
-def [BUILTIN] Atomics.notify(typedArray, index, count) = {
+def [BUILTIN] Atomics.notify(typedArray, index, count) = 0:{
   0:app __x0__ = (ValidateIntegerTypedArray typedArray true)
   0:let buffer = [? __x0__]
   1:app __x1__ = (ValidateAtomicAccess typedArray index)

@@ -1,4 +1,4 @@
-def [BUILTIN] eval(x) = {
+def [BUILTIN] eval(x) = 1:{
   1:let callerContext = EXECUTION_STACK[(- EXECUTION_STACK.length 2i)]
   2:let callerRealm = callerContext.Realm
   3:app __x0__ = (PerformEval x callerRealm false false)

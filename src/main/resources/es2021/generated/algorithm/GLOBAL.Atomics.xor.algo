@@ -1,4 +1,4 @@
-def [BUILTIN] Atomics.xor(typedArray, index, value) = {
+def [BUILTIN] Atomics.xor(typedArray, index, value) = 0:{
   0:??? "Let id:{xor} be a new read - modify - write modification function with parameters ( id:{xBytes} , id:{yBytes} ) that captures nothing and performs the following steps atomically when called : in:{} out:{}"
   2:app __x0__ = (AtomicReadModifyWrite typedArray index value xor)
   2:return [? __x0__]

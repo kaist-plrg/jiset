@@ -1,4 +1,4 @@
-def [BUILTIN] Error(message) = {
+def [BUILTIN] Error(message) = 0:{
   0:if (= NewTarget undefined) 0:let newTarget = CONTEXT.Function else 0:let newTarget = NewTarget
   1:app __x0__ = (OrdinaryCreateFromConstructor newTarget "%Error.prototype%" (new ["ErrorData"]))
   1:let O = [? __x0__]

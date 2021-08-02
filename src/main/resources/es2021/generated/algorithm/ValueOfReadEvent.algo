@@ -1,4 +1,4 @@
-def ValueOfReadEvent(execution, R) = {
+def ValueOfReadEvent(execution, R) = 0:{
   0:assert (|| (is-instance-of R ReadSharedMemory) (is-instance-of R ReadModifyWriteSharedMemory))
   1:app __x0__ = (execution.ReadsBytesFrom execution R)
   1:let Ws = __x0__

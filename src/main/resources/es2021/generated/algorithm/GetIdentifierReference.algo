@@ -1,4 +1,4 @@
-def GetIdentifierReference(env, name, strict) = {
+def GetIdentifierReference(env, name, strict) = 0:{
   0:if (= env null) 1:return (new ReferenceRecord("Base" -> CONST_unresolvable, "ReferencedName" -> name, "Strict" -> strict, "ThisValue" -> CONST_empty)) else 0:{}
   2:app __x0__ = (env.HasBinding env name)
   2:let exists = [? __x0__]

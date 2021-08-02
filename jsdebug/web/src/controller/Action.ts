@@ -98,6 +98,7 @@ export const actions: [ ActionType, Action ][] = [
       // update ir info
       let algoName = webDebugger.getAlgoName();
       let line = webDebugger.getLine();
+      console.log( algoName, line );
       let stackFrames = JSON.parse( webDebugger.getStackInfo() );
       store.dispatch( updateIrInfo( algoName, line, stackFrames ) );
       store.dispatch( pauseDebugger() );

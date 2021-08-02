@@ -1,8 +1,8 @@
-def CreateMapIterator(map, kind) = {
+def CreateMapIterator(map, kind) = 0:{
   0:assert (|| (|| (= kind CONST_keyPLUSvalue) (= kind CONST_key)) (= kind CONST_value))
   1:app __x0__ = (RequireInternalSlot map "MapData")
   1:[? __x0__]
-  2:clo __x1__ = ()[map, kind] => {
+  2:clo __x1__ = ()[map, kind] => 3:{
     3:let entries = map.MapData
     4:let index = 0i
     5:let numEntries = entries.length

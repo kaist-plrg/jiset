@@ -1,4 +1,4 @@
-def [SYNTAX] AsyncArrowFunction[1,0].Contains[S]<(CoverCallExpressionAndAsyncArrowHead, AsyncConciseBody),true>(symbol) = {
+def [SYNTAX] AsyncArrowFunction[1,0].Contains[S]<(CoverCallExpressionAndAsyncArrowHead, AsyncConciseBody),true>(symbol) = 0:{
   0:if (! (|| (|| (|| (|| (is-instance-of symbol NewTarget) (is-instance-of symbol SuperProperty)) (is-instance-of symbol SuperCall)) (= symbol "super")) (= symbol "this"))) 0:return false else 0:{}
   1:access __x0__ = (CoverCallExpressionAndAsyncArrowHead "CoveredAsyncArrowHead")
   1:let head = __x0__

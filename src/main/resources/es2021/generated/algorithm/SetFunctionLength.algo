@@ -1,4 +1,4 @@
-def SetFunctionLength(F, length) = {
+def SetFunctionLength(F, length) = 1:{
   1:app __x0__ = (DefinePropertyOrThrow F "length" (new PropertyDescriptor("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true)))
   1:return [! __x0__]
 }

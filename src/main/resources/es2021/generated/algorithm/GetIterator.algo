@@ -1,4 +1,4 @@
-def GetIterator(obj, hint?, method?) = {
+def GetIterator(obj, hint?, method?) = 0:{
   0:if (= hint absent) 0:hint = CONST_sync else 0:{}
   1:assert (|| (= hint CONST_sync) (= hint CONST_async))
   2:if (= method absent) 3:if (= hint CONST_async) 3:{

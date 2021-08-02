@@ -1,4 +1,4 @@
-def [BUILTIN] String(value) = {
+def [BUILTIN] String(value) = 0:{
   0:if (= value absent) 0:let s = "" else 1:{
     2:if (&& (= NewTarget undefined) (= (typeof value) Symbol)) 2:{
       2:app __x0__ = (SymbolDescriptiveString value)

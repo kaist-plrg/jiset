@@ -1,8 +1,8 @@
-def CreateSetIterator(set, kind) = {
+def CreateSetIterator(set, kind) = 0:{
   0:assert (|| (= kind CONST_keyPLUSvalue) (= kind CONST_value))
   1:app __x0__ = (RequireInternalSlot set "SetData")
   1:[? __x0__]
-  2:clo __x1__ = ()[set, kind] => {
+  2:clo __x1__ = ()[set, kind] => 3:{
     3:let index = 0i
     4:let entries = set.SetData
     5:let numEntries = entries.length

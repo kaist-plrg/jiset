@@ -1,4 +1,4 @@
-def RejectPromise(promise, reason) = {
+def RejectPromise(promise, reason) = 0:{
   0:assert (= promise.PromiseState CONST_pending)
   1:let reactions = promise.PromiseRejectReactions
   2:promise.PromiseResult = reason

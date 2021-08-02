@@ -1,4 +1,4 @@
-def AddRestrictedFunctionProperties(F, realm) = {
+def AddRestrictedFunctionProperties(F, realm) = 1:{
   1:let thrower = realm.Intrinsics["%ThrowTypeError%"]
   2:app __x0__ = (DefinePropertyOrThrow F "caller" (new PropertyDescriptor("Get" -> thrower, "Set" -> thrower, "Enumerable" -> false, "Configurable" -> true)))
   2:[! __x0__]

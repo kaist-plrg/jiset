@@ -1,4 +1,4 @@
-def RegExpAlloc(newTarget) = {
+def RegExpAlloc(newTarget) = 0:{
   0:app __x0__ = (OrdinaryCreateFromConstructor newTarget "%RegExp.prototype%" (new ["RegExpMatcher", "OriginalSource", "OriginalFlags"]))
   0:let obj = [? __x0__]
   1:app __x1__ = (DefinePropertyOrThrow obj "lastIndex" (new PropertyDescriptor("Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))

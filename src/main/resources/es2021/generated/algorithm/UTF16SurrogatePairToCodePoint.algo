@@ -1,4 +1,4 @@
-def UTF16SurrogatePairToCodePoint(lead, trail) = {
+def UTF16SurrogatePairToCodePoint(lead, trail) = 1:{
   1:let cp = (+ (+ (* (- lead 55296i) 1024i) (- trail 56320i)) 65536i)
   2:return cp
 }

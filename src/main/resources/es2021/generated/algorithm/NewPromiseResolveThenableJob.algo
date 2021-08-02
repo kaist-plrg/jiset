@@ -1,5 +1,5 @@
-def NewPromiseResolveThenableJob(promiseToResolve, thenable, then) = {
-  0:clo __x0__ = ()[promiseToResolve, thenable, then] => {
+def NewPromiseResolveThenableJob(promiseToResolve, thenable, then) = 0:{
+  0:clo __x0__ = ()[promiseToResolve, thenable, then] => 1:{
     1:app __x1__ = (CreateResolvingFunctions promiseToResolve)
     1:let resolvingFunctions = __x1__
     2:app __x2__ = (HostCallJobCallback then thenable (new [resolvingFunctions.Resolve, resolvingFunctions.Reject]))

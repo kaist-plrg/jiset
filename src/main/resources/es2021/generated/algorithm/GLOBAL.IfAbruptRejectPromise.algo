@@ -1,4 +1,4 @@
-def [BUILTIN] IfAbruptRejectPromise(value, capability) = {
+def [BUILTIN] IfAbruptRejectPromise(value, capability) = 0:{
   0:app __x0__ = (IsAbruptCompletion value)
   0:if __x0__ 0:{
     1:app __x1__ = (Call capability.Reject undefined (new [value.Value]))

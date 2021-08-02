@@ -1,4 +1,4 @@
-def UpdateEmpty(completionRecord, value) = {
+def UpdateEmpty(completionRecord, value) = 1:{
   1:if (! (= completionRecord.Value CONST_empty)) 1:return completionRecord else 1:{}
   2:return (new Completion("Type" -> completionRecord.Type, "Value" -> value, "Target" -> completionRecord.Target))
 }

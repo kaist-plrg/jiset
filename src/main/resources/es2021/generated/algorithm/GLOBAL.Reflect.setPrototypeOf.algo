@@ -1,4 +1,4 @@
-def [BUILTIN] Reflect.setPrototypeOf(target, proto) = {
+def [BUILTIN] Reflect.setPrototypeOf(target, proto) = 0:{
   0:if (! (= (typeof target) Object)) 0:throw TypeError else 0:{}
   1:if (&& (! (= (typeof proto) Object)) (! (= proto null))) 1:throw TypeError else 1:{}
   2:app __x0__ = (target.SetPrototypeOf target proto)

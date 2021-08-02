@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import { Algo, getName } from "../object/Algo";
+import { Algo, getHeaderStr } from "../object/Algo";
 import "../styles/AlgoViewer.css";
 
 type AlgoStepProps = {
@@ -38,17 +38,16 @@ class AlgoViewer extends React.Component<AlgoViewerProps> {
   render () {
     const { data, currentStep } = this.props;
     if ( data === undefined ) return this.renderFail();
-    const name = getName( data );
-    const curIdx = currentStep ? currentStep : -1;
+    const headerStr = getHeaderStr( data );
     return (
       <div className="algo-container">
-        <Typography variant="subtitle1">{ name }</Typography>
+        <Typography variant="subtitle1">{ headerStr }</Typography>
         { data.code.map( ( str, idx ) => (
           <AlgoStep
-            key={ `algo-step-${ name }-${ idx }` }
+            key={ `algo-step-${ idx }` }
             content={ str }
             step={ idx }
-            highlight={ idx === curIdx }
+            highlight={ idx === currentStep }
           />
         ) ) }
       </div>

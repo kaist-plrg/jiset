@@ -1,4 +1,4 @@
-def UTF16EncodeCodePoint(cp) = {
+def UTF16EncodeCodePoint(cp) = 0:{
   0:assert (&& (! (< cp 0i)) (! (< 1114111i cp)))
   1:if (! (< 65535i cp)) 1:return cp else 1:{}
   2:app __x0__ = (floor (/ (- cp 65536i) 1024i))

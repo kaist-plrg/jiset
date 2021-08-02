@@ -1,4 +1,4 @@
-def [BUILTIN] AsyncFromSyncIteratorPrototype.throw(value?) = {
+def [BUILTIN] AsyncFromSyncIteratorPrototype.throw(value?) = 0:{
   0:let O = this
   1:assert (&& (= (typeof O) Object) (! (= O.SyncIteratorRecord absent)))
   2:app __x0__ = (NewPromiseCapability INTRINSICS["%Promise%"])

@@ -313,6 +313,9 @@ trait Compilers extends TokenListParsers {
         case ISeq(_ :: _) => super.walk(inst)
         case _ => { e.line = inst.line; super.walk(inst) }
       }
+      case ISeq(head :: _) =>
+        inst.setLine(head.line)
+        super.walk(inst)
       case _ => super.walk(inst)
     }
   }

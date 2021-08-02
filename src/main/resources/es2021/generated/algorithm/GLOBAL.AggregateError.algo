@@ -1,4 +1,4 @@
-def [BUILTIN] AggregateError(errors, message) = {
+def [BUILTIN] AggregateError(errors, message) = 0:{
   0:if (= NewTarget undefined) 0:let newTarget = CONTEXT.Function else 0:let newTarget = NewTarget
   1:app __x0__ = (OrdinaryCreateFromConstructor newTarget "%AggregateError.prototype%" (new ["ErrorData"]))
   1:let O = [? __x0__]

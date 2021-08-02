@@ -1,4 +1,4 @@
-def [METHOD] DeclarativeEnvironmentRecord.CreateMutableBinding(envRec)(N, D) = {
+def [METHOD] DeclarativeEnvironmentRecord.CreateMutableBinding(envRec)(N, D) = 1:{
   1:envRec.SubMap[N] = (new MutableBinding("initialized" -> false))
   1:if (= D true) 1:envRec.SubMap[N].maybeDeleted = true else 1:{}
   2:return CONST_empty

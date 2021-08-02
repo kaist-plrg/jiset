@@ -1,4 +1,4 @@
-def [BUILTIN] Array(...values) = {
+def [BUILTIN] Array(...values) = 0:{
   0:if (= NewTarget undefined) 0:let newTarget = CONTEXT.Function else 0:let newTarget = NewTarget
   1:app __x0__ = (GetPrototypeFromConstructor newTarget "%Array.prototype%")
   1:let proto = [? __x0__]

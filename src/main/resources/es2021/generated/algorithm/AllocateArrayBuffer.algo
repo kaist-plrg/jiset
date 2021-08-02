@@ -1,4 +1,4 @@
-def AllocateArrayBuffer(constructor, byteLength) = {
+def AllocateArrayBuffer(constructor, byteLength) = 0:{
   0:app __x0__ = (OrdinaryCreateFromConstructor constructor "%ArrayBuffer.prototype%" (new ["ArrayBufferData", "ArrayBufferByteLength", "ArrayBufferDetachKey"]))
   0:let obj = [? __x0__]
   1:app __x1__ = (CreateByteDataBlock byteLength)

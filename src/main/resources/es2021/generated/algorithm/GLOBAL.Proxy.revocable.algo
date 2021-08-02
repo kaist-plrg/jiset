@@ -1,4 +1,4 @@
-def [BUILTIN] Proxy.revocable(target, handler) = {
+def [BUILTIN] Proxy.revocable(target, handler) = 0:{
   0:app __x0__ = (ProxyCreate target handler)
   0:let p = [? __x0__]
   1:let steps = ALGORITHM["GLOBAL.ProxyRevocationFunctions"]

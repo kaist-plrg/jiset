@@ -1,4 +1,4 @@
-def [METHOD] FunctionEnvironmentRecord.GetThisBinding(envRec)() = {
+def [METHOD] FunctionEnvironmentRecord.GetThisBinding(envRec)() = 0:{
   0:assert (! (= envRec.ThisBindingStatus CONST_lexical))
   1:if (= envRec.ThisBindingStatus CONST_uninitialized) 1:throw ReferenceError else 1:{}
   2:return envRec.ThisValue

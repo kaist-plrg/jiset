@@ -1,4 +1,4 @@
-def [BUILTIN] Atomics.load(typedArray, index) = {
+def [BUILTIN] Atomics.load(typedArray, index) = 0:{
   0:app __x0__ = (ValidateIntegerTypedArray typedArray)
   0:let buffer = [? __x0__]
   1:app __x1__ = (ValidateAtomicAccess typedArray index)

@@ -1,4 +1,4 @@
-import { Algo } from "./Algo";
+import { Algo, getName } from "./Algo";
 
 export interface Spec {
   version: string;
@@ -16,6 +16,6 @@ export function getAlgo (
   algoName: string
 ): Algo | undefined {
   if ( spec === undefined ) return undefined;
-  let algos = spec.algos.filter( ( algo ) => algo.head.name === algoName );
+  let algos = spec.algos.filter( ( algo ) => getName( algo ) === algoName );
   return algos.length === 1 ? algos[ 0 ] : undefined;
 }

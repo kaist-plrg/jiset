@@ -1,4 +1,4 @@
-def OrdinaryFunctionCreate(functionPrototype, sourceText, ParameterList, Body, thisMode, Scope) = {
+def OrdinaryFunctionCreate(functionPrototype, sourceText, ParameterList, Body, thisMode, Scope) = 0:{
   0:assert (= (typeof functionPrototype) Object)
   1:let internalSlotsList = (new ["Environment", "FormalParameters", "ECMAScriptCode", "ConstructorKind", "Realm", "ScriptOrModule", "ThisMode", "Strict", "HomeObject", "SourceText", "IsClassConstructor"])
   2:app __x0__ = (OrdinaryObjectCreate functionPrototype internalSlotsList)

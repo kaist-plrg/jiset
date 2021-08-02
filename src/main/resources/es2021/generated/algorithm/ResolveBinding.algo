@@ -1,4 +1,4 @@
-def ResolveBinding(name, env?) = {
+def ResolveBinding(name, env?) = 0:{
   0:if (|| (= env absent) (= env undefined)) 1:env = CONTEXT.LexicalEnvironment else 0:{}
   2:assert (is-instance-of env EnvironmentRecord)
   3:if true 3:let strict = true else 3:let strict = false
