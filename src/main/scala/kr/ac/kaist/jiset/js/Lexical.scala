@@ -5,16 +5,17 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.error.InvalidAST
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.{ Span, Pos }
+import kr.ac.kaist.jiset.util.Useful._
 import io.circe._, io.circe.syntax._
 
 object Lexical {
   def apply(data: Json): Lexical = AST(data) match {
     case Some(compressed) => Lexical(compressed)
-    case None => ???
+    case None => error("invalid AST compressed form")
   }
   def apply(data: AST.Compressed): Lexical = {
-    val AST.LexicalCompressed(str) = data
-    Lexical("", str) // TODO handle kind
+    val AST.LexicalCompressed(kind, str) = data
+    Lexical(kind, str)
   }
 }
 
@@ -30,13 +31,13 @@ case class Lexical(kind: String, str: String) extends AST {
   override def name: String = kind
 
   // pretty printer
-  override def prettify: Json = Json.arr(
+  override def prettify: Json = toJson
+
+  // to JSON format
+  override def toJson: Json = Json.arr(
     Json.fromString(kind),
     Json.fromString(str),
   )
-
-  // to JSON format
-  override def toJson: Json = Json.fromString(str)
 
   // conversion to string
   override def toString: String = str

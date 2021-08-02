@@ -28,7 +28,6 @@ case class DiffGenerator(grammar: Grammar) {
     nf.println(s"""    case (None, None) =>""")
     nf.println(s"""    case _ => diffError(l, r)""")
     nf.println(s"""  }""")
-    nf.println(s"""  def diff(l: Span, r: Span): Unit = if (l != r) diffError(l, r)""")
     nf.println(s"""  def diff(l: List[Boolean], r: List[Boolean]): Unit = if (l != r) diffError(l, r)""")
     nf.println(s"""  def diff(l: Lexical, r: Lexical): Unit = {""")
     nf.println(s"""    if (l.kind != r.kind) diffError(l.kind, r.kind)""")
@@ -48,13 +47,13 @@ case class DiffGenerator(grammar: Grammar) {
         (token, i) <- rhs.tokens.zipWithIndex
         (name, opt) <- getInfo(token)
       } yield (i, name, opt)
-      val ls = (xs.map(t => "l" + t._1) ++ List("lp", "ls")).mkString(", ")
-      val rs = (xs.map(t => "r" + t._1) ++ List("rp", "rs")).mkString(", ")
+      val ls = (xs.map(t => "l" + t._1) ++ List("lp", "_")).mkString(", ")
+      val rs = (xs.map(t => "r" + t._1) ++ List("rp", "_")).mkString(", ")
       nf.println(s"""    case ($name$k($ls), $name$k($rs)) =>""")
       val diffStr = (xs.map {
         case (i, name, true) => s"diff[$name](l$i, r$i, diff)"
         case (i, _, false) => s"diff(l$i, r$i)"
-      } ++ List("diff(lp, rp)", "diff(ls, rs)")).mkString("; ")
+      } ++ List("diff(lp, rp)")).mkString("; ")
       nf.println(s"""      $diffStr""")
     }
     nf.println(s"""    case _ => diffError(l, r)""")

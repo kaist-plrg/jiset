@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.error._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.{ Span, Pos }
-import kr.ac.kaist.jiset.util.Useful.cached
+import kr.ac.kaist.jiset.util.Useful.{ cached, error }
 import io.circe._, io.circe.syntax._
 
 trait AST {
@@ -154,7 +154,8 @@ object AST {
         val b2 = c0.params.size == c1.params.size &&
           c0.params.zip(c1.params).map { case (p0, p1) => p0 == p1 }.forall(_ == true)
         b0 && b2
-      case (LexicalCompressed(s0), LexicalCompressed(s1)) => s0 == s1
+      case (LexicalCompressed(k0, s0), LexicalCompressed(k1, s1)) =>
+        s0 == s1 && k0 == k1
       case _ => false
     }
   }
@@ -164,20 +165,29 @@ object AST {
     params: List[Boolean],
     span: Span
   ) extends Compressed
-  case class LexicalCompressed(str: String) extends Compressed
+  case class LexicalCompressed(
+    kind: String,
+    str: String
+  ) extends Compressed
 
   // convert json to compressed form
   def apply(data: Json): Option[Compressed] = data match {
-    case arr if data.isArray =>
-      val List(jIdx, jSubs, jParams, jSpan) = arr.asArray.get.toList
-      val idx = jIdx.asNumber.get.toInt.get
-      val subs = jSubs.asArray.get.toArray.map(AST(_))
-      val params = jParams.asArray.get.toList.map(_.asNumber.get.toInt.get == 1)
-      val List(sl, sc, el, ec) =
-        jSpan.asArray.get.toList.map(_.asNumber.get.toInt.get)
-      Some(NormalCompressed(idx, subs, params, Span(Pos(sl, sc), Pos(el, ec))))
-    case str if data.isString => Some(LexicalCompressed(str.asString.get))
+    case arr if data.isArray => arr.asArray.get.toList match {
+      // non-lexical
+      case List(jIdx, jSubs, jParams, jSpan) =>
+        val idx = jIdx.asNumber.get.toInt.get
+        val subs = jSubs.asArray.get.toArray.map(AST(_))
+        val params = jParams.asArray.get.toList.map(_.asNumber.get.toInt.get == 1)
+        val List(sl, sc, el, ec) =
+          jSpan.asArray.get.toList.map(_.asNumber.get.toInt.get)
+        Some(NormalCompressed(idx, subs, params, Span(Pos(sl, sc), Pos(el, ec))))
+      // lexical
+      case List(jKind, jStr) =>
+        val kind = jKind.asString.get
+        val str = jStr.asString.get
+        Some(LexicalCompressed(kind, str))
+    }
     case none if data.isNull => None
-    case _ => ???
+    case _ => error("invalid AST compressed form")
   }
 }

@@ -59,14 +59,15 @@ trait JSTest extends IRTest {
     val toJsonName = changeExt("js", "json")
     try {
       val json = esparseFile(jsName)
+
       // check compressed form equality
       val comp0 = AST(answer.toJson).get
       val comp1 = AST(json).get
       assert(comp0.equals(comp1))
 
       // check AST equality
-      val esAST = Script(comp1)
-      assert(answer.toString == esAST.toString)
+      val ast = Script(comp1)
+      ASTDiff.diff(answer, ast)
     } catch {
       // save answer to tests/ast for debugging
       case e: Throwable =>

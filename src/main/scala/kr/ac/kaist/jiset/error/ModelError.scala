@@ -26,6 +26,10 @@ case object InvalidAST extends ModelError({
   s"invald abstract syntax tree"
 })
 
+case object InvalidCompressedData extends ModelError({
+  s"invalid compressed data"
+})
+
 case class WrongUId(uid: Int) extends ModelError({
   s"[WrongUId] uid $uid does not exist."
 })
