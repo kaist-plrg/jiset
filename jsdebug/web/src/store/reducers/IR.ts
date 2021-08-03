@@ -3,43 +3,56 @@ import produce from "immer";
 // redux actions
 export enum IRActionType {
   UPDATE = "IRAction/UPDATE",
+  SHOW_ALGO = "IRAction/SHOW_ALGO",
 }
-export function updateIrInfo ( algoName: string, line: number, stackFrames: string[] ): IRAction {
+export function updateIrInfo ( stackFrame: [ string, number ][] ): IRAction {
   return {
     type: IRActionType.UPDATE,
-    algoName,
-    line,
-    stackFrames,
+    stackFrame,
   };
 }
-export type IRAction = {
-  type: IRActionType.UPDATE;
-  algoName: string;
-  line: number;
-  stackFrames: string[];
-};
+export function showAlgo ( idx: number ): IRAction {
+  return {
+    type: IRActionType.SHOW_ALGO,
+    idx,
+  };
+}
+export type IRAction =
+  | {
+    type: IRActionType.UPDATE;
+    stackFrame: [ string, number ][];
+  }
+  | {
+    type: IRActionType.SHOW_ALGO;
+    idx: number;
+  };
 
 // redux state
 type IRState = {
-  algoName: string;
-  line: number;
-  stackFrames: string[];
+  stackFrame: {
+    data: [ string, number ][];
+    idx: number;
+  };
 };
-export const INVALID_ALGO = "";
-export const INVALID_LINE = -1;
 const initialState: IRState = {
-  algoName: INVALID_ALGO,
-  line: INVALID_LINE,
-  stackFrames: [],
+  stackFrame: {
+    data: [],
+    idx: 0,
+  },
 };
 
-export default function ( state = initialState, action: IRAction ) {
+export default function reducer ( state = initialState, action: IRAction ) {
   switch ( action.type ) {
     case IRActionType.UPDATE:
       return produce( state, ( draft ) => {
-        draft.algoName = action.algoName;
-        draft.line = action.line;
-        draft.stackFrames = action.stackFrames;
+        draft.stackFrame = {
+          data: action.stackFrame,
+          idx: 0,
+        };
+      } );
+    case IRActionType.SHOW_ALGO:
+      return produce( state, ( draft ) => {
+        draft.stackFrame.idx = action.idx;
       } );
     default:
       return state;

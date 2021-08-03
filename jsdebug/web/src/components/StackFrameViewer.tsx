@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper,
 } from "@material-ui/core";
+import { v4 as uuid } from "uuid";
 import "../styles/StackFrameViewer.css";
 
 import { connect, ConnectedProps } from "react-redux";
@@ -17,19 +18,30 @@ import { ActionType } from "../controller/Action";
 import sm from "../controller";
 
 type StackFrameItemProps = {
-  // data: { name: string; step: number; focus: boolean; };
-  data: string;
+  data: [ string, number ];
+  highlight: boolean;
   idx: number;
+  onItemClick: ( idx: number ) => void;
 };
 class StackFrameItem extends React.Component<StackFrameItemProps> {
+  getClassName (): string {
+    let className = "stackframe-item";
+    const { highlight } = this.props;
+    if ( highlight ) className += " highlight";
+    return className;
+  }
   render () {
-    const { data, idx } = this.props;
-    // const { name, step, focus } = data;
+    const { data, idx, onItemClick } = this.props;
+    const [ name, step ] = data;
+    const content = step === -1 ? name : `${ step } @ ${ name }`;
 
     return (
-      <TableRow>
+      <TableRow
+        className={ this.getClassName() }
+        onClick={ () => onItemClick( idx ) }
+      >
         <TableCell>{ idx }</TableCell>
-        <TableCell>{ data }</TableCell>
+        <TableCell>{ content }</TableCell>
       </TableRow>
     );
   }
@@ -37,14 +49,20 @@ class StackFrameItem extends React.Component<StackFrameItemProps> {
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
-  stackFrames: st.ir.stackFrames,
+  stackFrame: st.ir.stackFrame,
 } );
 const connector = connect( mapStateToProps );
 type StackFrameViewerProps = ConnectedProps<typeof connector>;
 
 class StackFrameViewer extends React.Component<StackFrameViewerProps> {
+  onItemClick ( idx: number ) {
+    sm.move( { type: ActionType.SHOW_ALGO, idx } );
+  }
   render () {
-    const { stackFrames } = this.props;
+    const { stackFrame } = this.props;
+    const { data, idx } = stackFrame;
+
+    console.log( data, idx );
 
     return (
       <div className="stackframe-container">
@@ -60,11 +78,13 @@ class StackFrameViewer extends React.Component<StackFrameViewerProps> {
               </TableRow>
             </TableHead>
             <TableBody>
-              { stackFrames.map( ( context, idx ) => (
+              { data.map( ( ctxtInfo, ctxtIdx ) => (
                 <StackFrameItem
-                  key={ `stackframe-item-${ idx }` }
-                  data={ context }
-                  idx={ idx }
+                  key={ uuid() }
+                  data={ ctxtInfo }
+                  idx={ ctxtIdx }
+                  highlight={ idx === ctxtIdx }
+                  onItemClick={ ( idx: number ) => this.onItemClick( idx ) }
                 />
               ) ) }
             </TableBody>

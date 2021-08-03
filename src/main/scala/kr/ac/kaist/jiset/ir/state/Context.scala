@@ -15,4 +15,24 @@ case class Context(
 ) extends IRComponent {
   def copied: Context = copy(locals = MMap.from(locals))
   def isBuiltin: Boolean = algo.fold(false)(_.isBuiltin)
+  // save previous cursor for stack frame info
+  private var prevCursorOpt: Option[Cursor] = None
+  // move cursor
+  def moveNext: Unit = {
+    prevCursorOpt = cursorOpt
+    cursorOpt = cursorOpt.flatMap(_.next)
+  }
+  // debugger info
+  def getAlgoName: String = algo match {
+    case Some(algo) => algo.name
+    case None => name
+  }
+  private def getLine(cur: Option[Cursor]): Int = cur.flatMap(_.inst) match {
+    case Some(inst) => inst.line.getOrElse(-1)
+    case None => -1
+  }
+  def getInfo(fromPrev: Boolean = false): (String, Int) = (
+    getAlgoName,
+    getLine(if (fromPrev) prevCursorOpt else cursorOpt)
+  )
 }

@@ -17,37 +17,9 @@ object Export {
     def _step() = step
     def _stepOver() = stepOver
     def _stepOut() = stepOut
-    def getAlgoName(): String = {
-      currentAlgo match {
-        case Some(algo) => algo.name
-        case None => ""
-      }
-    }
-    def getLine(): Int = currentInst match {
-      case Some(i) => i.line.getOrElse(-1)
-      case None => -1
-    }
-    var stackFrames: List[(String, Int)] = List()
-    def getStackInfo(): String = {
-      stackFrames match {
-        case Nil => { stackFrames = (getAlgoName(), getLine()) :: stackFrames }
-        case fst :: rest => {
-          val (name, _) = fst
-          if (name == getAlgoName()) { stackFrames = (name, getLine()) :: rest }
-          else {
-            rest match {
-              case Nil => { stackFrames = (getAlgoName(), getLine()) :: stackFrames }
-              case snd :: rest2 => {
-                val (name2, _) = snd
-                if (name2 == getAlgoName()) { stackFrames = (name2, getLine()) :: rest2 }
-                else { stackFrames = (getAlgoName(), getLine()) :: stackFrames }
-              }
-            }
-          }
-        }
-      }
-      val infos: List[String] = stackFrames.map { case (n, l) => "step " + l.toString + " @ " + n }
-      infos.asJson.noSpaces
+    def getStackFrame(): String = {
+      val stackFrame = st.context.getInfo() :: st.ctxtStack.map(_.getInfo(true))
+      stackFrame.asJson.noSpaces
     }
   }
 
@@ -58,7 +30,7 @@ object Export {
       case Right(json) => json
     }
     val script = Script(json)
-    Initialize(script)
+    Initialize(script, cursorGen = NodeCursor)
   }
 
   @JSExportTopLevel("Scala_setSpec")

@@ -103,5 +103,5 @@ case class State(
   }
 
   // move to the next cursor
-  def moveNext: Unit = context.cursorOpt = context.cursorOpt.flatMap(_.next)
+  def moveNext: Unit = context.moveNext
 }

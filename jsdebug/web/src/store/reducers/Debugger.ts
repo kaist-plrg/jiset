@@ -58,7 +58,7 @@ const initialState: DebuggerState = {
 };
 
 // reducer
-export default function ( state = initialState, action: DebuggerAction ) {
+export default function reducer ( state = initialState, action: DebuggerAction ) {
   switch ( action.type ) {
     case DebuggerActionType.TERMINATE:
       return produce( state, ( draft ) => {

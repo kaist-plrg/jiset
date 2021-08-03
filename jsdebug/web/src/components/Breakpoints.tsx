@@ -1,4 +1,5 @@
 import React from "react";
+import { v4 as uuid } from "uuid";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@material-ui/core";
 import "../styles/Breakpoints.css";
 
@@ -66,7 +67,7 @@ class Breakpoints extends React.Component {
           </TableHead>
           <TableBody>
             { breakpoints.map( ( bp, idx ) => (
-              <BreakpointItem key={ `breakpoints-${ idx }` } data={ bp } idx={ idx } />
+              <BreakpointItem key={ uuid() } data={ bp } idx={ idx } />
             ) ) }
           </TableBody>
         </Table>

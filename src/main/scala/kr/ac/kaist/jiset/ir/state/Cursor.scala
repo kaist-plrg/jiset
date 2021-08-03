@@ -12,6 +12,17 @@ sealed trait Cursor extends IRComponent {
     case NodeCursor(linear: Linear) => Some(NodeCursor(cfg.nextOf(linear)))
     case NodeCursor(_) => None
   }
+  // get instruction of current cursor
+  def inst: Option[Inst] = this match {
+    case InstCursor(cur, _) => Some(cur)
+    case NodeCursor(node) => node match {
+      case Entry(_) | Exit(_) => None
+      case Normal(_, inst) => Some(inst)
+      case Call(_, inst) => Some(inst)
+      case Arrow(_, inst, _) => Some(inst)
+      case Branch(_, inst) => Some(inst)
+    }
+  }
 }
 
 // generator of evaluation cursors

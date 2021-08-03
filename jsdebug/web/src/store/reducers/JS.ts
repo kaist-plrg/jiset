@@ -34,7 +34,7 @@ const initialState: JSState = {
 };
 
 // reducer
-export default function ( state = initialState, action: JSAction ) {
+export default function reducer ( state = initialState, action: JSAction ) {
   switch ( action.type ) {
     case JSActionType.EDIT:
       return produce( state, ( draft ) => {

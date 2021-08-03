@@ -7,9 +7,7 @@ declare class Scala_WebDebugger {
   _step (): void;
   _stepOver (): void;
   _stepOut (): void;
-  getAlgoName (): string;
-  getLine (): number;
-  getStackInfo (): string;
+  getStackFrame (): string;
 }
 
 // call setTarget

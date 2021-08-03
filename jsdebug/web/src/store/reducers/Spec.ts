@@ -25,7 +25,7 @@ const initialState: SpecState = {
 };
 
 // reducer
-export default function ( state = initialState, action: SpecAction ) {
+export default function reducer ( state = initialState, action: SpecAction ) {
   switch ( action.type ) {
     case SpecActionType.LOAD: {
       state.spec = action.spec;

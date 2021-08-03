@@ -16,7 +16,7 @@ import {
 } from "../store/reducers/Debugger";
 
 // ir
-import { updateIrInfo } from "../store/reducers/IR";
+import { updateIrInfo, showAlgo } from "../store/reducers/IR";
 
 // possible action types
 export enum ActionType {
@@ -29,6 +29,7 @@ export enum ActionType {
   CONTINUE = "ActionType/CONTINUE",
   TERMINATE = "ActionType/TERMINATE",
   STOP_DBG = "ActionType/STOP_DBG",
+  SHOW_ALGO = "ActionType/SHOW_ALGO",
 }
 
 // action payload
@@ -44,7 +45,8 @@ export type ActionPayload =
   | { type: ActionType.STEP_OUT }
   | { type: ActionType.CONTINUE }
   | { type: ActionType.TERMINATE }
-  | { type: ActionType.STOP_DBG };
+  | { type: ActionType.STOP_DBG }
+  | { type: ActionType.SHOW_ALGO; idx: number };
 
 // actions
 export type Action = ( store: Store, ...args: any[] ) => void;
@@ -83,6 +85,13 @@ export const actions: [ ActionType, Action ][] = [
       store.dispatch( loadDebugger( webDebugger ) );
     },
   ],
+  // show algorithm in stack frames
+  [
+    ActionType.SHOW_ALGO,
+    ( store: Store, { idx } ) => {
+      store.dispatch( showAlgo( idx ) );
+    },
+  ],
   // step
   [
     ActionType.STEP,
@@ -96,11 +105,10 @@ export const actions: [ ActionType, Action ][] = [
       webDebugger._step();
 
       // update ir info
-      let algoName = webDebugger.getAlgoName();
-      let line = webDebugger.getLine();
-      console.log( algoName, line );
-      let stackFrames = JSON.parse( webDebugger.getStackInfo() );
-      store.dispatch( updateIrInfo( algoName, line, stackFrames ) );
+      let stackFrame: [ string, number ][] = JSON.parse(
+        webDebugger.getStackFrame()
+      );
+      store.dispatch( updateIrInfo( stackFrame ) );
       store.dispatch( pauseDebugger() );
     },
   ],
@@ -117,10 +125,10 @@ export const actions: [ ActionType, Action ][] = [
       webDebugger._stepOver();
 
       // update ir info
-      let algoName = webDebugger.getAlgoName();
-      let line = webDebugger.getLine();
-      let stackFrames = JSON.parse( webDebugger.getStackInfo() );
-      store.dispatch( updateIrInfo( algoName, line, stackFrames ) );
+      let stackFrame: [ string, number ][] = JSON.parse(
+        webDebugger.getStackFrame()
+      );
+      store.dispatch( updateIrInfo( stackFrame ) );
       store.dispatch( pauseDebugger() );
     },
   ],
@@ -137,10 +145,10 @@ export const actions: [ ActionType, Action ][] = [
       webDebugger._stepOut();
 
       // update ir info
-      let algoName = webDebugger.getAlgoName();
-      let line = webDebugger.getLine();
-      let stackFrames = JSON.parse( webDebugger.getStackInfo() );
-      store.dispatch( updateIrInfo( algoName, line, stackFrames ) );
+      let stackFrame: [ string, number ][] = JSON.parse(
+        webDebugger.getStackFrame()
+      );
+      store.dispatch( updateIrInfo( stackFrame ) );
       store.dispatch( pauseDebugger() );
     },
   ],

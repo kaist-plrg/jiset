@@ -1,4 +1,5 @@
 import React from "react";
+import { v4 as uuid } from "uuid";
 import { Typography } from "@material-ui/core";
 import { Algo, getHeaderStr } from "../object/Algo";
 import "../styles/AlgoViewer.css";
@@ -44,7 +45,7 @@ class AlgoViewer extends React.Component<AlgoViewerProps> {
         <Typography variant="subtitle1">{ headerStr }</Typography>
         { data.code.map( ( str, idx ) => (
           <AlgoStep
-            key={ `algo-step-${ idx }` }
+            key={ uuid() }
             content={ str }
             step={ idx }
             highlight={ idx === currentStep }

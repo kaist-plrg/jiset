@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.{ DEBUG, TIMEOUT }
 import kr.ac.kaist.jiset.spec.algorithm._
+import kr.ac.kaist.jiset.cfg._
 import scala.collection.mutable.ArrayBuffer
 import scala.annotation.tailrec
 
@@ -27,13 +28,6 @@ trait Debugger {
   val interp = new Interp(st, None, true)
   var detail: Boolean = false
 
-  // get current state info
-  def currentAlgo: Option[Algo] = st.context.algo
-  def currentInst: Option[Inst] = st.context.cursorOpt match {
-    case Some(InstCursor(cur, _)) => Some(cur)
-    case _ => None
-  }
-
   // step until predicate
   @tailrec
   private def stepUntil(pred: => Boolean): Unit = {
@@ -46,7 +40,12 @@ trait Debugger {
   }
 
   // step
-  final def step: Unit = interp.step
+  final def step: Unit = stepUntil {
+    interp.nextTarget match {
+      case next: interp.NextStep => false
+      case _ => true
+    }
+  }
 
   // step-over
   final def stepOver: Unit = {

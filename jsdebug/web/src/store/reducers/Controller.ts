@@ -23,7 +23,7 @@ type ControllerState = {
 const initialState: ControllerState = { state: AppState.INIT };
 
 // reducer
-export default function ( state = initialState, action: ControllerAction ) {
+export default function reducer ( state = initialState, action: ControllerAction ) {
   switch ( action.type ) {
     case ControllerActionType.MOVE:
       return produce( state, ( draft ) => {
