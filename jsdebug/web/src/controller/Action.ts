@@ -105,14 +105,13 @@ export const actions: [ ActionType, Action ][] = [
       webDebugger.specStep();
 
       // update ir info
-      let stackFrame: StackFrame = JSON.parse(
-        webDebugger.getStackFrame()
-      );
+      let stackFrame: StackFrame = JSON.parse( webDebugger.getStackFrame() );
+      let heap = JSON.parse( webDebugger.getHeap() );
       let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
         webDebugger.getJsRange()
       );
       store.dispatch( updateJsRange( jsStart, jsEnd ) );
-      store.dispatch( updateIrInfo( stackFrame ) );
+      store.dispatch( updateIrInfo( stackFrame, heap ) );
       store.dispatch( pauseDebugger() );
     },
   ],
@@ -129,14 +128,13 @@ export const actions: [ ActionType, Action ][] = [
       webDebugger.specStepOver();
 
       // update ir info
-      let stackFrame: StackFrame = JSON.parse(
-        webDebugger.getStackFrame()
-      );
+      let stackFrame: StackFrame = JSON.parse( webDebugger.getStackFrame() );
+      let heap = JSON.parse( webDebugger.getHeap() );
       let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
         webDebugger.getJsRange()
       );
       store.dispatch( updateJsRange( jsStart, jsEnd ) );
-      store.dispatch( updateIrInfo( stackFrame ) );
+      store.dispatch( updateIrInfo( stackFrame, heap ) );
       store.dispatch( pauseDebugger() );
     },
   ],
@@ -153,14 +151,13 @@ export const actions: [ ActionType, Action ][] = [
       webDebugger.specStepOut();
 
       // update ir info
-      let stackFrame: StackFrame = JSON.parse(
-        webDebugger.getStackFrame()
-      );
+      let stackFrame: StackFrame = JSON.parse( webDebugger.getStackFrame() );
+      let heap = JSON.parse( webDebugger.getHeap() );
       let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
         webDebugger.getJsRange()
       );
       store.dispatch( updateJsRange( jsStart, jsEnd ) );
-      store.dispatch( updateIrInfo( stackFrame ) );
+      store.dispatch( updateIrInfo( stackFrame, heap ) );
       store.dispatch( pauseDebugger() );
     },
   ],

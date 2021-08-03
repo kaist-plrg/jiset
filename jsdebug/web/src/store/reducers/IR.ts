@@ -1,7 +1,9 @@
 import produce from "immer";
 
 // name, beautified value
-export type Environment = [ string, string ][]
+export type Environment = [ string, string ][];
+// beautified addr and value
+export type Heap = { [ addr: string ]: string };
 // context name, current step number, env data
 export type StackFrameData = [ string, number, Environment ];
 export type StackFrame = StackFrameData[]
@@ -11,10 +13,11 @@ export enum IRActionType {
   UPDATE = "IRAction/UPDATE",
   SHOW_ALGO = "IRAction/SHOW_ALGO",
 }
-export function updateIrInfo ( stackFrame: StackFrame ): IRAction {
+export function updateIrInfo ( stackFrame: StackFrame, heap: Heap ): IRAction {
   return {
     type: IRActionType.UPDATE,
     stackFrame,
+    heap
   };
 }
 export function showAlgo ( idx: number ): IRAction {
@@ -27,6 +30,7 @@ export type IRAction =
   | {
     type: IRActionType.UPDATE;
     stackFrame: StackFrame;
+    heap: Heap;
   }
   | {
     type: IRActionType.SHOW_ALGO;
@@ -41,12 +45,14 @@ type IRState = {
     // stack frame index to show spec
     idx: number;
   };
+  heap: Heap
 };
 const initialState: IRState = {
   stackFrame: {
     data: [],
     idx: 0,
   },
+  heap: {}
 };
 
 export default function reducer ( state = initialState, action: IRAction ) {
@@ -57,6 +63,7 @@ export default function reducer ( state = initialState, action: IRAction ) {
           data: action.stackFrame,
           idx: 0,
         };
+        draft.heap = action.heap;
       } );
     case IRActionType.SHOW_ALGO:
       return produce( state, ( draft ) => {

@@ -6,9 +6,10 @@ import {
   Icon,
   Typography,
 } from "@material-ui/core";
+import "../styles/StateViewer.css";
 
 import StackFrameViewer from "./StackFrameViewer";
-// TODO import StateWatcher from "./StateWatcher";
+import HeapViewer from "./HeapViewer";
 import Breakpoints from "./Breakpoints";
 import SpecEnvViewer from "./SpecEnvViewer";
 
@@ -29,13 +30,21 @@ class StateViewer extends React.Component<StateViewerProps> {
     const { disableStateViewer } = this.props;
 
     return (
-      <div>
+      <div className="state-viewer-container">
         <Accordion disabled={ disableStateViewer }>
           <AccordionSummary expandIcon={ <Icon>expand_more</Icon> }>
             <Typography>ECMAScript Environment</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <SpecEnvViewer />
+          </AccordionDetails>
+        </Accordion>
+        <Accordion disabled={ disableStateViewer }>
+          <AccordionSummary expandIcon={ <Icon>expand_more</Icon> }>
+            <Typography>ECMAScript Heap</Typography>
+          </AccordionSummary>
+          <AccordionDetails style={ { paddingTop: 0 } }>
+            <HeapViewer />
           </AccordionDetails>
         </Accordion>
         <Accordion disabled={ disableStateViewer }>

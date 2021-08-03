@@ -14,6 +14,7 @@ declare class Scala_WebDebugger {
   specStepOut (): void;
   // get state info
   getStackFrame (): string;
+  getHeap (): string;
   getJsRange (): string;
 }
 

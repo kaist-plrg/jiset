@@ -54,6 +54,11 @@ object Export {
       }
       range.asJson.noSpaces
     }
+
+    // get heap info
+    def getHeap(): String = st.heap.map.map {
+      case (addr, obj) => (addr.beautified, obj.beautified)
+    }.asJson.noSpaces
   }
 
   @JSExportTopLevel("Scala_initializeState")
