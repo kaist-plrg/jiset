@@ -120,6 +120,12 @@ class Translator {
       complete = complete,
     )
 
+    // set functions for algorithms
+    origin match {
+      case AlgoOrigin(algo) => algo.setFunc(func)
+      case _ =>
+    }
+
     // link body instruction with the corresponding CFG function
     bodyFuncMap += body.uid -> func
 

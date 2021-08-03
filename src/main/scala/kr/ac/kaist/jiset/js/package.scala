@@ -26,11 +26,10 @@ package object js {
   lazy val consts: Set[String] = spec.consts
   lazy val intrinsics: Set[String] = spec.intrinsics
   lazy val symbols: Set[String] = spec.symbols
-  lazy val algos: Map[String, Algo] =
-    spec.algos.map(algo => algo.name -> algo).toMap
+  lazy val algoMap: Map[String, Algo] = spec.algoMap
 
   // default algorithm for `Contains` static semantics
-  lazy val defaultContains: Algo = algos.getOrElse("Contains", {
+  lazy val defaultContains: Algo = algoMap.getOrElse("Contains", {
     error("cannot find default `Contains` algorithm")
   })
 

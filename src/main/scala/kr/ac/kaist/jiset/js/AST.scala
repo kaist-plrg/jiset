@@ -132,7 +132,7 @@ object AST {
     case (kind, idx) => {
       val pattern = s"${kind}\\[${idx},(\\d+)\\]\\.(.*)".r
       (for {
-        (name, algo) <- algos
+        (name, algo) <- algoMap
         methodName <- name match {
           case pattern(j, methodName) => Some(methodName + j)
           case _ => None

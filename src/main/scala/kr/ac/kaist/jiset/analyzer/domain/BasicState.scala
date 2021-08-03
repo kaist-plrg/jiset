@@ -4,23 +4,13 @@ import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.{ Initialize => JSInitialize }
 import kr.ac.kaist.jiset.util.StateMonad
+import kr.ac.kaist.jiset.util.Useful._
 
 // basic abstract states
 object BasicState extends Domain {
-  object Bot extends Elem
-  object Top extends Elem
-  case class Base(
-    locals: Map[Id, AbsValue],
-    globals: Map[Id, AbsValue],
-    heap: AbsHeap
-  ) extends Elem
-
-  // constructors
-  def apply(
-    locals: Map[Id, AbsValue] = Map(),
-    globals: Map[Id, AbsValue] = Map(),
-    heap: AbsHeap = AbsHeap()
-  ) = Base(locals, globals, heap)
+  lazy val Bot = Elem(reachable = false)
+  lazy val Empty = Elem(reachable = true)
+  lazy val Top = error("impossible define top value.")
 
   // base globals
   lazy val base: Map[Id, AbsValue] = (for {
@@ -32,11 +22,24 @@ object BasicState extends Domain {
   val monad: StateMonad[Elem] = new StateMonad[Elem]
 
   // elements
-  sealed trait Elem extends ElemTrait {
+  case class Elem(
+    reachable: Boolean,
+    locals: Map[Id, AbsValue] = Map(),
+    globals: Map[Id, AbsValue] = Map(),
+    heap: AbsHeap = AbsHeap.Bot
+  ) extends ElemTrait {
+    // partial order
+    override def isBottom = !this.reachable
+    override def isTop = false
+
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
-      case BasicOrder(bool) => bool
-      case (Base(llocals, lglobals, lheap), Base(rlocals, rglobals, rheap)) => {
+      case _ if this.isBottom => true
+      case _ if that.isBottom => false
+      case (
+        Elem(_, llocals, lglobals, lheap),
+        Elem(_, rlocals, rglobals, rheap)
+        ) => {
         val localsB = (llocals.keySet ++ rlocals.keySet).forall(x => {
           this.lookupLocal(x) ⊑ that.lookupLocal(x)
         })
@@ -50,8 +53,12 @@ object BasicState extends Domain {
 
     // join operator
     def ⊔(that: Elem): Elem = (this, that) match {
-      case BasicJoin(elem) => elem
-      case (Base(llocals, lglobals, lheap), Base(rlocals, rglobals, rheap)) => {
+      case _ if this.isBottom => that
+      case _ if that.isBottom => this
+      case (
+        Elem(_, llocals, lglobals, lheap),
+        Elem(_, rlocals, rglobals, rheap)
+        ) => {
         val newLocals = (for {
           x <- (llocals.keySet ++ rlocals.keySet).toList
           v = this.lookupLocal(x) ⊔ that.lookupLocal(x)
@@ -63,7 +70,7 @@ object BasicState extends Domain {
           if !v.isBottom
         } yield x -> v).toMap
         val newHeap = lheap ⊔ rheap
-        Base(newLocals, newGlobals, newHeap)
+        Elem(true, newLocals, newGlobals, newHeap)
       }
     }
 
@@ -83,33 +90,22 @@ object BasicState extends Domain {
 
     // lookup local variables
     def lookupLocal(x: Id): AbsValue = this match {
-      case Bot => AbsValue.Bot
-      case Base(locals, _, _) => locals.getOrElse(x, AbsValue.Bot)
-      case Top => AbsValue.Top
+      case Elem(_, locals, _, _) =>
+        locals.getOrElse(x, AbsValue.Bot)
     }
 
     // lookup global variables
     def lookupGlobal(x: Id): AbsValue = this match {
-      case Bot => AbsValue.Bot
-      case Base(_, globals, _) =>
+      case Elem(_, _, globals, _) =>
         globals.getOrElse(x, base.getOrElse(x, AbsValue.Bot))
-      case Top => AbsValue.Top
     }
 
     // define global variables
-    def defineGlobal(x: Id, v: AbsValue): Elem = {
-      if (v.isBottom) Bot else this match {
-        case Bot | Top => this
-        case (st: Base) => st.copy(globals = st.globals + (x -> v))
-      }
-    }
+    def defineGlobal(pairs: (Id, AbsValue)*): Elem =
+      copy(globals = globals ++ pairs)
 
     // define local variables
-    def defineLocal(x: Id, v: AbsValue): Elem = {
-      if (v.isBottom) Bot else this match {
-        case Bot | Top => this
-        case (st: Base) => st.copy(locals = st.locals + (x -> v))
-      }
-    }
+    def defineLocal(pairs: (Id, AbsValue)*): Elem =
+      copy(locals = locals ++ pairs)
   }
 }

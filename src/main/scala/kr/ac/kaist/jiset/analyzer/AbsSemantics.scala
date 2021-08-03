@@ -56,6 +56,27 @@ case class AbsSemantics(
     }
     false
   }
+
+  // handle calls
+  def doCall(
+    call: Call,
+    callerView: View,
+    func: Function,
+    st: AbsState
+  ): Unit = {
+    val calleeView = callerView // TODO
+    val params = func.params
+    val np = NodePoint(func.entry, calleeView)
+    this += np -> st
+
+    val rp = ReturnPoint(func, calleeView)
+    val callerNP = NodePoint(call, callerView)
+    val set = retEdges.getOrElse(rp, Set())
+    retEdges += rp -> (set + callerNP)
+
+    val retT = this(rp)
+    if (!retT.isBottom) worklist += rp
+  }
 }
 object AbsSemantics {
   // constructors

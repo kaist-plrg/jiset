@@ -17,6 +17,13 @@ case class ECMAScript(
   aoids: Set[String],
   section: Section
 ) extends SpecComponent {
+  // set unique ids for algorithms
+  private var aidCount: Int = 0
+  for (algo <- algos) { algo.setUId(aidCount); aidCount += 1 }
+
+  // mapping from names to algorithms
+  val algoMap: Map[String, Algo] = algos.map(algo => algo.name -> algo).toMap
+
   // mapping from ids to instructions
   val idMap: Map[Int, Inst] = {
     val setter = new InstIdSetter

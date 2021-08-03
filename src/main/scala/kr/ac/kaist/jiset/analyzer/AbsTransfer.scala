@@ -22,12 +22,16 @@ case class AbsTransfer(sem: AbsSemantics) {
     val st = sem(np)
     val NodePoint(node, view) = np
     val helper = new Helper(np)
+
+    import helper._
     node match {
       case (entry: Entry) =>
         sem += NodePoint(cfg.nextOf(entry), view) -> st
       case (exit: Exit) => ???
-      case (normal: Normal) => ???
-      case (call: Call) => helper.transfer(call.inst)(st)
+      case (normal: Normal) =>
+        val newSt = transfer(normal.inst)(st)
+        sem += NodePoint(cfg.nextOf(normal), view) -> newSt
+      case (call: Call) => transfer(call, view)(st)
       case arrow @ Arrow(_, inst, fid) => ???
       case branch @ Branch(_, inst) => ???
     }
@@ -41,7 +45,10 @@ case class AbsTransfer(sem: AbsSemantics) {
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = inst match {
       case IExpr(expr) => ???
-      case ILet(id, expr) => ???
+      case ILet(id, expr) => for {
+        v <- transfer(expr)
+        _ <- modify(_.defineLocal(id -> v))
+      } yield ()
       case IAssign(ref, expr) => ???
       case IDelete(ref) => ???
       case IAppend(expr, list) => ???
@@ -52,38 +59,44 @@ case class AbsTransfer(sem: AbsSemantics) {
       case IPrint(expr) => ???
     }
 
-    // transfer function for call instructions
-    def transfer(inst: CallInst): Updater = inst match {
+    // transfer function for calls
+    def transfer(call: Call, view: View): Updater = call.inst match {
       // TODO `simpleFuncs contains name` case
       case IApp(id, fexpr, args) => for {
         value <- transfer(fexpr)
         vs <- join(args.map(transfer))
-        _ <- join(value.func.toList.map(transfer(_, vs)))
-        _ <- join(value.clo.toList.map(transfer(_, vs)))
-        _ <- join(value.cont.toList.map(transfer(_, vs)))
-      } yield ???
+        st <- get
+      } yield {
+        // algorithms
+        for (algo <- value.func) {
+          val head = algo.head
+          val body = algo.body
+          val locals = getLocals(head.params, vs)
+          val newSt = st.copy(locals = locals)
+          sem.doCall(call, view, algo.func, newSt)
+        }
+
+        // closures
+        for (clo <- value.clo) ???
+
+        // continuations
+        for (cont <- value.cont) ???
+
+        AbsState.Bot
+      }
       case IAccess(id, bexpr, expr, args) => ???
     }
 
-    // transfer function for functions
-    def transfer(func: Function, vs: List[AbsValue]): Updater = ???
-
-    // transfer function for closures
-    def transfer(clo: AClo, vs: List[AbsValue]): Updater = ???
-
-    // transfer function for continuations
-    def transfer(cont: ACont, vs: List[AbsValue]): Updater = ???
-
     // transfer function for expressions
     def transfer(expr: Expr): Result[AbsValue] = expr match {
-      case ENum(n) => ???
-      case EINum(n) => ???
-      case EBigINum(b) => ???
-      case EStr(str) => ???
-      case EBool(b) => ???
-      case EUndef => ???
-      case ENull => ???
-      case EAbsent => ???
+      case ENum(n) => AbsValue(Num(n))
+      case EINum(l) => AbsValue(l)
+      case EBigINum(b) => AbsValue(b)
+      case EStr(str) => AbsValue(str)
+      case EBool(b) => AbsValue(b)
+      case EUndef => AbsValue.undef
+      case ENull => AbsValue.nullv
+      case EAbsent => AbsValue.absent
       case EMap(ty, props) => ???
       case EList(exprs) => ???
       case ESymbol(desc) => ???
@@ -130,7 +143,26 @@ case class AbsTransfer(sem: AbsSemantics) {
     // get initial local variables
     def getLocals(
       params: List[Param],
-      vs: List[AbsValue]
-    ): Map[Id, AbsValue] = ???
+      args: List[AbsValue]
+    ): Map[Id, AbsValue] = {
+      var map = Map[Id, AbsValue]()
+
+      @tailrec
+      def aux(ps: List[Param], as: List[AbsValue]): Unit = (ps, as) match {
+        case (Nil, Nil) =>
+        case (Param(name, kind) :: pl, Nil) => {
+          map += Id(name) -> AbsValue.absent
+          aux(pl, Nil)
+        }
+        case (param :: pl, arg :: al) => {
+          map += Id(param.name) -> arg
+          aux(pl, al)
+        }
+        case _ =>
+      }
+
+      aux(params, args)
+      map
+    }
   }
 }

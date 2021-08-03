@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.analyzer.domain
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.ast.AST
+import kr.ac.kaist.jiset.spec.algorithm.Algo
 
 // basic abstract values
 object BasicValue extends Domain {
@@ -24,7 +25,7 @@ object BasicValue extends Domain {
   )
 
   // abstraction functions
-  def apply(func: Function): Elem = Bot.copy(func = AbsFunc(func))
+  def apply(algo: Algo): Elem = Bot.copy(func = AbsFunc(algo))
   def apply(ast: AST): Elem = Bot.copy(ast = AbsAST(ast))
   def apply(num: Num): Elem = Bot.copy(simple = AbsSimple(num))
   def apply(int: Long): Elem = Bot.copy(simple = AbsSimple(int))
@@ -37,7 +38,7 @@ object BasicValue extends Domain {
   def apply(value: Value): Elem = this(AValue.from(value))
   def apply(value: AValue): Elem = value match {
     case (loc: Loc) => Bot.copy(loc = AbsLoc(loc))
-    case AFunc(func) => this(func)
+    case AFunc(algo) => this(algo)
     case (clo: AClo) => Bot.copy(clo = AbsClo(clo))
     case (cont: ACont) => Bot.copy(cont = AbsCont(cont))
     case AAst(ast) => this(ast)

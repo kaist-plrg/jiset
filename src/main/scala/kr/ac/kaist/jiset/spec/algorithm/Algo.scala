@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.spec.algorithm
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.cfg.Function
 import kr.ac.kaist.jiset.spec.{ SpecComponent, Parser }
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
@@ -17,6 +18,23 @@ case class Algo(
   rawBody: Inst,
   code: Iterable[String]
 ) extends SpecComponent {
+  // unique ids
+  private var uid: Int = -1
+  def setUId(k: Int): Unit = uid = k
+  override def hashCode: Int = if (uid == -1) super.hashCode else uid
+  override def equals(that: Any): Boolean = that match {
+    case that: Algo if this.uid != -1 && that.uid != -1 =>
+      this.uid == that.uid
+    case _ => super.equals(that)
+  }
+
+  // functions
+  private var funcOpt: Option[Function] = None
+  def setFunc(func: Function) = funcOpt = Some(func)
+  lazy val func: Function = funcOpt.getOrElse {
+    error(s"function is not defined for the algorithm: $name")
+  }
+
   // head fields
   def name: String = head.name
   def params: List[Param] = head.params

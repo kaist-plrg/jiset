@@ -17,8 +17,7 @@ case class Heap(
   def apply(addr: Addr, key: Value): Value = this(addr) match {
     case (s: IRSymbol) => s(key)
     case (IRMap(Ty(js.ALGORITHM), _, _)) => key match {
-      case Str(str) =>
-        js.algos.get(str).map(Func).getOrElse(Absent)
+      case Str(str) => js.algoMap.get(str).map(Func).getOrElse(Absent)
       case _ => error(s"invalid algorithm: $key")
     }
     case (IRMap(Ty(js.INTRINSICS), _, _)) => key match {

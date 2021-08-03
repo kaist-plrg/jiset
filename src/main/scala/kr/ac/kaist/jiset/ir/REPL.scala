@@ -68,7 +68,7 @@ class REPL(override val st: State) extends Debugger {
 
           // state info
           case CmdInfo.name :: algoName :: _ =>
-            val algo = algos(algoName)
+            val algo = algoMap(algoName)
             println(algo.beautified); true
           case CmdContext.name :: _ | CmdInfo.name :: Nil =>
             println(st.context.beautified); true
@@ -116,7 +116,7 @@ private abstract class Command(
 )
 
 private object Command {
-  val algoNames = algos.keySet.toList.sorted
+  val algoNames = algoMap.keySet.toList.sorted
   val commands: List[Command] = List(
     CmdHelp,
 

@@ -19,7 +19,7 @@ object Initialize {
       case Script0(Some(body), _, _) => {
         CleanStaticMap.walk(body)
         st.globals += Id(SCRIPT_BODY) -> ASTVal(body)
-        st.context.cursorOpt = cursorGen(algos("RunJobs").body)
+        st.context.cursorOpt = cursorGen(algoMap("RunJobs").body)
       }
       case _ =>
     }
@@ -40,7 +40,7 @@ object Initialize {
     for (s <- symbols) {
       map += Id(SYMBOL_PREFIX + s) -> NamedAddr(s"$GLOBAL.Symbol.$s")
     }
-    for ((x, algo) <- algos if algo.isNormal) {
+    for ((x, algo) <- algoMap if algo.isNormal) {
       map += Id(x) -> Func(algo)
     }
     for ((name, value) <- BaseModel.globals) {
@@ -76,7 +76,7 @@ object Initialize {
 
   // add builtin object
   def addBuiltin(map: MMap[Addr, Obj]): Unit = for {
-    (_, algo) <- algos
+    (_, algo) <- algoMap
     head <- algo.head match {
       case head: BuiltinHead if head.name != "GLOBAL.AsyncFunction" => Some(head)
       case _ => None

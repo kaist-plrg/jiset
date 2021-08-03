@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.ast.AST
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.spec.algorithm.Algo
 
 package object domain {
   // abstract states
@@ -26,7 +27,7 @@ package object domain {
   type AbsLoc = AbsLoc.Elem
 
   // abstract functions
-  val AbsFunc = new SetDomain[Function]
+  val AbsFunc = new SetDomain[Algo]
   type AbsFunc = AbsFunc.Elem
 
   // abstract closures
