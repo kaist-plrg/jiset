@@ -17,7 +17,7 @@ class AlgoStep extends React.Component<AlgoStepProps> {
     return className;
   }
   render () {
-    const { content } = this.props;
+    let { content } = this.props;
     const className = this.getClassName();
     return (
       <Typography variant="body2" className={ className }>
@@ -39,14 +39,20 @@ class AlgoViewer extends React.Component<AlgoViewerProps> {
   render () {
     const { data, currentStep } = this.props;
     if ( data === undefined ) return this.renderFail();
+    // get header string
     const headerStr = getHeaderStr( data );
+    // calculate left space
+    let spaceCnt = 0;
+    if ( data.code.length > 0 )
+      spaceCnt = data.code[ 0 ].length - data.code[ 0 ].trimLeft().length;
+    // render
     return (
       <div className="algo-container">
-        <Typography variant="subtitle1">{ headerStr }</Typography>
+        <Typography variant="subtitle1"><b>{ headerStr }</b></Typography>
         { data.code.map( ( str, idx ) => (
           <AlgoStep
             key={ uuid() }
-            content={ str }
+            content={ str.slice( spaceCnt ) }
             step={ idx }
             highlight={ idx === currentStep }
           />

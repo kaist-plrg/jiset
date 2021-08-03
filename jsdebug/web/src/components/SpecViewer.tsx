@@ -3,6 +3,7 @@ import { Typography, Paper } from "@material-ui/core";
 import AlgoViewer from "./AlgoViewer";
 import { getAlgo } from "../object/Spec";
 import { Algo } from "../object/Algo";
+import "../styles/SpecViewer.css";
 
 import { connect, ConnectedProps } from "react-redux";
 import { ReduxState } from "../store";
