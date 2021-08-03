@@ -102,7 +102,7 @@ export const actions: [ ActionType, Action ][] = [
       let webDebugger = state.webDebugger.obj;
 
       // step
-      webDebugger._step();
+      webDebugger.specStep();
 
       // update ir info
       let stackFrame: [ string, number ][] = JSON.parse(
@@ -122,7 +122,7 @@ export const actions: [ ActionType, Action ][] = [
       let webDebugger = state.webDebugger.obj;
 
       // step-over
-      webDebugger._stepOver();
+      webDebugger.specStepOver();
 
       // update ir info
       let stackFrame: [ string, number ][] = JSON.parse(
@@ -142,7 +142,7 @@ export const actions: [ ActionType, Action ][] = [
       let webDebugger = state.webDebugger.obj;
 
       // step-out
-      webDebugger._stepOut();
+      webDebugger.specStepOut();
 
       // update ir info
       let stackFrame: [ string, number ][] = JSON.parse(

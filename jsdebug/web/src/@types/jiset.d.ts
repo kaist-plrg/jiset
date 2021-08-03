@@ -4,9 +4,12 @@ declare class Scala_IRState { }
 // IR Debugger
 declare class Scala_WebDebugger {
   constructor ( state: Scala_IRState );
-  _step (): void;
-  _stepOver (): void;
-  _stepOut (): void;
+  irStep (): void;
+  irStepOver (): void;
+  irStepOut (): void;
+  specStep (): void;
+  specStepOver (): void;
+  specStepOut (): void;
   getStackFrame (): string;
 }
 

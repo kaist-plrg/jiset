@@ -13,10 +13,30 @@ object Export {
   @JSExportAll
   class WebDebugger(override val st: State) extends Debugger {
     detail = true
-    DEBUG = true
-    def _step() = step
-    def _stepOver() = stepOver
-    def _stepOut() = stepOut
+    // ir steps
+    def irStep() = step
+    def irStepOver() = stepOver
+    def irStepOut() = stepOut
+
+    // spec steps
+    def specStep() = {
+      val (n0, l0) = st.context.getInfo()
+      stepUntil {
+        val (n1, l1) = st.context.getInfo()
+        n0 == n1 && l0 == l1
+      }
+    }
+    def specStepOver() = {
+      val (n0, l0) = st.context.getInfo()
+      val stackSize = st.ctxtStack.size
+      stepUntil {
+        val (n1, l1) = st.context.getInfo()
+        (n0 == n1 && l0 == l1) || (stackSize != st.ctxtStack.size)
+      }
+    }
+    def specStepOut() = stepOut
+
+    // get stack frame info
     def getStackFrame(): String = {
       val stackFrame = st.context.getInfo() :: st.ctxtStack.map(_.getInfo(true))
       stackFrame.asJson.noSpaces

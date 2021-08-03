@@ -29,8 +29,7 @@ trait Debugger {
   var detail: Boolean = false
 
   // step until predicate
-  @tailrec
-  private def stepUntil(pred: => Boolean): Unit = {
+  def stepUntil(pred: => Boolean): Unit = {
     DEBUG = true
     if (!isBreak) {
       val keep = interp.step

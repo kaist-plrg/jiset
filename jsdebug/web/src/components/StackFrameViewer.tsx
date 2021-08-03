@@ -62,8 +62,6 @@ class StackFrameViewer extends React.Component<StackFrameViewerProps> {
     const { stackFrame } = this.props;
     const { data, idx } = stackFrame;
 
-    console.log( data, idx );
-
     return (
       <div className="stackframe-container">
         <TableContainer
