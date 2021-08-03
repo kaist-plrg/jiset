@@ -1,12 +1,14 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.util.Useful._
+
 // flat domain
 class FlatDomain[T] extends Domain {
   object Bot extends Elem
   object Top extends Elem
   case class Base(elem: T) extends Elem
 
-  // abstraction function
+  // abstraction functions
   def apply(elems: T*): Elem = elems.size match {
     case 0 => Bot
     case 1 => Base(elems.head)
@@ -32,6 +34,24 @@ class FlatDomain[T] extends Domain {
       case Bot => FlatBot
       case Top => FlatTop
       case Base(elem) => FlatElem(elem)
+    }
+
+    // conversion to set of elements
+    def toSet: Set[T] = this match {
+      case Bot => Set()
+      case Base(elem) => Set(elem)
+      case Top =>
+        warn("impossible to concretize the top value.")
+        Set()
+    }
+
+    // conversion to list of elements
+    def toList: List[T] = this match {
+      case Bot => Nil
+      case Base(elem) => List(elem)
+      case Top =>
+        warn("impossible to concretize the top value.")
+        Nil
     }
   }
 }

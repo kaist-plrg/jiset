@@ -25,7 +25,7 @@ object BasicSimple extends Domain {
     absent = AbsAbsent.Top,
   )
 
-  // abstraction function
+  // abstraction functions
   def apply(num: Num): Elem = Bot.copy(num = AbsNum(num))
   def apply(int: Long): Elem = Bot.copy(int = AbsInt(int))
   def apply(bigint: BigInt): Elem = Bot.copy(bigint = AbsBigInt(bigint))

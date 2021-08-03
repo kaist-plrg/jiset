@@ -8,11 +8,20 @@ object BasicObj extends Domain {
   case object Top extends Elem
   case class SymbolElem(desc: AbsValue) extends Elem
   case class MergedMapElem(ty: Ty, value: AbsValue) extends Elem
-  case class MapElem(ty: Ty, map: Map[AValue, AbsValue]) extends Elem {
-  }
+  case class MapElem(ty: Ty, map: Map[AValue, AbsValue]) extends Elem
   case class MergedListElem(value: AbsValue) extends Elem
-  case class ListElem(values: List[AbsValue]) extends Elem
+  case class ListElem(values: Vector[AbsValue]) extends Elem
   case class NotSupportedElem(desc: String) extends Elem
+
+  // abstraction functions
+  def apply(obj: Obj): Elem = obj match {
+    case IRSymbol(desc) => SymbolElem(AbsValue(desc))
+    case IRMap(ty, props, size) => MapElem(ty, (props.toList.map {
+      case (k, (v, _)) => AValue.from(k) -> AbsValue(v)
+    }).toMap)
+    case IRList(values) => ListElem(values.map(AbsValue(_)))
+    case IRNotSupported(tyname, desc) => NotSupportedElem(desc)
+  }
 
   // elements
   sealed trait Elem extends ElemTrait {

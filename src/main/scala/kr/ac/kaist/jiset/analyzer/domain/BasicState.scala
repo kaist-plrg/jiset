@@ -1,7 +1,9 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.{ Initialize => JSInitialize }
+import kr.ac.kaist.jiset.util.StateMonad
 
 // basic abstract states
 object BasicState extends Domain {
@@ -19,6 +21,15 @@ object BasicState extends Domain {
     globals: Map[Id, AbsValue] = Map(),
     heap: AbsHeap = AbsHeap()
   ) = Base(locals, globals, heap)
+
+  // base globals
+  lazy val base: Map[Id, AbsValue] = (for {
+    (x, v) <- JSInitialize.initGlobal.toList
+    av = AbsValue(v)
+  } yield x -> av).toMap
+
+  // monad helper
+  val monad: StateMonad[Elem] = new StateMonad[Elem]
 
   // elements
   sealed trait Elem extends ElemTrait {
@@ -56,6 +67,20 @@ object BasicState extends Domain {
       }
     }
 
+    // lookup variable directly
+    def directLookup(x: Id): AbsValue = lookupLocal(x) ⊔ lookupGlobal(x)
+
+    // getters
+    def apply(rv: AbsRefValue, cp: ControlPoint): AbsValue = rv match {
+      case AbsRefId(x) => this(x, cp)
+      case AbsRefProp(base, prop) => ???
+    }
+    def apply(x: Id, cp: ControlPoint): AbsValue = {
+      val v = directLookup(x)
+      if (cp.isBuiltin) v.replaceAbsentWith(AbsValue.undef)
+      else v
+    }
+
     // lookup local variables
     def lookupLocal(x: Id): AbsValue = this match {
       case Bot => AbsValue.Bot
@@ -86,11 +111,5 @@ object BasicState extends Domain {
         case (st: Base) => st.copy(locals = st.locals + (x -> v))
       }
     }
-  }
-
-  // TODO globals from js/Initialize
-  lazy val base: Map[Id, AbsValue] = {
-    JSInitialize.initGlobal
-    ???
   }
 }

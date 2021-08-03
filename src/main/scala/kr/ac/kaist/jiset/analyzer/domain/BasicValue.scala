@@ -23,7 +23,7 @@ object BasicValue extends Domain {
     simple = AbsSimple.Top,
   )
 
-  // abstraction function
+  // abstraction functions
   def apply(func: Function): Elem = Bot.copy(func = AbsFunc(func))
   def apply(ast: AST): Elem = Bot.copy(ast = AbsAST(ast))
   def apply(num: Num): Elem = Bot.copy(simple = AbsSimple(num))
@@ -34,6 +34,7 @@ object BasicValue extends Domain {
   lazy val undef: Elem = Bot.copy(simple = AbsSimple.undef)
   lazy val nullv: Elem = Bot.copy(simple = AbsSimple.nullv)
   lazy val absent: Elem = Bot.copy(simple = AbsSimple.absent)
+  def apply(value: Value): Elem = this(AValue.from(value))
   def apply(value: AValue): Elem = value match {
     case (loc: Loc) => Bot.copy(loc = AbsLoc(loc))
     case AFunc(func) => this(func)
@@ -81,5 +82,10 @@ object BasicValue extends Domain {
       this.ast.getSingle.map(x => AAst(x)) ⊔
       this.simple.getSingle
     )
+
+    // replace absent values
+    def replaceAbsentWith(value: AbsValue): AbsValue = {
+      ???
+    }
   }
 }

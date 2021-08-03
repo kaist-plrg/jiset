@@ -14,9 +14,6 @@ class StateMonad[S] {
       val (v, s0) = this(s)
       f(v)(s0)
     }
-
-    def ~[U](monad: Result[U]): Result[(T, U)] =
-      for { v0 <- this; v1 <- monad } yield (v0, v1)
   }
 
   // convert function to result type

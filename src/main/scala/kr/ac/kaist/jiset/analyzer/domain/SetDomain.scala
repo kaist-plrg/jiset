@@ -1,12 +1,14 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.util.Useful._
+
 // set domain
 class SetDomain[T] extends Domain {
   lazy val Bot = Base(Set())
   object Top extends Elem
   case class Base(set: Set[T]) extends Elem
 
-  // abstraction function
+  // abstraction functions
   def apply(elems: T*): Elem = Base(elems.toSet)
 
   // elements
@@ -33,5 +35,16 @@ class SetDomain[T] extends Domain {
       }
       case _ => FlatTop
     }
+
+    // conversion to set of elements
+    def toSet: Set[T] = this match {
+      case Base(set) => set
+      case Top =>
+        warn("impossible to concretize the top value.")
+        Set()
+    }
+
+    // conversion to list of elements
+    def toList: List[T] = toSet.toList
   }
 }

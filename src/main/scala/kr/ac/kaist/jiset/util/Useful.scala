@@ -37,6 +37,9 @@ object Useful {
   // throw a simple error
   def error(msg: String): Nothing = throw new JISETError(msg)
 
+  // show a warning message
+  def warn(msg: String): Unit = Console.err.println(msg)
+
   // get duration time
   def time[T](f: => T): (Long, T) = {
     val start = System.currentTimeMillis

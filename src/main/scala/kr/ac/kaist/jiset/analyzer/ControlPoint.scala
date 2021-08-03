@@ -13,6 +13,12 @@ trait ControlPoint extends AnalyzerComponent {
     case NodePoint(node, _) => cfg.funcOf(node)
     case ReturnPoint(func, _) => func
   }
+
+  // check whether it is in a built-in algorithm
+  def isBuiltin: Boolean = getFunc.origin match {
+    case AlgoOrigin(algo) => algo.isBuiltin
+    case _ => false
+  }
 }
 case class NodePoint[+T <: Node](node: T, view: View) extends ControlPoint
 case class ReturnPoint(func: Function, view: View) extends ControlPoint

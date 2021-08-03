@@ -44,9 +44,10 @@ object BasicHeap extends Domain {
     }
   }
 
-  // TODO heap from js/Initialize
-  lazy val base: Map[Loc, AbsObj] = {
-    JSInitialize.initHeap
-    ???
-  }
+  // base mapping from locations to abstract objects
+  lazy val base: Map[Loc, AbsObj] = (for {
+    (addr, obj) <- JSInitialize.initHeap.map
+    loc = Loc.from(addr)
+    aobj = AbsObj(obj)
+  } yield loc -> aobj).toMap
 }
