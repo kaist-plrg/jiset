@@ -61,6 +61,9 @@ package object jiset {
   // Get statistics
   var STAT: Boolean = false
 
+  // View mode
+  var VIEW: Boolean = false
+
   // Interactive debugging mode
   var INTERACTIVE: Boolean = false
 

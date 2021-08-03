@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.checker.{ Type, View }
 import kr.ac.kaist.jiset.error.{ InterpTimeout, NotSupported }
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.js.{ Parser => ESParser, _ }
@@ -8,7 +9,7 @@ import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
-import kr.ac.kaist.jiset.{ TEST_MODE, STAT, DEBUG, TIMEOUT }
+import kr.ac.kaist.jiset.{ TEST_MODE, STAT, DEBUG, TIMEOUT, VIEW }
 import scala.annotation.tailrec
 import scala.collection.mutable.{ Map => MMap }
 
@@ -105,22 +106,30 @@ class Interp(
   }
 
   // transition for nodes
-  def interp(node: Node): Unit = node match {
-    case Entry(_) => st.moveNext
-    case Normal(_, inst) => interp(inst)
-    case Call(_, inst) => interp(inst)
-    case Arrow(_, inst, fid) => interp(inst)
-    case branch @ Branch(_, inst) => {
-      val (thenNode, elseNode) = cfg.branchOf(branch)
-      st.context.cursorOpt = Some(interp(inst.cond).escaped(st) match {
-        case Bool(true) => NodeCursor(thenNode)
-        case Bool(false) => NodeCursor(elseNode)
-        case v => error(s"not a boolean: ${v.beautified}")
-      })
+  def interp(node: Node): Unit = {
+    st.context.viewOpt match {
+      case Some(view) if STAT =>
+        val func = cfg.funcOf(node)
+        val fnameOpt = st.fnameOpt
+        Stat.visitNode(func, view, node, fnameOpt)
+      case _ =>
     }
-    case Exit(_) => st.context.cursorOpt = None
+    node match {
+      case Entry(_) => st.moveNext
+      case Normal(_, inst) => interp(inst)
+      case Call(_, inst) => interp(inst)
+      case Arrow(_, inst, fid) => interp(inst)
+      case branch @ Branch(_, inst) => {
+        val (thenNode, elseNode) = cfg.branchOf(branch)
+        st.context.cursorOpt = Some(interp(inst.cond).escaped(st) match {
+          case Bool(true) => NodeCursor(thenNode)
+          case Bool(false) => NodeCursor(elseNode)
+          case v => error(s"not a boolean: ${v.beautified}")
+        })
+      }
+      case Exit(_) => st.context.cursorOpt = None
+    }
   }
-
   // transition for instructions
   def interp(inst: Inst, rest: List[Inst]): Unit = inst match {
     case inst: CondInst => interp(inst, rest)
@@ -163,7 +172,8 @@ class Interp(
           val vs = args.map(interp)
           val locals = getLocals(head.params, vs)
           val cursorOpt = cursorGen(body)
-          val context = Context(cursorOpt, id, head.name, None, Some(algo), locals)
+          val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
+          val context = Context(cursorOpt, id, head.name, None, Some(algo), locals, viewOpt)
           if (STAT) Stat.touchAlgo(algo.name)
           st.ctxtStack ::= st.context
           st.context = context
@@ -174,7 +184,8 @@ class Interp(
         case Clo(ctxtName, params, locals, cursorOpt) => {
           val vs = args.map(interp)
           val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
-          val context = Context(cursorOpt, id, ctxtName + ":closure", None, None, locals)
+          val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
+          val context = Context(cursorOpt, id, ctxtName + ":closure", None, None, locals, viewOpt)
           st.ctxtStack ::= st.context
           st.context = context
 
@@ -231,7 +242,8 @@ class Interp(
                 val vs = asts ++ args.map(interp)
                 val locals = getLocals(head.params, vs)
                 val cursorOpt = cursorGen(body)
-                val context = Context(cursorOpt, id, head.name, Some(ast), Some(algo), locals)
+                val viewOpt = if (VIEW) Some(View(vs.map(Type((_), st)))) else None
+                val context = Context(cursorOpt, id, head.name, Some(ast), Some(algo), locals, viewOpt)
                 if (STAT) Stat.touchAlgo(algo.name)
                 st.ctxtStack ::= st.context
                 st.context = context

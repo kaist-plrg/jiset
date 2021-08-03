@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.ir
 
+import kr.ac.kaist.jiset.checker._
 import kr.ac.kaist.jiset.js.{ RETURN, TOP_LEVEL }
 import kr.ac.kaist.jiset.js.ast.AST
 import kr.ac.kaist.jiset.spec.algorithm._
@@ -11,7 +12,8 @@ case class Context(
   val name: String = TOP_LEVEL,
   val astOpt: Option[AST] = None,
   val algo: Option[Algo] = None,
-  val locals: MMap[Id, Value] = MMap()
+  val locals: MMap[Id, Value] = MMap(),
+  val viewOpt: Option[View] = None
 ) extends IRComponent {
   def copied: Context = copy(locals = MMap.from(locals))
   def isBuiltin: Boolean = algo.fold(false)(_.isBuiltin)

@@ -130,6 +130,8 @@ object JISET {
       "turn on the debug mode."),
     ("stat", BoolOption(c => STAT = true),
       "gather statistical information."),
+    ("view", BoolOption(c => VIEW = true),
+      "turn on the view option."),
     ("interactive", BoolOption(c => INTERACTIVE = true),
       "turn on the interactive mode."),
     ("no-bugfix", BoolOption(c => BUGFIX = false),

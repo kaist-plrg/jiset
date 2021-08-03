@@ -15,6 +15,7 @@ trait Test262Test extends JSTest {
 
   // gather statistical information
   STAT = true
+  VIEW = true
 
   // directory name
   val logDir = s"$LOG_DIR/test262_$dateStr"
