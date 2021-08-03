@@ -1,11 +1,17 @@
 import produce from "immer";
 
+// name, beautified value
+export type Environment = [ string, string ][]
+// context name, current step number, env data
+export type StackFrameData = [ string, number, Environment ];
+export type StackFrame = StackFrameData[]
+
 // redux actions
 export enum IRActionType {
   UPDATE = "IRAction/UPDATE",
   SHOW_ALGO = "IRAction/SHOW_ALGO",
 }
-export function updateIrInfo ( stackFrame: [ string, number ][] ): IRAction {
+export function updateIrInfo ( stackFrame: StackFrame ): IRAction {
   return {
     type: IRActionType.UPDATE,
     stackFrame,
@@ -20,7 +26,7 @@ export function showAlgo ( idx: number ): IRAction {
 export type IRAction =
   | {
     type: IRActionType.UPDATE;
-    stackFrame: [ string, number ][];
+    stackFrame: StackFrame;
   }
   | {
     type: IRActionType.SHOW_ALGO;
@@ -30,7 +36,9 @@ export type IRAction =
 // redux state
 type IRState = {
   stackFrame: {
-    data: [ string, number ][];
+    // stackframe data
+    data: StackFrame;
+    // stack frame index to show spec
     idx: number;
   };
 };

@@ -21,17 +21,17 @@ object Export {
 
     // spec steps
     def specStep() = {
-      val (n0, l0) = st.context.getInfo()
+      val (n0, l0, _) = st.context.getInfo()
       stepUntil {
-        val (n1, l1) = st.context.getInfo()
+        val (n1, l1, _) = st.context.getInfo()
         n0 == n1 && l0 == l1
       }
     }
     def specStepOver() = {
-      val (n0, l0) = st.context.getInfo()
+      val (n0, l0, _) = st.context.getInfo()
       val stackSize = st.ctxtStack.size
       stepUntil {
-        val (n1, l1) = st.context.getInfo()
+        val (n1, l1, _) = st.context.getInfo()
         (n0 == n1 && l0 == l1) || (stackSize != st.ctxtStack.size)
       }
     }

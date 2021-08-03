@@ -12,13 +12,14 @@ import { v4 as uuid } from "uuid";
 import "../styles/StackFrameViewer.css";
 
 import { connect, ConnectedProps } from "react-redux";
+import { StackFrameData } from "../store/reducers/IR";
 import { ReduxState } from "../store";
 
 import { ActionType } from "../controller/Action";
 import sm from "../controller";
 
 type StackFrameItemProps = {
-  data: [ string, number ];
+  data: StackFrameData;
   highlight: boolean;
   idx: number;
   onItemClick: ( idx: number ) => void;

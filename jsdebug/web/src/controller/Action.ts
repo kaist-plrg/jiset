@@ -16,7 +16,7 @@ import {
 } from "../store/reducers/Debugger";
 
 // ir
-import { updateIrInfo, showAlgo } from "../store/reducers/IR";
+import { updateIrInfo, showAlgo, StackFrame } from "../store/reducers/IR";
 
 // possible action types
 export enum ActionType {
@@ -105,7 +105,7 @@ export const actions: [ ActionType, Action ][] = [
       webDebugger.specStep();
 
       // update ir info
-      let stackFrame: [ string, number ][] = JSON.parse(
+      let stackFrame: StackFrame = JSON.parse(
         webDebugger.getStackFrame()
       );
       let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
@@ -129,7 +129,7 @@ export const actions: [ ActionType, Action ][] = [
       webDebugger.specStepOver();
 
       // update ir info
-      let stackFrame: [ string, number ][] = JSON.parse(
+      let stackFrame: StackFrame = JSON.parse(
         webDebugger.getStackFrame()
       );
       let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
@@ -153,7 +153,7 @@ export const actions: [ ActionType, Action ][] = [
       webDebugger.specStepOut();
 
       // update ir info
-      let stackFrame: [ string, number ][] = JSON.parse(
+      let stackFrame: StackFrame = JSON.parse(
         webDebugger.getStackFrame()
       );
       let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(

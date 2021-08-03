@@ -10,6 +10,7 @@ import {
 import StackFrameViewer from "./StackFrameViewer";
 // TODO import StateWatcher from "./StateWatcher";
 import Breakpoints from "./Breakpoints";
+import SpecEnvViewer from "./SpecEnvViewer";
 
 import { connect, ConnectedProps } from "react-redux";
 import { ReduxState } from "../store";
@@ -29,6 +30,14 @@ class StateViewer extends React.Component<StateViewerProps> {
 
     return (
       <div>
+        <Accordion disabled={ disableStateViewer }>
+          <AccordionSummary expandIcon={ <Icon>expand_more</Icon> }>
+            <Typography>ECMAScript Environment</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <SpecEnvViewer />
+          </AccordionDetails>
+        </Accordion>
         <Accordion disabled={ disableStateViewer }>
           <AccordionSummary expandIcon={ <Icon>expand_more</Icon> }>
             <Typography>Stack Frame</Typography>

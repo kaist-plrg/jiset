@@ -31,9 +31,14 @@ case class Context(
     case Some(inst) => inst.line.getOrElse(-1)
     case None => -1
   }
-  def getInfo(fromPrev: Boolean = false): (String, Int) = (
+  def getInfo(
+    fromPrev: Boolean = false
+  ): (String, Int, List[(String, String)]) = (
     getAlgoName,
-    getLine(if (fromPrev) prevCursorOpt else cursorOpt)
+    getLine(if (fromPrev) prevCursorOpt else cursorOpt),
+    locals.toList.map {
+      case (Id(name), v) => (name, v.beautified)
+    }
   )
   // check if AST evaluation
   def isAstEvaluation: Boolean =
