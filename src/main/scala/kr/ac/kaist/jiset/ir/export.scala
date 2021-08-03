@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.spec.JsonProtocol._
+import kr.ac.kaist.jiset.util.Span
 import scala.scalajs.js.annotation._
 
 object Export {
@@ -40,6 +41,18 @@ object Export {
     def getStackFrame(): String = {
       val stackFrame = st.context.getInfo() :: st.ctxtStack.map(_.getInfo(true))
       stackFrame.asJson.noSpaces
+    }
+
+    // get js range info
+    def getJsRange(): String = {
+      val range: (Int, Int) = (st.context :: st.ctxtStack).foldLeft((-1, -1)) {
+        case ((-1, -1), context) if context.isAstEvaluation =>
+          val ast = context.astOpt.get
+          val Span(start, end) = ast.span
+          (start.index, end.index)
+        case (acc, _) => acc
+      }
+      range.asJson.noSpaces
     }
   }
 

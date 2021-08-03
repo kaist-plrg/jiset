@@ -1,5 +1,6 @@
 import React from "react";
 import Editor from "react-simple-code-editor";
+import { v4 as uuid } from "uuid";
 import { highlight, languages } from "prismjs";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism.css";
@@ -14,7 +15,8 @@ import sm from "../controller";
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
-  code: st.js.code
+  js: st.js,
+
 } );
 const connector = connect( mapStateToProps );
 type JSEditorProps = ConnectedProps<typeof connector>;
@@ -23,16 +25,29 @@ class JSEditor extends React.Component<JSEditorProps> {
   onCodeChange ( code: string ) {
     sm.move( { type: ActionType.EDIT_JS, code } );
   }
-
-  highlightWithLine ( code: string ): string {
-    return highlight( code, languages.js, "js" )
+  private genMarker (): [ string, string ] {
+    let genUid = () => ` __${ uuid().replaceAll( "-", "_" ) }__ `
+    return [ ` ${ genUid() } `, ` ${ genUid() } ` ];
+  }
+  highlightWithLine ( code: string, start: number = -1, end: number = -1 ): string {
+    let highlighted: string;
+    // use highlighting when start, end index is given
+    if ( start >= 0 && end >= 0 ) {
+      const [ startMarker, endMarker ] = this.genMarker();
+      const marked = code.slice( 0, start ) + startMarker + code.slice( start, end ) + endMarker + code.slice( end, code.length );
+      highlighted = highlight( marked, languages.js, "js" )
+        .replace( startMarker, "<mark>" )
+        .replace( endMarker, "</mark>" );
+    } else highlighted = highlight( code, languages.js, "js" );
+    // decorate with line info
+    return highlighted
       .split( "\n" )
       .map( ( l, idx ) => `<span class="editor-line">${ idx + 1 } |</span>${ l }` )
       .join( "\n" );
   }
 
   render () {
-    const { code } = this.props;
+    const { code, start, end } = this.props.js;
     return (
       <Paper className="editor-container" variant="outlined">
         <Typography variant="h6">JavaScript</Typography>
@@ -40,7 +55,7 @@ class JSEditor extends React.Component<JSEditorProps> {
           <Editor
             value={ code }
             onValueChange={ ( code ) => this.onCodeChange( code ) }
-            highlight={ ( code ) => this.highlightWithLine( code ) }
+            highlight={ ( code ) => this.highlightWithLine( code, start, end ) }
             padding={ 10 }
             style={ {
               fontFamily: '"Fira code", "Fira Mono", monospace',

@@ -35,4 +35,10 @@ case class Context(
     getAlgoName,
     getLine(if (fromPrev) prevCursorOpt else cursorOpt)
   )
+  // check if AST evaluation
+  def isAstEvaluation: Boolean =
+    astOpt.nonEmpty && algo.fold(false)(_.head match {
+      case s: SyntaxDirectedHead => s.methodName == "Evaluation"
+      case _ => false
+    })
 }

@@ -6,7 +6,7 @@ import { loadSpec } from "../store/reducers/Spec";
 import { Spec } from "../object/Spec";
 
 // js
-import { editJS } from "../store/reducers/JS";
+import { editJS, updateJsRange } from "../store/reducers/JS";
 
 // debugger
 import {
@@ -108,6 +108,10 @@ export const actions: [ ActionType, Action ][] = [
       let stackFrame: [ string, number ][] = JSON.parse(
         webDebugger.getStackFrame()
       );
+      let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
+        webDebugger.getJsRange()
+      );
+      store.dispatch( updateJsRange( jsStart, jsEnd ) );
       store.dispatch( updateIrInfo( stackFrame ) );
       store.dispatch( pauseDebugger() );
     },
@@ -128,6 +132,10 @@ export const actions: [ ActionType, Action ][] = [
       let stackFrame: [ string, number ][] = JSON.parse(
         webDebugger.getStackFrame()
       );
+      let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
+        webDebugger.getJsRange()
+      );
+      store.dispatch( updateJsRange( jsStart, jsEnd ) );
       store.dispatch( updateIrInfo( stackFrame ) );
       store.dispatch( pauseDebugger() );
     },
@@ -148,6 +156,10 @@ export const actions: [ ActionType, Action ][] = [
       let stackFrame: [ string, number ][] = JSON.parse(
         webDebugger.getStackFrame()
       );
+      let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
+        webDebugger.getJsRange()
+      );
+      store.dispatch( updateJsRange( jsStart, jsEnd ) );
       store.dispatch( updateIrInfo( stackFrame ) );
       store.dispatch( pauseDebugger() );
     },
