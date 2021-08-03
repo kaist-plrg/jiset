@@ -37,7 +37,10 @@ trait AST {
       case _ => Json.Null
     }: _*),
     Json.arr(parserParams.map(p => Json.fromInt(if (p) 1 else 0)): _*),
-    Json.arr(Json.fromInt(-1), Json.fromInt(-1), Json.fromInt(-1), Json.fromInt(-1))
+    Json.arr(
+      Json.fromInt(-1), Json.fromInt(-1), Json.fromInt(-1),
+      Json.fromInt(-1), Json.fromInt(-1), Json.fromInt(-1),
+    )
   )
 
   // pretty printer
@@ -178,9 +181,9 @@ object AST {
         val idx = jIdx.asNumber.get.toInt.get
         val subs = jSubs.asArray.get.toArray.map(AST(_))
         val params = jParams.asArray.get.toList.map(_.asNumber.get.toInt.get == 1)
-        val List(sl, sc, el, ec) =
+        val List(sl, sc, si, el, ec, ei) =
           jSpan.asArray.get.toList.map(_.asNumber.get.toInt.get)
-        Some(NormalCompressed(idx, subs, params, Span(Pos(sl, sc), Pos(el, ec))))
+        Some(NormalCompressed(idx, subs, params, Span(Pos(sl, sc, si), Pos(el, ec, ei))))
       // lexical
       case List(jKind, jStr) =>
         val kind = jKind.asString.get

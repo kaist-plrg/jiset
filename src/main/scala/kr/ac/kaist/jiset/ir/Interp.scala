@@ -854,7 +854,6 @@ object Interp {
   )
 
   // interp event
-  val hidGen = new UIdGen
   type Event = Event.Value
   object Event extends Enumeration {
     val Call, Return, Cont = Value
