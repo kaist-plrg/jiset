@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // Checker Beautifier
 object Beautifier {
-  val cfgBeautifier = new cfg.Beautifier(index = true)
+  val cfgBeautifier = new cfg.Beautifier(line = true)
   import cfgBeautifier._, irBeautifier._
 
   // type checker components

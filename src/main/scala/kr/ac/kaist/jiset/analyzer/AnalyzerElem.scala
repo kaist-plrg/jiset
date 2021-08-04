@@ -10,10 +10,10 @@ trait AnalyzerElem {
   // more detailed beautifier
   def beautified(
     detail: Boolean = true,
-    index: Boolean = false,
+    line: Boolean = false,
     asite: Boolean = false
   ): String = {
-    val beautifier = AnalyzerElem.getBeautifier((detail, index, asite))
+    val beautifier = AnalyzerElem.getBeautifier((detail, line, asite))
     import beautifier._
     beautify(this)
   }
@@ -21,8 +21,8 @@ trait AnalyzerElem {
 object AnalyzerElem {
   val getBeautifier = {
     cached[(Boolean, Boolean, Boolean), Beautifier](key => {
-      val (detail, index, asite) = key
-      new Beautifier(detail, index, asite)
+      val (detail, line, asite) = key
+      new Beautifier(detail, line, asite)
     })
   }
 }

@@ -9,11 +9,11 @@ import kr.ac.kaist.jiset.util.Useful._
 // Analyzer Beautifier
 class Beautifier(
   detail: Boolean = true,
-  index: Boolean = false,
+  line: Boolean = false,
   asite: Boolean = false
 ) {
   // load other beautifiers
-  val cfgBeautifier = new cfg.Beautifier(detail, index, asite)
+  val cfgBeautifier = new cfg.Beautifier(detail, line, asite)
   import cfgBeautifier._, irBeautifier._
 
   // analyzer  components

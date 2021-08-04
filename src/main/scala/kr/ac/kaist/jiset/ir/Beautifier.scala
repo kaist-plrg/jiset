@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.util.Useful._
 // IR Beautifier
 class Beautifier(
   detail: Boolean = true,
-  index: Boolean = false,
+  line: Boolean = false,
   asite: Boolean = false
 ) {
   // pair appender
@@ -56,10 +56,15 @@ class Beautifier(
 
   // instructions
   implicit lazy val InstApp: App[Inst] = (app, inst) => {
-    if (index) inst.line match {
-      case None =>
-      case Some(i) => app >> s"$i:"
+    // lines
+    if (line) inst.line.map(l => app >> l >> ":")
+
+    // allocation sites
+    inst match {
+      case i: AllocSite if asite => app >> "(" >> i.asite >> ")"
+      case _ =>
     }
+
     inst match {
       case IExpr(expr) => app >> expr
       case ILet(id, expr) => app >> "let " >> id >> " = " >> expr
@@ -69,10 +74,6 @@ class Beautifier(
       case IPrepend(expr, list) => app >> "prepend " >> expr >> " -> " >> list
       case IReturn(expr) => app >> "return " >> expr
       case ithrow @ IThrow(id) =>
-        if (asite) ithrow.asite match {
-          case Some(k) => app >> "(" >> k >> ") "
-          case _ =>
-        }
         app >> "throw " >> id
       case IIf(cond, thenInst, elseInst) =>
         implicit val d = DetailInstApp
@@ -85,18 +86,10 @@ class Beautifier(
       case IPrint(expr) => app >> "print " >> expr
       case iapp @ IApp(id, fexpr, args) =>
         implicit val l = ListApp[Expr](sep = " ")
-        if (asite) iapp.csite match {
-          case Some(k) => app >> "(" >> k >> ") "
-          case _ =>
-        }
         app >> "app " >> id >> " = (" >> fexpr
         if (!args.isEmpty) app >> " " >> args
         app >> ")"
       case iaccess @ IAccess(id, bexpr, expr, args) =>
-        if (asite) iaccess.csite match {
-          case Some(k) => app >> "(" >> k >> ") "
-          case _ =>
-        }
         implicit val l = ListApp[Expr](sep = " ")
         app >> "access " >> id >> " = (" >> bexpr >> " " >> expr
         if (!args.isEmpty) app >> " " >> args
@@ -118,13 +111,12 @@ class Beautifier(
 
   // expressions
   implicit lazy val ExprApp: App[Expr] = (app, expr) => {
+    // allocation sites
     expr match {
-      case expr: AllocExpr if asite => expr.asite match {
-        case Some(k) => app >> s"(" >> k >> ") "
-        case _ =>
-      }
+      case e: AllocSite if asite => app >> "(" >> e.asite >> ")"
       case _ =>
     }
+
     expr match {
       case ENum(n) => app >> s"$n"
       case EINum(n) => app >> s"${n}i"
@@ -262,7 +254,7 @@ class Beautifier(
     case InstCursor(cur, rest) =>
       app >> cur >> " [# rest: " >> rest.size >> "]"
     case NodeCursor(node) =>
-      app >> node.beautified(detail, index, asite)
+      app >> node.beautified(detail, line, asite)
   }
 
   // heaps

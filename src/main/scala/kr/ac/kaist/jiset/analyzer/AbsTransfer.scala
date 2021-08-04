@@ -98,7 +98,21 @@ case class AbsTransfer(sem: AbsSemantics) {
       case ENull => AbsValue.nullv
       case EAbsent => AbsValue.absent
       case EConst(name) => ???
-      case EMap(ty, props) => ???
+      case EMap(Ty("Completion"), props) => ???
+      case map @ EMap(ty, props) => {
+        println(map.asite)
+        val loc: Loc = ???
+        for {
+          _ <- modify(_.allocMap(ty)(loc))
+          _ <- join(props.map {
+            case (kexpr, vexpr) => for {
+              k <- transfer(kexpr)
+              v <- transfer(vexpr)
+              _ <- modify(_.update(loc, k, v))
+            } yield ()
+          })
+        } yield AbsValue(loc)
+      }
       case EList(exprs) => ???
       case ESymbol(desc) => ???
       case EPop(list, idx) => ???

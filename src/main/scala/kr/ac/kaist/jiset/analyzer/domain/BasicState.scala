@@ -100,6 +100,11 @@ object BasicState extends Domain {
         globals.getOrElse(x, base.getOrElse(x, AbsValue.Bot))
     }
 
+    // setters
+    def update(refV: AbsRefValue, value: AbsValue): Elem = ???
+    def update(x: Id, value: AbsValue): Elem = ???
+    def update(loc: Loc, prop: AbsValue, value: AbsValue): Elem = ???
+
     // define global variables
     def defineGlobal(pairs: (Id, AbsValue)*): Elem =
       copy(globals = globals ++ pairs)
@@ -107,5 +112,18 @@ object BasicState extends Domain {
     // define local variables
     def defineLocal(pairs: (Id, AbsValue)*): Elem =
       copy(locals = locals ++ pairs)
+
+    // object operators
+    def append(loc: Loc, value: AbsValue): Elem = ???
+    def prepend(loc: Loc, value: AbsValue): Elem = ???
+    def pop(loc: Loc, idx: AbsValue): (AbsValue, Elem) = ???
+    def copyObj(from: Loc)(to: Loc): Elem = ???
+    def keys(loc: Loc, intSorted: Boolean)(to: Loc): Elem = ???
+    def allocMap(ty: Ty, map: Map[AbsValue, AbsValue] = Map())(to: Loc): Elem = {
+      ???
+    }
+    def allocList(list: List[AbsValue])(to: Loc): Elem = ???
+    def allocSymbol(desc: AbsValue)(to: Loc): Elem = ???
+    def setType(loc: Loc, ty: Ty): Elem = ???
   }
 }

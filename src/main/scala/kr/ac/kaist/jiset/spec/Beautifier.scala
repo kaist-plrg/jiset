@@ -10,7 +10,7 @@ import kr.ac.kaist.jiset.spec.grammar.{ token => gtoken, _ }
 
 // ECMAScript Beautifier
 object Beautifier {
-  val irBeautifier = new ir.Beautifier(index = true)
+  val irBeautifier = new ir.Beautifier(line = true)
   import irBeautifier._
 
   // ECMAScript components

@@ -121,7 +121,7 @@ class Diff {
   // compare expressions
   implicit def compare(result: Expr, answer: Expr): Boolean = {
     val asiteEq = !deep || ((result, answer) match {
-      case (r: AllocExpr, a: AllocExpr) => r.asite == a.asite
+      case (l: AllocSite, r: AllocSite) => l.asite == r.asite
       case _ => true
     })
     val deepEq = (result, answer) match {

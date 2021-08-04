@@ -217,7 +217,7 @@ class DotPrinter {
       case arrow: ArrowInst => s" [fid: $fid]"
       case _ => ""
     }
-    escapeHtml(node.beautified(detail = false, index = !useUId))
+    escapeHtml(node.beautified(detail = false, line = !useUId))
       .replaceAll("\u0000", "U+0000") + postfix
   }
 

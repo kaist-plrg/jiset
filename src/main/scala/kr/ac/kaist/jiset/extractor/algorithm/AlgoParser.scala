@@ -35,7 +35,6 @@ object AlgoParser {
     } catch {
       case e: Throwable => Nil
     }
-    result.foreach(algo => (new LocWalker).walk(algo.rawBody))
     result
   }
 

@@ -1,12 +1,9 @@
 package kr.ac.kaist.jiset.ir
 
-// IR Instructions
-sealed trait Inst extends IRElem {
-  // unique ids
-  private var _uid = -1
-  def uid = _uid
-  def setUId(uid: Int): Unit = _uid = uid
+import kr.ac.kaist.jiset.util.WeakUId
 
+// IR Instructions
+sealed trait Inst extends IRElem with WeakUId {
   // line information
   var line: Option[Int] = None
   def setLine(k: Option[Int]): Unit = line match {
@@ -15,7 +12,7 @@ sealed trait Inst extends IRElem {
   }
 
   // complete check (not containing ???)
-  def isComplete: Boolean = {
+  lazy val isComplete: Boolean = {
     val checker = new CompleteChecker
     checker.walk(this)
     checker.complete
@@ -31,7 +28,7 @@ case class IIf(cond: Expr, thenInst: Inst, elseInst: Inst) extends CondInst
 case class IWhile(cond: Expr, body: Inst) extends CondInst
 
 // call instructions
-sealed trait CallInst extends Inst { val id: Id; var csite: Option[Int] = None }
+sealed trait CallInst extends Inst { val id: Id }
 case class IApp(id: Id, fexpr: Expr, args: List[Expr]) extends CallInst
 case class IAccess(id: Id, bexpr: Expr, expr: Expr, args: List[Expr]) extends CallInst
 
@@ -44,7 +41,7 @@ case class IDelete(ref: Ref) extends NormalInst
 case class IAppend(expr: Expr, list: Expr) extends NormalInst
 case class IPrepend(expr: Expr, list: Expr) extends NormalInst
 case class IReturn(expr: Expr) extends NormalInst
-case class IThrow(name: String) extends NormalInst { var asite: Option[Int] = None }
+case class IThrow(name: String) extends NormalInst with AllocSite
 case class IAssert(expr: Expr) extends NormalInst
 case class IPrint(expr: Expr) extends NormalInst
 

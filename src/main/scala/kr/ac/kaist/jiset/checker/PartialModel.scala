@@ -62,7 +62,7 @@ object PartialModel {
   // get string of a partial model
   def getString(app: Appender, view: View, inst: Inst): Appender = {
     app >> view.toString >> ":"
-    app >> inst.beautified(index = true) >> LINE_SEP
+    app >> inst.beautified(line = true) >> LINE_SEP
   }
   def getString(view: View, inst: Inst): String =
     getString(new Appender, view, inst).toString

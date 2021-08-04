@@ -23,34 +23,31 @@ trait Parsers extends BasicParsers {
 
   // instructions
   implicit lazy val insts: Parser[List[Inst]] = rep(inst)
-  implicit lazy val inst: Parser[Inst] = opt(integer <~ ":") ~ (
+  implicit lazy val inst: Parser[Inst] = opt(integer <~ ":") ~ opt("(" ~> integer <~ ")") ~ (
     "delete " ~> ref ^^ { IDelete(_) } |
     ("append " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IAppend(e, l) } |
     ("prepend " ~> expr <~ "->") ~ expr ^^ { case e ~ l => IPrepend(e, l) } |
     "return " ~> expr ^^ { case e => IReturn(e) } |
-    throwInst |
+    "throw " ~> ident ^^ { case x => IThrow(x) } |
     ("if " ~> expr) ~ inst ~ ("else" ~> inst) ^^ { case c ~ t ~ e => IIf(c, t, e) } |
     ("while " ~> expr) ~ inst ^^ { case c ~ b => IWhile(c, b) } |
     "{" ~> rep(inst) <~ "}" ^^ { case seq => ISeq(seq) } |
     "assert " ~> expr ^^ { case e => IAssert(e) } |
     "print " ~> expr ^^ { case e => IPrint(e) } |
     ("let " ~> id <~ "=") ~ expr ^^ { case x ~ e => ILet(x, e) } |
-    callInst |
+    ("app " ~> id <~ "=") ~ ("(" ~> expr) ~ (rep(expr) <~ ")") ^^ { case x ~ f ~ as => IApp(x, f, as) } |
+    ("access " ~> id <~ "=") ~ ("(" ~> expr) ~ expr ~ (rep(expr) <~ ")") ^^ { case x ~ e1 ~ e2 ~ e3 => IAccess(x, e1, e2, e3) } |
     ("clo " ~> id <~ "=") ~ ("(" ~> repsep(id, ",") <~ ")") ~ ("[" ~> repsep(id, ",") <~ "]") ~ ("=>" ~> inst) ^^ { case x ~ ps ~ cs ~ b => IClo(x, ps, cs, b) } |
     ("cont " ~> id <~ "=") ~ ("(" ~> repsep(id, ",") <~ ")") ~ ("[=>]" ~> inst) ^^ { case x ~ ps ~ b => ICont(x, ps, b) } |
     ("withcont " ~> id) ~ ("(" ~> repsep(id, ",") <~ ")" <~ "=") ~ inst ^^ { case x ~ ps ~ b => IWithCont(x, ps, b) } |
     (ref <~ "=") ~ expr ^^ { case r ~ e => IAssign(r, e) } |
     expr ^^ { case e => IExpr(e) }
-  ) ^^ { case k ~ i => i.line = k.map(_.toInt); i }
-
-  lazy val throwInst: Parser[IThrow] = opt("(" ~> integer <~ ")") ~ (
-    "throw " ~> ident ^^ { case x => IThrow(x) }
-  ) ^^ { case k ~ i => i.asite = k.map(_.toInt); i }
-
-  lazy val callInst: Parser[CallInst] = opt("(" ~> integer <~ ")") ~ (
-    ("app " ~> id <~ "=") ~ ("(" ~> expr) ~ (rep(expr) <~ ")") ^^ { case x ~ f ~ as => IApp(x, f, as) } |
-    ("access " ~> id <~ "=") ~ ("(" ~> expr) ~ expr ~ (rep(expr) <~ ")") ^^ { case x ~ e1 ~ e2 ~ e3 => IAccess(x, e1, e2, e3) }
-  ) ^^ { case k ~ i => i.csite = k.map(_.toInt); i }
+  ) ^^ {
+      case l ~ Some(k) ~ (i: AllocSite) =>
+        i.line = l.map(_.toInt); i.setASite(k.toInt)
+      case l ~ _ ~ i =>
+        i.line = l.map(_.toInt); i
+    }
 
   // expressions
   implicit lazy val expr: Parser[Expr] = opt("(" ~> integer <~ ")") ~ (
@@ -102,12 +99,8 @@ trait Parsers extends BasicParsers {
     "(" ~> "map-keys" ~> expr <~ ")" ^^ { case e => EKeys(e, false) } |
     "(" ~> "map-keys" ~> expr <~ "[int-sorted]" ~ ")" ^^ { case e => EKeys(e, true) }
   ) ^^ {
-      case k ~ (e: AllocExpr) =>
-        e.asite = k.map(_.toInt); e
-      case k ~ e =>
-        if (k != None) println(e.beautified, k)
-        assert(k == None)
-        e
+      case Some(k) ~ (e: AllocSite) => e.setASite(k.toInt)
+      case _ ~ e => e
     }
 
   // properties

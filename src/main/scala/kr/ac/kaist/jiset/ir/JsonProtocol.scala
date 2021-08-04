@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util.Useful.beautify
 import io.circe._, io.circe.syntax._
 
 object JsonProtocol extends BasicJsonProtocol {
-  val beautifier = new Beautifier(index = true, asite = true)
+  val beautifier = new Beautifier(line = true, asite = true)
   import beautifier._
 
   implicit val (tyEncoder: Encoder[Ty], tyDecoder: Decoder[Ty]) =

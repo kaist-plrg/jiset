@@ -24,11 +24,10 @@ case class ECMAScript(
   val algoMap: Map[String, Algo] = algos.map(algo => algo.name -> algo).toMap
 
   // mapping from ids to instructions
-  val idMap: Map[Int, Inst] = {
-    val setter = new InstIdSetter
-    for (algo <- algos) setter.walk(algo.body)
-    setter.getIdMap
-  }
+  private val setter = new IdSetter
+  for (algo <- algos) setter.walk(algo.body)
+  val iidMap: Map[Int, Inst] = setter.getIIdMap
+  val eidMap: Map[Int, Expr] = setter.getEIdMap
 
   // completed/incompleted algorithms
   lazy val (completedAlgos, incompletedAlgos): (List[Algo], List[Algo]) =

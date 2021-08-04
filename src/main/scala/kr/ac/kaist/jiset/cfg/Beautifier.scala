@@ -9,11 +9,11 @@ import kr.ac.kaist.jiset.ir._
 // CFG Beautifier
 class Beautifier(
   detail: Boolean = true,
-  index: Boolean = false,
+  line: Boolean = false,
   asite: Boolean = false
 ) {
   // load IR beautifier
-  val irBeautifier = IRElem.getBeautifier((detail, index, asite))
+  val irBeautifier = IRElem.getBeautifier((detail, line, asite))
   import irBeautifier._
 
   // CFG elements

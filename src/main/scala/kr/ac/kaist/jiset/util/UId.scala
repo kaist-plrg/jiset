@@ -1,6 +1,5 @@
 package kr.ac.kaist.jiset.util
 
-import java.util.concurrent.atomic.AtomicInteger
 import kr.ac.kaist.jiset.error.WrongUId
 
 // unique id
@@ -32,10 +31,9 @@ trait UId[T <: UId[T]] { _: T =>
 // unique id generator
 class UIdGen[T <: UId[T]] {
   // private uid counter
-  private[util] val counter = new AtomicInteger
-  private[util] def newId: Int = counter.getAndIncrement
+  private[util] var count = 0
+  private[util] def newId: Int = { val uid = count; count += 1; uid }
   private[util] var uidMap: Map[Int, T] = Map()
-  def get(uid: Int): T =
-    uidMap.getOrElse(uid, throw WrongUId(uid))
-  def size: Int = counter.get
+  def get(uid: Int): T = uidMap.getOrElse(uid, throw WrongUId(uid))
+  def size: Int = count
 }
