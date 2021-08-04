@@ -25,11 +25,14 @@ type StateViewerItemProps = {
   headerStyle?: object;
   body: React.ReactElement;
   bodyStyle?: object;
-}
+};
 type StateViewerItemState = {
   expanded: boolean;
-}
-class StateViewerItem extends React.Component<StateViewerItemProps, StateViewerItemState> {
+};
+class StateViewerItem extends React.Component<
+  StateViewerItemProps,
+  StateViewerItemState
+> {
   constructor ( props: StateViewerItemProps ) {
     super( props );
     this.state = { expanded: false };
@@ -50,21 +53,26 @@ class StateViewerItem extends React.Component<StateViewerItemProps, StateViewerI
     const { disabled, header, headerStyle, body, bodyStyle } = this.props;
     const { expanded } = this.state;
     return (
-      <Accordion expanded={ expanded } disabled={ disabled } >
-        <AccordionSummary onClick={ () => this.onItemClick() } expandIcon={ <Icon>expand_more</Icon> } style={ headerStyle }>
+      <Accordion expanded={ expanded } disabled={ disabled }>
+        <AccordionSummary
+          onClick={ () => this.onItemClick() }
+          expandIcon={ <Icon>expand_more</Icon> }
+          style={ headerStyle }
+        >
           { header }
         </AccordionSummary>
-        <AccordionDetails style={ bodyStyle }>
-          { body }
-        </AccordionDetails>
+        <AccordionDetails style={ bodyStyle }>{ body }</AccordionDetails>
       </Accordion>
-    )
+    );
   }
 }
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
-  disableStateViewer: !( st.controller.state === AppState.DEBUG_READY || st.controller.state === AppState.TERMINATED ),
+  disableStateViewer: !(
+    st.controller.state === AppState.DEBUG_READY ||
+    st.controller.state === AppState.TERMINATED
+  ),
 } );
 const connector = connect( mapStateToProps );
 type StateViewerProps = ConnectedProps<typeof connector>;
@@ -77,6 +85,11 @@ class StateViewer extends React.Component<StateViewerProps> {
       <div className="state-viewer-container">
         <StateViewerItem
           disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Call Stack</Typography> }
+          body={ <StackFrameViewer /> }
+        />
+        <StateViewerItem
+          disabled={ disableStateViewer }
           header={ <Typography>ECMAScript Environment</Typography> }
           body={ <SpecEnvViewer /> }
         />
@@ -85,11 +98,6 @@ class StateViewer extends React.Component<StateViewerProps> {
           header={ <Typography>ECMAScript Heap</Typography> }
           bodyStyle={ { paddingTop: 0 } }
           body={ <HeapViewer /> }
-        />
-        <StateViewerItem
-          disabled={ disableStateViewer }
-          header={ <Typography>Stack Frame</Typography> }
-          body={ <StackFrameViewer /> }
         />
         <StateViewerItem
           disabled={ disableStateViewer }

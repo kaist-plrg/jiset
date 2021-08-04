@@ -72,7 +72,7 @@ class StackFrameViewer extends React.Component<StackFrameViewerProps> {
           <Table stickyHeader size="small">
             <TableHead>
               <TableRow>
-                <TableCell>Frame #</TableCell>
+                <TableCell>#</TableCell>
                 <TableCell>name</TableCell>
               </TableRow>
             </TableHead>
