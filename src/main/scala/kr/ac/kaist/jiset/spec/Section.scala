@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.extractor.SectionParser
 import kr.ac.kaist.jiset.spec.Parser
 
-case class Section(id: String, subs: List[Section]) extends SpecComponent
+case class Section(id: String, subs: List[Section]) extends SpecElem
 object Section extends Parser[Section] {
   def apply(elem: Element): Section = SectionParser(elem)
 

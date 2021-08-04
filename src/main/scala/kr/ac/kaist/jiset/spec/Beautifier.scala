@@ -14,7 +14,7 @@ object Beautifier {
   import irBeautifier._
 
   // ECMAScript components
-  implicit lazy val SpecComponentApp: App[SpecComponent] = (app, node) => node match {
+  implicit lazy val SpecElemApp: App[SpecElem] = (app, node) => node match {
     case comp: ECMAScript => ECMAScriptApp(app, comp)
     case comp: Section => SectionApp(app, comp)
     case comp: Algo => AlgoApp(app, comp)

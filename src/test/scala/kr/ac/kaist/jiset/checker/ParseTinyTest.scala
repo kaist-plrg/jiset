@@ -6,7 +6,7 @@ class ParseTinyTest extends CheckerTest with checker.Parsers {
   val name: String = "checkerParseTest"
 
   // test helper
-  def test[T <: CheckerComponent](desc: String)(cases: (String, T)*)(
+  def test[T <: CheckerElem](desc: String)(cases: (String, T)*)(
     implicit
     parser: Parser[T]
   ): Unit = check(desc, cases.foreach {

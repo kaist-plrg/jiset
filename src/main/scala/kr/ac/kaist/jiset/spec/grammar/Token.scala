@@ -1,10 +1,10 @@
 package kr.ac.kaist.jiset.spec.grammar.token
 
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
+import kr.ac.kaist.jiset.spec.{ Parser, SpecElem }
 
 // ECMAScript grammar tokens
-sealed trait Token extends SpecComponent {
+sealed trait Token extends SpecElem {
   // normalize tokens
   def norm: Option[NonTerminal] = this match {
     case ButNot(base, _) => base.norm

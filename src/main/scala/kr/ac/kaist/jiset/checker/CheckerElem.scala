@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.checker.Beautifier._
 
 // type checker components
-trait CheckerComponent {
+trait CheckerElem {
   // conversion to string
   def beautified: String = beautify(this)
 }

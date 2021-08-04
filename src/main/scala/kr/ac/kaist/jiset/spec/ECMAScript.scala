@@ -15,7 +15,7 @@ case class ECMAScript(
   symbols: Set[String],
   aoids: Set[String],
   section: Section
-) extends SpecComponent {
+) extends SpecElem {
   // set unique ids for algorithms
   private var aidCount: Int = 0
   for (algo <- algos) { algo.setUId(aidCount); aidCount += 1 }

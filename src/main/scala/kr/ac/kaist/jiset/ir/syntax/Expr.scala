@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 // IR Expressions
-sealed trait Expr extends IRComponent
+sealed trait Expr extends IRElem
 object Expr extends Parser[Expr]
 
 // allocation expression

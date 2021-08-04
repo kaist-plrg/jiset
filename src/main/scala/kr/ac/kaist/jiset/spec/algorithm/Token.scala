@@ -2,10 +2,10 @@ package kr.ac.kaist.jiset.spec.algorithm.token
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.spec.Parser
-import kr.ac.kaist.jiset.spec.SpecComponent
+import kr.ac.kaist.jiset.spec.SpecElem
 
 // tokens
-abstract class Token(name: String, content: String) extends SpecComponent {
+abstract class Token(name: String, content: String) extends SpecElem {
   // get name
   def getName: String = name
 

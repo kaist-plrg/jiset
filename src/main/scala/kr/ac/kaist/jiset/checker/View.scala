@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.checker
 
 // view abstraction
-case class View(tys: List[Type]) extends CheckerComponent
+case class View(tys: List[Type]) extends CheckerElem
 object View {
   def apply(seq: Type*): View =
     if (USE_VIEW) new View(seq.toList) else new View(Nil)

@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 // IR Instructions
-sealed trait Inst extends IRComponent {
+sealed trait Inst extends IRElem {
   // unique ids
   private var _uid = -1
   def uid = _uid

@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.UIdGen
 
 // control flow graph
-class CFG(val spec: ECMAScript) extends CFGComponent {
+class CFG(val spec: ECMAScript) extends CFGElem {
   val trans: Translator = new Translator
   val funcs: List[Function] = spec.algos.flatMap(algo => trans(AlgoOrigin(algo)))
   val bodyFuncMap: Map[Int, Function] = trans.getBodyFuncMap

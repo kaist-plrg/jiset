@@ -23,7 +23,7 @@ class Beautifier(
   }
 
   // IR nodes
-  implicit lazy val IRComponentApp: App[IRComponent] = (app, node) => node match {
+  implicit lazy val IRElemApp: App[IRElem] = (app, node) => node match {
     case node: Program => ProgramApp(app, node)
     case node: Inst => InstApp(app, node)
     case node: Expr => ExprApp(app, node)

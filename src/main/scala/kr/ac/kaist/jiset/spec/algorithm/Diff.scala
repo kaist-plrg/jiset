@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.util.Useful._
 // import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 
 class Diff {
-  def apply(result: IRComponent, answer: IRComponent): Option[Missing] = try {
+  def apply(result: IRElem, answer: IRElem): Option[Missing] = try {
     if ((result, answer) match {
       case (result: Inst, answer: Inst) => compare(result, answer, true)
       case (result: Id, answer: Id) => compare(result, answer)
@@ -22,7 +22,7 @@ class Diff {
   var deep: Boolean = false
 
   // missing cases
-  case class Missing(answer: IRComponent) extends Error
+  case class Missing(answer: IRElem) extends Error
 
   //////////////////////////////////////////////////////////////////////////////
   // Helpers

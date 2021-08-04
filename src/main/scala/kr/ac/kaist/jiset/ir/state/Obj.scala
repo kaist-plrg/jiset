@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.{ Map => MMap }
 
 // IR Objects
-sealed trait Obj extends IRComponent {
+sealed trait Obj extends IRElem {
   // types
   def ty: Ty
 

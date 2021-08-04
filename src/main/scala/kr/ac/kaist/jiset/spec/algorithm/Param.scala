@@ -1,14 +1,14 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
+import kr.ac.kaist.jiset.spec.{ Parser, SpecElem }
 import kr.ac.kaist.jiset.spec.grammar.Grammar
 import kr.ac.kaist.jiset.util.Useful._
 
 case class Param(
   name: String,
   kind: Param.Kind = Param.Kind.Normal
-) extends SpecComponent {
+) extends SpecElem {
   import Param.Kind._
   def isOptional: Boolean = kind == Optional
   def toOptional: Param = Param(name, Optional)

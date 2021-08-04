@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.{ Map => MMap }
 
 // values
-sealed trait Value extends IRComponent {
+sealed trait Value extends IRElem {
   // escape completion
   def escaped: PureValue = this match {
     case NormalComp(value) => value

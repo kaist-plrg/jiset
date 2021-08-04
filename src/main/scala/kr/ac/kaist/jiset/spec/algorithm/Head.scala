@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.TRIPLE
 import kr.ac.kaist.jiset.ir
-import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
+import kr.ac.kaist.jiset.spec.{ Parser, SpecElem }
 import kr.ac.kaist.jiset.spec.algorithm.Param.Kind._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.spec.grammar.token.NonTerminal
@@ -10,7 +10,7 @@ import kr.ac.kaist.jiset.spec.{ ECMAScript, Region }
 import kr.ac.kaist.jiset.util.Useful._
 import org.jsoup.nodes._
 
-trait Head extends SpecComponent {
+trait Head extends SpecElem {
   // name
   def name: String = this match {
     case NormalHead(name, _) =>

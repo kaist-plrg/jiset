@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.util.Useful._
 
 // evaluation cursors
-sealed trait Cursor extends IRComponent {
+sealed trait Cursor extends IRElem {
   // next cursor
   def next: Option[Cursor] = this match {
     case InstCursor(_, rest) => InstCursor.from(rest)

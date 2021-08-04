@@ -12,7 +12,7 @@ case class State(
   val globals: MMap[Id, Value] = MMap(),
   val heap: Heap = Heap(),
   var fnameOpt: Option[String] = None
-) extends IRComponent {
+) extends IRElem {
   // move the cursor
   def moveTo(program: Program): State = moveTo(program.insts)
   def moveTo(insts: List[Inst]): State = moveTo(ISeq(insts))

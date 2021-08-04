@@ -6,7 +6,7 @@ import scala.annotation.tailrec
 import scala.collection.mutable.{ Map => MMap }
 
 // IR Types
-case class Ty(name: String) extends IRComponent {
+case class Ty(name: String) extends IRElem {
   import Ty._
 
   // check whether it has SubMap

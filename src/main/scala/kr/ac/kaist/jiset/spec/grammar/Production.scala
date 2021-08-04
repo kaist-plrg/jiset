@@ -1,14 +1,14 @@
 package kr.ac.kaist.jiset.spec.grammar
 
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
+import kr.ac.kaist.jiset.spec.{ Parser, SpecElem }
 import kr.ac.kaist.jiset.util.Useful._
 
 // ECMAScript grammar productions
 case class Production(
   lhs: Lhs,
   rhsList: List[Rhs]
-) extends SpecComponent {
+) extends SpecElem {
   // get name
   def name: String = lhs.name
 

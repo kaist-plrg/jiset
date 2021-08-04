@@ -14,7 +14,7 @@ case class Context(
   val algo: Option[Algo] = None,
   val locals: MMap[Id, Value] = MMap(),
   val viewOpt: Option[View] = None
-) extends IRComponent {
+) extends IRElem {
   def copied: Context = copy(locals = MMap.from(locals))
   def isBuiltin: Boolean = algo.fold(false)(_.isBuiltin)
   // save previous cursor for stack frame info

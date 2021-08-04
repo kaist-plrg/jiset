@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.checker
 import kr.ac.kaist.jiset.cfg._
 
 // control points
-trait ControlPoint extends CheckerComponent {
+trait ControlPoint extends CheckerElem {
   // view of control points
   val view: View
 }

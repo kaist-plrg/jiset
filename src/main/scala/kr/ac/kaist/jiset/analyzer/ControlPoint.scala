@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.js._
 
 // control points
-trait ControlPoint extends AnalyzerComponent {
+trait ControlPoint extends AnalyzerElem {
   // view
   val view: View
 

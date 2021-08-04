@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 
 // CFG nodes
-trait Node extends CFGComponent with UId[Node] {
+trait Node extends CFGElem with UId[Node] {
   // get simple string
   def simpleString: String = s"${getClass.getSimpleName}[$uid]"
 
@@ -17,7 +17,7 @@ trait Node extends CFGComponent with UId[Node] {
     asite: Boolean = false
   ): String = {
     // load IR beautifier
-    val irBeautifier = IRComponent.getBeautifier((detail, index, asite))
+    val irBeautifier = IRElem.getBeautifier((detail, index, asite))
     import irBeautifier._
 
     // define appender

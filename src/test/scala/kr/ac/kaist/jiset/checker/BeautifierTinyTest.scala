@@ -10,7 +10,7 @@ class BeautifierTinyTest extends CheckerTest {
   val name: String = "checkerBeautifierTest"
 
   // test helper
-  def test[T <: CheckerComponent](desc: String)(cases: (T, String)*)(
+  def test[T <: CheckerElem](desc: String)(cases: (T, String)*)(
     implicit
     tApp: App[T]
   ): Unit = check(desc, cases.foreach {

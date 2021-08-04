@@ -1,12 +1,12 @@
 package kr.ac.kaist.jiset.spec.grammar
 
-import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
+import kr.ac.kaist.jiset.spec.{ Parser, SpecElem }
 
 // ECMAScript grammar left-hand-sides
 case class Lhs(
   name: String,
   params: List[String]
-) extends SpecComponent {
+) extends SpecElem {
   def isModule: Boolean = Grammar.isModuleNT(name)
   def isSupplemental: Boolean = Grammar.isSupplementalNT(name)
   def isTarget: Boolean = Grammar.isTargetNT(name)

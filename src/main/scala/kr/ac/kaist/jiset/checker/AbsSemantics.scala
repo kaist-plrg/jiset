@@ -30,7 +30,7 @@ case class AbsSemantics(
 
   // assertion control points
   var assertions: Map[ControlPoint, (AbsType, Expr)] = Map()
-) extends CheckerComponent {
+) extends CheckerElem {
   // load helpers
   import AbsSemantics._
 

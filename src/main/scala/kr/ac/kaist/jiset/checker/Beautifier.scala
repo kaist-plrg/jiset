@@ -12,7 +12,7 @@ object Beautifier {
   import irBeautifier._
 
   // type checker components
-  implicit lazy val CheckerComponentApp: App[CheckerComponent] = (app, comp) => comp match {
+  implicit lazy val CheckerElemApp: App[CheckerElem] = (app, comp) => comp match {
     case comp: AbsSemantics => AbsSemanticsApp(app, comp)
     case comp: ControlPoint => ControlPointApp(app, comp)
     case comp: View => ViewApp(app, comp)

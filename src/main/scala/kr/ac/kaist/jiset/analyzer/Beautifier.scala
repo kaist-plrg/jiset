@@ -16,7 +16,7 @@ class Beautifier(
   import irBeautifier._
 
   // analyzer  components
-  implicit lazy val AnalyzerComponentApp: App[AnalyzerComponent] = (app, comp) => comp match {
+  implicit lazy val AnalyzerElemApp: App[AnalyzerElem] = (app, comp) => comp match {
     case comp: ControlPoint => ControlPointApp(app, comp)
     case comp: View => ViewApp(app, comp)
   }

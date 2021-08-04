@@ -1,13 +1,13 @@
 package kr.ac.kaist.jiset.spec.grammar
 
 import kr.ac.kaist.jiset.spec.grammar.token._
-import kr.ac.kaist.jiset.spec.{ Parser, SpecComponent }
+import kr.ac.kaist.jiset.spec.{ Parser, SpecElem }
 
 // ECMAScript grammar right-hand-sides
 case class Rhs(
   tokens: List[Token],
   condOpt: Option[RhsCond]
-) extends SpecComponent {
+) extends SpecElem {
   // get rhs name
   def name: String = tokens.foldLeft("") {
     case (prev, Terminal(term)) => prev + term
