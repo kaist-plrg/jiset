@@ -30,7 +30,7 @@ object YieldExpression {
 case class YieldExpression0(parserParams: List[Boolean], span: Span) extends YieldExpression {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"yield"
@@ -41,7 +41,7 @@ case class YieldExpression1(x2: AssignmentExpression, parserParams: List[Boolean
   x2.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x2, 0)
-  def fullList: List[(String, Value)] = l("AssignmentExpression", x2, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("AssignmentExpression", x2, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"yield $x2"
@@ -52,7 +52,7 @@ case class YieldExpression2(x3: AssignmentExpression, parserParams: List[Boolean
   x3.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x3, 0)
-  def fullList: List[(String, Value)] = l("AssignmentExpression", x3, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("AssignmentExpression", x3, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"yield * $x3"

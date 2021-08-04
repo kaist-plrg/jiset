@@ -3,11 +3,11 @@ def NewPromiseReactionJob(reaction, argument) = 0:{
     2:let promiseCapability = reaction.Capability
     3:let type = reaction.Type
     4:let handler = reaction.Handler
-    5:if (= handler CONST_empty) 6:if (= type CONST_Fulfill) 6:{
+    5:if (= handler ~empty~) 6:if (= type ~Fulfill~) 6:{
       6:app __x1__ = (NormalCompletion argument)
       6:let handlerResult = __x1__
     } else 7:{
-      8:assert (= type CONST_Reject)
+      8:assert (= type ~Reject~)
       9:app __x2__ = (ThrowCompletion argument)
       9:let handlerResult = __x2__
     } else 8:{
@@ -17,7 +17,7 @@ def NewPromiseReactionJob(reaction, argument) = 0:{
     11:if (= promiseCapability undefined) 11:{
       12:app __x4__ = (IsAbruptCompletion handlerResult)
       12:assert (! __x4__)
-      13:return CONST_empty
+      13:return ~empty~
     } else 11:{}
     14:assert (is-instance-of promiseCapability PromiseCapabilityRecord)
     15:app __x5__ = (IsAbruptCompletion handlerResult)
@@ -32,10 +32,10 @@ def NewPromiseReactionJob(reaction, argument) = 0:{
   }
   0:let job = __x0__
   20:let handlerRealm = null
-  21:if (! (= reaction.Handler CONST_empty)) 21:{
+  21:if (! (= reaction.Handler ~empty~)) 21:{
     22:app __x8__ = (GetFunctionRealm reaction.Handler.Callback)
     22:let getHandlerRealmResult = __x8__
-    23:if (&& (is-completion getHandlerRealmResult) (= getHandlerRealmResult.Type CONST_normal)) 23:handlerRealm = getHandlerRealmResult.Value else 23:handlerRealm = REALM
+    23:if (&& (is-completion getHandlerRealmResult) (= getHandlerRealmResult.Type ~normal~)) 23:handlerRealm = getHandlerRealmResult.Value else 23:handlerRealm = REALM
   } else 21:{}
   26:return (new Record("Job" -> job, "Realm" -> handlerRealm))
 }

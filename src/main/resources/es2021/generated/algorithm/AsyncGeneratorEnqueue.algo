@@ -14,7 +14,7 @@ def AsyncGeneratorEnqueue(generator, completion, generatorBrand) = 0:{
   7:let request = (new AsyncGeneratorRequest("Completion" -> completion, "Capability" -> promiseCapability))
   8:append request -> queue
   9:let state = generator.AsyncGeneratorState
-  10:if (! (= state CONST_executing)) 10:{
+  10:if (! (= state ~executing~)) 10:{
     11:app __x4__ = (AsyncGeneratorResumeNext generator)
     11:[! __x4__]
   } else 10:{}

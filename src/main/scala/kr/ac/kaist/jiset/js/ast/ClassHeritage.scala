@@ -26,7 +26,7 @@ case class ClassHeritage0(x1: LeftHandSideExpression, parserParams: List[Boolean
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("LeftHandSideExpression", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("LeftHandSideExpression", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"extends $x1"

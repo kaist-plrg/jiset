@@ -12,7 +12,7 @@ sealed trait Key {
   }
 
   // conversion to IR value
-  def toValue: Value = this match {
+  def toValue: PureValue = this match {
     case StrKey(name) => Str(name)
     case SymbolKey(name) => NamedAddr(s"GLOBAL.Symbol.$name")
   }

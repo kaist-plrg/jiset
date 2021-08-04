@@ -1,13 +1,13 @@
 def AbstractRelationalComparison(x, y, LeftFirst?) = {
   0:if (= LeftFirst true) 0:{
-    1:app __x0__ = (ToPrimitive x CONST_number)
+    1:app __x0__ = (ToPrimitive x ~number~)
     1:let px = [? __x0__]
-    2:app __x1__ = (ToPrimitive y CONST_number)
+    2:app __x1__ = (ToPrimitive y ~number~)
     2:let py = [? __x1__]
   } else 3:{
-    5:app __x2__ = (ToPrimitive y CONST_number)
+    5:app __x2__ = (ToPrimitive y ~number~)
     5:let py = [? __x2__]
-    6:app __x3__ = (ToPrimitive x CONST_number)
+    6:app __x3__ = (ToPrimitive x ~number~)
     6:let px = [? __x3__]
   }
   7:if (&& (= (typeof px) String) (= (typeof py) String)) 7:{

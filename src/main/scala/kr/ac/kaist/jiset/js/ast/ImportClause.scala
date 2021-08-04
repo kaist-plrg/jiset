@@ -40,7 +40,7 @@ case class ImportClause0(x0: ImportedDefaultBinding, parserParams: List[Boolean]
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("ImportedDefaultBinding", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ImportedDefaultBinding", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -51,7 +51,7 @@ case class ImportClause1(x0: NameSpaceImport, parserParams: List[Boolean], span:
   x0.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("NameSpaceImport", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("NameSpaceImport", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -62,7 +62,7 @@ case class ImportClause2(x0: NamedImports, parserParams: List[Boolean], span: Sp
   x0.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("NamedImports", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("NamedImports", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -74,7 +74,7 @@ case class ImportClause3(x0: ImportedDefaultBinding, x2: NameSpaceImport, parser
   x2.parent = Some(this)
   def idx: Int = 3
   def k: Int = d(x2, d(x0, 0))
-  def fullList: List[(String, Value)] = l("NameSpaceImport", x2, l("ImportedDefaultBinding", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("NameSpaceImport", x2, l("ImportedDefaultBinding", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 , $x2"
@@ -86,7 +86,7 @@ case class ImportClause4(x0: ImportedDefaultBinding, x2: NamedImports, parserPar
   x2.parent = Some(this)
   def idx: Int = 4
   def k: Int = d(x2, d(x0, 0))
-  def fullList: List[(String, Value)] = l("NamedImports", x2, l("ImportedDefaultBinding", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("NamedImports", x2, l("ImportedDefaultBinding", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 , $x2"

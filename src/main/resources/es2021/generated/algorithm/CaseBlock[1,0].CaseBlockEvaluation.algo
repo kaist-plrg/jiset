@@ -14,7 +14,7 @@ def [SYNTAX] CaseBlock[1,0].CaseBlockEvaluation[R]<(CaseClauses0, DefaultClause,
     9:if (= found true) 9:{
       10:access __x3__ = (C "Evaluation")
       10:let R = __x3__
-      11:if (! (= R.Value CONST_empty)) 11:V = R.Value else 11:{}
+      11:if (! (= R.Value ~empty~)) 11:V = R.Value else 11:{}
       12:app __x4__ = (IsAbruptCompletion R)
       12:if __x4__ 12:{
         12:app __x5__ = (UpdateEmpty R V)
@@ -37,7 +37,7 @@ def [SYNTAX] CaseBlock[1,0].CaseBlockEvaluation[R]<(CaseClauses0, DefaultClause,
       22:if (= foundInB true) 22:{
         23:access __x9__ = (C "Evaluation")
         23:let R = __x9__
-        24:if (! (= R.Value CONST_empty)) 24:V = R.Value else 24:{}
+        24:if (! (= R.Value ~empty~)) 24:V = R.Value else 24:{}
         25:app __x10__ = (IsAbruptCompletion R)
         25:if __x10__ 25:{
           25:app __x11__ = (UpdateEmpty R V)
@@ -49,7 +49,7 @@ def [SYNTAX] CaseBlock[1,0].CaseBlockEvaluation[R]<(CaseClauses0, DefaultClause,
   26:if (= foundInB true) 26:return V else 26:{}
   27:access __x12__ = (DefaultClause "Evaluation")
   27:let R = __x12__
-  28:if (! (= R.Value CONST_empty)) 28:V = R.Value else 28:{}
+  28:if (! (= R.Value ~empty~)) 28:V = R.Value else 28:{}
   29:app __x13__ = (IsAbruptCompletion R)
   29:if __x13__ 29:{
     29:app __x14__ = (UpdateEmpty R V)
@@ -62,7 +62,7 @@ def [SYNTAX] CaseBlock[1,0].CaseBlockEvaluation[R]<(CaseClauses0, DefaultClause,
     31:__x16__ = (+ __x16__ 1i)
     32:access __x17__ = (C "Evaluation")
     32:let R = __x17__
-    33:if (! (= R.Value CONST_empty)) 33:V = R.Value else 33:{}
+    33:if (! (= R.Value ~empty~)) 33:V = R.Value else 33:{}
     34:app __x18__ = (IsAbruptCompletion R)
     34:if __x18__ 34:{
       34:app __x19__ = (UpdateEmpty R V)

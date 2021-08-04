@@ -14,7 +14,7 @@ def [SYNTAX] CaseBlock[0,1].CaseBlockEvaluation[R]<(CaseClauses),true>(input) = 
     6:if (= found true) 6:{
       7:access __x3__ = (C "Evaluation")
       7:let R = __x3__
-      8:if (! (= R.Value CONST_empty)) 8:V = R.Value else 8:{}
+      8:if (! (= R.Value ~empty~)) 8:V = R.Value else 8:{}
       9:app __x4__ = (IsAbruptCompletion R)
       9:if __x4__ 9:{
         9:app __x5__ = (UpdateEmpty R V)

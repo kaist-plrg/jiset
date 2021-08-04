@@ -7,7 +7,7 @@ def ToNumber (argument) = {
   else if (= (typeof argument) Symbol) throw TypeError
   else if (= (typeof argument) BigInt) throw TypeError
   else {
-    app __x0__  = (ToPrimitive argument CONST_number)
+    app __x0__  = (ToPrimitive argument ~number~)
     let primValue = [? __x0__]
     app __x1__ = (ToNumber primValue)
     return [? __x1__]

@@ -34,7 +34,7 @@ object ObjectBindingPattern {
 case class ObjectBindingPattern0(parserParams: List[Boolean], span: Span) extends ObjectBindingPattern {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ }"
@@ -45,7 +45,7 @@ case class ObjectBindingPattern1(x1: BindingRestProperty, parserParams: List[Boo
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("BindingRestProperty", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("BindingRestProperty", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ $x1 }"
@@ -56,7 +56,7 @@ case class ObjectBindingPattern2(x1: BindingPropertyList, parserParams: List[Boo
   x1.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("BindingPropertyList", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("BindingPropertyList", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ $x1 }"
@@ -68,7 +68,7 @@ case class ObjectBindingPattern3(x1: BindingPropertyList, x3: Option[BindingRest
   x3.foreach((m) => m.parent = Some(this))
   def idx: Int = 3
   def k: Int = d(x3, d(x1, 0))
-  def fullList: List[(String, Value)] = l("Option[BindingRestProperty]", x3, l("BindingPropertyList", x1, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("Option[BindingRestProperty]", x3, l("BindingPropertyList", x1, Nil)).reverse
   def maxK: Int = 1
   override def toString: String = {
     s"{ $x1 , ${x3.getOrElse("")} }"

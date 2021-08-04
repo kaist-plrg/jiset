@@ -14,7 +14,7 @@ case class Heap(
   // getters
   def apply(addr: Addr): Obj =
     map.getOrElse(addr, error(s"unknown address: ${addr.beautified}"))
-  def apply(addr: Addr, key: Value): Value = this(addr) match {
+  def apply(addr: Addr, key: PureValue): Value = this(addr) match {
     case (s: IRSymbol) => s(key)
     case (IRMap(Ty(js.ALGORITHM), _, _)) => key match {
       case Str(str) => js.algoMap.get(str).map(Func).getOrElse(Absent)
@@ -39,35 +39,35 @@ case class Heap(
   }
 
   // setters
-  def update(addr: Addr, prop: Value, value: Value): this.type = this(addr) match {
+  def update(addr: Addr, prop: PureValue, value: Value): this.type = this(addr) match {
     case (m: IRMap) =>
       m.update(prop, value); this
     case v => error(s"not a map: $v")
   }
 
   // delete
-  def delete(addr: Addr, prop: Value): this.type = this(addr) match {
+  def delete(addr: Addr, prop: PureValue): this.type = this(addr) match {
     case (m: IRMap) =>
       m.delete(prop); this
     case v => error(s"not a map: $v")
   }
 
   // appends
-  def append(addr: Addr, value: Value): this.type = this(addr) match {
+  def append(addr: Addr, value: PureValue): this.type = this(addr) match {
     case (l: IRList) =>
       l.append(value); this
     case v => error(s"not a list: $v")
   }
 
   // prepends
-  def prepend(addr: Addr, value: Value): this.type = this(addr) match {
+  def prepend(addr: Addr, value: PureValue): this.type = this(addr) match {
     case (l: IRList) =>
       l.prepend(value); this
     case v => error(s"not a list: $v")
   }
 
   // pops
-  def pop(addr: Addr, idx: Value): Value = this(addr) match {
+  def pop(addr: Addr, idx: PureValue): PureValue = this(addr) match {
     case (l: IRList) => l.pop(idx)
     case v => error(s"not a list: $v")
   }
@@ -97,11 +97,9 @@ case class Heap(
   // map allocations
   def allocMap(
     ty: Ty,
-    m: Map[Value, Value] = Map()
+    m: Map[PureValue, PureValue] = Map()
   ): Addr = {
-    val irMap =
-      if (ty.name == "Record") IRMap(ty, MMap(), 0L)
-      else IRMap(ty, ty.methods, 0L)
+    val irMap = if (ty.name == "Record") IRMap(ty, MMap(), 0L) else IRMap(ty)
     for ((k, v) <- m) irMap.update(k, v)
     if (ty.hasSubMap) {
       val subMap = IRMap(Ty("SubMap"))
@@ -111,10 +109,10 @@ case class Heap(
   }
 
   // list allocations
-  def allocList(list: List[Value]): Addr = alloc(IRList(list.toVector))
+  def allocList(list: List[PureValue]): Addr = alloc(IRList(list.toVector))
 
   // symbol allocations
-  def allocSymbol(desc: Value): Addr = alloc(IRSymbol(desc))
+  def allocSymbol(desc: PureValue): Addr = alloc(IRSymbol(desc))
 
   // allocation helper
   private def alloc(obj: Obj): Addr = {

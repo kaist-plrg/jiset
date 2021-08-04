@@ -30,7 +30,7 @@ object Beautifier {
 
   // ECMAScript
   implicit lazy val ECMAScriptApp: App[ECMAScript] = (app, spec) => {
-    val ECMAScript(version, grammar, algos, consts, intrinsics, symbols, aoids, section) = spec
+    val ECMAScript(version, grammar, algos, intrinsics, symbols, aoids, section) = spec
     app >> "* version: " >> version >> LINE_SEP
     app >> "* grammar:" >> LINE_SEP
     app >> "  - lexical production: " >> grammar.lexProds.length >> LINE_SEP
@@ -39,7 +39,6 @@ object Beautifier {
     app >> "  - incomplete: " >> spec.incompletedAlgos.length >> LINE_SEP
     app >> "  - complete: " >> spec.completedAlgos.length >> LINE_SEP
     app >> "  - total: " >> algos.length >> LINE_SEP
-    app >> "* consts: " >> consts.size >> LINE_SEP
     app >> "* intrinsics: " >> intrinsics.size >> LINE_SEP
     app >> "* symbols: " >> symbols.size >> LINE_SEP
     app >> "* aoids: " >> aoids.size >> LINE_SEP

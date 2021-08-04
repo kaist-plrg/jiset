@@ -3,28 +3,28 @@ def PerformPromiseThen(promise, onFulfilled, onRejected, resultCapability?) = 0:
   0:assert (= __x0__ true)
   1:if (= resultCapability absent) 2:resultCapability = undefined else 1:{}
   3:app __x1__ = (IsCallable onFulfilled)
-  3:if (= __x1__ false) 4:let onFulfilledJobCallback = CONST_empty else 5:{
+  3:if (= __x1__ false) 4:let onFulfilledJobCallback = ~empty~ else 5:{
     6:app __x2__ = (HostMakeJobCallback onFulfilled)
     6:let onFulfilledJobCallback = __x2__
   }
   7:app __x3__ = (IsCallable onRejected)
-  7:if (= __x3__ false) 8:let onRejectedJobCallback = CONST_empty else 9:{
+  7:if (= __x3__ false) 8:let onRejectedJobCallback = ~empty~ else 9:{
     10:app __x4__ = (HostMakeJobCallback onRejected)
     10:let onRejectedJobCallback = __x4__
   }
-  11:let fulfillReaction = (new PromiseReaction("Capability" -> resultCapability, "Type" -> CONST_Fulfill, "Handler" -> onFulfilledJobCallback))
-  12:let rejectReaction = (new PromiseReaction("Capability" -> resultCapability, "Type" -> CONST_Reject, "Handler" -> onRejectedJobCallback))
-  13:if (= promise.PromiseState CONST_pending) 13:{
+  11:let fulfillReaction = (new PromiseReaction("Capability" -> resultCapability, "Type" -> ~Fulfill~, "Handler" -> onFulfilledJobCallback))
+  12:let rejectReaction = (new PromiseReaction("Capability" -> resultCapability, "Type" -> ~Reject~, "Handler" -> onRejectedJobCallback))
+  13:if (= promise.PromiseState ~pending~) 13:{
     14:append fulfillReaction -> promise.PromiseFulfillReactions
     15:append rejectReaction -> promise.PromiseRejectReactions
-  } else 13:if (= promise.PromiseState CONST_fulfilled) 16:{
+  } else 13:if (= promise.PromiseState ~fulfilled~) 16:{
     17:let value = promise.PromiseResult
     18:app __x5__ = (NewPromiseReactionJob fulfillReaction value)
     18:let fulfillJob = __x5__
     19:app __x6__ = (HostEnqueuePromiseJob fulfillJob.Job fulfillJob.Realm)
     19:__x6__
   } else 20:{
-    21:assert (= promise.PromiseState CONST_rejected)
+    21:assert (= promise.PromiseState ~rejected~)
     22:let reason = promise.PromiseResult
     23:if (= promise.PromiseIsHandled false) 23:{
       23:app __x7__ = (HostPromiseRejectionTracker promise "handle")

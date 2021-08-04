@@ -32,7 +32,7 @@ case class AsyncArrowFunction0(x2: AsyncArrowBindingIdentifier, x5: AsyncConcise
   x5.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x5, d(x2, 0))
-  def fullList: List[(String, Value)] = l("AsyncConciseBody", x5, l("AsyncArrowBindingIdentifier", x2, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("AsyncConciseBody", x5, l("AsyncArrowBindingIdentifier", x2, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"async $x2 => $x5"
@@ -44,7 +44,7 @@ case class AsyncArrowFunction1(x0: CoverCallExpressionAndAsyncArrowHead, x3: Asy
   x3.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x3, d(x0, 0))
-  def fullList: List[(String, Value)] = l("AsyncConciseBody", x3, l("CoverCallExpressionAndAsyncArrowHead", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("AsyncConciseBody", x3, l("CoverCallExpressionAndAsyncArrowHead", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 => $x3"

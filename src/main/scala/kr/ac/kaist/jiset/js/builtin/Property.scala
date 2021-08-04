@@ -7,7 +7,7 @@ sealed trait Property
 
 // data properties
 case class DataProperty(
-  value: Value,
+  value: PureValue,
   writable: Boolean,
   enumerable: Boolean,
   configurable: Boolean
@@ -15,8 +15,8 @@ case class DataProperty(
 
 // accessor properties
 case class AccessorProperty(
-  get: Value,
-  set: Value,
+  get: PureValue,
+  set: PureValue,
   enumerable: Boolean,
   configurable: Boolean
 ) extends Property

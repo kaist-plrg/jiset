@@ -5,7 +5,7 @@ def [SYNTAX] AsyncMethod[0,0].MethodDefinitionEvaluation[R]<(PropertyName, Uniqu
   2:access __x1__ = (CONTEXT "LexicalEnvironment")
   2:let scope = __x1__
   3:let sourceText = (get-syntax AsyncMethod)
-  4:app __x2__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncFunction.prototype%"] sourceText UniqueFormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis scope)
+  4:app __x2__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncFunction.prototype%"] sourceText UniqueFormalParameters AsyncFunctionBody ~non-lexical-this~ scope)
   4:let closure = [! __x2__]
   5:app __x3__ = (MakeMethod closure object)
   5:[! __x3__]

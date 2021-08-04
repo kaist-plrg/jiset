@@ -21,7 +21,7 @@ def ParseModule(sourceText, realm, hostDefined) = 1:{
       16:if (= ie.ImportName "*") 18:append ee -> localExportEntries else 16:append (new ExportEntryRecord("ModuleRequest" -> ie.ModuleRequest, "ImportName" -> ie.ImportName, "LocalName" -> null, "ExportName" -> ee.ExportName)) -> indirectExportEntries
     } else 11:if (&& (= ee.ImportName "*") (= ee.ExportName null)) 23:append ee -> starExportEntries else 11:append ee -> indirectExportEntries
   }
-  26:return (new SourceTextModuleRecord("Realm" -> realm, "Environment" -> undefined, "Namespace" -> undefined, "Status" -> CONST_unlinked, "EvaluationError" -> undefined, "HostDefined" -> hostDefined, "ECMAScriptCode" -> body, "Context" -> CONST_empty, "ImportMeta" -> CONST_empty, "RequestedModules" -> requestedModules, "ImportEntries" -> importEntries, "LocalExportEntries" -> localExportEntries, "IndirectExportEntries" -> indirectExportEntries, "StarExportEntries" -> starExportEntries, "DFSIndex" -> undefined, "DFSAncestorIndex" -> undefined))
+  26:return (new SourceTextModuleRecord("Realm" -> realm, "Environment" -> undefined, "Namespace" -> undefined, "Status" -> ~unlinked~, "EvaluationError" -> undefined, "HostDefined" -> hostDefined, "ECMAScriptCode" -> body, "Context" -> ~empty~, "ImportMeta" -> ~empty~, "RequestedModules" -> requestedModules, "ImportEntries" -> importEntries, "LocalExportEntries" -> localExportEntries, "IndirectExportEntries" -> indirectExportEntries, "StarExportEntries" -> starExportEntries, "DFSIndex" -> undefined, "DFSAncestorIndex" -> undefined))
 }
 - id: "sec-parsemodule"
 - code:

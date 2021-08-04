@@ -28,7 +28,7 @@ case class DoWhileStatement0(x1: Statement, x4: Expression, parserParams: List[B
   x4.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x4, d(x1, 0))
-  def fullList: List[(String, Value)] = l("Expression", x4, l("Statement", x1, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("Expression", x4, l("Statement", x1, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"do $x1 while ( $x4 ) ;"

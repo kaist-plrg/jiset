@@ -8,10 +8,10 @@ def CopyDataBlockBytes(toBlock, toIndex, fromBlock, fromIndex, count) = 1:{
       7:let execution = AGENT.CandidateExecution
       8:??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
       9:??? "Let id:{bytes} be a List whose sole element is a nondeterministically chosen byte value ."
-      11:let readEvent = (new ReadSharedMemory("Order" -> CONST_Unordered, "NoTear" -> true, "Block" -> fromBlock, "ByteIndex" -> fromIndex, "ElementSize" -> 1i))
+      11:let readEvent = (new ReadSharedMemory("Order" -> ~Unordered~, "NoTear" -> true, "Block" -> fromBlock, "ByteIndex" -> fromIndex, "ElementSize" -> 1i))
       12:append readEvent -> eventList
       13:append (new ChosenValueRecord("Event" -> readEvent, "ChosenValue" -> bytes)) -> execution.ChosenValues
-      14:if (is-instance-of toBlock SharedDataBlock) 15:append (new WriteSharedMemory("Order" -> CONST_Unordered, "NoTear" -> true, "Block" -> toBlock, "ByteIndex" -> toIndex, "ElementSize" -> 1i, "Payload" -> bytes)) -> eventList else 14:toBlock[toIndex] = bytes[0i]
+      14:if (is-instance-of toBlock SharedDataBlock) 15:append (new WriteSharedMemory("Order" -> ~Unordered~, "NoTear" -> true, "Block" -> toBlock, "ByteIndex" -> toIndex, "ElementSize" -> 1i, "Payload" -> bytes)) -> eventList else 14:toBlock[toIndex] = bytes[0i]
     } else 17:{
       19:assert (! (is-instance-of toBlock SharedDataBlock))
       20:toBlock[toIndex] = fromBlock[fromIndex]
@@ -20,7 +20,7 @@ def CopyDataBlockBytes(toBlock, toIndex, fromBlock, fromIndex, count) = 1:{
     22:fromIndex = (+ fromIndex 1i)
     23:count = (- count 1i)
   }
-  24:return CONST_empty
+  24:return ~empty~
 }
 - id: "sec-copydatablockbytes"
 - code:

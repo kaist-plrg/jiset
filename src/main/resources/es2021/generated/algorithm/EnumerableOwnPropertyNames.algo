@@ -11,11 +11,11 @@ def EnumerableOwnPropertyNames(O, kind) = 0:{
     4:if (= (typeof key) String) 4:{
       5:app __x3__ = (O.GetOwnProperty O key)
       5:let desc = [? __x3__]
-      6:if (&& (! (= desc undefined)) (= desc.Enumerable true)) 7:if (= kind CONST_key) 7:append key -> properties else 8:{
+      6:if (&& (! (= desc undefined)) (= desc.Enumerable true)) 7:if (= kind ~key~) 7:append key -> properties else 8:{
         9:app __x4__ = (Get O key)
         9:let value = [? __x4__]
-        10:if (= kind CONST_value) 10:append value -> properties else 11:{
-          12:assert (= kind CONST_keyPLUSvalue)
+        10:if (= kind ~value~) 10:append value -> properties else 11:{
+          12:assert (= kind ~key+value~)
           13:app __x5__ = (CreateArrayFromList (new [key, value]))
           13:let entry = [! __x5__]
           14:append entry -> properties

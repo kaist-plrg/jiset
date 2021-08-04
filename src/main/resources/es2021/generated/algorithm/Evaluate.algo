@@ -1,5 +1,5 @@
 def Evaluate() = 1:{
-  1:assert (|| (= module.Status CONST_linked) (= module.Status CONST_evaluated))
+  1:assert (|| (= module.Status ~linked~) (= module.Status ~evaluated~))
   2:let stack = (new [])
   3:app __x0__ = (InnerModuleEvaluation module stack 0i)
   3:let result = __x0__
@@ -10,14 +10,14 @@ def Evaluate() = 1:{
     5:while (< __x3__ __x2__.length) 5:{
       5:let m = __x2__[__x3__]
       5:__x3__ = (+ __x3__ 1i)
-      6:assert (= m.Status CONST_evaluating)
-      7:m.Status = CONST_evaluated
+      6:assert (= m.Status ~evaluating~)
+      7:m.Status = ~evaluated~
       8:m.EvaluationError = result
     }
-    9:assert (&& (= module.Status CONST_evaluated) (= module.EvaluationError result))
+    9:assert (&& (= module.Status ~evaluated~) (= module.EvaluationError result))
     10:return result
   } else 4:{}
-  11:assert (&& (= module.Status CONST_evaluated) (= module.EvaluationError undefined))
+  11:assert (&& (= module.Status ~evaluated~) (= module.EvaluationError undefined))
   12:assert (= stack.length 0i)
   13:return undefined
 }

@@ -1,22 +1,22 @@
 def GeneratorResumeAbrupt(generator, abruptCompletion, generatorBrand) = 0:{
   0:app __x0__ = (GeneratorValidate generator generatorBrand)
   0:let state = [? __x0__]
-  1:if (= state CONST_suspendedStart) 1:{
-    2:generator.GeneratorState = CONST_completed
-    4:state = CONST_completed
+  1:if (= state ~suspendedStart~) 1:{
+    2:generator.GeneratorState = ~completed~
+    4:state = ~completed~
   } else 1:{}
-  5:if (= state CONST_completed) 5:{
-    6:if (= abruptCompletion.Type CONST_return) 6:{
+  5:if (= state ~completed~) 5:{
+    6:if (= abruptCompletion.Type ~return~) 6:{
       7:app __x1__ = (CreateIterResultObject abruptCompletion.Value true)
       7:return __x1__
     } else 6:{}
     8:return abruptCompletion
   } else 5:{}
-  9:assert (= state CONST_suspendedYield)
+  9:assert (= state ~suspendedYield~)
   10:let genContext = generator.GeneratorContext
   11:let methodContext = CONTEXT
   12:CONTEXT = null
-  13:generator.GeneratorState = CONST_executing
+  13:generator.GeneratorState = ~executing~
   14:append genContext -> EXECUTION_STACK
   14:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   15:withcont __x2__ (result) = 15:{

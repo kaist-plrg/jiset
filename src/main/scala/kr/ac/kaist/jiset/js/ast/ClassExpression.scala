@@ -28,7 +28,7 @@ case class ClassExpression0(x1: Option[BindingIdentifier], x2: ClassTail, parser
   x2.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x2, d(x1, 0))
-  def fullList: List[(String, Value)] = l("ClassTail", x2, l("Option[BindingIdentifier]", x1, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("ClassTail", x2, l("Option[BindingIdentifier]", x1, Nil)).reverse
   def maxK: Int = 1
   override def toString: String = {
     s"class ${x1.getOrElse("")} $x2"

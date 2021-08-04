@@ -398,6 +398,7 @@ class Interp(
     case EUndef => Undef
     case ENull => Null
     case EAbsent => Absent
+    case EConst(name) => Const(name)
     case EMap(Ty("Completion"), props) => {
       val map = (for {
         (kexpr, vexpr) <- props

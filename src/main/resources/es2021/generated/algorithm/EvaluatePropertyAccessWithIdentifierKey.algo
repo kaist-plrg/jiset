@@ -4,7 +4,7 @@ def EvaluatePropertyAccessWithIdentifierKey(baseValue, identifierName, strict) =
   1:let bv = [? __x0__]
   2:access __x1__ = (identifierName "StringValue")
   2:let propertyNameString = __x1__
-  3:return (new ReferenceRecord("Base" -> bv, "ReferencedName" -> propertyNameString, "Strict" -> strict, "ThisValue" -> CONST_empty))
+  3:return (new ReferenceRecord("Base" -> bv, "ReferencedName" -> propertyNameString, "Strict" -> strict, "ThisValue" -> ~empty~))
 }
 - id: "sec-evaluate-property-access-with-identifier-key"
 - code:

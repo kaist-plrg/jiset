@@ -42,7 +42,7 @@ case class CompValue(
   value: PureValue,
   targetOpt: Option[String]
 ) extends Value {
-  def target: Value = targetOpt.fold[Value](CONST_EMPTY)(Str)
+  def target: PureValue = targetOpt.fold[PureValue](CONST_EMPTY)(Str)
 }
 object NormalComp {
   def apply(value: PureValue): CompValue =
@@ -61,10 +61,7 @@ case class Const(name: String) extends PureValue
 
 // addresses
 sealed trait Addr extends PureValue
-case class NamedAddr(name: String) extends Addr {
-  // TODO REMOVE!!
-  if (name startsWith ("CONST_")) error(s"invalid address name: $name")
-}
+case class NamedAddr(name: String) extends Addr
 case class DynamicAddr(long: Long) extends Addr
 
 // functions

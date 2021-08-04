@@ -97,6 +97,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       case EUndef => AbsValue.undef
       case ENull => AbsValue.nullv
       case EAbsent => AbsValue.absent
+      case EConst(name) => ???
       case EMap(ty, props) => ???
       case EList(exprs) => ???
       case ESymbol(desc) => ???

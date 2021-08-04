@@ -32,7 +32,7 @@ case class ModuleItem0(x0: ImportDeclaration, parserParams: List[Boolean], span:
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("ImportDeclaration", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ImportDeclaration", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -43,7 +43,7 @@ case class ModuleItem1(x0: ExportDeclaration, parserParams: List[Boolean], span:
   x0.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("ExportDeclaration", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ExportDeclaration", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -54,7 +54,7 @@ case class ModuleItem2(x0: StatementListItem, parserParams: List[Boolean], span:
   x0.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("StatementListItem", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("StatementListItem", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

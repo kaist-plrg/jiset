@@ -43,8 +43,8 @@ case class Ty(name: String) extends IRComponent {
   }
 
   // get methods
-  def methods: MMap[Value, (Value, Long)] = {
-    val map = MMap[Value, (Value, Long)]()
+  def methods: MMap[PureValue, (Value, Long)] = {
+    val map = MMap[PureValue, (Value, Long)]()
     for ((name, algo) <- methodMap.getOrElse(name, Map())) {
       map += Str(name) -> (Func(algo), 0L)
     }

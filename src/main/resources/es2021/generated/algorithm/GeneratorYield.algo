@@ -2,8 +2,8 @@ def GeneratorYield(iterNextObj) = 1:{
   1:let genContext = CONTEXT
   3:let generator = genContext.Generator
   4:app __x0__ = (GetGeneratorKind)
-  4:assert (= __x0__ CONST_sync)
-  5:generator.GeneratorState = CONST_suspendedYield
+  4:assert (= __x0__ ~sync~)
+  5:generator.GeneratorState = ~suspendedYield~
   6:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] genContext) 6:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 6:{}
   6:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   7:cont __x1__ = (resumptionValue) [=>] 8:return resumptionValue

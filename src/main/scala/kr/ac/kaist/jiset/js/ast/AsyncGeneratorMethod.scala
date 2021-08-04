@@ -30,7 +30,7 @@ case class AsyncGeneratorMethod0(x3: PropertyName, x5: UniqueFormalParameters, x
   x8.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x8, d(x5, d(x3, 0)))
-  def fullList: List[(String, Value)] = l("AsyncGeneratorBody", x8, l("UniqueFormalParameters", x5, l("PropertyName", x3, Nil))).reverse
+  def fullList: List[(String, PureValue)] = l("AsyncGeneratorBody", x8, l("UniqueFormalParameters", x5, l("PropertyName", x3, Nil))).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"async * $x3 ( $x5 ) { $x8 }"

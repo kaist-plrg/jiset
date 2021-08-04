@@ -26,7 +26,7 @@ case class ThrowStatement0(x2: Expression, parserParams: List[Boolean], span: Sp
   x2.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x2, 0)
-  def fullList: List[(String, Value)] = l("Expression", x2, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Expression", x2, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"throw $x2 ;"

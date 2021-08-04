@@ -4,9 +4,9 @@ def InnerModuleLinking(module, stack, index) = 0:{
     1:[? __x0__]
     2:return index
   } else 0:{}
-  3:if (|| (|| (= module.Status CONST_linking) (= module.Status CONST_linked)) (= module.Status CONST_evaluated)) 4:return index else 3:{}
-  5:assert (= module.Status CONST_unlinked)
-  6:module.Status = CONST_linking
+  3:if (|| (|| (= module.Status ~linking~) (= module.Status ~linked~)) (= module.Status ~evaluated~)) 4:return index else 3:{}
+  5:assert (= module.Status ~unlinked~)
+  6:module.Status = ~linking~
   7:module.DFSIndex = index
   8:module.DFSAncestorIndex = index
   9:index = (+ index 1i)
@@ -21,8 +21,8 @@ def InnerModuleLinking(module, stack, index) = 0:{
     13:app __x4__ = (InnerModuleLinking requiredModule stack index)
     13:index = [? __x4__]
     14:if (is-instance-of requiredModule CyclicModuleRecord) 14:{
-      15:assert (|| (|| (= requiredModule.Status CONST_linking) (= requiredModule.Status CONST_linked)) (= requiredModule.Status CONST_evaluated))
-      17:if (= requiredModule.Status CONST_linking) 17:{
+      15:assert (|| (|| (= requiredModule.Status ~linking~) (= requiredModule.Status ~linked~)) (= requiredModule.Status ~evaluated~))
+      17:if (= requiredModule.Status ~linking~) 17:{
         18:app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
         18:module.DFSAncestorIndex = __x5__
       } else 17:{}
@@ -37,7 +37,7 @@ def InnerModuleLinking(module, stack, index) = 0:{
       25:let requiredModule = stack[(- stack.length 1i)]
       26:(pop stack (- stack.length 1i))
       27:assert (is-instance-of requiredModule CyclicModuleRecord)
-      28:requiredModule.Status = CONST_linked
+      28:requiredModule.Status = ~linked~
       29:if (= requiredModule module) 29:done = true else 29:{}
     }
   } else 22:{}

@@ -27,7 +27,7 @@ object ReturnStatement {
 case class ReturnStatement0(parserParams: List[Boolean], span: Span) extends ReturnStatement {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"return ;"
@@ -38,7 +38,7 @@ case class ReturnStatement1(x2: Expression, parserParams: List[Boolean], span: S
   x2.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x2, 0)
-  def fullList: List[(String, Value)] = l("Expression", x2, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Expression", x2, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"return $x2 ;"

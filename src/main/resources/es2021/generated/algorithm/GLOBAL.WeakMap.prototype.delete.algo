@@ -10,14 +10,14 @@ def [BUILTIN] WeakMap.prototype.delete(key) = 0:{
     4:let p = __x1__[__x2__]
     4:__x2__ = (+ __x2__ 1i)
     5:let __x3__ = true
-    5:__x3__ = (! (= p.Key CONST_empty))
+    5:__x3__ = (! (= p.Key ~empty~))
     5:if __x3__ 5:{
       5:app __x4__ = (SameValue p.Key key)
       5:__x3__ = (= __x4__ true)
     } else 5:{}
     5:if __x3__ 5:{
-      6:p.Key = CONST_empty
-      7:p.Value = CONST_empty
+      6:p.Key = ~empty~
+      7:p.Value = ~empty~
       8:return true
     } else 5:{}
   }

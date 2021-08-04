@@ -1,5 +1,5 @@
 def CreateSetIterator(set, kind) = 0:{
-  0:assert (|| (= kind CONST_keyPLUSvalue) (= kind CONST_value))
+  0:assert (|| (= kind ~key+value~) (= kind ~value~))
   1:app __x0__ = (RequireInternalSlot set "SetData")
   1:[? __x0__]
   2:clo __x1__ = ()[set, kind] => 3:{
@@ -9,13 +9,13 @@ def CreateSetIterator(set, kind) = 0:{
     6:while (< index numEntries) 6:{
       7:let e = entries[index]
       8:index = (+ index 1i)
-      9:if (! (= e CONST_empty)) 9:{
-        10:if (= kind CONST_keyPLUSvalue) 10:{
+      9:if (! (= e ~empty~)) 9:{
+        10:if (= kind ~key+value~) 10:{
           11:app __x2__ = (CreateArrayFromList (new [e, e]))
           11:app __x3__ = (Yield [! __x2__])
           11:[? __x3__]
         } else 12:{
-          13:assert (= kind CONST_value)
+          13:assert (= kind ~value~)
           14:app __x4__ = (Yield e)
           14:[? __x4__]
         }

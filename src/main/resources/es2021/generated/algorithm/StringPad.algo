@@ -1,5 +1,5 @@
 def StringPad(O, maxLength, fillString, placement) = 0:{
-  0:assert (|| (= placement CONST_start) (= placement CONST_end))
+  0:assert (|| (= placement ~start~) (= placement ~end~))
   1:app __x0__ = (ToString O)
   1:let S = [? __x0__]
   2:app __x1__ = (ToLength maxLength)
@@ -13,7 +13,7 @@ def StringPad(O, maxLength, fillString, placement) = 0:{
   7:if (= filler "") 7:return S else 7:{}
   8:let fillLen = (- intMaxLength stringLength)
   9:??? "Let id:{truncatedStringFiller} be the String value consisting of repeated concatenations of id:{filler} truncated to length id:{fillLen} ."
-  10:if (= placement CONST_start) 10:return (+ truncatedStringFiller S) else 10:return (+ S truncatedStringFiller)
+  10:if (= placement ~start~) 10:return (+ truncatedStringFiller S) else 10:return (+ S truncatedStringFiller)
 }
 - id: "sec-stringpad"
 - code:

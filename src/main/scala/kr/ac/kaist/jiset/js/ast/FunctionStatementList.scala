@@ -26,7 +26,7 @@ case class FunctionStatementList0(x0: Option[StatementList], parserParams: List[
   x0.foreach((m) => m.parent = Some(this))
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("Option[StatementList]", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Option[StatementList]", x0, Nil).reverse
   def maxK: Int = 1
   override def toString: String = {
     s"${x0.getOrElse("")}"

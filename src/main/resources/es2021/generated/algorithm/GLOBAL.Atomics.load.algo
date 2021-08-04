@@ -6,8 +6,8 @@ def [BUILTIN] Atomics.load(typedArray, index) = 0:{
   2:app __x2__ = (IsDetachedBuffer buffer)
   2:if (= __x2__ true) 2:throw TypeError else 2:{}
   4:let arrayTypeName = typedArray.TypedArrayName
-  6:let elementType = CONST_Int8
-  6:app __x3__ = (GetValueFromBuffer buffer indexedPosition elementType true CONST_SeqCst)
+  6:let elementType = ~Int8~
+  6:app __x3__ = (GetValueFromBuffer buffer indexedPosition elementType true ~SeqCst~)
   6:return __x3__
 }
 - id: "sec-atomics.load"

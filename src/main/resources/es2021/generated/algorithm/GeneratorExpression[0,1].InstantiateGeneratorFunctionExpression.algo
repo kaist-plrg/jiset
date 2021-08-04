@@ -8,7 +8,7 @@ def [SYNTAX] GeneratorExpression[0,1].InstantiateGeneratorFunctionExpression[R]<
   4:app __x2__ = (funcEnv.CreateImmutableBinding funcEnv name false)
   4:__x2__
   5:let sourceText = (get-syntax GeneratorExpression)
-  6:app __x3__ = (OrdinaryFunctionCreate INTRINSICS["%GeneratorFunction.prototype%"] sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis funcEnv)
+  6:app __x3__ = (OrdinaryFunctionCreate INTRINSICS["%GeneratorFunction.prototype%"] sourceText FormalParameters GeneratorBody ~non-lexical-this~ funcEnv)
   6:let closure = __x3__
   7:app __x4__ = (SetFunctionName closure name)
   7:__x4__

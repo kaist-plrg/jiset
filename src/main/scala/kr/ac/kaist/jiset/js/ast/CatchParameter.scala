@@ -29,7 +29,7 @@ case class CatchParameter0(x0: BindingIdentifier, parserParams: List[Boolean], s
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("BindingIdentifier", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("BindingIdentifier", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -40,7 +40,7 @@ case class CatchParameter1(x0: BindingPattern, parserParams: List[Boolean], span
   x0.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("BindingPattern", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("BindingPattern", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

@@ -24,7 +24,7 @@ object DebuggerStatement {
 case class DebuggerStatement0(parserParams: List[Boolean], span: Span) extends DebuggerStatement {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"debugger ;"

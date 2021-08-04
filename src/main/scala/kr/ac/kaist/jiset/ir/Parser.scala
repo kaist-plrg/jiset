@@ -68,6 +68,7 @@ trait Parsers extends BasicParsers {
     "undefined" ^^^ EUndef |
     "null" ^^^ ENull |
     "absent" ^^^ EAbsent |
+    "~" ~> "[^~]+".r <~ "~" ^^ { EConst(_) } |
     "???" ~> string ^^ { ENotSupported(_) } |
     "(" ~> (uop ~ expr) <~ ")" ^^ { case u ~ e => EUOp(u, e) } |
     "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |

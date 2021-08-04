@@ -1,7 +1,7 @@
 def LoopContinues(completion, labelSet) = 0:{
-  0:if (= completion.Type CONST_normal) 0:return true else 0:{}
-  1:if (! (= completion.Type CONST_continue)) 1:return false else 1:{}
-  2:if (= completion.Target CONST_empty) 2:return true else 2:{}
+  0:if (= completion.Type ~normal~) 0:return true else 0:{}
+  1:if (! (= completion.Type ~continue~)) 1:return false else 1:{}
+  2:if (= completion.Target ~empty~) 2:return true else 2:{}
   3:if (contains labelSet completion.Target) 3:return true else 3:{}
   4:return false
 }

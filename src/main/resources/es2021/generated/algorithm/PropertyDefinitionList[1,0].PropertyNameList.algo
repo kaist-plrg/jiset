@@ -2,7 +2,7 @@ def [SYNTAX] PropertyDefinitionList[1,0].PropertyNameList[S]<(PropertyDefinition
   0:access __x0__ = (PropertyDefinitionList "PropertyNameList")
   0:let list = __x0__
   1:access __x1__ = (PropertyDefinition "PropName")
-  1:if (= __x1__ CONST_empty) 1:return list else 1:{}
+  1:if (= __x1__ ~empty~) 1:return list else 1:{}
   2:access __x2__ = (PropertyDefinition "PropName")
   2:append __x2__ -> list
   3:return list

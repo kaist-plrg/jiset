@@ -3,7 +3,7 @@ def HostEnqueuePromiseJob(job, realm) = {
   let callerScriptOrModule = callerContext.ScriptOrModule
   let pending = (new PendingJob("Job" -> job, "Realm" -> realm, "ScriptOrModule" -> callerScriptOrModule, "HostDefined" -> undefined))
   append pending -> JOB_QUEUE
-  return CONST_empty
+  return ~empty~
 }
 - id: ""
 - code:

@@ -1,6 +1,6 @@
 def TestIntegrityLevel(O, level) = 0:{
   0:assert (= (typeof O) Object)
-  1:assert (|| (= level CONST_sealed) (= level CONST_frozen))
+  1:assert (|| (= level ~sealed~) (= level ~frozen~))
   2:app __x0__ = (IsExtensible O)
   2:let extensible = [? __x0__]
   3:if (= extensible true) 3:return false else 3:{}
@@ -16,7 +16,7 @@ def TestIntegrityLevel(O, level) = 0:{
     8:if (! (= currentDesc undefined)) 8:{
       9:if (= currentDesc.Configurable true) 9:return false else 9:{}
       10:let __x5__ = true
-      10:__x5__ = (= level CONST_frozen)
+      10:__x5__ = (= level ~frozen~)
       10:if __x5__ 10:{
         10:app __x6__ = (IsDataDescriptor currentDesc)
         10:__x5__ = (= __x6__ true)

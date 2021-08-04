@@ -5,7 +5,7 @@ def [BUILTIN] Atomics.compareExchange(typedArray, index, expectedValue, replacem
   2:app __x1__ = (ValidateAtomicAccess typedArray index)
   2:let indexedPosition = [? __x1__]
   3:let arrayTypeName = typedArray.TypedArrayName
-  4:if (= typedArray.ContentType CONST_BigInt) 4:{
+  4:if (= typedArray.ContentType ~BigInt~) 4:{
     5:app __x2__ = (ToBigInt expectedValue)
     5:let expected = [? __x2__]
     6:app __x3__ = (ToBigInt replacementValue)
@@ -18,7 +18,7 @@ def [BUILTIN] Atomics.compareExchange(typedArray, index, expectedValue, replacem
   }
   10:app __x6__ = (IsDetachedBuffer buffer)
   10:if (= __x6__ true) 10:throw TypeError else 10:{}
-  6:let elementType = CONST_Int8
+  6:let elementType = ~Int8~
   13:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for Element Type id:{elementType} ."
   14:let isLittleEndian = AGENT.LittleEndian
   15:app __x7__ = (NumericToRawBytes elementType expected isLittleEndian)
@@ -33,8 +33,8 @@ def [BUILTIN] Atomics.compareExchange(typedArray, index, expectedValue, replacem
     23:app __x10__ = (ByteListEqual rawBytesRead expectedBytes)
     23:if (= __x10__ true) 23:{
       24:??? "Let id:{second} be a new read - modify - write modification function with parameters ( id:{oldBytes} , id:{newBytes} ) that captures nothing and performs the following steps atomically when called : in:{} out:{}"
-      26:let event = (new ReadModifyWriteSharedMemory("Order" -> CONST_SeqCst, "NoTear" -> true, "Block" -> block, "ByteIndex" -> indexedPosition, "ElementSize" -> elementSize, "Payload" -> replacementBytes, "ModifyOp" -> second))
-    } else 23:let event = (new ReadSharedMemory("Order" -> CONST_SeqCst, "NoTear" -> true, "Block" -> block, "ByteIndex" -> indexedPosition, "ElementSize" -> elementSize))
+      26:let event = (new ReadModifyWriteSharedMemory("Order" -> ~SeqCst~, "NoTear" -> true, "Block" -> block, "ByteIndex" -> indexedPosition, "ElementSize" -> elementSize, "Payload" -> replacementBytes, "ModifyOp" -> second))
+    } else 23:let event = (new ReadSharedMemory("Order" -> ~SeqCst~, "NoTear" -> true, "Block" -> block, "ByteIndex" -> indexedPosition, "ElementSize" -> elementSize))
     29:append event -> eventList
     30:append (new ChosenValueRecord("Event" -> event, "ChosenValue" -> rawBytesRead)) -> execution.ChosenValues
   } else 31:{

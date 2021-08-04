@@ -4,11 +4,11 @@ def [SYNTAX] ReturnStatement[1,0].Evaluation[R]<(Expression),true>() = 0:{
   1:app __x1__ = (GetValue exprRef)
   1:let exprValue = [? __x1__]
   2:app __x2__ = (GetGeneratorKind)
-  2:if (= [! __x2__] CONST_async) 2:{
+  2:if (= [! __x2__] ~async~) 2:{
     2:app __x3__ = (Await exprValue)
     2:exprValue = [? __x3__]
   } else 2:{}
-  3:return (new Completion("Type" -> CONST_return, "Value" -> exprValue, "Target" -> CONST_empty))
+  3:return (new Completion("Type" -> ~return~, "Value" -> exprValue, "Target" -> ~empty~))
 }
 - id: "sec-return-statement-runtime-semantics-evaluation"
 - code:

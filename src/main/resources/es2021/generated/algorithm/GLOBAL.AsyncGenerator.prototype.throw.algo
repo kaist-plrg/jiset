@@ -2,7 +2,7 @@ def [BUILTIN] AsyncGenerator.prototype.throw(exception) = 0:{
   0:let generator = this
   1:app __x0__ = (ThrowCompletion exception)
   1:let completion = __x0__
-  2:app __x1__ = (AsyncGeneratorEnqueue generator completion CONST_empty)
+  2:app __x1__ = (AsyncGeneratorEnqueue generator completion ~empty~)
   2:return [! __x1__]
 }
 - id: "sec-asyncgenerator-prototype-throw"

@@ -26,7 +26,7 @@ case class SuperCall0(x1: Arguments, parserParams: List[Boolean], span: Span) ex
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("Arguments", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Arguments", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"super $x1"

@@ -11,7 +11,7 @@ def GetModifySetValueInBuffer(arrayBuffer, byteIndex, type, value, op, isLittleE
     8:let execution = AGENT.CandidateExecution
     9:??? "Let id:{eventList} be the [ [ EventList ] ] field of the element in id:{execution} . [ [ EventsRecords ] ] whose [ [ AgentSignifier ] ] is AgentSignifier ( ) ."
     10:??? "Let id:{rawBytesRead} be a List of length id:{elementSize} whose elements are nondeterministically chosen byte values ."
-    12:let rmwEvent = (new ReadModifyWriteSharedMemory("Order" -> CONST_SeqCst, "NoTear" -> true, "Block" -> block, "ByteIndex" -> byteIndex, "ElementSize" -> elementSize, "Payload" -> rawBytes, "ModifyOp" -> op))
+    12:let rmwEvent = (new ReadModifyWriteSharedMemory("Order" -> ~SeqCst~, "NoTear" -> true, "Block" -> block, "ByteIndex" -> byteIndex, "ElementSize" -> elementSize, "Payload" -> rawBytes, "ModifyOp" -> op))
     13:append rmwEvent -> eventList
     14:append (new ChosenValueRecord("Event" -> rmwEvent, "ChosenValue" -> rawBytesRead)) -> execution.ChosenValues
   } else 15:{

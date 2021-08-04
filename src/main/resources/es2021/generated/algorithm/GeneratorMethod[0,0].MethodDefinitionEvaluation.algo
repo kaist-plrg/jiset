@@ -4,7 +4,7 @@ def [SYNTAX] GeneratorMethod[0,0].MethodDefinitionEvaluation[R]<(PropertyName, U
   1:[? propKey]
   2:let scope = CONTEXT.LexicalEnvironment
   3:let sourceText = (get-syntax GeneratorMethod)
-  4:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%GeneratorFunction.prototype%"] sourceText UniqueFormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  4:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%GeneratorFunction.prototype%"] sourceText UniqueFormalParameters GeneratorBody ~non-lexical-this~ scope)
   4:let closure = __x1__
   5:app __x2__ = (MakeMethod closure object)
   5:__x2__

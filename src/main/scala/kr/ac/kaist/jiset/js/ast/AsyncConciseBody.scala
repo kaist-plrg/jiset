@@ -29,7 +29,7 @@ case class AsyncConciseBody0(x1: ExpressionBody, parserParams: List[Boolean], sp
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("ExpressionBody", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ExpressionBody", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x1"
@@ -40,7 +40,7 @@ case class AsyncConciseBody1(x1: AsyncFunctionBody, parserParams: List[Boolean],
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("AsyncFunctionBody", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("AsyncFunctionBody", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ $x1 }"

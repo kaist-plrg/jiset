@@ -1,7 +1,7 @@
 def [BUILTIN] parseInt(string, radix) = 0:{
   0:app __x0__ = (ToString string)
   0:let inputString = [? __x0__]
-  1:app __x1__ = (TrimString inputString CONST_start)
+  1:app __x1__ = (TrimString inputString ~start~)
   1:let S = [! __x1__]
   2:let sign = 1i
   3:??? "If id:{S} is not empty and the first code unit of id:{S} is the code unit 0x002D ( HYPHEN - MINUS ) , set id:{sign} to - 1 ."

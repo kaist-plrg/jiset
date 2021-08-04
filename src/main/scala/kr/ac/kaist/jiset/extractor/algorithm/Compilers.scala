@@ -177,12 +177,12 @@ trait Compilers extends TokenListParsers {
       pair(i :+ IIf(
         EIsCompletion(e),
         IIf(
-          isEq(toERef(x, "Type"), toERef("CONST_normal")),
+          isEq(toERef(x, "Type"), EConst("normal")),
           IAssign(toRef(x), toERef(x, "Value")),
           ISeq(List(
             IApp(temp, toERef("Call"), List(ERef(RefProp(ce, EStr("Reject"))), EUndef, EList(List(toERef(x, "Value"))))),
             IIf(
-              EBOp(OAnd, EIsCompletion(toERef(temp)), isNEq(toERef(temp, "Type"), toERef("CONST_normal"))),
+              EBOp(OAnd, EIsCompletion(toERef(temp)), isNEq(toERef(temp, "Type"), EConst("normal"))),
               IReturn(toERef(temp)),
               emptyInst
             ),
@@ -199,12 +199,12 @@ trait Compilers extends TokenListParsers {
         IIf(
           EIsCompletion(toERef(temp)),
           IIf(
-            isEq(toERef(temp, "Type"), toERef("CONST_normal")),
+            isEq(toERef(temp, "Type"), EConst("normal")),
             IAssign(toRef(temp), toERef(temp, "Value")),
             ISeq(List(
               IApp(temp2, toERef("Call"), List(ERef(RefProp(ce, EStr("Reject"))), EUndef, EList(List(toERef(temp, "Value"))))),
               IIf(
-                EBOp(OAnd, EIsCompletion(toERef(temp2)), isNEq(toERef(temp2, "Type"), toERef("CONST_normal"))),
+                EBOp(OAnd, EIsCompletion(toERef(temp2)), isNEq(toERef(temp2, "Type"), EConst("normal"))),
                 IReturn(toERef(temp2)),
                 emptyInst
               ),
@@ -427,7 +427,7 @@ trait Compilers extends TokenListParsers {
 
   // check abrupt completion
   def isAbruptCompletion(x: String): Expr = {
-    EBOp(OAnd, EIsCompletion(toERef(x)), isNEq(toERef(x, "Type"), toERef("CONST_normal")))
+    EBOp(OAnd, EIsCompletion(toERef(x)), isNEq(toERef(x, "Type"), EConst("normal")))
   }
 
   // separators

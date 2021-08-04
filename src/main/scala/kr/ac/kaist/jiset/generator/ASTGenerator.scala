@@ -98,7 +98,7 @@ case class ASTGenerator(grammar: Grammar) {
     }
     nf.println(s"""  def idx: Int = $i""")
     nf.println(s"""  def k: Int = ${params.foldLeft("0") { case (str, (x, _)) => s"d($x, $str)" }}""")
-    nf.println(s"""  def fullList: List[(String, Value)] = $listString.reverse""")
+    nf.println(s"""  def fullList: List[(String, PureValue)] = $listString.reverse""")
     nf.println(s"""  def maxK: Int = $maxK""")
     nf.println(s"""  override def toString: String = {""")
     nf.println(s"""    s"$string"""")

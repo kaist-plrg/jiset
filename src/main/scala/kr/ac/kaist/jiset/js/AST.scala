@@ -16,7 +16,7 @@ trait AST {
   def k: Int
   def span: Span
   def parserParams: List[Boolean]
-  def fullList: List[(String, Value)]
+  def fullList: List[(String, PureValue)]
   def maxK: Int
 
   // position
@@ -69,19 +69,19 @@ trait AST {
   }
 
   // list of actual values
-  lazy val list: List[(String, Value)] = fullList.filter {
+  lazy val list: List[(String, PureValue)] = fullList.filter {
     case (_, Absent) => false
     case _ => true
   }
 
   // children
-  def children: List[Value] = list.map(_._2)
+  def children: List[PureValue] = list.map(_._2)
 
   // semantic map
   def semMap: Map[String, Algo] = AST.getSemMap((kind, idx))
 
   // get semantics
-  def semantics(fname: String): Option[(Algo, List[Value])] = {
+  def semantics(fname: String): Option[(Algo, List[PureValue])] = {
     semMap.get(fname + k.toString) match {
       case Some(f) => Some((f, ASTVal(this) :: fullList.map(_._2)))
       case None if fname == "Contains" => Some((defaultContains, List(ASTVal(this))))
@@ -99,7 +99,7 @@ trait AST {
   }
 
   // get sub-AST
-  def subs(name: String): Option[Value] = list.toMap.get(name)
+  def subs(name: String): Option[PureValue] = list.toMap.get(name)
 
   // Helpers
   protected def d(x: Any, n: Int): Int = x match {
@@ -107,7 +107,7 @@ trait AST {
     case None => 2 * n
     case _ => n
   }
-  protected def l(name: String, x: Any, list: List[(String, Value)]): List[(String, Value)] = x match {
+  protected def l(name: String, x: Any, list: List[(String, PureValue)]): List[(String, PureValue)] = x match {
     case Some(a: AST) => (name.substring(7, name.length - 1), ASTVal(a)) :: list
     case None => (name.substring(7, name.length - 1), Absent) :: list
     case a: AST => (name, ASTVal(a)) :: list

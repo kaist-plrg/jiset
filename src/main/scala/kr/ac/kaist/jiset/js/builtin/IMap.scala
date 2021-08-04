@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.js.builtin
 import kr.ac.kaist.jiset.ir._
 
 // map structure for internal properties
-case class IMap(map: Map[Key, Value]) {
+case class IMap(map: Map[Key, PureValue]) {
   // converstion types for heap
   def toPair(name: String, typeName: String): (Addr, Obj) = {
     val addr = NamedAddr(name)
@@ -14,8 +14,8 @@ case class IMap(map: Map[Key, Value]) {
   }
 }
 object IMap {
-  def apply(pairs: (String, Value)*): IMap = IMap(pairs.map {
+  def apply(pairs: (String, PureValue)*): IMap = IMap(pairs.map {
     case (s, v) if s startsWith "@" => SymbolKey(s.drop(1)) -> v
     case (s, v) => StrKey(s) -> v
-  }.toMap[Key, Value])
+  }.toMap[Key, PureValue])
 }

@@ -31,7 +31,7 @@ case class ConditionalExpression0(x0: ShortCircuitExpression, parserParams: List
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("ShortCircuitExpression", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ShortCircuitExpression", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -44,7 +44,7 @@ case class ConditionalExpression1(x0: ShortCircuitExpression, x2: AssignmentExpr
   x4.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x4, d(x2, d(x0, 0)))
-  def fullList: List[(String, Value)] = l("AssignmentExpression1", x4, l("AssignmentExpression0", x2, l("ShortCircuitExpression", x0, Nil))).reverse
+  def fullList: List[(String, PureValue)] = l("AssignmentExpression1", x4, l("AssignmentExpression0", x2, l("ShortCircuitExpression", x0, Nil))).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 ? $x2 : $x4"

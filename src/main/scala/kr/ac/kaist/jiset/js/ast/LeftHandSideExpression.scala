@@ -32,7 +32,7 @@ case class LeftHandSideExpression0(x0: NewExpression, parserParams: List[Boolean
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("NewExpression", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("NewExpression", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -43,7 +43,7 @@ case class LeftHandSideExpression1(x0: CallExpression, parserParams: List[Boolea
   x0.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("CallExpression", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("CallExpression", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -54,7 +54,7 @@ case class LeftHandSideExpression2(x0: OptionalExpression, parserParams: List[Bo
   x0.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("OptionalExpression", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("OptionalExpression", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

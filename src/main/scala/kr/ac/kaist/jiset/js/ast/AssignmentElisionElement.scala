@@ -28,7 +28,7 @@ case class AssignmentElisionElement0(x0: Option[Elision], x1: AssignmentElement,
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, d(x0, 0))
-  def fullList: List[(String, Value)] = l("AssignmentElement", x1, l("Option[Elision]", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("AssignmentElement", x1, l("Option[Elision]", x0, Nil)).reverse
   def maxK: Int = 1
   override def toString: String = {
     s"${x0.getOrElse("")} $x1"

@@ -7,7 +7,7 @@ def [BUILTIN] FinalizationRegistry.prototype.register(target, heldValue, unregis
   3:if (= __x1__ true) 3:throw TypeError else 3:{}
   4:if (! (= (typeof unregisterToken) Object)) 4:{
     5:if (! (= unregisterToken undefined)) 5:throw TypeError else 5:{}
-    6:unregisterToken = CONST_empty
+    6:unregisterToken = ~empty~
   } else 4:{}
   7:let cell = (new Record("WeakRefTarget" -> target, "HeldValue" -> heldValue, "UnregisterToken" -> unregisterToken))
   8:append cell -> finalizationRegistry.Cells

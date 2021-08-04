@@ -1,7 +1,7 @@
 def [BUILTIN] String.prototype.padStart(maxLength, fillString?) = 0:{
   0:app __x0__ = (RequireObjectCoercible this)
   0:let O = [? __x0__]
-  1:app __x1__ = (StringPad O maxLength fillString CONST_start)
+  1:app __x1__ = (StringPad O maxLength fillString ~start~)
   1:return [? __x1__]
 }
 - id: "sec-string.prototype.padstart"

@@ -3,7 +3,7 @@ def [SYNTAX] ImportMeta[0,0].Evaluation[R]<(),true>() = 0:{
   0:let module = [! __x0__]
   1:assert (is-instance-of module SourceTextModuleRecord)
   2:let importMeta = module.ImportMeta
-  3:if (= importMeta CONST_empty) 3:{
+  3:if (= importMeta ~empty~) 3:{
     4:app __x1__ = (OrdinaryObjectCreate null)
     4:importMeta = [! __x1__]
     5:app __x2__ = (HostGetImportMetaProperties module)

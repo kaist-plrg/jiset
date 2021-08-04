@@ -12,11 +12,11 @@ def ScriptEvaluation(scriptRecord) = 0:{
   9:let scriptBody = scriptRecord.ECMAScriptCode
   10:app __x0__ = (GlobalDeclarationInstantiation scriptBody globalEnv)
   10:let result = __x0__
-  11:if (= result.Type CONST_normal) 11:{
+  11:if (= result.Type ~normal~) 11:{
     12:access __x1__ = (scriptBody "Evaluation")
     12:result = __x1__
   } else 11:{}
-  13:if (&& (= result.Type CONST_normal) (= result.Value CONST_empty)) 13:{
+  13:if (&& (= result.Type ~normal~) (= result.Value ~empty~)) 13:{
     14:app __x2__ = (NormalCompletion undefined)
     14:result = __x2__
   } else 13:{}

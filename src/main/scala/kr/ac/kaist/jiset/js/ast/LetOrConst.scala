@@ -26,7 +26,7 @@ object LetOrConst {
 case class LetOrConst0(parserParams: List[Boolean], span: Span) extends LetOrConst {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"let"
@@ -36,7 +36,7 @@ case class LetOrConst0(parserParams: List[Boolean], span: Span) extends LetOrCon
 case class LetOrConst1(parserParams: List[Boolean], span: Span) extends LetOrConst {
   def idx: Int = 1
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"const"

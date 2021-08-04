@@ -30,7 +30,7 @@ case class BitwiseXORExpression0(x0: BitwiseANDExpression, parserParams: List[Bo
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("BitwiseANDExpression", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("BitwiseANDExpression", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -42,7 +42,7 @@ case class BitwiseXORExpression1(x0: BitwiseXORExpression, x2: BitwiseANDExpress
   x2.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x2, d(x0, 0))
-  def fullList: List[(String, Value)] = l("BitwiseANDExpression", x2, l("BitwiseXORExpression", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("BitwiseANDExpression", x2, l("BitwiseXORExpression", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 ^ $x2"

@@ -28,7 +28,7 @@ object MultiplicativeOperator {
 case class MultiplicativeOperator0(parserParams: List[Boolean], span: Span) extends MultiplicativeOperator {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"*"
@@ -38,7 +38,7 @@ case class MultiplicativeOperator0(parserParams: List[Boolean], span: Span) exte
 case class MultiplicativeOperator1(parserParams: List[Boolean], span: Span) extends MultiplicativeOperator {
   def idx: Int = 1
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"/"
@@ -48,7 +48,7 @@ case class MultiplicativeOperator1(parserParams: List[Boolean], span: Span) exte
 case class MultiplicativeOperator2(parserParams: List[Boolean], span: Span) extends MultiplicativeOperator {
   def idx: Int = 2
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"%"

@@ -9,9 +9,9 @@ def [SYNTAX] ImportCall[0,0].Evaluation[R]<(AssignmentExpression),true>() = 0:{
   3:let promiseCapability = [! __x3__]
   4:app __x4__ = (ToString specifier)
   4:let specifierString = __x4__
-  5:if (is-completion specifierString) 5:if (= specifierString.Type CONST_normal) 5:specifierString = specifierString.Value else 6:{
+  5:if (is-completion specifierString) 5:if (= specifierString.Type ~normal~) 5:specifierString = specifierString.Value else 6:{
     6:app __x5__ = (Call promiseCapability.Reject undefined (new [specifierString.Value]))
-    6:if (&& (is-completion __x5__) (! (= __x5__.Type CONST_normal))) 6:return __x5__ else 6:{}
+    6:if (&& (is-completion __x5__) (! (= __x5__.Type ~normal~))) 6:return __x5__ else 6:{}
     6:return promiseCapability.Promise
   } else 5:{}
   5:specifierString

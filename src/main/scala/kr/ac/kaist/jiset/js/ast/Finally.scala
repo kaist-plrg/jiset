@@ -26,7 +26,7 @@ case class Finally0(x1: Block, parserParams: List[Boolean], span: Span) extends 
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("Block", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Block", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"finally $x1"

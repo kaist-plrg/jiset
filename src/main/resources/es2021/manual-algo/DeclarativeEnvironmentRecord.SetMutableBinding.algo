@@ -4,7 +4,7 @@ def [METHOD] DeclarativeEnvironmentRecord.SetMutableBinding(envRec)(N, V, S) = {
   if (! binding.initialized) throw ReferenceError
   else if (is-instance-of binding MutableBinding) binding.BoundValue = V
   else throw TypeError
-  return CONST_empty
+  return ~empty~
 }
 - id: "sec-declarative-environment-records-setmutablebinding-n-v-s"
 - code:

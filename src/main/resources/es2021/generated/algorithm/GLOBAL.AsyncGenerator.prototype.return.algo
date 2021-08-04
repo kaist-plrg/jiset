@@ -1,7 +1,7 @@
 def [BUILTIN] AsyncGenerator.prototype.return(value) = 0:{
   0:let generator = this
-  1:let completion = (new Completion("Type" -> CONST_return, "Value" -> value, "Target" -> CONST_empty))
-  2:app __x0__ = (AsyncGeneratorEnqueue generator completion CONST_empty)
+  1:let completion = (new Completion("Type" -> ~return~, "Value" -> value, "Target" -> ~empty~))
+  2:app __x0__ = (AsyncGeneratorEnqueue generator completion ~empty~)
   2:return [! __x0__]
 }
 - id: "sec-asyncgenerator-prototype-return"

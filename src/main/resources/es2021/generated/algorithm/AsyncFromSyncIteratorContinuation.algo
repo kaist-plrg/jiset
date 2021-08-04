@@ -1,25 +1,25 @@
 def AsyncFromSyncIteratorContinuation(result, promiseCapability) = 0:{
   0:app __x0__ = (IteratorComplete result)
   0:let done = __x0__
-  1:if (is-completion done) 1:if (= done.Type CONST_normal) 1:done = done.Value else 2:{
+  1:if (is-completion done) 1:if (= done.Type ~normal~) 1:done = done.Value else 2:{
     2:app __x1__ = (Call promiseCapability.Reject undefined (new [done.Value]))
-    2:if (&& (is-completion __x1__) (! (= __x1__.Type CONST_normal))) 2:return __x1__ else 2:{}
+    2:if (&& (is-completion __x1__) (! (= __x1__.Type ~normal~))) 2:return __x1__ else 2:{}
     2:return promiseCapability.Promise
   } else 1:{}
   1:done
   2:app __x2__ = (IteratorValue result)
   2:let value = __x2__
-  3:if (is-completion value) 3:if (= value.Type CONST_normal) 3:value = value.Value else 4:{
+  3:if (is-completion value) 3:if (= value.Type ~normal~) 3:value = value.Value else 4:{
     4:app __x3__ = (Call promiseCapability.Reject undefined (new [value.Value]))
-    4:if (&& (is-completion __x3__) (! (= __x3__.Type CONST_normal))) 4:return __x3__ else 4:{}
+    4:if (&& (is-completion __x3__) (! (= __x3__.Type ~normal~))) 4:return __x3__ else 4:{}
     4:return promiseCapability.Promise
   } else 3:{}
   3:value
   4:app __x4__ = (PromiseResolve INTRINSICS["%Promise%"] value)
   4:let valueWrapper = __x4__
-  5:if (is-completion valueWrapper) 5:if (= valueWrapper.Type CONST_normal) 5:valueWrapper = valueWrapper.Value else 6:{
+  5:if (is-completion valueWrapper) 5:if (= valueWrapper.Type ~normal~) 5:valueWrapper = valueWrapper.Value else 6:{
     6:app __x5__ = (Call promiseCapability.Reject undefined (new [valueWrapper.Value]))
-    6:if (&& (is-completion __x5__) (! (= __x5__.Type CONST_normal))) 6:return __x5__ else 6:{}
+    6:if (&& (is-completion __x5__) (! (= __x5__.Type ~normal~))) 6:return __x5__ else 6:{}
     6:return promiseCapability.Promise
   } else 5:{}
   5:valueWrapper

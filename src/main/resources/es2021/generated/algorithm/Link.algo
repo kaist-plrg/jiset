@@ -1,5 +1,5 @@
 def Link() = 0:{
-  0:assert (! (|| (= module.Status CONST_linking) (= module.Status CONST_evaluating)))
+  0:assert (! (|| (= module.Status ~linking~) (= module.Status ~evaluating~)))
   1:let stack = (new [])
   2:app __x0__ = (InnerModuleLinking module stack 0i)
   2:let result = __x0__
@@ -10,16 +10,16 @@ def Link() = 0:{
     4:while (< __x3__ __x2__.length) 4:{
       4:let m = __x2__[__x3__]
       4:__x3__ = (+ __x3__ 1i)
-      5:assert (= m.Status CONST_linking)
-      6:m.Status = CONST_unlinked
+      5:assert (= m.Status ~linking~)
+      6:m.Status = ~unlinked~
       7:m.Environment = undefined
       8:m.DFSIndex = undefined
       9:m.DFSAncestorIndex = undefined
     }
-    10:assert (= module.Status CONST_unlinked)
+    10:assert (= module.Status ~unlinked~)
     11:return result
   } else 3:{}
-  12:assert (|| (= module.Status CONST_linked) (= module.Status CONST_evaluated))
+  12:assert (|| (= module.Status ~linked~) (= module.Status ~evaluated~))
   13:assert (= stack.length 0i)
   14:return undefined
 }

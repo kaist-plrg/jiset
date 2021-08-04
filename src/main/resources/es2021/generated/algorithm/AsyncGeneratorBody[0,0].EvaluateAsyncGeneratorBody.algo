@@ -3,10 +3,10 @@ def [SYNTAX] AsyncGeneratorBody[0,0].EvaluateAsyncGeneratorBody[R]<(FunctionBody
   0:[? __x0__]
   1:app __x1__ = (OrdinaryCreateFromConstructor functionObject "%AsyncGeneratorFunction.prototype.prototype%" (new ["AsyncGeneratorState", "AsyncGeneratorContext", "AsyncGeneratorQueue", "GeneratorBrand"]))
   1:let generator = [? __x1__]
-  2:generator.GeneratorBrand = CONST_empty
+  2:generator.GeneratorBrand = ~empty~
   3:app __x2__ = (AsyncGeneratorStart generator FunctionBody)
   3:[! __x2__]
-  4:return (new Completion("Type" -> CONST_return, "Value" -> generator, "Target" -> CONST_empty))
+  4:return (new Completion("Type" -> ~return~, "Value" -> generator, "Target" -> ~empty~))
 }
 - id: "sec-runtime-semantics-evaluateasyncgeneratorbody"
 - code:

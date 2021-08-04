@@ -1,13 +1,13 @@
 def [SYNTAX] TryStatement[2,0].Evaluation[R]<(Block, Catch, Finally),true>() = 0:{
   0:access __x0__ = (Block "Evaluation")
   0:let B = __x0__
-  1:if (= B.Type CONST_throw) 1:{
+  1:if (= B.Type ~throw~) 1:{
     1:access __x1__ = (Catch "CatchClauseEvaluation" B.Value)
     1:let C = __x1__
   } else 1:let C = B
   3:access __x2__ = (Finally "Evaluation")
   3:let F = __x2__
-  4:if (= F.Type CONST_normal) 4:F = C else 4:{}
+  4:if (= F.Type ~normal~) 4:F = C else 4:{}
   5:app __x3__ = (UpdateEmpty F undefined)
   5:return __x3__
 }

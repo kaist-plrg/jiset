@@ -18,8 +18,8 @@ def ForInOfHeadEvaluation(uninitializedBoundNames, expr, iterationKind) = 0:{
   8:CONTEXT.LexicalEnvironment = oldEnv
   9:app __x5__ = (GetValue exprRef)
   9:let exprValue = [? __x5__]
-  10:if (= iterationKind CONST_enumerate) 10:{
-    11:if (|| (= exprValue undefined) (= exprValue null)) 12:return (new Completion("Type" -> CONST_break, "Value" -> CONST_empty, "Target" -> CONST_empty)) else 11:{}
+  10:if (= iterationKind ~enumerate~) 10:{
+    11:if (|| (= exprValue undefined) (= exprValue null)) 12:return (new Completion("Type" -> ~break~, "Value" -> ~empty~, "Target" -> ~empty~)) else 11:{}
     13:app __x6__ = (ToObject exprValue)
     13:let obj = [! __x6__]
     14:app __x7__ = (EnumerateObjectProperties obj)
@@ -28,8 +28,8 @@ def ForInOfHeadEvaluation(uninitializedBoundNames, expr, iterationKind) = 0:{
     15:let nextMethod = [! __x8__]
     16:return (new Record("Iterator" -> iterator, "NextMethod" -> nextMethod, "Done" -> false))
   } else 17:{
-    18:assert (|| (= iterationKind CONST_iterate) (= iterationKind CONST_asyncDASHiterate))
-    19:if (= iterationKind CONST_asyncDASHiterate) 19:let iteratorHint = CONST_async else 19:let iteratorHint = CONST_sync
+    18:assert (|| (= iterationKind ~iterate~) (= iterationKind ~async-iterate~))
+    19:if (= iterationKind ~async-iterate~) 19:let iteratorHint = ~async~ else 19:let iteratorHint = ~sync~
     21:app __x9__ = (GetIterator exprValue iteratorHint)
     21:return [? __x9__]
   }

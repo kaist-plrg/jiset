@@ -9,7 +9,7 @@ def [BUILTIN] Map.prototype.size() = 0:{
   4:while (< __x2__ __x1__.length) 4:{
     4:let p = __x1__[__x2__]
     4:__x2__ = (+ __x2__ 1i)
-    5:if (! (= p.Key CONST_empty)) 5:count = (+ count 1i) else 5:{}
+    5:if (! (= p.Key ~empty~)) 5:count = (+ count 1i) else 5:{}
   }
   6:return count
 }

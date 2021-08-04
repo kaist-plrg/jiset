@@ -47,8 +47,7 @@ object Global {
   // get pre-defined global variables
   private def getPredefs: Map[String, AbsType] = {
     var env = Map[String, AbsType]()
-    val (consts, intrinsics, symbols, asts) = cfg.getNames
-    for (x <- consts) env += x -> ConstT(x.substring("CONST_".length))
+    val (intrinsics, symbols, asts) = cfg.getNames
     for (x <- intrinsics) env += x -> NameT("OrdinaryObject")
     for (x <- symbols) env += x -> SymbolT
     for (x <- asts) env += s"AST_$x" -> AstT(x)

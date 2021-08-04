@@ -32,7 +32,7 @@ case class Declaration0(x0: HoistableDeclaration, parserParams: List[Boolean], s
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("HoistableDeclaration", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("HoistableDeclaration", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -43,7 +43,7 @@ case class Declaration1(x0: ClassDeclaration, parserParams: List[Boolean], span:
   x0.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("ClassDeclaration", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ClassDeclaration", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -54,7 +54,7 @@ case class Declaration2(x0: LexicalDeclaration, parserParams: List[Boolean], spa
   x0.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("LexicalDeclaration", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("LexicalDeclaration", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

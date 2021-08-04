@@ -46,7 +46,7 @@ trait PruneHelper { this: AbsTransfer.Helper =>
     private def apply(expr: Expr): AbsState = expr match {
       case EUOp(ONot, expr) => not(expr)
       // prune normal completion
-      case EBOp(OEq, rexpr @ ERef(RefProp(ref: RefId, EStr("Type"))), ERef(RefId(Id("CONST_normal")))) =>
+      case EBOp(OEq, rexpr @ ERef(RefProp(ref: RefId, EStr("Type"))), EConst("normal")) =>
         val updator = for {
           a <- transfer(ref)
           l <- get(_.lookup(ERef(ref), a, check = false))

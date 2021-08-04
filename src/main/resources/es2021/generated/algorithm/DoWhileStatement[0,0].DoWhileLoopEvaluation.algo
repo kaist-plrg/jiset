@@ -8,7 +8,7 @@ def [SYNTAX] DoWhileStatement[0,0].DoWhileLoopEvaluation[R]<(Statement, Expressi
       3:app __x2__ = (UpdateEmpty stmtResult V)
       3:return __x2__
     } else 3:{}
-    4:if (! (= stmtResult.Value CONST_empty)) 4:V = stmtResult.Value else 4:{}
+    4:if (! (= stmtResult.Value ~empty~)) 4:V = stmtResult.Value else 4:{}
     5:access __x3__ = (Expression "Evaluation")
     5:let exprRef = __x3__
     6:app __x4__ = (GetValue exprRef)

@@ -35,7 +35,7 @@ def FunctionDeclarationInstantiation(func, argumentsList) = 0:{
     } else 14:{}
   }
   21:let argumentsObjectNeeded = true
-  22:if (= func.ThisMode CONST_lexical) 24:argumentsObjectNeeded = false else 22:if (contains parameterNames "arguments") 26:argumentsObjectNeeded = false else 22:if (= hasParameterExpressions false) 28:if (|| (contains functionNames "arguments") (contains lexicalNames "arguments")) 29:argumentsObjectNeeded = false else 28:{} else 22:{}
+  22:if (= func.ThisMode ~lexical~) 24:argumentsObjectNeeded = false else 22:if (contains parameterNames "arguments") 26:argumentsObjectNeeded = false else 22:if (= hasParameterExpressions false) 28:if (|| (contains functionNames "arguments") (contains lexicalNames "arguments")) 29:argumentsObjectNeeded = false else 28:{} else 22:{}
   30:if (|| (= strict true) (= hasParameterExpressions false)) 30:{
     32:access __x10__ = (calleeContext "LexicalEnvironment")
     32:let env = __x10__
@@ -172,7 +172,7 @@ def FunctionDeclarationInstantiation(func, argumentsList) = 0:{
     105:app __x51__ = (varEnv.SetMutableBinding varEnv fn fo false)
     105:[! __x51__]
   }
-  106:return CONST_empty
+  106:return ~empty~
 }
 - id: "sec-functiondeclarationinstantiation"
 - code:

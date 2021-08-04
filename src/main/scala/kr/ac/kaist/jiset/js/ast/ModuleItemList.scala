@@ -30,7 +30,7 @@ case class ModuleItemList0(x0: ModuleItem, parserParams: List[Boolean], span: Sp
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("ModuleItem", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ModuleItem", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -42,7 +42,7 @@ case class ModuleItemList1(x0: ModuleItemList, x1: ModuleItem, parserParams: Lis
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, d(x0, 0))
-  def fullList: List[(String, Value)] = l("ModuleItem", x1, l("ModuleItemList", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("ModuleItem", x1, l("ModuleItemList", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 $x1"

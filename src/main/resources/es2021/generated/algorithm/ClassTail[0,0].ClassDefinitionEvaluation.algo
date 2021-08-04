@@ -32,14 +32,14 @@ def [SYNTAX] ClassTail[0,0].ClassDefinitionEvaluation[R]<(ClassHeritage, ClassBo
   }
   20:app __x7__ = (OrdinaryObjectCreate protoParent)
   20:let proto = [! __x7__]
-  21:if (= ClassBody absent) 21:let constructor = CONST_empty else 22:{
+  21:if (= ClassBody absent) 21:let constructor = ~empty~ else 22:{
     22:access __x8__ = (ClassBody "ConstructorMethod")
     22:let constructor = __x8__
   }
   23:CONTEXT.LexicalEnvironment = classScope
-  24:if (= constructor CONST_empty) 24:{
+  24:if (= constructor ~empty~) 24:{
     25:let steps = ALGORITHM["GLOBAL.DefaultConstructorFunctions"]
-    26:app __x9__ = (CreateBuiltinFunction steps 0i className (new ["ConstructorKind", "SourceText"]) CONST_empty constructorParent)
+    26:app __x9__ = (CreateBuiltinFunction steps 0i className (new ["ConstructorKind", "SourceText"]) ~empty~ constructorParent)
     26:let F = [! __x9__]
   } else 27:{
     28:access __x10__ = (constructor "DefineMethod" proto constructorParent)
@@ -52,7 +52,7 @@ def [SYNTAX] ClassTail[0,0].ClassDefinitionEvaluation[R]<(ClassHeritage, ClassBo
   }
   32:app __x13__ = (MakeConstructor F false proto)
   32:[! __x13__]
-  33:if (! (= ClassHeritage absent)) 33:F.ConstructorKind = CONST_derived else 33:{}
+  33:if (! (= ClassHeritage absent)) 33:F.ConstructorKind = ~derived~ else 33:{}
   34:app __x14__ = (CreateMethodProperty proto "constructor" F)
   34:[! __x14__]
   35:if (= ClassBody absent) 35:let methods = (new []) else 36:{

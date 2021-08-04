@@ -26,7 +26,7 @@ case class ImportedBinding0(x0: BindingIdentifier, parserParams: List[Boolean], 
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("BindingIdentifier", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("BindingIdentifier", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

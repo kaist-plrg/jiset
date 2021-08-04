@@ -29,7 +29,7 @@ case class BindingPattern0(x0: ObjectBindingPattern, parserParams: List[Boolean]
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("ObjectBindingPattern", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ObjectBindingPattern", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -40,7 +40,7 @@ case class BindingPattern1(x0: ArrayBindingPattern, parserParams: List[Boolean],
   x0.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("ArrayBindingPattern", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ArrayBindingPattern", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

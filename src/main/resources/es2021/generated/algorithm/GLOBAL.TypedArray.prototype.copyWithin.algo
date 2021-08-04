@@ -50,9 +50,9 @@ def [BUILTIN] TypedArray.prototype.copyWithin(target, start, end?) = 0:{
       29:toByteIndex = (- (+ toByteIndex countBytes) 1i)
     } else 26:let direction = 1i
     32:while (< 0i countBytes) 32:{
-      33:app __x12__ = (GetValueFromBuffer buffer fromByteIndex CONST_Uint8 true CONST_Unordered)
+      33:app __x12__ = (GetValueFromBuffer buffer fromByteIndex ~Uint8~ true ~Unordered~)
       33:let value = __x12__
-      34:app __x13__ = (SetValueInBuffer buffer toByteIndex CONST_Uint8 value true CONST_Unordered)
+      34:app __x13__ = (SetValueInBuffer buffer toByteIndex ~Uint8~ value true ~Unordered~)
       34:__x13__
       35:fromByteIndex = (+ fromByteIndex direction)
       36:toByteIndex = (+ toByteIndex direction)

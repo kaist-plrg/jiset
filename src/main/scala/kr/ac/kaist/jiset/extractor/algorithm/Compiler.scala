@@ -1181,7 +1181,7 @@ class Compiler private (
   // values with tag `const`
   lazy val constValue: P[Expr] = const ^^ {
     case "[empty]" => EAbsent
-    case const => toERef("CONST_" + const.replaceAll("-", "DASH").replaceAll("\\+", "PLUS"))
+    case const => EConst(const)
   }
 
   // number values
@@ -1522,7 +1522,7 @@ class Compiler private (
   // completion conditions
   lazy val completionCond: P[I[Expr]] = (
     expr <~ "is a normal completion" ^^ {
-      case i ~ x => pair(i, Expr(s"""(&& (is-completion ${x.beautified}) (= ${x.beautified}.Type CONST_normal))"""))
+      case i ~ x => pair(i, Expr(s"""(&& (is-completion ${x.beautified}) (= ${x.beautified}.Type ~normal~))"""))
     }
   )
 

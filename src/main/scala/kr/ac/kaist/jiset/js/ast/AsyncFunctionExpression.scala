@@ -30,7 +30,7 @@ case class AsyncFunctionExpression0(x3: Option[BindingIdentifier], x5: FormalPar
   x8.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x8, d(x5, d(x3, 0)))
-  def fullList: List[(String, Value)] = l("AsyncFunctionBody", x8, l("FormalParameters", x5, l("Option[BindingIdentifier]", x3, Nil))).reverse
+  def fullList: List[(String, PureValue)] = l("AsyncFunctionBody", x8, l("FormalParameters", x5, l("Option[BindingIdentifier]", x3, Nil))).reverse
   def maxK: Int = 1
   override def toString: String = {
     s"async function ${x3.getOrElse("")} ( $x5 ) { $x8 }"

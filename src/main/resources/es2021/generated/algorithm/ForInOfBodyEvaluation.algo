@@ -1,17 +1,17 @@
 def ForInOfBodyEvaluation(lhs, stmt, iteratorRecord, iterationKind, lhsKind, labelSet, iteratorKind?) = 0:{
-  0:if (= iteratorKind absent) 0:iteratorKind = CONST_sync else 0:{}
+  0:if (= iteratorKind absent) 0:iteratorKind = ~sync~ else 0:{}
   1:let oldEnv = CONTEXT.LexicalEnvironment
   2:let V = undefined
   3:access __x0__ = (lhs "IsDestructuring")
   3:let destructuring = __x0__
-  4:if (&& (= destructuring true) (= lhsKind CONST_assignment)) 4:{
+  4:if (&& (= destructuring true) (= lhsKind ~assignment~)) 4:{
     5:assert (is-instance-of lhs LeftHandSideExpression)
     6:let assignmentPattern = (parse-syntax lhs "AssignmentPattern" (new []))
   } else 4:{}
   7:while true 7:{
     8:app __x1__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator)
     8:let nextResult = [? __x1__]
-    9:if (= iteratorKind CONST_async) 9:{
+    9:if (= iteratorKind ~async~) 9:{
       9:app __x2__ = (Await nextResult)
       9:nextResult = [? __x2__]
     } else 9:{}
@@ -21,11 +21,11 @@ def ForInOfBodyEvaluation(lhs, stmt, iteratorRecord, iterationKind, lhsKind, lab
     12:if (= done true) 12:return V else 12:{}
     13:app __x4__ = (IteratorValue nextResult)
     13:let nextValue = [? __x4__]
-    14:if (|| (= lhsKind CONST_assignment) (= lhsKind CONST_varBinding)) 15:if (= destructuring false) 15:{
+    14:if (|| (= lhsKind ~assignment~) (= lhsKind ~varBinding~)) 15:if (= destructuring false) 15:{
       16:access __x5__ = (lhs "Evaluation")
       16:let lhsRef = __x5__
     } else 15:{} else 16:{
-      18:assert (= lhsKind CONST_lexicalBinding)
+      18:assert (= lhsKind ~lexicalBinding~)
       19:assert (is-instance-of lhs ForDeclaration)
       20:app __x6__ = (NewDeclarativeEnvironment oldEnv)
       20:let iterationEnv = __x6__
@@ -41,22 +41,22 @@ def ForInOfBodyEvaluation(lhs, stmt, iteratorRecord, iterationKind, lhsKind, lab
     }
     27:if (= destructuring false) 27:{
       28:app __x10__ = (IsAbruptCompletion lhsRef)
-      28:if __x10__ 29:let status = lhsRef else 28:if (= lhsKind CONST_lexicalBinding) 30:{
+      28:if __x10__ 29:let status = lhsRef else 28:if (= lhsKind ~lexicalBinding~) 30:{
         31:app __x11__ = (InitializeReferencedBinding lhsRef nextValue)
         31:let status = __x11__
       } else 32:{
         33:app __x12__ = (PutValue lhsRef nextValue)
         33:let status = __x12__
       }
-    } else 27:if (= lhsKind CONST_assignment) 35:{
+    } else 27:if (= lhsKind ~assignment~) 35:{
       36:access __x13__ = (assignmentPattern "DestructuringAssignmentEvaluation" nextValue)
       36:let status = __x13__
-    } else 27:if (= lhsKind CONST_varBinding) 37:{
+    } else 27:if (= lhsKind ~varBinding~) 37:{
       38:assert (is-instance-of lhs ForBinding)
       39:access __x14__ = (lhs "BindingInitialization" nextValue undefined)
       39:let status = __x14__
     } else 40:{
-      41:assert (= lhsKind CONST_lexicalBinding)
+      41:assert (= lhsKind ~lexicalBinding~)
       42:assert (is-instance-of lhs ForDeclaration)
       43:access __x15__ = (lhs "ForDeclarationBindingInitialization" nextValue iterationEnv)
       43:let status = __x15__
@@ -64,12 +64,12 @@ def ForInOfBodyEvaluation(lhs, stmt, iteratorRecord, iterationKind, lhsKind, lab
     44:app __x16__ = (IsAbruptCompletion status)
     44:if __x16__ 44:{
       45:CONTEXT.LexicalEnvironment = oldEnv
-      46:if (= iteratorKind CONST_async) 46:{
+      46:if (= iteratorKind ~async~) 46:{
         46:app __x17__ = (AsyncIteratorClose iteratorRecord status)
         46:return [? __x17__]
       } else 46:{}
-      47:if (= iterationKind CONST_enumerate) 48:return status else 49:{
-        50:assert (= iterationKind CONST_iterate)
+      47:if (= iterationKind ~enumerate~) 48:return status else 49:{
+        50:assert (= iterationKind ~iterate~)
         51:app __x18__ = (IteratorClose iteratorRecord status)
         51:return [? __x18__]
       }
@@ -78,21 +78,21 @@ def ForInOfBodyEvaluation(lhs, stmt, iteratorRecord, iterationKind, lhsKind, lab
     52:let result = __x19__
     53:CONTEXT.LexicalEnvironment = oldEnv
     54:app __x20__ = (LoopContinues result labelSet)
-    54:if (= __x20__ false) 55:if (= iterationKind CONST_enumerate) 55:{
+    54:if (= __x20__ false) 55:if (= iterationKind ~enumerate~) 55:{
       56:app __x21__ = (UpdateEmpty result V)
       56:return __x21__
     } else 57:{
-      58:assert (= iterationKind CONST_iterate)
+      58:assert (= iterationKind ~iterate~)
       59:app __x22__ = (UpdateEmpty result V)
       59:status = __x22__
-      60:if (= iteratorKind CONST_async) 60:{
+      60:if (= iteratorKind ~async~) 60:{
         60:app __x23__ = (AsyncIteratorClose iteratorRecord status)
         60:return [? __x23__]
       } else 60:{}
       61:app __x24__ = (IteratorClose iteratorRecord status)
       61:return [? __x24__]
     } else 54:{}
-    62:if (! (= result.Value CONST_empty)) 62:V = result.Value else 62:{}
+    62:if (! (= result.Value ~empty~)) 62:V = result.Value else 62:{}
   }
 }
 - id: "sec-runtime-semantics-forin-div-ofbodyevaluation-lhs-stmt-iterator-lhskind-labelset"

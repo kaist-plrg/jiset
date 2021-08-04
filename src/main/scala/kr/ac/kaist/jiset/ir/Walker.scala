@@ -24,12 +24,6 @@ trait Walker {
     case cursor: Cursor => walk(cursor)
   }
 
-  // strings
-  def walk(str: String): String = str
-
-  // booleans
-  def walk(bool: Boolean): Boolean = bool
-
   // options
   def walkOpt[T](
     opt: Option[T],
@@ -65,7 +59,7 @@ trait Walker {
       case IAppend(expr, list) => IAppend(walk(expr), walk(list))
       case IPrepend(expr, list) => IPrepend(walk(expr), walk(list))
       case IReturn(expr) => IReturn(walk(expr))
-      case IThrow(id) => IThrow(walk(id))
+      case IThrow(name) => IThrow(name)
       case IIf(cond, thenInst, elseInst) => IIf(walk(cond), walk(thenInst), walk(elseInst))
       case IWhile(cond, body) => IWhile(walk(cond), walk(body))
       case ISeq(insts) => ISeq(walkList[Inst](insts, walk))
@@ -87,6 +81,7 @@ trait Walker {
   // expressions
   def walk(expr: Expr): Expr = expr match {
     case ENum(_) | EINum(_) | EBigINum(_) | EStr(_) | EBool(_) | EUndef | ENull | EAbsent => expr
+    case EConst(name) => EConst(name)
     case EMap(ty, props) => EMap(
       walk(ty),
       walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
@@ -99,8 +94,8 @@ trait Walker {
     case EBOp(bop, left, right) => EBOp(walk(bop), walk(left), walk(right))
     case ETypeOf(expr) => ETypeOf(walk(expr))
     case EIsCompletion(expr) => EIsCompletion(walk(expr))
-    case EIsInstanceOf(base, name) => EIsInstanceOf(walk(base), walk(name))
-    case EGetElems(base, name) => EGetElems(walk(base), walk(name))
+    case EIsInstanceOf(base, name) => EIsInstanceOf(walk(base), name)
+    case EGetElems(base, name) => EGetElems(walk(base), name)
     case EGetSyntax(base) => EGetSyntax(walk(base))
     case EParseSyntax(code, rule, parserParams) =>
       EParseSyntax(walk(code), walk(rule), walk(parserParams))
@@ -110,7 +105,7 @@ trait Walker {
     case EReturnIfAbrupt(expr, check) => EReturnIfAbrupt(walk(expr), check)
     case ECopy(obj) => ECopy(walk(obj))
     case EKeys(obj, intSorted) => EKeys(walk(obj), intSorted)
-    case ENotSupported(msg) => ENotSupported(walk(msg))
+    case ENotSupported(msg) => ENotSupported(msg)
   }
 
   // references
@@ -151,7 +146,7 @@ trait Walker {
   def walk(ctxt: Context): Context = Context(
     walkOpt[Cursor](ctxt.cursorOpt, walk),
     walk(ctxt.retId),
-    walk(ctxt.name),
+    ctxt.name,
     ctxt.astOpt,
     ctxt.algo,
     walkMap[Id, Value](ctxt.locals, walk, walk)
@@ -173,13 +168,13 @@ trait Walker {
     case IRSymbol(desc) => IRSymbol(walk(desc))
     case IRMap(ty, props, size) => IRMap(
       walk(ty),
-      walkMap[Value, (Value, Long)](props, walk, (x) => (walk(x._1), x._2)),
+      walkMap[PureValue, (Value, Long)](props, walk, (x) => (walk(x._1), x._2)),
       size
     )
     case IRList(values) => IRList(
-      walkList[Value](values.toList, walk).toVector
+      walkList[PureValue](values.toList, walk).toVector
     )
-    case IRNotSupported(tyname, msg) => IRNotSupported(walk(tyname), walk(msg))
+    case IRNotSupported(tyname, msg) => IRNotSupported(tyname, msg)
   }
 
   // values

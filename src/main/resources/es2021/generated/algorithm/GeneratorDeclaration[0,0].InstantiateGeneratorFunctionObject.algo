@@ -2,7 +2,7 @@ def [SYNTAX] GeneratorDeclaration[0,0].InstantiateGeneratorFunctionObject[R]<(Bi
   0:access __x0__ = (BindingIdentifier "StringValue")
   0:let name = __x0__
   1:let sourceText = (get-syntax GeneratorDeclaration)
-  2:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%GeneratorFunction.prototype%"] sourceText FormalParameters GeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  2:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%GeneratorFunction.prototype%"] sourceText FormalParameters GeneratorBody ~non-lexical-this~ scope)
   2:let F = __x1__
   3:app __x2__ = (SetFunctionName F name)
   3:__x2__

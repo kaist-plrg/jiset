@@ -4,7 +4,7 @@ def [SYNTAX] AsyncArrowFunction[0,0].InstantiateAsyncArrowFunctionExpression[R]<
   1:let scope = __x0__
   2:let sourceText = (get-syntax AsyncArrowFunction)
   3:let parameters = AsyncArrowBindingIdentifier
-  4:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncFunction.prototype%"] sourceText parameters AsyncConciseBody CONST_lexicalDASHthis scope)
+  4:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncFunction.prototype%"] sourceText parameters AsyncConciseBody ~lexical-this~ scope)
   4:let closure = [! __x1__]
   5:app __x2__ = (SetFunctionName closure name)
   5:__x2__

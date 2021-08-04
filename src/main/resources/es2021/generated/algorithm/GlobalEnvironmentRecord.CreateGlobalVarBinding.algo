@@ -13,7 +13,7 @@ def [METHOD] GlobalEnvironmentRecord.CreateGlobalVarBinding(envRec)(N, D) = 0:{
   } else 4:{}
   7:let varDeclaredNames = envRec.VarNames
   8:if (! (contains varDeclaredNames N)) 9:append N -> varDeclaredNames else 8:{}
-  10:return CONST_empty
+  10:return ~empty~
 }
 - id: "sec-createglobalvarbinding"
 - code:

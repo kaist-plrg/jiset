@@ -42,14 +42,15 @@ object ECMAScriptParser {
     val intrinsics = parseIntrinsic
 
     // special names
-    var (consts, symbols) = getNames(algos)
-    symbols ++= parseSymbol
+    var symbols = getSymbols(algos) ++ parseSymbol
+
+    // aoids
     val aoids = parseAoids
 
     // section hierarchy
     val section = parseSection
 
-    ECMAScript(version, grammar, algos, consts, intrinsics, symbols, aoids, section)
+    ECMAScript(version, grammar, algos, intrinsics, symbols, aoids, section)
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -272,24 +273,18 @@ object ECMAScriptParser {
     if algoFilter(filename)
   } yield Algo(readFile(file.toString))
 
-  // get special names
-  private val constPattern = "CONST_(.*)".r
+  // get symbol names
   private val symbolPattern = "SYMBOL_(.*)".r
-  def getNames(algos: List[Algo]): (Set[String], Set[String]) = {
-    var consts: Set[String] = Set()
+  def getSymbols(algos: List[Algo]): Set[String] = {
     var symbols: Set[String] = Set()
-    object ConstExtractor extends UnitWalker {
+    object SymbolExtractor extends UnitWalker {
       override def walk(id: Id) = id.name match {
-        case constPattern(name) => consts += name
         case symbolPattern(name) => symbols += name
         case _ =>
       }
     }
-    for (algo <- algos) ConstExtractor.walk(algo.rawBody)
-    (
-      consts,
-      symbols
-    )
+    for (algo <- algos) SymbolExtractor.walk(algo.rawBody)
+    symbols
   }
 
   // remove duplicated algorithms

@@ -1,19 +1,19 @@
 def AsyncGeneratorResumeNext(generator) = 1:{
   1:let state = generator.AsyncGeneratorState
-  2:assert (! (= state CONST_executing))
-  3:if (= state CONST_awaitingDASHreturn) 3:return undefined else 3:{}
+  2:assert (! (= state ~executing~))
+  3:if (= state ~awaiting-return~) 3:return undefined else 3:{}
   4:let queue = generator.AsyncGeneratorQueue
   5:if (= queue.length 0i) 5:return undefined else 5:{}
   6:let next = queue[0i]
   8:let completion = next.Completion
   9:app __x0__ = (IsAbruptCompletion completion)
   9:if __x0__ 9:{
-    10:if (= state CONST_suspendedStart) 10:{
-      11:generator.AsyncGeneratorState = CONST_completed
-      12:state = CONST_completed
+    10:if (= state ~suspendedStart~) 10:{
+      11:generator.AsyncGeneratorState = ~completed~
+      12:state = ~completed~
     } else 10:{}
-    13:if (= state CONST_completed) 14:if (= completion.Type CONST_return) 14:{
-      15:generator.AsyncGeneratorState = CONST_awaitingDASHreturn
+    13:if (= state ~completed~) 14:if (= completion.Type ~return~) 14:{
+      15:generator.AsyncGeneratorState = ~awaiting-return~
       16:app __x1__ = (PromiseResolve INTRINSICS["%Promise%"] completion.Value)
       16:let promise = [? __x1__]
       17:let stepsFulfilled = ALGORITHM["GLOBAL.AsyncGeneratorResumeNextReturnProcessorFulfilledFunctions"]
@@ -30,20 +30,20 @@ def AsyncGeneratorResumeNext(generator) = 1:{
       25:[! __x4__]
       26:return undefined
     } else 27:{
-      28:assert (= completion.Type CONST_throw)
+      28:assert (= completion.Type ~throw~)
       29:app __x5__ = (AsyncGeneratorReject generator completion.Value)
       29:[! __x5__]
       30:return undefined
     } else 13:{}
-  } else 9:if (= state CONST_completed) 14:{
+  } else 9:if (= state ~completed~) 14:{
     14:app __x6__ = (AsyncGeneratorResolve generator undefined true)
     14:return [! __x6__]
   } else 9:{}
-  32:assert (|| (= state CONST_suspendedStart) (= state CONST_suspendedYield))
+  32:assert (|| (= state ~suspendedStart~) (= state ~suspendedYield~))
   33:let genContext = generator.AsyncGeneratorContext
   34:let callerContext = CONTEXT
   35:CONTEXT = null
-  36:generator.AsyncGeneratorState = CONST_executing
+  36:generator.AsyncGeneratorState = ~executing~
   37:append genContext -> EXECUTION_STACK
   37:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   38:withcont __x7__ (result) = 38:{

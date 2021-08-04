@@ -11,7 +11,7 @@ def CreateListIteratorRecord(list) = 0:{
     3:return undefined
   }
   0:let closure = __x0__
-  4:app __x4__ = (CreateIteratorFromClosure closure CONST_empty INTRINSICS["%IteratorPrototype%"])
+  4:app __x4__ = (CreateIteratorFromClosure closure ~empty~ INTRINSICS["%IteratorPrototype%"])
   4:let iterator = [! __x4__]
   5:return (new Record("Iterator" -> iterator, "NextMethod" -> INTRINSICS["%GeneratorFunction.prototype.prototype.next%"], "Done" -> false))
 }

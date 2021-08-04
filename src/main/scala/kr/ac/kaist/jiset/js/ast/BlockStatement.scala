@@ -26,7 +26,7 @@ case class BlockStatement0(x0: Block, parserParams: List[Boolean], span: Span) e
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("Block", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Block", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

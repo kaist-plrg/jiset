@@ -4,7 +4,7 @@ def AtomicReadModifyWrite(typedArray, index, value, op) = 0:{
   1:app __x1__ = (ValidateAtomicAccess typedArray index)
   1:let indexedPosition = [? __x1__]
   2:let arrayTypeName = typedArray.TypedArrayName
-  3:if (= typedArray.ContentType CONST_BigInt) 3:{
+  3:if (= typedArray.ContentType ~BigInt~) 3:{
     3:app __x2__ = (ToBigInt value)
     3:let v = [? __x2__]
   } else 4:{
@@ -13,7 +13,7 @@ def AtomicReadModifyWrite(typedArray, index, value, op) = 0:{
   }
   5:app __x4__ = (IsDetachedBuffer buffer)
   5:if (= __x4__ true) 5:throw TypeError else 5:{}
-  6:let elementType = CONST_Int8
+  6:let elementType = ~Int8~
   8:app __x5__ = (GetModifySetValueInBuffer buffer indexedPosition elementType v op)
   8:return __x5__
 }

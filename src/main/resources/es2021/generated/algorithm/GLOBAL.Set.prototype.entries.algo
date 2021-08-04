@@ -1,6 +1,6 @@
 def [BUILTIN] Set.prototype.entries() = 0:{
   0:let S = this
-  1:app __x0__ = (CreateSetIterator S CONST_keyPLUSvalue)
+  1:app __x0__ = (CreateSetIterator S ~key+value~)
   1:return [? __x0__]
 }
 - id: "sec-set.prototype.entries"

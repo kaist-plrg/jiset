@@ -5,20 +5,20 @@ def CreateDynamicFunction(constructor, newTarget, kind, args) = 1:{
   4:app __x0__ = (HostEnsureCanCompileStrings callerRealm calleeRealm)
   4:[? __x0__]
   5:if (= newTarget undefined) 5:newTarget = constructor else 5:{}
-  6:if (= kind CONST_normal) 6:{
+  6:if (= kind ~normal~) 6:{
     7:??? "Let id:{goal} be the grammar symbol | FunctionBody [ ~ Yield , ~ Await ] | ."
     8:??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ ~ Yield , ~ Await ] | ."
     9:let fallbackProto = "%Function.prototype%"
-  } else 6:if (= kind CONST_generator) 10:{
+  } else 6:if (= kind ~generator~) 10:{
     11:let goal = "GeneratorBody"
     12:??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ + Yield , ~ Await ] | ."
     13:let fallbackProto = "%GeneratorFunction.prototype%"
-  } else 6:if (= kind CONST_async) 14:{
+  } else 6:if (= kind ~async~) 14:{
     15:let goal = "AsyncFunctionBody"
     16:??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ ~ Yield , + Await ] | ."
     17:let fallbackProto = "%AsyncFunction.prototype%"
   } else 18:{
-    19:assert (= kind CONST_asyncGenerator)
+    19:assert (= kind ~asyncGenerator~)
     20:let goal = "AsyncGeneratorBody"
     21:??? "Let id:{parameterGoal} be the grammar symbol | FormalParameters [ + Yield , + Await ] | ."
     22:let fallbackProto = "%AsyncGeneratorFunction.prototype%"
@@ -51,21 +51,21 @@ def CreateDynamicFunction(constructor, newTarget, kind, args) = 1:{
   61:let proto = [? __x5__]
   62:let realmF = REALM
   63:let scope = realmF.GlobalEnv
-  64:app __x6__ = (OrdinaryFunctionCreate proto sourceText parameters body CONST_nonDASHlexicalDASHthis scope)
+  64:app __x6__ = (OrdinaryFunctionCreate proto sourceText parameters body ~non-lexical-this~ scope)
   64:let F = [! __x6__]
   65:app __x7__ = (SetFunctionName F "anonymous")
   65:__x7__
-  66:if (= kind CONST_generator) 66:{
+  66:if (= kind ~generator~) 66:{
     67:app __x8__ = (OrdinaryObjectCreate INTRINSICS["%GeneratorFunction.prototype.prototype%"])
     67:let prototype = [! __x8__]
     68:app __x9__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     68:__x9__
-  } else 66:if (= kind CONST_asyncGenerator) 69:{
+  } else 66:if (= kind ~asyncGenerator~) 69:{
     70:app __x10__ = (OrdinaryObjectCreate INTRINSICS["%AsyncGeneratorFunction.prototype.prototype%"])
     70:let prototype = [! __x10__]
     71:app __x11__ = (DefinePropertyOrThrow F "prototype" (new PropertyDescriptor("Value" -> prototype, "Writable" -> true, "Enumerable" -> false, "Configurable" -> false)))
     71:__x11__
-  } else 66:if (= kind CONST_normal) 72:{
+  } else 66:if (= kind ~normal~) 72:{
     72:app __x12__ = (MakeConstructor F)
     72:__x12__
   } else 66:{}

@@ -5,7 +5,7 @@ def GeneratorValidate(generator, generatorBrand) = 0:{
   1:[? __x1__]
   2:if (! (= generator.GeneratorBrand generatorBrand)) 2:throw TypeError else 2:{}
   4:let state = generator.GeneratorState
-  5:if (= state CONST_executing) 5:throw TypeError else 5:{}
+  5:if (= state ~executing~) 5:throw TypeError else 5:{}
   6:return state
 }
 - id: "sec-generatorvalidate"

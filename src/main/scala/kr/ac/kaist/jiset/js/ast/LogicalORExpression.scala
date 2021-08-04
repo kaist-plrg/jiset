@@ -30,7 +30,7 @@ case class LogicalORExpression0(x0: LogicalANDExpression, parserParams: List[Boo
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("LogicalANDExpression", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("LogicalANDExpression", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -42,7 +42,7 @@ case class LogicalORExpression1(x0: LogicalORExpression, x2: LogicalANDExpressio
   x2.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x2, d(x0, 0))
-  def fullList: List[(String, Value)] = l("LogicalANDExpression", x2, l("LogicalORExpression", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("LogicalANDExpression", x2, l("LogicalORExpression", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 || $x2"

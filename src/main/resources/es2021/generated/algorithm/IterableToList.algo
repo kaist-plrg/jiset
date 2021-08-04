@@ -1,9 +1,9 @@
 def IterableToList(items, method?) = 0:{
   0:if (! (= method absent)) 0:{
-    1:app __x0__ = (GetIterator items CONST_sync method)
+    1:app __x0__ = (GetIterator items ~sync~ method)
     1:let iteratorRecord = [? __x0__]
   } else 2:{
-    3:app __x1__ = (GetIterator items CONST_sync)
+    3:app __x1__ = (GetIterator items ~sync~)
     3:let iteratorRecord = [? __x1__]
   }
   4:let values = (new [])

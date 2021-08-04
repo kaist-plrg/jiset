@@ -10,7 +10,7 @@ def [BUILTIN] Date.prototype.toUTCString() = 0:{
   6:let yv = __x1__
   7:if (! (< yv 0i)) 7:let yearSign = "" else 7:let yearSign = "-"
   8:??? "Let id:{year} be the String representation of abs ( ℝ ( id:{yv} ) ) , formatted as a decimal number ."
-  9:app __x2__ = (StringPad year 4i "0" CONST_start)
+  9:app __x2__ = (StringPad year 4i "0" ~start~)
   9:let paddedYear = [! __x2__]
   10:app __x3__ = (TimeString tv)
   10:return (+ (+ (+ (+ (+ (+ (+ (+ (+ (+ weekday ",") " ") day) " ") month) " ") yearSign) paddedYear) " ") __x3__)

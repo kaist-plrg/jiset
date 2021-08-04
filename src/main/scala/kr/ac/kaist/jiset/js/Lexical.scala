@@ -24,7 +24,7 @@ case class Lexical(kind: String, str: String) extends AST {
   def k: Int = 0
   def parserParams: List[Boolean] = Nil
   def span: Span = Span()
-  def fullList: List[(String, Value)] = Nil
+  def fullList: List[(String, PureValue)] = Nil
   def maxK: Int = 0
 
   // name

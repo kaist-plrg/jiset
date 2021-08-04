@@ -14,7 +14,7 @@ def GetViewValue(view, requestIndex, isLittleEndian, type) = 0:{
   8:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for Element Type id:{type} ."
   9:if (< viewSize (+ getIndex elementSize)) 9:throw RangeError else 9:{}
   10:let bufferIndex = (+ getIndex viewOffset)
-  11:app __x4__ = (GetValueFromBuffer buffer bufferIndex type false CONST_Unordered isLittleEndian)
+  11:app __x4__ = (GetValueFromBuffer buffer bufferIndex type false ~Unordered~ isLittleEndian)
   11:return __x4__
 }
 - id: "sec-getviewvalue"

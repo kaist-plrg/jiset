@@ -37,7 +37,7 @@ object FormalParameters {
 case class FormalParameters0(parserParams: List[Boolean], span: Span) extends FormalParameters {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s""
@@ -48,7 +48,7 @@ case class FormalParameters1(x0: FunctionRestParameter, parserParams: List[Boole
   x0.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("FunctionRestParameter", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("FunctionRestParameter", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -59,7 +59,7 @@ case class FormalParameters2(x0: FormalParameterList, parserParams: List[Boolean
   x0.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("FormalParameterList", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("FormalParameterList", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -70,7 +70,7 @@ case class FormalParameters3(x0: FormalParameterList, parserParams: List[Boolean
   x0.parent = Some(this)
   def idx: Int = 3
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("FormalParameterList", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("FormalParameterList", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 ,"
@@ -82,7 +82,7 @@ case class FormalParameters4(x0: FormalParameterList, x2: FunctionRestParameter,
   x2.parent = Some(this)
   def idx: Int = 4
   def k: Int = d(x2, d(x0, 0))
-  def fullList: List[(String, Value)] = l("FunctionRestParameter", x2, l("FormalParameterList", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("FunctionRestParameter", x2, l("FormalParameterList", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 , $x2"

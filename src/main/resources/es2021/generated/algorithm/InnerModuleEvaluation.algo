@@ -4,10 +4,10 @@ def InnerModuleEvaluation(module, stack, index) = 0:{
     1:[? __x0__]
     2:return index
   } else 0:{}
-  3:if (= module.Status CONST_evaluated) 4:if (= module.EvaluationError undefined) 4:return index else 4:return module.EvaluationError else 3:{}
-  6:if (= module.Status CONST_evaluating) 6:return index else 6:{}
-  7:assert (= module.Status CONST_linked)
-  8:module.Status = CONST_evaluating
+  3:if (= module.Status ~evaluated~) 4:if (= module.EvaluationError undefined) 4:return index else 4:return module.EvaluationError else 3:{}
+  6:if (= module.Status ~evaluating~) 6:return index else 6:{}
+  7:assert (= module.Status ~linked~)
+  8:module.Status = ~evaluating~
   9:module.DFSIndex = index
   10:module.DFSAncestorIndex = index
   11:index = (+ index 1i)
@@ -22,8 +22,8 @@ def InnerModuleEvaluation(module, stack, index) = 0:{
     16:app __x4__ = (InnerModuleEvaluation requiredModule stack index)
     16:index = [? __x4__]
     17:if (is-instance-of requiredModule CyclicModuleRecord) 17:{
-      18:assert (|| (= requiredModule.Status CONST_evaluating) (= requiredModule.Status CONST_evaluated))
-      20:if (= requiredModule.Status CONST_evaluating) 20:{
+      18:assert (|| (= requiredModule.Status ~evaluating~) (= requiredModule.Status ~evaluated~))
+      20:if (= requiredModule.Status ~evaluating~) 20:{
         21:app __x5__ = (min module.DFSAncestorIndex requiredModule.DFSAncestorIndex)
         21:module.DFSAncestorIndex = __x5__
       } else 20:{}
@@ -38,7 +38,7 @@ def InnerModuleEvaluation(module, stack, index) = 0:{
       28:let requiredModule = stack[(- stack.length 1i)]
       29:(pop stack (- stack.length 1i))
       30:assert (is-instance-of requiredModule CyclicModuleRecord)
-      31:requiredModule.Status = CONST_evaluated
+      31:requiredModule.Status = ~evaluated~
       32:if (= requiredModule module) 32:done = true else 32:{}
     }
   } else 25:{}

@@ -26,7 +26,7 @@ case class AsyncFunctionBody0(x0: FunctionBody, parserParams: List[Boolean], spa
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("FunctionBody", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("FunctionBody", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

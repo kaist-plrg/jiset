@@ -27,8 +27,8 @@ def [BUILTIN] Atomics.wait(typedArray, index, value, timeout) = 0:{
   11:let WL = __x8__
   12:app __x9__ = (EnterCriticalSection WL)
   12:__x9__
-  6:let elementType = CONST_Int8
-  14:app __x10__ = (GetValueFromBuffer buffer indexedPosition elementType true CONST_SeqCst)
+  6:let elementType = ~Int8~
+  14:app __x10__ = (GetValueFromBuffer buffer indexedPosition elementType true ~SeqCst~)
   14:let w = [! __x10__]
   15:if (! (== v w)) 15:{
     16:app __x11__ = (LeaveCriticalSection WL)

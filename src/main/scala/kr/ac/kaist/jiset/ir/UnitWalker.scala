@@ -25,12 +25,6 @@ trait UnitWalker {
     case cursor: Cursor => walk(cursor)
   }
 
-  // strings
-  def walk(str: String): Unit = {}
-
-  // booleans
-  def walk(bool: Boolean): Unit = {}
-
   // options
   def walkOpt[T](
     opt: Option[T],
@@ -72,8 +66,7 @@ trait UnitWalker {
       walk(expr); walk(list)
     case IReturn(expr) =>
       walk(expr)
-    case IThrow(id) =>
-      walk(id)
+    case IThrow(name) =>
     case IIf(cond, thenInst, elseInst) =>
       walk(cond); walk(thenInst); walk(elseInst)
     case IWhile(cond, body) =>
@@ -104,6 +97,7 @@ trait UnitWalker {
   // expressions
   def walk(expr: Expr): Unit = expr match {
     case ENum(_) | EINum(_) | EBigINum(_) | EStr(_) | EBool(_) | EUndef | ENull | EAbsent =>
+    case EConst(name) =>
     case EMap(ty, props) =>
       walk(ty); walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
     case EList(exprs) =>
@@ -123,9 +117,9 @@ trait UnitWalker {
     case EIsCompletion(expr) =>
       walk(expr)
     case EIsInstanceOf(base, name) =>
-      walk(base); walk(name)
+      walk(base)
     case EGetElems(base, name) =>
-      walk(base); walk(name)
+      walk(base)
     case EGetSyntax(base) =>
       walk(base)
     case EParseSyntax(code, rule, parserParams) =>
@@ -141,7 +135,6 @@ trait UnitWalker {
     case EKeys(obj, intSorted) =>
       walk(obj)
     case ENotSupported(msg) =>
-      walk(msg)
   }
 
   // references
@@ -181,7 +174,6 @@ trait UnitWalker {
   def walk(ctxt: Context): Unit = {
     walkOpt[Cursor](ctxt.cursorOpt, walk)
     walk(ctxt.retId)
-    walk(ctxt.name)
     walkMap[Id, Value](ctxt.locals, walk, walk)
   }
 
@@ -204,12 +196,10 @@ trait UnitWalker {
       walk(desc)
     case IRMap(ty, props, size) =>
       walk(ty)
-      walkMap[Value, (Value, Long)](props, walk, (x) => walk(x._1))
+      walkMap[PureValue, (Value, Long)](props, walk, (x) => walk(x._1))
     case IRList(values) =>
-      walkList[Value](values.toList, walk)
+      walkList[PureValue](values.toList, walk)
     case IRNotSupported(tyname, msg) =>
-      walk(tyname)
-      walk(msg)
   }
 
   // values
@@ -253,7 +243,6 @@ trait UnitWalker {
   // closure
   def walk(clo: Clo): Unit = clo match {
     case Clo(ctxtName, params, locals, cursor) =>
-      walk(ctxtName)
       walkList[Id](params, walk)
       walkMap[Id, Value](locals, walk, walk)
       walkOpt[Cursor](cursor, walk)

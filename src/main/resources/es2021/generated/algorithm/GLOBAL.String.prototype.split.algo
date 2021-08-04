@@ -39,7 +39,7 @@ def [BUILTIN] String.prototype.split(separator, limit) = 0:{
   21:while (! (== q s)) 21:{
     22:app __x9__ = (SplitMatch S q R)
     22:let e = __x9__
-    23:if (= e CONST_notDASHmatched) 23:q = (+ q 1i) else 23:if (== e p) 26:q = (+ q 1i) else 27:{
+    23:if (= e ~not-matched~) 23:q = (+ q 1i) else 23:if (== e p) 26:q = (+ q 1i) else 27:{
       28:let __x10__ = ""
       28:let __x11__ = p
       28:while (< __x11__ q) 28:{

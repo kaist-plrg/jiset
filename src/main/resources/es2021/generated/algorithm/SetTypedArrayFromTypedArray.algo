@@ -33,16 +33,16 @@ def SetTypedArrayFromTypedArray(target, targetOffset, source) = 1:{
   27:let targetByteIndex = (+ (* targetOffset targetElementSize) targetByteOffset)
   28:let limit = (* (+ targetByteIndex targetElementSize) srcLength)
   29:if (= srcType targetType) 31:while (< targetByteIndex limit) 31:{
-    32:app __x6__ = (GetValueFromBuffer srcBuffer srcByteIndex CONST_Uint8 true CONST_Unordered)
+    32:app __x6__ = (GetValueFromBuffer srcBuffer srcByteIndex ~Uint8~ true ~Unordered~)
     32:let value = __x6__
-    33:app __x7__ = (SetValueInBuffer targetBuffer targetByteIndex CONST_Uint8 value true CONST_Unordered)
+    33:app __x7__ = (SetValueInBuffer targetBuffer targetByteIndex ~Uint8~ value true ~Unordered~)
     33:__x7__
     34:srcByteIndex = (+ srcByteIndex 1i)
     35:targetByteIndex = (+ targetByteIndex 1i)
   } else 29:while (< targetByteIndex limit) 37:{
-    38:app __x8__ = (GetValueFromBuffer srcBuffer srcByteIndex srcType true CONST_Unordered)
+    38:app __x8__ = (GetValueFromBuffer srcBuffer srcByteIndex srcType true ~Unordered~)
     38:let value = __x8__
-    39:app __x9__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
+    39:app __x9__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true ~Unordered~)
     39:__x9__
     40:srcByteIndex = (+ srcByteIndex srcElementSize)
     41:targetByteIndex = (+ targetByteIndex targetElementSize)

@@ -9,7 +9,7 @@ def [SYNTAX] AsyncFunctionExpression[0,1].InstantiateAsyncFunctionExpression[R]<
   4:app __x3__ = (funcEnv.CreateImmutableBinding funcEnv name false)
   4:[! __x3__]
   5:let sourceText = (get-syntax AsyncFunctionExpression)
-  6:app __x4__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncFunction.prototype%"] sourceText FormalParameters AsyncFunctionBody CONST_nonDASHlexicalDASHthis funcEnv)
+  6:app __x4__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncFunction.prototype%"] sourceText FormalParameters AsyncFunctionBody ~non-lexical-this~ funcEnv)
   6:let closure = [! __x4__]
   7:app __x5__ = (SetFunctionName closure name)
   7:[! __x5__]

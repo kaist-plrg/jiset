@@ -1,7 +1,7 @@
 def SplitMatch(S, q, R) = 0:{
   0:let r = R.length
   1:let s = S.length
-  2:if (< s (+ q r)) 2:return CONST_notDASHmatched else 2:{}
+  2:if (< s (+ q r)) 2:return ~not-matched~ else 2:{}
   3:??? "If there exists an integer id:{i} between 0 ( inclusive ) and id:{r} ( exclusive ) such that the code unit at index id:{q} + id:{i} within id:{S} is different from the code unit at index id:{i} within id:{R} , return const:{not-matched} ."
   4:return (+ q r)
 }

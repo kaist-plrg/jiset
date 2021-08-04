@@ -1,13 +1,13 @@
 def GetIterator(obj, hint?, method?) = 0:{
-  0:if (= hint absent) 0:hint = CONST_sync else 0:{}
-  1:assert (|| (= hint CONST_sync) (= hint CONST_async))
-  2:if (= method absent) 3:if (= hint CONST_async) 3:{
+  0:if (= hint absent) 0:hint = ~sync~ else 0:{}
+  1:assert (|| (= hint ~sync~) (= hint ~async~))
+  2:if (= method absent) 3:if (= hint ~async~) 3:{
     4:app __x0__ = (GetMethod obj SYMBOL_asyncIterator)
     4:method = [? __x0__]
     5:if (= method undefined) 5:{
       6:app __x1__ = (GetMethod obj SYMBOL_iterator)
       6:let syncMethod = [? __x1__]
-      7:app __x2__ = (GetIterator obj CONST_sync syncMethod)
+      7:app __x2__ = (GetIterator obj ~sync~ syncMethod)
       7:let syncIteratorRecord = [? __x2__]
       8:app __x3__ = (CreateAsyncFromSyncIterator syncIteratorRecord)
       8:return [! __x3__]

@@ -34,9 +34,6 @@ object Initialize {
   // initial global variables
   lazy val initGlobal: MMap[Id, Value] = {
     val map = MMap[Id, Value]()
-    for (c <- consts) {
-      map += Id(CONST_PREFIX + c) -> Const(c)
-    }
     for (s <- symbols) {
       map += Id(SYMBOL_PREFIX + s) -> NamedAddr(s"$GLOBAL.Symbol.$s")
     }

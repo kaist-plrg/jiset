@@ -1,7 +1,7 @@
 def [BUILTIN] Date.prototype[SYMBOL_toPrimitive](hint) = 0:{
   0:let O = this
   1:if (! (= (typeof O) Object)) 1:throw TypeError else 1:{}
-  2:if (|| (= hint "string") (= hint "default")) 3:let tryFirst = CONST_string else 2:if (= hint "number") 5:let tryFirst = CONST_number else 2:throw TypeError
+  2:if (|| (= hint "string") (= hint "default")) 3:let tryFirst = ~string~ else 2:if (= hint "number") 5:let tryFirst = ~number~ else 2:throw TypeError
   7:app __x0__ = (OrdinaryToPrimitive O tryFirst)
   7:return [? __x0__]
 }

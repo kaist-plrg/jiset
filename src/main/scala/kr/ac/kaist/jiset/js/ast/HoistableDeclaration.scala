@@ -35,7 +35,7 @@ case class HoistableDeclaration0(x0: FunctionDeclaration, parserParams: List[Boo
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("FunctionDeclaration", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("FunctionDeclaration", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -46,7 +46,7 @@ case class HoistableDeclaration1(x0: GeneratorDeclaration, parserParams: List[Bo
   x0.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("GeneratorDeclaration", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("GeneratorDeclaration", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -57,7 +57,7 @@ case class HoistableDeclaration2(x0: AsyncFunctionDeclaration, parserParams: Lis
   x0.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("AsyncFunctionDeclaration", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("AsyncFunctionDeclaration", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -68,7 +68,7 @@ case class HoistableDeclaration3(x0: AsyncGeneratorDeclaration, parserParams: Li
   x0.parent = Some(this)
   def idx: Int = 3
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("AsyncGeneratorDeclaration", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("AsyncGeneratorDeclaration", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

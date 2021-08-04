@@ -135,6 +135,7 @@ class Beautifier(
       case EUndef => app >> "undefined"
       case ENull => app >> "null"
       case EAbsent => app >> "absent"
+      case EConst(name) => app >> "~" >> name >> "~"
       case EMap(ty, props) =>
         implicit val l = ListApp[(Expr, Expr)]("(", ", ", ")")
         app >> "(new " >> ty >> props >> ")"

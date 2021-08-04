@@ -13,8 +13,8 @@ def [BUILTIN] Atomics.store(typedArray, index, value) = 0:{
   }
   5:app __x4__ = (IsDetachedBuffer buffer)
   5:if (= __x4__ true) 5:throw TypeError else 5:{}
-  6:let elementType = CONST_Int8
-  8:app __x5__ = (SetValueInBuffer buffer indexedPosition elementType v true CONST_SeqCst)
+  6:let elementType = ~Int8~
+  8:app __x5__ = (SetValueInBuffer buffer indexedPosition elementType v true ~SeqCst~)
   8:__x5__
   9:return v
 }

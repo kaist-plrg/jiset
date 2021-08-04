@@ -29,7 +29,7 @@ case class MetaProperty0(x0: NewTarget, parserParams: List[Boolean], span: Span)
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("NewTarget", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("NewTarget", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -40,7 +40,7 @@ case class MetaProperty1(x0: ImportMeta, parserParams: List[Boolean], span: Span
   x0.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("ImportMeta", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ImportMeta", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

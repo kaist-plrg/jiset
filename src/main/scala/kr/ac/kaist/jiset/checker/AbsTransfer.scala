@@ -285,10 +285,11 @@ object AbsTransfer {
       case EUndef => AUndef.abs
       case ENull => ANull.abs
       case EAbsent => AAbsent.abs
+      case EConst(name) => ConstT(name).abs
       case EMap(Ty("Completion"), props) =>
         val map = props.toMap
         (map.get(EStr("Type")), map.get(EStr("Value"))) match {
-          case (Some(ERef(RefId(Id("CONST_normal")))), Some(e)) => for {
+          case (Some(EConst("normal")), Some(e)) => for {
             t <- transfer(e)
           } yield AbsType(t.escapedSet(e).map(NormalT(_): Type))
           case _ => pure(AbruptT.abs)

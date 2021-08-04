@@ -7,7 +7,7 @@ def EvaluatePropertyAccessWithExpressionKey(baseValue, expression, strict) = 0:{
   2:let bv = [? __x2__]
   3:app __x3__ = (ToPropertyKey propertyNameValue)
   3:let propertyKey = [? __x3__]
-  4:return (new ReferenceRecord("Base" -> bv, "ReferencedName" -> propertyKey, "Strict" -> strict, "ThisValue" -> CONST_empty))
+  4:return (new ReferenceRecord("Base" -> bv, "ReferencedName" -> propertyKey, "Strict" -> strict, "ThisValue" -> ~empty~))
 }
 - id: "sec-evaluate-property-access-with-expression-key"
 - code:

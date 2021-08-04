@@ -129,7 +129,7 @@
   },
   {
     "tokens": "Let id:{elementType} be the Element Type value in link:{table-the-typedarray-constructors} for id:{arrayTypeName} .",
-    "inst": "let elementType = CONST_Int8"
+    "inst": "let elementType = ~Int8~"
   },
   {
     "tokens": "Return a List whose elements are id:{head} followed by the elements of id:{tail} .",
@@ -201,7 +201,7 @@
   },
   {
     "tokens": "It is an early Reference Error if AssignmentTargetType of nt:{UnaryExpression} is const:{invalid} .",
-    "inst": "{ access __att__ = (UnaryExpression \"AssignmentTargetType\") if (= __att__ CONST_invalid) throw ReferenceError else {} }"
+    "inst": "{ access __att__ = (UnaryExpression \"AssignmentTargetType\") if (= __att__ ~invalid~) throw ReferenceError else {} }"
   },
   {
     "tokens": "Perform ! DefinePropertyOrThrow ( id:{obj} , @ @ iterator , PropertyDescriptor { [ [ Value ] ] : % ArrayProto _ values % , [ [ Writable ] ] : value:{true} , [ [ Enumerable ] ] : value:{false} , [ [ Configurable ] ] : value:{true} } ) .",
@@ -405,6 +405,6 @@
   },
   {
     "tokens": "If Type ( id:{nextKey} ) is Symbol and id:{type} is const:{symbol} or Type ( id:{nextKey} ) is String and id:{type} is const:{string} , then in:{} out:{}",
-    "inst": "if (|| (&& (= (typeof nextKey) Symbol) (= type CONST_symbol)) (&& (= (typeof nextKey) String) (= type CONST_string))) append nextKey -> nameList else {}"
+    "inst": "if (|| (&& (= (typeof nextKey) Symbol) (= type ~symbol~)) (&& (= (typeof nextKey) String) (= type ~string~))) append nextKey -> nameList else {}"
   }
 ]

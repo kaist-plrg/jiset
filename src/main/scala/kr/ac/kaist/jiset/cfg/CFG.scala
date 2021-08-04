@@ -70,19 +70,16 @@ class CFG(val spec: ECMAScript) extends CFGComponent {
 
   // get constant names
   def getNames = {
-    var consts: Set[String] = Set()
     var intrinsics: Set[String] = Set()
     var symbols: Set[String] = Set()
     object ConstExtractor extends UnitWalker {
       override def walk(id: Id) = {
-        if (id.name startsWith "CONST_") consts += id.name
         if (id.name startsWith "INTRINSIC_") intrinsics += id.name
         if (id.name startsWith "SYMBOL_") symbols += id.name
       }
     }
     for (algo <- spec.algos) ConstExtractor.walk(algo.rawBody)
     (
-      consts,
       intrinsics,
       symbols,
       spec.grammar.nameMap.keySet

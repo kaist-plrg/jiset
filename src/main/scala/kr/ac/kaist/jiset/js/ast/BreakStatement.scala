@@ -27,7 +27,7 @@ object BreakStatement {
 case class BreakStatement0(parserParams: List[Boolean], span: Span) extends BreakStatement {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"break ;"
@@ -38,7 +38,7 @@ case class BreakStatement1(x2: LabelIdentifier, parserParams: List[Boolean], spa
   x2.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x2, 0)
-  def fullList: List[(String, Value)] = l("LabelIdentifier", x2, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("LabelIdentifier", x2, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"break $x2 ;"

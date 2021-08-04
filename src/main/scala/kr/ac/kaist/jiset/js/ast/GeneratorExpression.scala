@@ -30,7 +30,7 @@ case class GeneratorExpression0(x2: Option[BindingIdentifier], x4: FormalParamet
   x7.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x7, d(x4, d(x2, 0)))
-  def fullList: List[(String, Value)] = l("GeneratorBody", x7, l("FormalParameters", x4, l("Option[BindingIdentifier]", x2, Nil))).reverse
+  def fullList: List[(String, PureValue)] = l("GeneratorBody", x7, l("FormalParameters", x4, l("Option[BindingIdentifier]", x2, Nil))).reverse
   def maxK: Int = 1
   override def toString: String = {
     s"function * ${x2.getOrElse("")} ( $x4 ) { $x7 }"

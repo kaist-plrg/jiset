@@ -30,7 +30,7 @@ object Arguments {
 case class Arguments0(parserParams: List[Boolean], span: Span) extends Arguments {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"( )"
@@ -41,7 +41,7 @@ case class Arguments1(x1: ArgumentList, parserParams: List[Boolean], span: Span)
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("ArgumentList", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ArgumentList", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"( $x1 )"
@@ -52,7 +52,7 @@ case class Arguments2(x1: ArgumentList, parserParams: List[Boolean], span: Span)
   x1.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("ArgumentList", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ArgumentList", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"( $x1 , )"

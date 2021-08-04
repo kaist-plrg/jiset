@@ -1,6 +1,6 @@
 def [BUILTIN] Object.seal(O) = 0:{
   0:if (! (= (typeof O) Object)) 0:return O else 0:{}
-  1:app __x0__ = (SetIntegrityLevel O CONST_sealed)
+  1:app __x0__ = (SetIntegrityLevel O ~sealed~)
   1:let status = [? __x0__]
   2:if (= status false) 2:throw TypeError else 2:{}
   3:return O

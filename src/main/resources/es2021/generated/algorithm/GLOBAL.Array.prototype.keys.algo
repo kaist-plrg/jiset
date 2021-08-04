@@ -1,7 +1,7 @@
 def [BUILTIN] Array.prototype.keys() = 0:{
   0:app __x0__ = (ToObject this)
   0:let O = [? __x0__]
-  1:app __x1__ = (CreateArrayIterator O CONST_key)
+  1:app __x1__ = (CreateArrayIterator O ~key~)
   1:return __x1__
 }
 - id: "sec-array.prototype.keys"

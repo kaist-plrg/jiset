@@ -21,7 +21,7 @@ def SetTypedArrayFromArrayLike(target, targetOffset, source) = 1:{
     16:let Pk = [! __x3__]
     17:app __x4__ = (Get src Pk)
     17:let value = [? __x4__]
-    18:if (= target.ContentType CONST_BigInt) 18:{
+    18:if (= target.ContentType ~BigInt~) 18:{
       18:app __x5__ = (ToBigInt value)
       18:value = [? __x5__]
     } else 19:{
@@ -30,7 +30,7 @@ def SetTypedArrayFromArrayLike(target, targetOffset, source) = 1:{
     }
     20:app __x7__ = (IsDetachedBuffer targetBuffer)
     20:if (= __x7__ true) 20:throw TypeError else 20:{}
-    21:app __x8__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true CONST_Unordered)
+    21:app __x8__ = (SetValueInBuffer targetBuffer targetByteIndex targetType value true ~Unordered~)
     21:__x8__
     22:k = (+ k 1i)
     23:targetByteIndex = (+ targetByteIndex targetElementSize)

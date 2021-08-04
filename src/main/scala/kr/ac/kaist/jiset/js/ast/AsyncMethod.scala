@@ -30,7 +30,7 @@ case class AsyncMethod0(x2: PropertyName, x4: UniqueFormalParameters, x7: AsyncF
   x7.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x7, d(x4, d(x2, 0)))
-  def fullList: List[(String, Value)] = l("AsyncFunctionBody", x7, l("UniqueFormalParameters", x4, l("PropertyName", x2, Nil))).reverse
+  def fullList: List[(String, PureValue)] = l("AsyncFunctionBody", x7, l("UniqueFormalParameters", x4, l("PropertyName", x2, Nil))).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"async $x2 ( $x4 ) { $x7 }"

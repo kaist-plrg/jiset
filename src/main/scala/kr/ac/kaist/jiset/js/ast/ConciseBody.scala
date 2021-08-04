@@ -29,7 +29,7 @@ case class ConciseBody0(x1: ExpressionBody, parserParams: List[Boolean], span: S
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("ExpressionBody", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ExpressionBody", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x1"
@@ -40,7 +40,7 @@ case class ConciseBody1(x1: FunctionBody, parserParams: List[Boolean], span: Spa
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("FunctionBody", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("FunctionBody", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ $x1 }"

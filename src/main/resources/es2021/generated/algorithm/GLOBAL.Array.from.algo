@@ -16,7 +16,7 @@ def [BUILTIN] Array.from(items, mapfn?, thisArg?) = 0:{
       10:app __x4__ = (ArrayCreate 0i)
       10:let A = [! __x4__]
     }
-    11:app __x5__ = (GetIterator items CONST_sync usingIterator)
+    11:app __x5__ = (GetIterator items ~sync~ usingIterator)
     11:let iteratorRecord = [? __x5__]
     12:let k = 0i
     13:while true 13:{

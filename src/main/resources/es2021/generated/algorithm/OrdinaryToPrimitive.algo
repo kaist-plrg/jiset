@@ -1,7 +1,7 @@
 def OrdinaryToPrimitive(O, hint) = 0:{
   0:assert (= (typeof O) Object)
-  1:assert (|| (= hint CONST_string) (= hint CONST_number))
-  2:if (= hint CONST_string) 3:let methodNames = (new ["toString", "valueOf"]) else 2:let methodNames = (new ["valueOf", "toString"])
+  1:assert (|| (= hint ~string~) (= hint ~number~))
+  2:if (= hint ~string~) 3:let methodNames = (new ["toString", "valueOf"]) else 2:let methodNames = (new ["valueOf", "toString"])
   6:let __x0__ = methodNames
   6:let __x1__ = 0i
   6:while (< __x1__ __x0__.length) 6:{

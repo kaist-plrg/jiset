@@ -1,7 +1,7 @@
 def HostMakeJobCallback(callback) = 0:{
   0:app __x0__ = (IsCallable callback)
   0:assert (= __x0__ true)
-  1:return (new JobCallbackRecord("Callback" -> callback, "HostDefined" -> CONST_empty))
+  1:return (new JobCallbackRecord("Callback" -> callback, "HostDefined" -> ~empty~))
 }
 - id: "sec-hostmakejobcallback"
 - code:

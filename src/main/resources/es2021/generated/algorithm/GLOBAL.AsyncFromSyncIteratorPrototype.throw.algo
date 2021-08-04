@@ -6,9 +6,9 @@ def [BUILTIN] AsyncFromSyncIteratorPrototype.throw(value?) = 0:{
   3:let syncIterator = O.SyncIteratorRecord.Iterator
   4:app __x1__ = (GetMethod syncIterator "throw")
   4:let throw = __x1__
-  5:if (is-completion throw) 5:if (= throw.Type CONST_normal) 5:throw = throw.Value else 6:{
+  5:if (is-completion throw) 5:if (= throw.Type ~normal~) 5:throw = throw.Value else 6:{
     6:app __x2__ = (Call promiseCapability.Reject undefined (new [throw.Value]))
-    6:if (&& (is-completion __x2__) (! (= __x2__.Type CONST_normal))) 6:return __x2__ else 6:{}
+    6:if (&& (is-completion __x2__) (! (= __x2__.Type ~normal~))) 6:return __x2__ else 6:{}
     6:return promiseCapability.Promise
   } else 5:{}
   5:throw
@@ -24,9 +24,9 @@ def [BUILTIN] AsyncFromSyncIteratorPrototype.throw(value?) = 0:{
     12:app __x5__ = (Call throw syncIterator)
     12:let result = __x5__
   }
-  13:if (is-completion result) 13:if (= result.Type CONST_normal) 13:result = result.Value else 14:{
+  13:if (is-completion result) 13:if (= result.Type ~normal~) 13:result = result.Value else 14:{
     14:app __x6__ = (Call promiseCapability.Reject undefined (new [result.Value]))
-    14:if (&& (is-completion __x6__) (! (= __x6__.Type CONST_normal))) 14:return __x6__ else 14:{}
+    14:if (&& (is-completion __x6__) (! (= __x6__.Type ~normal~))) 14:return __x6__ else 14:{}
     14:return promiseCapability.Promise
   } else 13:{}
   13:result

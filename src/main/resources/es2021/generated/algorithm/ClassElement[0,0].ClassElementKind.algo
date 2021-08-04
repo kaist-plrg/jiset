@@ -1,7 +1,7 @@
 def [SYNTAX] ClassElement[0,0].ClassElementKind[S]<(MethodDefinition),true>() = 0:{
   0:access __x0__ = (MethodDefinition "PropName")
-  0:if (= __x0__ "constructor") 0:return CONST_ConstructorMethod else 0:{}
-  1:return CONST_NonConstructorMethod
+  0:if (= __x0__ "constructor") 0:return ~ConstructorMethod~ else 0:{}
+  1:return ~NonConstructorMethod~
 }
 - id: "sec-static-semantics-classelementkind"
 - code:

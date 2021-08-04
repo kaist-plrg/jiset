@@ -28,7 +28,7 @@ case class SwitchStatement0(x2: Expression, x4: CaseBlock, parserParams: List[Bo
   x4.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x4, d(x2, 0))
-  def fullList: List[(String, Value)] = l("CaseBlock", x4, l("Expression", x2, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("CaseBlock", x4, l("Expression", x2, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"switch ( $x2 ) $x4"

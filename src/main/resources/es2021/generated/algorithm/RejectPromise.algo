@@ -1,10 +1,10 @@
 def RejectPromise(promise, reason) = 0:{
-  0:assert (= promise.PromiseState CONST_pending)
+  0:assert (= promise.PromiseState ~pending~)
   1:let reactions = promise.PromiseRejectReactions
   2:promise.PromiseResult = reason
   3:promise.PromiseFulfillReactions = undefined
   4:promise.PromiseRejectReactions = undefined
-  5:promise.PromiseState = CONST_rejected
+  5:promise.PromiseState = ~rejected~
   6:if (= promise.PromiseIsHandled false) 6:{
     6:app __x0__ = (HostPromiseRejectionTracker promise "reject")
     6:__x0__

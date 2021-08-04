@@ -4,7 +4,7 @@ def [SYNTAX] AsyncGeneratorMethod[0,0].MethodDefinitionEvaluation[R]<(PropertyNa
   1:[? propKey]
   2:let scope = CONTEXT.LexicalEnvironment
   3:let sourceText = (get-syntax AsyncGeneratorMethod)
-  4:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncGeneratorFunction.prototype%"] sourceText UniqueFormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  4:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncGeneratorFunction.prototype%"] sourceText UniqueFormalParameters AsyncGeneratorBody ~non-lexical-this~ scope)
   4:let closure = [! __x1__]
   5:app __x2__ = (MakeMethod closure object)
   5:[! __x2__]

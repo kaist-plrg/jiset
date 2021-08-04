@@ -1,12 +1,12 @@
 def SetIntegrityLevel(O, level) = 0:{
   0:assert (= (typeof O) Object)
-  1:assert (|| (= level CONST_sealed) (= level CONST_frozen))
+  1:assert (|| (= level ~sealed~) (= level ~frozen~))
   2:app __x0__ = (O.PreventExtensions O)
   2:let status = [? __x0__]
   3:if (= status false) 3:return false else 3:{}
   4:app __x1__ = (O.OwnPropertyKeys O)
   4:let keys = [? __x1__]
-  5:if (= level CONST_sealed) 5:{
+  5:if (= level ~sealed~) 5:{
     6:let __x2__ = keys
     6:let __x3__ = 0i
     6:while (< __x3__ __x2__.length) 6:{
@@ -16,7 +16,7 @@ def SetIntegrityLevel(O, level) = 0:{
       7:[? __x4__]
     }
   } else 7:{
-    9:assert (= level CONST_frozen)
+    9:assert (= level ~frozen~)
     10:let __x5__ = keys
     10:let __x6__ = 0i
     10:while (< __x6__ __x5__.length) 10:{

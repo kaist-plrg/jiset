@@ -56,9 +56,9 @@ def [BUILTIN] TypedArray.prototype.slice(start, end) = 0:{
       34:let srcByteIndex = (+ (* k elementSize) srcByteOffset)
       35:let limit = (* (+ targetByteIndex count) elementSize)
       36:while (< targetByteIndex limit) 36:{
-        37:app __x14__ = (GetValueFromBuffer srcBuffer srcByteIndex CONST_Uint8 true CONST_Unordered)
+        37:app __x14__ = (GetValueFromBuffer srcBuffer srcByteIndex ~Uint8~ true ~Unordered~)
         37:let value = __x14__
-        38:app __x15__ = (SetValueInBuffer targetBuffer targetByteIndex CONST_Uint8 value true CONST_Unordered)
+        38:app __x15__ = (SetValueInBuffer targetBuffer targetByteIndex ~Uint8~ value true ~Unordered~)
         38:__x15__
         39:srcByteIndex = (+ srcByteIndex 1i)
         40:targetByteIndex = (+ targetByteIndex 1i)

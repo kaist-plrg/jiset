@@ -6,7 +6,7 @@ def MakeConstructor(F, writablePrototype?, prototype?) = {
   } else 3:{
     F.Construct = ALGORITHM["BuiltinFunctionObject.Construct"]
   }
-  5:F.ConstructorKind = CONST_base
+  5:F.ConstructorKind = ~base~
   6:if (= writablePrototype absent) writablePrototype = true else 3:{}
   7:if (= prototype absent) {
     8:app __x1__ = (OrdinaryObjectCreate INTRINSICS["%Object.prototype%"])

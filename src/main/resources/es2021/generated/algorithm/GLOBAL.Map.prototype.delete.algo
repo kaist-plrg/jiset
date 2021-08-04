@@ -9,14 +9,14 @@ def [BUILTIN] Map.prototype.delete(key) = 0:{
     3:let p = __x1__[__x2__]
     3:__x2__ = (+ __x2__ 1i)
     4:let __x3__ = true
-    4:__x3__ = (! (= p.Key CONST_empty))
+    4:__x3__ = (! (= p.Key ~empty~))
     4:if __x3__ 4:{
       4:app __x4__ = (SameValueZero p.Key key)
       4:__x3__ = (= __x4__ true)
     } else 4:{}
     4:if __x3__ 4:{
-      5:p.Key = CONST_empty
-      6:p.Value = CONST_empty
+      5:p.Key = ~empty~
+      6:p.Value = ~empty~
       7:return true
     } else 4:{}
   }

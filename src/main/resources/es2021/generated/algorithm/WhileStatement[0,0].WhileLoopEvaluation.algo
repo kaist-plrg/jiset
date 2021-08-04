@@ -14,7 +14,7 @@ def [SYNTAX] WhileStatement[0,0].WhileLoopEvaluation[R]<(Expression, Statement),
       6:app __x5__ = (UpdateEmpty stmtResult V)
       6:return __x5__
     } else 6:{}
-    7:if (! (= stmtResult.Value CONST_empty)) 7:V = stmtResult.Value else 7:{}
+    7:if (! (= stmtResult.Value ~empty~)) 7:V = stmtResult.Value else 7:{}
   }
 }
 - id: "sec-runtime-semantics-whileloopevaluation"

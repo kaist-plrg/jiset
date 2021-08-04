@@ -11,9 +11,9 @@ def [BUILTIN] AsyncFromSyncIteratorPrototype.next(value?) = 0:{
     7:app __x2__ = (IteratorNext syncIteratorRecord)
     7:let result = __x2__
   }
-  8:if (is-completion result) 8:if (= result.Type CONST_normal) 8:result = result.Value else 9:{
+  8:if (is-completion result) 8:if (= result.Type ~normal~) 8:result = result.Value else 9:{
     9:app __x3__ = (Call promiseCapability.Reject undefined (new [result.Value]))
-    9:if (&& (is-completion __x3__) (! (= __x3__.Type CONST_normal))) 9:return __x3__ else 9:{}
+    9:if (&& (is-completion __x3__) (! (= __x3__.Type ~normal~))) 9:return __x3__ else 9:{}
     9:return promiseCapability.Promise
   } else 8:{}
   8:result

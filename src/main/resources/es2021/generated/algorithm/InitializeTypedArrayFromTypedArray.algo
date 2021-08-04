@@ -29,9 +29,9 @@ def InitializeTypedArrayFromTypedArray(O, srcArray) = 2:{
     24:let targetByteIndex = 0i
     25:let count = elementLength
     26:while (< 0i count) 26:{
-      27:app __x6__ = (GetValueFromBuffer srcData srcByteIndex srcType true CONST_Unordered)
+      27:app __x6__ = (GetValueFromBuffer srcData srcByteIndex srcType true ~Unordered~)
       27:let value = __x6__
-      28:app __x7__ = (SetValueInBuffer data targetByteIndex elementType value true CONST_Unordered)
+      28:app __x7__ = (SetValueInBuffer data targetByteIndex elementType value true ~Unordered~)
       28:__x7__
       29:srcByteIndex = (+ srcByteIndex srcElementSize)
       30:targetByteIndex = (+ targetByteIndex elementSize)

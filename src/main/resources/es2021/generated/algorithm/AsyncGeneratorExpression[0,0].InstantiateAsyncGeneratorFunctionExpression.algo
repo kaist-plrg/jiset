@@ -3,7 +3,7 @@ def [SYNTAX] AsyncGeneratorExpression[0,0].InstantiateAsyncGeneratorFunctionExpr
   1:access __x0__ = (CONTEXT "LexicalEnvironment")
   1:let scope = __x0__
   2:let sourceText = (get-syntax AsyncGeneratorExpression)
-  3:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncGeneratorFunction.prototype%"] sourceText FormalParameters AsyncGeneratorBody CONST_nonDASHlexicalDASHthis scope)
+  3:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%AsyncGeneratorFunction.prototype%"] sourceText FormalParameters AsyncGeneratorBody ~non-lexical-this~ scope)
   3:let closure = [! __x1__]
   4:app __x2__ = (SetFunctionName closure name)
   4:__x2__

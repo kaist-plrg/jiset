@@ -30,7 +30,7 @@ case class BindingIdentifier0(x0: Identifier, parserParams: List[Boolean], span:
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("Identifier", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Identifier", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -40,7 +40,7 @@ case class BindingIdentifier0(x0: Identifier, parserParams: List[Boolean], span:
 case class BindingIdentifier1(parserParams: List[Boolean], span: Span) extends BindingIdentifier {
   def idx: Int = 1
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"yield"
@@ -50,7 +50,7 @@ case class BindingIdentifier1(parserParams: List[Boolean], span: Span) extends B
 case class BindingIdentifier2(parserParams: List[Boolean], span: Span) extends BindingIdentifier {
   def idx: Int = 2
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"await"

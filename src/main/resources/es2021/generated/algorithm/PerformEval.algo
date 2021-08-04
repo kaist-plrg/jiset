@@ -14,7 +14,7 @@ def PerformEval(x, callerRealm, strictCaller, direct) = {
       11:inFunction = true
       12:app __x2__ = (thisEnvRec.HasSuperBinding thisEnvRec)
       12:inMethod = __x2__
-      13:if (= F.ConstructorKind CONST_derived) inDerivedConstructor = true else 25:{}
+      13:if (= F.ConstructorKind ~derived~) inDerivedConstructor = true else 25:{}
     } else 25:{}
   } else 25:{}
   14:let script = (parse-syntax x "Script" (new []))
@@ -54,11 +54,11 @@ def PerformEval(x, callerRealm, strictCaller, direct) = {
   40:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   41:app __x6__ = (EvalDeclarationInstantiation body varEnv lexEnv strictEval)
   41:let result = __x6__
-  42:if (= result.Type CONST_normal) {
+  42:if (= result.Type ~normal~) {
     43:access __x7__ = (body "Evaluation")
     43:result = __x7__
   } else 25:{}
-  44:if (&& (= result.Type CONST_normal) (= result.Value CONST_empty)) {
+  44:if (&& (= result.Type ~normal~) (= result.Value ~empty~)) {
     45:app __x8__ = (NormalCompletion undefined)
     45:result = __x8__
   } else 25:{}

@@ -4,14 +4,14 @@ def IteratorClose(iteratorRecord, completion) = 0:{
   2:let iterator = iteratorRecord.Iterator
   3:app __x0__ = (GetMethod iterator "return")
   3:let innerResult = __x0__
-  4:if (= innerResult.Type CONST_normal) 4:{
+  4:if (= innerResult.Type ~normal~) 4:{
     5:let return = innerResult.Value
     6:if (= return undefined) 6:return completion else 6:{}
     7:app __x1__ = (Call return iterator)
     7:innerResult = __x1__
   } else 4:{}
-  8:if (= completion.Type CONST_throw) 8:return completion else 8:{}
-  9:if (= innerResult.Type CONST_throw) 9:return innerResult else 9:{}
+  8:if (= completion.Type ~throw~) 8:return completion else 8:{}
+  9:if (= innerResult.Type ~throw~) 9:return innerResult else 9:{}
   10:if (! (= (typeof innerResult.Value) Object)) 10:throw TypeError else 10:{}
   11:return completion
 }

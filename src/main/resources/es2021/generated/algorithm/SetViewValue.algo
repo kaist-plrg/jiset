@@ -22,7 +22,7 @@ def SetViewValue(view, requestIndex, isLittleEndian, type, value) = 0:{
   10:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for Element Type id:{type} ."
   11:if (< viewSize (+ getIndex elementSize)) 11:throw RangeError else 11:{}
   12:let bufferIndex = (+ getIndex viewOffset)
-  13:app __x7__ = (SetValueInBuffer buffer bufferIndex type numberValue false CONST_Unordered isLittleEndian)
+  13:app __x7__ = (SetValueInBuffer buffer bufferIndex type numberValue false ~Unordered~ isLittleEndian)
   13:return __x7__
 }
 - id: "sec-setviewvalue"

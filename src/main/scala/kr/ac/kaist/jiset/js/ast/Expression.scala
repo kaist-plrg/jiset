@@ -30,7 +30,7 @@ case class Expression0(x0: AssignmentExpression, parserParams: List[Boolean], sp
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("AssignmentExpression", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("AssignmentExpression", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -42,7 +42,7 @@ case class Expression1(x0: Expression, x2: AssignmentExpression, parserParams: L
   x2.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x2, d(x0, 0))
-  def fullList: List[(String, Value)] = l("AssignmentExpression", x2, l("Expression", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("AssignmentExpression", x2, l("Expression", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 , $x2"

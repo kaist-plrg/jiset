@@ -1,7 +1,7 @@
 def [SYNTAX] BreakableStatement[1,0].LabelledEvaluation[R]<(SwitchStatement),true>(labelSet) = 0:{
   0:access __x0__ = (SwitchStatement "Evaluation")
   0:let stmtResult = __x0__
-  1:if (= stmtResult.Type CONST_break) 2:if (= stmtResult.Target CONST_empty) 3:if (= stmtResult.Value CONST_empty) 3:{
+  1:if (= stmtResult.Type ~break~) 2:if (= stmtResult.Target ~empty~) 3:if (= stmtResult.Value ~empty~) 3:{
     3:app __x1__ = (NormalCompletion undefined)
     3:stmtResult = __x1__
   } else 4:{

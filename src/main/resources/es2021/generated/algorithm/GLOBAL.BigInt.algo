@@ -1,6 +1,6 @@
 def [BUILTIN] BigInt(value) = 0:{
   0:if (! (= NewTarget undefined)) 0:throw TypeError else 0:{}
-  1:app __x0__ = (ToPrimitive value CONST_number)
+  1:app __x0__ = (ToPrimitive value ~number~)
   1:let prim = [? __x0__]
   2:if (= (typeof prim) Number) 2:{
     2:app __x1__ = (NumberToBigInt prim)

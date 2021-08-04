@@ -31,7 +31,7 @@ case class ImportDeclaration0(x1: ImportClause, x2: FromClause, parserParams: Li
   x2.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x2, d(x1, 0))
-  def fullList: List[(String, Value)] = l("FromClause", x2, l("ImportClause", x1, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("FromClause", x2, l("ImportClause", x1, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"import $x1 $x2 ;"
@@ -42,7 +42,7 @@ case class ImportDeclaration1(x1: ModuleSpecifier, parserParams: List[Boolean], 
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("ModuleSpecifier", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ModuleSpecifier", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"import $x1 ;"

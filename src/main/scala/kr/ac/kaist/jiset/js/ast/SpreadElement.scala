@@ -26,7 +26,7 @@ case class SpreadElement0(x1: AssignmentExpression, parserParams: List[Boolean],
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("AssignmentExpression", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("AssignmentExpression", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"... $x1"

@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.checker
 
-import kr.ac.kaist.jiset.ir.{ doubleEquals, Expr, Addr, Value, State }
+import kr.ac.kaist.jiset.ir.{ doubleEquals, Expr, Addr, Value, PureValue, State }
 import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
@@ -158,12 +158,11 @@ sealed trait PureType extends Type {
 }
 object PureType {
   // pure type creation from values
-  def apply(value: Value, st: State): PureType = {
+  def apply(pure: PureValue, st: State): PureType = {
     import kr.ac.kaist.jiset.ir._
     import kr.ac.kaist.jiset.js._
-    value match {
-      case NamedAddr(name) if name startsWith CONST_PREFIX =>
-        ConstT(name.substring(CONST_PREFIX.length))
+    pure match {
+      case Const(name) => ConstT(name)
       case addr: Addr => st(addr) match {
         case m @ IRMap(Ty(tname), props, _) => tname match {
           case "" => RecordT() // TODO fill props

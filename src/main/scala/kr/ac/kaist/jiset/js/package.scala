@@ -23,7 +23,6 @@ package object js {
   private var targetSpec: Option[ECMAScript] = None
 
   // ECMAScript components
-  lazy val consts: Set[String] = spec.consts
   lazy val intrinsics: Set[String] = spec.intrinsics
   lazy val symbols: Set[String] = spec.symbols
   lazy val algoMap: Map[String, Algo] = spec.algoMap
@@ -61,7 +60,6 @@ package object js {
   val TYPED_ARRAY_INFO = "TYPED_ARRAY_INFO"
 
   // prefixes
-  val CONST_PREFIX = "CONST_"
   val SYMBOL_PREFIX = "SYMBOL_"
 
   // flatten statements

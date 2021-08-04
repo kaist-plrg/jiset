@@ -28,7 +28,7 @@ case class CallMemberExpression0(x0: MemberExpression, x1: Arguments, parserPara
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, d(x0, 0))
-  def fullList: List[(String, Value)] = l("Arguments", x1, l("MemberExpression", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("Arguments", x1, l("MemberExpression", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 $x1"

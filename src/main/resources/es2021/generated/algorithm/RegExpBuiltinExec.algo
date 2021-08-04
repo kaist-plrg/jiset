@@ -21,7 +21,7 @@ def RegExpBuiltinExec(R, S) = 1:{
     } else 12:{}
     16:app __x3__ = (matcher S lastIndex)
     16:let r = __x3__
-    17:if (= r CONST_failure) 17:{
+    17:if (= r ~failure~) 17:{
       18:if (= sticky true) 18:{
         19:app __x4__ = (Set R "lastIndex" 0i true)
         19:[? __x4__]

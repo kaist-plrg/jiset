@@ -11,7 +11,6 @@ case class ECMAScript(
   version: String,
   grammar: Grammar,
   algos: List[Algo],
-  consts: Set[String],
   intrinsics: Set[String],
   symbols: Set[String],
   aoids: Set[String],

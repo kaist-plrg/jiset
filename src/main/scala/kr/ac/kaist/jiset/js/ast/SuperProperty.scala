@@ -29,7 +29,7 @@ case class SuperProperty0(x2: Expression, parserParams: List[Boolean], span: Spa
   x2.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x2, 0)
-  def fullList: List[(String, Value)] = l("Expression", x2, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Expression", x2, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"super [ $x2 ]"
@@ -40,7 +40,7 @@ case class SuperProperty1(x2: Lexical, parserParams: List[Boolean], span: Span) 
   x2.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x2, 0)
-  def fullList: List[(String, Value)] = l("Lexical", x2, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Lexical", x2, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"super . $x2"

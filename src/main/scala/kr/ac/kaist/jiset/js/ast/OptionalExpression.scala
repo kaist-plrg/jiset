@@ -36,7 +36,7 @@ case class OptionalExpression0(x0: MemberExpression, x1: OptionalChain, parserPa
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, d(x0, 0))
-  def fullList: List[(String, Value)] = l("OptionalChain", x1, l("MemberExpression", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("OptionalChain", x1, l("MemberExpression", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 $x1"
@@ -48,7 +48,7 @@ case class OptionalExpression1(x0: CallExpression, x1: OptionalChain, parserPara
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, d(x0, 0))
-  def fullList: List[(String, Value)] = l("OptionalChain", x1, l("CallExpression", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("OptionalChain", x1, l("CallExpression", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 $x1"
@@ -60,7 +60,7 @@ case class OptionalExpression2(x0: OptionalExpression, x1: OptionalChain, parser
   x1.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x1, d(x0, 0))
-  def fullList: List[(String, Value)] = l("OptionalChain", x1, l("OptionalExpression", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("OptionalChain", x1, l("OptionalExpression", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 $x1"

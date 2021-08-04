@@ -26,7 +26,7 @@ case class ImportCall0(x2: AssignmentExpression, parserParams: List[Boolean], sp
   x2.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x2, 0)
-  def fullList: List[(String, Value)] = l("AssignmentExpression", x2, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("AssignmentExpression", x2, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"import ( $x2 )"

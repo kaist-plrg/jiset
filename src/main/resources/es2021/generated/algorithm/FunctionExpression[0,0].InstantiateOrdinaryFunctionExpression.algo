@@ -3,7 +3,7 @@ def [SYNTAX] FunctionExpression[0,0].InstantiateOrdinaryFunctionExpression[R]<(B
   1:access __x0__ = (CONTEXT "LexicalEnvironment")
   1:let scope = __x0__
   2:let sourceText = (get-syntax FunctionExpression)
-  3:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%Function.prototype%"] sourceText FormalParameters FunctionBody CONST_nonDASHlexicalDASHthis scope)
+  3:app __x1__ = (OrdinaryFunctionCreate INTRINSICS["%Function.prototype%"] sourceText FormalParameters FunctionBody ~non-lexical-this~ scope)
   3:let closure = __x1__
   4:app __x2__ = (SetFunctionName closure name)
   4:__x2__

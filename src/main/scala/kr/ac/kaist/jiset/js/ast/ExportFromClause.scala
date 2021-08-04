@@ -30,7 +30,7 @@ object ExportFromClause {
 case class ExportFromClause0(parserParams: List[Boolean], span: Span) extends ExportFromClause {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"*"
@@ -41,7 +41,7 @@ case class ExportFromClause1(x2: Lexical, parserParams: List[Boolean], span: Spa
   x2.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x2, 0)
-  def fullList: List[(String, Value)] = l("Lexical", x2, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Lexical", x2, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"* as $x2"
@@ -52,7 +52,7 @@ case class ExportFromClause2(x0: NamedExports, parserParams: List[Boolean], span
   x0.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("NamedExports", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("NamedExports", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

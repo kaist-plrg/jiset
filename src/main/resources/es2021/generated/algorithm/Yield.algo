@@ -1,7 +1,7 @@
 def Yield(value) = 0:{
   0:app __x0__ = (GetGeneratorKind)
   0:let generatorKind = [! __x0__]
-  1:if (= generatorKind CONST_async) 1:{
+  1:if (= generatorKind ~async~) 1:{
     1:app __x1__ = (AsyncGeneratorYield value)
     1:return [? __x1__]
   } else 2:{

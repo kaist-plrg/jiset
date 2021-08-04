@@ -1,7 +1,7 @@
 def [BUILTIN] AsyncFunction() = 0:{
   0:let C = CONTEXT.Function
   1:let args = argumentsList
-  2:app __x0__ = (CreateDynamicFunction C NewTarget CONST_async args)
+  2:app __x0__ = (CreateDynamicFunction C NewTarget ~async~ args)
   2:return __x0__
 }
 - id: "sec-async-function-constructor-arguments"

@@ -1,7 +1,7 @@
 def [BUILTIN] DefaultConstructorFunctions(...args) = 0:{
   0:if (= NewTarget undefined) 0:throw TypeError else 0:{}
   1:let F = CONTEXT.Function
-  2:if (= F.ConstructorKind CONST_derived) 2:{
+  2:if (= F.ConstructorKind ~derived~) 2:{
     4:app __x0__ = (F.GetPrototypeOf F)
     4:let func = [! __x0__]
     5:app __x1__ = (IsConstructor func)

@@ -18,11 +18,11 @@ sealed trait Obj extends IRComponent {
 }
 
 // IR symbols
-case class IRSymbol(desc: Value) extends Obj {
+case class IRSymbol(desc: PureValue) extends Obj {
   val ty: Ty = Ty("Symbol")
 
   // getters
-  def apply(key: Value): Value = key match {
+  def apply(key: PureValue): PureValue = key match {
     case Str("Description") => desc
     case v => error(s"an invalid symbol field access: $v")
   }
@@ -34,22 +34,22 @@ case class IRSymbol(desc: Value) extends Obj {
 // IR maps
 case class IRMap(
   var ty: Ty,
-  props: MMap[Value, (Value, Long)],
+  props: MMap[PureValue, (Value, Long)],
   var size: Long
 ) extends Obj {
   // get pairs
-  def pairs: Map[Value, Value] = props.foldLeft(Map[Value, Value]()) {
+  def pairs: Map[PureValue, Value] = props.foldLeft(Map[PureValue, Value]()) {
     case (m, (k, (v, _))) => m + (k -> v)
   }
 
   // getters
-  def apply(prop: Value): Value = (props.get(prop), ty, prop) match {
+  def apply(prop: PureValue): Value = (props.get(prop), ty, prop) match {
     case (Some((value, _)), _, _) => value
     case _ => Absent
   }
 
   // setters
-  def findOrUpdate(prop: Value, value: Value): this.type = {
+  def findOrUpdate(prop: PureValue, value: Value): this.type = {
     props.get(prop) match {
       case Some(_) => this
       case _ => update(prop, value)
@@ -57,7 +57,7 @@ case class IRMap(
   }
 
   // getorelse
-  def update(prop: Value, value: Value): this.type = {
+  def update(prop: PureValue, value: Value): this.type = {
     val id = props
       .get(prop)
       .map { case (_, v) => v }
@@ -67,18 +67,18 @@ case class IRMap(
   }
 
   // deletes
-  def delete(prop: Value): this.type =
+  def delete(prop: PureValue): this.type =
     { props -= prop; this }
 
   // copy of object
   def copied: IRMap = {
-    val newProps = MMap[Value, (Value, Long)]()
+    val newProps = MMap[PureValue, (Value, Long)]()
     newProps ++= props
     IRMap(ty, newProps, size)
   }
 }
 object IRMap {
-  def apply(tyname: String)(pairs: Iterable[(Value, Value)]): IRMap = {
+  def apply(tyname: String)(pairs: Iterable[(PureValue, PureValue)]): IRMap = {
     val irMap = IRMap(Ty(tyname))
     for ((prop, value) <- pairs) irMap.update(prop, value)
     irMap
@@ -87,12 +87,12 @@ object IRMap {
 }
 
 // IR lists
-case class IRList(var values: Vector[Value] = Vector()) extends Obj {
+case class IRList(var values: Vector[PureValue] = Vector()) extends Obj {
   // types
   def ty: Ty = Ty("List")
 
   // getters
-  def apply(key: Value): Value = key match {
+  def apply(key: PureValue): PureValue = key match {
     case INum(long) =>
       val idx = long.toInt
       if (0 <= idx && idx < values.length) values(idx)
@@ -102,15 +102,15 @@ case class IRList(var values: Vector[Value] = Vector()) extends Obj {
   }
 
   // appends
-  def append(value: Value): this.type =
+  def append(value: PureValue): this.type =
     { values :+= value; this }
 
   // prepends
-  def prepend(value: Value): this.type =
+  def prepend(value: PureValue): this.type =
     { values +:= value; this }
 
   // pops
-  def pop(idx: Value): Value = idx match {
+  def pop(idx: PureValue): PureValue = idx match {
     case INum(long) => {
       val k = long.toInt
       if (k < 0 || k >= values.length) error(s"Out of range: $k of $this")

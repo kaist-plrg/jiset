@@ -8,7 +8,7 @@ def DateString(tv) = 0:{
   5:let yv = __x0__
   6:if (! (< yv 0i)) 6:let yearSign = "" else 6:let yearSign = "-"
   7:??? "Let id:{year} be the String representation of abs ( ℝ ( id:{yv} ) ) , formatted as a decimal number ."
-  8:app __x1__ = (StringPad year 4i "0" CONST_start)
+  8:app __x1__ = (StringPad year 4i "0" ~start~)
   8:let paddedYear = [! __x1__]
   9:return (+ (+ (+ (+ (+ (+ (+ weekday " ") month) " ") day) " ") yearSign) paddedYear)
 }

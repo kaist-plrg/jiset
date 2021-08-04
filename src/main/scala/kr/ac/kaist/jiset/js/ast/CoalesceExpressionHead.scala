@@ -29,7 +29,7 @@ case class CoalesceExpressionHead0(x0: CoalesceExpression, parserParams: List[Bo
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("CoalesceExpression", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("CoalesceExpression", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -40,7 +40,7 @@ case class CoalesceExpressionHead1(x0: BitwiseORExpression, parserParams: List[B
   x0.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("BitwiseORExpression", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("BitwiseORExpression", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

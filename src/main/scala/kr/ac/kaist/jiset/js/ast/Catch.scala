@@ -31,7 +31,7 @@ case class Catch0(x2: CatchParameter, x4: Block, parserParams: List[Boolean], sp
   x4.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x4, d(x2, 0))
-  def fullList: List[(String, Value)] = l("Block", x4, l("CatchParameter", x2, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("Block", x4, l("CatchParameter", x2, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"catch ( $x2 ) $x4"
@@ -42,7 +42,7 @@ case class Catch1(x1: Block, parserParams: List[Boolean], span: Span) extends Ca
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("Block", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("Block", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"catch $x1"

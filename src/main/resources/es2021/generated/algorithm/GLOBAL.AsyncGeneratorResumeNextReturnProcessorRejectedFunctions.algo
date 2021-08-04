@@ -1,6 +1,6 @@
 def [BUILTIN] AsyncGeneratorResumeNextReturnProcessorRejectedFunctions(reason) = 0:{
   0:let F = CONTEXT.Function
-  1:F.Generator.AsyncGeneratorState = CONST_completed
+  1:F.Generator.AsyncGeneratorState = ~completed~
   2:app __x0__ = (AsyncGeneratorReject F.Generator reason)
   2:return [! __x0__]
 }

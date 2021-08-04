@@ -28,7 +28,7 @@ case class SingleNameBinding0(x0: BindingIdentifier, x1: Option[Initializer], pa
   x1.foreach((m) => m.parent = Some(this))
   def idx: Int = 0
   def k: Int = d(x1, d(x0, 0))
-  def fullList: List[(String, Value)] = l("Option[Initializer]", x1, l("BindingIdentifier", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("Option[Initializer]", x1, l("BindingIdentifier", x0, Nil)).reverse
   def maxK: Int = 1
   override def toString: String = {
     s"$x0 ${x1.getOrElse("")}"

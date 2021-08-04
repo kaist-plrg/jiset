@@ -1,6 +1,6 @@
 def IsPropertyReference(V) = 0:{
   0:assert (is-instance-of V ReferenceRecord)
-  1:if (= V.Base CONST_unresolvable) 1:return false else 1:{}
+  1:if (= V.Base ~unresolvable~) 1:return false else 1:{}
   2:if (|| (|| (|| (|| (|| (= (typeof V.Base) Boolean) (= (typeof V.Base) String)) (= (typeof V.Base) Symbol)) (= (typeof V.Base) BigInt)) (= (typeof V.Base) Number)) (= (typeof V.Base) Object)) 2:return true else 2:return false
 }
 - id: "sec-ispropertyreference"

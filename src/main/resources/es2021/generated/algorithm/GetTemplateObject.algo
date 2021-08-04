@@ -30,11 +30,11 @@ def GetTemplateObject(templateLiteral) = 0:{
     17:[! __x8__]
     18:index = (+ index 1i)
   }
-  19:app __x9__ = (SetIntegrityLevel rawObj CONST_frozen)
+  19:app __x9__ = (SetIntegrityLevel rawObj ~frozen~)
   19:[! __x9__]
   20:app __x10__ = (DefinePropertyOrThrow template "raw" (new PropertyDescriptor("Value" -> rawObj, "Writable" -> false, "Enumerable" -> false, "Configurable" -> false)))
   20:[! __x10__]
-  21:app __x11__ = (SetIntegrityLevel template CONST_frozen)
+  21:app __x11__ = (SetIntegrityLevel template ~frozen~)
   21:[! __x11__]
   22:append (new Record("Site" -> templateLiteral, "Array" -> template)) -> templateRegistry
   23:return template

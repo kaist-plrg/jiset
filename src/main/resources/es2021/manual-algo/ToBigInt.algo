@@ -1,5 +1,5 @@
 def ToBigInt (argument) = {
-  app __x0__ = (ToPrimitive argument CONST_number)
+  app __x0__ = (ToPrimitive argument ~number~)
   let prim = [? __x0__]
   if (= (typeof prim) Undefined) throw TypeError
   else if (= (typeof prim) Null) throw TypeError

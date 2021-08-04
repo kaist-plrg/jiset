@@ -37,7 +37,7 @@ case class State(
     case Absent if context.isBuiltin => Undef
     case v => v
   }
-  def apply(base: Value, prop: Value): Value = base match {
+  def apply(base: Value, prop: PureValue): Value = base match {
     case comp: CompValue => prop match {
       case Str("Type") => comp.ty
       case Str("Value") => comp.value
@@ -48,7 +48,7 @@ case class State(
     case Str(str) => this(str, prop)
     case v => error(s"not a proper reference base: ${v.beautified}")
   }
-  def apply(str: String, prop: Value): Value = prop match {
+  def apply(str: String, prop: PureValue): PureValue = prop match {
     case Str("length") => INum(str.length)
     case INum(k) => Str(str(k.toInt).toString)
     case Num(k) => Str(str(k.toInt).toString)
@@ -73,11 +73,11 @@ case class State(
     else error(s"illegal variable update: ${x.beautified} = ${value.beautified}")
     this
   }
-  def update(addr: Addr, prop: Value, value: Value): this.type =
+  def update(addr: Addr, prop: PureValue, value: Value): this.type =
     { heap.update(addr, prop, value); this }
 
   // existence checks
-  def exists(ref: RefValue): Value = Bool(ref match {
+  def exists(ref: RefValue): Bool = Bool(ref match {
     case RefValueId(id) =>
       val defined = globals.contains(id) || locals.contains(id)
       !defined || directLookup(id) == Absent
@@ -98,16 +98,16 @@ case class State(
   }
 
   // object operators
-  def append(addr: Addr, value: Value): this.type =
+  def append(addr: Addr, value: PureValue): this.type =
     { heap.append(addr, value); this }
-  def prepend(addr: Addr, value: Value): this.type =
+  def prepend(addr: Addr, value: PureValue): this.type =
     { heap.prepend(addr, value); this }
-  def pop(addr: Addr, idx: Value): Value = heap.pop(addr, idx)
+  def pop(addr: Addr, idx: PureValue): PureValue = heap.pop(addr, idx)
   def copyObj(addr: Addr): Addr = heap.copyObj(addr)
   def keys(addr: Addr, intSorted: Boolean): Addr = heap.keys(addr, intSorted)
-  def allocMap(ty: Ty, map: Map[Value, Value] = Map()): Addr = heap.allocMap(ty, map)
-  def allocList(list: List[Value]): Addr = heap.allocList(list)
-  def allocSymbol(desc: Value): Addr = heap.allocSymbol(desc)
+  def allocMap(ty: Ty, map: Map[PureValue, PureValue] = Map()): Addr = heap.allocMap(ty, map)
+  def allocList(list: List[PureValue]): Addr = heap.allocList(list)
+  def allocSymbol(desc: PureValue): Addr = heap.allocSymbol(desc)
   def setType(addr: Addr, ty: Ty): this.type =
     { heap.setType(addr, ty); this }
 

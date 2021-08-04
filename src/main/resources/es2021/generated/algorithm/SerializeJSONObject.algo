@@ -4,7 +4,7 @@ def SerializeJSONObject(state, value) = 0:{
   2:let stepback = state.Indent
   3:state.Indent = (+ state.Indent state.Gap)
   4:if (! (= state.PropertyList undefined)) 5:let K = state.PropertyList else 6:{
-    7:app __x0__ = (EnumerableOwnPropertyNames value CONST_key)
+    7:app __x0__ = (EnumerableOwnPropertyNames value ~key~)
     7:let K = [? __x0__]
   }
   8:let partial = (new [])

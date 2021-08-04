@@ -1,7 +1,7 @@
 def [BUILTIN] Object.keys(O) = 0:{
   0:app __x0__ = (ToObject O)
   0:let obj = [? __x0__]
-  1:app __x1__ = (EnumerableOwnPropertyNames obj CONST_key)
+  1:app __x1__ = (EnumerableOwnPropertyNames obj ~key~)
   1:let nameList = [? __x1__]
   2:app __x2__ = (CreateArrayFromList nameList)
   2:return __x2__

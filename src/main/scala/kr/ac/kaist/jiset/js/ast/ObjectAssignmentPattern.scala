@@ -34,7 +34,7 @@ object ObjectAssignmentPattern {
 case class ObjectAssignmentPattern0(parserParams: List[Boolean], span: Span) extends ObjectAssignmentPattern {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ }"
@@ -45,7 +45,7 @@ case class ObjectAssignmentPattern1(x1: AssignmentRestProperty, parserParams: Li
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("AssignmentRestProperty", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("AssignmentRestProperty", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ $x1 }"
@@ -56,7 +56,7 @@ case class ObjectAssignmentPattern2(x1: AssignmentPropertyList, parserParams: Li
   x1.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("AssignmentPropertyList", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("AssignmentPropertyList", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ $x1 }"
@@ -68,7 +68,7 @@ case class ObjectAssignmentPattern3(x1: AssignmentPropertyList, x3: Option[Assig
   x3.foreach((m) => m.parent = Some(this))
   def idx: Int = 3
   def k: Int = d(x3, d(x1, 0))
-  def fullList: List[(String, Value)] = l("Option[AssignmentRestProperty]", x3, l("AssignmentPropertyList", x1, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("Option[AssignmentRestProperty]", x3, l("AssignmentPropertyList", x1, Nil)).reverse
   def maxK: Int = 1
   override def toString: String = {
     s"{ $x1 , ${x3.getOrElse("")} }"

@@ -28,7 +28,7 @@ case class CoverInitializedName0(x0: IdentifierReference, x1: Initializer, parse
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, d(x0, 0))
-  def fullList: List[(String, Value)] = l("Initializer", x1, l("IdentifierReference", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("Initializer", x1, l("IdentifierReference", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 $x1"

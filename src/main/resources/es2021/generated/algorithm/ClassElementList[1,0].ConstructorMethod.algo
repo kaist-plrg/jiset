@@ -1,10 +1,10 @@
 def [SYNTAX] ClassElementList[1,0].ConstructorMethod[S]<(ClassElementList, ClassElement),false>() = 0:{
   0:access __x0__ = (ClassElementList "ConstructorMethod")
   0:let head = __x0__
-  1:if (! (= head CONST_empty)) 1:return head else 1:{}
+  1:if (! (= head ~empty~)) 1:return head else 1:{}
   2:access __x1__ = (ClassElement "ClassElementKind")
-  2:if (= __x1__ CONST_ConstructorMethod) 2:return ClassElement else 2:{}
-  3:return CONST_empty
+  2:if (= __x1__ ~ConstructorMethod~) 2:return ClassElement else 2:{}
+  3:return ~empty~
 }
 - id: "sec-static-semantics-constructormethod"
 - code:

@@ -30,7 +30,7 @@ case class ImportSpecifier0(x0: ImportedBinding, parserParams: List[Boolean], sp
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, Value)] = l("ImportedBinding", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ImportedBinding", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"
@@ -42,7 +42,7 @@ case class ImportSpecifier1(x0: Lexical, x2: ImportedBinding, parserParams: List
   x2.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x2, d(x0, 0))
-  def fullList: List[(String, Value)] = l("ImportedBinding", x2, l("Lexical", x0, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("ImportedBinding", x2, l("Lexical", x0, Nil)).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0 as $x2"

@@ -16,7 +16,7 @@ def ToString(argument) = 1:{
     13:return [! __x1__]
   } else 14:{}
   17:if (= (typeof argument) Object) 17:{
-    15:app __x2__ = (ToPrimitive argument CONST_string)
+    15:app __x2__ = (ToPrimitive argument ~string~)
     15:let primValue = [? __x2__]
     16:app __x3__ = (ToString primValue)
     16:return [? __x3__]

@@ -1,11 +1,11 @@
 def EvaluateNew(constructExpr, arguments) = 0:{
   0:assert (|| (is-instance-of constructExpr NewExpression) (is-instance-of constructExpr MemberExpression))
-  1:assert (|| (= arguments CONST_empty) (is-instance-of arguments Arguments))
+  1:assert (|| (= arguments ~empty~) (is-instance-of arguments Arguments))
   2:access __x0__ = (constructExpr "Evaluation")
   2:let ref = __x0__
   3:app __x1__ = (GetValue ref)
   3:let constructor = [? __x1__]
-  4:if (= arguments CONST_empty) 4:let argList = (new []) else 5:{
+  4:if (= arguments ~empty~) 4:let argList = (new []) else 5:{
     6:access __x2__ = (arguments "ArgumentListEvaluation")
     6:let argList = [? __x2__]
   }

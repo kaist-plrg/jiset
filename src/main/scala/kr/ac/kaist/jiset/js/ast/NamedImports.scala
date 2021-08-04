@@ -30,7 +30,7 @@ object NamedImports {
 case class NamedImports0(parserParams: List[Boolean], span: Span) extends NamedImports {
   def idx: Int = 0
   def k: Int = 0
-  def fullList: List[(String, Value)] = Nil.reverse
+  def fullList: List[(String, PureValue)] = Nil.reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ }"
@@ -41,7 +41,7 @@ case class NamedImports1(x1: ImportsList, parserParams: List[Boolean], span: Spa
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("ImportsList", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ImportsList", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ $x1 }"
@@ -52,7 +52,7 @@ case class NamedImports2(x1: ImportsList, parserParams: List[Boolean], span: Spa
   x1.parent = Some(this)
   def idx: Int = 2
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("ImportsList", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("ImportsList", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"{ $x1 , }"

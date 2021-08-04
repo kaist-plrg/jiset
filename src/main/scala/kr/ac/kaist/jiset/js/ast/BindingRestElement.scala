@@ -29,7 +29,7 @@ case class BindingRestElement0(x1: BindingIdentifier, parserParams: List[Boolean
   x1.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("BindingIdentifier", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("BindingIdentifier", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"... $x1"
@@ -40,7 +40,7 @@ case class BindingRestElement1(x1: BindingPattern, parserParams: List[Boolean], 
   x1.parent = Some(this)
   def idx: Int = 1
   def k: Int = d(x1, 0)
-  def fullList: List[(String, Value)] = l("BindingPattern", x1, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("BindingPattern", x1, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"... $x1"

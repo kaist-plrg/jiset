@@ -28,7 +28,7 @@ case class CaseClause0(x1: Expression, x3: Option[StatementList], parserParams: 
   x3.foreach((m) => m.parent = Some(this))
   def idx: Int = 0
   def k: Int = d(x3, d(x1, 0))
-  def fullList: List[(String, Value)] = l("Option[StatementList]", x3, l("Expression", x1, Nil)).reverse
+  def fullList: List[(String, PureValue)] = l("Option[StatementList]", x3, l("Expression", x1, Nil)).reverse
   def maxK: Int = 1
   override def toString: String = {
     s"case $x1 : ${x3.getOrElse("")}"

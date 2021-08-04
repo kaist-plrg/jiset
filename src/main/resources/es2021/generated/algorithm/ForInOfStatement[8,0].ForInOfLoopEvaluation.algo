@@ -1,8 +1,8 @@
 def [SYNTAX] ForInOfStatement[8,0].ForInOfLoopEvaluation[R]<(ForDeclaration, AssignmentExpression, Statement),true>(labelSet) = 0:{
   0:access __x0__ = (ForDeclaration "BoundNames")
-  0:app __x1__ = (ForInOfHeadEvaluation __x0__ AssignmentExpression CONST_asyncDASHiterate)
+  0:app __x1__ = (ForInOfHeadEvaluation __x0__ AssignmentExpression ~async-iterate~)
   0:let keyResult = [? __x1__]
-  1:app __x2__ = (ForInOfBodyEvaluation ForDeclaration Statement keyResult CONST_iterate CONST_lexicalBinding labelSet CONST_async)
+  1:app __x2__ = (ForInOfBodyEvaluation ForDeclaration Statement keyResult ~iterate~ ~lexicalBinding~ labelSet ~async~)
   1:return [? __x2__]
 }
 - id: "sec-runtime-semantics-forinofloopevaluation"

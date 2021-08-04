@@ -30,7 +30,7 @@ case class FunctionExpression0(x1: Option[BindingIdentifier], x3: FormalParamete
   x6.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x6, d(x3, d(x1, 0)))
-  def fullList: List[(String, Value)] = l("FunctionBody", x6, l("FormalParameters", x3, l("Option[BindingIdentifier]", x1, Nil))).reverse
+  def fullList: List[(String, PureValue)] = l("FunctionBody", x6, l("FormalParameters", x3, l("Option[BindingIdentifier]", x1, Nil))).reverse
   def maxK: Int = 1
   override def toString: String = {
     s"function ${x1.getOrElse("")} ( $x3 ) { $x6 }"
