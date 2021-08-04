@@ -22,7 +22,7 @@ trait Node extends CFGComponent with UId[Node] {
 
     // define appender
     val app = new Appender
-    app >> this.toString
+    app >> simpleString
     this match {
       case Entry(_) =>
       case Normal(_, inst) => app >> " " >> inst
