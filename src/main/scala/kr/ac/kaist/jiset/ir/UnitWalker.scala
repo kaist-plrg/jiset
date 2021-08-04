@@ -214,6 +214,20 @@ trait UnitWalker {
 
   // values
   def walk(v: Value): Unit = v match {
+    case comp: CompValue => walk(comp)
+    case pure: PureValue => walk(pure)
+  }
+
+  // completions
+  def walk(c: CompValue): Unit = c match {
+    case CompValue(ty, value, target) =>
+      walk(ty)
+      walk(value)
+  }
+
+  // pure values
+  def walk(v: PureValue): Unit = v match {
+    case const: Const => walk(const)
     case addr: Addr => walk(addr)
     case ast: ASTVal => walk(ast)
     case func: Func => walk(func)
@@ -221,6 +235,9 @@ trait UnitWalker {
     case cont: Cont => walk(cont)
     case Num(_) | INum(_) | BigINum(_) | Str(_) | Bool(_) | Undef | Null | Absent =>
   }
+
+  // constants
+  def walk(c: Const): Unit = {}
 
   // addresses
   def walk(addr: Addr): Unit = {}

@@ -295,6 +295,18 @@ class Beautifier(
 
   // values
   implicit lazy val ValueApp: App[Value] = (app, v) => v match {
+    case comp: CompValue => CompValueApp(app, comp)
+    case pure: PureValue => PureValueApp(app, pure)
+  }
+
+  // completions
+  implicit lazy val CompValueApp: App[CompValue] = (app, c) => {
+    ???
+  }
+
+  // pure values
+  implicit lazy val PureValueApp: App[PureValue] = (app, v) => v match {
+    case Const(name) => app >> "~" >> name >> "~"
     case addr: Addr => AddrApp(app, addr)
     case ast: ASTVal => ASTValApp(app, ast)
     case func: Func => FuncApp(app, func)

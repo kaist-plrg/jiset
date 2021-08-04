@@ -436,6 +436,7 @@ class Interp(
       interp(bop, l, r)
     }
     case ETypeOf(expr) => Str(interp(expr).escaped(st) match {
+      case Const(const) => "Constant"
       case (addr: Addr) => st(addr).ty.name match {
         case name if name endsWith "Object" => "Object"
         case name => name
