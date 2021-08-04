@@ -4,5 +4,4 @@ export enum AppState {
   JS_INPUT,
   TERMINATED,
   DEBUG_READY,
-  DEBUG_BUSY,
 }

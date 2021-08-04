@@ -37,7 +37,7 @@ class App extends React.Component<AppProps> {
           <Toolbar />
         </Grid>
         <Grid item xs={ 12 }>
-          <Grid container spacing={ 2 }>
+          <Grid container spacing={ 2 } style={ { width: "100%" } }>
             <Grid container item xs={ 9 } spacing={ 2 } style={ { padding: "0px 24px" } }>
               <Grid item xs={ 6 }>
                 <JSEditor />

@@ -26,6 +26,7 @@ export const transitions: Transition[] = [
     [ ActionType.STEP_OUT, AppState.DEBUG_READY ],
     [ ActionType.CONTINUE, AppState.DEBUG_READY ],
     [ ActionType.SHOW_ALGO, AppState.DEBUG_READY ],
+    [ ActionType.STOP_DBG, AppState.JS_INPUT ],
     [ ActionType.TERMINATE, AppState.TERMINATED ],
   ] ),
   mkTransition( AppState.TERMINATED, [ [ ActionType.STOP_DBG, AppState.JS_INPUT ] ] ),

@@ -6,13 +6,13 @@ export enum JSActionType {
   CLEAR = "JSAction/CLEAR",
   UPDATE_RANGE = "JSAction/UPDATE_RANGE"
 }
-export function editJS ( code: string ): JSAction {
+export function editJs ( code: string ): JSAction {
   return {
     type: JSActionType.EDIT,
     code,
   };
 }
-export function clearJS (): JSAction {
+export function clearJs (): JSAction {
   return {
     type: JSActionType.CLEAR,
   };
@@ -59,7 +59,8 @@ export default function reducer ( state = initialState, action: JSAction ) {
       } );
     case JSActionType.CLEAR:
       return produce( state, ( draft ) => {
-        draft.code = "";
+        draft.start = -1;
+        draft.end = -1;
       } );
     case JSActionType.UPDATE_RANGE:
       return produce( state, ( draft ) => {

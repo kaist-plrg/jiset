@@ -6,17 +6,18 @@ import { loadSpec } from "../store/reducers/Spec";
 import { Spec } from "../object/Spec";
 
 // js
-import { editJS, updateJsRange } from "../store/reducers/JS";
+import { editJs, clearJs, updateJsRange } from "../store/reducers/JS";
 
 // debugger
 import {
   loadDebugger,
   runDebugger,
   pauseDebugger,
+  clearDebugger,
 } from "../store/reducers/Debugger";
 
 // ir
-import { updateIrInfo, showAlgo, StackFrame } from "../store/reducers/IR";
+import { updateIrInfo, showAlgo, StackFrame, clearIr } from "../store/reducers/IR";
 
 // possible action types
 export enum ActionType {
@@ -46,7 +47,7 @@ export type ActionPayload =
   | { type: ActionType.CONTINUE }
   | { type: ActionType.TERMINATE }
   | { type: ActionType.STOP_DBG }
-  | { type: ActionType.SHOW_ALGO; idx: number };
+  | { type: ActionType.SHOW_ALGO; idx: number }
 
 // actions
 export type Action = ( store: Store, ...args: any[] ) => void;
@@ -66,7 +67,7 @@ export const actions: [ ActionType, Action ][] = [
   [
     ActionType.EDIT_JS,
     ( store: Store, { code } ) => {
-      store.dispatch( editJS( code ) );
+      store.dispatch( editJs( code ) );
     },
   ],
   // start debugger
@@ -161,4 +162,14 @@ export const actions: [ ActionType, Action ][] = [
       store.dispatch( pauseDebugger() );
     },
   ],
+  // cancel
+  [
+    ActionType.STOP_DBG,
+    ( store: Store ) => {
+      // clear all state except spec
+      store.dispatch( clearDebugger() );
+      store.dispatch( clearIr() );
+      store.dispatch( clearJs() );
+    }
+  ]
 ];

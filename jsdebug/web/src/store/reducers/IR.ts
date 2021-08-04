@@ -12,6 +12,7 @@ export type StackFrame = StackFrameData[]
 export enum IRActionType {
   UPDATE = "IRAction/UPDATE",
   SHOW_ALGO = "IRAction/SHOW_ALGO",
+  CLEAR = "IRAction/CLEAR",
 }
 export function updateIrInfo ( stackFrame: StackFrame, heap: Heap ): IRAction {
   return {
@@ -26,6 +27,9 @@ export function showAlgo ( idx: number ): IRAction {
     idx,
   };
 }
+export function clearIr (): IRAction {
+  return { type: IRActionType.CLEAR };
+}
 export type IRAction =
   | {
     type: IRActionType.UPDATE;
@@ -35,7 +39,8 @@ export type IRAction =
   | {
     type: IRActionType.SHOW_ALGO;
     idx: number;
-  };
+  }
+  | { type: IRActionType.CLEAR };
 
 // redux state
 type IRState = {
@@ -68,6 +73,11 @@ export default function reducer ( state = initialState, action: IRAction ) {
     case IRActionType.SHOW_ALGO:
       return produce( state, ( draft ) => {
         draft.stackFrame.idx = action.idx;
+      } );
+    case IRActionType.CLEAR:
+      return produce( state, ( draft ) => {
+        draft.stackFrame = initialState.stackFrame;
+        draft.heap = initialState.heap;
       } );
     default:
       return state;

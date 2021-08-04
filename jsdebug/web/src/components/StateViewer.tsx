@@ -18,9 +18,53 @@ import { ReduxState } from "../store";
 
 import { AppState } from "../controller/AppState";
 
+// State viewer item
+type StateViewerItemProps = {
+  disabled: boolean;
+  header: React.ReactElement;
+  headerStyle?: object;
+  body: React.ReactElement;
+  bodyStyle?: object;
+}
+type StateViewerItemState = {
+  expanded: boolean;
+}
+class StateViewerItem extends React.Component<StateViewerItemProps, StateViewerItemState> {
+  constructor ( props: StateViewerItemProps ) {
+    super( props );
+    this.state = { expanded: false };
+  }
+  componentDidUpdate ( prev: StateViewerItemProps ) {
+    // close accordian when diasabled
+    if ( !prev.disabled && this.props.disabled )
+      this.setState( { ...this.state, expanded: false } );
+  }
+  onItemClick () {
+    const { disabled } = this.props;
+    if ( !disabled ) {
+      let expanded = !this.state.expanded;
+      this.setState( { ...this.state, expanded } );
+    }
+  }
+  render () {
+    const { disabled, header, headerStyle, body, bodyStyle } = this.props;
+    const { expanded } = this.state;
+    return (
+      <Accordion expanded={ expanded } disabled={ disabled } >
+        <AccordionSummary onClick={ () => this.onItemClick() } expandIcon={ <Icon>expand_more</Icon> } style={ headerStyle }>
+          { header }
+        </AccordionSummary>
+        <AccordionDetails style={ bodyStyle }>
+          { body }
+        </AccordionDetails>
+      </Accordion>
+    )
+  }
+}
+
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
-  disableStateViewer: st.controller.state !== AppState.DEBUG_READY,
+  disableStateViewer: !( st.controller.state === AppState.DEBUG_READY || st.controller.state === AppState.TERMINATED ),
 } );
 const connector = connect( mapStateToProps );
 type StateViewerProps = ConnectedProps<typeof connector>;
@@ -31,38 +75,27 @@ class StateViewer extends React.Component<StateViewerProps> {
 
     return (
       <div className="state-viewer-container">
-        <Accordion disabled={ disableStateViewer }>
-          <AccordionSummary expandIcon={ <Icon>expand_more</Icon> }>
-            <Typography>ECMAScript Environment</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <SpecEnvViewer />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion disabled={ disableStateViewer }>
-          <AccordionSummary expandIcon={ <Icon>expand_more</Icon> }>
-            <Typography>ECMAScript Heap</Typography>
-          </AccordionSummary>
-          <AccordionDetails style={ { paddingTop: 0 } }>
-            <HeapViewer />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion disabled={ disableStateViewer }>
-          <AccordionSummary expandIcon={ <Icon>expand_more</Icon> }>
-            <Typography>Stack Frame</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <StackFrameViewer />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion disabled={ disableStateViewer }>
-          <AccordionSummary expandIcon={ <Icon>expand_more</Icon> }>
-            <Typography>Breakpoints</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Breakpoints />
-          </AccordionDetails>
-        </Accordion>
+        <StateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Environment</Typography> }
+          body={ <SpecEnvViewer /> }
+        />
+        <StateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Heap</Typography> }
+          bodyStyle={ { paddingTop: 0 } }
+          body={ <HeapViewer /> }
+        />
+        <StateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>Stack Frame</Typography> }
+          body={ <StackFrameViewer /> }
+        />
+        <StateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>Breakpoints</Typography> }
+          body={ <Breakpoints /> }
+        />
       </div>
     );
   }

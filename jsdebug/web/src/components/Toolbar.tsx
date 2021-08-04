@@ -22,8 +22,8 @@ class Toolbar extends React.Component<ToolbarProps> {
     sm.move( { type: ActionType.START_DBG } );
   }
 
-  onTerminateButtonClick () {
-    sm.move( { type: ActionType.TERMINATE } );
+  onCancelButtonClick () {
+    sm.move( { type: ActionType.STOP_DBG } );
   }
 
   onStepButtonClick () {
@@ -48,7 +48,7 @@ class Toolbar extends React.Component<ToolbarProps> {
       <div className="toolbar-container">
         <ButtonGroup variant="text" color="primary">
           <Button disabled={ disableRun } onClick={ () => this.onRunButtonClick() }>Run</Button>
-          <Button disabled={ disableDebuggerBtn } onClick={ () => this.onTerminateButtonClick() }>Terminate</Button>
+          <Button disabled={ disableDebuggerBtn } onClick={ () => this.onCancelButtonClick() }>Cancel</Button>
           <Button disabled={ disableDebuggerBtn } onClick={ () => this.onStepButtonClick() }>Step</Button>
           <Button disabled={ disableDebuggerBtn } onClick={ () => this.onStepOverButtonClick() }>Step-Over</Button>
           <Button disabled={ disableDebuggerBtn } onClick={ () => this.onStepOutButtonClick() }>Step-Out</Button>

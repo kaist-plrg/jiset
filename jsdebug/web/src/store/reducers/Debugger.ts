@@ -5,7 +5,7 @@ export enum DebuggerActionType {
   LOAD = "DebuggerAction/LOAD",
   RUN = "DebuggerAction/RUN",
   PAUSE = "DebuggerAction/PAUSE",
-  TERMINATE = "DebuggerAction/TERMINATE",
+  CLEAR = "DebuggerAction/CLEAR",
 }
 export function loadDebugger ( obj: Scala_WebDebugger ): DebuggerAction {
   return {
@@ -13,9 +13,9 @@ export function loadDebugger ( obj: Scala_WebDebugger ): DebuggerAction {
     obj,
   };
 }
-export function terminateDebugger (): DebuggerAction {
+export function clearDebugger (): DebuggerAction {
   return {
-    type: DebuggerActionType.TERMINATE,
+    type: DebuggerActionType.CLEAR,
   };
 }
 export function runDebugger (): DebuggerAction {
@@ -34,7 +34,7 @@ export type DebuggerAction =
     obj: Scala_WebDebugger;
   }
   | {
-    type: DebuggerActionType.TERMINATE;
+    type: DebuggerActionType.CLEAR;
   }
   | {
     type: DebuggerActionType.RUN;
@@ -60,15 +60,17 @@ const initialState: DebuggerState = {
 // reducer
 export default function reducer ( state = initialState, action: DebuggerAction ) {
   switch ( action.type ) {
-    case DebuggerActionType.TERMINATE:
+    case DebuggerActionType.CLEAR:
       return produce( state, ( draft ) => {
         draft.obj = INVALID_DEBUGGER;
         draft.initialized = false;
+        draft.busy = false;
       } );
     case DebuggerActionType.LOAD:
       return produce( state, ( draft ) => {
         draft.obj = action.obj;
         draft.initialized = true;
+        draft.busy = false;
       } );
     case DebuggerActionType.PAUSE:
       return produce( state, ( draft ) => {
