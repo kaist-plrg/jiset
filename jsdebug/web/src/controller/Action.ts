@@ -14,6 +14,9 @@ import {
   runDebugger,
   pauseDebugger,
   clearDebugger,
+  addBreak,
+  rmBreak,
+  ableBreak,
 } from "../store/reducers/Debugger";
 
 // ir
@@ -27,6 +30,9 @@ export enum ActionType {
   STEP = "ActionType/STEP",
   STEP_OVER = "ActionType/STEP_OVER",
   STEP_OUT = "ActionType/STEP_OUT",
+  ADD_BREAK = "ActionType/ADD_BREAK",
+  RM_BREAK = "ActionType/RM_BREAK",
+  ABLE_BREAK = "ActionType/ABLE_BREAK",
   CONTINUE = "ActionType/CONTINUE",
   TERMINATE = "ActionType/TERMINATE",
   STOP_DBG = "ActionType/STOP_DBG",
@@ -44,6 +50,18 @@ export type ActionPayload =
   | { type: ActionType.STEP }
   | { type: ActionType.STEP_OVER }
   | { type: ActionType.STEP_OUT }
+  | {
+    type: ActionType.ADD_BREAK;
+    bpName: string;
+  }
+  | {
+    type: ActionType.RM_BREAK;
+    bpName: string;
+  }
+  | {
+    type: ActionType.ABLE_BREAK;
+    idx: number;
+  }
   | { type: ActionType.CONTINUE }
   | { type: ActionType.TERMINATE }
   | { type: ActionType.STOP_DBG }
@@ -171,5 +189,26 @@ export const actions: [ ActionType, Action ][] = [
       store.dispatch( clearIr() );
       store.dispatch( clearJs() );
     }
-  ]
+  ],
+  // add breakpoint
+  [
+    ActionType.ADD_BREAK,
+    ( store: Store, { bpName } ) => {
+      store.dispatch( addBreak( bpName ) );
+    },
+  ],
+  // remove breakpoint
+  [
+    ActionType.RM_BREAK,
+    ( store: Store, { bpName } ) => {
+      store.dispatch( rmBreak( bpName ) );
+    },
+  ],
+  // en/disable breakpoint
+  [
+    ActionType.ABLE_BREAK,
+    ( store: Store, { idx } ) => {
+      store.dispatch( ableBreak( idx ) );
+    },
+  ],
 ];
