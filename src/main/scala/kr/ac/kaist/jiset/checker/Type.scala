@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.checker
 
-import kr.ac.kaist.jiset.ir.{ doubleEquals, Expr, Addr, Value, PureValue, State }
+import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
@@ -101,7 +101,7 @@ sealed trait Type extends CheckerComponent {
   }
 
   // escape completions
-  def escaped(expr: Expr): Option[PureType] = this match {
+  def escaped(expr: ir.Expr): Option[PureType] = this match {
     case (t: PureType) => Some(t)
     case NormalT(t) => Some(t)
     case AbruptT =>
@@ -128,17 +128,10 @@ sealed trait Type extends CheckerComponent {
 sealed trait CompType extends Type
 object CompType {
   // type creation from values
-  def apply(addr: Addr, st: State): CompType = ???
-  // {
-  //   import kr.ac.kaist.jiset.ir._
-  //   import CompletionType._
-  //   addr.completionType(st) match {
-  //     case Normal =>
-  //       val value = st(addr, Str("Value"))
-  //       NormalT(PureType(value, st))
-  //     case _ => AbruptT
-  //   }
-  // }
+  def apply(comp: ir.CompValue, st: ir.State): CompType = comp match {
+    case ir.NormalComp(value) => NormalT(PureType(value, st))
+    case _ => AbruptT
+  }
 }
 case class NormalT(value: PureType) extends CompType
 case object AbruptT extends CompType
@@ -158,7 +151,7 @@ sealed trait PureType extends Type {
 }
 object PureType {
   // pure type creation from values
-  def apply(pure: PureValue, st: State): PureType = {
+  def apply(pure: ir.PureValue, st: ir.State): PureType = {
     import kr.ac.kaist.jiset.ir._
     import kr.ac.kaist.jiset.js._
     pure match {
@@ -263,7 +256,7 @@ case object NumericT extends PureType
 case object NumT extends PureType
 case class ANum(double: Double) extends SingleT {
   override def equals(that: Any): Boolean = that match {
-    case that: ANum => doubleEquals(this.double, that.double)
+    case that: ANum => ir.doubleEquals(this.double, that.double)
     case _ => false
   }
 }
@@ -294,14 +287,10 @@ case object AAbsent extends SingleT
 // modeling
 object Type extends Parser[Type] {
   // type creation from values
-  def apply(value: Value, st: State): Type = ???
-  // {
-  //   import kr.ac.kaist.jiset.ir._
-  //   value match {
-  //     case addr: Addr if value.isCompletion(st) => CompType(addr, st)
-  //     case _ => PureType(value, st)
-  //   }
-  // }
+  def apply(value: ir.Value, st: ir.State): Type = value match {
+    case comp: ir.CompValue => CompType(comp, st)
+    case pure: ir.PureValue => PureType(pure, st)
+  }
 
   // type aliases
   val typeAlias: List[(Type, Set[Type])] = List(
