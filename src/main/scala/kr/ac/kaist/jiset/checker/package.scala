@@ -1,10 +1,8 @@
 package kr.ac.kaist.jiset
 
-import kr.ac.kaist.jiset.checker.NativeHelper._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.{ Worklist, StackWorklist }
-import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console.RED
 import scala.collection.mutable.{ Map => MMap }
@@ -14,7 +12,7 @@ package object checker {
   private var alreadyChecked: Boolean = false
   def performTypeCheck(
     cfg: CFG,
-    dirOpt: Option[String] = None
+    givenSem: Option[AbsSemantics] = None
   ): Unit = {
     // check whether already checked
     if (alreadyChecked) error(s"Trying to perform type checking more than once")
@@ -24,19 +22,10 @@ package object checker {
     cfgOpt = Some(cfg)
 
     // set abstract semantics
-    semOpt = Some(dirOpt.map(dir => {
-      val (_, sem) = time(
-        s"loading abstract semantics from $dir",
-        loadSem(dir)
-      )
-      sem
-    }).getOrElse(AbsSemantics(AbsSemantics.initNpMap)))
+    semOpt = Some(givenSem.getOrElse(AbsSemantics(AbsSemantics.initNpMap)))
 
     // set worklist
     worklistOpt = Some(new StackWorklist(sem.npMap.keySet))
-
-    // create log directory
-    mkdir(CHECK_LOG_DIR)
 
     // set the beginning time of type checking
     Stat.checkStartTime = System.currentTimeMillis
@@ -45,7 +34,7 @@ package object checker {
     Type.infos
 
     // perform type checking
-    if (dirOpt.isEmpty) AbsTransfer.compute
+    if (givenSem.isEmpty) AbsTransfer.compute
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -87,11 +76,6 @@ package object checker {
     error(s"Please initialize $name before performing type checking.")
   }
 
-  // print writers
-  mkdir(CHECK_LOG_DIR)
-  val nfWarn = getPrintWriter(s"$CHECK_LOG_DIR/warnings")
-  val nfBug = getPrintWriter(s"$CHECK_LOG_DIR/bugs")
-
   // type warnings
   private val warnMap: MMap[Int, Set[String]] = MMap()
   def numWarn = warnMap.foldLeft(0) { case (n, (_, s)) => n + s.size }
@@ -118,56 +102,15 @@ package object checker {
       val func = sem.funcOf(cp)
       (func.uid, s" @ ${func.name}", bug && func.complete)
     }
-    val (map, nf) =
-      if (isBug) (bugMap, nfBug)
-      else (warnMap, nfWarn)
+    val map = if (isBug) bugMap else warnMap
     val set = map.getOrElse(fid, Set())
     if (!(set contains msg)) {
       map += fid -> (set + msg)
       val head = if (isBug) "Bug" else "Warning"
       val alarm = s"[$head] $msg$postfix"
       if (isBug) Console.err.println(setColor(RED)(alarm))
-      nf.println(alarm)
-      nf.flush()
-      if (isBug && CHECK_BUG) REPL.run(cp)
+      // if (isBug && CHECK_BUG) REPL.run(cp)
     }
-  }
-
-  // path in CFG
-  val CFG_PATH = s"$CHECK_LOG_DIR/cfg"
-
-  // dump CFG in DOT/PDF format
-  def dumpCFG(
-    cp: Option[ControlPoint] = None,
-    pdf: Boolean = true,
-    depth: Option[Int] = None,
-    path: Option[Path] = None
-  ): Unit = try {
-    val dot = (new DotPrinter)(cp, depth, path).toString
-    dumpFile(dot, s"$CFG_PATH.dot")
-    if (pdf) {
-      executeCmd(s"""unflatten -l 10 -o ${CFG_PATH}_trans.dot $CFG_PATH.dot""")
-      executeCmd(s"""dot -Tpdf "${CFG_PATH}_trans.dot" -o "$CFG_PATH.pdf"""")
-      println(s"Dumped CFG to $CFG_PATH.pdf")
-    } else println(s"Dumped CFG to $CFG_PATH.dot")
-  } catch {
-    case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
-  }
-
-  // dump CFG in DOT/PDF format
-  def dumpFunc(
-    func: Function,
-    pdf: Boolean = true
-  ): Unit = try {
-    val dot = (new DotPrinter)(func).toString
-    dumpFile(dot, s"$CFG_PATH.dot")
-    if (pdf) {
-      executeCmd(s"""unflatten -l 10 -o ${CFG_PATH}_trans.dot $CFG_PATH.dot""")
-      executeCmd(s"""dot -Tpdf "${CFG_PATH}_trans.dot" -o "$CFG_PATH.pdf"""")
-      println(s"Dumped CFG to $CFG_PATH.pdf")
-    } else println(s"Dumped CFG to $CFG_PATH.dot")
-  } catch {
-    case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
 
   // abstract types

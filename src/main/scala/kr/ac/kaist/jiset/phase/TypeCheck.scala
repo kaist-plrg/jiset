@@ -19,8 +19,17 @@ case object TypeCheck extends Phase[CFG, TypeCheckConfig, AbsSemantics] {
     jisetConfig: JISETConfig,
     config: TypeCheckConfig
   ): AbsSemantics = {
+    // load abstract semantics
+    val givenSem = config.load.map(dir => {
+      val (_, sem) = time(
+        s"loading abstract semantics from $dir",
+        loadSem(dir)
+      )
+      sem
+    })
+
     // perform type check
-    performTypeCheck(cfg, config.load)
+    performTypeCheck(cfg, givenSem)
 
     // dump partial models
     PARTIAL_MODEL.map(dirname => time(s"dump models to $dirname", {

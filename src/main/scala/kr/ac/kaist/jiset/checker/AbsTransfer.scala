@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console._
+import kr.ac.kaist.jiset.checker.NativeHelper._
 import scala.annotation.tailrec
 
 // abstract transfer function
@@ -49,8 +50,6 @@ object AbsTransfer {
       }
       if (LOG) Stat.dump()
       Stat.close()
-      nfBug.close()
-      nfWarn.close()
   }
 
   // transfer function for control points
