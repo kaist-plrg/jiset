@@ -4,7 +4,6 @@ import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.ir._
 
 // IR Beautifier
 class Beautifier(

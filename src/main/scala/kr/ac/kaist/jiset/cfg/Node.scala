@@ -9,30 +9,6 @@ import kr.ac.kaist.jiset.util.Appender._
 trait Node extends CFGElem with UId[Node] {
   // get simple string
   def simpleString: String = s"${getClass.getSimpleName}[$uid]"
-
-  // conversion to string with instructions
-  def beautified(
-    detail: Boolean = true,
-    index: Boolean = false,
-    asite: Boolean = false
-  ): String = {
-    // load IR beautifier
-    val irBeautifier = IRElem.getBeautifier((detail, index, asite))
-    import irBeautifier._
-
-    // define appender
-    val app = new Appender
-    app >> simpleString
-    this match {
-      case Entry(_) =>
-      case Normal(_, inst) => app >> " " >> inst
-      case Call(_, inst) => app >> " " >> inst
-      case Arrow(_, inst, fid) => app >> " " >> inst >> " [fid: " >> fid >> "]"
-      case Branch(_, inst) => app >> " " >> inst
-      case Exit(_) =>
-    }
-    app.toString
-  }
 }
 
 // linear nodes
