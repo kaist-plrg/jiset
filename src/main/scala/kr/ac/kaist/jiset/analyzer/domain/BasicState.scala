@@ -114,16 +114,23 @@ object BasicState extends Domain {
       copy(locals = locals ++ pairs)
 
     // object operators
-    def append(loc: Loc, value: AbsValue): Elem = ???
-    def prepend(loc: Loc, value: AbsValue): Elem = ???
-    def pop(loc: Loc, idx: AbsValue): (AbsValue, Elem) = ???
-    def copyObj(from: Loc)(to: Loc): Elem = ???
-    def keys(loc: Loc, intSorted: Boolean)(to: Loc): Elem = ???
-    def allocMap(ty: Ty, map: Map[AbsValue, AbsValue] = Map())(to: Loc): Elem = {
+    def append(loc: Loc, value: AbsValue): Elem =
+      copy(heap = heap.append(loc, value))
+    def prepend(loc: Loc, value: AbsValue): Elem =
+      copy(heap = heap.prepend(loc, value))
+    def pop(loc: Loc, idx: AbsValue): (AbsValue, Elem) =
       ???
-    }
-    def allocList(list: List[AbsValue])(to: Loc): Elem = ???
-    def allocSymbol(desc: AbsValue)(to: Loc): Elem = ???
-    def setType(loc: Loc, ty: Ty): Elem = ???
+    def copyObj(from: Loc)(to: Loc): Elem =
+      copy(heap = heap.copyObj(from)(to))
+    def keys(loc: Loc, intSorted: Boolean)(to: Loc): Elem =
+      copy(heap = heap.keys(loc, intSorted)(to))
+    def allocMap(ty: Ty, map: Map[AbsValue, AbsValue] = Map())(to: Loc): Elem =
+      copy(heap = heap.allocMap(ty, map)(to))
+    def allocList(list: List[AbsValue])(to: Loc): Elem =
+      copy(heap = heap.allocList(list)(to))
+    def allocSymbol(desc: AbsValue)(to: Loc): Elem =
+      copy(heap = heap.allocSymbol(desc)(to))
+    def setType(loc: Loc, ty: Ty): Elem =
+      copy(heap = heap.setType(loc, ty))
   }
 }

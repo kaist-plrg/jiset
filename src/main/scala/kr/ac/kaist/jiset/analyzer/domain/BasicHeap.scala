@@ -42,6 +42,35 @@ object BasicHeap extends Domain {
         map.getOrElse(loc, base.getOrElse(loc, AbsObj.Bot))
       case Top => AbsObj.Top
     }
+
+    // appends
+    def append(loc: Loc, value: AbsValue): Elem = ???
+
+    // prepends
+    def prepend(loc: Loc, value: AbsValue): Elem = ???
+
+    // pops
+    def pop(loc: Loc, idx: AbsValue): (AbsValue, Elem) = ???
+
+    // copy objects
+    def copyObj(from: Loc)(to: Loc): Elem = ???
+
+    // keys of map
+    def keys(loc: Loc, intSorted: Boolean)(to: Loc): Elem = ???
+
+    // map allocations
+    def allocMap(ty: Ty, map: Map[AbsValue, AbsValue] = Map())(to: Loc): Elem = {
+      ???
+    }
+
+    // list allocations
+    def allocList(list: List[AbsValue])(to: Loc): Elem = ???
+
+    // symbol allocations
+    def allocSymbol(desc: AbsValue)(to: Loc): Elem = ???
+
+    // set type of objects
+    def setType(loc: Loc, ty: Ty): Elem = ???
   }
 
   // base mapping from locations to abstract objects

@@ -25,13 +25,19 @@ object AValue {
 sealed trait Loc extends AValue
 object Loc {
   // from original concrete addresses
+  private val subMapPattern = "(.+).SubMap".r
   def from(addr: Addr): Loc = addr match {
-    case NamedAddr(name) => NamedLoc(name)
+    case NamedAddr(name) => name match {
+      case subMapPattern(base) => SubMapLoc(NamedLoc(base))
+      case name => NamedLoc(name)
+    }
     case _ => error(s"impossible to convert to Loc: ${addr.beautified}")
   }
 }
-case class NamedLoc(name: String) extends Loc
-case class AllocSite(k: Int, view: View) extends Loc
+sealed trait BaseLoc extends Loc
+case class NamedLoc(name: String) extends BaseLoc
+case class AllocSite(k: Int, view: View) extends BaseLoc
+case class SubMapLoc(baseLoc: BaseLoc) extends Loc
 
 // functions
 case class AFunc(algo: Algo) extends AValue

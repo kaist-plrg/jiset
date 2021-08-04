@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.spec.algorithm._
 import scala.annotation.tailrec
@@ -100,8 +100,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       case EConst(name) => ???
       case EMap(Ty("Completion"), props) => ???
       case map @ EMap(ty, props) => {
-        println(map.asite)
-        val loc: Loc = ???
+        val loc: Loc = AllocSite(map.asite, cp.view)
         for {
           _ <- modify(_.allocMap(ty)(loc))
           _ <- join(props.map {
