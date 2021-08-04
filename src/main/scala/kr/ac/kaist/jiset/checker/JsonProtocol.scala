@@ -9,7 +9,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.BasicJsonProtocol
 import kr.ac.kaist.jiset.util.Useful._
 
-object JsonProtocol extends BasicJsonProtocol {
+class JsonProtocol(cfg: CFG) extends BasicJsonProtocol {
   import cfg.jsonProtocol._
 
   implicit lazy val absSemanticsDecoder: Decoder[AbsSemantics] = deriveDecoder
@@ -50,12 +50,15 @@ object JsonProtocol extends BasicJsonProtocol {
   implicit lazy val absStateEncoder: Encoder[AbsState] = deriveEncoder
 
   implicit lazy val (
-    absTypeEncoder: Encoder[AbsType],
-    absTypeDecoder: Decoder[AbsType]
+    absTypeDecoder: Decoder[AbsType],
+    absTypeEncoder: Encoder[AbsType]
     ) = stringCodec[AbsType](AbsType.apply, beautify)
 
   implicit lazy val (
-    typeEncoder: Encoder[Type],
-    typeDecoder: Decoder[Type]
+    typeDecoder: Decoder[Type],
+    typeEncoder: Encoder[Type]
     ) = stringCodec[Type](Type.apply, beautify)
+
+  implicit lazy val visitRecorderDecoder: Decoder[VisitRecorder] = deriveDecoder
+  implicit lazy val visitRecorderEncoder: Encoder[VisitRecorder] = deriveEncoder
 }

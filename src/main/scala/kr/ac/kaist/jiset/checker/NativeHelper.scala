@@ -2,7 +2,6 @@ package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.{ CHECK_LOG_DIR }
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.checker.JsonProtocol._
 import kr.ac.kaist.jiset.ir.JsonProtocol._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.JvmUseful._
@@ -14,6 +13,7 @@ object NativeHelper {
 
   // dump abstract semantics to directory
   def dumpSem(sem: AbsSemantics, dirname: String): Unit = {
+    import jsonProtocol._
     mkdir(dirname)
     val npMaps = sem.npMap.groupBy { case (np, _) => sem.funcOf(np) }
     val rpMaps = sem.rpMap.groupBy { case (rp, _) => sem.funcOf(rp) }
@@ -34,33 +34,36 @@ object NativeHelper {
   }
 
   // load abstract semantics from filename
-  def loadSem(dirname: String): AbsSemantics = AbsSemantics(
-    npMap = (for {
-      file <- walkTree(s"$dirname/funcs")
-      if file.getName == "npMap.json"
-      pair <- readJson[Map[NodePoint[Node], AbsState]](file.toString)
-    } yield pair).toMap,
-    rpMap = (for {
-      file <- walkTree(s"$dirname/funcs")
-      if file.getName == "rpMap.json"
-      pair <- readJson[Map[ReturnPoint, AbsType]](file.toString)
-    } yield pair).toMap,
-    thenBranches = readJson[Set[NodePoint[Branch]]](
-      s"$dirname/thenBranches.json"
-    ),
-    elseBranches = readJson[Set[NodePoint[Branch]]](
-      s"$dirname/elseBranches.json"
-    ),
-    retEdges = readJson[Map[ReturnPoint, Set[(NodePoint[Call], String)]]](
-      s"$dirname/retEdges.json"
-    ),
-    unknownVars = readJson[Set[(ControlPoint, String)]](
-      s"$dirname/unknownVars.json"
-    ),
-    assertions = readJson[Map[ControlPoint, (AbsType, Expr)]](
-      s"$dirname/assertions.json"
-    ),
-  )
+  def loadSem(dirname: String): AbsSemantics = {
+    import jsonProtocol._
+    AbsSemantics(
+      npMap = (for {
+        file <- walkTree(s"$dirname/funcs")
+        if file.getName == "npMap.json"
+        pair <- readJson[Map[NodePoint[Node], AbsState]](file.toString)
+      } yield pair).toMap,
+      rpMap = (for {
+        file <- walkTree(s"$dirname/funcs")
+        if file.getName == "rpMap.json"
+        pair <- readJson[Map[ReturnPoint, AbsType]](file.toString)
+      } yield pair).toMap,
+      thenBranches = readJson[Set[NodePoint[Branch]]](
+        s"$dirname/thenBranches.json"
+      ),
+      elseBranches = readJson[Set[NodePoint[Branch]]](
+        s"$dirname/elseBranches.json"
+      ),
+      retEdges = readJson[Map[ReturnPoint, Set[(NodePoint[Call], String)]]](
+        s"$dirname/retEdges.json"
+      ),
+      unknownVars = readJson[Set[(ControlPoint, String)]](
+        s"$dirname/unknownVars.json"
+      ),
+      assertions = readJson[Map[ControlPoint, (AbsType, Expr)]](
+        s"$dirname/assertions.json"
+      ),
+    )
+  }
 
   // path in CFG
   val CFG_PATH = s"$CHECK_LOG_DIR/cfg"

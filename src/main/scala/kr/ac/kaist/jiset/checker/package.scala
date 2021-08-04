@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset
 
-import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.cfg.{ JsonProtocol => _, _ }
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.util.{ Worklist, StackWorklist }
 import kr.ac.kaist.jiset.util.Useful._
@@ -51,6 +51,9 @@ package object checker {
   // worklists
   private var worklistOpt: Option[Worklist[ControlPoint]] = None
   lazy val worklist: Worklist[ControlPoint] = get("Worklist", worklistOpt)
+
+  // json protocols
+  lazy val jsonProtocol: JsonProtocol = new JsonProtocol(cfg)
 
   //////////////////////////////////////////////////////////////////////////////
   // global mutable data

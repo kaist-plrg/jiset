@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.checker
 
 import io.circe._, io.circe.syntax._
-import kr.ac.kaist.jiset.checker.JsonProtocol._
 import kr.ac.kaist.jiset.checker.NativeHelper._
 import kr.ac.kaist.jiset.cfg.CFG
 import kr.ac.kaist.jiset.util.Useful.{ time => showTime }
@@ -14,6 +13,9 @@ class JsonMiddleTest extends CheckerTest {
   // registration
   def init: Unit = check(VERSION, {
     val sem = JISETTest.sem
+
+    // import json protocols
+    import jsonProtocol._
 
     // json check
     val (_, json) = showTime("encode abstract semantics in a JSON format", {

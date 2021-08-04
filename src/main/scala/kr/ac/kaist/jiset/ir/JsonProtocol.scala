@@ -9,12 +9,12 @@ object JsonProtocol extends BasicJsonProtocol {
   val beautifier = new Beautifier(line = true, asite = true)
   import beautifier._
 
-  implicit val (tyEncoder: Encoder[Ty], tyDecoder: Decoder[Ty]) =
+  implicit val (tyDecoder: Decoder[Ty], tyEncoder: Encoder[Ty]) =
     stringCodec[Ty](Ty.apply, beautify)
-  implicit val (refEncoder: Encoder[Ref], refDecoder: Decoder[Ref]) =
+  implicit val (refDecoder: Decoder[Ref], refEncoder: Encoder[Ref]) =
     stringCodec[Ref](Ref.apply, beautify)
-  implicit val (exprEncoder: Encoder[Expr], exprDecoder: Decoder[Expr]) =
+  implicit val (exprDecoder: Decoder[Expr], exprEncoder: Encoder[Expr]) =
     stringCodec[Expr](Expr.apply, beautify)
-  implicit val (instEncoder: Encoder[Inst], instDecoder: Decoder[Inst]) =
+  implicit val (instDecoder: Decoder[Inst], instEncoder: Encoder[Inst]) =
     stringCodec[Inst](Inst.apply, beautify)
 }
