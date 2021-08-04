@@ -20,6 +20,8 @@ declare class Scala_WebDebugger {
   addAlgoBreak ( algoName: string, enabled: boolean = true ): void;
   rmAlgoBreak ( opt: string ): void;
   toggleAlgoBreak ( opt: string ): void;
+  // continue
+  continueAlgo (): void;
 }
 
 // call setTarget

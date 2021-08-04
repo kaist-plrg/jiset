@@ -280,4 +280,18 @@ export const actions: ActionDefinition[] = [
     ],
     defaultExceptionHandler,
   ],
+  // continue
+  [
+    ActionType.CONTINUE,
+    [
+      stepPreAction,
+      () => ( next: Action ) => ( webDebugger: Scala_WebDebugger ) => {
+        // continue
+        webDebugger.continueAlgo();
+        next( webDebugger );
+      },
+      stepPostAction,
+    ],
+    defaultExceptionHandler,
+  ],
 ];

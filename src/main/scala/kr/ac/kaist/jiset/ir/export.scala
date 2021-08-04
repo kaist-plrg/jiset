@@ -42,6 +42,9 @@ object Export {
     def rmAlgoBreak(opt: String) = rmBreak(opt)
     def toggleAlgoBreak(opt: String) = toggleBreak(opt)
 
+    // continue
+    def continueAlgo() = continue
+
     // get stack frame info
     def getStackFrame(): String = {
       val stackFrame = st.context.getInfo() :: st.ctxtStack.map(_.getInfo(true))
