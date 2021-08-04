@@ -54,6 +54,16 @@ object BasicValue extends Domain {
     ast: AbsAST,
     simple: AbsSimple
   ) extends ElemTrait {
+    // getters
+    def num: AbsNum = simple.num
+    def int: AbsInt = simple.int
+    def bigint: AbsBigInt = simple.bigint
+    def str: AbsStr = simple.str
+    def bool: AbsBool = simple.bool
+    def undef: AbsUndef = simple.undef
+    def nullv: AbsNull = simple.nullv
+    def absent: AbsAbsent = simple.absent
+
     // partial order
     def ⊑(that: Elem): Boolean = (
       this.loc ⊑ that.loc &&
@@ -84,9 +94,10 @@ object BasicValue extends Domain {
       this.simple.getSingle
     )
 
-    // replace absent values
-    def replaceAbsentWith(value: AbsValue): AbsValue = {
-      ???
-    }
+    // remove absent values
+    def removeAbsent: Elem = copy(simple = simple.removeAbsent)
+
+    // escape completion
+    def escaped: Elem = ???
   }
 }

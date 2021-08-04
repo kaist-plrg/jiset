@@ -115,5 +115,26 @@ object BasicObj extends Domain {
       case ListElem(values) => values.foldLeft[AbsValue](AbsValue.Bot)(_ ⊔ _)
       case NotSupportedElem(desc) => AbsValue.Bot
     }
+
+    // updates
+    def update(
+      prop: AbsValue,
+      value: AbsValue,
+      weak: Boolean = false
+    ): Elem = this match {
+      case MergedMapElem(ty, mergedValue) =>
+        MergedMapElem(ty, mergedValue ⊔ value)
+      case MapElem(Ty("SubMap"), map) =>
+        ???
+      case MapElem(ty, map) => prop.simple.str.getSingle match {
+        case FlatBot => this
+        case FlatElem(str) =>
+          val key = ASimple(Str(str))
+          val newValue = if (weak) this(key) ⊔ value else value
+          MapElem(ty, map + (key -> newValue))
+        case FlatTop => MergedMapElem(ty, mergedValue)
+      }
+      case _ => this
+    }
   }
 }

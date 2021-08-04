@@ -84,7 +84,7 @@ object BasicState extends Domain {
     }
     def apply(x: Id, cp: ControlPoint): AbsValue = {
       val v = directLookup(x)
-      if (cp.isBuiltin) v.replaceAbsentWith(AbsValue.undef)
+      if (cp.isBuiltin && AbsValue.absent ⊑ v) v.removeAbsent ⊔ AbsValue.undef
       else v
     }
 
@@ -101,9 +101,16 @@ object BasicState extends Domain {
     }
 
     // setters
-    def update(refV: AbsRefValue, value: AbsValue): Elem = ???
+    def update(refV: AbsRefValue, value: AbsValue): Elem = refV match {
+      case AbsRefId(x) => update(x, value)
+      case AbsRefProp(base, prop) =>
+        update(base.escaped.loc, prop, value)
+    }
     def update(x: Id, value: AbsValue): Elem = ???
-    def update(loc: Loc, prop: AbsValue, value: AbsValue): Elem = ???
+    def update(aloc: AbsLoc, prop: AbsValue, value: AbsValue): Elem =
+      copy(heap = heap.update(aloc, prop, value))
+    def update(loc: Loc, prop: AbsValue, value: AbsValue): Elem =
+      copy(heap = heap.update(loc, prop, value))
 
     // define global variables
     def defineGlobal(pairs: (Id, AbsValue)*): Elem =

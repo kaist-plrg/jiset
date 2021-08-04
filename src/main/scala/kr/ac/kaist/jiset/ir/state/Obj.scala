@@ -51,7 +51,7 @@ case class IRMap(
     }
   }
 
-  // getorelse
+  // updates
   def update(prop: PureValue, value: Value): this.type = {
     val id = props
       .get(prop)

@@ -2,46 +2,68 @@ package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.{ Initialize => JSInitialize }
+import kr.ac.kaist.jiset.util.Useful._
 
 // basic abstract heaps
 object BasicHeap extends Domain {
-  object Bot extends Elem
-  object Top extends Elem
-  case class Base(map: Map[Loc, AbsObj]) extends Elem
-
-  // constructors
-  def apply(map: Map[Loc, AbsObj] = Map()) = Base(map)
+  lazy val Bot = Elem()
+  lazy val Top = error("impossible define top value.")
 
   // elements
-  sealed trait Elem extends ElemTrait {
+  case class Elem(
+    map: Map[Loc, AbsObj] = Map(),
+    merged: Set[Loc] = Set()
+  ) extends ElemTrait {
+    // partial order
+    override def isBottom = map.isEmpty
+    override def isTop = false
+
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
-      case BasicOrder(bool) => bool
-      case (Base(lmap), Base(rmap)) => {
+      case _ if this.isBottom => true
+      case _ if that.isBottom => false
+      case (Elem(lmap, lmerged), Elem(rmap, rmerged)) => {
         (lmap.keySet ++ rmap.keySet).forall(loc => {
           this(loc) ⊑ that(loc)
-        })
+        }) && (lmerged subsetOf rmerged)
       }
     }
 
     // join operator
     def ⊔(that: Elem): Elem = (this, that) match {
-      case BasicJoin(elem) => elem
-      case (Base(lmap), Base(rmap)) => {
+      case _ if this.isBottom => that
+      case _ if that.isBottom => this
+      case (Elem(lmap, lmerged), Elem(rmap, rmerged)) => {
         val newMap = (lmap.keySet ++ rmap.keySet).toList.map(loc => {
           loc -> this(loc) ⊔ that(loc)
         }).toMap
-        Base(newMap)
+        Elem(newMap, lmerged ++ rmerged)
       }
     }
 
-    // lookup abstract locations
-    def apply(loc: Loc): AbsObj = this match {
-      case Bot => AbsObj.Bot
-      case Base(map) =>
-        map.getOrElse(loc, base.getOrElse(loc, AbsObj.Bot))
-      case Top => AbsObj.Top
+    // singleton location checks
+    def isSingle(aloc: AbsLoc): Boolean = aloc.getSingle match {
+      case FlatElem(loc) => isSingle(loc)
+      case _ => false
     }
+    def isSingle(loc: Loc): Boolean = !(merged contains loc)
+
+    // lookup abstract locations
+    def apply(loc: Loc): AbsObj = {
+      map.getOrElse(loc, base.getOrElse(loc, AbsObj.Bot))
+    }
+
+    // setters
+    def update(
+      aloc: AbsLoc,
+      prop: AbsValue,
+      value: AbsValue
+    ): Elem = ???
+    def update(
+      loc: Loc,
+      prop: AbsValue,
+      value: AbsValue
+    ): Elem = ???
 
     // appends
     def append(loc: Loc, value: AbsValue): Elem = ???
@@ -59,8 +81,14 @@ object BasicHeap extends Domain {
     def keys(loc: Loc, intSorted: Boolean)(to: Loc): Elem = ???
 
     // map allocations
-    def allocMap(ty: Ty, map: Map[AbsValue, AbsValue] = Map())(to: Loc): Elem = {
-      ???
+    def allocMap(
+      ty: Ty,
+      map: Map[AbsValue, AbsValue] = Map()
+    )(to: Loc): Elem = {
+      val obj = map.foldLeft(AbsObj(IRMap(ty))) {
+        case (m, (k, v)) => m.update(k, v)
+      }
+      Elem(this.map + (to -> (this(to) ⊔ obj)), ???)
     }
 
     // list allocations

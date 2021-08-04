@@ -91,5 +91,8 @@ object BasicSimple extends Domain {
       this.nullv.getSingle.map(x => ASimple(x)) ⊔
       this.absent.getSingle.map(x => ASimple(x))
     )
+
+    // remove absent values
+    def removeAbsent: Elem = copy(absent = AbsAbsent.Bot)
   }
 }

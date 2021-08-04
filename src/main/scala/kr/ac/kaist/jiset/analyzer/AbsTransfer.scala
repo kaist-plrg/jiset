@@ -49,7 +49,11 @@ case class AbsTransfer(sem: AbsSemantics) {
         v <- transfer(expr)
         _ <- modify(_.defineLocal(id -> v))
       } yield ()
-      case IAssign(ref, expr) => ???
+      case IAssign(ref, expr) => for {
+        rv <- transfer(ref)
+        v <- transfer(expr)
+        _ <- modify(_.update(rv, v))
+      } yield ()
       case IDelete(ref) => ???
       case IAppend(expr, list) => ???
       case IPrepend(expr, list) => ???
