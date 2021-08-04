@@ -1,5 +1,6 @@
 import { Store } from "../store";
 import { toast } from "react-toastify";
+import { ActionError } from "../errors";
 
 // spec
 import es2021 from "../assets/es2021.json";
@@ -79,7 +80,7 @@ export type ActionDefinition = [ActionType, ActionHandler[], ExceptionHandler];
 export type ActionHandler = (store: Store) => ActionChain;
 export type ActionChain = (next: Action) => Action;
 export type Action = (...args: any[]) => void;
-export type ExceptionHandler = (msg: string) => void;
+export type ExceptionHandler = (e: ActionError) => void;
 export const ACTION_NOP: Action = () => {};
 
 // common action handler
@@ -106,9 +107,9 @@ export const stepPostAction: ActionHandler =
     next();
   };
 // default exception handler
-export const defaultExceptionHandler = (msg: string) => {
-  console.error(msg);
-  toast.error(msg);
+export const defaultExceptionHandler = (e: ActionError) => {
+  console.error(e);
+  toast.error(e.message);
 };
 
 export const actions: ActionDefinition[] = [
@@ -149,8 +150,9 @@ export const actions: ActionDefinition[] = [
         let compressed: string;
         try {
           compressed = new ESParse("2021").parseWithCompress(code);
-        } catch {
-          throw "JavaScript Parsing Failed";
+        } catch (e) {
+          console.error(e);
+          throw new ActionError("JavaScript Parsing Fail!");
         }
         // initalize state
         let IRState = Scala_initializeState(compressed);
