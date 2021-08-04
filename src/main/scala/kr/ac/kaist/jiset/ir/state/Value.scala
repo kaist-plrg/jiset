@@ -10,7 +10,7 @@ import scala.collection.mutable.{ Map => MMap }
 sealed trait Value extends IRComponent {
   // escape completion
   def escaped: PureValue = this match {
-    case CompValue(CONST_NORMAL, value, _) => value
+    case NormalComp(value) => value
     case CompValue(_, _, _) =>
       error(s"unchecked abrupt completion: ${this.beautified}")
     case pure: PureValue => pure
@@ -43,6 +43,14 @@ case class CompValue(
   targetOpt: Option[String]
 ) extends Value {
   def target: Value = targetOpt.fold[Value](CONST_EMPTY)(Str)
+}
+object NormalComp {
+  def apply(value: PureValue): CompValue =
+    CompValue(CONST_NORMAL, value, None)
+  def unapply(comp: CompValue): Option[PureValue] = comp match {
+    case CompValue(CONST_NORMAL, value, None) => Some(value)
+    case _ => None
+  }
 }
 
 // pure values

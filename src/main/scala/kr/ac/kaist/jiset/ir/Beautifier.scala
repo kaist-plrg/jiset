@@ -295,7 +295,7 @@ class Beautifier(
 
   // completions
   implicit lazy val CompValueApp: App[CompValue] = (app, c) => c match {
-    case CompValue(CONST_NORMAL, value, None) =>
+    case NormalComp(value) =>
       app >> "N(" >> value >> ")"
     case CompValue(ty, value, target) =>
       app >> "Completion[" >> ty >> "]" >> "(" >> value

@@ -80,18 +80,14 @@ trait JSTest extends IRTest {
 
   // tests for JS interpreter
   def evalTest(st: State): State = st(Id(RESULT)) match {
-    case addr: Addr => st(addr, Str("Type")) match {
-      case (addr: Addr) =>
-        assert(addr == st(Id("CONST_normal")))
-        st
-      case v => fail(s"invalid completion type: ${v.beautified}")
-    }
-    case Absent => fail("no return value")
-    case v => fail(s"return not an address: ${v.beautified}")
+    case comp: CompValue =>
+      assert(comp.ty == CONST_NORMAL)
+      st
+    case v => fail(s"return not a completion: ${v.beautified}")
   }
-  def evalTest(str: String): Unit = evalTest(eval(str))
-  def evalTestFile(filename: String): Unit = evalTest(evalFile(filename))
-  def evalTest(script: Script, filename: String): Unit =
+  def evalTest(str: String): State = evalTest(eval(str))
+  def evalTestFile(filename: String): State = evalTest(evalFile(filename))
+  def evalTest(script: Script, filename: String): State =
     evalTest(eval(script, Some(filename)))
 
   // conversion extension from .js to .ir

@@ -16,7 +16,7 @@ class EvalSmallTest extends JSTest {
 
       // evaluate a JS file
       val jsName = file.toString
-      val st = evalFile(jsName)
+      val st = evalTestFile(jsName)
 
       // evaluate the corresponding IR file
       val irName = js2ir(jsName)

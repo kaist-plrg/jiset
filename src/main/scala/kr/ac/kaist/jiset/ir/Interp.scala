@@ -79,7 +79,7 @@ class Interp(
       if (DEBUG) cursor match {
         case InstCursor(ISeq(_), _) =>
         case _ =>
-          println(s"${st.context.name}: ${cursor.beautified(detail = false)}")
+          println(s"[$iter] ${st.context.name}: ${cursor.beautified(detail = false)}")
       }
 
       // interp the current cursor
@@ -239,7 +239,7 @@ class Interp(
                 val vs = asts ++ args.map(interp)
                 val locals = getLocals(head.params, vs)
                 val cursorOpt = cursorGen(body)
-                val viewOpt = if (VIEW) Some(View(vs.map(Type((_), st)))) else None
+                val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
                 val context = Context(cursorOpt, id, head.name, Some(ast), Some(algo), locals, viewOpt)
                 if (STAT) Stat.touchAlgo(algo.name)
                 st.ctxtStack ::= st.context
@@ -584,7 +584,7 @@ class Interp(
 
   // return if abrupt completion
   def returnIfAbrupt(value: Value, check: Boolean): Value = value match {
-    case CompValue(CONST_NORMAL, value, _) => value
+    case NormalComp(value) => value
     case CompValue(_, _, _) =>
       if (check) throw ReturnValue(value)
       else error(s"unchecked abrupt completion: ${value.beautified}")
