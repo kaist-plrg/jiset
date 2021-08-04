@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.ir.{ Stat => _, _ }
 import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm._

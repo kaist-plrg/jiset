@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.LOG
-import kr.ac.kaist.jiset.ir.{ REPL => _, _ }
+import kr.ac.kaist.jiset.ir.{ REPL => _, Stat => _, _ }
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import kr.ac.kaist.jiset.util.Useful._

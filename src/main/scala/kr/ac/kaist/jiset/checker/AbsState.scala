@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.ir.{ Stat => _, _ }
 import kr.ac.kaist.jiset.checker._
 import kr.ac.kaist.jiset.util.{ Appender, StateMonad }
 import kr.ac.kaist.jiset.util.Useful._
