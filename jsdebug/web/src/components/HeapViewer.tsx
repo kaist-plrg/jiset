@@ -20,7 +20,6 @@ class HeapViewer extends React.Component<HeapViewerProps, HeapViewerState> {
     this.state = { searchAddr: "" };
   }
   onTextInput ( searchAddr: string ) {
-    console.log( searchAddr );
     this.setState( { ...this.state, searchAddr } );
   }
   renderObj ( obj: string | undefined ) {

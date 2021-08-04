@@ -1,13 +1,20 @@
 import { Transition } from "./Transition";
 import { Store } from "../store";
-import { Action, ActionPayload, ActionType } from "./Action";
+import {
+  Action,
+  ActionPayload,
+  ActionType,
+  ActionDefinition,
+  ACTION_NOP as nop,
+  ExceptionHandler,
+} from "./Action";
 import { AppState } from "./AppState";
 import { move } from "../store/reducers/Controller";
 
 // state controller
 export class StateMachine {
   readonly graph: Map<AppState, Map<ActionType, AppState>>;
-  readonly actions: Map<ActionType, Action>;
+  readonly actions: Map<ActionType, [ Action, ExceptionHandler ]>;
   readonly store: Store;
   private _state: AppState;
   private _verbose: boolean;
@@ -15,7 +22,7 @@ export class StateMachine {
   // constructor
   constructor (
     transitions: Transition[],
-    actions: [ ActionType, Action ][],
+    actions: ActionDefinition[],
     store: Store,
     verbose: boolean = true
   ) {
@@ -29,9 +36,14 @@ export class StateMachine {
     // set initial state
     this._state = AppState.INIT;
 
-    // set actions
+    // set actions based on action definition
     this.actions = new Map();
-    actions.forEach( ( [ type, action ] ) => this.actions.set( type, action ) );
+    actions.forEach( ( [ type, handlers, onError ] ) => {
+      const chains = handlers.map( ( handler ) => handler( store ) );
+      // compose action chain
+      const action = chains.reduceRight( ( next, chain ) => chain( next ), nop );
+      this.actions.set( type, [ action, onError ] );
+    } );
 
     // verbose
     this._verbose = verbose;
@@ -53,24 +65,36 @@ export class StateMachine {
   move ( payload: ActionPayload ): void {
     // get next state and action
     const nextState = this._getNextState( payload.type );
-    const action = this.actions.get( payload.type );
+    const actionDef = this.actions.get( payload.type );
 
     // measure time
     const timeLabel = `[StateMachine::move] ${ this._state } -- ${ payload.type } --> ${ nextState }`;
     if ( this._verbose ) console.time( timeLabel );
 
-    // TODO handle error
-    if ( action === undefined || nextState === undefined ) {
+    // handle error of undefined behavior
+    if ( actionDef === undefined || nextState === undefined ) {
+      if ( actionDef === undefined )
+        console.error(
+          `[StateMachine::move] action definition not found: ${ payload.type }`
+        );
+      else
+        console.error(
+          `[StateMachine::move] undefined transition: ${ this._state } -- ${ payload.type } --> ???`
+        );
       if ( this._verbose ) console.timeEnd( timeLabel );
       return;
     }
 
-    // TODO exception handling
-    action( this.store, payload );
-
-    // change redux controller state
-    this._state = nextState;
-    this.store.dispatch( move( nextState ) );
+    // perform action
+    const [ action, onError ] = actionDef;
+    try {
+      action( payload );
+      // change redux controller state
+      this._state = nextState;
+      this.store.dispatch( move( nextState ) );
+    } catch ( e ) {
+      onError( e );
+    }
 
     // log
     if ( this._verbose ) console.timeEnd( timeLabel );
