@@ -114,9 +114,9 @@ object Beautifier {
 
   // visit recorder
   implicit lazy val VisitRecorderApp: App[VisitRecorder] = (app, vr) => {
-    for ((func, viewMap) <- vr.visitMap) {
+    for ((func, viewMap) <- vr.visitMap.toList.sortBy(_._1.name)) {
       app >> func.name >> ": "
-      app.wrap(for ((view, nodeMap) <- viewMap) {
+      app.wrap(for ((view, nodeMap) <- viewMap.toList.sortBy(_._1.beautified)) {
         app :> view >> ": "
         app.wrap(for ((node, fname) <- nodeMap.toList.sortBy(_._1.uid)) {
           app :> node.uidString >> ": " >> fname >> LINE_SEP
