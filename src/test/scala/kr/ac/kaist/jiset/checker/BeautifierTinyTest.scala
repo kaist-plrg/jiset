@@ -15,7 +15,7 @@ class BeautifierTinyTest extends CheckerTest {
     tApp: App[T]
   ): Unit = check(desc, cases.foreach {
     case (given, expected) =>
-      val result = given.toString
+      val result = given.beautified
       if (result != expected) {
         println(s"$desc FAILED")
         println(s"result: $result")

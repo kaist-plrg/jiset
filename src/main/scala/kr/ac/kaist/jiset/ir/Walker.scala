@@ -244,7 +244,6 @@ trait Walker {
   // reference values
   def walk(refV: RefValue): RefValue = refV match {
     case RefValueId(id) => RefValueId(walk(id))
-    case RefValueProp(addr, value) => RefValueProp(walk(addr), walk(value))
-    case RefValueString(str, name) => RefValueString(walk(str), walk(name))
+    case RefValueProp(base, prop) => RefValueProp(walk(base), walk(prop))
   }
 }

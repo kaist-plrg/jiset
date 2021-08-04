@@ -121,7 +121,7 @@ class Interp(
       case Arrow(_, inst, fid) => interp(inst)
       case branch @ Branch(_, inst) => {
         val (thenNode, elseNode) = cfg.branchOf(branch)
-        st.context.cursorOpt = Some(interp(inst.cond).escaped(st) match {
+        st.context.cursorOpt = Some(interp(inst.cond).escaped match {
           case Bool(true) => NodeCursor(thenNode)
           case Bool(false) => NodeCursor(elseNode)
           case v => error(s"not a boolean: ${v.beautified}")
@@ -142,12 +142,12 @@ class Interp(
   // transition for conditional instructions
   def interp(inst: CondInst, rest: List[Inst]): Unit = {
     st.context.cursorOpt = inst match {
-      case IIf(cond, thenInst, elseInst) => interp(cond).escaped(st) match {
+      case IIf(cond, thenInst, elseInst) => interp(cond).escaped match {
         case Bool(true) => Some(InstCursor(thenInst, rest))
         case Bool(false) => Some(InstCursor(elseInst, rest))
         case v => error(s"not a boolean: ${v.beautified}")
       }
-      case IWhile(cond, body) => interp(cond).escaped(st) match {
+      case IWhile(cond, body) => interp(cond).escaped match {
         case Bool(true) => Some(InstCursor(body, inst :: rest))
         case Bool(false) => InstCursor.from(rest)
         case v => error(s"not a boolean: ${v.beautified}")
@@ -162,7 +162,7 @@ class Interp(
       case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => {
         val vs =
           if (name == "IsAbruptCompletion") args.map(interp)
-          else args.map(interp(_).escaped(st))
+          else args.map(interp(_).escaped)
         st.context.locals += id -> simpleFuncs(name)(st, vs)
       }
       case IApp(id, fexpr, args) => interp(fexpr) match {
@@ -205,12 +205,9 @@ class Interp(
       }
       case IAccess(id, bexpr, expr, args) => {
         var base = interp(bexpr)
-        val prop = interp(expr).escaped(st)
-        prop match {
-          case Str("Type" | "Value" | "Target") =>
-          case _ => base = base.escaped(st)
-        }
-        val vOpt = (base, prop) match {
+        var escapedBase = base.escaped
+        val prop = interp(expr).escaped
+        val vOpt = (escapedBase, prop) match {
           case (ASTVal(Lexical(kind, str)), Str(name)) => Some((kind, name) match {
             case ("(IdentifierName \\ (ReservedWord))" | "IdentifierName", "StringValue") => Str(str)
             case ("NumericLiteral", "MV" | "NumericValue") => ESValueParser.parseNumber(str)
@@ -234,7 +231,7 @@ class Interp(
             case Some(value) => Some((value match {
               case addr: DynamicAddr => st.copyObj(addr)
               case _ => value
-            }).wrapCompletion(st))
+            }).wrapCompletion)
             case None => ast.semantics(name) match {
               case Some((algo, asts)) => {
                 val head = algo.head
@@ -257,9 +254,7 @@ class Interp(
               })
             }
           }
-          case (addr: Addr, _) => Some(st(addr, prop))
-          case (Str(str), _) => Some(st(str, prop))
-          case v => error(s"invalid access: ${inst.beautified}")
+          case _ => Some(st(base, prop))
         }
         vOpt.map(st.context.locals += id -> _)
       }
@@ -274,12 +269,12 @@ class Interp(
       case ILet(id, expr) => st.context.locals += id -> interp(expr)
       case IAssign(ref, expr) => st.update(interp(ref), interp(expr))
       case IDelete(ref) => st.delete(interp(ref))
-      case IAppend(expr, list) => interp(list).escaped(st) match {
-        case (addr: Addr) => st.append(addr, interp(expr).escaped(st))
+      case IAppend(expr, list) => interp(list).escaped match {
+        case (addr: Addr) => st.append(addr, interp(expr).escaped)
         case v => error(s"not an address: ${v.beautified}")
       }
-      case IPrepend(expr, list) => interp(list).escaped(st) match {
-        case (addr: Addr) => st.prepend(addr, interp(expr).escaped(st))
+      case IPrepend(expr, list) => interp(list).escaped match {
+        case (addr: Addr) => st.prepend(addr, interp(expr).escaped)
         case v => error(s"not an address: ${v.beautified}")
       }
       case IReturn(expr) => throw ReturnValue(interp(expr))
@@ -288,9 +283,9 @@ class Interp(
           Str("Prototype") -> NamedAddr(s"GLOBAL.$name.prototype"),
           Str("ErrorData") -> Undef
         ))
-        throw ReturnValue(addr.wrapCompletion(st, CompletionType.Throw))
+        throw ReturnValue(addr.wrapCompletion(CONST_THROW))
       }
-      case IAssert(expr) => interp(expr).escaped(st) match {
+      case IAssert(expr) => interp(expr).escaped match {
         case Bool(true) =>
         case v => error(s"assertion failure: ${expr.beautified}")
       }
@@ -354,8 +349,8 @@ class Interp(
     }
   } {
     val rawValue = (
-      if (value.isAbruptCompletion(st)) value
-      else value.escaped(st)
+      if (value.isAbruptCompletion) value
+      else value.escaped
     ) match {
         case addr: DynamicAddr => st.copyObj(addr)
         case value => value
@@ -365,28 +360,31 @@ class Interp(
   }
 
   // return helper
-  def doReturn(value: Value): Unit = st.ctxtStack match {
-    case Nil =>
-      st.context.locals += Id(RESULT) -> value.wrapCompletion(st)
-      st.context.cursorOpt = None
-    case ctxt :: rest => {
-      // proper type handle
-      (value, setTypeMap.get(st.context.name)) match {
-        case (addr: Addr, Some(ty)) if !addr.isCompletion(st) =>
-          st.setType(addr, ty)
-        case _ =>
+  def doReturn(value: Value): Unit = {
+    if (DEBUG) println("<RETURN> " + st.getString(value))
+    st.ctxtStack match {
+      case Nil =>
+        st.context.locals += Id(RESULT) -> value.wrapCompletion
+        st.context.cursorOpt = None
+      case ctxt :: rest => {
+        // proper type handle
+        (value, setTypeMap.get(st.context.name)) match {
+          case (addr: Addr, Some(ty)) =>
+            st.setType(addr, ty)
+          case _ =>
+        }
+
+        // store abstract semantics results
+        storeStatic(value)
+
+        // return wrapped values
+        ctxt.locals += st.context.retId -> value.wrapCompletion
+        st.context = ctxt
+        st.ctxtStack = rest
+
+        // use hooks
+        if (useHook) notify(Event.Return)
       }
-
-      // store abstract semantics results
-      storeStatic(value)
-
-      // return wrapped values
-      ctxt.locals += st.context.retId -> value.wrapCompletion(st)
-      st.context = ctxt
-      st.ctxtStack = rest
-
-      // use hooks
-      if (useHook) notify(Event.Return)
     }
   }
 
@@ -400,42 +398,57 @@ class Interp(
     case EUndef => Undef
     case ENull => Null
     case EAbsent => Absent
+    case EMap(Ty("Completion"), props) => {
+      val map = (for {
+        (kexpr, vexpr) <- props
+        k = interp(kexpr).escaped
+        v = interp(vexpr).escaped
+      } yield k -> v).toMap
+      (map.get(Str("Type")), map.get(Str("Value")), map.get(Str("Target"))) match {
+        case (Some(ty: Const), Some(value), Some(target)) => {
+          val targetOpt = target match {
+            case Str(target) => Some(target)
+            case CONST_EMPTY => None
+            case _ => error(s"invalid completion target: ${target.beautified}")
+          }
+          CompValue(ty, value, targetOpt)
+        }
+        case _ => error("invalid completion")
+      }
+    }
     case EMap(ty, props) => {
       val addr = st.allocMap(ty)
       for ((kexpr, vexpr) <- props) {
-        val k = interp(kexpr).escaped(st)
+        val k = interp(kexpr).escaped
         val v = interp(vexpr)
         st.update(addr, k, v)
       }
       addr
     }
-    case EList(exprs) => st.allocList(exprs.map(expr => interp(expr).escaped(st)))
+    case EList(exprs) => st.allocList(exprs.map(expr => interp(expr).escaped))
     case ESymbol(desc) => interp(desc) match {
       case (str: Str) => st.allocSymbol(str)
       case Undef => st.allocSymbol(Undef)
       case v => error(s"not a string: ${v.beautified}")
     }
-    case EPop(list, idx) => interp(list).escaped(st) match {
-      case (addr: Addr) => st.pop(addr, interp(idx).escaped(st))
+    case EPop(list, idx) => interp(list).escaped match {
+      case (addr: Addr) => st.pop(addr, interp(idx).escaped)
       case v => error(s"not an address: ${v.beautified}")
     }
     case ERef(ref) => st(interp(ref))
     case EUOp(uop, expr) => {
-      val x = interp(expr).escaped(st)
+      val x = interp(expr).escaped
       interp(uop, x)
     }
     case EBOp(OAnd, left, right) => shortCircuit(OAnd, left, right)
     case EBOp(OOr, left, right) => shortCircuit(OOr, left, right)
-    case EBOp(OEq, ERef(RefId(id)), EAbsent) => {
-      val defined = st.globals.contains(id) || st.locals.contains(id)
-      Bool(!defined || st.directLookup(id) == Absent)
-    }
+    case EBOp(OEq, ERef(ref), EAbsent) => st.exists(interp(ref))
     case EBOp(bop, left, right) => {
-      val l = interp(left).escaped(st)
-      val r = interp(right).escaped(st)
+      val l = interp(left).escaped
+      val r = interp(right).escaped
       interp(bop, l, r)
     }
-    case ETypeOf(expr) => Str(interp(expr).escaped(st) match {
+    case ETypeOf(expr) => Str(interp(expr).escaped match {
       case Const(const) => "Constant"
       case (addr: Addr) => st(addr).ty.name match {
         case name if name endsWith "Object" => "Object"
@@ -453,11 +466,11 @@ class Interp(
       case Cont(_, _, _) => "Continuation"
       case ASTVal(_) => "AST"
     })
-    case EIsCompletion(expr) => Bool(interp(expr).isCompletion(st))
+    case EIsCompletion(expr) => Bool(interp(expr).isCompletion)
     case EIsInstanceOf(base, name) => {
       val bv = interp(base)
-      if (bv.isAbruptCompletion(st)) Bool(false)
-      else bv.escaped(st) match {
+      if (bv.isAbruptCompletion) Bool(false)
+      else bv.escaped match {
         case ASTVal(ast) => Bool(ast.name == name || ast.getKinds.contains(name))
         case Str(str) => Bool(str == name)
         case addr: Addr => st(addr) match {
@@ -467,24 +480,24 @@ class Interp(
         case _ => Bool(false)
       }
     }
-    case EGetElems(base, name) => interp(base).escaped(st) match {
+    case EGetElems(base, name) => interp(base).escaped match {
       case ASTVal(ast) => st.allocList(ast.getElems(name).map(ASTVal(_)))
       case v => error(s"not an AST value: ${v.beautified}")
     }
-    case EGetSyntax(base) => interp(base).escaped(st) match {
+    case EGetSyntax(base) => interp(base).escaped match {
       case ASTVal(ast) => Str(ast.toString)
       case v => error(s"not an AST value: ${v.beautified}")
     }
     case EParseSyntax(code, rule, parserParams) => {
-      val v = interp(code).escaped(st)
-      val p = interp(rule).escaped(st) match {
-        case Str(str) => ESParser.rules.getOrElse(str, error(s"not exist parse rule: $rule"))
-        case v => error(s"not a string: $v")
+      val v = interp(code).escaped
+      val p = interp(rule).escaped match {
+        case Str(str) => ESParser.rules.getOrElse(str, error(s"not exist parse rule: ${rule.beautified}"))
+        case v => error(s"not a string: ${v.beautified}")
       }
       v match {
         case ASTVal(ast) => ASTVal(ESParser.parse(p(ast.parserParams), ast.toString).get.checkSupported)
         case Str(str) =>
-          val ps = interp(parserParams).escaped(st) match {
+          val ps = interp(parserParams).escaped match {
             case addr: Addr => st(addr) match {
               case IRList(vs) => vs.toList.map(_ match {
                 case Bool(b) => b
@@ -495,10 +508,10 @@ class Interp(
             case v => error(s"not an address: ${v.beautified}")
           }
           ASTVal(ESParser.parse(p(ps), str).get.checkSupported)
-        case v => error(s"not an AST value or a string: $v")
+        case v => error(s"not an AST value or a string: ${v.beautified}")
       }
     }
-    case EConvert(source, target, flags) => interp(source).escaped(st) match {
+    case EConvert(source, target, flags) => interp(source).escaped match {
       case Str(s) => target match {
         case CStrToNum => Num(ESValueParser.str2num(s))
         case CStrToBigInt => ESValueParser.str2bigint(s)
@@ -506,7 +519,7 @@ class Interp(
       }
       case INum(n) => {
         val radix = flags match {
-          case e :: rest => interp(e).escaped(st) match {
+          case e :: rest => interp(e).escaped match {
             case INum(n) => n.toInt
             case Num(n) => n.toInt
             case _ => error("radix is not int")
@@ -517,12 +530,12 @@ class Interp(
           case CNumToStr => Str(toStringHelper(n, radix))
           case CNumToInt => INum(n)
           case CNumToBigInt => BigINum(BigInt(n))
-          case _ => error(s"not convertable option: INum to $target")
+          case _ => error(s"not convertable option: INum to ${target.beautified}")
         }
       }
       case Num(n) => {
         val radix = flags match {
-          case e :: rest => interp(e).escaped(st) match {
+          case e :: rest => interp(e).escaped match {
             case INum(n) => n.toInt
             case Num(n) => n.toInt
             case _ => error("radix is not int")
@@ -533,20 +546,20 @@ class Interp(
           case CNumToStr => Str(toStringHelper(n, radix))
           case CNumToInt => INum((math.signum(n) * math.floor(math.abs(n))).toLong)
           case CNumToBigInt => BigINum(BigInt(new java.math.BigDecimal(n).toBigInteger))
-          case _ => error(s"not convertable option: INum to $target")
+          case _ => error(s"not convertable option: INum to ${target.beautified}")
         }
       }
       case BigINum(b) => target match {
         case CNumToBigInt => BigINum(b)
         case CNumToStr => Str(b.toString)
         case CBigIntToNum => Num(b.toDouble)
-        case _ => error(s"not convertable option: BigINum to $target")
+        case _ => error(s"not convertable option: BigINum to ${target.beautified}")
       }
       case v => error(s"not an convertable value: ${v.beautified}")
     }
-    case EContains(list, elem) => interp(list).escaped(st) match {
+    case EContains(list, elem) => interp(list).escaped match {
       case addr: Addr => st(addr) match {
-        case IRList(vs) => Bool(vs contains interp(elem).escaped(st))
+        case IRList(vs) => Bool(vs contains interp(elem).escaped)
         case obj => error(s"not a list: ${obj.beautified}")
       }
       case v => error(s"not an address: ${v.beautified}")
@@ -558,11 +571,11 @@ class Interp(
       value
     }
     case EReturnIfAbrupt(expr, check) => returnIfAbrupt(interp(expr), check)
-    case ECopy(obj) => interp(obj).escaped(st) match {
+    case ECopy(obj) => interp(obj).escaped match {
       case addr: Addr => st.copyObj(addr)
       case v => error(s"not an address: ${v.beautified}")
     }
-    case EKeys(mobj, intSorted) => interp(mobj).escaped(st) match {
+    case EKeys(mobj, intSorted) => interp(mobj).escaped match {
       case addr: Addr => st.keys(addr, intSorted)
       case v => error(s"not an address: ${v.beautified}")
     }
@@ -571,17 +584,11 @@ class Interp(
 
   // return if abrupt completion
   def returnIfAbrupt(value: Value, check: Boolean): Value = value match {
-    case addr: Addr => st(addr) match {
-      case obj @ IRMap(Ty("Completion"), _, _) => obj(Str("Type")) match {
-        case NamedAddr("CONST_normal") => obj(Str("Value"))
-        case _ => {
-          if (check) throw ReturnValue(addr)
-          else error("unchecked abrupt completion")
-        }
-      }
-      case _ => value
-    }
-    case _ => value
+    case CompValue(CONST_NORMAL, value, _) => value
+    case CompValue(_, _, _) =>
+      if (check) throw ReturnValue(value)
+      else error(s"unchecked abrupt completion: ${value.beautified}")
+    case pure: PureValue => pure
   }
 
   // references
@@ -589,16 +596,8 @@ class Interp(
     case RefId(id) => RefValueId(id)
     case RefProp(ref, expr) => {
       var base = st(interp(ref))
-      val p = interp(expr).escaped(st)
-      p match {
-        case Str("Type" | "Value" | "Target") =>
-        case _ => base = base.escaped(st)
-      }
-      base match {
-        case (addr: Addr) => RefValueProp(addr, p)
-        case Str(str) => RefValueString(str, p)
-        case v => error(s"not an address: ${v.beautified}")
-      }
+      val p = interp(expr).escaped
+      RefValueProp(base, p)
     }
   }
 
@@ -721,12 +720,12 @@ class Interp(
 
   // short circuit evaluation
   def shortCircuit(bop: BOp, left: Expr, right: Expr): Value = {
-    val l = interp(left).escaped(st)
+    val l = interp(left).escaped
     (bop, l) match {
       case (OAnd, Bool(false)) => Bool(false)
       case (OOr, Bool(true)) => Bool(true)
       case _ => {
-        val r = interp(right).escaped(st)
+        val r = interp(right).escaped
         interp(bop, l, r)
       }
     }
@@ -856,13 +855,13 @@ object Interp {
       case (st, List(INum(n))) => Num(n.toFloat.toDouble)
     }),
     arityCheck("ThrowCompletion" -> {
-      case (st, List(value)) => value.wrapCompletion(st, CompletionType.Throw)
+      case (st, List(value)) => value.wrapCompletion(CONST_THROW)
     }),
     arityCheck("NormalCompletion" -> {
-      case (st, List(value)) => value.wrapCompletion(st)
+      case (st, List(value)) => value.wrapCompletion
     }),
     arityCheck("IsAbruptCompletion" -> {
-      case (st, List(value)) => Bool(value.isAbruptCompletion(st))
+      case (st, List(value)) => Bool(value.isAbruptCompletion)
     }),
   )
 

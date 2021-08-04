@@ -5,5 +5,6 @@ import kr.ac.kaist.jiset.checker.Beautifier._
 
 // type checker components
 trait CheckerComponent {
-  override def toString: String = beautify(this)
+  // conversion to string
+  def beautified: String = beautify(this)
 }

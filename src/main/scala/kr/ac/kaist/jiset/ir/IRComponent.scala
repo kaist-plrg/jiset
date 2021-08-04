@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // IR components
 trait IRComponent {
+  // conversion to string
   def beautified: String = beautified()
   def beautified(
     detail: Boolean = true,

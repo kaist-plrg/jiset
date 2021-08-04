@@ -1,9 +1,6 @@
 package kr.ac.kaist.jiset
 
 package object ir {
-  // completion type
-  type CompletionType = CompletionType.Value
-
   // equality between doubles
   def doubleEquals(left: Double, right: Double): Boolean = {
     if (left.isNaN && right.isNaN) true
@@ -47,17 +44,6 @@ package object ir {
 
   def toERef(name: String): ERef = ERef(RefId(Id(name)))
   def toRef(name: String): Ref = RefId(Id(name))
-
-  // get completion
-  def getCompletion(st: State)(
-    value: Value,
-    ty: Value = NamedAddr("CONST_normal"),
-    target: Value = NamedAddr("CONST_empty")
-  ): Addr = st.allocMap(Ty("Completion"), Map(
-    Str("Value") -> value,
-    Str("Type") -> ty,
-    Str("Target") -> target,
-  ))
 
   // conversion number to string
   def toStringHelper(m: Double, radix: Int = 10): String = {
@@ -111,6 +97,39 @@ package object ir {
   def getRadixString(d: Long): String = {
     if (d < 10) d.toString else ('a' + (d - 10)).toChar.toString
   }
+
+  // constants
+  val CONST_EMPTY = Const("empty")
+  val CONST_UNRESOLVABLE = Const("unresolvable")
+  val CONST_LEXICAL = Const("lexical")
+  val CONST_INITIALIZED = Const("initialized")
+  val CONST_UNINITIALIZED = Const("uninitialized")
+  val CONST_BASE = Const("base")
+  val CONST_DERIVED = Const("derived")
+  val CONST_STRICT = Const("strict")
+  val CONST_GLOBAL = Const("global")
+  val CONST_UNLINKED = Const("unlinked")
+  val CONST_LINKING = Const("linking")
+  val CONST_LINKED = Const("linked")
+  val CONST_EVALUATING = Const("evaluating")
+  val CONST_EVALUATED = Const("evaluated")
+  val CONST_NUMBER = Const("Number")
+  val CONST_BIGINT = Const("BigInt")
+  val CONST_NORMAL = Const("normal")
+  val CONST_BREAK = Const("break")
+  val CONST_CONTINUE = Const("continue")
+  val CONST_RETURN = Const("return")
+  val CONST_THROW = Const("throw")
+  val CONST_SUSPENDED_START = Const("suspendedStart")
+  val CONST_SUSPENDED_YIELD = Const("suspendedYield")
+  val CONST_EXECUTING = Const("executing")
+  val CONST_AWAITING_RETURN = Const("awaitingDASHreturn")
+  val CONST_COMPLETED = Const("completed")
+  val CONST_PENDING = Const("pending")
+  val CONST_FULFILLED = Const("fulfilled")
+  val CONST_REJECTED = Const("rejected")
+  val CONST_FULFILL = Const("Fulfill")
+  val CONST_REJECT = Const("Reject")
 
   // type aliases
   type Absent = Absent.type

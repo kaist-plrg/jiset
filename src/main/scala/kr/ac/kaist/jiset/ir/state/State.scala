@@ -31,19 +31,28 @@ case class State(
   // getters
   def apply(refV: RefValue): Value = refV match {
     case RefValueId(x) => this(x)
-    case RefValueProp(addr, value) => this(addr, value)
-    case RefValueString(str, value) => this(str, value)
+    case RefValueProp(base, prop) => this(base, prop)
   }
   def apply(x: Id): Value = directLookup(x) match {
     case Absent if context.isBuiltin => Undef
     case v => v
   }
-  def apply(addr: Addr, key: Value): Value = heap(addr, key)
-  def apply(str: String, key: Value): Value = key match {
+  def apply(base: Value, prop: Value): Value = base match {
+    case comp: CompValue => prop match {
+      case Str("Type") => comp.ty
+      case Str("Value") => comp.value
+      case Str("Target") => comp.target
+      case _ => this(comp.escaped, prop)
+    }
+    case addr: Addr => heap(addr, prop)
+    case Str(str) => this(str, prop)
+    case v => error(s"not a proper reference base: ${v.beautified}")
+  }
+  def apply(str: String, prop: Value): Value = prop match {
     case Str("length") => INum(str.length)
     case INum(k) => Str(str(k.toInt).toString)
     case Num(k) => Str(str(k.toInt).toString)
-    case v => error(s"wrong access of string reference: $str.${key.beautified}")
+    case v => error(s"wrong access of string reference: $str.${prop.beautified}")
   }
   def apply(addr: Addr): Obj = heap(addr)
 
@@ -51,9 +60,12 @@ case class State(
   def update(refV: RefValue, value: Value): this.type = refV match {
     case RefValueId(x) =>
       update(x, value); this
-    case RefValueProp(addr, key) =>
-      update(addr, key, value); this
-    case _ => error(s"illegal reference update: ${refV.beautified} = ${value.beautified}")
+    case RefValueProp(base, prop) => base.escaped match {
+      case addr: Addr =>
+        update(addr, prop, value); this
+      case _ =>
+        error(s"illegal reference update: ${refV.beautified} = ${value.beautified}")
+    }
   }
   def update(x: Id, value: Value): this.type = {
     if (locals contains x) locals += x -> value
@@ -61,16 +73,28 @@ case class State(
     else error(s"illegal variable update: ${x.beautified} = ${value.beautified}")
     this
   }
-  def update(addr: Addr, key: Value, value: Value): this.type =
-    { heap.update(addr, key, value); this }
+  def update(addr: Addr, prop: Value, value: Value): this.type =
+    { heap.update(addr, prop, value); this }
 
-  // delete a key from a map
+  // existence checks
+  def exists(ref: RefValue): Value = Bool(ref match {
+    case RefValueId(id) =>
+      val defined = globals.contains(id) || locals.contains(id)
+      !defined || directLookup(id) == Absent
+    case RefValueProp(base, prop) =>
+      this(base.escaped, prop) == Absent
+  })
+
+  // delete a property from a map
   def delete(refV: RefValue): this.type = refV match {
     case RefValueId(x) =>
-      context.locals -= x; this
-    case RefValueProp(addr, prop) =>
-      heap.delete(addr, prop); this
-    case _ => error(s"illegal reference delete: delete ${refV.beautified}")
+      error(s"cannot delete variable ${x.beautified}")
+    case RefValueProp(base, prop) => base.escaped match {
+      case addr: Addr =>
+        heap.delete(addr, prop); this
+      case _ =>
+        error(s"illegal reference delete: delete ${refV.beautified}")
+    }
   }
 
   // object operators
@@ -89,6 +113,10 @@ case class State(
 
   // get string for a given address
   def getString(value: Value): String = value match {
+    case comp: CompValue => comp.beautified + (comp.value match {
+      case addr: Addr => " -> " + heap(addr).beautified
+      case _ => ""
+    })
     case addr: Addr => addr.beautified + " -> " + heap(addr).beautified
     case _ => value.beautified
   }

@@ -5,5 +5,6 @@ import kr.ac.kaist.jiset.spec.Beautifier._
 
 // specification components
 trait SpecComponent {
+  // conversion to string
   def beautified: String = beautify(this)
 }

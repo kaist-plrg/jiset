@@ -36,7 +36,7 @@ object Beautifier {
 
   // control points
   implicit lazy val ControlPointApp: App[ControlPoint] = (app, cp) => cp match {
-    case NodePoint(node, view) => app >> node.toString >> ":" >> view
+    case NodePoint(node, view) => app >> node.simpleString >> ":" >> view
     case ReturnPoint(func, view) => app >> "RETURN:" >> view
   }
 
@@ -52,7 +52,7 @@ object Beautifier {
     if (st.isBottom) app >> "⊥"
     else if (st.isEmpty) app >> "{}"
     else app.wrap {
-      for ((x, t) <- st.map) app :> x >> " -> " >> t.toString >> LINE_SEP
+      for ((x, t) <- st.map) app :> x >> " -> " >> t >> LINE_SEP
     }
   }
 
@@ -60,10 +60,10 @@ object Beautifier {
   implicit lazy val AbsTypeApp: App[AbsType] = (app, aty) => {
     val set = aty.set
     if (set.size == 0) app >> "⊥"
-    else if (set.size == 1) app >> set.head.toString
+    else if (set.size == 1) app >> set.head
     else {
       implicit val t = ListApp[String]("(", " | ", ")")
-      app >> set.toList.map(_.toString).sorted
+      app >> set.toList.map(_.beautified).sorted
     }
   }
 

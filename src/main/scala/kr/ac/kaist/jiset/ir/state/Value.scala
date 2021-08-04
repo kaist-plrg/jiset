@@ -9,66 +9,41 @@ import scala.collection.mutable.{ Map => MMap }
 // values
 sealed trait Value extends IRComponent {
   // escape completion
-  def escaped(st: State): PureValue = ???
-  // this match {
-  //   case addr: Addr => completionType(st) match {
-  //     case CompletionType.NoCompl => this
-  //     case CompletionType.Normal => st(addr, Str("Value"))
-  //     case _ => error(s"unchecked abrupt completion: ${addr}")
-  //   }
-  //   case _ => this
-  // }
-
-  // check completion
-  def isCompletion(st: State): Boolean = ???
-  // completionType(st) match {
-  //   case CompletionType.NoCompl => false
-  //   case _ => true
-  // }
+  def escaped: PureValue = this match {
+    case CompValue(CONST_NORMAL, value, _) => value
+    case CompValue(_, _, _) =>
+      error(s"unchecked abrupt completion: ${this.beautified}")
+    case pure: PureValue => pure
+  }
 
   // check abrupt completion
-  def isAbruptCompletion(st: State): Boolean = ???
-  // completionType(st) match {
-  //   case CompletionType.NoCompl => false
-  //   case CompletionType.Normal => false
-  //   case _ => true
-  // }
+  def isCompletion: Boolean = this match {
+    case comp: CompValue => true
+    case _ => false
+  }
 
-  // completion type
-  def completionType(st: State): CompletionType = ???
-  // this match {
-  //   case (addr: Addr) => st(addr) match {
-  //     case m @ IRMap(Ty("Completion"), _, _) => CompletionType
-  //       .toType(m(Str("Type")))
-  //       .getOrElse { error(s"invalid completion record: ${m.beautified}") }
-  //     case _ => CompletionType.NoCompl
-  //   }
-  //   case _ => CompletionType.NoCompl
-  // }
+  // check abrupt completion
+  def isAbruptCompletion: Boolean = this match {
+    case comp: CompValue => comp.ty != CONST_NORMAL
+    case _ => false
+  }
 
   // wrap completion
-  def wrapCompletion(
-    st: State,
-    newTy: CompletionType = CompletionType.Normal
-  ): CompValue = ???
-  // CompletionType.toAddr(newTy) match {
-  //   case Some(newAddr) => this match {
-  //     case addr: Addr => st(addr) match {
-  //       case m @ IRMap(Ty("Completion"), _, _) => this
-  //       case _ => getCompletion(st)(value = this, ty = newAddr)
-  //     }
-  //     case _ => getCompletion(st)(value = this, ty = newAddr)
-  //   }
-  //   case None => this
-  // }
+  def wrapCompletion: CompValue = wrapCompletion(CONST_NORMAL)
+  def wrapCompletion(ty: Const): CompValue = this match {
+    case comp: CompValue => comp
+    case pure: PureValue => CompValue(ty, pure, None)
+  }
 }
 
 // completions
 case class CompValue(
   ty: Const,
   value: PureValue,
-  target: Option[String]
-) extends Value
+  targetOpt: Option[String]
+) extends Value {
+  def target: Value = targetOpt.fold[Value](CONST_EMPTY)(Str)
+}
 
 // pure values
 sealed trait PureValue extends Value
@@ -78,7 +53,10 @@ case class Const(name: String) extends PureValue
 
 // addresses
 sealed trait Addr extends PureValue
-case class NamedAddr(name: String) extends Addr
+case class NamedAddr(name: String) extends Addr {
+  // TODO REMOVE!!
+  if (name startsWith ("CONST_")) error(s"invalid address name: $name")
+}
 case class DynamicAddr(long: Long) extends Addr
 
 // functions

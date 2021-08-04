@@ -273,9 +273,7 @@ trait UnitWalker {
   // properties
   def walk(refV: RefValue): Unit = refV match {
     case RefValueId(id) => walk(id)
-    case RefValueProp(addr, value) =>
-      walk(addr); walk(value)
-    case RefValueString(str, name) =>
-      walk(str); walk(name)
+    case RefValueProp(base, prop) =>
+      walk(base); walk(prop)
   }
 }

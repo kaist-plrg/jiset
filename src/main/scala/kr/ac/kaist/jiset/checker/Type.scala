@@ -128,16 +128,17 @@ sealed trait Type extends CheckerComponent {
 sealed trait CompType extends Type
 object CompType {
   // type creation from values
-  def apply(addr: Addr, st: State): CompType = {
-    import kr.ac.kaist.jiset.ir._
-    import CompletionType._
-    addr.completionType(st) match {
-      case Normal =>
-        val value = st(addr, Str("Value"))
-        NormalT(PureType(value, st))
-      case _ => AbruptT
-    }
-  }
+  def apply(addr: Addr, st: State): CompType = ???
+  // {
+  //   import kr.ac.kaist.jiset.ir._
+  //   import CompletionType._
+  //   addr.completionType(st) match {
+  //     case Normal =>
+  //       val value = st(addr, Str("Value"))
+  //       NormalT(PureType(value, st))
+  //     case _ => AbruptT
+  //   }
+  // }
 }
 case class NormalT(value: PureType) extends CompType
 case object AbruptT extends CompType
@@ -294,13 +295,14 @@ case object AAbsent extends SingleT
 // modeling
 object Type extends Parser[Type] {
   // type creation from values
-  def apply(value: Value, st: State): Type = {
-    import kr.ac.kaist.jiset.ir._
-    value match {
-      case addr: Addr if value.isCompletion(st) => CompType(addr, st)
-      case _ => PureType(value, st)
-    }
-  }
+  def apply(value: Value, st: State): Type = ???
+  // {
+  //   import kr.ac.kaist.jiset.ir._
+  //   value match {
+  //     case addr: Addr if value.isCompletion(st) => CompType(addr, st)
+  //     case _ => PureType(value, st)
+  //   }
+  // }
 
   // type aliases
   val typeAlias: List[(Type, Set[Type])] = List(

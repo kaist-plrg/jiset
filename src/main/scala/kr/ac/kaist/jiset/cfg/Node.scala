@@ -7,8 +7,8 @@ import kr.ac.kaist.jiset.util.Appender._
 
 // CFG nodes
 trait Node extends CFGComponent with UId[Node] {
-  // conversion to string
-  override def toString: String = s"${getClass.getSimpleName}[$uid]"
+  // get simple string
+  def simpleString: String = s"${getClass.getSimpleName}[$uid]"
 
   // conversion to string with instructions
   def beautified(

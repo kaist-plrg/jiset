@@ -35,7 +35,7 @@ object Initialize {
   lazy val initGlobal: MMap[Id, Value] = {
     val map = MMap[Id, Value]()
     for (c <- consts) {
-      map += Id(CONST_PREFIX + c) -> NamedAddr(CONST_PREFIX + c)
+      map += Id(CONST_PREFIX + c) -> Const(c)
     }
     for (s <- symbols) {
       map += Id(SYMBOL_PREFIX + s) -> NamedAddr(s"$GLOBAL.Symbol.$s")
@@ -52,9 +52,6 @@ object Initialize {
   // initial heap
   lazy val initHeap: Heap = {
     val map = MMap[Addr, Obj]()
-    for (c <- consts) {
-      map += NamedAddr(CONST_PREFIX + c) -> IRSymbol(Str(CONST_PREFIX + c))
-    }
     for (s <- symbols) {
       map += NamedAddr(s"$GLOBAL.Symbol.$s") -> IRSymbol(Str("Symbol." + s))
     }

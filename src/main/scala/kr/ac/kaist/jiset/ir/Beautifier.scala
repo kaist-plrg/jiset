@@ -22,12 +22,6 @@ class Beautifier(
     app >> t >> " -> " >> u
   }
 
-  // line info appender
-  implicit def lineApp: App[Option[Int]] = (app, line) => line match {
-    case None => app
-    case Some(i) => app >> i
-  }
-
   // IR nodes
   implicit lazy val IRComponentApp: App[IRComponent] = (app, node) => node match {
     case node: Program => ProgramApp(app, node)
@@ -63,7 +57,7 @@ class Beautifier(
 
   // instructions
   implicit lazy val InstApp: App[Inst] = (app, inst) => {
-    inst.line match {
+    if (index) inst.line match {
       case None =>
       case Some(i) => app >> s"$i:"
     }
@@ -237,15 +231,15 @@ class Beautifier(
   // States
   //////////////////////////////////////////////////////////////////////////////
   // states
-  implicit lazy val StateApp: App[State] = (app, st) => {
+  implicit lazy val StateApp: App[State] = (app, st) => app.wrap {
     val State(_, context, ctxtStack, globals, heap, fnameOpt) = st
-    app >> "context: " >> context >> LINE_SEP
+    app :> "context: " >> context >> LINE_SEP
     implicit val c = ListApp[String]("[", ", ", "]")
-    app >> "context-stack: " >> ctxtStack.map(_.name) >> LINE_SEP
-    app >> "globals: "
+    app :> "context-stack: " >> ctxtStack.map(_.name) >> LINE_SEP
+    app :> "globals: "
     app.listWrap(globals, detail) >> LINE_SEP
-    app >> "heap: " >> heap >> LINE_SEP
-    app >> "filename: " >> fnameOpt.getOrElse("UNKNOWN")
+    app :> "heap: " >> heap >> LINE_SEP
+    app :> "filename: " >> fnameOpt.getOrElse("UNKNOWN") >> LINE_SEP
   }
 
   // contexts
@@ -300,13 +294,18 @@ class Beautifier(
   }
 
   // completions
-  implicit lazy val CompValueApp: App[CompValue] = (app, c) => {
-    ???
+  implicit lazy val CompValueApp: App[CompValue] = (app, c) => c match {
+    case CompValue(CONST_NORMAL, value, None) =>
+      app >> "N(" >> value >> ")"
+    case CompValue(ty, value, target) =>
+      app >> "Completion[" >> ty >> "]" >> "(" >> value
+      target.map(app >> " => " >> _)
+      app >> ")"
   }
 
   // pure values
   implicit lazy val PureValueApp: App[PureValue] = (app, v) => v match {
-    case Const(name) => app >> "~" >> name >> "~"
+    case const: Const => ConstApp(app, const)
     case addr: Addr => AddrApp(app, addr)
     case ast: ASTVal => ASTValApp(app, ast)
     case func: Func => FuncApp(app, func)
@@ -320,6 +319,10 @@ class Beautifier(
     case Undef => app >> "undefined"
     case Null => app >> "null"
     case Absent => app >> "absent"
+  }
+
+  implicit lazy val ConstApp: App[Const] = (app, c) => c match {
+    case Const(name) => app >> "~" >> name >> "~"
   }
 
   // addresses
@@ -356,7 +359,6 @@ class Beautifier(
   // reference values
   implicit lazy val RefValueApp: App[RefValue] = (app, refV) => refV match {
     case RefValueId(id) => app >> id
-    case RefValueProp(addr, value) => app >> addr >> "[" >> value >> "]"
-    case RefValueString(str, name) => app >> Str(str) >> "[" >> name >> "]"
+    case RefValueProp(base, prop) => app >> base >> "[" >> prop >> "]"
   }
 }

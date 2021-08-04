@@ -153,37 +153,37 @@ class BeautifierTinyTest extends IRTest {
 
     // State
     test("State")(
-      State() -> """context: {
+      State() -> """{
+      |  context: {
+      |    name: TOP_LEVEL
+      |    return: RETURN
+      |    cursor: [EMPTY]
+      |    local-vars: {}
+      |  }
+      |  context-stack: []
+      |  globals: {}
+      |  heap: (SIZE = 0): {}
+      |  filename: UNKNOWN
+      |}""".stripMargin
+    )
+    test("Context")(
+      Context() -> """{
       |  name: TOP_LEVEL
       |  return: RETURN
       |  cursor: [EMPTY]
       |  local-vars: {}
-      |}
-      |context-stack: []
-      |globals: {}
-      |heap: (SIZE = 0): {}
-      |filename: UNKNOWN""".stripMargin
-    )
-    test("Context")(
-      Context() -> """{
-        |  name: TOP_LEVEL
-        |  return: RETURN
-        |  cursor: [EMPTY]
-        |  local-vars: {}
-        |}""".stripMargin
+      |}""".stripMargin
     )
     test("Heap")(
-      Heap(MMap(NamedAddr("namedaddr") -> IRSymbol(Num(3.0))), 1) ->
-        """(SIZE = 1): {
-        |  #namedaddr -> (Symbol 3.0)
-        |}""".stripMargin
+      Heap(MMap(NamedAddr("namedaddr") -> IRSymbol(Num(3.0))), 1) -> """(SIZE = 1): {
+      |  #namedaddr -> (Symbol 3.0)
+      |}""".stripMargin
     )
     test("Obj")(
       IRSymbol(Str("const")) -> """(Symbol "const")""",
-      IRMap(Ty("T"), MMap(Num(3.0) -> (Num(2.0), 4)), 1) ->
-        """(TYPE = T) {
-        |  3.0 -> 2.0
-        |}""".stripMargin,
+      IRMap(Ty("T"), MMap(Num(3.0) -> (Num(2.0), 4)), 1) -> """(TYPE = T) {
+      |  3.0 -> 2.0
+      |}""".stripMargin,
       IRList(Vector(Num(3.0))) -> "[3.0]",
       IRList(Vector(Num(3.0), INum(42))) -> "[3.0, 42i]",
       IRNotSupported("tyname", "desc") -> """(NotSupported "tyname" "desc")"""
@@ -229,7 +229,7 @@ class BeautifierTinyTest extends IRTest {
       RefValueId(Id("x")) -> "x",
       RefValueProp(NamedAddr("namedaddr"), Num(3.0)) -> "#namedaddr[3.0]",
       RefValueProp(NamedAddr("namedaddr"), Str("abc")) -> """#namedaddr["abc"]""",
-      RefValueString("hello", Num(3.0)) -> """"hello"[3.0]"""
+      RefValueProp(Str("hello"), INum(3)) -> """"hello"[3i]"""
     )
   }
   init
