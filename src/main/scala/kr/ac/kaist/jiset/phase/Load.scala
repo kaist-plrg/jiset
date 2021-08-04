@@ -27,13 +27,14 @@ case object Load extends Phase[Script, LoadConfig, State] {
   def defaultConfig: LoadConfig = LoadConfig()
   val options: List[PhaseOption[LoadConfig]] = List(
     ("cursor", StrOption((c, s) => s match {
+      case "inst" => c.cursorGen = InstCursor
       case "node" => c.cursorGen = NodeCursor
-      case _ => c.cursorGen = InstCursor
-    }), "set the type of evaluation cursors (default: inst)."),
+      case _ => c.cursorGen = NodeCursor
+    }), "set the type of evaluation cursors (default: node)."),
   )
 }
 
 // Parse phase config
 case class LoadConfig(
-  var cursorGen: CursorGen[_ <: Cursor] = InstCursor
+  var cursorGen: CursorGen[_ <: Cursor] = NodeCursor
 ) extends Config
