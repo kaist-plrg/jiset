@@ -40,7 +40,7 @@ object Stat {
 
   //dump to a directory
   def dumpVisitMap(dirname: String): Unit =
-    dumpFile(visitRecorder.toString, s"$dirname/visited-nodes")
+    dumpFile(visitRecorder.beautified, s"$dirname/visited-nodes")
 
   // summary
   def summaryString: String = (
@@ -52,7 +52,11 @@ object Stat {
        |- algorithms:
        |  - # algo : ${algoNames.size}
        |  - min    : ${algoNames.toList.map(_._2).reduce(_ min _)}
-       |  - max    : ${algoNames.toList.map(_._2).reduce(_ max _)}""".stripMargin
+       |  - max    : ${algoNames.toList.map(_._2).reduce(_ max _)}
+       |- visited:
+       |  - # func : ${visitRecorder.func}
+       |  - # view : ${visitRecorder.view}
+       |  - # node : ${visitRecorder.node}""".stripMargin
   )
 
   def dumpSummary(dirname: String): Unit =

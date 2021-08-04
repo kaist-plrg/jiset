@@ -1,15 +1,15 @@
 package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.ir
+import kr.ac.kaist.jiset.cfg
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
 // Checker Beautifier
 object Beautifier {
-  val irBeautifier = new ir.Beautifier(index = true)
-  import irBeautifier._
+  val cfgBeautifier = new cfg.Beautifier(index = true)
+  import cfgBeautifier._, irBeautifier._
 
   // type checker components
   implicit lazy val CheckerElemApp: App[CheckerElem] = (app, comp) => comp match {
@@ -117,10 +117,9 @@ object Beautifier {
     for ((func, viewMap) <- vr.visitMap) {
       app >> func.name >> ": "
       app.wrap(for ((view, nodeMap) <- viewMap) {
-        app :> view.toString >> ": "
-        app.wrap(for ((node, fnameOpt) <- nodeMap) {
-          val fname = fnameOpt.getOrElse("UNKNOWN")
-          app :> node.toString >> ": " >> fname >> LINE_SEP
+        app :> view >> ": "
+        app.wrap(for ((node, fname) <- nodeMap.toList.sortBy(_._1.uid)) {
+          app :> node.uidString >> ": " >> fname >> LINE_SEP
         }) >> LINE_SEP
       }) >> LINE_SEP
     }

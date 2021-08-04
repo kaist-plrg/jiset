@@ -14,7 +14,7 @@ class Beautifier(
 ) {
   // load other beautifiers
   val cfgBeautifier = new cfg.Beautifier(detail, index, asite)
-  import cfgBeautifier._, cfgBeautifier.irBeautifier._
+  import cfgBeautifier._, irBeautifier._
 
   // analyzer  components
   implicit lazy val AnalyzerElemApp: App[AnalyzerElem] = (app, comp) => comp match {
