@@ -5,11 +5,6 @@ import scala.collection.mutable.{ Map => MMap }
 
 // IR Objects
 sealed trait Obj extends IRComponent {
-  // TODO REMOVE
-  if (ty == Ty("Completion")) {
-    error("completion typed object is not supported")
-  }
-
   // types
   def ty: Ty
 
