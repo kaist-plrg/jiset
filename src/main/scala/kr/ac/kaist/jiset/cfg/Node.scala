@@ -6,10 +6,7 @@ import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 
 // CFG nodes
-trait Node extends CFGElem with UId[Node] {
-  // get simple string
-  def simpleString: String = s"${getClass.getSimpleName}[$uid]"
-}
+trait Node extends CFGElem with UId[Node]
 
 // linear nodes
 trait Linear extends Node

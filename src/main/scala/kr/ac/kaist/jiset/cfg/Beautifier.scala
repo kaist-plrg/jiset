@@ -35,7 +35,7 @@ class Beautifier(
 
   // CFG nodes
   implicit lazy val NodeApp: App[Node] = (app, node) => {
-    app >> node.simpleString
+    app >> node.uidString
     node match {
       case Entry(_) =>
       case Normal(_, inst) => app >> " " >> inst

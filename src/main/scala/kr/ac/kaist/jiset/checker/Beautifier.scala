@@ -36,7 +36,7 @@ object Beautifier {
 
   // control points
   implicit lazy val ControlPointApp: App[ControlPoint] = (app, cp) => cp match {
-    case NodePoint(node, view) => app >> node.simpleString >> ":" >> view
+    case NodePoint(node, view) => app >> node.uidString >> ":" >> view
     case ReturnPoint(func, view) => app >> "RETURN:" >> view
   }
 
