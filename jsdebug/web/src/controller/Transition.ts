@@ -26,7 +26,7 @@ export const transitions: Transition[] = [
     [ ActionType.STEP_OUT, AppState.DEBUG_READY ],
     [ ActionType.ADD_BREAK, AppState.DEBUG_READY ],
     [ ActionType.RM_BREAK, AppState.DEBUG_READY ],
-    [ ActionType.ABLE_BREAK, AppState.DEBUG_READY ],
+    [ ActionType.TOGGLE_BREAK, AppState.DEBUG_READY ],
     [ ActionType.CONTINUE, AppState.DEBUG_READY ],
     [ ActionType.SHOW_ALGO, AppState.DEBUG_READY ],
     [ ActionType.STOP_DBG, AppState.JS_INPUT ],

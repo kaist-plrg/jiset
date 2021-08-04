@@ -16,6 +16,10 @@ declare class Scala_WebDebugger {
   getStackFrame (): string;
   getHeap (): string;
   getJsRange (): string;
+  // breakpoints
+  addAlgoBreak ( algoName: string, enabled: boolean = true ): void;
+  rmAlgoBreak ( opt: string ): void;
+  toggleAlgoBreak ( opt: string ): void;
 }
 
 // call setTarget

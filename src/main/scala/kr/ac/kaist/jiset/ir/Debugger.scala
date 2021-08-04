@@ -10,6 +10,7 @@ import scala.annotation.tailrec
 
 // Debugger breakpoint
 trait BreakPoint {
+  var enabled = true
   private var trigger = false
   def needTrigger: Boolean = {
     if (trigger) { trigger = false; true }
@@ -17,9 +18,11 @@ trait BreakPoint {
   }
   protected def on: Unit = trigger = true
   def check(str: String): Unit
+  def toggle() = { enabled = !enabled }
 }
 case class AlgoBreakPoint(name: String) extends BreakPoint {
-  override def check(str: String): Unit = if (name == str) this.on
+  override def check(str: String): Unit =
+    if (enabled && name == str) this.on
 }
 
 // IR Debugger
@@ -63,7 +66,7 @@ trait Debugger {
   val breakpoints = ArrayBuffer[(InterpHook, BreakPoint)]()
 
   // add break
-  final def addBreak(algoName: String) = {
+  final def addBreak(algoName: String, enabled: Boolean = true) = {
     val bp = AlgoBreakPoint(algoName)
     val hook = interp.subscribe(algoName, Interp.Event.Call, st => {
       st.context.algo match {
@@ -71,7 +74,14 @@ trait Debugger {
         case None =>
       }
     })
+    bp.enabled = enabled
     breakpoints += ((hook, bp))
+  }
+
+  // get breakpoint by index
+  private def getBreakIdx(idx: String): Int = optional(idx.toInt) match {
+    case Some(idx) if idx < breakpoints.size => idx
+    case None => error("wrong breakpoints index: $idx")
   }
 
   // remove break
@@ -79,13 +89,20 @@ trait Debugger {
     case "all" =>
       breakpoints.foreach { case (hook, _) => interp.unsubscribe(hook) }
       breakpoints.clear
-    case idx => optional(idx.toInt) match {
-      case Some(idx) if idx < breakpoints.size =>
-        val (hook, _) = breakpoints(idx)
-        breakpoints.remove(idx)
-        interp.unsubscribe(hook)
-      case None => error("wrong breakpoints index: $idx")
-    }
+    case _ =>
+      val idx = getBreakIdx(opt)
+      val (hook, _) = breakpoints(idx)
+      breakpoints.remove(idx)
+      interp.unsubscribe(hook)
+  }
+  // toggle break
+  final def toggleBreak(opt: String) = opt match {
+    case "all" =>
+      breakpoints.foreach { case (_, bp) => bp.toggle() }
+    case _ =>
+      val idx = getBreakIdx(opt)
+      val (_, bp) = breakpoints(idx)
+      bp.toggle()
   }
 
   // check if current step is in break

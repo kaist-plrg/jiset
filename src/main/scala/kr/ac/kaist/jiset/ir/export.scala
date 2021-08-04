@@ -37,6 +37,11 @@ object Export {
     }
     def specStepOut() = stepOut
 
+    // breakpoints
+    def addAlgoBreak(algoName: String, enabled: Boolean = true) = addBreak(algoName, enabled)
+    def rmAlgoBreak(opt: String) = rmBreak(opt)
+    def toggleAlgoBreak(opt: String) = toggleBreak(opt)
+
     // get stack frame info
     def getStackFrame(): String = {
       val stackFrame = st.context.getInfo() :: st.ctxtStack.map(_.getInfo(true))

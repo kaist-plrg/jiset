@@ -9,7 +9,7 @@ export enum DebuggerActionType {
   TERMINATE = "DebuggerAction/TERMINATE",
   ADD_BREAK = "DebuggerAction/AD_BREAK",
   RM_BREAK = "DebuggerAction/RM_BREAK",
-  ABLE_BREAK = "DebuggerAction/ABLE_BREAK",
+  TOGGLE_BREAK = "DebuggerAction/TOGGLE_BREAK",
 }
 export function loadDebugger ( obj: Scala_WebDebugger ): DebuggerAction {
   return {
@@ -38,16 +38,16 @@ export function addBreak ( bpName: string ): DebuggerAction {
     bpName,
   };
 }
-export function rmBreak ( bpName: string ): DebuggerAction {
+export function rmBreak ( opt: string ): DebuggerAction {
   return {
     type: DebuggerActionType.RM_BREAK,
-    bpName,
+    opt,
   };
 }
-export function ableBreak ( idx: number ): DebuggerAction {
+export function toggleBreak ( opt: string ): DebuggerAction {
   return {
-    type: DebuggerActionType.ABLE_BREAK,
-    idx,
+    type: DebuggerActionType.TOGGLE_BREAK,
+    opt,
   };
 }
 export type DebuggerAction =
@@ -70,11 +70,11 @@ export type DebuggerAction =
   }
   | {
     type: DebuggerActionType.RM_BREAK;
-    bpName: string;
+    opt: string;
   }
   | {
-    type: DebuggerActionType.ABLE_BREAK;
-    idx: number;
+    type: DebuggerActionType.TOGGLE_BREAK;
+    opt: string;
   };
 
 // redux state
@@ -116,34 +116,28 @@ export default function reducer ( state = initialState, action: DebuggerAction )
       return produce( state, ( draft ) => {
         draft.busy = true;
       } );
-      case DebuggerActionType.ADD_BREAK:
-        return produce( state, ( draft ) => {
-          let already = false;
-          draft.breakpoints.forEach( bp => { if (bp.name === action.bpName) { already = true; }; } );
-          if (!already) {
-            let bp = { name: action.bpName, enable: true };
-            draft.breakpoints.push(bp);
-          };
-        } );
-      case DebuggerActionType.RM_BREAK:
-        return produce( state, ( draft ) => {
-          draft.breakpoints.forEach( bp => {
-            if (bp.name === action.bpName) {
-              let i = draft.breakpoints.indexOf(bp);
-              draft.breakpoints.splice(i, 1);
-            }; }
-          );
-        } );
-        case DebuggerActionType.ABLE_BREAK:
-          return produce( state, ( draft ) => {
-            draft.breakpoints.forEach( bp => {
-              let i = draft.breakpoints.indexOf(bp);
-              if (i === action.idx) {
-                // draft.breakpoints[i] = { name: action.bp.name, enable: !(action.bp.enable) };
-                draft.breakpoints.splice(i, 1, { name: bp.name, enable: !(bp.enable) });
-              }; }
-            );
-          } );
+    case DebuggerActionType.ADD_BREAK:
+      return produce( state, ( draft ) => {
+        let valid = state.breakpoints.every( ( { name } ) => name !== action.bpName );
+        if ( valid ) {
+          let bp = { name: action.bpName, enable: true };
+          draft.breakpoints.push( bp );
+        }
+      } );
+    case DebuggerActionType.RM_BREAK:
+      return produce( state, ( draft ) => {
+        if ( action.opt === "all" ) draft.breakpoints = [];
+        else draft.breakpoints.splice( Number( action.opt ), 1 );
+      } );
+    case DebuggerActionType.TOGGLE_BREAK:
+      return produce( state, ( draft ) => {
+        if ( action.opt === "all" )
+          draft.breakpoints.forEach( bp => bp.enable = !bp.enable );
+        else {
+          let i = Number( action.opt );
+          draft.breakpoints[ i ].enable = !draft.breakpoints[ i ].enable;
+        }
+      } );
     default:
       return state;
   }
