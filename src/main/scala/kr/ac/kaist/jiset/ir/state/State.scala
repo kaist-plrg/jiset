@@ -77,13 +77,14 @@ case class State(
     { heap.update(addr, prop, value); this }
 
   // existence checks
-  def exists(ref: RefValue): Bool = Bool(ref match {
-    case RefValueId(id) =>
-      val defined = globals.contains(id) || locals.contains(id)
-      !defined || directLookup(id) == Absent
-    case RefValueProp(base, prop) =>
-      this(base.escaped, prop) == Absent
-  })
+  def exists(id: Id): Boolean = {
+    val defined = globals.contains(id) || locals.contains(id)
+    defined && directLookup(id) != Absent
+  }
+  def exists(ref: RefValue): Boolean = ref match {
+    case RefValueId(id) => exists(id)
+    case RefValueProp(base, prop) => this(base.escaped, prop) != Absent
+  }
 
   // delete a property from a map
   def delete(refV: RefValue): this.type = refV match {

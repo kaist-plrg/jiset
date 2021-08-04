@@ -79,11 +79,13 @@ trait JSTest extends IRTest {
   }
 
   // tests for JS interpreter
-  def evalTest(st: State): State = st(Id(RESULT)) match {
-    case comp: CompValue =>
-      assert(comp.ty == CONST_NORMAL)
-      st
-    case v => fail(s"return not a completion: ${v.beautified}")
+  def evalTest(st: State): State = {
+    val resId = Id(RESULT)
+    if (st.exists(resId)) st(resId) match {
+      case comp: CompValue => assert(comp.ty == CONST_NORMAL)
+      case v => fail(s"return not a completion: ${v.beautified}")
+    }
+    st
   }
   def evalTest(str: String): State = evalTest(eval(str))
   def evalTestFile(filename: String): State = evalTest(evalFile(filename))

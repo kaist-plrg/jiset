@@ -443,7 +443,7 @@ class Interp(
     }
     case EBOp(OAnd, left, right) => shortCircuit(OAnd, left, right)
     case EBOp(OOr, left, right) => shortCircuit(OOr, left, right)
-    case EBOp(OEq, ERef(ref), EAbsent) => st.exists(interp(ref))
+    case EBOp(OEq, ERef(ref), EAbsent) => Bool(!st.exists(interp(ref)))
     case EBOp(bop, left, right) => {
       val l = interp(left).escaped
       val r = interp(right).escaped
