@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset
 
 import kr.ac.kaist.jiset.error._
-import kr.ac.kaist.jiset.ir.Stat
 import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.util._
 
@@ -51,9 +50,6 @@ object JISET {
       val name = config.command.name
       println(s"The command '$name' took $duration ms.")
     }
-
-    // display statistical information
-    if (STAT) println(Stat)
 
     // return result
     result
@@ -129,8 +125,6 @@ object JISET {
       "do not show final results."),
     ("debug", BoolOption(c => DEBUG = true),
       "turn on the debug mode."),
-    ("stat", BoolOption(c => STAT = true),
-      "gather statistical information."),
     ("view", BoolOption(c => VIEW = true),
       "turn on the view option."),
     ("interactive", BoolOption(c => INTERACTIVE = true),

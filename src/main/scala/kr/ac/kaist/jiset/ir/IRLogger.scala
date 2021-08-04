@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.checker._
 import kr.ac.kaist.jiset.util.JvmUseful._
 
-object Stat {
+object IRLogger {
   // touch counter for algorithms
   private var _algoNames: Map[String, Int] = Map()
   def algoNames: Map[String, Int] = _algoNames

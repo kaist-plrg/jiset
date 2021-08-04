@@ -28,7 +28,7 @@ package object checker {
     worklistOpt = Some(new StackWorklist(sem.npMap.keySet))
 
     // set the beginning time of type checking
-    Stat.checkStartTime = System.currentTimeMillis
+    CheckerLogger.checkStartTime = System.currentTimeMillis
 
     // initialize type infos
     Type.infos

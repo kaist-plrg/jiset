@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.LOG
-import kr.ac.kaist.jiset.ir.{ REPL => _, Stat => _, _ }
+import kr.ac.kaist.jiset.ir.{ REPL => _, _ }
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import kr.ac.kaist.jiset.util.Useful._
@@ -28,15 +28,15 @@ object AbsTransfer {
       } catch {
         case e: Throwable =>
           if (e.getMessage != "stop for debugging") {
-            if (LOG) Stat.dump()
+            if (LOG) CheckerLogger.dump()
             printlnColor(RED)(s"[Error] An exception is thrown.")
             println(sem.getString(cp, CYAN, true))
             dumpCFG(Some(cp), depth = Some(5))
           }
           throw e
       }
-      Stat.iter += 1
-      if (LOG && Stat.iter % 10000 == 0) Stat.dump()
+      CheckerLogger.iter += 1
+      if (LOG && CheckerLogger.iter % 10000 == 0) CheckerLogger.dump()
       compute
     case None =>
       alarmCP = null
@@ -48,8 +48,8 @@ object AbsTransfer {
         printlnColor(RED)(s"* Type checks finished.")
         REPL.runDirect(alarmCP)
       }
-      if (LOG) Stat.dump()
-      Stat.close()
+      if (LOG) CheckerLogger.dump()
+      CheckerLogger.close()
   }
 
   // transfer function for control points
@@ -238,7 +238,7 @@ object AbsTransfer {
     // unary algorithms
     type SimpleFunc = (AbsState, List[(Expr, AbsType)]) => AbsType
     def arityCheck(name: String, f: SimpleFunc): (String, SimpleFunc) =
-      (name, (st, pairs) => Stat.doCheck(optional(f(st, pairs)).getOrElse {
+      (name, (st, pairs) => CheckerLogger.doCheck(optional(f(st, pairs)).getOrElse {
         typeBug(s"arity mismatch for $name")
         AbsType.Bot
       }))
@@ -254,7 +254,7 @@ object AbsTransfer {
       arityCheck("floor", { case (_, _) => NumT }),
       arityCheck("fround", {
         case (_, List((expr, ty))) =>
-          Stat.doCheck {
+          CheckerLogger.doCheck {
             if (!(ty ⊑ NumT)) typeBug(s"non-number types: ${expr.beautified}")
           }
           NumT
@@ -519,7 +519,7 @@ object AbsTransfer {
         case OLt => (l.getSingle, r.getSingle) match {
           case (Some(ANum(l)), Some(ANum(r))) => ABool(l < r)
           case (Some(AStr(l)), Some(AStr(r))) => ABool(l < r)
-          case _ => Stat.doCheck({
+          case _ => CheckerLogger.doCheck({
             if (!((l ⊑ NumericT && r ⊑ NumericT) || (l ⊑ StrT && r ⊑ StrT))) {
               val l = left.beautified
               val r = right.beautified

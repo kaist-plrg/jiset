@@ -264,7 +264,7 @@ object REPL {
         case CmdRmBreak.name :: args =>
           rmBreak(args); true
         case CmdLog.name :: _ =>
-          Stat.dump(); true
+          CheckerLogger.dump(); true
         case CmdGraph.name :: args =>
           graph(cp, args); true
         case CmdExit.name :: _ => error("stop for debugging")

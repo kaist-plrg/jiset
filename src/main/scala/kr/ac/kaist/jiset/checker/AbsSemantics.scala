@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.ir.{ Stat => _, _ }
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm._
@@ -76,14 +76,14 @@ case class AbsSemantics(
   }
 
   // reference check
-  def referenceCheck: Unit = Stat.doCheck({
+  def referenceCheck: Unit = CheckerLogger.doCheck({
     for ((cp, x) <- unknownVars) {
       typeBug(s"unknown variable: $x", cp = cp)
     }
   })
 
   // assertions check
-  def assertionCheck: Unit = Stat.doCheck(assertions.foreach {
+  def assertionCheck: Unit = CheckerLogger.doCheck(assertions.foreach {
     case (cp, (t, expr)) =>
       if (!(AT ⊑ t)) typeBug(s"assertion failed: ${expr.beautified}", cp = cp)
   })
@@ -97,7 +97,7 @@ case class AbsSemantics(
     val oldSt = this(np)
     if (!(newSt ⊑ oldSt)) {
       npMap += np -> (oldSt ⊔ newSt)
-      worklist += Stat.inc(np)
+      worklist += CheckerLogger.inc(np)
       true
     }
     false
@@ -120,13 +120,13 @@ case class AbsSemantics(
         aux(pl, al)
       case (Param(name, kind) :: tl, Nil) =>
         if (kind == Normal) {
-          Stat.doCheck(typeBug(s"remaining parameter: $name"))
+          CheckerLogger.doCheck(typeBug(s"remaining parameter: $name"))
           st = AbsState.Bot
         } else st = st.define(name, AAbsent.abs, param = true)
         aux(tl, Nil)
       case (Nil, Nil) =>
       case (Nil, args) =>
-        Stat.doCheck(typeBug(s"remaining arguments: ${args.mkString(", ")}"))
+        CheckerLogger.doCheck(typeBug(s"remaining arguments: ${args.mkString(", ")}"))
       case _ =>
         typeWarning(s"consider variadic: (${params.mkString(", ")}) and (${args.mkString(", ")}) @ $call")
     }
@@ -173,7 +173,7 @@ case class AbsSemantics(
     val oldT = this(rp)
     if (newT !⊑ oldT) {
       rpMap += rp -> (oldT ⊔ newT)
-      worklist += Stat.inc(rp)
+      worklist += CheckerLogger.inc(rp)
     }
   }
 
@@ -189,7 +189,7 @@ case class AbsSemantics(
     val (numFunc, numAlgo, numRp) = numOfFuncAlgoRp
     app >> numFunc >> " out of " >> numAlgo >> " functions checked with "
     app >> numRp >> " return points" >> LINE_SEP
-    app >> "# of iterations: " >> Stat.iter
+    app >> "# of iterations: " >> CheckerLogger.iter
     app.toString
   }
 

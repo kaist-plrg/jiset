@@ -7,7 +7,7 @@ import kr.ac.kaist.jiset.util.Useful._
 import scala.Console._
 import java.io.PrintWriter
 
-object Stat {
+object CheckerLogger {
   // iteration
   var iter = 0
   private var counter: Map[ControlPoint, Int] = Map()
@@ -51,7 +51,7 @@ object Stat {
   // header
   log("#", "T", "WL", "CP", "AU", "RP", "AF", "TF", "ER", "WA")
 
-  // dump stats
+  // dump logs
   def dump(): Unit = {
     val (numFunc, numAlgo, numRp) = sem.numOfFuncAlgoRp
     val ctime = checkTime
@@ -70,7 +70,7 @@ object Stat {
     // the number of full functions
     val fullFuncNum = sem.rpMap.keySet.count(_.func.complete)
 
-    // dump stat for evaluation
+    // dump logs for evaluation
     // # iter, parse, checker, check, full, all, node, return, all
     val evalItems = List(
       iter,
@@ -83,13 +83,13 @@ object Stat {
       numRp,
       sem.npMap.size + numRp
     )
-    dumpFile(evalItems.map(_.toString).mkString("\t"), s"$CHECK_LOG_DIR/stat_summary")
+    dumpFile(evalItems.map(_.toString).mkString("\t"), s"$CHECK_LOG_DIR/summary")
   }
 
   // close
   def close(): Unit = nf.close()
 
-  // stats helpers
+  // log helpers
   private def log(items: Any*): Unit = {
     nf.println(items.map(_.toString).mkString("\t"))
     nf.flush()

@@ -9,7 +9,7 @@ import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
-import kr.ac.kaist.jiset.{ TEST_MODE, STAT, DEBUG, TIMEOUT, VIEW }
+import kr.ac.kaist.jiset.{ TEST_MODE, LOG, DEBUG, TIMEOUT, VIEW }
 import scala.annotation.tailrec
 import scala.collection.mutable.{ Map => MMap }
 
@@ -59,7 +59,7 @@ class Interp(
   final def step: Boolean = nextTarget match {
     case Terminate =>
       // stop evaluation
-      if (STAT) Stat.recordIter(st.fnameOpt, iter)
+      if (LOG) IRLogger.recordIter(st.fnameOpt, iter)
       false
     case ReturnUndef =>
       // do return
@@ -68,8 +68,9 @@ class Interp(
       // keep going
       true
     case NextStep(cursor) => {
-      // print statistics
       iter += 1
+
+      // check time limit
       if (iter % CHECK_PERIOD == 0) timeLimit.map(limit => {
         val duration = (System.currentTimeMillis - startTime) / 1000
         if (duration > limit) throw InterpTimeout
@@ -108,10 +109,10 @@ class Interp(
   // transition for nodes
   def interp(node: Node): Unit = {
     st.context.viewOpt match {
-      case Some(view) if STAT =>
+      case Some(view) if LOG =>
         val func = cfg.funcOf(node)
         val fnameOpt = st.fnameOpt
-        Stat.visitRecorder.record(func, view, node, fnameOpt)
+        IRLogger.visitRecorder.record(func, view, node, fnameOpt)
       case _ =>
     }
     node match {
@@ -174,7 +175,7 @@ class Interp(
           val cursorOpt = cursorGen(body)
           val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
           val context = Context(cursorOpt, id, head.name, None, Some(algo), locals, viewOpt)
-          if (STAT) Stat.touchAlgo(algo.name)
+          if (LOG) IRLogger.touchAlgo(algo.name)
           st.ctxtStack ::= st.context
           st.context = context
 
@@ -241,7 +242,7 @@ class Interp(
                 val cursorOpt = cursorGen(body)
                 val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
                 val context = Context(cursorOpt, id, head.name, Some(ast), Some(algo), locals, viewOpt)
-                if (STAT) Stat.touchAlgo(algo.name)
+                if (LOG) IRLogger.touchAlgo(algo.name)
                 st.ctxtStack ::= st.context
                 st.context = context
 

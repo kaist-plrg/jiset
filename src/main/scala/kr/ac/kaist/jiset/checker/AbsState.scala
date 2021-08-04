@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.ir.{ Stat => _, _ }
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.checker._
 import kr.ac.kaist.jiset.util.{ Appender, StateMonad }
 import kr.ac.kaist.jiset.util.Useful._
@@ -80,7 +80,7 @@ case class AbsState(
       if (!param) this
       else copy(names = names + x)
     } else {
-      Stat.doCheck({
+      CheckerLogger.doCheck({
         if (check && exists(toERef(x), AbsId(x)) == AT && !isTemporalId(x))
           typeBug(s"already defined variable: $x")
       })
