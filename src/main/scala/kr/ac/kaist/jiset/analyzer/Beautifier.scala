@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.ir
+import kr.ac.kaist.jiset.cfg
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
@@ -12,8 +12,9 @@ class Beautifier(
   index: Boolean = false,
   asite: Boolean = false
 ) {
-  val irBeautifier = new ir.Beautifier(detail, index, asite)
-  import irBeautifier._
+  // load other beautifiers
+  val cfgBeautifier = new cfg.Beautifier(detail, index, asite)
+  import cfgBeautifier._, cfgBeautifier.irBeautifier._
 
   // analyzer  components
   implicit lazy val AnalyzerElemApp: App[AnalyzerElem] = (app, comp) => comp match {
@@ -23,7 +24,7 @@ class Beautifier(
 
   // control points
   implicit lazy val ControlPointApp: App[ControlPoint] = (app, cp) => cp match {
-    case NodePoint(node, view) => app >> node.toString >> ":" >> view
+    case NodePoint(node, view) => app >> view >> ":" >> node
     case ReturnPoint(func, view) => app >> "RETURN:" >> view
   }
 
