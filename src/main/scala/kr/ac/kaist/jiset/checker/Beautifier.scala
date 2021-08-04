@@ -20,6 +20,7 @@ object Beautifier {
     case comp: AbsType => AbsTypeApp(app, comp)
     case comp: Type => TypeApp(app, comp)
     case comp: AbsRef => AbsRefApp(app, comp)
+    case comp: VisitRecorder => VisitRecorderApp(app, comp)
   }
 
   // abstract semantics
@@ -109,5 +110,20 @@ object Beautifier {
     case AUndef => app >> "undefined"
     case ANull => app >> "null"
     case AAbsent => app >> "?"
+  }
+
+  // visit recorder
+  implicit lazy val VisitRecorderApp: App[VisitRecorder] = (app, vr) => {
+    for ((func, viewMap) <- vr.visitMap) {
+      app >> func.name >> ": "
+      app.wrap(for ((view, nodeMap) <- viewMap) {
+        app :> view.toString >> ": "
+        app.wrap(for ((node, fnameOpt) <- nodeMap) {
+          val fname = fnameOpt.getOrElse("UNKNOWN")
+          app :> node.toString >> ": " >> fname >> LINE_SEP
+        }) >> LINE_SEP
+      }) >> LINE_SEP
+    }
+    app
   }
 }

@@ -1,9 +1,8 @@
-package kr.ac.kaist.jiset.util
+package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.checker._
-import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.JvmUseful._
 
 object Stat {
@@ -37,38 +36,11 @@ object Stat {
     dumpFile(iterMapString, s"$dirname/iters")
 
   // visit map
-  type NodeMap = Map[Node, Option[String]]
-  type ViewMap = Map[View, NodeMap]
-  type FuncMap = Map[Function, ViewMap]
-  private var _visitMap: FuncMap = Map()
-  def visitMap: FuncMap = _visitMap
-  def visitNode(func: Function, view: View, node: Node, fnameOpt: Option[String]): Unit = {
-    var viewMap = _visitMap.getOrElse(func, Map())
-    var nodeMap = viewMap.getOrElse(view, Map())
-    if (nodeMap.getOrElse(node, None) == None) {
-      nodeMap += node -> fnameOpt
-      viewMap += view -> nodeMap
-      _visitMap += func -> viewMap
-    }
-  }
-  def visitMapString: String = {
-    val app = new Appender
-    for ((func, viewMap) <- visitMap) {
-      app >> func.name >> ": "
-      app.wrap(for ((view, nodeMap) <- viewMap) {
-        app :> view.toString >> ": "
-        app.wrap(for ((node, fnameOpt) <- nodeMap) {
-          val fname = fnameOpt.getOrElse("UNKNOWN")
-          app :> node.toString >> ": " >> fname >> LINE_SEP
-        }) >> LINE_SEP
-      }) >> LINE_SEP
-    }
-    app.toString
-  }
+  val visitRecorder: VisitRecorder = VisitRecorder()
 
   //dump to a directory
   def dumpVisitMap(dirname: String): Unit =
-    dumpFile(visitMapString, s"$dirname/visited-nodes")
+    dumpFile(visitRecorder.toString, s"$dirname/visited-nodes")
 
   // summary
   def summaryString: String = (

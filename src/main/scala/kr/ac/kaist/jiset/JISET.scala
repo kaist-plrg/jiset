@@ -1,8 +1,9 @@
 package kr.ac.kaist.jiset
 
 import kr.ac.kaist.jiset.error._
-import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.ir.Stat
 import kr.ac.kaist.jiset.phase._
+import kr.ac.kaist.jiset.util._
 
 object JISET {
   ////////////////////////////////////////////////////////////////////////////////

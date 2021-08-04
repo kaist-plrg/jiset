@@ -111,7 +111,7 @@ class Interp(
       case Some(view) if STAT =>
         val func = cfg.funcOf(node)
         val fnameOpt = st.fnameOpt
-        Stat.visitNode(func, view, node, fnameOpt)
+        Stat.visitRecorder.record(func, view, node, fnameOpt)
       case _ =>
     }
     node match {
