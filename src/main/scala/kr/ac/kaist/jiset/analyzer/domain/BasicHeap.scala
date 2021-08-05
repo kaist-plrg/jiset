@@ -21,7 +21,7 @@ object BasicHeap extends Domain {
         .foreach {
           case (k, v) =>
             app >> (if (merged contains k) "@" else " ")
-            app >> s" $k -> $v" >> LINE_SEP
+            app >> " " >> s"$k -> " >> v >> LINE_SEP
         }
     }
   }

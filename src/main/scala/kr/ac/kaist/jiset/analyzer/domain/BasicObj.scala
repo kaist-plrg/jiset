@@ -33,9 +33,9 @@ object BasicObj extends Domain {
     case MergedMapElem(ty, value) =>
       app >> ty.toString >> "{{" >> value.toString >> "}}"
     case MapElem(ty, map) =>
-      app >> ty.toString
+      app >> s"$ty "
       app.wrap {
-        for ((k, v) <- map) app >> s"$k -> $v" >> LINE_SEP
+        for ((k, v) <- map) app >> s"$k -> " >> v >> LINE_SEP
       }
     case MergedListElem(value) =>
       app >> "[[" >> value.toString >> "]]"

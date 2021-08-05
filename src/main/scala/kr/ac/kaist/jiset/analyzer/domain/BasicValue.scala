@@ -123,6 +123,6 @@ object BasicValue extends Domain {
     def removeAbsent: Elem = copy(simple = simple.removeAbsent)
 
     // escape completion
-    def escaped: Elem = ???
+    def escaped: Elem = comp("normal").value ⊔ copy(comp = AbsComp.Bot)
   }
 }

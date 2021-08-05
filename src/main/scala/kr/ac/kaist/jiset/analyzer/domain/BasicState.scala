@@ -30,8 +30,10 @@ object BasicState extends Domain {
     else app.wrap {
       elem.locals.toList
         .sortBy(_._1.toString)
-        .foreach { case (k, v) => app >> s" $k -> $v" >> LINE_SEP }
+        .foreach { case (k, v) => app :> s"$k -> " >> v >> LINE_SEP }
     }
+    app >> LINE_SEP
+    app >> "heap: " >> elem.heap
   }
 
   // elements
