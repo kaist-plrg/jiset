@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
 import kr.ac.kaist.jiset.js._
+import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec.algorithm._
 import scala.annotation.tailrec
 
@@ -59,20 +60,24 @@ case class AbsTransfer(sem: AbsSemantics) {
       case IPrepend(expr, list) => ???
       case IReturn(expr) => ???
       case IThrow(name) => ???
-      case IAssert(expr) => ???
+      case IAssert(expr) => for {
+        v <- transfer(expr)
+      } yield ()
       case IPrint(expr) => ???
     }
 
     // transfer function for calls
     def transfer(call: Call, view: View): Updater = call.inst match {
-      // TODO `simpleFuncs contains name` case
+      case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => {
+        ???
+      }
       case IApp(id, fexpr, args) => for {
         value <- transfer(fexpr)
         vs <- join(args.map(transfer))
         st <- get
       } yield {
         // algorithms
-        for (algo <- value.func) {
+        for (AFunc(algo) <- value.func) {
           val head = algo.head
           val body = algo.body
           val locals = getLocals(head.params, vs)
@@ -124,11 +129,41 @@ case class AbsTransfer(sem: AbsSemantics) {
         v <- transfer(rv)
       } yield v
       case EUOp(uop, expr) => ???
-      case EBOp(OAnd, left, right) => ???
-      case EBOp(OOr, left, right) => ???
+      case EBOp(OAnd, left, right) => shortCircuit(OAnd, left, right)
+      case EBOp(OOr, left, right) => shortCircuit(OOr, left, right)
       case EBOp(OEq, ERef(RefId(id)), EAbsent) => ???
-      case EBOp(bop, left, right) => ???
-      case ETypeOf(expr) => ???
+      case EBOp(bop, left, right) => for {
+        l <- transfer(left)
+        r <- transfer(right)
+        v = transfer(bop, l.escaped.simple, r.escaped.simple)
+      } yield v
+      case ETypeOf(expr) => for {
+        v <- transfer(expr)
+        value = v.escaped
+        st <- get
+      } yield value.getSingle match {
+        case FlatBot => AbsValue.Bot
+        case FlatElem(v) => AbsValue(v match {
+          case _: AComp => ???
+          case _: AConst => "Constant"
+          case loc: Loc => st(loc).getTy.name match {
+            case name if name endsWith "Object" => "Object"
+            case name => name
+          }
+          case _: AFunc => "Function"
+          case _: AClo => "Closure"
+          case _: ACont => "Continuation"
+          case _: AAst => "AST"
+          case ASimple(_: Num | _: INum) => "Number"
+          case ASimple(_: BigINum) => "BigInt"
+          case ASimple(_: Str) => "String"
+          case ASimple(_: Bool) => "Boolean"
+          case ASimple(Undef) => "Undefined"
+          case ASimple(Null) => "Null"
+          case ASimple(Absent) => "Absent"
+        })
+        case FlatTop => AbsValue.str
+      }
       case EIsCompletion(expr) => ???
       case EIsInstanceOf(base, name) => ???
       case EGetElems(base, name) => ???
@@ -153,10 +188,63 @@ case class AbsTransfer(sem: AbsSemantics) {
       } yield AbsRefProp(b, p)
     }
 
+    // unary operators
+    def transfer(
+      uop: UOp,
+      operand: AbsValue
+    ): Result[AbsValue] = operand.simple.getSingle match {
+      case FlatBot => AbsValue.Bot
+      case FlatElem(operand) => ???
+      case FlatTop => uop match {
+        case ONeg => ???
+        case ONot => ???
+        case OBNot => ???
+      }
+    }
+
+    // binary operators
+    def transfer(
+      bop: BOp,
+      left: AbsSimple,
+      right: AbsSimple
+    ): AbsValue = (left.getSingle, right.getSingle) match {
+      case (FlatBot, _) | (_, FlatBot) => AbsValue.Bot
+      case (FlatElem(ASimple(left)), FlatElem(ASimple(right))) =>
+        AbsValue(Interp.interp(bop, left, right))
+      case _ => bop match {
+        case OAnd => ???
+        case OBAnd => ???
+        case OBOr => ???
+        case OBXOr => ???
+        case ODiv => ???
+        case OEq => ???
+        case OEqual => ???
+        case OLShift => ???
+        case OLt => ???
+        case OMod => ???
+        case OMul => ???
+        case OOr => ???
+        case OPlus => ???
+        case OPow => ???
+        case OSRShift => ???
+        case OSub => ???
+        case OUMod => ???
+        case OURShift => ???
+        case OXor => ???
+      }
+    }
+
     // transfer function for reference values
     def transfer(rv: AbsRefValue): Result[AbsValue] = for {
       v <- get(_(rv, cp))
     } yield v
+
+    // short circuit evaluation
+    def shortCircuit(
+      bop: BOp,
+      left: Expr,
+      right: Expr
+    ): Result[AbsValue] = ???
 
     // get initial local variables
     def getLocals(
@@ -183,4 +271,20 @@ case class AbsTransfer(sem: AbsSemantics) {
       map
     }
   }
+
+  // simple functions
+  type SimpleFunc = (State, List[AbsValue]) => AbsValue
+  val simpleFuncs: Map[String, SimpleFunc] = Map(
+    "GetArgument" -> { case (st, args) => ??? },
+    "IsDuplicate" -> { case (st, args) => ??? },
+    "IsArrayIndex" -> { case (st, args) => ??? },
+    "min" -> { case (st, args) => ??? },
+    "max" -> { case (st, args) => ??? },
+    "abs" -> { case (st, args) => ??? },
+    "floor" -> { case (st, args) => ??? },
+    "fround" -> { case (st, args) => ??? },
+    "ThrowCompletion" -> { case (st, args) => ??? },
+    "NormalCompletion" -> { case (st, args) => ??? },
+    "IsAbruptCompletion" -> { case (st, args) => ??? },
+  )
 }

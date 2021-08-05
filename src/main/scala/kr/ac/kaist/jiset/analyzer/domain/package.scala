@@ -27,7 +27,7 @@ package object domain {
   type AbsComp = AbsComp.Elem
 
   // abstract constants
-  val AbsConst = new SetDomain[String]("~")
+  val AbsConst = new SetDomain[AConst]("~")
   type AbsConst = AbsConst.Elem
 
   // abstract locations
@@ -35,7 +35,7 @@ package object domain {
   type AbsLoc = AbsLoc.Elem
 
   // abstract functions
-  val AbsFunc = new SetDomain[Algo]("λ")
+  val AbsFunc = new SetDomain[AFunc]("λ")
   type AbsFunc = AbsFunc.Elem
 
   // abstract closures
@@ -51,7 +51,7 @@ package object domain {
   type AbsSimple = AbsSimple.Elem
 
   // abstract AST values
-  val AbsAST = new FlatDomain[AST]("☊")
+  val AbsAST = new FlatDomain[AAst]("☊")
   type AbsAST = AbsAST.Elem
 
   // abstract floating-point number values
@@ -59,19 +59,19 @@ package object domain {
   type AbsNum = AbsNum.Elem
 
   // abstract integers
-  val AbsInt = new FlatDomain[Long]("int")
+  val AbsInt = new FlatDomain[INum]("int")
   type AbsInt = AbsInt.Elem
 
   // abstract big integers
-  val AbsBigInt = new FlatDomain[BigInt]("bigint")
+  val AbsBigInt = new FlatDomain[BigINum]("bigint")
   type AbsBigInt = AbsBigInt.Elem
 
   // abstract strings
-  val AbsStr = new FlatDomain[String]("str")
+  val AbsStr = new FlatDomain[Str]("str")
   type AbsStr = AbsStr.Elem
 
   // abstract booleans
-  val AbsBool = new FlatDomain[Boolean]("bool")
+  val AbsBool = new FlatDomain[Bool]("bool")
   type AbsBool = AbsBool.Elem
 
   // abstract undefined

@@ -11,7 +11,8 @@ class FlatDomain[A](setName: String) extends Domain {
   case class Base(elem: A) extends Elem
 
   // abstraction functions
-  def apply(elems: A*): Elem = elems.size match {
+  def apply(elems: A*): Elem = this(elems)
+  def apply(elems: Iterable[A]): Elem = elems.size match {
     case 0 => Bot
     case 1 => Base(elems.head)
     case _ => Top
@@ -53,5 +54,12 @@ class FlatDomain[A](setName: String) extends Domain {
         warn("impossible to concretize the top value.")
         None
     }).iterator
+
+    // contains check
+    def contains(elem: A): Boolean = this match {
+      case Bot => false
+      case Top => true
+      case Base(x) => x == elem
+    }
   }
 }

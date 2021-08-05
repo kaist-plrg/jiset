@@ -11,7 +11,8 @@ class SetDomain[A](setName: String) extends Domain {
   case class Base(set: Set[A]) extends Elem
 
   // abstraction functions
-  def apply(elems: A*): Elem = Base(elems.toSet)
+  def apply(elems: A*): Elem = this(elems)
+  def apply(elems: Iterable[A]): Elem = Base(elems.toSet)
 
   // appender
   implicit val app: App[Elem] = (app, elem) => elem match {
@@ -55,5 +56,11 @@ class SetDomain[A](setName: String) extends Domain {
         warn("impossible to concretize the top value.")
         Set()
     }).iterator
+
+    // contains check
+    def contains(elem: A): Boolean = this match {
+      case Top => true
+      case Base(set) => set contains elem
+    }
   }
 }

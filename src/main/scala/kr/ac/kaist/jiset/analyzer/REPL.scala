@@ -37,6 +37,13 @@ case class REPL(sem: AbsSemantics) {
     case _ => Nil
   }
 
+  // get the number of iterations
+  def iter: Int = sem.getIter
+
+  // show current status
+  def showStatus(cp: ControlPoint): Unit =
+    println(s"[$iter] " + sem.getString(cp, CYAN, true))
+
   // jline
   private val terminal: Terminal = TerminalBuilder.builder().build()
   private val reader: LineReader = LineReaderBuilder.builder()
@@ -60,7 +67,7 @@ case class REPL(sem: AbsSemantics) {
     case e: Throwable =>
       // TODO dump CFG for debugging
       printlnColor(RED)("* unexpectedly terminated during REPL.")
-      println(sem.getString(cp, CYAN, true))
+      showStatus(cp)
       throw e
   }
   def apply(cpOpt: Option[ControlPoint]): Unit = cpOpt match {
@@ -69,7 +76,7 @@ case class REPL(sem: AbsSemantics) {
   }
   def runDirect(cp: Option[ControlPoint]): Unit = {
     firstHelp
-    cp.map(cp => println(sem.getString(cp, CYAN, true)))
+    cp.map(showStatus)
     while ({
       reader.readLine(prompt) match {
         case null => stop

@@ -16,23 +16,8 @@ case class Heap(
     map.getOrElse(addr, error(s"unknown address: $addr"))
   def apply(addr: Addr, key: PureValue): Value = this(addr) match {
     case (s: IRSymbol) => s(key)
-    case (IRMap(Ty(js.ALGORITHM), _, _)) => key match {
-      case Str(str) => js.algoMap.get(str).map(Func).getOrElse(Absent)
-      case _ => error(s"invalid algorithm: $key")
-    }
-    case (IRMap(Ty(js.INTRINSICS), _, _)) => key match {
-      case Str(str) if js.intrinsicRegex.matches(str) =>
-        // resolve %A.B.C%
-        val js.intrinsicRegex(path) = str
-        path.split("\\.").toList match {
-          case base :: rest =>
-            val baseAddr = js.intrinsicToAddr(base)
-            rest.foldLeft(baseAddr: Value)(getPropValue)
-          case Nil =>
-            error(s"invalid intrinsics: $key")
-        }
-      case _ => error(s"invalid intrinsics: $key")
-    }
+    case (IRMap(Ty(js.ALGORITHM), _, _)) => getAlgorithm(key)
+    case (IRMap(Ty(js.INTRINSICS), _, _)) => getIntrinsics(key)
     case (m: IRMap) => m(key)
     case (l: IRList) => l(key)
     case IRNotSupported(_, msg) => throw NotSupported(msg)
@@ -154,5 +139,24 @@ case class Heap(
       case (addr, obj) => addr -> obj.copied
     })
     Heap(newMap, size)
+  }
+
+  // speical object access helper
+  def getAlgorithm(key: PureValue): Value = key match {
+    case Str(str) => js.algoMap.get(str).map(Func).getOrElse(Absent)
+    case _ => error(s"invalid algorithm: $key")
+  }
+  def getIntrinsics(key: PureValue): Value = key match {
+    case Str(str) if js.intrinsicRegex.matches(str) =>
+      // resolve %A.B.C%
+      val js.intrinsicRegex(path) = str
+      path.split("\\.").toList match {
+        case base :: rest =>
+          val baseAddr = js.intrinsicToAddr(base)
+          rest.foldLeft(baseAddr: Value)(getPropValue)
+        case Nil =>
+          error(s"invalid intrinsics: $key")
+      }
+    case _ => error(s"invalid intrinsics: $key")
   }
 }

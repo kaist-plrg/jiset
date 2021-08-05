@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
@@ -14,6 +15,9 @@ object BasicComp extends Domain {
       this.value ⊑ that.value && this.target ⊑ that.target
     def ⊔(that: Result): Result =
       Result(this.value ⊔ that.value, this.target ⊔ that.target)
+  }
+  object Result {
+    val Bot = Result(AbsValue.Bot, AbsSimple.Bot)
   }
 
   // abstraction functions
@@ -42,7 +46,7 @@ object BasicComp extends Domain {
       case _ if that.isBottom => false
       case (Elem(lmap), Elem(rmap)) =>
         (lmap.keySet ++ rmap.keySet).forall(ty => {
-          this(ty) ⊑ that(ty)
+          resultOf(ty) ⊑ resultOf(ty)
         })
     }
 
@@ -52,14 +56,17 @@ object BasicComp extends Domain {
       case _ if that.isBottom => this
       case (Elem(lmap), Elem(rmap)) => {
         val newMap = (lmap.keySet ++ rmap.keySet).toList.map(ty => {
-          ty -> this(ty) ⊔ that(ty)
+          ty -> resultOf(ty) ⊔ resultOf(ty)
         }).toMap
         Elem(newMap)
       }
     }
 
-    // lookup
-    def apply(ty: String): Result =
+    // normal completions
+    def normal: Result = resultOf("normal")
+
+    // result of each completion type
+    def resultOf(ty: String): Result =
       map.getOrElse(ty, Result(AbsValue.Bot, AbsSimple.Bot))
 
     // get single value
@@ -73,6 +80,24 @@ object BasicComp extends Domain {
           }
         case _ => FlatTop
       }
+    }
+
+    // merged result
+    def mergedResult: Result =
+      map.map { case (k, v) => v }.foldLeft(Result.Bot)(_ ⊔ _)
+
+    // lookup
+    def apply(value: AbsValue): AbsValue = {
+      val str = value.str
+      var newV = AbsValue.Bot
+      val Result(v, t) = mergedResult
+      if (str contains Str("Type"))
+        newV ⊔= AbsValue.Bot.copy(const = AbsConst(map.keySet.map(AConst)))
+      if (str contains Str("Value"))
+        newV ⊔= v
+      if (str contains Str("Target"))
+        newV ⊔= AbsValue.Bot.copy(simple = t)
+      newV
     }
   }
 }

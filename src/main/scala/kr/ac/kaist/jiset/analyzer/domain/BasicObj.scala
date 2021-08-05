@@ -14,7 +14,7 @@ object BasicObj extends Domain {
   case class MapElem(ty: Ty, map: Map[AValue, AbsValue]) extends Elem
   case class MergedListElem(value: AbsValue) extends Elem
   case class ListElem(values: Vector[AbsValue]) extends Elem
-  case class NotSupportedElem(desc: String) extends Elem
+  case class NotSupportedElem(ty: Ty, desc: String) extends Elem
 
   // abstraction functions
   def apply(obj: Obj): Elem = obj match {
@@ -23,7 +23,7 @@ object BasicObj extends Domain {
       case (k, (v, _)) => AValue.from(k) -> AbsValue(v)
     }).toMap)
     case IRList(values) => ListElem(values.map(AbsValue(_)))
-    case IRNotSupported(tyname, desc) => NotSupportedElem(desc)
+    case IRNotSupported(tyname, desc) => NotSupportedElem(Ty(tyname), desc)
   }
 
   // appender
@@ -34,15 +34,16 @@ object BasicObj extends Domain {
       app >> ty.toString >> "{{" >> value.toString >> "}}"
     case MapElem(ty, map) =>
       app >> s"$ty "
-      app.wrap {
-        for ((k, v) <- map) app >> s"$k -> " >> v >> LINE_SEP
+      if (map.isEmpty) app >> "{}"
+      else app.wrap {
+        for ((k, v) <- map) app :> s"$k -> " >> v >> LINE_SEP
       }
     case MergedListElem(value) =>
       app >> "[[" >> value.toString >> "]]"
     case ListElem(values) =>
       app >> values.mkString("[", ", ", "]")
-    case NotSupportedElem(desc) =>
-      app >> "???(" >> desc >> ")"
+    case NotSupportedElem(ty, desc) =>
+      app >> s"???[$ty](" >> desc >> ")"
   }
 
   // elements
@@ -65,7 +66,8 @@ object BasicObj extends Domain {
         lvs.length == rvs.length && (lvs zip rvs).forall { case (l, r) => l ⊑ r }
       case (ListElem(_), MergedListElem(rv)) =>
         this.mergedValue ⊑ rv
-      case (NotSupportedElem(ld), NotSupportedElem(rd)) => ld == rd
+      case (NotSupportedElem(lty, ld), NotSupportedElem(rty, rd)) =>
+        lty == rty && ld == rd
       case _ => false
     }
 
@@ -90,7 +92,7 @@ object BasicObj extends Domain {
       } else MergedListElem(this.mergedValue ⊔ that.mergedValue)
       case (ListElem(lvs), MergedListElem(rv)) =>
         MergedListElem(this.mergedValue ⊔ rv)
-      case (NotSupportedElem(ld), NotSupportedElem(rd)) if ld == rd => this
+      case (NotSupportedElem(lty, ld), NotSupportedElem(rty, rd)) if lty == rty && ld == rd => this
       case _ => ???
     }
 
@@ -112,7 +114,19 @@ object BasicObj extends Domain {
         case ASimple(Str("length")) => AbsValue(values.length)
         case _ => AbsValue.Bot
       }
-      case NotSupportedElem(desc) => AbsValue.Bot
+      case NotSupportedElem(_, desc) => AbsValue.Bot
+    }
+
+    // get type
+    def getTy: Ty = this match {
+      case Bot =>
+        warn("try to read type of bottom object."); Ty("")
+      case SymbolElem(desc) => Ty("Symbol")
+      case MergedMapElem(ty, value) => ty
+      case MapElem(ty, map) => ty
+      case MergedListElem(value) => Ty("List")
+      case ListElem(values) => Ty("List")
+      case NotSupportedElem(ty, desc) => ty
     }
 
     // abstract lookup
@@ -132,7 +146,7 @@ object BasicObj extends Domain {
       }
       case MergedListElem(value) => value
       case ListElem(values) => values.foldLeft[AbsValue](AbsValue.Bot)(_ ⊔ _)
-      case NotSupportedElem(desc) => AbsValue.Bot
+      case NotSupportedElem(_, desc) => AbsValue.Bot
     }
 
     // updates
@@ -148,7 +162,7 @@ object BasicObj extends Domain {
       case MapElem(ty, map) => prop.simple.str.getSingle match {
         case FlatBot => this
         case FlatElem(str) =>
-          val key = ASimple(Str(str))
+          val key = ASimple(str)
           val newValue = if (weak) this(key) ⊔ value else value
           MapElem(ty, map + (key -> newValue))
         case FlatTop => MergedMapElem(ty, mergedValue)

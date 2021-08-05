@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.js.{ Initialize => JSInitialize }
+import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
@@ -20,7 +20,7 @@ object BasicHeap extends Domain {
         .sortBy(_._1.toString)
         .foreach {
           case (k, v) =>
-            app >> (if (merged contains k) "@" else " ")
+            app :> (if (merged contains k) "[@]" else "[ ]")
             app >> " " >> s"$k -> " >> v >> LINE_SEP
         }
     }
@@ -67,18 +67,40 @@ object BasicHeap extends Domain {
     // lookup abstract locations
     def apply(loc: Loc): AbsObj =
       map.getOrElse(loc, base.getOrElse(loc, AbsObj.Bot))
+    def apply(loc: AbsLoc, prop: AbsValue): AbsValue =
+      loc.map(this(_, prop)).foldLeft(AbsValue.Bot: AbsValue)(_ ⊔ _)
+    def apply(loc: Loc, prop: AbsValue): AbsValue = loc match {
+      case NamedLoc(js.ALGORITHM) =>
+        prop.str
+          .map(str => AbsValue(initHeap.getAlgorithm(str)))
+          .foldLeft(AbsValue.Bot: AbsValue)(_ ⊔ _)
+      case NamedLoc(js.INTRINSICS) =>
+        prop.str
+          .map(str => AbsValue(initHeap.getIntrinsics(str)))
+          .foldLeft(AbsValue.Bot: AbsValue)(_ ⊔ _)
+      case _ => this(loc)(prop)
+    }
 
     // setters
     def update(
       aloc: AbsLoc,
       prop: AbsValue,
       value: AbsValue
-    ): Elem = ???
+    ): Elem = {
+      val weak = !isSingle(aloc)
+      aloc.foldLeft(this) {
+        case (heap, loc) => update(loc, prop, value, weak)
+      }
+    }
     def update(
       loc: Loc,
       prop: AbsValue,
-      value: AbsValue
-    ): Elem = ???
+      value: AbsValue,
+      weak: Boolean = false
+    ): Elem = {
+      val newObj = this(loc).update(prop, value, weak)
+      copy(map = map + (loc -> newObj))
+    }
 
     // appends
     def append(loc: Loc, value: AbsValue): Elem = ???
@@ -119,9 +141,12 @@ object BasicHeap extends Domain {
     def setType(loc: Loc, ty: Ty): Elem = ???
   }
 
+  // initial conrete heap
+  lazy val initHeap: Heap = js.Initialize.initHeap
+
   // base mapping from locations to abstract objects
   lazy val base: Map[Loc, AbsObj] = (for {
-    (addr, obj) <- JSInitialize.initHeap.map
+    (addr, obj) <- initHeap.map
     loc = Loc.from(addr)
     aobj = AbsObj(obj)
   } yield loc -> aobj).toMap

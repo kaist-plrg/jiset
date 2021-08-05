@@ -94,13 +94,29 @@ object BasicState extends Domain {
     // getters
     def apply(rv: AbsRefValue, cp: ControlPoint): AbsValue = rv match {
       case AbsRefId(x) => this(x, cp)
-      case AbsRefProp(base, prop) => ???
+      case AbsRefProp(base, prop) => this(base, prop)
     }
     def apply(x: Id, cp: ControlPoint): AbsValue = {
       val v = directLookup(x)
       if (cp.isBuiltin && AbsValue.absent ⊑ v) v.removeAbsent ⊔ AbsValue.undef
       else v
     }
+    def apply(base: AbsValue, prop: AbsValue): AbsValue = {
+      val compValue = base.comp(prop)
+      val locValue = heap(base.loc, prop)
+      val strValue = (base.str.getSingle, prop.getSingle) match {
+        case (FlatBot, _) | (_, FlatBot) => AbsValue.Bot
+        case (FlatElem(Str(str)), FlatElem(ASimple(simple))) => simple match {
+          case Str("length") => AbsValue(str.length)
+          case INum(k) => AbsValue(str(k.toInt).toString)
+          case Num(k) => AbsValue(str(k.toInt).toString)
+          case _ => AbsValue.Bot
+        }
+        case _ => AbsValue.str ⊔ AbsValue.int
+      }
+      compValue ⊔ locValue ⊔ strValue
+    }
+    def apply(loc: Loc): AbsObj = heap(loc)
 
     // lookup local variables
     def lookupLocal(x: Id): AbsValue = this match {
@@ -120,11 +136,18 @@ object BasicState extends Domain {
       case AbsRefProp(base, prop) =>
         update(base.escaped.loc, prop, value)
     }
-    def update(x: Id, value: AbsValue): Elem = ???
+    def update(x: Id, value: AbsValue): Elem = {
+      if (locals contains x) copy(locals = locals + (x -> value))
+      else copy(globals = globals + (x -> value))
+    }
     def update(aloc: AbsLoc, prop: AbsValue, value: AbsValue): Elem =
       copy(heap = heap.update(aloc, prop, value))
-    def update(loc: Loc, prop: AbsValue, value: AbsValue): Elem =
-      copy(heap = heap.update(loc, prop, value))
+    def update(
+      loc: Loc,
+      prop: AbsValue,
+      value: AbsValue,
+      weak: Boolean = false
+    ): Elem = copy(heap = heap.update(loc, prop, value, weak))
 
     // define global variables
     def defineGlobal(pairs: (Id, AbsValue)*): Elem =

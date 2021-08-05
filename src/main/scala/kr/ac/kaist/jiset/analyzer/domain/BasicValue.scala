@@ -22,20 +22,25 @@ object BasicValue extends Domain {
   )
 
   // abstraction functions
-  def apply(algo: Algo): Elem = Bot.copy(func = AbsFunc(algo))
-  def apply(ast: AST): Elem = Bot.copy(ast = AbsAST(ast))
+  def apply(algo: Algo): Elem = Bot.copy(func = AbsFunc(AFunc(algo)))
+  def apply(ast: AST): Elem = Bot.copy(ast = AbsAST(AAst(ast)))
   def apply(num: Num): Elem = Bot.copy(simple = AbsSimple(num))
   def apply(int: Long): Elem = Bot.copy(simple = AbsSimple(int))
   def apply(bigint: BigInt): Elem = Bot.copy(simple = AbsSimple(bigint))
   def apply(str: String): Elem = Bot.copy(simple = AbsSimple(str))
   def apply(bool: Boolean): Elem = Bot.copy(simple = AbsSimple(bool))
+  lazy val num: Elem = Bot.copy(simple = AbsSimple.num)
+  lazy val int: Elem = Bot.copy(simple = AbsSimple.int)
+  lazy val bigint: Elem = Bot.copy(simple = AbsSimple.bigint)
+  lazy val str: Elem = Bot.copy(simple = AbsSimple.str)
+  lazy val bool: Elem = Bot.copy(simple = AbsSimple.bool)
   lazy val undef: Elem = Bot.copy(simple = AbsSimple.undef)
   lazy val nullv: Elem = Bot.copy(simple = AbsSimple.nullv)
   lazy val absent: Elem = Bot.copy(simple = AbsSimple.absent)
   def apply(value: Value): Elem = this(AValue.from(value))
   def apply(value: AValue): Elem = value match {
     case (comp: AComp) => Bot.copy(comp = AbsComp(comp))
-    case (const: AConst) => Bot.copy(const = AbsConst(const.name))
+    case (const: AConst) => Bot.copy(const = AbsConst(const))
     case (loc: Loc) => Bot.copy(loc = AbsLoc(loc))
     case AFunc(algo) => this(algo)
     case (clo: AClo) => Bot.copy(clo = AbsClo(clo))
@@ -110,12 +115,12 @@ object BasicValue extends Domain {
     // get single value
     def getSingle: Flat[AValue] = (
       this.comp.getSingle ⊔
-      this.const.getSingle.map(x => AConst(x)) ⊔
+      this.const.getSingle ⊔
       this.loc.getSingle ⊔
-      this.func.getSingle.map(x => AFunc(x)) ⊔
+      this.func.getSingle ⊔
       this.clo.getSingle ⊔
       this.cont.getSingle ⊔
-      this.ast.getSingle.map(x => AAst(x)) ⊔
+      this.ast.getSingle ⊔
       this.simple.getSingle
     )
 
@@ -123,6 +128,6 @@ object BasicValue extends Domain {
     def removeAbsent: Elem = copy(simple = simple.removeAbsent)
 
     // escape completion
-    def escaped: Elem = comp("normal").value ⊔ copy(comp = AbsComp.Bot)
+    def escaped: Elem = comp.normal.value ⊔ copy(comp = AbsComp.Bot)
   }
 }

@@ -24,6 +24,10 @@ case class AbsSemantics(
   // a worklist of control points
   val worklist: Worklist[ControlPoint] = new QueueWorklist(npMap.keySet)
 
+  // the number of iterations
+  def getIter: Int = iter
+  private var iter: Int = 0
+
   // get function of given control points
   def funcOf(cp: ControlPoint): Function = cp match {
     case NodePoint(node, _) => cfg.funcOf(node)
@@ -37,6 +41,8 @@ case class AbsSemantics(
   @tailrec
   final def fixpoint: AbsSemantics = worklist.next match {
     case Some(cp) => {
+      iter += 1
+
       // text-based debugging
       if (DEBUG) println(s"${cp.getFunc.name}:$cp")
 

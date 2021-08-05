@@ -29,10 +29,15 @@ object BasicSimple extends Domain {
 
   // abstraction functions
   def apply(num: Num): Elem = Bot.copy(num = AbsNum(num))
-  def apply(int: Long): Elem = Bot.copy(int = AbsInt(int))
-  def apply(bigint: BigInt): Elem = Bot.copy(bigint = AbsBigInt(bigint))
-  def apply(str: String): Elem = Bot.copy(str = AbsStr(str))
-  def apply(bool: Boolean): Elem = Bot.copy(bool = AbsBool(bool))
+  def apply(int: Long): Elem = Bot.copy(int = AbsInt(INum(int)))
+  def apply(bigint: BigInt): Elem = Bot.copy(bigint = AbsBigInt(BigINum(bigint)))
+  def apply(str: String): Elem = Bot.copy(str = AbsStr(Str(str)))
+  def apply(bool: Boolean): Elem = Bot.copy(bool = AbsBool(Bool(bool)))
+  lazy val num: Elem = Bot.copy(num = AbsNum.Top)
+  lazy val int: Elem = Bot.copy(int = AbsInt.Top)
+  lazy val bigint: Elem = Bot.copy(bigint = AbsBigInt.Top)
+  lazy val str: Elem = Bot.copy(str = AbsStr.Top)
+  lazy val bool: Elem = Bot.copy(bool = AbsBool.Top)
   lazy val undef: Elem = Bot.copy(undef = AbsUndef.Top)
   lazy val nullv: Elem = Bot.copy(nullv = AbsNull.Top)
   lazy val absent: Elem = Bot.copy(absent = AbsAbsent.Top)
@@ -52,15 +57,16 @@ object BasicSimple extends Domain {
     if (elem.isBottom) app >> "⊥"
     else {
       val Elem(num, int, bigint, str, bool, undef, nullv, absent) = elem
-      if (!num.isBottom) app >> num.toString
-      if (!int.isBottom) app >> int.toString
-      if (!bigint.isBottom) app >> bigint.toString
-      if (!str.isBottom) app >> str.toString
-      if (!bool.isBottom) app >> bool.toString
-      if (!undef.isBottom) app >> undef.toString
-      if (!nullv.isBottom) app >> nullv.toString
-      if (!absent.isBottom) app >> absent.toString
-      app
+      var strs = Vector[String]()
+      if (!num.isBottom) strs :+= num.toString
+      if (!int.isBottom) strs :+= int.toString
+      if (!bigint.isBottom) strs :+= bigint.toString
+      if (!str.isBottom) strs :+= str.toString
+      if (!bool.isBottom) strs :+= bool.toString
+      if (!undef.isBottom) strs :+= undef.toString
+      if (!nullv.isBottom) strs :+= nullv.toString
+      if (!absent.isBottom) strs :+= absent.toString
+      app >> strs.mkString(", ")
     }
   }
 
@@ -101,15 +107,15 @@ object BasicSimple extends Domain {
 
     // get single value
     def getSingle: Flat[ASimple] = (
-      this.num.getSingle.map(x => ASimple(x)) ⊔
-      this.int.getSingle.map(x => ASimple(INum(x))) ⊔
-      this.bigint.getSingle.map(x => ASimple(BigINum(x))) ⊔
-      this.str.getSingle.map(x => ASimple(Str(x))) ⊔
-      this.bool.getSingle.map(x => ASimple(Bool(x))) ⊔
-      this.undef.getSingle.map(x => ASimple(x)) ⊔
-      this.nullv.getSingle.map(x => ASimple(x)) ⊔
-      this.absent.getSingle.map(x => ASimple(x))
-    )
+      this.num.getSingle ⊔
+      this.int.getSingle ⊔
+      this.bigint.getSingle ⊔
+      this.str.getSingle ⊔
+      this.bool.getSingle ⊔
+      this.undef.getSingle ⊔
+      this.nullv.getSingle ⊔
+      this.absent.getSingle
+    ).map(ASimple)
 
     // remove absent values
     def removeAbsent: Elem = copy(absent = AbsAbsent.Bot)
