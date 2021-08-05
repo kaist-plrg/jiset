@@ -6,13 +6,13 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // basic abstract heaps
 object BasicHeap extends Domain {
-  lazy val Bot = Elem()
+  lazy val Bot = Elem(Map(), Set())
   lazy val Top = error("impossible define top value.")
 
   // elements
   case class Elem(
-    map: Map[Loc, AbsObj] = Map(),
-    merged: Set[Loc] = Set()
+    map: Map[Loc, AbsObj],
+    merged: Set[Loc]
   ) extends ElemTrait {
     // partial order
     override def isBottom = map.isEmpty

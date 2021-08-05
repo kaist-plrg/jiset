@@ -1,12 +1,13 @@
 package kr.ac.kaist.jiset.phase
 
-import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.JISETConfig
+import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
 import kr.ac.kaist.jiset.spec.NativeHelper._
 import kr.ac.kaist.jiset.util.JvmUseful._
+import kr.ac.kaist.jiset.util._
 
 // Analyze phase
 case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
@@ -23,7 +24,10 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
   }
 
   def defaultConfig: AnalyzeConfig = AnalyzeConfig()
-  val options: List[PhaseOption[AnalyzeConfig]] = List()
+  val options: List[PhaseOption[AnalyzeConfig]] = List(
+    ("repl", BoolOption(c => USE_REPL = true),
+      "use REPL for type checks."),
+  )
 }
 
 // Analyze phase config

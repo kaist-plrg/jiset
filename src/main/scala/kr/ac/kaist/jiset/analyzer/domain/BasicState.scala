@@ -8,8 +8,8 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // basic abstract states
 object BasicState extends Domain {
-  lazy val Bot = Elem(reachable = false)
-  lazy val Empty = Elem(reachable = true)
+  lazy val Bot = Elem(false, Map(), Map(), AbsHeap.Bot)
+  lazy val Empty = Elem(true, Map(), Map(), AbsHeap.Bot)
   lazy val Top = error("impossible define top value.")
 
   // base globals
@@ -24,9 +24,9 @@ object BasicState extends Domain {
   // elements
   case class Elem(
     reachable: Boolean,
-    locals: Map[Id, AbsValue] = Map(),
-    globals: Map[Id, AbsValue] = Map(),
-    heap: AbsHeap = AbsHeap.Bot
+    locals: Map[Id, AbsValue],
+    globals: Map[Id, AbsValue],
+    heap: AbsHeap
   ) extends ElemTrait {
     // partial order
     override def isBottom = !this.reachable
