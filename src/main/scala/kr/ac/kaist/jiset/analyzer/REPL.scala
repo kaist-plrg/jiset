@@ -56,7 +56,9 @@ case class REPL(sem: AbsSemantics) {
     this(Some(cp))
     transfer(cp)
   } catch {
+    case e: EndOfFileException => error("stop for debugging")
     case e: Throwable =>
+      // TODO dump CFG for debugging
       printlnColor(RED)("* unexpectedly terminated during REPL.")
       println(sem.getString(cp, CYAN, true))
       throw e
@@ -68,7 +70,7 @@ case class REPL(sem: AbsSemantics) {
   def runDirect(cp: Option[ControlPoint]): Unit = {
     firstHelp
     cp.map(cp => println(sem.getString(cp, CYAN, true)))
-    try while ({
+    while ({
       reader.readLine(prompt) match {
         case null => stop
         case line => line.split("\\s+").toList match {
@@ -86,9 +88,6 @@ case class REPL(sem: AbsSemantics) {
         }
       }
     }) {}
-    catch {
-      case e: EndOfFileException => error("stop for debugging")
-    }
   }
 
   // continue option
