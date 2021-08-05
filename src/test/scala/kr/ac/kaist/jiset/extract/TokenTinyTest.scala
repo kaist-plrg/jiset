@@ -50,9 +50,9 @@ class TokenTinyTest extends ExtractTest {
   // registration
   def init: Unit = check("random-check", for (_ <- 0 until 500) {
     val tokens = randomTokenList
-    val string = tokens.map(_.beautified).mkString(" ")
+    val string = tokens.mkString(" ")
     val newTokens = Tokens(string)
-    val newString = newTokens.map(_.beautified).mkString(" ")
+    val newString = newTokens.mkString(" ")
     assert(tokens == newTokens)
     assert(string == newString)
   })

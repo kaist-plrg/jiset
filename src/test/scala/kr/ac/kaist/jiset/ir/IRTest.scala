@@ -17,7 +17,7 @@ trait IRTest extends JISETTest {
 
   // tests for IR parser
   def irParseTest(program: Program): Program = {
-    val newProgram = Program(program.beautified)
+    val newProgram = Program(program.toString)
     assert(program == newProgram)
     program
   }

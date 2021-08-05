@@ -39,7 +39,7 @@ class Interp(
     override def toString: String = this match {
       case Terminate => "TERMINATED"
       case ReturnUndef => "RETURN"
-      case NextStep(cursor) => cursor.beautified(detail = false)
+      case NextStep(cursor) => cursor.toString(detail = false)
     }
   }
   case object Terminate extends StepTarget
@@ -80,7 +80,7 @@ class Interp(
       if (DEBUG) cursor match {
         case InstCursor(ISeq(_), _) =>
         case _ =>
-          println(s"[$iter] ${st.context.name}: ${cursor.beautified(detail = false)}")
+          println(s"[$iter] ${st.context.name}: ${cursor.toString(detail = false)}")
       }
 
       // interp the current cursor
@@ -125,7 +125,7 @@ class Interp(
         st.context.cursorOpt = Some(interp(inst.cond).escaped match {
           case Bool(true) => NodeCursor(thenNode)
           case Bool(false) => NodeCursor(elseNode)
-          case v => error(s"not a boolean: ${v.beautified}")
+          case v => error(s"not a boolean: $v")
         })
       }
       case Exit(_) => st.context.cursorOpt = None
@@ -146,12 +146,12 @@ class Interp(
       case IIf(cond, thenInst, elseInst) => interp(cond).escaped match {
         case Bool(true) => Some(InstCursor(thenInst, rest))
         case Bool(false) => Some(InstCursor(elseInst, rest))
-        case v => error(s"not a boolean: ${v.beautified}")
+        case v => error(s"not a boolean: $v")
       }
       case IWhile(cond, body) => interp(cond).escaped match {
         case Bool(true) => Some(InstCursor(body, inst :: rest))
         case Bool(false) => InstCursor.from(rest)
-        case v => error(s"not a boolean: ${v.beautified}")
+        case v => error(s"not a boolean: $v")
       }
     }
   }
@@ -202,7 +202,7 @@ class Interp(
           // use hooks
           if (useHook) notify(Event.Cont)
         }
-        case v => error(s"not a function: ${fexpr.beautified} -> ${v.beautified}")
+        case v => error(s"not a function: $fexpr -> $v")
       }
       case IAccess(id, bexpr, expr, args) => {
         var base = interp(bexpr)
@@ -272,11 +272,11 @@ class Interp(
       case IDelete(ref) => st.delete(interp(ref))
       case IAppend(expr, list) => interp(list).escaped match {
         case (addr: Addr) => st.append(addr, interp(expr).escaped)
-        case v => error(s"not an address: ${v.beautified}")
+        case v => error(s"not an address: $v")
       }
       case IPrepend(expr, list) => interp(list).escaped match {
         case (addr: Addr) => st.prepend(addr, interp(expr).escaped)
-        case v => error(s"not an address: ${v.beautified}")
+        case v => error(s"not an address: $v")
       }
       case IReturn(expr) => throw ReturnValue(interp(expr))
       case IThrow(name) => {
@@ -288,7 +288,7 @@ class Interp(
       }
       case IAssert(expr) => interp(expr).escaped match {
         case Bool(true) =>
-        case v => error(s"assertion failure: ${expr.beautified}")
+        case v => error(s"assertion failure: $expr")
       }
       case IPrint(expr) => {
         val v = interp(expr)
@@ -411,7 +411,7 @@ class Interp(
           val targetOpt = target match {
             case Str(target) => Some(target)
             case CONST_EMPTY => None
-            case _ => error(s"invalid completion target: ${target.beautified}")
+            case _ => error(s"invalid completion target: $target")
           }
           CompValue(ty, value, targetOpt)
         }
@@ -431,11 +431,11 @@ class Interp(
     case ESymbol(desc) => interp(desc) match {
       case (str: Str) => st.allocSymbol(str)
       case Undef => st.allocSymbol(Undef)
-      case v => error(s"not a string: ${v.beautified}")
+      case v => error(s"not a string: $v")
     }
     case EPop(list, idx) => interp(list).escaped match {
       case (addr: Addr) => st.pop(addr, interp(idx).escaped)
-      case v => error(s"not an address: ${v.beautified}")
+      case v => error(s"not an address: $v")
     }
     case ERef(ref) => st(interp(ref))
     case EUOp(uop, expr) => {
@@ -484,17 +484,17 @@ class Interp(
     }
     case EGetElems(base, name) => interp(base).escaped match {
       case ASTVal(ast) => st.allocList(ast.getElems(name).map(ASTVal(_)))
-      case v => error(s"not an AST value: ${v.beautified}")
+      case v => error(s"not an AST value: $v")
     }
     case EGetSyntax(base) => interp(base).escaped match {
       case ASTVal(ast) => Str(ast.toString)
-      case v => error(s"not an AST value: ${v.beautified}")
+      case v => error(s"not an AST value: $v")
     }
     case EParseSyntax(code, rule, parserParams) => {
       val v = interp(code).escaped
       val p = interp(rule).escaped match {
-        case Str(str) => ESParser.rules.getOrElse(str, error(s"not exist parse rule: ${rule.beautified}"))
-        case v => error(s"not a string: ${v.beautified}")
+        case Str(str) => ESParser.rules.getOrElse(str, error(s"not exist parse rule: $rule"))
+        case v => error(s"not a string: $v")
       }
       v match {
         case ASTVal(ast) => ASTVal(ESParser.parse(p(ast.parserParams), ast.toString).get.checkSupported)
@@ -503,21 +503,21 @@ class Interp(
             case addr: Addr => st(addr) match {
               case IRList(vs) => vs.toList.map(_ match {
                 case Bool(b) => b
-                case v => error(s"non-boolean parser parameter: ${v.beautified}")
+                case v => error(s"non-boolean parser parameter: $v")
               })
-              case obj => error(s"not a list: ${obj.beautified}")
+              case obj => error(s"not a list: $obj")
             }
-            case v => error(s"not an address: ${v.beautified}")
+            case v => error(s"not an address: $v")
           }
           ASTVal(ESParser.parse(p(ps), str).get.checkSupported)
-        case v => error(s"not an AST value or a string: ${v.beautified}")
+        case v => error(s"not an AST value or a string: $v")
       }
     }
     case EConvert(source, target, flags) => interp(source).escaped match {
       case Str(s) => target match {
         case CStrToNum => Num(ESValueParser.str2num(s))
         case CStrToBigInt => ESValueParser.str2bigint(s)
-        case _ => error(s"not convertable option: Str to ${target.beautified}")
+        case _ => error(s"not convertable option: Str to $target")
       }
       case INum(n) => {
         val radix = flags match {
@@ -532,7 +532,7 @@ class Interp(
           case CNumToStr => Str(toStringHelper(n, radix))
           case CNumToInt => INum(n)
           case CNumToBigInt => BigINum(BigInt(n))
-          case _ => error(s"not convertable option: INum to ${target.beautified}")
+          case _ => error(s"not convertable option: INum to $target")
         }
       }
       case Num(n) => {
@@ -548,23 +548,23 @@ class Interp(
           case CNumToStr => Str(toStringHelper(n, radix))
           case CNumToInt => INum((math.signum(n) * math.floor(math.abs(n))).toLong)
           case CNumToBigInt => BigINum(BigInt(new java.math.BigDecimal(n).toBigInteger))
-          case _ => error(s"not convertable option: INum to ${target.beautified}")
+          case _ => error(s"not convertable option: INum to $target")
         }
       }
       case BigINum(b) => target match {
         case CNumToBigInt => BigINum(b)
         case CNumToStr => Str(b.toString)
         case CBigIntToNum => Num(b.toDouble)
-        case _ => error(s"not convertable option: BigINum to ${target.beautified}")
+        case _ => error(s"not convertable option: BigINum to $target")
       }
-      case v => error(s"not an convertable value: ${v.beautified}")
+      case v => error(s"not an convertable value: $v")
     }
     case EContains(list, elem) => interp(list).escaped match {
       case addr: Addr => st(addr) match {
         case IRList(vs) => Bool(vs contains interp(elem).escaped)
-        case obj => error(s"not a list: ${obj.beautified}")
+        case obj => error(s"not a list: $obj")
       }
-      case v => error(s"not an address: ${v.beautified}")
+      case v => error(s"not an address: $v")
     }
     case EReturnIfAbrupt(rexpr @ ERef(ref), check) => {
       val refV = interp(ref)
@@ -575,11 +575,11 @@ class Interp(
     case EReturnIfAbrupt(expr, check) => returnIfAbrupt(interp(expr), check)
     case ECopy(obj) => interp(obj).escaped match {
       case addr: Addr => st.copyObj(addr)
-      case v => error(s"not an address: ${v.beautified}")
+      case v => error(s"not an address: $v")
     }
     case EKeys(mobj, intSorted) => interp(mobj).escaped match {
       case addr: Addr => st.keys(addr, intSorted)
-      case v => error(s"not an address: ${v.beautified}")
+      case v => error(s"not an address: $v")
     }
     case ENotSupported(msg) => throw NotSupported(msg)
   }
@@ -589,7 +589,7 @@ class Interp(
     case NormalComp(value) => value
     case CompValue(_, _, _) =>
       if (check) throw ReturnValue(value)
-      else error(s"unchecked abrupt completion: ${value.beautified}")
+      else error(s"unchecked abrupt completion: $value")
     case pure: PureValue => pure
   }
 
@@ -612,7 +612,7 @@ class Interp(
     case (OBNot, Num(n)) => INum(~(n.toInt))
     case (OBNot, INum(n)) => INum(~n)
     case (OBNot, BigINum(b)) => BigINum(~b)
-    case (_, value) => error(s"wrong type of value for the operator ${uop.beautified}: ${value.beautified}")
+    case (_, value) => error(s"wrong type of value for the operator $uop: $value")
   }
 
   // binary operators
@@ -717,7 +717,7 @@ class Interp(
     case (OPow, BigINum(l), Num(r)) =>
       if (r.toInt < 0) Num(math.pow(l.toDouble, r)) else BigINum(l.pow(r.toInt))
 
-    case (_, lval, rval) => error(s"wrong type: ${lval.beautified} ${bop.beautified} ${rval.beautified}")
+    case (_, lval, rval) => error(s"wrong type: $lval $bop $rval")
   }
 
   // short circuit evaluation
@@ -747,7 +747,7 @@ class Interp(
         }
       }
       case (Nil, args) => {
-        val argsStr = args.map(_.beautified).mkString("[", ", ", "]")
+        val argsStr = args.mkString("[", ", ", "]")
         error(s"remaining arguments: $argsStr")
       }
       case (param :: pl, arg :: al) => {
@@ -803,7 +803,7 @@ object Interp {
     val (name, f) = pair
     name -> {
       case (st, args) => optional(f(st, args)).getOrElse {
-        error(s"wrong arguments: $name(${args.map(_.beautified).mkString(", ")})")
+        error(s"wrong arguments: $name(${args.mkString(", ")})")
       }
     }
   }
@@ -822,13 +822,13 @@ object Interp {
     arityCheck("GetArgument" -> {
       case (st, List(addr: Addr)) => st(addr) match {
         case list @ IRList(vs) => if (vs.isEmpty) Absent else list.pop(INum(0))
-        case _ => error(s"non-list @ GetArgument: ${addr.beautified}")
+        case _ => error(s"non-list @ GetArgument: $addr")
       }
     }),
     arityCheck("IsDuplicate" -> {
       case (st, List(addr: Addr)) => st(addr) match {
         case IRList(vs) => Bool(vs.toSet.size != vs.length)
-        case _ => error(s"non-list @ IsDuplicate: ${addr.beautified}")
+        case _ => error(s"non-list @ IsDuplicate: $addr")
       }
     }),
     arityCheck("IsArrayIndex" -> {

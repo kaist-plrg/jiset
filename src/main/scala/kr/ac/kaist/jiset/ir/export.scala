@@ -66,7 +66,7 @@ object Export {
 
     // get heap info
     def getHeap(): String = st.heap.map.map {
-      case (addr, obj) => (addr.beautified, obj.beautified)
+      case (addr, obj) => (addr.toString, obj.toString)
     }.asJson.noSpaces
   }
 

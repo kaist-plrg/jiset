@@ -3,30 +3,29 @@ package kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
 import kr.ac.kaist.jiset.util.{ Span, Pos }
 import scala.collection.mutable.{ Map => MMap }
 
-class BeautifierTinyTest extends IRTest {
-  val name: String = "irBeautifierTest"
+class StringifierTinyTest extends IRTest {
+  val name: String = "irStringifierTest"
 
-  import BeautifierTinyTest.beautifier._
-  def test[T <: IRElem](desc: String)(cases: (T, String)*)(
-    implicit
-    tApp: App[T]
-  ): Unit = check(desc, cases.foreach {
-    case (given, expected) =>
-      val result = given.beautified
-      if (result != expected) {
-        println(s"$desc FAILED")
-        println(s"result: $result")
-        println(s"answer: $expected")
-        assert(result == expected)
-      }
-  })
+  // test helper
+  def test[T <: IRElem](desc: String)(cases: (T, String)*): Unit =
+    check(desc, cases.foreach {
+      case (given, expected) =>
+        val result = given.toString
+        if (result != expected) {
+          println(s"$desc FAILED")
+          println(s"result: $result")
+          println(s"answer: $expected")
+          assert(result == expected)
+        }
+    })
+
+  // registration
   def init: Unit = {
     val irMapElems = List(
       EBool(true) -> EStr("true"),
@@ -233,8 +232,4 @@ class BeautifierTinyTest extends IRTest {
     )
   }
   init
-}
-
-object BeautifierTinyTest {
-  val beautifier = new Beautifier()
 }

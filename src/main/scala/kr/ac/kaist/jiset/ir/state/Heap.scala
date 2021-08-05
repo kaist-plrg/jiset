@@ -13,7 +13,7 @@ case class Heap(
 ) extends IRElem {
   // getters
   def apply(addr: Addr): Obj =
-    map.getOrElse(addr, error(s"unknown address: ${addr.beautified}"))
+    map.getOrElse(addr, error(s"unknown address: $addr"))
   def apply(addr: Addr, key: PureValue): Value = this(addr) match {
     case (s: IRSymbol) => s(key)
     case (IRMap(Ty(js.ALGORITHM), _, _)) => key match {
@@ -145,7 +145,7 @@ case class Heap(
   def setType(addr: Addr, ty: Ty): this.type = this(addr) match {
     case (irMap: IRMap) =>
       irMap.ty = ty; this
-    case _ => error(s"invalid type update: ${addr.beautified}")
+    case _ => error(s"invalid type update: $addr")
   }
 
   // copied

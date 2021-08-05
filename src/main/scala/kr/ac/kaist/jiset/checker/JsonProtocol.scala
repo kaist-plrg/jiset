@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.checker
 
 import io.circe._, io.circe.generic.semiauto._, io.circe.generic.auto._
 import io.circe.syntax._
-import kr.ac.kaist.jiset.checker.Beautifier._
+import kr.ac.kaist.jiset.checker.Stringifier._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir.JsonProtocol._
 import kr.ac.kaist.jiset.ir._
@@ -52,12 +52,12 @@ class JsonProtocol(cfg: CFG) extends BasicJsonProtocol {
   implicit lazy val (
     absTypeDecoder: Decoder[AbsType],
     absTypeEncoder: Encoder[AbsType]
-    ) = stringCodec[AbsType](AbsType.apply, beautify)
+    ) = stringCodec[AbsType](AbsType.apply, stringify)
 
   implicit lazy val (
     typeDecoder: Decoder[Type],
     typeEncoder: Encoder[Type]
-    ) = stringCodec[Type](Type.apply, beautify)
+    ) = stringCodec[Type](Type.apply, stringify)
 
   implicit lazy val visitRecorderDecoder: Decoder[VisitRecorder] = deriveDecoder
   implicit lazy val visitRecorderEncoder: Encoder[VisitRecorder] = deriveEncoder

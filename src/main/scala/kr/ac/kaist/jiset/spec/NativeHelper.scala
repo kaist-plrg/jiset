@@ -13,13 +13,13 @@ object NativeHelper {
 
     mkdir(dirname)
     dumpFile(version, s"$dirname/version")
-    dumpFile(grammar.beautified, s"$dirname/grammar")
+    dumpFile(grammar, s"$dirname/grammar")
     mkdir(s"$dirname/algorithm")
-    for (algo <- algos) dumpFile(algo.beautified, s"$dirname/algorithm/${algo.name}.algo")
+    for (algo <- algos) dumpFile(algo, s"$dirname/algorithm/${algo.name}.algo")
     dumpFile(intrinsics.toList.sorted.mkString(LINE_SEP), s"$dirname/intrinsics")
     dumpFile(symbols.toList.sorted.mkString(LINE_SEP), s"$dirname/symbols")
     dumpFile(aoids.toList.sorted.mkString(LINE_SEP), s"$dirname/aoids")
-    dumpFile(section.beautified, s"$dirname/section")
+    dumpFile(section, s"$dirname/section")
   }
 
   // load ECMAScript from filename

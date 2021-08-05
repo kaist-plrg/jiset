@@ -5,22 +5,24 @@ import kr.ac.kaist.jiset.util.Useful._
 // CFG components
 trait CFGElem {
   // conversion to string
-  def beautified: String = beautified()
-  def beautified(
+  override def toString: String = toString(true, false, false)
+
+  // more detailed string
+  def toString(
     detail: Boolean = true,
     line: Boolean = false,
     asite: Boolean = false
   ): String = {
-    val beautifier = CFGElem.getBeautifier((detail, line, asite))
-    import beautifier._
-    beautify(this)
+    val stringifier = CFGElem.getStringifier((detail, line, asite))
+    import stringifier._
+    stringify(this)
   }
 }
 object CFGElem {
-  val getBeautifier = {
-    cached[(Boolean, Boolean, Boolean), Beautifier](key => {
+  val getStringifier = {
+    cached[(Boolean, Boolean, Boolean), Stringifier](key => {
       val (detail, line, asite) = key
-      new Beautifier(detail, line, asite)
+      new Stringifier(detail, line, asite)
     })
   }
 }

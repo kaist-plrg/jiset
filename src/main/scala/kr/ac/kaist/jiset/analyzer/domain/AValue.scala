@@ -17,7 +17,7 @@ object AValue {
     case Func(algo) => AFunc(algo)
     case ASTVal(ast) => AAst(ast)
     case simple: SimpleValue => ASimple(simple)
-    case _ => error(s"impossible to convert to AValue: ${value.beautified}")
+    case _ => error(s"impossible to convert to AValue: $value")
   }
 }
 
@@ -31,7 +31,7 @@ object Loc {
       case subMapPattern(base) => SubMapLoc(NamedLoc(base))
       case name => NamedLoc(name)
     }
-    case _ => error(s"impossible to convert to Loc: ${addr.beautified}")
+    case _ => error(s"impossible to convert to Loc: $addr")
   }
 }
 sealed trait BaseLoc extends Loc

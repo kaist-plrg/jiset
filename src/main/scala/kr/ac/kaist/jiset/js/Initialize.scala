@@ -82,11 +82,11 @@ object Initialize {
           case _ => Some(GLOBAL, name, Str(name), name)
         }
       case RefProp(ref, EStr(prop)) =>
-        Some(GLOBAL + "." + ref.beautified, prop, Str(prop), prop)
+        Some(GLOBAL + "." + ref.toString, prop, Str(prop), prop)
       case RefProp(ref, ERef(RefId(Id(name)))) if name startsWith SYMBOL_PREFIX =>
         val symbolName = name.substring(SYMBOL_PREFIX.length)
         val symbolAddr = NamedAddr(GLOBAL + ".Symbol." + symbolName)
-        Some(GLOBAL + "." + ref.beautified, name, symbolAddr, s"[Symbol.$symbolName]")
+        Some(GLOBAL + "." + ref.toString, name, symbolAddr, s"[Symbol.$symbolName]")
       case _ => None
     }
     baseAddr = NamedAddr(s"$base.SubMap")

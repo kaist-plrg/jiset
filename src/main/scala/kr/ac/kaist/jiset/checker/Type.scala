@@ -105,7 +105,7 @@ sealed trait Type extends CheckerElem {
     case (t: PureType) => Some(t)
     case NormalT(t) => Some(t)
     case AbruptT =>
-      CheckerLogger.doCheck(typeBug(s"unchecked abrupt completions: ${expr.beautified}"))
+      CheckerLogger.doCheck(typeBug(s"unchecked abrupt completions: $expr"))
       None
   }
 

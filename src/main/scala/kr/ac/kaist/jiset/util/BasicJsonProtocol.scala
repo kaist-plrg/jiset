@@ -6,10 +6,10 @@ import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.{ Map => MMap }
 
 trait BasicJsonProtocol {
-  // JSON format based on parsers and beautifiers
+  // JSON format based on parsers and stringifier
   def stringCodec[T](
     parser: String => T,
-    beautifier: T => String
+    stringifier: T => String
   ): (Decoder[T], Encoder[T]) = {
     val decoder = new Decoder[T] {
       final def apply(c: HCursor): Decoder.Result[T] = c.value.asString match {
@@ -18,7 +18,7 @@ trait BasicJsonProtocol {
       }
     }
     val encoder = new Encoder[T] {
-      final def apply(x: T): Json = Json.fromString(beautifier(x))
+      final def apply(x: T): Json = Json.fromString(stringifier(x))
     }
     (decoder, encoder)
   }

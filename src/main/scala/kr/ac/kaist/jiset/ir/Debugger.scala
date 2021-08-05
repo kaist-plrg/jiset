@@ -130,7 +130,7 @@ trait Debugger {
     val expr = Expr(exprStr)
     watchExprs += expr
     println(evalExpr(expr))
-    if (detail) println(s"${expr.beautified} added to watch list")
+    if (detail) println(s"$expr added to watch list")
   }
 
   // remove watch
@@ -152,8 +152,8 @@ trait Debugger {
       interp.interp(expr) match {
         case addr: Addr =>
           val obj = newSt(addr)
-          s"${addr.beautified}$LINE_SEP${obj.beautified}"
-        case v => v.beautified
+          s"$addr$LINE_SEP$obj"
+        case v => v.toString
       }
     } catch { case _: Throwable => "ERROR" }
   }
@@ -161,6 +161,6 @@ trait Debugger {
     watchExprs.zipWithIndex.foreach {
       case (expr, i) =>
         val result = evalExpr(expr)
-        println(f"$i: ${expr.beautified}%-20s $result")
+        println(f"$i: $expr%-20s $result")
     }
 }

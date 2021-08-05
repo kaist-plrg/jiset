@@ -4,7 +4,6 @@ import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.algorithm.token._
 import kr.ac.kaist.jiset.ir.Parser._
 import kr.ac.kaist.jiset.ir.{ Id => IRId, _ }
-import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.js.{ INTRINSICS }
 import scala.util.{ Try, Success, Failure }
@@ -90,10 +89,10 @@ class Compiler private (
       case i ~ y => i match {
         case ISeq(list) => (list.reverse, y) match {
           case (IReturn(e) :: rest, Some("genContext")) =>
-            val newInst = Inst(s"app _ = ((pop genContext.ReturnCont 0i) ${e.beautified})")
+            val newInst = Inst(s"app _ = ((pop genContext.ReturnCont 0i) $e)")
             ISeq((newInst :: rest).reverse)
           case (IReturn(e) :: rest, Some("asyncContext")) =>
-            val newInst = Inst(s"app _ = ($retcont ${e.beautified})")
+            val newInst = Inst(s"app _ = ($retcont $e)")
             ISeq((newInst :: rest).reverse)
           case _ => i
         }
@@ -240,17 +239,14 @@ class Compiler private (
   ) ~ (opt(", in ascending order") ~ opt(",") ~ opt("do") ~> stmt) ^^ {
       case k ~ ((i0 ~ s, i1 ~ e, ds, de)) ~ b =>
         val n = getTemp
-        val sv = s.beautified
-        val ev = e.beautified
-        val body = b.beautified
         ISeq(i0 ++ i1 :+ Inst(s"""{
-        let $k = (+ $sv ${ds}i)
-        let $n = (+ $ev ${de}i)
-        while (< $k $n) {
-          $body
-          $k = (+ $k 1i)
-        }
-      }"""))
+          let $k = (+ $s ${ds}i)
+          let $n = (+ $e ${de}i)
+          while (< $k $n) {
+            $b
+            $k = (+ $k 1i)
+          }
+        }"""))
     } ||| (
       ("for each own property key" ~> id) ~
       ("of" ~> id) ~
@@ -258,7 +254,6 @@ class Compiler private (
       (", in descending numeric index order , do" ~> stmt)
     ) ^^ {
         case x ~ y ~ l ~ b =>
-          val body = b.beautified
           val keys = getTemp
           val n = getTemp
           val c = getTemp
@@ -271,7 +266,7 @@ class Compiler private (
               let $x = $keys[$i]
               let $n = (convert $x str2num)
               app $c = (IsArrayIndex $x)
-              if (&& $c (! (< $n $l))) $body else {}
+              if (&& $c (! (< $n $l))) $b else {}
             }
           }""")
       }
@@ -390,7 +385,7 @@ class Compiler private (
         ISeq(is.flatten :+ Inst(s"""withcont $tid (${rs.mkString(", ")}) = {
           if (= $cid.ReturnCont absent) $cid.ReturnCont = (new []) else {}
           append $tid -> $cid.ReturnCont
-          app _ = ($cid.ResumeCont ${es.map(_.beautified).mkString(" ")})
+          app _ = ($cid.ResumeCont ${es.mkString(" ")})
         }"""))
       }
     }
@@ -926,14 +921,11 @@ class Compiler private (
     ("the substring of" ~> expr) ~ ("from" ~> expr) ~ ("to" ~> expr) ^^ {
       case (i0 ~ b) ~ (i1 ~ f) ~ (i2 ~ t) => {
         val (substr, idx, char) = (getTemp, getTemp, getTemp)
-        val base = b.beautified
-        val from = f.beautified
-        val to = t.beautified
         val inst = Inst(s"""{
            let $substr = ""
-           let $idx = $from
-           while (< $idx $to) {
-             access $char = ($base $idx)
+           let $idx = $f
+           while (< $idx $t) {
+             access $char = ($b $idx)
              $substr = (+ $substr $char)
              $idx = (+ $idx 1i)
            }
@@ -1522,7 +1514,7 @@ class Compiler private (
   // completion conditions
   lazy val completionCond: P[I[Expr]] = (
     expr <~ "is a normal completion" ^^ {
-      case i ~ x => pair(i, Expr(s"""(&& (is-completion ${x.beautified}) (= ${x.beautified}.Type ~normal~))"""))
+      case i ~ x => pair(i, Expr(s"""(&& (is-completion $x) (= $x.Type ~normal~))"""))
     }
   )
 

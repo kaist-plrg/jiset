@@ -211,17 +211,17 @@ class DotPrinter {
 
   override def toString: String = app.toString
 
-  // normalize beautified ir nodes
+  // normalize strings for ir nodes
   private def norm(node: IRElem, useUId: Boolean, fid: Int = -1): String = {
     val postfix = node match {
       case arrow: ArrowInst => s" [fid: $fid]"
       case _ => ""
     }
-    escapeHtml(node.beautified(detail = false, line = !useUId))
+    escapeHtml(node.toString(detail = false, line = !useUId))
       .replaceAll("\u0000", "U+0000") + postfix
   }
 
-  // normalize beautified view
+  // normalize strings for view
   private val normPattern = """[\[\](),\s~?"]""".r
   private def norm(view: View): String = normPattern.replaceAllIn(view.tys.map {
     case NormalT(RecordT(props)) => NormalT(NameT("Record"))

@@ -43,7 +43,7 @@ case object GenTest extends Phase[Unit, GenTestConfig, Unit] {
       mkdir(GRAMMAR_DIR)
       val (_, spec) = extracted
       val filename = s"$GRAMMAR_DIR/$VERSION.grammar"
-      dumpFile(spec.grammar.beautified, filename)
+      dumpFile(spec.grammar, filename)
     })
 
   def defaultConfig: GenTestConfig = GenTestConfig()

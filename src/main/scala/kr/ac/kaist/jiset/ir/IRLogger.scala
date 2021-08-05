@@ -42,7 +42,7 @@ object IRLogger {
   lazy val jsonProtocol = new checker.JsonProtocol(js.cfg)
   def dumpVisitRecorder(dirname: String): Unit = {
     import jsonProtocol._
-    dumpFile(visitRecorder.beautified, s"$dirname/visited-nodes")
+    dumpFile(visitRecorder, s"$dirname/visited-nodes")
     dumpJson(visitRecorder, s"$dirname/visited-nodes.json")
   }
 

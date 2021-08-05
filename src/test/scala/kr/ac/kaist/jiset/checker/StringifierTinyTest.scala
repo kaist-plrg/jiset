@@ -1,28 +1,25 @@
 package kr.ac.kaist.jiset.checker
 
-import kr.ac.kaist.jiset.checker.Beautifier._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender._
 
-class BeautifierTinyTest extends CheckerTest {
-  val name: String = "checkerBeautifierTest"
+class StringifierTinyTest extends CheckerTest {
+  val name: String = "checkerStringifierTest"
 
   // test helper
-  def test[T <: CheckerElem](desc: String)(cases: (T, String)*)(
-    implicit
-    tApp: App[T]
-  ): Unit = check(desc, cases.foreach {
-    case (given, expected) =>
-      val result = given.beautified
-      if (result != expected) {
-        println(s"$desc FAILED")
-        println(s"result: $result")
-        println(s"answer: $expected")
-        assert(result == expected)
-      }
-  })
+  def test[T <: CheckerElem](desc: String)(cases: (T, String)*): Unit =
+    check(desc, cases.foreach {
+      case (given, expected) =>
+        val result = given.toString
+        if (result != expected) {
+          println(s"$desc FAILED")
+          println(s"result: $result")
+          println(s"answer: $expected")
+          assert(result == expected)
+        }
+    })
 
   // registration
   def init: Unit = {

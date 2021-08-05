@@ -20,7 +20,7 @@ trait Head extends SpecElem {
     case SyntaxDirectedHead(lhsName, idx, subIdx, _, methodName, _, _, _) =>
       s"$lhsName[$idx,$subIdx].$methodName"
     case BuiltinHead(ref, origParams) =>
-      s"GLOBAL.${ref.beautified}"
+      s"GLOBAL.$ref"
   }
 
   // parameters

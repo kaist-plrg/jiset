@@ -6,10 +6,10 @@ import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
-// Checker Beautifier
-object Beautifier {
-  val cfgBeautifier = new cfg.Beautifier(line = true)
-  import cfgBeautifier._, irBeautifier._
+// Checker Stringifier
+object Stringifier {
+  val cfgStringifier = new cfg.Stringifier(line = true)
+  import cfgStringifier._, irStringifier._
 
   // type checker components
   implicit lazy val CheckerElemApp: App[CheckerElem] = (app, comp) => comp match {
@@ -64,7 +64,7 @@ object Beautifier {
     else if (set.size == 1) app >> set.head
     else {
       implicit val t = ListApp[String]("(", " | ", ")")
-      app >> set.toList.map(_.beautified).sorted
+      app >> set.toList.map(_.toString).sorted
     }
   }
 
@@ -116,7 +116,7 @@ object Beautifier {
   implicit lazy val VisitRecorderApp: App[VisitRecorder] = (app, vr) => {
     for ((func, viewMap) <- vr.visitMap.toList.sortBy(_._1.name)) {
       app >> func.name >> ": "
-      app.wrap(for ((view, nodeMap) <- viewMap.toList.sortBy(_._1.beautified)) {
+      app.wrap(for ((view, nodeMap) <- viewMap.toList.sortBy(_._1.toString)) {
         app :> view >> ": "
         app.wrap(for ((node, fname) <- nodeMap.toList.sortBy(_._1.uid)) {
           app :> node.uidString >> ": " >> fname >> LINE_SEP

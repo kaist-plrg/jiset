@@ -22,10 +22,10 @@ trait ExtractTest extends JISETTest {
     diff(result, answer) match {
       case Some(diff.Missing(missing)) =>
         println(s"==================================================")
-        println(s"[$filename] MISS: ${missing.beautified}")
+        println(s"[$filename] MISS: $missing")
         println(s"--------------------------------------------------")
-        val answerStr = answer.beautified(line = true, asite = true)
-        val resultStr = result.beautified(line = true, asite = true)
+        val answerStr = answer.toString(line = true, asite = true)
+        val resultStr = result.toString(line = true, asite = true)
         println(s"- result: $resultStr")
         println(s"- answer: $answerStr")
         fail(s"$answerStr is different with $resultStr")

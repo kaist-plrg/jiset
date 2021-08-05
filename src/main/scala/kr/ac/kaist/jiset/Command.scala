@@ -85,13 +85,13 @@ case object CmdParse extends Command("parse", CmdBase >> Parse) {
 // load
 case object CmdLoad extends Command("load", CmdParse >> Load) {
   def help = "loads a JavaScript AST to the initial IR states."
-  override def display(st: ir.State): Unit = println(st.beautified)
+  override def display(st: ir.State): Unit = println(st)
 }
 
 // eval
 case object CmdEval extends Command("eval", CmdLoad >> IREval) {
   def help = "evaluates a JavaScript file using generated interpreter."
-  override def display(st: ir.State): Unit = println(st.beautified)
+  override def display(st: ir.State): Unit = println(st)
 }
 
 // repl
@@ -122,19 +122,19 @@ case object CmdFilterMeta extends Command("filter-meta", CmdBase >> FilterMeta) 
 // parse-ir
 case object CmdIRParse extends Command("parse-ir", CmdBase >> IRParse) {
   def help = "parses an IR file."
-  override def display(pgm: ir.Program): Unit = println(pgm.beautified)
+  override def display(pgm: ir.Program): Unit = println(pgm)
 }
 
 // load-ir
 case object CmdIRLoad extends Command("load-ir", CmdIRParse >> IRLoad) {
   def help = "loads an IR AST to the initial IR states."
-  override def display(st: ir.State): Unit = println(st.beautified)
+  override def display(st: ir.State): Unit = println(st)
 }
 
 // eval-ir
 case object CmdIREval extends Command("eval-ir", CmdIRLoad >> IREval) {
   def help = "evaluates an IR file."
-  override def display(st: ir.State): Unit = println(st.beautified)
+  override def display(st: ir.State): Unit = println(st)
 }
 
 // repl-ir

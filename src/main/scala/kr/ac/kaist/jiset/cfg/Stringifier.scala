@@ -6,15 +6,15 @@ import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.ir._
 
-// CFG Beautifier
-class Beautifier(
+// CFG Stringifier
+class Stringifier(
   detail: Boolean = true,
   line: Boolean = false,
   asite: Boolean = false
 ) {
-  // load IR beautifier
-  val irBeautifier = IRElem.getBeautifier((detail, line, asite))
-  import irBeautifier._
+  // load IR Stringifier
+  val irStringifier = IRElem.getStringifier((detail, line, asite))
+  import irStringifier._
 
   // CFG elements
   implicit lazy val CFGElemApp: App[CFGElem] = (app, elem) => elem match {

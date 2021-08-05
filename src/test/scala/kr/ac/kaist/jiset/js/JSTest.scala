@@ -83,7 +83,7 @@ trait JSTest extends IRTest {
     val resId = Id(RESULT)
     if (st.exists(resId)) st(resId) match {
       case comp: CompValue => assert(comp.ty == CONST_NORMAL)
-      case v => fail(s"return not a completion: ${v.beautified}")
+      case v => fail(s"return not a completion: $v")
     }
     st
   }

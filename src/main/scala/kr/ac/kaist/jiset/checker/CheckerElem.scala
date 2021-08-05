@@ -1,10 +1,10 @@
 package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.checker.Beautifier._
+import kr.ac.kaist.jiset.checker.Stringifier._
 
 // type checker components
 trait CheckerElem {
   // conversion to string
-  def beautified: String = beautify(this)
+  override def toString: String = stringify(this)
 }

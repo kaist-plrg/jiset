@@ -5,8 +5,8 @@ import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
-// IR Beautifier
-class Beautifier(
+// IR Stringifier
+class Stringifier(
   detail: Boolean = true,
   line: Boolean = false,
   asite: Boolean = false
@@ -254,7 +254,7 @@ class Beautifier(
     case InstCursor(cur, rest) =>
       app >> cur >> " [# rest: " >> rest.size >> "]"
     case NodeCursor(node) =>
-      app >> node.beautified(detail, line, asite)
+      app >> node.toString(detail, line, asite)
   }
 
   // heaps

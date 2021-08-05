@@ -3,7 +3,6 @@ package kr.ac.kaist.jiset.checker
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.spec._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
@@ -85,7 +84,7 @@ case class AbsSemantics(
   // assertions check
   def assertionCheck: Unit = CheckerLogger.doCheck(assertions.foreach {
     case (cp, (t, expr)) =>
-      if (!(AT ⊑ t)) typeBug(s"assertion failed: ${expr.beautified}", cp = cp)
+      if (!(AT ⊑ t)) typeBug(s"assertion failed: $expr", cp = cp)
   })
 
   // get size
@@ -273,7 +272,7 @@ object AbsSemantics {
     case (head: SyntaxDirectedHead) => head.withParams.isEmpty
     case (head: BuiltinHead) => (
       TARGET_BUILTIN.contains(head.ref.base) &&
-      !NON_TARGET_BUILTIN.contains(head.ref.beautified)
+      !NON_TARGET_BUILTIN.contains(head.ref.toString)
     )
     case _ => false
   }

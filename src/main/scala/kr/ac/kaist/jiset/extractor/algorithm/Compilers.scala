@@ -45,7 +45,7 @@ trait Compilers extends TokenListParsers {
     case tss ~ k =>
       val tokens = tss.flatten
       failed += k -> tokens
-      val str = tokens.map(_.beautified).mkString(" ")
+      val str = tokens.mkString(" ")
       val failedInst = manualSteps.getOrElse(str, IExpr(ENotSupported(str)))
       failedInst.setLine(Some(k))
       failedInst

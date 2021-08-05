@@ -8,10 +8,10 @@ import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec.algorithm.{ token => atoken, _ }
 import kr.ac.kaist.jiset.spec.grammar.{ token => gtoken, _ }
 
-// ECMAScript Beautifier
-object Beautifier {
-  val irBeautifier = new ir.Beautifier(line = true)
-  import irBeautifier._
+// ECMAScript Stringifier
+object Stringifier {
+  val irStringifier = new ir.Stringifier(line = true)
+  import irStringifier._
 
   // ECMAScript components
   implicit lazy val SpecElemApp: App[SpecElem] = (app, node) => node match {

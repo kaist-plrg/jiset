@@ -74,8 +74,8 @@ object Useful {
   def getIndent(str: String): Int =
     "[ ]+".r.findFirstIn(str).fold(-1)(_.length)
 
-  // beautify
-  def beautify[T](t: T)(implicit app: Appender.App[T]): String =
+  // stringify
+  def stringify[T](t: T)(implicit app: Appender.App[T]): String =
     app(new Appender, t).toString
 
   // shuffle

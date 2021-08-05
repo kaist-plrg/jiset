@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.spec.algorithm
 
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.cfg.Function
 import kr.ac.kaist.jiset.spec.{ SpecElem, Parser }

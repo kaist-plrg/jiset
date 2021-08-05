@@ -122,7 +122,7 @@ object AbsTransfer {
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = bottomCheck((inst match {
       case IExpr(expr @ ENotSupported(msg)) => st => {
-        typeWarning(expr.beautified)
+        typeWarning(expr.toString)
         st
       }
       case IExpr(expr) => for {
@@ -178,7 +178,7 @@ object AbsTransfer {
         _ = printlnColor(GREEN)(s"[PRINT] $t")
       } yield ()
       case _ => st => {
-        typeWarning(s"not yet implemented: ${inst.beautified}")
+        typeWarning(s"not yet implemented: $inst")
         st
       }
     }): Updater)
@@ -204,7 +204,7 @@ object AbsTransfer {
         ts <- join(args.map(transfer))
         st <- get
         // TODO
-        rexpr = ERef(RefProp(toRef(bexpr.beautified), EStr(prop)))
+        rexpr = ERef(RefProp(toRef(bexpr.toString), EStr(prop)))
         t = b.escapedSet(bexpr)
           .map(access(rexpr, call, view, x, _, prop, ts, st))
           .foldLeft(AbsType.Bot)(_ ⊔ _)
@@ -214,7 +214,7 @@ object AbsTransfer {
         }
       } yield ()
       case inst => st => {
-        typeWarning(s"not yet implemented: ${inst.beautified}")
+        typeWarning(s"not yet implemented: $inst")
         st
       }
     }
@@ -255,7 +255,7 @@ object AbsTransfer {
       arityCheck("fround", {
         case (_, List((expr, ty))) =>
           CheckerLogger.doCheck {
-            if (!(ty ⊑ NumT)) typeBug(s"non-number types: ${expr.beautified}")
+            if (!(ty ⊑ NumT)) typeBug(s"non-number types: $expr")
           }
           NumT
       }),
@@ -429,14 +429,14 @@ object AbsTransfer {
         t <- transfer(obj)
       } yield ListT(StrT)
       case ENotSupported(msg) => st => {
-        typeWarning(expr.beautified)
+        typeWarning(expr.toString)
         (AAbsent, st)
       }
       case expr => st => {
-        typeWarning(s"not yet implemented: ${expr.beautified}")
+        typeWarning(s"not yet implemented: $expr")
         (AAbsent, st)
       }
-    }, expr, expr.beautified)
+    }, expr, expr.toString)
 
     // existence check
     object ExistCheck {
@@ -521,8 +521,8 @@ object AbsTransfer {
           case (Some(AStr(l)), Some(AStr(r))) => ABool(l < r)
           case _ => CheckerLogger.doCheck({
             if (!((l ⊑ NumericT && r ⊑ NumericT) || (l ⊑ StrT && r ⊑ StrT))) {
-              val l = left.beautified
-              val r = right.beautified
+              val l = left.toString
+              val r = right.toString
               typeBug(s"non-numeric or non-string types: $l and $r")
             }
             BoolT

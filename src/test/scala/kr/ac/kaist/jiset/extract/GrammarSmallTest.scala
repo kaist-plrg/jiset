@@ -13,7 +13,7 @@ class GrammarSmallTest extends ExtractTest {
     val filename = s"$GRAMMAR_DIR/$VERSION.grammar"
     val answer = readFile(filename)
     val grammar = JISETTest.spec.grammar
-    assert(answer == grammar.beautified)
+    assert(answer == grammar.toString)
   })
   init
 }

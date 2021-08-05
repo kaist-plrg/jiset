@@ -69,9 +69,9 @@ class REPL(override val st: State) extends Debugger {
           // state info
           case CmdInfo.name :: algoName :: _ =>
             val algo = algoMap(algoName)
-            println(algo.beautified); true
+            println(algo); true
           case CmdContext.name :: _ | CmdInfo.name :: Nil =>
-            println(st.context.beautified); true
+            println(st.context); true
           case CmdStack.name :: _ =>
             st.ctxtStack.reverse.zipWithIndex.reverse.foreach {
               case (context, i) => println(s"$i: ${context.name}")
@@ -82,7 +82,7 @@ class REPL(override val st: State) extends Debugger {
             addExpr(exprStr); true
           case CmdLsWatch.name :: _ =>
             watchExprs.zipWithIndex.foreach {
-              case (expr, i) => println(f"$i: ${expr.beautified}")
+              case (expr, i) => println(f"$i: $expr")
             }; true
           case CmdRmWatch.name :: opt :: _ =>
             rmWatch(opt); true

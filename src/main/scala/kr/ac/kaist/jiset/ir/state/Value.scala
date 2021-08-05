@@ -12,7 +12,7 @@ sealed trait Value extends IRElem {
   def escaped: PureValue = this match {
     case NormalComp(value) => value
     case CompValue(_, _, _) =>
-      error(s"unchecked abrupt completion: ${this.beautified}")
+      error(s"unchecked abrupt completion: $this")
     case pure: PureValue => pure
   }
 

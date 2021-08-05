@@ -6,15 +6,15 @@ import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
-// Analyzer Beautifier
-class Beautifier(
+// Analyzer Stringifier
+class Stringifier(
   detail: Boolean = true,
   line: Boolean = false,
   asite: Boolean = false
 ) {
-  // load other beautifiers
-  val cfgBeautifier = new cfg.Beautifier(detail, line, asite)
-  import cfgBeautifier._, irBeautifier._
+  // load other stringifiers
+  val cfgStringifier = new cfg.Stringifier(detail, line, asite)
+  import cfgStringifier._, irStringifier._
 
   // analyzer components
   implicit lazy val AnalyzerElemApp: App[AnalyzerElem] = (app, comp) => comp match {

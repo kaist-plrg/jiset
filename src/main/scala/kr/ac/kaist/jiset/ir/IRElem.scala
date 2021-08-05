@@ -5,22 +5,24 @@ import kr.ac.kaist.jiset.util.Useful._
 // IR components
 trait IRElem {
   // conversion to string
-  def beautified: String = beautified()
-  def beautified(
+  override def toString: String = toString(true, false, false)
+
+  // more detailed string
+  def toString(
     detail: Boolean = true,
     line: Boolean = false,
     asite: Boolean = false
   ): String = {
-    val beautifier = IRElem.getBeautifier((detail, line, asite))
-    import beautifier._
-    beautify(this)
+    val stringifier = IRElem.getStringifier((detail, line, asite))
+    import stringifier._
+    stringify(this)
   }
 }
 object IRElem {
-  val getBeautifier = {
-    cached[(Boolean, Boolean, Boolean), Beautifier](key => {
+  val getStringifier = {
+    cached[(Boolean, Boolean, Boolean), Stringifier](key => {
       val (detail, line, asite) = key
-      new Beautifier(detail, line, asite)
+      new Stringifier(detail, line, asite)
     })
   }
 }

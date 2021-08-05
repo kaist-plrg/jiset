@@ -46,13 +46,13 @@ case class State(
     }
     case addr: Addr => heap(addr, prop)
     case Str(str) => this(str, prop)
-    case v => error(s"not a proper reference base: ${v.beautified}")
+    case v => error(s"not a proper reference base: $v")
   }
   def apply(str: String, prop: PureValue): PureValue = prop match {
     case Str("length") => INum(str.length)
     case INum(k) => Str(str(k.toInt).toString)
     case Num(k) => Str(str(k.toInt).toString)
-    case v => error(s"wrong access of string reference: $str.${prop.beautified}")
+    case v => error(s"wrong access of string reference: $str.$prop")
   }
   def apply(addr: Addr): Obj = heap(addr)
 
@@ -64,13 +64,13 @@ case class State(
       case addr: Addr =>
         update(addr, prop, value); this
       case _ =>
-        error(s"illegal reference update: ${refV.beautified} = ${value.beautified}")
+        error(s"illegal reference update: $refV = $value")
     }
   }
   def update(x: Id, value: Value): this.type = {
     if (locals contains x) locals += x -> value
     else if (globals contains x) globals += x -> value
-    else error(s"illegal variable update: ${x.beautified} = ${value.beautified}")
+    else error(s"illegal variable update: $x = $value")
     this
   }
   def update(addr: Addr, prop: PureValue, value: Value): this.type =
@@ -89,12 +89,12 @@ case class State(
   // delete a property from a map
   def delete(refV: RefValue): this.type = refV match {
     case RefValueId(x) =>
-      error(s"cannot delete variable ${x.beautified}")
+      error(s"cannot delete variable $x")
     case RefValueProp(base, prop) => base.escaped match {
       case addr: Addr =>
         heap.delete(addr, prop); this
       case _ =>
-        error(s"illegal reference delete: delete ${refV.beautified}")
+        error(s"illegal reference delete: delete $refV")
     }
   }
 
@@ -114,12 +114,12 @@ case class State(
 
   // get string for a given address
   def getString(value: Value): String = value match {
-    case comp: CompValue => comp.beautified + (comp.value match {
-      case addr: Addr => " -> " + heap(addr).beautified
+    case comp: CompValue => comp.toString + (comp.value match {
+      case addr: Addr => " -> " + heap(addr).toString
       case _ => ""
     })
-    case addr: Addr => addr.beautified + " -> " + heap(addr).beautified
-    case _ => value.beautified
+    case addr: Addr => addr.toString + " -> " + heap(addr).toString
+    case _ => value.toString
   }
 
   // copied

@@ -32,7 +32,7 @@ lazy val extractGrammarTest = taskKey[Unit]("Launch grammar extract tests (small
 // ir
 lazy val irTest = taskKey[Unit]("Launch ir tests")
 lazy val irParseTest = taskKey[Unit]("Launch parse ir tests (tiny)")
-lazy val irBeautifierTest = taskKey[Unit]("Launch beautifier ir tests (tiny)")
+lazy val irStringifierTest = taskKey[Unit]("Launch stringifier ir tests (tiny)")
 lazy val irEvalTest = taskKey[Unit]("Launch eval ir tests (tiny)")
 
 // js
@@ -50,7 +50,7 @@ lazy val test262ManualTest = taskKey[Unit]("Launch manual eval test262 tests (mi
 // type checker
 lazy val checkerTest = taskKey[Unit]("Launch type checker tests")
 lazy val checkerJsonTest = taskKey[Unit]("Launch json type checker tests (middle)")
-lazy val checkerBeautifierTest = taskKey[Unit]("Launch beautifier type checker tests (tiny)")
+lazy val checkerStringifierTest = taskKey[Unit]("Launch stringifier type checker tests (tiny)")
 lazy val checkerParseTest = taskKey[Unit]("Launch parse type checker tests (tiny)")
 
 // jiset
@@ -99,7 +99,7 @@ lazy val jiset = (project in file("."))
     // ir
     irTest := (testOnly in Test).toTask(" *.ir.*Test").value,
     irParseTest := (testOnly in Test).toTask(" *.ir.Parse*Test").value,
-    irBeautifierTest := (testOnly in Test).toTask(" *.ir.Beautifier*Test").value,
+    irStringifierTest := (testOnly in Test).toTask(" *.ir.Stringifier*Test").value,
     irEvalTest := (testOnly in Test).toTask(" *.ir.Eval*Test").value,
     // js
     jsTest := (testOnly in Test).toTask(" *.js.*Test").value,
@@ -114,6 +114,6 @@ lazy val jiset = (project in file("."))
     // type checker
     checkerTest := (testOnly in Test).toTask(" *.checker.*Test").value,
     checkerJsonTest := (testOnly in Test).toTask(" *.checker.Json*Test").value,
-    checkerBeautifierTest := (testOnly in Test).toTask(" *.checker.Beautifier*Test").value,
+    checkerStringifierTest := (testOnly in Test).toTask(" *.checker.Stringifier*Test").value,
     checkerParseTest := (testOnly in Test).toTask(" *.checker.Parse*Test").value
   )

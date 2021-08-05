@@ -39,7 +39,7 @@ case class Context(
     getAlgoName,
     getLine(if (fromPrev) prevCursorOpt else cursorOpt),
     locals.toList.map {
-      case (Id(name), v) => (name, v.beautified)
+      case (Id(name), v) => (name, v.toString)
     }
   )
   // check if AST evaluation

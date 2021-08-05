@@ -45,7 +45,7 @@ case class NodeCursor(node: Node) extends Cursor
 object NodeCursor extends CursorGen[NodeCursor] {
   def apply(body: Inst): Option[NodeCursor] = {
     val func = cfg.bodyFuncMap.getOrElse(body.uid, {
-      error(s"impossible node cursor: ${body.beautified}")
+      error(s"impossible node cursor: $body")
     })
     Some(NodeCursor(func.entry))
   }

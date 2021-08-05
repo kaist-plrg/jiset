@@ -1,7 +1,6 @@
 package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.ir.Beautifier._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console.RED
 
