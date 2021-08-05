@@ -50,7 +50,7 @@ case class REPL(sem: AbsSemantics) {
 
   // run repl
   def apply(cpOpt: Option[ControlPoint]): Unit = cpOpt match {
-    case Some(cp) if isContinue && !isBreak(cp) =>
+    case Some(cp) if continue && !isBreak(cp) =>
     case _ => runDirect(cpOpt)
   }
   def runDirect(cp: Option[ControlPoint]): Unit = {
@@ -60,15 +60,19 @@ case class REPL(sem: AbsSemantics) {
       reader.readLine(prompt) match {
         case null => stop
         case line => line.split("\\s+").toList match {
-          case Nil | List("") => continue
-          case name :: args => Command.cmdMap.get(name) match {
-            case Some(cmd) => cmd(this, cp, args)
-            case None =>
-              println(s"The command `$name` does not exist. (Try `help`)")
+          case Nil | List("") =>
+            continue = false
+            false
+          case name :: args => {
+            Command.cmdMap.get(name) match {
+              case Some(cmd) => cmd(this, cp, args)
+              case None =>
+                println(s"The command `$name` does not exist. (Try `help`)")
+            }
+            !continue
           }
         }
       }
-      !isContinue
     }) {}
     catch {
       case e: EndOfFileException => error("stop for debugging")
@@ -76,8 +80,7 @@ case class REPL(sem: AbsSemantics) {
   }
 
   // continue option
-  def continue: Unit = isContinue = true
-  private var isContinue: Boolean = false
+  var continue: Boolean = false
 
   // break points
   val breakpoints = ArrayBuffer[(String, String)]()
@@ -95,5 +98,5 @@ case class REPL(sem: AbsSemantics) {
   }
 
   // stop
-  def stop: Unit = { breakpoints.clear(); continue }
+  def stop: Boolean = { breakpoints.clear(); continue = true; false }
 }

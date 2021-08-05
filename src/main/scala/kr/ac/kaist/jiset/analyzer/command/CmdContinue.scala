@@ -14,5 +14,5 @@ case object CmdContinue extends Command(
     repl: REPL,
     cp: Option[ControlPoint],
     args: List[String]
-  ): Unit = repl.continue
+  ): Unit = repl.continue = true
 }

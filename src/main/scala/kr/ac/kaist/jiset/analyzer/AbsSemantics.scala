@@ -38,7 +38,7 @@ case class AbsSemantics(
   final def fixpoint: AbsSemantics = worklist.next match {
     case Some(cp) => {
       // text-based debugging
-      if (DEBUG) println(s"${cp.getFunc.name}: $cp")
+      if (DEBUG) println(s"${cp.getFunc.name}:$cp")
 
       // run REPL
       if (USE_REPL) repl(Some(cp))

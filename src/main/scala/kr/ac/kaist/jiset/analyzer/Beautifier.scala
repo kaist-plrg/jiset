@@ -16,7 +16,7 @@ class Beautifier(
   val cfgBeautifier = new cfg.Beautifier(detail, line, asite)
   import cfgBeautifier._, irBeautifier._
 
-  // analyzer  components
+  // analyzer components
   implicit lazy val AnalyzerElemApp: App[AnalyzerElem] = (app, comp) => comp match {
     case comp: ControlPoint => ControlPointApp(app, comp)
     case comp: View => ViewApp(app, comp)
