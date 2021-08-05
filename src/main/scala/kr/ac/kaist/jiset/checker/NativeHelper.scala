@@ -102,4 +102,11 @@ object NativeHelper {
   } catch {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
+
+  // load VisitRecorder
+  def loadVisitRecorder(dirname: String): VisitRecorder = {
+    import jsonProtocol._
+    readJson[VisitRecorder](s"$dirname/visited-nodes.json")
+  }
+
 }
