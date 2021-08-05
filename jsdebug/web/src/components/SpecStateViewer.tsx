@@ -1,0 +1,112 @@
+import React from "react";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Icon,
+  Typography,
+} from "@material-ui/core";
+import "../styles/StateViewer.css";
+
+import StackFrameViewer from "./StackFrameViewer";
+import HeapViewer from "./HeapViewer";
+import Breakpoints from "./Breakpoints";
+import SpecEnvViewer from "./SpecEnvViewer";
+
+import { connect, ConnectedProps } from "react-redux";
+import { ReduxState } from "../store";
+
+import { AppState } from "../controller/AppState";
+
+// Spec State viewer item
+type SpecStateViewerItemProps = {
+  disabled: boolean;
+  header: React.ReactElement;
+  headerStyle?: object;
+  body: React.ReactElement;
+  bodyStyle?: object;
+};
+type SpecStateViewerItemState = {
+  expanded: boolean;
+};
+class SpecStateViewerItem extends React.Component<
+  SpecStateViewerItemProps,
+  SpecStateViewerItemState
+> {
+  constructor ( props: SpecStateViewerItemProps ) {
+    super( props );
+    this.state = { expanded: false };
+  }
+  componentDidUpdate ( prev: SpecStateViewerItemProps ) {
+    // close accordian when diasabled
+    if ( !prev.disabled && this.props.disabled )
+      this.setState( { ...this.state, expanded: false } );
+  }
+  onItemClick () {
+    const { disabled } = this.props;
+    if ( !disabled ) {
+      let expanded = !this.state.expanded;
+      this.setState( { ...this.state, expanded } );
+    }
+  }
+  render () {
+    const { disabled, header, headerStyle, body, bodyStyle } = this.props;
+    const { expanded } = this.state;
+    return (
+      <Accordion expanded={ expanded } disabled={ disabled }>
+        <AccordionSummary
+          onClick={ () => this.onItemClick() }
+          expandIcon={ <Icon>expand_more</Icon> }
+          style={ headerStyle }
+        >
+          { header }
+        </AccordionSummary>
+        <AccordionDetails style={ bodyStyle }>{ body }</AccordionDetails>
+      </Accordion>
+    );
+  }
+}
+
+// connect redux store
+const mapStateToProps = ( st: ReduxState ) => ( {
+  disableStateViewer: !(
+    st.controller.state === AppState.DEBUG_READY ||
+    st.controller.state === AppState.TERMINATED
+  ),
+} );
+const connector = connect( mapStateToProps );
+type SpecStateViewerProps = ConnectedProps<typeof connector>;
+
+class SpecStateViewer extends React.Component<SpecStateViewerProps> {
+  render () {
+    const { disableStateViewer } = this.props;
+
+    return (
+      <div className="spec-state-viewer-container">
+        <SpecStateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Call Stack</Typography> }
+          body={ <StackFrameViewer /> }
+        />
+        <SpecStateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Environment</Typography> }
+          body={ <SpecEnvViewer /> }
+        />
+        <SpecStateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Heap</Typography> }
+          bodyStyle={ { paddingTop: 0 } }
+          body={ <HeapViewer /> }
+        />
+        <SpecStateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Breakpoints</Typography> }
+          body={ <Breakpoints /> }
+        />
+      </div>
+    );
+  }
+}
+
+export default connector( SpecStateViewer );

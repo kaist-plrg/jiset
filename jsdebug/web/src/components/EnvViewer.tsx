@@ -23,8 +23,16 @@ class EnvViewer extends React.Component<EnvViewerProps> {
           <TableBody>
             { env.map( ( [ name, value ] ) => (
               <TableRow key={ uuid() }>
-                <TableCell style={ { width: "25%" } }>{ name }</TableCell>
-                <TableCell style={ { width: "75%" } }>{ value }</TableCell>
+                <TableCell style={ { width: "25%", overflow: "hidden" } }>
+                  <Tooltip title={ name }>
+                    <span>{ name }</span>
+                  </Tooltip>
+                </TableCell>
+                <TableCell style={ { width: "75%", overflow: "hidden" } }>
+                  <Tooltip title={ value }>
+                    <span>{ value }</span>
+                  </Tooltip>
+                </TableCell>
               </TableRow>
             ) ) }
           </TableBody>
