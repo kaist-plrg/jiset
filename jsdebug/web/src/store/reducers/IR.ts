@@ -14,7 +14,7 @@ export enum IRActionType {
   SHOW_ALGO = "IRAction/SHOW_ALGO",
   CLEAR = "IRAction/CLEAR",
 }
-export function updateIrInfo ( stackFrame: StackFrame, heap: Heap ): IRAction {
+export function updateIrInfo ( stackFrame: StackFrame, heap: [string, string][] ): IRAction {
   return {
     type: IRActionType.UPDATE,
     stackFrame,
@@ -34,7 +34,7 @@ export type IRAction =
   | {
     type: IRActionType.UPDATE;
     stackFrame: StackFrame;
-    heap: Heap;
+    heap: [string, string][];
   }
   | {
     type: IRActionType.SHOW_ALGO;
@@ -68,7 +68,10 @@ export default function reducer ( state = initialState, action: IRAction ) {
           data: action.stackFrame,
           idx: 0,
         };
-        draft.heap = action.heap;
+        for (var i = 0, h; i < action.heap.length; i++) {
+          h = action.heap[i];
+          draft.heap[ h[0] ] = h[1];
+        }
       } );
     case IRActionType.SHOW_ALGO:
       return produce( state, ( draft ) => {

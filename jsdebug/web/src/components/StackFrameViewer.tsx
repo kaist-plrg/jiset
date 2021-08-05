@@ -41,8 +41,8 @@ class StackFrameItem extends React.Component<StackFrameItemProps> {
         className={ this.getClassName() }
         onClick={ () => onItemClick( idx ) }
       >
-        <TableCell>{ idx }</TableCell>
-        <TableCell>{ content }</TableCell>
+        <TableCell style={ { width: "10%" } }>{ idx }</TableCell>
+        <TableCell style={ { width: "90%" } }>{ content }</TableCell>
       </TableRow>
     );
   }
@@ -72,8 +72,8 @@ class StackFrameViewer extends React.Component<StackFrameViewerProps> {
           <Table stickyHeader size="small">
             <TableHead>
               <TableRow>
-                <TableCell>#</TableCell>
-                <TableCell>name</TableCell>
+                <TableCell style={ { width: "10%" } }>#</TableCell>
+                <TableCell style={ { width: "90%" } }>name</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
