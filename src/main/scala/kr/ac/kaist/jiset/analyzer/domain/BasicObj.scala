@@ -9,7 +9,6 @@ import kr.ac.kaist.jiset.util.Useful._
 // basic abstract objects
 object BasicObj extends Domain {
   case object Bot extends Elem
-  case object Top extends Elem
   case class SymbolElem(desc: AbsValue) extends Elem
   case class MergedMapElem(ty: Ty, value: AbsValue) extends Elem
   case class MapElem(ty: Ty, map: Map[AValue, AbsValue]) extends Elem
@@ -30,7 +29,6 @@ object BasicObj extends Domain {
   // appender
   implicit val app: App[Elem] = (app, elem) => elem match {
     case Bot => app >> "⊥"
-    case Top => app >> "⊤"
     case SymbolElem(desc) => app >> "'" >> desc.toString
     case MergedMapElem(ty, value) =>
       app >> ty.toString >> "{{" >> value.toString >> "}}"
@@ -93,13 +91,12 @@ object BasicObj extends Domain {
       case (ListElem(lvs), MergedListElem(rv)) =>
         MergedListElem(this.mergedValue ⊔ rv)
       case (NotSupportedElem(ld), NotSupportedElem(rd)) if ld == rd => this
-      case _ => AbsObj.Top
+      case _ => ???
     }
 
     // lookup
     def apply(key: AValue): AbsValue = this match {
       case Bot => AbsValue.Bot
-      case Top => AbsValue.Top
       case SymbolElem(desc) => key match {
         case ASimple(Str("Description")) => desc
         case _ => AbsValue.Bot
@@ -121,15 +118,13 @@ object BasicObj extends Domain {
     // abstract lookup
     def apply(akey: AbsValue): AbsValue = akey.getSingle match {
       case FlatBot => AbsValue.Bot
-      case FlatTop => AbsValue.Top
+      case FlatTop => mergedValue
       case FlatElem(key) => this(key)
-      case _ => mergedValue
     }
 
     // merged value of all possible values
     lazy val mergedValue: AbsValue = this match {
       case Bot => AbsValue.Bot
-      case Top => AbsValue.Top
       case SymbolElem(desc) => desc
       case MergedMapElem(_, value) => value
       case MapElem(_, map) => map.foldLeft[AbsValue](AbsValue.Bot) {

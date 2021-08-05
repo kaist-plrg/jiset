@@ -13,6 +13,9 @@ import kr.ac.kaist.jiset.util.Useful._
 sealed trait AValue {
   // conversion to string
   override def toString: String = this match {
+    case AComp(AConst("noraml"), value, _) => s"N($value)"
+    case AComp(ty, value, target) => s"C($ty, $value, $target)"
+    case AConst(name) => s"~$name~"
     case NamedLoc(name) => s"#$name"
     case AllocSite(k, view) => s"#$k:$view"
     case SubMapLoc(baseLoc) => s"$baseLoc:SubMap"
@@ -44,6 +47,12 @@ object AValue {
     case _ => error(s"impossible to convert to AValue: $value")
   }
 }
+
+// completions
+case class AComp(ty: AConst, value: AValue, target: ASimple) extends AValue
+
+// constants
+case class AConst(name: String) extends AValue
 
 // abstract locations for addresses
 sealed trait Loc extends AValue

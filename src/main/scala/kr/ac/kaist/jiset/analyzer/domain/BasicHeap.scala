@@ -10,7 +10,6 @@ import kr.ac.kaist.jiset.util.Useful._
 // basic abstract heaps
 object BasicHeap extends Domain {
   lazy val Bot = Elem(Map(), Set())
-  lazy val Top = error("impossible define top value.")
 
   // appender
   implicit val app: App[Elem] = (app, elem) => {
@@ -34,7 +33,6 @@ object BasicHeap extends Domain {
   ) extends ElemTrait {
     // partial order
     override def isBottom = map.isEmpty
-    override def isTop = false
 
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
@@ -67,9 +65,8 @@ object BasicHeap extends Domain {
     def isSingle(loc: Loc): Boolean = !(merged contains loc)
 
     // lookup abstract locations
-    def apply(loc: Loc): AbsObj = {
+    def apply(loc: Loc): AbsObj =
       map.getOrElse(loc, base.getOrElse(loc, AbsObj.Bot))
-    }
 
     // setters
     def update(

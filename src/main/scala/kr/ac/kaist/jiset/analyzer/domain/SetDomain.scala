@@ -16,12 +16,15 @@ class SetDomain[A](setName: String) extends Domain {
   // appender
   implicit val app: App[Elem] = (app, elem) => elem match {
     case Top => app >> setName
-    case Base(set) =>
-      app >> set.toList.map(_.toString).sorted.mkString("{", ", ", "}")
+    case Base(set) => app >> (set.size match {
+      case 0 => "⊥"
+      case 1 => set.head.toString
+      case _ => set.toList.map(_.toString).sorted.mkString("{", ", ", "}")
+    })
   }
 
   // elements
-  sealed trait Elem extends ElemTrait with Iterable[A] {
+  sealed trait Elem extends Iterable[A] with ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
       case (_, Top) => true

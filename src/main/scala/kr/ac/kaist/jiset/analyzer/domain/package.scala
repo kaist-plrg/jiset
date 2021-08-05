@@ -22,6 +22,14 @@ package object domain {
   val AbsValue = BasicValue
   type AbsValue = AbsValue.Elem
 
+  // abstract completions
+  val AbsComp = BasicComp
+  type AbsComp = AbsComp.Elem
+
+  // abstract constants
+  val AbsConst = new SetDomain[String]("~")
+  type AbsConst = AbsConst.Elem
+
   // abstract locations
   val AbsLoc = new SetDomain[Loc]("#")
   type AbsLoc = AbsLoc.Elem

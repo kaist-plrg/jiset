@@ -25,7 +25,7 @@ class FlatDomain[A](setName: String) extends Domain {
   }
 
   // elements
-  sealed trait Elem extends ElemTrait with Iterable[A] {
+  sealed trait Elem extends Iterable[A] with ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
       case BasicOrder(bool) => bool

@@ -50,7 +50,6 @@ object BasicSimple extends Domain {
   // appender
   implicit val app: App[Elem] = (app, elem) => {
     if (elem.isBottom) app >> "⊥"
-    else if (elem.isTop) app >> "⊤"
     else {
       val Elem(num, int, bigint, str, bool, undef, nullv, absent) = elem
       if (!num.isBottom) app >> num.toString

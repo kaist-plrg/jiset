@@ -13,7 +13,6 @@ import kr.ac.kaist.jiset.util.Useful._
 object BasicState extends Domain {
   lazy val Bot = Elem(false, Map(), Map(), AbsHeap.Bot)
   lazy val Empty = Elem(true, Map(), Map(), AbsHeap.Bot)
-  lazy val Top = error("impossible define top value.")
 
   // base globals
   lazy val base: Map[Id, AbsValue] = (for {
@@ -44,7 +43,6 @@ object BasicState extends Domain {
   ) extends ElemTrait {
     // partial order
     override def isBottom = !this.reachable
-    override def isTop = false
 
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
