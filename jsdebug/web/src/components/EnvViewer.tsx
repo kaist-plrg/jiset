@@ -1,6 +1,6 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@material-ui/core";
+import { Tooltip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@material-ui/core";
 import "../styles/EnvViewer.css";
 
 type EnvViewerProps = {
@@ -16,15 +16,15 @@ class EnvViewer extends React.Component<EnvViewerProps> {
         <Table stickyHeader size="small">
           <TableHead>
             <TableRow>
-              <TableCell>name</TableCell>
-              <TableCell>value</TableCell>
+              <TableCell style={ { width: "25%" } }>name</TableCell>
+              <TableCell style={ { width: "75%" } }>value</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             { env.map( ( [ name, value ] ) => (
               <TableRow key={ uuid() }>
-                <TableCell>{ name }</TableCell>
-                <TableCell>{ value }</TableCell>
+                <TableCell style={ { width: "25%" } }>{ name }</TableCell>
+                <TableCell style={ { width: "75%" } }>{ value }</TableCell>
               </TableRow>
             ) ) }
           </TableBody>
