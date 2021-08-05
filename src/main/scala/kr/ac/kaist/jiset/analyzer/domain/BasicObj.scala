@@ -1,6 +1,10 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
+import kr.ac.kaist.jiset.util.Useful._
 
 // basic abstract objects
 object BasicObj extends Domain {
@@ -21,6 +25,26 @@ object BasicObj extends Domain {
     }).toMap)
     case IRList(values) => ListElem(values.map(AbsValue(_)))
     case IRNotSupported(tyname, desc) => NotSupportedElem(desc)
+  }
+
+  // appender
+  implicit val app: App[Elem] = (app, elem) => elem match {
+    case Bot => app >> "⊥"
+    case Top => app >> "⊤"
+    case SymbolElem(desc) => app >> "'" >> desc.toString
+    case MergedMapElem(ty, value) =>
+      app >> ty.toString >> "{{" >> value.toString >> "}}"
+    case MapElem(ty, map) =>
+      app >> ty.toString
+      app.wrap {
+        for ((k, v) <- map) app >> s"$k -> $v" >> LINE_SEP
+      }
+    case MergedListElem(value) =>
+      app >> "[[" >> value.toString >> "]]"
+    case ListElem(values) =>
+      app >> values.mkString("[", ", ", "]")
+    case NotSupportedElem(desc) =>
+      app >> "???(" >> desc >> ")"
   }
 
   // elements

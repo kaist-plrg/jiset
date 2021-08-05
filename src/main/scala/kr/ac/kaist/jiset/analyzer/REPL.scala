@@ -49,6 +49,18 @@ case class REPL(sem: AbsSemantics) {
   lazy val firstHelp: Unit = { CmdHelp.showHelp; println }
 
   // run repl
+  def apply(
+    transfer: AbsTransfer,
+    cp: ControlPoint
+  ): Unit = try {
+    this(Some(cp))
+    transfer(cp)
+  } catch {
+    case e: Throwable =>
+      printlnColor(RED)("* unexpectedly terminated during REPL.")
+      println(sem.getString(cp, CYAN, true))
+      throw e
+  }
   def apply(cpOpt: Option[ControlPoint]): Unit = cpOpt match {
     case Some(cp) if continue && !isBreak(cp) =>
     case _ => runDirect(cpOpt)

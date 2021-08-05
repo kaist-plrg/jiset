@@ -1,6 +1,8 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
 
 // basic abstract simple values
 object BasicSimple extends Domain {
@@ -43,6 +45,24 @@ object BasicSimple extends Domain {
     case Undef => this.undef
     case Null => this.nullv
     case Absent => this.absent
+  }
+
+  // appender
+  implicit val app: App[Elem] = (app, elem) => {
+    if (elem.isBottom) app >> "⊥"
+    else if (elem.isTop) app >> "⊤"
+    else {
+      val Elem(num, int, bigint, str, bool, undef, nullv, absent) = elem
+      if (!num.isBottom) app >> num.toString
+      if (!int.isBottom) app >> int.toString
+      if (!bigint.isBottom) app >> bigint.toString
+      if (!str.isBottom) app >> str.toString
+      if (!bool.isBottom) app >> bool.toString
+      if (!undef.isBottom) app >> undef.toString
+      if (!nullv.isBottom) app >> nullv.toString
+      if (!absent.isBottom) app >> absent.toString
+      app
+    }
   }
 
   // elements

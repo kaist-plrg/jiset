@@ -1,5 +1,9 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
+import kr.ac.kaist.jiset.util.Useful._
+
 // domain
 trait Domain {
   // top element
@@ -10,6 +14,9 @@ trait Domain {
 
   // element
   type Elem <: ElemTrait
+
+  // appender
+  implicit val app: App[Elem]
 
   // element traits
   trait ElemTrait { this: Elem =>
@@ -27,6 +34,9 @@ trait Domain {
 
     // top check
     def isTop: Boolean = this == Top
+
+    // conversion to string
+    override def toString: String = stringify(this)
   }
 
   // basic partial order

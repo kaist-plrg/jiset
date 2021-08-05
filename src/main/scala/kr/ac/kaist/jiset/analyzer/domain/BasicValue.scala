@@ -4,6 +4,8 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.ast.AST
 import kr.ac.kaist.jiset.spec.algorithm.Algo
+import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
 
 // basic abstract values
 object BasicValue extends Domain {
@@ -43,6 +45,22 @@ object BasicValue extends Domain {
     case (cont: ACont) => Bot.copy(cont = AbsCont(cont))
     case AAst(ast) => this(ast)
     case (simple: ASimple) => Bot.copy(simple = AbsSimple(simple))
+  }
+
+  // appender
+  implicit val app: App[Elem] = (app, elem) => {
+    if (elem.isBottom) app >> "⊥"
+    else if (elem.isTop) app >> "⊤"
+    else {
+      val Elem(loc, func, clo, cont, ast, simple) = elem
+      if (!loc.isBottom) app >> loc.toString
+      if (!func.isBottom) app >> func.toString
+      if (!clo.isBottom) app >> clo.toString
+      if (!cont.isBottom) app >> cont.toString
+      if (!ast.isBottom) app >> ast.toString
+      if (!simple.isBottom) app >> simple.toString
+      app
+    }
   }
 
   // elements

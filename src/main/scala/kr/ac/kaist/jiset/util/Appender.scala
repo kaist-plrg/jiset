@@ -54,4 +54,14 @@ object Appender {
       for (t <- tl) app >> sep >> t
       app >> right
   }
+
+  // pair appender
+  def PairApp[T, U](
+    implicit
+    tApp: App[T],
+    uApp: App[U]
+  ): App[(T, U)] = (app, pair) => {
+    val (t, u) = pair
+    app >> t >> " -> " >> u
+  }
 }

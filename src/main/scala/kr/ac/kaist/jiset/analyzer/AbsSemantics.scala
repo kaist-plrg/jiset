@@ -41,10 +41,10 @@ case class AbsSemantics(
       if (DEBUG) println(s"${cp.getFunc.name}:$cp")
 
       // run REPL
-      if (USE_REPL) repl(Some(cp))
+      if (USE_REPL) repl(transfer, cp)
 
       // abstract transfer for the current control point
-      transfer(cp)
+      else transfer(cp)
 
       // keep going
       fixpoint

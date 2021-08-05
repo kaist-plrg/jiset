@@ -1,13 +1,31 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.{ Initialize => JSInitialize }
+import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
 // basic abstract heaps
 object BasicHeap extends Domain {
   lazy val Bot = Elem(Map(), Set())
   lazy val Top = error("impossible define top value.")
+
+  // appender
+  implicit val app: App[Elem] = (app, elem) => {
+    val Elem(map, merged) = elem
+    if (elem.isBottom) app >> "{}"
+    else app.wrap {
+      map.toList
+        .sortBy(_._1.toString)
+        .foreach {
+          case (k, v) =>
+            app >> (if (merged contains k) "@" else " ")
+            app >> s" $k -> $v" >> LINE_SEP
+        }
+    }
+  }
 
   // elements
   case class Elem(
@@ -88,7 +106,10 @@ object BasicHeap extends Domain {
       val obj = map.foldLeft(AbsObj(IRMap(ty))) {
         case (m, (k, v)) => m.update(k, v)
       }
-      Elem(this.map + (to -> (this(to) ⊔ obj)), ???)
+      this(to) match {
+        case AbsObj.Bot => Elem(this.map + (to -> obj), merged)
+        case _ => Elem(this.map + (to -> (this(to) ⊔ obj)), merged + to)
+      }
     }
 
     // list allocations

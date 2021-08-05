@@ -1,9 +1,11 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
 // flat domain
-class FlatDomain[A] extends Domain {
+class FlatDomain[A](setName: String) extends Domain {
   object Bot extends Elem
   object Top extends Elem
   case class Base(elem: A) extends Elem
@@ -13,6 +15,13 @@ class FlatDomain[A] extends Domain {
     case 0 => Bot
     case 1 => Base(elems.head)
     case _ => Top
+  }
+
+  // appender
+  implicit val app: App[Elem] = (app, elem) => elem match {
+    case Bot => app >> "⊥"
+    case Top => app >> setName
+    case Base(v) => app >> v.toString
   }
 
   // elements

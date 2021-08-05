@@ -1,8 +1,11 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.{ Initialize => JSInitialize }
+import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.StateMonad
 import kr.ac.kaist.jiset.util.Useful._
 
@@ -20,6 +23,17 @@ object BasicState extends Domain {
 
   // monad helper
   val monad: StateMonad[Elem] = new StateMonad[Elem]
+
+  // appender
+  implicit val app: App[Elem] = (app, elem) => {
+    if (elem.isBottom) app >> "⊥"
+    else if (elem.locals.isEmpty) app >> "{}"
+    else app.wrap {
+      elem.locals.toList
+        .sortBy(_._1.toString)
+        .foreach { case (k, v) => app >> s" $k -> $v" >> LINE_SEP }
+    }
+  }
 
   // elements
   case class Elem(

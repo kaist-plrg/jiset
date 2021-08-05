@@ -23,19 +23,19 @@ package object domain {
   type AbsValue = AbsValue.Elem
 
   // abstract locations
-  val AbsLoc = new SetDomain[Loc]
+  val AbsLoc = new SetDomain[Loc]("#")
   type AbsLoc = AbsLoc.Elem
 
   // abstract functions
-  val AbsFunc = new SetDomain[Algo]
+  val AbsFunc = new SetDomain[Algo]("λ")
   type AbsFunc = AbsFunc.Elem
 
   // abstract closures
-  val AbsClo = new FlatDomain[AClo]
+  val AbsClo = new FlatDomain[AClo]("=>")
   type AbsClo = AbsClo.Elem
 
   // abstract continuations
-  val AbsCont = new FlatDomain[ACont]
+  val AbsCont = new FlatDomain[ACont]("[=>]")
   type AbsCont = AbsCont.Elem
 
   // abstract simple values
@@ -43,27 +43,27 @@ package object domain {
   type AbsSimple = AbsSimple.Elem
 
   // abstract AST values
-  val AbsAST = new FlatDomain[AST]
+  val AbsAST = new FlatDomain[AST]("☊")
   type AbsAST = AbsAST.Elem
 
   // abstract floating-point number values
-  val AbsNum = new FlatDomain[Num]
+  val AbsNum = new FlatDomain[Num]("num")
   type AbsNum = AbsNum.Elem
 
   // abstract integers
-  val AbsInt = new FlatDomain[Long]
+  val AbsInt = new FlatDomain[Long]("int")
   type AbsInt = AbsInt.Elem
 
   // abstract big integers
-  val AbsBigInt = new FlatDomain[BigInt]
+  val AbsBigInt = new FlatDomain[BigInt]("bigint")
   type AbsBigInt = AbsBigInt.Elem
 
   // abstract strings
-  val AbsStr = new FlatDomain[String]
+  val AbsStr = new FlatDomain[String]("str")
   type AbsStr = AbsStr.Elem
 
   // abstract booleans
-  val AbsBool = new FlatDomain[Boolean]
+  val AbsBool = new FlatDomain[Boolean]("bool")
   type AbsBool = AbsBool.Elem
 
   // abstract undefined

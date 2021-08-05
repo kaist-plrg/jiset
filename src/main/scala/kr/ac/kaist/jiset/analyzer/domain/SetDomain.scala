@@ -1,15 +1,24 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.util.Appender
+import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
 // set domain
-class SetDomain[A] extends Domain {
+class SetDomain[A](setName: String) extends Domain {
   lazy val Bot = Base(Set())
   object Top extends Elem
   case class Base(set: Set[A]) extends Elem
 
   // abstraction functions
   def apply(elems: A*): Elem = Base(elems.toSet)
+
+  // appender
+  implicit val app: App[Elem] = (app, elem) => elem match {
+    case Top => app >> setName
+    case Base(set) =>
+      app >> set.toList.map(_.toString).sorted.mkString("{", ", ", "}")
+  }
 
   // elements
   sealed trait Elem extends ElemTrait with Iterable[A] {
