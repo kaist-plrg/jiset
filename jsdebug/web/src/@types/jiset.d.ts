@@ -5,13 +5,15 @@ declare class Scala_IRState { }
 declare class Scala_WebDebugger {
   constructor ( state: Scala_IRState );
   // ir steps
-  irStep (): void;
-  irStepOver (): void;
-  irStepOut (): void;
+  irStep (): Scala_StepResult;
+  irStepOver (): Scala_StepResult;
+  irStepOut (): Scala_StepResult;
   // spec steps
-  specStep (): void;
-  specStepOver (): void;
-  specStepOut (): void;
+  specStep (): Scala_StepResult;
+  specStepOver (): Scala_StepResult;
+  specStepOut (): Scala_StepResult;
+  // continue
+  continueAlgo (): Scala_StepResult;
   // get state info
   getStackFrame (): string;
   getHeap (): string;
@@ -20,8 +22,6 @@ declare class Scala_WebDebugger {
   addAlgoBreak ( algoName: string, enabled: boolean = true ): void;
   rmAlgoBreak ( opt: string ): void;
   toggleAlgoBreak ( opt: string ): void;
-  // continue
-  continueAlgo (): void;
 }
 
 // call setTarget

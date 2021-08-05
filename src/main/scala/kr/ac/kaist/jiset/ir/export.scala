@@ -13,37 +13,38 @@ object Export {
   @JSExportTopLevel("Scala_WebDebugger")
   @JSExportAll
   class WebDebugger(override val st: State) extends Debugger {
+    type StepResult = Debugger.StepResult
     detail = true
     // ir steps
-    def irStep() = step
-    def irStepOver() = stepOver
-    def irStepOut() = stepOut
+    def irStep(): Int = step.id
+    def irStepOver(): Int = stepOver.id
+    def irStepOut(): Int = stepOut.id
 
     // spec steps
-    def specStep() = {
+    def specStep(): Int = {
       val (n0, l0, _) = st.context.getInfo()
       stepUntil {
         val (n1, l1, _) = st.context.getInfo()
         n0 == n1 && l0 == l1
-      }
+      }.id
     }
-    def specStepOver() = {
+    def specStepOver(): Int = {
       val (n0, l0, _) = st.context.getInfo()
       val stackSize = st.ctxtStack.size
       stepUntil {
         val (n1, l1, _) = st.context.getInfo()
         (n0 == n1 && l0 == l1) || (stackSize != st.ctxtStack.size)
-      }
+      }.id
     }
-    def specStepOut() = stepOut
+    def specStepOut(): Int = stepOut.id
+
+    // continue
+    def continueAlgo(): Int = continue.id
 
     // breakpoints
     def addAlgoBreak(algoName: String, enabled: Boolean = true) = addBreak(algoName, enabled)
     def rmAlgoBreak(opt: String) = rmBreak(opt)
     def toggleAlgoBreak(opt: String) = toggleBreak(opt)
-
-    // continue
-    def continueAlgo() = continue
 
     // get stack frame info
     def getStackFrame(): String = {

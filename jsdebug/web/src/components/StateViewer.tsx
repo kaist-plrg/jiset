@@ -101,7 +101,7 @@ class StateViewer extends React.Component<StateViewerProps> {
         />
         <StateViewerItem
           disabled={ disableStateViewer }
-          header={ <Typography>Breakpoints</Typography> }
+          header={ <Typography>ECMAScript Breakpoints</Typography> }
           body={ <Breakpoints /> }
         />
       </div>

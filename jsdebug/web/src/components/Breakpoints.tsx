@@ -1,7 +1,9 @@
 import React from "react";
+import { toast } from "react-toastify";
 import { v4 as uuid } from "uuid";
 import { Autocomplete } from "@material-ui/lab";
 import {
+  Tooltip,
   IconButton,
   Icon,
   TextField,
@@ -46,11 +48,15 @@ class BreakpointItem extends React.Component<BreakpointItemProp> {
     const { name, enable } = data;
     return (
       <TableRow>
-        <TableCell>{ name }</TableCell>
-        <TableCell>
+        <TableCell style={ { width: "50%", overflow: "hidden" } }>
+          <Tooltip title={ name }>
+            <span>{ name }</span>
+          </Tooltip>
+        </TableCell>
+        <TableCell style={ { width: "15%" } }>
           <Switch checked={ enable } onChange={ () => this.onEnableChange() } />
         </TableCell>
-        <TableCell>
+        <TableCell style={ { width: "15%" } }>
           <IconButton component="span" onClick={ () => this.onRemoveClick() }>
             <Icon color="secondary">remove_circle</Icon>
           </IconButton>
@@ -67,28 +73,37 @@ const mapStateToProps = ( st: ReduxState ) => ( {
 } );
 const connector = connect( mapStateToProps );
 type BreakpointsProps = ConnectedProps<typeof connector>;
-type BreakpointsState = { addName: string };
+type BreakpointsState = { bpName: string };
 
 // TODO add util buttons
 // delete all
 // disable all
 // sort
+type Hack = { [ key: string ]: any };
 class Breakpoints extends React.Component<BreakpointsProps, BreakpointsState> {
   constructor ( props: BreakpointsProps ) {
     super( props );
-    this.state = { addName: "" };
+    this.state = { bpName: "" };
   }
 
-  onAddChange ( addName: string ) {
-    this.setState( { ...this.state, addName } );
+  onAddChange ( bpName: string ) {
+    this.setState( { ...this.state, bpName } );
   }
   onAddClick () {
-    sm.move( { type: ActionType.ADD_BREAK, bpName: this.state.addName } );
+    const bpName = this.state.bpName;
+    const duplicated = this.props.breakpoints
+      .map( ( _ ) => _.name )
+      .some( ( _ ) => _ === bpName );
+    const valid = this.props.algoNames.some( ( name ) => name === bpName );
+    if ( valid && !duplicated )
+      sm.move( { type: ActionType.ADD_BREAK, bpName: this.state.bpName } );
+    else if ( duplicated ) toast.warning( `Breakpoint already set: ${ bpName }` );
+    else toast.warning( `Wrong breakpoint name: ${ bpName }` );
   }
 
   render () {
     const { breakpoints, algoNames } = this.props;
-    const { addName } = this.state;
+    const { bpName } = this.state;
 
     return (
       <div className="breakpoints-container">
@@ -103,7 +118,7 @@ class Breakpoints extends React.Component<BreakpointsProps, BreakpointsState> {
               label="Algorithm Name"
               variant="outlined"
               size="small"
-              value={ addName }
+              value={ bpName }
               margin="normal"
               InputProps={ {
                 ...params.InputProps,
@@ -128,9 +143,9 @@ class Breakpoints extends React.Component<BreakpointsProps, BreakpointsState> {
           <Table stickyHeader size="small">
             <TableHead>
               <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Enable</TableCell>
-                <TableCell>Remove</TableCell>
+                <TableCell style={ { width: "50%" } }>Name</TableCell>
+                <TableCell style={ { width: "15%" } }>Enable</TableCell>
+                <TableCell style={ { width: "15%" } }>Remove</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

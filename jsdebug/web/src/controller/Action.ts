@@ -20,6 +20,7 @@ import {
   rmBreak,
   toggleBreak,
 } from "../store/reducers/Debugger";
+import { Scala_StepResult } from "../object/StepResult";
 
 // ir
 import {
@@ -94,18 +95,23 @@ export const stepPreAction: ActionHandler =
   };
 // debugger step post action
 export const stepPostAction: ActionHandler =
-  ( store: Store ) => ( next: Action ) => ( webDebugger: Scala_WebDebugger ) => {
-    // update ir info and make debugger state not busy
-    let stackFrame: StackFrame = JSON.parse( webDebugger.getStackFrame() );
-    let heap = JSON.parse( webDebugger.getHeap() );
-    let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
-      webDebugger.getJsRange()
-    );
-    store.dispatch( updateJsRange( jsStart, jsEnd ) );
-    store.dispatch( updateIrInfo( stackFrame, heap ) );
-    store.dispatch( pauseDebugger() );
-    next();
-  };
+  ( store: Store ) =>
+    ( next: Action ) =>
+      ( res: Scala_StepResult, webDebugger: Scala_WebDebugger ) => {
+        // if result is BREAK or TERMINATE, show toast message
+        if ( res === Scala_StepResult.TERMINATE ) toast.success( "Terminated" );
+        else if ( res === Scala_StepResult.BREAK ) toast.info( "Breaked" );
+        // update ir info and make debugger state not busy
+        let stackFrame: StackFrame = JSON.parse( webDebugger.getStackFrame() );
+        let heap = JSON.parse( webDebugger.getHeap() );
+        let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
+          webDebugger.getJsRange()
+        );
+        store.dispatch( updateJsRange( jsStart, jsEnd ) );
+        store.dispatch( updateIrInfo( stackFrame, heap ) );
+        store.dispatch( pauseDebugger() );
+        next();
+      };
 // default exception handler
 export const defaultExceptionHandler = ( e: ActionError ) => {
   console.error( e );
@@ -160,7 +166,7 @@ export const actions: ActionDefinition[] = [
         // create debugger
         let webDebugger = new Scala_WebDebugger( IRState );
         // add breakpoints
-        breakpoints.forEach( bp => {
+        breakpoints.forEach( ( bp ) => {
           webDebugger.addAlgoBreak( bp.name, bp.enable );
         } );
         store.dispatch( loadDebugger( webDebugger ) );
@@ -186,8 +192,8 @@ export const actions: ActionDefinition[] = [
       stepPreAction,
       () => ( next: Action ) => ( webDebugger: Scala_WebDebugger ) => {
         // step
-        webDebugger.specStep();
-        next( webDebugger );
+        const res = webDebugger.specStep();
+        next( res, webDebugger );
       },
       stepPostAction,
     ],
@@ -199,8 +205,8 @@ export const actions: ActionDefinition[] = [
     [
       stepPreAction,
       () => ( next: Action ) => ( webDebugger: Scala_WebDebugger ) => {
-        webDebugger.specStepOver();
-        next( webDebugger );
+        const res = webDebugger.specStepOver();
+        next( res, webDebugger );
       },
       stepPostAction,
     ],
@@ -212,8 +218,22 @@ export const actions: ActionDefinition[] = [
     [
       stepPreAction,
       () => ( next: Action ) => ( webDebugger: Scala_WebDebugger ) => {
-        webDebugger.specStepOut();
-        next( webDebugger );
+        const res = webDebugger.specStepOut();
+        next( res, webDebugger );
+      },
+      stepPostAction,
+    ],
+    defaultExceptionHandler,
+  ],
+  // continue
+  [
+    ActionType.CONTINUE,
+    [
+      stepPreAction,
+      () => ( next: Action ) => ( webDebugger: Scala_WebDebugger ) => {
+        // continue
+        const res = webDebugger.continueAlgo();
+        next( res, webDebugger );
       },
       stepPostAction,
     ],
@@ -277,20 +297,6 @@ export const actions: ActionDefinition[] = [
             webDebugger.toggleAlgoBreak( opt );
             store.dispatch( toggleBreak( opt ) );
           },
-    ],
-    defaultExceptionHandler,
-  ],
-  // continue
-  [
-    ActionType.CONTINUE,
-    [
-      stepPreAction,
-      () => ( next: Action ) => ( webDebugger: Scala_WebDebugger ) => {
-        // continue
-        webDebugger.continueAlgo();
-        next( webDebugger );
-      },
-      stepPostAction,
     ],
     defaultExceptionHandler,
   ],

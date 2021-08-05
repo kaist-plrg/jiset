@@ -26,24 +26,35 @@ case class AlgoBreakPoint(name: String) extends BreakPoint {
 }
 
 // IR Debugger
+object Debugger {
+  // Debugger step result
+  type StepResult = StepResult.Value
+  object StepResult extends Enumeration {
+    val Break, Terminate, Success = Value
+  }
+}
 trait Debugger {
+  import Debugger._
   val st: State
   val interp = new Interp(st, None, true)
   var detail: Boolean = false
 
   // step until predicate
   @tailrec
-  final def stepUntil(pred: => Boolean): Unit = {
+  final def stepUntil(pred: => Boolean): StepResult = {
     DEBUG = true
     if (!isBreak) {
       val keep = interp.step
       if (pred && keep) stepUntil(pred)
-      else DEBUG = false
-    } else DEBUG = false
+      else {
+        DEBUG = false
+        if (keep) StepResult.Success else StepResult.Terminate
+      }
+    } else { DEBUG = false; StepResult.Break }
   }
 
   // step
-  final def step: Unit = stepUntil {
+  final def step: StepResult = stepUntil {
     interp.nextTarget match {
       case next: interp.NextStep => false
       case _ => true
@@ -51,16 +62,19 @@ trait Debugger {
   }
 
   // step-over
-  final def stepOver: Unit = {
+  final def stepOver: StepResult = {
     val stackSize = st.ctxtStack.size
     stepUntil { stackSize != st.ctxtStack.size }
   }
 
   // step-out
-  final def stepOut: Unit = {
+  final def stepOut: StepResult = {
     val stackSize = st.ctxtStack.size
     stepUntil { stackSize <= st.ctxtStack.size }
   }
+
+  // continue
+  final def continue: StepResult = stepUntil { true }
 
   // breakpoints
   val breakpoints = ArrayBuffer[(InterpHook, BreakPoint)]()
@@ -109,9 +123,6 @@ trait Debugger {
   final def isBreak: Boolean = breakpoints.foldLeft(false) {
     case (acc, (_, bp)) => bp.needTrigger || acc
   }
-
-  // continue
-  final def continue: Unit = stepUntil { true }
 
   // watch expressions
   var watchExprs = ArrayBuffer[Expr]()
