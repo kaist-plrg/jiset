@@ -59,7 +59,7 @@ trait Test262Test extends JSTest {
     summary.close
 
     // dump logs
-    IRLogger.dumpTo(s"$logDir/$name-stat")
+    IRLogger.dumpTo(s"$logDir/$name-logger")
     dumpFile(summary, s"$logDir/$name-summary")
     if (summary.timeout > 0) println(s"${summary.timeout} tests are timeout.")
     if (summary.yet > 0) println(s"${summary.yet} tests are not yet supported.")

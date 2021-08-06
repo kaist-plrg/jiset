@@ -4,7 +4,7 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
 
-// PartialModel
+// CFG PartialModel
 case class CFGPartialModel(
   partialMap: Map[Function, Map[View, PartialFunc]]
 ) extends CheckerElem {

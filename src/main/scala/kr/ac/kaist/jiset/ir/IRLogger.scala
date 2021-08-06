@@ -66,6 +66,13 @@ object IRLogger {
   def dumpSummary(dirname: String): Unit =
     dumpFile(summaryString, s"$dirname/summary")
 
+  // partial model
+  def dumpPartialModel(dirname: String): Unit = {
+    import jsonProtocol._
+    val partialModel = CFGPartialModel(visitRecorder)
+    dumpJson(partialModel, s"$dirname/partial.json")
+  }
+
   // dump to a directory
   def dumpTo(dirname: String): Unit = if (iterSum > 0) {
     mkdir(dirname)
@@ -73,5 +80,6 @@ object IRLogger {
     dumpIterMap(dirname)
     dumpVisitRecorder(dirname)
     dumpSummary(dirname)
+    dumpPartialModel(dirname)
   }
 }
