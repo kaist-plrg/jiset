@@ -8,7 +8,10 @@ import {
 } from "@material-ui/core";
 import "../styles/StateViewer.css";
 
+import StackFrameViewer from "./StackFrameViewer";
+import HeapViewer from "./HeapViewer";
 import Breakpoints from "./Breakpoints";
+import SpecEnvViewer from "./SpecEnvViewer";
 import JSEnvViewer from "./JSEnvViewer";
 
 import { connect, ConnectedProps } from "react-redux";
@@ -16,26 +19,26 @@ import { ReduxState } from "../store";
 
 import { AppState } from "../controller/AppState";
 
-// Spec State viewer item
-type JSStateViewerItemProps = {
+// State viewer item
+type StateViewerItemProps = {
   disabled: boolean;
   header: React.ReactElement;
   headerStyle?: object;
   body: React.ReactElement;
   bodyStyle?: object;
 };
-type JSStateViewerItemState = {
+type StateViewerItemState = {
   expanded: boolean;
 };
-class JSStateViewerItem extends React.Component<
-  JSStateViewerItemProps,
-  JSStateViewerItemState
+class StateViewerItem extends React.Component<
+  StateViewerItemProps,
+  StateViewerItemState
 > {
-  constructor ( props: JSStateViewerItemProps ) {
+  constructor ( props: StateViewerItemProps ) {
     super( props );
     this.state = { expanded: false };
   }
-  componentDidUpdate ( prev: JSStateViewerItemProps ) {
+  componentDidUpdate ( prev: StateViewerItemProps ) {
     // close accordian when diasabled
     if ( !prev.disabled && this.props.disabled )
       this.setState( { ...this.state, expanded: false } );
@@ -73,27 +76,43 @@ const mapStateToProps = ( st: ReduxState ) => ( {
   ),
 } );
 const connector = connect( mapStateToProps );
-type JSStateViewerProps = ConnectedProps<typeof connector>;
+type StateViewerProps = ConnectedProps<typeof connector>;
 
-class JSStateViewer extends React.Component<JSStateViewerProps> {
+class StateViewer extends React.Component<StateViewerProps> {
   render () {
     const { disableStateViewer } = this.props;
 
     return (
       <div className="spec-state-viewer-container">
-        <JSStateViewerItem
+        <StateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Call Stack</Typography> }
+          body={ <StackFrameViewer /> }
+        />
+        <StateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Environment</Typography> }
+          body={ <SpecEnvViewer /> }
+        />
+        <StateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Heap</Typography> }
+          bodyStyle={ { paddingTop: 0 } }
+          body={ <HeapViewer /> }
+        />
+        <StateViewerItem
+          disabled={ disableStateViewer }
+          header={ <Typography>ECMAScript Breakpoints</Typography> }
+          body={ <Breakpoints /> }
+        />
+        <StateViewerItem
           disabled={ disableStateViewer }
           header={ <Typography>JavaScript Environment</Typography> }
           body={ <JSEnvViewer /> }
-        />
-        <JSStateViewerItem
-          disabled={ disableStateViewer }
-          header={ <Typography>JavaScript Breakpoints</Typography> }
-          body={ <Breakpoints /> }
         />
       </div>
     );
   }
 }
 
-export default connector( JSStateViewer );
+export default connector( StateViewer );

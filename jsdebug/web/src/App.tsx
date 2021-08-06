@@ -5,8 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import SpecViewer from "./components/SpecViewer";
 import Toolbar from "./components/Toolbar";
-import SpecStateViewer from "./components/SpecStateViewer";
-import JSStateViewer from "./components/JSStateViewer";
+import StateViewer from "./components/StateViewer";
 import JSEditor from "./components/JSEditor";
 import "./styles/App.css";
 
@@ -59,15 +58,8 @@ class App extends React.Component<AppProps> {
                   <SpecViewer />
                 </Grid>
               </Grid>
-              <Grid container xs={ 3 } style={ { width: "100%" } }>
-                <Grid container spacing={ 3 }>
-                  <Grid item xs={ 12 }>
-                    <SpecStateViewer />
-                  </Grid>
-                  <Grid item xs={ 12 }>
-                    <JSStateViewer />
-                  </Grid>
-                </Grid>
+              <Grid item xs={ 3 }>
+                <StateViewer />
               </Grid>
             </Grid>
           </Grid>
