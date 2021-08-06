@@ -10,20 +10,21 @@ object BasicComp extends Domain {
   lazy val Bot = Elem(Map())
 
   // results
-  case class Result(value: AbsValue, target: AbsSimple) {
+  case class Result(value: AbsValue, target: AbsValue) {
+    def isBottom = value.isBottom && target.isBottom
     def ⊑(that: Result): Boolean =
       this.value ⊑ that.value && this.target ⊑ that.target
     def ⊔(that: Result): Result =
       Result(this.value ⊔ that.value, this.target ⊔ that.target)
   }
   object Result {
-    val Bot = Result(AbsValue.Bot, AbsSimple.Bot)
+    val Bot = Result(AbsValue.Bot, AbsValue.Bot)
   }
 
   // abstraction functions
   def apply(comp: AComp): Elem = {
     val AComp(ty, value, target) = comp
-    Elem(Map(ty.name -> Result(AbsValue(value), AbsSimple(target))))
+    Elem(Map(ty.name -> Result(AbsValue(value), AbsValue(target))))
   }
 
   // appender
@@ -34,6 +35,11 @@ object BasicComp extends Domain {
       .map { case (k, Result(v, t)) => s"~$k~ -> ($v, $t)" }
       .mkString("{", ", ", "}")
   }
+
+  // constructors
+  def apply(pairs: (String, Result)*): Elem = this(pairs.toMap)
+  def apply(map: Map[String, Result]): Elem = Elem(map)
+  def unapply(elem: Elem) = Some(elem.map)
 
   // elements
   case class Elem(map: Map[String, Result]) extends ElemTrait {
@@ -65,9 +71,12 @@ object BasicComp extends Domain {
     // normal completions
     def normal: Result = resultOf("normal")
 
+    // remove absent values
+    def removeNormal: Elem = copy(map = map - "normal")
+
     // result of each completion type
     def resultOf(ty: String): Result =
-      map.getOrElse(ty, Result(AbsValue.Bot, AbsSimple.Bot))
+      map.getOrElse(ty, Result(AbsValue.Bot, AbsValue.Bot))
 
     // get single value
     def getSingle: Flat[AComp] = {
@@ -96,7 +105,7 @@ object BasicComp extends Domain {
       if (str contains Str("Value"))
         newV ⊔= v
       if (str contains Str("Target"))
-        newV ⊔= AbsValue.Bot.copy(simple = t)
+        newV ⊔= t
       newV
     }
   }

@@ -104,6 +104,9 @@ object BasicState extends Domain {
       }
     }
 
+    // singleton location checks
+    def isSingle(loc: Loc): Boolean = heap.isSingle(loc)
+
     // lookup variable directly
     def directLookup(x: Id): AbsValue = lookupLocal(x) ⊔ lookupGlobal(x)
 

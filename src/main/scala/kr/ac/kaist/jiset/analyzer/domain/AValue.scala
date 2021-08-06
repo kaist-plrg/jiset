@@ -40,6 +40,7 @@ object AValue {
 
   // from original concrete values
   def from(value: Value): AValue = value match {
+    case Const(name) => AConst(name)
     case addr: Addr => Loc.from(addr)
     case Func(algo) => AFunc(algo)
     case ASTVal(ast) => AAst(ast)
@@ -49,7 +50,7 @@ object AValue {
 }
 
 // completions
-case class AComp(ty: AConst, value: AValue, target: ASimple) extends AValue
+case class AComp(ty: AConst, value: AValue, target: AValue) extends AValue
 
 // constants
 case class AConst(name: String) extends AValue

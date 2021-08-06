@@ -91,7 +91,7 @@ case class AbsSemantics(
     func: Function,
     st: AbsState
   ): Unit = {
-    val calleeView = callerView // TODO call stack
+    val calleeView = callerView.doCall(call)
     val params = func.params
     val np = NodePoint(func.entry, calleeView)
     this += np -> st
@@ -107,32 +107,29 @@ case class AbsSemantics(
 
   // update return points
   def doReturn(rp: ReturnPoint, newRet: AbsRet): Unit = {
-    val oldRet = this(rp)
-    if (newRet !⊑ oldRet) {
-      rpMap += rp -> (oldRet ⊔ newRet)
-      worklist += rp
+    if (!newRet.value.isBottom) {
+      val oldRet = this(rp)
+      if (newRet !⊑ oldRet) {
+        rpMap += rp -> (oldRet ⊔ newRet)
+        worklist += rp
+      }
     }
   }
 
   // get string for result of control points
-  def getString(color: String): String = rpMap.keySet.toList.map(rp => {
-    val ReturnPoint(func, view) = rp
-    val entryCP = NodePoint(func.entry, view)
-    val from = this(entryCP)
-    val to = this(rp)
-    setColor(color)(s"${func.name}:$view:") + s" $from ---> $to"
-  }).sorted.mkString(LINE_SEP)
-  def getString(cp: ControlPoint): String = getString(cp, "", true)
-  def getString(cp: ControlPoint, color: String, detail: Boolean): String = {
+  def getString(
+    cp: ControlPoint,
+    color: String,
+    detail: Boolean
+  ): String = {
     val func = funcOf(cp).name
-    val k = setColor(color)(s"$func:$cp")
-    if (detail) {
-      val v = cp match {
-        case (np: NodePoint[_]) => this(np).toString
-        case (rp: ReturnPoint) => this(rp).toString
-      }
-      s"$k -> $v"
-    } else k
+    val cpStr = cp.toString(detail = detail)
+    val k = setColor(color)(s"$func:$cpStr")
+    val v = cp match {
+      case (np: NodePoint[_]) => this(np).toString
+      case (rp: ReturnPoint) => this(rp).toString
+    }
+    s"$k -> $v"
   }
 }
 object AbsSemantics {

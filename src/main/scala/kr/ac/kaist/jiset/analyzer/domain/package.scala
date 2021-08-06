@@ -11,8 +11,12 @@ package object domain {
   //////////////////////////////////////////////////////////////////////////////
   lazy val T = Bool(true)
   lazy val F = Bool(false)
+  lazy val AB = AbsBool.Top
   lazy val AT = AbsBool(Bool(true))
   lazy val AF = AbsBool(Bool(false))
+  lazy val AVB = AbsValue(bool = AB)
+  lazy val AVT = AbsValue(bool = AT)
+  lazy val AVF = AbsValue(bool = AF)
 
   //////////////////////////////////////////////////////////////////////////////
   // abstract domains

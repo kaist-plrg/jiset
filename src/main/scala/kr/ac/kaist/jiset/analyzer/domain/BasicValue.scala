@@ -122,6 +122,7 @@ object BasicValue extends Domain {
     def undef: AbsUndef = simple.undef
     def nullv: AbsNull = simple.nullv
     def absent: AbsAbsent = simple.absent
+    def pure: AbsValue = copy(comp = AbsComp.Bot)
 
     // partial order
     def ⊑(that: Elem): Boolean = (
@@ -164,6 +165,12 @@ object BasicValue extends Domain {
 
     // escape completion
     def escaped: Elem = comp.normal.value ⊔ copy(comp = AbsComp.Bot)
+
+    // wrap completion
+    def wrapCompletion: AbsComp = wrapCompletion("normal")
+    def wrapCompletion(ty: String): AbsComp = {
+      comp ⊔ AbsComp("normal" -> AbsComp.Result(pure, AbsValue(CONST_EMPTY)))
+    }
 
     // check has absents
     def hasAbsent: AbsBool = {

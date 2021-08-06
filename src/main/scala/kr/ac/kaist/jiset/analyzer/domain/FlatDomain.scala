@@ -36,13 +36,15 @@ trait FlatDomain[A] extends Domain {
   sealed trait Elem extends Iterable[A] with ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
-      case BasicOrder(bool) => bool
+      case (Bot, _) | (_, Top) => true
+      case (_, Bot) | (Top, _) => false
       case (Base(l), Base(r)) => l == r
     }
 
     // join operator
     def ⊔(that: Elem): Elem = (this, that) match {
-      case BasicJoin(elem) => elem
+      case (Bot, _) | (_, Top) => that
+      case (_, Bot) | (Top, _) => this
       case (Base(l), Base(r)) => if (l == r) this else Top
     }
 

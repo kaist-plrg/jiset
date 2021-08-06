@@ -12,7 +12,7 @@ class DotPrinter {
   // for pure cfg
   def apply(func: Function): DotPrinter = {
     this >> "digraph {"
-    func.nodes.foreach(doNode(_, (REACH, NORMAL), false))
+    func.nodes.foreach(doNode(_, (REACH, NORMAL), true))
     func.nexts.foreach { case (f, t) => doNextEdge(f, t) }
     func.branches.foreach { case (f, (t, e)) => doBranchEdge(f, t, e) }
     this >> "}"

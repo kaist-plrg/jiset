@@ -7,7 +7,7 @@ case object CmdJump extends Command(
   "jump", "Jump to a specific iteration."
 ) {
   // options
-  val options = Nil
+  val options @ List(merged) = List("merged")
 
   // run command
   def apply(
@@ -15,6 +15,8 @@ case object CmdJump extends Command(
     cp: Option[ControlPoint],
     args: List[String]
   ): Unit = args match {
+    case s"-$merged" :: _ =>
+      repl.untilMerged = true; repl.continue = true
     case arg :: _ =>
       val iter = arg.toInt
       if (iter > repl.iter) { repl.jumpTo = Some(iter); repl.continue = true }

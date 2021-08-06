@@ -32,24 +32,4 @@ trait Domain {
     // conversion to string
     override def toString: String = stringify(this)
   }
-
-  // basic partial order
-  object BasicOrder {
-    def unapply(pair: (Elem, Elem)): Option[Boolean] = pair match {
-      case (Bot, _) => Some(true)
-      case (_, Bot) => Some(false)
-      case (left, right) if left eq right => Some(true)
-      case _ => None
-    }
-  }
-
-  // basic join
-  object BasicJoin {
-    def unapply(pair: (Elem, Elem)): Option[Elem] = pair match {
-      case (Bot, elem) => Some(elem)
-      case (elem, Bot) => Some(elem)
-      case (left, right) if left eq right => Some(left)
-      case _ => None
-    }
-  }
 }

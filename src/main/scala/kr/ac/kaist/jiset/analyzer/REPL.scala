@@ -43,8 +43,8 @@ case class REPL(sem: AbsSemantics) {
 
   // show current status
   def showStatus(cp: Option[ControlPoint]): Unit = cp.map(showStatus)
-  def showStatus(cp: ControlPoint): Unit =
-    println(s"[$iter] " + sem.getString(cp, CYAN, true))
+  def showStatus(cp: ControlPoint): Unit = println(s"[$iter] ${cpInfo(cp)}")
+  def cpInfo(cp: ControlPoint): String = sem.getString(cp, CYAN, false)
 
   // handle when the static analysis is finished
   def finished: Unit = {
@@ -65,11 +65,12 @@ case class REPL(sem: AbsSemantics) {
 
   // check whether skip REPL
   def isSkip(cp: ControlPoint): Boolean = jumpTo match {
-    case Some(targetIter) => if (iter >= targetIter) {
-      jumpTo = None
-      continue = false
-      false
-    } else true
+    case _ if untilMerged =>
+      if (sem.worklist.isEmpty) true
+      else { untilMerged = false; continue = false; false }
+    case Some(targetIter) =>
+      if (iter < targetIter) true
+      else { jumpTo = None; continue = false; false }
     case _ => continue && !isBreak(cp)
   }
 
@@ -117,6 +118,9 @@ case class REPL(sem: AbsSemantics) {
 
   // jump point
   var jumpTo: Option[Int] = None
+
+  // jump until merged
+  var untilMerged: Boolean = false
 
   // break points
   val breakpoints = ArrayBuffer[(String, String)]()

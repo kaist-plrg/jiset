@@ -50,7 +50,8 @@ object BasicObj extends Domain {
   sealed trait Elem extends ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
-      case BasicOrder(bool) => bool
+      case (Bot, _) => true
+      case (_, Bot) => false
       case (SymbolElem(ldesc), SymbolElem(rdesc)) => ldesc ⊑ rdesc
       case (MergedMapElem(lty, lv), MergedMapElem(rty, rv)) =>
         lty == rty && lv ⊑ rv
@@ -73,7 +74,8 @@ object BasicObj extends Domain {
 
     // join operator
     def ⊔(that: Elem): Elem = (this, that) match {
-      case BasicJoin(elem) => elem
+      case (Bot, _) => that
+      case (_, Bot) => this
       case _ if this ⊑ that => that
       case _ if that ⊑ this => this
       case (SymbolElem(ldesc), SymbolElem(rdesc)) => SymbolElem(ldesc ⊔ rdesc)
@@ -157,8 +159,16 @@ object BasicObj extends Domain {
     ): Elem = this match {
       case MergedMapElem(ty, mergedValue) =>
         MergedMapElem(ty, mergedValue ⊔ value)
-      case MapElem(Ty("SubMap"), map) =>
-        ???
+      case MapElem(ty @ Ty("SubMap"), map) =>
+        // TODO abstract semantics for JavaScript structures
+        prop.simple.str.getSingle match {
+          case FlatBot => this
+          case FlatElem(str) =>
+            val key = ASimple(str)
+            val newValue = if (weak) this(key) ⊔ value else value
+            MapElem(ty, map + (key -> newValue))
+          case FlatTop => MergedMapElem(ty, mergedValue)
+        }
       case MapElem(ty, map) => prop.simple.str.getSingle match {
         case FlatBot => this
         case FlatElem(str) =>

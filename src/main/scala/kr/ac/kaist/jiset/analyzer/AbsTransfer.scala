@@ -62,12 +62,12 @@ case class AbsTransfer(sem: AbsSemantics) {
 
     // return wrapped values
     for (np @ NodePoint(call, view) <- sem.getRetEdges(rp)) {
-      val nextNP = np.copy(node = cfg.nextOf(call))
+      val nextNP = NodePoint(cfg.nextOf(call), view)
       val callerSt = sem(np)
       // TODO more precise heap merge by keeping touched locations
       val newSt = callerSt
         .copy(heap = callerSt.heap ⊔ heap)
-        .defineLocal(call.inst.id -> value)
+        .defineLocal(call.inst.id -> AbsValue(comp = value.wrapCompletion))
       sem += nextNP -> newSt
     }
   }
@@ -79,7 +79,9 @@ case class AbsTransfer(sem: AbsSemantics) {
 
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = inst match {
-      case IExpr(expr) => ???
+      case IExpr(expr) => for {
+        v <- transfer(expr)
+      } yield v
       case ILet(id, expr) => for {
         v <- transfer(expr)
         _ <- modify(_.defineLocal(id -> v))
@@ -95,6 +97,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       case IReturn(expr) => for {
         v <- transfer(expr)
         _ <- doReturn(v)
+        _ <- put(AbsState.Bot)
       } yield ()
       case IThrow(name) => ???
       case IAssert(expr) => for {
@@ -108,7 +111,6 @@ case class AbsTransfer(sem: AbsSemantics) {
       h <- get(_.heap)
       ret = AbsRet(v, h)
       _ = sem.doReturn(rp, ret)
-      _ <- put(AbsState.Bot)
     } yield ()
 
     // transfer function for calls
@@ -173,17 +175,20 @@ case class AbsTransfer(sem: AbsSemantics) {
         rv <- transfer(ref)
         v <- transfer(rv)
       } yield v
-      case EUOp(uop, expr) => ???
+      case EUOp(uop, expr) => for {
+        x <- transfer(expr)
+        v <- get(transfer(_, uop, x.escaped))
+      } yield v
       case EBOp(OAnd, left, right) => shortCircuit(OAnd, left, right)
       case EBOp(OOr, left, right) => shortCircuit(OOr, left, right)
       case EBOp(OEq, ERef(ref), EAbsent) => for {
         rv <- transfer(ref)
-        _ = println(rv)
-      } yield ???
+        b <- get(_.exists(rv))
+      } yield AbsValue(bool = b)
       case EBOp(bop, left, right) => for {
         l <- transfer(left)
         r <- transfer(right)
-        v = transfer(bop, l.escaped.simple, r.escaped.simple)
+        v <- get(transfer(_, bop, l.escaped, r.escaped))
       } yield v
       case ETypeOf(expr) => for {
         v <- transfer(expr)
@@ -219,11 +224,29 @@ case class AbsTransfer(sem: AbsSemantics) {
       case EParseSyntax(code, rule, parserParams) => ???
       case EConvert(source, target, flags) => ???
       case EContains(list, elem) => ???
-      case EReturnIfAbrupt(rexpr @ ERef(ref), check) => ???
+      case EReturnIfAbrupt(rexpr @ ERef(ref), check) => for {
+        rv <- transfer(ref)
+        v <- transfer(rv)
+        newV <- returnIfAbrupt(v, check)
+        _ <- modify(_.update(rv, newV))
+      } yield newV
       case EReturnIfAbrupt(expr, check) => ???
       case ECopy(obj) => ???
       case EKeys(mobj, intSorted) => ???
       case ENotSupported(msg) => ???
+    }
+
+    // return if abrupt completion
+    def returnIfAbrupt(
+      value: AbsValue,
+      check: Boolean
+    ): Result[AbsValue] = {
+      val comp = value.comp
+      val checkReturn: Result[Unit] =
+        if (check) doReturn(AbsValue(comp = comp.removeNormal))
+        else ()
+      val newValue = comp.normal.value ⊔ value.pure
+      for (_ <- checkReturn) yield newValue
     }
 
     // transfer function for references
@@ -238,11 +261,13 @@ case class AbsTransfer(sem: AbsSemantics) {
 
     // unary operators
     def transfer(
+      st: AbsState,
       uop: UOp,
       operand: AbsValue
-    ): Result[AbsValue] = operand.simple.getSingle match {
+    ): AbsValue = operand.simple.getSingle match {
       case FlatBot => AbsValue.Bot
-      case FlatElem(operand) => ???
+      case FlatElem(ASimple(x)) =>
+        AbsValue(Interp.interp(uop, x))
       case FlatTop => uop match {
         case ONeg => ???
         case ONot => ???
@@ -252,13 +277,22 @@ case class AbsTransfer(sem: AbsSemantics) {
 
     // binary operators
     def transfer(
+      st: AbsState,
       bop: BOp,
-      left: AbsSimple,
-      right: AbsSimple
+      left: AbsValue,
+      right: AbsValue
     ): AbsValue = (left.getSingle, right.getSingle) match {
       case (FlatBot, _) | (_, FlatBot) => AbsValue.Bot
-      case (FlatElem(ASimple(left)), FlatElem(ASimple(right))) =>
-        AbsValue(Interp.interp(bop, left, right))
+      case (FlatElem(ASimple(l)), FlatElem(ASimple(r))) =>
+        AbsValue(Interp.interp(bop, l, r))
+      case (FlatElem(l), FlatElem(r)) if bop == OEq || bop == OEqual =>
+        (l, r) match {
+          case (lloc: Loc, rloc: Loc) => if (lloc == rloc) {
+            if (st.isSingle(lloc)) AVT
+            else AVB
+          } else AVF
+          case _ => AbsValue(l == r)
+        }
       case _ => bop match {
         case OAnd => ???
         case OBAnd => ???
@@ -292,7 +326,18 @@ case class AbsTransfer(sem: AbsSemantics) {
       bop: BOp,
       left: Expr,
       right: Expr
-    ): Result[AbsValue] = ???
+    ): Result[AbsValue] = for {
+      l <- transfer(left)
+      b = l.escaped.bool
+      v <- (bop, b.getSingle) match {
+        case (OAnd, FlatElem(Bool(false))) => pure(AVF)
+        case (OOr, FlatElem(Bool(true))) => pure(AVT)
+        case _ => for {
+          r <- transfer(right)
+          v <- get(transfer(_, bop, l, r.escaped))
+        } yield v
+      }
+    } yield v
 
     // get initial local variables
     def getLocals(
