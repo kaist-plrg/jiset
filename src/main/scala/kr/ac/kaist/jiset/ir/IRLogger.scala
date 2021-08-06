@@ -35,6 +35,20 @@ object IRLogger {
   def dumpIterMap(dirname: String): Unit =
     dumpFile(iterMapString, s"$dirname/iters")
 
+  // callstack depth
+  private var _depthMap: Map[String, Int] = Map()
+  def recordCallDepth(fnameOpt: Option[String], depth: Int): Unit = {
+    fnameOpt.map(fname => {
+      _depthMap += fname -> depth
+    })
+  }
+  def dumpDepthMap(dirname: String): Unit = {
+    val depthMapStr = (for {
+      (fname, depth) <- _depthMap
+    } yield s"$fname: $depth").mkString(LINE_SEP)
+    dumpFile(depthMapStr, s"$dirname/call-depths")
+  }
+
   // visit map
   val visitRecorder: VisitRecorder = VisitRecorder()
 
@@ -78,6 +92,7 @@ object IRLogger {
     mkdir(dirname)
     dumpAlgoNames(dirname)
     dumpIterMap(dirname)
+    dumpDepthMap(dirname)
     dumpVisitRecorder(dirname)
     dumpSummary(dirname)
     dumpPartialModel(dirname)

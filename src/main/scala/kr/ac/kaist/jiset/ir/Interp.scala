@@ -31,6 +31,13 @@ class Interp(
   def getIter: Int = iter
   private var iter: Int = 0
 
+  // maximum callstack size
+  private var maxDepth: Int = 1
+  private def updateCallDepth() = {
+    val d = st.ctxtStack.size + 1
+    if (d > maxDepth) maxDepth = d
+  }
+
   // iteration period for check
   val CHECK_PERIOD = 10000
 
@@ -59,7 +66,10 @@ class Interp(
   final def step: Boolean = nextTarget match {
     case Terminate =>
       // stop evaluation
-      if (LOG) IRLogger.recordIter(st.fnameOpt, iter)
+      if (LOG) {
+        IRLogger.recordIter(st.fnameOpt, iter)
+        IRLogger.recordCallDepth(st.fnameOpt, maxDepth)
+      }
       false
     case ReturnUndef =>
       // do return
@@ -175,10 +185,14 @@ class Interp(
           val cursorOpt = cursorGen(body)
           val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
           val context = Context(cursorOpt, None, id, head.name, None, Some(algo), locals, viewOpt)
-          if (LOG) IRLogger.touchAlgo(algo.name)
           st.ctxtStack ::= st.context
           st.context = context
 
+          // log
+          if (LOG) {
+            IRLogger.touchAlgo(algo.name)
+            updateCallDepth()
+          }
           // use hooks
           if (useHook) notify(Event.Call)
         }
@@ -190,6 +204,8 @@ class Interp(
           st.ctxtStack ::= st.context
           st.context = context
 
+          // log
+          if (LOG) updateCallDepth()
           // use hooks
           if (useHook) notify(Event.Call)
         }
@@ -199,6 +215,8 @@ class Interp(
           st.context.locals ++= params zip vs
           st.ctxtStack = ctxtStack.map(_.copied)
 
+          // log
+          if (LOG) updateCallDepth()
           // use hooks
           if (useHook) notify(Event.Cont)
         }
@@ -246,6 +264,8 @@ class Interp(
                 st.ctxtStack ::= st.context
                 st.context = context
 
+                // log
+                if (LOG) updateCallDepth()
                 // use hooks
                 if (useHook) notify(Event.Call)
                 None
