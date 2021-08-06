@@ -236,7 +236,7 @@ class Stringifier(
 
   // contexts
   implicit lazy val ContextApp: App[Context] = (app, context) => app.wrap {
-    val Context(cursorOpt, retId, name, _, _, locals, _) = context
+    val Context(cursorOpt, _, retId, name, _, _, locals, _) = context
     app :> "name: " >> name >> LINE_SEP
     app :> "return: " >> retId >> LINE_SEP
     app :> "cursor: "

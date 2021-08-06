@@ -145,6 +145,7 @@ trait Walker {
   // contexts
   def walk(ctxt: Context): Context = Context(
     walkOpt[Cursor](ctxt.cursorOpt, walk),
+    walkOpt[Cursor](ctxt.prevCursorOpt, walk),
     walk(ctxt.retId),
     ctxt.name,
     ctxt.astOpt,

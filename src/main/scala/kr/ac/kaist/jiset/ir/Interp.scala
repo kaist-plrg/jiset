@@ -174,7 +174,7 @@ class Interp(
           val locals = getLocals(head.params, vs)
           val cursorOpt = cursorGen(body)
           val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
-          val context = Context(cursorOpt, id, head.name, None, Some(algo), locals, viewOpt)
+          val context = Context(cursorOpt, None, id, head.name, None, Some(algo), locals, viewOpt)
           if (LOG) IRLogger.touchAlgo(algo.name)
           st.ctxtStack ::= st.context
           st.context = context
@@ -186,7 +186,7 @@ class Interp(
           val vs = args.map(interp)
           val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
           val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
-          val context = Context(cursorOpt, id, ctxtName + ":closure", None, None, locals, viewOpt)
+          val context = Context(cursorOpt, None, id, ctxtName + ":closure", None, None, locals, viewOpt)
           st.ctxtStack ::= st.context
           st.context = context
 
@@ -241,7 +241,7 @@ class Interp(
                 val locals = getLocals(head.params, vs)
                 val cursorOpt = cursorGen(body)
                 val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
-                val context = Context(cursorOpt, id, head.name, Some(ast), Some(algo), locals, viewOpt)
+                val context = Context(cursorOpt, None, id, head.name, Some(ast), Some(algo), locals, viewOpt)
                 if (LOG) IRLogger.touchAlgo(algo.name)
                 st.ctxtStack ::= st.context
                 st.context = context

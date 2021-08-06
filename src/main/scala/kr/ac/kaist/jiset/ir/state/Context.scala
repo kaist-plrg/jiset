@@ -8,6 +8,7 @@ import scala.collection.mutable.{ Map => MMap }
 
 case class Context(
   var cursorOpt: Option[Cursor] = None,
+  var prevCursorOpt: Option[Cursor] = None,
   val retId: Id = Id(RETURN),
   val name: String = TOP_LEVEL,
   val astOpt: Option[AST] = None,
@@ -17,8 +18,6 @@ case class Context(
 ) extends IRElem {
   def copied: Context = copy(locals = MMap.from(locals))
   def isBuiltin: Boolean = algo.fold(false)(_.isBuiltin)
-  // save previous cursor for stack frame info
-  private var prevCursorOpt: Option[Cursor] = None
   // move cursor
   def moveNext: Unit = {
     prevCursorOpt = cursorOpt
