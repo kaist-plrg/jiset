@@ -33,6 +33,7 @@ object Command {
     CmdBreak,
     CmdListBreak,
     CmdRmBreak,
+    CmdJump,
     CmdLog,
     CmdGraph,
     CmdExit,

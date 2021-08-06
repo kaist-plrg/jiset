@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
@@ -12,7 +13,7 @@ import scala.annotation.tailrec
 // abstract semantics
 case class AbsSemantics(
   var npMap: Map[NodePoint[Node], AbsState] = Map(),
-  var rpMap: Map[ReturnPoint, AbsValue] = Map(),
+  var rpMap: Map[ReturnPoint, AbsRet] = Map(),
   var retEdges: Map[ReturnPoint, Set[NodePoint[Call]]] = Map()
 ) {
   // CFG
@@ -56,10 +57,10 @@ case class AbsSemantics(
       fixpoint
     }
     case None =>
-      if (USE_REPL) {
-        printlnColor(CYAN)(s"* Static analysis finished.")
-        repl.runDirect(None)
-      }
+      // finialize REPL
+      if (USE_REPL) repl.finished
+
+      // final result
       this
   }
 
@@ -69,7 +70,7 @@ case class AbsSemantics(
 
   // lookup
   def apply(np: NodePoint[Node]): AbsState = npMap.getOrElse(np, AbsState.Bot)
-  def apply(rp: ReturnPoint): AbsValue = rpMap.getOrElse(rp, AbsValue.Bot)
+  def apply(rp: ReturnPoint): AbsRet = rpMap.getOrElse(rp, AbsRet.Bot)
 
   // update internal map
   def +=(pair: (NodePoint[Node], AbsState)): Boolean = {
@@ -90,7 +91,7 @@ case class AbsSemantics(
     func: Function,
     st: AbsState
   ): Unit = {
-    val calleeView = callerView // TODO
+    val calleeView = callerView // TODO call stack
     val params = func.params
     val np = NodePoint(func.entry, calleeView)
     this += np -> st
@@ -102,6 +103,15 @@ case class AbsSemantics(
 
     val retT = this(rp)
     if (!retT.isBottom) worklist += rp
+  }
+
+  // update return points
+  def doReturn(rp: ReturnPoint, newRet: AbsRet): Unit = {
+    val oldRet = this(rp)
+    if (newRet !⊑ oldRet) {
+      rpMap += rp -> (oldRet ⊔ newRet)
+      worklist += rp
+    }
   }
 
   // get string for result of control points

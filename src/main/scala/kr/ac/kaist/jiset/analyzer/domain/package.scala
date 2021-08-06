@@ -6,6 +6,17 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.spec.algorithm.Algo
 
 package object domain {
+  //////////////////////////////////////////////////////////////////////////////
+  // aliases
+  //////////////////////////////////////////////////////////////////////////////
+  lazy val T = Bool(true)
+  lazy val F = Bool(false)
+  lazy val AT = AbsBool(Bool(true))
+  lazy val AF = AbsBool(Bool(false))
+
+  //////////////////////////////////////////////////////////////////////////////
+  // abstract domains
+  //////////////////////////////////////////////////////////////////////////////
   // abstract states
   val AbsState = BasicState
   type AbsState = AbsState.Elem
@@ -22,28 +33,32 @@ package object domain {
   val AbsValue = BasicValue
   type AbsValue = AbsValue.Elem
 
+  // abstract return values and heaps
+  val AbsRet = BasicRet
+  type AbsRet = AbsRet.Elem
+
   // abstract completions
   val AbsComp = BasicComp
   type AbsComp = AbsComp.Elem
 
   // abstract constants
-  val AbsConst = new SetDomain[AConst]("~")
+  val AbsConst = SetDomain[AConst]("~")
   type AbsConst = AbsConst.Elem
 
   // abstract locations
-  val AbsLoc = new SetDomain[Loc]("#")
+  val AbsLoc = SetDomain[Loc]("#")
   type AbsLoc = AbsLoc.Elem
 
   // abstract functions
-  val AbsFunc = new SetDomain[AFunc]("λ")
+  val AbsFunc = SetDomain[AFunc]("λ")
   type AbsFunc = AbsFunc.Elem
 
   // abstract closures
-  val AbsClo = new FlatDomain[AClo]("=>")
+  val AbsClo = FlatDomain[AClo]("=>")
   type AbsClo = AbsClo.Elem
 
   // abstract continuations
-  val AbsCont = new FlatDomain[ACont]("[=>]")
+  val AbsCont = FlatDomain[ACont]("[=>]")
   type AbsCont = AbsCont.Elem
 
   // abstract simple values
@@ -51,38 +66,38 @@ package object domain {
   type AbsSimple = AbsSimple.Elem
 
   // abstract AST values
-  val AbsAST = new FlatDomain[AAst]("☊")
+  val AbsAST = FlatDomain[AAst]("☊")
   type AbsAST = AbsAST.Elem
 
   // abstract floating-point number values
-  val AbsNum = new FlatDomain[Num]("num")
+  val AbsNum = FlatDomain[Num]("num")
   type AbsNum = AbsNum.Elem
 
   // abstract integers
-  val AbsInt = new FlatDomain[INum]("int")
+  val AbsInt = FlatDomain[INum]("int")
   type AbsInt = AbsInt.Elem
 
   // abstract big integers
-  val AbsBigInt = new FlatDomain[BigINum]("bigint")
+  val AbsBigInt = FlatDomain[BigINum]("bigint")
   type AbsBigInt = AbsBigInt.Elem
 
   // abstract strings
-  val AbsStr = new FlatDomain[Str]("str")
+  val AbsStr = FlatDomain[Str]("str")
   type AbsStr = AbsStr.Elem
 
   // abstract booleans
-  val AbsBool = new FlatDomain[Bool]("bool")
+  val AbsBool = FlatDomain[Bool]("bool")
   type AbsBool = AbsBool.Elem
 
   // abstract undefined
-  val AbsUndef = new SimpleDomain(Undef)
+  val AbsUndef = SimpleDomain(Undef)
   type AbsUndef = AbsUndef.Elem
 
   // abstract null
-  val AbsNull = new SimpleDomain(Null)
+  val AbsNull = SimpleDomain(Null)
   type AbsNull = AbsNull.Elem
 
   // abstract absent
-  val AbsAbsent = new SimpleDomain(Absent)
+  val AbsAbsent = SimpleDomain(Absent)
   type AbsAbsent = AbsAbsent.Elem
 }

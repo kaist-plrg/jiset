@@ -52,6 +52,30 @@ object BasicSimple extends Domain {
     case Absent => this.absent
   }
 
+  // constructors
+  def apply(
+    num: AbsNum = AbsNum.Bot,
+    int: AbsInt = AbsInt.Bot,
+    bigint: AbsBigInt = AbsBigInt.Bot,
+    str: AbsStr = AbsStr.Bot,
+    bool: AbsBool = AbsBool.Bot,
+    undef: AbsUndef = AbsUndef.Bot,
+    nullv: AbsNull = AbsNull.Bot,
+    absent: AbsAbsent = AbsAbsent.Bot
+  ): Elem = Elem(num, int, bigint, str, bool, undef, nullv, absent)
+
+  // extractors
+  def unapply(elem: Elem) = Some((
+    elem.num,
+    elem.int,
+    elem.bigint,
+    elem.str,
+    elem.bool,
+    elem.undef,
+    elem.nullv,
+    elem.absent,
+  ))
+
   // appender
   implicit val app: App[Elem] = (app, elem) => {
     if (elem.isBottom) app >> "⊥"

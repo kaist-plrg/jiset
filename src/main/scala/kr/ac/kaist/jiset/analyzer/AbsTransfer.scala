@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
+import kr.ac.kaist.jiset.DEBUG
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
@@ -33,16 +34,49 @@ case class AbsTransfer(sem: AbsSemantics) {
         val newSt = transfer(normal.inst)(st)
         sem += NodePoint(cfg.nextOf(normal), view) -> newSt
       case (call: Call) => transfer(call, view)(st)
-      case arrow @ Arrow(_, inst, fid) => ???
-      case branch @ Branch(_, inst) => ???
+      case arrow @ Arrow(_, inst, fid) =>
+      case branch @ Branch(_, inst) => (for {
+        v <- transfer(inst.cond)
+        b = v.escaped.bool
+        st <- get
+      } yield {
+        val (thenNode, elseNode) = cfg.branchOf(branch)
+        if (b contains T) sem += NodePoint(thenNode, view) -> st
+        if (b contains F) sem += NodePoint(elseNode, view) -> st
+      })(st)
     }
   }
 
   // transfer function for return points
-  def apply(rp: ReturnPoint): Unit = ???
+  def apply(rp: ReturnPoint): Unit = {
+    var ret @ AbsRet(value, heap) = sem(rp)
+
+    // proper type handle
+    Interp.setTypeMap.get(rp.func.name).map(ty => {
+      value = AbsValue(loc = value.loc)
+      heap = AbsState(heap = heap).setType(value.loc, ty).heap
+    })
+
+    // debugging message
+    if (DEBUG) println(s"<RETURN> $ret")
+
+    // return wrapped values
+    for (np @ NodePoint(call, view) <- sem.getRetEdges(rp)) {
+      val nextNP = np.copy(node = cfg.nextOf(call))
+      val callerSt = sem(np)
+      // TODO more precise heap merge by keeping touched locations
+      val newSt = callerSt
+        .copy(heap = callerSt.heap ⊔ heap)
+        .defineLocal(call.inst.id -> value)
+      sem += nextNP -> newSt
+    }
+  }
 
   // internal transfer function with a specific view
   private class Helper(val cp: ControlPoint) {
+    lazy val func = sem.funcOf(cp)
+    lazy val rp = ReturnPoint(func, cp.view)
+
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = inst match {
       case IExpr(expr) => ???
@@ -58,13 +92,24 @@ case class AbsTransfer(sem: AbsSemantics) {
       case IDelete(ref) => ???
       case IAppend(expr, list) => ???
       case IPrepend(expr, list) => ???
-      case IReturn(expr) => ???
+      case IReturn(expr) => for {
+        v <- transfer(expr)
+        _ <- doReturn(v)
+      } yield ()
       case IThrow(name) => ???
       case IAssert(expr) => for {
         v <- transfer(expr)
       } yield ()
       case IPrint(expr) => ???
     }
+
+    // return specific value
+    def doReturn(v: AbsValue): Result[Unit] = for {
+      h <- get(_.heap)
+      ret = AbsRet(v, h)
+      _ = sem.doReturn(rp, ret)
+      _ <- put(AbsState.Bot)
+    } yield ()
 
     // transfer function for calls
     def transfer(call: Call, view: View): Updater = call.inst match {
@@ -131,7 +176,10 @@ case class AbsTransfer(sem: AbsSemantics) {
       case EUOp(uop, expr) => ???
       case EBOp(OAnd, left, right) => shortCircuit(OAnd, left, right)
       case EBOp(OOr, left, right) => shortCircuit(OOr, left, right)
-      case EBOp(OEq, ERef(RefId(id)), EAbsent) => ???
+      case EBOp(OEq, ERef(ref), EAbsent) => for {
+        rv <- transfer(ref)
+        _ = println(rv)
+      } yield ???
       case EBOp(bop, left, right) => for {
         l <- transfer(left)
         r <- transfer(right)

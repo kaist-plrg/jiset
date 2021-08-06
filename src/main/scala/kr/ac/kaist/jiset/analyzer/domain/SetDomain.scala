@@ -5,7 +5,14 @@ import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
 // set domain
-class SetDomain[A](setName: String) extends Domain {
+trait SetDomain[A] extends Domain {
+  // name of top element
+  protected val topName: String
+
+  // total elemetns
+  protected val totalOpt: Option[Iterable[A]]
+
+  // elements
   lazy val Bot = Base(Set())
   object Top extends Elem
   case class Base(set: Set[A]) extends Elem
@@ -16,7 +23,7 @@ class SetDomain[A](setName: String) extends Domain {
 
   // appender
   implicit val app: App[Elem] = (app, elem) => elem match {
-    case Top => app >> setName
+    case Top => app >> topName
     case Base(set) => app >> (set.size match {
       case 0 => "⊥"
       case 1 => set.head.toString
@@ -52,15 +59,30 @@ class SetDomain[A](setName: String) extends Domain {
     // iterators
     final def iterator: Iterator[A] = (this match {
       case Base(set) => set
-      case Top =>
+      case Top => totalOpt.getOrElse {
         warn("impossible to concretize the top value.")
-        Set()
+        Nil
+      }
     }).iterator
 
     // contains check
     def contains(elem: A): Boolean = this match {
       case Top => true
       case Base(set) => set contains elem
+    }
+  }
+}
+object SetDomain {
+  // constructors
+  def apply[A](topName: String): SetDomain[A] = this(topName, None)
+  def apply[A](
+    topName: String,
+    totalOpt: Option[Iterable[A]]
+  ): SetDomain[A] = {
+    val (n, t) = (topName, totalOpt)
+    new SetDomain[A] {
+      protected val topName: String = n
+      protected val totalOpt: Option[Iterable[A]] = t
     }
   }
 }

@@ -49,6 +49,41 @@ object BasicValue extends Domain {
     case (simple: ASimple) => Bot.copy(simple = AbsSimple(simple))
   }
 
+  // constructors
+  def apply(
+    comp: AbsComp = AbsComp.Bot,
+    const: AbsConst = AbsConst.Bot,
+    loc: AbsLoc = AbsLoc.Bot,
+    func: AbsFunc = AbsFunc.Bot,
+    clo: AbsClo = AbsClo.Bot,
+    cont: AbsCont = AbsCont.Bot,
+    ast: AbsAST = AbsAST.Bot,
+    simple: AbsSimple = AbsSimple.Bot,
+    num: AbsNum = AbsNum.Bot,
+    int: AbsInt = AbsInt.Bot,
+    bigint: AbsBigInt = AbsBigInt.Bot,
+    str: AbsStr = AbsStr.Bot,
+    bool: AbsBool = AbsBool.Bot,
+    undef: AbsUndef = AbsUndef.Bot,
+    nullv: AbsNull = AbsNull.Bot,
+    absent: AbsAbsent = AbsAbsent.Bot
+  ): Elem = {
+    val newSimple = AbsSimple(num, int, bigint, str, bool, undef, nullv, absent)
+    Elem(comp, const, loc, func, clo, cont, ast, simple ⊔ newSimple)
+  }
+
+  // extractors
+  def unapply(elem: Elem) = Some((
+    elem.comp,
+    elem.const,
+    elem.loc,
+    elem.func,
+    elem.clo,
+    elem.cont,
+    elem.ast,
+    elem.simple,
+  ))
+
   // appender
   implicit val app: App[Elem] = (app, elem) => {
     if (elem.isBottom) app >> "⊥"
@@ -129,5 +164,13 @@ object BasicValue extends Domain {
 
     // escape completion
     def escaped: Elem = comp.normal.value ⊔ copy(comp = AbsComp.Bot)
+
+    // check has absents
+    def hasAbsent: AbsBool = {
+      var b: AbsBool = AbsBool.Bot
+      if (!absent.isBottom) b ⊔= AF
+      if (!removeAbsent.isBottom) b ⊔= AT
+      b
+    }
   }
 }

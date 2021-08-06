@@ -20,11 +20,23 @@ object BasicHeap extends Domain {
         .sortBy(_._1.toString)
         .foreach {
           case (k, v) =>
-            app :> (if (merged contains k) "[@]" else "[ ]")
+            app :> (if (merged contains k) "[+]" else "[ ]")
             app >> " " >> s"$k -> " >> v >> LINE_SEP
         }
     }
   }
+
+  // constructors
+  def apply(
+    map: Map[Loc, AbsObj] = Map(),
+    merged: Set[Loc] = Set()
+  ): Elem = Elem(map, merged)
+
+  // extractors
+  def unapply(elem: Elem) = Some((
+    elem.map,
+    elem.merged,
+  ))
 
   // elements
   case class Elem(

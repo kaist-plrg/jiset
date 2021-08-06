@@ -5,7 +5,14 @@ import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
 // flat domain
-class FlatDomain[A](setName: String) extends Domain {
+trait FlatDomain[A] extends Domain {
+  // name of top element
+  protected val topName: String
+
+  // total elemetns
+  protected val totalOpt: Option[Iterable[A]]
+
+  // elements
   object Bot extends Elem
   object Top extends Elem
   case class Base(elem: A) extends Elem
@@ -21,7 +28,7 @@ class FlatDomain[A](setName: String) extends Domain {
   // appender
   implicit val app: App[Elem] = (app, elem) => elem match {
     case Bot => app >> "⊥"
-    case Top => app >> setName
+    case Top => app >> topName
     case Base(v) => app >> v.toString
   }
 
@@ -48,11 +55,12 @@ class FlatDomain[A](setName: String) extends Domain {
 
     // iterators
     final def iterator: Iterator[A] = (this match {
-      case Bot => None
-      case Base(elem) => Option(elem)
-      case Top =>
+      case Bot => Nil
+      case Base(elem) => List(elem)
+      case Top => totalOpt.getOrElse {
         warn("impossible to concretize the top value.")
-        None
+        Nil
+      }
     }).iterator
 
     // contains check
@@ -60,6 +68,20 @@ class FlatDomain[A](setName: String) extends Domain {
       case Bot => false
       case Top => true
       case Base(x) => x == elem
+    }
+  }
+}
+object FlatDomain {
+  // constructors
+  def apply[A](topName: String): FlatDomain[A] = this(topName, None)
+  def apply[A](
+    topName: String,
+    totalOpt: Option[Iterable[A]]
+  ): FlatDomain[A] = {
+    val (n, t) = (topName, totalOpt)
+    new FlatDomain[A] {
+      protected val topName: String = n
+      protected val totalOpt: Option[Iterable[A]] = t
     }
   }
 }

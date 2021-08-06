@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer.command._
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.error.JISETError
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import kr.ac.kaist.jiset.util.Useful._
@@ -41,8 +42,15 @@ case class REPL(sem: AbsSemantics) {
   def iter: Int = sem.getIter
 
   // show current status
+  def showStatus(cp: Option[ControlPoint]): Unit = cp.map(showStatus)
   def showStatus(cp: ControlPoint): Unit =
     println(s"[$iter] " + sem.getString(cp, CYAN, true))
+
+  // handle when the static analysis is finished
+  def finished: Unit = {
+    printlnColor(CYAN)(s"* Static analysis finished. (# iter: $iter)")
+    runDirect(None)
+  }
 
   // jline
   private val terminal: Terminal = TerminalBuilder.builder().build()
@@ -50,20 +58,27 @@ case class REPL(sem: AbsSemantics) {
     .terminal(terminal)
     .completer(completer)
     .build()
-  private val prompt: String = LINE_SEP + s"${MAGENTA}checker>${RESET} "
+  private val prompt: String = LINE_SEP + s"${MAGENTA}analyzer>${RESET} "
 
   // show help message at the first time
   lazy val firstHelp: Unit = { CmdHelp.showHelp; println }
 
-  // run repl
-  def apply(
-    transfer: AbsTransfer,
-    cp: ControlPoint
-  ): Unit = try {
+  // check whether skip REPL
+  def isSkip(cp: ControlPoint): Boolean = jumpTo match {
+    case Some(targetIter) => if (iter >= targetIter) {
+      jumpTo = None
+      continue = false
+      false
+    } else true
+    case _ => continue && !isBreak(cp)
+  }
+
+  // run REPL
+  def apply(transfer: AbsTransfer, cp: ControlPoint): Unit = try {
     this(Some(cp))
     transfer(cp)
   } catch {
-    case e: EndOfFileException => error("stop for debugging")
+    case e: JISETError => throw e
     case e: Throwable =>
       // TODO dump CFG for debugging
       printlnColor(RED)("* unexpectedly terminated during REPL.")
@@ -71,12 +86,12 @@ case class REPL(sem: AbsSemantics) {
       throw e
   }
   def apply(cpOpt: Option[ControlPoint]): Unit = cpOpt match {
-    case Some(cp) if continue && !isBreak(cp) =>
+    case Some(cp) if isSkip(cp) =>
     case _ => runDirect(cpOpt)
   }
-  def runDirect(cp: Option[ControlPoint]): Unit = {
+  def runDirect(cp: Option[ControlPoint]): Unit = try {
     firstHelp
-    cp.map(showStatus)
+    showStatus(cp)
     while ({
       reader.readLine(prompt) match {
         case null => stop
@@ -95,10 +110,13 @@ case class REPL(sem: AbsSemantics) {
         }
       }
     }) {}
-  }
+  } catch { case e: EndOfFileException => error("stop for debugging") }
 
   // continue option
   var continue: Boolean = false
+
+  // jump point
+  var jumpTo: Option[Int] = None
 
   // break points
   val breakpoints = ArrayBuffer[(String, String)]()

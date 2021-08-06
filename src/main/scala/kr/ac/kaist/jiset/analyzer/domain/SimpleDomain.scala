@@ -5,7 +5,11 @@ import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
 // simple domain
-class SimpleDomain[A](val value: A) extends Domain {
+trait SimpleDomain[A] extends Domain {
+  // target value
+  protected val value: A
+
+  // elements
   object Bot extends Elem
   object Top extends Elem
 
@@ -31,6 +35,15 @@ class SimpleDomain[A](val value: A) extends Domain {
     def getSingle: Flat[value.type] = this match {
       case Bot => FlatBot
       case Top => FlatElem(value)
+    }
+  }
+}
+object SimpleDomain {
+  // constructors
+  def apply[A](value: A): SimpleDomain[A] = {
+    val v = value
+    new SimpleDomain[A] {
+      protected val value: A = v
     }
   }
 }
