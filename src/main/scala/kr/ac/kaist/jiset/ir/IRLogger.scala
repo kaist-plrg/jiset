@@ -37,6 +37,8 @@ object IRLogger {
 
   // callstack depth
   private var _depthMap: Map[String, Int] = Map()
+  def depthSum: Int = _depthMap.toList.map(_._2).reduce(_ + _)
+  def depthAvg: Double = depthSum.toDouble / _depthMap.size
   def recordCallDepth(fnameOpt: Option[String], depth: Int): Unit = {
     fnameOpt.map(fname => {
       _depthMap += fname -> depth
@@ -67,6 +69,10 @@ object IRLogger {
        |  - max   : ${iterMap.toList.map(_._2).reduce(_ max _)}
        |  - total : $iterSum
        |  - avg.  : $iterAvg%.2f
+       |- callstack depth:
+       |  - min   : ${_depthMap.toList.map(_._2).reduce(_ min _)}
+       |  - max   : ${_depthMap.toList.map(_._2).reduce(_ max _)}
+       |  - avg.  : $depthAvg%.2f
        |- algorithms:
        |  - # algo : ${algoNames.size}
        |  - min    : ${algoNames.toList.map(_._2).reduce(_ min _)}
