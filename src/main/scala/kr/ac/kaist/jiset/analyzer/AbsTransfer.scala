@@ -44,6 +44,8 @@ case class AbsTransfer(sem: AbsSemantics) {
         if (b contains T) sem += NodePoint(thenNode, view) -> st
         if (b contains F) sem += NodePoint(elseNode, view) -> st
       })(st)
+      case (cont: LoopCont) =>
+        sem += NodePoint(cfg.nextOf(cont), view) -> st
     }
   }
 

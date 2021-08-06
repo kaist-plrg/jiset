@@ -41,7 +41,8 @@ class Stringifier(
       case Normal(_, inst) => app >> " " >> inst
       case Call(_, inst) => app >> " " >> inst
       case Arrow(_, inst, fid) => app >> " " >> inst >> " [fid: " >> fid >> "]"
-      case Branch(_, inst) => app >> " " >> inst
+      case Branch(_, inst) => app >> " " >> inst.cond
+      case LoopCont(_) =>
       case Exit(_) =>
     }
     app

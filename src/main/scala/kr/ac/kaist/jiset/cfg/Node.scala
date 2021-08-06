@@ -24,7 +24,13 @@ case class Call(uidGen: UIdGen[Node], inst: CallInst) extends Linear
 case class Arrow(uidGen: UIdGen[Node], inst: ArrowInst, fid: Int) extends Linear
 
 // branches
-case class Branch(uidGen: UIdGen[Node], inst: CondInst) extends Node
+trait Branch extends Node { val inst: CondInst }
+object Branch { def unapply(branch: Branch) = Some(branch.uidGen, branch.inst) }
+case class If(uidGen: UIdGen[Node], inst: CondInst) extends Branch
+case class Loop(uidGen: UIdGen[Node], inst: CondInst) extends Branch
+
+// loop continues
+case class LoopCont(uidGen: UIdGen[Node]) extends Linear
 
 // exit nodes
 case class Exit(uidGen: UIdGen[Node]) extends Node

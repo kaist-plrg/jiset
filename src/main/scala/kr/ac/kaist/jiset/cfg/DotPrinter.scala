@@ -184,7 +184,7 @@ class DotPrinter {
   ): DotPrinter = {
     val (color, bgColor) = colors
     if (useUId) {
-      this >> s"""  ${name}_name [shape=none, label=<<font color=$color>$node</font>>]"""
+      this >> s"""  ${name}_name [shape=none, label=<<font color=$color>${node.uidString}</font>>]"""
       this >> s"""  ${name}_name -> $name [arrowhead=none, color=$color, style=dashed]"""
     }
 
@@ -201,6 +201,8 @@ class DotPrinter {
         this >> s"""  $name [shape=hexagon label=<<font color=$color>${norm(inst, useUId, fid)}</font>> color=$color fillcolor=$bgColor style=filled]"""
       case Branch(_, inst) =>
         this >> s"""  $name [shape=diamond label=<<font color=$color>${norm(inst.cond, useUId)}</font>> color=$color fillcolor=$bgColor style=filled]"""
+      case LoopCont(_) =>
+        this >> s"""  $name [shape=circle label=" " color=$color fillcolor=$bgColor style=filled]"""
     }
   }
 

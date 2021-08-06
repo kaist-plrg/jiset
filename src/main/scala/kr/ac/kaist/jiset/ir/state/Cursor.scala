@@ -16,7 +16,7 @@ sealed trait Cursor extends IRElem {
   def inst: Option[Inst] = this match {
     case InstCursor(cur, _) => Some(cur)
     case NodeCursor(node) => node match {
-      case Entry(_) | Exit(_) => None
+      case Entry(_) | Exit(_) | LoopCont(_) => None
       case Normal(_, inst) => Some(inst)
       case Call(_, inst) => Some(inst)
       case Arrow(_, inst, _) => Some(inst)

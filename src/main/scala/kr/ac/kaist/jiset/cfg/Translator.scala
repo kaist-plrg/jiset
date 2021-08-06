@@ -55,16 +55,18 @@ class Translator {
       inst: Inst
     ): List[(Int, EdgeCase)] = inst match {
       case condInst @ IIf(_, thenInst, elseInst) =>
-        val branch = assign(MBranch(condInst))
+        val branch = assign(MBranch(condInst, false))
         connect(prev, branch)
         val thenPrev = aux(List((branch, Then)), thenInst)
         val elsePrev = aux(List((branch, Else)), elseInst)
         thenPrev ++ elsePrev
       case condInst @ IWhile(_, body) =>
-        val branch = assign(MBranch(condInst))
+        val branch = assign(MBranch(condInst, true))
         connect(prev, branch)
         val thenPrev = aux(List((branch, Then)), body)
-        connect(thenPrev, branch)
+        val cont = assign(MLoopCont())
+        connect(thenPrev, cont)
+        connect(List((cont, Base)), branch)
         List((branch, Else))
       case (callInst: CallInst) =>
         val call = assign(MCall(callInst))
@@ -150,8 +152,11 @@ class Translator {
   private case class MArrow(inst: ArrowInst, fid: Int) extends MLinear[Arrow] {
     def getNode = Arrow(nidGen, inst, fid)
   }
-  private case class MBranch(inst: CondInst) extends MNode[Branch] {
-    def getNode = Branch(nidGen, inst)
+  private case class MBranch(inst: CondInst, loop: Boolean) extends MNode[Branch] {
+    def getNode = if (loop) Loop(nidGen, inst) else If(nidGen, inst)
+  }
+  private case class MLoopCont() extends MLinear[LoopCont] {
+    def getNode = LoopCont(nidGen)
   }
   private case class MExit() extends MNode[Exit] {
     def getNode = Exit(nidGen)

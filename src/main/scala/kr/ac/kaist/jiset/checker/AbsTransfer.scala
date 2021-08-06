@@ -101,6 +101,8 @@ object AbsTransfer {
           val np = NodePoint(elseNode, view)
           sem += np -> prune(st, expr, false)(newSt)
         }
+      case (cont: LoopCont) =>
+        sem += NodePoint(cfg.nextOf(cont), view) -> st
     }
   }
 

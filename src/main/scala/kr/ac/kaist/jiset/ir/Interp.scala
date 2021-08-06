@@ -138,6 +138,7 @@ class Interp(
           case v => error(s"not a boolean: $v")
         })
       }
+      case LoopCont(_) => st.moveNext
       case Exit(_) => st.context.cursorOpt = None
     }
   }
