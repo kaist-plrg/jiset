@@ -67,7 +67,7 @@ case class REPL(sem: AbsSemantics) {
   def isSkip(cp: ControlPoint): Boolean = jumpTo match {
     case _ if untilMerged =>
       if (sem.worklist.isEmpty) true
-      else { untilMerged = false; continue = false; false }
+      else { untilMerged = false; continue = false; merged = false; false }
     case Some(targetIter) =>
       if (iter < targetIter) true
       else { jumpTo = None; continue = false; false }
@@ -121,6 +121,7 @@ case class REPL(sem: AbsSemantics) {
 
   // jump until merged
   var untilMerged: Boolean = false
+  var merged: Boolean = false
 
   // break points
   val breakpoints = ArrayBuffer[(String, String)]()

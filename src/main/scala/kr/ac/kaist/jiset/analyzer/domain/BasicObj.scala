@@ -10,6 +10,7 @@ import kr.ac.kaist.jiset.util.Useful._
 object BasicObj extends Domain {
   case object Bot extends Elem
   case class SymbolElem(desc: AbsValue) extends Elem
+  // TODO add (prop: AbsValue) to represent merged properties
   case class MergedMapElem(ty: Ty, value: AbsValue) extends Elem
   case class MapElem(ty: Ty, map: Map[AValue, AbsValue]) extends Elem
   case class MergedListElem(value: AbsValue) extends Elem
@@ -95,7 +96,7 @@ object BasicObj extends Domain {
       case (ListElem(lvs), MergedListElem(rv)) =>
         MergedListElem(this.mergedValue ⊔ rv)
       case (NotSupportedElem(lty, ld), NotSupportedElem(rty, rd)) if lty == rty && ld == rd => this
-      case _ => ???
+      case _ => error("cannot merge different typed abstract objects.")
     }
 
     // lookup
@@ -152,32 +153,89 @@ object BasicObj extends Domain {
     }
 
     // updates
-    def update(
+    def update(prop: AbsValue, value: AbsValue, weak: Boolean): Elem = {
+      def aux(key: AValue, weak: Boolean): MapUpdater = {
+        val newValue = if (weak) this(key) ⊔ value else value
+        _ + (key -> newValue)
+      }
+      def mergedAux(mValue: AbsValue): AbsValue = mValue ⊔ value
+      modifyMap(prop, aux, mergedAux, aux, mergedAux, weak)
+    }
+
+    // delete
+    def delete(prop: AbsValue, weak: Boolean): Elem = {
+      def aux(key: AValue, weak: Boolean): MapUpdater = {
+        if (weak) _ + (key -> this(key) ⊔ AbsValue.absent)
+        else _ - key
+      }
+      def mergedAux(mValue: AbsValue): AbsValue = mValue
+      modifyMap(prop, aux, mergedAux, aux, mergedAux, weak)
+    }
+
+    // helper for map structures
+    type MapUpdater = Map[AValue, AbsValue] => Map[AValue, AbsValue]
+    private def modifyMap(
       prop: AbsValue,
-      value: AbsValue,
-      weak: Boolean = false
+      f: (AValue, Boolean) => MapUpdater,
+      mergedF: AbsValue => AbsValue,
+      jsF: (AValue, Boolean) => MapUpdater,
+      jsMergedF: AbsValue => AbsValue,
+      weak: Boolean
     ): Elem = this match {
-      case MergedMapElem(ty, mergedValue) =>
-        MergedMapElem(ty, mergedValue ⊔ value)
+      // for JavaScript
+      case MergedMapElem(ty @ Ty("SubMap"), value) =>
+        MergedMapElem(ty, jsMergedF(value))
       case MapElem(ty @ Ty("SubMap"), map) =>
-        // TODO abstract semantics for JavaScript structures
+        prop.keyValue.getSingle match {
+          case FlatBot => this
+          case FlatElem(key) => MapElem(ty, jsF(key, weak)(map))
+          case FlatTop => MergedMapElem(ty, jsMergedF(mergedValue))
+        }
+      // for IR
+      case MergedMapElem(ty, value) =>
+        MergedMapElem(ty, mergedF(value))
+      case MapElem(ty, map) =>
         prop.simple.str.getSingle match {
           case FlatBot => this
-          case FlatElem(str) =>
-            val key = ASimple(str)
-            val newValue = if (weak) this(key) ⊔ value else value
-            MapElem(ty, map + (key -> newValue))
-          case FlatTop => MergedMapElem(ty, mergedValue)
+          case FlatElem(key) => MapElem(ty, f(ASimple(key), weak)(map))
+          case FlatTop => MergedMapElem(ty, mergedF(mergedValue))
         }
-      case MapElem(ty, map) => prop.simple.str.getSingle match {
-        case FlatBot => this
-        case FlatElem(str) =>
-          val key = ASimple(str)
-          val newValue = if (weak) this(key) ⊔ value else value
-          MapElem(ty, map + (key -> newValue))
-        case FlatTop => MergedMapElem(ty, mergedValue)
-      }
       case _ => this
+    }
+
+    // appends
+    def append(value: AbsValue, weak: Boolean): Elem =
+      modifyList(_ :+ value, _ ⊔ value, weak)
+
+    // prepends
+    def prepend(value: AbsValue, weak: Boolean): Elem =
+      modifyList(value +: _, _ ⊔ value, weak)
+
+    // pops
+    def pop(idx: AbsValue, weak: Boolean): (AbsValue, Elem) = ???
+
+    // helper for map structures
+    type ListUpdater = Vector[AbsValue] => Vector[AbsValue]
+    private def modifyList(
+      f: ListUpdater,
+      mergedF: AbsValue => AbsValue,
+      weak: Boolean
+    ): Elem = this match {
+      case MergedListElem(value) => MergedListElem(mergedF(value))
+      case ListElem(values) =>
+        if (weak) MergedListElem(mergedF(mergedValue))
+        else ListElem(f(values))
+      case _ => this
+    }
+
+    // keys of map
+    def keys(intSorted: Boolean): Elem = ???
+
+    // set type of objects
+    def setType(ty: Ty): Elem = this match {
+      case MergedMapElem(_, value) => MergedMapElem(ty, value)
+      case MapElem(_, map) => MapElem(ty, map)
+      case _ => error("cannot set type of non-map abstract objects.")
     }
   }
 }

@@ -15,7 +15,7 @@ object Initialize {
   lazy val initCp = {
     val runJobs = cfg.funcMap("RunJobs")
     val entry = runJobs.entry
-    NodePoint(entry, CallSiteView.base)
+    NodePoint(entry, View())
   }
 
   // initial state

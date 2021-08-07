@@ -39,6 +39,7 @@ object BasicHeap extends Domain {
   ))
 
   // elements
+  // TODO merged: Loc -> DynamicLoc
   case class Elem(
     map: Map[Loc, AbsObj],
     merged: Set[Loc]
@@ -94,63 +95,88 @@ object BasicHeap extends Domain {
     }
 
     // setters
-    def update(
-      aloc: AbsLoc,
-      prop: AbsValue,
-      value: AbsValue
-    ): Elem = {
-      val weak = !isSingle(aloc)
-      aloc.foldLeft(this) {
-        case (heap, loc) => update(loc, prop, value, weak)
-      }
-    }
-    def update(
-      loc: Loc,
-      prop: AbsValue,
-      value: AbsValue,
-      weak: Boolean = false
-    ): Elem = {
-      val newObj = this(loc).update(prop, value, weak)
-      copy(map = map + (loc -> newObj))
-    }
+    def update(loc: AbsLoc, prop: AbsValue, value: AbsValue): Elem =
+      applyEach(loc)(_.update(prop, value, _))
+
+    // delete
+    def delete(loc: AbsLoc, prop: AbsValue): Elem =
+      applyEach(loc)(_.delete(prop, _))
 
     // appends
-    def append(loc: Loc, value: AbsValue): Elem = ???
+    def append(loc: AbsLoc, value: AbsValue): Elem =
+      applyEach(loc)(_.append(value, _))
 
     // prepends
-    def prepend(loc: Loc, value: AbsValue): Elem = ???
+    def prepend(loc: AbsLoc, value: AbsValue): Elem =
+      applyEach(loc)(_.prepend(value, _))
 
     // pops
-    def pop(loc: Loc, idx: AbsValue): (AbsValue, Elem) = ???
+    def pop(loc: AbsLoc, idx: AbsValue): (AbsValue, Elem) = {
+      var v: AbsValue = AbsValue.Bot
+      val h: Elem = applyEach(loc)((obj, weak) => {
+        val (newV, newObj) = obj.pop(idx, weak)
+        v ⊔= newV
+        newObj
+      })
+      (v, h)
+    }
 
     // copy objects
-    def copyObj(from: Loc)(to: Loc): Elem = ???
+    def copyObj(
+      from: AbsLoc
+    )(to: Loc): Elem = alloc(to, applyFold(from)(obj => obj))
 
     // keys of map
-    def keys(loc: Loc, intSorted: Boolean)(to: Loc): Elem = ???
+    def keys(
+      loc: AbsLoc,
+      intSorted: Boolean
+    )(to: Loc): Elem = alloc(to, applyFold(loc)(_.keys(intSorted)))
 
     // map allocations
     def allocMap(
       ty: Ty,
-      map: Map[AbsValue, AbsValue] = Map()
-    )(to: Loc): Elem = {
-      val obj = map.foldLeft(AbsObj(IRMap(ty))) {
-        case (m, (k, v)) => m.update(k, v)
-      }
-      this(to) match {
-        case AbsObj.Bot => Elem(this.map + (to -> obj), merged)
-        case _ => Elem(this.map + (to -> (this(to) ⊔ obj)), merged + to)
-      }
-    }
+      pairs: List[(AbsValue, AbsValue)]
+    )(to: Loc): Elem = alloc(to, pairs.foldLeft(AbsObj(IRMap(ty))) {
+      case (m, (k, v)) => m.update(k, v, weak = false)
+    })
 
     // list allocations
-    def allocList(list: List[AbsValue])(to: Loc): Elem = ???
+    def allocList(
+      values: Iterable[AbsValue] = Nil
+    )(to: Loc): Elem = alloc(to, AbsObj.ListElem(values.toVector))
 
     // symbol allocations
-    def allocSymbol(desc: AbsValue)(to: Loc): Elem = ???
+    def allocSymbol(
+      desc: AbsValue
+    )(to: Loc): Elem = alloc(to, AbsObj.SymbolElem(desc))
+
+    // allocation helper
+    private def alloc(loc: Loc, obj: AbsObj): Elem = this(loc) match {
+      case AbsObj.Bot => Elem(this.map + (loc -> obj), merged)
+      case _ => Elem(this.map + (loc -> (this(loc) ⊔ obj)), merged + loc)
+    }
 
     // set type of objects
-    def setType(loc: Loc, ty: Ty): Elem = ???
+    def setType(loc: AbsLoc, ty: Ty): Elem =
+      applyEach(loc)((obj, _) => obj.setType(ty))
+
+    // helper for abstract locations
+    private def applyEach(loc: AbsLoc)(
+      f: (AbsObj, Boolean) => AbsObj
+    ): Elem = {
+      val weak = !isSingle(loc)
+      loc.toList.foldLeft(this) {
+        case (heap, loc) =>
+          val obj = heap(loc)
+          val newObj = f(obj, weak)
+          heap.copy(map = heap.map + (loc -> newObj))
+      }
+    }
+    private def applyFold(loc: AbsLoc)(f: AbsObj => AbsObj): AbsObj = {
+      loc.toList.foldLeft(AbsObj.Bot: AbsObj) {
+        case (obj, loc) => obj ⊔ f(this(loc))
+      }
+    }
   }
 
   // initial conrete heap

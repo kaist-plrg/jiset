@@ -122,8 +122,9 @@ object BasicState extends Domain {
     }
     def apply(base: AbsValue, prop: AbsValue): AbsValue = {
       val compValue = base.comp(prop)
-      val locValue = heap(base.loc, prop)
-      val strValue = (base.str.getSingle, prop.getSingle) match {
+      val escaped = base.escaped
+      val locValue = heap(escaped.loc, prop)
+      val strValue = (escaped.str.getSingle, prop.getSingle) match {
         case (FlatBot, _) | (_, FlatBot) => AbsValue.Bot
         case (FlatElem(Str(str)), FlatElem(ASimple(simple))) => simple match {
           case Str("length") => AbsValue(str.length)
@@ -155,22 +156,58 @@ object BasicState extends Domain {
       case AbsRefProp(base, prop) =>
         update(base.escaped.loc, prop, value)
     }
-    def update(x: Id, value: AbsValue): Elem = bottomCheck(value) {
-      if (locals contains x) copy(locals = locals + (x -> value))
-      else copy(globals = globals + (x -> value))
-    }
+    def update(x: Id, value: AbsValue): Elem =
+      bottomCheck(value) {
+        if (locals contains x) copy(locals = locals + (x -> value))
+        else copy(globals = globals + (x -> value))
+      }
     def update(aloc: AbsLoc, prop: AbsValue, value: AbsValue): Elem =
       bottomCheck(aloc, prop, value) {
         copy(heap = heap.update(aloc, prop, value))
       }
-    def update(
-      loc: Loc,
-      prop: AbsValue,
-      value: AbsValue,
-      weak: Boolean = false
-    ): Elem = bottomCheck(prop, value) {
-      copy(heap = heap.update(loc, prop, value, weak))
+
+    // existence checks
+    def exists(ref: AbsRefValue): AbsBool = ref match {
+      case AbsRefId(id) => directLookup(id).isAbsent
+      case AbsRefProp(base, prop) => this(base.escaped, prop).isAbsent
     }
+
+    // delete a property from a map
+    def delete(refV: AbsRefValue): Elem = refV match {
+      case AbsRefId(x) => error(s"cannot delete variable $x")
+      case AbsRefProp(base, prop) => bottomCheck(base, prop) {
+        copy(heap = heap.delete(base.escaped.loc, prop))
+      }
+    }
+
+    // object operators
+    def append(loc: AbsLoc, value: AbsValue): Elem =
+      bottomCheck(loc, value) { copy(heap = heap.append(loc, value)) }
+    def prepend(loc: AbsLoc, value: AbsValue): Elem =
+      bottomCheck(loc, value) { copy(heap = heap.prepend(loc, value)) }
+    def pop(loc: AbsLoc, idx: AbsValue): (AbsValue, Elem) = {
+      var v: AbsValue = AbsValue.Bot
+      val st: Elem = bottomCheck(loc, idx) {
+        val (newV, newH) = heap.pop(loc, idx)
+        v ⊔= newV
+        copy(heap = newH)
+      }
+      (v, st)
+    }
+    def copyObj(from: AbsLoc)(to: Loc): Elem =
+      bottomCheck(from) { copy(heap = heap.copyObj(from)(to)) }
+    def keys(loc: AbsLoc, intSorted: Boolean)(to: Loc): Elem =
+      bottomCheck(loc) { copy(heap = heap.keys(loc, intSorted)(to)) }
+    def allocMap(ty: Ty, pairs: List[(AbsValue, AbsValue)])(to: Loc): Elem =
+      bottomCheck(pairs.flatMap { case (k, v) => List(k, v) }) {
+        copy(heap = heap.allocMap(ty, pairs)(to))
+      }
+    def allocList(list: List[AbsValue])(to: Loc): Elem =
+      bottomCheck(list) { copy(heap = heap.allocList(list)(to)) }
+    def allocSymbol(desc: AbsValue)(to: Loc): Elem =
+      bottomCheck(desc) { copy(heap = heap.allocSymbol(desc)(to)) }
+    def setType(loc: AbsLoc, ty: Ty): Elem =
+      bottomCheck(loc) { copy(heap = heap.setType(loc, ty)) }
 
     // define global variables
     def defineGlobal(pairs: (Id, AbsValue)*): Elem =
@@ -180,49 +217,13 @@ object BasicState extends Domain {
     def defineLocal(pairs: (Id, AbsValue)*): Elem =
       bottomCheck(pairs.unzip._2) { copy(locals = locals ++ pairs) }
 
-    // object operators
-    def append(loc: Loc, value: AbsValue): Elem = bottomCheck(value) {
-      copy(heap = heap.append(loc, value))
-    }
-    def prepend(loc: Loc, value: AbsValue): Elem = bottomCheck(value) {
-      copy(heap = heap.prepend(loc, value))
-    }
-    def pop(loc: Loc, idx: AbsValue): (AbsValue, Elem) = {
-      var v: AbsValue = AbsValue.Bot
-      val st: Elem = bottomCheck(idx) { ??? }
-      (v, st)
-    }
-    def copyObj(from: Loc)(to: Loc): Elem =
-      copy(heap = heap.copyObj(from)(to))
-    def keys(loc: Loc, intSorted: Boolean)(to: Loc): Elem =
-      copy(heap = heap.keys(loc, intSorted)(to))
-    def allocMap(ty: Ty, map: Map[AbsValue, AbsValue] = Map())(to: Loc): Elem =
-      bottomCheck(map.toList.flatMap { case (k, v) => List(k, v) }) {
-        copy(heap = heap.allocMap(ty, map)(to))
-      }
-    def allocList(list: List[AbsValue])(to: Loc): Elem = bottomCheck(list) {
-      copy(heap = heap.allocList(list)(to))
-    }
-    def allocSymbol(desc: AbsValue)(to: Loc): Elem = bottomCheck(desc) {
-      copy(heap = heap.allocSymbol(desc)(to))
-    }
-    def setType(loc: AbsLoc, ty: Ty): Elem = bottomCheck(loc) {
-      copy(heap = loc.foldLeft(heap) { (h, l) => h.setType(l, ty) })
-    }
-
-    // existence checks
-    def exists(ref: AbsRefValue): AbsBool = ref match {
-      case AbsRefId(id) => directLookup(id).hasAbsent
-      case AbsRefProp(base, prop) => this(base.escaped, prop).hasAbsent
-    }
-
     // check bottom elements in abstract semantics
     private def bottomCheck(vs: Domain#Elem*)(f: => Elem): Elem =
       bottomCheck(vs)(f)
     private def bottomCheck(
       vs: Iterable[Domain#Elem]
     )(f: => Elem): Elem = {
-      if (vs.exists(_.isBottom)) Bot
+      if (this.isBottom || vs.exists(_.isBottom)) Bot
       else f
     }
   }

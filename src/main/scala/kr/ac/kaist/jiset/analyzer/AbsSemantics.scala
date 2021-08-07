@@ -76,6 +76,7 @@ case class AbsSemantics(
   def +=(pair: (NodePoint[Node], AbsState)): Boolean = {
     val (np, newSt) = pair
     val oldSt = this(np)
+    if (!oldSt.isBottom && USE_REPL) repl.merged = true
     if (!(newSt ⊑ oldSt)) {
       npMap += np -> (oldSt ⊔ newSt)
       worklist += np
@@ -109,6 +110,7 @@ case class AbsSemantics(
   def doReturn(rp: ReturnPoint, newRet: AbsRet): Unit = {
     if (!newRet.value.isBottom) {
       val oldRet = this(rp)
+      if (!oldRet.isBottom && USE_REPL) repl.merged = true
       if (newRet !⊑ oldRet) {
         rpMap += rp -> (oldRet ⊔ newRet)
         worklist += rp

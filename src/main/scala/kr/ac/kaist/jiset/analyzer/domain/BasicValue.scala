@@ -166,14 +166,25 @@ object BasicValue extends Domain {
     // escape completion
     def escaped: Elem = comp.normal.value ⊔ copy(comp = AbsComp.Bot)
 
+    // only values usable as keys
+    def keyValue: AbsValue = AbsValue(loc = loc, str = str)
+
+    // check abrupt completion
+    def isCompletion: AbsBool = {
+      var b: AbsBool = AbsBool.Bot
+      if (!comp.isBottom) b ⊔= AF
+      if (!pure.isBottom) b ⊔= AT
+      b
+    }
+
     // wrap completion
     def wrapCompletion: AbsComp = wrapCompletion("normal")
     def wrapCompletion(ty: String): AbsComp = {
       comp ⊔ AbsComp("normal" -> AbsComp.Result(pure, AbsValue(CONST_EMPTY)))
     }
 
-    // check has absents
-    def hasAbsent: AbsBool = {
+    // check absents
+    def isAbsent: AbsBool = {
       var b: AbsBool = AbsBool.Bot
       if (!absent.isBottom) b ⊔= AF
       if (!removeAbsent.isBottom) b ⊔= AT

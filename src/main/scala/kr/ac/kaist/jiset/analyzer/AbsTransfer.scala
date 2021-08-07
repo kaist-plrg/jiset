@@ -28,25 +28,44 @@ case class AbsTransfer(sem: AbsSemantics) {
     import helper._
     node match {
       case (entry: Entry) =>
-        sem += NodePoint(cfg.nextOf(entry), view) -> st
-      case (exit: Exit) => ???
+        sem += getNextNp(np, cfg.nextOf(entry)) -> st
+      case (exit: Exit) =>
+        ???
       case (normal: Normal) =>
         val newSt = transfer(normal.inst)(st)
-        sem += NodePoint(cfg.nextOf(normal), view) -> newSt
-      case (call: Call) => transfer(call, view)(st)
+        sem += getNextNp(np, cfg.nextOf(normal)) -> newSt
+      case (call: Call) =>
+        transfer(call, view)(st)
       case arrow @ Arrow(_, inst, fid) =>
+        ???
       case branch @ Branch(_, inst) => (for {
         v <- transfer(inst.cond)
         b = v.escaped.bool
         st <- get
       } yield {
         val (thenNode, elseNode) = cfg.branchOf(branch)
-        if (b contains T) sem += NodePoint(thenNode, view) -> st
-        if (b contains F) sem += NodePoint(elseNode, view) -> st
+        if (b contains T) sem += getNextNp(np, thenNode) -> st
+        if (b contains F) sem += getNextNp(np, elseNode) -> st
       })(st)
       case (cont: LoopCont) =>
-        sem += NodePoint(cfg.nextOf(cont), view) -> st
+        sem += getNextNp(np, cfg.nextOf(cont)) -> st
     }
+  }
+
+  // get next node points
+  def getNextNp(
+    fromCp: NodePoint[Node],
+    to: Node,
+    loopOut: Boolean = false
+  ): NodePoint[Node] = {
+    val NodePoint(from, view) = fromCp
+    val toView = (from, to) match {
+      case (_: LoopCont, _: Loop) => view.loopNext
+      case (_, loop: Loop) => view.loopEnter(loop)
+      case (_: Loop, _) if loopOut => view.loopExit
+      case _ => view
+    }
+    NodePoint(to, toView)
   }
 
   // transfer function for return points
@@ -93,19 +112,32 @@ case class AbsTransfer(sem: AbsSemantics) {
         v <- transfer(expr)
         _ <- modify(_.update(rv, v))
       } yield ()
-      case IDelete(ref) => ???
-      case IAppend(expr, list) => ???
-      case IPrepend(expr, list) => ???
+      case IDelete(ref) => for {
+        rv <- transfer(ref)
+        _ <- modify(_.delete(rv))
+      } yield ()
+      case IAppend(expr, list) => for {
+        l <- transfer(list)
+        loc = l.escaped.loc
+        v <- transfer(expr)
+        _ <- modify(_.append(l.escaped.loc, v.escaped))
+      } yield ()
+      case IPrepend(expr, list) => for {
+        l <- transfer(list)
+        loc = l.escaped.loc
+        v <- transfer(expr)
+        _ <- modify(_.prepend(l.escaped.loc, v.escaped))
+      } yield ()
       case IReturn(expr) => for {
         v <- transfer(expr)
         _ <- doReturn(v)
         _ <- put(AbsState.Bot)
       } yield ()
-      case IThrow(name) => ???
+      case thr @ IThrow(name) => ???
       case IAssert(expr) => for {
         v <- transfer(expr)
       } yield ()
-      case IPrint(expr) => ???
+      case IPrint(expr) => st => st
     }
 
     // return specific value
@@ -155,24 +187,41 @@ case class AbsTransfer(sem: AbsSemantics) {
       case EUndef => AbsValue.undef
       case ENull => AbsValue.nullv
       case EAbsent => AbsValue.absent
-      case EConst(name) => ???
+      case EConst(name) => AbsValue(AConst(name))
       case EMap(Ty("Completion"), props) => ???
       case map @ EMap(ty, props) => {
         val loc: Loc = AllocSite(map.asite, cp.view)
         for {
-          _ <- modify(_.allocMap(ty)(loc))
-          _ <- join(props.map {
+          pairs <- join(props.map {
             case (kexpr, vexpr) => for {
               k <- transfer(kexpr)
               v <- transfer(vexpr)
-              _ <- modify(_.update(loc, k, v))
-            } yield ()
+            } yield (k, v)
           })
+          _ <- modify(_.allocMap(ty, pairs)(loc))
         } yield AbsValue(loc)
       }
-      case EList(exprs) => ???
-      case ESymbol(desc) => ???
-      case EPop(list, idx) => ???
+      case list @ EList(exprs) => {
+        val loc: Loc = AllocSite(list.asite, cp.view)
+        for {
+          vs <- join(exprs.map(transfer))
+          _ <- modify(_.allocList(vs.map(_.escaped))(loc))
+        } yield AbsValue(loc)
+      }
+      case symbol @ ESymbol(desc) => {
+        val loc: Loc = AllocSite(symbol.asite, cp.view)
+        for {
+          v <- transfer(desc)
+          newV = AbsValue(str = v.str, undef = v.undef)
+          _ <- modify(_.allocSymbol(newV)(loc))
+        } yield AbsValue(loc)
+      }
+      case EPop(list, idx) => for {
+        l <- transfer(list)
+        loc = l.escaped.loc
+        k <- transfer(idx)
+        v <- pop(loc, k.escaped)
+      } yield v
       case ERef(ref) => for {
         rv <- transfer(ref)
         v <- transfer(rv)
@@ -199,7 +248,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       } yield value.getSingle match {
         case FlatBot => AbsValue.Bot
         case FlatElem(v) => AbsValue(v match {
-          case _: AComp => ???
+          case _: AComp => "Completion"
           case _: AConst => "Constant"
           case loc: Loc => st(loc).getTy.name match {
             case name if name endsWith "Object" => "Object"
@@ -219,10 +268,15 @@ case class AbsTransfer(sem: AbsSemantics) {
         })
         case FlatTop => AbsValue.str
       }
-      case EIsCompletion(expr) => ???
+      case EIsCompletion(expr) => for {
+        v <- transfer(expr)
+      } yield AbsValue(bool = v.isCompletion)
       case EIsInstanceOf(base, name) => ???
       case EGetElems(base, name) => ???
-      case EGetSyntax(base) => ???
+      case EGetSyntax(base) => for {
+        v <- transfer(base)
+        s = AbsStr(v.escaped.ast.toList.map(x => Str(x.ast.toString)))
+      } yield AbsValue(str = s)
       case EParseSyntax(code, rule, parserParams) => ???
       case EConvert(source, target, flags) => ???
       case EContains(list, elem) => ???
@@ -232,11 +286,29 @@ case class AbsTransfer(sem: AbsSemantics) {
         newV <- returnIfAbrupt(v, check)
         _ <- modify(_.update(rv, newV))
       } yield newV
-      case EReturnIfAbrupt(expr, check) => ???
-      case ECopy(obj) => ???
-      case EKeys(mobj, intSorted) => ???
-      case ENotSupported(msg) => ???
+      case EReturnIfAbrupt(expr, check) => for {
+        v <- transfer(expr)
+        newV <- returnIfAbrupt(v, check)
+      } yield newV
+      case copy @ ECopy(obj) => {
+        val loc: Loc = AllocSite(copy.asite, cp.view)
+        for {
+          v <- transfer(obj)
+          _ <- modify(_.copyObj(v.escaped.loc)(loc))
+        } yield AbsValue(loc)
+      }
+      case keys @ EKeys(mobj, intSorted) => {
+        val loc: Loc = AllocSite(keys.asite, cp.view)
+        for {
+          v <- transfer(mobj)
+          _ <- modify(_.keys(v.escaped.loc, intSorted)(loc))
+        } yield AbsValue(loc)
+      }
+      case ENotSupported(msg) => AbsValue.Bot
     }
+
+    // helper for pop operator
+    def pop(loc: AbsLoc, idx: AbsValue): Result[AbsValue] = _.pop(loc, idx)
 
     // return if abrupt completion
     def returnIfAbrupt(
