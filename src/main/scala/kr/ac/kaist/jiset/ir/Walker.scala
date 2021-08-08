@@ -157,7 +157,7 @@ trait Walker {
   def walk(cursor: Cursor): Cursor = cursor match {
     case InstCursor(cur, rest) =>
       InstCursor(walk(cur), walkList[Inst](rest, walk))
-    case NodeCursor(node) =>
+    case NodeCursor(node, _) =>
       NodeCursor(node)
   }
 

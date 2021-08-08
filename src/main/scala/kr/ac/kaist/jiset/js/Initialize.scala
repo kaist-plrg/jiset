@@ -19,7 +19,7 @@ object Initialize {
       case Script0(Some(body), _, _) => {
         CleanStaticMap.walk(body)
         st.globals += Id(SCRIPT_BODY) -> ASTVal(body)
-        st.context.cursorOpt = cursorGen(algoMap("RunJobs").body)
+        st.context.cursorOpt = cursorGen(algoMap("RunJobs").body, None)
       }
       case _ =>
     }

@@ -127,6 +127,8 @@ object JISET {
       "turn on the debug mode."),
     ("view", BoolOption(c => VIEW = true),
       "turn on the view option."),
+    ("partial", BoolOption(c => PARTIAL = true),
+      "evalute with partial model."),
     ("interactive", BoolOption(c => INTERACTIVE = true),
       "turn on the interactive mode."),
     ("no-bugfix", BoolOption(c => BUGFIX = false),

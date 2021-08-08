@@ -253,7 +253,7 @@ class Stringifier(
   implicit lazy val CursorApp: App[Cursor] = (app, cursor) => cursor match {
     case InstCursor(cur, rest) =>
       app >> cur >> " [# rest: " >> rest.size >> "]"
-    case NodeCursor(node) =>
+    case NodeCursor(node, _) =>
       app >> node.toString(detail, line, asite)
   }
 

@@ -1,6 +1,6 @@
 package kr.ac.kaist.jiset.checker
 
-import kr.ac.kaist.jiset.{ CHECK_LOG_DIR }
+import kr.ac.kaist.jiset.{ CHECK_LOG_DIR, VERSION_DIR }
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir.JsonProtocol._
 import kr.ac.kaist.jiset.ir._
@@ -115,5 +115,14 @@ object NativeHelper {
   def loadVisitRecorder(dirname: String): VisitRecorder = {
     import jsonProtocol._
     readJson[VisitRecorder](s"$dirname/visited-nodes.json")
+  }
+
+  // Json of CFGPartialModel
+  val PARTIAL_JSON = s"$VERSION_DIR/partial.json"
+
+  // load CFGPartialModel
+  lazy val loadCFGPartialModel: CFGPartialModel = {
+    import IRLogger.jsonProtocol._
+    readJson[CFGPartialModel](PARTIAL_JSON)
   }
 }

@@ -9,7 +9,7 @@ import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
-import kr.ac.kaist.jiset.{ TEST_MODE, LOG, DEBUG, TIMEOUT, VIEW }
+import kr.ac.kaist.jiset.{ TEST_MODE, LOG, DEBUG, TIMEOUT, VIEW, PARTIAL }
 import scala.annotation.tailrec
 import scala.collection.mutable.{ Map => MMap }
 
@@ -97,7 +97,7 @@ class Interp(
       catchReturn(cursor match {
         case cursor @ InstCursor(inst, rest) =>
           interp(inst, rest)
-        case NodeCursor(node) =>
+        case NodeCursor(node, _) =>
           interp(node)
       })
 
@@ -183,8 +183,8 @@ class Interp(
           val body = algo.body
           val vs = args.map(interp)
           val locals = getLocals(head.params, vs)
-          val cursorOpt = cursorGen(body)
           val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
+          val cursorOpt = cursorGen(body, viewOpt)
           val context = Context(cursorOpt, None, id, head.name, None, Some(algo), locals, viewOpt)
           st.ctxtStack ::= st.context
           st.context = context
@@ -201,7 +201,15 @@ class Interp(
           val vs = args.map(interp)
           val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
           val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
-          val context = Context(cursorOpt, None, id, ctxtName + ":closure", None, None, locals, viewOpt)
+          val newCursorOpt = cursorOpt match {
+            case Some(NodeCursor(entry, _)) if PARTIAL => {
+              val func = cfg.funcOf(entry)
+              val body = func.origin.body
+              cursorGen(body, viewOpt)
+            }
+            case _ => cursorOpt
+          }
+          val context = Context(newCursorOpt, None, id, ctxtName + ":closure", None, None, locals, viewOpt)
           st.ctxtStack ::= st.context
           st.context = context
 
@@ -215,7 +223,6 @@ class Interp(
           st.context = context.copied
           st.context.locals ++= params zip vs
           st.ctxtStack = ctxtStack.map(_.copied)
-
           // log
           if (LOG) updateCallDepth()
           // use hooks
@@ -258,8 +265,8 @@ class Interp(
                 val body = algo.body
                 val vs = asts ++ args.map(interp)
                 val locals = getLocals(head.params, vs)
-                val cursorOpt = cursorGen(body)
                 val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
+                val cursorOpt = cursorGen(body, viewOpt)
                 val context = Context(cursorOpt, None, id, head.name, Some(ast), Some(algo), locals, viewOpt)
                 if (LOG) IRLogger.touchAlgo(algo.name)
                 st.ctxtStack ::= st.context
@@ -326,11 +333,11 @@ class Interp(
         st.context.name,
         params,
         MMap.from(captured.map(x => x -> st(x))),
-        cursorGen(body),
+        cursorGen(body, None),
       )
       case ICont(id, params, body) => {
         val newCtxt = st.context.copied
-        newCtxt.cursorOpt = cursorGen(body)
+        newCtxt.cursorOpt = cursorGen(body, None)
         val newCtxtStack = st.ctxtStack.map(_.copied)
         st.context.locals += id -> Cont(
           params,
@@ -341,7 +348,7 @@ class Interp(
       case IWithCont(id, params, body) => {
         val State(_, context, ctxtStack, _, _, _) = st
         st.context = context.copied
-        st.context.cursorOpt = cursorGen(body)
+        st.context.cursorOpt = cursorGen(body, None)
         st.context.locals += id -> Cont(params, context, ctxtStack)
         st.ctxtStack = ctxtStack.map(_.copied)
       }

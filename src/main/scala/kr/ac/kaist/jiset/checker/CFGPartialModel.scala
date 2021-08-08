@@ -10,10 +10,14 @@ case class CFGPartialModel(
   partialMap: Map[Function, Map[View, PartialFunc]]
 ) extends CheckerElem {
   // getter
-  def get(func: Function, view: View): Option[PartialFunc] =
-    partialMap
-      .getOrElse(func, Map())
-      .get(view)
+  def get(func: Function, viewOpt: Option[View]): Option[PartialFunc] = viewOpt match {
+    case Some(view) => {
+      partialMap
+        .getOrElse(func, Map())
+        .get(viewOpt.get)
+    }
+    case None => None
+  }
 }
 object CFGPartialModel {
   def apply(recorder: VisitRecorder): CFGPartialModel = CFGPartialModel(
@@ -70,10 +74,11 @@ case class PartialFunc(
     linear <- reachables.collect { case l: Linear => l }
     nextNode <- func.nexts.get(linear)
     dest <- nextNode match {
-      case b: Branch => reachable(b) match {
-        case Reachable.Both => None
-        case _ => Some(jump(b))
-      }
+      case b: Branch if reachables(b) =>
+        reachable(b) match {
+          case Reachable.Both => None
+          case _ => Some(jump(b))
+        }
       case _ => None
     }
   } yield linear -> dest).toMap
