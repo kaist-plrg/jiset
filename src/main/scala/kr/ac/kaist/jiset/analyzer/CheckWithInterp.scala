@@ -35,7 +35,7 @@ class CheckWithInterp(
   def run = interp.step
   def st = interp.st
   def nodeOpt = st.context.cursorOpt match {
-    case Some(NodeCursor(node)) => Some(node)
+    case Some(NodeCursor(node, _)) => Some(node)
     case _ => None
   }
   def fail(msg: String): Unit = fail(msg, None)
