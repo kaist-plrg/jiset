@@ -87,7 +87,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       val callerSt = sem(np)
       // TODO more precise heap merge by keeping touched locations
       val newSt = callerSt
-        .copy(heap = callerSt.heap ⊔ heap)
+        .copy(heap = heap)
         .defineLocal(call.inst.id -> AbsValue(comp = value.wrapCompletion))
       sem += nextNP -> newSt
     }
@@ -190,7 +190,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       case EConst(name) => AbsValue(AConst(name))
       case EMap(Ty("Completion"), props) => ???
       case map @ EMap(ty, props) => {
-        val loc: Loc = AllocSite(map.asite, cp.view)
+        val loc: AllocSite = AllocSite(map.asite, cp.view)
         for {
           pairs <- join(props.map {
             case (kexpr, vexpr) => for {
@@ -202,14 +202,14 @@ case class AbsTransfer(sem: AbsSemantics) {
         } yield AbsValue(loc)
       }
       case list @ EList(exprs) => {
-        val loc: Loc = AllocSite(list.asite, cp.view)
+        val loc: AllocSite = AllocSite(list.asite, cp.view)
         for {
           vs <- join(exprs.map(transfer))
           _ <- modify(_.allocList(vs.map(_.escaped))(loc))
         } yield AbsValue(loc)
       }
       case symbol @ ESymbol(desc) => {
-        val loc: Loc = AllocSite(symbol.asite, cp.view)
+        val loc: AllocSite = AllocSite(symbol.asite, cp.view)
         for {
           v <- transfer(desc)
           newV = AbsValue(str = v.str, undef = v.undef)
@@ -279,7 +279,11 @@ case class AbsTransfer(sem: AbsSemantics) {
       } yield AbsValue(str = s)
       case EParseSyntax(code, rule, parserParams) => ???
       case EConvert(source, target, flags) => ???
-      case EContains(list, elem) => ???
+      case EContains(list, elem) => for {
+        l <- transfer(list)
+        v <- transfer(elem)
+        b <- get(_.contains(l.escaped.loc, v.escaped))
+      } yield AbsValue(bool = b)
       case EReturnIfAbrupt(rexpr @ ERef(ref), check) => for {
         rv <- transfer(ref)
         v <- transfer(rv)
@@ -291,14 +295,14 @@ case class AbsTransfer(sem: AbsSemantics) {
         newV <- returnIfAbrupt(v, check)
       } yield newV
       case copy @ ECopy(obj) => {
-        val loc: Loc = AllocSite(copy.asite, cp.view)
+        val loc: AllocSite = AllocSite(copy.asite, cp.view)
         for {
           v <- transfer(obj)
           _ <- modify(_.copyObj(v.escaped.loc)(loc))
         } yield AbsValue(loc)
       }
       case keys @ EKeys(mobj, intSorted) => {
-        val loc: Loc = AllocSite(keys.asite, cp.view)
+        val loc: AllocSite = AllocSite(keys.asite, cp.view)
         for {
           v <- transfer(mobj)
           _ <- modify(_.keys(v.escaped.loc, intSorted)(loc))

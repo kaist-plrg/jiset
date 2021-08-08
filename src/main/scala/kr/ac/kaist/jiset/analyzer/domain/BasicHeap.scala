@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
 import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
@@ -70,6 +70,11 @@ object BasicHeap extends Domain {
       }
     }
 
+    // singleton checks
+    def isSingle: Boolean = map.forall {
+      case (loc, obj) => isSingle(loc) && obj.isSingle
+    }
+
     // singleton location checks
     def isSingle(aloc: AbsLoc): Boolean = aloc.getSingle match {
       case FlatElem(loc) => isSingle(loc)
@@ -124,31 +129,40 @@ object BasicHeap extends Domain {
     // copy objects
     def copyObj(
       from: AbsLoc
-    )(to: Loc): Elem = alloc(to, applyFold(from)(obj => obj))
+    )(to: AllocSite): Elem = alloc(to, applyFold(from)(obj => obj))
 
     // keys of map
     def keys(
       loc: AbsLoc,
       intSorted: Boolean
-    )(to: Loc): Elem = alloc(to, applyFold(loc)(_.keys(intSorted)))
+    )(to: AllocSite): Elem = alloc(to, applyFold(loc)(_.keys(intSorted)))
 
     // map allocations
     def allocMap(
       ty: Ty,
       pairs: List[(AbsValue, AbsValue)]
-    )(to: Loc): Elem = alloc(to, pairs.foldLeft(AbsObj(IRMap(ty))) {
-      case (m, (k, v)) => m.update(k, v, weak = false)
-    })
+    )(to: AllocSite): Elem = {
+      val newObj = (pairs.foldLeft(AbsObj(IRMap(ty))) {
+        case (m, (k, v)) => m.update(k, v, weak = false)
+      })
+      if (ty.hasSubMap) {
+        val subMapLoc = SubMapLoc(to)
+        val subMapObj = AbsObj.MapElem(Ty("SubMap"), Map(), Vector())
+        this
+          .alloc(to, newObj.update(AbsValue("SubMap"), AbsValue(subMapLoc), weak = false))
+          .alloc(subMapLoc, subMapObj)
+      } else this.alloc(to, newObj)
+    }
 
     // list allocations
     def allocList(
       values: Iterable[AbsValue] = Nil
-    )(to: Loc): Elem = alloc(to, AbsObj.ListElem(values.toVector))
+    )(to: AllocSite): Elem = alloc(to, AbsObj.ListElem(values.toVector))
 
     // symbol allocations
     def allocSymbol(
       desc: AbsValue
-    )(to: Loc): Elem = alloc(to, AbsObj.SymbolElem(desc))
+    )(to: AllocSite): Elem = alloc(to, AbsObj.SymbolElem(desc))
 
     // allocation helper
     private def alloc(loc: Loc, obj: AbsObj): Elem = this(loc) match {
@@ -159,6 +173,13 @@ object BasicHeap extends Domain {
     // set type of objects
     def setType(loc: AbsLoc, ty: Ty): Elem =
       applyEach(loc)((obj, _) => obj.setType(ty))
+
+    // check contains
+    def contains(loc: AbsLoc, value: AbsValue): AbsBool = {
+      loc.toList.foldLeft(AbsBool.Bot: AbsBool) {
+        case (bool, loc) => bool ⊔ (this(loc) contains value)
+      }
+    }
 
     // helper for abstract locations
     private def applyEach(loc: AbsLoc)(

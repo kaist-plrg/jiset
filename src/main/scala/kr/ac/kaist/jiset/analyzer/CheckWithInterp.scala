@@ -25,6 +25,10 @@ class CheckWithInterp(
         s"${node.uidString} is not same with ${anode.uidString}.",
         np.func
       ))
+      if (!sem(np).isSingle) fail(
+        "the abstract state is not single",
+        np.func
+      )
     }
   }
 
@@ -39,7 +43,8 @@ class CheckWithInterp(
   def fail(msg: String, funcOpt: Option[Function]): Unit = {
     funcOpt.map(func => dumpFunc(func, pdf = true))
     println(s"# iter: ${sem.getIter}")
-    error(msg)
+    println(msg)
+    sem.repl.continue = false
   }
 }
 object CheckWithInterp {

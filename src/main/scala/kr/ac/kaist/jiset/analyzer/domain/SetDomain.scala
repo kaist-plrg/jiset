@@ -46,6 +46,13 @@ trait SetDomain[A] extends Domain {
       case (Base(lset), Base(rset)) => Base(lset ++ rset)
     }
 
+    // meet operator
+    def ⊓(that: Elem): Elem = (this, that) match {
+      case (Top, _) => that
+      case (_, Top) => this
+      case (Base(lset), Base(rset)) => Base(lset intersect rset)
+    }
+
     // get single value
     def getSingle: Flat[A] = this match {
       case Base(set) => set.size match {

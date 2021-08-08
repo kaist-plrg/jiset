@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
@@ -10,9 +11,11 @@ import kr.ac.kaist.jiset.util.Useful._
 object BasicObj extends Domain {
   case object Bot extends Elem
   case class SymbolElem(desc: AbsValue) extends Elem
-  // TODO add (prop: AbsValue) to represent merged properties
-  case class MergedMapElem(ty: Ty, value: AbsValue) extends Elem
-  case class MapElem(ty: Ty, map: Map[AValue, AbsValue]) extends Elem
+  case class MergedMapElem(ty: Ty, prop: AbsValue, value: AbsValue) extends Elem
+  case class MapElem(ty: Ty, map: Map[AValue, AbsValue], props: Vector[AValue]) extends Elem {
+    def mergedProp: AbsValue =
+      map.keySet.map(AbsValue(_)).foldLeft(AbsValue.Bot)(_ ⊔ _)
+  }
   case class MergedListElem(value: AbsValue) extends Elem
   case class ListElem(values: Vector[AbsValue]) extends Elem
   case class NotSupportedElem(ty: Ty, desc: String) extends Elem
@@ -22,7 +25,7 @@ object BasicObj extends Domain {
     case IRSymbol(desc) => SymbolElem(AbsValue(desc))
     case IRMap(ty, props, size) => MapElem(ty, (props.toList.map {
       case (k, (v, _)) => AValue.from(k) -> AbsValue(v)
-    }).toMap)
+    }).toMap, props.toVector.sortBy(_._2._2).map(_._1).map(AValue.from))
     case IRList(values) => ListElem(values.map(AbsValue(_)))
     case IRNotSupported(tyname, desc) => NotSupportedElem(Ty(tyname), desc)
   }
@@ -31,13 +34,14 @@ object BasicObj extends Domain {
   implicit val app: App[Elem] = (app, elem) => elem match {
     case Bot => app >> "⊥"
     case SymbolElem(desc) => app >> "'" >> desc.toString
-    case MergedMapElem(ty, value) =>
-      app >> ty.toString >> "{{" >> value.toString >> "}}"
-    case MapElem(ty, map) =>
+    case MergedMapElem(ty, prop, value) =>
+      app >> ty.toString
+      app >> "{{" >> prop.toString >> " -> " >> value.toString >> "}}"
+    case MapElem(ty, map, props) =>
       app >> s"$ty "
       if (map.isEmpty) app >> "{}"
       else app.wrap {
-        for ((k, v) <- map) app :> s"$k -> " >> v >> LINE_SEP
+        for (k <- props) app :> s"$k -> " >> map(k) >> LINE_SEP
       }
     case MergedListElem(value) =>
       app >> "[[" >> value.toString >> "]]"
@@ -54,14 +58,15 @@ object BasicObj extends Domain {
       case (Bot, _) => true
       case (_, Bot) => false
       case (SymbolElem(ldesc), SymbolElem(rdesc)) => ldesc ⊑ rdesc
-      case (MergedMapElem(lty, lv), MergedMapElem(rty, rv)) =>
-        lty == rty && lv ⊑ rv
-      case (MapElem(lty, lmap), MapElem(rty, rmap)) =>
-        lty == rty && (lmap.keySet ++ rmap.keySet).forall(x => {
-          this(x) ⊑ that(x)
-        })
-      case (lmap @ MapElem(lty, _), MergedMapElem(rty, rv)) =>
-        lty == rty && lmap.mergedValue ⊑ rv
+      case (MergedMapElem(lty, lp, lv), MergedMapElem(rty, rp, rv)) =>
+        lty == rty && lp ⊑ rp && lv ⊑ rv
+      case (MapElem(lty, lmap, lprops), MapElem(rty, rmap, rprops)) => (
+        lty == rty &&
+        lprops == rprops &&
+        lprops.forall(x => this(x) ⊑ that(x))
+      )
+      case (lmap @ MapElem(lty, _, _), MergedMapElem(rty, rprop, rvalue)) =>
+        lty == rty && lmap.mergedProp ⊑ rprop && lmap.mergedValue ⊑ rvalue
       case (MergedListElem(lv), MergedListElem(rv)) =>
         lv ⊑ rv
       case (ListElem(lvs), ListElem(rvs)) =>
@@ -80,14 +85,14 @@ object BasicObj extends Domain {
       case _ if this ⊑ that => that
       case _ if that ⊑ this => this
       case (SymbolElem(ldesc), SymbolElem(rdesc)) => SymbolElem(ldesc ⊔ rdesc)
-      case (MergedMapElem(lty, lv), MergedMapElem(rty, rv)) if lty == rty =>
-        MergedMapElem(lty, lv ⊔ rv)
-      case (MapElem(lty, lmap), MapElem(rty, rmap)) if lty == rty =>
+      case (MergedMapElem(lty, lp, lv), MergedMapElem(rty, rp, rv)) if lty == rty =>
+        MergedMapElem(lty, lp ⊔ rp, lv ⊔ rv)
+      case (MapElem(lty, lmap, lprops), MapElem(rty, rmap, rprops)) if lty == rty && lprops == rprops =>
         MapElem(lty, (lmap.keySet ++ rmap.keySet).toList.map(x => {
           x -> this(x) ⊔ that(x)
-        }).toMap)
-      case (MapElem(lty, _), MergedMapElem(rty, rv)) if lty == rty =>
-        MergedMapElem(lty, this.mergedValue ⊔ rv)
+        }).toMap, lprops)
+      case (lmap @ MapElem(lty, _, _), MergedMapElem(rty, rp, rv)) if lty == rty =>
+        MergedMapElem(lty, lmap.mergedProp ⊔ rp, lmap.mergedValue ⊔ rv)
       case (MergedListElem(lv), MergedListElem(rv)) =>
         MergedListElem(lv ⊔ rv)
       case (ListElem(lvs), ListElem(rvs)) => if (lvs.length == rvs.length) {
@@ -106,8 +111,10 @@ object BasicObj extends Domain {
         case ASimple(Str("Description")) => desc
         case _ => AbsValue.Bot
       }
-      case MergedMapElem(_, value) => value
-      case MapElem(_, map) => map.getOrElse(key, AbsValue.absent)
+      case MergedMapElem(_, prop, value) =>
+        if (AbsValue(key) ⊑ prop) value
+        else AbsValue.absent
+      case MapElem(_, map, _) => map.getOrElse(key, AbsValue.absent)
       case MergedListElem(value) => value
       case ListElem(values) => key match {
         case ASimple(INum(long)) =>
@@ -125,8 +132,8 @@ object BasicObj extends Domain {
       case Bot =>
         warn("try to read type of bottom object."); Ty("")
       case SymbolElem(desc) => Ty("Symbol")
-      case MergedMapElem(ty, value) => ty
-      case MapElem(ty, map) => ty
+      case MergedMapElem(ty, _, _) => ty
+      case MapElem(ty, _, _) => ty
       case MergedListElem(value) => Ty("List")
       case ListElem(values) => Ty("List")
       case NotSupportedElem(ty, desc) => ty
@@ -139,12 +146,21 @@ object BasicObj extends Domain {
       case FlatElem(key) => this(key)
     }
 
+    // singleton checks
+    def isSingle: Boolean = this match {
+      case SymbolElem(desc) => desc.isSingle
+      case MapElem(_, map, _) => map.forall(_._2.isSingle)
+      case ListElem(values) => values.forall(_.isSingle)
+      case NotSupportedElem(_, desc) => true
+      case _ => false
+    }
+
     // merged value of all possible values
     lazy val mergedValue: AbsValue = this match {
       case Bot => AbsValue.Bot
       case SymbolElem(desc) => desc
-      case MergedMapElem(_, value) => value
-      case MapElem(_, map) => map.foldLeft[AbsValue](AbsValue.Bot) {
+      case MergedMapElem(_, _, value) => value
+      case MapElem(_, map, _) => map.foldLeft[AbsValue](AbsValue.Bot) {
         case (lv, (_, rv)) => lv ⊔ rv
       }
       case MergedListElem(value) => value
@@ -154,51 +170,65 @@ object BasicObj extends Domain {
 
     // updates
     def update(prop: AbsValue, value: AbsValue, weak: Boolean): Elem = {
-      def aux(key: AValue, weak: Boolean): MapUpdater = {
-        val newValue = if (weak) this(key) ⊔ value else value
-        _ + (key -> newValue)
-      }
-      def mergedAux(mValue: AbsValue): AbsValue = mValue ⊔ value
+      def aux(key: AValue): MapUpdater = map => MapElem(
+        map.ty,
+        map.map + (key -> value),
+        if (map.map contains key) map.props else map.props :+ key
+      )
+      def mergedAux(map: MergedMapElem): MergedMapElem = MergedMapElem(
+        map.ty,
+        map.prop ⊔ prop,
+        map.value ⊔ value,
+      )
       modifyMap(prop, aux, mergedAux, aux, mergedAux, weak)
     }
 
     // delete
     def delete(prop: AbsValue, weak: Boolean): Elem = {
-      def aux(key: AValue, weak: Boolean): MapUpdater = {
-        if (weak) _ + (key -> this(key) ⊔ AbsValue.absent)
-        else _ - key
-      }
-      def mergedAux(mValue: AbsValue): AbsValue = mValue
+      def aux(key: AValue): MapUpdater = map => MapElem(
+        map.ty,
+        map.map - key,
+        if (map.map contains key) map.props.filter(_ != key) else map.props
+      )
+      def mergedAux(map: MergedMapElem): MergedMapElem = map
       modifyMap(prop, aux, mergedAux, aux, mergedAux, weak)
     }
 
     // helper for map structures
-    type MapUpdater = Map[AValue, AbsValue] => Map[AValue, AbsValue]
+    type MapUpdater = MapElem => MapElem
     private def modifyMap(
       prop: AbsValue,
-      f: (AValue, Boolean) => MapUpdater,
-      mergedF: AbsValue => AbsValue,
-      jsF: (AValue, Boolean) => MapUpdater,
-      jsMergedF: AbsValue => AbsValue,
+      jsF: AValue => MapUpdater,
+      jsMergedF: MergedMapElem => MergedMapElem,
+      f: AValue => MapUpdater,
+      mergedF: MergedMapElem => MergedMapElem,
       weak: Boolean
     ): Elem = this match {
       // for JavaScript
-      case MergedMapElem(ty @ Ty("SubMap"), value) =>
-        MergedMapElem(ty, jsMergedF(value))
-      case MapElem(ty @ Ty("SubMap"), map) =>
+      case map @ MergedMapElem(ty @ Ty("SubMap"), _, _) =>
+        jsMergedF(map)
+      case map @ MapElem(ty @ Ty("SubMap"), _, _) =>
         prop.keyValue.getSingle match {
           case FlatBot => this
-          case FlatElem(key) => MapElem(ty, jsF(key, weak)(map))
-          case FlatTop => MergedMapElem(ty, jsMergedF(mergedValue))
+          case FlatElem(key) if !weak => jsF(key)(map)
+          case _ => jsMergedF(MergedMapElem(
+            ty,
+            map.mergedProp,
+            map.mergedValue,
+          ))
         }
       // for IR
-      case MergedMapElem(ty, value) =>
-        MergedMapElem(ty, mergedF(value))
-      case MapElem(ty, map) =>
-        prop.simple.str.getSingle match {
+      case map @ MergedMapElem(ty, _, _) =>
+        mergedF(map)
+      case map @ MapElem(ty, _, _) =>
+        prop.keyValue.getSingle match {
           case FlatBot => this
-          case FlatElem(key) => MapElem(ty, f(ASimple(key), weak)(map))
-          case FlatTop => MergedMapElem(ty, mergedF(mergedValue))
+          case FlatElem(key) if !weak => f(key)(map)
+          case _ => mergedF(MergedMapElem(
+            ty,
+            map.mergedProp,
+            map.mergedValue,
+          ))
         }
       case _ => this
     }
@@ -229,13 +259,38 @@ object BasicObj extends Domain {
     }
 
     // keys of map
-    def keys(intSorted: Boolean): Elem = ???
+    def keys(intSorted: Boolean): Elem = this match {
+      case MergedMapElem(_, prop, _) => MergedListElem(prop)
+      case MapElem(_, _, props) if intSorted => ListElem((for {
+        ASimple(Str(s)) <- props
+        d = ESValueParser.str2num(s)
+        if toStringHelper(d) == s
+        i = d.toInt
+        if d == i
+      } yield (s, i))
+        .sortBy(_._2)
+        .map { case (s: String, _) => AbsValue(s) })
+      case MapElem(ty, map, props) => ListElem(props.map(AbsValue(_)))
+      case _ => Bot
+    }
 
     // set type of objects
     def setType(ty: Ty): Elem = this match {
-      case MergedMapElem(_, value) => MergedMapElem(ty, value)
-      case MapElem(_, map) => MapElem(ty, map)
+      case MergedMapElem(_, prop, value) => MergedMapElem(ty, prop, value)
+      case MapElem(_, map, props) => MapElem(ty, map, props)
       case _ => error("cannot set type of non-map abstract objects.")
+    }
+
+    // check contains
+    def contains(value: AbsValue): AbsBool = {
+      (this, value.getSingle) match {
+        case (Bot, _) | (_, FlatBot) => AbsBool.Bot
+        case (ListElem(values), FlatElem(_)) if values contains value => AT
+        case (_: ListElem | _: MergedListElem, _) =>
+          if ((mergedValue ⊓ value).isBottom) AF
+          else AB
+        case _ => AbsBool.Bot
+      }
     }
   }
 }

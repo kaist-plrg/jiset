@@ -16,6 +16,8 @@ object BasicComp extends Domain {
       this.value ⊑ that.value && this.target ⊑ that.target
     def ⊔(that: Result): Result =
       Result(this.value ⊔ that.value, this.target ⊔ that.target)
+    def ⊓(that: Result): Result =
+      Result(this.value ⊓ that.value, this.target ⊓ that.target)
   }
   object Result {
     val Bot = Result(AbsValue.Bot, AbsValue.Bot)
@@ -65,6 +67,17 @@ object BasicComp extends Domain {
           ty -> resultOf(ty) ⊔ resultOf(ty)
         }).toMap
         Elem(newMap)
+      }
+    }
+
+    // meet operator
+    def ⊓(that: Elem): Elem = (this, that) match {
+      case _ if this.isBottom || that.isBottom => Bot
+      case (Elem(lmap), Elem(rmap)) => {
+        val newPairs = (lmap.keySet ++ rmap.keySet).toList.map(ty => {
+          ty -> resultOf(ty) ⊓ resultOf(ty)
+        }).filter(!_._2.isBottom)
+        Elem(newPairs.toMap)
       }
     }
 

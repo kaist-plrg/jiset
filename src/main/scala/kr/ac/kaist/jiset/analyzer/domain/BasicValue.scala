@@ -148,6 +148,18 @@ object BasicValue extends Domain {
       this.simple ⊔ that.simple
     )
 
+    // meet operator
+    def ⊓(that: Elem): Elem = Elem(
+      this.comp ⊓ that.comp,
+      this.const ⊓ that.const,
+      this.loc ⊓ that.loc,
+      this.func ⊓ that.func,
+      this.clo ⊓ that.clo,
+      this.cont ⊓ that.cont,
+      this.ast ⊓ that.ast,
+      this.simple ⊓ that.simple
+    )
+
     // get single value
     def getSingle: Flat[AValue] = (
       this.comp.getSingle ⊔
@@ -168,6 +180,12 @@ object BasicValue extends Domain {
 
     // only values usable as keys
     def keyValue: AbsValue = AbsValue(loc = loc, str = str)
+
+    // singleton checks
+    def isSingle: Boolean = getSingle match {
+      case FlatElem(_) => true
+      case _ => false
+    }
 
     // check abrupt completion
     def isCompletion: AbsBool = {

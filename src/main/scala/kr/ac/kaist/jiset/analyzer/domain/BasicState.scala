@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer._
-import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
 import kr.ac.kaist.jiset.js.{ Initialize => JSInitialize }
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
@@ -104,6 +104,14 @@ object BasicState extends Domain {
       }
     }
 
+    // singleton checks
+    def isSingle: Boolean = (
+      reachable &&
+      locals.forall(_._2.isSingle) &&
+      globals.forall(_._2.isSingle) &&
+      heap.isSingle
+    )
+
     // singleton location checks
     def isSingle(loc: Loc): Boolean = heap.isSingle(loc)
 
@@ -194,20 +202,22 @@ object BasicState extends Domain {
       }
       (v, st)
     }
-    def copyObj(from: AbsLoc)(to: Loc): Elem =
+    def copyObj(from: AbsLoc)(to: AllocSite): Elem =
       bottomCheck(from) { copy(heap = heap.copyObj(from)(to)) }
-    def keys(loc: AbsLoc, intSorted: Boolean)(to: Loc): Elem =
+    def keys(loc: AbsLoc, intSorted: Boolean)(to: AllocSite): Elem =
       bottomCheck(loc) { copy(heap = heap.keys(loc, intSorted)(to)) }
-    def allocMap(ty: Ty, pairs: List[(AbsValue, AbsValue)])(to: Loc): Elem =
+    def allocMap(ty: Ty, pairs: List[(AbsValue, AbsValue)])(to: AllocSite): Elem =
       bottomCheck(pairs.flatMap { case (k, v) => List(k, v) }) {
         copy(heap = heap.allocMap(ty, pairs)(to))
       }
-    def allocList(list: List[AbsValue])(to: Loc): Elem =
+    def allocList(list: List[AbsValue])(to: AllocSite): Elem =
       bottomCheck(list) { copy(heap = heap.allocList(list)(to)) }
-    def allocSymbol(desc: AbsValue)(to: Loc): Elem =
+    def allocSymbol(desc: AbsValue)(to: AllocSite): Elem =
       bottomCheck(desc) { copy(heap = heap.allocSymbol(desc)(to)) }
     def setType(loc: AbsLoc, ty: Ty): Elem =
       bottomCheck(loc) { copy(heap = heap.setType(loc, ty)) }
+    def contains(loc: AbsLoc, value: AbsValue): AbsBool =
+      heap.contains(loc, value)
 
     // define global variables
     def defineGlobal(pairs: (Id, AbsValue)*): Elem =

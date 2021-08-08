@@ -32,19 +32,14 @@ class Stringifier(
   }
 
   // views
-  implicit lazy val ViewApp: App[View] = (app, view) => view match {
-    case View(calls, loops) =>
-      if (detail) {
-        app >> "call" >> calls.map(_.uidString).mkString("[", ", ", "]")
-        app >> ":"
-        app >> "loop" >> loops
-          .map { case (loop, k) => s"${loop.uidString}($k)" }
-          .mkString("[", ", ", "]")
-      } else {
-        app >> "call[depth:" >> calls.length >> "]"
-        app >> ":"
-        app >> "loop" >> loops.map(_._2).mkString("[", ", ", "]")
-      }
+  implicit lazy val ViewApp: App[View] = (app, view) => if (detail) {
+    app >> view.ctxts.map {
+      case CallCtxt(call) => call.uidString.mkString
+      case LoopCtxt(loop, depth) => s"${loop.uidString}($depth)"
+    }.mkString("[", ", ", "]")
+  } else {
+    app >> "[call: " >> view.calls.length
+    app >> ", loop: " >> view.loops.length >> "]"
   }
 
   // abstract reference values
