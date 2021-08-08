@@ -15,7 +15,7 @@ import scala.collection.mutable.{ Map => MMap }
 
 // IR Interpreter
 class Interp(
-  st: State,
+  val st: State,
   timeLimit: Option[Long] = Some(TIMEOUT),
   useHook: Boolean = false
 ) {

@@ -13,8 +13,9 @@ package object jiset {
   // Log directory
   val LOG_DIR = s"$BASE_DIR/logs"
   val EXTRACT_LOG_DIR = s"$LOG_DIR/extract"
-  val CHECK_LOG_DIR = s"$LOG_DIR/check"
   val CFG_LOG_DIR = s"$LOG_DIR/cfg"
+  val CHECK_LOG_DIR = s"$LOG_DIR/check"
+  val ANALYZE_LOG_DIR = s"$LOG_DIR/analyze"
 
   // Specification directory
   val ECMA262_DIR = s"$BASE_DIR/ecma262"

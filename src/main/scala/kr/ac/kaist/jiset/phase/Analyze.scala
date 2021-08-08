@@ -26,7 +26,9 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
   def defaultConfig: AnalyzeConfig = AnalyzeConfig()
   val options: List[PhaseOption[AnalyzeConfig]] = List(
     ("repl", BoolOption(c => USE_REPL = true),
-      "use REPL for type checks."),
+      "use REPL for static analysis."),
+    ("exec", BoolOption(c => USE_EXEC = true),
+      "use concrete execution to check soundness."),
   )
 }
 

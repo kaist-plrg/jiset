@@ -2,10 +2,10 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer.command._
+import kr.ac.kaist.jiset.analyzer.NativeHelper._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.error.JISETError
 import kr.ac.kaist.jiset.js._
-import kr.ac.kaist.jiset.spec.algorithm.SyntaxDirectedHead
 import kr.ac.kaist.jiset.util.Useful._
 import org.jline.builtins.Completers.TreeCompleter
 import org.jline.builtins.Completers.TreeCompleter.{ Node => CNode, node }
@@ -23,11 +23,8 @@ case class REPL(sem: AbsSemantics) {
   // completer
   private val completer: TreeCompleter =
     new TreeCompleter(Command.commands.map(optionNode(_)): _*)
-  private def optionNode(cmd: Command) = node(cmd.name :: (cmd match {
-    case CmdGraph =>
-      node(s"-${CmdGraph.total}") :: cfg.funcs.map(x => node(x.name))
-    case _ => cmd.options.map(argNode(_))
-  }): _*)
+  private def optionNode(cmd: Command) =
+    node(cmd.name :: cmd.options.map(argNode(_)): _*)
   private def argNode(opt: String) =
     node(s"-$opt" :: getArgNodes(opt): _*)
   private def getArgNodes(opt: String): List[TreeCompleter.Node] = opt match {
@@ -81,8 +78,8 @@ case class REPL(sem: AbsSemantics) {
   } catch {
     case e: JISETError => throw e
     case e: Throwable =>
-      // TODO dump CFG for debugging
       printlnColor(RED)("* unexpectedly terminated during REPL.")
+      dumpFunc(cp.func, pdf = true)
       showStatus(cp)
       throw e
   }

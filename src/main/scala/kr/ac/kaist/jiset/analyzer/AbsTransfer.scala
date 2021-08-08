@@ -235,7 +235,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       case EBOp(OEq, ERef(ref), EAbsent) => for {
         rv <- transfer(ref)
         b <- get(_.exists(rv))
-      } yield AbsValue(bool = b)
+      } yield AbsValue(bool = !b)
       case EBOp(bop, left, right) => for {
         l <- transfer(left)
         r <- transfer(right)

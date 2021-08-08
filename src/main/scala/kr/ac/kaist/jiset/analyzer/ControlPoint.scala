@@ -4,21 +4,21 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.js._
 
 // control points
-trait ControlPoint extends AnalyzerElem {
+sealed trait ControlPoint extends AnalyzerElem {
   // view
   val view: View
 
   // get function
-  def getFunc: Function = this match {
-    case NodePoint(node, _) => cfg.funcOf(node)
-    case ReturnPoint(func, _) => func
-  }
+  def func: Function
 
   // check whether it is in a built-in algorithm
-  def isBuiltin: Boolean = getFunc.origin match {
+  def isBuiltin: Boolean = func.origin match {
     case AlgoOrigin(algo) => algo.isBuiltin
     case _ => false
   }
 }
-case class NodePoint[+T <: Node](node: T, view: View) extends ControlPoint
+case class NodePoint[+T <: Node](node: T, view: View) extends ControlPoint {
+  // get function
+  def func: Function = cfg.funcOf(node)
+}
 case class ReturnPoint(func: Function, view: View) extends ControlPoint

@@ -90,7 +90,7 @@ package object domain {
   type AbsStr = AbsStr.Elem
 
   // abstract booleans
-  val AbsBool = FlatDomain[Bool]("bool")
+  val AbsBool = FlatBool
   type AbsBool = AbsBool.Elem
 
   // abstract undefined

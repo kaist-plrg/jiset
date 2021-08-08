@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.js._
+import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.js.ast._
 
 object Initialize {
@@ -13,7 +13,7 @@ object Initialize {
 
   // initial control point
   lazy val initCp = {
-    val runJobs = cfg.funcMap("RunJobs")
+    val runJobs = js.cfg.funcMap("RunJobs")
     val entry = runJobs.entry
     NodePoint(entry, View())
   }
@@ -21,7 +21,7 @@ object Initialize {
   // initial state
   def initSt(script: Script): AbsState = script match {
     case Script0(Some(body), _, _) => baseSt.defineGlobal(
-      Id(SCRIPT_BODY) -> AbsValue(body)
+      Id(js.SCRIPT_BODY) -> AbsValue(body)
     )
     case _ => baseSt
   }

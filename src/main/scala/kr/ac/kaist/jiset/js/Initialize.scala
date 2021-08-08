@@ -12,7 +12,7 @@ object Initialize {
   def apply(
     script: Script,
     fnameOpt: Option[String] = None,
-    cursorGen: CursorGen[_ <: Cursor] = InstCursor
+    cursorGen: CursorGen[_ <: Cursor] = NodeCursor
   ): State = {
     val st = initSt.copied
     script match {

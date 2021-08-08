@@ -25,6 +25,9 @@ case class AbsSemantics(
   // a worklist of control points
   val worklist: Worklist[ControlPoint] = new QueueWorklist(npMap.keySet)
 
+  // execution
+  private var checkWithInterp: Option[CheckWithInterp] = None
+
   // the number of iterations
   def getIter: Int = iter
   private var iter: Int = 0
@@ -45,13 +48,16 @@ case class AbsSemantics(
       iter += 1
 
       // text-based debugging
-      if (DEBUG) println(s"${cp.getFunc.name}:$cp")
+      if (DEBUG) println(s"${cp.func.name}:$cp")
 
       // run REPL
       if (USE_REPL) repl(transfer, cp)
 
       // abstract transfer for the current control point
       else transfer(cp)
+
+      // check soundness using concrete execution
+      if (USE_EXEC) checkWithInterp.map(_.runAndCheck)
 
       // keep going
       fixpoint
@@ -138,6 +144,8 @@ object AbsSemantics {
   // constructors
   def apply(script: js.ast.Script): AbsSemantics = {
     val initPair = Initialize(script)
-    AbsSemantics(npMap = Map(initPair))
+    val sem = AbsSemantics(npMap = Map(initPair))
+    if (USE_EXEC) sem.checkWithInterp = Some(CheckWithInterp(sem, script))
+    sem
   }
 }
