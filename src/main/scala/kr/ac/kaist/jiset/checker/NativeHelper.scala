@@ -76,31 +76,39 @@ object NativeHelper {
     depth: Option[Int] = None,
     path: Option[Path] = None
   ): Unit = try {
-    val dot = (new DotPrinter)(cp, depth, path).toString
-    dumpFile(dot, s"$CFG_PATH.dot")
-    if (pdf) {
-      executeCmd(s"""unflatten -l 10 -o ${CFG_PATH}_trans.dot $CFG_PATH.dot""")
-      executeCmd(s"""dot -Tpdf "${CFG_PATH}_trans.dot" -o "$CFG_PATH.pdf"""")
-      println(s"Dumped CFG to $CFG_PATH.pdf")
-    } else println(s"Dumped CFG to $CFG_PATH.dot")
+    dumpDot((new DotPrinter)(cp, depth, path).toString, pdf)
   } catch {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
 
-  // dump CFG in DOT/PDF format
+  // dump CFG Function in DOT/PDF format
   def dumpFunc(
     func: Function,
     pdf: Boolean = true
   ): Unit = try {
-    val dot = (new DotPrinter)(func).toString
+    dumpDot((new DotPrinter)(func).toString, pdf)
+  } catch {
+    case _: Throwable => printlnColor(RED)(s"Cannot dump CFG function")
+  }
+
+  // dump CFG Partial Function in DOT/PDF format
+  def dumpPartialFunc(
+    pf: PartialFunc,
+    pdf: Boolean = true
+  ): Unit = try {
+    dumpDot((new DotPrinter)(pf).toString, pdf)
+  } catch {
+    case _: Throwable => printlnColor(RED)(s"Cannot dump CFG partial function")
+  }
+
+  // dump DOT
+  def dumpDot(dot: String, pdf: Boolean): Unit = {
     dumpFile(dot, s"$CFG_PATH.dot")
     if (pdf) {
       executeCmd(s"""unflatten -l 10 -o ${CFG_PATH}_trans.dot $CFG_PATH.dot""")
       executeCmd(s"""dot -Tpdf "${CFG_PATH}_trans.dot" -o "$CFG_PATH.pdf"""")
       println(s"Dumped CFG to $CFG_PATH.pdf")
     } else println(s"Dumped CFG to $CFG_PATH.dot")
-  } catch {
-    case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
 
   // load VisitRecorder
@@ -108,5 +116,4 @@ object NativeHelper {
     import jsonProtocol._
     readJson[VisitRecorder](s"$dirname/visited-nodes.json")
   }
-
 }

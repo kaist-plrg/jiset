@@ -18,6 +18,55 @@ class DotPrinter {
     this >> "}"
   }
 
+  // for partial func
+  def apply(pf: PartialFunc): DotPrinter = {
+    val PartialFunc(func, view, reachables) = pf
+    val viewName = view.toString.replaceAll("\"", "\\\\\"")
+    implicit val v: Option[View] = None
+
+    // get edge color
+    def getEdgeColor(from: Node, to: Node, shortcut: Boolean = false) = {
+      if (shortcut) REACH
+      else (reachables contains from, reachables contains to) match {
+        case (true, true) => REACH
+        case _ => NON_REACH
+      }
+    }
+
+    // print to dot
+    this >> "digraph {"
+    this >> s"""  subgraph cluster${func.uid}_${norm(view)} {"""
+    this >> s"""    label = "${func.name}:$viewName""""
+    this >> s"""    style = rounded"""
+    func.nodes.foreach(node => {
+      val colors =
+        if (pf.nodes contains node) (REACH, CURRENT)
+        else if (reachables contains node) (REACH, NORMAL)
+        else (NON_REACH, NORMAL)
+      doNode(node, colors, true)
+    })
+    func.nexts.foreach {
+      case (f, t) => doEdge(str(f), str(t), getEdgeColor(f, t), "")
+    }
+    func.branches.foreach {
+      case (f, (t, e)) =>
+        val (fs, ts, es) = (str(f), str(t), str(e))
+        val (tc, ec) = (getEdgeColor(f, t), getEdgeColor(f, e))
+        val (tl, el) = (
+          s"label=<<font color=$tc>true</font>>",
+          s"label=<<font color=$ec>false</font>>",
+        )
+        doEdge(fs, ts, tc, tl)
+        doEdge(fs, es, ec, el)
+    }
+    pf.shortcut.foreach {
+      case (f, t) =>
+        doEdge(str(f), str(t), SHORTCUT, s"label=<<font color=$REACH>shortcut</font>>")
+    }
+    this >> "  }"
+    this >> "}"
+  }
+
   // show previous traces with depth
   def showPrev(rp: ReturnPoint, depth: Int): Unit = {
     var visited = Set[(Function, View)]()
@@ -90,6 +139,7 @@ class DotPrinter {
   // colors
   val REACH = """"black""""
   val NON_REACH = """"gray""""
+  val SHORTCUT = """"red""""
   val NORMAL = """"white""""
   val CURRENT = """"powderblue""""
   val IN_WORKLIST = """"gray""""

@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.checker
 
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.util.Useful._
+import scala.collection.mutable.Queue
 import scala.annotation.tailrec
 
 // CFG PartialModel
@@ -77,8 +78,34 @@ case class PartialFunc(
     }
   } yield linear -> dest).toMap
 
+  // get nodes of partial function
+  lazy val nodes: Set[Node] = {
+    // bfs traversal of function using shortcut
+    var visited: Set[Node] = Set()
+    val queue = Queue[Node](func.entry)
+    while (queue.size != 0) {
+      val node = queue.dequeue;
+      if (!visited.contains(node)) {
+        visited += node
+        node match {
+          case linear: Linear =>
+            val nextNode = shortcut.getOrElse(linear, func.nexts(linear))
+            queue.enqueue(nextNode)
+          case branch: Branch =>
+            val (thenNode, elseNode) = func.branches(branch)
+            queue.enqueue(thenNode, elseNode)
+          case _ =>
+        }
+      }
+    }
+    visited
+  }
+
   // order between partial model
-  def ⊑(that: PartialFunc): Boolean = this.reachables subsetOf that.reachables
+  def ⊑(that: PartialFunc): Boolean =
+    this.func == that.func &&
+      this.view == that.view &&
+      (this.reachables subsetOf that.reachables)
 }
 object PartialFunc {
   type Reachable = Reachable.Value

@@ -21,6 +21,8 @@ object Stringifier {
     case comp: Type => TypeApp(app, comp)
     case comp: AbsRef => AbsRefApp(app, comp)
     case comp: VisitRecorder => VisitRecorderApp(app, comp)
+    case comp: CFGPartialModel => CFGPartialModelApp(app, comp)
+    case comp: PartialFunc => PartialFuncApp(app, comp)
   }
 
   // abstract semantics
@@ -125,4 +127,8 @@ object Stringifier {
     }
     app
   }
+
+  // partial model
+  implicit lazy val CFGPartialModelApp: App[CFGPartialModel] = (app, _) => app
+  implicit lazy val PartialFuncApp: App[PartialFunc] = (app, _) => app
 }

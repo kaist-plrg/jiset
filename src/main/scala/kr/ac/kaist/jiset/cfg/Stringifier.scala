@@ -25,13 +25,13 @@ class Stringifier(
   }
 
   // CFGs
-  implicit lazy val CFGApp: App[CFG] = (app, cfg) => ???
+  implicit lazy val CFGApp: App[CFG] = (app, cfg) => app
 
   // CFG functions
-  implicit lazy val FunctionApp: App[Function] = (app, func) => ???
+  implicit lazy val FunctionApp: App[Function] = (app, func) => app
 
   // CFG origins
-  implicit lazy val OriginApp: App[Origin] = (app, origin) => ???
+  implicit lazy val OriginApp: App[Origin] = (app, origin) => app
 
   // CFG nodes
   implicit lazy val NodeApp: App[Node] = (app, node) => {
