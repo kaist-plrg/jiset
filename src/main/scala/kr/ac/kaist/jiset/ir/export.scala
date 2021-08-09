@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.ir
 
 import io.circe._, io.circe.syntax._, io.circe.parser._
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.js._
+import kr.ac.kaist.jiset.js.{ setSpec => setJsSpec, _ }
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -84,5 +84,5 @@ object Export {
   def setSpec(raw: String): Unit = for {
     json <- parse(raw)
     spec <- json.as[ECMAScript]
-  } yield setTarget(spec)
+  } yield setJsSpec(spec)
 }

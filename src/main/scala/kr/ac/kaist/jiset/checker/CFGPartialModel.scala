@@ -10,14 +10,8 @@ case class CFGPartialModel(
   partialMap: Map[Function, Map[View, PartialFunc]]
 ) extends CheckerElem {
   // getter
-  def get(func: Function, viewOpt: Option[View]): Option[PartialFunc] = viewOpt match {
-    case Some(view) => {
-      partialMap
-        .getOrElse(func, Map())
-        .get(viewOpt.get)
-    }
-    case None => None
-  }
+  def get(func: Function, viewOpt: Option[View]): Option[PartialFunc] =
+    viewOpt.map(view => partialMap.getOrElse(func, Map()).get(view)).flatten
 }
 object CFGPartialModel {
   def apply(recorder: VisitRecorder): CFGPartialModel = CFGPartialModel(

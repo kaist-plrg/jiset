@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.spec.NativeHelper._
+import kr.ac.kaist.jiset.checker.NativeHelper._
 import scala.io.Source
 
 // Load phase
@@ -20,7 +21,8 @@ case object Load extends Phase[Script, LoadConfig, State] {
     config: LoadConfig
   ): State = {
     val filename = getFirstFilename(jisetConfig, "load")
-    setTarget(loadSpec(s"$VERSION_DIR/generated"))
+    setSpec(loadSpec(s"$VERSION_DIR/generated"))
+    if (PARTIAL) setPartialModel(loadPartialModel(s"$VERSION_DIR/partial.json"))
     Initialize(script, Some(filename), config.cursorGen)
   }
 

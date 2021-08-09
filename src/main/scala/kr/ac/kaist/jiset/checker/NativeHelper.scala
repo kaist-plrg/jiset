@@ -117,12 +117,9 @@ object NativeHelper {
     readJson[VisitRecorder](s"$dirname/visited-nodes.json")
   }
 
-  // Json of CFGPartialModel
-  val PARTIAL_JSON = s"$VERSION_DIR/partial.json"
-
   // load CFGPartialModel
-  lazy val loadCFGPartialModel: CFGPartialModel = {
+  def loadPartialModel(filename: String): CFGPartialModel = {
     import IRLogger.jsonProtocol._
-    readJson[CFGPartialModel](PARTIAL_JSON)
+    readJson[CFGPartialModel](filename)
   }
 }

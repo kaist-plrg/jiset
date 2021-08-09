@@ -19,7 +19,7 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
     jisetConfig: JISETConfig,
     config: AnalyzeConfig
   ): AbsSemantics = {
-    setTarget(loadSpec(s"$VERSION_DIR/generated"))
+    setSpec(loadSpec(s"$VERSION_DIR/generated"))
     AbsSemantics(script).fixpoint
   }
 

@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset
 
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.cfg.CFG
+import kr.ac.kaist.jiset.checker.CFGPartialModel
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -11,16 +12,24 @@ import kr.ac.kaist.jiset.util.Span
 import kr.ac.kaist.jiset.util.Useful._
 
 package object js {
+  // set current ECMAScript model
+  def setSpec(spec: => ECMAScript): Unit =
+    if (_spec.isEmpty) _spec = Some(spec)
+  private var _spec: Option[ECMAScript] = None
+
   // current ECMAScript model
-  lazy val spec: ECMAScript = targetSpec.get
+  lazy val spec: ECMAScript = _spec.get
 
   // current control-flow graph (CFG)
   lazy val cfg: CFG = new CFG(spec)
 
-  // set current ECMAScript model
-  def setTarget(spec: => ECMAScript): Unit =
-    if (targetSpec.isEmpty) targetSpec = Some(spec)
-  private var targetSpec: Option[ECMAScript] = None
+  // set current CFG partial model
+  def setPartialModel(partialModel: => CFGPartialModel): Unit =
+    if (_partialModel.isEmpty) _partialModel = Some(partialModel)
+  private var _partialModel: Option[CFGPartialModel] = None
+
+  // current CFG partial model
+  lazy val partialModel: CFGPartialModel = _partialModel.get
 
   // ECMAScript components
   lazy val intrinsics: Set[String] = spec.intrinsics

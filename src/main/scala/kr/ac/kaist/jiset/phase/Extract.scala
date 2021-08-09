@@ -41,8 +41,8 @@ case object Extract extends Phase[Unit, ExtractConfig, ECMAScript] {
     // dump in a JSON format
     config.json.map(dumpJson("specification", spec, _, false))
 
-    // set target for js
-    setTarget(spec)
+    // set spec for js
+    setSpec(spec)
 
     spec
   }

@@ -110,7 +110,7 @@ object JISETTest {
   // extract specifications
   lazy val info = ECMAScriptParser.preprocess(VERSION)
   lazy val spec = {
-    js.setTarget(NativeHelper.loadSpec(s"$VERSION_DIR/generated"))
+    js.setSpec(NativeHelper.loadSpec(s"$VERSION_DIR/generated"))
     js.spec
   }
   lazy val cfg = new CFG(spec)

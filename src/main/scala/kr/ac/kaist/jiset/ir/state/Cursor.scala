@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.checker.NativeHelper._
 import kr.ac.kaist.jiset.checker._
-import kr.ac.kaist.jiset.js.cfg
+import kr.ac.kaist.jiset.js.{ cfg, partialModel }
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.{ PARTIAL, VIEW }
 
@@ -70,9 +70,8 @@ object NodeCursor extends CursorGen[NodeCursor] {
     val func = cfg.bodyFuncMap.getOrElse(body.uid, {
       error(s"impossible node cursor: $body")
     })
-    val partialFuncOpt = if (PARTIAL) {
-      loadCFGPartialModel.get(func, viewOpt)
-    } else None
+    val partialFuncOpt =
+      if (PARTIAL) partialModel.get(func, viewOpt) else None
     Some(NodeCursor(func.entry, partialFuncOpt))
   }
 }

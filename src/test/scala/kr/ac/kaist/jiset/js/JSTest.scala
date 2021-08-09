@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.js.{ Parser => JSParser }
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.spec.NativeHelper._
+import kr.ac.kaist.jiset.checker.NativeHelper._
 import scala.sys.process._
 import io.circe._, io.circe.syntax._, io.circe.parser.{ parse => parseJson }
 
@@ -36,7 +37,8 @@ trait JSTest extends IRTest {
 
   // load initial codes
   def load(script: Script, fnameOpt: Option[String] = None): State = {
-    setTarget(loadSpec(s"$VERSION_DIR/generated"))
+    setSpec(loadSpec(s"$VERSION_DIR/generated"))
+    if (PARTIAL) setPartialModel(loadPartialModel(s"$VERSION_DIR/partial.json"))
     Initialize(script, fnameOpt, cursorGen)
   }
 
