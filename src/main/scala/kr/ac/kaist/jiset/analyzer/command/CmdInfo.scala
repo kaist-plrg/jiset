@@ -18,10 +18,7 @@ case object CmdInfo extends Command(
   ): Unit = args match {
     case opt :: target :: _ if options contains opt.substring(1) =>
       showInfo(repl, opt.substring(1), target)
-    case _ => cp.map(_ match {
-      case NodePoint(node, _) => showInfo(repl, block, node.uid.toString)
-      case ReturnPoint(func, _) => showInfo(repl, ret, func.name)
-    })
+    case _ => cp.map(cp => { println(repl.cpInfo(cp, true)); println })
   }
 
   // show information
@@ -38,6 +35,6 @@ case object CmdInfo extends Command(
         println("Inappropriate argument")
         Set()
     }
-    info.foreach(cp => { println(repl.cpInfo(cp)); println })
+    info.foreach(cp => { println(repl.cpInfo(cp, true)); println })
   }
 }

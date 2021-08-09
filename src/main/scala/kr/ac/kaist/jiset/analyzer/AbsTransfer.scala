@@ -85,7 +85,11 @@ case class AbsTransfer(sem: AbsSemantics) {
 
     // return wrapped values
     for (np @ NodePoint(call, view) <- sem.getRetEdges(rp)) {
-      val nextNP = NodePoint(cfg.nextOf(call), view)
+      val nextNode = cfg.nextOf(call)
+      val nextNP = NodePoint(nextNode, nextNode match {
+        case loop: Loop => view.loopEnter(loop)
+        case _ => view
+      })
       val callerLocals = sem.callInfo.getOrElse(np, Map())
       val newSt = st
         .copy(locals = callerLocals)
@@ -162,7 +166,13 @@ case class AbsTransfer(sem: AbsSemantics) {
     // transfer function for calls
     def transfer(call: Call, view: View): Updater = call.inst match {
       case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => {
-        ???
+        for {
+          as <- join(args.map(transfer))
+          vs = if (name == "IsAbruptCompletion") as else as.map(_.escaped)
+          st <- get
+          v <- simpleFuncs(name)(vs)
+          _ <- modify(_.defineLocal(id -> v))
+        } yield ()
       }
       case IApp(id, fexpr, args) => for {
         value <- transfer(fexpr)
@@ -276,7 +286,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         l <- transfer(list)
         loc = l.escaped.loc
         k <- transfer(idx)
-        v <- pop(loc, k.escaped)
+        v <- id(_.pop(loc, k.escaped))
       } yield v
       case ERef(ref) => for {
         rv <- transfer(ref)
@@ -340,6 +350,12 @@ case class AbsTransfer(sem: AbsSemantics) {
           }
           for (Str(str) <- escapedV.str.toList) set += str == name
           for (loc <- escapedV.loc.toList) set += st(loc).getTy < Ty(name)
+          val otherV = escapedV.copy(
+            ast = AbsAST.Bot,
+            loc = AbsLoc.Bot,
+            simple = escapedV.simple.copy(str = AbsStr.Bot),
+          )
+          if (!otherV.isBottom) set += false
           set
         }
       } yield resB).map(Bool(_))))
@@ -399,9 +415,6 @@ case class AbsTransfer(sem: AbsSemantics) {
       case ENotSupported(msg) => AbsValue.Bot
     }
 
-    // helper for pop operator
-    def pop(loc: AbsLoc, idx: AbsValue): Result[AbsValue] = _.pop(loc, idx)
-
     // return if abrupt completion
     def returnIfAbrupt(
       value: AbsValue,
@@ -422,7 +435,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         rv <- transfer(ref)
         b <- transfer(rv)
         p <- transfer(expr)
-      } yield AbsRefProp(b, p)
+      } yield AbsRefProp(b, p.escaped)
     }
 
     // unary operators
@@ -532,18 +545,44 @@ case class AbsTransfer(sem: AbsSemantics) {
   }
 
   // simple functions
-  type SimpleFunc = (State, List[AbsValue]) => AbsValue
-  val simpleFuncs: Map[String, SimpleFunc] = Map(
-    "GetArgument" -> { case (st, args) => ??? },
-    "IsDuplicate" -> { case (st, args) => ??? },
-    "IsArrayIndex" -> { case (st, args) => ??? },
-    "min" -> { case (st, args) => ??? },
-    "max" -> { case (st, args) => ??? },
-    "abs" -> { case (st, args) => ??? },
-    "floor" -> { case (st, args) => ??? },
-    "fround" -> { case (st, args) => ??? },
-    "ThrowCompletion" -> { case (st, args) => ??? },
-    "NormalCompletion" -> { case (st, args) => ??? },
-    "IsAbruptCompletion" -> { case (st, args) => ??? },
-  )
+  type SimpleFunc = List[AbsValue] => Result[AbsValue]
+  val simpleFuncs: Map[String, SimpleFunc] = {
+    import AbsObj._
+    Map(
+      "GetArgument" -> {
+        case List(v) => id(_.pop(v.loc, AbsValue(0)))
+      },
+      "IsDuplicate" -> {
+        case List(v) => for {
+          st <- get
+        } yield AbsValue(bool = v.loc.foldLeft(AbsBool.Bot: AbsBool) {
+          case (b, loc) => b ⊔ (st(loc) match {
+            case ListElem(vs) if vs.forall(_.isSingle) => AbsBool(Bool((for {
+              v <- vs
+              av <- v.getSingle match {
+                case FlatElem(av) => Some(av)
+                case _ => None
+              }
+            } yield av).toSet.size == vs.length))
+            case _ => AB
+          })
+        })
+      },
+      "IsArrayIndex" -> { case args => ??? },
+      "min" -> { case args => ??? },
+      "max" -> { case args => ??? },
+      "abs" -> { case args => ??? },
+      "floor" -> { case args => ??? },
+      "fround" -> { case args => ??? },
+      "ThrowCompletion" -> {
+        case List(value) => value.wrapCompletion("throw")
+      },
+      "NormalCompletion" -> {
+        case List(value) => pure(value.wrapCompletion)
+      },
+      "IsAbruptCompletion" -> {
+        case List(value) => pure(AbsValue(bool = value.isAbruptCompletion))
+      },
+    )
+  }
 }

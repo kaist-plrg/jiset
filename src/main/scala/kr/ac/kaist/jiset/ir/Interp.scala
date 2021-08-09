@@ -370,7 +370,7 @@ class Interp(
         case addr: DynamicAddr => st.copyObj(addr)
         case value => value
       }
-    ast.staticMap += name -> rawValue
+    // XXX ast.staticMap += name -> rawValue
     storedValues += rawValue
   }
 

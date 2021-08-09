@@ -99,10 +99,11 @@ object BasicObj extends Domain {
       case (SymbolElem(ldesc), SymbolElem(rdesc)) => SymbolElem(ldesc ⊔ rdesc)
       case (MergedMapElem(lty, lp, lv), MergedMapElem(rty, rp, rv)) if lty == rty =>
         MergedMapElem(lty, lp ⊔ rp, lv ⊔ rv)
-      case (MapElem(lty, lmap, lprops), MapElem(rty, rmap, rprops)) if lty == rty && lprops == rprops =>
-        MapElem(lty, (lmap.keySet ++ rmap.keySet).toList.map(x => {
+      case (l @ MapElem(lty, lmap, lprops), r @ MapElem(rty, rmap, rprops)) if lty == rty =>
+        if (lprops == rprops) MapElem(lty, (lmap.keySet ++ rmap.keySet).toList.map(x => {
           x -> this(x) ⊔ that(x)
         }).toMap, lprops)
+        else MergedMapElem(lty, l.mergedProp ⊔ r.mergedProp, l.mergedValue ⊔ r.mergedValue)
       case (lmap @ MapElem(lty, _, _), MergedMapElem(rty, rp, rv)) if lty == rty =>
         MergedMapElem(lty, lmap.mergedProp ⊔ rp, lmap.mergedValue ⊔ rv)
       case (MergedListElem(lv), MergedListElem(rv)) =>
@@ -113,7 +114,8 @@ object BasicObj extends Domain {
       case (ListElem(lvs), MergedListElem(rv)) =>
         MergedListElem(this.mergedValue ⊔ rv)
       case (NotSupportedElem(lty, ld), NotSupportedElem(rty, rd)) if lty == rty && ld == rd => this
-      case _ => error("cannot merge different typed abstract objects.")
+      case _ =>
+        error(s"cannot merge: ${this.getTy} with ${that.getTy}")
     }
 
     // lookup
@@ -260,7 +262,13 @@ object BasicObj extends Domain {
           val k = long.toInt
           var v: AbsValue = AbsValue.Bot
           val newObj = modifyList(
-            vs => { v = vs(k); vs.slice(0, k) ++ vs.slice(k + 1, vs.length) },
+            vs => {
+              if (0 <= k && k < vs.length) {
+                v = vs(k); vs.slice(0, k) ++ vs.slice(k + 1, vs.length)
+              } else {
+                v = AbsValue.absent; vs
+              }
+            },
             mv => { v = mv; mv },
             weak
           )

@@ -36,7 +36,7 @@ class CheckWithInterp(
           "the abstract state is not single",
           np.func
         )
-        if (!check(absSt, st)) fail(
+        if (!check(np, absSt, st)) fail(
           "the abstract state is not sound",
           np.func
         )
@@ -55,7 +55,7 @@ class CheckWithInterp(
     case Some(NodeCursor(node, _)) => Some(node)
     case _ => None
   }
-  def check(absSt: AbsState, st: State): Boolean = {
+  def check(np: NodePoint[Node], absSt: AbsState, st: State): Boolean = {
     val AbsState(reachable, absLocals, absGlobals, absHeap) = absSt
     val State(_, context, _, globals, heap, _) = st
     val locals = context.locals
@@ -115,19 +115,15 @@ class CheckWithInterp(
       }
     }
 
-    val localCheck = locals.forall {
-      case (x, v) => (
-        checkValue(absLocals.getOrElse(x, AbsValue.Bot), v) ||
-        { println(s"local variable $x is not sound."); false }
-      )
-    }
+    val localCheck = (locals.keySet ++ absLocals.keySet).forall(x => (
+      checkValue(absSt(x, np), st(x)) ||
+      { println(s"local variable $x is not sound."); false }
+    ))
 
-    val globalCheck = absGlobals.forall {
-      case (x, av) => (
-        checkValue(av, globals.getOrElse(x, Absent)) ||
-        { println(s"global variable $x is not sound."); false }
-      )
-    }
+    val globalCheck = absGlobals.keySet.forall(x => (
+      checkValue(absSt(x, np), st(x)) ||
+      { println(s"global variable $x is not sound."); false }
+    ))
 
     reachable && localCheck && globalCheck
   }

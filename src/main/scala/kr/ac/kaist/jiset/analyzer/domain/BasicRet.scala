@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
@@ -44,5 +45,11 @@ object BasicRet extends Domain {
       this.value ⊔ that.value,
       this.state ⊔ that.state,
     )
+
+    // conversion to string
+    def toString(detail: Boolean): String = this.toString() + {
+      if (detail) LINE_SEP + "heap: " + state.heap.toString
+      else ""
+    }
   }
 }

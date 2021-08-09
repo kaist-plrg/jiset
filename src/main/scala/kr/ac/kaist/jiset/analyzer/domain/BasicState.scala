@@ -32,8 +32,6 @@ object BasicState extends Domain {
         .sortBy(_._1.toString)
         .foreach { case (k, v) => app :> s"$k -> " >> v >> LINE_SEP }
     }
-    app >> LINE_SEP
-    app >> "heap: " >> elem.heap
   }
 
   // constructors
@@ -226,6 +224,12 @@ object BasicState extends Domain {
     // define local variables
     def defineLocal(pairs: (Id, AbsValue)*): Elem =
       bottomCheck(pairs.unzip._2) { copy(locals = locals ++ pairs) }
+
+    // conversion to string
+    def toString(detail: Boolean): String = this.toString() + {
+      if (detail) LINE_SEP + "heap: " + heap.toString
+      else ""
+    }
 
     // check bottom elements in abstract semantics
     private def bottomCheck(vs: Domain#Elem*)(f: => Elem): Elem =

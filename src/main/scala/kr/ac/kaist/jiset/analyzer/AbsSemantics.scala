@@ -141,8 +141,8 @@ case class AbsSemantics(
     val cpStr = cp.toString(detail = detail)
     val k = setColor(color)(s"$func:$cpStr")
     val v = cp match {
-      case (np: NodePoint[_]) => this(np).toString
-      case (rp: ReturnPoint) => this(rp).toString
+      case (np: NodePoint[_]) => this(np).toString(detail = detail)
+      case (rp: ReturnPoint) => this(rp).toString(detail = detail)
     }
     s"$k -> $v"
   }

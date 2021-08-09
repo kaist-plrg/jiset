@@ -41,7 +41,8 @@ case class REPL(sem: AbsSemantics) {
   // show current status
   def showStatus(cp: Option[ControlPoint]): Unit = cp.map(showStatus)
   def showStatus(cp: ControlPoint): Unit = println(s"[$iter] ${cpInfo(cp)}")
-  def cpInfo(cp: ControlPoint): String = sem.getString(cp, CYAN, false)
+  def cpInfo(cp: ControlPoint, detail: Boolean = false): String =
+    sem.getString(cp, CYAN, detail)
 
   // handle when the static analysis is finished
   def finished: Unit = {
@@ -76,9 +77,11 @@ case class REPL(sem: AbsSemantics) {
     this(Some(cp))
     transfer(cp)
   } catch {
-    case e: JISETError => throw e
+    case e: JISETError =>
+      printlnColor(RED)(s"* expected error (# iter: $iter)")
+      throw e
     case e: Throwable =>
-      printlnColor(RED)("* unexpectedly terminated during REPL.")
+      printlnColor(RED)(s"* unexpectedly terminated (# iter: $iter).")
       dumpFunc(cp.func, pdf = true)
       showStatus(cp)
       throw e
