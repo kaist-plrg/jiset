@@ -307,15 +307,16 @@ object BasicObj extends Domain {
     }
 
     // check contains
-    def contains(value: AbsValue): AbsBool = {
-      (this, value.getSingle) match {
-        case (Bot, _) | (_, FlatBot) => AbsBool.Bot
-        case (ListElem(values), FlatElem(_)) if values contains value => AT
-        case (_: ListElem | _: MergedListElem, _) =>
-          if ((mergedValue ⊓ value).isBottom) AF
-          else AB
-        case _ => AbsBool.Bot
-      }
+    def contains(value: AbsValue): AbsBool = (this, value.getSingle) match {
+      case (Bot, _) | (_, FlatBot) => AbsBool.Bot
+      case (ListElem(values), FlatElem(_)) =>
+        if (values contains value) AT
+        else if (values.forall(v => (v ⊓ value).isBottom)) AF
+        else AB
+      case (MergedListElem(mergedValue), _) =>
+        if ((mergedValue ⊓ value).isBottom) AF
+        else AB
+      case _ => AbsBool.Bot
     }
   }
 }

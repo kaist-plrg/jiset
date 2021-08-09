@@ -231,6 +231,7 @@ case class AbsTransfer(sem: AbsSemantics) {
                   pure(v)
               }
             }
+            case (FlatBot, _) | (_, FlatBot) => pure(AbsValue.Bot)
             case _ => error("impossible to handle generic access of ASTs")
           }
           otherV <- get(_(base, p))
@@ -552,6 +553,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       "GetArgument" -> {
         case List(v) => id(_.pop(v.loc, AbsValue(0)))
       },
+      // TODO fix bug
       "IsDuplicate" -> {
         case List(v) => for {
           st <- get
