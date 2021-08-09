@@ -20,7 +20,7 @@ def [SYNTAX] AssignmentElement[0,1].KeyedDestructuringAssignmentEvaluation[R]<(D
     }
   } else 4:let rhsValue = v
   11:if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) 11:{
-    12:let assignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
+    12:let assignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern")
     13:access __x7__ = (assignmentPattern "DestructuringAssignmentEvaluation" rhsValue)
     13:return __x7__
   } else 11:{}

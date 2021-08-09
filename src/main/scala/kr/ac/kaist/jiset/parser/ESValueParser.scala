@@ -14,7 +14,7 @@ object ESValueParser extends RegexParsers with UnicodeRegex {
   // parsing
   def parseIdentifier(str: String): String = get("SV.IdentifierName", SV.IdentifierName, str)
   def parseString(str: String): String = get("SV.StringLiteral", SV.StringLiteral, str)
-  def parseNumber(str: String): Value = get("NumericValue.NumericLiteral", NumericValue.NumericLiteral, str)
+  def parseNumber(str: String): SimpleValue = get("NumericValue.NumericLiteral", NumericValue.NumericLiteral, str)
   def parseTVNoSubstitutionTemplate(str: String): String = get("TV.NoSubstitutionTemplate", TV.NoSubstitutionTemplate, str)
   def parseTRVNoSubstitutionTemplate(str: String): String = getOrElse("TRV.NoSubstitutionTemplate", TRV.NoSubstitutionTemplate, str, "")
   def parseTVTemplateHead(str: String): String = get("TV.TemplateHead", TV.TemplateHead, str)
@@ -28,7 +28,7 @@ object ESValueParser extends RegexParsers with UnicodeRegex {
     case Success(n, _) => n.toDouble
     case _ => Double.NaN
   }
-  def str2bigint(str: String): Value = parseAll(BigIntMV.StringNumericLiteralForBigInt, str) match {
+  def str2bigint(str: String): SimpleValue = parseAll(BigIntMV.StringNumericLiteralForBigInt, str) match {
     case Success(b, _) => BigINum(b)
     case _ => Num(Double.NaN)
   }
@@ -434,7 +434,7 @@ object ESValueParser extends RegexParsers with UnicodeRegex {
 
   // types
   type S = Parser[String]
-  type V = Parser[Value]
+  type V = Parser[SimpleValue]
 
   // predefined parsers
   object Predef {

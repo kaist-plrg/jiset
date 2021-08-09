@@ -147,7 +147,10 @@ class Stringifier(
         app >> "(get-elems " >> base >> " " >> name >> ")"
       case EGetSyntax(base) => app >> "(get-syntax " >> base >> ")"
       case EParseSyntax(code, rule, parserParams) =>
-        app >> "(parse-syntax " >> code >> " " >> rule >> " " >> parserParams >> ")"
+        implicit val b = ListApp[Boolean](sep = " ")
+        app >> "(parse-syntax " >> code >> " " >> rule
+        if (!parserParams.isEmpty) app >> " " >> parserParams
+        app >> ")"
       case EConvert(expr, cop, list) =>
         implicit val l = ListApp[Expr](sep = " ")
         app >> "(convert " >> expr >> " " >> cop

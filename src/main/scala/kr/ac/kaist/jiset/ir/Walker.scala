@@ -98,7 +98,7 @@ trait Walker {
     case EGetElems(base, name) => EGetElems(walk(base), name)
     case EGetSyntax(base) => EGetSyntax(walk(base))
     case EParseSyntax(code, rule, parserParams) =>
-      EParseSyntax(walk(code), walk(rule), walk(parserParams))
+      EParseSyntax(walk(code), walk(rule), parserParams)
     case EConvert(expr, cop, list) =>
       EConvert(walk(expr), walk(cop), walkList[Expr](list, walk))
     case EContains(list, elem) => EContains(walk(list), walk(elem))

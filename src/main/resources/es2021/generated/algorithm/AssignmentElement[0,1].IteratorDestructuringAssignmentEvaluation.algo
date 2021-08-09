@@ -38,7 +38,7 @@ def [SYNTAX] AssignmentElement[0,1].IteratorDestructuringAssignmentEvaluation[R]
     }
   } else 13:let v = value
   20:if (|| (is-instance-of DestructuringAssignmentTarget ObjectLiteral) (is-instance-of DestructuringAssignmentTarget ArrayLiteral)) 20:{
-    21:let nestedAssignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
+    21:let nestedAssignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern")
     22:access __x11__ = (nestedAssignmentPattern "DestructuringAssignmentEvaluation" v)
     22:return __x11__
   } else 20:{}

@@ -254,7 +254,21 @@ object BasicObj extends Domain {
       modifyList(value +: _, _ ⊔ value, weak)
 
     // pops
-    def pop(idx: AbsValue, weak: Boolean): (AbsValue, Elem) = ???
+    def pop(idx: AbsValue, weak: Boolean): (AbsValue, Elem) = {
+      idx.int.getSingle match {
+        case FlatElem(INum(long)) => {
+          val k = long.toInt
+          var v: AbsValue = AbsValue.Bot
+          val newObj = modifyList(
+            vs => { v = vs(k); vs.slice(0, k) ++ vs.slice(k + 1, vs.length) },
+            mv => { v = mv; mv },
+            weak
+          )
+          (v, newObj)
+        }
+        case _ => (mergedValue, MergedListElem(mergedValue))
+      }
+    }
 
     // helper for map structures
     type ListUpdater = Vector[AbsValue] => Vector[AbsValue]

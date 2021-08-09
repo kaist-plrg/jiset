@@ -2,7 +2,7 @@ def [SYNTAX] Identifier[0,0].EarlyErrors[S]<(IdentifierName),true>() = 0:{
   0:??? "It is a Syntax Error if this phrase is contained in strict mode code and the StringValue of nt:{IdentifierName} is : value:{\"implements\"} , value:{\"interface\"} , value:{\"let\"} , value:{\"package\"} , value:{\"private\"} , value:{\"protected\"} , value:{\"public\"} , value:{\"static\"} , or value:{\"yield\"} ."
   1:let __x0__ = true
   1:let __x1__ = false
-  1:if (= absent (parse-syntax this "Module" (new []))) 1:__x1__ = true else 1:{}
+  1:if (= absent (parse-syntax this "Module")) 1:__x1__ = true else 1:{}
   1:__x0__ = __x1__
   1:if __x0__ 1:{
     1:access __x2__ = (IdentifierName "StringValue")

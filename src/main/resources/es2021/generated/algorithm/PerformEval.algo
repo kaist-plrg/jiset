@@ -17,7 +17,7 @@ def PerformEval(x, callerRealm, strictCaller, direct) = {
       13:if (= F.ConstructorKind ~derived~) inDerivedConstructor = true else 25:{}
     } else 25:{}
   } else 25:{}
-  14:let script = (parse-syntax x "Script" (new []))
+  14:let script = (parse-syntax x "Script")
   14:if (= script absent) throw SyntaxError else {}
   14:access check = (script "Contains" "ScriptBody")
   14:if (! check) return undefined else {}

@@ -151,8 +151,8 @@ class Diff {
       case (EGetElems(lb, ln), EGetElems(rb, rn)) =>
         compare(lb, rb) && ln == rn
       case (EGetSyntax(lb), EGetSyntax(rb)) => compare(lb, rb)
-      case (EParseSyntax(lc, lr, lf), EParseSyntax(rc, rr, rf)) =>
-        compare(lc, rc) && compare(lr, rr) && compare(lf, rf)
+      case (EParseSyntax(lc, lr, lps), EParseSyntax(rc, rr, rps)) =>
+        compare(lc, rc) && compare(lr, rr) && lps == rps
       case (EConvert(ls, lt, lf), EConvert(rs, rt, rf)) =>
         compare(ls, rs) && lt == rt && compare(lf, rf)
       case (EContains(ll, le), EContains(rl, re)) =>

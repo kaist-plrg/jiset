@@ -29,7 +29,7 @@ def [SYNTAX] AssignmentRestElement[0,0].IteratorDestructuringAssignmentEvaluatio
     17:app __x8__ = (PutValue lref A)
     17:return [? __x8__]
   } else 16:{}
-  18:let nestedAssignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern" (new []))
+  18:let nestedAssignmentPattern = (parse-syntax DestructuringAssignmentTarget "AssignmentPattern")
   19:access __x9__ = (nestedAssignmentPattern "DestructuringAssignmentEvaluation" A)
   19:return __x9__
 }

@@ -13,7 +13,6 @@ class CheckWithInterp(
 ) {
   // run and check the soundness
   def runAndCheck: Unit = {
-    println(s"# iter: ${sem.getIter}")
     // run concrete execution
     cpOpt match {
       case Some(ReturnPoint(_, _)) =>
@@ -69,7 +68,7 @@ class CheckWithInterp(
       }
     }
     def checkSingleValue(avalue: AValue, value: Value): Boolean = (value match {
-      case _: Const | _: Func | _: ASTVal | _: SimpleValue =>
+      case _: AComp | _: Const | _: Func | _: ASTVal | _: SimpleValue =>
         avalue == AValue.from(value)
       case addr: Addr => avalue match {
         case loc: Loc =>

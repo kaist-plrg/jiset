@@ -60,8 +60,7 @@ trait Parsers extends BasicParsers {
     "-Infinity" ^^ { case s => ENum(Double.NegativeInfinity) } |
     "NaN" ^^ { case s => ENum(Double.NaN) } |
     string ^^ { EStr(_) } |
-    "true" ^^^ EBool(true) |
-    "false" ^^^ EBool(false) |
+    bool ^^ { EBool(_) } |
     "undefined" ^^^ EUndef |
     "null" ^^^ ENull |
     "absent" ^^^ EAbsent |
@@ -85,10 +84,7 @@ trait Parsers extends BasicParsers {
       case e ~ x => EGetElems(e, x)
     } |
     "(" ~> "get-syntax" ~> expr <~ ")" ^^ { case e => EGetSyntax(e) } |
-    "(" ~> "parse-syntax" ~> expr ~ expr <~ ")" ^^ {
-      case e ~ r => EParseSyntax(e, r, EAbsent)
-    } |
-    "(" ~> "parse-syntax" ~> expr ~ expr ~ expr <~ ")" ^^ {
+    "(" ~> "parse-syntax" ~> expr ~ expr ~ rep(bool) <~ ")" ^^ {
       case e ~ r ~ ps => EParseSyntax(e, r, ps)
     } |
     "(" ~> "convert" ~> expr ~ cop ~ rep(expr) <~ ")" ^^ { case e ~ r ~ l => EConvert(e, r, l) } |

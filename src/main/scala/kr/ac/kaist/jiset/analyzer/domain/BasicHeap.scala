@@ -39,7 +39,6 @@ object BasicHeap extends Domain {
   ))
 
   // elements
-  // TODO merged: Loc -> DynamicLoc
   case class Elem(
     map: Map[Loc, AbsObj],
     merged: Set[Loc]

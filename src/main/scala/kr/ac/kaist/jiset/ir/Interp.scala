@@ -235,22 +235,8 @@ class Interp(
         var escapedBase = base.escaped
         val prop = interp(expr).escaped
         val vOpt = (escapedBase, prop) match {
-          case (ASTVal(Lexical(kind, str)), Str(name)) => Some((kind, name) match {
-            case ("(IdentifierName \\ (ReservedWord))" | "IdentifierName", "StringValue") => Str(str)
-            case ("NumericLiteral", "MV" | "NumericValue") => ESValueParser.parseNumber(str)
-            case ("StringLiteral", "SV" | "StringValue") => Str(ESValueParser.parseString(str))
-            case ("NoSubstitutionTemplate", "TV") => Str(ESValueParser.parseTVNoSubstitutionTemplate(str))
-            case ("TemplateHead", "TV") => Str(ESValueParser.parseTVTemplateHead(str))
-            case ("TemplateMiddle", "TV") => Str(ESValueParser.parseTVTemplateMiddle(str))
-            case ("TemplateTail", "TV") => Str(ESValueParser.parseTVTemplateTail(str))
-            case ("NoSubstitutionTemplate", "TRV") => Str(ESValueParser.parseTRVNoSubstitutionTemplate(str))
-            case ("TemplateHead", "TRV") => Str(ESValueParser.parseTRVTemplateHead(str))
-            case ("TemplateMiddle", "TRV") => Str(ESValueParser.parseTRVTemplateMiddle(str))
-            case ("TemplateTail", "TRV") => Str(ESValueParser.parseTRVTemplateTail(str))
-            case (_, "Contains") => Bool(false)
-            case ("RegularExpressionLiteral", name) => throw NotSupported(s"RegularExpressionLiteral.$name")
-            case _ => error(s"invalid Lexical access: $kind.$name")
-          })
+          case (ASTVal(Lexical(kind, str)), Str(name)) =>
+            Some(getLexicalValue(kind, name, str))
           case (ASTVal(ast), Str("parent")) => Some(ast.parent.map(ASTVal).getOrElse(Absent))
           case (ASTVal(ast), Str("children")) => Some(st.allocList(ast.children))
           case (ASTVal(ast), Str("kind")) => Some(Str(ast.kind))
@@ -526,18 +512,7 @@ class Interp(
       }
       v match {
         case ASTVal(ast) => ASTVal(ESParser.parse(p(ast.parserParams), ast.toString).get.checkSupported)
-        case Str(str) =>
-          val ps = interp(parserParams).escaped match {
-            case addr: Addr => st(addr) match {
-              case IRList(vs) => vs.toList.map(_ match {
-                case Bool(b) => b
-                case v => error(s"non-boolean parser parameter: $v")
-              })
-              case obj => error(s"not a list: $obj")
-            }
-            case v => error(s"not an address: $v")
-          }
-          ASTVal(ESParser.parse(p(ps), str).get.checkSupported)
+        case Str(str) => ASTVal(ESParser.parse(p(parserParams), str).get.checkSupported)
         case v => error(s"not an AST value or a string: $v")
       }
     }
@@ -899,5 +874,27 @@ object Interp {
       if (r.toInt < 0) Num(math.pow(l.toDouble, r)) else BigINum(l.pow(r.toInt))
 
     case (_, lval, rval) => error(s"wrong type: $lval $bop $rval")
+  }
+
+  // get values for lexicals
+  def getLexicalValue(
+    kind: String,
+    name: String,
+    str: String
+  ): SimpleValue = (kind, name) match {
+    case ("(IdentifierName \\ (ReservedWord))" | "IdentifierName", "StringValue") => Str(str)
+    case ("NumericLiteral", "MV" | "NumericValue") => ESValueParser.parseNumber(str)
+    case ("StringLiteral", "SV" | "StringValue") => Str(ESValueParser.parseString(str))
+    case ("NoSubstitutionTemplate", "TV") => Str(ESValueParser.parseTVNoSubstitutionTemplate(str))
+    case ("TemplateHead", "TV") => Str(ESValueParser.parseTVTemplateHead(str))
+    case ("TemplateMiddle", "TV") => Str(ESValueParser.parseTVTemplateMiddle(str))
+    case ("TemplateTail", "TV") => Str(ESValueParser.parseTVTemplateTail(str))
+    case ("NoSubstitutionTemplate", "TRV") => Str(ESValueParser.parseTRVNoSubstitutionTemplate(str))
+    case ("TemplateHead", "TRV") => Str(ESValueParser.parseTRVTemplateHead(str))
+    case ("TemplateMiddle", "TRV") => Str(ESValueParser.parseTRVTemplateMiddle(str))
+    case ("TemplateTail", "TRV") => Str(ESValueParser.parseTRVTemplateTail(str))
+    case (_, "Contains") => Bool(false)
+    case ("RegularExpressionLiteral", name) => throw NotSupported(s"RegularExpressionLiteral.$name")
+    case _ => error(s"invalid Lexical access: $kind.$name")
   }
 }

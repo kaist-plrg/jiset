@@ -187,19 +187,28 @@ object BasicValue extends Domain {
       case _ => false
     }
 
-    // check abrupt completion
+    // check completion
     def isCompletion: AbsBool = {
       var b: AbsBool = AbsBool.Bot
-      if (!comp.isBottom) b ⊔= AF
-      if (!pure.isBottom) b ⊔= AT
+      if (!comp.isBottom) b ⊔= AT
+      if (!pure.isBottom) b ⊔= AF
+      b
+    }
+
+    // check abrupt completion
+    def isAbruptCompletion: AbsBool = {
+      var b: AbsBool = AbsBool.Bot
+      if (!comp.removeNormal.isBottom) b ⊔= AT
+      if (!comp.normal.isBottom || !pure.isBottom) b ⊔= AF
       b
     }
 
     // wrap completion
-    def wrapCompletion: AbsComp = wrapCompletion("normal")
-    def wrapCompletion(ty: String): AbsComp = {
-      comp ⊔ AbsComp("normal" -> AbsComp.Result(pure, AbsValue(CONST_EMPTY)))
-    }
+    def wrapCompletion: Elem = wrapCompletion("normal")
+    def wrapCompletion(ty: String): Elem = AbsValue(comp = {
+      if (pure.isBottom) comp
+      else comp ⊔ AbsComp(ty -> AbsComp.Result(pure, AbsValue(CONST_EMPTY)))
+    })
 
     // check absents
     def isAbsent: AbsBool = {

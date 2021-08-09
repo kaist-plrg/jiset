@@ -4,7 +4,7 @@ def [SYNTAX] AsyncArrowFunction[1,0].EarlyErrors[S]<(CoverCallExpressionAndAsync
   1:access __x1__ = (CoverCallExpressionAndAsyncArrowHead "Contains" "AwaitExpression")
   1:if (= __x1__ true) 1:throw SyntaxError else 1:{}
   2:let __x2__ = false
-  2:if (= absent (parse-syntax CoverCallExpressionAndAsyncArrowHead "AsyncArrowHead" (new []))) 2:__x2__ = true else 2:{}
+  2:if (= absent (parse-syntax CoverCallExpressionAndAsyncArrowHead "AsyncArrowHead")) 2:__x2__ = true else 2:{}
   2:if __x2__ 2:throw SyntaxError else 2:{}
   3:access __x3__ = (CoverCallExpressionAndAsyncArrowHead "BoundNames")
   3:access __x4__ = (AsyncConciseBody "LexicallyDeclaredNames")

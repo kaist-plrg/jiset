@@ -41,6 +41,9 @@ trait BasicParsers extends JavaTokenParsers with RegexParsers {
   // integer
   lazy val int = "\\d+".r ^^ { _.toInt }
 
+  // boolean
+  lazy val bool = "true" ^^^ true | "false" ^^^ false
+
   // integers
   val integer = "(0|-?[1-9]\\d*)".r
 }

@@ -607,7 +607,7 @@ class Compiler private (
         case x => {
           val result = getTempId
           val ifInst = IIf(
-            EBOp(OEq, EAbsent, EParseSyntax(ERef(toRef("this")), EStr(x), EList(Nil))),
+            EBOp(OEq, EAbsent, EParseSyntax(ERef(toRef("this")), EStr(x), Nil)),
             IAssign(toRef(result), EBool(true)),
             emptyInst
           )
@@ -625,7 +625,7 @@ class Compiler private (
     case (i ~ r) ~ x => {
       val result = getTempId
       val ifInst = IIf(
-        EBOp(OEq, EAbsent, EParseSyntax(ERef(r), EStr(x), EList(Nil))),
+        EBOp(OEq, EAbsent, EParseSyntax(ERef(r), EStr(x), Nil)),
         IAssign(toRef(result), EBool(true)),
         emptyInst
       )
@@ -644,7 +644,7 @@ class Compiler private (
       case (i ~ r) ~ x => {
         val result = getTempId
         val ifInst = IIf(
-          EBOp(OEq, EAbsent, EParseSyntax(ERef(r), EStr(x), EList(Nil))),
+          EBOp(OEq, EAbsent, EParseSyntax(ERef(r), EStr(x), Nil)),
           IAssign(toRef(result), EBool(true)),
           emptyInst
         )
@@ -891,7 +891,7 @@ class Compiler private (
   // ex. Let _assignmentPattern_ be the |AssignmentPattern| that is covered by |LeftHandSideExpression|
   // covered-by expressions
   lazy val coveredByExpr: P[I[Expr]] = ("the" ~> nt <~ "that is covered by") ~ ref ^^ {
-    case x ~ (i ~ r) => pair(i, EParseSyntax(ERef(r), EStr(x), EList(Nil)))
+    case x ~ (i ~ r) => pair(i, EParseSyntax(ERef(r), EStr(x), Nil))
   }
 
   // string-concatenation expressions

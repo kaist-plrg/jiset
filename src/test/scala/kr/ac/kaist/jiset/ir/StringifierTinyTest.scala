@@ -94,8 +94,10 @@ class StringifierTinyTest extends IRTest {
       EGetElems(EBool(false), "getelems") ->
         "(get-elems false getelems)",
       EGetSyntax(EAbsent) -> "(get-syntax absent)",
-      EParseSyntax(EStr("code"), EStr("rule"), EStr("flag"))
-        -> "(parse-syntax \"code\" \"rule\" \"flag\")",
+      EParseSyntax(EStr("code"), EStr("rule"), Nil)
+        -> "(parse-syntax \"code\" \"rule\")",
+      EParseSyntax(EStr("code"), EStr("rule"), List(true, false))
+        -> "(parse-syntax \"code\" \"rule\" true false)",
       EConvert(ENull, CNumToBigInt, Nil) ->
         "(convert null num2bigint)",
       EConvert(EStr("4"), CStrToNum, irList) ->

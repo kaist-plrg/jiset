@@ -4,7 +4,8 @@ import kr.ac.kaist.jiset.DEBUG
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
-import kr.ac.kaist.jiset.js._
+import kr.ac.kaist.jiset.js.{ Parser => ESParser, _ }
+import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec.algorithm._
 import scala.annotation.tailrec
@@ -35,7 +36,8 @@ case class AbsTransfer(sem: AbsSemantics) {
         val newSt = transfer(normal.inst)(st)
         sem += getNextNp(np, cfg.nextOf(normal)) -> newSt
       case (call: Call) =>
-        transfer(call, view)(st)
+        val newSt = transfer(call, view)(st)
+        sem += getNextNp(np, cfg.nextOf(call)) -> newSt
       case arrow @ Arrow(_, inst, fid) =>
         ???
       case branch @ Branch(_, inst) => (for {
@@ -45,7 +47,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       } yield {
         val (thenNode, elseNode) = cfg.branchOf(branch)
         if (b contains T) sem += getNextNp(np, thenNode) -> st
-        if (b contains F) sem += getNextNp(np, elseNode) -> st
+        if (b contains F) sem += getNextNp(np, elseNode, true) -> st
       })(st)
       case (cont: LoopCont) =>
         sem += getNextNp(np, cfg.nextOf(cont)) -> st
@@ -87,7 +89,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       val callerLocals = sem.callInfo.getOrElse(np, Map())
       val newSt = st
         .copy(locals = callerLocals)
-        .defineLocal(call.inst.id -> AbsValue(comp = value.wrapCompletion))
+        .defineLocal(call.inst.id -> value.wrapCompletion)
       // TODO more precise heap merge by keeping touched locations
       sem += nextNP -> newSt
     }
@@ -133,7 +135,17 @@ case class AbsTransfer(sem: AbsSemantics) {
         _ <- doReturn(v)
         _ <- put(AbsState.Bot)
       } yield ()
-      case thr @ IThrow(name) => ???
+      case thr @ IThrow(name) => {
+        val loc: AllocSite = AllocSite(thr.asite, cp.view)
+        for {
+          _ <- modify(_.allocMap(Ty("OrdinaryObject"), List(
+            AbsValue(Str("Prototype")) -> AbsValue(NamedLoc(s"GLOBAL.$name.prototype")),
+            AbsValue(Str("ErrorData")) -> AbsValue(Undef),
+          ))(loc))
+          _ <- doReturn(AbsValue(loc).wrapCompletion("throw"))
+          _ <- put(AbsState.Bot)
+        } yield ()
+      }
       case IAssert(expr) => for {
         v <- transfer(expr)
       } yield ()
@@ -156,6 +168,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         value <- transfer(fexpr)
         vs <- join(args.map(transfer))
         st <- get
+        _ <- put(AbsState.Bot)
       } yield {
         // algorithms
         for (AFunc(algo) <- value.func) {
@@ -171,10 +184,53 @@ case class AbsTransfer(sem: AbsSemantics) {
 
         // continuations
         for (cont <- value.cont) ???
-
-        AbsState.Bot
       }
-      case IAccess(id, bexpr, expr, args) => ???
+      case access @ IAccess(id, bexpr, expr, args) => {
+        val loc: AllocSite = AllocSite(access.asite, cp.view)
+        for {
+          base <- transfer(bexpr)
+          b = base.escaped
+          prop <- transfer(expr)
+          p = prop.escaped
+          astV <- (b.ast.getSingle, p.str.getSingle) match {
+            case (FlatElem(AAst(ast)), FlatElem(Str(name))) => (ast, name) match {
+              case (Lexical(kind, str), name) =>
+                pure(AbsValue(Interp.getLexicalValue(kind, name, str)))
+              case (ast, "parent") =>
+                pure(ast.parent.map(AbsValue(_)).getOrElse(AbsValue.absent))
+              case (ast, "children") => for {
+                _ <- modify(_.allocList(ast.children.map(AbsValue(_)))(loc))
+              } yield AbsValue(loc)
+              case (ast, "kind") =>
+                pure(AbsValue(ast.kind))
+              case _ => ast.semantics(name) match {
+                case Some((algo, asts)) => for {
+                  as <- join(args.map(transfer))
+                  head = algo.head
+                  body = algo.body
+                  vs = asts.map(AbsValue(_)) ++ as
+                  locals = getLocals(head.params, vs)
+                  callerLocals <- get(_.locals)
+                  newSt <- get(_.copy(locals = locals))
+                  _ = sem.doCall(call, view, algo.func, callerLocals, newSt)
+                } yield AbsValue.Bot
+                case None =>
+                  val v = AbsValue(ast.subs(name).getOrElse {
+                    error(s"unexpected semantics: ${ast.name}.$name")
+                  })
+                  pure(v)
+              }
+            }
+            case _ => error("impossible to handle generic access of ASTs")
+          }
+          otherV <- get(_(base, p))
+          value = astV ⊔ otherV
+          _ <- {
+            if (!value.isBottom) modify(_.defineLocal(id -> value))
+            else put(AbsState.Bot)
+          }
+        } yield ()
+      }
     }
 
     // transfer function for expressions
@@ -271,13 +327,45 @@ case class AbsTransfer(sem: AbsSemantics) {
       case EIsCompletion(expr) => for {
         v <- transfer(expr)
       } yield AbsValue(bool = v.isCompletion)
-      case EIsInstanceOf(base, name) => ???
+      case EIsInstanceOf(base, name) => for {
+        bv <- transfer(base)
+        st <- get
+      } yield AbsValue(bool = AbsBool((for {
+        Bool(b) <- bv.isAbruptCompletion.toSet
+        resB <- if (b) Set(false) else {
+          var set = Set[Boolean]()
+          val escapedV = bv.escaped
+          for (AAst(ast) <- escapedV.ast.toList) {
+            set += ast.name == name || ast.getKinds.contains(name)
+          }
+          for (Str(str) <- escapedV.str.toList) set += str == name
+          for (loc <- escapedV.loc.toList) set += st(loc).getTy < Ty(name)
+          set
+        }
+      } yield resB).map(Bool(_))))
       case EGetElems(base, name) => ???
       case EGetSyntax(base) => for {
         v <- transfer(base)
         s = AbsStr(v.escaped.ast.toList.map(x => Str(x.ast.toString)))
       } yield AbsValue(str = s)
-      case EParseSyntax(code, rule, parserParams) => ???
+      case EParseSyntax(code, rule, parserParams) => for {
+        value <- transfer(code)
+        v = value.escaped
+        ruleV <- transfer(rule)
+        p = ruleV.escaped.str.getSingle match {
+          case FlatElem(Str(str)) =>
+            ESParser.rules.getOrElse(str, error(s"not exist parse rule: $rule"))
+          case _ => ???
+        }
+        st <- get
+      } yield AbsValue(v.getSingle match {
+        case FlatElem(AAst(ast)) =>
+          ESParser.parse(p(ast.parserParams), ast.toString).get.checkSupported
+        case FlatElem(ASimple(Str(str))) => {
+          ESParser.parse(p(parserParams), str).get.checkSupported
+        }
+        case v => error(s"not an AST value or a string: $v")
+      })
       case EConvert(source, target, flags) => ???
       case EContains(list, elem) => for {
         l <- transfer(list)

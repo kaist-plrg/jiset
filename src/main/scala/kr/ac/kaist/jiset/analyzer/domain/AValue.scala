@@ -40,6 +40,11 @@ object AValue {
 
   // from original concrete values
   def from(value: Value): AValue = value match {
+    case CompValue(Const(name), value, targetOpt) => AComp(
+      AConst(name),
+      from(value),
+      targetOpt.fold[AValue](AConst("empty"))(str => ASimple(Str(str)))
+    )
     case Const(name) => AConst(name)
     case addr: Addr => Loc.from(addr)
     case Func(algo) => AFunc(algo)

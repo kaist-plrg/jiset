@@ -6,7 +6,7 @@ def ForInOfBodyEvaluation(lhs, stmt, iteratorRecord, iterationKind, lhsKind, lab
   3:let destructuring = __x0__
   4:if (&& (= destructuring true) (= lhsKind ~assignment~)) 4:{
     5:assert (is-instance-of lhs LeftHandSideExpression)
-    6:let assignmentPattern = (parse-syntax lhs "AssignmentPattern" (new []))
+    6:let assignmentPattern = (parse-syntax lhs "AssignmentPattern")
   } else 4:{}
   7:while true 7:{
     8:app __x1__ = (Call iteratorRecord.NextMethod iteratorRecord.Iterator)

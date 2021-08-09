@@ -21,7 +21,7 @@
   },
   {
     "tokens": "Set id:{constructor} to ParseText ( id:{constructorText} , | MethodDefinition [ ~ Yield , ~ Await ] | ) .",
-    "inst": "constructor = (parse-syntax constructorText \"MethodDefinition\" (new [false, false]))"
+    "inst": "constructor = (parse-syntax constructorText \"MethodDefinition\" false false)"
   },
   {
     "tokens": "If id:{declarationNames} does not include the element value:{\"*default*\"} , append value:{\"*default*\"} to id:{declarationNames} .",
@@ -45,15 +45,15 @@
   },
   {
     "tokens": "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ ~ U , ~ N ] | ) .",
-    "inst": "let parseResult = (parse-syntax patternText \"Pattern\" (new [false, false]))"
+    "inst": "let parseResult = (parse-syntax patternText \"Pattern\" false false)"
   },
   {
     "tokens": "Let id:{parseResult} be ParseText ( id:{patternText} , | Pattern [ + U , + N ] | ) .",
-    "inst": "let parseResult = (parse-syntax patternText \"Pattern\" (new [true, true]))"
+    "inst": "let parseResult = (parse-syntax patternText \"Pattern\" true true)"
   },
   {
     "tokens": "If id:{parseResult} is a Parse Node and id:{parseResult} contains a nt:{GroupName} , then in:{} out:{}",
-    "inst": "parseResult = (parse-syntax patternText \"Pattern\" (new [false, true]))"
+    "inst": "parseResult = (parse-syntax patternText \"Pattern\" false true)"
   },
   {
     "tokens": "If id:{O} is not value:{undefined} , create an own data property named id:{P} of object id:{O} whose [ [ Value ] ] , [ [ Writable ] ] , [ [ Enumerable ] ] , and [ [ Configurable ] ] attribute values are described by id:{Desc} . If the value of an attribute field of id:{Desc} is absent , the attribute of the newly created property is set to its < emu - xref href = \" # table - default - attribute - values \" > default value < / emu - xref > .",

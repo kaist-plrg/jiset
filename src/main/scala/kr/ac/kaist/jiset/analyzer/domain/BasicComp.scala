@@ -84,7 +84,7 @@ object BasicComp extends Domain {
     // normal completions
     def normal: Result = resultOf("normal")
 
-    // remove absent values
+    // remove normal completions
     def removeNormal: Elem = copy(map = map - "normal")
 
     // result of each completion type
