@@ -15,6 +15,18 @@ object BasicObj extends Domain {
   case class MapElem(ty: Ty, map: Map[AValue, AbsValue], props: Vector[AValue]) extends Elem {
     def mergedProp: AbsValue =
       map.keySet.map(AbsValue(_)).foldLeft(AbsValue.Bot)(_ ⊔ _)
+    def sortedProps(intSorted: Boolean): Vector[AValue] = if (intSorted) {
+      (for {
+        ASimple(Str(s)) <- props
+        d = ESValueParser.str2num(s)
+        if toStringHelper(d) == s
+        i = d.toInt
+        if d == i
+      } yield (s, i))
+        .sortBy(_._2)
+        .map { case (s: String, _) => ASimple(Str(s)) }
+    } else if (ty.name == "SubMap") props
+    else props.sortBy(_.toString)
   }
   case class MergedListElem(value: AbsValue) extends Elem
   case class ListElem(values: Vector[AbsValue]) extends Elem
@@ -261,16 +273,7 @@ object BasicObj extends Domain {
     // keys of map
     def keys(intSorted: Boolean): Elem = this match {
       case MergedMapElem(_, prop, _) => MergedListElem(prop)
-      case MapElem(_, _, props) if intSorted => ListElem((for {
-        ASimple(Str(s)) <- props
-        d = ESValueParser.str2num(s)
-        if toStringHelper(d) == s
-        i = d.toInt
-        if d == i
-      } yield (s, i))
-        .sortBy(_._2)
-        .map { case (s: String, _) => AbsValue(s) })
-      case MapElem(ty, map, props) => ListElem(props.map(AbsValue(_)))
+      case map: MapElem => ListElem(map.sortedProps(intSorted).map(AbsValue(_)))
       case _ => Bot
     }
 

@@ -61,23 +61,12 @@ case class Heap(
   def copyObj(addr: Addr): Addr = alloc(this(addr).copied)
 
   // keys of map
-  def keys(addr: Addr, intSorted: Boolean): Addr = alloc(IRList(this(addr) match {
-    case (m: IRMap) if !intSorted => m
-      .props
-      .toVector
-      .sortBy(_._2._2)
-      .map(_._1)
-    case (m: IRMap) if intSorted => (for {
-      (Str(s), _) <- m.props.toVector
-      d = ESValueParser.str2num(s)
-      if toStringHelper(d) == s
-      i = d.toInt
-      if d == i
-    } yield (s, i))
-      .sortBy(_._2)
-      .map { case (s, _) => Str(s) }
-    case v => error(s"not a map: $v")
-  }))
+  def keys(addr: Addr, intSorted: Boolean): Addr = {
+    alloc(IRList(this(addr) match {
+      case (m: IRMap) => m.keys(intSorted)
+      case obj => error(s"not a map: $obj")
+    }))
+  }
 
   // map allocations
   def allocMap(

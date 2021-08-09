@@ -14,6 +14,7 @@ import scala.annotation.tailrec
 case class AbsSemantics(
   var npMap: Map[NodePoint[Node], AbsState] = Map(),
   var rpMap: Map[ReturnPoint, AbsRet] = Map(),
+  var callInfo: Map[NodePoint[Call], Map[ir.Id, AbsValue]] = Map(),
   var retEdges: Map[ReturnPoint, Set[NodePoint[Call]]] = Map()
 ) {
   // CFG
@@ -96,8 +97,12 @@ case class AbsSemantics(
     call: Call,
     callerView: View,
     func: Function,
+    callerLocals: Map[ir.Id, AbsValue],
     st: AbsState
   ): Unit = {
+    val callerNp = NodePoint(call, callerView)
+    this.callInfo += callerNp -> callerLocals
+
     val calleeView = callerView.doCall(call)
     val params = func.params
     val np = NodePoint(func.entry, calleeView)

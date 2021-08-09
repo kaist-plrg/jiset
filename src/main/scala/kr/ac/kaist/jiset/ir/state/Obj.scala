@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.parser.ESValueParser
 import scala.collection.mutable.{ Map => MMap }
 
 // IR Objects
@@ -70,6 +71,25 @@ case class IRMap(
     val newProps = MMap[PureValue, (Value, Long)]()
     newProps ++= props
     IRMap(ty, newProps, size)
+  }
+
+  // keys of map
+  def keys(intSorted: Boolean): Vector[PureValue] = {
+    if (!intSorted) {
+      if (ty.name == "SubMap") props
+        .toVector
+        .sortBy(_._2._2)
+        .map(_._1)
+      else props.toVector.map(_._1).sortBy(_.toString)
+    } else (for {
+      (Str(s), _) <- props.toVector
+      d = ESValueParser.str2num(s)
+      if toStringHelper(d) == s
+      i = d.toInt
+      if d == i
+    } yield (s, i))
+      .sortBy(_._2)
+      .map { case (s, _) => Str(s) }
   }
 }
 object IRMap {

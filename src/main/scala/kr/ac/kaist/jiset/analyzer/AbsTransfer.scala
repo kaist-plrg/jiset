@@ -70,12 +70,12 @@ case class AbsTransfer(sem: AbsSemantics) {
 
   // transfer function for return points
   def apply(rp: ReturnPoint): Unit = {
-    var ret @ AbsRet(value, heap) = sem(rp)
+    var ret @ AbsRet(value, st) = sem(rp)
 
     // proper type handle
     Interp.setTypeMap.get(rp.func.name).map(ty => {
       value = AbsValue(loc = value.loc)
-      heap = AbsState(heap = heap).setType(value.loc, ty).heap
+      st = st.setType(value.loc, ty)
     })
 
     // debugging message
@@ -84,11 +84,11 @@ case class AbsTransfer(sem: AbsSemantics) {
     // return wrapped values
     for (np @ NodePoint(call, view) <- sem.getRetEdges(rp)) {
       val nextNP = NodePoint(cfg.nextOf(call), view)
-      val callerSt = sem(np)
-      // TODO more precise heap merge by keeping touched locations
-      val newSt = callerSt
-        .copy(heap = heap)
+      val callerLocals = sem.callInfo.getOrElse(np, Map())
+      val newSt = st
+        .copy(locals = callerLocals)
         .defineLocal(call.inst.id -> AbsValue(comp = value.wrapCompletion))
+      // TODO more precise heap merge by keeping touched locations
       sem += nextNP -> newSt
     }
   }
@@ -142,8 +142,8 @@ case class AbsTransfer(sem: AbsSemantics) {
 
     // return specific value
     def doReturn(v: AbsValue): Result[Unit] = for {
-      h <- get(_.heap)
-      ret = AbsRet(v, h)
+      st <- get
+      ret = AbsRet(v, st)
       _ = sem.doReturn(rp, ret)
     } yield ()
 
@@ -163,7 +163,7 @@ case class AbsTransfer(sem: AbsSemantics) {
           val body = algo.body
           val locals = getLocals(head.params, vs)
           val newSt = st.copy(locals = locals)
-          sem.doCall(call, view, algo.func, newSt)
+          sem.doCall(call, view, algo.func, st.locals, newSt)
         }
 
         // closures
