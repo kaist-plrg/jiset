@@ -64,15 +64,19 @@ object JvmUseful {
   // dump given data as JSON
   def dumpJson[T](
     data: T,
-    filename: String
-  )(implicit encoder: Encoder[T]): Unit =
-    dumpFile(data.asJson.spaces2, filename)
+    filename: String,
+    noSpace: Boolean = false
+  )(implicit encoder: Encoder[T]): Unit = {
+    val json = data.asJson
+    dumpFile(if (noSpace) json.noSpaces else json.spaces2, filename)
+  }
   def dumpJson[T](
     name: String,
     data: T,
-    filename: String
+    filename: String,
+    noSpace: Boolean
   )(implicit encoder: Encoder[T]): Unit = {
-    dumpJson(data, filename)
+    dumpJson(data, filename, noSpace)
     println(s"dumped $name to $filename in a JSON format.")
   }
 

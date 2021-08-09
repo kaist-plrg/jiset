@@ -84,7 +84,7 @@ case class PartialFunc(
   } yield linear -> dest).toMap
 
   // get nodes of partial function
-  lazy val nodes: Set[Node] = {
+  def nodes: Set[Node] = {
     // bfs traversal of function using shortcut
     var visited: Set[Node] = Set()
     val queue = Queue[Node](func.entry)
@@ -104,6 +104,23 @@ case class PartialFunc(
       }
     }
     visited
+  }
+
+  // get spec from partial function's node
+  def spec: Iterable[String] = func.algoOption match {
+    case None => Iterable[String]()
+    case Some(algo) =>
+      val code = algo.code
+      val lines = nodes.collect {
+        case Normal(_, inst) => inst.line
+        case Call(_, inst) => inst.line
+        case Arrow(_, inst, _) => inst.line
+        case branch: Branch => branch.inst.line
+      }.flatten
+      code.zipWithIndex.flatMap {
+        case (step, line) if lines contains line => Some(step)
+        case _ => None
+      }
   }
 
   // order between partial model

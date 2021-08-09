@@ -90,7 +90,7 @@ object IRLogger {
   def dumpPartialModel(dirname: String): Unit = {
     import jsonProtocol._
     val partialModel = CFGPartialModel(visitRecorder)
-    dumpJson(partialModel, s"$dirname/partial.json")
+    dumpJson(partialModel, s"$dirname/partial.json", true)
   }
 
   // dump to a directory
