@@ -45,7 +45,7 @@ type JSState = {
   end: number;
 };
 const initialState: JSState = {
-  code: "var x = 1 + 2;",
+  code: "var x = 1;\nvar y = 2;\nvar z = x + y;",
   start: -1,
   end: -1,
 };

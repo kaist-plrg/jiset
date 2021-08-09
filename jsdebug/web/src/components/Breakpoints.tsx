@@ -79,7 +79,7 @@ type BreakpointsState = { bpName: string };
 // delete all
 // disable all
 // sort
-type Hack = { [ key: string ]: any };
+// type Hack = { [ key: string ]: any };
 class Breakpoints extends React.Component<BreakpointsProps, BreakpointsState> {
   constructor ( props: BreakpointsProps ) {
     super( props );
