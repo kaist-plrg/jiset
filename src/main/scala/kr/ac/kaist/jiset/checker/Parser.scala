@@ -29,6 +29,8 @@ trait Parsers extends BasicParsers {
     lparser ~ ("->" ~> rparser) ^^ { case l ~ r => (l, r) }
 
   // types
+  lazy val astWord: Parser[String] =
+    word | "(" ~> word <~ (opt("\\" ~ astWord) ~ ")")
   implicit lazy val ty: Parser[Type] = cty | pty
   lazy val cty: Parser[CompType] = (
     "Normal(" ~> pty <~ ")" ^^ { NormalT(_) } |
@@ -38,7 +40,7 @@ trait Parsers extends BasicParsers {
     "{" ~> repsep(pairParser(word, aty), ",") <~ "}" ^^ {
       case ps => RecordT(ps.toMap)
     } |
-    "☊(" ~> word <~ ")" ^^ { AstT(_) } |
+    "☊(" ~> astWord <~ ")" ^^ { AstT(_) } |
     "~" ~> "[^~]+".r <~ "~" ^^ { ConstT(_) } |
     "λ[" ~> int <~ "]" ^^ { FuncT(_) } |
     "ESValue" ^^^ ESValueT |
