@@ -293,8 +293,14 @@ case class AbsTransfer(sem: AbsSemantics) {
       case ENull => AbsValue.nullv
       case EAbsent => AbsValue.absent
       case EConst(name) => AbsValue(AConst(name))
-      case EComp(ty, value, target) => ???
-      case EMap(Ty("Completion"), props) => ???
+      case EComp(ty, value, target) => for {
+        y <- escape(transfer(ty))
+        v <- escape(transfer(value))
+        origT <- escape(transfer(target))
+        t = AbsValue(str = origT.str, const = origT.const)
+      } yield AbsValue(comp = AbsComp((for {
+        AConst(name) <- y.const.toList
+      } yield name -> AbsComp.Result(v, t)).toMap))
       case map @ EMap(ty, props) => {
         val loc: AllocSite = AllocSite(map.asite, cp.view)
         for {
