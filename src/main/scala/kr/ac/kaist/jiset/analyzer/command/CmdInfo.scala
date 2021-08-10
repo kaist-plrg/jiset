@@ -13,12 +13,18 @@ case object CmdInfo extends Command(
   // run command
   def apply(
     repl: REPL,
-    cp: Option[ControlPoint],
+    cpOpt: Option[ControlPoint],
     args: List[String]
   ): Unit = args match {
     case opt :: target :: _ if options contains opt.substring(1) =>
       showInfo(repl, opt.substring(1), target)
-    case _ => cp.map(cp => { println(repl.cpInfo(cp, true)); println })
+    case _ => cpOpt match {
+      case Some(cp) =>
+        println(repl.cpInfo(cp, true))
+        println
+      case None =>
+        showInfo(repl, ret, "RunJobs")
+    }
   }
 
   // show information

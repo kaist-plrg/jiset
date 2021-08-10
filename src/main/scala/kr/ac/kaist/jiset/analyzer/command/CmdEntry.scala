@@ -14,10 +14,10 @@ case object CmdEntry extends Command(
   // run command
   def apply(
     repl: REPL,
-    cp: Option[ControlPoint],
+    cpOpt: Option[ControlPoint],
     args: List[String]
   ): Unit = notYetCmd
-  // cp.map(cp => {
+  // cpOpt.map(cp => {
   //   var paths = Map[ControlPoint, Path]()
   //   var visited = Set[ControlPoint]()
   //   val worklist = new QueueWorklist[Path](List(Nil))

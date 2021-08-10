@@ -50,6 +50,10 @@ sealed trait ArrowInst extends Inst {
   val id: Id
   val params: List[Id]
   val body: Inst
+  def isContinuation: Boolean = this match {
+    case _: IClo => false
+    case _: ICont | _: IWithCont => true
+  }
 }
 case class IClo(id: Id, params: List[Id], captured: List[Id], body: Inst) extends ArrowInst
 case class ICont(id: Id, params: List[Id], body: Inst) extends ArrowInst

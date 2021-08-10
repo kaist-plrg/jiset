@@ -16,9 +16,9 @@ case object CmdGraph extends Command(
   // run command
   def apply(
     repl: REPL,
-    cp: Option[ControlPoint],
+    cpOpt: Option[ControlPoint],
     args: List[String]
-  ): Unit = cp.map(cp => dumpFunc(cp.func, pdf = true))
+  ): Unit = cpOpt.map(cp => dumpFunc(cp.func, pdf = true))
   // optional(args.head.toInt) match {
   //   case Some(depth) => dumpCFG(cp, depth = Some(depth))
   //   case None if args.isEmpty => dumpCFG(cp, depth = Some(0))

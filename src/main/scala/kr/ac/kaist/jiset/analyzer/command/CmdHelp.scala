@@ -12,7 +12,7 @@ case object CmdHelp extends Command(
   // run command
   def apply(
     repl: REPL,
-    cp: Option[ControlPoint],
+    cpOpt: Option[ControlPoint],
     args: List[String]
   ): Unit = showHelp
 

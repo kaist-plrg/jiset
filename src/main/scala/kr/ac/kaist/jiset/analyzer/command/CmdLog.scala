@@ -12,7 +12,7 @@ case object CmdLog extends Command(
   // TODO run command
   def apply(
     repl: REPL,
-    cp: Option[ControlPoint],
+    cpOpt: Option[ControlPoint],
     args: List[String]
   ): Unit = notYetCmd
 }

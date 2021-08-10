@@ -16,7 +16,7 @@ abstract class Command(
   // run command
   def apply(
     repl: REPL,
-    cp: Option[ControlPoint],
+    cpOpt: Option[ControlPoint],
     args: List[String]
   ): Unit
 

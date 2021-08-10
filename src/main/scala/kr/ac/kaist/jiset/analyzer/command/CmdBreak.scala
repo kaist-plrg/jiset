@@ -12,7 +12,7 @@ case object CmdBreak extends Command(
   // run command
   def apply(
     repl: REPL,
-    cp: Option[ControlPoint],
+    cpOpt: Option[ControlPoint],
     args: List[String]
   ): Unit = args match {
     case opt :: bp :: _ if options contains opt.substring(1) =>

@@ -106,7 +106,10 @@ case class AbsTransfer(sem: AbsSemantics) {
   private class Helper(val cp: ControlPoint) {
     lazy val func = sem.funcOf(cp)
     lazy val view = cp.view
-    lazy val rp = ReturnPoint(func, view)
+    lazy val rp = ReturnPoint(func.origin match {
+      case ArrowOrigin(algo, inst) if inst.isContinuation => algo.func
+      case _ => func
+    }, view)
 
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = inst match {

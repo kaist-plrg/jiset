@@ -12,7 +12,7 @@ case object CmdJump extends Command(
   // run command
   def apply(
     repl: REPL,
-    cp: Option[ControlPoint],
+    cpOpt: Option[ControlPoint],
     args: List[String]
   ): Unit = args match {
     case s"-$merged" :: _ =>
