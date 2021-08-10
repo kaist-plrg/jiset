@@ -12,6 +12,15 @@ case class CFGPartialModel(
   // getter
   def get(func: Function, viewOpt: Option[View]): Option[PartialFunc] =
     viewOpt.map(view => partialMap.getOrElse(func, Map()).get(view)).flatten
+
+  val partialSpec: Map[Function, Map[View, Int]] = partialMap.map {
+    case (func, viewMap) => func -> viewMap.map {
+      case (view, pfunc) => view -> Node.getLineCount(pfunc.nodes)
+    }
+  }
+  val originalSpec: Map[Function, Int] = partialMap.map {
+    case (func, _) => func -> Node.getLineCount(func.nodes)
+  }
 }
 object CFGPartialModel {
   def apply(recorder: VisitRecorder): CFGPartialModel = CFGPartialModel(
@@ -105,12 +114,7 @@ case class PartialFunc(
     case None => Iterable[String]()
     case Some(algo) =>
       val code = algo.code
-      val lines = nodes.collect {
-        case Normal(_, inst) => inst.line
-        case Call(_, inst) => inst.line
-        case Arrow(_, inst, _) => inst.line
-        case branch: Branch => branch.inst.line
-      }.flatten
+      val lines = Node.getLines(nodes)
       code.zipWithIndex.flatMap {
         case (step, line) if lines contains line => Some(step)
         case _ => None
