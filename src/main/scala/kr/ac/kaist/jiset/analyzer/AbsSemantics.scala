@@ -98,12 +98,13 @@ case class AbsSemantics(
     callerView: View,
     func: Function,
     callerLocals: Map[ir.Id, AbsValue],
-    st: AbsState
+    st: AbsState,
+    astOpt: Option[js.ast.AST] = None
   ): Unit = {
     val callerNp = NodePoint(call, callerView)
     this.callInfo += callerNp -> callerLocals
 
-    val calleeView = callerView.doCall(call)
+    val calleeView = callerView.doCall(call, astOpt)
     val params = func.params
     val np = NodePoint(func.entry, calleeView)
     this += np -> st
