@@ -68,6 +68,8 @@ object Export {
     def getHeap(): String = st.heap.map.map {
       case (addr, obj) => (addr.toString, obj.toString)
     }.asJson.noSpaces
+
+    def getEnv(): String = getFullEnv().asJson.noSpaces
   }
 
   @JSExportTopLevel("Scala_initializeState")

@@ -14,11 +14,12 @@ export enum IRActionType {
   SHOW_ALGO = "IRAction/SHOW_ALGO",
   CLEAR = "IRAction/CLEAR",
 }
-export function updateIrInfo ( stackFrame: StackFrame, heap: [string, string][] ): IRAction {
+export function updateIrInfo ( stackFrame: StackFrame, heap: [string, string][], env: Environment ): IRAction {
   return {
     type: IRActionType.UPDATE,
     stackFrame,
-    heap
+    heap,
+    env
   };
 }
 export function showAlgo ( idx: number ): IRAction {
@@ -35,6 +36,7 @@ export type IRAction =
     type: IRActionType.UPDATE;
     stackFrame: StackFrame;
     heap: [string, string][];
+    env: Environment;
   }
   | {
     type: IRActionType.SHOW_ALGO;
@@ -50,14 +52,16 @@ type IRState = {
     // stack frame index to show spec
     idx: number;
   };
-  heap: Heap
+  heap: Heap;
+  env: Environment;
 };
 const initialState: IRState = {
   stackFrame: {
     data: [],
     idx: 0,
   },
-  heap: {}
+  heap: {},
+  env: []
 };
 
 export default function reducer ( state = initialState, action: IRAction ) {
@@ -72,6 +76,7 @@ export default function reducer ( state = initialState, action: IRAction ) {
           h = action.heap[i];
           draft.heap[ h[0] ] = h[1];
         }
+        draft.env = action.env;
       } );
     case IRActionType.SHOW_ALGO:
       return produce( state, ( draft ) => {

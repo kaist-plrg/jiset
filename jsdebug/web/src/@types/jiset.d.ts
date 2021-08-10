@@ -17,6 +17,7 @@ declare class Scala_WebDebugger {
   // get state info
   getStackFrame (): string;
   getHeap (): string;
+  getEnv (): string;
   getJsRange (): string;
   // breakpoints
   addAlgoBreak ( algoName: string, enabled: boolean = true ): void;

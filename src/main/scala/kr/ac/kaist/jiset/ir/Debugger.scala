@@ -163,4 +163,39 @@ trait Debugger {
         val result = evalExpr(expr)
         println(f"$i: $expr%-20s $result")
     }
+
+  private def findAddrInHeap(from: Addr, key: String): Long =
+    st.heap.apply(from, Str(key)) match { case DynamicAddr(addr) => addr }
+
+  final def getFullEnv(): List[(String, String)] = {
+    val env = ArrayBuffer[(String, String)]()
+    val varNames = ArrayBuffer[PureValue]()
+    st.heap.apply(NamedAddr("EXECUTION_STACK")) match {
+      case (l: IRList) => {
+        val len = l.apply(Str("length")) match { case INum(len) => len }
+        if (len != 0) {
+          var i = 0
+          for (i <- len - 1 to 1) {
+            val envAddr = l.apply(INum(i)) match { case DynamicAddr(addr) => addr }
+            val lexicalEnvAddr = st.heap.apply(DynamicAddr(envAddr), Str("LexicalEnvironment")) match {
+              case CompValue(_, v, _) => v match { case DynamicAddr(addr) => addr }
+            }
+            val varNamesAddr = findAddrInHeap(DynamicAddr(lexicalEnvAddr), "VarNames")
+            st.heap.apply(DynamicAddr(varNamesAddr)) match {
+              case IRList(vars) => varNames.appendAll(vars.toList)
+            }
+          }
+        }
+      }
+    }
+    val globalObjAddr = findAddrInHeap(NamedAddr("REALM"), "GlobalObject")
+    val subMapAddr = findAddrInHeap(DynamicAddr(globalObjAddr), "SubMap")
+    varNames.foreach((x) => {
+      val xName = x match { case Str(n) => n }
+      val xAddr = findAddrInHeap(DynamicAddr(subMapAddr), xName)
+      val xValue = st.heap.apply(DynamicAddr(xAddr), Str("Value"))
+      env += ((xName, xValue.toString))
+    })
+    env.toList
+  }
 }
