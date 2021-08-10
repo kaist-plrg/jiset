@@ -139,7 +139,7 @@ class Interp(
         })
       }
       case LoopCont(_) => st.moveNext
-      case Exit(_) => st.context.cursorOpt = None
+      case Exit(_) => throw ReturnValue(Undef)
     }
   }
   // transition for instructions

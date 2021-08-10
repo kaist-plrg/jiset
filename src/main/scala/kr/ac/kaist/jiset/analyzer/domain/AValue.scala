@@ -20,12 +20,12 @@ sealed trait AValue {
     case AllocSite(k, view) => s"#$k:$view"
     case SubMapLoc(baseLoc) => s"$baseLoc:SubMap"
     case AFunc(algo) => s"λ(${algo.name})"
-    case AClo(params, locals, entry) => (
+    case AClo(params, locals, func) => (
       params.mkString("(", ", ", ")") +
       (for ((x, v) <- locals) yield s"$x -> $v").mkString("[", ", ", "]") +
-      s" => ${entry.uidString}"
+      s" => ${func.uidString}"
     )
-    case ACont(pararms, target) =>
+    case ACont(pararms, locals, target) =>
       s"${pararms.mkString("(", ", ", ")")} [=>] $target"
     case AAst(ast) =>
       val max = AValue.AST_MAX_LENGTH
@@ -85,12 +85,13 @@ case class AFunc(algo: Algo) extends AValue
 case class AClo(
   params: List[Id],
   locals: Map[Id, AbsValue],
-  entry: Entry
+  func: Function
 ) extends AValue
 
 // continuations
 case class ACont(
   params: List[Id],
+  locals: Map[Id, AbsValue],
   target: NodePoint[Node]
 ) extends AValue
 

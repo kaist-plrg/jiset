@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
 import kr.ac.kaist.jiset.js.{ Parser => ESParser, _ }
 import kr.ac.kaist.jiset.js.ast.Lexical
+import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec.algorithm._
 import scala.annotation.tailrec
@@ -31,18 +32,20 @@ case class AbsTransfer(sem: AbsSemantics) {
       case (entry: Entry) =>
         sem += getNextNp(np, cfg.nextOf(entry)) -> st
       case (exit: Exit) =>
-        ???
+        doReturn(AbsValue.undef)(st)
       case (normal: Normal) =>
         val newSt = transfer(normal.inst)(st)
         sem += getNextNp(np, cfg.nextOf(normal)) -> newSt
       case (call: Call) =>
-        val newSt = transfer(call, view)(st)
+        val newSt = transfer(call)(st)
         sem += getNextNp(np, cfg.nextOf(call)) -> newSt
       case arrow @ Arrow(_, inst, fid) =>
-        ???
+        val nextNp = getNextNp(np, cfg.nextOf(arrow))
+        val newSt = transfer(arrow, nextNp)(st)
+        sem += nextNp -> newSt
       case branch @ Branch(_, inst) => (for {
-        v <- transfer(inst.cond)
-        b = v.escaped.bool
+        v <- escape(transfer(inst.cond))
+        b = v.bool
         st <- get
       } yield {
         val (thenNode, elseNode) = cfg.branchOf(branch)
@@ -102,7 +105,8 @@ case class AbsTransfer(sem: AbsSemantics) {
   // internal transfer function with a specific view
   private class Helper(val cp: ControlPoint) {
     lazy val func = sem.funcOf(cp)
-    lazy val rp = ReturnPoint(func, cp.view)
+    lazy val view = cp.view
+    lazy val rp = ReturnPoint(func, view)
 
     // transfer function for normal instructions
     def transfer(inst: NormalInst): Updater = inst match {
@@ -123,16 +127,16 @@ case class AbsTransfer(sem: AbsSemantics) {
         _ <- modify(_.delete(rv))
       } yield ()
       case IAppend(expr, list) => for {
-        l <- transfer(list)
-        loc = l.escaped.loc
-        v <- transfer(expr)
-        _ <- modify(_.append(l.escaped.loc, v.escaped))
+        l <- escape(transfer(list))
+        loc = l.loc
+        v <- escape(transfer(expr))
+        _ <- modify(_.append(l.loc, v))
       } yield ()
       case IPrepend(expr, list) => for {
-        l <- transfer(list)
-        loc = l.escaped.loc
-        v <- transfer(expr)
-        _ <- modify(_.prepend(l.escaped.loc, v.escaped))
+        l <- escape(transfer(list))
+        loc = l.loc
+        v <- escape(transfer(expr))
+        _ <- modify(_.prepend(l.loc, v))
       } yield ()
       case IReturn(expr) => for {
         v <- transfer(expr)
@@ -164,7 +168,7 @@ case class AbsTransfer(sem: AbsSemantics) {
     } yield ()
 
     // transfer function for calls
-    def transfer(call: Call, view: View): Updater = call.inst match {
+    def transfer(call: Call): Updater = call.inst match {
       case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => {
         for {
           as <- join(args.map(transfer))
@@ -182,26 +186,29 @@ case class AbsTransfer(sem: AbsSemantics) {
       } yield {
         // algorithms
         for (AFunc(algo) <- value.func) {
-          val head = algo.head
-          val body = algo.body
-          val locals = getLocals(head.params, vs)
-          val newSt = st.copy(locals = locals)
+          val newLocals = getLocals(algo.head.params, vs)
+          val newSt = st.copy(locals = newLocals)
           sem.doCall(call, view, algo.func, st.locals, newSt)
         }
 
         // closures
-        for (clo <- value.clo) ???
+        for (AClo(params, locals, func) <- value.clo) {
+          val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
+          val newSt = st.copy(locals = newLocals)
+          sem.doCall(call, view, func, st.locals, newSt)
+        }
 
         // continuations
-        for (cont <- value.cont) ???
+        for (ACont(params, locals, target) <- value.cont) {
+          sem += target -> st.copy(locals = locals ++ (params zip vs))
+        }
       }
       case access @ IAccess(id, bexpr, expr, args) => {
         val loc: AllocSite = AllocSite(access.asite, cp.view)
         for {
-          base <- transfer(bexpr)
-          b = base.escaped
-          prop <- transfer(expr)
-          p = prop.escaped
+          origB <- transfer(bexpr)
+          b = origB.escaped
+          p <- escape(transfer(expr))
           astV <- (b.ast.getSingle, p.str.getSingle) match {
             case (FlatElem(AAst(ast)), FlatElem(Str(name))) => (ast, name) match {
               case (Lexical(kind, str), name) =>
@@ -234,7 +241,7 @@ case class AbsTransfer(sem: AbsSemantics) {
             case (FlatBot, _) | (_, FlatBot) => pure(AbsValue.Bot)
             case _ => error("impossible to handle generic access of ASTs")
           }
-          otherV <- get(_(base, p))
+          otherV <- get(_(origB, p))
           value = astV ⊔ otherV
           _ <- {
             if (!value.isBottom) modify(_.defineLocal(id -> value))
@@ -242,6 +249,37 @@ case class AbsTransfer(sem: AbsSemantics) {
           }
         } yield ()
       }
+    }
+
+    // transfer function for arrow instructions
+    def transfer(arrow: Arrow, nextNp: NodePoint[Node]): Updater = arrow.inst match {
+      case IClo(id, params, captured, body) => for {
+        st <- get
+        _ <- modify(_.defineLocal(id -> AbsValue(AClo(
+          params,
+          captured.map(x => x -> st(x, cp)).toMap,
+          cfg.bodyFuncMap(body.uid),
+        ))))
+      } yield ()
+      case ICont(id, params, body) => for {
+        locals <- get(_.locals)
+        _ <- modify(_.defineLocal(id -> AbsValue(ACont(
+          params,
+          locals,
+          NodePoint(cfg.bodyFuncMap(body.uid).entry, view)
+        ))))
+      } yield ()
+      case IWithCont(id, params, body) => for {
+        locals <- get(_.locals)
+        _ <- modify(_.defineLocal(id -> AbsValue(ACont(
+          params,
+          locals,
+          nextNp
+        ))))
+        st <- get
+        _ = sem += NodePoint(cfg.bodyFuncMap(body.uid).entry, view) -> st
+        _ <- put(AbsState.Bot)
+      } yield ()
     }
 
     // transfer function for expressions
@@ -284,18 +322,18 @@ case class AbsTransfer(sem: AbsSemantics) {
         } yield AbsValue(loc)
       }
       case EPop(list, idx) => for {
-        l <- transfer(list)
-        loc = l.escaped.loc
-        k <- transfer(idx)
-        v <- id(_.pop(loc, k.escaped))
+        l <- escape(transfer(list))
+        loc = l.loc
+        k <- escape(transfer(idx))
+        v <- id(_.pop(loc, k))
       } yield v
       case ERef(ref) => for {
         rv <- transfer(ref)
         v <- transfer(rv)
       } yield v
       case EUOp(uop, expr) => for {
-        x <- transfer(expr)
-        v <- get(transfer(_, uop, x.escaped))
+        x <- escape(transfer(expr))
+        v <- get(transfer(_, uop, x))
       } yield v
       case EBOp(OAnd, left, right) => shortCircuit(OAnd, left, right)
       case EBOp(OOr, left, right) => shortCircuit(OOr, left, right)
@@ -304,13 +342,12 @@ case class AbsTransfer(sem: AbsSemantics) {
         b <- get(_.exists(rv))
       } yield AbsValue(bool = !b)
       case EBOp(bop, left, right) => for {
-        l <- transfer(left)
-        r <- transfer(right)
-        v <- get(transfer(_, bop, l.escaped, r.escaped))
+        l <- escape(transfer(left))
+        r <- escape(transfer(right))
+        v <- get(transfer(_, bop, l, r))
       } yield v
       case ETypeOf(expr) => for {
-        v <- transfer(expr)
-        value = v.escaped
+        value <- escape(transfer(expr))
         st <- get
       } yield value.getSingle match {
         case FlatBot => AbsValue.Bot
@@ -339,22 +376,22 @@ case class AbsTransfer(sem: AbsSemantics) {
         v <- transfer(expr)
       } yield AbsValue(bool = v.isCompletion)
       case EIsInstanceOf(base, name) => for {
-        bv <- transfer(base)
+        origB <- transfer(base)
+        b = origB.escaped
         st <- get
       } yield AbsValue(bool = AbsBool((for {
-        Bool(b) <- bv.isAbruptCompletion.toSet
-        resB <- if (b) Set(false) else {
+        Bool(bool) <- origB.isAbruptCompletion.toSet
+        resB <- if (bool) Set(false) else {
           var set = Set[Boolean]()
-          val escapedV = bv.escaped
-          for (AAst(ast) <- escapedV.ast.toList) {
+          for (AAst(ast) <- b.ast.toList) {
             set += ast.name == name || ast.getKinds.contains(name)
           }
-          for (Str(str) <- escapedV.str.toList) set += str == name
-          for (loc <- escapedV.loc.toList) set += st(loc).getTy < Ty(name)
-          val otherV = escapedV.copy(
+          for (Str(str) <- b.str.toList) set += str == name
+          for (loc <- b.loc.toList) set += st(loc).getTy < Ty(name)
+          val otherV = b.copy(
             ast = AbsAST.Bot,
             loc = AbsLoc.Bot,
-            simple = escapedV.simple.copy(str = AbsStr.Bot),
+            simple = b.simple.copy(str = AbsStr.Bot),
           )
           if (!otherV.isBottom) set += false
           set
@@ -362,14 +399,13 @@ case class AbsTransfer(sem: AbsSemantics) {
       } yield resB).map(Bool(_))))
       case EGetElems(base, name) => ???
       case EGetSyntax(base) => for {
-        v <- transfer(base)
-        s = AbsStr(v.escaped.ast.toList.map(x => Str(x.ast.toString)))
+        v <- escape(transfer(base))
+        s = AbsStr(v.ast.toList.map(x => Str(x.ast.toString)))
       } yield AbsValue(str = s)
       case EParseSyntax(code, rule, parserParams) => for {
-        value <- transfer(code)
-        v = value.escaped
-        ruleV <- transfer(rule)
-        p = ruleV.escaped.str.getSingle match {
+        v <- escape(transfer(code))
+        ruleV <- escape(transfer(rule))
+        p = ruleV.str.getSingle match {
           case FlatElem(Str(str)) =>
             ESParser.rules.getOrElse(str, error(s"not exist parse rule: $rule"))
           case _ => ???
@@ -383,11 +419,44 @@ case class AbsTransfer(sem: AbsSemantics) {
         }
         case v => error(s"not an AST value or a string: $v")
       })
-      case EConvert(source, target, flags) => ???
+      case EConvert(source, target, flags) => for {
+        s <- escape(transfer(source))
+        fs <- join(for (flag <- flags) yield escape(transfer(flag)))
+      } yield {
+        var newV: AbsValue = AbsValue.Bot
+        for (Str(str) <- s.str) newV ⊔= (target match {
+          case CStrToNum => AbsValue(Num(ESValueParser.str2num(str)))
+          case CStrToBigInt => AbsValue(ESValueParser.str2bigint(str))
+          case _ => AbsValue.Bot
+        })
+        var doubleSet = Set[Double]()
+        for (INum(long) <- s.int) doubleSet += long.toDouble
+        for (Num(double) <- s.num) doubleSet += double
+        for (n <- doubleSet) newV ⊔= (target match {
+          case CNumToStr => AbsValue(toStringHelper(n, fs.map(_.getSingle) match {
+            case FlatElem(ASimple(INum(n))) :: _ => n.toInt
+            case FlatElem(ASimple(Num(n))) :: _ => n.toInt
+            case _ => 10
+          }))
+          case CNumToInt =>
+            AbsValue((math.signum(n) * math.floor(math.abs(n))).toLong)
+          case CNumToBigInt =>
+            AbsValue(BigInt(new java.math.BigDecimal(n).toBigInteger))
+          case _ =>
+            AbsValue.Bot
+        })
+        for (BigINum(b) <- s.bigint) newV ⊔= (target match {
+          case CNumToBigInt => AbsValue(b)
+          case CNumToStr => AbsValue(b.toString)
+          case CBigIntToNum => AbsValue(Num(b.toDouble))
+          case _ => AbsValue.Bot
+        })
+        newV
+      }
       case EContains(list, elem) => for {
-        l <- transfer(list)
-        v <- transfer(elem)
-        b <- get(_.contains(l.escaped.loc, v.escaped))
+        l <- escape(transfer(list))
+        v <- escape(transfer(elem))
+        b <- get(_.contains(l.loc, v))
       } yield AbsValue(bool = b)
       case EReturnIfAbrupt(rexpr @ ERef(ref), check) => for {
         rv <- transfer(ref)
@@ -402,15 +471,15 @@ case class AbsTransfer(sem: AbsSemantics) {
       case copy @ ECopy(obj) => {
         val loc: AllocSite = AllocSite(copy.asite, cp.view)
         for {
-          v <- transfer(obj)
-          _ <- modify(_.copyObj(v.escaped.loc)(loc))
+          v <- escape(transfer(obj))
+          _ <- modify(_.copyObj(v.loc)(loc))
         } yield AbsValue(loc)
       }
       case keys @ EKeys(mobj, intSorted) => {
         val loc: AllocSite = AllocSite(keys.asite, cp.view)
         for {
-          v <- transfer(mobj)
-          _ <- modify(_.keys(v.escaped.loc, intSorted)(loc))
+          v <- escape(transfer(mobj))
+          _ <- modify(_.keys(v.loc, intSorted)(loc))
         } yield AbsValue(loc)
       }
       case ENotSupported(msg) => AbsValue.Bot
@@ -435,8 +504,8 @@ case class AbsTransfer(sem: AbsSemantics) {
       case RefProp(ref, expr) => for {
         rv <- transfer(ref)
         b <- transfer(rv)
-        p <- transfer(expr)
-      } yield AbsRefProp(b, p.escaped)
+        p <- escape(transfer(expr))
+      } yield AbsRefProp(b, p)
     }
 
     // unary operators
@@ -507,14 +576,14 @@ case class AbsTransfer(sem: AbsSemantics) {
       left: Expr,
       right: Expr
     ): Result[AbsValue] = for {
-      l <- transfer(left)
-      b = l.escaped.bool
+      l <- escape(transfer(left))
+      b = l.bool
       v <- (bop, b.getSingle) match {
         case (OAnd, FlatElem(Bool(false))) => pure(AVF)
         case (OOr, FlatElem(Bool(true))) => pure(AVT)
         case _ => for {
-          r <- transfer(right)
-          v <- get(transfer(_, bop, l, r.escaped))
+          r <- escape(transfer(right))
+          v <- get(transfer(_, bop, l, r))
         } yield v
       }
     } yield v
@@ -545,6 +614,11 @@ case class AbsTransfer(sem: AbsSemantics) {
     }
   }
 
+  // escape completions
+  def escape(value: Result[AbsValue]): Result[AbsValue] = for {
+    v <- value
+  } yield v.escaped
+
   // simple functions
   type SimpleFunc = List[AbsValue] => Result[AbsValue]
   val simpleFuncs: Map[String, SimpleFunc] = {
@@ -565,7 +639,7 @@ case class AbsTransfer(sem: AbsSemantics) {
                 case FlatElem(av) => Some(av)
                 case _ => None
               }
-            } yield av).toSet.size == vs.length))
+            } yield av).toSet.size != vs.length))
             case _ => AB
           })
         })
