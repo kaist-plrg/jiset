@@ -47,9 +47,20 @@ object BasicRet extends Domain {
     )
 
     // conversion to string
-    def toString(detail: Boolean): String = this.toString() + {
-      if (detail) LINE_SEP + "heap: " + state.heap.toString
-      else ""
+    def toString(detail: Boolean): String = {
+      import AbsHeap._
+      val app = new Appender
+      if (detail) {
+        app >> this >> LINE_SEP
+        app >> "globals: "
+        app.wrap {
+          for ((k, v) <- state.globals.toList.sortBy(_._1.toString)) {
+            app :> s"$k -> $v" >> LINE_SEP
+          }
+        }
+        app >> "heap: " >> state.heap
+      } else app >> this
+      app.toString
     }
   }
 }

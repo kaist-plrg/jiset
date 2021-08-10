@@ -10,9 +10,13 @@ case class View(
 ) extends AnalyzerElem {
   // call transition
   def doCall(call: Call, astOpt: Option[AST]): View = astOpt match {
-    case Some(ast) =>
-      // XXX View(JSFlow(ast), Nil)
-      View(JSFlow(ast), irCtxts)
+    case Some(ast) => {
+      // TODO flow sensitivity
+      View(JSFlow(ast), Nil)
+
+      // TODO infinite sensitivity
+      // View(JSFlow(ast), CallCtxt(call) :: irCtxts)
+    }
     case None => copy(irCtxts = CallCtxt(call) :: irCtxts)
   }
 

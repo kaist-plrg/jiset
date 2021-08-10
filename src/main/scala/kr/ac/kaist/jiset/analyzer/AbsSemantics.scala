@@ -107,6 +107,7 @@ case class AbsSemantics(
     val calleeView = callerView.doCall(call, astOpt)
     val params = func.params
     val np = NodePoint(func.entry, calleeView)
+    // TODO this += np -> (if (astOpt.isEmpty) st else st.garbageCollected)
     this += np -> st
 
     val rp = ReturnPoint(func, calleeView)

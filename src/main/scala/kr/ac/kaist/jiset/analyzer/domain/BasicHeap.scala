@@ -81,6 +81,26 @@ object BasicHeap extends Domain {
     }
     def isSingle(loc: Loc): Boolean = !(merged contains loc)
 
+    // find merged parts
+    def findMerged: Unit = {
+      for ((loc, obj) <- map) obj.findMerged(s"$loc")
+    }
+
+    // get reachable locations
+    def reachableLocs(initLocs: Set[Loc]): Set[Loc] = {
+      var locs = Set[Loc]()
+      def aux(loc: Loc): Unit = if (!locs.contains(loc)) {
+        locs += loc
+        this(loc).reachableLocs.foreach(aux)
+      }
+      initLocs.foreach(aux)
+      locs
+    }
+
+    // remove given locations
+    def removeLocs(locs: Loc*): Elem = removeLocs(locs.toSet)
+    def removeLocs(locs: Set[Loc]): Elem = Elem(map -- locs, merged -- locs)
+
     // lookup abstract locations
     def apply(loc: Loc): AbsObj =
       map.getOrElse(loc, base.getOrElse(loc, AbsObj.Bot))

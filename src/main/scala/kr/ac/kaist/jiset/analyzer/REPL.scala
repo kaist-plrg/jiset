@@ -63,8 +63,13 @@ case class REPL(sem: AbsSemantics) {
 
   // check whether skip REPL
   def isSkip(cp: ControlPoint): Boolean = jumpTo match {
+    case _ if nextEntry => cp match {
+      case NodePoint(_: Entry, View(JSFlow(ast), Nil)) =>
+        nextEntry = false; continue = false; false
+      case _ => true
+    }
     case _ if untilMerged =>
-      if (sem.worklist.isEmpty) true
+      if (sem.worklist.isEmpty && !merged) true
       else { untilMerged = false; continue = false; merged = false; false }
     case Some(targetIter) =>
       if (iter < targetIter) true
@@ -119,7 +124,10 @@ case class REPL(sem: AbsSemantics) {
   // jump point
   var jumpTo: Option[Int] = None
 
-  // jump until merged
+  // jump to the next JS entry
+  var nextEntry: Boolean = false
+
+  // jump to when the analysis result is merged
   var untilMerged: Boolean = false
   var merged: Boolean = false
 

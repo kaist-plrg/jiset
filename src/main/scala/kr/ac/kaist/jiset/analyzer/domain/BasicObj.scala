@@ -169,6 +169,33 @@ object BasicObj extends Domain {
       case _ => false
     }
 
+    // find merged parts
+    def findMerged(msg: String): Unit = this match {
+      case Bot =>
+      case SymbolElem(desc) => desc.findMerged(s"$msg.desc")
+      case MapElem(_, map, _) =>
+        for ((p, v) <- map) v.findMerged(s"$msg[$p]")
+      case ListElem(values) =>
+        for ((v, k) <- values.zipWithIndex) v.findMerged(s"$msg[$k]")
+      case NotSupportedElem(_, _) =>
+      case _ => println(s"$msg is merged object: $this")
+    }
+
+    // get reachable locations
+    def reachableLocs: Set[Loc] = this match {
+      case SymbolElem(desc) => desc.loc.toSet
+      case MergedMapElem(_, prop, value) => prop.loc.toSet ++ value.loc.toSet
+      case MapElem(_, map, props) => map.foldLeft(Set[Loc]()) {
+        case (set, (k, v)) => set ++ v.loc.toSet ++ (k match {
+          case loc: Loc => Some(loc)
+          case _ => None
+        })
+      }
+      case MergedListElem(value) => value.loc.toSet
+      case ListElem(values) => values.foldLeft(Set[Loc]())(_ ++ _.loc.toSet)
+      case _ => Set()
+    }
+
     // merged value of all possible values
     lazy val mergedValue: AbsValue = this match {
       case Bot => AbsValue.Bot

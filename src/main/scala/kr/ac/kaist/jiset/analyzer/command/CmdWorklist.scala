@@ -19,7 +19,7 @@ case object CmdWorklist extends Command(
     val size = worklist.size
     println(s"Total $size elements exist in the worklist.")
     args match {
-      case s"-$detail" :: _ => repl.sem.worklist.foreach(println(_))
+      case s"-${ `detail` }" :: _ => repl.sem.worklist.foreach(println(_))
       case _ =>
     }
   }

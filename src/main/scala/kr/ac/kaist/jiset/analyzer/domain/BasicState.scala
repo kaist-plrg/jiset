@@ -113,6 +113,28 @@ object BasicState extends Domain {
     // singleton location checks
     def isSingle(loc: Loc): Boolean = heap.isSingle(loc)
 
+    // find merged parts
+    def findMerged: Unit = {
+      for ((x, v) <- locals) v.findMerged(s"local $x")
+      for ((x, v) <- globals) v.findMerged(s"global $x")
+      heap.findMerged
+    }
+
+    // garbage collection
+    def garbageCollected: Elem = {
+      val extracLocs = heap.map.keySet -- reachableLocs
+      println(s"removed: $extracLocs")
+      copy(heap = heap.removeLocs(extracLocs))
+    }
+
+    // get reachable locations
+    def reachableLocs: Set[Loc] = {
+      var locs = Set[Loc]()
+      for ((_, v) <- locals) locs ++= v.loc.toSet
+      for ((_, v) <- globals) locs ++= v.loc.toSet
+      heap.reachableLocs(locs)
+    }
+
     // lookup variable directly
     def directLookup(x: Id): AbsValue = lookupLocal(x) ⊔ lookupGlobal(x)
 
@@ -226,9 +248,20 @@ object BasicState extends Domain {
       bottomCheck(pairs.unzip._2) { copy(locals = locals ++ pairs) }
 
     // conversion to string
-    def toString(detail: Boolean): String = this.toString() + {
-      if (detail) LINE_SEP + "heap: " + heap.toString
-      else ""
+    def toString(detail: Boolean): String = {
+      import AbsHeap._
+      val app = new Appender
+      if (detail) {
+        app >> this >> LINE_SEP
+        app >> "globals: "
+        app.wrap {
+          for ((k, v) <- globals.toList.sortBy(_._1.toString)) {
+            app :> s"$k -> $v" >> LINE_SEP
+          }
+        }
+        app >> "heap: " >> heap
+      } else app >> this
+      app.toString
     }
 
     // check bottom elements in abstract semantics

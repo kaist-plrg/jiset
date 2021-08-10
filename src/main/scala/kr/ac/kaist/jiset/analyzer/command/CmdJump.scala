@@ -1,13 +1,14 @@
 package kr.ac.kaist.jiset.analyzer.command
 
 import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.util.Useful._
 
 // jump command
 case object CmdJump extends Command(
   "jump", "Jump to a specific iteration."
 ) {
   // options
-  val options @ List(merged) = List("merged")
+  val options @ List(entry, merged) = List("entry", "merged")
 
   // run command
   def apply(
@@ -15,9 +16,11 @@ case object CmdJump extends Command(
     cpOpt: Option[ControlPoint],
     args: List[String]
   ): Unit = args match {
-    case s"-$merged" :: _ =>
+    case s"-${ `entry` }" :: _ =>
+      repl.nextEntry = true; repl.continue = true
+    case s"-${ `merged` }" :: _ =>
       repl.untilMerged = true; repl.continue = true
-    case arg :: _ =>
+    case arg :: _ if !optional(arg.toInt).isEmpty =>
       val iter = arg.toInt
       if (iter > repl.iter) { repl.jumpTo = Some(iter); repl.continue = true }
       else println(s"The iteration [$iter] is already passed.")

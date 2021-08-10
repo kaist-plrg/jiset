@@ -187,6 +187,11 @@ object BasicValue extends Domain {
       case _ => false
     }
 
+    // find merged parts
+    def findMerged(msg: String): Unit = {
+      if (!isSingle) println(s"$msg is merged: $this")
+    }
+
     // check completion
     def isCompletion: AbsBool = {
       var b: AbsBool = AbsBool.Bot
