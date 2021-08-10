@@ -1,7 +1,7 @@
 def [SYNTAX] BreakStatement[1,0].Evaluation[R]<(LabelIdentifier),true>() = 0:{
   0:access __x0__ = (LabelIdentifier "StringValue")
   0:let label = __x0__
-  1:return (new Completion("Type" -> ~break~, "Value" -> ~empty~, "Target" -> label))
+  1:return (comp[~break~] ~empty~ => label)
 }
 - id: "sec-break-statement-runtime-semantics-evaluation"
 - code:

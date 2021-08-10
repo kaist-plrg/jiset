@@ -8,7 +8,7 @@ def [SYNTAX] ReturnStatement[1,0].Evaluation[R]<(Expression),true>() = 0:{
     2:app __x3__ = (Await exprValue)
     2:exprValue = [? __x3__]
   } else 2:{}
-  3:return (new Completion("Type" -> ~return~, "Value" -> exprValue, "Target" -> ~empty~))
+  3:return (comp[~return~] exprValue => ~empty~)
 }
 - id: "sec-return-statement-runtime-semantics-evaluation"
 - code:

@@ -127,6 +127,8 @@ class Stringifier(
       case ENull => app >> "null"
       case EAbsent => app >> "absent"
       case EConst(name) => app >> "~" >> name >> "~"
+      case EComp(ty, value, target) =>
+        app >> "(comp[" >> ty >> "] " >> value >> " => " >> target >> ")"
       case EMap(ty, props) =>
         implicit val l = ListApp[(Expr, Expr)]("(", ", ", ")")
         app >> "(new " >> ty >> props >> ")"

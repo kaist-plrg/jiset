@@ -815,6 +815,11 @@ class Compiler private (
     } ||| "a newly created" ~> valueValue <~ "object" ^^ {
       case e => pair(Nil, e)
     } ||| opt("the" | "a" ~ opt("new")) ~> ty ~ ("{" ~> repsep((internalName <~ ":") ~ expr, ",") <~ "}") ^^ {
+      case Ty("Completion") ~ list =>
+        val i = list.map { case _ ~ (i ~ _) => i }.flatten
+        val map = (list.map { case x ~ (_ ~ e) => (x, e) }).toMap
+        val comp = EComp(map(EStr("Type")), map(EStr("Value")), map(EStr("Target")))
+        pair(i, comp)
       case t ~ list =>
         val i = list.map { case _ ~ (i ~ _) => i }.flatten
         pair(i, EMap(t, list.map { case x ~ (_ ~ e) => (x, e) }))

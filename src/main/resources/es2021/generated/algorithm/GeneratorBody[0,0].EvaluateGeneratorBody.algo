@@ -6,7 +6,7 @@ def [SYNTAX] GeneratorBody[0,0].EvaluateGeneratorBody[R]<(FunctionBody),true>(fu
   2:G.GeneratorBrand = ~empty~
   3:app __x2__ = (GeneratorStart G FunctionBody)
   3:__x2__
-  4:return (new Completion("Type" -> ~return~, "Value" -> G, "Target" -> ~empty~))
+  4:return (comp[~return~] G => ~empty~)
 }
 - id: "sec-runtime-semantics-evaluategeneratorbody"
 - code:

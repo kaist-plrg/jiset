@@ -293,6 +293,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       case ENull => AbsValue.nullv
       case EAbsent => AbsValue.absent
       case EConst(name) => AbsValue(AConst(name))
+      case EComp(ty, value, target) => ???
       case EMap(Ty("Completion"), props) => ???
       case map @ EMap(ty, props) => {
         val loc: AllocSite = AllocSite(map.asite, cp.view)

@@ -414,6 +414,15 @@ class Interp(
     case ENull => Null
     case EAbsent => Absent
     case EConst(name) => Const(name)
+    case EComp(ty, value, target) =>
+      val y = interp(ty).escaped
+      val v = interp(value).escaped
+      val t = interp(target).escaped
+      (y, t) match {
+        case (y: Const, Str(t)) => CompValue(y, v, Some(t))
+        case (y: Const, CONST_EMPTY) => CompValue(y, v, None)
+        case _ => error("invalid completion")
+      }
     case EMap(Ty("Completion"), props) => {
       val map = (for {
         (kexpr, vexpr) <- props

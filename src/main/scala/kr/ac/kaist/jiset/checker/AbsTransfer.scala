@@ -288,6 +288,7 @@ object AbsTransfer {
       case ENull => ANull.abs
       case EAbsent => AAbsent.abs
       case EConst(name) => ConstT(name).abs
+      case EComp(ty, value, target) => ???
       case EMap(Ty("Completion"), props) =>
         val map = props.toMap
         (map.get(EStr("Type")), map.get(EStr("Value"))) match {

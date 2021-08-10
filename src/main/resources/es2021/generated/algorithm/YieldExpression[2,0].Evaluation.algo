@@ -58,7 +58,7 @@ def [SYNTAX] YieldExpression[2,0].Evaluation[R]<(AssignmentExpression),true>() =
         27:received = __x19__
       }
     } else 28:{
-      30:let closeCompletion = (new Completion("Type" -> ~normal~, "Value" -> ~empty~, "Target" -> ~empty~))
+      30:let closeCompletion = (comp[~normal~] ~empty~ => ~empty~)
       31:if (= generatorKind ~async~) 31:{
         31:app __x20__ = (AsyncIteratorClose iteratorRecord closeCompletion)
         31:[? __x20__]
@@ -91,7 +91,7 @@ def [SYNTAX] YieldExpression[2,0].Evaluation[R]<(AssignmentExpression),true>() =
     45:if (= done true) 45:{
       46:app __x27__ = (IteratorValue innerReturnResult)
       46:let value = [? __x27__]
-      47:return (new Completion("Type" -> ~return~, "Value" -> value, "Target" -> ~empty~))
+      47:return (comp[~return~] value => ~empty~)
     } else 45:{}
     48:if (= generatorKind ~async~) 48:{
       48:app __x28__ = (IteratorValue innerReturnResult)

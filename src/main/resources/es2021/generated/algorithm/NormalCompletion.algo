@@ -1,4 +1,4 @@
-def NormalCompletion() = 0:return (new Completion("Type" -> ~normal~, "Value" -> argument, "Target" -> ~empty~))
+def NormalCompletion() = 0:return (comp[~normal~] argument => ~empty~)
 - id: "sec-normalcompletion"
 - code:
           1. Return Completion { [[Type]]: ~normal~, [[Value]]: _argument_, [[Target]]: ~empty~ }.

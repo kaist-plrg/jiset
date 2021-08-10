@@ -134,6 +134,8 @@ class Diff {
       case (ENull, ENull) => true
       case (EAbsent, EAbsent) => true
       case (EConst(l), EConst(r)) => l == r
+      case (EComp(ly, lv, lt), EComp(ry, rv, rt)) =>
+        compare(ly, ry) && compare(lv, rv) && compare(lt, rt)
       case (EMap(lt, lp), EMap(rt, rp)) => compare(lt, rt) && compare(lp, rp) {
         case ((lf, ls), (rf, rs)) => compare(lf, rf) && compare(ls, rs)
       }

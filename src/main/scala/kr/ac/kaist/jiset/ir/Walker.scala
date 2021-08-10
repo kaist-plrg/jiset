@@ -82,6 +82,8 @@ trait Walker {
   def walk(expr: Expr): Expr = expr match {
     case ENum(_) | EINum(_) | EBigINum(_) | EStr(_) | EBool(_) | EUndef | ENull | EAbsent => expr
     case EConst(name) => EConst(name)
+    case EComp(ty, value, target) =>
+      EComp(walk(ty), walk(value), walk(target))
     case EMap(ty, props) => EMap(
       walk(ty),
       walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })

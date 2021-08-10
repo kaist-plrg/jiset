@@ -98,6 +98,8 @@ trait UnitWalker {
   def walk(expr: Expr): Unit = expr match {
     case ENum(_) | EINum(_) | EBigINum(_) | EStr(_) | EBool(_) | EUndef | ENull | EAbsent =>
     case EConst(name) =>
+    case EComp(ty, value, target) =>
+      walk(ty); walk(value); walk(target)
     case EMap(ty, props) =>
       walk(ty); walkList[(Expr, Expr)](props, { case (x, y) => (walk(x), walk(y)) })
     case EList(exprs) =>

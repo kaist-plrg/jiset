@@ -70,6 +70,9 @@ trait Parsers extends BasicParsers {
     "(" ~> (bop ~ expr ~ expr) <~ ")" ^^ { case b ~ l ~ r => EBOp(b, l, r) } |
     "(" ~> ("typeof" ~> expr) <~ ")" ^^ { case e => ETypeOf(e) } |
     "(" ~> ("is-completion" ~> expr) <~ ")" ^^ { case e => EIsCompletion(e) } |
+    ("(" ~ "comp" ~ "[" ~> expr <~ "]") ~ expr ~ ("=>" ~> expr <~ ")") ^^ {
+      case y ~ v ~ t => EComp(y, v, t)
+    } |
     ("(" ~> "new" ~> ty) ~ ("(" ~> repsep(prop, ",") <~ ")" <~ ")") ^^ {
       case t ~ props => EMap(t, props)
     } |

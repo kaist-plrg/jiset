@@ -1,6 +1,6 @@
 def UpdateEmpty(completionRecord, value) = 1:{
   1:if (! (= completionRecord.Value ~empty~)) 1:return completionRecord else 1:{}
-  2:return (new Completion("Type" -> completionRecord.Type, "Value" -> value, "Target" -> completionRecord.Target))
+  2:return (comp[completionRecord.Type] value => completionRecord.Target)
 }
 - id: "sec-updateempty"
 - code:

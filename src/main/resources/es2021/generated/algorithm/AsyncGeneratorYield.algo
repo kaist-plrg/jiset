@@ -14,7 +14,7 @@ def AsyncGeneratorYield(value) = 0:{
     9:let awaited = __x3__
     10:if (= awaited.Type ~throw~) 10:return awaited else 10:{}
     11:assert (= awaited.Type ~normal~)
-    12:return (new Completion("Type" -> ~return~, "Value" -> awaited.Value, "Target" -> ~empty~))
+    12:return (comp[~return~] awaited.Value => ~empty~)
   }
   7:genContext.ResumeCont = __x2__
   15:app __x4__ = (AsyncGeneratorResolve generator value false)

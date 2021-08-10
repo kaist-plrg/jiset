@@ -1,4 +1,4 @@
-def ThrowCompletion() = 0:return (new Completion("Type" -> ~throw~, "Value" -> argument, "Target" -> ~empty~))
+def ThrowCompletion() = 0:return (comp[~throw~] argument => ~empty~)
 - id: "sec-throwcompletion"
 - code:
           1. Return Completion { [[Type]]: ~throw~, [[Value]]: _argument_, [[Target]]: ~empty~ }.

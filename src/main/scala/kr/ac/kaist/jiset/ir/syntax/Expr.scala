@@ -19,6 +19,7 @@ case object EUndef extends Expr
 case object ENull extends Expr
 case object EAbsent extends Expr
 case class EConst(name: String) extends Expr
+case class EComp(ty: Expr, value: Expr, target: Expr) extends Expr
 case class EMap(ty: Ty, props: List[(Expr, Expr)]) extends Expr with AllocSite
 case class EList(exprs: List[Expr]) extends Expr with AllocSite
 case class ESymbol(desc: Expr) extends Expr with AllocSite

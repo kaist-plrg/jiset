@@ -6,7 +6,7 @@ def [SYNTAX] AsyncGeneratorBody[0,0].EvaluateAsyncGeneratorBody[R]<(FunctionBody
   2:generator.GeneratorBrand = ~empty~
   3:app __x2__ = (AsyncGeneratorStart generator FunctionBody)
   3:[! __x2__]
-  4:return (new Completion("Type" -> ~return~, "Value" -> generator, "Target" -> ~empty~))
+  4:return (comp[~return~] generator => ~empty~)
 }
 - id: "sec-runtime-semantics-evaluateasyncgeneratorbody"
 - code:
