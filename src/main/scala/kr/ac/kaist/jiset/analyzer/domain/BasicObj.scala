@@ -47,7 +47,7 @@ object BasicObj extends Domain {
     case Bot => app >> "⊥"
     case SymbolElem(desc) => app >> "'" >> desc.toString
     case MergedMapElem(ty, prop, value) =>
-      app >> ty.toString
+      app >> s"$ty "
       app >> "{{" >> prop.toString >> " -> " >> value.toString >> "}}"
     case MapElem(ty, map, props) =>
       app >> s"$ty "
@@ -167,18 +167,6 @@ object BasicObj extends Domain {
       case ListElem(values) => values.forall(_.isSingle)
       case NotSupportedElem(_, desc) => true
       case _ => false
-    }
-
-    // find merged parts
-    def findMerged(msg: String): Unit = this match {
-      case Bot =>
-      case SymbolElem(desc) => desc.findMerged(s"$msg.desc")
-      case MapElem(_, map, _) =>
-        for ((p, v) <- map) v.findMerged(s"$msg[$p]")
-      case ListElem(values) =>
-        for ((v, k) <- values.zipWithIndex) v.findMerged(s"$msg[$k]")
-      case NotSupportedElem(_, _) =>
-      case _ => println(s"$msg is merged object: $this")
     }
 
     // get reachable locations

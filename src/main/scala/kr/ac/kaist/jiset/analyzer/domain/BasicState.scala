@@ -115,15 +115,46 @@ object BasicState extends Domain {
 
     // find merged parts
     def findMerged: Unit = {
-      for ((x, v) <- locals) v.findMerged(s"local $x")
-      for ((x, v) <- globals) v.findMerged(s"global $x")
-      heap.findMerged
+      // visited locations
+      var visited = Set[Loc]()
+
+      // auxiliary functions
+      def auxValue(
+        value: AbsValue,
+        path: String,
+        locPath: String = ""
+      ): Unit = {
+        if (!value.isSingle) {
+          if (locPath == "") println(s"$path is merged: $value")
+          else println(s"$path ($locPath) is merged: $value")
+        }
+        for (loc <- value.loc if !visited.contains(loc)) {
+          visited += loc
+          auxLoc(loc, path)
+        }
+      }
+      def auxLoc(loc: Loc, path: String): Unit = heap(loc) match {
+        case AbsObj.Bot =>
+        case AbsObj.SymbolElem(desc) =>
+          auxValue(desc, s"$path.desc", s"$loc.desc")
+        case AbsObj.MapElem(_, map, _) => for ((p, v) <- map) {
+          auxValue(v, s"$path[$p]", s"$loc[$p]")
+        }
+        case AbsObj.ListElem(values) => for ((v, k) <- values.zipWithIndex) {
+          auxValue(v, s"$path[$k]", s"$loc[$k]")
+        }
+        case AbsObj.NotSupportedElem(_, _) =>
+        case obj => println(s"$path ($loc) is merged object: $obj")
+      }
+
+      for ((x, v) <- locals) auxValue(v, s"local $x")
+      for ((x, v) <- globals) auxValue(v, s"global $x")
+      for ((loc, _) <- heap.map) auxLoc(loc, s"<unreachable>")
     }
 
     // garbage collection
     def garbageCollected: Elem = {
       val extracLocs = heap.map.keySet -- reachableLocs
-      println(s"removed: $extracLocs")
       copy(heap = heap.removeLocs(extracLocs))
     }
 

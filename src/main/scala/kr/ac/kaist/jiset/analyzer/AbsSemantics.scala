@@ -111,9 +111,8 @@ case class AbsSemantics(
     this += np -> st
 
     val rp = ReturnPoint(func, calleeView)
-    val callerNP = NodePoint(call, callerView)
     val set = retEdges.getOrElse(rp, Set())
-    retEdges += rp -> (set + callerNP)
+    retEdges += rp -> (set + callerNp)
 
     val retT = this(rp)
     if (!retT.isBottom) worklist += rp
