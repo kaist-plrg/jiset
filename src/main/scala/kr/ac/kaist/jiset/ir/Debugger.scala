@@ -165,25 +165,51 @@ trait Debugger {
     }
 
   private def findAddrInHeap(from: Addr, key: String): Long =
-    st.heap.apply(from, Str(key)) match { case DynamicAddr(addr) => addr }
+    st.heap.apply(from, Str(key)) match {
+      case DynamicAddr(addr) => addr
+      case Absent => -1L
+    }
+
+  private def getSubMapItems(addr: Addr): List[(String, String)] = {
+    val env = ArrayBuffer[(String, String)]()
+    st.heap.apply(addr) match {
+      case (m: IRMap) => for ((n, a) <- m.pairs) {
+        val name = n match { case Str(name) => name }
+        if (name != "arguments") {
+          val nextAddr = a match { case DynamicAddr(addr) => addr }
+          val value = st.heap.apply(DynamicAddr(nextAddr), Str("BoundValue"))
+          env += ((name, value.toString))
+        }
+      }
+    }
+    env.toList
+  }
 
   final def getFullEnv(): List[(String, String)] = {
     val env = ArrayBuffer[(String, String)]()
     val varNames = ArrayBuffer[PureValue]()
     st.heap.apply(NamedAddr("EXECUTION_STACK")) match {
       case (l: IRList) => {
-        val len = l.apply(Str("length")) match { case INum(len) => len }
+        val len = l.apply(Str("length")) match { case INum(len) => len.toInt }
+        val last = len - 1
         if (len != 0) {
           var i = 0
-          for (i <- len - 1 to 1) {
+          for (i <- last to 1 by -1) {
             val envAddr = l.apply(INum(i)) match { case DynamicAddr(addr) => addr }
             val lexicalEnvAddr = st.heap.apply(DynamicAddr(envAddr), Str("LexicalEnvironment")) match {
               case CompValue(_, v, _) => v match { case DynamicAddr(addr) => addr }
             }
             val varNamesAddr = findAddrInHeap(DynamicAddr(lexicalEnvAddr), "VarNames")
-            st.heap.apply(DynamicAddr(varNamesAddr)) match {
-              case IRList(vars) => varNames.appendAll(vars.toList)
+            if (varNamesAddr > 0L) {
+              st.heap.apply(DynamicAddr(varNamesAddr)) match {
+                case IRList(vars) => varNames.appendAll(vars.toList)
+              }
+            } else {
+              val insideSubMapAddr = findAddrInHeap(DynamicAddr(lexicalEnvAddr), "SubMap")
+              env.appendAll(getSubMapItems(DynamicAddr(insideSubMapAddr)))
             }
+            //TODO
+            // else{} find SubMap -> put all elements except arguments -> get BoundValue
           }
         }
       }

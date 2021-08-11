@@ -86,6 +86,7 @@ export default function reducer ( state = initialState, action: IRAction ) {
       return produce( state, ( draft ) => {
         draft.stackFrame = initialState.stackFrame;
         draft.heap = initialState.heap;
+        draft.env = initialState.env;
       } );
     default:
       return state;
