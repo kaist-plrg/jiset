@@ -83,7 +83,7 @@ case class REPL(sem: AbsSemantics) {
     transfer(cp)
   } catch {
     case e: JISETError =>
-      printlnColor(RED)(s"* expected error (# iter: $iter)")
+      printlnColor(RED)(s"* # iter: $iter")
       throw e
     case e: Throwable =>
       printlnColor(RED)(s"* unexpectedly terminated (# iter: $iter).")
