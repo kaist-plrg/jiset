@@ -208,8 +208,6 @@ trait Debugger {
               val insideSubMapAddr = findAddrInHeap(DynamicAddr(lexicalEnvAddr), "SubMap")
               env.appendAll(getSubMapItems(DynamicAddr(insideSubMapAddr)))
             }
-            //TODO
-            // else{} find SubMap -> put all elements except arguments -> get BoundValue
           }
         }
       }
