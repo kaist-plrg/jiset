@@ -171,16 +171,16 @@ object BasicObj extends Domain {
 
     // get reachable locations
     def reachableLocs: Set[Loc] = this match {
-      case SymbolElem(desc) => desc.loc.toSet
-      case MergedMapElem(_, prop, value) => prop.loc.toSet ++ value.loc.toSet
+      case SymbolElem(desc) => desc.reachableLocs
+      case MergedMapElem(_, prop, value) => prop.reachableLocs ++ value.reachableLocs
       case MapElem(_, map, props) => map.foldLeft(Set[Loc]()) {
-        case (set, (k, v)) => set ++ v.loc.toSet ++ (k match {
+        case (set, (k, v)) => set ++ v.reachableLocs ++ (k match {
           case loc: Loc => Some(loc)
           case _ => None
         })
       }
-      case MergedListElem(value) => value.loc.toSet
-      case ListElem(values) => values.foldLeft(Set[Loc]())(_ ++ _.loc.toSet)
+      case MergedListElem(value) => value.reachableLocs
+      case ListElem(values) => values.foldLeft(Set[Loc]())(_ ++ _.reachableLocs)
       case _ => Set()
     }
 

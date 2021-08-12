@@ -55,6 +55,14 @@ class CheckWithInterp(
     case Some(NodeCursor(node, _)) => Some(node)
     case _ => None
   }
+  def checkTy(lty: Ty, rty: Ty): Boolean =
+    (lty == rty) || { println(s"different type: $lty != $rty"); false }
+  def checkLength[T](l: Vector[T], r: Vector[T]): Boolean = (
+    l.length == r.length
+  ) || {
+      println(s"different length: $l (${l.length}) != $r (${r.length})")
+      false
+    }
   def check(np: NodePoint[Node], absSt: AbsState, st: State): Boolean = {
     val AbsState(reachable, absLocals, absGlobals, absHeap) = absSt
     val State(_, context, _, globals, heap, _) = st
@@ -88,13 +96,10 @@ class CheckWithInterp(
         (absObj, obj) match {
           case (Bot | MergedMapElem(_, _, _) | MergedListElem(_), _) => false
           case (SymbolElem(adesc), IRSymbol(desc)) => checkValue(adesc, desc)
-          case (am @ MapElem(aty, _, _), m @ IRMap(ty, _, _)) => aty == ty && {
+          case (am @ MapElem(aty, _, _), m @ IRMap(ty, _, _)) => checkTy(aty, ty) && {
             val aprops = am.sortedProps(intSorted = false)
             val props = m.keys(intSorted = false)
-            val lengthB = (
-              aprops.length == props.length ||
-              { println(s"$loc.length != $addr.length"); false }
-            )
+            val lengthB = checkLength(aprops, props)
             val propsB = (aprops zip props).forall {
               case (aprop, prop) => (
                 checkSingleValue(aprop, prop) &&
@@ -104,13 +109,15 @@ class CheckWithInterp(
             lengthB && propsB
           }
           case (ListElem(avalues), IRList(values)) => {
-            avalues.length == values.length && (avalues zip values).forall {
+            checkLength(avalues, values) && (avalues zip values).forall {
               case (aprop, prop) => checkValue(aprop, prop)
             }
           }
           case (NotSupportedElem(aty, adesc), IRNotSupported(tyname, desc)) =>
-            aty == Ty(tyname) && adesc == desc
-          case _ => false
+            checkTy(aty, Ty(tyname)) && adesc == desc
+          case (absObj, irObj) =>
+            println(s"$absObj != $irObj")
+            false
         }
       }
     }
@@ -120,7 +127,7 @@ class CheckWithInterp(
       { println(s"local variable $x is not sound."); false }
     ))
 
-    val globalCheck = absGlobals.keySet.forall(x => (
+    val globalCheck = (globals.keySet ++ absGlobals.keySet).forall(x => (
       checkValue(absSt(x, np), st(x)) ||
       { println(s"global variable $x is not sound."); false }
     ))
@@ -132,7 +139,7 @@ class CheckWithInterp(
   def fail(msg: String, func: Function): Unit = fail(msg, Some(func))
   def fail(msg: String, funcOpt: Option[Function]): Unit = {
     funcOpt.map(func => dumpFunc(func, pdf = true))
-    error(msg)
+    println(msg)
     sem.repl.continue = false
   }
 }

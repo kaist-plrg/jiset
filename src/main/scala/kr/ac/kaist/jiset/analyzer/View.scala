@@ -12,10 +12,10 @@ case class View(
   def doCall(call: Call, astOpt: Option[AST]): View = astOpt match {
     case Some(ast) => {
       // TODO flow sensitivity
-      View(JSFlow(ast), Nil)
+      // View(JSFlow(ast), Nil)
 
       // TODO infinite sensitivity
-      // View(JSFlow(ast), CallCtxt(call) :: irCtxts)
+      View(JSFlow(ast), CallCtxt(call) :: irCtxts)
     }
     case None => copy(irCtxts = CallCtxt(call) :: irCtxts)
   }

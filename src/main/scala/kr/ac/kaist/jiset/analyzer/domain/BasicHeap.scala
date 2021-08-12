@@ -9,19 +9,22 @@ import kr.ac.kaist.jiset.util.Useful._
 
 // basic abstract heaps
 object BasicHeap extends Domain {
-  lazy val Bot = Elem(Map(), Set())
+  lazy val Bot = Elem(Map(), Set(), Set(), Set())
 
   // appender
   implicit val app: App[Elem] = (app, elem) => {
-    val Elem(map, merged) = elem
+    val Elem(map, allocs, touched, merged) = elem
     if (elem.isBottom) app >> "{}"
     else app.wrap {
       map.toList
         .sortBy(_._1.toString)
         .foreach {
           case (k, v) =>
-            app :> (if (merged contains k) "[+]" else "[ ]")
-            app >> " " >> s"$k -> " >> v >> LINE_SEP
+            app :> "["
+            app >> (if (allocs contains k) "A" else " ")
+            app >> (if (touched contains k) "T" else " ")
+            app >> (if (merged contains k) "M" else " ")
+            app >> "] " >> s"$k -> " >> v >> LINE_SEP
         }
     }
   }
@@ -29,8 +32,10 @@ object BasicHeap extends Domain {
   // constructors
   def apply(
     map: Map[Loc, AbsObj] = Map(),
+    allocs: Set[Loc] = Set(),
+    touched: Set[Loc] = Set(),
     merged: Set[Loc] = Set()
-  ): Elem = Elem(map, merged)
+  ): Elem = Elem(map, allocs, touched, merged)
 
   // extractors
   def unapply(elem: Elem) = Some((
@@ -41,6 +46,8 @@ object BasicHeap extends Domain {
   // elements
   case class Elem(
     map: Map[Loc, AbsObj],
+    allocs: Set[Loc],
+    touched: Set[Loc],
     merged: Set[Loc]
   ) extends ElemTrait {
     // partial order
@@ -50,23 +57,28 @@ object BasicHeap extends Domain {
     def ⊑(that: Elem): Boolean = (this, that) match {
       case _ if this.isBottom => true
       case _ if that.isBottom => false
-      case (Elem(lmap, lmerged), Elem(rmap, rmerged)) => {
-        (lmap.keySet ++ rmap.keySet).forall(loc => {
+      case (l, r) => (
+        (l.map.keySet ++ r.map.keySet).forall(loc => {
           this(loc) ⊑ that(loc)
-        }) && (lmerged subsetOf rmerged)
-      }
+        }) &&
+        (l.allocs subsetOf r.allocs) &&
+        (l.touched subsetOf r.touched) &&
+        (l.merged subsetOf r.merged)
+      )
     }
 
     // join operator
     def ⊔(that: Elem): Elem = (this, that) match {
       case _ if this.isBottom => that
       case _ if that.isBottom => this
-      case (Elem(lmap, lmerged), Elem(rmap, rmerged)) => {
-        val newMap = (lmap.keySet ++ rmap.keySet).toList.map(loc => {
+      case (l, r) => Elem(
+        map = (l.map.keySet ++ r.map.keySet).toList.map(loc => {
           loc -> this(loc) ⊔ that(loc)
-        }).toMap
-        Elem(newMap, lmerged ++ rmerged)
-      }
+        }).toMap,
+        allocs = l.allocs ++ r.allocs,
+        touched = l.touched ++ r.touched,
+        merged = l.merged ++ r.merged,
+      )
     }
 
     // singleton checks
@@ -81,12 +93,31 @@ object BasicHeap extends Domain {
     }
     def isSingle(loc: Loc): Boolean = !(merged contains loc)
 
+    // handle calls
+    def doCall: Elem = copy(allocs = Set(), touched = Set())
+
+    // TODO handle returns (this: caller heaps / retHeap: return heaps)
+    def <<(retHeap: Elem): Elem = retHeap
+    // Elem(
+    //   map = retHeap.touched.foldLeft(this.map) {
+    //     case (map, loc) => map + (loc -> retHeap(loc))
+    //   },
+    //   allocs = this.allocs ++ retHeap.allocs,
+    //   touched = this.touched ++ retHeap.touched,
+    //   merged = (
+    //     this.merged ++
+    //     retHeap.merged ++
+    //     (this.map.keySet intersect retHeap.allocs)
+    //   ),
+    // )
+
     // get reachable locations
     def reachableLocs(initLocs: Set[Loc]): Set[Loc] = {
       var locs = Set[Loc]()
       def aux(loc: Loc): Unit = if (!locs.contains(loc)) {
         locs += loc
-        this(loc).reachableLocs.foreach(aux)
+        val objLocs = this(loc).reachableLocs
+        objLocs.foreach(aux)
       }
       initLocs.foreach(aux)
       locs
@@ -94,7 +125,12 @@ object BasicHeap extends Domain {
 
     // remove given locations
     def removeLocs(locs: Loc*): Elem = removeLocs(locs.toSet)
-    def removeLocs(locs: Set[Loc]): Elem = Elem(map -- locs, merged -- locs)
+    def removeLocs(locs: Set[Loc]): Elem = Elem(
+      map -- locs,
+      allocs -- locs,
+      touched -- locs,
+      merged -- locs,
+    )
 
     // lookup abstract locations
     def apply(loc: Loc): AbsObj =
@@ -180,8 +216,18 @@ object BasicHeap extends Domain {
 
     // allocation helper
     private def alloc(loc: Loc, obj: AbsObj): Elem = this(loc) match {
-      case AbsObj.Bot => Elem(this.map + (loc -> obj), merged)
-      case _ => Elem(this.map + (loc -> (this(loc) ⊔ obj)), merged + loc)
+      case AbsObj.Bot => Elem(
+        map = map + (loc -> obj),
+        allocs = allocs + loc,
+        touched = touched + loc,
+        merged = merged,
+      )
+      case _ => Elem(
+        map = map + (loc -> (this(loc) ⊔ obj)),
+        allocs = allocs + loc,
+        touched = touched + loc,
+        merged = merged + loc
+      )
     }
 
     // set type of objects
@@ -204,7 +250,10 @@ object BasicHeap extends Domain {
         case (heap, loc) =>
           val obj = heap(loc)
           val newObj = f(obj, weak)
-          heap.copy(map = heap.map + (loc -> newObj))
+          heap.copy(
+            map = heap.map + (loc -> newObj),
+            touched = touched + loc,
+          )
       }
     }
     private def applyFold(loc: AbsLoc)(f: AbsObj => AbsObj): AbsObj = {

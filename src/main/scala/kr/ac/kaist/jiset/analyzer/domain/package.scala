@@ -58,11 +58,11 @@ package object domain {
   type AbsFunc = AbsFunc.Elem
 
   // abstract closures
-  val AbsClo = FlatDomain[AClo]("=>")
+  val AbsClo = BasicClo
   type AbsClo = AbsClo.Elem
 
   // abstract continuations
-  val AbsCont = FlatDomain[ACont]("[=>]")
+  val AbsCont = BasicCont
   type AbsCont = AbsCont.Elem
 
   // abstract simple values

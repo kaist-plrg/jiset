@@ -124,7 +124,7 @@ object BasicState extends Domain {
         path: String,
         locPath: String = ""
       ): Unit = {
-        if (!value.isSingle) {
+        if (!value.isBottom && !value.isSingle) {
           if (locPath == "") println(s"$path is merged: $value")
           else println(s"$path ($locPath) is merged: $value")
         }
@@ -152,17 +152,31 @@ object BasicState extends Domain {
       for ((loc, _) <- heap.map) auxLoc(loc, s"<unreachable>")
     }
 
+    // handle calls
+    def doCall: Elem = this
+      .copy(heap = heap.doCall)
+      .garbageCollected
+
+    // handle returns (this: caller states / retSt: return states)
+    def <<(retSt: Elem): Elem = copy(
+      globals = retSt.globals,
+      heap = this.heap << retSt.heap
+    )
+
     // garbage collection
     def garbageCollected: Elem = {
-      val extracLocs = heap.map.keySet -- reachableLocs
-      copy(heap = heap.removeLocs(extracLocs))
+      val unreachLocs = (heap.map.keySet -- reachableLocs) filter {
+        case NamedLoc(_) | SubMapLoc(NamedLoc(_)) => false
+        case _ => true
+      }
+      copy(heap = heap.removeLocs(unreachLocs))
     }
 
     // get reachable locations
     def reachableLocs: Set[Loc] = {
       var locs = Set[Loc]()
-      for ((_, v) <- locals) locs ++= v.loc.toSet
-      for ((_, v) <- globals) locs ++= v.loc.toSet
+      for ((_, v) <- locals) locs ++= v.reachableLocs
+      for ((_, v) <- globals) locs ++= v.reachableLocs
       heap.reachableLocs(locs)
     }
 

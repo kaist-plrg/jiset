@@ -88,16 +88,16 @@ case class AbsTransfer(sem: AbsSemantics) {
 
     // return wrapped values
     for (np @ NodePoint(call, view) <- sem.getRetEdges(rp)) {
+      val callerSt = sem.callInfo(np)
       val nextNode = cfg.nextOf(call)
       val nextNP = NodePoint(nextNode, nextNode match {
         case loop: Loop => view.loopEnter(loop)
         case _ => view
       })
-      val callerLocals = sem.callInfo.getOrElse(np, Map())
-      val newSt = st
-        .copy(locals = callerLocals)
+
+      val newSt = (callerSt << st)
         .defineLocal(call.inst.id -> value.wrapCompletion)
-      // TODO more precise heap merge by keeping touched locations
+
       sem += nextNP -> newSt
     }
   }
@@ -191,14 +191,14 @@ case class AbsTransfer(sem: AbsSemantics) {
         for (AFunc(algo) <- value.func) {
           val newLocals = getLocals(algo.head.params, vs)
           val newSt = st.copy(locals = newLocals)
-          sem.doCall(call, view, algo.func, st.locals, newSt)
+          sem.doCall(call, view, st, algo.func, newSt)
         }
 
         // closures
         for (AClo(params, locals, func) <- value.clo) {
           val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
           val newSt = st.copy(locals = newLocals)
-          sem.doCall(call, view, func, st.locals, newSt)
+          sem.doCall(call, view, st, func, newSt)
         }
 
         // continuations
@@ -230,13 +230,13 @@ case class AbsTransfer(sem: AbsSemantics) {
                   body = algo.body
                   vs = asts.map(AbsValue(_)) ++ as
                   locals = getLocals(head.params, vs)
-                  callerLocals <- get(_.locals)
+                  st <- get
                   newSt <- get(_.copy(locals = locals))
                   astOpt = (
                     if (name == "Evaluation" || name == "NamedEvaluation") Some(ast)
                     else None
                   )
-                  _ = sem.doCall(call, view, algo.func, callerLocals, newSt, astOpt)
+                  _ = sem.doCall(call, view, st, algo.func, newSt, astOpt)
                 } yield AbsValue.Bot
                 case None =>
                   val v = AbsValue(ast.subs(name).getOrElse {

@@ -65,15 +65,15 @@ case class REPL(sem: AbsSemantics) {
   def isSkip(cp: ControlPoint): Boolean = jumpTo match {
     case _ if nextEntry => cp match {
       case NodePoint(_: Entry, View(JSFlow(ast), Nil)) =>
-        nextEntry = false; continue = false; false
+        nextEntry = false; false
       case _ => true
     }
     case _ if untilMerged =>
       if (sem.worklist.isEmpty && !merged) true
-      else { untilMerged = false; continue = false; merged = false; false }
+      else { untilMerged = false; merged = false; false }
     case Some(targetIter) =>
       if (iter < targetIter) true
-      else { jumpTo = None; continue = false; false }
+      else { jumpTo = None; false }
     case _ => continue && !isBreak(cp)
   }
 
@@ -93,7 +93,9 @@ case class REPL(sem: AbsSemantics) {
   }
   def apply(cpOpt: Option[ControlPoint]): Unit = cpOpt match {
     case Some(cp) if isSkip(cp) =>
-    case _ => runDirect(cpOpt)
+    case _ =>
+      continue = false
+      runDirect(cpOpt)
   }
   def runDirect(cp: Option[ControlPoint]): Unit = try {
     firstHelp

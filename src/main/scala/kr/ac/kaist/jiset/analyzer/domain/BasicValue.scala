@@ -172,6 +172,24 @@ object BasicValue extends Domain {
       this.simple.getSingle
     )
 
+    // get reachable locations
+    def reachableLocs: Set[Loc] = {
+      var locs = loc.toSet
+      for ((_, AbsComp.Result(value, target)) <- comp.map) {
+        locs ++= value.reachableLocs
+        locs ++= target.reachableLocs
+      }
+      for {
+        AClo(_, locals, _) <- clo
+        (_, value) <- locals
+      } locs ++= value.reachableLocs
+      for {
+        ACont(_, locals, _) <- cont
+        (_, value) <- locals
+      } locs ++= value.reachableLocs
+      locs
+    }
+
     // remove absent values
     def removeAbsent: Elem = copy(simple = simple.removeAbsent)
 
