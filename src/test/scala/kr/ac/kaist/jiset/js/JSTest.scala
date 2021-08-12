@@ -8,6 +8,7 @@ import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.spec.NativeHelper._
 import kr.ac.kaist.jiset.checker.NativeHelper._
+import kr.ac.kaist.jiset.analyzer.{ AbsSemantics, USE_EXEC }
 import scala.sys.process._
 import io.circe._, io.circe.syntax._, io.circe.parser.{ parse => parseJson }
 
@@ -48,6 +49,18 @@ trait JSTest extends IRTest {
     eval(parseFile(filename), Some(filename))
   def eval(script: Script, fnameOpt: Option[String]): State =
     Interp(load(script, fnameOpt))
+
+  // analyze JS codes
+  def analyze(str: String): Unit = analyze(parse(str))
+  def analyzeFile(filename: String): Unit = analyze(parseFile(filename))
+  def analyze(script: Script): Unit = {
+    // intitialize spec
+    JISETTest.spec
+    // fixpoint calculation
+    USE_EXEC = true
+    AbsSemantics(script).fixpoint
+    USE_EXEC = false
+  }
 
   // tests for JS parser
   def parseTest(ast: AST): Unit = {

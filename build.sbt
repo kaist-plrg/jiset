@@ -39,6 +39,7 @@ lazy val irEvalTest = taskKey[Unit]("Launch eval ir tests (tiny)")
 lazy val jsTest = taskKey[Unit]("Launch js tests")
 lazy val jsParseTest = taskKey[Unit]("Launch parse js tests (small)")
 lazy val jsEvalTest = taskKey[Unit]("Launch eval js tests (small)")
+lazy val jsAnalyzeTest = taskKey[Unit]("Launch analyze js tests (middle)")
 
 // test262
 lazy val test262ParseTest = taskKey[Unit]("Launch parse test262 tests (large)")
@@ -105,6 +106,7 @@ lazy val jiset = (project in file("."))
     jsTest := (testOnly in Test).toTask(" *.js.*Test").value,
     jsParseTest := (testOnly in Test).toTask(" *.js.Parse*Test").value,
     jsEvalTest := (testOnly in Test).toTask(" *.js.Eval*Test").value,
+    jsAnalyzeTest := (testOnly in Test).toTask(" *.js.Analyze*Test").value,
     // test262
     test262ParseTest := (testOnly in Test).toTask(" *.test262.Parse*Test").value,
     test262ESParseTest := (testOnly in Test).toTask(" *.test262.ESParse*Test").value,
