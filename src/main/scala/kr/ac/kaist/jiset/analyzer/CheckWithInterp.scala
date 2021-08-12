@@ -147,6 +147,6 @@ object CheckWithInterp {
   def apply(sem: AbsSemantics, script: ast.Script): CheckWithInterp = {
     val initSt = Initialize(script)
     val interp = new Interp(initSt)
-    new CheckWithInterp(sem, interp)
+    new CheckWithInterp(sem, interp(timeLimit = None))
   }
 }
