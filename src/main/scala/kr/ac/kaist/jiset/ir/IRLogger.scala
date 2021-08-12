@@ -1,21 +1,40 @@
 package kr.ac.kaist.jiset.ir
 
-import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.{ cfg => _, _ }
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.checker._
+import kr.ac.kaist.jiset.checker.{ cfg => _, _ }
 import kr.ac.kaist.jiset.util.JvmUseful._
+import kr.ac.kaist.jiset.js._
 
 object IRLogger {
-  // touch counter for algorithms
-  private var _algoNames: Map[String, Int] = Map()
-  def algoNames: Map[String, Int] = _algoNames
-  def touchAlgo(name: String): Unit =
-    _algoNames += name -> (_algoNames.getOrElse(name, 0) + 1)
-  def algoNamesString: String = (for {
-    (name, k) <- algoNames
+  // touch counter for original algorithms
+  private var _originalNames: Map[String, Int] = Map()
+  def originalNames: Map[String, Int] = _originalNames
+  def touchOriginal(name: String): Unit =
+    _originalNames += name -> (_originalNames.getOrElse(name, 0) + 1)
+  def originalNamesString: String = (for {
+    (name, k) <- originalNames
   } yield s"$k - $name").mkString(LINE_SEP)
-  def dumpAlgoNames(dirname: String): Unit =
-    dumpFile(algoNamesString, s"$dirname/touched-algos")
+  def dumpOriginalNames(dirname: String): Unit =
+    dumpFile(originalNamesString, s"$dirname/touched-algos-original")
+
+  // touch counter for partial algorithm
+  private var _partialNames: Map[String, Map[View, Int]] = Map()
+  def partialNames: Map[String, Map[View, Int]] = _partialNames
+  def touchPartial(name: String, viewOpt: Option[View]): Unit = viewOpt match {
+    case Some(view) => {
+      var viewMap = partialNames.getOrElse(name, Map())
+      viewMap += view -> (viewMap.getOrElse(view, 0) + 1)
+      _partialNames += name -> viewMap
+    }
+    case None =>
+  }
+  def partialNamesString: String = (for {
+    (name, viewMap) <- partialNames
+    (view, k) <- viewMap
+  } yield s"$k - $name - $view").mkString(LINE_SEP)
+  def dumpPartialNames(dirname: String): Unit =
+    dumpFile(partialNamesString, s"$dirname/touched-algos-partial")
 
   // iteration counter
   private var _iterSum: Long = 0L
@@ -62,6 +81,41 @@ object IRLogger {
     dumpJson(visitRecorder, s"$dirname/visited-nodes.json")
   }
 
+  //TODO : refactoring
+  // # displayed lines of function (original)
+  def displayedOriginal: Map[String, Int] = (for {
+    (fname, touch) <- originalNames
+    func <- cfg.funcMap.get(fname)
+    line <- partialModel.originalSpec.get(func)
+  } yield (fname -> touch * line)).toMap
+  def displayedOriginalString: String = (for {
+    (name, k) <- displayedOriginal
+  } yield s"$k - $name").mkString(LINE_SEP)
+  def dumpDisplayedOriginal(dirname: String): Unit =
+    dumpFile(displayedOriginalString, s"$dirname/displayed-lines-original")
+
+  //TODO : refactoring
+  // # displayed lines of function (partial)
+  def displayedPartial: Map[String, Map[View, Int]] = (for {
+    (fname, viewTouchMap) <- partialNames
+    func <- cfg.funcMap.get(fname)
+    viewDisplayMap = (for {
+      (view, touch) <- viewTouchMap
+      viewLineMap <- partialModel.partialSpec.get(func)
+      line <- viewLineMap.get(view)
+    } yield (view -> touch * line)).toMap
+  } yield (fname -> viewDisplayMap)).toMap
+  def displayedPartialString: String = (for {
+    (name, viewMap) <- displayedPartial
+    (view, k) <- viewMap
+  } yield s"$k - $name - $view").mkString(LINE_SEP)
+  def dumpDisplayedPartial(dirname: String): Unit =
+    dumpFile(displayedPartialString, s"$dirname/displayed-lines-partial")
+
+  def dumpDisplayedLines(dirname: String): Unit = {
+    dumpDisplayedPartial(dirname)
+    dumpDisplayedOriginal(dirname)
+  }
   // summary
   def summaryString: String = (
     f"""- iteration:
@@ -74,9 +128,9 @@ object IRLogger {
        |  - max   : ${_depthMap.toList.map(_._2).reduce(_ max _)}
        |  - avg.  : $depthAvg%.2f
        |- algorithms:
-       |  - # algo : ${algoNames.size}
-       |  - min    : ${algoNames.toList.map(_._2).reduce(_ min _)}
-       |  - max    : ${algoNames.toList.map(_._2).reduce(_ max _)}
+       |  - # algo : ${originalNames.size}
+       |  - min    : ${originalNames.toList.map(_._2).reduce(_ min _)}
+       |  - max    : ${originalNames.toList.map(_._2).reduce(_ max _)}
        |- visited:
        |  - # func : ${visitRecorder.func}
        |  - # view : ${visitRecorder.view}
@@ -96,11 +150,13 @@ object IRLogger {
   // dump to a directory
   def dumpTo(dirname: String): Unit = if (iterSum > 0) {
     mkdir(dirname)
-    dumpAlgoNames(dirname)
+    dumpOriginalNames(dirname)
+    dumpPartialNames(dirname)
     dumpIterMap(dirname)
     dumpDepthMap(dirname)
     dumpVisitRecorder(dirname)
     dumpSummary(dirname)
     dumpPartialModel(dirname)
+    dumpDisplayedLines(dirname)
   }
 }
