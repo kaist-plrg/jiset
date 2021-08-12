@@ -8,7 +8,14 @@ import { loadSpec } from "../store/reducers/Spec";
 import { Spec } from "../object/Spec";
 
 // js
-import { editJs, clearJs, updateJsRange } from "../store/reducers/JS";
+import { 
+  editJs, 
+  clearJs, 
+  updateJsRange, 
+  addBreakJs, 
+  rmBreakJs, 
+  toggleBreakJs 
+} from "../store/reducers/JS";
 
 // debugger
 import {
@@ -26,6 +33,7 @@ import { Scala_StepResult } from "../object/StepResult";
 import {
   updateIrInfo,
   showAlgo,
+  showEnv,
   StackFrame,
   clearIr,
 } from "../store/reducers/IR";
@@ -38,13 +46,17 @@ export enum ActionType {
   STEP = "ActionType/STEP",
   STEP_OVER = "ActionType/STEP_OVER",
   STEP_OUT = "ActionType/STEP_OUT",
+  CONTINUE = "ActionType/CONTINUE",
   ADD_BREAK = "ActionType/ADD_BREAK",
   RM_BREAK = "ActionType/RM_BREAK",
   TOGGLE_BREAK = "ActionType/TOGGLE_BREAK",
-  CONTINUE = "ActionType/CONTINUE",
+  ADD_BREAK_JS = "ActionType/ADD_BREAK_JS",
+  RM_BREAK_JS = "ActionType/RM_BREAK_JS",
+  TOGGLE_BREAK_JS = "ActionType/TOGGLE_BREAK_JS",
   TERMINATE = "ActionType/TERMINATE",
   STOP_DBG = "ActionType/STOP_DBG",
   SHOW_ALGO = "ActionType/SHOW_ALGO",
+  SHOW_ENV = "ActionType/SHOW_ENV",
 }
 
 // action payload
@@ -58,6 +70,7 @@ export type ActionPayload =
   | { type: ActionType.STEP }
   | { type: ActionType.STEP_OVER }
   | { type: ActionType.STEP_OUT }
+  | { type: ActionType.CONTINUE }
   | {
     type: ActionType.ADD_BREAK;
     bpName: string;
@@ -70,10 +83,22 @@ export type ActionPayload =
     type: ActionType.TOGGLE_BREAK;
     opt: string;
   }
-  | { type: ActionType.CONTINUE }
+  | {
+    type: ActionType.ADD_BREAK_JS;
+    line: number;
+  }
+  | {
+    type: ActionType.RM_BREAK_JS;
+    opt: string;
+  }
+  | {
+    type: ActionType.TOGGLE_BREAK_JS;
+    opt: string;
+  }
   | { type: ActionType.TERMINATE }
   | { type: ActionType.STOP_DBG }
-  | { type: ActionType.SHOW_ALGO; idx: number };
+  | { type: ActionType.SHOW_ALGO; idx: number }
+  | { type: ActionType.SHOW_ENV; idx: number };
 
 // action definitions
 // TODO type check action argument
@@ -104,11 +129,12 @@ export const stepPostAction: ActionHandler =
         // update ir info and make debugger state not busy
         let stackFrame: StackFrame = JSON.parse( webDebugger.getStackFrame() );
         let heap = JSON.parse( webDebugger.getHeap() );
+        let env = JSON.parse( webDebugger.getEnv() );
         let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
           webDebugger.getJsRange()
         );
         store.dispatch( updateJsRange( jsStart, jsEnd ) );
-        store.dispatch( updateIrInfo( stackFrame, heap ) );
+        store.dispatch( updateIrInfo( stackFrame, heap, env ) );
         store.dispatch( pauseDebugger() );
         next();
       };
@@ -182,6 +208,17 @@ export const actions: ActionDefinition[] = [
         () =>
           ( { idx } ) =>
             store.dispatch( showAlgo( idx ) ),
+    ],
+    defaultExceptionHandler,
+  ],
+  // show algorithm in stack frames
+  [
+    ActionType.SHOW_ENV,
+    [
+      ( store: Store ) =>
+        () =>
+          ( { idx } ) =>
+            store.dispatch( showEnv( idx ) ),
     ],
     defaultExceptionHandler,
   ],
@@ -284,7 +321,7 @@ export const actions: ActionDefinition[] = [
     ],
     defaultExceptionHandler,
   ],
-  // en/disable breakpoint
+  // toggle breakpoint
   [
     ActionType.TOGGLE_BREAK,
     [
@@ -296,6 +333,57 @@ export const actions: ActionDefinition[] = [
             let webDebugger = state.webDebugger.obj;
             webDebugger.toggleAlgoBreak( opt );
             store.dispatch( toggleBreak( opt ) );
+          },
+    ],
+    defaultExceptionHandler,
+  ],
+  // add JS breakpoint
+  [
+    ActionType.ADD_BREAK_JS,
+    [
+      ( store: Store ) =>
+        () =>
+          ( { line } ) => {
+            // add breakpoint by algorithm name
+            let state = store.getState();
+            let webDebugger = state.webDebugger.obj;
+            // TODO
+            // webDebugger.addAlgoBreak( bpName );
+            store.dispatch( addBreakJs( line ) );
+          },
+    ],
+    defaultExceptionHandler,
+  ],
+  // remove JS breakpoint
+  [
+    ActionType.RM_BREAK_JS,
+    [
+      ( store: Store ) =>
+        () =>
+          ( { opt } ) => {
+            // remove breakpoint
+            let state = store.getState();
+            let webDebugger = state.webDebugger.obj;
+            // TODO
+            // webDebugger.rmAlgoBreak( opt );
+            store.dispatch( rmBreakJs( opt ) );
+          },
+    ],
+    defaultExceptionHandler,
+  ],
+  // toggle JS breakpoint
+  [
+    ActionType.TOGGLE_BREAK_JS,
+    [
+      ( store: Store ) =>
+        () =>
+          ( { opt } ) => {
+            // toggle breakpoint
+            let state = store.getState();
+            let webDebugger = state.webDebugger.obj;
+            // TODO
+            // webDebugger.toggleAlgoBreak( opt );
+            store.dispatch( toggleBreakJs( opt ) );
           },
     ],
     defaultExceptionHandler,

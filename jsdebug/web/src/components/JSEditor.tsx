@@ -29,7 +29,7 @@ class JSEditor extends React.Component<JSEditorProps> {
     let genUid = () => ` __${ uuid().replaceAll( "-", "_" ) }__ `
     return [ ` ${ genUid() } `, ` ${ genUid() } ` ];
   }
-  highlightWithLine ( code: string, start: number = -1, end: number = -1 ): string {
+  highlightWithLine ( code: string, start: number = -1, end: number = -1, breakpoints: { line: number, enable: boolean }[]): string {
     let highlighted: string;
     // use highlighting when start, end index is given
     if ( start >= 0 && end >= 0 ) {
@@ -37,17 +37,21 @@ class JSEditor extends React.Component<JSEditorProps> {
       const marked = code.slice( 0, start ) + startMarker + code.slice( start, end ) + endMarker + code.slice( end, code.length );
       highlighted = highlight( marked, languages.js, "js" )
         .replace( startMarker, "<mark>" )
-        .replace( endMarker, "</mark>" );
+        .replace( endMarker, "</mark>" ); 
     } else highlighted = highlight( code, languages.js, "js" );
     // decorate with line info
     return highlighted
       .split( "\n" )
-      .map( ( l, idx ) => `<span class="editor-line">${ idx + 1 } |</span>${ l }` )
+      .map( ( l, idx ) => {
+        if ( breakpoints.some( bp => ((bp.line === (idx + 1)) && bp.enable) ) ) {
+          return `<span class="editor-line-break">${ idx + 1 } |</span>${ l }`
+        } else { return `<span class="editor-line">${ idx + 1 } |</span>${ l }` }
+      })
       .join( "\n" );
   }
 
   render () {
-    const { code, start, end } = this.props.js;
+    const { code, start, end, breakpoints } = this.props.js;
     return (
       <Paper className="editor-container" variant="outlined">
         <Typography variant="h6">JavaScript</Typography>
@@ -55,7 +59,7 @@ class JSEditor extends React.Component<JSEditorProps> {
           <Editor
             value={ code }
             onValueChange={ ( code ) => this.onCodeChange( code ) }
-            highlight={ ( code ) => this.highlightWithLine( code, start, end ) }
+            highlight={ ( code ) => this.highlightWithLine( code, start, end, breakpoints ) }
             padding={ 10 }
             style={ {
               fontFamily: '"Fira code", "Fira Mono", monospace',

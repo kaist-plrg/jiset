@@ -12,9 +12,10 @@ export type StackFrame = StackFrameData[]
 export enum IRActionType {
   UPDATE = "IRAction/UPDATE",
   SHOW_ALGO = "IRAction/SHOW_ALGO",
+  SHOW_ENV = "IRAction/SHOW_ENV",
   CLEAR = "IRAction/CLEAR",
 }
-export function updateIrInfo ( stackFrame: StackFrame, heap: [string, string][], env: Environment ): IRAction {
+export function updateIrInfo ( stackFrame: StackFrame, heap: [string, string][], env: [string, string][][] ): IRAction {
   return {
     type: IRActionType.UPDATE,
     stackFrame,
@@ -28,6 +29,12 @@ export function showAlgo ( idx: number ): IRAction {
     idx,
   };
 }
+export function showEnv ( idx: number ): IRAction {
+  return {
+    type: IRActionType.SHOW_ENV,
+    idx,
+  };
+}
 export function clearIr (): IRAction {
   return { type: IRActionType.CLEAR };
 }
@@ -36,10 +43,14 @@ export type IRAction =
     type: IRActionType.UPDATE;
     stackFrame: StackFrame;
     heap: [string, string][];
-    env: Environment;
+    env: [string, string][][];
   }
   | {
     type: IRActionType.SHOW_ALGO;
+    idx: number;
+  }
+  | {
+    type: IRActionType.SHOW_ENV;
     idx: number;
   }
   | { type: IRActionType.CLEAR };
@@ -53,7 +64,10 @@ type IRState = {
     idx: number;
   };
   heap: Heap;
-  env: Environment;
+  env: {
+    data: [string, string][][];
+    idx: number;
+  }
 };
 const initialState: IRState = {
   stackFrame: {
@@ -61,7 +75,10 @@ const initialState: IRState = {
     idx: 0,
   },
   heap: {},
-  env: []
+  env: {
+    data: [],
+    idx: 0,
+  }
 };
 
 export default function reducer ( state = initialState, action: IRAction ) {
@@ -76,11 +93,18 @@ export default function reducer ( state = initialState, action: IRAction ) {
           h = action.heap[i];
           draft.heap[ h[0] ] = h[1];
         }
-        draft.env = action.env;
+        draft.env = {
+          data: action.env,
+          idx: 0,
+        };
       } );
     case IRActionType.SHOW_ALGO:
       return produce( state, ( draft ) => {
         draft.stackFrame.idx = action.idx;
+      } );
+    case IRActionType.SHOW_ENV:
+      return produce( state, ( draft ) => {
+        draft.env.idx = action.idx;
       } );
     case IRActionType.CLEAR:
       return produce( state, ( draft ) => {

@@ -184,13 +184,15 @@ trait Debugger {
       case v => error(s"Incorrect SubMap: $v")
     }
 
-  final def getFullEnv(): List[(String, String)] =
+  final def getFullEnv(): List[List[(String, String)]] =
     st.heap.apply(NamedAddr("EXECUTION_STACK")) match {
       case (l: IRList) => {
-        val env = ArrayBuffer[(String, String)]()
-        if (l.values.size != 0) {
-          val varNames = l.values.reverse.foldLeft(List[PureValue]()) {
-            case (varNames, DynamicAddr(envAddr)) => {
+        val globalObjAddr = findAddrInHeap(NamedAddr("REALM"), "GlobalObject")
+        val subMapAddr = findAddrInHeap(DynamicAddr(globalObjAddr), "SubMap")
+        val fullEnv = if (l.values.size != 0) {
+          l.values.reverse.foldLeft(List[List[(String, String)]]()) {
+            case (fullEnv, DynamicAddr(envAddr)) => {
+              val env = ArrayBuffer[(String, String)]()
               val lexicalEnvAddr = st.heap.apply(DynamicAddr(envAddr), Str("LexicalEnvironment")) match {
                 case CompValue(_, DynamicAddr(addr), _) => addr
                 case v => -1L
@@ -198,32 +200,30 @@ trait Debugger {
               if (lexicalEnvAddr >= 0L) {
                 val varNamesAddr = findAddrInHeap(DynamicAddr(lexicalEnvAddr), "VarNames")
                 if (varNamesAddr >= 0L) {
-                  st.heap.apply(DynamicAddr(varNamesAddr)) match {
-                    case IRList(vars) => varNames ::: vars.toList
+                  val varNames = st.heap.apply(DynamicAddr(varNamesAddr)) match {
+                    case IRList(vars) => vars.toList
                     case v => error(s"Wrong case of VarNames: $v")
                   }
+                  varNames.foreach((x) => {
+                    val xName = x match {
+                      case Str(n) => n
+                      case v => error(s"Non-string VarName: $v")
+                    }
+                    val xAddr = findAddrInHeap(DynamicAddr(subMapAddr), xName)
+                    val xValue = st.heap.apply(DynamicAddr(xAddr), Str("Value"))
+                    env += ((xName, xValue.toString))
+                  })
                 } else {
                   val insideSubMapAddr = findAddrInHeap(DynamicAddr(lexicalEnvAddr), "SubMap")
                   env.appendAll(getSubMapItems(DynamicAddr(insideSubMapAddr)))
-                  varNames
                 }
-              } else { varNames }
+                fullEnv :+ env.toList
+              } else { fullEnv }
             }
-            case (varNames, _) => varNames
+            case (fullEnv, _) => fullEnv
           }
-          val globalObjAddr = findAddrInHeap(NamedAddr("REALM"), "GlobalObject")
-          val subMapAddr = findAddrInHeap(DynamicAddr(globalObjAddr), "SubMap")
-          varNames.foreach((x) => {
-            val xName = x match {
-              case Str(n) => n
-              case v => error(s"Non-string VarName: $v")
-            }
-            val xAddr = findAddrInHeap(DynamicAddr(subMapAddr), xName)
-            val xValue = st.heap.apply(DynamicAddr(xAddr), Str("Value"))
-            env += ((xName, xValue.toString))
-          })
-        }
-        env.toList
+        } else { List[List[(String, String)]]() }
+        fullEnv
       }
       case v => error(s"Wrong case of Execution_Stack: $v")
     }
