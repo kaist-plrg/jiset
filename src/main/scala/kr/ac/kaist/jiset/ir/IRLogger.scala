@@ -1,40 +1,56 @@
 package kr.ac.kaist.jiset.ir
 
-import kr.ac.kaist.jiset.{ cfg => _, _ }
+import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.checker.{ cfg => _, _ }
+import kr.ac.kaist.jiset.checker._
 import kr.ac.kaist.jiset.util.JvmUseful._
-import kr.ac.kaist.jiset.js._
 
 object IRLogger {
   // touch counter for original algorithms
-  private var _originalNames: Map[String, Int] = Map()
-  def originalNames: Map[String, Int] = _originalNames
-  def touchOriginal(name: String): Unit =
-    _originalNames += name -> (_originalNames.getOrElse(name, 0) + 1)
-  def originalNamesString: String = (for {
-    (name, k) <- originalNames
+  private var _originalTouchCnt: Map[String, Int] = Map()
+  def originalTouchCnt: Map[String, Int] = _originalTouchCnt
+  def touchAlgoOriginal(name: String): Unit =
+    _originalTouchCnt += name -> (_originalTouchCnt.getOrElse(name, 0) + 1)
+  def originalTouchCntString: String = (for {
+    (name, k) <- originalTouchCnt
   } yield s"$k - $name").mkString(LINE_SEP)
-  def dumpOriginalNames(dirname: String): Unit =
-    dumpFile(originalNamesString, s"$dirname/touched-algos-original")
+  def dumpOriginalTouchCnt(dirname: String): Unit =
+    dumpFile(originalTouchCntString, s"$dirname/touched-algos-original")
 
   // touch counter for partial algorithm
-  private var _partialNames: Map[String, Map[View, Int]] = Map()
-  def partialNames: Map[String, Map[View, Int]] = _partialNames
-  def touchPartial(name: String, viewOpt: Option[View]): Unit = viewOpt match {
+  private var _partialTouchCnt: Map[String, Map[View, Int]] = Map()
+  def partialTouchCnt: Map[String, Map[View, Int]] = _partialTouchCnt
+  def touchAlgoPartial(name: String, viewOpt: Option[View]): Unit = viewOpt match {
     case Some(view) => {
-      var viewMap = partialNames.getOrElse(name, Map())
+      var viewMap = partialTouchCnt.getOrElse(name, Map())
       viewMap += view -> (viewMap.getOrElse(view, 0) + 1)
-      _partialNames += name -> viewMap
+      _partialTouchCnt += name -> viewMap
     }
     case None =>
   }
-  def partialNamesString: String = (for {
-    (name, viewMap) <- partialNames
+  def partialTouchCntString: String = (for {
+    (name, viewMap) <- partialTouchCnt
     (view, k) <- viewMap
   } yield s"$k - $name - $view").mkString(LINE_SEP)
-  def dumpPartialNames(dirname: String): Unit =
-    dumpFile(partialNamesString, s"$dirname/touched-algos-partial")
+  def dumpPartialTouchCnt(dirname: String): Unit =
+    dumpFile(partialTouchCntString, s"$dirname/touched-algos-partial")
+
+  def touchAlgo(name: String, viewOpt: Option[View]): Unit = {
+    touchAlgoOriginal(name)
+    if (PARTIAL) touchAlgoPartial(name, viewOpt)
+  }
+
+  // temporary checking code
+  def checkPartial: Map[String, Boolean] = (for {
+    (fname, viewTouchMap) <- partialTouchCnt
+    touchPar = viewTouchMap.values.sum
+    touchOri = originalTouchCnt.getOrElse(fname, -1)
+  } yield (fname -> (touchOri == touchPar))).toMap
+  def checkPartialString: String = (for {
+    (name, k) <- checkPartial
+  } yield s"$k - $name").mkString(LINE_SEP)
+  def dumpCheckPartial(dirname: String): Unit =
+    dumpFile(checkPartialString, s"$dirname/touched-algos-check")
 
   // iteration counter
   private var _iterSum: Long = 0L
@@ -83,39 +99,53 @@ object IRLogger {
 
   //TODO : refactoring
   // # displayed lines of function (original)
-  def displayedOriginal: Map[String, Int] = (for {
-    (fname, touch) <- originalNames
-    func <- cfg.funcMap.get(fname)
-    line <- partialModel.originalSpec.get(func)
+  def displayedLinesOriginal: Map[String, Int] = (for {
+    (fname, touch) <- originalTouchCnt
+    func <- js.cfg.funcMap.get(fname)
+    line <- js.partialModel.originalSpec.get(func)
   } yield (fname -> touch * line)).toMap
-  def displayedOriginalString: String = (for {
-    (name, k) <- displayedOriginal
+  def displayedLinesOriginalString: String = (for {
+    (name, k) <- displayedLinesOriginal
   } yield s"$k - $name").mkString(LINE_SEP)
-  def dumpDisplayedOriginal(dirname: String): Unit =
-    dumpFile(displayedOriginalString, s"$dirname/displayed-lines-original")
+  def dumpDisplayedLinesOriginal(dirname: String): Unit =
+    dumpFile(displayedLinesOriginalString, s"$dirname/displayed-lines-original")
 
   //TODO : refactoring
   // # displayed lines of function (partial)
-  def displayedPartial: Map[String, Map[View, Int]] = (for {
-    (fname, viewTouchMap) <- partialNames
-    func <- cfg.funcMap.get(fname)
+  def displayedLinesPartial: Map[String, Map[View, Int]] = (for {
+    (fname, viewTouchMap) <- partialTouchCnt
+    func <- js.cfg.funcMap.get(fname)
     viewDisplayMap = (for {
       (view, touch) <- viewTouchMap
-      viewLineMap <- partialModel.partialSpec.get(func)
+      viewLineMap <- js.partialModel.partialSpec.get(func)
       line <- viewLineMap.get(view)
     } yield (view -> touch * line)).toMap
   } yield (fname -> viewDisplayMap)).toMap
-  def displayedPartialString: String = (for {
-    (name, viewMap) <- displayedPartial
+  def displayedLinesPartialString: String = (for {
+    (name, viewMap) <- displayedLinesPartial
     (view, k) <- viewMap
   } yield s"$k - $name - $view").mkString(LINE_SEP)
-  def dumpDisplayedPartial(dirname: String): Unit =
-    dumpFile(displayedPartialString, s"$dirname/displayed-lines-partial")
+  def dumpDisplayedLinesPartial(dirname: String): Unit =
+    dumpFile(displayedLinesPartialString, s"$dirname/displayed-lines-partial")
 
   def dumpDisplayedLines(dirname: String): Unit = {
-    dumpDisplayedPartial(dirname)
-    dumpDisplayedOriginal(dirname)
+    dumpDisplayedLinesPartial(dirname)
+    dumpDisplayedLinesOriginal(dirname)
   }
+
+  // partial evaluation result
+  def targetAlgos: Set[String] = checkPartial.filter { case (_, v) => v }.keySet
+  def totalLinesOriginal: Int = displayedLinesOriginal.filter { case (k, _) => targetAlgos(k) }.values.sum
+  def totalLinesPartial: Int = displayedLinesPartial.filter { case (k, _) => targetAlgos(k) }.foldLeft(0) { case (b, (_, v)) => b + v.values.sum }
+  def compareLinesString: String = (
+    f"""- Original:
+       |  - lines   : ${totalLinesOriginal}
+       |- Partial:
+       |  - lines   : ${totalLinesPartial} (${100.0 * totalLinesPartial / totalLinesOriginal}%.2f%% of original)""".stripMargin
+  )
+  def dumpCompareLines(dirname: String): Unit =
+    dumpFile(compareLinesString, s"$dirname/compare-lines")
+
   // summary
   def summaryString: String = (
     f"""- iteration:
@@ -128,9 +158,9 @@ object IRLogger {
        |  - max   : ${_depthMap.toList.map(_._2).reduce(_ max _)}
        |  - avg.  : $depthAvg%.2f
        |- algorithms:
-       |  - # algo : ${originalNames.size}
-       |  - min    : ${originalNames.toList.map(_._2).reduce(_ min _)}
-       |  - max    : ${originalNames.toList.map(_._2).reduce(_ max _)}
+       |  - # algo : ${originalTouchCnt.size}
+       |  - min    : ${originalTouchCnt.toList.map(_._2).reduce(_ min _)}
+       |  - max    : ${originalTouchCnt.toList.map(_._2).reduce(_ max _)}
        |- visited:
        |  - # func : ${visitRecorder.func}
        |  - # view : ${visitRecorder.view}
@@ -150,13 +180,17 @@ object IRLogger {
   // dump to a directory
   def dumpTo(dirname: String): Unit = if (iterSum > 0) {
     mkdir(dirname)
-    dumpOriginalNames(dirname)
-    dumpPartialNames(dirname)
+    dumpOriginalTouchCnt(dirname)
     dumpIterMap(dirname)
     dumpDepthMap(dirname)
     dumpVisitRecorder(dirname)
     dumpSummary(dirname)
     dumpPartialModel(dirname)
-    dumpDisplayedLines(dirname)
+    if (PARTIAL) {
+      dumpPartialTouchCnt(dirname)
+      dumpDisplayedLines(dirname)
+      dumpCheckPartial(dirname)
+      dumpCompareLines(dirname)
+    }
   }
 }

@@ -191,8 +191,7 @@ class Interp(
 
           // log
           if (LOG) {
-            IRLogger.touchOriginal(algo.name)
-            if (PARTIAL) IRLogger.touchPartial(algo.name, viewOpt)
+            IRLogger.touchAlgo(algo.name, viewOpt)
             updateCallDepth()
           }
           // use hooks
@@ -255,10 +254,7 @@ class Interp(
                 val viewOpt = if (VIEW) optional(View(vs.map(Type((_), st)))) else None
                 val cursorOpt = cursorGen(body, viewOpt)
                 val context = Context(cursorOpt, None, id, head.name, Some(ast), Some(algo), locals, viewOpt)
-                if (LOG) {
-                  IRLogger.touchOriginal(algo.name)
-                  if (PARTIAL) IRLogger.touchPartial(algo.name, viewOpt)
-                }
+                if (LOG) IRLogger.touchAlgo(algo.name, viewOpt)
                 st.ctxtStack ::= st.context
                 st.context = context
 
