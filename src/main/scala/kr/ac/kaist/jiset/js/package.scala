@@ -31,6 +31,10 @@ package object js {
   // current CFG partial model
   lazy val partialModel: CFGPartialModel = _partialModel.get
 
+  // json protocols
+  lazy val cfgJsonProtocol = cfg.jsonProtocol
+  lazy val checkerJsonProtocol = new checker.JsonProtocol(cfg)
+
   // ECMAScript components
   lazy val intrinsics: Set[String] = spec.intrinsics
   lazy val symbols: Set[String] = spec.symbols

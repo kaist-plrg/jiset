@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.{ CHECK_LOG_DIR, VERSION_DIR }
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir.JsonProtocol._
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 import scala.Console.RED
@@ -113,13 +114,13 @@ object NativeHelper {
 
   // load VisitRecorder
   def loadVisitRecorder(dirname: String): VisitRecorder = {
-    import jsonProtocol._
+    import js.checkerJsonProtocol._
     readJson[VisitRecorder](s"$dirname/visited-nodes.json")
   }
 
   // load CFGPartialModel
   def loadPartialModel(filename: String): CFGPartialModel = {
-    import IRLogger.jsonProtocol._
+    import js.checkerJsonProtocol._
     readJson[CFGPartialModel](filename)
   }
 }

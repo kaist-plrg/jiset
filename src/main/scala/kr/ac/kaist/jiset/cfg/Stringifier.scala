@@ -28,7 +28,8 @@ class Stringifier(
   implicit lazy val CFGApp: App[CFG] = (app, cfg) => app
 
   // CFG functions
-  implicit lazy val FunctionApp: App[Function] = (app, func) => app
+  implicit lazy val FunctionApp: App[Function] =
+    (app, func) => app >> func.uidString >> ":" >> func.name
 
   // CFG origins
   implicit lazy val OriginApp: App[Origin] = (app, origin) => app

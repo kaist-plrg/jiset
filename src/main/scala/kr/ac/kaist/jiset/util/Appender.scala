@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.util
 
 import kr.ac.kaist.jiset.LINE_SEP
+import scala.collection.mutable.{ Map => MMap }
 
 class Appender(tab: String = "  ") {
   import Appender._
@@ -40,6 +41,7 @@ object Appender {
   // Scala value appender
   implicit lazy val stringApp: App[String] = _ >> _
   implicit lazy val intApp: App[Int] = _ >> _.toString
+  implicit lazy val longApp: App[Long] = _ >> _.toString
   implicit lazy val boolApp: App[Boolean] = _ >> _.toString
 
   // lists with separator
@@ -56,12 +58,34 @@ object Appender {
   }
 
   // pair appender
-  def PairApp[T, U](
+  implicit def PairApp[T, U](
     implicit
     tApp: App[T],
     uApp: App[U]
   ): App[(T, U)] = (app, pair) => {
     val (t, u) = pair
     app >> t >> " -> " >> u
+  }
+
+  // map appender
+  implicit def MapApp[K, V](
+    implicit
+    kApp: App[K],
+    vApp: App[V]
+  ): App[Map[K, V]] = (app, map) => app.wrap {
+    map.toList.sortBy(_._1.toString).foreach {
+      case (k, v) => app :> k >> ": " >> v >> LINE_SEP
+    }
+  }
+
+  // map appender
+  implicit def MMapApp[K, V](
+    implicit
+    kApp: App[K],
+    vApp: App[V]
+  ): App[MMap[K, V]] = (app, map) => app.wrap {
+    map.toList.sortBy(_._1.toString).foreach {
+      case (k, v) => app :> k >> ": " >> v >> LINE_SEP
+    }
   }
 }

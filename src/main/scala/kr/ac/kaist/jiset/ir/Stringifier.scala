@@ -11,16 +11,6 @@ class Stringifier(
   line: Boolean = false,
   asite: Boolean = false
 ) {
-  // pair appender
-  implicit def pairApp[T, U](
-    implicit
-    tApp: App[T],
-    uApp: App[U]
-  ): App[(T, U)] = (app, pair) => {
-    val (t, u) = pair
-    app >> t >> " -> " >> u
-  }
-
   // IR nodes
   implicit lazy val IRElemApp: App[IRElem] = (app, node) => node match {
     case node: Program => ProgramApp(app, node)

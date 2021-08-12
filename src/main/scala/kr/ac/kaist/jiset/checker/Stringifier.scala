@@ -116,16 +116,10 @@ object Stringifier {
 
   // visit recorder
   implicit lazy val VisitRecorderApp: App[VisitRecorder] = (app, vr) => {
-    for ((func, viewMap) <- vr.visitMap.toList.sortBy(_._1.name)) {
-      app >> func.name >> ": "
-      app.wrap(for ((view, nodeMap) <- viewMap.toList.sortBy(_._1.toString)) {
-        app :> view >> ": "
-        app.wrap(for ((node, fname) <- nodeMap.toList.sortBy(_._1.uid)) {
-          app :> node.uidString >> ": " >> fname >> LINE_SEP
-        }) >> LINE_SEP
-      }) >> LINE_SEP
-    }
-    app
+    app >> vr.funcMap
+  }
+  implicit val VisitRecorderElemApp: App[VisitRecorder.Elem] = (app, elem) => {
+    app >> "[" >> elem.count >> "] " >> elem.fname
   }
 
   // partial model
