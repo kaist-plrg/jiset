@@ -139,7 +139,7 @@ class CheckWithInterp(
   def fail(msg: String, func: Function): Unit = fail(msg, Some(func))
   def fail(msg: String, funcOpt: Option[Function]): Unit = {
     funcOpt.map(func => dumpFunc(func, pdf = true))
-    println(msg)
+    error(msg)
     sem.repl.continue = false
   }
 }
