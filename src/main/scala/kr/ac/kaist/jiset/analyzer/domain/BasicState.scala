@@ -156,12 +156,31 @@ object BasicState extends Domain {
     def doCall: Elem = this
       .copy(heap = heap.doCall)
       .garbageCollected
+    def doProcStart(fixed: Set[Loc]): Elem = this
+      .copy(heap = heap.doProcStart(fixed))
+      .garbageCollected
 
-    // handle returns (this: caller states / retSt: return states)
-    def <<(retSt: Elem): Elem = copy(
-      globals = retSt.globals,
-      heap = this.heap << retSt.heap
+    // handle returns (this: return states / to: caller states)
+    def doReturn(to: Elem, defs: (Id, AbsValue)*): Elem = doReturn(to, defs)
+    def doReturn(to: Elem, defs: Iterable[(Id, AbsValue)]): Elem = Elem(
+      reachable = true,
+      locals = to.locals ++ defs,
+      globals = this.globals,
+      heap = heap,
     )
+    // TODO Elem(
+    //   reachable = true,
+    //   locals = to.locals ++ defs,
+    //   globals = globals,
+    //   heap = heap.doReturn(to.heap),
+    // ).garbageCollected
+    def doProcEnd(to: Elem, defs: (Id, AbsValue)*): Elem = doProcEnd(to, defs)
+    def doProcEnd(to: Elem, defs: Iterable[(Id, AbsValue)]): Elem = Elem(
+      reachable = true,
+      locals = to.locals ++ defs,
+      globals = globals,
+      heap = heap.doProcEnd(to.heap),
+    ).garbageCollected
 
     // garbage collection
     def garbageCollected: Elem = {

@@ -95,8 +95,10 @@ case class AbsTransfer(sem: AbsSemantics) {
         case _ => view
       })
 
-      val newSt = (callerSt << st)
-        .defineLocal(call.inst.id -> value.wrapCompletion)
+      val newSt = st.doReturn(
+        callerSt,
+        call.inst.id -> value.wrapCompletion
+      )
 
       sem += nextNP -> newSt
     }
@@ -202,8 +204,14 @@ case class AbsTransfer(sem: AbsSemantics) {
         }
 
         // continuations
-        for (ACont(params, locals, target) <- value.cont) {
-          sem += target -> st.copy(locals = locals ++ (params zip vs))
+        for (ACont(params, locals, target) <- value.cont) target match {
+          // start/resume sub processes
+          case NodePoint(entry: Entry, targetView) =>
+            sem += target -> st.copy(locals = locals ++ (params zip vs))
+
+          // stop/pause sub processes
+          case NodePoint(_, targetView) =>
+            sem += target -> st.copy(locals = locals ++ (params zip vs))
         }
       }
       case access @ IAccess(id, bexpr, expr, args) => {
