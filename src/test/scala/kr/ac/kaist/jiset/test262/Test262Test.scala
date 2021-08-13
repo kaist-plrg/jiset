@@ -13,10 +13,6 @@ import kr.ac.kaist.jiset.util.JvmUseful._
 trait Test262Test extends JSTest {
   override val category: String = "test262"
 
-  // logging with view information
-  LOG = true
-  VIEW = true
-
   // directory name
   val logDir = s"$LOG_DIR/test262_$dateStr"
 

@@ -46,7 +46,9 @@ lazy val test262ParseTest = taskKey[Unit]("Launch parse test262 tests (large)")
 lazy val test262ESParseTest = taskKey[Unit]("Launch parse test262 tests using esparse (large)")
 lazy val test262ParserBenchmarkTest = taskKey[Unit]("Launch compare parsing test262 tests using esparse and JSParse")
 lazy val test262EvalTest = taskKey[Unit]("Launch eval test262 tests (large)")
+lazy val test262PartialEvalTest = taskKey[Unit]("Launch partial-eval test262 tests (large)")
 lazy val test262ManualTest = taskKey[Unit]("Launch manual eval test262 tests (middle)")
+lazy val test262PartialManualTest = taskKey[Unit]("Launch partial manual eval test262 tests (middle)")
 
 // type checker
 lazy val checkerTest = taskKey[Unit]("Launch type checker tests")
@@ -113,6 +115,8 @@ lazy val jiset = (project in file("."))
     test262ParserBenchmarkTest := (testOnly in Test).toTask(" *.test262.ParserBenchmark*Test").value,
     test262EvalTest := (testOnly in Test).toTask(" *.test262.Eval*Test").value,
     test262ManualTest := (testOnly in Test).toTask(" *.test262.Manual*Test").value,
+    test262PartialEvalTest := (testOnly in Test).toTask(" *.test262.PartialEval*Test").value,
+    test262PartialManualTest := (testOnly in Test).toTask(" *.test262.PartialManual*Test").value,
     // type checker
     checkerTest := (testOnly in Test).toTask(" *.checker.*Test").value,
     checkerJsonTest := (testOnly in Test).toTask(" *.checker.Json*Test").value,
