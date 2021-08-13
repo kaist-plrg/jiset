@@ -36,7 +36,7 @@ class CheckWithInterp(
           "the abstract state is not single",
           np.func
         )
-        if (!check(np, absSt, st)) fail(
+        if (!CheckWithInterp.check(np, absSt, st)) fail(
           "the abstract state is not sound",
           np.func
         )
@@ -55,6 +55,23 @@ class CheckWithInterp(
     case Some(NodeCursor(node, _)) => Some(node)
     case _ => None
   }
+  def fail(msg: String): Unit = fail(msg, None)
+  def fail(msg: String, node: Node): Unit = fail(msg, Some(cfg.funcOf(node)))
+  def fail(msg: String, func: Function): Unit = fail(msg, Some(func))
+  def fail(msg: String, funcOpt: Option[Function]): Unit = {
+    funcOpt.map(func => dumpFunc(func, pdf = true))
+    error(msg)
+    sem.repl.continue = false
+  }
+}
+object CheckWithInterp {
+  def apply(sem: AbsSemantics, script: ast.Script): CheckWithInterp = {
+    val initSt = Initialize(script)
+    val interp = new Interp(initSt, timeLimit = None)
+    new CheckWithInterp(sem, interp)
+  }
+
+  // check soundness of abstract state
   def checkTy(lty: Ty, rty: Ty): Boolean =
     (lty == rty) || { println(s"different type: $lty != $rty"); false }
   def checkLength[T](l: Vector[T], r: Vector[T]): Boolean = (
@@ -63,7 +80,7 @@ class CheckWithInterp(
       println(s"different length: $l (${l.length}) != $r (${r.length})")
       false
     }
-  def check(np: NodePoint[Node], absSt: AbsState, st: State): Boolean = {
+  def check(np: ControlPoint, absSt: AbsState, st: State): Boolean = {
     val AbsState(reachable, absLocals, absGlobals, absHeap) = absSt
     val State(_, context, _, globals, heap, _) = st
     val locals = context.locals
@@ -133,20 +150,5 @@ class CheckWithInterp(
     ))
 
     reachable && localCheck && globalCheck
-  }
-  def fail(msg: String): Unit = fail(msg, None)
-  def fail(msg: String, node: Node): Unit = fail(msg, Some(cfg.funcOf(node)))
-  def fail(msg: String, func: Function): Unit = fail(msg, Some(func))
-  def fail(msg: String, funcOpt: Option[Function]): Unit = {
-    funcOpt.map(func => dumpFunc(func, pdf = true))
-    error(msg)
-    sem.repl.continue = false
-  }
-}
-object CheckWithInterp {
-  def apply(sem: AbsSemantics, script: ast.Script): CheckWithInterp = {
-    val initSt = Initialize(script)
-    val interp = new Interp(initSt, timeLimit = None)
-    new CheckWithInterp(sem, interp)
   }
 }

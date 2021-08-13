@@ -15,7 +15,7 @@ class AnalyzeMiddleTest extends JSTest {
       val name = removedExt(filename)
       // analyze a JS file
       val jsName = file.toString
-      analyzeFile(jsName)
+      analyzeTestFile(jsName)
     })
   }
   init

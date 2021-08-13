@@ -8,7 +8,8 @@ import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.spec.NativeHelper._
 import kr.ac.kaist.jiset.checker.NativeHelper._
-import kr.ac.kaist.jiset.analyzer.{ AbsSemantics, USE_EXEC }
+import kr.ac.kaist.jiset.analyzer.{ Initialize => AInintialize, _ }
+import kr.ac.kaist.jiset.analyzer.domain._
 import scala.sys.process._
 import io.circe._, io.circe.syntax._, io.circe.parser.{ parse => parseJson }
 
@@ -51,15 +52,15 @@ trait JSTest extends IRTest {
     Interp(load(script, fnameOpt))
 
   // analyze JS codes
-  def analyze(str: String): Unit = analyze(parse(str))
-  def analyzeFile(filename: String): Unit = analyze(parseFile(filename))
-  def analyze(script: Script): Unit = {
+  def analyze(str: String): AbsSemantics = analyze(parse(str))
+  def analyzeFile(filename: String): AbsSemantics = analyze(parseFile(filename))
+  def analyze(script: Script): AbsSemantics = {
     // intitialize spec
     JISETTest.spec
     // fixpoint calculation
-    USE_EXEC = true
-    AbsSemantics(script).fixpoint
-    USE_EXEC = false
+    val absSem = AbsSemantics(script)
+    absSem.fixpoint
+    absSem
   }
 
   // tests for JS parser
@@ -106,6 +107,27 @@ trait JSTest extends IRTest {
   def evalTestFile(filename: String): State = evalTest(evalFile(filename))
   def evalTest(script: Script, filename: String): State =
     evalTest(eval(script, Some(filename)))
+
+  // tests for JS analyzer
+  def analyzeTestFile(filename: String): Unit = {
+    // get analyze result
+    val absSem = analyzeFile(filename)
+    // get final state of concrete interp
+    val st = evalFile(filename)
+    // get abs state of ReturnPoint of RunJobs
+    val runJobs = absSem.cfg.funcMap("RunJobs")
+    val runJobsRp = ReturnPoint(runJobs, View())
+    val retId = Id(RESULT)
+    val absSt =
+      if (!absSem.rpMap.contains(runJobsRp)) AbsState.Empty
+      else {
+        val absRet = absSem(runJobsRp)
+        if (!st.exists(retId)) absRet.state
+        else absRet.state.defineLocal((retId, absRet.value))
+      }
+    // check soundness
+    assert(CheckWithInterp.check(runJobsRp, absSt, st))
+  }
 
   // conversion extension from .js to .ir
   val js2ir = changeExt("js", "ir")
