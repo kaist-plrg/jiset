@@ -1,0 +1,14 @@
+def [BUILTIN] Math.fround(x) = 0:{
+  0:if (= x NaN) 0:return NaN else 0:{}
+  1:??? "If id:{x} is one of value:{+0} , value:{-0} , value:{+∞} , value:{-∞} , return id:{x} ."
+  2:app x32 = (fround x)
+  3:let x64 = x32
+  4:return x64
+}
+- id: "sec-math.fround"
+- code:
+          1. If _x_ is *NaN*, return *NaN*.
+          1. If _x_ is one of *+0*, *-0*, *+∞*, *-∞*, return _x_.
+          1. Let _x32_ be the result of converting _x_ to a value in IEEE 754-2019 binary32 format using roundTiesToEven mode.
+          1. Let _x64_ be the result of converting _x32_ to a value in IEEE 754-2019 binary64 format.
+          1. Return the ECMAScript Number value corresponding to _x64_.

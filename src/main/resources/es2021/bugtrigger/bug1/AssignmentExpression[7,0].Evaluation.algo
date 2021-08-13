@@ -1,0 +1,42 @@
+def [SYNTAX] AssignmentExpression[7,0].Evaluation[R]<(LeftHandSideExpression, AssignmentExpression),false>() = 0:{
+  0:access __x0__ = (LeftHandSideExpression "Evaluation")
+  0:let lref = __x0__
+  1:app __x1__ = (GetValue lref)
+  1:let lval = [? __x1__]
+  2:app __x2__ = (ToBoolean lval)
+  2:let lbool = [! __x2__]
+  3:if (= lbool true) 3:return lval else 3:{}
+  4:let __x3__ = true
+  4:app __x4__ = (IsAnonymousFunctionDefinition AssignmentExpression)
+  4:__x3__ = (= __x4__ true)
+  4:if __x3__ 4:{
+    4:access __x5__ = (LeftHandSideExpression "IsIdentifierRef")
+    4:__x3__ = (= __x5__ true)
+  } else 4:{}
+  4:if __x3__ 4:{
+    5:app __x6__ = (GetReferencedName lref)
+    5:access __x7__ = (AssignmentExpression "NamedEvaluation" __x6__)
+    5:let rval = __x7__
+  } else 6:{
+    7:access __x8__ = (AssignmentExpression "Evaluation")
+    7:let rref = __x8__
+    8:app __x9__ = (GetValue rref)
+    8:let rval = [? __x9__]
+  }
+  9:app __x10__ = (PutValue lref rval)
+  9:[? __x10__]
+  10:return rval
+}
+- id: "sec-assignment-operators-runtime-semantics-evaluation"
+- code:
+        1. Let _lref_ be the result of evaluating |LeftHandSideExpression|.
+        1. [id="step-assignmentexpression-evaluation-lgcl-or-getvalue"] Let _lval_ be ? GetValue(_lref_).
+        1. Let _lbool_ be ! ToBoolean(_lval_).
+        1. If _lbool_ is *true*, return _lval_.
+        1. If IsAnonymousFunctionDefinition(|AssignmentExpression|) is *true* and IsIdentifierRef of |LeftHandSideExpression| is *true*, then
+          1. Let _rval_ be NamedEvaluation of |AssignmentExpression| with argument GetReferencedName(_lref_).
+        1. Else,
+          1. Let _rref_ be the result of evaluating |AssignmentExpression|.
+          1. Let _rval_ be ? GetValue(_rref_).
+        1. [id="step-assignmentexpression-evaluation-lgcl-or-putvalue"] Perform ? PutValue(_lref_, _rval_).
+        1. Return _rval_.

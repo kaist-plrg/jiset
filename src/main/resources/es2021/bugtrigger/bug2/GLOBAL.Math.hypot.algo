@@ -1,0 +1,46 @@
+def [BUILTIN] Math.hypot(value1, value2, ...values) = 0:{
+  0:??? "Let id:{args} be a List containing id:{value1} , id:{value2} , and the elements of id:{values} in List order ."
+  1:let coerced = (new [])
+  2:let __x0__ = args
+  2:let __x1__ = 0i
+  2:while (< __x1__ __x0__.length) 2:{
+    2:let arg = __x0__[__x1__]
+    2:__x1__ = (+ __x1__ 1i)
+    3:app __x2__ = (ToNumber arg)
+    3:let n = [? __x2__]
+    4:append n -> coerced
+  }
+  5:let __x3__ = coerced
+  5:let __x4__ = 0i
+  5:while (< __x4__ __x3__.length) 5:{
+    5:let number = __x3__[__x4__]
+    5:__x4__ = (+ __x4__ 1i)
+    6:if (|| (= number Infinity) (= number -Infinity)) 6:return Infinity else 6:{}
+  }
+  7:let onlyZero = true
+  8:let __x5__ = coerced
+  8:let __x6__ = 0i
+  8:while (< __x6__ __x5__.length) 8:{
+    8:let number = __x5__[__x6__]
+    8:__x6__ = (+ __x6__ 1i)
+    9:if (= number NaN) 9:return NaN else 9:{}
+    10:if (! (|| (= number 0i) (= number -0.0))) 10:onlyZero = false else 10:{}
+  }
+  11:if (= onlyZero true) 11:return 0i else 11:{}
+  12:??? "Return an implementation - approximated value representing the square root of the sum of squares of the mathematical values of the elements of id:{coerced} ."
+}
+- id: "sec-math.hypot"
+- code:
+          1. Let _args_ be a List containing _value1_, _value2_, and the elements of _values_ in List order.
+          1. Let _coerced_ be a new empty List.
+          1. For each element _arg_ of _args_, do
+            1. Let _n_ be ? ToNumber(_arg_).
+            1. Append _n_ to _coerced_.
+          1. For each element _number_ of _coerced_, do
+            1. If _number_ is *+∞*<sub>𝔽</sub> or _number_ is *-∞*<sub>𝔽</sub>, return *+∞*<sub>𝔽</sub>.
+          1. Let _onlyZero_ be *true*.
+          1. For each element _number_ of _coerced_, do
+            1. If _number_ is *NaN*, return *NaN*.
+            1. If _number_ is neither *+0*<sub>𝔽</sub> nor *-0*<sub>𝔽</sub>, set _onlyZero_ to *false*.
+          1. If _onlyZero_ is *true*, return *+0*<sub>𝔽</sub>.
+          1. Return an implementation-approximated value representing the square root of the sum of squares of the mathematical values of the elements of _coerced_.
