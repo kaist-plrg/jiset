@@ -17,7 +17,8 @@ package object domain {
   lazy val AVB = AbsValue(bool = AB)
   lazy val AVT = AbsValue(bool = AT)
   lazy val AVF = AbsValue(bool = AF)
-
+  lazy val AV_COMP_PROPS =
+    AbsValue("Type") ⊔ AbsValue("Value") ⊔ AbsValue("Target")
   //////////////////////////////////////////////////////////////////////////////
   // abstract domains
   //////////////////////////////////////////////////////////////////////////////

@@ -215,7 +215,11 @@ object BasicState extends Domain {
     def apply(base: AbsValue, prop: AbsValue): AbsValue = {
       val compValue = base.comp(prop)
       val escaped = base.escaped
-      val locValue = heap(escaped.loc, prop)
+      // TODO check soundness
+      // handle base: {~normal~ -> (#REALM, ~empty~)}, prop: "Type" case
+      val locValue = 
+        if (compValue != AbsValue.Bot && prop ⊑ AV_COMP_PROPS) AbsValue.Bot
+        else heap(escaped.loc, prop)
       val strValue = (escaped.str.getSingle, prop.getSingle) match {
         case (FlatBot, _) | (_, FlatBot) => AbsValue.Bot
         case (FlatElem(Str(str)), FlatElem(ASimple(simple))) => simple match {
