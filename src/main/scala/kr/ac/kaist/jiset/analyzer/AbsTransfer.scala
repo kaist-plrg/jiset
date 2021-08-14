@@ -15,6 +15,9 @@ import scala.annotation.tailrec
 case class AbsTransfer(sem: AbsSemantics) {
   import AbsState.monad._
 
+  // math value to numeric
+  import NumericConverter._
+
   // transfer function for control points
   def apply(cp: ControlPoint): Unit = cp match {
     case (np: NodePoint[_]) => this(np)
@@ -666,11 +669,51 @@ case class AbsTransfer(sem: AbsSemantics) {
           })
         })
       },
-      "IsArrayIndex" -> { case args => ??? },
-      "min" -> { case args => ??? },
-      "max" -> { case args => ??? },
-      "abs" -> { case args => ??? },
-      "floor" -> { case args => ??? },
+      "IsArrayIndex" -> {
+        case List(v) => v.getSingle match {
+          case FlatBot => AbsValue.Bot
+          case FlatElem(sv) => sv match {
+            case ASimple(Str(s)) =>
+              val d = ESValueParser.str2num(s)
+              val ds = toStringHelper(d)
+              val UPPER = (1L << 32) - 1
+              val l = d.toLong
+              AbsValue(ds == s && 0 <= l && d == l && l < UPPER)
+            case _ => AVF
+          }
+          case FlatTop => ???
+        }
+      },
+      "min" -> {
+        case List(v0, v1) => (v0.getSingle, v1.getSingle) match {
+          case (_, FlatBot) | (FlatBot, _) => AbsValue.Bot
+          case (FlatElem(ASimple(n0: Numeric)), FlatElem(ASimple(n1: Numeric))) =>
+            AbsValue(n0.min(n1))
+          case _ => ???
+        }
+      },
+      "max" -> {
+        case List(v0, v1) => (v0.getSingle, v1.getSingle) match {
+          case (_, FlatBot) | (FlatBot, _) => AbsValue.Bot
+          case (FlatElem(ASimple(n0: Numeric)), FlatElem(ASimple(n1: Numeric))) =>
+            AbsValue(n0.max(n1))
+          case _ => ???
+        }
+      },
+      "abs" -> {
+        case List(v) => v.getSingle match {
+          case FlatBot => AbsValue.Bot
+          case FlatElem(ASimple(n: Numeric)) => AbsValue(n.abs)
+          case _ => ???
+        }
+      },
+      "floor" -> {
+        case List(v) => v.getSingle match {
+          case FlatBot => AbsValue.Bot
+          case FlatElem(ASimple(n: Numeric)) => AbsValue(n.floor)
+          case _ => ???
+        }
+      },
       "fround" -> { case args => ??? },
       "ThrowCompletion" -> {
         case List(value) => value.wrapCompletion("throw")

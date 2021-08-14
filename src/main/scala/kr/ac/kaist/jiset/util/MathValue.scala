@@ -17,6 +17,18 @@ sealed trait MathValue {
     case (MVFinite(l), MVFinite(r)) => MVFinite(l max r)
   }
 
+  // abs
+  def abs: MathValue = this match {
+    case MVFinite(d) => MVFinite(d.abs)
+    case _ => MVPosInf
+  }
+
+  // floor
+  def floor: MathValue = this match {
+    case MVFinite(d) => MVFinite(d.setScale(0, BigDecimal.RoundingMode.FLOOR))
+    case _ => MVPosInf
+  }
+
   // conversion to long
   def toLong: Option[Long] = this match {
     case MVFinite(d) if d.toLong == d => Some(d.toLong)

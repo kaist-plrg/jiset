@@ -29,6 +29,7 @@ object BasicSimple extends Domain {
 
   // abstraction functions
   def apply(num: Num): Elem = Bot.copy(num = AbsNum(num))
+  def apply(num: Double): Elem = Bot.copy(num = AbsNum(Num(num)))
   def apply(int: Long): Elem = Bot.copy(int = AbsInt(INum(int)))
   def apply(bigint: BigInt): Elem = Bot.copy(bigint = AbsBigInt(BigINum(bigint)))
   def apply(str: String): Elem = Bot.copy(str = AbsStr(Str(str)))

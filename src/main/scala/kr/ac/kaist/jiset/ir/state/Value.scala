@@ -100,6 +100,16 @@ sealed trait Numeric extends SimpleValue {
     case BigINum(bigint) => MathValue(bigint)
   }
 }
+object NumericConverter {
+  implicit def math2numeric(n: MathValue): Numeric = {
+    n.toLong.map(INum).getOrElse {
+      n.toBigInt.map(BigINum).getOrElse {
+        Num(n.toDouble)
+      }
+    }
+  }
+  implicit def numeric2math(n: Numeric): MathValue = n.toMathValue
+}
 
 // floating-point number values
 case class Num(double: Double) extends Numeric {

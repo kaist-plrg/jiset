@@ -25,6 +25,7 @@ object BasicValue extends Domain {
   def apply(algo: Algo): Elem = Bot.copy(func = AbsFunc(AFunc(algo)))
   def apply(ast: AST): Elem = Bot.copy(ast = AbsAST(AAst(ast)))
   def apply(num: Num): Elem = Bot.copy(simple = AbsSimple(num))
+  def apply(num: Double): Elem = Bot.copy(simple = AbsSimple(num))
   def apply(int: Long): Elem = Bot.copy(simple = AbsSimple(int))
   def apply(bigint: BigInt): Elem = Bot.copy(simple = AbsSimple(bigint))
   def apply(str: String): Elem = Bot.copy(simple = AbsSimple(str))
