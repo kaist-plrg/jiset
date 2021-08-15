@@ -422,7 +422,19 @@ case class AbsTransfer(sem: AbsSemantics) {
           set
         }
       } yield resB).map(Bool(_))))
-      case EGetElems(base, name) => ???
+      case elems @ EGetElems(base, name) => {
+        val loc: AllocSite = AllocSite(elems.asite, cp.view)
+        for {
+          bv <- escape(transfer(base))
+          _ <- bv.getSingle match {
+            case FlatBot => put(AbsState.Bot)
+            case FlatElem(AAst(ast)) =>
+              val vs = ast.getElems(name).map(AbsValue(_))
+              modify(_.allocList(vs)(loc))
+            case _ => ???
+          }
+        } yield AbsValue(loc)
+      }
       case EGetSyntax(base) => for {
         v <- escape(transfer(base))
         s = AbsStr(v.ast.toList.map(x => Str(x.ast.toString)))

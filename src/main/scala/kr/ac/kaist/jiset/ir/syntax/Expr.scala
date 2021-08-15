@@ -30,7 +30,7 @@ case class EBOp(bop: BOp, left: Expr, right: Expr) extends Expr
 case class ETypeOf(expr: Expr) extends Expr
 case class EIsCompletion(expr: Expr) extends Expr
 case class EIsInstanceOf(base: Expr, name: String) extends Expr with AllocSite
-case class EGetElems(base: Expr, name: String) extends Expr
+case class EGetElems(base: Expr, name: String) extends Expr with AllocSite
 case class EGetSyntax(base: Expr) extends Expr
 case class EParseSyntax(code: Expr, rule: Expr, parserParams: List[Boolean]) extends Expr
 case class EConvert(source: Expr, target: COp, flags: List[Expr]) extends Expr

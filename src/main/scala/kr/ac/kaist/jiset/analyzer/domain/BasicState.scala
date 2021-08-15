@@ -217,7 +217,7 @@ object BasicState extends Domain {
       val escaped = base.escaped
       // TODO check soundness
       // handle base: {~normal~ -> (#REALM, ~empty~)}, prop: "Type" case
-      val locValue = 
+      val locValue =
         if (compValue != AbsValue.Bot && prop ⊑ AV_COMP_PROPS) AbsValue.Bot
         else heap(escaped.loc, prop)
       val strValue = (escaped.str.getSingle, prop.getSingle) match {
