@@ -61,7 +61,12 @@ case class AComp(ty: AConst, value: AValue, target: AValue) extends AValue
 case class AConst(name: String) extends AValue
 
 // abstract locations for addresses
-sealed trait Loc extends AValue
+sealed trait Loc extends AValue {
+  def isNamed: Boolean = this match {
+    case NamedLoc(_) | SubMapLoc(NamedLoc(_)) => true
+    case _ => false
+  }
+}
 object Loc {
   // from original concrete addresses
   private val subMapPattern = "(.+).SubMap".r

@@ -60,7 +60,7 @@ class CheckWithInterp(
   def fail(msg: String, func: Function): Unit = fail(msg, Some(func))
   def fail(msg: String, funcOpt: Option[Function]): Unit = {
     funcOpt.map(func => dumpFunc(func, pdf = true))
-    error(msg)
+    warn(msg)
     sem.repl.continue = false
   }
 }
@@ -104,8 +104,10 @@ object CheckWithInterp {
     }) || { println(s"$avalue != $value"); false }
     def checkLoc(loc: Loc, addr: Addr): Boolean = {
       if (visited contains loc) true
-      else if (!absSt.heap.map.contains(loc)) { visited += loc; true }
-      else {
+      else if (!absSt.heap.map.contains(loc)) {
+        if (loc.isNamed) { visited += loc; true }
+        else { println(s"$loc is required but removed."); false }
+      } else {
         visited += loc
         val absObj = absSt(loc)
         val obj = st(addr)
