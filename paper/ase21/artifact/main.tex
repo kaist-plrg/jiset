@@ -110,7 +110,12 @@ $ git clone --recurse-submodules \
   https://github.com/kaist-plrg/jstar.git
 \end{lstlisting}
 Please see \code{INSTALL.md} for the detailed guide of installation, how to use
-this artifact.
+this artifact.  We also provide this artifact in Zenodo with a
+DOI\footnote{https://doi.org/10.5281/zenodo.5084817}
+and docker image as follows:
+\begin{lstlisting}
+$ docker run -it --rm jhnaldo/jstar
+\end{lstlisting}
 
 \section{Overall Structure}
 
@@ -135,9 +140,8 @@ from given ECMAScript.
 JSTAR performs a type analysis with flow-sensitivity and type-sensitivity for
 arguments.  Each function is split into multiple flow- and type-sensitive views,
 and an abstract state stores mapping from views to corresponding abstract
-environments.  To handle views separately, we use a worklist algorithm.  The
-type analyzer consists of two sub-modules: an \textbf{Analysis Initializer} and
-an \textbf{Abstract Transfer Function}.
+environments.  The type analyzer consists of two sub-modules: an
+\textbf{Analysis Initializer} and an \textbf{Abstract Transfer Function}.
 \begin{itemize}
   \item \textbf{Analysis Initializer} defines the initial abstract state and the initial
     set of views for a worklist.
@@ -162,8 +166,7 @@ developed four checkers in a bug detector:
     instruction is not true.
   \item \textbf{Operand Checker} detects \textit{ill-typed operand bugs}. An
     ill-typed operand bug occurs when the type of an operand does not conform to
-    its corresponding parameter type.  It contains non-numeric operand bugs
-    (`NoNumber`) and unchecked abrupt completion bugs (`Abrupt`).
+    its corresponding parameter type.
 \end{itemize}
 
 \end{document}
