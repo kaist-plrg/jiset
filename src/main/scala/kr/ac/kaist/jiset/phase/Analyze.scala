@@ -29,6 +29,8 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
       "use REPL for static analysis."),
     ("exec", BoolOption(c => USE_EXEC = true),
       "use concrete execution to check soundness."),
+    ("gc", BoolOption(c => USE_GC = true),
+      "use abstract garbage collection."),
   )
 }
 

@@ -43,9 +43,8 @@ case class AbsTransfer(sem: AbsSemantics) {
         val newSt = transfer(call)(st)
         sem += getNextNp(np, cfg.nextOf(call)) -> newSt
       case arrow @ Arrow(_, inst, fid) =>
-        val nextNp = getNextNp(np, cfg.nextOf(arrow))
-        val newSt = transfer(arrow, nextNp)(st)
-        sem += nextNp -> newSt
+        val newSt = transfer(arrow, np)(st)
+        sem += getNextNp(np, cfg.nextOf(arrow)) -> newSt
       case branch @ Branch(_, inst) => (for {
         v <- escape(transfer(inst.cond))
         b = v.bool
@@ -207,13 +206,25 @@ case class AbsTransfer(sem: AbsSemantics) {
         }
 
         // continuations
-        for (ACont(params, locals, target) <- value.cont) target match {
+        for (ACont(params, locals, target) <- value.cont) target.node match {
           // start/resume sub processes
-          case NodePoint(entry: Entry, targetView) =>
-            sem += target -> st.copy(locals = locals ++ (params zip vs))
+          case _: Entry =>
+            val newLocals = locals ++ (params zip vs)
+            val locs = vs.foldLeft(Set[Loc]())(_ ++ _.reachableLocs)
+            val fixed = st.heap.reachableLocs(locs)
+            val newSt = st
+              .copy(locals = newLocals)
+              .doProcStart(fixed)
+            sem += target -> newSt
 
           // stop/pause sub processes
-          case NodePoint(_, targetView) =>
+          case arrow: Arrow =>
+            val nextNp = getNextNp(target, cfg.nextOf(arrow))
+            val targetSt = sem(target)
+            sem += nextNp -> st.doProcEnd(targetSt, params zip vs)
+
+          // othe kinds of continuations
+          case _ =>
             sem += target -> st.copy(locals = locals ++ (params zip vs))
         }
       }
@@ -270,7 +281,7 @@ case class AbsTransfer(sem: AbsSemantics) {
     }
 
     // transfer function for arrow instructions
-    def transfer(arrow: Arrow, nextNp: NodePoint[Node]): Updater = arrow.inst match {
+    def transfer(arrow: Arrow, np: NodePoint[Node]): Updater = arrow.inst match {
       case IClo(id, params, captured, body) => for {
         st <- get
         _ <- modify(_.defineLocal(id -> AbsValue(AClo(
@@ -292,7 +303,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         _ <- modify(_.defineLocal(id -> AbsValue(ACont(
           params,
           locals,
-          nextNp
+          np
         ))))
         st <- get
         _ = sem += NodePoint(cfg.bodyFuncMap(body.uid).entry, view) -> st

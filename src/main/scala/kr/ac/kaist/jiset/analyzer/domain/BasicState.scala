@@ -165,15 +165,9 @@ object BasicState extends Domain {
     def doReturn(to: Elem, defs: Iterable[(Id, AbsValue)]): Elem = Elem(
       reachable = true,
       locals = to.locals ++ defs,
-      globals = this.globals,
-      heap = heap,
-    )
-    // TODO Elem(
-    //   reachable = true,
-    //   locals = to.locals ++ defs,
-    //   globals = globals,
-    //   heap = heap.doReturn(to.heap),
-    // ).garbageCollected
+      globals = globals,
+      heap = heap.doReturn(to.heap),
+    ).garbageCollected
     def doProcEnd(to: Elem, defs: (Id, AbsValue)*): Elem = doProcEnd(to, defs)
     def doProcEnd(to: Elem, defs: Iterable[(Id, AbsValue)]): Elem = Elem(
       reachable = true,
@@ -183,13 +177,10 @@ object BasicState extends Domain {
     ).garbageCollected
 
     // garbage collection
-    def garbageCollected: Elem = {
-      val unreachLocs = (heap.map.keySet -- reachableLocs) filter {
-        case NamedLoc(_) | SubMapLoc(NamedLoc(_)) => false
-        case _ => true
-      }
+    def garbageCollected: Elem = if (USE_GC) {
+      val unreachLocs = (heap.map.keySet -- reachableLocs).filter(!_.isNamed)
       copy(heap = heap.removeLocs(unreachLocs))
-    }
+    } else this
 
     // get reachable locations
     def reachableLocs: Set[Loc] = {
@@ -326,7 +317,7 @@ object BasicState extends Domain {
           for ((k, v) <- globals.toList.sortBy(_._1.toString)) {
             app :> s"$k -> $v" >> LINE_SEP
           }
-        }
+        } >> LINE_SEP
         app >> "heap: " >> heap
       } else app >> this
       app.toString

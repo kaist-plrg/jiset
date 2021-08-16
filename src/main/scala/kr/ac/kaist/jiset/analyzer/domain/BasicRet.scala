@@ -57,7 +57,7 @@ object BasicRet extends Domain {
           for ((k, v) <- state.globals.toList.sortBy(_._1.toString)) {
             app :> s"$k -> $v" >> LINE_SEP
           }
-        }
+        } >> LINE_SEP
         app >> "heap: " >> state.heap
       } else app >> this
       app.toString

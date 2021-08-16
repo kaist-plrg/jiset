@@ -6,6 +6,7 @@ package object analyzer {
   // options
   var USE_REPL: Boolean = false
   var USE_EXEC: Boolean = false
+  var USE_GC: Boolean = false
 
   // path type
   type Path = List[NodePoint[Call]]

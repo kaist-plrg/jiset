@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.LINE_SEP
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
 import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Appender
@@ -56,9 +57,11 @@ object BasicHeap extends Domain {
         .foreach {
           case (k, v) =>
             app :> "["
-            app >> (if (fixed contains k) "F" else " ")
-            app >> pstat.getString(k)
-            app >> fstat.getString(k)
+            if (USE_GC) {
+              app >> (if (fixed contains k) "F" else " ")
+              app >> pstat.getString(k)
+              app >> fstat.getString(k)
+            }
             app >> (if (merged contains k) "M" else " ")
             app >> "] " >> s"$k -> " >> v >> LINE_SEP
         }
@@ -134,14 +137,15 @@ object BasicHeap extends Domain {
     def isSingle(loc: Loc): Boolean = !(merged contains loc)
 
     // handle calls
-    def doCall: Elem = copy(fstat = fstat.copy(allocs = Set(), touched = Set()))
-    def doProcStart(fixed: Set[Loc]): Elem =
+    def doCall: Elem = if (USE_GC) {
+      copy(fstat = LocStat())
+    } else this
+    def doProcStart(fixed: Set[Loc]): Elem = if (USE_GC) {
       copy(fixed = fixed, pstat = LocStat(), fstat = LocStat())
+    } else this
 
-    // XXX REMOVE
-    def <<(retHeap: Elem): Elem = retHeap
-    // TODO handle returns (this: caller heaps / retHeap: return heaps)
-    def doReturn(to: Elem): Elem = Elem(
+    // handle returns (this: caller heaps / retHeap: return heaps)
+    def doReturn(to: Elem): Elem = if (USE_GC) Elem(
       map = (fixed ++ fstat.touched).foldLeft(to.map) {
         case (map, loc) => map + (loc -> this(loc))
       },
@@ -154,7 +158,8 @@ object BasicHeap extends Domain {
         (to.map.keySet intersect this.fstat.allocs)
       ),
     )
-    def doProcEnd(to: Elem): Elem = Elem(
+    else this
+    def doProcEnd(to: Elem): Elem = if (USE_GC) Elem(
       map = pstat.touched.foldLeft(to.map) {
         case (map, loc) => map + (loc -> this(loc))
       },
@@ -167,6 +172,7 @@ object BasicHeap extends Domain {
         (to.map.keySet intersect this.pstat.allocs)
       ),
     )
+    else this
 
     // get reachable locations
     def reachableLocs(initLocs: Set[Loc]): Set[Loc] = {
