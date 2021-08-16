@@ -596,7 +596,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         case OBOr => ???
         case OBXOr => ???
         case ODiv => ???
-        case OEq => ???
+        case OEq => AbsValue(bool = left =^= right)
         case OEqual => ???
         case OLShift => ???
         case OLt => ???

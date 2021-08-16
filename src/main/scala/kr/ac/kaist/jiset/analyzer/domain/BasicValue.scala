@@ -214,6 +214,13 @@ object BasicValue extends Domain {
       b
     }
 
+    // abstract equality
+    def =^=(that: AbsValue): AbsBool = (this.getSingle, that.getSingle) match {
+      case (FlatBot, _) | (_, FlatBot) => AbsBool.Bot
+      case (FlatElem(l), FlatElem(r)) => AbsBool(Bool(l == r))
+      case _ => if ((this ⊓ that).isBottom) AF else AB
+    }
+
     // check abrupt completion
     def isAbruptCompletion: AbsBool = {
       var b: AbsBool = AbsBool.Bot
