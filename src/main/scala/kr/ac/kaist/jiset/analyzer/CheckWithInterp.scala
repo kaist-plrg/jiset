@@ -120,21 +120,26 @@ object CheckWithInterp {
         val obj = st(addr)
         import AbsObj._
         (absObj, obj) match {
-          case (Bot | MergedMapElem(_, _, _) | MergedListElem(_), _) => false
+          case (Bot | MergedMap(_, _, _) | MergedList(_), _) => false
           case (SymbolElem(adesc), IRSymbol(desc)) => checkValue(adesc, desc)
-          case (am @ MapElem(aty, _, _), m @ IRMap(ty, _, _)) => checkTy(aty, ty) && {
-            val aprops = am.sortedProps(intSorted = false)
-            val props = m.keys(intSorted = false)
-            val lengthB = checkLength(aprops, props)
-            val propsB = (aprops zip props).forall {
-              case (aprop, prop) => (
-                checkSingleValue(aprop, prop) &&
-                checkValue(am(aprop), m(prop))
-              ) || { println(s"$loc[$aprop] != $addr[$prop]"); false }
+          case (am @ OrderedMap(aty, _, _), m @ IRMap(ty, _, _)) => checkTy(aty, ty) && {
+            am.keys(intSorted = false) match {
+              case MergedList(_) => false
+              case KeyWiseList(aprops) => {
+                val props = m.keys(intSorted = false)
+                val lengthB = checkLength(aprops, props)
+                val propsB = (aprops zip props).forall {
+                  case (aprop, prop) => (
+                    checkValue(aprop, prop) &&
+                    checkValue(am(aprop), m(prop))
+                  ) || { println(s"$loc[$aprop] != $addr[$prop]"); false }
+                }
+                lengthB && propsB
+              }
+              case _ => false
             }
-            lengthB && propsB
           }
-          case (ListElem(avalues), IRList(values)) => {
+          case (KeyWiseList(avalues), IRList(values)) => {
             checkLength(avalues, values) && (avalues zip values).forall {
               case (aprop, prop) => checkValue(aprop, prop)
             }

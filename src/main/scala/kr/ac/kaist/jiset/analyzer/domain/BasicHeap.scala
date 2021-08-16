@@ -264,7 +264,7 @@ object BasicHeap extends Domain {
       })
       if (ty.hasSubMap) {
         val subMapLoc = SubMapLoc(to)
-        val subMapObj = AbsObj.MapElem(Ty("SubMap"), Map(), Vector())
+        val subMapObj = AbsObj.OrderedMap(Ty("SubMap"), Map(), Vector())
         this
           .alloc(to, newObj.update(AbsValue("SubMap"), AbsValue(subMapLoc), weak = false))
           .alloc(subMapLoc, subMapObj)
@@ -274,7 +274,7 @@ object BasicHeap extends Domain {
     // list allocations
     def allocList(
       values: Iterable[AbsValue] = Nil
-    )(to: AllocSite): Elem = alloc(to, AbsObj.ListElem(values.toVector))
+    )(to: AllocSite): Elem = alloc(to, AbsObj.KeyWiseList(values.toVector))
 
     // symbol allocations
     def allocSymbol(

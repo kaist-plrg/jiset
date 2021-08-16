@@ -681,7 +681,7 @@ case class AbsTransfer(sem: AbsSemantics) {
           st <- get
         } yield AbsValue(bool = v.loc.foldLeft(AbsBool.Bot: AbsBool) {
           case (b, loc) => b ⊔ (st(loc) match {
-            case ListElem(vs) if vs.forall(_.isSingle) => AbsBool(Bool((for {
+            case KeyWiseList(vs) if vs.forall(_.isSingle) => AbsBool(Bool((for {
               v <- vs
               av <- v.getSingle match {
                 case FlatElem(av) => Some(av)

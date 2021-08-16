@@ -137,10 +137,10 @@ object BasicState extends Domain {
         case AbsObj.Bot =>
         case AbsObj.SymbolElem(desc) =>
           auxValue(desc, s"$path.desc", s"$loc.desc")
-        case AbsObj.MapElem(_, map, _) => for ((p, v) <- map) {
+        case AbsObj.OrderedMap(_, map, _) => for ((p, v) <- map) {
           auxValue(v, s"$path[$p]", s"$loc[$p]")
         }
-        case AbsObj.ListElem(values) => for ((v, k) <- values.zipWithIndex) {
+        case AbsObj.KeyWiseList(values) => for ((v, k) <- values.zipWithIndex) {
           auxValue(v, s"$path[$k]", s"$loc[$k]")
         }
         case AbsObj.NotSupportedElem(_, _) =>
