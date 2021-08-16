@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.test262
 
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.error.{ InterpTimeout, NotSupported }
+import kr.ac.kaist.jiset.error.{ InterpTimeout, AnalysisTimeout, NotSupported }
 import kr.ac.kaist.jiset.js.JSTest
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js._
@@ -16,11 +16,25 @@ trait Test262Test extends JSTest {
   // directory name
   val logDir = s"$LOG_DIR/test262_$dateStr"
 
-  // eval tests
-  def test262EvalTest(
+  // test kinds
+  type TestKind = TestKind.Value
+  object TestKind extends Enumeration {
+    val Eval, EvalPartial, EvalManual, EvalManualPartial, Analyze = Value
+    def getName(kind: Value) = kind match {
+      case Eval => "eval"
+      case EvalPartial => "partial-eval"
+      case EvalManual => "eval-manual"
+      case EvalManualPartial => "partial-eval-manual"
+      case Analyze => "analyze"
+    }
+  }
+
+  // test 262 tests
+  def test262Test(
     targets: List[NormalTestConfig],
-    name: String
+    kind: TestKind
   ): Unit = if (!targets.isEmpty) {
+    val name = TestKind.getName(kind)
     val progress = ProgressBar(s"test262 $name test", targets)
     val summary = progress.summary
     mkdir(logDir)
@@ -44,18 +58,29 @@ trait Test262Test extends JSTest {
           case Left(msg) => throw NotSupported(msg)
         }
         val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
-        evalTest(mergeStmt(stmts), jsName)
+        val merged = mergeStmt(stmts)
+        kind match {
+          case TestKind.Analyze => analyzeTest(merged)
+          case _ => evalTest(merged, jsName)
+        }
         summary.passes += name
       }.foreach {
         case InterpTimeout => summary.timeouts += name
+        case AnalysisTimeout => summary.timeouts += name
         case NotSupported(msg) => summary.yets += s"$name: $msg"
         case e => summary.fails += s"$name: ${e.getMessage}"
       }
     }
     summary.close
 
+    // dump IR logger
+    kind match {
+      case TestKind.Analyze =>
+      case _ =>
+        IRLogger.dumpTo(s"$logDir/$name-logger")
+    }
+
     // dump logs
-    IRLogger.dumpTo(s"$logDir/$name-logger")
     dumpFile(summary, s"$logDir/$name-summary")
     if (summary.timeout > 0) println(s"${summary.timeout} tests are timeout.")
     if (summary.yet > 0) println(s"${summary.yet} tests are not yet supported.")

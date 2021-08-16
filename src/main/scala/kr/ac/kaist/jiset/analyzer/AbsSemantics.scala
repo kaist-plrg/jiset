@@ -1,6 +1,8 @@
 package kr.ac.kaist.jiset.analyzer
 
+import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.error.AnalysisTimeout
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.js
@@ -15,7 +17,8 @@ case class AbsSemantics(
   var npMap: Map[NodePoint[Node], AbsState] = Map(),
   var rpMap: Map[ReturnPoint, AbsRet] = Map(),
   var callInfo: Map[NodePoint[Call], AbsState] = Map(),
-  var retEdges: Map[ReturnPoint, Set[NodePoint[Call]]] = Map()
+  var retEdges: Map[ReturnPoint, Set[NodePoint[Call]]] = Map(),
+  timeLimit: Option[Long] = None
 ) {
   // CFG
   val cfg = js.cfg
@@ -48,11 +51,23 @@ case class AbsSemantics(
   // abstract transfer function
   val transfer: AbsTransfer = AbsTransfer(this)
 
+  // set start time of analyzer
+  val startTime: Long = System.currentTimeMillis
+
+  // iteration period for check
+  val CHECK_PERIOD = 10000
+
   // fixpiont computation
   @tailrec
   final def fixpoint: AbsSemantics = worklist.next match {
     case Some(cp) => {
       iter += 1
+
+      // check time limit
+      if (iter % CHECK_PERIOD == 0) timeLimit.map(limit => {
+        val duration = (System.currentTimeMillis - startTime) / 1000
+        if (duration > limit) throw AnalysisTimeout
+      })
 
       // text-based debugging
       if (DEBUG) println(s"${cp.func.name}:$cp")
@@ -157,10 +172,11 @@ object AbsSemantics {
   // constructors
   def apply(
     script: js.ast.Script,
-    execLevel: Int
+    execLevel: Int,
+    timeLimit: Option[Long]
   ): AbsSemantics = {
     val initPair = Initialize(script)
-    val sem = AbsSemantics(npMap = Map(initPair))
+    val sem = AbsSemantics(npMap = Map(initPair), timeLimit = timeLimit)
     if (execLevel >= 1) {
       sem.checkWithInterp = Some(CheckWithInterp(sem, script, execLevel))
     }

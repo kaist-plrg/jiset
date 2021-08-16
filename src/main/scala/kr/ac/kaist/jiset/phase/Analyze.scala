@@ -20,7 +20,7 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
     config: AnalyzeConfig
   ): AbsSemantics = {
     setSpec(loadSpec(s"$VERSION_DIR/generated"))
-    AbsSemantics(script, config.execLevel).fixpoint
+    AbsSemantics(script, config.execLevel, config.timeout).fixpoint
   }
 
   def defaultConfig: AnalyzeConfig = AnalyzeConfig()
@@ -35,10 +35,13 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
       "use abstract garbage collection."),
     ("flow-sens", BoolOption(c => FLOW_SENS = true),
       "use flow-sensitivity."),
+    ("timeout", NumOption((c, i) => c.timeout = if (i == 0) None else Some(i)),
+      "set timeout of analyzer(second), 0 for unlimited.")
   )
 }
 
 // Analyze phase config
 case class AnalyzeConfig(
-  var execLevel: Int = 0
+  var execLevel: Int = 0,
+  var timeout: Option[Long] = None
 ) extends Config

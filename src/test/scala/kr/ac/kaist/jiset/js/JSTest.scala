@@ -60,7 +60,7 @@ trait JSTest extends IRTest {
     // intitialize spec
     JISETTest.spec
     // fixpoint calculation
-    AbsSemantics(script, execLevel).fixpoint
+    AbsSemantics(script, execLevel, Some(ANALYSIS_TIMEOUT)).fixpoint
   }
 
   // tests for JS parser
@@ -111,6 +111,8 @@ trait JSTest extends IRTest {
   // tests for JS analyzer
   def analyzeTestFile(filename: String): Unit =
     analyzeFile(filename, 1)
+  def analyzeTest(script: Script): Unit =
+    analyze(script, 1)
 
   // conversion extension from .js to .ir
   val js2ir = changeExt("js", "ir")

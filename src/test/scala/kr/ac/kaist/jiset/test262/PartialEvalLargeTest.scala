@@ -13,7 +13,7 @@ class PartialEvalLargeTest extends Test262Test {
 
   // registration
   def init: Unit = check(name, {
-    test262EvalTest(Test262.config.normal, "partial-eval")
+    test262Test(Test262.config.normal, TestKind.EvalPartial)
   })
   init
 }

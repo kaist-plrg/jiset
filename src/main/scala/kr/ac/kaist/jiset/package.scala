@@ -55,6 +55,7 @@ package object jiset {
 
   // Timeout
   val TIMEOUT = 10
+  val ANALYSIS_TIMEOUT = 60L
 
   // Debugging mode
   var DEBUG: Boolean = false

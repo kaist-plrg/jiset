@@ -22,6 +22,10 @@ case object InterpTimeout extends ModelError({
   s"timeout during the conrete interpretation."
 })
 
+case object AnalysisTimeout extends ModelError({
+  s"timeout during the abstract interpretation."
+})
+
 case object InvalidAST extends ModelError({
   s"invald abstract syntax tree"
 })
