@@ -34,6 +34,11 @@ case class AbsSemantics(
   def getIter: Int = iter
   private var iter: Int = 0
 
+  // get abstract return values and states of RunJobs
+  val runJobs = cfg.funcMap("RunJobs")
+  val runJobsRp = ReturnPoint(runJobs, View())
+  def finalResult: AbsRet = this(runJobsRp)
+
   // get function of given control points
   def funcOf(cp: ControlPoint): Function = cp match {
     case NodePoint(node, _) => cfg.funcOf(node)
