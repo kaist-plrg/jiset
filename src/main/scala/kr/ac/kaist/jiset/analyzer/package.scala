@@ -7,6 +7,7 @@ package object analyzer {
   var USE_REPL: Boolean = false
   var USE_EXEC: Boolean = false
   var USE_GC: Boolean = false
+  var FLOW_SENS: Boolean = false
 
   // path type
   type Path = List[NodePoint[Call]]

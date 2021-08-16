@@ -31,6 +31,8 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
       "use concrete execution to check soundness."),
     ("gc", BoolOption(c => USE_GC = true),
       "use abstract garbage collection."),
+    ("flow-sens", BoolOption(c => FLOW_SENS = true),
+      "use flow-sensitivity."),
   )
 }
 
