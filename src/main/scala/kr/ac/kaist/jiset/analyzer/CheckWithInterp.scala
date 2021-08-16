@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.analyzer
 
+import kr.ac.kaist.jiset.TEST_MODE
 import kr.ac.kaist.jiset.analyzer.NativeHelper._
 import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.cfg._
@@ -7,9 +8,10 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.util.Useful._
 
-class CheckWithInterp(
-  sem: AbsSemantics,
-  interp: Interp
+case class CheckWithInterp(
+  val sem: AbsSemantics,
+  val interp: Interp,
+  val execLevel: Int
 ) {
   // run and check the soundness
   def runAndCheck: Unit = {
@@ -30,7 +32,7 @@ class CheckWithInterp(
         s"${node.uidString} is not same with ${absNode.uidString}.",
         absNode
       )
-      case Some((np, absSt)) => {
+      case Some((np, absSt)) => if (execLevel >= 2) {
         // singletone check
         if (!absSt.isSingle) fail(
           "the abstract state is not single",
@@ -60,15 +62,20 @@ class CheckWithInterp(
   def fail(msg: String, func: Function): Unit = fail(msg, Some(func))
   def fail(msg: String, funcOpt: Option[Function]): Unit = {
     funcOpt.map(func => dumpFunc(func, pdf = true))
-    warn(msg)
+    if (TEST_MODE) error(msg) else warn(msg)
     sem.repl.continue = false
   }
 }
 object CheckWithInterp {
-  def apply(sem: AbsSemantics, script: ast.Script): CheckWithInterp = {
+  def apply(
+    sem: AbsSemantics,
+    script: ast.Script,
+    execLevel: Int,
+    timeLimit: Option[Long] = Some(ANALYZE_TIMEOUT)
+  ): CheckWithInterp = {
     val initSt = Initialize(script)
     val interp = new Interp(initSt, timeLimit = None)
-    new CheckWithInterp(sem, interp)
+    CheckWithInterp(sem, interp, execLevel)
   }
 
   // check soundness of abstract state

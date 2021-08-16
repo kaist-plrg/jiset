@@ -28,6 +28,7 @@ case class AbsSemantics(
 
   // execution
   private var checkWithInterp: Option[CheckWithInterp] = None
+  def getInterp: Option[ir.Interp] = checkWithInterp.map(_.interp)
 
   // the number of iterations
   def getIter: Int = iter
@@ -58,7 +59,7 @@ case class AbsSemantics(
       else transfer(cp)
 
       // check soundness using concrete execution
-      if (USE_EXEC) checkWithInterp.map(_.runAndCheck)
+      checkWithInterp.map(_.runAndCheck)
 
       // keep going
       fixpoint
@@ -149,10 +150,15 @@ case class AbsSemantics(
 }
 object AbsSemantics {
   // constructors
-  def apply(script: js.ast.Script): AbsSemantics = {
+  def apply(
+    script: js.ast.Script,
+    execLevel: Int
+  ): AbsSemantics = {
     val initPair = Initialize(script)
     val sem = AbsSemantics(npMap = Map(initPair))
-    if (USE_EXEC) sem.checkWithInterp = Some(CheckWithInterp(sem, script))
+    if (execLevel >= 1) {
+      sem.checkWithInterp = Some(CheckWithInterp(sem, script, execLevel))
+    }
     sem
   }
 }

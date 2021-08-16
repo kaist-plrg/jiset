@@ -52,15 +52,15 @@ trait JSTest extends IRTest {
     Interp(load(script, fnameOpt))
 
   // analyze JS codes
-  def analyze(str: String): AbsSemantics = analyze(parse(str))
-  def analyzeFile(filename: String): AbsSemantics = analyze(parseFile(filename))
-  def analyze(script: Script): AbsSemantics = {
+  def analyze(str: String, execLevel: Int): AbsSemantics =
+    analyze(parse(str), execLevel)
+  def analyzeFile(filename: String, execLevel: Int): AbsSemantics =
+    analyze(parseFile(filename), execLevel)
+  def analyze(script: Script, execLevel: Int): AbsSemantics = {
     // intitialize spec
     JISETTest.spec
     // fixpoint calculation
-    val absSem = AbsSemantics(script)
-    absSem.fixpoint
-    absSem
+    AbsSemantics(script, execLevel).fixpoint
   }
 
   // tests for JS parser
@@ -109,25 +109,8 @@ trait JSTest extends IRTest {
     evalTest(eval(script, Some(filename)))
 
   // tests for JS analyzer
-  def analyzeTestFile(filename: String): Unit = {
-    // get analyze result
-    val absSem = analyzeFile(filename)
-    // get final state of concrete interp
-    val st = evalFile(filename)
-    // get abs state of ReturnPoint of RunJobs
-    val runJobs = absSem.cfg.funcMap("RunJobs")
-    val runJobsRp = ReturnPoint(runJobs, View())
-    val retId = Id(RESULT)
-    val absSt =
-      if (!absSem.rpMap.contains(runJobsRp)) AbsState.Empty
-      else {
-        val absRet = absSem(runJobsRp)
-        if (!st.exists(retId)) absRet.state
-        else absRet.state.defineLocal((retId, absRet.value))
-      }
-    // check soundness
-    assert(CheckWithInterp.check(runJobsRp, absSt, st))
-  }
+  def analyzeTestFile(filename: String): Unit =
+    analyzeFile(filename, 1)
 
   // conversion extension from .js to .ir
   val js2ir = changeExt("js", "ir")

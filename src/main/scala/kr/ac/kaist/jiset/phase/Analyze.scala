@@ -20,15 +20,17 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
     config: AnalyzeConfig
   ): AbsSemantics = {
     setSpec(loadSpec(s"$VERSION_DIR/generated"))
-    AbsSemantics(script).fixpoint
+    AbsSemantics(script, config.execLevel).fixpoint
   }
 
   def defaultConfig: AnalyzeConfig = AnalyzeConfig()
   val options: List[PhaseOption[AnalyzeConfig]] = List(
     ("repl", BoolOption(c => USE_REPL = true),
       "use REPL for static analysis."),
-    ("exec", BoolOption(c => USE_EXEC = true),
-      "use concrete execution to check soundness."),
+    ("exec-level", NumOption((c, k) => {
+      if (k < 0 || k > 2) println(s"Invalid execution level: $k")
+      c.execLevel = k
+    }), "use concrete execution to check soundness."),
     ("gc", BoolOption(c => USE_GC = true),
       "use abstract garbage collection."),
     ("flow-sens", BoolOption(c => FLOW_SENS = true),
@@ -37,4 +39,6 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
 }
 
 // Analyze phase config
-case class AnalyzeConfig() extends Config
+case class AnalyzeConfig(
+  var execLevel: Int = 0
+) extends Config
