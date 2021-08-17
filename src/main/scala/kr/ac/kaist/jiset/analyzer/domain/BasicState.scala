@@ -128,28 +128,32 @@ object BasicState extends Domain {
           if (locPath == "") println(s"$path is merged: $value")
           else println(s"$path ($locPath) is merged: $value")
         }
-        for (loc <- value.loc if !visited.contains(loc)) {
-          visited += loc
-          auxLoc(loc, path)
-        }
+        for (loc <- value.reachableLocs) auxLoc(loc, path)
       }
-      def auxLoc(loc: Loc, path: String): Unit = heap(loc) match {
-        case AbsObj.Bot =>
-        case AbsObj.SymbolElem(desc) =>
-          auxValue(desc, s"$path.desc", s"$loc.desc")
-        case AbsObj.OrderedMap(_, map, _) => for ((p, v) <- map) {
-          auxValue(v, s"$path[$p]", s"$loc[$p]")
+      def auxLoc(loc: Loc, path: String): Unit = if ((
+        !visited.contains(loc) &&
+        heap.map.contains(loc)
+      )) {
+        visited += loc
+        heap(loc) match {
+          case AbsObj.Bot =>
+          case AbsObj.SymbolElem(desc) =>
+            auxValue(desc, s"$path.desc", s"$loc.desc")
+          case AbsObj.OrderedMap(_, map, _) => for ((p, v) <- map) {
+            auxValue(v, s"$path[$p]", s"$loc[$p]")
+          }
+          case AbsObj.KeyWiseList(values) => for ((v, k) <- values.zipWithIndex) {
+            auxValue(v, s"$path[$k]", s"$loc[$k]")
+          }
+          case AbsObj.NotSupportedElem(_, _) =>
+          case obj => println(s"$path ($loc) is merged object: $obj")
         }
-        case AbsObj.KeyWiseList(values) => for ((v, k) <- values.zipWithIndex) {
-          auxValue(v, s"$path[$k]", s"$loc[$k]")
-        }
-        case AbsObj.NotSupportedElem(_, _) =>
-        case obj => println(s"$path ($loc) is merged object: $obj")
       }
 
       for ((x, v) <- locals) auxValue(v, s"local $x")
       for ((x, v) <- globals) auxValue(v, s"global $x")
-      for ((loc, _) <- heap.map) auxLoc(loc, s"<unreachable>")
+      for (loc <- heap.map.keys if loc.isNamed) auxLoc(loc, s"$loc")
+      for (loc <- heap.map.keys if !loc.isNamed) auxLoc(loc, s"<unreachable>")
     }
 
     // handle calls

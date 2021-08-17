@@ -176,14 +176,16 @@ object BasicHeap extends Domain {
 
     // get reachable locations
     def reachableLocs(initLocs: Set[Loc]): Set[Loc] = {
-      var locs = Set[Loc]()
-      def aux(loc: Loc): Unit = if (!locs.contains(loc)) {
-        locs += loc
-        val objLocs = this(loc).reachableLocs
-        objLocs.foreach(aux)
+      var visited = Set[Loc]()
+      var reached = Set[Loc]()
+      def aux(loc: Loc): Unit = if (!visited.contains(loc)) {
+        visited += loc
+        if (!loc.isNamed) reached += loc
+        this(loc).reachableLocs.foreach(aux)
       }
+      map.keys.filter(_.isNamed).foreach(aux)
       initLocs.foreach(aux)
-      locs
+      reached
     }
 
     // remove given locations

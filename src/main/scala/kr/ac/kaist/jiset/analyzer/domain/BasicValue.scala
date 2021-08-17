@@ -188,7 +188,7 @@ object BasicValue extends Domain {
         ACont(_, locals, _) <- cont
         (_, value) <- locals
       } locs ++= value.reachableLocs
-      locs
+      locs.filter(!_.isNamed)
     }
 
     // remove absent values

@@ -25,9 +25,7 @@ object BasicRet extends Domain {
   ))
 
   // appender
-  implicit val app: App[Elem] = (app, elem) => {
-    app >> elem.value >> " @ " >> elem.state
-  }
+  implicit val app: App[Elem] = (app, elem) => app >> elem.value
 
   // elements
   case class Elem(

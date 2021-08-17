@@ -47,6 +47,7 @@ case class REPL(sem: AbsSemantics) {
   // handle when the static analysis is finished
   def finished: Unit = {
     printlnColor(CYAN)(s"* Static analysis finished. (# iter: $iter)")
+    continue = false
     runDirect(None)
   }
 

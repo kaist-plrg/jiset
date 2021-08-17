@@ -58,12 +58,12 @@ object BasicObj extends Domain {
   // abstraction functions
   def apply(obj: Obj): Elem = obj match {
     case IRSymbol(desc) => SymbolElem(AbsValue(desc))
-    case IRMap(ty, props, size) => OrderedMap(
+    case m @ IRMap(ty, props, size) => OrderedMap(
       ty = ty,
       map = (props.toList.map {
         case (k, (v, _)) => AValue.from(k) -> AbsValue(v)
       }).toMap,
-      props = props.toVector.sortBy(_._2._2).map(_._1).map(AValue.from),
+      props = m.keys(intSorted = false).map(AValue.from),
     )
     case IRList(values) => KeyWiseList(values.map(AbsValue(_)))
     case IRNotSupported(tyname, desc) => NotSupportedElem(Ty(tyname), desc)
@@ -368,7 +368,9 @@ object BasicObj extends Domain {
           } yield (s, i))
             .sortBy(_._2)
             .map { case (s, _) => AbsValue(s) }
-        } else props.map(AbsValue(_)))
+        } else if (ty.name == "SubMap") {
+          props.map(AbsValue(_))
+        } else props.sortBy(_.toString).map(AbsValue(_)))
         case _ => MergedList(m.mergedProp)
       }
       case _ => Bot

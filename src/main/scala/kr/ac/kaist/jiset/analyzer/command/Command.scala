@@ -34,6 +34,7 @@ object Command {
     CmdListBreak,
     CmdRmBreak,
     CmdJump,
+    CmdPrint,
     CmdLog,
     CmdGraph,
     CmdExit,

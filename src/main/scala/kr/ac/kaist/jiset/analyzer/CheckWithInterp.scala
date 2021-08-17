@@ -61,7 +61,6 @@ case class CheckWithInterp(
   def fail(msg: String, node: Node): Unit = fail(msg, Some(cfg.funcOf(node)))
   def fail(msg: String, func: Function): Unit = fail(msg, Some(func))
   def fail(msg: String, funcOpt: Option[Function]): Unit = {
-    funcOpt.map(func => dumpFunc(func, pdf = true))
     if (TEST_MODE) error(msg) else warn(msg)
     sem.repl.continue = false
   }
@@ -132,7 +131,11 @@ object CheckWithInterp {
                   case (aprop, prop) => (
                     checkValue(aprop, prop) &&
                     checkValue(am(aprop), m(prop))
-                  ) || { println(s"$loc[$aprop] != $addr[$prop]"); false }
+                  ) || {
+                      println(aprops, props)
+                      println(s"$loc[$aprop] != $addr[$prop]")
+                      false
+                    }
                 }
                 lengthB && propsB
               }

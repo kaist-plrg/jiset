@@ -170,7 +170,7 @@ case class AbsTransfer(sem: AbsSemantics) {
     // return specific value
     def doReturn(v: AbsValue): Result[Unit] = for {
       st <- get
-      ret = AbsRet(v, st)
+      ret = AbsRet(v, st.copy(locals = Map()))
       _ = sem.doReturn(rp, ret)
     } yield ()
 
