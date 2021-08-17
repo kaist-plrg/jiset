@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.checker
 
-import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.cfg.{ DotPrinter => _, _ }
+import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.Queue
 import scala.annotation.tailrec
@@ -126,6 +127,41 @@ case class PartialFunc(
     this.func == that.func &&
       this.view == that.view &&
       (this.reachables subsetOf that.reachables)
+
+  // conversion to DOT
+  lazy val toDot: String = (new DotPrinter {
+    def getId(func: Function): String = s"cluster${func.uid}_${norm(view)}"
+    def getId(node: Node): String = s"node${node.uid}_${norm(view)}"
+    def getName(func: Function): String = {
+      val viewName = view.toString.replaceAll("\"", "\\\\\"")
+      s"${func.name}:$viewName"
+    }
+    def getColor(node: Node): String = {
+      if (reachables contains node) REACH
+      else NON_REACH
+    }
+    def getColor(from: Node, to: Node): String = {
+      if (Set(from, to) subsetOf reachables) REACH
+      else NON_REACH
+    }
+    def getBgColor(node: Node): String = {
+      if (nodes contains node) SELECTED
+      else NORMAL
+    }
+    def apply(app: Appender): Unit = {
+      addFunc(func, app)
+      for ((f, t) <- shortcut) addShortcut(f, t, app)
+    }
+    def addShortcut(
+      from: Node,
+      to: Node,
+      app: Appender
+    ): Unit = {
+      val fid = getId(from)
+      val tid = getId(to)
+      addEdge(fid, tid, SHORTCUT, Some("shortcut"), app)
+    }
+  }).toString
 }
 object PartialFunc {
   type Reachable = Reachable.Value

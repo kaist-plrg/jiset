@@ -77,7 +77,7 @@ object NativeHelper {
     depth: Option[Int] = None,
     path: Option[Path] = None
   ): Unit = try {
-    dumpDot((new DotPrinter)(cp, depth, path).toString, pdf)
+    dumpDot(Graph(cp, depth, path).toDot, pdf)
   } catch {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG")
   }
@@ -87,7 +87,7 @@ object NativeHelper {
     func: Function,
     pdf: Boolean = true
   ): Unit = try {
-    dumpDot((new DotPrinter)(func).toString, pdf)
+    dumpDot(func.toDot, pdf)
   } catch {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG function")
   }
@@ -97,7 +97,7 @@ object NativeHelper {
     pf: PartialFunc,
     pdf: Boolean = true
   ): Unit = try {
-    dumpDot((new DotPrinter)(pf).toString, pdf)
+    dumpDot(pf.toDot, pdf)
   } catch {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG partial function")
   }

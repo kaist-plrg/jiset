@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.cfg
 
 import kr.ac.kaist.jiset.ir.Inst
 import kr.ac.kaist.jiset.spec.algorithm.{ Algo, Head, Param }
-import kr.ac.kaist.jiset.util.{ UId, UIdGen }
+import kr.ac.kaist.jiset.util.{ Appender, UId, UIdGen }
 
 // CFG functions
 case class Function(
@@ -14,7 +14,7 @@ case class Function(
   nexts: Map[Linear, Node],
   branches: Map[Branch, (Node, Node)],
   complete: Boolean
-) extends CFGElem with UId[Function] {
+) extends CFGElem with UId[Function] { func =>
   // optionally get algorithm
   def algoOption: Option[Algo] = origin match {
     case AlgoOrigin(algo) => Some(algo)
@@ -34,5 +34,13 @@ case class Function(
   lazy val body: Inst = origin.body
 
   // conversion to DOT
-  lazy val toDot: String = (new DotPrinter)(this).toString
+  lazy val toDot: String = (new DotPrinter {
+    def getId(func: Function): String = s"cluster${func.uid}"
+    def getId(node: Node): String = s"node${node.uid}"
+    def getName(func: Function): String = func.name
+    def getColor(node: Node): String = REACH
+    def getColor(from: Node, to: Node): String = REACH
+    def getBgColor(node: Node): String = NORMAL
+    def apply(app: Appender): Unit = addFunc(func, app)
+  }).toString
 }
