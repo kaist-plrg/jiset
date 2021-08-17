@@ -1,9 +1,10 @@
-package kr.ac.kaist.jiset.checker
+package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset.cfg.{ DotPrinter => _, _ }
 import kr.ac.kaist.jiset.util.Appender
 
 case class Graph(
+  sem: AbsSemantics,
   curOpt: Option[ControlPoint],
   depthOpt: Option[Int],
   pathOpt: Option[Path]
@@ -35,7 +36,7 @@ case class Graph(
         showPrev(rp, dot, depth, app)
       case _ =>
         val funcs: Set[(Function, View)] =
-          sem.getAllControlPoints.map(cp => (sem.funcOf(cp), cp.view))
+          sem.npMap.keySet.map(np => (sem.funcOf(np), np.view))
         for ((func, view) <- funcs) {
           val dot = ViewDotPrinter(view)
           dot.addFunc(func, app)
@@ -44,7 +45,7 @@ case class Graph(
         // print call edges
         for ((ReturnPoint(func, returnView), calls) <- sem.retEdges) {
           val eid = ViewDotPrinter(returnView).getId(func.entry)
-          for ((callNp @ NodePoint(call, callView), _) <- calls) {
+          for (callNp @ NodePoint(call, callView) <- calls) {
             ViewDotPrinter(callView).addCall(call, eid, app)
           }
         }
@@ -68,7 +69,7 @@ case class Graph(
       val entry = rp.func.entry
       val entryNp = NodePoint(entry, rp.view)
       val eid = dot.getId(entry)
-      for ((callNp @ NodePoint(call, callView), _) <- sem.getRetEdges(rp)) {
+      for (callNp @ NodePoint(call, callView) <- sem.getRetEdges(rp)) {
         val func = sem.funcOf(callNp)
         val callRp = ReturnPoint(func, callView)
         val callDot = ViewDotPrinter(callView)
@@ -104,7 +105,7 @@ case class Graph(
     def getBgColor(node: Node): String = {
       val np = NodePoint(node, view)
       if (Some(np) == curOpt) CURRENT
-      else if (worklist has np) SELECTED
+      else if (sem.worklist has np) SELECTED
       else NORMAL
     }
     def apply(app: Appender): Unit = {}

@@ -152,6 +152,16 @@ case class AbsSemantics(
     }
   }
 
+  // get views by function name
+  def getRpsByFuncName(fname: String): Set[ReturnPoint] =
+    npMap.keySet.flatMap {
+      case NodePoint(entry: Entry, view) =>
+        val func = cfg.funcOf(entry)
+        if (func.name == fname) Some(ReturnPoint(func, view))
+        else None
+      case _ => None
+    }
+
   // get string for result of control points
   def getString(
     cp: ControlPoint,
