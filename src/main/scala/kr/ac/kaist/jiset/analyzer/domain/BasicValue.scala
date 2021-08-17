@@ -175,7 +175,7 @@ object BasicValue extends Domain {
 
     // get reachable locations
     def reachableLocs: Set[Loc] = {
-      var locs = loc.toSet
+      var locs = loc.toSet.filter(!_.isNamed)
       for ((_, AbsComp.Result(value, target)) <- comp.map) {
         locs ++= value.reachableLocs
         locs ++= target.reachableLocs
@@ -188,7 +188,7 @@ object BasicValue extends Domain {
         ACont(_, locals, _) <- cont
         (_, value) <- locals
       } locs ++= value.reachableLocs
-      locs.filter(!_.isNamed)
+      locs
     }
 
     // remove absent values
