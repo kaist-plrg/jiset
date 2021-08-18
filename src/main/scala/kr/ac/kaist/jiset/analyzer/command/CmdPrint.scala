@@ -18,11 +18,11 @@ case object CmdPrint extends Command(
     cpOpt: Option[ControlPoint],
     args: List[String]
   ): Unit = args match {
-    case s"-${ `reachLoc` }" :: _ => cpOpt.map { cp => 
+    case s"-${ `reachLoc` }" :: _ => cpOpt.map { cp =>
       val st = repl.sem.getState(cp)
       st.reachableLocs.foreach(println _)
     }
-    case s"-${ `expr` }" :: str :: _ => cpOpt.map { cp => 
+    case s"-${ `expr` }" :: str :: _ => cpOpt.map { cp =>
       val v = repl.sem.transfer(cp, Expr(str))
       // TODO get string for abstract value
       println(v)
