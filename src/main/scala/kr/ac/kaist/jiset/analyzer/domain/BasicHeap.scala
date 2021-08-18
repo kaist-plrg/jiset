@@ -12,6 +12,16 @@ import kr.ac.kaist.jiset.util.Useful._
 object BasicHeap extends Domain {
   lazy val Bot = Elem(Map(), Set(), LocStat(), LocStat(), Set())
 
+  // initial conrete heap
+  lazy val initHeap: Heap = js.Initialize.initHeap
+
+  // base mapping from locations to abstract objects
+  lazy val base: Map[Loc, AbsObj] = (for {
+    (addr, obj) <- initHeap.map
+    loc = Loc.from(addr)
+    aobj = AbsObj(obj)
+  } yield loc -> aobj).toMap
+
   // location status
   case class LocStat(
     allocs: Set[Loc] = Set(),
@@ -336,14 +346,4 @@ object BasicHeap extends Domain {
       }
     }
   }
-
-  // initial conrete heap
-  lazy val initHeap: Heap = js.Initialize.initHeap
-
-  // base mapping from locations to abstract objects
-  lazy val base: Map[Loc, AbsObj] = (for {
-    (addr, obj) <- initHeap.map
-    loc = Loc.from(addr)
-    aobj = AbsObj(obj)
-  } yield loc -> aobj).toMap
 }

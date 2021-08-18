@@ -196,45 +196,66 @@ case class AbsTransfer(sem: AbsSemantics) {
         value <- transfer(fexpr)
         vs <- join(args.map(transfer))
         st <- get
-        _ <- put(AbsState.Bot)
-      } yield {
-        // algorithms
-        for (AFunc(algo) <- value.func) {
-          val newLocals = getLocals(algo.head.params, vs)
-          val newSt = st.copy(locals = newLocals)
-          sem.doCall(call, view, st, algo.func, newSt)
+        v = {
+          // return values
+          var returnValue: AbsValue = AbsValue.Bot
+
+          // algorithms
+          for (AFunc(algo) <- value.func) if (algo.name == "GLOBAL.__ABS__") {
+            optional {
+              val args = vs(1) // get arguments
+              val obj = st(args.loc.head)
+              val name = obj(ASimple(INum(0))).str.head.str
+              returnValue = name match {
+                case "boolTop" => AbsValue.bool
+                case _ =>
+                  warn(s"invalid abstract value: $name")
+                  AbsValue.Bot
+              }
+            }.getOrElse(warn("invalid use of __ABS__"))
+          } else {
+            val newLocals = getLocals(algo.head.params, vs)
+            val newSt = st.copy(locals = newLocals)
+            sem.doCall(call, view, st, algo.func, newSt)
+          }
+
+          // closures
+          for (AClo(params, locals, func) <- value.clo) {
+            val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
+            val newSt = st.copy(locals = newLocals)
+            sem.doCall(call, view, st, func, newSt)
+          }
+
+          // continuations
+          for (ACont(params, locals, target) <- value.cont) target.node match {
+            // start/resume sub processes
+            case _: Entry =>
+              val newLocals = locals ++ (params zip vs)
+              val locs = vs.foldLeft(Set[Loc]())(_ ++ _.reachableLocs)
+              val fixed = st.heap.reachableLocs(locs)
+              val newSt = st
+                .copy(locals = newLocals)
+                .doProcStart(fixed)
+              sem += target -> newSt
+
+            // stop/pause sub processes
+            case arrow: Arrow =>
+              val nextNp = getNextNp(target, cfg.nextOf(arrow))
+              val targetSt = sem(target)
+              sem += nextNp -> st.doProcEnd(targetSt, params zip vs)
+
+            // othe kinds of continuations
+            case _ =>
+              sem += target -> st.copy(locals = locals ++ (params zip vs))
+          }
+
+          returnValue
         }
-
-        // closures
-        for (AClo(params, locals, func) <- value.clo) {
-          val newLocals = locals ++ getLocals(params.map(x => Param(x.name)), vs)
-          val newSt = st.copy(locals = newLocals)
-          sem.doCall(call, view, st, func, newSt)
+        _ <- {
+          if (v.isBottom) put(AbsState.Bot)
+          else modify(_.defineLocal(id -> v))
         }
-
-        // continuations
-        for (ACont(params, locals, target) <- value.cont) target.node match {
-          // start/resume sub processes
-          case _: Entry =>
-            val newLocals = locals ++ (params zip vs)
-            val locs = vs.foldLeft(Set[Loc]())(_ ++ _.reachableLocs)
-            val fixed = st.heap.reachableLocs(locs)
-            val newSt = st
-              .copy(locals = newLocals)
-              .doProcStart(fixed)
-            sem += target -> newSt
-
-          // stop/pause sub processes
-          case arrow: Arrow =>
-            val nextNp = getNextNp(target, cfg.nextOf(arrow))
-            val targetSt = sem(target)
-            sem += nextNp -> st.doProcEnd(targetSt, params zip vs)
-
-          // othe kinds of continuations
-          case _ =>
-            sem += target -> st.copy(locals = locals ++ (params zip vs))
-        }
-      }
+      } yield ()
       case access @ IAccess(id, bexpr, expr, args) => {
         val loc: AllocSite = AllocSite(access.asite, cp.view)
         for {

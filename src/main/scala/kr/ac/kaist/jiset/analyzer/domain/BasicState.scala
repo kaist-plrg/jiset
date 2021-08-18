@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.analyzer.domain
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
-import kr.ac.kaist.jiset.js.{ Initialize => JSInitialize }
+import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.StateMonad
@@ -16,7 +16,7 @@ object BasicState extends Domain {
 
   // base globals
   lazy val base: Map[Id, AbsValue] = (for {
-    (x, v) <- JSInitialize.initGlobal.toList
+    (x, v) <- js.Initialize.initGlobal.toList
     av = AbsValue(v)
   } yield x -> av).toMap
 
@@ -334,7 +334,7 @@ object BasicState extends Domain {
       val locs = value.reachableLocs
       if (!locs.isEmpty) (app >> " @ ").wrap(for (loc <- locs) {
         val obj = heap(loc)
-        app :> s"$loc -> $obj" >> LINE_SEP
+        app :> s"$loc -> " >> obj >> LINE_SEP
       })
       app.toString
     }
