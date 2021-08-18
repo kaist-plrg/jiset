@@ -8,13 +8,13 @@ import { loadSpec } from "../store/reducers/Spec";
 import { Spec } from "../object/Spec";
 
 // js
-import { 
-  editJs, 
-  clearJs, 
-  updateJsRange, 
-  addBreakJs, 
-  rmBreakJs, 
-  toggleBreakJs 
+import {
+  editJs,
+  clearJs,
+  updateJsRange,
+  addBreakJs,
+  rmBreakJs,
+  toggleBreakJs
 } from "../store/reducers/JS";
 
 // debugger

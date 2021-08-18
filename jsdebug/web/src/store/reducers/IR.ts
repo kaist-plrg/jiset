@@ -15,7 +15,7 @@ export enum IRActionType {
   SHOW_ENV = "IRAction/SHOW_ENV",
   CLEAR = "IRAction/CLEAR",
 }
-export function updateIrInfo ( stackFrame: StackFrame, heap: [string, string][], env: [string, string][][] ): IRAction {
+export function updateIrInfo ( stackFrame: StackFrame, heap: [ string, string ][], env: [ string, string ][][] ): IRAction {
   return {
     type: IRActionType.UPDATE,
     stackFrame,
@@ -42,8 +42,8 @@ export type IRAction =
   | {
     type: IRActionType.UPDATE;
     stackFrame: StackFrame;
-    heap: [string, string][];
-    env: [string, string][][];
+    heap: [ string, string ][];
+    env: [ string, string ][][];
   }
   | {
     type: IRActionType.SHOW_ALGO;
@@ -65,7 +65,7 @@ type IRState = {
   };
   heap: Heap;
   env: {
-    data: [string, string][][];
+    data: [ string, string ][][];
     idx: number;
   }
 };
@@ -89,9 +89,9 @@ export default function reducer ( state = initialState, action: IRAction ) {
           data: action.stackFrame,
           idx: 0,
         };
-        for (var i = 0, h; i < action.heap.length; i++) {
-          h = action.heap[i];
-          draft.heap[ h[0] ] = h[1];
+        for ( var i = 0, h; i < action.heap.length; i++ ) {
+          h = action.heap[ i ];
+          draft.heap[ h[ 0 ] ] = h[ 1 ];
         }
         draft.env = {
           data: action.env,

@@ -92,7 +92,7 @@ class JSBreakpoints extends React.Component<JSBreakpointsProps, JSBreakpointsSta
     const duplicated = this.props.breakpoints
       .map( ( _ ) => _.line )
       .some( ( _ ) => _ === line );
-    const valid = (line <= this.props.code.split('\n').length) && ( line > 0 );
+    const valid = ( line <= this.props.code.split( '\n' ).length ) && ( line > 0 );
     if ( valid && !duplicated )
       sm.move( { type: ActionType.ADD_BREAK_JS, line: Number( this.state.line ) } );
     else if ( duplicated ) toast.warning( `Breakpoint already set: Line ${ line }` );
@@ -114,15 +114,15 @@ class JSBreakpoints extends React.Component<JSBreakpointsProps, JSBreakpointsSta
           margin="normal"
           onChange={ ( event ) => this.onAddChange( event.target.value ) }
           InputProps={ {
-          type: "search",
-          endAdornment: (
-            <IconButton
-            style={ { padding: 0 } }
-            onClick={ () => this.onAddClick() }
-            >
-            <Icon>add_circle</Icon>
-            </IconButton>
-          ),
+            type: "search",
+            endAdornment: (
+              <IconButton
+                style={ { padding: 0 } }
+                onClick={ () => this.onAddClick() }
+              >
+                <Icon>add_circle</Icon>
+              </IconButton>
+            ),
           } }
         />
         <TableContainer

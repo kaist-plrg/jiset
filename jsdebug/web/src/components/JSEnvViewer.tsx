@@ -78,7 +78,7 @@ class JSEnvViewer extends React.Component<JSEnvViewerProps> {
   render () {
     const { env } = this.props;
     const { data, idx } = env;
-    return (<div className="JSenv-viewer-container">
+    return ( <div className="JSenv-viewer-container">
       <TableContainer className="JSenv-viewer-stack-table-container">
         <Table stickyHeader size="small">
           <TableHead>
@@ -87,13 +87,13 @@ class JSEnvViewer extends React.Component<JSEnvViewerProps> {
             </TableRow>
           </TableHead>
           <TableBody>
-            { Array.from(data.keys()).map( ( envIdx ) => (
+            { Array.from( data.keys() ).map( ( envIdx ) => (
               <JSEnvStack
                 idx={ envIdx }
                 highlight={ idx === envIdx }
                 onItemClick={ ( idx: number ) => this.onItemClick( idx ) }
               />
-             ) ) }
+            ) ) }
           </TableBody>
         </Table>
       </TableContainer>
@@ -108,9 +108,9 @@ class JSEnvViewer extends React.Component<JSEnvViewerProps> {
           <TableBody>
             { data.map( ( list, i ) => (
               list.map( ( [ name, value ] ) => (
-                <JSEnvItem show={ i === idx } name={ name } value={ value }/>
-              ))
-            ))}
+                <JSEnvItem show={ i === idx } name={ name } value={ value } />
+              ) )
+            ) ) }
           </TableBody>
         </Table>
       </TableContainer>
