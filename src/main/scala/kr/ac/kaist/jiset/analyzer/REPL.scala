@@ -88,7 +88,7 @@ case class REPL(sem: AbsSemantics) {
       throw e
     case e: Throwable =>
       printlnColor(RED)(s"* unexpectedly terminated (# iter: $iter).")
-      dumpFunc(cp.func, pdf = true)
+      dumpCFG(sem, Some(cp), depth = Some(5))
       showStatus(cp)
       throw e
   }

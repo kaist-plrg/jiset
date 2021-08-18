@@ -36,11 +36,7 @@ class Stringifier(
     // js views
     view.jsView match {
       case JSBase =>
-      case JSFlow(ast) =>
-        val max = Stringifier.AST_MAX_LENGTH
-        var str = ast.toString
-        if (str.length > max) str = str.substring(0, max - 3) + "..."
-        app >> str
+      case JSFlow(ast) => app >> ast.span.toString
     }
 
     // ir contexts
@@ -60,7 +56,4 @@ class Stringifier(
     case AbsRefId(id) => app >> id
     case AbsRefProp(base, prop) => app >> base >> "[" >> prop >> "]"
   }
-}
-object Stringifier {
-  val AST_MAX_LENGTH = 10
 }
