@@ -181,10 +181,10 @@ object BasicHeap extends Domain {
       def aux(loc: Loc): Unit = if (!visited.contains(loc)) {
         visited += loc
         if (!loc.isNamed) reached += loc
-        this(loc).reachableLocs.foreach(aux)
+        this(loc).reachableLocs.filter(!_.isNamed).foreach(aux)
       }
       map.keys.filter(_.isNamed).foreach(aux)
-      initLocs.foreach(aux)
+      initLocs.filter(!_.isNamed).foreach(aux)
       reached
     }
 

@@ -8,8 +8,8 @@ trait DotPrinter extends cfg.DotPrinter {
   val SELECTED = """"gray""""
 
   // normalize strings for view
-  private val normPattern = """[-\[\](),\s~?"]""".r
+  private val normPattern = """[-:\[\](),\s~?"]""".r
   protected def norm(view: View): String = {
-    normPattern.replaceAllIn(view.toString, "")
+    normPattern.replaceAllIn(view.toString, "_")
   }
 }

@@ -175,7 +175,7 @@ object BasicValue extends Domain {
 
     // get reachable locations
     def reachableLocs: Set[Loc] = {
-      var locs = loc.toSet.filter(!_.isNamed)
+      var locs = loc.toSet
       for ((_, AbsComp.Result(value, target)) <- comp.map) {
         locs ++= value.reachableLocs
         locs ++= target.reachableLocs

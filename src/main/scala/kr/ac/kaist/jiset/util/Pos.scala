@@ -15,7 +15,7 @@ case class Pos(
   // conversion to string
   override def toString: String = toString(useIndex = false)
   def toString(useIndex: Boolean): String = {
-    if (!valid) ""
+    if (!valid) "?"
     else if (useIndex) s"$index"
     else s"$line:$column"
   }

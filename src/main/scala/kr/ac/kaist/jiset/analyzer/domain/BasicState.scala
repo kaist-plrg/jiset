@@ -327,6 +327,18 @@ object BasicState extends Domain {
       app.toString
     }
 
+    // get string wth detailed shapes of locations
+    def getString(value: AbsValue): String = {
+      val app = new Appender
+      app >> value.toString
+      val locs = value.reachableLocs
+      if (!locs.isEmpty) (app >> " @ ").wrap(for (loc <- locs) {
+        val obj = heap(loc)
+        app :> s"$loc -> $obj" >> LINE_SEP
+      })
+      app.toString
+    }
+
     // check bottom elements in abstract semantics
     private def bottomCheck(vs: Domain#Elem*)(f: => Elem): Elem =
       bottomCheck(vs)(f)

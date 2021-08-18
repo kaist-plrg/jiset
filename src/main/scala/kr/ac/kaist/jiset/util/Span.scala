@@ -12,7 +12,7 @@ case class Span(
   def toString(useIndex: Boolean): String = {
     val Pos(sl, sc, si) = start
     val Pos(el, ec, ei) = end
-    if (!valid) ""
+    if (!valid) "?"
     else if (useIndex) s"$si-$ei"
     else if (sl == el) s"$sl:$sc-$ec"
     else s"$start-$end"

@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.analyzer.command
 
 import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.analyzer.domain._
+import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir.Expr
 import kr.ac.kaist.jiset.util.Useful._
 
@@ -23,9 +24,14 @@ case object CmdPrint extends Command(
       st.reachableLocs.foreach(println _)
     }
     case s"-${ `expr` }" :: str :: _ => cpOpt.map { cp =>
-      val v = repl.sem.transfer(cp, Expr(str))
-      // TODO get string for abstract value
-      println(v)
+      val sem = repl.sem
+      val v = sem.transfer(cp, Expr(str))
+      val st = cp match {
+        case np: NodePoint[Node] => sem(np)
+        case rp: ReturnPoint => sem(rp).state
+      }
+      println(st.getString(v))
     }
+    case _ => println("Inappropriate argument")
   }
 }
