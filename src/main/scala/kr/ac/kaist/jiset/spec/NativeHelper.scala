@@ -27,6 +27,15 @@ object NativeHelper {
     if (jsonFilter(filename)) readJson[ECMAScript](filename)
     else {
       val dirname = filename
+      val bugMap: Map[String, String] = BUGTRIGGER match {
+        case Some(bugdir) => (for {
+          bugfile <- walkTree(s"$VERSION_DIR/bugtrigger/$bugdir/algo")
+          bugfilename = bugfile.getName
+          if algoFilter(bugfilename)
+          bugname = bugfile.toString
+        } yield (bugfilename -> bugname)).toMap
+        case None => Map()
+      }
       ECMAScript(
         version = readFile(s"$dirname/version"),
         grammar = Grammar.fromFile(s"$dirname/grammar"),
@@ -34,7 +43,7 @@ object NativeHelper {
           file <- walkTree(s"$dirname/algorithm")
           filename = file.getName
           if algoFilter(filename)
-          name = file.toString
+          name = bugMap.getOrElse(filename, file.toString)
         } yield Algo.fromFile(name)).toList.sortBy(_.name),
         intrinsics = readFile(s"$dirname/intrinsics").split(LINE_SEP).toSet,
         symbols = readFile(s"$dirname/symbols").split(LINE_SEP).toSet,

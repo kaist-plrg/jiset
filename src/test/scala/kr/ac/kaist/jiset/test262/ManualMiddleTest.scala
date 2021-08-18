@@ -13,6 +13,8 @@ class ManualMiddleTest extends Test262Test {
   // logging with view information
   LOG = true
   VIEW = true
+  BUGTRIGGER = optional(readFile(s"$BASE_DIR/tests/.bugtrigger").trim)
+  if (BUGTRIGGER.isEmpty) warn("Since the .bugtrigger file does not exist, no bugs are triggered.")
 
   // registration
   def init: Unit = check(name, {
