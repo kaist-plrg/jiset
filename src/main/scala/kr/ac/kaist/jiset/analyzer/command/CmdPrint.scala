@@ -18,20 +18,23 @@ case object CmdPrint extends Command(
     repl: REPL,
     cpOpt: Option[ControlPoint],
     args: List[String]
-  ): Unit = args match {
-    case s"-${ `reachLoc` }" :: _ => cpOpt.map { cp =>
-      val st = repl.sem.getState(cp)
-      st.reachableLocs.foreach(println _)
-    }
-    case s"-${ `expr` }" :: str :: _ => cpOpt.map { cp =>
-      val sem = repl.sem
-      val v = sem.transfer(cp, Expr(str))
-      val st = cp match {
-        case np: NodePoint[Node] => sem(np)
-        case rp: ReturnPoint => sem(rp).state
+  ): Unit = {
+    val cp = cpOpt.getOrElse(repl.sem.runJobsRp)
+    args match {
+      case s"-${ `reachLoc` }" :: _ => {
+        val st = repl.sem.getState(cp)
+        st.reachableLocs.foreach(println _)
       }
-      println(st.getString(v))
+      case s"-${ `expr` }" :: str :: _ => {
+        val sem = repl.sem
+        val v = sem.transfer(cp, Expr(str))
+        val st = cp match {
+          case np: NodePoint[Node] => sem(np)
+          case rp: ReturnPoint => sem(rp).state
+        }
+        println(st.getString(v))
+      }
+      case _ => println("Inappropriate argument")
     }
-    case _ => println("Inappropriate argument")
   }
 }
