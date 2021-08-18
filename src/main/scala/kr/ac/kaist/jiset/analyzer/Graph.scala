@@ -14,29 +14,29 @@ case class Graph(
     val app = new Appender
     (app >> "digraph").wrap((curOpt, depthOpt, pathOpt) match {
       case (Some(cp), _, Some(path)) =>
-        val func = sem.funcOf(cp)
-        val view = cp.view
+        val func = cp.func
+        val view = cp.view.entryView
         val dot = ViewDotPrinter(view)
         var eid = dot.getId(func.entry)
         dot.addFunc(func, app)
         for (np <- path) {
-          val func = sem.funcOf(np)
-          val view = np.view
+          val func = np.func
+          val view = np.view.entryView
           val dot = ViewDotPrinter(view)
           dot.addFunc(func, app)
           dot.addCall(np.node, eid, app)
           eid = dot.getId(func.entry)
         }
       case (Some(cp), Some(depth), _) =>
-        val func = sem.funcOf(cp)
-        val view = cp.view
+        val func = cp.func
+        val view = cp.view.entryView
         val dot = ViewDotPrinter(view)
         val rp = ReturnPoint(func, view)
         dot.addFunc(func, app)
         showPrev(rp, dot, depth, app)
       case _ =>
         val funcs: Set[(Function, View)] =
-          sem.npMap.keySet.map(np => (sem.funcOf(np), np.view))
+          sem.npMap.keySet.map(np => (np.func, np.view.entryView))
         for ((func, view) <- funcs) {
           val dot = ViewDotPrinter(view)
           dot.addFunc(func, app)
@@ -46,7 +46,7 @@ case class Graph(
         for ((ReturnPoint(func, returnView), calls) <- sem.retEdges) {
           val eid = ViewDotPrinter(returnView).getId(func.entry)
           for (callNp @ NodePoint(call, callView) <- calls) {
-            ViewDotPrinter(callView).addCall(call, eid, app)
+            ViewDotPrinter(callView.entryView).addCall(call, eid, app)
           }
         }
     })
@@ -70,9 +70,10 @@ case class Graph(
       val entryNp = NodePoint(entry, rp.view)
       val eid = dot.getId(entry)
       for (callNp @ NodePoint(call, callView) <- sem.getRetEdges(rp)) {
-        val func = sem.funcOf(callNp)
-        val callRp = ReturnPoint(func, callView)
-        val callDot = ViewDotPrinter(callView)
+        val func = callNp.func
+        val entryView = callView.entryView
+        val callRp = ReturnPoint(func, entryView)
+        val callDot = ViewDotPrinter(entryView)
         if (!(visited contains callRp)) {
           visited += callRp
           callDot.addFunc(func, app)
@@ -93,19 +94,20 @@ case class Graph(
     }
     def getColor(node: Node): String = {
       val np = NodePoint(node, view)
-      if (!sem(np).isBottom) REACH
+      if (sem.reachable(np)) REACH
       else NON_REACH
     }
     def getColor(from: Node, to: Node): String = {
       val fromNP = NodePoint(from, view)
       val toNP = NodePoint(to, view)
-      if (sem(fromNP).isBottom || sem(toNP).isBottom) NON_REACH
-      else REACH
+      if (sem.reachable(fromNP) && sem.reachable(toNP)) REACH
+      else NON_REACH
     }
     def getBgColor(node: Node): String = {
       val np = NodePoint(node, view)
-      if (Some(np) == curOpt) CURRENT
-      else if (sem.worklist has np) SELECTED
+      val nps = sem.getNps(np).toSet[ControlPoint]
+      if (curOpt.fold(false)(nps contains _)) CURRENT
+      else if (nps.exists(sem.worklist has _)) SELECTED
       else NORMAL
     }
     def apply(app: Appender): Unit = {}

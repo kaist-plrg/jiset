@@ -30,6 +30,12 @@ case class View(
     case _ => this
   }
 
+  // get entry views
+  def entryView: View = View(jsView, irCtxts.dropWhile(_ match {
+    case _: LoopCtxt => true
+    case _ => false
+  }))
+
   // getter
   def calls: List[CallCtxt] = irCtxts.collect { case call: CallCtxt => call }
   def loops: List[LoopCtxt] = irCtxts.collect { case loop: LoopCtxt => loop }

@@ -115,7 +115,7 @@ case class AbsTransfer(sem: AbsSemantics) {
 
   // internal transfer function with a specific view
   private class Helper(val cp: ControlPoint) {
-    lazy val func = sem.funcOf(cp)
+    lazy val func = cp.func
     lazy val view = cp.view
     lazy val rp = ReturnPoint(func.origin match {
       case ArrowOrigin(algo, inst) if inst.isContinuation => algo.func

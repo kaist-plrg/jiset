@@ -16,6 +16,9 @@ sealed trait ControlPoint extends AnalyzerElem {
     case AlgoOrigin(algo) => algo.isBuiltin
     case _ => false
   }
+
+  // get entry node points
+  def entryNp: NodePoint[Entry] = NodePoint(func.entry, view.entryView)
 }
 case class NodePoint[+T <: Node](node: T, view: View) extends ControlPoint {
   // get function
