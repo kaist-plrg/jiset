@@ -47,8 +47,9 @@ case class REPL(sem: AbsSemantics) {
   // handle when the static analysis is finished
   def finished: Unit = {
     printlnColor(CYAN)(s"* Static analysis finished. (# iter: $iter)")
+    setCp(None)
     continue = false
-    runDirect(None)
+    runDirect
   }
 
   // jline
@@ -80,7 +81,11 @@ case class REPL(sem: AbsSemantics) {
 
   // run REPL
   def apply(transfer: AbsTransfer, cp: ControlPoint): Unit = try {
-    this(Some(cp))
+    if (!isSkip(cp)) {
+      setCp(Some(cp))
+      continue = false
+      runDirect
+    }
     transfer(cp)
   } catch {
     case e: JISETError =>
@@ -92,15 +97,9 @@ case class REPL(sem: AbsSemantics) {
       showStatus(cp)
       throw e
   }
-  def apply(cpOpt: Option[ControlPoint]): Unit = cpOpt match {
-    case Some(cp) if isSkip(cp) =>
-    case _ =>
-      continue = false
-      runDirect(cpOpt)
-  }
-  def runDirect(cp: Option[ControlPoint]): Unit = try {
+  def runDirect: Unit = try {
     firstHelp
-    showStatus(cp)
+    showStatus(curCp)
     while ({
       reader.readLine(prompt) match {
         case null => stop
@@ -110,7 +109,7 @@ case class REPL(sem: AbsSemantics) {
             false
           case name :: args => {
             Command.cmdMap.get(name) match {
-              case Some(cmd) => cmd(this, cp, args)
+              case Some(cmd) => cmd(this, curCp, args)
               case None =>
                 println(s"The command `$name` does not exist. (Try `help`)")
             }
@@ -120,6 +119,20 @@ case class REPL(sem: AbsSemantics) {
       }
     }) {}
   } catch { case e: EndOfFileException => error("stop for debugging") }
+
+  // original control point
+  private var origCp: Option[ControlPoint] = None
+
+  // current control point
+  private var curCp: Option[ControlPoint] = None
+
+  // set current control point
+  def setCp(cpOpt: Option[ControlPoint]) = {
+    origCp = cpOpt
+    curCp = cpOpt
+  }
+  def moveCp(cp: ControlPoint) = curCp = Some(cp)
+  def restoreCp() = curCp = origCp
 
   // continue option
   var continue: Boolean = false

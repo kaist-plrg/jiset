@@ -30,6 +30,7 @@ object Command {
   val commands: List[Command] = List(
     CmdHelp,
     CmdContinue,
+    CmdMove,
     CmdBreak,
     CmdListBreak,
     CmdRmBreak,
