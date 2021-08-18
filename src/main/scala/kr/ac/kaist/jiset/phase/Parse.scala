@@ -1,13 +1,14 @@
 package kr.ac.kaist.jiset.phase
 
-import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
+import io.circe._, io.circe.syntax._, io.circe.parser._
 import kr.ac.kaist.jiset.error.NotSupported
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
 import kr.ac.kaist.jiset.parser.{ MetaParser, MetaData }
-import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.JvmUseful._
-import scala.io.Source
+import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.{ LINE_SEP, JISETConfig }
 
 // Parse phase
 case object Parse extends Phase[Unit, ParseConfig, Script] {
@@ -20,7 +21,12 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
     config: ParseConfig
   ): Script = {
     val filename = getFirstFilename(jisetConfig, "parse")
-    val ast = Parser.parse(Parser.Script(Nil), fileReader(filename)).get match {
+    val ast = (if (config.esparse) Script {
+      parse(executeCmd(s"bin/esparse $filename")).getOrElse(error("invalid AST"))
+    }
+    else {
+      Parser.parse(Parser.Script(Nil), fileReader(filename)).get
+    }) match {
       case ast if config.test262 => prependedTest262Harness(filename, ast)
       case ast => ast
     }
