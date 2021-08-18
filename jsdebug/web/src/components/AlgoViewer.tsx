@@ -2,13 +2,17 @@ import React from "react";
 import { v4 as uuid } from "uuid";
 import { Typography } from "@material-ui/core";
 import { Algo, getHeaderStr } from "../object/Algo";
+import { AlgoStepNode, flattenList } from "../util/ecmarkdown";
+import { Emitter } from '../object/Emitter'
+import { parseAlgorithm } from 'ecmarkdown';
+import type { AlgorithmNode } from 'ecmarkdown';
 import "../styles/AlgoViewer.css";
 
 type AlgoStepProps = {
-  content: string;
-  step: number;
+  node: AlgoStepNode;
   highlight: boolean;
 };
+
 class AlgoStep extends React.Component<AlgoStepProps> {
   getClassName (): string {
     let className = "algo-step";
@@ -16,13 +20,20 @@ class AlgoStep extends React.Component<AlgoStepProps> {
     if ( highlight ) className += " highlight";
     return className;
   }
+
   render () {
-    let { content } = this.props;
+    let { node } = this.props;
+    const { name, contents, indent, step } = node;
+
+    const numberOrBullet = name.startsWith( "ordered" ) ? `${ step }. ` : '• ';
+    const marginLeft = `${ indent * 16 }px`
     const className = this.getClassName();
+
     return (
-      <Typography variant="body2" className={ className }>
-        { content }
-      </Typography>
+      <div className={ className } style={ { marginLeft, color: 'black' } }>
+        { numberOrBullet }
+        { contents.map( c => Emitter.emit( c ) ) }
+      </div>
     );
   }
 }
@@ -36,25 +47,30 @@ class AlgoViewer extends React.Component<AlgoViewerProps> {
   renderFail () {
     return <Typography variant="subtitle1">TODO...</Typography>;
   }
+
+  flattenAlgo ( algo: AlgorithmNode ) {
+    const { contents: ol } = algo;
+    return flattenList( ol );
+  }
+
   render () {
     const { data, currentStep } = this.props;
     if ( data === undefined ) return this.renderFail();
     // get header string
     const headerStr = getHeaderStr( data );
-    // calculate left space
-    let spaceCnt = 0;
-    if ( data.code.length > 0 )
-      spaceCnt = data.code[ 0 ].length - data.code[ 0 ].trimLeft().length;
+
+    const code = data.code.join( "\n" );
+    const algo = this.flattenAlgo( parseAlgorithm( code ) );
+
     // render
     return (
       <div className="algo-container">
         <Typography variant="subtitle1"><b>{ headerStr }</b></Typography>
-        { data.code.map( ( str, idx ) => (
+        { algo.map( ( node, index ) => (
           <AlgoStep
             key={ uuid() }
-            content={ str.slice( spaceCnt ) }
-            step={ idx }
-            highlight={ idx === currentStep }
+            node={ node }
+            highlight={ index === currentStep }
           />
         ) ) }
       </div>
