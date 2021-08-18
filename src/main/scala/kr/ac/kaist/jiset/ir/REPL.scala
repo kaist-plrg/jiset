@@ -58,7 +58,7 @@ class REPL(override val st: State) extends Debugger {
           case CmdBreak.name :: algoName :: _ =>
             addBreak(algoName); true
           case CmdLsBreak.name :: _ =>
-            breakpoints.zipWithIndex.foreach {
+            breakpointsAlgo.zipWithIndex.foreach {
               case ((_, AlgoBreakPoint(name)), i) => println(f"$i: $name")
             }; true
           case CmdRmBreak.name :: opt :: _ =>

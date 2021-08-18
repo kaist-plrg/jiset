@@ -24,6 +24,21 @@ case class AlgoBreakPoint(name: String) extends BreakPoint {
   override def check(str: String): Unit =
     if (enabled && name == str) this.on
 }
+case class JSBreakPoint(line: Int) extends BreakPoint {
+  private var suppressed = false
+  override def check(str: String): Unit =
+    if (enabled) {
+      val curLine = str.toInt
+      if (line == curLine) {
+        if (!suppressed) {
+          this.on
+          suppressed = true
+        }
+      } else if (curLine > 0 && suppressed) {
+        suppressed = false
+      }
+    }
+}
 
 // IR Debugger
 object Debugger {
@@ -43,7 +58,7 @@ trait Debugger {
   @tailrec
   final def stepUntil(pred: => Boolean): StepResult = {
     DEBUG = true
-    if (!isBreak) {
+    if (!isBreakAlgo && !isBreakJS) {
       val keep = interp.step
       if (pred && keep) stepUntil(pred)
       else {
@@ -77,7 +92,15 @@ trait Debugger {
   final def continue: StepResult = stepUntil { true }
 
   // breakpoints
-  val breakpoints = ArrayBuffer[(InterpHook, BreakPoint)]()
+  val breakpointsAlgo = ArrayBuffer[(InterpHook, BreakPoint)]()
+  val breakpointsJS = ArrayBuffer[(InterpHook, BreakPoint)]()
+
+  // get breakpoint by index
+  private def getBreakIdx(bpList: ArrayBuffer[(InterpHook, BreakPoint)], idx: String): Int =
+    optional(idx.toInt) match {
+      case Some(idx) if idx < bpList.size => idx
+      case None => error("wrong breakpoints index: $idx")
+    }
 
   // add break
   final def addBreak(algoName: String, enabled: Boolean = true) = {
@@ -89,38 +112,68 @@ trait Debugger {
       }
     })
     bp.enabled = enabled
-    breakpoints += ((hook, bp))
-  }
-
-  // get breakpoint by index
-  private def getBreakIdx(idx: String): Int = optional(idx.toInt) match {
-    case Some(idx) if idx < breakpoints.size => idx
-    case None => error("wrong breakpoints index: $idx")
+    breakpointsAlgo += ((hook, bp))
   }
 
   // remove break
   final def rmBreak(opt: String) = opt match {
     case "all" =>
-      breakpoints.foreach { case (hook, _) => interp.unsubscribe(hook) }
-      breakpoints.clear
+      breakpointsAlgo.foreach { case (hook, _) => interp.unsubscribe(hook) }
+      breakpointsAlgo.clear
     case _ =>
-      val idx = getBreakIdx(opt)
-      val (hook, _) = breakpoints(idx)
-      breakpoints.remove(idx)
+      val idx = getBreakIdx(breakpointsAlgo, opt)
+      val (hook, _) = breakpointsAlgo(idx)
+      breakpointsAlgo.remove(idx)
       interp.unsubscribe(hook)
   }
+
   // toggle break
   final def toggleBreak(opt: String) = opt match {
     case "all" =>
-      breakpoints.foreach { case (_, bp) => bp.toggle() }
+      breakpointsAlgo.foreach { case (_, bp) => bp.toggle() }
     case _ =>
-      val idx = getBreakIdx(opt)
-      val (_, bp) = breakpoints(idx)
+      val idx = getBreakIdx(breakpointsAlgo, opt)
+      val (_, bp) = breakpointsAlgo(idx)
+      bp.toggle()
+  }
+
+  // add break on JS
+  final def addBreakJS(line: Int, enabled: Boolean = true) = {
+    val bp = JSBreakPoint(line)
+    val hook = interp.subscribe("", Interp.Event.Call, st => {
+      val (l, _, _) = st.getJSInfo()
+      bp.check(l.toString)
+    })
+    bp.enabled = enabled
+    breakpointsJS += ((hook, bp))
+  }
+
+  // remove break on JS
+  final def rmBreakJS(opt: String) = opt match {
+    case "all" =>
+      breakpointsJS.foreach { case (hook, _) => interp.unsubscribe(hook) }
+      breakpointsJS.clear
+    case _ =>
+      val idx = getBreakIdx(breakpointsJS, opt)
+      val (hook, _) = breakpointsJS(idx)
+      breakpointsJS.remove(idx)
+      interp.unsubscribe(hook)
+  }
+  // toggle break on JS
+  final def toggleBreakJS(opt: String) = opt match {
+    case "all" =>
+      breakpointsJS.foreach { case (_, bp) => bp.toggle() }
+    case _ =>
+      val idx = getBreakIdx(breakpointsJS, opt)
+      val (_, bp) = breakpointsJS(idx)
       bp.toggle()
   }
 
   // check if current step is in break
-  final def isBreak: Boolean = breakpoints.foldLeft(false) {
+  final def isBreakAlgo: Boolean = breakpointsAlgo.foldLeft(false) {
+    case (acc, (_, bp)) => bp.needTrigger || acc
+  }
+  final def isBreakJS: Boolean = breakpointsJS.foldLeft(false) {
     case (acc, (_, bp)) => bp.needTrigger || acc
   }
 
@@ -167,8 +220,7 @@ trait Debugger {
   private def findAddrInHeap(from: Addr, key: String): Long =
     st.heap.apply(from, Str(key)) match {
       case DynamicAddr(addr) => addr
-      case Absent => -1L
-      case v => error(s"Wrong with finding address in heap: $v")
+      case _ => -1L
     }
 
   private def getSubMapItems(addr: Addr): List[(String, String)] =
@@ -188,43 +240,48 @@ trait Debugger {
     st.heap.apply(NamedAddr("EXECUTION_STACK")) match {
       case (l: IRList) => {
         val globalObjAddr = findAddrInHeap(NamedAddr("REALM"), "GlobalObject")
-        val subMapAddr = findAddrInHeap(DynamicAddr(globalObjAddr), "SubMap")
-        val fullEnv = if (l.values.size != 0) {
-          l.values.reverse.foldLeft(List[List[(String, String)]]()) {
-            case (fullEnv, DynamicAddr(envAddr)) => {
-              val env = ArrayBuffer[(String, String)]()
-              val lexicalEnvAddr = st.heap.apply(DynamicAddr(envAddr), Str("LexicalEnvironment")) match {
-                case CompValue(_, DynamicAddr(addr), _) => addr
-                case v => -1L
-              }
-              if (lexicalEnvAddr >= 0L) {
-                val varNamesAddr = findAddrInHeap(DynamicAddr(lexicalEnvAddr), "VarNames")
-                if (varNamesAddr >= 0L) {
-                  val varNames = st.heap.apply(DynamicAddr(varNamesAddr)) match {
-                    case IRList(vars) => vars.toList
-                    case v => error(s"Wrong case of VarNames: $v")
-                  }
-                  varNames.foreach((x) => {
-                    val xName = x match {
-                      case Str(n) => n
-                      case v => error(s"Non-string VarName: $v")
-                    }
-                    val xAddr = findAddrInHeap(DynamicAddr(subMapAddr), xName)
-                    val xValue = st.heap.apply(DynamicAddr(xAddr), Str("Value"))
-                    env += ((xName, xValue.toString))
-                  })
-                } else {
-                  val insideSubMapAddr = findAddrInHeap(DynamicAddr(lexicalEnvAddr), "SubMap")
-                  env.appendAll(getSubMapItems(DynamicAddr(insideSubMapAddr)))
+        if (globalObjAddr >= 0L) {
+          val subMapAddr = findAddrInHeap(DynamicAddr(globalObjAddr), "SubMap")
+          val fullEnv = if (l.values.size != 0) {
+            l.values.reverse.foldLeft(List[List[(String, String)]]()) {
+              case (fullEnv, DynamicAddr(envAddr)) => {
+                val env = ArrayBuffer[(String, String)]()
+                val lexicalEnvAddr = st.heap.apply(DynamicAddr(envAddr), Str("LexicalEnvironment")) match {
+                  case CompValue(_, DynamicAddr(addr), _) => addr
+                  case v => -1L
                 }
-                fullEnv :+ env.toList
-              } else { fullEnv }
+                if (lexicalEnvAddr >= 0L) {
+                  val varNamesAddr = findAddrInHeap(DynamicAddr(lexicalEnvAddr), "VarNames")
+                  if (varNamesAddr >= 0L) {
+                    val varNames = st.heap.apply(DynamicAddr(varNamesAddr)) match {
+                      case IRList(vars) => vars.toList
+                      case v => error(s"Wrong case of VarNames: $v")
+                    }
+                    varNames.foreach((x) => {
+                      val xName = x match {
+                        case Str(n) => n
+                        case v => error(s"Non-string VarName: $v")
+                      }
+                      val xAddr = findAddrInHeap(DynamicAddr(subMapAddr), xName)
+                      val xValue = st.heap.apply(DynamicAddr(xAddr), Str("Value"))
+                      env += ((xName, xValue.toString))
+                    })
+                  } else {
+                    val insideSubMapAddr = findAddrInHeap(DynamicAddr(lexicalEnvAddr), "SubMap")
+                    env.appendAll(getSubMapItems(DynamicAddr(insideSubMapAddr)))
+                  }
+                  fullEnv :+ env.toList
+                } else { fullEnv }
+              }
+              case (fullEnv, _) => fullEnv
             }
-            case (fullEnv, _) => fullEnv
-          }
+          } else { List[List[(String, String)]]() }
+          fullEnv
         } else { List[List[(String, String)]]() }
-        fullEnv
       }
-      case v => error(s"Wrong case of Execution_Stack: $v")
+      case v => {
+        println("here")
+        List[List[(String, String)]]()
+      }
     }
 }

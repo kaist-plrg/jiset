@@ -38,6 +38,10 @@ class Toolbar extends React.Component<ToolbarProps> {
     sm.move( { type: ActionType.STEP_OUT } );
   }
 
+  onStepLineButtonClick () {
+    sm.move( { type: ActionType.STEP_LINE } );
+  }
+
   onContinueButtonClick () {
     sm.move( { type: ActionType.CONTINUE } );
   }
@@ -52,6 +56,7 @@ class Toolbar extends React.Component<ToolbarProps> {
           <Button disabled={ disableDebuggerBtn } onClick={ () => this.onStepButtonClick() }>Step</Button>
           <Button disabled={ disableDebuggerBtn } onClick={ () => this.onStepOverButtonClick() }>Step-Over</Button>
           <Button disabled={ disableDebuggerBtn } onClick={ () => this.onStepOutButtonClick() }>Step-Out</Button>
+          <Button disabled={ disableDebuggerBtn } onClick={ () => this.onStepLineButtonClick() }>Step-Line</Button>
           <Button disabled={ disableDebuggerBtn } onClick={ () => this.onContinueButtonClick() }>Continue</Button>
         </ButtonGroup>
       </div>

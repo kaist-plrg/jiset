@@ -46,6 +46,7 @@ export enum ActionType {
   STEP = "ActionType/STEP",
   STEP_OVER = "ActionType/STEP_OVER",
   STEP_OUT = "ActionType/STEP_OUT",
+  STEP_LINE = "ActionType/STEP_LINE",
   CONTINUE = "ActionType/CONTINUE",
   ADD_BREAK = "ActionType/ADD_BREAK",
   RM_BREAK = "ActionType/RM_BREAK",
@@ -70,6 +71,7 @@ export type ActionPayload =
   | { type: ActionType.STEP }
   | { type: ActionType.STEP_OVER }
   | { type: ActionType.STEP_OUT }
+  | { type: ActionType.STEP_LINE }
   | { type: ActionType.CONTINUE }
   | {
     type: ActionType.ADD_BREAK;
@@ -130,10 +132,10 @@ export const stepPostAction: ActionHandler =
         let stackFrame: StackFrame = JSON.parse( webDebugger.getStackFrame() );
         let heap = JSON.parse( webDebugger.getHeap() );
         let env = JSON.parse( webDebugger.getEnv() );
-        let [ jsStart, jsEnd ]: [ number, number ] = JSON.parse(
+        let [ jsLine, jsStart, jsEnd ]: [ number, number, number ] = JSON.parse(
           webDebugger.getJsRange()
         );
-        store.dispatch( updateJsRange( jsStart, jsEnd ) );
+        store.dispatch( updateJsRange( jsLine, jsStart, jsEnd ) );
         store.dispatch( updateIrInfo( stackFrame, heap, env ) );
         store.dispatch( pauseDebugger() );
         next();
@@ -179,6 +181,7 @@ export const actions: ActionDefinition[] = [
         let state = store.getState();
         let code = state.js.code;
         let breakpoints = state.webDebugger.breakpoints;
+        let breakpointsJS = state.js.breakpoints;
         // esparse & decode esparse result
         let compressed: string;
         try {
@@ -194,6 +197,9 @@ export const actions: ActionDefinition[] = [
         // add breakpoints
         breakpoints.forEach( ( bp ) => {
           webDebugger.addAlgoBreak( bp.name, bp.enable );
+        } );
+        breakpointsJS.forEach( ( bp ) => {
+          webDebugger.addJSBreak( bp.line, bp.enable );
         } );
         store.dispatch( loadDebugger( webDebugger ) );
       },
@@ -256,6 +262,20 @@ export const actions: ActionDefinition[] = [
       stepPreAction,
       () => ( next: Action ) => ( webDebugger: Scala_WebDebugger ) => {
         const res = webDebugger.specStepOut();
+        next( res, webDebugger );
+      },
+      stepPostAction,
+    ],
+    defaultExceptionHandler,
+  ],
+  // step-line
+  [
+    ActionType.STEP_LINE,
+    [
+      stepPreAction,
+      () => ( next: Action ) => ( webDebugger: Scala_WebDebugger ) => {
+        // step
+        const res = webDebugger.jsStep();
         next( res, webDebugger );
       },
       stepPostAction,
@@ -347,8 +367,7 @@ export const actions: ActionDefinition[] = [
             // add breakpoint by algorithm name
             let state = store.getState();
             let webDebugger = state.webDebugger.obj;
-            // TODO
-            // webDebugger.addAlgoBreak( bpName );
+            webDebugger.addJSBreak( line );
             store.dispatch( addBreakJs( line ) );
           },
     ],
@@ -364,8 +383,7 @@ export const actions: ActionDefinition[] = [
             // remove breakpoint
             let state = store.getState();
             let webDebugger = state.webDebugger.obj;
-            // TODO
-            // webDebugger.rmAlgoBreak( opt );
+            webDebugger.rmJSBreak( opt );
             store.dispatch( rmBreakJs( opt ) );
           },
     ],
@@ -381,8 +399,7 @@ export const actions: ActionDefinition[] = [
             // toggle breakpoint
             let state = store.getState();
             let webDebugger = state.webDebugger.obj;
-            // TODO
-            // webDebugger.toggleAlgoBreak( opt );
+            webDebugger.toggleJSBreak( opt );
             store.dispatch( toggleBreakJs( opt ) );
           },
     ],

@@ -12,6 +12,8 @@ declare class Scala_WebDebugger {
   specStep (): Scala_StepResult;
   specStepOver (): Scala_StepResult;
   specStepOut (): Scala_StepResult;
+  // spec steps
+  jsStep (): Scala_StepResult;
   // continue
   continueAlgo (): Scala_StepResult;
   // get state info
@@ -23,6 +25,9 @@ declare class Scala_WebDebugger {
   addAlgoBreak ( algoName: string, enabled: boolean = true ): void;
   rmAlgoBreak ( opt: string ): void;
   toggleAlgoBreak ( opt: string ): void;
+  addJSBreak ( line: number, enabled: boolean = true ): void;
+  rmJSBreak ( opt: string ): void;
+  toggleJSBreak ( opt: string ): void;
 }
 
 // call setTarget

@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.UIdGen
+import kr.ac.kaist.jiset.util.Span
 import scala.collection.mutable.{ Map => MMap }
 
 // IR States
@@ -135,4 +136,13 @@ case class State(
 
   // move to the next cursor
   def moveNext: Unit = context.moveNext
+
+  // debugger info
+  def getJSInfo(): (Int, Int, Int) = (context :: ctxtStack).foldLeft((0, -1, -1)) {
+    case ((0, -1, -1), cntxt) if cntxt.isAstEvaluation =>
+      val ast = cntxt.astOpt.get
+      val Span(start, end) = ast.span
+      (start.line, start.index, end.index)
+    case (acc, _) => acc
+  }
 }

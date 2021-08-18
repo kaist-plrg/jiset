@@ -6,7 +6,6 @@ import kr.ac.kaist.jiset.js.{ setSpec => setJsSpec, _ }
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.spec.JsonProtocol._
-import kr.ac.kaist.jiset.util.Span
 import scala.scalajs.js.annotation._
 
 object Export {
@@ -38,6 +37,16 @@ object Export {
     }
     def specStepOut(): Int = stepOut.id
 
+    // JS steps
+    def jsStep(): Int = {
+      val (l0, _, _) = st.getJSInfo()
+      stepUntil {
+        val (l1, _, _) = st.getJSInfo()
+        val (n, _, _) = st.context.getInfo()
+        (l0 == l1) || ((l0 > 0) && (l1 <= 0))
+      }.id
+    }
+
     // continue
     def continueAlgo(): Int = continue.id
 
@@ -45,6 +54,9 @@ object Export {
     def addAlgoBreak(algoName: String, enabled: Boolean = true) = addBreak(algoName, enabled)
     def rmAlgoBreak(opt: String) = rmBreak(opt)
     def toggleAlgoBreak(opt: String) = toggleBreak(opt)
+    def addJSBreak(line: Int, enabled: Boolean = true) = addBreakJS(line, enabled)
+    def rmJSBreak(opt: String) = rmBreakJS(opt)
+    def toggleJSBreak(opt: String) = toggleBreakJS(opt)
 
     // get stack frame info
     def getStackFrame(): String = {
@@ -53,16 +65,7 @@ object Export {
     }
 
     // get js range info
-    def getJsRange(): String = {
-      val range: (Int, Int) = (st.context :: st.ctxtStack).foldLeft((-1, -1)) {
-        case ((-1, -1), context) if context.isAstEvaluation =>
-          val ast = context.astOpt.get
-          val Span(start, end) = ast.span
-          (start.index, end.index)
-        case (acc, _) => acc
-      }
-      range.asJson.noSpaces
-    }
+    def getJsRange(): String = st.getJSInfo().asJson.noSpaces
 
     // get heap info
     def getHeap(): String = st.heap.map.map {

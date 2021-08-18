@@ -20,9 +20,10 @@ export function clearJs (): JSAction {
     type: JSActionType.CLEAR,
   };
 }
-export function updateJsRange ( start: number, end: number ): JSAction {
+export function updateJsRange ( line: number, start: number, end: number ): JSAction {
   return {
     type: JSActionType.UPDATE_RANGE,
+    line,
     start,
     end
   };
@@ -55,6 +56,7 @@ export type JSAction =
   }
   | {
     type: JSActionType.UPDATE_RANGE;
+    line: number
     start: number;
     end: number;
   }
@@ -74,12 +76,14 @@ export type JSAction =
 // redux state
 type JSState = {
   code: string;
+  line: number;
   start: number;
   end: number;
   breakpoints: { line: number, enable: boolean }[];
 };
 const initialState: JSState = {
   code: "var x = 1;\nvar y = 2;\nvar z = x + y;",
+  line: 0,
   start: -1,
   end: -1,
   breakpoints: [],
@@ -94,11 +98,13 @@ export default function reducer ( state = initialState, action: JSAction ) {
       } );
     case JSActionType.CLEAR:
       return produce( state, ( draft ) => {
+        draft.line = 0;
         draft.start = -1;
         draft.end = -1;
       } );
     case JSActionType.UPDATE_RANGE:
       return produce( state, ( draft ) => {
+        draft.line = action.line;
         draft.start = action.start;
         draft.end = action.end;
       } );
