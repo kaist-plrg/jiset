@@ -282,11 +282,7 @@ case class AbsTransfer(sem: AbsSemantics) {
                   locals = getLocals(head.params, vs)
                   st <- get
                   newSt <- get(_.copy(locals = locals))
-                  astOpt = (
-                    if (name == "Evaluation" || name == "NamedEvaluation") Some(ast)
-                    else None
-                  )
-                  _ = sem.doCall(call, view, st, algo.func, newSt, astOpt)
+                  _ = sem.doCall(call, view, st, algo.func, newSt, Some(ast))
                 } yield AbsValue.Bot
                 case None =>
                   val v = AbsValue(ast.subs(name).getOrElse {
