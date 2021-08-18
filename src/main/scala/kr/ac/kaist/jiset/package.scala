@@ -71,6 +71,9 @@ package object jiset {
   // Bugfix mode
   var BUGFIX: Boolean = true
 
+  // Bugtrigger mode
+  var BUGTRIGGER: Option[String] = None
+
   // Logging mode
   var LOG: Boolean = false
 

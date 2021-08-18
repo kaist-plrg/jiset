@@ -133,6 +133,8 @@ object JISET {
       "turn on the interactive mode."),
     ("no-bugfix", BoolOption(c => BUGFIX = false),
       "use semantics including specification bugs."),
+    ("bugtrigger", StrOption((c, s) => BUGTRIGGER = Some(s)),
+      "use semantics including given specification bug"),
     ("log", BoolOption(c => LOG = true),
       "turn on the logging mode."),
     ("time", BoolOption(c => c.time = true),
