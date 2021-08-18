@@ -106,6 +106,13 @@ case class AbsTransfer(sem: AbsSemantics) {
     }
   }
 
+  // transfer function for expressions
+  def apply(cp: ControlPoint, expr: Expr): AbsValue = {
+    val st = sem.getState(cp)
+    val helper = new Helper(cp)
+    helper.transfer(expr)(st)._1
+  }
+
   // internal transfer function with a specific view
   private class Helper(val cp: ControlPoint) {
     lazy val func = sem.funcOf(cp)

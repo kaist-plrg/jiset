@@ -162,6 +162,12 @@ case class AbsSemantics(
       case _ => None
     }
 
+  // get abstract state of control points
+  def getState(cp: ControlPoint): AbsState = cp match {
+    case np: NodePoint[_] => this(np)
+    case rp: ReturnPoint => this(rp).state
+  }
+
   // get string for result of control points
   def getString(
     cp: ControlPoint,
