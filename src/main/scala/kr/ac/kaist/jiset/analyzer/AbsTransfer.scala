@@ -92,7 +92,7 @@ case class AbsTransfer(sem: AbsSemantics) {
     for (np @ NodePoint(call, view) <- sem.getRetEdges(rp)) {
       val callerSt = sem.callInfo(np)
       val nextNode = cfg.nextOf(call)
-      val nextNP = NodePoint(nextNode, nextNode match {
+      val nextNp = NodePoint(nextNode, nextNode match {
         case loop: Loop => view.loopEnter(loop)
         case _ => view
       })
@@ -102,7 +102,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         call.inst.id -> value.wrapCompletion
       )
 
-      sem += nextNP -> newSt
+      sem += nextNp -> newSt
     }
   }
 

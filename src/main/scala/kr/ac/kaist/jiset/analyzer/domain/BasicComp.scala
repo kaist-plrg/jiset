@@ -54,7 +54,7 @@ object BasicComp extends Domain {
       case _ if that.isBottom => false
       case (Elem(lmap), Elem(rmap)) =>
         (lmap.keySet ++ rmap.keySet).forall(ty => {
-          resultOf(ty) ⊑ resultOf(ty)
+          this.resultOf(ty) ⊑ that.resultOf(ty)
         })
     }
 
@@ -64,7 +64,7 @@ object BasicComp extends Domain {
       case _ if that.isBottom => this
       case (Elem(lmap), Elem(rmap)) => {
         val newMap = (lmap.keySet ++ rmap.keySet).toList.map(ty => {
-          ty -> resultOf(ty) ⊔ resultOf(ty)
+          ty -> this.resultOf(ty) ⊔ that.resultOf(ty)
         }).toMap
         Elem(newMap)
       }
@@ -75,7 +75,7 @@ object BasicComp extends Domain {
       case _ if this.isBottom || that.isBottom => Bot
       case (Elem(lmap), Elem(rmap)) => {
         val newPairs = (lmap.keySet ++ rmap.keySet).toList.map(ty => {
-          ty -> resultOf(ty) ⊓ resultOf(ty)
+          ty -> this.resultOf(ty) ⊓ that.resultOf(ty)
         }).filter(!_._2.isBottom)
         Elem(newPairs.toMap)
       }
