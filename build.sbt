@@ -8,7 +8,7 @@ ThisBuild / useSuperShell := false
 ThisBuild / scalacOptions := Seq(
   "-deprecation", "-feature", "-language:postfixOps",
   "-language:implicitConversions", "-language:existentials",
-  "-language:reflectiveCalls"
+  "-language:reflectiveCalls", "-unchecked",
 )
 ThisBuild / javacOptions ++= Seq(
   "-encoding", "UTF-8"
