@@ -101,6 +101,7 @@ case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummar
     // "__getter__",
     // "__setter__",
     "BigInt", // BigInt: https://github.com/tc39/proposal-bigint
+    "logical-assignment-operators", // Logical Assignment Operators: https://github.com/tc39/proposal-logical-assignment
   )
 
   lazy val test262Dir = new File(s"$TEST_DIR/test262/test")

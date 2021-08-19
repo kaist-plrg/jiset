@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.test262
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.js.Test262
 import kr.ac.kaist.jiset.util.JvmUseful._
+import kr.ac.kaist.jiset.util.Useful._
 
 class ManualMiddleTest extends Test262Test {
   val name: String = "test262ManualTest"
@@ -14,7 +15,10 @@ class ManualMiddleTest extends Test262Test {
   LOG = true
   VIEW = true
   BUGTRIGGER = optional(readFile(s"$BASE_DIR/tests/.bugtrigger").trim)
-  if (BUGTRIGGER.isEmpty) warn("Since the .bugtrigger file does not exist, no bugs are triggered.")
+  BUGTRIGGER match {
+    case Some(str) => println(s"The $str is successfully triggered.")
+    case None => warn("Since the .bugtrigger file does not exist, no bugs are triggered.")
+  }
 
   // registration
   def init: Unit = check(name, {
