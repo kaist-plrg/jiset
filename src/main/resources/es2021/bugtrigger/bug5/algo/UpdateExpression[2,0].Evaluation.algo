@@ -1,0 +1,19 @@
+def [SYNTAX] UpdateExpression[2,0].Evaluation[R]<(LeftHandSideExpression),true>() = 0:{
+  0:access __x0__ = (LeftHandSideExpression "Evaluation")
+  0:let lhs = __x0__
+  1:app __x1__ = (GetValue lhs)
+  1:app __x2__ = (ToNumeric [? __x1__])
+  1:let oldValue = [? __x2__]
+  2:app __x3__ = (PRIMITIVE[(typeof oldvalue)].subtract oldValue PRIMITIVE[(typeof oldValue)].unit)
+  2:let newValue = [! __x3__]
+  3:app __x4__ = (PutValue lhs newValue)
+  3:[? __x4__]
+  4:return oldValue
+}
+- id: "sec-postfix-decrement-operator-runtime-semantics-evaluation"
+- code:
+          1. Let _lhs_ be the result of evaluating |LeftHandSideExpression|.
+          1. Let _oldValue_ be ? ToNumeric(? GetValue(_lhs_)).
+          1. Let _newValue_ be ! Type(_oldvalue_)::subtract(_oldValue_, Type(_oldValue_)::unit).
+          1. Perform ? PutValue(_lhs_, _newValue_).
+          1. Return _oldValue_.
