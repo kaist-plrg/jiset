@@ -1,0 +1,70 @@
+def NewPromiseReactionJob(reaction, argument) = 0:{
+  0:clo __x0__ = ()[reaction, argument] => 2:{
+    2:let promiseCapability = reaction.Capability
+    3:let type = reaction.Type
+    4:let handler = reaction.Handler
+    5:if (= handler ~empty~) 6:if (= type ~Fulfill~) 6:{
+      6:app __x1__ = (NormalCompletion argument)
+      6:let handlerResult = __x1__
+    } else 7:{
+      8:assert (= type ~Reject~)
+      9:app __x2__ = (ThrowCompletion argument)
+      9:let handlerResult = __x2__
+    } else 8:{
+      8:app __x3__ = (HostCallJobCallback handler undefined (new [argument]))
+      8:let handlerResult = __x3__
+    }
+    11:if (= promiseCapability undefined) 11:{
+      12:app __x4__ = (IsAbruptCompletion handlerResult)
+      12:assert (! __x4__)
+      13:return ~empty~
+    } else 11:{}
+    14:assert (is-instance-of promiseCapability PromiseCapabilityRecord)
+    15:app __x5__ = (IsAbruptCompletion handlerResult)
+    15:if __x5__ 15:{
+      16:app __x6__ = (Call promiseCapability.Reject undefined (new [handlerResult.Value]))
+      16:let status = __x6__
+    } else 17:{
+      18:app __x7__ = (Call promiseCapability.Resolve undefined (new [handlerResult.Value]))
+      18:let status = __x7__
+    }
+    19:return status
+  }
+  0:let job = __x0__
+  20:let handlerRealm = null
+  21:if (! (= reaction.Handler ~empty~)) 21:{
+    22:app __x8__ = (GetFunctionRealm handler)
+    22:let getHandlerRealmResult = __x8__
+    23:if (&& (is-completion getHandlerRealmResult) (= getHandlerRealmResult.Type ~normal~)) 23:handlerRealm = getHandlerRealmResult.Value else 23:handlerRealm = REALM
+  } else 21:{}
+  26:return (new Record("Job" -> job, "Realm" -> handlerRealm))
+}
+- id: "sec-newpromisereactionjob"
+- code:
+          1. Let _job_ be a new Job Abstract Closure with no parameters that captures _reaction_ and _argument_ and performs the following steps when called:
+            1. Assert: _reaction_ is a PromiseReaction Record.
+            1. Let _promiseCapability_ be _reaction_.[[Capability]].
+            1. Let _type_ be _reaction_.[[Type]].
+            1. Let _handler_ be _reaction_.[[Handler]].
+            1. If _handler_ is ~empty~, then
+              1. If _type_ is ~Fulfill~, let _handlerResult_ be NormalCompletion(_argument_).
+              1. Else,
+                1. Assert: _type_ is ~Reject~.
+                1. Let _handlerResult_ be ThrowCompletion(_argument_).
+            1. Else, let _handlerResult_ be HostCallJobCallback(_handler_, *undefined*, « _argument_ »).
+            1. If _promiseCapability_ is *undefined*, then
+              1. Assert: _handlerResult_ is not an abrupt completion.
+              1. Return NormalCompletion(~empty~).
+            1. Assert: _promiseCapability_ is a PromiseCapability Record.
+            1. If _handlerResult_ is an abrupt completion, then
+              1. Let _status_ be Call(_promiseCapability_.[[Reject]], *undefined*, « _handlerResult_.[[Value]] »).
+            1. Else,
+              1. Let _status_ be Call(_promiseCapability_.[[Resolve]], *undefined*, « _handlerResult_.[[Value]] »).
+            1. Return Completion(_status_).
+          1. Let _handlerRealm_ be *null*.
+          1. If _reaction_.[[Handler]] is not ~empty~, then
+            1. Let _getHandlerRealmResult_ be GetFunctionRealm(_handler_).
+            1. If _getHandlerRealmResult_ is a normal completion, set _handlerRealm_ to _getHandlerRealmResult_.[[Value]].
+            1. Else, set _handlerRealm_ to the current Realm Record.
+            1. NOTE: _handlerRealm_ is never *null* unless the handler is *undefined*. When the handler is a revoked Proxy and no ECMAScript code runs, _handlerRealm_ is used to create error objects.
+          1. Return the Record { [[Job]]: _job_, [[Realm]]: _handlerRealm_ }.
