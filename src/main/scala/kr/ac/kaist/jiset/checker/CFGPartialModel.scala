@@ -42,13 +42,18 @@ case class PartialFunc(
   import PartialFunc._
 
   // get reachable status
-  private def getReachable(t: Node, e: Node): Reachable =
-    (reachables contains t, reachables contains e) match {
-      case (true, true) => Reachable.Both
-      case (true, false) => Reachable.Then
-      case (false, true) => Reachable.Else
-      case (false, false) => error(s"Should be reachable branch")
-    }
+  private def getReachable(
+    func: Function,
+    branch: Branch,
+    t: Node,
+    e: Node
+  ): Reachable = (reachables contains t, reachables contains e) match {
+    case (true, true) => Reachable.Both
+    case (true, false) => Reachable.Then
+    case (false, true) => Reachable.Else
+    case (false, false) =>
+      error(s"Should be reachable branch: $branch @ $func")
+  }
 
   // jump branch node
   @tailrec
@@ -71,7 +76,7 @@ case class PartialFunc(
   lazy val reachable: Map[Branch, Reachable] = (for {
     branch <- reachables.collect { case b: Branch => b }
     (t, e) <- func.branches.get(branch)
-  } yield branch -> getReachable(t, e)).toMap
+  } yield branch -> getReachable(func, branch, t, e)).toMap
 
   // shortcut of linear node
   lazy val shortcut: Map[Linear, Node] = (for {
