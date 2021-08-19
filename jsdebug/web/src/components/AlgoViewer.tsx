@@ -2,8 +2,7 @@ import React from "react";
 import { v4 as uuid } from "uuid";
 import { Typography } from "@material-ui/core";
 import { Algo, getHeaderStr } from "../object/Algo";
-import { AlgoStepNode, flattenList } from "../util/ecmarkdown";
-import { Emitter } from '../object/Emitter'
+import { AlgoStepNode, flattenList, Emitter } from "../util/ecmarkdown";
 import { parseAlgorithm } from 'ecmarkdown';
 import type { AlgorithmNode } from 'ecmarkdown';
 import "../styles/AlgoViewer.css";
@@ -32,7 +31,7 @@ class AlgoStep extends React.Component<AlgoStepProps> {
     return (
       <div className={ className } style={ { marginLeft, color: 'black' } }>
         { numberOrBullet }
-        { contents.map( c => Emitter.emit( c ) ) }
+        { Emitter.emit(contents) }
       </div>
     );
   }

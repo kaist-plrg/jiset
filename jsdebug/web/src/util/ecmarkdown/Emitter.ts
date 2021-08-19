@@ -1,4 +1,5 @@
-import React from 'react';
+import { Fragment, createElement as e } from 'react';
+import { v4 as uuid } from "uuid";
 import type {
   Node,
   TextNode,
@@ -13,11 +14,11 @@ import type {
 } from 'ecmarkdown';
 
 export class Emitter {
-  emit ( node: Node | Node[] ) {
+  emit ( node: Node[] ) {
     return this.emitNode( node );
   }
 
-  static emit ( node: Node | Node[] ) {
+  static emit ( node: Node[] ) {
     const emitter = new Emitter();
     return emitter.emit( node );
   }
@@ -57,11 +58,32 @@ export class Emitter {
   }
 
   emitTag ( tag: OpaqueTagNode | CommentNode | TagNode ) {
-    return React.createElement( React.Fragment, null, tag.contents );
+    if (tag.name === 'tag') {
+      if (tag.contents.startsWith("<emu-xref")) {
+        const specURL = "https://tc39.es/ecma262/";
+        const regex = /href="#([a-zA-Z-]*)"/;
+
+        // first element is the first complete match,
+        // the following elements are capturing groups
+        const matches = tag.contents.match(regex);
+        const href = matches?.[1];
+
+        // capturing group exists
+        if (href) {
+          // NOTE: href does NOT contain "#"
+          const anchorProps = { href: `${specURL}#${href}`, target: '_blank' };
+          const anchor = e('a', anchorProps, href + ' ');
+          return e('emu-xref', { key: uuid() }, anchor);
+        }
+      } else if (tag.contents === "</emu-xref>")
+        return null;
+    }
+
+    return e( Fragment, { key: uuid() }, tag.contents );
   }
 
   emitText ( text: TextNode ) {
-    return React.createElement( React.Fragment, null, text.contents );
+    return e( Fragment, { key: uuid() }, text.contents );
   }
 
   emitTick ( node: TickNode ) {
@@ -73,22 +95,23 @@ export class Emitter {
   }
 
   emitFragment ( fragment: Node[] ): JSX.Element {
-    return React.createElement( React.Fragment, null, fragment.map( p => this.emitNode( p ) ) );
+    return e( Fragment, null, fragment.map( p => this.emitNode( p ) ) );
   }
 
   emitPipe ( pipe: PipeNode ) {
     const props = {
       optional: pipe.optional,
       params: pipe.params || false,
+      key: uuid(),
     };
 
-    return React.createElement( 'emu-nt', props, pipe.nonTerminal );
+    return e( 'emu-nt', props, pipe.nonTerminal );
   }
 
   wrapFragment ( wrapping: string, fragment: Node[] ) {
     const children = this.emitFragment( fragment );
 
     // react element with no props and children
-    return React.createElement( wrapping, null, children );
+    return e( wrapping, { key: uuid() }, children );
   }
 }
