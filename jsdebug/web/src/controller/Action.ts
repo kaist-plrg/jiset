@@ -135,7 +135,6 @@ export const stepPostAction: ActionHandler =
         let [ jsLineFrom, jsLineTo, jsStart, jsEnd ]: [ number, number, number, number ] = JSON.parse(
           webDebugger.getJsRange()
         );
-        console.log(`${jsLineFrom} - ${jsLineTo}`);
         store.dispatch( updateJsRange( jsLineFrom, jsLineTo, jsStart, jsEnd ) );
         store.dispatch( updateIrInfo( stackFrame, heap, env ) );
         store.dispatch( pauseDebugger() );
