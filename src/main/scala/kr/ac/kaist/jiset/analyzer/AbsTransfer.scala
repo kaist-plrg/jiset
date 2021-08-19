@@ -409,28 +409,28 @@ case class AbsTransfer(sem: AbsSemantics) {
       case ETypeOf(expr) => for {
         value <- escape(transfer(expr))
         st <- get
-      } yield value.getSingle match {
-        case FlatBot => AbsValue.Bot
-        case FlatElem(v) => AbsValue(v match {
-          case _: AComp => "Completion"
-          case _: AConst => "Constant"
-          case loc: Loc => st(loc).getTy.name match {
+      } yield {
+        var set = Set[String]()
+        if (!value.comp.isBottom) set += "Completion"
+        if (!value.const.isBottom) set += "Constant"
+        if (!value.loc.isBottom) for (loc <- value.loc) {
+          set += (st(loc).getTy.name match {
             case name if name endsWith "Object" => "Object"
             case name => name
-          }
-          case _: AFunc => "Function"
-          case _: AClo => "Closure"
-          case _: ACont => "Continuation"
-          case _: AAst => "AST"
-          case ASimple(_: Num | _: INum) => "Number"
-          case ASimple(_: BigINum) => "BigInt"
-          case ASimple(_: Str) => "String"
-          case ASimple(_: Bool) => "Boolean"
-          case ASimple(Undef) => "Undefined"
-          case ASimple(Null) => "Null"
-          case ASimple(Absent) => "Absent"
-        })
-        case FlatTop => AbsValue.str
+          })
+        }
+        if (!value.func.isBottom) set += "Function"
+        if (!value.clo.isBottom) set += "Closure"
+        if (!value.cont.isBottom) set += "Continuation"
+        if (!value.ast.isBottom) set += "AST"
+        if (!value.num.isBottom || !value.int.isBottom) set += "Number"
+        if (!value.bigint.isBottom) set += "BigInt"
+        if (!value.str.isBottom) set += "String"
+        if (!value.bool.isBottom) set += "Boolean"
+        if (!value.undef.isBottom) set += "Undefined"
+        if (!value.nullv.isBottom) set += "Null"
+        if (!value.absent.isBottom) set += "Absent"
+        AbsValue(str = AbsStr(set.map(Str(_))))
       }
       case EIsCompletion(expr) => for {
         v <- transfer(expr)
