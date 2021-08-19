@@ -39,11 +39,11 @@ object Export {
 
     // JS steps
     def jsStep(): Int = {
-      val (l0, _, _) = st.getJSInfo()
+      val (lPrev0, _, _, _) = st.getJSInfo()
       stepUntil {
-        val (l1, _, _) = st.getJSInfo()
+        val (lNext0, lNext1, _, _) = st.getJSInfo()
         val (n, _, _) = st.context.getInfo()
-        (l0 == l1) || ((l0 > 0) && (l1 <= 0))
+        (lNext0 != lNext1) || (lPrev0 == lNext0) || ((lPrev0 > 0) && (lNext0 <= 0))
       }.id
     }
 

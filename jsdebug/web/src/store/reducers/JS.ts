@@ -20,10 +20,11 @@ export function clearJs (): JSAction {
     type: JSActionType.CLEAR,
   };
 }
-export function updateJsRange ( line: number, start: number, end: number ): JSAction {
+export function updateJsRange ( lineFrom: number, lineTo: number, start: number, end: number ): JSAction {
   return {
     type: JSActionType.UPDATE_RANGE,
-    line,
+    lineFrom,
+    lineTo,
     start,
     end
   };
@@ -56,7 +57,8 @@ export type JSAction =
   }
   | {
     type: JSActionType.UPDATE_RANGE;
-    line: number
+    lineFrom: number;
+    lineTo: number;
     start: number;
     end: number;
   }
@@ -104,7 +106,7 @@ export default function reducer ( state = initialState, action: JSAction ) {
       } );
     case JSActionType.UPDATE_RANGE:
       return produce( state, ( draft ) => {
-        draft.line = action.line;
+        if (action.lineFrom === action.lineTo) { draft.line = action.lineFrom; }
         draft.start = action.start;
         draft.end = action.end;
       } );

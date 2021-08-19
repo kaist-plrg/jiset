@@ -141,8 +141,8 @@ trait Debugger {
   final def addBreakJS(line: Int, enabled: Boolean = true) = {
     val bp = JSBreakPoint(line)
     val hook = interp.subscribe("", Interp.Event.Call, st => {
-      val (l, _, _) = st.getJSInfo()
-      bp.check(l.toString)
+      val (l0, l1, _, _) = st.getJSInfo()
+      if (l0 == l1) { bp.check(l0.toString) }
     })
     bp.enabled = enabled
     breakpointsJS += ((hook, bp))

@@ -138,11 +138,11 @@ case class State(
   def moveNext: Unit = context.moveNext
 
   // debugger info
-  def getJSInfo(): (Int, Int, Int) = (context :: ctxtStack).foldLeft((0, -1, -1)) {
-    case ((0, -1, -1), cntxt) if cntxt.isAstEvaluation =>
+  def getJSInfo(): (Int, Int, Int, Int) = (context :: ctxtStack).foldLeft((0, 0, -1, -1)) {
+    case ((0, 0, -1, -1), cntxt) if cntxt.isAstEvaluation =>
       val ast = cntxt.astOpt.get
       val Span(start, end) = ast.span
-      (start.line, start.index, end.index)
+      (start.line, end.line, start.index, end.index)
     case (acc, _) => acc
   }
 }

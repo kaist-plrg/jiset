@@ -132,10 +132,11 @@ export const stepPostAction: ActionHandler =
         let stackFrame: StackFrame = JSON.parse( webDebugger.getStackFrame() );
         let heap = JSON.parse( webDebugger.getHeap() );
         let env = JSON.parse( webDebugger.getEnv() );
-        let [ jsLine, jsStart, jsEnd ]: [ number, number, number ] = JSON.parse(
+        let [ jsLineFrom, jsLineTo, jsStart, jsEnd ]: [ number, number, number, number ] = JSON.parse(
           webDebugger.getJsRange()
         );
-        store.dispatch( updateJsRange( jsLine, jsStart, jsEnd ) );
+        console.log(`${jsLineFrom} - ${jsLineTo}`);
+        store.dispatch( updateJsRange( jsLineFrom, jsLineTo, jsStart, jsEnd ) );
         store.dispatch( updateIrInfo( stackFrame, heap, env ) );
         store.dispatch( pauseDebugger() );
         next();
