@@ -232,6 +232,7 @@ trait Debugger {
             env :+ (name, value.toString)
           } else { env }
         }
+        case v => error(s"Incorrect heap element: $v")
       }
       case v => error(s"Incorrect SubMap: $v")
     }
