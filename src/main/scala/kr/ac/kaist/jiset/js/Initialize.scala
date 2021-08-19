@@ -110,52 +110,54 @@ object Initialize {
       Str("Configurable") -> Bool(true),
     )))
 
+    val subAddr = NamedAddr(s"$name.SubMap")
+    val nameAddr = NamedAddr(s"DESC:$name.name")
+    val lengthAddr = NamedAddr(s"DESC:$name.length")
+
     val irrMap = map.get(addr) match {
       case Some(m: IRMap) => m
       case _ => IRMap("BuiltinFunctionObject")(Nil)
     }
-    irrMap
+    val nameMap = map.get(nameAddr) match {
+      case Some(m: IRMap) => m
+      case _ => IRMap("PropertyDescriptor")(Nil)
+    }
+    val subMap = map.get(subAddr) match {
+      case Some(m: IRMap) => m
+      case _ => IRMap("SubMap")(Nil)
+    }
+    val lengthMap = map.get(lengthAddr) match {
+      case Some(m: IRMap) => m
+      case _ => IRMap("PropertyDescriptor")(Nil)
+    }
+
+    val initName = nameMap.props
+      .get(Str("Value"))
+      .fold(Str(propName): Value) { case (name, _) => name }
+
+    map += addr -> irrMap
       .findOrUpdate(Str("Extensible"), Bool(true))
       .findOrUpdate(Str("ScriptOrModule"), Null)
       .findOrUpdate(Str("Realm"), NamedAddr("REALM"))
       .findOrUpdate(Str("Code"), Func(algo))
       .findOrUpdate(Str("Prototype"), NamedAddr("GLOBAL.Function.prototype"))
       .findOrUpdate(Str("SubMap"), NamedAddr(s"$name.SubMap"))
-    map += addr -> irrMap
+      .findOrUpdate(Str("InitialName"), initName)
 
-    val subAddr = NamedAddr(s"$name.SubMap")
-    val nameAddr = NamedAddr(s"DESC:$name.name")
-    val lengthAddr = NamedAddr(s"DESC:$name.length")
-
-    val subMap = map.get(subAddr) match {
-      case Some(m: IRMap) => m
-      case _ => IRMap("SubMap")(Nil)
-    }
-    subMap
+    map += subAddr -> subMap
       .findOrUpdate(Str("name"), NamedAddr(s"DESC:$name.name"))
       .findOrUpdate(Str("length"), NamedAddr(s"DESC:$name.length"))
-    map += subAddr -> subMap
 
-    val nameMap = map.get(nameAddr) match {
-      case Some(m: IRMap) => m
-      case _ => IRMap("PropertyDescriptor")(Nil)
-    }
-    nameMap
+    map += nameAddr -> nameMap
       .findOrUpdate(Str("Value"), Str(propName))
       .findOrUpdate(Str("Writable"), Bool(false))
       .findOrUpdate(Str("Enumerable"), Bool(false))
       .findOrUpdate(Str("Configurable"), Bool(true))
-    map += nameAddr -> nameMap
 
-    val lengthMap = map.get(lengthAddr) match {
-      case Some(m: IRMap) => m
-      case _ => IRMap("PropertyDescriptor")(Nil)
-    }
-    lengthMap
+    map += lengthAddr -> lengthMap
       .findOrUpdate(Str("Value"), Num(getLength(head.origParams)))
       .findOrUpdate(Str("Writable"), Bool(false))
       .findOrUpdate(Str("Enumerable"), Bool(false))
       .findOrUpdate(Str("Configurable"), Bool(true))
-    map += lengthAddr -> lengthMap
   }
 }

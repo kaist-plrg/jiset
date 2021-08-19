@@ -1,9 +1,15 @@
 def [BUILTIN] Function.prototype.toString() = {
   let func = this
-  if (&& (= (typeof func) Object) (= (typeof func.SourceText) String)) return func.SourceText else {}
-  if (is-instance-of func BuiltinFunctionObject) ??? "TODO: built-in function" else {}
+  if (&& (= (typeof func) Object) (= (typeof func.SourceText) String)) {
+    return func.SourceText
+  } else {}
+  if (is-instance-of func BuiltinFunctionObject) {
+    return (+ (+ "function " func.InitialName) "() { [native code] }")
+  } else {}
   app callable = (IsCallable func)
-  if (&& (= (typeof func) Object) callable) ??? "TODO: callable object" else {}
+  if (&& (= (typeof func) Object) callable) {
+    return "function () { [native code] }"
+  } else {}
   throw TypeError
 }
 - id: "sec-function.prototype.tostring"
