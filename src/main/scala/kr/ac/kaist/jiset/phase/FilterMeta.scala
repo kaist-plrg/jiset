@@ -100,7 +100,79 @@ case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummar
     // "__proto__",
     // "__getter__",
     // "__setter__",
-    "BigInt", // BigInt: https://github.com/tc39/proposal-bigint
+    // BigInt: https://github.com/tc39/proposal-bigint
+    "BigInt",
+    // Align detached buffer semantics with web reality
+    // https://github.com/tc39/ecma262/pull/2164
+    "align-detached-buffer-semantics-with-web-reality",
+    // Logical assignment (&&=, ||=, ??=)
+    // https://github.com/tc39/proposal-logical-assignment
+    "logical-assignment-operators",
+    // Enumeration order for for-in
+    // https://github.com/tc39/proposal-for-in-order
+    "for-in-order",
+    // String.prototype.replaceAll
+    // https://github.com/tc39/proposal-string-replaceall
+    "String.prototype.replaceAll",
+    // Promise.any
+    // https://github.com/tc39/proposal-promise-any
+    "Promise.any",
+    "AggregateError",
+    // Nullish Coalesce Expression
+    // https://github.com/tc39/proposal-nullish-coalescing
+    "coalesce-expression",
+    // Optional Chaining
+    // https://github.com/tc39/proposal-optional-chaining
+    "optional-chaining",
+    // WeakRef
+    // https://github.com/tc39/proposal-weakref
+    "WeakRef",
+    "FinalizationRegistry",
+    // import.meta
+    // https://github.com/tc39/proposal-import-meta
+    "import.meta",
+    //# `export * as namespace from module`
+    //# https://github.com/tc39/ecma262/pull/1174
+    "export-star-as-namespace-from-module",
+    // Global
+    // https://github.com/tc39/proposal-global
+    "globalThis",
+    // Well-formed JSON.stringify
+    // https://github.com/tc39/proposal-well-formed-stringify
+    "well-formed-json-stringify",
+    // Symbol.prototype.description
+    // https://github.com/tc39/proposal-symbol-description
+    "Symbol.prototype.description",
+    // String.prototype.matchAll
+    // https://github.com/tc39/proposal-string-matchall
+    "String.prototype.matchAll",
+    "Symbol.matchAll",
+    // Numeric Separator Literal
+    // https://github.com/tc39/proposal-numeric-separator
+    "numeric-separator-literal",
+    // String Trimming
+    // https://github.com/tc39/proposal-string-left-right-trim
+    // Includes all tests for:
+    // String.prototype.{trimStart, trimEnd, trimLeft, trimRight}
+    "string-trimming",
+    "String.prototype.trimEnd",
+    "String.prototype.trimStart",
+    // Array.prototype.flat and Array.prototype.flatMap
+    // https://github.com/tc39/proposal-flatMap
+    "Array.prototype.flat",
+    "Array.prototype.flatMap",
+    // Promise.allSettled
+    // https://github.com/tc39/proposal-promise-allSettled
+    "Promise.allSettled",
+    // Object.fromEntries
+    // https://github.com/tc39/proposal-object-from-entries
+    "Object.fromEntries",
+    // Dynamic Import
+    // https://github.com/tc39/proposal-dynamic-import
+    "dynamic-import",
+    // Missing checks in Proxy internal methods
+    // https://github.com/tc39/ecma262/pull/666
+    "proxy-missing-checks",
   )
 
   lazy val test262Dir = new File(s"$TEST_DIR/test262/test")
