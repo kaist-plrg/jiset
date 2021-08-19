@@ -58,9 +58,10 @@ object BasicHeap extends Domain {
   }
 
   // appender
-  implicit val app: App[Elem] = (app, elem) => {
+  def mkAppender(detail: Boolean): App[Elem] = (app, elem) => {
     val Elem(map, fixed, pstat, fstat, merged) = elem
     if (elem.isBottom) app >> "{}"
+    else if (!detail) app >> "{ ... }"
     else app.wrap {
       map.toList
         .sortBy(_._1.toString)
@@ -77,6 +78,8 @@ object BasicHeap extends Domain {
         }
     }
   }
+  implicit val app: App[Elem] = mkAppender(true)
+  val shortApp: App[Elem] = mkAppender(false)
 
   // constructors
   def apply(
@@ -320,6 +323,15 @@ object BasicHeap extends Domain {
       loc.toList.foldLeft(AbsBool.Bot: AbsBool) {
         case (bool, loc) => bool ⊔ (this(loc) contains value)
       }
+    }
+
+    // conversion to string
+    def toString(detail: Boolean): String = {
+      val app = new Appender
+      implicit val heapApp =
+        if (detail) BasicHeap.app else BasicHeap.shortApp
+      app >> this
+      app.toString
     }
 
     // helper for abstract locations

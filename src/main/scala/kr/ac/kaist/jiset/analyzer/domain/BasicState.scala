@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.analyzer._
-import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
+import kr.ac.kaist.jiset.ir.{ AllocSite => _, Stringifier => IrStringifier, _ }
 import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
@@ -24,15 +24,23 @@ object BasicState extends Domain {
   val monad: StateMonad[Elem] = new StateMonad[Elem]
 
   // appender
-  implicit val app: App[Elem] = (app, elem) => {
+  val irStringifier = new IrStringifier()
+  import irStringifier._
+  import AbsValue._
+  def mkAppender(detail: Boolean): App[Elem] = (app, elem) => {
+    implicit val heapApp =
+      if (detail) AbsHeap.app else AbsHeap.shortApp
     if (elem.isBottom) app >> "⊥"
-    else if (elem.locals.isEmpty) app >> "{}"
-    else app.wrap {
-      elem.locals.toList
-        .sortBy(_._1.toString)
-        .foreach { case (k, v) => app :> s"$k -> " >> v >> LINE_SEP }
+    else {
+      app.wrap {
+        app :> "locals: " >> elem.locals >> LINE_SEP
+        app :> "globals: " >> elem.globals >> LINE_SEP
+        app :> "heaps: " >> elem.heap >> LINE_SEP
+      }
     }
   }
+  implicit val app: App[Elem] = mkAppender(true)
+  val shortApp: App[Elem] = mkAppender(false)
 
   // constructors
   def apply(
@@ -312,18 +320,10 @@ object BasicState extends Domain {
 
     // conversion to string
     def toString(detail: Boolean): String = {
-      import AbsHeap._
       val app = new Appender
-      if (detail) {
-        app >> this >> LINE_SEP
-        app >> "globals: "
-        app.wrap {
-          for ((k, v) <- globals.toList.sortBy(_._1.toString)) {
-            app :> s"$k -> $v" >> LINE_SEP
-          }
-        } >> LINE_SEP
-        app >> "heap: " >> heap
-      } else app >> this
+      implicit val stApp =
+        if (detail) BasicState.app else BasicState.shortApp
+      app >> this
       app.toString
     }
 

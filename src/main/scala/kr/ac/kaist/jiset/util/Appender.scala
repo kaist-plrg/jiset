@@ -72,20 +72,24 @@ object Appender {
     implicit
     kApp: App[K],
     vApp: App[V]
-  ): App[Map[K, V]] = (app, map) => app.wrap {
-    map.toList.sortBy(_._1.toString).foreach {
-      case (k, v) => app :> k >> ": " >> v >> LINE_SEP
+  ): App[Map[K, V]] = (app, map) =>
+    if (map.size == 0) app >> "{}"
+    else app.wrap {
+      map.toList.sortBy(_._1.toString).foreach {
+        case (k, v) => app :> k >> ": " >> v >> LINE_SEP
+      }
     }
-  }
 
   // map appender
   implicit def MMapApp[K, V](
     implicit
     kApp: App[K],
     vApp: App[V]
-  ): App[MMap[K, V]] = (app, map) => app.wrap {
-    map.toList.sortBy(_._1.toString).foreach {
-      case (k, v) => app :> k >> ": " >> v >> LINE_SEP
+  ): App[MMap[K, V]] = (app, map) =>
+    if (map.size == 0) app >> "{}"
+    else app.wrap {
+      map.toList.sortBy(_._1.toString).foreach {
+        case (k, v) => app :> k >> ": " >> v >> LINE_SEP
+      }
     }
-  }
 }

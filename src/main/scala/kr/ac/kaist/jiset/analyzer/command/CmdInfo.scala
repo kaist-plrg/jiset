@@ -20,7 +20,7 @@ case object CmdInfo extends Command(
       showInfo(repl, opt.substring(1), target)
     case _ => cpOpt match {
       case Some(cp) =>
-        println(repl.cpInfo(cp, true))
+        println(repl.cpInfo(cp, false))
         println
       case None =>
         showInfo(repl, ret, "RunJobs")
