@@ -16,7 +16,6 @@ import scala.annotation.tailrec
 case class AbsSemantics(
   var npMap: Map[NodePoint[Node], AbsState] = Map(),
   var rpMap: Map[ReturnPoint, AbsRet] = Map(),
-  var viewMap: Map[View, Set[View]] = Map(),
   var callInfo: Map[NodePoint[Call], AbsState] = Map(),
   var retEdges: Map[ReturnPoint, Set[NodePoint[Call]]] = Map(),
   timeLimit: Option[Long] = None
@@ -95,13 +94,6 @@ case class AbsSemantics(
   def apply(np: NodePoint[Node]): AbsState = npMap.getOrElse(np, AbsState.Bot)
   def apply(rp: ReturnPoint): AbsRet = rpMap.getOrElse(rp, AbsRet.Bot)
 
-  // assign views
-  def assignView(view: View): Unit = {
-    val entryView = view.entryView
-    val set = viewMap.getOrElse(entryView, Set())
-    viewMap += entryView -> (set + view)
-  }
-
   // update internal map
   def +=(pair: (NodePoint[Node], AbsState)): Boolean = {
     val (np, newSt) = pair
@@ -109,7 +101,6 @@ case class AbsSemantics(
     if (!oldSt.isBottom && USE_REPL) repl.merged = true
     if (!(newSt ⊑ oldSt)) {
       npMap += np -> (oldSt ⊔ newSt)
-      assignView(np.view)
       worklist += np
       true
     }
@@ -150,7 +141,6 @@ case class AbsSemantics(
       if (!oldRet.isBottom && USE_REPL) repl.merged = true
       if (newRet !⊑ oldRet) {
         rpMap += retRp -> (oldRet ⊔ newRet)
-        assignView(rp.view)
         worklist += retRp
       }
     }
@@ -191,9 +181,13 @@ case class AbsSemantics(
   // check reachability based on call contexts
   def reachable(np: NodePoint[Node]): Boolean =
     !getNps(np).forall(this(_).isBottom)
-  def getNps[T <: Node](np: NodePoint[T]): Set[NodePoint[T]] = for {
-    view <- viewMap.getOrElse(np.view, Set())
-  } yield NodePoint(np.node, view)
+  def getNps(givenNp: NodePoint[Node]): Set[NodePoint[Node]] = {
+    val entryView = givenNp.view.entryView
+    for {
+      np <- npMap.keySet
+      if givenNp.node == np.node && entryView == np.view.entryView
+    } yield np
+  }
 }
 object AbsSemantics {
   // constructors
