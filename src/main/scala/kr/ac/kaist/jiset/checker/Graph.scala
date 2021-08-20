@@ -88,7 +88,7 @@ case class Graph(
     def getId(node: Node): String = s"node${node.uid}_${norm(view)}"
     def getName(func: Function): String = {
       val viewName = view.toString.replaceAll("\"", "\\\\\"")
-      s"${func.name}:$viewName"
+      s"$func:$viewName"
     }
     def getColor(node: Node): String = {
       val np = NodePoint(node, view)

@@ -37,7 +37,7 @@ case class Function(
   lazy val toDot: String = (new DotPrinter {
     def getId(func: Function): String = s"cluster${func.uid}"
     def getId(node: Node): String = s"node${node.uid}"
-    def getName(func: Function): String = func.name
+    def getName(func: Function): String = func.toString
     def getColor(node: Node): String = REACH
     def getColor(from: Node, to: Node): String = REACH
     def getBgColor(node: Node): String = NORMAL
