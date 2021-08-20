@@ -1,0 +1,61 @@
+def [SYNTAX] SingleNameBinding[0,1].IteratorBindingInitialization[R]<(BindingIdentifier, Initializer),true>(iteratorRecord, environment) = 0:{
+  0:access __x0__ = (BindingIdentifier "StringValue")
+  0:let bindingId = __x0__
+  1:app __x1__ = (ResolveBinding bindingId environment)
+  1:let lhs = [? __x1__]
+  2:if (= iteratorRecord.Done false) 2:{
+    3:app __x2__ = (IteratorStep iteratorRecord)
+    3:let next = __x2__
+    4:app __x3__ = (IsAbruptCompletion next)
+    4:if __x3__ 4:iteratorRecord.Done = true else 4:{}
+    5:[? next]
+    6:if (= next false) 6:iteratorRecord.Done = true else 7:{
+      8:app __x4__ = (IteratorValue next)
+      8:let v = __x4__
+      9:app __x5__ = (IsAbruptCompletion v)
+      9:if __x5__ 9:iteratorRecord.Done = true else 9:{}
+      10:[? v]
+    }
+  } else 2:{}
+  11:if (= iteratorRecord.Done true) 11:let v = undefined else 11:{}
+  12:if (&& (! (= Initializer absent)) (= v undefined)) 12:{
+    13:app __x6__ = (IsAnonymousFunctionDefinition Initializer)
+    13:if (= __x6__ true) 13:{
+      14:access __x7__ = (Initializer "NamedEvaluation" bindingId)
+      14:let v = __x7__
+    } else 15:{
+      16:access __x8__ = (Initializer "Evaluation")
+      16:let defaultValue = __x8__
+      17:app __x9__ = (GetValue defaultValue)
+      17:v = [? __x9__]
+    }
+  } else 12:{}
+  18:if (= environment undefined) 18:{
+    18:app __x10__ = (PutValue lhs v)
+    18:return [? __x10__]
+  } else 18:{}
+  19:app __x11__ = (InitializeReferencedBinding lhs v)
+  19:return __x11__
+}
+- id: "sec-runtime-semantics-iteratorbindinginitialization"
+- code:
+        1. Let _bindingId_ be StringValue of |BindingIdentifier|.
+        1. Let _lhs_ be ? ResolveBinding(_bindingId_, _environment_).
+        1. If _iteratorRecord_.[[Done]] is *false*, then
+          1. Let _next_ be IteratorStep(_iteratorRecord_).
+          1. If _next_ is an abrupt completion, set _iteratorRecord_.[[Done]] to *true*.
+          1. ReturnIfAbrupt(_next_).
+          1. If _next_ is *false*, set _iteratorRecord_.[[Done]] to *true*.
+          1. Else,
+            1. Let _v_ be IteratorValue(_next_).
+            1. If _v_ is an abrupt completion, set _iteratorRecord_.[[Done]] to *true*.
+            1. ReturnIfAbrupt(_v_).
+        1. If _iteratorRecord_.[[Done]] is *true*, let _v_ be *undefined*.
+        1. If |Initializer| is present and _v_ is *undefined*, then
+          1. If IsAnonymousFunctionDefinition(|Initializer|) is *true*, then
+            1. Let _v_ be the result of performing NamedEvaluation for |Initializer| with argument _bindingId_.
+          1. Else,
+            1. Let _defaultValue_ be the result of evaluating |Initializer|.
+            1. Set _v_ to ? GetValue(_defaultValue_).
+        1. If _environment_ is *undefined*, return ? PutValue(_lhs_, _v_).
+        1. Return InitializeReferencedBinding(_lhs_, _v_).
