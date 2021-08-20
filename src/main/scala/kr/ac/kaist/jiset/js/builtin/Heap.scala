@@ -912,10 +912,11 @@ object Heap {
     "Uint8ClampedArray",
     "Uint16Array",
     "Uint32Array",
+    "WeakRef",
     // others
     "Atomics",
     "JSON",
-    "Math",
+    // "Math",
     "Reflect",
     // test262
     "$262",

@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.checker.{ Type, View }
 import kr.ac.kaist.jiset.error.{ InterpTimeout, NotSupported }
-import kr.ac.kaist.jiset.js.ast.Lexical
+import kr.ac.kaist.jiset.js.ast.{ Lexical, AST }
 import kr.ac.kaist.jiset.js.{ Parser => ESParser, _ }
 import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.spec.algorithm._
@@ -516,8 +516,8 @@ class Interp(
         case v => error(s"not a string: $v")
       }
       v match {
-        case ASTVal(ast) => ASTVal(ESParser.parse(p(ast.parserParams), ast.toString).get.checkSupported)
-        case Str(str) => ASTVal(ESParser.parse(p(parserParams), str).get.checkSupported)
+        case ASTVal(ast) => doParseSyntax(p(ast.parserParams), ast.toString)
+        case Str(str) => doParseSyntax(p(parserParams), str)
         case v => error(s"not an AST value or a string: $v")
       }
     }
@@ -901,5 +901,12 @@ object Interp {
     case (_, "Contains") => Bool(false)
     case ("RegularExpressionLiteral", name) => throw NotSupported(s"RegularExpressionLiteral.$name")
     case _ => error(s"invalid Lexical access: $kind.$name")
+  }
+
+  // parse syntax
+  def doParseSyntax(parser: ESParser.LAParser[AST], str: String): Value = {
+    val result = ESParser.parse(parser, str)
+    if (result.successful) ASTVal(result.get.checkSupported)
+    else Absent
   }
 }

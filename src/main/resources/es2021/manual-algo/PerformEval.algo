@@ -1,49 +1,49 @@
 def PerformEval(x, callerRealm, strictCaller, direct) = {
-  1:if (! (= (typeof x) String)) return x else 25:{}
+  1:if (! (= (typeof x) String)) 1:return x else 1:{}
   2:let evalRealm = REALM
   3:app __x0__ = (HostEnsureCanCompileStrings callerRealm evalRealm)
   3:[? __x0__]
   4:let inFunction = false
   5:let inMethod = false
   6:let inDerivedConstructor = false
-  7:if (= direct true) {
+  7:if (= direct true) 7:{
     8:app __x1__ = (GetThisEnvironment)
     8:let thisEnvRec = [! __x1__]
-    9:if (is-instance-of thisEnvRec FunctionEnvironmentRecord) {
+    9:if (is-instance-of thisEnvRec FunctionEnvironmentRecord) 9:{
       10:let F = thisEnvRec.FunctionObject
       11:inFunction = true
       12:app __x2__ = (thisEnvRec.HasSuperBinding thisEnvRec)
       12:inMethod = __x2__
-      13:if (= F.ConstructorKind ~derived~) inDerivedConstructor = true else 25:{}
-    } else 25:{}
-  } else 25:{}
-  14:let script = (parse-syntax x "Script")
-  14:if (= script absent) throw SyntaxError else {}
-  14:access check = (script "Contains" "ScriptBody")
-  14:if (! check) return undefined else {}
-  14:access body = (script "ScriptBody")
-  14:access check = (body "Contains" "NewTarget")
-  14:if (&& (! inFunction) check) throw SyntaxError else {}
-  14:access check = (body "Contains" "SuperProperty")
-  14:if (&& (! inMethod) check) throw SyntaxError else {}
-  14:access check = (body "Contains" "SuperCall")
-  14:if (&& (! inDerivedConstructor) check) throw SyntaxError else {}
-  23:if (= strictCaller true) let strictEval = true else {
-    access __x3__ = (script "IsStrict")
-    let strictEval = __x3__
+      13:if (= F.ConstructorKind ~derived~) inDerivedConstructor = true else 13:{}
+    } else 9:{}
+  } else 7:{}
+  15:let script = (parse-syntax x "Script")
+  16:if (= script absent) 16:throw SyntaxError else 16:{}
+  17:access check = (script "Contains" "ScriptBody")
+  17:if (! check) 17:return undefined else 17:{}
+  18:access body = (script "ScriptBody")
+  19:access check = (body "Contains" "NewTarget")
+  19:if (&& (! inFunction) check) 19:throw SyntaxError else 19:{}
+  20:access check = (body "Contains" "SuperProperty")
+  20:if (&& (! inMethod) check) 20:throw SyntaxError else 20:{}
+  21:access check = (body "Contains" "SuperCall")
+  21:if (&& (! inDerivedConstructor) check) 21:throw SyntaxError else 21:{}
+  22:if (= strictCaller true) 22:let strictEval = true else 23:{
+    23:access __x3__ = (script "IsStrict")
+    23:let strictEval = __x3__
   }
   24:let runningContext = CONTEXT
-  29:if (= direct true) {
+  26:if (= direct true) 26:{
     27:app __x4__ = (NewDeclarativeEnvironment runningContext.LexicalEnvironment)
     27:let lexEnv = __x4__
     28:let varEnv = runningContext.VariableEnvironment
-  } else {
+  } else 29:{
     30:app __x5__ = (NewDeclarativeEnvironment evalRealm.GlobalEnv)
     30:let lexEnv = __x5__
     31:let varEnv = evalRealm.GlobalEnv
   }
-  32:if (= strictEval true) varEnv = lexEnv else 25:{}
-  33:if (= runningContext null) CONTEXT = null else 25:{}
+  32:if (= strictEval true) 32:varEnv = lexEnv else 32:{}
+  33:if (= runningContext null) 33:CONTEXT = null else 33:{}
   34:let evalContext = (new ExecutionContext())
   35:evalContext.Function = null
   36:evalContext.Realm = evalRealm
@@ -54,16 +54,16 @@ def PerformEval(x, callerRealm, strictCaller, direct) = {
   40:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   41:app __x6__ = (EvalDeclarationInstantiation body varEnv lexEnv strictEval)
   41:let result = __x6__
-  42:if (= result.Type ~normal~) {
+  42:if (= result.Type ~normal~) 42:{
     43:access __x7__ = (body "Evaluation")
     43:result = __x7__
-  } else 25:{}
-  44:if (&& (= result.Type ~normal~) (= result.Value ~empty~)) {
+  } else 42:{}
+  44:if (&& (= result.Type ~normal~) (= result.Value ~empty~)) 44:{
     45:app __x8__ = (NormalCompletion undefined)
     45:result = __x8__
-  } else 25:{}
+  } else 44:{}
   46:CONTEXT = null
-  46:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] evalContext) (pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 25:{}
+  46:if (= EXECUTION_STACK[(- EXECUTION_STACK.length 1i)] evalContext) 46:(pop EXECUTION_STACK (- EXECUTION_STACK.length 1i)) else 46:{}
   47:CONTEXT = EXECUTION_STACK[(- EXECUTION_STACK.length 1i)]
   48:return result
 }
