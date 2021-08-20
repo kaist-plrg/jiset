@@ -1,0 +1,34 @@
+def [BUILTIN] Array.prototype.push(...items) = 0:{
+  0:app __x0__ = (ToObject this)
+  0:let O = [? __x0__]
+  1:app __x1__ = (LengthOfArrayLike O)
+  1:let len = [? __x1__]
+  2:let items = argumentsList
+  3:let argCount = items.length
+  4:if (< (- (** 2i 53i) 1i) (+ len argCount)) 4:throw TypeError else 4:{}
+  5:let __x2__ = items
+  5:let __x3__ = 0i
+  5:while (< __x3__ __x2__.length) 5:{
+    5:let E = __x2__[__x3__]
+    5:__x3__ = (+ __x3__ 1i)
+    6:app __x4__ = (ToString len)
+    6:app __x5__ = (Set O [! __x4__] E true)
+    6:[? __x5__]
+    7:len = (+ len 1i)
+  }
+  8:app __x6__ = (Set O "length" len true)
+  8:[? __x6__]
+  9:return len
+}
+- id: "sec-array.prototype.push"
+- code:
+          1. Let _O_ be ? ToObject(*this* value).
+          1. Let _len_ be ? LengthOfArrayLike(_O_).
+          1. Let _items_ be a List whose elements are, in left to right order, the arguments that were passed to this function invocation.
+          1. Let _argCount_ be the number of elements in _items_.
+          1. If _len_ + _argCount_ > 2<sup>53</sup> - 1, throw a *TypeError* exception.
+          1. For each element _E_ of _items_, do
+            1. Perform ? Set(_O_, ! ToString(𝔽(_len_)), _E_, *true*).
+            1. Set _len_ to _len_ + 1.
+          1. Perform ? Set(_O_, *"length"*, 𝔽(_len_), *true*).
+          1. Return 𝔽(_len_).

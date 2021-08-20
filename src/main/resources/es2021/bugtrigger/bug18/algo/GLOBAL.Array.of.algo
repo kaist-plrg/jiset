@@ -1,0 +1,44 @@
+def [BUILTIN] Array.of(...items) = 0:{
+  0:let len = argumentsList.length
+  1:let items = argumentsList
+  2:let lenNumber = len
+  3:let C = this
+  4:app __x0__ = (IsConstructor C)
+  4:if (= __x0__ true) 4:{
+    5:app __x1__ = (Construct C (new [lenNumber]))
+    5:let A = [? __x1__]
+  } else 6:{
+    7:app __x2__ = (ArrayCreate len)
+    7:let A = [? __x2__]
+  }
+  8:let k = 0i
+  9:while (< k len) 9:{
+    10:let kValue = items[k]
+    11:app __x3__ = (ToString k)
+    11:let Pk = [! __x3__]
+    12:app __x4__ = (CreateDataPropertyOrThrow A Pk kValue)
+    12:[? __x4__]
+    13:k = (+ k 1i)
+  }
+  14:app __x5__ = (Set A "length" lenNumber true)
+  14:[? __x5__]
+  15:return A
+}
+- id: "sec-array.of"
+- code:
+          1. Let _len_ be the actual number of arguments passed to this function.
+          1. Let _items_ be the List of arguments passed to this function.
+          1. Let _lenNumber_ be 𝔽(_len_).
+          1. Let _C_ be the *this* value.
+          1. If IsConstructor(_C_) is *true*, then
+            1. Let _A_ be ? Construct(_C_, « _lenNumber_ »).
+          1. Else,
+            1. Let _A_ be ? ArrayCreate(_len_).
+          1. Let _k_ be 0.
+          1. Repeat, while _k_ < _len_,
+            1. Let _kValue_ be _items_[_k_].
+            1. Let _Pk_ be ! ToString(𝔽(_k_)).
+            1. Perform ? CreateDataPropertyOrThrow(_A_, _Pk_, _kValue_).
+            1. Set _k_ to _k_ + 1.
+          1. Perform ? Set(_A_, *"length"*, _lenNumber_, *true*).
+          1. Return _A_.
