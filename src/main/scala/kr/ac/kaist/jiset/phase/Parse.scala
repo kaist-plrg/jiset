@@ -21,12 +21,7 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
     config: ParseConfig
   ): Script = {
     val filename = getFirstFilename(jisetConfig, "parse")
-    val ast = (if (config.esparse) Script {
-      parse(executeCmd(s"bin/esparse $filename")).getOrElse(error("invalid AST"))
-    }
-    else {
-      Parser.parse(Parser.Script(Nil), fileReader(filename)).get
-    }) match {
+    val ast = parseJS(jisetConfig.args, config.esparse) match {
       case ast if config.test262 => prependedTest262Harness(filename, ast)
       case ast => ast
     }
@@ -42,6 +37,26 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
     ast
   }
 
+  // parse JavaScript files
+  def parseJS(list: List[String], esparse: Boolean): Script = list match {
+    case List(filename) => parseJS(filename, esparse)
+    case _ => mergeStmt(for {
+      filename <- list
+      script = parseJS(filename, esparse)
+      item <- flattenStmt(script)
+    } yield item)
+  }
+  def parseJS(filename: String, esparse: Boolean): Script = {
+    if (esparse) {
+      val code = parse(executeCmd(s"bin/esparse $filename"))
+        .getOrElse(error("invalid AST"))
+      Script(code)
+    } else {
+      Parser.parse(Parser.Script(Nil), fileReader(filename)).get
+    }
+  }
+
+  // prepend harness.js for Test262
   def prependedTest262Harness(filename: String, script: Script): Script = {
     import Test262._
     val meta = MetaParser(filename)
