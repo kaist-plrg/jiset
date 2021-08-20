@@ -223,7 +223,7 @@ case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummar
     "language/eval-code/indirect/super-prop",
     "language/expressions/call/eval-strictness-inherit-strict",
     "language/statements/break/S12.8_A7",
-    "language/expressions/class/class-name-ident-await-escaped.js",// XXX check why not filtered 
+    "language/expressions/class/class-name-ident-await-escaped.js", // XXX check why not filtered
     "language/statements/class/class-name-ident-await-escaped.js", // XXX check why not filtered
     "language/statements/continue/S12.7_A7",
     "language/statements/function/13.0-8-s",
