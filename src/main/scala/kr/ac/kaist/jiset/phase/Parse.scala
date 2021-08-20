@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.phase
 
 import io.circe._, io.circe.syntax._, io.circe.parser._
+import kr.ac.kaist.jiset.BASE_DIR
 import kr.ac.kaist.jiset.error.NotSupported
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
@@ -48,7 +49,7 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
   }
   def parseJS(filename: String, esparse: Boolean): Script = {
     if (esparse) {
-      val code = parse(executeCmd(s"bin/esparse $filename"))
+      val code = parse(executeCmd(s"$BASE_DIR/bin/esparse $filename"))
         .getOrElse(error("invalid AST"))
       Script(code)
     } else {
