@@ -1,0 +1,18 @@
+def [BUILTIN] Object.setPrototypeOf(O, proto) = 0:{
+  0:app __x0__ = (RequireObjectCoercible O)
+  0:let O = [? __x0__]
+  1:if (! (|| (= (typeof proto) Object) (= (typeof proto) Null))) 1:throw TypeError else 1:{}
+  2:if (! (= (typeof O) Object)) 2:return O else 2:{}
+  3:app __x1__ = (O.SetPrototypeOf O proto)
+  3:let status = [? __x1__]
+  4:if (= status false) 4:throw TypeError else 4:{}
+  5:return O
+}
+- id: "sec-object.setprototypeof"
+- code:
+          1. Let _O_ be ? RequireObjectCoercible(_O_).
+          1. If Type(_proto_) is neither Object nor Null, throw a *TypeError* exception.
+          1. If Type(_O_) is not Object, return _O_.
+          1. Let _status_ be ? _O_.[[SetPrototypeOf]](_proto_).
+          1. If _status_ is *false*, throw a *TypeError* exception.
+          1. Return _O_.

@@ -1,0 +1,20 @@
+def [BUILTIN] Object.prototype.isPrototypeOf(V) = 0:{
+  0:if (! (= (typeof V) Object)) 0:return false else 0:{}
+  1:app __x0__ = (ToObject this)
+  1:let O = [? __x0__]
+  2:while true 2:{
+    3:app __x1__ = (V.GetPrototypeOf V)
+    3:let V = [? __x1__]
+    4:if (= V null) 4:return false else 4:{}
+    5:app __x2__ = (SameValue O V)
+    5:if (= __x2__ true) 5:return true else 5:{}
+  }
+}
+- id: "sec-object.prototype.isprototypeof"
+- code:
+          1. [id="step-isprototypeof-check-object"] If Type(_V_) is not Object, return *false*.
+          1. [id="step-isprototypeof-toobject"] Let _O_ be ? ToObject(*this* value).
+          1. Repeat,
+            1. Let _V_ be ? _V_.[[GetPrototypeOf]]().
+            1. If _V_ is *null*, return *false*.
+            1. If SameValue(_O_, _V_) is *true*, return *true*.

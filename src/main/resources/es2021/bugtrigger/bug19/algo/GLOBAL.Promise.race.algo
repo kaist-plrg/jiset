@@ -1,0 +1,50 @@
+def [BUILTIN] Promise.race(iterable) = 0:{
+  0:let C = this
+  1:app __x0__ = (NewPromiseCapability C)
+  1:let promiseCapability = [? __x0__]
+  2:app __x1__ = (GetPromiseResolve C)
+  2:let promiseResolve = __x1__
+  3:if (is-completion promiseResolve) 3:if (= promiseResolve.Type ~normal~) 3:promiseResolve = promiseResolve.Value else 4:{
+    4:app __x2__ = (Call promiseCapability.Reject undefined (new [promiseResolve.Value]))
+    4:if (&& (is-completion __x2__) (! (= __x2__.Type ~normal~))) 4:return __x2__ else 4:{}
+    4:return promiseCapability.Promise
+  } else 3:{}
+  3:promiseResolve
+  4:app __x3__ = (GetIterator iterable)
+  4:let iteratorRecord = __x3__
+  5:if (is-completion iteratorRecord) 5:if (= iteratorRecord.Type ~normal~) 5:iteratorRecord = iteratorRecord.Value else 6:{
+    6:app __x4__ = (Call promiseCapability.Reject undefined (new [iteratorRecord.Value]))
+    6:if (&& (is-completion __x4__) (! (= __x4__.Type ~normal~))) 6:return __x4__ else 6:{}
+    6:return promiseCapability.Promise
+  } else 5:{}
+  5:iteratorRecord
+  6:app __x5__ = (PerformPromiseRace iteratorRecord C promiseCapability promiseResolve)
+  6:let result = __x5__
+  7:app __x6__ = (IsAbruptCompletion result)
+  7:if __x6__ 7:{
+    8:if (= iteratorRecord.Done false) 8:{
+      8:app __x7__ = (IteratorClose iteratorRecord result)
+      8:let result = __x7__
+    } else 8:{}
+    9:if (is-completion result) 9:if (= result.Type ~normal~) 9:result = result.Value else 10:{
+      10:app __x8__ = (Call promiseCapability.Reject undefined (new [result.Value]))
+      10:if (&& (is-completion __x8__) (! (= __x8__.Type ~normal~))) 10:return __x8__ else 10:{}
+      10:return promiseCapability.Promise
+    } else 9:{}
+    9:result
+  } else 7:{}
+  10:return result
+}
+- id: "sec-promise.race"
+- code:
+          1. Let _C_ be the *this* value.
+          1. Let _promiseCapability_ be ? NewPromiseCapability(_C_).
+          1. Let _promiseResolve_ be GetPromiseResolve(_C_).
+          1. IfAbruptRejectPromise(_promiseResolve_, _promiseCapability_).
+          1. Let _iteratorRecord_ be GetIterator(_iterable_).
+          1. IfAbruptRejectPromise(_iteratorRecord_, _promiseCapability_).
+          1. Let _result_ be PerformPromiseRace(_iteratorRecord_, _C_, _promiseCapability_, _promiseResolve_).
+          1. If _result_ is an abrupt completion, then
+            1. If _iteratorRecord_.[[Done]] is *false*, let _result_ be IteratorClose(_iteratorRecord_, _result_).
+            1. IfAbruptRejectPromise(_result_, _promiseCapability_).
+          1. Return Completion(_result_).

@@ -1,0 +1,104 @@
+def [BUILTIN] TypedArray.prototype.copyWithin(target, start, end?) = 0:{
+  0:let O = this
+  1:app __x0__ = (ValidateTypedArray O)
+  1:[? __x0__]
+  2:let len = O.ArrayLength
+  3:app __x1__ = (ToIntegerOrInfinity target)
+  3:let relativeTarget = [? __x1__]
+  4:if (= relativeTarget -Infinity) 4:let to = 0i else 4:if (< relativeTarget 0i) 5:{
+    5:app __x2__ = (max (+ len relativeTarget) 0i)
+    5:let to = __x2__
+  } else 6:{
+    6:app __x3__ = (min relativeTarget len)
+    6:let to = __x3__
+  }
+  7:app __x4__ = (ToIntegerOrInfinity start)
+  7:let relativeStart = [? __x4__]
+  8:if (= relativeStart -Infinity) 8:let from = 0i else 8:if (< relativeStart 0i) 9:{
+    9:app __x5__ = (max (+ len relativeStart) 0i)
+    9:let from = __x5__
+  } else 10:{
+    10:app __x6__ = (min relativeStart len)
+    10:let from = __x6__
+  }
+  11:if (= end undefined) 11:let relativeEnd = len else 12:{
+    12:app __x7__ = (ToIntegerOrInfinity end)
+    12:let relativeEnd = [? __x7__]
+  }
+  12:if (= relativeEnd -Infinity) 12:let final = 0i else 12:if (< relativeEnd 0i) 13:{
+    13:app __x8__ = (max (+ len relativeEnd) 0i)
+    13:let final = __x8__
+  } else 14:{
+    14:app __x9__ = (min relativeEnd len)
+    14:let final = __x9__
+  }
+  15:app __x10__ = (min (- final from) (- len to))
+  15:let count = __x10__
+  16:if (< 0i count) 16:{
+    18:let buffer = O.ViewedArrayBuffer
+    19:app __x11__ = (IsDetachedBuffer buffer)
+    19:if (= __x11__ true) 19:throw TypeError else 19:{}
+    20:let typedArrayName = O.TypedArrayName
+    21:??? "Let id:{elementSize} be the Element Size value specified in link:{table-the-typedarray-constructors} for id:{typedArrayName} ."
+    22:let byteOffset = O.ByteOffset
+    23:let toByteIndex = (+ (* to elementSize) byteOffset)
+    24:let fromByteIndex = (+ (* from elementSize) byteOffset)
+    25:let countBytes = (* count elementSize)
+    26:if (&& (< fromByteIndex toByteIndex) (< toByteIndex (+ fromByteIndex countBytes))) 26:{
+      27:let direction = -1i
+      28:let fromByteIndex = (- (+ fromByteIndex countBytes) 1i)
+      29:let toByteIndex = (- (+ toByteIndex countBytes) 1i)
+    } else 26:let direction = 1i
+    32:while (< 0i countBytes) 32:{
+      33:app __x12__ = (GetValueFromBuffer buffer fromByteIndex ~Uint8~ true ~Unordered~)
+      33:let value = __x12__
+      34:app __x13__ = (SetValueInBuffer buffer toByteIndex ~Uint8~ value true ~Unordered~)
+      34:__x13__
+      35:let fromByteIndex = (+ fromByteIndex direction)
+      36:let toByteIndex = (+ toByteIndex direction)
+      37:countBytes = (- countBytes 1i)
+    }
+  } else 16:{}
+  38:return O
+}
+- id: "sec-%typedarray%.prototype.copywithin"
+- code:
+          1. Let _O_ be the *this* value.
+          1. Perform ? ValidateTypedArray(_O_).
+          1. Let _len_ be _O_.[[ArrayLength]].
+          1. Let _relativeTarget_ be ? ToIntegerOrInfinity(_target_).
+          1. If _relativeTarget_ is -∞, let _to_ be 0.
+          1. Else if _relativeTarget_ < 0, let _to_ be max(_len_ + _relativeTarget_, 0).
+          1. Else, let _to_ be min(_relativeTarget_, _len_).
+          1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).
+          1. If _relativeStart_ is -∞, let _from_ be 0.
+          1. Else if _relativeStart_ < 0, let _from_ be max(_len_ + _relativeStart_, 0).
+          1. Else, let _from_ be min(_relativeStart_, _len_).
+          1. If _end_ is *undefined*, let _relativeEnd_ be _len_; else let _relativeEnd_ be ? ToIntegerOrInfinity(_end_).
+          1. If _relativeEnd_ is -∞, let _final_ be 0.
+          1. Else if _relativeEnd_ < 0, let _final_ be max(_len_ + _relativeEnd_, 0).
+          1. Else, let _final_ be min(_relativeEnd_, _len_).
+          1. Let _count_ be min(_final_ - _from_, _len_ - _to_).
+          1. If _count_ > 0, then
+            1. NOTE: The copying must be performed in a manner that preserves the bit-level encoding of the source data.
+            1. Let _buffer_ be _O_.[[ViewedArrayBuffer]].
+            1. If IsDetachedBuffer(_buffer_) is *true*, throw a *TypeError* exception.
+            1. Let _typedArrayName_ be the String value of _O_.[[TypedArrayName]].
+            1. Let _elementSize_ be the Element Size value specified in <emu-xref href="#table-the-typedarray-constructors"></emu-xref> for _typedArrayName_.
+            1. Let _byteOffset_ be _O_.[[ByteOffset]].
+            1. Let _toByteIndex_ be _to_ × _elementSize_ + _byteOffset_.
+            1. Let _fromByteIndex_ be _from_ × _elementSize_ + _byteOffset_.
+            1. Let _countBytes_ be _count_ × _elementSize_.
+            1. If _fromByteIndex_ < _toByteIndex_ and _toByteIndex_ < _fromByteIndex_ + _countBytes_, then
+              1. Let _direction_ be -1.
+              1. Let _fromByteIndex_ be _fromByteIndex_ + _countBytes_ - 1.
+              1. Let _toByteIndex_ be _toByteIndex_ + _countBytes_ - 1.
+            1. Else,
+              1. Let _direction_ be 1.
+            1. Repeat, while _countBytes_ > 0,
+              1. Let _value_ be GetValueFromBuffer(_buffer_, _fromByteIndex_, ~Uint8~, *true*, ~Unordered~).
+              1. Perform SetValueInBuffer(_buffer_, _toByteIndex_, ~Uint8~, _value_, *true*, ~Unordered~).
+              1. Let _fromByteIndex_ be _fromByteIndex_ + _direction_.
+              1. Let _toByteIndex_ be _toByteIndex_ + _direction_.
+              1. Set _countBytes_ to _countBytes_ - 1.
+          1. Return _O_.
