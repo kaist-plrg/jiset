@@ -10,7 +10,7 @@ def [BUILTIN] CatchFinallyFunctions(reason) = 0:{
   5:assert (= __x2__ true)
   6:app __x3__ = (PromiseResolve C result)
   6:let promise = [? __x3__]
-  7:clo closure = ()[reason] => {
+  7:clo closure = (this, V, argumentsList)[reason] => {
     app thrown = (ThrowCompletion reason)
     return thrown
   }
