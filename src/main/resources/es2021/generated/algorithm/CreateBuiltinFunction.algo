@@ -4,8 +4,6 @@ def CreateBuiltinFunction(steps, length, name, internalSlotsList, realm?, protot
   3:if (= prototype absent) 3:prototype = realm.Intrinsics["%Function.prototype%"] else 3:{}
   4:let func = (new BuiltinFunctionObject())
   4:func.Code = steps
-  4:func.SubMap.name = (new DataProperty("Value" -> name, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true))
-  4:func.SubMap.length = (new DataProperty("Value" -> length, "Writable" -> false, "Enumerable" -> false, "Configurable" -> true))
   5:func.Realm = realm
   6:func.Prototype = prototype
   7:func.Extensible = true
