@@ -5,7 +5,7 @@ def ToBoolean(argument) = 1:{
   7:if (= (typeof argument) Number) 6:if (|| (|| (= argument 0i) (= argument -0.0)) (= argument NaN)) 6:return false else 6:return true else 7:{}
   9:if (= (typeof argument) String) 8:if (= argument "") 8:return false else 8:return true else 9:{}
   11:if (= (typeof argument) Symbol) 10:return true else 11:{}
-  13:if (= (typeof argument) BigInt) 12:if (= argument 0i) 12:return false else 12:return true else 13:{}
+  13:if (= (typeof argument) BigInt) 12:if (= argument 0n) 12:return false else 12:return true else 13:{}
   15:if (= (typeof argument) Object) 14:return true else 15:{}
   16:assert false
 }

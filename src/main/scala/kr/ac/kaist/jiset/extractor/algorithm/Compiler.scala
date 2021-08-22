@@ -1136,22 +1136,23 @@ class Compiler private (
   )
 
   // values with tag `value`
-  lazy val valueValue: P[Expr] = opt("the value") ~> value ^^ {
-    case "undefined" => EUndef
-    case "NaN" => ENum(Double.NaN)
-    case "null" => ENull
-    case "+0" => EINum(0L)
-    case "-0" => ENum(-0.0)
-    case "true" => EBool(true)
-    case "false" => EBool(false)
-    case "+∞" => ENum(Double.PositiveInfinity)
-    case "-∞" => ENum(Double.NegativeInfinity)
-    case s if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
-    case s if Try(s.toLong).isSuccess => EINum(s.toLong)
-    case s if Try(s.toDouble).isSuccess => ENum(s.toDouble)
-    case s if s.endsWith("n") && Try(s.dropRight(1).toLong).isSuccess => EBigINum(BigInt(s.dropRight(1).toLong))
-    case err if err.endsWith("Error") => getErrorObj(err)
-    case s => ENotSupported(s)
+  lazy val valueValue: P[Expr] = opt("the value") ~> value ~ opt(sub) ^^ {
+    case "undefined" ~ _ => EUndef
+    case "NaN" ~ _ => ENum(Double.NaN)
+    case "null" ~ _ => ENull
+    case "+0" ~ _ => EINum(0L)
+    case "-0" ~ _ => ENum(-0.0)
+    case "true" ~ _ => EBool(true)
+    case "false" ~ _ => EBool(false)
+    case "+∞" ~ _ => ENum(Double.PositiveInfinity)
+    case "-∞" ~ _ => ENum(Double.NegativeInfinity)
+    case s ~ _ if s.startsWith("\"") && s.endsWith("\"") => EStr(s.slice(1, s.length - 1))
+    case s ~ Some(List(Text("ℤ"))) if Try(s.toLong).isSuccess => EBigINum(BigInt(s.toLong))
+    case s ~ _ if Try(s.toLong).isSuccess => EINum(s.toLong)
+    case s ~ _ if Try(s.toDouble).isSuccess => ENum(s.toDouble)
+    case s ~ _ if s.endsWith("n") && Try(s.dropRight(1).toLong).isSuccess => EBigINum(BigInt(s.dropRight(1).toLong))
+    case err ~ _ if err.endsWith("Error") => getErrorObj(err)
+    case s ~ _ => ENotSupported(s)
   }
 
   // exponential values

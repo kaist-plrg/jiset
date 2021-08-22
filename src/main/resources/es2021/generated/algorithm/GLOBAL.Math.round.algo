@@ -1,7 +1,7 @@
 def [BUILTIN] Math.round(x) = 0:{
   0:app __x0__ = (ToNumber x)
   0:let n = [? __x0__]
-  1:??? "If id:{n} is value:{NaN} , value:{+∞} , value:{-∞} , or an integral Number , return id:{n} ."
+  1:??? "If id:{n} is value:{NaN} , value:{+∞} sub:{𝔽} , value:{-∞} sub:{𝔽} , or an integral Number , return id:{n} ."
   2:if (&& (< n 0.5) (< 0i n)) 2:return 0i else 2:{}
   3:if (&& (< n 0i) (! (< n -0.5))) 3:return -0.0 else 3:{}
   4:??? "Return the integral Number closest to id:{n} , preferring the Number closer to + ∞ in the case of a tie ."

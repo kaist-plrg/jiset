@@ -1,5 +1,5 @@
 def BigInt::leftShift(x, y) = 0:{
-  0:if (< y 0i) 1:??? "Return the BigInt value that represents ℝ ( id:{x} ) / 2 sup:{- id:{y}} , rounding down to the nearest integer , including for negative numbers ." else 0:{}
+  0:if (< y 0n) 1:??? "Return the BigInt value that represents ℝ ( id:{x} ) / 2 sup:{- id:{y}} , rounding down to the nearest integer , including for negative numbers ." else 0:{}
   2:return (convert (* x (** 2i y)) num2bigint)
 }
 - id: "sec-numeric-types-bigint-leftShift"

@@ -2,8 +2,8 @@ def [BUILTIN] Math.atan(x) = 0:{
   0:app __x0__ = (ToNumber x)
   0:let n = [? __x0__]
   1:if (|| (|| (= n NaN) (= n 0i)) (= n -0.0)) 1:return n else 1:{}
-  2:??? "If id:{n} is value:{+∞} , return an implementation - approximated value representing π / 2 ."
-  3:??? "If id:{n} is value:{-∞} , return an implementation - approximated value representing - π / 2 ."
+  2:??? "If id:{n} is value:{+∞} sub:{𝔽} , return an implementation - approximated value representing π / 2 ."
+  3:??? "If id:{n} is value:{-∞} sub:{𝔽} , return an implementation - approximated value representing - π / 2 ."
   4:??? "Return an implementation - approximated value representing the result of the inverse tangent of ℝ ( id:{n} ) ."
 }
 - id: "sec-math.atan"

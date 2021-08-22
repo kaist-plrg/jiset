@@ -95,7 +95,7 @@ trait TokenParsers extends ProductionParsers {
     lazy val stringValue = "*\"" ~> "[^\"]+".r <~ "\"*" ^^ {
       case sv => s""""${sv.replaceAll("\\\\", "")}""""
     }
-    lazy val value = (stringValue | wrap("*")) <~ opt(sub) ^^ { Value(_) } // TODO process the sub
+    lazy val value = (stringValue | wrap("*")) ^^ { Value(_) }
     lazy val id = wrap("_") ^^ { Id(_) }
     lazy val nt = wrap("|") ^^ {
       case x if x.endsWith("_opt") => Nt(x.dropRight("_opt".length))

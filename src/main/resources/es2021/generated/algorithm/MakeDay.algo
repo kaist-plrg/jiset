@@ -10,7 +10,7 @@ def MakeDay(year, month, date) = 0:{
   4:let ym = (+ y __x3__)
   5:if (|| (|| (= ym Infinity) (= ym -Infinity)) (= ym NaN)) 5:return NaN else 5:{}
   6:let mn = (%% m 12i)
-  7:??? "Find a finite time value id:{t} such that YearFromTime ( id:{t} ) is id:{ym} and MonthFromTime ( id:{t} ) is id:{mn} and DateFromTime ( id:{t} ) is value:{1} ; but if this is not possible ( because some argument is out of range ) , return value:{NaN} ."
+  7:??? "Find a finite time value id:{t} such that YearFromTime ( id:{t} ) is id:{ym} and MonthFromTime ( id:{t} ) is id:{mn} and DateFromTime ( id:{t} ) is value:{1} sub:{𝔽} ; but if this is not possible ( because some argument is out of range ) , return value:{NaN} ."
   8:app __x4__ = (Day t)
   8:return (- (+ __x4__ dt) 1i)
 }
