@@ -319,7 +319,7 @@ case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummar
   def getTests(features: List[String]): TestList = allTests
     .remove("harness", _.name startsWith "harness")
     .remove("internationalisation", _.name startsWith "intl")
-    .remove("annex", _.name startsWith "annex")
+    .remove("annex", m => ((m.name startsWith "annex") || (m.name contains "__proto__")))
     .remove("in-progress features", m => (!m.features.forall(features contains _)) || (manualInprogress.map(_._1) contains removedExt(m.name)))
     .remove("non-strict", m => (m.flags contains "noStrict") || (m.flags contains "raw") || (manualNonstrict contains removedExt(m.name)))
     .remove("module", m => (
