@@ -825,7 +825,7 @@ object Interp {
     case (OBXOr, INum(l), INum(r)) => INum(l ^ r)
     case (OLShift, INum(l), INum(r)) => INum((l.toInt << r.toInt).toLong)
     case (OSRShift, INum(l), INum(r)) => INum((l.toInt >> r.toInt).toLong)
-    case (OURShift, INum(l), INum(r)) => INum(((l.toInt >>> r.toInt) & 0xffffffff).toLong)
+    case (OURShift, INum(l), INum(r)) => INum(((l >>> r) & 0xffffffff).toLong)
 
     // logical operations
     case (OAnd, Bool(l), Bool(r)) => Bool(l && r)
