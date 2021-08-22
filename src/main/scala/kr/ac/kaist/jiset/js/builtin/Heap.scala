@@ -105,6 +105,7 @@ object Heap {
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
+        "name" -> DataProperty(Str("Object"), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Object.prototype"), F, F, F),
       )
     ),
@@ -128,6 +129,7 @@ object Heap {
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(1.0), F, F, T),
+        "name" -> DataProperty(Str("Function"), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Function.prototype"), F, F, F)
       )
     ),
@@ -643,8 +645,8 @@ object Heap {
         "Realm" -> NamedAddr("REALM")
       ),
       nmap = NMap(
-        "name" -> DataProperty(Str("GeneratorFunction"), F, F, T),
         "length" -> DataProperty(Num(1.0), F, F, T),
+        "name" -> DataProperty(Str("GeneratorFunction"), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.GeneratorFunction.prototype"), F, F, F)
       )
     ),
@@ -719,6 +721,8 @@ object Heap {
         "Construct" -> Func(algoMap("BuiltinFunctionObject.Construct")),
       ),
       nmap = NMap(
+        "length" -> DataProperty(Num(1.0), F, F, T),
+        "name" -> DataProperty(Str("Promise"), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.Promise.prototype"), F, F, F),
         "@species" -> AccessorProperty(NamedAddr("GLOBAL.Promise[SYMBOL_species]"), U, F, T),
       )
