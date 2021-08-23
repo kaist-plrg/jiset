@@ -66,7 +66,7 @@ case class REPL(sem: AbsSemantics) {
   // check whether skip REPL
   def isSkip(cp: ControlPoint): Boolean = jumpTo match {
     case _ if nextEntry => cp match {
-      case NodePoint(_: Entry, View(Some(_), Nil)) =>
+      case NodePoint(_: Entry, View(Some(_), Nil, Nil, 0)) =>
         nextEntry = false; false
       case _ => true
     }

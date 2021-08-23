@@ -32,30 +32,30 @@ class Stringifier(
     case ReturnPoint(func, view) => app >> view >> ":RET:" >> func.uidString
   }
 
-  // asts
-  implicit val AstApp: App[AST] = (app, ast) => {
-    app >> "☊[" >> ast.span.toString >> "]"
-  }
-
   // views
   implicit lazy val ViewApp: App[View] = (app, view) => {
+    def ctxtStr(
+      calls: List[String],
+      loops: List[LoopCtxt]
+    ): Appender = if (detail) {
+      app >> calls.mkString("[call: ", ", ", "]")
+      app >> loops.map(_ match {
+        case LoopCtxt(loop, depth) => s"${loop.uidString}($depth)"
+      }).mkString("[loop: ", ", ", "]")
+    } else {
+      app >> "[call: " >> calls.length >> "]"
+      app >> "[loop: " >> loops.length >> "]"
+    }
+
     // js views
     view.jsViewOpt.map {
-      case JSView(ast, calls) =>
-        implicit lazy val l = ListApp[AST]("call(", ", ", ")")
-        app >> ast >> ":" >> calls
+      case JSView(ast, calls, loops) =>
+        app >> s"☊[${ast.span}]"
+        ctxtStr(calls.map(call => s"☊[${call.span}]"), loops)
     }
 
     // ir contexts
-    if (detail) {
-      app >> view.irCtxts.map {
-        case CallCtxt(call) => call.uidString.mkString
-        case LoopCtxt(loop, depth) => s"${loop.uidString}($depth)"
-      }.mkString("[", ", ", "]")
-    } else {
-      app >> "[call: " >> view.calls.length
-      app >> ", loop: " >> view.loops.length >> "]"
-    }
+    ctxtStr(view.calls.map(_.uidString), view.loops)
   }
 
   // abstract reference values

@@ -138,7 +138,7 @@ case class AbsSemantics(
   // update return points
   def doReturn(rp: ReturnPoint, newRet: AbsRet): Unit = {
     val ReturnPoint(func, view) = rp
-    val retRp = ReturnPoint(func, view.loopExit)
+    val retRp = ReturnPoint(func, view.entryView)
     if (!newRet.value.isBottom) {
       val oldRet = this(retRp)
       if (!oldRet.isBottom && USE_REPL) repl.merged = true
