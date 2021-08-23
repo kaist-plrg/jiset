@@ -85,7 +85,7 @@ case class IRMap(
       (Str(s), _) <- props.toVector
       d = ESValueParser.str2num(s)
       if toStringHelper(d) == s
-      i = d.toInt
+      i = d.toLong // should handle unsigned integer
       if d == i
     } yield (s, i))
       .sortBy(_._2)
