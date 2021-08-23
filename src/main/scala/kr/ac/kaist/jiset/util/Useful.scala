@@ -103,6 +103,14 @@ object Useful {
     aux(list, Nil)
   }
 
+  // slice list by offset and stride
+  def slice[T](l: List[T], offset: Int, stride: Int): List[T] = {
+    l.zipWithIndex.flatMap {
+      case (e, idx) if (idx - offset) % stride == 0 => Some(e)
+      case _ => None
+    }
+  }
+
   // trim only right
   def trimRight(str: String): String =
     str.reverse.span(_ == ' ')._2.reverse
