@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir.{ AllocSite => _, _ }
 import kr.ac.kaist.jiset.js.{ Parser => ESParser, _ }
-import kr.ac.kaist.jiset.js.ast.Lexical
+import kr.ac.kaist.jiset.js.ast.{ Lexical, AST }
 import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.spec.algorithm._
@@ -487,14 +487,14 @@ case class AbsTransfer(sem: AbsSemantics) {
           case _ => ???
         }
         st <- get
-      } yield AbsValue(v.getSingle match {
+      } yield v.getSingle match {
         case FlatElem(AAst(ast)) =>
-          ESParser.parse(p(ast.parserParams), ast.toString).get.checkSupported
+          doParseSyntax(p(ast.parserParams), ast.toString)
         case FlatElem(ASimple(Str(str))) => {
-          ESParser.parse(p(parserParams), str).get.checkSupported
+          doParseSyntax(p(parserParams), str)
         }
         case v => error(s"not an AST value or a string: $v")
-      })
+      }
       case EConvert(source, target, flags) => for {
         s <- escape(transfer(source))
         fs <- join(for (flag <- flags) yield escape(transfer(flag)))
@@ -776,5 +776,11 @@ case class AbsTransfer(sem: AbsSemantics) {
         case List(value) => pure(AbsValue(bool = value.isAbruptCompletion))
       },
     )
+  }
+
+  def doParseSyntax(parser: ESParser.LAParser[AST], str: String): AbsValue = {
+    val result = ESParser.parse(parser, str)
+    if (result.successful) AbsValue(result.get.checkSupported)
+    else AbsValue.absent
   }
 }

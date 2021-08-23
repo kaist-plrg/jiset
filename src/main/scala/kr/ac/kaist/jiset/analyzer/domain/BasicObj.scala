@@ -363,7 +363,7 @@ object BasicObj extends Domain {
             ASimple(Str(s)) <- props
             d = ESValueParser.str2num(s)
             if toStringHelper(d) == s
-            i = d.toInt
+            i = d.toLong
             if d == i
           } yield (s, i))
             .sortBy(_._2)
