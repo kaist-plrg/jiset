@@ -170,6 +170,7 @@ object Heap {
       ),
       nmap = NMap(
         "length" -> DataProperty(Num(0.0), F, F, F),
+        "name" -> DataProperty(Str("ThrowTypeError"), F, F, F),
       )
     ),
     "GLOBAL.Boolean" -> Struct(
