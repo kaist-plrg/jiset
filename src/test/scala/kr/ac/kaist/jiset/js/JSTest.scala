@@ -67,9 +67,9 @@ trait JSTest extends IRTest {
   }
 
   // tests for JS parser
-  def parseTest(ast: AST): Unit = {
+  def parseTest(ast: Script): Unit = {
     val newAST = parse(ast.toString)
-    assert(ast == newAST)
+    ASTDiff.diff(ast, newAST)
   }
 
   // tests for esparse

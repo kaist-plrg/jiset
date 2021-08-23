@@ -25,6 +25,7 @@ trait AST extends WeakUId {
       case (None, None) => super.equals(that)
       case _ => this.uidOpt == that.uidOpt
     }
+    case _ => false
   }
 
   // static semantics
