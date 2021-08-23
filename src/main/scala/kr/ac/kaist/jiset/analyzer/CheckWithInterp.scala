@@ -69,8 +69,7 @@ object CheckWithInterp {
   def apply(
     sem: AbsSemantics,
     script: ast.Script,
-    execLevel: Int,
-    timeLimit: Option[Long] = Some(ANALYZE_TIMEOUT)
+    execLevel: Int
   ): CheckWithInterp = {
     val initSt = Initialize(script)
     val interp = new Interp(initSt, timeLimit = None)
