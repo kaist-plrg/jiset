@@ -921,7 +921,7 @@ object Heap {
     // others
     "Atomics",
     "JSON",
-    // "Math",
+    "Math",
     "Reflect",
     // test262
     "$262",

@@ -126,8 +126,8 @@ case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummar
     "optional-chaining",
     // WeakRef
     // https://github.com/tc39/proposal-weakref
-    "WeakRef",
-    "FinalizationRegistry",
+    // "WeakRef",
+    // "FinalizationRegistry",
     // import.meta
     // https://github.com/tc39/proposal-import-meta
     "import.meta",
@@ -316,6 +316,51 @@ case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummar
     "built-ins/Array/length/S15.4.5.2_A3_T4",
   )
 
+  lazy val TODOs = List(
+    "built-ins/Array/prototype/toString/non-callable-join-string-tag",
+    "built-ins/BigInt/asIntN/arithmetic",
+    "built-ins/BigInt/asUintN/arithmetic",
+    "built-ins/GeneratorPrototype/next/property-descriptor",
+    "built-ins/NativeErrors/AggregateError/message-method-prop-cast",
+    "built-ins/Number/bigint-conversion",
+    "built-ins/String/fromCodePoint/return-string-value",
+    "built-ins/String/prototype/localeCompare/S15.5.4.9_A1_T1",
+    "built-ins/String/prototype/localeCompare/S15.5.4.9_A1_T2",
+    "built-ins/ThrowTypeError/name",
+    "language/eval-code/direct/parse-failure-6",
+    "language/eval-code/direct/strict-caller-function-context",
+    "language/eval-code/indirect/parse-failure-6",
+    "language/expressions/assignment/target-member-computed-reference-null",
+    "language/expressions/assignment/target-member-computed-reference-undefined",
+    "language/expressions/assignment/target-member-identifier-reference-null",
+    "language/expressions/assignment/target-member-identifier-reference-undefined",
+    "language/expressions/assignment/target-super-computed-reference-null",
+    "language/expressions/assignment/target-super-identifier-reference-null",
+    "language/expressions/class/class-name-ident-await-escaped",
+    "language/expressions/does-not-equals/bigint-and-boolean",
+    "language/expressions/does-not-equals/bigint-and-number-extremes",
+    "language/expressions/does-not-equals/bigint-and-number",
+    "language/expressions/equals/bigint-and-boolean",
+    "language/expressions/equals/bigint-and-number-extremes",
+    "language/expressions/equals/bigint-and-number",
+    "language/expressions/left-shift/bigint-non-primitive",
+    "language/expressions/left-shift/bigint-toprimitive",
+    "language/expressions/left-shift/bigint-wrapped-values",
+    "language/expressions/left-shift/bigint",
+    "language/expressions/right-shift/bigint",
+    "language/expressions/tagged-template/invalid-escape-sequences",
+    "language/literals/regexp/7.8.5-1",
+    "language/literals/regexp/S7.8.5_A1.3_T2",
+    "language/literals/regexp/S7.8.5_A1.3_T4",
+    "language/literals/regexp/S7.8.5_A1.5_T2",
+    "language/literals/regexp/S7.8.5_A1.5_T4",
+    "language/literals/regexp/S7.8.5_A2.3_T2",
+    "language/literals/regexp/S7.8.5_A2.3_T4",
+    "language/statements/async-generator/yield-star-return-missing-value-is-awaited",
+    "language/statements/class/class-name-ident-await-escaped",
+    "language/statements/labeled/value-await-non-module-escaped"
+  )
+
   def getTests(features: List[String]): TestList = allTests
     .remove("harness", _.name startsWith "harness")
     .remove("internationalisation", _.name startsWith "intl")
@@ -339,6 +384,7 @@ case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummar
   lazy val test262configSummary = getTests(standardFeatures)
     .remove("longTest", m => longTest contains removedExt(m.name))
     .remove("veryLongTest", m => veryLongTest contains removedExt(m.name))
+    .remove("TODO", m => TODOs contains removedExt(m.name))
     .getSummary
 
   lazy val test262LongconfigSummary = getTests(standardFeatures)
