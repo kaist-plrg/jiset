@@ -889,7 +889,8 @@ object Interp {
     str: String
   ): SimpleValue = (kind, name) match {
     case ("(IdentifierName \\ (ReservedWord))" | "IdentifierName", "StringValue") => Str(str)
-    case ("NumericLiteral", "MV" | "NumericValue") => ESValueParser.parseNumber(str)
+    // TODO handle numeric seperator in ESValueParser
+    case ("NumericLiteral", "MV" | "NumericValue") => ESValueParser.parseNumber(str.replaceAll("_", ""))
     case ("StringLiteral", "SV" | "StringValue") => Str(ESValueParser.parseString(str))
     case ("NoSubstitutionTemplate", "TV") => Str(ESValueParser.parseTVNoSubstitutionTemplate(str))
     case ("TemplateHead", "TV") => Str(ESValueParser.parseTVTemplateHead(str))
