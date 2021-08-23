@@ -808,6 +808,7 @@ object Interp {
 
     // string operations
     case (OPlus, Str(l), Str(r)) => Str(l + r)
+    case (OPlus, Str(l), Num(r)) => Str(l + Character.toChars(r.toInt).mkString(""))
     case (OSub, Str(l), INum(r)) => Str(l.dropRight(r.toInt))
     case (OLt, Str(l), Str(r)) => Bool(l < r)
 
