@@ -119,8 +119,11 @@ case class AbsSemantics(
     val callerNp = NodePoint(call, callerView)
     this.callInfo += callerNp -> callerSt
 
-    val calleeView = callerView.doCall(call, astOpt)
-    val params = func.params
+    val isJsCall = func.name match {
+      case "Call" | "Construct" => true
+      case _ => false
+    }
+    val calleeView = callerView.doCall(call, isJsCall, astOpt)
     val np = NodePoint(func.entry, calleeView)
     this += np -> st.doCall
 

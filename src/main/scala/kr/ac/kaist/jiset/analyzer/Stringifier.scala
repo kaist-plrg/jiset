@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.cfg
 import kr.ac.kaist.jiset.cfg.{ Stringifier => _, _ }
+import kr.ac.kaist.jiset.js.ast.AST
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
@@ -31,12 +32,18 @@ class Stringifier(
     case ReturnPoint(func, view) => app >> view >> ":RET:" >> func.uidString
   }
 
+  // asts
+  implicit val AstApp: App[AST] = (app, ast) => {
+    app >> "☊[" >> ast.span.toString >> "]"
+  }
+
   // views
   implicit lazy val ViewApp: App[View] = (app, view) => {
     // js views
-    view.jsView match {
-      case JSBase =>
-      case JSFlow(ast) => app >> ast.span.toString
+    view.jsViewOpt.map {
+      case JSView(ast, calls) =>
+        implicit lazy val l = ListApp[AST]("call(", ", ", ")")
+        app >> ast >> ":" >> calls
     }
 
     // ir contexts

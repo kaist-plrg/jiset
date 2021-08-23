@@ -18,6 +18,7 @@ object Initialize {
     script match {
       case Script0(Some(body), _, _) => {
         CleanStaticMap.walk(body)
+        (new ASTSetUId).walk(body)
         st.globals += Id(SCRIPT_BODY) -> ASTVal(body)
         st.context.cursorOpt = cursorGen(algoMap("RunJobs").body, None)
       }

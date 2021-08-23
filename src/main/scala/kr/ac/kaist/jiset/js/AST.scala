@@ -5,11 +5,11 @@ import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.error._
 import kr.ac.kaist.jiset.spec.grammar._
-import kr.ac.kaist.jiset.util.{ Span, Pos }
+import kr.ac.kaist.jiset.util.{ WeakUId, Span, Pos }
 import kr.ac.kaist.jiset.util.Useful.{ cached, error }
 import io.circe._, io.circe.syntax._
 
-trait AST {
+trait AST extends WeakUId {
   var parent: Option[AST] = None
   def kind: String
   def idx: Int
@@ -19,9 +19,13 @@ trait AST {
   def fullList: List[(String, PureValue)]
   def maxK: Int
 
-  // position
-  var start: Int = 0
-  var end: Int = 0
+  // equality using unique ids
+  override def equals(any: Any): Boolean = any match {
+    case that: AST => (this.uidOpt, that.uidOpt) match {
+      case (None, None) => super.equals(that)
+      case _ => this.uidOpt == that.uidOpt
+    }
+  }
 
   // static semantics
   var staticMap: Map[String, Value] = Map()

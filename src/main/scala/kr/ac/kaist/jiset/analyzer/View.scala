@@ -5,18 +5,34 @@ import kr.ac.kaist.jiset.js.ast._
 
 // view abstraction for analysis sensitivities
 case class View(
-  jsView: JSView = JSBase,
+  jsViewOpt: Option[JSView] = None,
   irCtxts: List[Ctxt] = Nil
 ) extends AnalyzerElem {
   // call transition
-  def doCall(call: Call, astOpt: Option[AST]): View = astOpt match {
-    // flow sensitivity
-    case Some(ast) if FLOW_SENS => View(JSFlow(ast), Nil)
-    // infinite sensitivity
-    case Some(ast) => View(JSFlow(ast), CallCtxt(call) :: irCtxts)
-    // non-JS parts
-    case None => copy(irCtxts = CallCtxt(call) :: irCtxts)
+  def doCall(
+    call: Call,
+    isJsCall: Boolean,
+    astOpt: Option[AST]
+  ): View = {
+    val view = copy(irCtxts = CallCtxt(call) :: irCtxts)
+    if (JS_SENS) view.jsSens(isJsCall, astOpt)
+    else view
   }
+
+  // JavaScript sensitivities
+  def jsSens(isJsCall: Boolean, astOpt: Option[AST]): View = astOpt match {
+    // flow sensitivity
+    case Some(ast) => View(Some(JSView(ast, jsCalls)), Nil)
+    // call-site sensitivity
+    case _ if isJsCall => copy(jsViewOpt = jsViewOpt.map {
+      case JSView(ast, calls) => JSView(ast, ast :: calls)
+    })
+    // non-JS part
+    case _ => this
+  }
+
+  // get JavaScript call stacks
+  def jsCalls: List[AST] = jsViewOpt.fold(List[AST]())(_.calls)
 
   // loop transition
   def loopNext: View = irCtxts match {
@@ -31,7 +47,7 @@ case class View(
   }
 
   // get entry views
-  def entryView: View = View(jsView, irCtxts.dropWhile(_ match {
+  def entryView: View = View(jsViewOpt, irCtxts.dropWhile(_ match {
     case _: LoopCtxt => true
     case _ => false
   }))
@@ -47,6 +63,4 @@ case class LoopCtxt(loop: Loop, depth: Int) extends Ctxt
 case class CallCtxt(call: Call) extends Ctxt
 
 // views for JavaScript
-sealed trait JSView
-case object JSBase extends JSView
-case class JSFlow(ast: AST) extends JSView
+case class JSView(ast: AST, calls: List[AST])
