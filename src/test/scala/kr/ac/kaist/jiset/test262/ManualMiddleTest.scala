@@ -16,8 +16,10 @@ class ManualMiddleTest extends Test262Test {
   VIEW = true
   BUGTRIGGER = optional(readFile(s"$BASE_DIR/tests/.bugtrigger").trim)
   BUGTRIGGER match {
-    case Some(str) => println(s"The $str is successfully triggered.")
-    case None => warn("Since the .bugtrigger file does not exist, no bugs are triggered.")
+    case Some(str) if exists(s"$VERSION_DIR/bugtrigger/$str/algo") =>
+      println(s"'$str' is successfully triggered.")
+    case Some(str) => println(s"'$str' is an invalid bug name. No bugs are triggered.")
+    case None => println("Since the .bugtrigger file does not exist, no bugs are triggered.")
   }
 
   // registration
