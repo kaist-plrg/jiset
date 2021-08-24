@@ -111,7 +111,12 @@ class Interp(
 
   // fixpoint
   @tailrec
-  final def fixpoint: State = step match {
+  final def fixpoint: State = (try step
+  catch {
+    case e: Throwable =>
+      if (LOG) IRLogger.recordIter(st.fnameOpt, iter, true)
+      throw e
+  }) match {
     case true => fixpoint
     case false => st
   }

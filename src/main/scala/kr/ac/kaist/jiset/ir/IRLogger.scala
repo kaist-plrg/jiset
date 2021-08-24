@@ -17,20 +17,30 @@ object IRLogger {
   // iteration counter
   private var _iterSum: Long = 0L
   private var _iterMap: Map[String, Int] = Map()
+  private var _failIterMap: Map[String, Int] = Map()
   def iterAvg: Double = iterSum.toDouble / iterMap.size
   def iterSum: Long = _iterSum
   def iterMap: Map[String, Int] = _iterMap
-  def recordIter(fnameOpt: Option[String], iter: Int): Unit = {
+  def failIterMap: Map[String, Int] = _failIterMap
+  def recordIter(fnameOpt: Option[String], iter: Int, fail: Boolean = false): Unit = {
     fnameOpt.map(fname => {
-      _iterMap += fname -> iter
-      _iterSum += iter
+      if (fail) _failIterMap += fname -> iter
+      else {
+        _iterMap += fname -> iter
+        _iterSum += iter
+      }
     })
   }
   def iterMapString: String = (for {
     (fname, iter) <- iterMap
   } yield s"$fname: $iter").mkString(LINE_SEP)
-  def dumpIterMap(dirname: String): Unit =
+  def failIterMapString: String = (for {
+    (fname, iter) <- failIterMap
+  } yield s"$fname: $iter").mkString(LINE_SEP)
+  def dumpIterMap(dirname: String): Unit = {
     dumpFile(iterMapString, s"$dirname/iters")
+    dumpFile(failIterMapString, s"$dirname/failed-iters")
+  }
 
   // callstack depth
   private var _depthMap: Map[String, Int] = Map()
