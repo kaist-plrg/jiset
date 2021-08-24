@@ -81,7 +81,7 @@ case class AbsTransfer(sem: AbsSemantics) {
 
     // proper type handle
     Interp.setTypeMap.get(rp.func.name).map(ty => {
-      st = st.setType(value.loc, ty)
+      if (!value.loc.isBottom) st = st.setType(value.loc, ty)
     })
 
     // debugging message
