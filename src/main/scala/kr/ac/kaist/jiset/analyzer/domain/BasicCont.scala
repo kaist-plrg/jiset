@@ -63,7 +63,7 @@ object BasicCont extends Domain {
         l.locals.keySet.map(x => x -> (l.locals(x) ⊔ r.locals(x))).toMap,
         l.target
       )
-      case _ => error(s"invalid join of closures.")
+      case _ => error(s"invalid join of continuations.")
     }
 
     // meet operator
@@ -78,7 +78,7 @@ object BasicCont extends Domain {
         l.locals.keySet.map(x => x -> (l.locals(x) ⊓ r.locals(x))).toMap,
         l.target
       )
-      case _ => error(s"invalid meet of closures.")
+      case _ => error(s"invalid meet of continuations.")
     }
 
     // get single value
