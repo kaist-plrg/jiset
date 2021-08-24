@@ -1,0 +1,19 @@
+def [BUILTIN] TypedArray.prototype.length() = 0:{
+  0:let O = this
+  1:app __x0__ = (RequireInternalSlot O "TypedArrayName")
+  1:[? __x0__]
+  3:let buffer = O.ViewedArrayBuffer
+  4:app __x1__ = (IsDetachedBuffer buffer)
+  4:if (= __x1__ true) 4:return 0i else 4:{}
+  5:let length = O.ArrayLength
+  6:return length
+}
+- id: "sec-get-%typedarray%.prototype.length"
+- code:
+          1. Let _O_ be the *this* value.
+          1. Perform ? RequireInternalSlot(_O_, [[TypedArrayName]]).
+          1. Assert: _O_ has [[ViewedArrayBuffer]] and [[ArrayLength]] internal slots.
+          1. Let _buffer_ be _O_.[[ViewedArrayBuffer]].
+          1. If IsDetachedBuffer(_buffer_) is *true*, return *+0*<sub>𝔽</sub>.
+          1. Let _length_ be _O_.[[ArrayLength]].
+          1. Return 𝔽(_length_).

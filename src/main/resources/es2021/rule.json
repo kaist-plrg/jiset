@@ -145,7 +145,7 @@
   },
   {
     "tokens": "Return an Iterator object ( link:{sec-iterator-interface} ) whose code:{next} method iterates over all the String - valued keys of enumerable properties of id:{O} . The iterator object is never directly accessible to ECMAScript code . The mechanics and order of enumerating the properties is not specified but must conform to the rules specified below .",
-    "inst": "{ app list = (EnumerateObjectPropertiesHelper O (new []) (new [])) app iteratorRecord = (CreateListIteratorRecord list) let iterator = iteratorRecord.Iterator app _ = (Set iterator \"next\" iteratorRecord.NextMethod false) return iterator }"
+    "inst": "{ app iterator = (CreateForInIterator O) return iterator }"
   },
   {
     "tokens": "Return the result of appending to id:{declarations} the elements of the VarScopedDeclarations of the second nt:{CaseClauses} .",
@@ -406,5 +406,9 @@
   {
     "tokens": "If Type ( id:{nextKey} ) is Symbol and id:{type} is const:{symbol} or Type ( id:{nextKey} ) is String and id:{type} is const:{string} , then in:{} out:{}",
     "inst": "if (|| (&& (= (typeof nextKey) Symbol) (= type ~symbol~)) (&& (= (typeof nextKey) String) (= type ~string~))) append nextKey -> nameList else {}"
+  },
+  {
+    "tokens": "If there does not exist an element id:{v} of id:{visited} such that SameValue ( id:{r} , id:{v} ) is value:{true} , then in:{} out:{}",
+    "inst": "if (! (contains visited r)) { app __x0__ = (object[\"GetOwnProperty\"] object r) let desc = [? __x0__] if (! (= desc undefined)) { append r -> visited if (= desc[\"Enumerable\"] true) { app __x1__ = (CreateIterResultObject r false) return __x1__ } else {} } else {} } else {}"
   }
 ]

@@ -762,8 +762,8 @@ object Heap {
         "Realm" -> NamedAddr("REALM")
       ),
       nmap = NMap(
-        "name" -> DataProperty(Str("AsyncFunction"), F, F, T),
         "length" -> DataProperty(Num(1.0), F, F, T),
+        "name" -> DataProperty(Str("AsyncFunction"), F, F, T),
         "prototype" -> DataProperty(NamedAddr("GLOBAL.AsyncFunction.prototype"), F, F, F)
       )
     ),
@@ -776,12 +776,6 @@ object Heap {
       nmap = NMap(
         "constructor" -> DataProperty(NamedAddr("GLOBAL.AsyncFunction"), F, F, T),
         "@toStringTag" -> DataProperty(Str("AsyncFunction"), F, F, T),
-      )
-    ),
-    "GLOBAL.Object.assign" -> Struct(
-      typeName = "BuiltinFunctionObject",
-      nmap = NMap(
-        "length" -> DataProperty(Num(2.0), F, F, T)
       )
     ),
     "GLOBAL.Number.prototype.toString" -> Struct(
@@ -854,6 +848,13 @@ object Heap {
         "message" -> DataProperty(Str(""), T, F, T),
         "name" -> DataProperty(Str("AggregateError"), T, F, T),
       ),
+    ),
+    "GLOBAL.ForInIteratorPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.IteratorPrototype"),
+      ),
+      nmap = NMap()
     ),
   )
 

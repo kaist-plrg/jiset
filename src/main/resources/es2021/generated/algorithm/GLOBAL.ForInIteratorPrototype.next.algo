@@ -1,4 +1,4 @@
-def %ForInIteratorPrototype%.next() = 0:{
+def [BUILTIN] ForInIteratorPrototype.next() = 0:{
   0:let O = this
   1:assert (= (typeof O) Object)
   3:let object = O.Object
@@ -20,15 +20,25 @@ def %ForInIteratorPrototype%.next() = 0:{
     13:while (< 0i remaining.length) 13:{
       14:let r = remaining[0i]
       15:let __x3__ = (pop remaining 0i)
-      16:??? "If there does not exist an element id:{v} of id:{visited} such that SameValue ( id:{r} , id:{v} ) is value:{true} , then in:{} out:{}"
+      16:if (! (contains visited r)) 16:{
+        16:app __x4__ = (object.GetOwnProperty object r)
+        16:let desc = [? __x4__]
+        16:if (! (= desc undefined)) 16:{
+          16:append r -> visited
+          16:if (= desc.Enumerable true) 16:{
+            16:app __x5__ = (CreateIterResultObject r false)
+            16:return __x5__
+          } else 16:{}
+        } else 16:{}
+      } else 16:{}
     }
-    21:app __x4__ = (object.GetPrototypeOf object)
-    21:object = [? __x4__]
+    21:app __x6__ = (object.GetPrototypeOf object)
+    21:object = [? __x6__]
     22:O.Object = object
     23:O.ObjectWasVisited = false
     24:if (= object null) 24:{
-      24:app __x5__ = (CreateIterResultObject undefined true)
-      24:return __x5__
+      24:app __x7__ = (CreateIterResultObject undefined true)
+      24:return __x7__
     } else 24:{}
   }
 }

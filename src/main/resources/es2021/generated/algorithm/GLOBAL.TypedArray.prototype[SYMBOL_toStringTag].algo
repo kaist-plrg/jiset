@@ -1,0 +1,16 @@
+def [BUILTIN] TypedArray.prototype[SYMBOL_toStringTag]() = 0:{
+  0:let O = this
+  1:if (! (= (typeof O) Object)) 1:return undefined else 1:{}
+  2:if (= O.TypedArrayName absent) 2:return undefined else 2:{}
+  3:let name = O.TypedArrayName
+  4:assert (= (typeof name) String)
+  5:return name
+}
+- id: "sec-get-%typedarray%.prototype-@@tostringtag"
+- code:
+          1. Let _O_ be the *this* value.
+          1. If Type(_O_) is not Object, return *undefined*.
+          1. If _O_ does not have a [[TypedArrayName]] internal slot, return *undefined*.
+          1. Let _name_ be _O_.[[TypedArrayName]].
+          1. Assert: Type(_name_) is String.
+          1. Return _name_.

@@ -1,9 +1,6 @@
 def EnumerateObjectProperties(O) = 0:{
   0:assert (= (typeof O) Object)
-  1:app list = (EnumerateObjectPropertiesHelper O (new []) (new []))
-  1:app iteratorRecord = (CreateListIteratorRecord list)
-  1:let iterator = iteratorRecord.Iterator
-  1:app _ = (Set iterator "next" iteratorRecord.NextMethod false)
+  1:app iterator = (CreateForInIterator O)
   1:return iterator
 }
 - id: "sec-enumerate-object-properties"

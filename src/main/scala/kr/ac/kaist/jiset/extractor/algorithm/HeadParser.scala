@@ -268,7 +268,10 @@ object HeadParser extends HeadParsers {
   private val absOpPattern = ".*abstract operation.*".r
   private val argPattern = "An Arg[GS]etter function is.*".r
   private val builtinPattern = ".*is an anonymous built-in function.*".r
-  private val manualBuiltins = Set("DefaultConstructorFunctions")
+  private val manualBuiltins = Set(
+    "DefaultConstructorFunctions",
+    "%ForInIteratorPrototype%.next"
+  )
   def isBuiltin(
     name: String,
     elem: Element,
@@ -295,7 +298,8 @@ object HeadParser extends HeadParsers {
     val newParams =
       if (params.isEmpty) getWithParams(headElem)
       else params
-    List(BuiltinHead(parseAll(ref, name).get, newParams))
+    // patch name for %ForInIteratorPrototype%.next
+    List(BuiltinHead(parseAll(ref, name.replaceAll("%", "")).get, newParams))
   }
 
   // check whether current algorithm head is for thisValue
