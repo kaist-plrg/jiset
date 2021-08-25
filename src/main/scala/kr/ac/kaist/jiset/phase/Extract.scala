@@ -9,6 +9,7 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.spec.NativeHelper._
 
 // Extract phase
 case object Extract extends Phase[Unit, ExtractConfig, ECMAScript] {
@@ -24,6 +25,10 @@ case object Extract extends Phase[Unit, ExtractConfig, ECMAScript] {
       case Some(filename) =>
         time(s"loading ECMAScript from $filename", {
           readJson[ECMAScript](filename)
+        })
+      case None if BUGTRIGGER.isDefined =>
+        time(s"loading ECMAScript with given bug", {
+          loadSpec(s"$VERSION_DIR/generated")
         })
       case None =>
         val version = config.version.getOrElse(VERSION)
