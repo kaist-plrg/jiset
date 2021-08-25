@@ -3,8 +3,8 @@ import { v4 as uuid } from "uuid";
 import { Typography } from "@material-ui/core";
 import { Algo, getHeaderStr } from "../object/Algo";
 import { AlgoStepNode, flattenList, Emitter } from "../util/ecmarkdown";
-import { parseAlgorithm } from 'ecmarkdown';
-import type { AlgorithmNode } from 'ecmarkdown';
+import { parseAlgorithm } from "ecmarkdown";
+import type { AlgorithmNode } from "ecmarkdown";
 import "../styles/AlgoViewer.css";
 
 type AlgoStepProps = {
@@ -52,14 +52,24 @@ class AlgoViewer extends React.Component<AlgoViewerProps> {
     return flattenList( ol );
   }
 
+  parseAlgo (algo: Algo) {
+    const code = algo.code.join("\n");
+    try {
+      return this.flattenAlgo(parseAlgorithm(code));
+    } catch (e) {
+      return undefined;
+    }
+  }
+
   render () {
     const { data, currentStep } = this.props;
     if ( data === undefined ) return this.renderFail();
     // get header string
     const headerStr = getHeaderStr( data );
 
-    const code = data.code.join( "\n" );
-    const algo = this.flattenAlgo( parseAlgorithm( code ) );
+    const algo = this.parseAlgo(data);
+
+    if (algo === undefined) return this.renderFail();
 
     // render
     return (
