@@ -114,7 +114,10 @@ class Interp(
   final def fixpoint: State = (try step
   catch {
     case e: Throwable =>
-      if (LOG) IRLogger.recordIter(st.fnameOpt, iter, true)
+      if (LOG) {
+        IRLogger.recordIter(st.fnameOpt, iter, true)
+        IRLogger.recordCallStack(st.fnameOpt, st.ctxtStack)
+      }
       throw e
   }) match {
     case true => fixpoint
