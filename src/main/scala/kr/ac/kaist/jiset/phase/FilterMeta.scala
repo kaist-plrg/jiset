@@ -13,7 +13,7 @@ import kr.ac.kaist.jiset.util.TestConfigJsonProtocol._
 
 // FilterMeta phase
 case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummary] {
-  val name = "extract-meta"
+  val name = "filter-meta"
   val help = "extracts and filters out metadata of test262 tests."
 
   val standardFeatures = List(
@@ -402,16 +402,32 @@ case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummar
     unit: Unit,
     jisetConfig: JISETConfig,
     config: FilterMetaConfig
-  ): Test262ConfigSummary = showTime("extracting and filtering out metadata of test262 tests", {
-    println(s"Total ${allTests.length} tests")
-    val summary = test262configSummary
-    println(s"negative applicable tests: ${summary.error.length}")
-    println(s"positive applicable tests: ${summary.normal.length}")
-    summary
-  })
+  ): Test262ConfigSummary = {
+    config.load.map(path => {
+      val testDesc = (for {
+        testPath <- readFile(path).split(LINE_SEP) if jsFilter(testPath)
+        meta = MetaParser(s"$TEST262_TEST_DIR/$testPath")
+      } yield (meta.name, List("assert.js", "sta.js") ++ meta.includes)).toList
+      dumpJson(testDesc, TEST_DESC_PATH)
+      println(s"${testDesc.length} tests are found from $path")
+    })
+
+    showTime("extracting and filtering out metadata of test262 tests", {
+      println(s"Total ${allTests.length} tests")
+      val summary = test262configSummary
+      println(s"negative applicable tests: ${summary.error.length}")
+      println(s"positive applicable tests: ${summary.normal.length}")
+      summary
+    })
+  }
   def defaultConfig: FilterMetaConfig = FilterMetaConfig()
-  val options: List[PhaseOption[FilterMetaConfig]] = List()
+  val options: List[PhaseOption[FilterMetaConfig]] = List(
+    ("load", StrOption((c, s) => c.load = Some(s)),
+      "load tests list and print metadata")
+  )
 }
 
 // FilterMeta phase config
-case class FilterMetaConfig() extends Config
+case class FilterMetaConfig(
+  var load: Option[String] = None
+) extends Config

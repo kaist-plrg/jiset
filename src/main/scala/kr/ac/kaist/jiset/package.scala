@@ -34,6 +34,7 @@ package object jiset {
   val ESPARSE_DIR = s"$TEST_DIR/esparse"
   val TEST262_DIR = s"$TEST_DIR/test262"
   val TEST262_TEST_DIR = s"$TEST262_DIR/test"
+  val TEST_DESC_PATH = s"$BASE_DIR/test_desc.json"
 
   // Current directory root
   val CUR_DIR = System.getProperty("user.dir")
