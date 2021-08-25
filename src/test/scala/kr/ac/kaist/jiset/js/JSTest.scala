@@ -17,7 +17,7 @@ trait JSTest extends IRTest {
   override def category: String = "js"
 
   // turn on JavaScript sensitivity
-  JS_SENS = false
+  JS_SENS = true
 
   // cursor generator
   val cursorGen: CursorGen[_ <: Cursor] = NodeCursor
