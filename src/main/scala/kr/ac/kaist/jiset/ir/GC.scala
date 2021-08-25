@@ -25,6 +25,13 @@ object GC {
     aux(addrSet)
 
     val prevSize = map.size
-    for ((addr, obj) <- map if !(addrSet contains addr)) map -= addr
+    for {
+      (addr, obj) <- map
+      addr <- addr match {
+        case _: NamedAddr => None
+        case dyn => Some(dyn)
+      }
+      if !(addrSet contains addr)
+    } map -= addr
   }
 }
