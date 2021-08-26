@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.parser.ESParsers
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.parser.ESValueParser
 
 object Parser extends ESParsers {
   lazy val StringNumericLiteral: Lexer = (
@@ -83,7 +84,7 @@ object Parser extends ESParsers {
   lazy val IdentifierName: Lexer = (
     IdentifierStart |||
     IdentifierName % IdentifierPart
-  )
+  ) ^^ { case str => ESValueParser.parseIdentifier(str) }
   lazy val IdentifierStart: Lexer = (
     UnicodeIDStart |||
     "$" |||
@@ -956,6 +957,7 @@ object Parser extends ESParsers {
       log((MATCH <~ t("||")) ~ LogicalANDExpression(List(pIn, pYield, pAwait)) ^^ { case _ ~ x0 => ((x: LogicalORExpression) => LogicalORExpression1(x, x0, args, Span())) })("LogicalORExpression1")
     )))("LogicalORExpression")
   })
+  // TODO automatically synthesize this part: left recursion
   lazy val CoalesceExpression: ESParser[CoalesceExpression] = memo(args => {
     val List(pIn, pYield, pAwait) = getArgsN("CoalesceExpression", args, 3)
     log((
@@ -964,10 +966,11 @@ object Parser extends ESParsers {
   })
   lazy val CoalesceExpressionHead: ESParser[CoalesceExpressionHead] = memo(args => {
     val List(pIn, pYield, pAwait) = getArgsN("CoalesceExpressionHead", args, 3)
-    log((
-      log(MATCH ~ CoalesceExpression(List(pIn, pYield, pAwait)) ^^ { case _ ~ x0 => CoalesceExpressionHead0(x0, args, Span()) })("CoalesceExpressionHead0") |
+    log(resolveLR((
       log(MATCH ~ BitwiseORExpression(List(pIn, pYield, pAwait)) ^^ { case _ ~ x0 => CoalesceExpressionHead1(x0, args, Span()) })("CoalesceExpressionHead1")
-    ))("CoalesceExpressionHead")
+    ), (
+      log((MATCH <~ t("??")) ~ BitwiseORExpression(List(pIn, pYield, pAwait)) ^^ { case _ ~ x0 => ((x: CoalesceExpressionHead) => CoalesceExpressionHead0(CoalesceExpression0(x, x0, args, Span()), args, Span())) })("CoalesceExpressionHead0")
+    )))("CoalesceExpressionHead")
   })
   lazy val PipelineExpression: ESParser[PipelineExpression] = memo(args => {
     val List(pIn, pYield, pAwait) = getArgsN("PipelineExpression", args, 3)
@@ -1333,7 +1336,7 @@ object Parser extends ESParsers {
   lazy val DoWhileStatement: ESParser[DoWhileStatement] = memo(args => {
     val List(pYield, pAwait, pReturn) = getArgsN("DoWhileStatement", args, 3)
     log((
-      log((((((MATCH <~ t("do")) ~ Statement(List(pYield, pAwait, pReturn)) <~ t("while")) <~ t("(")) ~ Expression(List(true, pYield, pAwait)) <~ t(")")) <~ t(";")) ^^ { case _ ~ x0 ~ x1 => DoWhileStatement0(x0, x1, args, Span()) })("DoWhileStatement0")
+      log((((((MATCH <~ t("do")) ~ Statement(List(pYield, pAwait, pReturn)) <~ t("while")) <~ t("(")) ~ Expression(List(true, pYield, pAwait)) <~ doWhileCloseT) <~ t(";")) ^^ { case _ ~ x0 ~ x1 => DoWhileStatement0(x0, x1, args, Span()) })("DoWhileStatement0")
     ))("DoWhileStatement")
   })
   lazy val WhileStatement: ESParser[WhileStatement] = memo(args => {
