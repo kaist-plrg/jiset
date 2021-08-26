@@ -13,24 +13,23 @@ def [SYNTAX] PipelineExpression[1,0].Evaluation[R]<(PipelineExpression, LogicalO
       6:app __x5__ = (GetThisValue funcRef)
       6:let thisValue = __x5__
     } else 7:{
-      8:app __x6__ = (GetBase funcRef)
-      8:let refEnv = __x6__
-      9:app __x7__ = (refEnv.WithBaseObject refEnv)
-      9:let thisValue = __x7__
+      8:let refEnv = funcRef.Base
+      9:app __x6__ = (refEnv.WithBaseObject refEnv)
+      9:let thisValue = __x6__
     }
   } else 4:let thisValue = undefined
   12:if (! (= (typeof func) Object)) 12:throw TypeError else 12:{}
-  13:app __x8__ = (IsCallable func)
-  13:if (= __x8__ false) 13:throw TypeError else 13:{}
+  13:app __x7__ = (IsCallable func)
+  13:if (= __x7__ false) 13:throw TypeError else 13:{}
   14:let thisCall = this
-  15:app __x9__ = (IsInTailPosition thisCall)
-  15:let tailPosition = __x9__
+  15:app __x8__ = (IsInTailPosition thisCall)
+  15:let tailPosition = __x8__
   16:if (= tailPosition true) 16:{
-    16:app __x10__ = (PrepareForTailCall)
-    16:__x10__
+    16:app __x9__ = (PrepareForTailCall)
+    16:__x9__
   } else 16:{}
-  17:app __x11__ = (Call func thisValue (new [arg]))
-  17:let result = __x11__
+  17:app __x10__ = (Call func thisValue (new [arg]))
+  17:let result = __x10__
   20:return result
 }
 - id: "sec-binary-logical-operators-runtime-semantics-evaluation"
@@ -43,7 +42,7 @@ def [SYNTAX] PipelineExpression[1,0].Evaluation[R]<(PipelineExpression, LogicalO
           1. If IsPropertyReference(_funcRef_) is *true*, then
             1. Let _thisValue_ be GetThisValue(_funcRef_).
           1. Else the base of _funcRef_ is an Environment Record,
-            1. Let _refEnv_ be GetBase(_funcRef_).
+            1. Let _refEnv_ be _funcRef_.[[Base]].
             1. Let _thisValue_ be _refEnv_.WithBaseObject().
         1. Else,
           1. Let _thisValue_ be *undefined*.

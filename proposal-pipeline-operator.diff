@@ -1,8 +1,18 @@
 diff --git a/spec.html b/spec.html
-index 1f269b0..de227d4 100644
+index 1f269b0..c4f1e28 100644
 --- a/spec.html
 +++ b/spec.html
-@@ -16898,8 +16898,12 @@
+@@ -7504,6 +7504,9 @@
+         LogicalORExpression :
+           LogicalORExpression `||` LogicalANDExpression
+ 
++        PipelineExpression :
++          PipelineExpression `|>` LogicalORExpression
++
+         CoalesceExpression :
+           CoalesceExpressionHead `??` BitwiseORExpression
+ 
+@@ -16898,8 +16901,12 @@
          CoalesceExpression[?In, ?Yield, ?Await]
          BitwiseORExpression[?In, ?Yield, ?Await]
  
@@ -16,7 +26,7 @@ index 1f269b0..de227d4 100644
          CoalesceExpression[?In, ?Yield, ?Await]
      </emu-grammar>
      <emu-note>
-@@ -16935,6 +16939,30 @@
+@@ -16935,6 +16942,30 @@
            1. Return ? GetValue(_rref_).
          1. Otherwise, return _lval_.
        </emu-alg>
@@ -30,7 +40,7 @@ index 1f269b0..de227d4 100644
 +          1. If IsPropertyReference(_funcRef_) is *true*, then
 +            1. Let _thisValue_ be GetThisValue(_funcRef_).
 +          1. Else the base of _funcRef_ is an Environment Record,
-+            1. Let _refEnv_ be GetBase(_funcRef_).
++            1. Let _refEnv_ be _funcRef_.[[Base]].
 +            1. Let _thisValue_ be _refEnv_.WithBaseObject().
 +        1. Else,
 +          1. Let _thisValue_ be *undefined*.
@@ -47,7 +57,7 @@ index 1f269b0..de227d4 100644
      </emu-clause>
    </emu-clause>
  
-@@ -21386,6 +21414,11 @@
+@@ -21386,6 +21417,11 @@
          <emu-alg>
            1. Return HasCallInTailPosition of |BitwiseORExpression| with argument _call_.
          </emu-alg>
