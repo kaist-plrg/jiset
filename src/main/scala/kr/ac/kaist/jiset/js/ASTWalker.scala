@@ -439,6 +439,12 @@ trait ASTWalker {
     case CoalesceExpressionHead1(x0, _, _) =>
       job(ast); walk(x0)
   }
+  def walk(ast: PipelineExpression): Unit = ast match {
+    case PipelineExpression0(x0, _, _) =>
+      job(ast); walk(x0)
+    case PipelineExpression1(x0, x2, _, _) =>
+      job(ast); walk(x0); walk(x2)
+  }
   def walk(ast: ShortCircuitExpression): Unit = ast match {
     case ShortCircuitExpression0(x0, _, _) =>
       job(ast); walk(x0)

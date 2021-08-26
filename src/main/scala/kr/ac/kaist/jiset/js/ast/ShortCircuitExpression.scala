@@ -16,7 +16,7 @@ object ShortCircuitExpression {
     val AST.NormalCompressed(idx, subs, params, span) = data
     idx match {
       case 0 =>
-        val x0 = subs(0).map(LogicalORExpression(_)).get
+        val x0 = subs(0).map(PipelineExpression(_)).get
         ShortCircuitExpression0(x0, params, span)
       case 1 =>
         val x0 = subs(0).map(CoalesceExpression(_)).get
@@ -25,11 +25,11 @@ object ShortCircuitExpression {
   }
 }
 
-case class ShortCircuitExpression0(x0: LogicalORExpression, parserParams: List[Boolean], span: Span) extends ShortCircuitExpression {
+case class ShortCircuitExpression0(x0: PipelineExpression, parserParams: List[Boolean], span: Span) extends ShortCircuitExpression {
   x0.parent = Some(this)
   def idx: Int = 0
   def k: Int = d(x0, 0)
-  def fullList: List[(String, PureValue)] = l("LogicalORExpression", x0, Nil).reverse
+  def fullList: List[(String, PureValue)] = l("PipelineExpression", x0, Nil).reverse
   def maxK: Int = 0
   override def toString: String = {
     s"$x0"

@@ -520,6 +520,13 @@ object ASTDiff {
       diff(l0, r0); diff(lp, rp)
     case _ => diffError(l, r)
   }
+  def diff(l: PipelineExpression, r: PipelineExpression): Unit = (l, r) match {
+    case (PipelineExpression0(l0, lp, _), PipelineExpression0(r0, rp, _)) =>
+      diff(l0, r0); diff(lp, rp)
+    case (PipelineExpression1(l0, l2, lp, _), PipelineExpression1(r0, r2, rp, _)) =>
+      diff(l0, r0); diff(l2, r2); diff(lp, rp)
+    case _ => diffError(l, r)
+  }
   def diff(l: ShortCircuitExpression, r: ShortCircuitExpression): Unit = (l, r) match {
     case (ShortCircuitExpression0(l0, lp, _), ShortCircuitExpression0(r0, rp, _)) =>
       diff(l0, r0); diff(lp, rp)

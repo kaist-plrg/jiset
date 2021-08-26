@@ -1865,6 +1865,11 @@ ParenthesizedExpression[Yield, Await]: {
   `(` Expression[+In, ?Yield, ?Await] `)`
 }
 
+PipelineExpression[In, Yield, Await]: {
+  LogicalORExpression[?In, ?Yield, ?Await] |
+  PipelineExpression[?In, ?Yield, ?Await] `|>` LogicalORExpression[?In, ?Yield, ~Await]
+}
+
 PrimaryExpression[Yield, Await]: {
   `this` |
   IdentifierReference[?Yield, ?Await] |
@@ -1934,7 +1939,7 @@ ShiftExpression[Yield, Await]: {
 }
 
 ShortCircuitExpression[In, Yield, Await]: {
-  LogicalORExpression[?In, ?Yield, ?Await] |
+  PipelineExpression[?In, ?Yield, ?Await] |
   CoalesceExpression[?In, ?Yield, ?Await]
 }
 
