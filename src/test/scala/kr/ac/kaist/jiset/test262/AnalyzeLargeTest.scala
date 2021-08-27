@@ -10,6 +10,9 @@ class AnalyzeLargeTest extends Test262Test {
   // offset and stride
   val offset = optional(System.getenv("JSAVER_OFFSET").toInt).getOrElse(0)
   val stride = optional(System.getenv("JSAVER_STRIDE").toInt).getOrElse(1)
+  
+  // logging
+  LOG = true
 
   // registration
   def init: Unit = check(name, {

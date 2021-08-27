@@ -112,9 +112,9 @@ trait JSTest extends IRTest {
     evalTest(eval(script, Some(filename)))
 
   // tests for JS analyzer
-  def analyzeTestFile(filename: String): Unit =
+  def analyzeTestFile(filename: String): AbsSemantics =
     analyzeFile(filename, 1)
-  def analyzeTest(script: Script): Unit =
+  def analyzeTest(script: Script): AbsSemantics =
     analyze(script, 1)
 
   // conversion extension from .js to .ir

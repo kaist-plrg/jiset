@@ -18,7 +18,7 @@ class ManualMiddleTest extends Test262Test {
   def init: Unit = check(name, {
     val manuals = readFile(filename).split(LINE_SEP).toSet
     val targets = Test262.config.normal.filter(manuals contains _.name)
-    test262Test(targets, TestKind.EvalManual)
+    test262Test(targets, TestKind.Analyze)
   })
   init
 }

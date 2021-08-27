@@ -51,6 +51,10 @@ case class AbsSemantics(
   // iteration period for check
   val CHECK_PERIOD = 10000
 
+  // log max ijk
+  val irIJK = AbsSemantics.MaxIJK()
+  val jsIJK = AbsSemantics.MaxIJK()
+
   // fixpiont computation
   @tailrec
   final def fixpoint: AbsSemantics = worklist.next match {
@@ -127,6 +131,12 @@ case class AbsSemantics(
     val np = NodePoint(func.entry, calleeView)
     this += np -> st.doCall
 
+    // log max ijk
+    if (LOG) {
+      irIJK.update(calleeView.getIrIJK)
+      jsIJK.update(calleeView.getJsIJK)
+    }
+
     val rp = ReturnPoint(func, calleeView)
     val set = retEdges.getOrElse(rp, Set())
     retEdges += rp -> (set + callerNp)
@@ -193,6 +203,18 @@ case class AbsSemantics(
   }
 }
 object AbsSemantics {
+  // maximum ijk
+  case class MaxIJK(var i: Int = -1, var j: Int = -1, var k: Int = -1) {
+    def update(ijk: (Int, Int, Int)): Unit = {
+      val (curI, curJ, curK) = ijk
+      if (curI > i) i = curI
+      if (curJ > j) j = curJ
+      if (curK > k) k = curK
+    }
+    def get: (Int, Int, Int) = (i, j, k)
+    override def toString: String = s"I/J/K = $i/$j/$k"
+  }
+
   // constructors
   def apply(
     script: js.ast.Script,

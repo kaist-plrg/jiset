@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.js.JSTest
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.Test262._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.JvmUseful._
@@ -29,6 +30,8 @@ trait Test262Test extends JSTest {
     }
   }
 
+  type MaxIJK = AbsSemantics.MaxIJK
+
   // test 262 tests
   def test262Test(
     targets: List[NormalTestConfig],
@@ -37,6 +40,7 @@ trait Test262Test extends JSTest {
     val name = TestKind.getName(kind)
     val progress = ProgressBar(s"test262 $name test", targets)
     val summary = progress.summary
+    var ijkInfo: Map[String, (MaxIJK, MaxIJK)] = Map()
     mkdir(logDir)
     dumpFile(JISETTest.spec.version, s"$logDir/ecma262-version")
     dumpFile(currentVersion(BASE_DIR), s"$logDir/jiset-version")
@@ -60,7 +64,9 @@ trait Test262Test extends JSTest {
         val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
         val merged = mergeStmt(stmts)
         kind match {
-          case TestKind.Analyze => analyzeTest(merged)
+          case TestKind.Analyze => 
+            val absSem = analyzeTest(merged)
+            ijkInfo += name -> ((absSem.irIJK, absSem.jsIJK))
           case _ => evalTest(merged, jsName)
         }
         summary.passes += name
@@ -73,10 +79,22 @@ trait Test262Test extends JSTest {
     }
     summary.close
 
-    // dump IR logger
     kind match {
       case TestKind.Analyze =>
+        // dump ijk info
+        val data = (ijkInfo.map {
+          case (k, (ir, js)) => k -> (ir.get, js.get)
+        }).toMap
+        dumpJson(data, s"$logDir/$name-ijk", true)
+        val (irIJK, jsIJK) = (AbsSemantics.MaxIJK(), AbsSemantics.MaxIJK())
+        ijkInfo.values.foreach {
+          case (ir, js) => 
+            irIJK.update(ir.get)
+            jsIJK.update(js.get)
+        }
+        dumpFile(s"[IR] $irIJK\n[JS] $jsIJK", s"$logDir/$name-ijk-summary")
       case _ =>
+        // dump IR logger
         IRLogger.dumpTo(s"$logDir/$name-logger")
     }
 
