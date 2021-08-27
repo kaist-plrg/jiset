@@ -485,8 +485,8 @@ class Interp(
         case v => error(s"not a string: $v")
       }
       v match {
-        case ASTVal(ast) => doParseSyntax(p(ast.parserParams), ast.toString)
-        case Str(str) => doParseSyntax(p(parserParams), str)
+        case ASTVal(ast) => doParseAst(p(ast.parserParams))(ast)
+        case Str(str) => doParseStr(p(parserParams))(str)
         case v => error(s"not an AST value or a string: $v")
       }
     }
@@ -875,7 +875,13 @@ object Interp {
   }
 
   // parse syntax
-  def doParseSyntax(parser: ESParser.LAParser[AST], str: String): Value = {
+  val doParseAst: ESParser.LAParser[AST] => AST => Value = cached(parser => {
+    cached(ast => doParseSyntax(parser, ast.toString))
+  })
+  val doParseStr: ESParser.LAParser[AST] => String => Value = cached(parser => {
+    cached(str => doParseSyntax(parser, str))
+  })
+  private def doParseSyntax(parser: ESParser.LAParser[AST], str: String): Value = {
     val result = ESParser.parse(parser, str)
     if (result.successful) ASTVal(result.get.checkSupported)
     else Absent

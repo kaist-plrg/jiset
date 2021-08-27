@@ -486,14 +486,14 @@ case class AbsTransfer(sem: AbsSemantics) {
           case _ => ???
         }
         st <- get
-      } yield v.getSingle match {
+      } yield AbsValue(v.getSingle match {
         case FlatElem(AAst(ast)) =>
-          doParseSyntax(p(ast.parserParams), ast.toString)
+          Interp.doParseAst(p(ast.parserParams))(ast)
         case FlatElem(ASimple(Str(str))) => {
-          doParseSyntax(p(parserParams), str)
+          Interp.doParseStr(p(parserParams))(str)
         }
         case v => error(s"not an AST value or a string: $v")
-      }
+      })
       case EConvert(source, target, flags) => for {
         s <- escape(transfer(source))
         fs <- join(for (flag <- flags) yield escape(transfer(flag)))
@@ -775,11 +775,5 @@ case class AbsTransfer(sem: AbsSemantics) {
         case List(value) => pure(AbsValue(bool = value.isAbruptCompletion))
       },
     )
-  }
-
-  def doParseSyntax(parser: ESParser.LAParser[AST], str: String): AbsValue = {
-    val result = ESParser.parse(parser, str)
-    if (result.successful) AbsValue(result.get.checkSupported)
-    else AbsValue.absent
   }
 }

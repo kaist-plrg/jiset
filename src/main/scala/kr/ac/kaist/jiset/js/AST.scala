@@ -9,7 +9,7 @@ import kr.ac.kaist.jiset.util.{ WeakUId, Span, Pos }
 import kr.ac.kaist.jiset.util.Useful.{ cached, error }
 import io.circe._, io.circe.syntax._
 
-trait AST extends WeakUId {
+trait AST {
   var parent: Option[AST] = None
   def kind: String
   def idx: Int
@@ -19,12 +19,10 @@ trait AST extends WeakUId {
   def fullList: List[(String, PureValue)]
   def maxK: Int
 
-  // equality using unique ids
+  // not use helpers of case calsses
+  override def hashCode: Int = super.hashCode
   override def equals(any: Any): Boolean = any match {
-    case that: AST => (this.uidOpt, that.uidOpt) match {
-      case (None, None) => super.equals(that)
-      case _ => this.uidOpt == that.uidOpt
-    }
+    case that: AST => this eq that
     case _ => false
   }
 

@@ -31,7 +31,7 @@ sealed trait AValue {
       val max = AValue.AST_MAX_LENGTH
       var str = ast.toString
       if (str.length > max) str = str.substring(0, max - 3) + "..."
-      s"☊[${ast.kind}]($str)"
+      f"☊[${ast.kind}]($str) @ 0x${ast.hashCode}%08x"
     case ASimple(simple) => simple.toString
   }
 }
