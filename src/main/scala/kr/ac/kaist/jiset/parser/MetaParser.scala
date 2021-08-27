@@ -14,8 +14,9 @@ object MetaParser {
       case Nil => Nil
       case _ :: rest => rest.takeWhile((x) => !(x contains "---*/"))
     }
-    val (negative, flags, includes, locales, features, _, _) = metadata.foldLeft[(Option[String], List[String], List[String], List[String], List[String], Boolean, Boolean)]((None, List(), List(), List(), List(), false, false)) {
-      case ((negative, flags, includes, locales, features, isNeg, isInclude), line) => {
+    val (negative, flags, includes, locales, features, _, _, es5) = metadata.foldLeft[(Option[String], List[String], List[String], List[String], List[String], Boolean, Boolean, Boolean)]((None, List(), List(), List(), List(), false, false, false)) {
+      case ((negative, flags, includes, locales, features, isNeg, isInclude, isES5), line) => {
+        val isES5n = if (line contains "es5id:") true else isES5
         val isNegn = if (line contains "negative:") true else isNeg
         val negativen = if ((line contains "type:") && isNeg) Some(line.split(' ').last) else negative
         val flagsn = if (line contains "flags:") line.dropWhile(_ != '[').tail.takeWhile(_ != ']').split(", ").toList else flags
@@ -31,11 +32,11 @@ object MetaParser {
           case s => s.tail.takeWhile(_ != ']').split(", ").toList
         }
         else features
-        (negativen, flagsn, includesn2, localesn, featuresn, isNegn, isIncluden)
+        (negativen, flagsn, includesn2, localesn, featuresn, isNegn, isIncluden, isES5n)
       }
     }
     val newIncludes = if (flags contains "async") includes :+ "doneprintHandle.js" else includes
-    MetaData(relName, negative, flags, newIncludes, locales, features)
+    MetaData(relName, negative, flags, newIncludes, locales, features, es5)
   }
 }
 
@@ -45,7 +46,8 @@ case class MetaData(
   flags: List[String],
   includes: List[String],
   locales: List[String],
-  features: List[String]
+  features: List[String],
+  es5: Boolean
 ) extends Ordered[MetaData] {
   def compare(that: MetaData): Int =
     Ordering.String.compare(this.name, that.name)

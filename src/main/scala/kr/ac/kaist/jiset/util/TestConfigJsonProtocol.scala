@@ -36,7 +36,7 @@ case class TestList(list: List[MetaData]) {
   }
   def getSummary: Test262ConfigSummary = {
     val (normalL, errorL) = list.map {
-      case MetaData(name, n, _, i, _, _) => Test262Config(name, n, i)
+      case MetaData(name, n, _, i, _, _, _) => Test262Config(name, n, i)
     }.partition(_.negative.isEmpty)
     Test262ConfigSummary(
       normalL.map(x => NormalTestConfig(x.name, x.includes)),
