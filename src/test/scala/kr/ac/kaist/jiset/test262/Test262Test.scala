@@ -64,7 +64,7 @@ trait Test262Test extends JSTest {
         val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
         val merged = mergeStmt(stmts)
         kind match {
-          case TestKind.Analyze => 
+          case TestKind.Analyze =>
             val absSem = analyzeTest(merged)
             ijkInfo += name -> ((absSem.irIJK, absSem.jsIJK))
           case _ => evalTest(merged, jsName)
@@ -88,7 +88,7 @@ trait Test262Test extends JSTest {
         dumpJson(data, s"$logDir/$name-ijk", true)
         val (irIJK, jsIJK) = (AbsSemantics.MaxIJK(), AbsSemantics.MaxIJK())
         ijkInfo.values.foreach {
-          case (ir, js) => 
+          case (ir, js) =>
             irIJK.update(ir.get)
             jsIJK.update(js.get)
         }
