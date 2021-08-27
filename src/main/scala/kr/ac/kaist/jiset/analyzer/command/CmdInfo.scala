@@ -8,7 +8,7 @@ case object CmdInfo extends Command(
   "info", "Show abstract state of node"
 ) {
   // options
-  val options @ List(ret, block) = List("ret", "block")
+  val options @ List(ret, block, detail) = List("ret", "block", "detail")
 
   // run command
   def apply(
@@ -20,7 +20,8 @@ case object CmdInfo extends Command(
       showInfo(repl, opt.substring(1), target)
     case _ => cpOpt match {
       case Some(cp) =>
-        println(repl.cpInfo(cp, false))
+        val detail = args.headOption == Some("-detail")
+        println(repl.cpInfo(cp, detail))
         println
       case None =>
         showInfo(repl, ret, "RunJobs")

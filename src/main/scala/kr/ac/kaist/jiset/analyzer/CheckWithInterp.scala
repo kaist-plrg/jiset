@@ -165,6 +165,12 @@ object CheckWithInterp {
       { println(s"global variable $x is not sound."); false }
     ))
 
-    reachable && localCheck && globalCheck
+    val locsCheck = absSt.reachableLocs.forall(loc => {
+      loc.isNamed || visited.contains(loc) || absSt.heap.map.contains(loc) || {
+        println(s"$loc is required but removed."); false
+      }
+    })
+
+    reachable && localCheck && globalCheck && locsCheck
   }
 }
