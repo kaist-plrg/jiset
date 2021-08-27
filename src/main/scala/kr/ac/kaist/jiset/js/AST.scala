@@ -28,9 +28,6 @@ trait AST extends WeakUId {
     case _ => false
   }
 
-  // static semantics
-  var staticMap: Map[String, Value] = Map()
-
   // name
   def name: String = kind + idx
 
