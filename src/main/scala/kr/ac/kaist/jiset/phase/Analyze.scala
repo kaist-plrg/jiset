@@ -33,8 +33,8 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
     }), "use concrete execution to check soundness."),
     ("gc", BoolOption(c => USE_GC = true),
       "use abstract garbage collection."),
-    ("js-sens", BoolOption(c => JS_SENS = true),
-      "use JavaScript sensitivity."),
+    ("inf-sens", BoolOption(c => INF_SENS = true),
+      "use infinite sensitivity."),
     ("timeout", NumOption((c, i) => c.timeout = if (i == 0) None else Some(i)),
       "set timeout of analyzer(second), 0 for unlimited.")
   )

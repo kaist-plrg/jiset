@@ -21,7 +21,7 @@ _jiset_completions() {
   gentestOpt=""
   parseOpt="-parse:json -parse:pprint -parse:esparse -parse:test262 "
   loadOpt="-load:cursor "
-  analyzeOpt="-analyze:repl -analyze:exec-level -analyze:gc -analyze:js-sens -analyze:timeout "
+  analyzeOpt="-analyze:repl -analyze:exec-level -analyze:gc -analyze:inf-sens -analyze:timeout "
   parseirOpt=""
   loadirOpt=""
   evalirOpt="-eval-ir:timeout "
@@ -83,7 +83,7 @@ _jiset_completions() {
           return 0
           ;;
         filter-meta)
-          COMPREPLY=($(compgen -W "${globalOpt} ${extractmetaOpt}"))
+          COMPREPLY=($(compgen -W "${globalOpt} ${filtermetaOpt}"))
           return 0
           ;;
         parse-ir)

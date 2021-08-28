@@ -16,9 +16,6 @@ import io.circe._, io.circe.syntax._, io.circe.parser.{ parse => parseJson }
 trait JSTest extends IRTest {
   override def category: String = "js"
 
-  // turn on JavaScript sensitivity
-  JS_SENS = true
-
   // cursor generator
   val cursorGen: CursorGen[_ <: Cursor] = NodeCursor
 

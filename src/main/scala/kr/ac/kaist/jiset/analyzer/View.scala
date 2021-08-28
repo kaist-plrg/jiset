@@ -17,8 +17,8 @@ case class View(
     astOpt: Option[AST]
   ): View = {
     val view = copy(calls = call :: calls, intraLoopDepth = 0)
-    if (JS_SENS) view.jsSens(isJsCall, astOpt)
-    else view
+    if (INF_SENS) view
+    else view.jsSens(isJsCall, astOpt)
   }
 
   // JavaScript sensitivities
