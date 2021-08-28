@@ -17,7 +17,7 @@ sealed trait AValue {
     case AComp(ty, value, target) => s"C($ty, $value, $target)"
     case AConst(name) => s"~$name~"
     case NamedLoc(name) => s"#$name"
-    case AllocSite(k, view, recent) => s"#$k:$view:${if (recent) "R" else "O"}"
+    case AllocSite(k, view) => s"#$k:$view"
     case SubMapLoc(baseLoc) => s"$baseLoc:SubMap"
     case AFunc(algo) => s"λ(${algo.name})"
     case AClo(params, locals, func) => (
@@ -87,7 +87,7 @@ object Loc {
 }
 sealed trait BaseLoc extends Loc
 case class NamedLoc(name: String) extends BaseLoc
-case class AllocSite(k: Int, view: View, recent: Boolean) extends BaseLoc
+case class AllocSite(k: Int, view: View) extends BaseLoc
 case class SubMapLoc(baseLoc: BaseLoc) extends Loc
 
 // functions
