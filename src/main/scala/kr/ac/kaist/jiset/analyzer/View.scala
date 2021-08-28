@@ -49,7 +49,7 @@ case class View(
   // loop transition
   def loopNext: View = loops match {
     case LoopCtxt(loop, k) :: rest =>
-      copy(loops = LoopCtxt(loop, (k + 1) max LOOP_ITER) :: rest)
+      copy(loops = LoopCtxt(loop, (k + 1) min LOOP_ITER) :: rest)
     case _ => this
   }
   def loopEnter(loop: Loop): View = copy(
