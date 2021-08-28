@@ -8,9 +8,9 @@ import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
-// basic abstract heaps
-object BasicHeap extends Domain {
-  lazy val Bot = Elem(Map(), Set())
+// GC abstract heaps
+object GCHeap extends Domain {
+  lazy val Bot = Elem(Map(), Set(), LocStat(), LocStat(), Set())
 
   // initial conrete heap
   lazy val initHeap: Heap = js.Initialize.initHeap
@@ -22,9 +22,44 @@ object BasicHeap extends Domain {
     aobj = AbsObj(obj)
   } yield loc -> aobj).toMap
 
+  // location status
+  case class LocStat(
+    allocs: Set[Loc] = Set(),
+    touched: Set[Loc] = Set()
+  ) {
+    // conversion to string
+    def getString(loc: Loc): String = {
+      if (allocs contains loc) "A"
+      else if (touched contains loc) "T"
+      else " "
+    }
+
+    // partial order
+    def ⊑(that: LocStat): Boolean = (
+      (this.allocs subsetOf that.allocs) &&
+      (this.touched subsetOf that.touched)
+    )
+
+    // join operator
+    def ⊔(that: LocStat): LocStat = LocStat(
+      this.allocs ++ that.allocs,
+      this.touched ++ that.touched,
+    )
+
+    // remove given locations
+    def removeLocs(locs: Set[Loc]): LocStat =
+      LocStat(allocs -- locs, touched -- locs)
+
+    // allocation helper
+    def alloc(loc: Loc): LocStat = LocStat(allocs + loc, touched + loc)
+
+    // touch helper
+    def touch(loc: Loc): LocStat = LocStat(allocs, touched + loc)
+  }
+
   // appender
   def mkAppender(detail: Boolean): App[Elem] = (app, elem) => {
-    val Elem(map, merged) = elem
+    val Elem(map, fixed, pstat, fstat, merged) = elem
     if (elem.isBottom) app >> "{}"
     else if (!detail) app >> "{ ... }"
     else app.wrap {
@@ -33,6 +68,11 @@ object BasicHeap extends Domain {
         .foreach {
           case (k, v) =>
             app :> "["
+            if (USE_GC) {
+              app >> (if (fixed contains k) "F" else " ")
+              app >> pstat.getString(k)
+              app >> fstat.getString(k)
+            }
             app >> (if (merged contains k) "M" else " ")
             app >> "] " >> s"$k -> " >> v >> LINE_SEP
         }
@@ -44,8 +84,11 @@ object BasicHeap extends Domain {
   // constructors
   def apply(
     map: Map[Loc, AbsObj] = Map(),
+    fixed: Set[Loc] = Set(),
+    pstat: LocStat = LocStat(),
+    fstat: LocStat = LocStat(),
     merged: Set[Loc] = Set()
-  ): Elem = Elem(map, merged)
+  ): Elem = Elem(map, fixed, pstat, fstat, merged)
 
   // extractors
   def unapply(elem: Elem) = Some((
@@ -56,6 +99,9 @@ object BasicHeap extends Domain {
   // elements
   case class Elem(
     map: Map[Loc, AbsObj],
+    fixed: Set[Loc],
+    pstat: LocStat,
+    fstat: LocStat,
     merged: Set[Loc]
   ) extends ElemTrait {
     // partial order
@@ -69,6 +115,9 @@ object BasicHeap extends Domain {
         (l.map.keySet ++ r.map.keySet).forall(loc => {
           this(loc) ⊑ that(loc)
         }) &&
+        (l.fixed subsetOf r.fixed) &&
+        (l.pstat ⊑ r.pstat) &&
+        (l.fstat ⊑ r.fstat) &&
         (l.merged subsetOf r.merged)
       )
     }
@@ -81,6 +130,9 @@ object BasicHeap extends Domain {
         map = (l.map.keySet ++ r.map.keySet).toList.map(loc => {
           loc -> this(loc) ⊔ that(loc)
         }).toMap,
+        fixed = l.fixed ++ r.fixed,
+        pstat = l.pstat ⊔ r.pstat,
+        fstat = l.fstat ⊔ r.fstat,
         merged = l.merged ++ r.merged,
       )
     }
@@ -98,12 +150,42 @@ object BasicHeap extends Domain {
     def isSingle(loc: Loc): Boolean = !(merged contains loc)
 
     // handle calls
-    def doCall: Elem = this
-    def doProcStart(fixed: Set[Loc]): Elem = this
+    def doCall: Elem = if (USE_GC) {
+      copy(fstat = LocStat())
+    } else this
+    def doProcStart(fixed: Set[Loc]): Elem = if (USE_GC) {
+      copy(fixed = fixed, pstat = LocStat(), fstat = LocStat())
+    } else this
 
     // handle returns (this: caller heaps / retHeap: return heaps)
-    def doReturn(to: Elem): Elem = this
-    def doProcEnd(to: Elem): Elem = this
+    def doReturn(to: Elem): Elem = if (USE_GC) Elem(
+      map = (fixed ++ fstat.touched).foldLeft(to.map) {
+        case (map, loc) => map + (loc -> this(loc))
+      },
+      fixed = fixed,
+      pstat = pstat,
+      fstat = this.fstat ⊔ to.fstat,
+      merged = (
+        this.merged ++
+        to.merged ++
+        (to.map.keySet intersect this.fstat.allocs)
+      ),
+    )
+    else this
+    def doProcEnd(to: Elem): Elem = if (USE_GC) Elem(
+      map = pstat.touched.foldLeft(to.map) {
+        case (map, loc) => map + (loc -> this(loc))
+      },
+      fixed = to.fixed,
+      pstat = this.pstat ⊔ to.pstat,
+      fstat = this.pstat ⊔ to.fstat,
+      merged = (
+        this.merged ++
+        to.merged ++
+        (to.map.keySet intersect this.pstat.allocs)
+      ),
+    )
+    else this
 
     // get reachable locations
     def reachableLocs(initLocs: Set[Loc]): Set[Loc] = {
@@ -120,8 +202,17 @@ object BasicHeap extends Domain {
     }
 
     // remove given locations
-    def removeLocs(locs: Loc*): Elem = this
-    def removeLocs(locs: Set[Loc]): Elem = this
+    def removeLocs(locs: Loc*): Elem = removeLocs(locs.toSet)
+    def removeLocs(locs: Set[Loc]): Elem = {
+      val realLocs = locs -- fixed
+      Elem(
+        map -- realLocs,
+        fixed,
+        pstat,
+        fstat.removeLocs(realLocs),
+        merged -- realLocs,
+      )
+    }
 
     // lookup abstract locations
     def apply(loc: Loc): AbsObj =
@@ -209,10 +300,16 @@ object BasicHeap extends Domain {
     private def alloc(loc: Loc, obj: AbsObj): Elem = this(loc) match {
       case AbsObj.Bot => Elem(
         map = map + (loc -> obj),
+        fixed,
+        pstat.alloc(loc),
+        fstat.alloc(loc),
         merged = merged,
       )
       case _ => Elem(
         map = map + (loc -> (this(loc) ⊔ obj)),
+        fixed,
+        pstat.alloc(loc),
+        fstat.alloc(loc),
         merged = merged + loc
       )
     }
@@ -232,7 +329,7 @@ object BasicHeap extends Domain {
     def toString(detail: Boolean): String = {
       val app = new Appender
       implicit val heapApp =
-        if (detail) BasicHeap.app else BasicHeap.shortApp
+        if (detail) GCHeap.app else GCHeap.shortApp
       app >> this
       app.toString
     }
@@ -248,6 +345,9 @@ object BasicHeap extends Domain {
           val newObj = f(obj, weak)
           Elem(
             map = heap.map + (loc -> newObj),
+            fixed,
+            pstat.touch(loc),
+            fstat.touch(loc),
             merged
           )
       }

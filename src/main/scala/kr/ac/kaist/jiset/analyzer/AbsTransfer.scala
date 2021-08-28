@@ -157,7 +157,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         _ <- put(AbsState.Bot)
       } yield ()
       case thr @ IThrow(name) => {
-        val loc: AllocSite = AllocSite(thr.asite, cp.view)
+        val loc: AllocSite = AllocSite(thr.asite, cp.view, true)
         for {
           _ <- modify(_.allocMap(Ty("OrdinaryObject"), List(
             AbsValue(Str("Prototype")) -> AbsValue(NamedLoc(s"GLOBAL.$name.prototype")),
@@ -256,7 +256,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         }
       } yield ()
       case access @ IAccess(id, bexpr, expr, args) => {
-        val loc: AllocSite = AllocSite(access.asite, cp.view)
+        val loc: AllocSite = AllocSite(access.asite, cp.view, true)
         for {
           origB <- transfer(bexpr)
           b = origB.escaped
@@ -358,7 +358,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         AConst(name) <- y.const.toList
       } yield name -> AbsComp.Result(v, t)).toMap))
       case map @ EMap(ty, props) => {
-        val loc: AllocSite = AllocSite(map.asite, cp.view)
+        val loc: AllocSite = AllocSite(map.asite, cp.view, true)
         for {
           pairs <- join(props.map {
             case (kexpr, vexpr) => for {
@@ -370,14 +370,14 @@ case class AbsTransfer(sem: AbsSemantics) {
         } yield AbsValue(loc)
       }
       case list @ EList(exprs) => {
-        val loc: AllocSite = AllocSite(list.asite, cp.view)
+        val loc: AllocSite = AllocSite(list.asite, cp.view, true)
         for {
           vs <- join(exprs.map(transfer))
           _ <- modify(_.allocList(vs.map(_.escaped))(loc))
         } yield AbsValue(loc)
       }
       case symbol @ ESymbol(desc) => {
-        val loc: AllocSite = AllocSite(symbol.asite, cp.view)
+        val loc: AllocSite = AllocSite(symbol.asite, cp.view, true)
         for {
           v <- transfer(desc)
           newV = AbsValue(str = v.str, undef = v.undef)
@@ -461,7 +461,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         }
       } yield resB).map(Bool(_))))
       case elems @ EGetElems(base, name) => {
-        val loc: AllocSite = AllocSite(elems.asite, cp.view)
+        val loc: AllocSite = AllocSite(elems.asite, cp.view, true)
         for {
           bv <- escape(transfer(base))
           _ <- bv.getSingle match {
@@ -544,14 +544,14 @@ case class AbsTransfer(sem: AbsSemantics) {
         newV <- returnIfAbrupt(v, check)
       } yield newV
       case copy @ ECopy(obj) => {
-        val loc: AllocSite = AllocSite(copy.asite, cp.view)
+        val loc: AllocSite = AllocSite(copy.asite, cp.view, true)
         for {
           v <- escape(transfer(obj))
           _ <- modify(_.copyObj(v.loc)(loc))
         } yield AbsValue(loc)
       }
       case keys @ EKeys(mobj, intSorted) => {
-        val loc: AllocSite = AllocSite(keys.asite, cp.view)
+        val loc: AllocSite = AllocSite(keys.asite, cp.view, true)
         for {
           v <- escape(transfer(mobj))
           _ <- modify(_.keys(v.loc, intSorted)(loc))
