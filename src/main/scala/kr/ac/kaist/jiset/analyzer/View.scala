@@ -16,7 +16,10 @@ case class View(
     isJsCall: Boolean,
     astOpt: Option[AST]
   ): View = {
-    val view = copy(calls = call :: calls, intraLoopDepth = 0)
+    val view = copy(
+      calls = (call :: calls).take(IR_CALL_DEPTH),
+      intraLoopDepth = 0
+    )
     if (INF_SENS) view
     else view.jsSens(isJsCall, astOpt)
   }
@@ -25,10 +28,15 @@ case class View(
   def jsSens(isJsCall: Boolean, astOpt: Option[AST]): View = astOpt match {
     // flow sensitivity
     case Some(ast) =>
-      View(Some(JSView(ast, jsCalls, loops ++ jsLoops)), Nil, Nil, 0)
+      val newJsLoops = (loops ++ jsLoops).take(LOOP_DEPTH)
+      View(Some(JSView(ast, jsCalls, newJsLoops)), Nil, Nil, 0)
     // call-site sensitivity
     case _ if isJsCall => copy(jsViewOpt = jsViewOpt.map {
-      case JSView(ast, calls, loops) => JSView(ast, ast :: calls, loops)
+      case JSView(ast, calls, loops) => JSView(
+        ast,
+        (ast :: calls).take(JS_CALL_DEPTH),
+        loops
+      )
     })
     // non-JS part
     case _ => this
@@ -41,11 +49,11 @@ case class View(
   // loop transition
   def loopNext: View = loops match {
     case LoopCtxt(loop, k) :: rest =>
-      copy(loops = LoopCtxt(loop, k + 1) :: rest)
+      copy(loops = LoopCtxt(loop, (k + 1) max LOOP_ITER) :: rest)
     case _ => this
   }
   def loopEnter(loop: Loop): View = copy(
-    loops = LoopCtxt(loop, 0) :: loops,
+    loops = (LoopCtxt(loop, 0) :: loops).take(LOOP_DEPTH),
     intraLoopDepth = intraLoopDepth + 1,
   )
   def loopExit: View = loops match {

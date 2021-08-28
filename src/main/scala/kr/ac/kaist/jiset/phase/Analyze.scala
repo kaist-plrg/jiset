@@ -35,6 +35,14 @@ case object Analyze extends Phase[Script, AnalyzeConfig, AbsSemantics] {
       "use abstract garbage collection."),
     ("inf-sens", BoolOption(c => INF_SENS = true),
       "use infinite sensitivity."),
+    ("loop-iter", NumOption((c, i) => LOOP_ITER = i),
+      "set maximum loop iteration."),
+    ("loop-depth", NumOption((c, i) => LOOP_DEPTH = i),
+      "set maximum loop depth."),
+    ("js-k-cfa", NumOption((c, i) => JS_CALL_DEPTH = i),
+      "set k for JavaScrpt callsite sensitivity."),
+    ("ir-k-cfa", NumOption((c, i) => IR_CALL_DEPTH = i),
+      "set k for IRES callsite sensitivity."),
     ("timeout", NumOption((c, i) => c.timeout = if (i == 0) None else Some(i)),
       "set timeout of analyzer(second), 0 for unlimited.")
   )
