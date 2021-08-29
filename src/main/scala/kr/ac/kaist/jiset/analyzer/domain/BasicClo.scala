@@ -1,7 +1,8 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
-import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
@@ -62,7 +63,7 @@ object BasicClo extends Domain {
         l.locals.keySet.map(x => x -> (l.locals(x) ⊔ r.locals(x))).toMap,
         l.func
       )
-      case _ => error(s"invalid join of closures.")
+      case _ => exploded(s"join of closures.")
     }
 
     // meet operator
@@ -77,7 +78,7 @@ object BasicClo extends Domain {
         l.locals.keySet.map(x => x -> (l.locals(x) ⊓ r.locals(x))).toMap,
         l.func
       )
-      case _ => error(s"invalid meet of closures.")
+      case _ => exploded(s"meet of closures.")
     }
 
     // get single value

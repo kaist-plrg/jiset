@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset
 
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.error.AnalysisImprecise
 
 package object analyzer {
   // options
@@ -16,6 +17,9 @@ package object analyzer {
   // k for call-site sensitivity
   var JS_CALL_DEPTH: Int = 999
   var IR_CALL_DEPTH: Int = 999
+
+  // Exploded
+  def exploded(msg: String = "") = throw AnalysisImprecise(msg)
 
   // path type
   type Path = List[NodePoint[Call]]

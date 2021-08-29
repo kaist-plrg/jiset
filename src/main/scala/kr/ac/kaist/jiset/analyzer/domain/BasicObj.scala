@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.analyzer.domain
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
@@ -164,7 +165,7 @@ object BasicObj extends Domain {
         MergedList(l.mergedValue ⊔ r.mergedValue)
       case (NotSupportedElem(lty, ld), NotSupportedElem(rty, rd)) if lty == rty && ld == rd => this
       case _ =>
-        error(s"cannot merge: ${this.getTy} with ${that.getTy}")
+        exploded(s"cannot merge: ${this.getTy} with ${that.getTy}")
     }
 
     // lookup

@@ -407,7 +407,7 @@ case object FilterMeta extends Phase[Unit, FilterMetaConfig, Test262ConfigSummar
       val testDesc = (for {
         testPath <- readFile(path).split(LINE_SEP) if jsFilter(testPath)
         meta = MetaParser(s"$TEST262_TEST_DIR/$testPath")
-      } yield (meta.name, meta.includes, meta.es5)).toList
+      } yield (meta.name, meta.includes, meta.es5, meta.features)).toList
       dumpJson(testDesc, TEST_DESC_PATH, true)
       println(s"${testDesc.length} tests are found from $path")
     })

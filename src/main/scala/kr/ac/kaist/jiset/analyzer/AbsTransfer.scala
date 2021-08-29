@@ -469,7 +469,7 @@ case class AbsTransfer(sem: AbsSemantics) {
             case FlatElem(AAst(ast)) =>
               val vs = ast.getElems(name).map(AbsValue(_))
               modify(_.allocList(vs)(loc))
-            case _ => ???
+            case _ => exploded("get-elems")
           }
         } yield AbsValue(loc)
       }
@@ -483,7 +483,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         p = ruleV.str.getSingle match {
           case FlatElem(Str(str)) =>
             ESParser.rules.getOrElse(str, error(s"not exist parse rule: $rule"))
-          case _ => ???
+          case _ => exploded("get-syntax")
         }
         st <- get
       } yield AbsValue(v.getSingle match {
@@ -593,9 +593,9 @@ case class AbsTransfer(sem: AbsSemantics) {
       case FlatElem(ASimple(x)) =>
         AbsValue(Interp.interp(uop, x))
       case FlatTop => uop match {
-        case ONeg => ???
-        case ONot => ???
-        case OBNot => ???
+        case ONeg => exploded("uop: $uop")
+        case ONot => exploded("uop: $uop")
+        case OBNot => exploded("uop: $uop")
       }
     }
 
@@ -618,25 +618,25 @@ case class AbsTransfer(sem: AbsSemantics) {
           case _ => AbsValue(l == r)
         }
       case _ => bop match {
-        case OAnd => ???
-        case OBAnd => ???
-        case OBOr => ???
-        case OBXOr => ???
-        case ODiv => ???
+        case OAnd => exploded("bop: $bop")
+        case OBAnd => exploded("bop: $bop")
+        case OBOr => exploded("bop: $bop")
+        case OBXOr => exploded("bop: $bop")
+        case ODiv => exploded("bop: $bop")
         case OEq => AbsValue(bool = left =^= right)
-        case OEqual => ???
-        case OLShift => ???
-        case OLt => ???
-        case OMod => ???
-        case OMul => ???
-        case OOr => ???
-        case OPlus => ???
-        case OPow => ???
-        case OSRShift => ???
-        case OSub => ???
-        case OUMod => ???
-        case OURShift => ???
-        case OXor => ???
+        case OEqual => exploded("bop: $bop")
+        case OLShift => exploded("bop: $bop")
+        case OLt => exploded("bop: $bop")
+        case OMod => exploded("bop: $bop")
+        case OMul => exploded("bop: $bop")
+        case OOr => exploded("bop: $bop")
+        case OPlus => exploded("bop: $bop")
+        case OPow => exploded("bop: $bop")
+        case OSRShift => exploded("bop: $bop")
+        case OSub => exploded("bop: $bop")
+        case OUMod => exploded("bop: $bop")
+        case OURShift => exploded("bop: $bop")
+        case OXor => exploded("bop: $bop")
       }
     }
 
@@ -731,7 +731,7 @@ case class AbsTransfer(sem: AbsSemantics) {
               AbsValue(ds == s && 0 <= l && d == l && l < UPPER)
             case _ => AVF
           }
-          case FlatTop => ???
+          case FlatTop => exploded("IsArrayIndex")
         }
       },
       "min" -> {
@@ -739,7 +739,7 @@ case class AbsTransfer(sem: AbsSemantics) {
           case (_, FlatBot) | (FlatBot, _) => AbsValue.Bot
           case (FlatElem(ASimple(n0: Numeric)), FlatElem(ASimple(n1: Numeric))) =>
             AbsValue(n0.min(n1))
-          case _ => ???
+          case _ => exploded("IsArrayIndex")
         }
       },
       "max" -> {
@@ -747,24 +747,24 @@ case class AbsTransfer(sem: AbsSemantics) {
           case (_, FlatBot) | (FlatBot, _) => AbsValue.Bot
           case (FlatElem(ASimple(n0: Numeric)), FlatElem(ASimple(n1: Numeric))) =>
             AbsValue(n0.max(n1))
-          case _ => ???
+          case _ => exploded("max")
         }
       },
       "abs" -> {
         case List(v) => v.getSingle match {
           case FlatBot => AbsValue.Bot
           case FlatElem(ASimple(n: Numeric)) => AbsValue(n.abs)
-          case _ => ???
+          case _ => exploded("abs")
         }
       },
       "floor" -> {
         case List(v) => v.getSingle match {
           case FlatBot => AbsValue.Bot
           case FlatElem(ASimple(n: Numeric)) => AbsValue(n.floor)
-          case _ => ???
+          case _ => exploded("floor")
         }
       },
-      "fround" -> { case args => ??? },
+      "fround" -> { case args => exploded("fround") },
       "ThrowCompletion" -> {
         case List(value) => value.wrapCompletion("throw")
       },

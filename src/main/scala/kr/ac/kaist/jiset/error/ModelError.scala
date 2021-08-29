@@ -26,6 +26,10 @@ case object AnalysisTimeout extends ModelError({
   s"timeout during the abstract interpretation."
 })
 
+case class AnalysisImprecise(msg: String) extends ModelError({
+  s"analysis results become imprecise ($msg)."
+})
+
 case object InvalidAST extends ModelError({
   s"invald abstract syntax tree"
 })

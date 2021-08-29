@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.test262
 
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.error.{ InterpTimeout, AnalysisTimeout, NotSupported }
+import kr.ac.kaist.jiset.error.{ InterpTimeout, AnalysisTimeout, AnalysisImprecise, NotSupported }
 import kr.ac.kaist.jiset.js.JSTest
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js._
@@ -93,6 +93,9 @@ trait Test262Test extends JSTest {
         case AnalysisTimeout =>
           summary.timeouts += name
           getAnalyzeResult(kind, "B")
+        case AnalysisImprecise(msg) =>
+          summary.fails += s"$name: $msg"
+          getAnalyzeResult(kind, "T")
         case NotSupported(msg) =>
           summary.yets += s"$name: $msg"
           getAnalyzeResult(kind, "B")
