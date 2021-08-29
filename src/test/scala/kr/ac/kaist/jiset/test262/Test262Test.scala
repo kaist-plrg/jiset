@@ -10,6 +10,7 @@ import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.JvmUseful._
+import io.circe._, io.circe.generic.semiauto._, io.circe.generic.auto._
 
 trait Test262Test extends JSTest {
   override val category: String = "test262"
@@ -32,6 +33,17 @@ trait Test262Test extends JSTest {
 
   type MaxIJK = AbsSemantics.MaxIJK
 
+  // analyze result for jsaver
+  case class AnalyzeResult(test: String, jsaver: String, jsaverTime: Double)
+  implicit lazy val AnalyzeResultDecoder: Decoder[AnalyzeResult] = deriveDecoder
+  implicit lazy val AnalyzeResultEncoder: Encoder[AnalyzeResult] = deriveEncoder
+
+  // get analyze result
+  def getAnalyzeResult(kind: TestKind, result: String) = kind match {
+    case TestKind.Analyze => Some(result)
+    case _ => None
+  }
+
   // test 262 tests
   def test262Test(
     targets: List[NormalTestConfig],
@@ -41,6 +53,7 @@ trait Test262Test extends JSTest {
     val progress = ProgressBar(s"test262 $name test", targets)
     val summary = progress.summary
     var ijkInfo: Map[String, (MaxIJK, MaxIJK)] = Map()
+    var analyzeResult: List[AnalyzeResult] = List()
     mkdir(logDir)
     dumpFile(JISETTest.spec.version, s"$logDir/ecma262-version")
     dumpFile(currentVersion(BASE_DIR), s"$logDir/jiset-version")
@@ -51,7 +64,9 @@ trait Test262Test extends JSTest {
     for (config <- progress) {
       val NormalTestConfig(name, includes) = config
       val jsName = s"$TEST262_TEST_DIR/$name"
-      getError {
+
+      val start = System.currentTimeMillis
+      val testResult = try {
         val includeStmts = includes.foldLeft(basicStmts) {
           case (li, s) => for {
             x <- li
@@ -70,11 +85,26 @@ trait Test262Test extends JSTest {
           case _ => evalTest(merged, jsName)
         }
         summary.passes += name
-      }.foreach {
-        case InterpTimeout => summary.timeouts += name
-        case AnalysisTimeout => summary.timeouts += name
-        case NotSupported(msg) => summary.yets += s"$name: $msg"
-        case e => summary.fails += s"$name: ${e.getMessage}"
+        getAnalyzeResult(kind, "P")
+      } catch {
+        case InterpTimeout =>
+          summary.timeouts += name
+          getAnalyzeResult(kind, "B")
+        case AnalysisTimeout =>
+          summary.timeouts += name
+          getAnalyzeResult(kind, "B")
+        case NotSupported(msg) =>
+          summary.yets += s"$name: $msg"
+          getAnalyzeResult(kind, "B")
+        case e: Throwable =>
+          summary.fails += s"$name: ${e.getMessage}"
+          getAnalyzeResult(kind, "F")
+      }
+      val elapsed = (System.currentTimeMillis - start) / 1000.0d
+      // record analysis result
+      testResult match {
+        case Some(result) => analyzeResult :+= AnalyzeResult(name, result, elapsed)
+        case None =>
       }
     }
     summary.close
@@ -93,6 +123,19 @@ trait Test262Test extends JSTest {
             jsIJK.update(js.get)
         }
         dumpFile(s"[IR] $irIJK\n[JS] $jsIJK", s"$logDir/$name-ijk-summary")
+
+        // dump jsaver result
+        dumpJson(analyzeResult, s"$logDir/jsaver-result.json", true)
+        val P = analyzeResult.count(_.jsaver === "P")
+        val T = analyzeResult.count(_.jsaver === "T")
+        val F = analyzeResult.count(_.jsaver === "F")
+        val B = analyzeResult.count(_.jsaver === "B")
+        val total = analyzeResult.map(_.jsaverTime).sum
+        val avg = total / analyzeResult.length
+        dumpFile(
+          s"[jsaver] P/T/F/B = $P/$T/$F/$B in $total seconds (avg: $avg)",
+          s"$logDir/jsaver-result-summary"
+        )
       case _ =>
         // dump IR logger
         IRLogger.dumpTo(s"$logDir/$name-logger")
