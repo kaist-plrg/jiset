@@ -593,9 +593,9 @@ case class AbsTransfer(sem: AbsSemantics) {
       case FlatElem(ASimple(x)) =>
         AbsValue(Interp.interp(uop, x))
       case FlatTop => uop match {
-        case ONeg => exploded("uop: $uop")
-        case ONot => exploded("uop: $uop")
-        case OBNot => exploded("uop: $uop")
+        case ONeg => exploded(s"uop: $uop")
+        case ONot => exploded(s"uop: $uop")
+        case OBNot => exploded(s"uop: $uop")
       }
     }
 
@@ -618,25 +618,25 @@ case class AbsTransfer(sem: AbsSemantics) {
           case _ => AbsValue(l == r)
         }
       case _ => bop match {
-        case OAnd => exploded("bop: $bop")
-        case OBAnd => exploded("bop: $bop")
-        case OBOr => exploded("bop: $bop")
-        case OBXOr => exploded("bop: $bop")
-        case ODiv => exploded("bop: $bop")
+        case OAnd => exploded(s"bop: $bop")
+        case OBAnd => exploded(s"bop: $bop")
+        case OBOr => exploded(s"bop: $bop")
+        case OBXOr => exploded(s"bop: $bop")
+        case ODiv => exploded(s"bop: $bop")
         case OEq => AbsValue(bool = left =^= right)
-        case OEqual => exploded("bop: $bop")
-        case OLShift => exploded("bop: $bop")
-        case OLt => exploded("bop: $bop")
-        case OMod => exploded("bop: $bop")
-        case OMul => exploded("bop: $bop")
-        case OOr => exploded("bop: $bop")
-        case OPlus => exploded("bop: $bop")
-        case OPow => exploded("bop: $bop")
-        case OSRShift => exploded("bop: $bop")
-        case OSub => exploded("bop: $bop")
-        case OUMod => exploded("bop: $bop")
-        case OURShift => exploded("bop: $bop")
-        case OXor => exploded("bop: $bop")
+        case OEqual => exploded(s"bop: $bop")
+        case OLShift => exploded(s"bop: $bop")
+        case OLt => exploded(s"bop: $bop")
+        case OMod => exploded(s"bop: $bop")
+        case OMul => exploded(s"bop: $bop")
+        case OOr => exploded(s"bop: $bop")
+        case OPlus => exploded(s"bop: $bop")
+        case OPow => exploded(s"bop: $bop")
+        case OSRShift => exploded(s"bop: $bop")
+        case OSub => exploded(s"bop: $bop")
+        case OUMod => exploded(s"bop: $bop")
+        case OURShift => exploded(s"bop: $bop")
+        case OXor => exploded(s"bop: $bop")
       }
     }
 

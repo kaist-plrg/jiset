@@ -110,9 +110,9 @@ trait JSTest extends IRTest {
 
   // tests for JS analyzer
   def analyzeTestFile(filename: String): AbsSemantics =
-    analyzeFile(filename, 1)
+    analyzeFile(filename, 0)
   def analyzeTest(script: Script): AbsSemantics =
-    analyze(script, 1)
+    analyze(script, 0)
 
   // conversion extension from .js to .ir
   val js2ir = changeExt("js", "ir")

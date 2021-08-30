@@ -7,6 +7,7 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.Test262._
 import kr.ac.kaist.jiset.analyzer._
+import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.JvmUseful._
@@ -82,15 +83,19 @@ trait Test262Test extends JSTest {
           case TestKind.Analyze =>
             val absSem = analyzeTest(merged)
             ijkInfo += name -> ((absSem.irIJK, absSem.jsIJK))
-          case _ => evalTest(merged, jsName)
+            Some(absSem.finalResult.value.isAbruptCompletion.getSingle match {
+              case FlatBot => { summary.fails += s"$name"; "B" }
+              case FlatElem(Bool(false)) => { summary.passes += name; "P" }
+              case FlatElem(Bool(true)) => { summary.fails += s"$name"; "F" }
+              case FlatTop => { summary.fails += s"$name"; "T" }
+            })
+          case _ =>
+            evalTest(merged, jsName)
+            summary.passes += name
+            None
         }
-        summary.passes += name
-        getAnalyzeResult(kind, "P")
       } catch {
-        case InterpTimeout =>
-          summary.timeouts += name
-          getAnalyzeResult(kind, "B")
-        case AnalysisTimeout =>
+        case InterpTimeout | AnalysisTimeout =>
           summary.timeouts += name
           getAnalyzeResult(kind, "B")
         case AnalysisImprecise(msg) =>
@@ -101,7 +106,7 @@ trait Test262Test extends JSTest {
           getAnalyzeResult(kind, "B")
         case e: Throwable =>
           summary.fails += s"$name: ${e.getMessage}"
-          getAnalyzeResult(kind, "F")
+          getAnalyzeResult(kind, "B")
       }
       val elapsed = (System.currentTimeMillis - start) / 1000.0d
       // record analysis result
