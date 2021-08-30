@@ -217,23 +217,21 @@ object BasicState extends Domain {
     }
     def apply(base: AbsValue, prop: AbsValue): AbsValue = {
       val compValue = base.comp(prop)
-      val escaped = base.escaped
-      // TODO check soundness
-      // handle base: {~normal~ -> (#REALM, ~empty~)}, prop: "Type" case
-      val locValue =
-        if (compValue != AbsValue.Bot && prop ⊑ AV_COMP_PROPS) AbsValue.Bot
-        else heap(escaped.loc, prop)
-      val strValue = (escaped.str.getSingle, prop.getSingle) match {
-        case (FlatBot, _) | (_, FlatBot) => AbsValue.Bot
-        case (FlatElem(Str(str)), FlatElem(ASimple(simple))) => simple match {
-          case Str("length") => AbsValue(str.length)
-          case INum(k) => AbsValue(str(k.toInt).toString)
-          case Num(k) => AbsValue(str(k.toInt).toString)
-          case _ => AbsValue.Bot
+      if (!compValue.isBottom && prop ⊑ AV_COMP_PROPS) compValue else {
+        val escaped = base.escaped
+        val locValue = heap(escaped.loc, prop)
+        val strValue = (escaped.str.getSingle, prop.getSingle) match {
+          case (FlatBot, _) | (_, FlatBot) => AbsValue.Bot
+          case (FlatElem(Str(str)), FlatElem(ASimple(simple))) => simple match {
+            case Str("length") => AbsValue(str.length)
+            case INum(k) => AbsValue(str(k.toInt).toString)
+            case Num(k) => AbsValue(str(k.toInt).toString)
+            case _ => AbsValue.Bot
+          }
+          case _ => AbsValue.str ⊔ AbsValue.int
         }
-        case _ => AbsValue.str ⊔ AbsValue.int
+        compValue ⊔ locValue ⊔ strValue
       }
-      compValue ⊔ locValue ⊔ strValue
     }
     def apply(loc: Loc): AbsObj = heap(loc)
 
