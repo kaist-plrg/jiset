@@ -1,0 +1,9 @@
+def [BUILTIN] Observable.fromDelegatingFunctions(observer) = 0:{
+  0:let observable = F.Observable
+  1:app __x0__ = (Invoke observable "subscribe" (new [observer]))
+  1:return __x0__
+}
+- id: "sec-observable.from-delegating-functions"
+- code:
+            1. Let _observable_ be the value of the [[Observable]] internal slot of _F_.
+            1. Return Invoke(_observable_, `"subscribe"`, « _observer_ »).

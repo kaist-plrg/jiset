@@ -1,0 +1,6 @@
+def SubscriptionClosed(subscription) = 1:if (= subscription.Observer undefined) 1:return true else 1:return false
+- id: "subscription-closed"
+- code:
+            1. Assert: _subscription_ is a Subscription object.
+            1. If the value of _subscription_'s [[Observer]] internal slot is *undefined*, return *true*.
+            1. Else, return *false*.

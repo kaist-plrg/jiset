@@ -1,0 +1,46 @@
+def [BUILTIN] Observable.from(x) = 0:{
+  0:let C = this
+  1:app __x0__ = (IsConstructor C)
+  1:if (= __x0__ false) 1:let C = INTRINSICS["%Observable%"] else 1:{}
+  2:app __x1__ = (GetMethod x ??? "@@observable")
+  2:let observableMethod = [? __x1__]
+  3:if (! (= observableMethod undefined)) 3:{
+    4:app __x2__ = (Call observableMethod x (new []))
+    4:let observable = [? __x2__]
+    5:if (! (= (typeof observable) Object)) 5:throw TypeError else 5:{}
+    6:app __x3__ = (Get observable "constructor")
+    6:let constructor = [? __x3__]
+    7:app __x4__ = (SameValue constructor C)
+    7:if (= __x4__ true) 7:return observable else 7:{}
+    8:let subscriber = (new BuiltinFunctionObject())
+    9:subscriber.Observable = observable
+  } else 10:{
+    11:app __x5__ = (GetMethod x ??? "@@observable")
+    11:let iteratorMethod = [? __x5__]
+    12:if (= iteratorMethod undefined) 12:throw TypeError else 12:{}
+    13:let subscriber = (new BuiltinFunctionObject())
+    14:subscriber.Iterable = x
+    15:subscriber.IteratorMethod = iteratorMethod
+  }
+  16:app __x6__ = (Construct C (new [subscriber]))
+  16:return __x6__
+}
+- id: "sec-observable.from"
+- code:
+          1. Let _C_ be the *this* value.
+          1. If IsConstructor(C) is *false*, let _C_ be %Observable%.
+          1. Let _observableMethod_ be ? GetMethod(_x_, `@@observable`).
+          1. If _observableMethod_ is not *undefined*, then
+            1. Let _observable_ be ? Call(_observableMethod_, _x_, « »).
+            1. If Type(_observable_) is not Object, throw a *TypeError* exception.
+            1. Let _constructor_ be ? Get(_observable_, `"constructor"`).
+            1. If SameValue(_constructor_, _C_) is *true*, return _observable_.
+            1. Let _subscriber_ be a new built-in function object as defined in Observable.from Delegating Functions.
+            1. Set _subscriber_'s [[Observable]] internal slot to _observable_.
+          1. Else,
+            1. Let _iteratorMethod_ be ? GetMethod(_x_, `@@observable`).
+            1. If _iteratorMethod_ is *undefined*, throw a *TypeError* exception.
+            1. Let _subscriber_ be a new built-in function object as defined in Observable.from Iteration Functions.
+            1. Set _subscriber_'s [[Iterable]] internal slot to _x_.
+            1. Set _subscriber_'s [[IteratorMethod]] internal slot to _iteratorMethod_.
+          1. Return Construct(_C_, « _subscriber_ »).

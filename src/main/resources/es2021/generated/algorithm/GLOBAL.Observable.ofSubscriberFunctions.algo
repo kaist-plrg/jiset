@@ -1,0 +1,27 @@
+def [BUILTIN] Observable.ofSubscriberFunctions(observer) = 0:{
+  0:let items = F.Items
+  1:let subscription = observer.Subscription
+  2:let __x0__ = items
+  2:let __x1__ = 0i
+  2:while (< __x1__ __x0__.length) 2:{
+    2:let value = __x0__[__x1__]
+    2:__x1__ = (+ __x1__ 1i)
+    3:app __x2__ = (Invoke observer "next" (new [value]))
+    3:[! __x2__]
+    4:app __x3__ = (SubscriptionClosed subscription)
+    4:if (= __x3__ true) 5:return undefined else 4:{}
+  }
+  6:app __x4__ = (Invoke observer "complete" (new []))
+  6:[! __x4__]
+  7:return undefined
+}
+- id: "sec-observable.of-subscriber-functions"
+- code:
+            1. Let _items_ be the value of the [[Items]] internal slot of _F_.
+            1. Let _subscription_ be the value of _observer_'s [[Subscription]] internal slot.
+            1. For each element _value_ of _items_, do
+              1. Perform ! Invoke(_observer_, `"next"`, « _value_ »).
+              1. If SubscriptionClosed(_subscription_) is *true*, then
+                1. Return *undefined*.
+            1. Perform ! Invoke(_observer_, `"complete"`, « »).
+            1. Return *undefined*.

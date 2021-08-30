@@ -1,0 +1,108 @@
+def [BUILTIN] Observable.prototype.subscribe(observer) = 0:{
+  0:let O = this
+  1:if (! (= (typeof O) Object)) 1:throw TypeError else 1:{}
+  2:if (= O.Subscriber absent) 2:throw TypeError else 2:{}
+  3:app __x0__ = (IsCallable observer)
+  3:if (= __x0__ true) 3:{
+    4:let len = argumentsList.length
+    5:let args = argumentsList
+    6:let nextCallback = observer
+    7:if (< 1i len) 7:let errorCallback = args[1i] else 7:let errorCallback = undefined
+    9:if (< 2i len) 9:let completeCallback = args[2i] else 9:let completeCallback = undefined
+    11:app __x1__ = (ObjectCreate INTRINSICS["%ObjectPrototype%"])
+    11:let observer = __x1__
+    12:app __x2__ = (CreateDataProperty observer "next" nextCallback)
+    12:[! __x2__]
+    13:app __x3__ = (CreateDataProperty observer "error" errorCallback)
+    13:[! __x3__]
+    14:app __x4__ = (CreateDataProperty observer "complete" completeCallback)
+    14:[! __x4__]
+  } else 3:if (! (= (typeof observer) Object)) 15:{
+    15:app __x5__ = (ObjectCreate INTRINSICS["%ObjectPrototype%"])
+    15:let observer = __x5__
+  } else 3:{}
+  16:app __x6__ = (CreateSubscription observer)
+  16:let subscription = [? __x6__]
+  17:app __x7__ = (GetMethod observer "start")
+  17:let startMethodResult = __x7__
+  18:if (= startMethodResult.Type ~normal~) 18:{
+    19:let start = startMethodResult.Value
+    20:if (! (= start undefined)) 20:{
+      21:app __x8__ = (Call start observer (new [subscription]))
+      21:let result = __x8__
+      22:app __x9__ = (IsAbruptCompletion result)
+      22:if __x9__ 22:{
+        22:app __x10__ = (HostReportErrors (new [result.Value]))
+        22:__x10__
+      } else 22:{}
+      23:app __x11__ = (SubscriptionClosed subscription)
+      23:if (= __x11__ true) 24:return subscription else 23:{}
+    } else 20:{}
+  } else 18:if (= startMethodResult.Type ~throw~) 21:{
+    21:app __x12__ = (HostReportErrors (new [startMethodResult.Value]))
+    21:__x12__
+  } else 18:{}
+  26:app __x13__ = (IsAbruptCompletion result)
+  26:if __x13__ 26:{
+    26:app __x14__ = (HostReportErrors (new [result.Value]))
+    26:__x14__
+  } else 26:{}
+  27:app __x15__ = (CreateSubscriptionObserver subscription)
+  27:let subscriptionObserver = [? __x15__]
+  28:??? "Let id:{subscriber} be the value of id:{O's} [ [ Subscriber ] ] internal slot ."
+  29:app __x16__ = (IsCallable subscriber)
+  29:assert (= __x16__ true)
+  30:app __x17__ = (ExecuteSubscriber subscriber subscriptionObserver)
+  30:let subscriberResult = __x17__
+  31:app __x18__ = (IsAbruptCompletion subscriberResult)
+  31:if __x18__ 31:{
+    32:app __x19__ = (Invoke subscriptionObserver "error" (new [subscriberResult.value]))
+    32:[! __x19__]
+  } else 31:subscription.Cleanup = subscriberResult.value
+  35:app __x20__ = (SubscriptionClosed subscription)
+  35:if (= __x20__ true) 35:{
+    36:app __x21__ = (CleanupSubscription subscription)
+    36:[! __x21__]
+  } else 35:{}
+  37:return subscription
+}
+- id: "sec-observable.prototype.subscribe"
+- code:
+          1. Let _O_ be the *this* value.
+          1. If Type(_O_) is not Object, throw a *TypeError* exception.
+          1. If _O_ does not have an [[Subscriber]] internal slot, throw a *TypeError* exception.
+          1. If IsCallable(_observer_) is *true*, then
+            1. Let _len_ be the actual number of arguments passed to this function.
+            1. Let _args_ be the List of arguments passed to this function.
+            1. Let _nextCallback_ be _observer_.
+            1. If _len_ > 1, let _errorCallback_ be _args_[1].
+            1. Else, let _errorCallback_ be *undefined*.
+            1. If _len_ > 2, let _completeCallback_ be _args_[2].
+            1. Else, let _completeCallback_ be *undefined*.
+            1. Let _observer_ be ObjectCreate(%ObjectPrototype%).
+            1. Perform ! CreateDataProperty(_observer_, `"next"`, _nextCallback_).
+            1. Perform ! CreateDataProperty(_observer_, `"error"`, _errorCallback_).
+            1. Perform ! CreateDataProperty(_observer_, `"complete"`, _completeCallback_).
+          1. Else if Type(_observer_) is not Object, Let _observer_ be ObjectCreate(%ObjectPrototype%).
+          1. Let _subscription_ be ? CreateSubscription(_observer_).
+          1. Let _startMethodResult_ be GetMethod(_observer_, `"start"`).
+          1. If _startMethodResult_.[[Type]] is ~normal~, then
+            1. Let _start_ be _startMethodResult_.[[Value]].
+            1. If _start_ is not *undefined*, then
+              1. Let _result_ be Call(_start_, _observer_, « _subscription_ »).
+              1. If _result_ is an abrupt completion, perform HostReportErrors(« _result_.[[Value]] »).
+              1. If SubscriptionClosed(_subscription_) is *true*, then
+                1. Return _subscription_.
+          1. Else if _startMethodResult_.[[Type]] is ~throw~, then perform HostReportErrors(« _startMethodResult_.[[Value]] »).
+          1. If _result_ is an abrupt completion, perform HostReportErrors(« _result_.[[Value]] »).
+          1. Let _subscriptionObserver_ be ? CreateSubscriptionObserver(_subscription_).
+          1. Let _subscriber_ be the value of _O's_ [[Subscriber]] internal slot.
+          1. Assert: IsCallable(_subscriber_) is *true*.
+          1. Let _subscriberResult_ be ExecuteSubscriber(_subscriber_, _subscriptionObserver_).
+          1. If _subscriberResult_ is an abrupt completion, then
+            1. Perform ! Invoke(_subscriptionObserver_, `"error"`, « _subscriberResult_.[[value]] »).
+          1. Else,
+            1. Set the [[Cleanup]] internal slot of _subscription_ to _subscriberResult_.[[value]].
+          1. If SubscriptionClosed(_subscription_) is *true*, then
+            1. Perform ! CleanupSubscription(_subscription_).
+          1. Return _subscription_.

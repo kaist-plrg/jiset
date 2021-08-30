@@ -1,0 +1,399 @@
+diff --git a/spec.html b/spec.html
+index 1f269b0..76fdebc 100644
+--- a/spec.html
++++ b/spec.html
+@@ -24518,6 +24518,394 @@
+ <emu-clause id="sec-fundamental-objects">
+   <h1>Fundamental Objects</h1>
+ 
++  <emu-clause id="sec-observable-objects">
++    <emu-clause id="sec-observable-constructor">
++      <h1>The Observable Constructor</h1>
++      <p>The Observable constructor is the %Observable% intrinsic object and the initial value of the Observable property of the global object. When called as a constructor it creates and initializes a new Observable object. Observable is not intended to be called as a function and will throw an exception when called in that manner.</p>
++      <p>The Observable constructor is designed to be subclassable. It may be used as the value in an extends clause of a class definition. Subclass constructors that intend to inherit the specified Observable behaviour must include a super call to the Observable constructor to create and initialize the subclass instance with the internal state necessary to support the Observable and Observable.prototype built-in methods.</p>
++      <emu-clause id="sec-observable-value">
++        <h1>Observable ( _subscriber_ )</h1>
++        <p>The `Observable` constructor initializes a new Observable object. It is not intended to be called as a function and will throw an exception when called in that manner.</p>
++        <p>The _subscriber_ argument must be a function object. It is called each time the `subscribe` method of the Observable object is invoked. The _subscriber_ function is called with a wrapped observer object and may optionally return a function which will cancel the subscription.</p>
++        <p>The `Observable` constructor performs the following steps:</p>
++        <emu-alg>
++          1. If NewTarget is *undefined*, throw a *TypeError* exception.
++          1. If IsCallable(_subscriber_) is *false*, throw a *TypeError* exception.
++          1. Let _observable_ be ? OrdinaryCreateFromConstructor(NewTarget, %ObservablePrototype%, « [[Subscriber]] »).
++          1. Set _observable's_ [[Subscriber]] internal slot to _subscriber_.
++          1. Return _observable_.
++        </emu-alg>
++      </emu-clause>
++    </emu-clause>
++
++    <emu-clause id="sec-properties-of-the-observable-constructor">
++      <h1>Properties of the Observable Constructor</h1>
++      <p>The value of the [[Prototype]] internal slot of the `Observable` constructor is the intrinsic object %FunctionPrototype%.</p>
++      <p>Besides the `length` property (whose value is 1), the `Observable` constructor has the following properties:</p>
++
++      <emu-clause id="sec-observable.prototype">
++        <h1>Observable.prototype</h1>
++        <p>The initial value of `Observable.prototype` is the intrinsic object %ObservablePrototype%.</p>
++        <p>This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *false* }.</p>
++      </emu-clause>
++
++      <emu-clause id="sec-observable.from">
++        <h1>Observable.from ( _x_ )</h1>
++        <p>When the `from` method is called, the following steps are taken:</p>
++        <emu-alg>
++          1. Let _C_ be the *this* value.
++          1. If IsConstructor(C) is *false*, let _C_ be %Observable%.
++          1. Let _observableMethod_ be ? GetMethod(_x_, `@@observable`).
++          1. If _observableMethod_ is not *undefined*, then
++            1. Let _observable_ be ? Call(_observableMethod_, _x_, « »).
++            1. If Type(_observable_) is not Object, throw a *TypeError* exception.
++            1. Let _constructor_ be ? Get(_observable_, `"constructor"`).
++            1. If SameValue(_constructor_, _C_) is *true*, return _observable_.
++            1. Let _subscriber_ be a new built-in function object as defined in Observable.from Delegating Functions.
++            1. Set _subscriber_'s [[Observable]] internal slot to _observable_.
++          1. Else,
++            1. Let _iteratorMethod_ be ? GetMethod(_x_, `@@observable`).
++            1. If _iteratorMethod_ is *undefined*, throw a *TypeError* exception.
++            1. Let _subscriber_ be a new built-in function object as defined in Observable.from Iteration Functions.
++            1. Set _subscriber_'s [[Iterable]] internal slot to _x_.
++            1. Set _subscriber_'s [[IteratorMethod]] internal slot to _iteratorMethod_.
++          1. Return Construct(_C_, « _subscriber_ »).
++        </emu-alg>
++
++        <emu-clause id="sec-observable.from-delegating-functions">
++          <h1>Observable.from Delegating Functions</h1>
++          <p>An Observable.from delegating function is an anonymous built-in function that has an [[Observable]] internal slot.</p>
++          <p>When an Observable.from delegating function is called with argument _observer_, the following steps are taken:</p>
++          <emu-alg>
++            1. Let _observable_ be the value of the [[Observable]] internal slot of _F_.
++            1. Return Invoke(_observable_, `"subscribe"`, « _observer_ »).
++          </emu-alg>
++          <p>The `length` property of an Observable.from delegating function is `1`.</p>
++        </emu-clause>
++
++        <emu-clause id="sec-observable.from-iteration-functions">
++          <h1>Observable.from Iteration Functions</h1>
++          <p>An Observable.from iteration function is an anonymous built-in function that has [[Iterable]] and [[IteratorFunction]] internal slots.</p>
++          <p>When an Observable.from iteration function is called with argument _observer_, the following steps are taken:</p>
++          <emu-alg>
++            1. Let _iterable_ be the value of the [[Iterable]] internal slot of _F_.
++            1. Let _iteratorMethod_ be the value of the [[IteratorMethod]] internal slot of _F_.
++            1. Let _iterator_ be ? GetIterator(_items_, _iteratorMethod_).
++            1. Let _subscription_ be the value of _observer_'s [[Subscription]] internal slot.
++            1. Repeat,
++              1. Let _next_ be ? IteratorStep(_iterator_).
++              1. If _next_ is *false*, then
++                1. Perform ! Invoke(_observer_, `"complete"`, « »).
++                1. Return *undefined*.
++              1. Let _nextValue_ be ? IteratorValue(_next_).
++              1. Perform ! Invoke(_observer_, `"next"`, « _nextValue_ »).
++              1. If SubscriptionClosed(_subscription_) is *true*, then
++                1. Return ? IteratorClose(_iterator_, *undefined*).
++          </emu-alg>
++          <p>The `length` property of an Observable.from iteration function is `1`.</p>
++        </emu-clause>
++      </emu-clause>
++
++      <emu-clause id="sec-observable.of">
++        <h1>Observable.of ( ..._items_ )</h1>
++        <emu-alg>
++          1. Let _C_ be the *this* value.
++          1. If IsConstructor(C) is *false*, let _C_ be %Observable%.
++          1. Let _subscriber_ be a new built-in function object as defined in Observable.of Subscriber Functions.
++          1. Set _subscriber_'s [[Items]] internal slot to _items_.
++          1. Return Construct(_C_, « _subscriber_ »).
++        </emu-alg>
++
++        <emu-clause id="sec-observable.of-subscriber-functions">
++          <h1>Observable.of Subscriber Functions</h1>
++          <p>An Observable.of subscriber function is an anonymous built-in function that has an [[Items]] internal slot.</p>
++          <p>When an Observable.of subscriber function is called with argument _observer_, the following steps are taken:</p>
++          <emu-alg>
++            1. Let _items_ be the value of the [[Items]] internal slot of _F_.
++            1. Let _subscription_ be the value of _observer_'s [[Subscription]] internal slot.
++            1. For each element _value_ of _items_, do
++              1. Perform ! Invoke(_observer_, `"next"`, « _value_ »).
++              1. If SubscriptionClosed(_subscription_) is *true*, then
++                1. Return *undefined*.
++            1. Perform ! Invoke(_observer_, `"complete"`, « »).
++            1. Return *undefined*.
++          </emu-alg>
++          <p>The `length` property of an Observable.of subscriber function is `1`.</p>
++        </emu-clause>
++      </emu-clause>
++    </emu-clause>
++
++    <emu-clause id="sec-observable-prototype-properties">
++      <h1>Properties of the Observable Prototype Object</h1>
++      <p>The `Observable` prototype object is the intrinsic object %ObservablePrototype%. The value of the [[Prototype]] internal slot of the `Observable` prototype object is the intrinsic object %ObjectPrototype%. The `Observable` prototype object is an ordinary object.</p>
++      <emu-clause id="sec-observable.prototype.subscribe">
++        <h1>Observable.prototype.subscribe ( _observer_ )</h1>
++        <p>The `subscribe` function begins sending values to the supplied _observer_ object by executing the Observable object's subscriber function. It returns a `Subscription` object which may be used to cancel the subscription.</p>
++        <p>The `subscribe` function performs the following steps:</p>
++        <emu-alg>
++          1. Let _O_ be the *this* value.
++          1. If Type(_O_) is not Object, throw a *TypeError* exception.
++          1. If _O_ does not have an [[Subscriber]] internal slot, throw a *TypeError* exception.
++          1. If IsCallable(_observer_) is *true*, then
++            1. Let _len_ be the actual number of arguments passed to this function.
++            1. Let _args_ be the List of arguments passed to this function.
++            1. Let _nextCallback_ be _observer_.
++            1. If _len_ > 1, let _errorCallback_ be _args_[1].
++            1. Else, let _errorCallback_ be *undefined*.
++            1. If _len_ > 2, let _completeCallback_ be _args_[2].
++            1. Else, let _completeCallback_ be *undefined*.
++            1. Let _observer_ be ObjectCreate(%ObjectPrototype%).
++            1. Perform ! CreateDataProperty(_observer_, `"next"`, _nextCallback_).
++            1. Perform ! CreateDataProperty(_observer_, `"error"`, _errorCallback_).
++            1. Perform ! CreateDataProperty(_observer_, `"complete"`, _completeCallback_).
++          1. Else if Type(_observer_) is not Object, Let _observer_ be ObjectCreate(%ObjectPrototype%).
++          1. Let _subscription_ be ? CreateSubscription(_observer_).
++          1. Let _startMethodResult_ be GetMethod(_observer_, `"start"`).
++          1. If _startMethodResult_.[[Type]] is ~normal~, then
++            1. Let _start_ be _startMethodResult_.[[Value]].
++            1. If _start_ is not *undefined*, then
++              1. Let _result_ be Call(_start_, _observer_, « _subscription_ »).
++              1. If _result_ is an abrupt completion, perform HostReportErrors(« _result_.[[Value]] »).
++              1. If SubscriptionClosed(_subscription_) is *true*, then
++                1. Return _subscription_.
++          1. Else if _startMethodResult_.[[Type]] is ~throw~, then perform HostReportErrors(« _startMethodResult_.[[Value]] »).
++          1. If _result_ is an abrupt completion, perform HostReportErrors(« _result_.[[Value]] »).
++          1. Let _subscriptionObserver_ be ? CreateSubscriptionObserver(_subscription_).
++          1. Let _subscriber_ be the value of _O's_ [[Subscriber]] internal slot.
++          1. Assert: IsCallable(_subscriber_) is *true*.
++          1. Let _subscriberResult_ be ExecuteSubscriber(_subscriber_, _subscriptionObserver_).
++          1. If _subscriberResult_ is an abrupt completion, then
++            1. Perform ! Invoke(_subscriptionObserver_, `"error"`, « _subscriberResult_.[[value]] »).
++          1. Else,
++            1. Set the [[Cleanup]] internal slot of _subscription_ to _subscriberResult_.[[value]].
++          1. If SubscriptionClosed(_subscription_) is *true*, then
++            1. Perform ! CleanupSubscription(_subscription_).
++          1. Return _subscription_.
++        </emu-alg>
++
++        <emu-clause id="sec-observable-execute-subscriber" aoid="ExecuteSubscriber">
++          <h1>ExecuteSubscriber ( _subscriber_, _observer_ )</h1>
++          <p>The abstract operation ExecuteSubscriber with arguments _subscriber_ and _observer_ performs the following steps:</p>
++          <emu-alg>
++            1. Assert: IsCallable(_subscriber_) is *true*.
++            1. Assert: Type(_observer_) is Object.
++            1. Let _subscriberResult_ be ? Call(_subscriber_, *undefined*, _observer_).
++            1. If _subscriberResult_ is *null* or *undefined*, return *undefined*.
++            1. If IsCallable(_subscriberResult_) is *true*, return _subscriberResult_.
++            1. Let _result_ be ? GetMethod(_subscriberResult_, `"unsubscribe"`).
++            1. If _result_ is *undefined*, throw a *TypeError* exception.
++            1. Let _cleanupFunction_ be a new built-in function object as defined in Subscription Cleanup Functions.
++            1. Set _cleanupFunction_'s [[Subscription]] internal slot to _subscriberResult_.
++            1. Return _cleanupFunction_.
++          </emu-alg>
++        </emu-clause>
++
++        <emu-clause id="sec-observable-subscription-cleanup-functions">
++          <h1>Subscription Cleanup Functions</h1>
++          <p>A subscription cleanup function is an anonymous built-in function that has a [[Subscription]] internal slot.</p>
++          <p>When a subscription cleanup function _F_ is called the following steps are taken:</p>
++          <emu-alg>
++            1. Assert: _F_ as a [[Subscription]] internal slot whose value is an Object.
++            1. Let _subscription_ be the value of _F_'s [[Subscription]] internal slot.
++            1. Return Invoke(_subscription_, `"unsubscribe"`, « »).
++          </emu-alg>
++          <p>The `length` property of a subscription cleanup function is `0`.</p>
++        </emu-clause>
++      </emu-clause>
++
++      <emu-clause id="sec-observable.prototype.constructor">
++        <h1>Observable.prototype.constructor</h1>
++        <p>The initial value of `Observable.prototype.constructor` is the intrinsic object %Observable%.</p>
++      </emu-clause>
++
++      <emu-clause id="sec-observable.prototype.@@observable">
++        <h1>Observable.prototype [ @@observable ] ( )</h1>
++        <p>The following steps are taken:</p>
++        <emu-alg>
++          1. Return the *this* value.
++        </emu-alg>
++        <p>The value of the `name` property of this function is `"[Symbol.observable]"`.</p>
++      </emu-clause>
++    </emu-clause>
++
++    <emu-clause id="sec-subscription-objects">
++      <h1>Subscription Objects</h1>
++      <p>A Subscription is an object which represents a channel through which an Observable may send data to an Observer.</p>
++      <emu-clause id="subscription-abstract-operations">
++        <h1>Subscription Abstract Operations</h1>
++        <emu-clause id="create-subscription" aoid="CreateSubscription">
++          <h1>CreateSubscription ( _observer_ )</h1>
++          <p>The abstract operation CreateSubscription with argument _observer_ is used to create a Subscription object. It performs the following steps:</p>
++          <emu-alg>
++            1. Assert: Type(_observer_) is Object.
++            1. Let _subscription_ be ObjectCreate(%SubscriptionPrototype%, « [[Observer]], [[Cleanup]] »).
++            1. Set _subscription_'s [[Observer]] internal slot to _observer_.
++            1. Set _subscription_'s [[Cleanup]] internal slot to *undefined*.
++            1. Return _subscription_.
++          </emu-alg>
++        </emu-clause>
++
++        <emu-clause id="cleanup-subscription" aoid="CleanupSubscription">
++          <h1>CleanupSubscription ( _subscription_ )</h1>
++          <p>The abstract operation CleanupSubscription with argument _subscription_ performs the following steps:</p>
++          <emu-alg>
++            1. Assert: _subscription_ is a Subscription object.
++            1. Let _cleanup_ be the value of _subscription_'s [[Cleanup]] internal slot.
++            1. If _cleanup_ is *undefined*, return *undefined*.
++            1. Assert: IsCallable(_cleanup_) is *true*.
++            1. Set _subscription_'s [[Cleanup]] internal slot to *undefined*.
++            1. Let _result_ be Call(_cleanup_, *undefined*, « »).
++            1. If _result_ is an abrupt completion, perform HostReportErrors(« _result_.[[Value]] »).
++            1. Return *undefined*.
++          </emu-alg>
++        </emu-clause>
++
++        <emu-clause id="subscription-closed" aoid="SubscriptionClosed">
++          <h1>SubscriptionClosed ( _subscription_ )</h1>
++          <p>The abstract operation SubscriptionClosed with argument _subscription_ performs the following steps:</p>
++          <emu-alg>
++            1. Assert: _subscription_ is a Subscription object.
++            1. If the value of _subscription_'s [[Observer]] internal slot is *undefined*, return *true*.
++            1. Else, return *false*.
++          </emu-alg>
++        </emu-clause>
++      </emu-clause>
++
++      <emu-clause id="subscription-prototype-object">
++        <h1>The %SubscriptionPrototype% Object</h1>
++        <p>All Subscription objects inherit properties from the %SubscriptionPrototype% intrinsic object. The %SubscriptionPrototype% object is an ordinary object and its [[Prototype]] internal slot is the %ObjectPrototype% intrinsic object. In addition, %SubscriptionPrototype% has the following properties:</p>
++
++        <emu-clause id="subscription-prototype-closed">
++          <h1>get %SubscriptionPrototype%.closed</h1>
++          <emu-alg>
++            1. Let _subscription_ be the *this* value.
++            1. If Type(_subscription_) is not Object, throw a *TypeError* exception.
++            1. If _subscription_ does not have all of the internal slots of a Subscription instance, throw a *TypeError* exception.
++            1. Return ! SubscriptionClosed(_subscription_).
++          </emu-alg>
++        </emu-clause>
++
++        <emu-clause id="subscription-prototype-unsubscribe">
++          <h1>%SubscriptionPrototype%.unsubscribe ( )</h1>
++          <emu-alg>
++            1. Let _subscription_ be the *this* value.
++            1. If Type(_subscription_) is not Object, throw a *TypeError* exception.
++            1. If _subscription_ does not have all of the internal slots of a Subscription instance, throw a *TypeError* exception.
++            1. If SubscriptionClosed(_subscription_) is *true*, return *undefined*.
++            1. Set _subscription_'s [[Observer]] internal slot to *undefined*.
++            1. Return CleanupSubscription(_subscription_).
++          </emu-alg>
++        </emu-clause>
++      </emu-clause>
++    </emu-clause>
++
++    <emu-clause id="subscription-observer-objects">
++      <h1>Subscription Observer Objects</h1>
++      <p>A Subscription Observer is an object which wraps the _observer_ argument supplied to the `subscribe` method of Observable objects. Subscription Observer objects are passed as the single parameter to an observable's _subscriber_ function. They enforce the following guarantees:</p>
++      <ul>
++        <li>If the observer's `error` method is called, the observer will not be invoked again and the observable's cleanup function will be called.</li>
++        <li>If the observer's `complete` method is called, the observer will not be invoked again and the observable's cleanup function will be called.</li>
++        <li>When the subscription is canceled, the observer will not be invoked again.</li>
++      </ul>
++      <emu-clause id="subscription-observer-abstract-operations">
++        <h1>Subscription Observer Abstract Operations</h1>
++        <emu-clause id="create-subscription-observer" aoid="CreateSubscriptionObserver">
++          <h1>CreateSubscriptionObserver ( _subscription_ )</h1>
++          <p>The abstract operation CreateSubscriptionObserver with argument _observer_ is used to create a normalized observer which can be supplied to an observable's subscriber function. It performs the following steps:</p>
++          <emu-alg>
++            1. Assert: Type(_subscription_) is Object.
++            1. Let _subscriptionObserver_ be ObjectCreate(%SubscriptionObserverPrototype%, « [[Subscription]] »).
++            1. Set _subscriptionObserver_'s [[Subscription]] internal slot to _subscription_.
++            1. Return _subscriptionObserver_.
++          </emu-alg>
++        </emu-clause>
++      </emu-clause>
++
++      <emu-clause id="subscription-observer-prototype-object">
++        <h1>The %SubscriptionObserverPrototype% Object</h1>
++        <p>All Subscription Observer objects inherit properties from the %SubscriptionObserverPrototype% intrinsic object. The %SubscriptionObserverPrototype% object is an ordinary object and its [[Prototype]] internal slot is the %ObjectPrototype% intrinsic object. In addition, %SubscriptionObserverPrototype% has the following properties:</p>
++
++        <emu-clause id="subscription-observer-prototype-closed">
++          <h1>get %SubscriptionObserverPrototype%.closed</h1>
++          <emu-alg>
++            1. Let _O_ be the *this* value.
++            1. If Type(_O_) is not Object, throw a *TypeError* exception.
++            1. If _O_ does not have all of the internal slots of a Subscription Observer instance, throw a *TypeError* exception.
++            1. Let _subscription_ be the value of _O_'s [[Subscription]] internal.
++            1. Return ! SubscriptionClosed(_subscription_).
++          </emu-alg>
++        </emu-clause>
++
++        <emu-clause id="subscription-observer-prototype-next">
++          <h1>%SubscriptionObserverPrototype%.next ( _value_ )</h1>
++          <emu-alg>
++            1. Let _O_ be the *this* value.
++            1. If Type(_O_) is not Object, throw a *TypeError* exception.
++            1. If _O_ does not have all of the internal slots of a Subscription Observer instance, throw a *TypeError* exception.
++            1. Let _subscription_ be the value of _O_'s [[Subscription]] internal slot.
++            1. If SubscriptionClosed(_subscription_) is *true*, return *undefined*.
++            1. Let _observer_ be the value of _subscription_'s [[Observer]] internal slot.
++            1. Assert: Type(_observer_) is Object.
++            1. Let _nextMethodResult_ be GetMethod(_observer_, `"next"`).
++            1. If _nextMethodResult_.[[Type]] is ~normal~, then
++              1. Let _nextMethod_ be _nextMethodResult_.[[Value]].
++              1. If _nextMethod_ is not *undefined*, then
++                1. Let _result_ be Call(_nextMethod_, _observer_, « _value_ »).
++                1. If _result_ is an abrupt completion, perform HostReportErrors(« _result_.[[Value]] »).
++            1. Else if _nextMethodResult_.[[Type]] is ~throw~, then perform HostReportErrors(« _nextMethodResult_.[[Value]] »).
++            1. Return *undefined*.
++          </emu-alg>
++        </emu-clause>
++
++        <emu-clause id="subscription-observer-prototype-error">
++          <h1>%SubscriptionObserverPrototype%.error ( _exception_ )</h1>
++          <emu-alg>
++            1. Let _O_ be the *this* value.
++            1. If Type(_O_) is not Object, throw a *TypeError* exception.
++            1. If _O_ does not have all of the internal slots of a Subscription Observer instance, throw a *TypeError* exception.
++            1. Let _subscription_ be the value of _O_'s [[Subscription]] internal slot.
++            1. If SubscriptionClosed(_subscription_) is *true*, return *undefined*.
++            1. Let _observer_ be the value of _subscription_'s [[Observer]] internal slot.
++            1. Set _subscription_'s [[Observer]] internal slot to *undefined*.
++            1. Assert: Type(_observer_) is Object.
++            1. Let _errorMethodResult_ be GetMethod(_observer_, `"error"`).
++            1. If _errorMethodResult_.[[Type]] is ~normal~, then
++              1. Let _errorMethod_ be _errorMethodResult_.[[Value]].
++              1. If _errorMethod_ is not *undefined*, then
++                1. Let _result_ be Call(_errorMethod_, _observer_, « _exception_ »).
++                1. If _result_ is an abrupt completion, perform HostReportErrors(« _result_.[[Value]] »).
++            1. Else if _errorMethodResult_.[[Type]] is ~throw~, then perform HostReportErrors(« _errorMethodResult_.[[Value]] »).
++            1. Perform ! CleanupSubscription(_subscription_).
++            1. Return *undefined*.
++          </emu-alg>
++        </emu-clause>
++
++        <emu-clause id="subscription-observer-prototype-complete">
++          <h1>%SubscriptionObserverPrototype%.complete ( )</h1>
++          <emu-alg>
++            1. Let _O_ be the *this* value.
++            1. If Type(_O_) is not Object, throw a *TypeError* exception.
++            1. If _O_ does not have all of the internal slots of a Subscription Observer instance, throw a *TypeError* exception.
++            1. Let _subscription_ be the value of _O_'s [[Subscription]] internal slot.
++            1. If SubscriptionClosed(_subscription_) is *true*, return *undefined*.
++            1. Let _observer_ be the value of _subscription_'s [[Observer]] internal slot.
++            1. Set _subscription_'s [[Observer]] internal slot to *undefined*.
++            1. Assert: Type(_observer_) is Object.
++            1. Let _completeMethodResult_ be GetMethod(_observer_, `"complete"`).
++            1. If _completeMethodResult_.[[Type]] is ~normal~, then
++              1. Let _completeMethod_ be _completeMethodResult_.[[Value]].
++              1. If _completeMethod_ is not *undefined*, then
++                1. Let _result_ be Call(_completeMethod_, _observer_).
++                1. If _result_ is an abrupt completion, perform HostReportErrors(« _result_.[[Value]] »).
++            1. Else if _completeMethodResult_.[[Type]] is ~throw~, then perform HostReportErrors(« _completeMethodResult_.[[Value]] »).
++            1. Perform ! CleanupSubscription(_subscription_).
++            1. Return *undefined*.
++          </emu-alg>
++        </emu-clause>
++      </emu-clause>
++    </emu-clause>
++  </emu-clause>
++
+   <emu-clause id="sec-object-objects">
+     <h1>Object Objects</h1>
+ 

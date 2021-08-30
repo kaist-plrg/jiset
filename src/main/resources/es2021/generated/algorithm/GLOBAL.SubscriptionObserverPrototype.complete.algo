@@ -1,0 +1,50 @@
+def [BUILTIN] SubscriptionObserverPrototype.complete() = 0:{
+  0:let O = this
+  1:if (! (= (typeof O) Object)) 1:throw TypeError else 1:{}
+  2:??? "If id:{O} does not have all of the internal slots of a Subscription Observer instance , throw a value:{TypeError} exception ."
+  3:let subscription = O.Subscription
+  4:app __x0__ = (SubscriptionClosed subscription)
+  4:if (= __x0__ true) 4:return undefined else 4:{}
+  5:let observer = subscription.Observer
+  6:subscription.Observer = undefined
+  7:assert (= (typeof observer) Object)
+  8:app __x1__ = (GetMethod observer "complete")
+  8:let completeMethodResult = __x1__
+  9:if (= completeMethodResult.Type ~normal~) 9:{
+    10:let completeMethod = completeMethodResult.Value
+    11:if (! (= completeMethod undefined)) 11:{
+      12:app __x2__ = (Call completeMethod observer)
+      12:let result = __x2__
+      13:app __x3__ = (IsAbruptCompletion result)
+      13:if __x3__ 13:{
+        13:app __x4__ = (HostReportErrors (new [result.Value]))
+        13:__x4__
+      } else 13:{}
+    } else 11:{}
+  } else 9:if (= completeMethodResult.Type ~throw~) 12:{
+    12:app __x5__ = (HostReportErrors (new [completeMethodResult.Value]))
+    12:__x5__
+  } else 9:{}
+  15:app __x6__ = (CleanupSubscription subscription)
+  15:[! __x6__]
+  16:return undefined
+}
+- id: "subscription-observer-prototype-complete"
+- code:
+            1. Let _O_ be the *this* value.
+            1. If Type(_O_) is not Object, throw a *TypeError* exception.
+            1. If _O_ does not have all of the internal slots of a Subscription Observer instance, throw a *TypeError* exception.
+            1. Let _subscription_ be the value of _O_'s [[Subscription]] internal slot.
+            1. If SubscriptionClosed(_subscription_) is *true*, return *undefined*.
+            1. Let _observer_ be the value of _subscription_'s [[Observer]] internal slot.
+            1. Set _subscription_'s [[Observer]] internal slot to *undefined*.
+            1. Assert: Type(_observer_) is Object.
+            1. Let _completeMethodResult_ be GetMethod(_observer_, `"complete"`).
+            1. If _completeMethodResult_.[[Type]] is ~normal~, then
+              1. Let _completeMethod_ be _completeMethodResult_.[[Value]].
+              1. If _completeMethod_ is not *undefined*, then
+                1. Let _result_ be Call(_completeMethod_, _observer_).
+                1. If _result_ is an abrupt completion, perform HostReportErrors(« _result_.[[Value]] »).
+            1. Else if _completeMethodResult_.[[Type]] is ~throw~, then perform HostReportErrors(« _completeMethodResult_.[[Value]] »).
+            1. Perform ! CleanupSubscription(_subscription_).
+            1. Return *undefined*.

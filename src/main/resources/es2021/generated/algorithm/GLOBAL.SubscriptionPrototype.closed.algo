@@ -1,0 +1,13 @@
+def [BUILTIN] SubscriptionPrototype.closed() = 0:{
+  0:let subscription = this
+  1:if (! (= (typeof subscription) Object)) 1:throw TypeError else 1:{}
+  2:??? "If id:{subscription} does not have all of the internal slots of a Subscription instance , throw a value:{TypeError} exception ."
+  3:app __x0__ = (SubscriptionClosed subscription)
+  3:return [! __x0__]
+}
+- id: "subscription-prototype-closed"
+- code:
+            1. Let _subscription_ be the *this* value.
+            1. If Type(_subscription_) is not Object, throw a *TypeError* exception.
+            1. If _subscription_ does not have all of the internal slots of a Subscription instance, throw a *TypeError* exception.
+            1. Return ! SubscriptionClosed(_subscription_).

@@ -1,0 +1,40 @@
+def [BUILTIN] Observable.fromIterationFunctions(observer) = 0:{
+  0:let iterable = F.Iterable
+  1:let iteratorMethod = F.IteratorMethod
+  2:app __x0__ = (GetIterator items iteratorMethod)
+  2:let iterator = [? __x0__]
+  3:let subscription = observer.Subscription
+  4:while true 4:{
+    5:app __x1__ = (IteratorStep iterator)
+    5:let next = [? __x1__]
+    6:if (= next false) 6:{
+      7:app __x2__ = (Invoke observer "complete" (new []))
+      7:[! __x2__]
+      8:return undefined
+    } else 6:{}
+    9:app __x3__ = (IteratorValue next)
+    9:let nextValue = [? __x3__]
+    10:app __x4__ = (Invoke observer "next" (new [nextValue]))
+    10:[! __x4__]
+    11:app __x5__ = (SubscriptionClosed subscription)
+    11:if (= __x5__ true) 11:{
+      12:app __x6__ = (IteratorClose iterator undefined)
+      12:return [? __x6__]
+    } else 11:{}
+  }
+}
+- id: "sec-observable.from-iteration-functions"
+- code:
+            1. Let _iterable_ be the value of the [[Iterable]] internal slot of _F_.
+            1. Let _iteratorMethod_ be the value of the [[IteratorMethod]] internal slot of _F_.
+            1. Let _iterator_ be ? GetIterator(_items_, _iteratorMethod_).
+            1. Let _subscription_ be the value of _observer_'s [[Subscription]] internal slot.
+            1. Repeat,
+              1. Let _next_ be ? IteratorStep(_iterator_).
+              1. If _next_ is *false*, then
+                1. Perform ! Invoke(_observer_, `"complete"`, « »).
+                1. Return *undefined*.
+              1. Let _nextValue_ be ? IteratorValue(_next_).
+              1. Perform ! Invoke(_observer_, `"next"`, « _nextValue_ »).
+              1. If SubscriptionClosed(_subscription_) is *true*, then
+                1. Return ? IteratorClose(_iterator_, *undefined*).

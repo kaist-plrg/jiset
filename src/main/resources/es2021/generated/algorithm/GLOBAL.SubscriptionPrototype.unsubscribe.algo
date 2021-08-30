@@ -1,0 +1,18 @@
+def [BUILTIN] SubscriptionPrototype.unsubscribe() = 0:{
+  0:let subscription = this
+  1:if (! (= (typeof subscription) Object)) 1:throw TypeError else 1:{}
+  2:??? "If id:{subscription} does not have all of the internal slots of a Subscription instance , throw a value:{TypeError} exception ."
+  3:app __x0__ = (SubscriptionClosed subscription)
+  3:if (= __x0__ true) 3:return undefined else 3:{}
+  4:subscription.Observer = undefined
+  5:app __x1__ = (CleanupSubscription subscription)
+  5:return __x1__
+}
+- id: "subscription-prototype-unsubscribe"
+- code:
+            1. Let _subscription_ be the *this* value.
+            1. If Type(_subscription_) is not Object, throw a *TypeError* exception.
+            1. If _subscription_ does not have all of the internal slots of a Subscription instance, throw a *TypeError* exception.
+            1. If SubscriptionClosed(_subscription_) is *true*, return *undefined*.
+            1. Set _subscription_'s [[Observer]] internal slot to *undefined*.
+            1. Return CleanupSubscription(_subscription_).

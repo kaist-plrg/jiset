@@ -1,0 +1,13 @@
+def CreateSubscriptionObserver(subscription) = 0:{
+  0:assert (= (typeof subscription) Object)
+  1:app __x0__ = (ObjectCreate INTRINSICS["%SubscriptionObserverPrototype%"] (new ["Subscription"]))
+  1:let subscriptionObserver = __x0__
+  2:subscriptionObserver.Subscription = subscription
+  3:return subscriptionObserver
+}
+- id: "create-subscription-observer"
+- code:
+            1. Assert: Type(_subscription_) is Object.
+            1. Let _subscriptionObserver_ be ObjectCreate(%SubscriptionObserverPrototype%, « [[Subscription]] »).
+            1. Set _subscriptionObserver_'s [[Subscription]] internal slot to _subscription_.
+            1. Return _subscriptionObserver_.

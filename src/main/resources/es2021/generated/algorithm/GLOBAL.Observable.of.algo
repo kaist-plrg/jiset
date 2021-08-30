@@ -1,0 +1,16 @@
+def [BUILTIN] Observable.of(...items) = 0:{
+  0:let C = this
+  1:app __x0__ = (IsConstructor C)
+  1:if (= __x0__ false) 1:let C = INTRINSICS["%Observable%"] else 1:{}
+  2:let subscriber = (new BuiltinFunctionObject())
+  3:subscriber.Items = items
+  4:app __x1__ = (Construct C (new [subscriber]))
+  4:return __x1__
+}
+- id: "sec-observable.of"
+- code:
+          1. Let _C_ be the *this* value.
+          1. If IsConstructor(C) is *false*, let _C_ be %Observable%.
+          1. Let _subscriber_ be a new built-in function object as defined in Observable.of Subscriber Functions.
+          1. Set _subscriber_'s [[Items]] internal slot to _items_.
+          1. Return Construct(_C_, « _subscriber_ »).

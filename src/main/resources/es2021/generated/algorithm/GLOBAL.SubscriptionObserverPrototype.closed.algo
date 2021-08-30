@@ -1,0 +1,15 @@
+def [BUILTIN] SubscriptionObserverPrototype.closed() = 0:{
+  0:let O = this
+  1:if (! (= (typeof O) Object)) 1:throw TypeError else 1:{}
+  2:??? "If id:{O} does not have all of the internal slots of a Subscription Observer instance , throw a value:{TypeError} exception ."
+  3:??? "Let id:{subscription} be the value of id:{O} ' s [ [ Subscription ] ] internal ."
+  4:app __x0__ = (SubscriptionClosed subscription)
+  4:return [! __x0__]
+}
+- id: "subscription-observer-prototype-closed"
+- code:
+            1. Let _O_ be the *this* value.
+            1. If Type(_O_) is not Object, throw a *TypeError* exception.
+            1. If _O_ does not have all of the internal slots of a Subscription Observer instance, throw a *TypeError* exception.
+            1. Let _subscription_ be the value of _O_'s [[Subscription]] internal.
+            1. Return ! SubscriptionClosed(_subscription_).
