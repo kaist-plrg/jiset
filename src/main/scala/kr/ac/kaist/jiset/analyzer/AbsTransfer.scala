@@ -206,7 +206,13 @@ case class AbsTransfer(sem: AbsSemantics) {
               val obj = st(args.loc.head)
               val name = obj(ASimple(INum(0))).str.head.str
               returnValue = name match {
-                case "boolTop" => AbsValue.bool
+                case "Number" => AbsValue.num
+                case "Integer" => AbsValue.int
+                case "BigInt" => AbsValue.bigint
+                case "String" => AbsValue.str
+                case "Boolean" => AbsValue.bool
+                case s"INTERVAL:[$x, $y]" if !optional { x.toInt; y.toInt }.isEmpty =>
+                  AbsValue(num = AbsNum.getInterval(x.toInt, y.toInt))
                 case _ =>
                   warn(s"invalid abstract value: $name")
                   AbsValue.Bot
@@ -593,9 +599,9 @@ case class AbsTransfer(sem: AbsSemantics) {
       case FlatElem(ASimple(x)) =>
         AbsValue(Interp.interp(uop, x))
       case FlatTop => uop match {
-        case ONeg => exploded(s"uop: $uop")
-        case ONot => exploded(s"uop: $uop")
-        case OBNot => exploded(s"uop: $uop")
+        case ONeg => exploded(s"uop: ($uop $operand)")
+        case ONot => AbsValue(bool = !operand.bool)
+        case OBNot => exploded(s"uop: ($uop $operand)")
       }
     }
 
@@ -618,25 +624,25 @@ case class AbsTransfer(sem: AbsSemantics) {
           case _ => AbsValue(l == r)
         }
       case _ => bop match {
-        case OAnd => exploded(s"bop: $bop")
-        case OBAnd => exploded(s"bop: $bop")
-        case OBOr => exploded(s"bop: $bop")
-        case OBXOr => exploded(s"bop: $bop")
-        case ODiv => exploded(s"bop: $bop")
+        case OAnd => AbsValue(bool = left.bool || right.bool)
+        case OBAnd => exploded(s"bop: ($bop $left $right)")
+        case OBOr => exploded(s"bop: ($bop $left $right)")
+        case OBXOr => exploded(s"bop: ($bop $left $right)")
+        case ODiv => exploded(s"bop: ($bop $left $right)")
         case OEq => AbsValue(bool = left =^= right)
-        case OEqual => exploded(s"bop: $bop")
-        case OLShift => exploded(s"bop: $bop")
-        case OLt => exploded(s"bop: $bop")
-        case OMod => exploded(s"bop: $bop")
-        case OMul => exploded(s"bop: $bop")
-        case OOr => exploded(s"bop: $bop")
-        case OPlus => exploded(s"bop: $bop")
-        case OPow => exploded(s"bop: $bop")
-        case OSRShift => exploded(s"bop: $bop")
-        case OSub => exploded(s"bop: $bop")
-        case OUMod => exploded(s"bop: $bop")
-        case OURShift => exploded(s"bop: $bop")
-        case OXor => exploded(s"bop: $bop")
+        case OEqual => exploded(s"bop: ($bop $left $right)")
+        case OLShift => exploded(s"bop: ($bop $left $right)")
+        case OLt => exploded(s"bop: ($bop $left $right)")
+        case OMod => exploded(s"bop: ($bop $left $right)")
+        case OMul => exploded(s"bop: ($bop $left $right)")
+        case OOr => AbsValue(bool = left.bool || right.bool)
+        case OPlus => exploded(s"bop: ($bop $left $right)")
+        case OPow => exploded(s"bop: ($bop $left $right)")
+        case OSRShift => exploded(s"bop: ($bop $left $right)")
+        case OSub => exploded(s"bop: ($bop $left $right)")
+        case OUMod => exploded(s"bop: ($bop $left $right)")
+        case OURShift => exploded(s"bop: ($bop $left $right)")
+        case OXor => exploded(s"bop: ($bop $left $right)")
       }
     }
 

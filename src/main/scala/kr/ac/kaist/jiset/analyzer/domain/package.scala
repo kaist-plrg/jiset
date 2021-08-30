@@ -75,7 +75,7 @@ package object domain {
   type AbsAST = AbsAST.Elem
 
   // abstract floating-point number values
-  val AbsNum = FlatDomain[Num]("num")
+  val AbsNum = FlatNum
   type AbsNum = AbsNum.Elem
 
   // abstract integers
