@@ -146,6 +146,7 @@ object BasicObj extends Domain {
         val map = (l.map.keys ++ rmap.keys).toList.map(x => x -> (this(x) ⊔ that(x))).toMap
         KeyWiseMap(rty, map)
       }
+      case (KeyWiseMap(lty, _), r: PropMapElem) if lty == r.ty => that ⊔ this
       case (OrderedMap(lty, lmap, lprops), OrderedMap(rty, rmap, rprops)) if lty == rty => {
         val map = (lmap.keySet ++ rmap.keySet).toList.map(x => {
           x -> this(x) ⊔ that(x)

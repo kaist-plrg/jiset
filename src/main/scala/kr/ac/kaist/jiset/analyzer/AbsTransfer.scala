@@ -624,7 +624,7 @@ case class AbsTransfer(sem: AbsSemantics) {
           case _ => AbsValue(l == r)
         }
       case _ => bop match {
-        case OAnd => AbsValue(bool = left.bool || right.bool)
+        case OAnd => AbsValue(bool = left.bool && right.bool)
         case OBAnd => exploded(s"bop: ($bop $left $right)")
         case OBOr => exploded(s"bop: ($bop $left $right)")
         case OBXOr => exploded(s"bop: ($bop $left $right)")
