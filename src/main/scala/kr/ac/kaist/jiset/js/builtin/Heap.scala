@@ -81,7 +81,8 @@ object Heap {
         "Atomics" -> DataProperty(NamedAddr("GLOBAL.Atomics"), T, F, T),
         "JSON" -> DataProperty(NamedAddr("GLOBAL.JSON"), T, F, T),
         "Math" -> DataProperty(NamedAddr("GLOBAL.Math"), T, F, T),
-        "Reflect" -> DataProperty(NamedAddr("GLOBAL.Reflect"), T, F, T)
+        "Reflect" -> DataProperty(NamedAddr("GLOBAL.Reflect"), T, F, T),
+        "Observable" -> DataProperty(NamedAddr("GLOBAL.Observable"), T, F, T)
       )
     ),
     "GLOBAL.print" -> Struct(
@@ -853,6 +854,41 @@ object Heap {
       typeName = "OrdinaryObject",
       imap = IMap(
         "Prototype" -> NamedAddr("GLOBAL.IteratorPrototype"),
+      ),
+      nmap = NMap()
+    ),
+    "GLOBAL.Observable" -> Struct(
+      typeName = "BuiltinFunctionObject",
+      imap = IMap(
+        "Extensible" -> Bool(true),
+        "Prototype" -> NamedAddr("GLOBAL.Observable.prototype"),
+        "Construct" -> Func(algoMap("BuiltinFunctionObject.Construct")),
+      ),
+      nmap = NMap(
+        "prototype" -> DataProperty(NamedAddr("GLOBAL.Observable.prototype"), F, F, F),
+      ),
+    ),
+    "GLOBAL.Observable.prototype" -> Struct(
+      typeName = "ImmutablePrototypeExoticObject",
+      imap = IMap(
+        "Extensible" -> Bool(true),
+        "Prototype" -> Null,
+      ),
+      nmap = NMap(
+        "constructor" -> DataProperty(NamedAddr("GLOBAL.Observable"), T, F, T)
+      )
+    ),
+    "GLOBAL.SubscriptionPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.ObjectPrototype"),
+      ),
+      nmap = NMap()
+    ),
+    "GLOBAL.SubscriptionObserverPrototype" -> Struct(
+      typeName = "OrdinaryObject",
+      imap = IMap(
+        "Prototype" -> NamedAddr("GLOBAL.ObjectPrototype"),
       ),
       nmap = NMap()
     ),

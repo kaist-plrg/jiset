@@ -2,15 +2,15 @@ def [BUILTIN] Observable(subscriber) = 0:{
   0:if (= NewTarget undefined) 0:throw TypeError else 0:{}
   1:app __x0__ = (IsCallable subscriber)
   1:if (= __x0__ false) 1:throw TypeError else 1:{}
-  2:app __x1__ = (OrdinaryCreateFromConstructor NewTarget INTRINSICS["%ObservablePrototype%"] (new ["Subscriber"]))
+  2:app __x1__ = (OrdinaryCreateFromConstructor NewTarget INTRINSICS["%Observable.prototype%"] (new ["Subscriber"]))
   2:let observable = [? __x1__]
-  3:??? "Set id:{observable's} [ [ Subscriber ] ] internal slot to id:{subscriber} ."
+  3:observable.Subscriber = subscriber
   4:return observable
 }
 - id: "sec-observable-value"
 - code:
           1. If NewTarget is *undefined*, throw a *TypeError* exception.
           1. If IsCallable(_subscriber_) is *false*, throw a *TypeError* exception.
-          1. Let _observable_ be ? OrdinaryCreateFromConstructor(NewTarget, %ObservablePrototype%, « [[Subscriber]] »).
-          1. Set _observable's_ [[Subscriber]] internal slot to _subscriber_.
+          1. Let _observable_ be ? OrdinaryCreateFromConstructor(NewTarget, %Observable.prototype%, « [[Subscriber]] »).
+          1. Set _observable_.[[Subscriber]] to _subscriber_.
           1. Return _observable_.

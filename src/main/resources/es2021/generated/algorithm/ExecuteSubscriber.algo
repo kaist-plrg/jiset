@@ -2,7 +2,7 @@ def ExecuteSubscriber(subscriber, observer) = 0:{
   0:app __x0__ = (IsCallable subscriber)
   0:assert (= __x0__ true)
   1:assert (= (typeof observer) Object)
-  2:app __x1__ = (Call subscriber undefined observer)
+  2:app __x1__ = (Call subscriber undefined (new [observer]))
   2:let subscriberResult = [? __x1__]
   3:if (|| (= subscriberResult null) (= subscriberResult undefined)) 3:return undefined else 3:{}
   4:app __x2__ = (IsCallable subscriberResult)
@@ -10,19 +10,27 @@ def ExecuteSubscriber(subscriber, observer) = 0:{
   5:app __x3__ = (GetMethod subscriberResult "unsubscribe")
   5:let result = [? __x3__]
   6:if (= result undefined) 6:throw TypeError else 6:{}
-  7:let cleanupFunction = (new BuiltinFunctionObject())
-  8:cleanupFunction.Subscription = subscriberResult
-  9:return cleanupFunction
+  7:clo __x4__ = ()[subscribeResult] => 8:{
+    8:app __x5__ = (Invoke subscribeResult "unsubscribe" (new []))
+    8:return __x5__
+  }
+  7:let cleanupClosure = __x4__
+  9:app __x6__ = (CreateBuiltinFunction cleanupClosure 0i "" (new ["Subscription"]))
+  9:let cleanupFunction = [! __x6__]
+  10:cleanupFunction.Subscription = subscriberResult
+  11:return cleanupFunction
 }
 - id: "sec-observable-execute-subscriber"
 - code:
             1. Assert: IsCallable(_subscriber_) is *true*.
             1. Assert: Type(_observer_) is Object.
-            1. Let _subscriberResult_ be ? Call(_subscriber_, *undefined*, _observer_).
+            1. Let _subscriberResult_ be ? Call(_subscriber_, *undefined*, « _observer_ »).
             1. If _subscriberResult_ is *null* or *undefined*, return *undefined*.
             1. If IsCallable(_subscriberResult_) is *true*, return _subscriberResult_.
             1. Let _result_ be ? GetMethod(_subscriberResult_, `"unsubscribe"`).
             1. If _result_ is *undefined*, throw a *TypeError* exception.
-            1. Let _cleanupFunction_ be a new built-in function object as defined in Subscription Cleanup Functions.
-            1. Set _cleanupFunction_'s [[Subscription]] internal slot to _subscriberResult_.
+            1. Let _cleanupClosure_ be a new Abstract Closure with no parameters that captures _subscribeResult_ and performs the following steps when called:
+              1. Return Invoke(_subscribeResult_, `"unsubscribe"`, « »).
+            1. Let _cleanupFunction_ be ! CreateBuiltinFunction(_cleanupClosure_, *0*, *""*, « [[Subscription]] »).
+            1. Set _cleanupFunction_.[[Subscription]] to _subscriberResult_.
             1. Return _cleanupFunction_.
