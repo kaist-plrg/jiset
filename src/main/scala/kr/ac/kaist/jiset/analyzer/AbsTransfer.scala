@@ -459,12 +459,12 @@ case class AbsTransfer(sem: AbsSemantics) {
           for (AAst(ast) <- b.ast.toList) {
             set += ast.name == name || ast.getKinds.contains(name)
           }
-          for (Str(str) <- b.str.toList) set += str == name
+          // XXX for (Str(str) <- b.str.toList) set += str == name
           for (loc <- b.loc.toList) set += st(loc).getTy < Ty(name)
           val otherV = b.copy(
+            // XXX simple = b.simple.copy(str = AbsStr.Bot),
             ast = AbsAST.Bot,
             loc = AbsLoc.Bot,
-            simple = b.simple.copy(str = AbsStr.Bot),
           )
           if (!otherV.isBottom) set += false
           set

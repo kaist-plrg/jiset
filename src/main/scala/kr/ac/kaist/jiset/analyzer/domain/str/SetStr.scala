@@ -16,6 +16,7 @@ class SetStr(val max: Int) extends SetDomain[Str] with StrDomain {
       case _ => Top
     }
     def plusNum(that: AbsNum): Elem = (elem, that.getSingle) match {
+      case (_, FlatBot) => Bot
       case (Base(lset), FlatElem(Num(r))) => Base(for {
         Str(l) <- lset
       } yield Str(l + Character.toChars(r.toInt).mkString("")))
