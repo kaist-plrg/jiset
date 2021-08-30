@@ -19,7 +19,7 @@ package object analyzer {
   var IR_CALL_DEPTH: Int = 50
 
   // Exploded
-  def exploded(msg: String = "") = throw AnalysisImprecise(msg)
+  def exploded(msg: String = ""): Nothing = throw AnalysisImprecise(msg)
 
   // path type
   type Path = List[NodePoint[Call]]

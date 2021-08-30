@@ -76,7 +76,6 @@ trait SetDomain[A] extends Domain {
       case Base(set) => set
       case Top => totalOpt.getOrElse {
         exploded(s"impossible to concretize the top value of $topName.")
-        Nil
       }
     }).iterator
 
