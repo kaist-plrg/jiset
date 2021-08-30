@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.analyzer.exploded
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
@@ -67,7 +68,7 @@ trait FlatDomain[A] extends Domain {
       case Bot => Nil
       case Base(elem) => List(elem)
       case Top => totalOpt.getOrElse {
-        warn("impossible to concretize the top value.")
+        exploded(s"impossible to concretize the top value of $topName.")
         Nil
       }
     }).iterator

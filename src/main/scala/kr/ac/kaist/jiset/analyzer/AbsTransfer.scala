@@ -13,7 +13,11 @@ import scala.annotation.tailrec
 
 // abstract transfer function
 case class AbsTransfer(sem: AbsSemantics) {
+  // loading monads
   import AbsState.monad._
+
+  // loading operators in abstract domains
+  import AbsStr._
 
   // math value to numeric
   import NumericConverter._
@@ -212,7 +216,7 @@ case class AbsTransfer(sem: AbsSemantics) {
                 case "String" => AbsValue.str
                 case "Boolean" => AbsValue.bool
                 case s"INTERVAL:[$x, $y]" if !optional { x.toInt; y.toInt }.isEmpty =>
-                  AbsValue(num = AbsNum.getInterval(x.toInt, y.toInt))
+                  AbsValue(int = AbsInt.getInterval(x.toInt, y.toInt))
                 case _ =>
                   warn(s"invalid abstract value: $name")
                   AbsValue.Bot
@@ -636,7 +640,19 @@ case class AbsTransfer(sem: AbsSemantics) {
         case OMod => exploded(s"bop: ($bop $left $right)")
         case OMul => exploded(s"bop: ($bop $left $right)")
         case OOr => AbsValue(bool = left.bool || right.bool)
-        case OPlus => exploded(s"bop: ($bop $left $right)")
+        case OPlus => AbsValue(
+          str = (
+            (left.str plus right.str) ⊔
+            (left.str plusNum right.num)
+          ),
+          num = (
+            (left.num plus right.num) ⊔
+            (right.num plusInt left.int) ⊔
+            (left.num plusInt right.int)
+          ),
+          int = left.int plus right.int,
+          bigint = left.bigint plus right.bigint
+        )
         case OPow => exploded(s"bop: ($bop $left $right)")
         case OSRShift => exploded(s"bop: ($bop $left $right)")
         case OSub => exploded(s"bop: ($bop $left $right)")

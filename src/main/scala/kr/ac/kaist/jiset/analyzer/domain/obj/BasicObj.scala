@@ -194,8 +194,7 @@ object BasicObj extends Domain {
 
     // get type
     def getTy: Ty = this match {
-      case Bot =>
-        warn("try to read type of bottom object."); Ty("")
+      case Bot => Ty("")
       case SymbolElem(desc) => Ty("Symbol")
       case m: MapElem => m.ty
       case MergedList(value) => Ty("List")

@@ -79,11 +79,11 @@ package object domain {
   type AbsNum = AbsNum.Elem
 
   // abstract integers
-  val AbsInt = FlatDomain[INum]("int")
+  val AbsInt = FlatInt
   type AbsInt = AbsInt.Elem
 
   // abstract big integers
-  val AbsBigInt = FlatDomain[BigINum]("bigint")
+  val AbsBigInt = FlatBigInt
   type AbsBigInt = AbsBigInt.Elem
 
   // abstract strings

@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.analyzer.domain
 
+import kr.ac.kaist.jiset.analyzer.exploded
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
@@ -74,7 +75,7 @@ trait SetDomain[A] extends Domain {
     final def iterator: Iterator[A] = (this match {
       case Base(set) => set
       case Top => totalOpt.getOrElse {
-        warn("impossible to concretize the top value.")
+        exploded(s"impossible to concretize the top value of $topName.")
         Nil
       }
     }).iterator
