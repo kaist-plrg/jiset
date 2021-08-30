@@ -5,21 +5,22 @@ import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
+import scala.annotation.tailrec
 
-object CharIncStr extends StrDomain {
+object PrefixSuffixStr extends StrDomain {
   // elements
   case object Bot extends Elem
   case class Single(str: Str) extends Elem
-  case class CharInc(lower: Set[Char], upper: Set[Char]) extends Elem
-  case object Top extends Elem
+  case class PrefixSuffix(prefix: String, suffix: String) extends Elem
+  lazy val Top = PrefixSuffix("", "")
 
   // appender
   implicit val app: App[Elem] = (app, elem) => app >> (elem match {
     case Bot => "⊥"
-    case Single(elem) => elem.toString
-    case CharInc(lower, upper) =>
-      s"<[${lower.toList.sorted.mkString}], [${upper.toList.sorted.mkString}]>"
     case Top => "str"
+    case Single(elem) => elem.toString
+    case PrefixSuffix(prefix, suffix) =>
+      s"<$prefix*, *$suffix>"
   })
 
   // abstraction functions
@@ -29,31 +30,46 @@ object CharIncStr extends StrDomain {
     case 0 => Bot
     case 1 => Single(elems.head)
     case _ => {
-      val sets = elems.map(_.str.toSet)
-      val lower = sets.reduce(_ intersect _)
-      val upper = sets.reduce(_ ++ _)
-      CharInc(lower, upper)
+      val strs = elems.map(_.str)
+      val prefix = strs.reduce(lcp)
+      val suffix = strs.reduce(lcs)
+      PrefixSuffix(prefix, suffix)
     }
   }
+
+  // the longest common prefix/suffix
+  @tailrec
+  private def aux(
+    l: List[Char],
+    r: List[Char],
+    s: List[Char]
+  ): List[Char] = (l, r) match {
+    case (lhd :: ltl, rhd :: rtl) if lhd == rhd => aux(ltl, rtl, lhd :: s)
+    case _ => s.reverse
+  }
+  def lcp(l: String, r: String): String =
+    aux(l.toList, r.toList, Nil).mkString
+  def lcs(l: String, r: String): String =
+    aux(l.toList.reverse, r.toList.reverse, Nil).reverse.mkString
 
   // elements
   sealed trait Elem extends Iterable[Str] with ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
-      case (Bot, _) | (_, Top) => true
-      case (_, Bot) | (Top, _) => false
-      case (CharInc(llower, lupper), CharInc(rlower, rupper)) =>
-        (rlower subsetOf llower) && (lupper subsetOf rupper)
-      case (l, r) => l.toCharInc ⊑ r.toCharInc
+      case (Bot, _) => true
+      case (_, Bot) => false
+      case (PrefixSuffix(lprefix, lsuffix), PrefixSuffix(rprefix, rsuffix)) =>
+        (lprefix startsWith rprefix) && (lsuffix endsWith rsuffix)
+      case (l, r) => l.toPrefixSuffix ⊑ r.toPrefixSuffix
     }
 
     // join operator
     def ⊔(that: Elem): Elem = (this, that) match {
       case (Bot, _) | (_, Top) => that
       case (_, Bot) | (Top, _) => this
-      case (CharInc(llower, lupper), CharInc(rlower, rupper)) =>
-        CharInc(llower intersect rlower, lupper ++ rupper)
-      case (l, r) => if (l == r) l else l.toCharInc ⊔ r.toCharInc
+      case (PrefixSuffix(lprefix, lsuffix), PrefixSuffix(rprefix, rsuffix)) =>
+        PrefixSuffix(lcp(lprefix, rprefix), lcs(lsuffix, rsuffix))
+      case (l, r) => if (l == r) l else l.toPrefixSuffix ⊔ r.toPrefixSuffix
     }
 
     // meet operator
@@ -62,8 +78,6 @@ object CharIncStr extends StrDomain {
       case (_, Bot) | (Top, _) => that
       case (l, r) if l ⊑ r => l
       case (l, r) if r ⊑ l => r
-      case (CharInc(llower, lupper), CharInc(rlower, rupper)) =>
-        CharInc(llower ++ rlower, lupper intersect rupper)
       case _ => Bot
     }
 
@@ -78,16 +92,13 @@ object CharIncStr extends StrDomain {
     def contains(target: Str): Boolean = this match {
       case Bot => false
       case Single(str) => str == target
-      case CharInc(lower, upper) =>
-        val set = target.str.toSet
-        (lower subsetOf set) && (set subsetOf upper)
-      case Top => true
+      case PrefixSuffix(prefix, suffix) =>
+        val str = target.str
+        (str startsWith prefix) && (str endsWith suffix)
     }
 
-    def toCharInc: Elem = this match {
-      case Single(Str(str)) =>
-        val set = str.toSet
-        CharInc(set, set)
+    def toPrefixSuffix: Elem = this match {
+      case Single(Str(str)) => PrefixSuffix(str, str)
       case _ => this
     }
 
@@ -103,20 +114,18 @@ object CharIncStr extends StrDomain {
   implicit class ElemOp(elem: Elem) extends StrOp {
     def plus(that: Elem): Elem = (elem, that) match {
       case (Bot, _) | (_, Bot) => Bot
-      case (Top, _) | (_, Top) => Top
       case (Single(Str(l)), Single(Str(r))) => Single(Str(l + r))
-      case (CharInc(llower, lupper), CharInc(rlower, rupper)) =>
-        CharInc(llower ++ rlower, lupper ++ rupper)
-      case (l, r) => l.toCharInc plus r.toCharInc
+      case (PrefixSuffix(lprefix, _), PrefixSuffix(_, rsuffix)) =>
+        PrefixSuffix(lprefix, rsuffix)
+      case (l, r) => l.toPrefixSuffix plus r.toPrefixSuffix
     }
     def plusNum(that: AbsNum): Elem = (elem, that.getSingle) match {
       case (Bot, _) | (_, FlatBot) => Bot
       case (Top, _) | (_, FlatTop) => Top
       case (Single(Str(l)), FlatElem(Num(r))) =>
         Single(Str(l + Character.toChars(r.toInt).mkString("")))
-      case (CharInc(lower, upper), FlatElem(Num(r))) =>
-        val set = Character.toChars(r.toInt)
-        CharInc(lower ++ set, upper ++ set)
+      case (PrefixSuffix(prefix, suffix), FlatElem(Num(r))) =>
+        PrefixSuffix(prefix, suffix + Character.toChars(r.toInt).mkString(""))
     }
   }
 }

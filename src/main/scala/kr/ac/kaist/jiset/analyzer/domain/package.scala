@@ -89,6 +89,7 @@ package object domain {
   // abstract strings
   val AbsStr = new SetStr(5)
   // val AbsStr = CharIncStr
+  // val AbsStr = PrefixSuffixStr
   type AbsStr = AbsStr.Elem
 
   // abstract booleans
