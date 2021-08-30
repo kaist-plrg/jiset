@@ -87,7 +87,7 @@ package object domain {
   type AbsBigInt = AbsBigInt.Elem
 
   // abstract strings
-  val AbsStr = FlatDomain[Str]("str")
+  val AbsStr = SetDomain[Str]("str", maxSizeOpt = Some(5))
   type AbsStr = AbsStr.Elem
 
   // abstract booleans

@@ -9,6 +9,9 @@ trait SetDomain[A] extends Domain {
   // name of top element
   protected val topName: String
 
+  // max size of set
+  protected val maxSizeOpt: Option[Int]
+
   // total elemetns
   protected val totalOpt: Option[Iterable[A]]
 
@@ -19,7 +22,11 @@ trait SetDomain[A] extends Domain {
 
   // abstraction functions
   def apply(elems: A*): Elem = this(elems)
-  def apply(elems: Iterable[A]): Elem = Base(elems.toSet)
+  def apply(elems: Iterable[A]): Elem = alpha(elems)
+  def alpha(elems: Iterable[A]): Elem = maxSizeOpt match {
+    case Some(max) if elems.size > max => Top
+    case _ => Base(elems.toSet)
+  }
 
   // appender
   implicit val app: App[Elem] = (app, elem) => elem match {
@@ -43,7 +50,7 @@ trait SetDomain[A] extends Domain {
     // join operator
     def ⊔(that: Elem): Elem = (this, that) match {
       case (Top, _) | (_, Top) => Top
-      case (Base(lset), Base(rset)) => Base(lset ++ rset)
+      case (Base(lset), Base(rset)) => alpha(lset ++ rset)
     }
 
     // meet operator
@@ -81,14 +88,15 @@ trait SetDomain[A] extends Domain {
 }
 object SetDomain {
   // constructors
-  def apply[A](topName: String): SetDomain[A] = this(topName, None)
   def apply[A](
     topName: String,
-    totalOpt: Option[Iterable[A]]
+    maxSizeOpt: Option[Int] = None,
+    totalOpt: Option[Iterable[A]] = None
   ): SetDomain[A] = {
-    val (n, t) = (topName, totalOpt)
+    val (n, m, t) = (topName, maxSizeOpt, totalOpt)
     new SetDomain[A] {
       protected val topName: String = n
+      protected val maxSizeOpt: Option[Int] = m
       protected val totalOpt: Option[Iterable[A]] = t
     }
   }
