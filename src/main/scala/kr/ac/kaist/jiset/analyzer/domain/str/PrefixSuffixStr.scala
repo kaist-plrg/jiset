@@ -117,6 +117,10 @@ object PrefixSuffixStr extends StrDomain {
       case (Single(Str(l)), Single(Str(r))) => Single(Str(l + r))
       case (PrefixSuffix(lprefix, _), PrefixSuffix(_, rsuffix)) =>
         PrefixSuffix(lprefix, rsuffix)
+      case (Single(Str(l)), PrefixSuffix(rprefix, rsuffix)) =>
+        PrefixSuffix(l + rprefix, rsuffix)
+      case (PrefixSuffix(lprefix, lsuffix), Single(Str(r))) =>
+        PrefixSuffix(lprefix, lsuffix + r)
       case (l, r) => l.toPrefixSuffix plus r.toPrefixSuffix
     }
     def plusNum(that: AbsNum): Elem = (elem, that.getSingle) match {
