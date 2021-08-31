@@ -71,9 +71,9 @@ case class AbsTransfer(sem: AbsSemantics) {
   ): NodePoint[Node] = {
     val NodePoint(from, view) = fromCp
     val toView = (from, to) match {
-      case (_: LoopCont, _: Loop) => view.loopNext
-      case (_, loop: Loop) => view.loopEnter(loop)
-      case (_: Loop, _) if loopOut => view.loopExit
+      case (_: LoopCont, _: Loop) => sem.loopNext(view)
+      case (_, loop: Loop) => sem.loopEnter(view, loop)
+      case (_: Loop, _) if loopOut => sem.loopExit(view)
       case _ => view
     }
     NodePoint(to, toView)
@@ -96,7 +96,7 @@ case class AbsTransfer(sem: AbsSemantics) {
       val callerSt = sem.callInfo(np)
       val nextNode = cfg.nextOf(call)
       val nextNp = NodePoint(nextNode, nextNode match {
-        case loop: Loop => view.loopEnter(loop)
+        case loop: Loop => sem.loopEnter(view, loop)
         case _ => view
       })
 

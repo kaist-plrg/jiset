@@ -1,12 +1,16 @@
 package kr.ac.kaist.jiset.js
 
 import kr.ac.kaist.jiset.JS_DIR
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.phase._
 import kr.ac.kaist.jiset.util.JvmUseful._
 
 class AnalyzeMiddleTest extends JSTest {
   val name: String = "jsAnalyzeTest"
+
+  // more loop depth
+  LOOP_DEPTH = 50
 
   // registration
   def init: Unit = for (file <- walkTree(JS_DIR)) {
@@ -15,7 +19,7 @@ class AnalyzeMiddleTest extends JSTest {
       val name = removedExt(filename)
       // analyze a JS file
       val jsName = file.toString
-      analyzeTestFile(jsName)
+      analyzeFile(jsName, 1)
     })
   }
   init

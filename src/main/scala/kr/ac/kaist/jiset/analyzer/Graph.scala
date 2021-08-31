@@ -15,13 +15,13 @@ case class Graph(
     (app >> "digraph").wrap((curOpt, depthOpt, pathOpt) match {
       case (Some(cp), _, Some(path)) =>
         val func = cp.func
-        val view = cp.view.entryView
+        val view = sem.getEntryView(cp.view)
         val dot = ViewDotPrinter(view)
         var eid = dot.getId(func.entry)
         dot.addFunc(func, app)
         for (np <- path) {
           val func = np.func
-          val view = np.view.entryView
+          val view = sem.getEntryView(np.view)
           val dot = ViewDotPrinter(view)
           dot.addFunc(func, app)
           dot.addCall(np.node, eid, app)
@@ -29,14 +29,14 @@ case class Graph(
         }
       case (Some(cp), Some(depth), _) =>
         val func = cp.func
-        val view = cp.view.entryView
+        val view = sem.getEntryView(cp.view)
         val dot = ViewDotPrinter(view)
         val rp = ReturnPoint(func, view)
         dot.addFunc(func, app)
         showPrev(rp, dot, depth, app)
       case _ =>
         val funcs: Set[(Function, View)] =
-          sem.npMap.keySet.map(np => (np.func, np.view.entryView))
+          sem.npMap.keySet.map(np => (np.func, sem.getEntryView(np.view)))
         for ((func, view) <- funcs) {
           val dot = ViewDotPrinter(view)
           dot.addFunc(func, app)
@@ -46,7 +46,7 @@ case class Graph(
         for ((ReturnPoint(func, returnView), calls) <- sem.retEdges) {
           val eid = ViewDotPrinter(returnView).getId(func.entry)
           for (callNp @ NodePoint(call, callView) <- calls) {
-            ViewDotPrinter(callView.entryView).addCall(call, eid, app)
+            ViewDotPrinter(sem.getEntryView(callView)).addCall(call, eid, app)
           }
         }
     })
@@ -71,7 +71,7 @@ case class Graph(
       val eid = dot.getId(entry)
       for (callNp @ NodePoint(call, callView) <- sem.getRetEdges(rp)) {
         val func = callNp.func
-        val entryView = callView.entryView
+        val entryView = sem.getEntryView(callView)
         val callRp = ReturnPoint(func, entryView)
         val callDot = ViewDotPrinter(entryView)
         if (!(visited contains callRp)) {

@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.error.AnalysisTimeout
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.js
+import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.{ DEBUG, LINE_SEP }
@@ -18,6 +19,7 @@ case class AbsSemantics(
   var rpMap: Map[ReturnPoint, AbsRet] = Map(),
   var callInfo: Map[NodePoint[Call], AbsState] = Map(),
   var retEdges: Map[ReturnPoint, Set[NodePoint[Call]]] = Map(),
+  var loopOut: Map[View, Set[View]] = Map(),
   timeLimit: Option[Long] = None
 ) {
   // CFG
@@ -127,7 +129,7 @@ case class AbsSemantics(
       case "Call" | "Construct" => true
       case _ => false
     }
-    val calleeView = callerView.doCall(call, isJsCall, astOpt)
+    val calleeView = viewCall(callerView, call, isJsCall, astOpt)
     val np = NodePoint(func.entry, calleeView)
     this += np -> st.doCall
 
@@ -145,10 +147,54 @@ case class AbsSemantics(
     if (!retT.isBottom) worklist += rp
   }
 
+  // call transition
+  def viewCall(
+    callerView: View,
+    call: Call,
+    isJsCall: Boolean,
+    astOpt: Option[AST]
+  ): View = {
+    val View(_, calls, _, _) = callerView
+    val view = callerView.copy(
+      calls = (call :: calls).take(IR_CALL_DEPTH),
+      intraLoopDepth = 0
+    )
+    if (INF_SENS) view
+    else viewJsSens(view, isJsCall, astOpt)
+  }
+
+  // JavaScript sensitivities
+  def viewJsSens(
+    view: View,
+    isJsCall: Boolean,
+    astOpt: Option[AST]
+  ): View = {
+    val View(jsViewOpt, calls, loops, _) = view
+    val (jsCalls, jsLoops) = (view.jsCalls, view.jsLoops)
+    astOpt match {
+      // flow sensitivity
+      case Some(ast) =>
+        val newJsLoops = (loops ++ jsLoops).take(LOOP_DEPTH)
+        View(Some(JSView(ast, jsCalls, newJsLoops)), Nil, Nil, 0)
+
+      // call-site sensitivity
+      case _ if isJsCall => view.copy(jsViewOpt = jsViewOpt.map {
+        case JSView(ast, calls, loops) => JSView(
+          ast,
+          (ast :: calls).take(JS_CALL_DEPTH),
+          loops
+        )
+      })
+
+      // non-JS part
+      case _ => view
+    }
+  }
+
   // update return points
   def doReturn(rp: ReturnPoint, newRet: AbsRet): Unit = {
     val ReturnPoint(func, view) = rp
-    val retRp = ReturnPoint(func, view.entryView)
+    val retRp = ReturnPoint(func, getEntryView(view))
     if (!newRet.value.isBottom) {
       val oldRet = this(retRp)
       if (!oldRet.isBottom && USE_REPL) repl.merged = true
@@ -157,6 +203,41 @@ case class AbsSemantics(
         worklist += retRp
       }
     }
+  }
+
+  // loop transition
+  def loopNext(view: View): View = view.loops match {
+    case LoopCtxt(loop, k) :: rest =>
+      view.copy(loops = LoopCtxt(loop, (k + 1) min LOOP_ITER) :: rest)
+    case _ => view
+  }
+  def loopEnter(view: View, loop: Loop): View = {
+    val loopView = view.copy(
+      loops = (LoopCtxt(loop, 0) :: view.loops).take(LOOP_DEPTH),
+      intraLoopDepth = view.intraLoopDepth + 1,
+    )
+    loopOut += loopView -> (loopOut.getOrElse(loopView, Set()) + view)
+    loopView
+  }
+  def loopBase(view: View): View = view.loops match {
+    case LoopCtxt(loop, k) :: rest =>
+      view.copy(loops = LoopCtxt(loop, 0) :: rest)
+    case _ => view
+  }
+  def loopExit(view: View): View = {
+    val views = loopOut.getOrElse(loopBase(view), Set())
+    views.size match {
+      case 0 => ???
+      case 1 => views.head
+      case _ => exploded("loop is too merged.")
+    }
+  }
+
+  // get entry views of loops
+  @tailrec
+  final def getEntryView(view: View): View = {
+    if (view.intraLoopDepth == 0) view
+    else getEntryView(loopExit(view))
   }
 
   // get views by function name
@@ -195,10 +276,10 @@ case class AbsSemantics(
   def reachable(np: NodePoint[Node]): Boolean =
     !getNps(np).forall(this(_).isBottom)
   def getNps(givenNp: NodePoint[Node]): Set[NodePoint[Node]] = {
-    val entryView = givenNp.view.entryView
+    val entryView = getEntryView(givenNp.view)
     for {
       np <- npMap.keySet
-      if givenNp.node == np.node && entryView == np.view.entryView
+      if givenNp.node == np.node && entryView == getEntryView(np.view)
     } yield np
   }
 }
