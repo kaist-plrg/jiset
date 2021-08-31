@@ -215,8 +215,8 @@ case class AbsTransfer(sem: AbsSemantics) {
                 case "BigInt" => AbsValue.bigint
                 case "String" => AbsValue.str
                 case "Boolean" => AbsValue.bool
-                case s"INTERVAL:[$x, $y]" if !optional { x.toInt; y.toInt }.isEmpty =>
-                  AbsValue(int = AbsInt.getInterval(x.toInt, y.toInt))
+                case s"INTERVAL:[$x, $y]" if !optional { x.toDouble; y.toDouble }.isEmpty =>
+                  AbsValue(num = AbsNum.getInterval(x.toDouble, y.toDouble))
                 case _ =>
                   warn(s"invalid abstract value: $name")
                   AbsValue.Bot
@@ -638,7 +638,15 @@ case class AbsTransfer(sem: AbsSemantics) {
         case OLShift => exploded(s"bop: ($bop $left $right)")
         case OLt => exploded(s"bop: ($bop $left $right)")
         case OMod => exploded(s"bop: ($bop $left $right)")
-        case OMul => exploded(s"bop: ($bop $left $right)")
+        case OMul => AbsValue(
+          num = (
+            (left.num mul right.num) ⊔
+            (right.num mulInt left.int) ⊔
+            (left.num mulInt right.int)
+          ),
+          int = left.int mul right.int,
+          bigint = left.bigint mul right.bigint
+        )
         case OOr => AbsValue(bool = left.bool || right.bool)
         case OPlus => AbsValue(
           str = (

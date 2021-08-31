@@ -75,6 +75,7 @@ package object domain {
   type AbsAST = AbsAST.Elem
 
   // abstract floating-point number values
+  // XXX select: FlatNum | IntervalNum
   val AbsNum = FlatNum
   type AbsNum = AbsNum.Elem
 
@@ -87,9 +88,8 @@ package object domain {
   type AbsBigInt = AbsBigInt.Elem
 
   // abstract strings
+  // XXX select: SetStr(k) | CharIncStr | PrefixSuffixStr
   val AbsStr = new SetStr(5)
-  // val AbsStr = CharIncStr
-  // val AbsStr = PrefixSuffixStr
   type AbsStr = AbsStr.Elem
 
   // abstract booleans

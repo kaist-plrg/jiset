@@ -6,11 +6,13 @@ import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
-object IntervalInt extends IntDomain {
+object IntervalNum extends NumDomain {
+  import Ordering.Double.IeeeOrdering
+
   // elements
   case object Bot extends Elem
-  case class Single(int: INum) extends Elem
-  case class Interval(from: Long, to: Long) extends Elem
+  case class Single(int: Num) extends Elem
+  case class Interval(from: Double, to: Double) extends Elem
   case object Top extends Elem
 
   // appender
@@ -23,26 +25,27 @@ object IntervalInt extends IntDomain {
   })
 
   // get intervals
-  def getInterval(from: Long, to: Long): Elem = {
-    if (from > to) Bot
-    else if (from == to) Single(INum(from))
+  def getInterval(from: Double, to: Double): Elem = {
+    if (from.isNaN || to.isNaN) Top
+    else if (from > to) Bot
+    else if (from == to) Single(Num(from))
     else Interval(from, to)
   }
 
   // abstraction functions
-  def apply(elems: INum*): Elem = this(elems)
-  def apply(elems: Iterable[INum]): Elem = alpha(elems)
-  def alpha(elems: Iterable[INum]): Elem = elems.size match {
+  def apply(elems: Num*): Elem = this(elems)
+  def apply(elems: Iterable[Num]): Elem = alpha(elems)
+  def alpha(elems: Iterable[Num]): Elem = elems.size match {
     case 0 => Bot
     case 1 => Single(elems.head)
     case _ => {
-      val ints = elems.map(_.long)
+      val ints = elems.map(_.double)
       Interval(ints.min, ints.max)
     }
   }
 
   // elements
-  sealed trait Elem extends Iterable[INum] with ElemTrait {
+  sealed trait Elem extends Iterable[Num] with ElemTrait {
     // partial order
     def ⊑(that: Elem): Boolean = (this, that) match {
       case (Bot, _) => true
@@ -71,33 +74,33 @@ object IntervalInt extends IntDomain {
     }
 
     // get single value
-    def getSingle: Flat[INum] = this match {
+    def getSingle: Flat[Num] = this match {
       case Bot => FlatBot
       case Single(int) => FlatElem(int)
       case _ => FlatTop
     }
 
     // contains check
-    def contains(target: INum): Boolean = this match {
+    def contains(target: Num): Boolean = this match {
       case Bot => false
       case Single(int) => int == target
       case Interval(from, to) =>
-        val long = target.long
-        (from <= long) && (long <= to)
+        val double = target.double
+        (from <= double) && (double <= to)
       case _ => true
     }
 
     def toInterval: Elem = this match {
-      case Single(INum(long)) => Interval(long, long)
+      case Single(Num(double)) =>
+        if (double.isNaN) Top else Interval(double, double)
       case _ => this
     }
 
     // iterators
-    final def iterator: Iterator[INum] = (this match {
+    final def iterator: Iterator[Num] = (this match {
       case Bot => Nil
       case Single(int) => List(int)
-      case Interval(from, to) => (from to to).toList.map(INum(_))
-      case Top => exploded(s"cannot iterate: $this")
+      case _ => exploded(s"cannot iterate: $this")
     }).iterator
 
     // normalize
@@ -108,13 +111,26 @@ object IntervalInt extends IntDomain {
   }
 
   // integer operators
-  implicit class ElemOp(elem: Elem) extends IntOp {
-    def plus(that: Elem): Elem = (elem, that) match {
-      case (Bot, _) | (_, Bot) => Bot
-      case (Single(INum(l)), Single(INum(r))) => Single(INum(l + r))
-      case (Interval(lfrom, lto), Interval(rfrom, rto)) =>
-        Interval(lfrom + rfrom, lto + rto)
-      case (l, r) => l.toInterval plus r.toInterval
+  implicit class ElemOp(elem: Elem) extends NumOp {
+    def plus(that: Elem): Elem = aux(_ + _)(elem, that)
+    def mul(that: Elem): Elem = aux(_ * _)(elem, that)
+    private def aux(op: (Double, Double) => Double): (Elem, Elem) => Elem = {
+      def f(left: Elem, right: Elem): Elem = (left, right) match {
+        case (Bot, _) | (_, Bot) => Bot
+        case (Single(Num(l)), Single(Num(r))) => Single(Num(op(l, r)))
+        case (Interval(lfrom, lto), Interval(rfrom, rto)) =>
+          val set = for (x <- Set(lfrom, lto); y <- Set(rfrom, rto)) yield op(x, y)
+          getInterval(set.min, set.max)
+        case (l, r) => f(l.toInterval, r.toInterval)
+      }
+      f
+    }
+    def plusInt(that: AbsInt): Elem = auxInt(_ + _)(elem, that.getSingle)
+    def mulInt(that: AbsInt): Elem = auxInt(_ * _)(elem, that.getSingle)
+    private def auxInt(op: (Double, Long) => Double): (Elem, Flat[INum]) => Elem = {
+      case (Bot, _) | (_, FlatBot) => Bot
+      case (Single(Num(l)), FlatElem(INum(r))) => Single(Num(op(l, r)))
+      case _ => Top
     }
   }
 }

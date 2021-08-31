@@ -7,9 +7,11 @@ object FlatBigInt extends FlatDomain[BigINum] {
   val totalOpt = None
 
   implicit class ElemOp(elem: Elem) {
-    def plus(that: Elem): Elem = (elem, that) match {
+    def plus(that: Elem): Elem = aux(_ + _)(elem, that)
+    def mul(that: Elem): Elem = aux(_ * _)(elem, that)
+    private def aux(op: (BigInt, BigInt) => BigInt): (Elem, Elem) => Elem = {
       case (Bot, _) | (_, Bot) => Bot
-      case (Base(BigINum(l)), Base(BigINum(r))) => Base(BigINum(l + r))
+      case (Base(BigINum(l)), Base(BigINum(r))) => Base(BigINum(op(l, r)))
       case _ => Top
     }
   }
