@@ -71,7 +71,7 @@ package object domain {
   type AbsSimple = AbsSimple.Elem
 
   // abstract AST values
-  val AbsAST = FlatDomain[AAst]("☊")
+  val AbsAST = FlatDomain[AAst]("☊", isExploded = true)
   type AbsAST = AbsAST.Elem
 
   // abstract floating-point number values

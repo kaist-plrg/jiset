@@ -13,17 +13,24 @@ trait FlatDomain[A] extends Domain {
   // total elemetns
   protected val totalOpt: Option[Iterable[A]]
 
+  // explosion for top
+  protected val isExploded: Boolean = false
+
   // elements
   object Bot extends Elem
   object Top extends Elem
   case class Base(elem: A) extends Elem
+  private def top: Top.type = {
+    if (isExploded) exploded(s"Top value is not supported: $topName")
+    Top
+  }
 
   // abstraction functions
   def apply(elems: A*): Elem = this(elems)
   def apply(elems: Iterable[A]): Elem = elems.size match {
     case 0 => Bot
     case 1 => Base(elems.head)
-    case _ => Top
+    case _ => top
   }
 
   // appender
@@ -46,7 +53,7 @@ trait FlatDomain[A] extends Domain {
     def ⊔(that: Elem): Elem = (this, that) match {
       case (Bot, _) | (_, Top) => that
       case (_, Bot) | (Top, _) => this
-      case (Base(l), Base(r)) => if (l == r) this else Top
+      case (Base(l), Base(r)) => if (l == r) this else top
     }
 
     // meet operator
@@ -83,15 +90,16 @@ trait FlatDomain[A] extends Domain {
 }
 object FlatDomain {
   // constructors
-  def apply[A](topName: String): FlatDomain[A] = this(topName, None)
   def apply[A](
     topName: String,
-    totalOpt: Option[Iterable[A]]
+    totalOpt: Option[Iterable[A]] = None,
+    isExploded: Boolean = false
   ): FlatDomain[A] = {
-    val (n, t) = (topName, totalOpt)
+    val (n, t, e) = (topName, totalOpt, isExploded)
     new FlatDomain[A] {
       protected val topName: String = n
       protected val totalOpt: Option[Iterable[A]] = t
+      override protected val isExploded: Boolean = e
     }
   }
 }
