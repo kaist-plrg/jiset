@@ -305,7 +305,7 @@ case class AbsTransfer(sem: AbsSemantics) {
               }
             }
             case (FlatBot, _) | (_, FlatBot) => pure(AbsValue.Bot)
-            case _ => error("impossible to handle generic access of ASTs")
+            case _ => exploded("impossible to handle generic access of ASTs")
           }
           otherV <- get(_(origB, p))
           value = astV ⊔ otherV
