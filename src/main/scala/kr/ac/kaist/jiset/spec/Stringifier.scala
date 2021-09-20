@@ -39,11 +39,12 @@ object Stringifier {
     app >> "  - incomplete: " >> spec.incompletedAlgos.length >> LINE_SEP
     app >> "  - complete: " >> spec.completedAlgos.length >> LINE_SEP
     app >> "  - total: " >> algos.length >> LINE_SEP
+    app >> "* algorithm steps:" >> LINE_SEP
+    app >> "  - incompleted: " >> spec.incompletedAlgos.map(_.todos.length).sum >> LINE_SEP
+    app >> "  - total: " >> spec.totalSteps >> LINE_SEP
     app >> "* intrinsics: " >> intrinsics.size >> LINE_SEP
     app >> "* symbols: " >> symbols.size >> LINE_SEP
     app >> "* aoids: " >> aoids.size >> LINE_SEP
-    val sum = spec.incompletedAlgos.map(_.todos.length).sum
-    app >> "* incompleted steps: " >> sum >> LINE_SEP
   }
 
   // section

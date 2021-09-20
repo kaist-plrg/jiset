@@ -33,6 +33,9 @@ case class ECMAScript(
   lazy val (completedAlgos, incompletedAlgos): (List[Algo], List[Algo]) =
     algos.partition(_.isComplete)
 
+  // number of total steps
+  def totalSteps: Long = algos.map(_.code.size).sum
+
   // get parent of id
   lazy val parentMap: Map[String, String] = {
     var map: Map[String, String] = Map()

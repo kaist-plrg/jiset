@@ -41,21 +41,7 @@ case object CmdHelp extends Command("help", CmdBase >> Help) {
 // extract
 case object CmdExtract extends Command("extract", CmdBase >> Extract) {
   def help = "extracts ECMAScript model from ecma262/spec.html."
-  override def display(spec: ECMAScript): Unit = {
-    val ECMAScript(version, grammar, algos, intrinsics, symbols, aoids, section) = spec
-    println(s"* version: $version")
-    println(s"* grammar:")
-    println(s"  - lexical production: ${grammar.lexProds.length}")
-    println(s"  - non-lexical production: ${grammar.prods.length}")
-    println(s"* algorithms:")
-    println(s"  - incomplete: ${spec.incompletedAlgos.length}")
-    println(s"  - complete: ${spec.completedAlgos.length}")
-    println(s"  - total: ${algos.length}")
-    println(s"* intrinsics: ${intrinsics.size}")
-    println(s"* symbols: ${symbols.size}")
-    println(s"* aoids: ${aoids.size}")
-    println(s"* incompleted steps: ${spec.incompletedAlgos.map(_.todos.length).sum}")
-  }
+  override def display(spec: ECMAScript): Unit = println(spec)
 }
 
 // gen-model
