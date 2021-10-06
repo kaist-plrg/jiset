@@ -68,6 +68,11 @@ case object CmdParse extends Command("parse", CmdBase >> Parse) {
   override def display(script: js.ast.Script): Unit = println(script)
 }
 
+case object CmdPEval extends Command("peval", CmdBase >> IRPEval) {
+  def help = "partial evaluates a JavaScript file using the generated parser."
+  override def display(algo: spec.algorithm.Algo): Unit = println(algo)
+}
+
 // load
 case object CmdLoad extends Command("load", CmdParse >> Load) {
   def help = "loads a JavaScript AST to the initial IR states."

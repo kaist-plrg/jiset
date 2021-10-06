@@ -6,5 +6,9 @@ import kr.ac.kaist.jiset.ir._
 // partial evaluator for IR functions with a given syntactic view
 object PartialEval {
   // TODO
-  def apply(algo: Algo, view: SyntacticView): Algo = ???
+  def apply(view: SyntacticView): Algo = {
+    val (targetAlgo, initialValues) = view.ast.semantics("Evaluation").get
+    // TODO: partial evauation of algo
+    targetAlgo
+  }
 }

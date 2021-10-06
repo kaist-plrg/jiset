@@ -86,6 +86,9 @@ object JISET {
     // JSTAR
     CmdBuildCFG,
     CmdTypeCheck,
+
+    // JEDIT
+    CmdPEval,
   )
   val cmdMap = commands.foldLeft[Map[String, Command[_]]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
@@ -117,6 +120,9 @@ object JISET {
     // JSTAR
     BuildCFG,
     TypeCheck,
+
+    // JEDIT
+    IRPEval,
   )
 
   // global options
