@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait CoverCallExpressionAndAsyncArrowHead extends AST { val kind: String = "CoverCallExpressionAndAsyncArrowHead" }
 
+object AbsCoverCallExpressionAndAsyncArrowHead extends CoverCallExpressionAndAsyncArrowHead with AbsAST
+
 object CoverCallExpressionAndAsyncArrowHead {
   def apply(data: Json): CoverCallExpressionAndAsyncArrowHead = AST(data) match {
     case Some(compressed) => CoverCallExpressionAndAsyncArrowHead(compressed)

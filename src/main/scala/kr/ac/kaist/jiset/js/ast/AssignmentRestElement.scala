@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait AssignmentRestElement extends AST { val kind: String = "AssignmentRestElement" }
 
+object AbsAssignmentRestElement extends AssignmentRestElement with AbsAST
+
 object AssignmentRestElement {
   def apply(data: Json): AssignmentRestElement = AST(data) match {
     case Some(compressed) => AssignmentRestElement(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait AsyncArrowBindingIdentifier extends AST { val kind: String = "AsyncArrowBindingIdentifier" }
 
+object AbsAsyncArrowBindingIdentifier extends AsyncArrowBindingIdentifier with AbsAST
+
 object AsyncArrowBindingIdentifier {
   def apply(data: Json): AsyncArrowBindingIdentifier = AST(data) match {
     case Some(compressed) => AsyncArrowBindingIdentifier(compressed)

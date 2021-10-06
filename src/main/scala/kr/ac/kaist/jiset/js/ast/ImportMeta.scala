@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ImportMeta extends AST { val kind: String = "ImportMeta" }
 
+object AbsImportMeta extends ImportMeta with AbsAST
+
 object ImportMeta {
   def apply(data: Json): ImportMeta = AST(data) match {
     case Some(compressed) => ImportMeta(compressed)

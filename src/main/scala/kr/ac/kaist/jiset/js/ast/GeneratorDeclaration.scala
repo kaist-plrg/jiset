@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait GeneratorDeclaration extends AST { val kind: String = "GeneratorDeclaration" }
 
+object AbsGeneratorDeclaration extends GeneratorDeclaration with AbsAST
+
 object GeneratorDeclaration {
   def apply(data: Json): GeneratorDeclaration = AST(data) match {
     case Some(compressed) => GeneratorDeclaration(compressed)

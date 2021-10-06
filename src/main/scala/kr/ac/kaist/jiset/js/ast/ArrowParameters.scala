@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ArrowParameters extends AST { val kind: String = "ArrowParameters" }
 
+object AbsArrowParameters extends ArrowParameters with AbsAST
+
 object ArrowParameters {
   def apply(data: Json): ArrowParameters = AST(data) match {
     case Some(compressed) => ArrowParameters(compressed)

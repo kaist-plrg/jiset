@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait DefaultClause extends AST { val kind: String = "DefaultClause" }
 
+object AbsDefaultClause extends DefaultClause with AbsAST
+
 object DefaultClause {
   def apply(data: Json): DefaultClause = AST(data) match {
     case Some(compressed) => DefaultClause(compressed)

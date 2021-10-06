@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait Initializer extends AST { val kind: String = "Initializer" }
 
+object AbsInitializer extends Initializer with AbsAST
+
 object Initializer {
   def apply(data: Json): Initializer = AST(data) match {
     case Some(compressed) => Initializer(compressed)

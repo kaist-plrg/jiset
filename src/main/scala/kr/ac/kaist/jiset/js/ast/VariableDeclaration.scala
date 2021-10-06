@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait VariableDeclaration extends AST { val kind: String = "VariableDeclaration" }
 
+object AbsVariableDeclaration extends VariableDeclaration with AbsAST
+
 object VariableDeclaration {
   def apply(data: Json): VariableDeclaration = AST(data) match {
     case Some(compressed) => VariableDeclaration(compressed)

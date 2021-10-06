@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ContinueStatement extends AST { val kind: String = "ContinueStatement" }
 
+object AbsContinueStatement extends ContinueStatement with AbsAST
+
 object ContinueStatement {
   def apply(data: Json): ContinueStatement = AST(data) match {
     case Some(compressed) => ContinueStatement(compressed)

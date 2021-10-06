@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait UniqueFormalParameters extends AST { val kind: String = "UniqueFormalParameters" }
 
+object AbsUniqueFormalParameters extends UniqueFormalParameters with AbsAST
+
 object UniqueFormalParameters {
   def apply(data: Json): UniqueFormalParameters = AST(data) match {
     case Some(compressed) => UniqueFormalParameters(compressed)

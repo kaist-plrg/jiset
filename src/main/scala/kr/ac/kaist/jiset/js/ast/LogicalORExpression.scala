@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait LogicalORExpression extends AST { val kind: String = "LogicalORExpression" }
 
+object AbsLogicalORExpression extends LogicalORExpression with AbsAST
+
 object LogicalORExpression {
   def apply(data: Json): LogicalORExpression = AST(data) match {
     case Some(compressed) => LogicalORExpression(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait Block extends AST { val kind: String = "Block" }
 
+object AbsBlock extends Block with AbsAST
+
 object Block {
   def apply(data: Json): Block = AST(data) match {
     case Some(compressed) => Block(compressed)

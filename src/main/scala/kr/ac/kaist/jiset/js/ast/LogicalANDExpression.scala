@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait LogicalANDExpression extends AST { val kind: String = "LogicalANDExpression" }
 
+object AbsLogicalANDExpression extends LogicalANDExpression with AbsAST
+
 object LogicalANDExpression {
   def apply(data: Json): LogicalANDExpression = AST(data) match {
     case Some(compressed) => LogicalANDExpression(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ForStatement extends AST { val kind: String = "ForStatement" }
 
+object AbsForStatement extends ForStatement with AbsAST
+
 object ForStatement {
   def apply(data: Json): ForStatement = AST(data) match {
     case Some(compressed) => ForStatement(compressed)

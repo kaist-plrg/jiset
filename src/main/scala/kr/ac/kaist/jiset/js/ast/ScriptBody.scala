@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ScriptBody extends AST { val kind: String = "ScriptBody" }
 
+object AbsScriptBody extends ScriptBody with AbsAST
+
 object ScriptBody {
   def apply(data: Json): ScriptBody = AST(data) match {
     case Some(compressed) => ScriptBody(compressed)

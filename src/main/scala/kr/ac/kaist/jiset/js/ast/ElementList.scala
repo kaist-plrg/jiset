@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ElementList extends AST { val kind: String = "ElementList" }
 
+object AbsElementList extends ElementList with AbsAST
+
 object ElementList {
   def apply(data: Json): ElementList = AST(data) match {
     case Some(compressed) => ElementList(compressed)

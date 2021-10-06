@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ImportSpecifier extends AST { val kind: String = "ImportSpecifier" }
 
+object AbsImportSpecifier extends ImportSpecifier with AbsAST
+
 object ImportSpecifier {
   def apply(data: Json): ImportSpecifier = AST(data) match {
     case Some(compressed) => ImportSpecifier(compressed)

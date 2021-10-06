@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait SingleNameBinding extends AST { val kind: String = "SingleNameBinding" }
 
+object AbsSingleNameBinding extends SingleNameBinding with AbsAST
+
 object SingleNameBinding {
   def apply(data: Json): SingleNameBinding = AST(data) match {
     case Some(compressed) => SingleNameBinding(compressed)

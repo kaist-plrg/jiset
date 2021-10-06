@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait TemplateMiddleList extends AST { val kind: String = "TemplateMiddleList" }
 
+object AbsTemplateMiddleList extends TemplateMiddleList with AbsAST
+
 object TemplateMiddleList {
   def apply(data: Json): TemplateMiddleList = AST(data) match {
     case Some(compressed) => TemplateMiddleList(compressed)

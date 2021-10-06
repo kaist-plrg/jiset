@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait PropertyName extends AST { val kind: String = "PropertyName" }
 
+object AbsPropertyName extends PropertyName with AbsAST
+
 object PropertyName {
   def apply(data: Json): PropertyName = AST(data) match {
     case Some(compressed) => PropertyName(compressed)

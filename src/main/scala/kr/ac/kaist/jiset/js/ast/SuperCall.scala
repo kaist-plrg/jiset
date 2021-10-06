@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait SuperCall extends AST { val kind: String = "SuperCall" }
 
+object AbsSuperCall extends SuperCall with AbsAST
+
 object SuperCall {
   def apply(data: Json): SuperCall = AST(data) match {
     case Some(compressed) => SuperCall(compressed)

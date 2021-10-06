@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait AssignmentRestProperty extends AST { val kind: String = "AssignmentRestProperty" }
 
+object AbsAssignmentRestProperty extends AssignmentRestProperty with AbsAST
+
 object AssignmentRestProperty {
   def apply(data: Json): AssignmentRestProperty = AST(data) match {
     case Some(compressed) => AssignmentRestProperty(compressed)

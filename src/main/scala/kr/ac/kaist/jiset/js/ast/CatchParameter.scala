@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait CatchParameter extends AST { val kind: String = "CatchParameter" }
 
+object AbsCatchParameter extends CatchParameter with AbsAST
+
 object CatchParameter {
   def apply(data: Json): CatchParameter = AST(data) match {
     case Some(compressed) => CatchParameter(compressed)

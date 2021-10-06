@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ArrayLiteral extends AST { val kind: String = "ArrayLiteral" }
 
+object AbsArrayLiteral extends ArrayLiteral with AbsAST
+
 object ArrayLiteral {
   def apply(data: Json): ArrayLiteral = AST(data) match {
     case Some(compressed) => ArrayLiteral(compressed)

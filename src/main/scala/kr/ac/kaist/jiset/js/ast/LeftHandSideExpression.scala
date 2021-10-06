@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait LeftHandSideExpression extends AST { val kind: String = "LeftHandSideExpression" }
 
+object AbsLeftHandSideExpression extends LeftHandSideExpression with AbsAST
+
 object LeftHandSideExpression {
   def apply(data: Json): LeftHandSideExpression = AST(data) match {
     case Some(compressed) => LeftHandSideExpression(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ImportCall extends AST { val kind: String = "ImportCall" }
 
+object AbsImportCall extends ImportCall with AbsAST
+
 object ImportCall {
   def apply(data: Json): ImportCall = AST(data) match {
     case Some(compressed) => ImportCall(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait AwaitExpression extends AST { val kind: String = "AwaitExpression" }
 
+object AbsAwaitExpression extends AwaitExpression with AbsAST
+
 object AwaitExpression {
   def apply(data: Json): AwaitExpression = AST(data) match {
     case Some(compressed) => AwaitExpression(compressed)

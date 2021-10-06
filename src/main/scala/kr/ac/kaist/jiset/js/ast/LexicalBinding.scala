@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait LexicalBinding extends AST { val kind: String = "LexicalBinding" }
 
+object AbsLexicalBinding extends LexicalBinding with AbsAST
+
 object LexicalBinding {
   def apply(data: Json): LexicalBinding = AST(data) match {
     case Some(compressed) => LexicalBinding(compressed)

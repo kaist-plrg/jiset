@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait BitwiseORExpression extends AST { val kind: String = "BitwiseORExpression" }
 
+object AbsBitwiseORExpression extends BitwiseORExpression with AbsAST
+
 object BitwiseORExpression {
   def apply(data: Json): BitwiseORExpression = AST(data) match {
     case Some(compressed) => BitwiseORExpression(compressed)

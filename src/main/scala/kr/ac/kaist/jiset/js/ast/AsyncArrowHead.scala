@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait AsyncArrowHead extends AST { val kind: String = "AsyncArrowHead" }
 
+object AbsAsyncArrowHead extends AsyncArrowHead with AbsAST
+
 object AsyncArrowHead {
   def apply(data: Json): AsyncArrowHead = AST(data) match {
     case Some(compressed) => AsyncArrowHead(compressed)

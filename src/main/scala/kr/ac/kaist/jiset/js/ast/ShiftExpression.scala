@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ShiftExpression extends AST { val kind: String = "ShiftExpression" }
 
+object AbsShiftExpression extends ShiftExpression with AbsAST
+
 object ShiftExpression {
   def apply(data: Json): ShiftExpression = AST(data) match {
     case Some(compressed) => ShiftExpression(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait AsyncMethod extends AST { val kind: String = "AsyncMethod" }
 
+object AbsAsyncMethod extends AsyncMethod with AbsAST
+
 object AsyncMethod {
   def apply(data: Json): AsyncMethod = AST(data) match {
     case Some(compressed) => AsyncMethod(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait SubstitutionTemplate extends AST { val kind: String = "SubstitutionTemplate" }
 
+object AbsSubstitutionTemplate extends SubstitutionTemplate with AbsAST
+
 object SubstitutionTemplate {
   def apply(data: Json): SubstitutionTemplate = AST(data) match {
     case Some(compressed) => SubstitutionTemplate(compressed)

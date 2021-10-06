@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ImportedDefaultBinding extends AST { val kind: String = "ImportedDefaultBinding" }
 
+object AbsImportedDefaultBinding extends ImportedDefaultBinding with AbsAST
+
 object ImportedDefaultBinding {
   def apply(data: Json): ImportedDefaultBinding = AST(data) match {
     case Some(compressed) => ImportedDefaultBinding(compressed)

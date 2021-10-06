@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait YieldExpression extends AST { val kind: String = "YieldExpression" }
 
+object AbsYieldExpression extends YieldExpression with AbsAST
+
 object YieldExpression {
   def apply(data: Json): YieldExpression = AST(data) match {
     case Some(compressed) => YieldExpression(compressed)

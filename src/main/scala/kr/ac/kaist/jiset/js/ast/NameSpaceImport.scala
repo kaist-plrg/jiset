@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait NameSpaceImport extends AST { val kind: String = "NameSpaceImport" }
 
+object AbsNameSpaceImport extends NameSpaceImport with AbsAST
+
 object NameSpaceImport {
   def apply(data: Json): NameSpaceImport = AST(data) match {
     case Some(compressed) => NameSpaceImport(compressed)

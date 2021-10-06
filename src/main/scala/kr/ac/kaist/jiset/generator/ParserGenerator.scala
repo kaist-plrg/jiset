@@ -106,6 +106,7 @@ case class ParserGenerator(grammar: Grammar) {
       s"""    val List(${params.mkString(", ")}) = getArgsN("$name", args, ${params.length})""" + LINE_SEP
     }) + s"""    log($llpre("""
     nf.println(s"""  $pre $name: ESParser$post""")
+    nf.println(s"""      log(nt("$name", "#$name") ^^^ Abs$name)("Abs$name") |""")
     nf.print(noLRs.map {
       case (rhs, i) => genParsers(name, rhs.tokens, rhs.condOpt, i, false)
     }.mkString(" |" + LINE_SEP))

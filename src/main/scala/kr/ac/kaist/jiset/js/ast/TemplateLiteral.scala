@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait TemplateLiteral extends AST { val kind: String = "TemplateLiteral" }
 
+object AbsTemplateLiteral extends TemplateLiteral with AbsAST
+
 object TemplateLiteral {
   def apply(data: Json): TemplateLiteral = AST(data) match {
     case Some(compressed) => TemplateLiteral(compressed)

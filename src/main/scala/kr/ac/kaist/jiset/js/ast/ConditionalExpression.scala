@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ConditionalExpression extends AST { val kind: String = "ConditionalExpression" }
 
+object AbsConditionalExpression extends ConditionalExpression with AbsAST
+
 object ConditionalExpression {
   def apply(data: Json): ConditionalExpression = AST(data) match {
     case Some(compressed) => ConditionalExpression(compressed)

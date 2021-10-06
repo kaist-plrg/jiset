@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait FunctionRestParameter extends AST { val kind: String = "FunctionRestParameter" }
 
+object AbsFunctionRestParameter extends FunctionRestParameter with AbsAST
+
 object FunctionRestParameter {
   def apply(data: Json): FunctionRestParameter = AST(data) match {
     case Some(compressed) => FunctionRestParameter(compressed)

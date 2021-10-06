@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait RelationalExpression extends AST { val kind: String = "RelationalExpression" }
 
+object AbsRelationalExpression extends RelationalExpression with AbsAST
+
 object RelationalExpression {
   def apply(data: Json): RelationalExpression = AST(data) match {
     case Some(compressed) => RelationalExpression(compressed)

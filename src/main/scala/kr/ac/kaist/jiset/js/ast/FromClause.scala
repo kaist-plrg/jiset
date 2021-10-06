@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait FromClause extends AST { val kind: String = "FromClause" }
 
+object AbsFromClause extends FromClause with AbsAST
+
 object FromClause {
   def apply(data: Json): FromClause = AST(data) match {
     case Some(compressed) => FromClause(compressed)

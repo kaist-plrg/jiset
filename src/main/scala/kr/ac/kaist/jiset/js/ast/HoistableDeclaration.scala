@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait HoistableDeclaration extends AST { val kind: String = "HoistableDeclaration" }
 
+object AbsHoistableDeclaration extends HoistableDeclaration with AbsAST
+
 object HoistableDeclaration {
   def apply(data: Json): HoistableDeclaration = AST(data) match {
     case Some(compressed) => HoistableDeclaration(compressed)

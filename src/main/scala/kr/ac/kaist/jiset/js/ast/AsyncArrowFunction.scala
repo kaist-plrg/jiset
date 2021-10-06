@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait AsyncArrowFunction extends AST { val kind: String = "AsyncArrowFunction" }
 
+object AbsAsyncArrowFunction extends AsyncArrowFunction with AbsAST
+
 object AsyncArrowFunction {
   def apply(data: Json): AsyncArrowFunction = AST(data) match {
     case Some(compressed) => AsyncArrowFunction(compressed)

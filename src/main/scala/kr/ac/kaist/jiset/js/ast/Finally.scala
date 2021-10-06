@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait Finally extends AST { val kind: String = "Finally" }
 
+object AbsFinally extends Finally with AbsAST
+
 object Finally {
   def apply(data: Json): Finally = AST(data) match {
     case Some(compressed) => Finally(compressed)

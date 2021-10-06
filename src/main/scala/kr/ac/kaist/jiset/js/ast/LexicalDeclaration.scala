@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait LexicalDeclaration extends AST { val kind: String = "LexicalDeclaration" }
 
+object AbsLexicalDeclaration extends LexicalDeclaration with AbsAST
+
 object LexicalDeclaration {
   def apply(data: Json): LexicalDeclaration = AST(data) match {
     case Some(compressed) => LexicalDeclaration(compressed)

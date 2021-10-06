@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait MultiplicativeOperator extends AST { val kind: String = "MultiplicativeOperator" }
 
+object AbsMultiplicativeOperator extends MultiplicativeOperator with AbsAST
+
 object MultiplicativeOperator {
   def apply(data: Json): MultiplicativeOperator = AST(data) match {
     case Some(compressed) => MultiplicativeOperator(compressed)

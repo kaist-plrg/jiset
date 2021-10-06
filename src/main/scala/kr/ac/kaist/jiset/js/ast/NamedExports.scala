@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait NamedExports extends AST { val kind: String = "NamedExports" }
 
+object AbsNamedExports extends NamedExports with AbsAST
+
 object NamedExports {
   def apply(data: Json): NamedExports = AST(data) match {
     case Some(compressed) => NamedExports(compressed)

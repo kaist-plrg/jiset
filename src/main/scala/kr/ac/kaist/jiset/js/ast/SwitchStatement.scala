@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait SwitchStatement extends AST { val kind: String = "SwitchStatement" }
 
+object AbsSwitchStatement extends SwitchStatement with AbsAST
+
 object SwitchStatement {
   def apply(data: Json): SwitchStatement = AST(data) match {
     case Some(compressed) => SwitchStatement(compressed)

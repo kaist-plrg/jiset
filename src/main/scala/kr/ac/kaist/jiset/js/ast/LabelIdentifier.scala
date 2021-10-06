@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait LabelIdentifier extends AST { val kind: String = "LabelIdentifier" }
 
+object AbsLabelIdentifier extends LabelIdentifier with AbsAST
+
 object LabelIdentifier {
   def apply(data: Json): LabelIdentifier = AST(data) match {
     case Some(compressed) => LabelIdentifier(compressed)

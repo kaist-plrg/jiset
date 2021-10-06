@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait SpreadElement extends AST { val kind: String = "SpreadElement" }
 
+object AbsSpreadElement extends SpreadElement with AbsAST
+
 object SpreadElement {
   def apply(data: Json): SpreadElement = AST(data) match {
     case Some(compressed) => SpreadElement(compressed)

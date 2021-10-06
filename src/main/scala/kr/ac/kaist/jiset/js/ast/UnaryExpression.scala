@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait UnaryExpression extends AST { val kind: String = "UnaryExpression" }
 
+object AbsUnaryExpression extends UnaryExpression with AbsAST
+
 object UnaryExpression {
   def apply(data: Json): UnaryExpression = AST(data) match {
     case Some(compressed) => UnaryExpression(compressed)

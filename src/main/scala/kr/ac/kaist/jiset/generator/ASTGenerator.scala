@@ -18,6 +18,7 @@ case class ASTGenerator(grammar: Grammar) {
     val name = lhs.name
     val nf = getPrintWriter(s"$SRC_DIR/js/ast/$name.scala")
     genTrait(nf, name, rhsList)
+    genAbsObj(nf, name)
     genObj(nf, name, rhsList)
     for ((rhs, i) <- rhsList.zipWithIndex) genClass(nf, name, rhs, i)
     nf.close()
@@ -33,6 +34,12 @@ case class ASTGenerator(grammar: Grammar) {
     nf.println(s"""import io.circe._, io.circe.syntax._""")
     nf.println
     nf.println(s"""trait $name extends AST { val kind: String = "$name" }""")
+  }
+
+  // generate abstract object for Lhs
+  private def genAbsObj(nf: PrintWriter, kind: String): Unit = {
+    nf.println
+    nf.println(s"""object Abs$kind extends $kind with AbsAST""")
   }
 
   // generate object for Lhs

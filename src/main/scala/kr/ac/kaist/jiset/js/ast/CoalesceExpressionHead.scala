@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait CoalesceExpressionHead extends AST { val kind: String = "CoalesceExpressionHead" }
 
+object AbsCoalesceExpressionHead extends CoalesceExpressionHead with AbsAST
+
 object CoalesceExpressionHead {
   def apply(data: Json): CoalesceExpressionHead = AST(data) match {
     case Some(compressed) => CoalesceExpressionHead(compressed)

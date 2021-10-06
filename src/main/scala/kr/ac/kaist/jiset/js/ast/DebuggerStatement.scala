@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait DebuggerStatement extends AST { val kind: String = "DebuggerStatement" }
 
+object AbsDebuggerStatement extends DebuggerStatement with AbsAST
+
 object DebuggerStatement {
   def apply(data: Json): DebuggerStatement = AST(data) match {
     case Some(compressed) => DebuggerStatement(compressed)

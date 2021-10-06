@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait PropertyDefinitionList extends AST { val kind: String = "PropertyDefinitionList" }
 
+object AbsPropertyDefinitionList extends PropertyDefinitionList with AbsAST
+
 object PropertyDefinitionList {
   def apply(data: Json): PropertyDefinitionList = AST(data) match {
     case Some(compressed) => PropertyDefinitionList(compressed)

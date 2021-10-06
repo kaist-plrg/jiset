@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait CoverParenthesizedExpressionAndArrowParameterList extends AST { val kind: String = "CoverParenthesizedExpressionAndArrowParameterList" }
 
+object AbsCoverParenthesizedExpressionAndArrowParameterList extends CoverParenthesizedExpressionAndArrowParameterList with AbsAST
+
 object CoverParenthesizedExpressionAndArrowParameterList {
   def apply(data: Json): CoverParenthesizedExpressionAndArrowParameterList = AST(data) match {
     case Some(compressed) => CoverParenthesizedExpressionAndArrowParameterList(compressed)

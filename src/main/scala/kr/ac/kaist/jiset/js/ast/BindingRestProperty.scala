@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait BindingRestProperty extends AST { val kind: String = "BindingRestProperty" }
 
+object AbsBindingRestProperty extends BindingRestProperty with AbsAST
+
 object BindingRestProperty {
   def apply(data: Json): BindingRestProperty = AST(data) match {
     case Some(compressed) => BindingRestProperty(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ForBinding extends AST { val kind: String = "ForBinding" }
 
+object AbsForBinding extends ForBinding with AbsAST
+
 object ForBinding {
   def apply(data: Json): ForBinding = AST(data) match {
     case Some(compressed) => ForBinding(compressed)

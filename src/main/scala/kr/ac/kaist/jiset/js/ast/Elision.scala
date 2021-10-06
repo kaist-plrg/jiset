@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait Elision extends AST { val kind: String = "Elision" }
 
+object AbsElision extends Elision with AbsAST
+
 object Elision {
   def apply(data: Json): Elision = AST(data) match {
     case Some(compressed) => Elision(compressed)

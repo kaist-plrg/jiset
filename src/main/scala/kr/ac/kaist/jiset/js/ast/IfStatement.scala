@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait IfStatement extends AST { val kind: String = "IfStatement" }
 
+object AbsIfStatement extends IfStatement with AbsAST
+
 object IfStatement {
   def apply(data: Json): IfStatement = AST(data) match {
     case Some(compressed) => IfStatement(compressed)

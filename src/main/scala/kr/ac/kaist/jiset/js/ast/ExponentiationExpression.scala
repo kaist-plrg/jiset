@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ExponentiationExpression extends AST { val kind: String = "ExponentiationExpression" }
 
+object AbsExponentiationExpression extends ExponentiationExpression with AbsAST
+
 object ExponentiationExpression {
   def apply(data: Json): ExponentiationExpression = AST(data) match {
     case Some(compressed) => ExponentiationExpression(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait BreakStatement extends AST { val kind: String = "BreakStatement" }
 
+object AbsBreakStatement extends BreakStatement with AbsAST
+
 object BreakStatement {
   def apply(data: Json): BreakStatement = AST(data) match {
     case Some(compressed) => BreakStatement(compressed)

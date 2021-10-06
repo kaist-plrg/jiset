@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait DestructuringAssignmentTarget extends AST { val kind: String = "DestructuringAssignmentTarget" }
 
+object AbsDestructuringAssignmentTarget extends DestructuringAssignmentTarget with AbsAST
+
 object DestructuringAssignmentTarget {
   def apply(data: Json): DestructuringAssignmentTarget = AST(data) match {
     case Some(compressed) => DestructuringAssignmentTarget(compressed)

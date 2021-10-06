@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait IdentifierReference extends AST { val kind: String = "IdentifierReference" }
 
+object AbsIdentifierReference extends IdentifierReference with AbsAST
+
 object IdentifierReference {
   def apply(data: Json): IdentifierReference = AST(data) match {
     case Some(compressed) => IdentifierReference(compressed)

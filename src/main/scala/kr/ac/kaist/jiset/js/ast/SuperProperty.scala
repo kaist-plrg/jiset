@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait SuperProperty extends AST { val kind: String = "SuperProperty" }
 
+object AbsSuperProperty extends SuperProperty with AbsAST
+
 object SuperProperty {
   def apply(data: Json): SuperProperty = AST(data) match {
     case Some(compressed) => SuperProperty(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ObjectBindingPattern extends AST { val kind: String = "ObjectBindingPattern" }
 
+object AbsObjectBindingPattern extends ObjectBindingPattern with AbsAST
+
 object ObjectBindingPattern {
   def apply(data: Json): ObjectBindingPattern = AST(data) match {
     case Some(compressed) => ObjectBindingPattern(compressed)

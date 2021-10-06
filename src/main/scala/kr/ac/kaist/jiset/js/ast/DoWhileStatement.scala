@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait DoWhileStatement extends AST { val kind: String = "DoWhileStatement" }
 
+object AbsDoWhileStatement extends DoWhileStatement with AbsAST
+
 object DoWhileStatement {
   def apply(data: Json): DoWhileStatement = AST(data) match {
     case Some(compressed) => DoWhileStatement(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ClassHeritage extends AST { val kind: String = "ClassHeritage" }
 
+object AbsClassHeritage extends ClassHeritage with AbsAST
+
 object ClassHeritage {
   def apply(data: Json): ClassHeritage = AST(data) match {
     case Some(compressed) => ClassHeritage(compressed)

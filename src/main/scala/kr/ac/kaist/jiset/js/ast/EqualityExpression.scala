@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait EqualityExpression extends AST { val kind: String = "EqualityExpression" }
 
+object AbsEqualityExpression extends EqualityExpression with AbsAST
+
 object EqualityExpression {
   def apply(data: Json): EqualityExpression = AST(data) match {
     case Some(compressed) => EqualityExpression(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait TemplateSpans extends AST { val kind: String = "TemplateSpans" }
 
+object AbsTemplateSpans extends TemplateSpans with AbsAST
+
 object TemplateSpans {
   def apply(data: Json): TemplateSpans = AST(data) match {
     case Some(compressed) => TemplateSpans(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ShortCircuitExpression extends AST { val kind: String = "ShortCircuitExpression" }
 
+object AbsShortCircuitExpression extends ShortCircuitExpression with AbsAST
+
 object ShortCircuitExpression {
   def apply(data: Json): ShortCircuitExpression = AST(data) match {
     case Some(compressed) => ShortCircuitExpression(compressed)

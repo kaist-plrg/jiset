@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ClassBody extends AST { val kind: String = "ClassBody" }
 
+object AbsClassBody extends ClassBody with AbsAST
+
 object ClassBody {
   def apply(data: Json): ClassBody = AST(data) match {
     case Some(compressed) => ClassBody(compressed)

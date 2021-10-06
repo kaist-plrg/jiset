@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait WhileStatement extends AST { val kind: String = "WhileStatement" }
 
+object AbsWhileStatement extends WhileStatement with AbsAST
+
 object WhileStatement {
   def apply(data: Json): WhileStatement = AST(data) match {
     case Some(compressed) => WhileStatement(compressed)

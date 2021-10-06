@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait MetaProperty extends AST { val kind: String = "MetaProperty" }
 
+object AbsMetaProperty extends MetaProperty with AbsAST
+
 object MetaProperty {
   def apply(data: Json): MetaProperty = AST(data) match {
     case Some(compressed) => MetaProperty(compressed)

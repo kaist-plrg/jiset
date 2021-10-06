@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ParenthesizedExpression extends AST { val kind: String = "ParenthesizedExpression" }
 
+object AbsParenthesizedExpression extends ParenthesizedExpression with AbsAST
+
 object ParenthesizedExpression {
   def apply(data: Json): ParenthesizedExpression = AST(data) match {
     case Some(compressed) => ParenthesizedExpression(compressed)

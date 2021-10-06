@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait FunctionExpression extends AST { val kind: String = "FunctionExpression" }
 
+object AbsFunctionExpression extends FunctionExpression with AbsAST
+
 object FunctionExpression {
   def apply(data: Json): FunctionExpression = AST(data) match {
     case Some(compressed) => FunctionExpression(compressed)

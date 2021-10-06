@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait IterationStatement extends AST { val kind: String = "IterationStatement" }
 
+object AbsIterationStatement extends IterationStatement with AbsAST
+
 object IterationStatement {
   def apply(data: Json): IterationStatement = AST(data) match {
     case Some(compressed) => IterationStatement(compressed)

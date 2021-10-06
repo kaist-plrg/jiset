@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait AsyncFunctionBody extends AST { val kind: String = "AsyncFunctionBody" }
 
+object AbsAsyncFunctionBody extends AsyncFunctionBody with AbsAST
+
 object AsyncFunctionBody {
   def apply(data: Json): AsyncFunctionBody = AST(data) match {
     case Some(compressed) => AsyncFunctionBody(compressed)

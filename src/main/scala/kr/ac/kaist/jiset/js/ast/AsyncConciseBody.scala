@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait AsyncConciseBody extends AST { val kind: String = "AsyncConciseBody" }
 
+object AbsAsyncConciseBody extends AsyncConciseBody with AbsAST
+
 object AsyncConciseBody {
   def apply(data: Json): AsyncConciseBody = AST(data) match {
     case Some(compressed) => AsyncConciseBody(compressed)

@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait EmptyStatement extends AST { val kind: String = "EmptyStatement" }
 
+object AbsEmptyStatement extends EmptyStatement with AbsAST
+
 object EmptyStatement {
   def apply(data: Json): EmptyStatement = AST(data) match {
     case Some(compressed) => EmptyStatement(compressed)

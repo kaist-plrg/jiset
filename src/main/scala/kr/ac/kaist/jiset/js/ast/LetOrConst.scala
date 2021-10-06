@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait LetOrConst extends AST { val kind: String = "LetOrConst" }
 
+object AbsLetOrConst extends LetOrConst with AbsAST
+
 object LetOrConst {
   def apply(data: Json): LetOrConst = AST(data) match {
     case Some(compressed) => LetOrConst(compressed)

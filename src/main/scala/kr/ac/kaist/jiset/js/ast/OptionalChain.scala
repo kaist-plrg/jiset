@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait OptionalChain extends AST { val kind: String = "OptionalChain" }
 
+object AbsOptionalChain extends OptionalChain with AbsAST
+
 object OptionalChain {
   def apply(data: Json): OptionalChain = AST(data) match {
     case Some(compressed) => OptionalChain(compressed)

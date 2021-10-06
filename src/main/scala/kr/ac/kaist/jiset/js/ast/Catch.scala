@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait Catch extends AST { val kind: String = "Catch" }
 
+object AbsCatch extends Catch with AbsAST
+
 object Catch {
   def apply(data: Json): Catch = AST(data) match {
     case Some(compressed) => Catch(compressed)

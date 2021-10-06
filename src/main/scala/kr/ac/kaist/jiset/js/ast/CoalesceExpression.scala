@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait CoalesceExpression extends AST { val kind: String = "CoalesceExpression" }
 
+object AbsCoalesceExpression extends CoalesceExpression with AbsAST
+
 object CoalesceExpression {
   def apply(data: Json): CoalesceExpression = AST(data) match {
     case Some(compressed) => CoalesceExpression(compressed)

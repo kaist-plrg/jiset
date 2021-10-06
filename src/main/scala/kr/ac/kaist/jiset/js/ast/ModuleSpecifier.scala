@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait ModuleSpecifier extends AST { val kind: String = "ModuleSpecifier" }
 
+object AbsModuleSpecifier extends ModuleSpecifier with AbsAST
+
 object ModuleSpecifier {
   def apply(data: Json): ModuleSpecifier = AST(data) match {
     case Some(compressed) => ModuleSpecifier(compressed)

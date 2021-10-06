@@ -7,6 +7,8 @@ import io.circe._, io.circe.syntax._
 
 trait MethodDefinition extends AST { val kind: String = "MethodDefinition" }
 
+object AbsMethodDefinition extends MethodDefinition with AbsAST
+
 object MethodDefinition {
   def apply(data: Json): MethodDefinition = AST(data) match {
     case Some(compressed) => MethodDefinition(compressed)
