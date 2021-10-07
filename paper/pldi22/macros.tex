@@ -1,0 +1,70 @@
+% load packages
+\usepackage{float}
+\usepackage{amsmath,amsfonts}
+\usepackage[ruled, vlined]{algorithm2e}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{galois}
+\usepackage{mathpartir}
+\usepackage{bussproofs}
+\usepackage{mathtools}
+\usepackage{colortbl}
+\usepackage{hhline}
+\usepackage{stmaryrd}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+% basic
+\newcommand{\inred}[1]{{\color{red}{#1}}}
+\newcommand{\todo}{\inred{TODO}}
+\newcommand{\name}[1]{\textsf{#1}}
+\newcommand{\sname}[1]{\name{\small #1}}
+\newcommand{\stextbf}[1]{\textbf{\small #1}}
+\definecolor{dkgreen}{rgb}{0,0.5,0}
+
+% tools
+\newcommand{\tool}{\sname{JEDIT}}
+\newcommand{\bigtool}{\name{JEDIT}}
+
+% JavaScript code style
+\lstdefinelanguage{JavaScript}{
+  keywords={async, await, break, case, catch, class, const, continue, debugger,
+    default, delete, do, else, enum, export, extends, false, finally, for,
+    function, if, import, in, of, instanceof, new, null, return, super, switch, this,
+    throw, true, try, typeof, let, var, void, while, with, yield},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  numberstyle=\tiny\color{darkgray},
+  numbers=none,
+  numbersep=5pt,
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]",
+  morestring=[b]`
+}
+\lstdefinestyle{JS}{
+  language=JavaScript,
+  extendedchars=true,
+  basicstyle=\footnotesize\ttfamily,
+  showstringspaces=false,
+  showspaces=false,
+  tabsize=2,
+  breaklines=true,
+  showtabs=false,
+  captionpos=b
+}
+
+% codes
+\newcommand{\code}[1]{\text{\lstinline[style=JS]!#1!}} 
