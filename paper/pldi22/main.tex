@@ -1,27 +1,67 @@
+%% For double-blind review submission, w/o CCS and ACM Reference (max submission space)
 \documentclass[sigplan,10pt,review,anonymous]{acmart}
 \settopmatter{printfolios=true,printccs=false,printacmref=false}
+%% For double-blind review submission, w/ CCS and ACM Reference
+%\documentclass[sigplan,review,anonymous]{acmart}\settopmatter{printfolios=true}
+%% For single-blind review submission, w/o CCS and ACM Reference (max submission space)
+%\documentclass[sigplan,review]{acmart}\settopmatter{printfolios=true,printccs=false,printacmref=false}
+%% For single-blind review submission, w/ CCS and ACM Reference
+%\documentclass[sigplan,review]{acmart}\settopmatter{printfolios=true}
+%% For final camera-ready submission, w/ required CCS and ACM Reference
+%\documentclass[sigplan]{acmart}\settopmatter{}
 
+
+%% Conference information
+%% Supplied to authors by publisher for camera-ready submission;
+%% use defaults for review submission.
+\acmConference[PL'18]{ACM SIGPLAN Conference on Programming Languages}{January 01--03, 2018}{New York, NY, USA}
+\acmYear{2018}
+\acmISBN{} % \acmISBN{978-x-xxxx-xxxx-x/YY/MM}
+\acmDOI{} % \acmDOI{10.1145/nnnnnnn.nnnnnnn}
+\startPage{1}
+
+%% Copyright information
+%% Supplied to authors (based on authors' rights management selection;
+%% see authors.acm.org) by publisher for camera-ready submission;
+%% use 'none' for review submission.
+\setcopyright{none}
+%\setcopyright{acmcopyright}
+%\setcopyright{acmlicensed}
+%\setcopyright{rightsretained}
+%\copyrightyear{2018}           %% If different from \acmYear
+
+%% Bibliography style
+\bibliographystyle{ACM-Reference-Format}
+%% Citation style
+%\citestyle{acmauthoryear}  %% For author/year citations
+%\citestyle{acmnumeric}     %% For numeric citations
+%\setcitestyle{nosort}      %% With 'acmnumeric', to disable automatic
+                            %% sorting of references within a single citation;
+                            %% e.g., \cite{Smith99,Carpenter05,Baker12}
+                            %% rendered as [14,5,2] rather than [2,5,14].
+%\setcitesyle{nocompress}   %% With 'acmnumeric', to disable automatic
+                            %% compression of sequential references within a
+                            %% single citation;
+                            %% e.g., \cite{Baker12,Baker14,Baker16}
+                            %% rendered as [2,3,4] rather than [2-4].
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Note: Authors migrating a paper from traditional SIGPLAN
+%% proceedings format to PACMPL format must update the
+%% '\documentclass' and topmatter commands above; see
+%% 'acmart-pacmpl-template.tex'.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% macros with packages
 \input{macros}
 
-% TODO in camera-ready submission
-% \acmConference[PL'18]{ACM SIGPLAN Conference on Programming Languages}{January 01--03, 2018}{New York, NY, USA}
-% \acmYear{2018}
-% \acmISBN{}
-% \acmDOI{}
-% \startPage{1}
-
-% TODO in camera-ready submission
-% \setcopyright{acmcopyright}
-
-\bibliographystyle{ACM-Reference-Format}
-
+%% start document
 \begin{document}
 
+%% Title information
 \title[$\bigtool$: Live Language Design for JavaScript with Syntactic Views]
 {$\bigtool$: Live Language Design for JavaScript \\ with Syntactic Views}
-
-% \title[Language Design Assistant for JavaScript with Automatic Test Construction]
-% {Language Design Assistant for JavaScript \\ with Automatic Test Construction}
 
 \author{Jihyeok Park}
 \orcid{0000-0001-8387-1984}
@@ -34,7 +74,7 @@
 \email{jhpark0223@kaist.ac.kr}
 
 \author{Seungmin An}
-\orcid{0000-0001-8387-1984}
+\orcid{0000-0002-4281-9386}
 \affiliation{
   \department{School of Computing}
   \institution{KAIST}
@@ -42,6 +82,26 @@
   \country{South Korea}
 }
 \email{h2oche@kaist.ac.kr}
+
+\author{Jihee Park}
+\orcid{0000-0001-6792-5161}
+\affiliation{
+  \department{School of Computing}
+  \institution{KAIST}
+  \city{Daejeon}
+  \country{South Korea}
+}
+\email{jiheepark@kaist.ac.kr}
+
+\author{Jaeho Choi}
+\orcid{0000-0003-4117-7200}
+\affiliation{
+  \department{School of Computing}
+  \institution{KAIST}
+  \city{Daejeon}
+  \country{South Korea}
+}
+\email{zero0000@kaist.ac.kr}
 
 \author{Sukyoung Ryu}
 \orcid{0000-0002-0019-9772}
@@ -53,8 +113,11 @@
 }
 \email{sryu.cs@kaist.ac.kr}
 
-\input{abstract}
 
+%% Abstract
+%% Note: \begin{abstract}...\end{abstract} environment must come
+%% before \maketitle command
+\input{abstract}
 
 % TODO in camera-ready
 %% 2012 ACM Computing Classification System (CSS) concepts
@@ -78,10 +141,17 @@
 % \ccsdesc[300]{Social and professional topics~History of programming languages}
 %% End of generated code
 
+%% Keywords
+%% comma separated list
 \keywords{\todo}
 
+%% \maketitle
+%% Note: \maketitle command must come after title commands, author
+%% commands, abstract environment, Computing Classification System
+%% environment and commands, and keywords command.
 \maketitle
 
+%% body of the paper
 \input{intro}
 \input{related}
 \input{conclusion}
@@ -91,6 +161,7 @@
 % \begin{acks}
 % \end{acks}
 
+%% Bibliography
 \bibliography{ref}
 
 \end{document}
