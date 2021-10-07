@@ -1,29 +1,321 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Programming Language Design Assistant
+% ECMAScript and Test262
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@misc{es12,
+  title = {{ECMA-262, 12th edition, ECMAScript \textregistered 2021
+           Language Specification}},
+  year = {2021},
+  url = {https://262.ecma-international.org/12.0/},
+  lastaccessed = {November 19, 2021},
+}
+
+@misc{test262,
+  title = {{Test262: A conformanece test suite for the latest draft of
+           ECMAScript}},
+  year = {2021},
+  url = {https://github.com/tc39/test262},
+  lastaccessed = {November 19, 2021},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% JavaScript Engines
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@misc{v8,
+  title = {{V8: A JavaScript engine developed by Google for Node.js and
+           Chrome}},
+  year = {2021},
+  url = {https://v8.dev/},
+  lastaccessed = {November 19, 2021},
+}
+
+@misc{jscore,
+  title = {{JavaScriptCore: A JavaScript engine developed by Apple for Safari}},
+  year = {2021},
+  url = {https://developer.apple.com/documentation/javascriptcore},
+  lastaccessed = {November 19, 2021},
+}
+
+@misc{chakra,
+  title = {{ChakraCore: A JavaScript engine developed by Microsoft for Internet
+           Explorer}},
+  year = {2021},
+  url = {https://developer.apple.com/documentation/javascriptcore},
+  lastaccessed = {November 19, 2021},
+}
+
+@misc{spidermonkey,
+  title = {{SpiderMonkey: A JavaScript engine developed by Mozilla for
+           Firefox}},
+  year = {2021},
+  url = {https://spidermonkey.dev/},
+  lastaccessed = {November 19, 2021},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% JavaScript Static Analyzer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@inproceedings{safe,
+  title =	{{SAFE: Formal Specification and Implementation of a Scalable
+           Analysis Framework for ECMAScript}},
+  author={Lee, Hongki and Won, Sooncheol and Jin, Joonho and Cho, Junhee and
+          Ryu, Sukyoung},
+  booktitle =	{Proceedings of 19th International Workshop on Foundations of
+               Object-Oriented Languages (FOOL)},
+  year = {2012},
+}
+
+@inproceedings{safe2,
+  title = {{Analysis of JavaScript Web Applications Using SAFE 2.0}},
+  author = {Park, Jihyeok and Ryou, Yeonhee and Park, Joonyoung and Ryu,
+            Sukyoung},
+  booktitle = {Proceedings of the 39th IEEE/ACM International Conference on
+               Software Engineering Companion (ICSE-C)},
+  year = {2017},
+  doi = {10.1109/ICSE-C.2017.4},
+}
+
+@inproceedings{tajs,
+  title = {{Type Analysis for JavaScript}},
+  author = {Jensen, Simon Holm and M{\o}ller, Anders and Thiemann, Peter},
+  booktitle = {Proceedings of the 16th International Symposium on Static
+               Analysis (SAS)},
+  year = {2009},
+  doi = {10.1007/978-3-642-03237-0_17},
+}
+
+@inproceedings{jsai,
+  title = {JSAI: A Static Analysis Platform for JavaScript},
+  author = {Kashyap, Vineeth and Dewey, Kyle and Kuefner, Ethan A. and Wagner,
+            John and Gibbons, Kevin and Sarracino, John and Wiedermann, Ben and
+            Hardekopf, Ben},
+  booktitle = {Proceedings of the 22nd ACM SIGSOFT International Symposium on
+               Foundations of Software Engineering (FSE)},
+  year = {2014},
+  doi = {10.1145/2635868.2635904},
+}
+
+@inproceedings{wala,
+  title = {{Dynamic Determinacy Analysis}},
+  author = {Sch{\"a}fer, Max and Sridharan, Manu and Dolby, Julian and Tip, Frank},
+  booktitle = {Proceedings of the 34th annual ACM SIGPLAN conference on
+               Programming Language Design and Implementation (PLDI)},
+  year = {2013},
+  doi = {10.1145/2499370.2462168},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% JavaScript Other Tools
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@inproceedings{jsexplain,
+  title = {{JSExplain: A Double Debugger for JavaScript}},
+  author = {Chargu\'{e}raud, Arthur and Schmitt, Alan and Wood, Thomas},
+  booktitle = {Companion Proceedings of the The Web Conference (WWW)},
+  year = {2018},
+  doi = {10.1145/3184558.3185969},
+}
+
+@inproceedings{javert,
+  title = {{JaVerT: JavaScript Verification Toolchain}},
+  author = {Fragoso Santos, Jos\'{e} and Maksimovi\'{c}, Petar and
+            Naud\v{z}i\={u}nienundefined, Daiva and Wood, Thomas and Gardner,
+            Philippa},
+  booktitle = {Proceedings of the 45th ACM SIGPLAN Symposium on Principles of
+               Programming Languages (POPL)},
+  pages = {1--33},
+  year = {2018},
+  doi = {10.1145/3158138},
+}
+
+@inproceedings{javert2,
+  title = {{JaVerT 2.0: Compositional Symbolic Execution for JavaScript}},
+  author = {Fragoso Santos, Jos\'{e} and Maksimovi\'{c}, Petar and Sampaio,
+            Gabriela and Gardner, Philippa},
+  booktitle = {Proceedings of the 46th ACM SIGPLAN Symposium on Principles of
+               Programming Languages (POPL)},
+  pages = {1--31},
+  year = {2019},
+  doi = {10.1145/3290379},
+}
+
+@inproceedings {ad-safety,
+  title = {{ADsafety: Type-Based Verification of JavaScript Sandboxing}},
+  author = {Joe Gibbs Politz and Spiridon Aristides Eliopoulos and Arjun Guha
+            and Shriram Krishnamurthi},
+  booktitle = {Proceedings of the 20th USENIX Security Symposium},
+  year = {2011},
+  url =
+  {https://www.usenix.org/conference/usenix-security-11/adsafety-type-based-verification-javascript-sandboxing},
+}
+
+@inproceedings{javanni,
+  title = {{Javanni: A verifier for JavaScript}},
+  author = {Nordio, Martin and Calcagno, Cristiano and Furia, Carlo Alberto},
+  booktitle = {Proceedings of International Conference on Fundamental Approaches
+               to Software Engineering (FASE)},
+  pages = {231--234},
+  year = {2013},
+  doi = {10.1007/978-3-642-37057-1_17},
+}
+
+@inproceedings{symbolic-js,
+  title = {{A Symbolic Execution Framework for JavaScript}},
+  author = {Saxena, Prateek and Akhawe, Devdatta and Hanna, Steve and Mao, Feng
+            and McCamant, Stephen and Song, Dawn},
+  booktitle = {Proceedings of the 2010 IEEE Symposium on Security and Privacy
+               (S\&P)},
+  pages = {513--528},
+  year = {2010},
+  doi = {10.1109/SP.2010.38},
+}
+
+@inproceedings{sym-js,
+  title = {{SymJS: Automatic Symbolic Testing of JavaScript Web Applications}},
+  author = {Li, Guodong and Andreasen, Esben and Ghosh, Indradeep},
+  booktitle = {Proceedings of the 22nd ACM SIGSOFT International Symposium on
+               Foundations of Software Engineering (FSE)},
+  pages = {449–459},
+  year = {2014},
+  doi = {10.1145/2635868.2635913},
+}
+
+@inproceedings{expo-se,
+  title = {{ExpoSE: Practical Symbolic Execution of Standalone JavaScript}},
+  author = {Loring, Blake and Mitchell, Duncan and Kinder, Johannes},
+  booktitle = {Proceedings of the 24th ACM SIGSOFT International SPIN Symposium
+               on Model Checking of Software},
+  pages = {196–199},
+  year = {2017},
+  doi = {10.1145/3092282.3092295},
+}
+
+@inproceedings{jalangi,
+  title = {Jalangi: A Tool Framework for Concolic Testing, Selective
+           Record-Replay, and Dynamic Analysis of JavaScript},
+  author = {Sen, Koushik and Kalasapur, Swaroop and Brutch, Tasneem and Gibbs, Simon},
+  booktitle = {Proceedings of the 2013 9th Joint Meeting on Foundations of
+               Software Engineering (ESEC/FSE)},
+  pages = {615–618},
+  year = {2013},
+  doi = {10.1145/2491411.2494598},
+}
+
+@inproceedings{jalangi,
+  title = {Jalangi: A Tool Framework for Concolic Testing, Selective
+           Record-Replay, and Dynamic Analysis of JavaScript},
+  author = {Sen, Koushik and Kalasapur, Swaroop and Brutch, Tasneem and Gibbs, Simon},
+  booktitle = {Proceedings of the 2013 9th Joint Meeting on Foundations of
+               Software Engineering (ESEC/FSE)},
+  pages = {615–618},
+  year = {2013},
+  doi = {10.1145/2491411.2494598},
+}
+
+@inproceedings{type-conc-test,
+  title = {{Type-Aware Concolic Testing of JavaScript Programs}},
+  author = {Dhok, Monika and Ramanathan, Murali Krishna and Sinha, Nishant},
+  booktitle = {Proceedings of the 38th International Conference on Software
+               Engineering (ICSE)},
+  pages = {168–179},
+  year = {2016},
+  doi = {10.1145/2884781.2884859},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Language Design Assistant (LDA)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 @article{lda,
-  title={Semantics of programming languages: A tool-oriented approach},
-  author={Heering, Jan and Klint, Paul},
-  journal={ACM Sigplan Notices},
-  volume={35},
-  number={3},
-  pages={39--48},
-  year={2000},
-  publisher={ACM New York, NY, USA}
+  title = {{Semantics of Programming Languages: A Tool-Oriented Approach}},
+  author = {Heering, Jan and Klint, Paul},
+  journal = {ACM Sigplan Notices},
+  volume = {35},
+  number = {3},
+  pages = {39--48},
+  year = {2000},
+  publisher = {ACM New York, NY, USA},
+  doi = {10.1145/351159.351173},
 }
 
 @inproceedings{lisa,
-  title={LISA: An interactive environment for programming language development},
-  author={Mernik, Marjan and Leni{\v{c}}, Mitja and Avdi{\v{c}}au{\v{s}}evi{\'c}, Enis and {\v{Z}}umer, Viljem},
-  booktitle={International Conference on Compiler Construction},
-  pages={1--4},
-  year={2002},
-  organization={Springer}
+  title = {{LISA: An Interactive Environment for Programming Language
+           Development}},
+  author = {Mernik, Marjan and Lenic, Mitja and Avdicausevic, Enis and Zumer,
+            Viljem},
+  booktitle = {Proceedings of the 11th International Conference on Compiler
+               Construction (CC)},
+  pages = {1--4},
+  year = {2002},
 }
 
+@article{ipld,
+  title = {Incremental Programming Language Development},
+  author = {Mernik, Marjan and {\v{Z}}umer, Viljem},
+  journal = {Computer Languages, Systems \& Structures},
+  volume = {31},
+  number = {1},
+  pages = {1--16},
+  year = {2005},
+  publisher = {Elsevier},
+  doi = {10.1016/j.cl.2004.02.001},
+}
+
+@article{asf-sdf,
+  title = {{The Asf+Sdf Meta-Environment: A Component-Based Language Development
+           Environment}},
+  journal = {Electronic Notes in Theoretical Computer Science},
+  volume = {44},
+  number = {2},
+  pages = {3-8},
+  year = {2001},
+  note = {LDTA'01, First Workshop on Language Descriptions, Tools and
+          Applications (a Satellite Event of ETAPS 2001)},
+  issn = {1571-0661},
+  doi = {10.1016/S1571-0661(04)80917-4},
+  author = {M.G.J. {van den Brand} and A. {van Deursen} and J. Heering and H.A.
+            {de Jong} and M. {de Jonge} and T. Kuipers and P. Klint and L.
+            Moonen and P.A. Olivier and J. Scheerder and J.J. Vinju and E.
+            Visser and J. Visser},
+}
+
+@article{meta-env,
+  title = {{A Meta-Environment for Generating Programming Environments}},
+  author = {Klint, P.},
+  year = {1993},
+  issue_date = {April 1993},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  volume = {2},
+  number = {2},
+  issn = {1049-331X},
+  doi = {10.1145/151257.151260},
+  journal = {ACM Transactions on Software Engineering Methodology},
+  month = apr,
+  pages = {176--201},
+  numpages = {26},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Domain Specific Language (DSL)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 @article{dsl-survey,
+  title = {{Domain-Specific Languages: An Annotated Bibliography}},
+  author = {van Deursen, Arie and Klint, Paul and Visser, Joost},
+  year = {2000},
+  issue_date = {June 2000},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  volume = {35},
+  number = {6},
+  issn = {0362-1340},
+  doi = {10.1145/352029.352035},
+  journal = {SIGPLAN Notice},
+  month = jun,
+  pages = {26--36},
+  numpages = {11},
+}
+
+@article{dsl-survey2,
+  title = {{When and How to Develop Domain-Specific Languages}},
   author = {Mernik, Marjan and Heering, Jan and Sloane, Anthony M.},
-  title = {When and How to Develop Domain-Specific Languages},
   year = {2005},
   issue_date = {December 2005},
   publisher = {Association for Computing Machinery},
@@ -31,22 +323,109 @@
   volume = {37},
   number = {4},
   issn = {0360-0300},
-  url = {https://doi.org/10.1145/1118890.1118892},
   doi = {10.1145/1118890.1118892},
-  journal = {ACM Comput. Surv.},
+  journal = {ACM Computing Survey},
   month = dec,
   pages = {316–344},
   numpages = {29},
-  keywords = {Domain-specific language, application language, domain analysis, language development system}
 }
 
-@article{ipld,
-  title={Incremental programming language development},
-  author={Mernik, Marjan and {\v{Z}}umer, Viljem},
-  journal={Computer Languages, Systems \& Structures},
-  volume={31},
-  number={1},
-  pages={1--16},
-  year={2005},
-  publisher={Elsevier}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Live Programming (LP)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@inproceedings{omnicode,
+  title = {{Omnicode: A Novice-Oriented Live Programming Environment with
+           Always-On Run-Time Value Visualizations}},
+  author = {Kang, Hyeonsu and Guo, Philip J.},
+  booktitle = {Proceedings of the 30th Annual ACM Symposium on User Interface
+               Software and Technology (UIST)},
+  pages = {737--745},
+  year = {2017},
+  doi = {10.1145/3126594.3126632},
+}
+
+@inproceedings{situ-vis,
+  title = {{Augmenting Code with In Situ Visualizations to Aid Program
+           Understanding}},
+  author = {Hoffswell, Jane and Satyanarayan, Arvind and Heer, Jeffrey},
+  booktitle = {Proceedings of the 2018 CHI Conference on Human Factors in
+               Computing Systems},
+  pages = {1--12},
+  year = {2018},
+  doi = {10.1145/3173574.3174106},
+}
+
+@inproceedings{proj-box,
+  title = {{Projection Boxes: On-the-Fly Reconfigurable Visualization for Live
+           Programming}},
+  author = {Lerner, Sorin},
+  booktitle = {Proceedings of the 2020 CHI Conference on Human Factors in
+               Computing Systems},
+  pages = {1--7},
+  year = {2020},
+  doi = {10.1145/3313831.3376494},
+}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% JISET family
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@inproceedings{jiset,
+  title = {{JISET: JavaScript IR-based Semantics Extraction Toolchain}},
+  author = {Park, Jihyeok and Park, Jihee and An, Seungmin and Ryu, Sukyoung},
+  booktitle = {Proceedings of the 35th IEEE/ACM International Conference on
+               Automated Software Engineering (ASE)},
+  pages = {647--658},
+  year = {2020},
+  organization = {IEEE},
+  doi = {10.1145/3324884.3416632},
+}
+
+@inproceedings{jest,
+  title = {{JEST: N+1-version Differential Testing of Both JavaScript Engines
+           and Specification}},
+  author = {Park, Jihyeok and An, Seungmin and Youn, Dongjun and Kim, Gyeongwon
+            and Ryu, Sukyoung},
+  booktitle = {Proceedings of IEEE/ACM 43rd International Conference on Software
+               Engineering (ICSE)},
+  pages = {13--24},
+  year = {2021},
+  organization = {IEEE},
+  doi = {10.1109/ICSE43902.2021.00015},
+}
+
+@inproceedings{jstar,
+  title = {{JSTAR: JavaScript Specification Type Analyzer using Refinement}},
+  author = {Park, Jihyeok and An, Seungmin and Shin, Wonho and Sim, Yusung and
+            Ryu, Sukyoung},
+  booktitle = {Proceedings of the 36th IEEE/ACM International Conference on
+               Automated Software Engineering (ASE)},
+  year = {2021},
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Parital Evaluation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@book{peval,
+  title = {{Partial Evaluation and Automatic Program Generation}},
+  author = {Jones, Neil D and Gomard, Carsten K and Sestoft, Peter},
+  year = {1993},
+  publisher = {Peter Sestoft},
+  isbn = {978-0-13-020249-9},
+}
+
+@article{peval-survay,
+  title = {An Introduction to Partial Evaluation},
+  author = {Jones, Neil D.},
+  year = {1996},
+  issue_date = {Sept. 1996},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  volume = {28},
+  number = {3},
+  issn = {0360-0300},
+  doi = {10.1145/243439.243447},
+  journal = {ACM Computing Survey},
+  month = sep,
+  pages = {480–503},
+  numpages = {24},
 }
