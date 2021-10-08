@@ -34,7 +34,7 @@ case class VisitRecorder(
   } yield List(func.uid, (for {
     (_, fileMap) <- nodeMap
     (fname, _) <- fileMap
-  } yield fname).size).mkString(",")).toList
+  } yield fname).toSet.size).mkString(",")).toList
 
   def nodeData: List[String] = (for {
     (func, nodeMap) <- funcMap
