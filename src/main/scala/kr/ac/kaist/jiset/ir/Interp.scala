@@ -122,7 +122,7 @@ class Interp(
       case Some(view) if LOG =>
         val func = cfg.funcOf(node)
         val fnameOpt = st.fnameOpt
-        IRLogger.visitRecorder.record(func, view, node, fnameOpt)
+        IRLogger.visitRecorder.record(func, node, fnameOpt)
       case _ =>
     }
     node match {

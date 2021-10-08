@@ -24,13 +24,7 @@ case class CFGPartialModel(
   }
 }
 object CFGPartialModel {
-  def apply(recorder: VisitRecorder): CFGPartialModel = CFGPartialModel(
-    recorder.funcMap.map {
-      case (func, viewMap) => func -> (viewMap.map {
-        case (view, nodeMap) => view -> PartialFunc(func, view, nodeMap.keys.toSet)
-      }).toMap
-    }.toMap
-  )
+  def apply(recorder: VisitRecorder): CFGPartialModel = ???
 }
 
 // PartialFunc for each function and view

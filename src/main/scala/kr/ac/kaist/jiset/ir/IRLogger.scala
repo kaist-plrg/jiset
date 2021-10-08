@@ -54,10 +54,9 @@ object IRLogger {
   //dump to a directory
   def dumpVisitRecorder(dirname: String): Unit = {
     import cfgStringifer._, checker.Stringifier._
-    dumpFile(stringify(visitRecorder.funcCount), s"$dirname/visited-func")
-    dumpFile(stringify(visitRecorder.viewCount), s"$dirname/visited-view")
     dumpFile(visitRecorder, s"$dirname/visited-nodes")
     dumpJson(visitRecorder, s"$dirname/visited-nodes.json")
+    visitRecorder.dumpCsv(s"$dirname/visited-nodes")
   }
 
   // summary
@@ -73,7 +72,6 @@ object IRLogger {
        |  - avg.  : $depthAvg%.2f
        |- visited:
        |  - # func : ${visitRecorder.func}
-       |  - # view : ${visitRecorder.view}
        |  - # node : ${visitRecorder.node}""".stripMargin
   )
 

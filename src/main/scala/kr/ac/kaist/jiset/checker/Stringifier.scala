@@ -118,9 +118,6 @@ object Stringifier {
   implicit lazy val VisitRecorderApp: App[VisitRecorder] = (app, vr) => {
     app >> vr.funcMap
   }
-  implicit val VisitRecorderElemApp: App[VisitRecorder.Elem] = (app, elem) => {
-    app >> "[" >> elem.count >> "] " >> elem.fname
-  }
 
   // partial model
   implicit lazy val CFGPartialModelApp: App[CFGPartialModel] = (app, _) => app
