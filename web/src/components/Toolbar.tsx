@@ -6,7 +6,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { ReduxState, Dispatch } from "../store";
 
 import { AppState } from "../store/reducers/AppState";
-import { run, specStep, specStepOut, specStepOver, specContinue } from "../store/reducers/Debugger";
+import { run, stop, specStep, specStepOut, specStepOver, specContinue } from "../store/reducers/Debugger";
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
@@ -15,6 +15,7 @@ const mapStateToProps = ( st: ReduxState ) => ( {
 } );
 const mapDispatchToProps = (dispatch : Dispatch) => ( {
   run: () => dispatch(run()),
+  stop: () => dispatch(stop()),
   specStep: () => dispatch(specStep()),
   specStepOut: () => dispatch(specStepOut()),
   specStepOver: () => dispatch(specStepOver()),
@@ -29,7 +30,7 @@ class Toolbar extends React.Component<ToolbarProps> {
   }
 
   onCancelButtonClick () {
-    // sm.move( { type: ActionType.STOP_DBG } );
+    this.props.stop();
   }
 
   onStepButtonClick () {

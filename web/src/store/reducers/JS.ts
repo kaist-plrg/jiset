@@ -25,11 +25,10 @@ export const updateRange = (
   start,
   end,
 });
-export function clearJs(): JSAction {
-  return {
-    type: JSActionType.CLEAR,
-  };
-}
+export const clearJS = (): JSAction => ({
+  type: JSActionType.CLEAR,
+});
+
 export function addBreakJs(line: number): JSAction {
   return {
     type: JSActionType.ADD_BREAK,

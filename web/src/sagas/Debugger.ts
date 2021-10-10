@@ -3,9 +3,9 @@ import { toast } from "react-toastify";
 
 import { ReduxState } from "../store";
 import { AppState, move } from "../store/reducers/AppState";
-import { DebuggerActionType } from "../store/reducers/Debugger";
-import { StackFrame, updateInfo } from "../store/reducers/IR";
-import { updateRange } from "../store/reducers/JS";
+import { DebuggerActionType, clearDebugger } from "../store/reducers/Debugger";
+import { StackFrame, updateInfo, clearIR } from "../store/reducers/IR";
+import { updateRange, clearJS } from "../store/reducers/JS";
 import { doAPIPostRequest } from "../util/api";
 import { StepResultType } from "../object/StepResult";
 
@@ -34,6 +34,17 @@ function* runSaga() {
     }
   }
   yield takeLatest(DebuggerActionType.RUN, _runSaga);
+}
+
+// stop debugger saga
+function* stopSaga() {
+  function* _stopSaga() {
+    yield put(clearIR());
+    yield put(clearJS());
+    yield put(clearDebugger());
+    yield put(move(AppState.JS_INPUT));
+  }
+  yield takeLatest(DebuggerActionType.STOP, _stopSaga);
 }
 
 // step result type
@@ -83,5 +94,11 @@ function* specStepOutSaga() {
 }
 
 export default function* debuggerSaga() {
-  yield all([runSaga(), specStepSaga(), specStepOverSaga(), specStepOutSaga()]);
+  yield all([
+    runSaga(),
+    stopSaga(),
+    specStepSaga(),
+    specStepOverSaga(),
+    specStepOutSaga(),
+  ]);
 }

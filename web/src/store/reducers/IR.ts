@@ -29,14 +29,14 @@ export const showAlgo = (idx: number): IRAction => ({
   type: IRActionType.SHOW_ALGO,
   idx,
 });
+export const clearIR = (): IRAction => ({
+  type: IRActionType.CLEAR,
+});
 export function showEnv(idx: number): IRAction {
   return {
     type: IRActionType.SHOW_ENV,
     idx,
   };
-}
-export function clearIr(): IRAction {
-  return { type: IRActionType.CLEAR };
 }
 export type IRAction =
   | {

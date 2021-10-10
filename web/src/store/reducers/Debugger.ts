@@ -4,12 +4,13 @@ import { Breakpoint } from "../../object/Breakpoint";
 // redux actions
 export enum DebuggerActionType {
   RUN = "DebuggerAction/RUN",
+  STOP = "DebuggerAction/STOP",
+  CLEAR = "DebuggerAction/CLEAR",
   SPEC_STEP = "DebuggerAction/STEP",
   SPEC_STEP_OUT = "DebuggerAction/STEP_OUT",
   SPEC_STEP_OVER = "DebuggerAction/STEP_OVER",
   SPEC_CONTINUE = "DebuggerAction/SPEC_CONTINUE",
   // TODO
-  CLEAR = "DebuggerAction/CLEAR",
   TERMINATE = "DebuggerAction/TERMINATE",
   ADD_BREAK = "DebuggerAction/AD_BREAK",
   RM_BREAK = "DebuggerAction/RM_BREAK",
@@ -17,6 +18,9 @@ export enum DebuggerActionType {
 }
 export const run = (): DebuggerAction => ({
   type: DebuggerActionType.RUN,
+});
+export const stop = (): DebuggerAction => ({
+  type: DebuggerActionType.STOP,
 });
 export const specStep = (): DebuggerAction => ({
   type: DebuggerActionType.SPEC_STEP,
@@ -30,11 +34,9 @@ export const specStepOut = (): DebuggerAction => ({
 export const specContinue = (): DebuggerAction => ({
   type: DebuggerActionType.SPEC_CONTINUE,
 });
-export function clearDebugger(): DebuggerAction {
-  return {
-    type: DebuggerActionType.CLEAR,
-  };
-}
+export const clearDebugger = (): DebuggerAction => ({
+  type: DebuggerActionType.CLEAR,
+});
 export function addBreak(bpName: string): DebuggerAction {
   return {
     type: DebuggerActionType.ADD_BREAK,
@@ -56,6 +58,9 @@ export function toggleBreak(opt: string): DebuggerAction {
 export type DebuggerAction =
   | {
       type: DebuggerActionType.RUN;
+    }
+  | {
+      type: DebuggerActionType.STOP;
     }
   | {
       type: DebuggerActionType.SPEC_STEP;
