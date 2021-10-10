@@ -9,20 +9,21 @@ import { Typography, Paper } from "@material-ui/core";
 
 import { connect, ConnectedProps } from "react-redux";
 import { ReduxState, Dispatch } from "../store";
+import { editJS } from "../store/reducers/JS";
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
   js: st.js,
 } );
 const mapDispatchToProps = (dispatch : Dispatch) => ( {
-  dispatch
+  edit: (code: string) => dispatch(editJS(code))
 });
 const connector = connect( mapStateToProps, mapDispatchToProps );
 type JSEditorProps = ConnectedProps<typeof connector>;
 
 class JSEditor extends React.Component<JSEditorProps> {
   onCodeChange ( code: string ) {
-    // sm.move( { type: ActionType.EDIT_JS, code } );
+    this.props.edit(code);
   }
   private genMarker (): [ string, string ] {
     let genUid = () => ` __${ uuid().replaceAll( "-", "_" ) }__ `
