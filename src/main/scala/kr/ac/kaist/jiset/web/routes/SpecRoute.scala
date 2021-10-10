@@ -10,7 +10,7 @@ import io.circe.syntax._
 // spec router
 object SpecRoute {
   // root router
-  def apply(): Route = {
+  def apply(): Route = pathEnd {
     // get spec
     get {
       complete(HttpEntity(ContentTypes.`application/json`, js.spec.asJson.noSpaces))

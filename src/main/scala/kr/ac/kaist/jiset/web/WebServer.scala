@@ -7,6 +7,7 @@ import akka.http.scaladsl.model.HttpMethods._
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.server.Directives._
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
+import ch.megard.akka.http.cors.scaladsl.settings._
 import kr.ac.kaist.jiset.web.routes._
 import scala.io.StdIn
 
@@ -16,13 +17,20 @@ object WebServer {
     // needed for the future flatMap/onComplete in the end
     implicit val executionContext = system.executionContext
 
+    // cors settings
+    val settings = CorsSettings
+      .defaultSettings
+      .withAllowCredentials(false)
+      .withMaxAge(None)
+      .withAllowedMethods(List(GET, POST, PUT, DELETE))
+
     // root router
-    val rootRoute = cors() {
+    val rootRoute = cors(settings) {
       concat(
-        path("spec")(SpecRoute()), // spec route
-        path("state")(StateRoute()), // state route
-        path("exec")(ExecRoute()), // exec route
-        path("breakpoint")(BreakpointRoute()), // breakpoint route
+        pathPrefix("spec")(SpecRoute()), // spec route
+        pathPrefix("state")(StateRoute()), // state route
+        pathPrefix("exec")(ExecRoute()), // exec route
+        pathPrefix("breakpoint")(BreakpointRoute()), // breakpoint route
       )
     }
 

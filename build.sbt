@@ -79,7 +79,8 @@ lazy val jiset = (project in file("."))
       "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
       "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
       "ch.qos.logback" % "logback-classic" % "1.2.3", // logger used by Akka
-      "ch.megard" %% "akka-http-cors" % "1.1.2" // cors
+      "ch.megard" %% "akka-http-cors" % "1.1.2", // cors
+      "de.heikoseeberger" %% "akka-http-circe" % "1.38.2", // akka-http + circe
     ),
     retrieveManaged := true,
     // test setting

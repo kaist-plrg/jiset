@@ -1,4 +1,5 @@
 import produce from "immer";
+import { Breakpoint } from "../../object/Breakpoint";
 
 // redux actions
 export enum DebuggerActionType {
@@ -14,11 +15,9 @@ export function clearDebugger(): DebuggerAction {
     type: DebuggerActionType.CLEAR,
   };
 }
-export function runDebugger(): DebuggerAction {
-  return {
-    type: DebuggerActionType.RUN,
-  };
-}
+export const runDebugger = (): DebuggerAction => ({
+  type: DebuggerActionType.RUN,
+});
 export function addBreak(bpName: string): DebuggerAction {
   return {
     type: DebuggerActionType.ADD_BREAK,
@@ -59,7 +58,7 @@ export type DebuggerAction =
 
 // redux state
 type DebuggerState = {
-  breakpoints: { name: string; enable: boolean }[];
+  breakpoints: Breakpoint[];
 };
 const initialState: DebuggerState = {
   breakpoints: [],
@@ -69,8 +68,6 @@ const initialState: DebuggerState = {
 export default function reducer(state = initialState, action: DebuggerAction) {
   switch (action.type) {
     case DebuggerActionType.CLEAR:
-      return produce(state, (draft) => {});
-    case DebuggerActionType.RUN:
       return produce(state, (draft) => {});
     case DebuggerActionType.ADD_BREAK:
       return produce(state, (draft) => {

@@ -1,11 +1,8 @@
 import { all } from "redux-saga/effects";
 
 import specSaga from "./Spec";
-
-function* helloSaga() {
-  console.log("Hello Sagas!");
-}
+import debuggerSaga from "./Debugger";
 
 export default function* rootSaga() {
-  yield all([helloSaga(), specSaga()]);
+  yield all([specSaga(), debuggerSaga()]);
 }

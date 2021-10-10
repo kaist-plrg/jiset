@@ -6,6 +6,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { ReduxState, Dispatch } from "../store";
 
 import { AppState } from "../store/reducers/AppState";
+import { runDebugger } from "../store/reducers/Debugger";
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
@@ -13,14 +14,14 @@ const mapStateToProps = ( st: ReduxState ) => ( {
   disableDebuggerBtn: st.appState.state !== AppState.DEBUG_READY,
 } );
 const mapDispatchToProps = (dispatch : Dispatch) => ( {
-  dispatch
+  run: () => dispatch(runDebugger())
 });
 const connector = connect( mapStateToProps, mapDispatchToProps );
 type ToolbarProps = ConnectedProps<typeof connector>;
 
 class Toolbar extends React.Component<ToolbarProps> {
   onRunButtonClick () {
-    // sm.move( { type: ActionType.START_DBG } );
+    this.props.run();
   }
 
   onCancelButtonClick () {
