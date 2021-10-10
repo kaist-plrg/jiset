@@ -9,14 +9,14 @@ import { Typography, Paper } from "@material-ui/core";
 
 import { connect, ConnectedProps } from "react-redux";
 import { ReduxState, Dispatch } from "../store";
-import { editJS } from "../store/reducers/JS";
+import { edit } from "../store/reducers/JS";
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
   js: st.js,
 } );
 const mapDispatchToProps = (dispatch : Dispatch) => ( {
-  edit: (code: string) => dispatch(editJS(code))
+  edit: (code: string) => dispatch(edit(code))
 });
 const connector = connect( mapStateToProps, mapDispatchToProps );
 type JSEditorProps = ConnectedProps<typeof connector>;

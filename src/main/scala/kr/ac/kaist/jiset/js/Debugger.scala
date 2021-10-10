@@ -7,9 +7,11 @@ import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.spec.JsonProtocol._
+import scala.collection.mutable.{ Map => MMap }
 
+// ECMAScript Debugger
 class Debugger(override val st: State) extends IRDebugger {
-  type StepResult = IRDebugger.StepResult
+  type StepResult = Debugger.StepResult
   detail = true
   // ir steps
   def irStep(): Int = step.id
@@ -17,22 +19,37 @@ class Debugger(override val st: State) extends IRDebugger {
   def irStepOut(): Int = stepOut.id
 
   // spec steps
-  def specStep(): Int = {
+  def specStep(): StepResult = decorate {
     val (n0, l0, _) = st.context.getInfo()
     stepUntil {
       val (n1, l1, _) = st.context.getInfo()
       n0 == n1 && l0 == l1
-    }.id
+    }
   }
-  def specStepOver(): Int = {
+  def specStepOver(): StepResult = decorate {
     val (n0, l0, _) = st.context.getInfo()
     val stackSize = st.ctxtStack.size
     stepUntil {
       val (n1, l1, _) = st.context.getInfo()
       (n0 == n1 && l0 == l1) || (stackSize != st.ctxtStack.size)
-    }.id
+    }
   }
-  def specStepOut(): Int = stepOut.id
+  def specStepOut(): StepResult = decorate(stepOut)
+
+  // continue
+  def continueAlgo(): StepResult = decorate(continue)
+
+  // decorate StepResult with state information
+  private def decorate(
+    result: IRDebugger.StepResult
+  ): Debugger.StepResult = Debugger.StepResult(
+    result.id,
+    st.context.getInfo() :: st.ctxtStack.map(_.getInfo(true)),
+    st.getJSInfo(),
+    st.heap.map.map {
+      case (addr, obj) => (addr.toString, obj.toString)
+    }
+  )
 
   // JS steps
   def jsStep(): Int = {
@@ -44,9 +61,6 @@ class Debugger(override val st: State) extends IRDebugger {
     }.id
   }
 
-  // continue
-  def continueAlgo(): Int = continue.id
-
   // breakpoints
   def addAlgoBreak(algoName: String, enabled: Boolean = true) = addBreak(algoName, enabled)
   def rmAlgoBreak(opt: String) = rmBreak(opt)
@@ -55,20 +69,18 @@ class Debugger(override val st: State) extends IRDebugger {
   def rmJSBreak(opt: String) = rmBreakJS(opt)
   def toggleJSBreak(opt: String) = toggleBreakJS(opt)
 
-  // get stack frame info
-  def getStackFrame(): String = {
-    val stackFrame = st.context.getInfo() :: st.ctxtStack.map(_.getInfo(true))
-    stackFrame.asJson.noSpaces
-  }
-
-  // get js range info
-  def getJsRange(): String = st.getJSInfo().asJson.noSpaces
-
-  // get heap info
-  def getHeap(): String = st.heap.map.map {
-    case (addr, obj) => (addr.toString, obj.toString)
-  }.asJson.noSpaces
-
+  // TODO
   def getEnv(): String = getFullEnv().asJson.noSpaces
+}
+
+object Debugger {
+  type StackFrameInfo = (String, Int, List[(String, String)])
+  // decorated step result
+  case class StepResult(
+    result: Int,
+    stackFrames: List[StackFrameInfo],
+    jsRanges: (Int, Int, Int, Int),
+    heap: MMap[String, String]
+  )
 }
 

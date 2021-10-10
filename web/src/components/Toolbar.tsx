@@ -6,7 +6,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { ReduxState, Dispatch } from "../store";
 
 import { AppState } from "../store/reducers/AppState";
-import { runDebugger } from "../store/reducers/Debugger";
+import { run, specStep, specStepOut, specStepOver, specContinue } from "../store/reducers/Debugger";
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
@@ -14,7 +14,11 @@ const mapStateToProps = ( st: ReduxState ) => ( {
   disableDebuggerBtn: st.appState.state !== AppState.DEBUG_READY,
 } );
 const mapDispatchToProps = (dispatch : Dispatch) => ( {
-  run: () => dispatch(runDebugger())
+  run: () => dispatch(run()),
+  specStep: () => dispatch(specStep()),
+  specStepOut: () => dispatch(specStepOut()),
+  specStepOver: () => dispatch(specStepOver()),
+  specContinue: () => dispatch(specContinue()),
 });
 const connector = connect( mapStateToProps, mapDispatchToProps );
 type ToolbarProps = ConnectedProps<typeof connector>;
@@ -29,15 +33,15 @@ class Toolbar extends React.Component<ToolbarProps> {
   }
 
   onStepButtonClick () {
-    // sm.move( { type: ActionType.STEP } );
+    this.props.specStep();
   }
 
   onStepOverButtonClick () {
-    // sm.move( { type: ActionType.STEP_OVER } );
+    this.props.specStepOver();
   }
 
   onStepOutButtonClick () {
-    // sm.move( { type: ActionType.STEP_OUT } );
+    this.props.specStepOut();
   }
 
   onStepLineButtonClick () {
@@ -45,7 +49,7 @@ class Toolbar extends React.Component<ToolbarProps> {
   }
 
   onContinueButtonClick () {
-    // sm.move( { type: ActionType.CONTINUE } );
+    this.props.specContinue();
   }
 
   render () {

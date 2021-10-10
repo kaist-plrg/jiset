@@ -12,7 +12,7 @@ import { v4 as uuid } from "uuid";
 import "../styles/StackFrameViewer.css";
 
 import { connect, ConnectedProps } from "react-redux";
-import { StackFrameData } from "../store/reducers/IR";
+import { StackFrameData, showAlgo } from "../store/reducers/IR";
 import { ReduxState, Dispatch } from "../store";
 
 type StackFrameItemProps = {
@@ -50,14 +50,14 @@ const mapStateToProps = ( st: ReduxState ) => ( {
   stackFrame: st.ir.stackFrame,
 } );
 const mapDispatchToProps = (dispatch : Dispatch) => ( {
-  dispatch
+  showAlgo: (idx: number) => dispatch(showAlgo(idx))
 });
-const connector = connect( mapStateToProps );
+const connector = connect( mapStateToProps, mapDispatchToProps );
 type StackFrameViewerProps = ConnectedProps<typeof connector>;
 
 class StackFrameViewer extends React.Component<StackFrameViewerProps> {
   onItemClick ( idx: number ) {
-    // sm.move( { type: ActionType.SHOW_ALGO, idx } );
+    this.props.showAlgo(idx);
   }
   render () {
     const { stackFrame } = this.props;

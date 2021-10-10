@@ -9,29 +9,25 @@ export enum JSActionType {
   RM_BREAK = "JSAction/RM_BREAK",
   TOGGLE_BREAK = "JSAction/TOGGLE_BREAK",
 }
-export function editJS(code: string): JSAction {
-  return {
-    type: JSActionType.EDIT,
-    code,
-  };
-}
-export function clearJs(): JSAction {
-  return {
-    type: JSActionType.CLEAR,
-  };
-}
-export function updateJsRange(
+export const edit = (code: string): JSAction => ({
+  type: JSActionType.EDIT,
+  code,
+});
+export const updateRange = (
   lineFrom: number,
   lineTo: number,
   start: number,
   end: number
-): JSAction {
+): JSAction => ({
+  type: JSActionType.UPDATE_RANGE,
+  lineFrom,
+  lineTo,
+  start,
+  end,
+});
+export function clearJs(): JSAction {
   return {
-    type: JSActionType.UPDATE_RANGE,
-    lineFrom,
-    lineTo,
-    start,
-    end,
+    type: JSActionType.CLEAR,
   };
 }
 export function addBreakJs(line: number): JSAction {
