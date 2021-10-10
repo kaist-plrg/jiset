@@ -19,10 +19,7 @@ import {
 import "../styles/Breakpoints.css";
 
 import { connect, ConnectedProps } from "react-redux";
-import { ReduxState } from "../store";
-
-import { ActionType } from "../controller/Action";
-import sm from "../controller";
+import { ReduxState, Dispatch } from "../store";
 
 type Breakpoint = {
   name: string;
@@ -37,11 +34,11 @@ type BreakpointItemProp = {
 class BreakpointItem extends React.Component<BreakpointItemProp> {
   onEnableChange () {
     const { idx } = this.props;
-    sm.move( { type: ActionType.TOGGLE_BREAK, opt: idx.toString() } );
+    // sm.move( { type: ActionType.TOGGLE_BREAK, opt: idx.toString() } );
   }
   onRemoveClick () {
     const { idx } = this.props;
-    sm.move( { type: ActionType.RM_BREAK, opt: idx.toString() } );
+    // sm.move( { type: ActionType.RM_BREAK, opt: idx.toString() } );
   }
   render () {
     const { data } = this.props;
@@ -71,7 +68,10 @@ const mapStateToProps = ( st: ReduxState ) => ( {
   breakpoints: st.webDebugger.breakpoints,
   algoNames: st.spec.algoNames,
 } );
-const connector = connect( mapStateToProps );
+const mapDispatchToProps = (dispatch : Dispatch) => ( {
+  dispatch
+});
+const connector = connect( mapStateToProps, mapDispatchToProps );
 type BreakpointsProps = ConnectedProps<typeof connector>;
 type BreakpointsState = { bpName: string };
 
@@ -95,8 +95,8 @@ class Breakpoints extends React.Component<BreakpointsProps, BreakpointsState> {
       .map( ( _ ) => _.name )
       .some( ( _ ) => _ === bpName );
     const valid = this.props.algoNames.some( ( name ) => name === bpName );
-    if ( valid && !duplicated )
-      sm.move( { type: ActionType.ADD_BREAK, bpName: this.state.bpName } );
+    if ( valid && !duplicated ) {}
+      // sm.move( { type: ActionType.ADD_BREAK, bpName: this.state.bpName } );
     else if ( duplicated ) toast.warning( `Breakpoint already set: ${ bpName }` );
     else toast.warning( `Wrong breakpoint name: ${ bpName }` );
   }

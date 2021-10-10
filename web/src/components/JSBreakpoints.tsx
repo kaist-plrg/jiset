@@ -18,10 +18,7 @@ import {
 import "../styles/Breakpoints.css";
 
 import { connect, ConnectedProps } from "react-redux";
-import { ReduxState } from "../store";
-
-import { ActionType } from "../controller/Action";
-import sm from "../controller";
+import { ReduxState, Dispatch } from "../store";
 
 type JSBreakpoint = {
   line: number;
@@ -36,11 +33,11 @@ type JSBreakpointItemProp = {
 class JSBreakpointItem extends React.Component<JSBreakpointItemProp> {
   onEnableChange () {
     const { idx } = this.props;
-    sm.move( { type: ActionType.TOGGLE_BREAK_JS, opt: idx.toString() } );
+    // sm.move( { type: ActionType.TOGGLE_BREAK_JS, opt: idx.toString() } );
   }
   onRemoveClick () {
     const { idx } = this.props;
-    sm.move( { type: ActionType.RM_BREAK_JS, opt: idx.toString() } );
+    // sm.move( { type: ActionType.RM_BREAK_JS, opt: idx.toString() } );
   }
   render () {
     const { data } = this.props;
@@ -93,8 +90,8 @@ class JSBreakpoints extends React.Component<JSBreakpointsProps, JSBreakpointsSta
       .map( ( _ ) => _.line )
       .some( ( _ ) => _ === line );
     const valid = ( line <= this.props.code.split( '\n' ).length ) && ( line > 0 );
-    if ( valid && !duplicated )
-      sm.move( { type: ActionType.ADD_BREAK_JS, line: Number( this.state.line ) } );
+    if ( valid && !duplicated ) {}
+      // sm.move( { type: ActionType.ADD_BREAK_JS, line: Number( this.state.line ) } );
     else if ( duplicated ) toast.warning( `Breakpoint already set: Line ${ line }` );
     else toast.warning( `Out of Range: Line ${ line }` );
   }

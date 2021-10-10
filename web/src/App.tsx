@@ -10,23 +10,24 @@ import JSEditor from "./components/JSEditor";
 import "./styles/App.css";
 
 import { connect, ConnectedProps } from "react-redux";
-import { ReduxState } from "./store";
+import { ReduxState, Dispatch } from "./store";
 
-import { AppState } from "./controller/AppState";
-import { ActionType } from "./controller/Action";
-import sm from "./controller";
+import { AppState } from "./store/reducers/AppState";
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
-  appState: st.controller.state,
+  appState: st.appState.state,
 } );
-const connector = connect( mapStateToProps );
+const mapDispatchToProps = (dispatch : Dispatch) => ( {
+  dispatch
+});
+const connector = connect( mapStateToProps, mapDispatchToProps );
 type AppProps = ConnectedProps<typeof connector>;
 
 // App component
 class App extends React.Component<AppProps> {
   componentDidMount () {
-    sm.move( { type: ActionType.SET_SPEC } );
+    // sm.move( { type: ActionType.SET_SPEC } );
   }
   renderInit () {
     return <div>Loading ECMAScript 2021...</div>;

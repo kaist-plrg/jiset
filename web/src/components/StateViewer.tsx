@@ -16,9 +16,9 @@ import JSEnvViewer from "./JSEnvViewer";
 import JSBreakpoints from "./JSBreakpoints";
 
 import { connect, ConnectedProps } from "react-redux";
-import { ReduxState } from "../store";
+import { ReduxState, Dispatch } from "../store";
 
-import { AppState } from "../controller/AppState";
+import { AppState } from "../store/reducers/AppState";
 
 // State viewer item
 type StateViewerItemProps = {
@@ -72,11 +72,14 @@ class StateViewerItem extends React.Component<
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
   disableStateViewer: !(
-    st.controller.state === AppState.DEBUG_READY ||
-    st.controller.state === AppState.TERMINATED
+    st.appState.state === AppState.DEBUG_READY ||
+    st.appState.state === AppState.TERMINATED
   ),
 } );
-const connector = connect( mapStateToProps );
+const mapDispatchToProps = (dispatch : Dispatch) => ( {
+  dispatch
+});
+const connector = connect( mapStateToProps, mapDispatchToProps );
 type StateViewerProps = ConnectedProps<typeof connector>;
 
 class StateViewer extends React.Component<StateViewerProps> {

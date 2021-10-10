@@ -13,10 +13,7 @@ import "../styles/StackFrameViewer.css";
 
 import { connect, ConnectedProps } from "react-redux";
 import { StackFrameData } from "../store/reducers/IR";
-import { ReduxState } from "../store";
-
-import { ActionType } from "../controller/Action";
-import sm from "../controller";
+import { ReduxState, Dispatch } from "../store";
 
 type StackFrameItemProps = {
   data: StackFrameData;
@@ -52,12 +49,15 @@ class StackFrameItem extends React.Component<StackFrameItemProps> {
 const mapStateToProps = ( st: ReduxState ) => ( {
   stackFrame: st.ir.stackFrame,
 } );
+const mapDispatchToProps = (dispatch : Dispatch) => ( {
+  dispatch
+});
 const connector = connect( mapStateToProps );
 type StackFrameViewerProps = ConnectedProps<typeof connector>;
 
 class StackFrameViewer extends React.Component<StackFrameViewerProps> {
   onItemClick ( idx: number ) {
-    sm.move( { type: ActionType.SHOW_ALGO, idx } );
+    // sm.move( { type: ActionType.SHOW_ALGO, idx } );
   }
   render () {
     const { stackFrame } = this.props;

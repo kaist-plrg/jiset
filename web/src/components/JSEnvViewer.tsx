@@ -11,10 +11,7 @@ import {
 import "../styles/JSEnvViewer.css";
 
 import { connect, ConnectedProps } from "react-redux";
-import { ReduxState } from "../store";
-
-import { ActionType } from "../controller/Action";
-import sm from "../controller";
+import { ReduxState, Dispatch } from "../store";
 
 type JSEnvStackProps = {
   idx: number;
@@ -67,12 +64,14 @@ class JSEnvItem extends React.Component<JSEnvItemProps> {
 const mapStateToProps = ( st: ReduxState ) => ( {
   env: st.ir.env,
 } );
-const connector = connect( mapStateToProps );
+const mapDispatchToProps = (dispatch : Dispatch) => ( {
+  dispatch
+});
+const connector = connect( mapStateToProps, mapDispatchToProps );
 type JSEnvViewerProps = ConnectedProps<typeof connector>;
 
 class JSEnvViewer extends React.Component<JSEnvViewerProps> {
   onItemClick ( idx: number ) {
-    sm.move( { type: ActionType.SHOW_ENV, idx } );
   }
 
   render () {

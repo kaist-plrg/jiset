@@ -8,22 +8,21 @@ import "../styles/JSEditor.css";
 import { Typography, Paper } from "@material-ui/core";
 
 import { connect, ConnectedProps } from "react-redux";
-import { ReduxState } from "../store";
-
-import { ActionType } from "../controller/Action";
-import sm from "../controller";
+import { ReduxState, Dispatch } from "../store";
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
   js: st.js,
-
 } );
-const connector = connect( mapStateToProps );
+const mapDispatchToProps = (dispatch : Dispatch) => ( {
+  dispatch
+});
+const connector = connect( mapStateToProps, mapDispatchToProps );
 type JSEditorProps = ConnectedProps<typeof connector>;
 
 class JSEditor extends React.Component<JSEditorProps> {
   onCodeChange ( code: string ) {
-    sm.move( { type: ActionType.EDIT_JS, code } );
+    // sm.move( { type: ActionType.EDIT_JS, code } );
   }
   private genMarker (): [ string, string ] {
     let genUid = () => ` __${ uuid().replaceAll( "-", "_" ) }__ `
