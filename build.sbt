@@ -57,6 +57,10 @@ lazy val checkerJsonTest = taskKey[Unit]("Launch json type checker tests (middle
 lazy val checkerStringifierTest = taskKey[Unit]("Launch stringifier type checker tests (tiny)")
 lazy val checkerParseTest = taskKey[Unit]("Launch parse type checker tests (tiny)")
 
+// Akka
+val AkkaVersion = "2.6.8"
+val AkkaHttpVersion = "10.2.6"
+
 // jiset
 lazy val jiset = (project in file("."))
   .settings(
@@ -71,6 +75,11 @@ lazy val jiset = (project in file("."))
       "org.jline" % "jline" % "3.13.3",
       "org.apache.commons" % "commons-text" % "1.8",
       "org.scala-js" %% "scalajs-stubs" % "1.0.0" % "provided",
+      "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
+      "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
+      "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
+      "ch.qos.logback" % "logback-classic" % "1.2.3", // logger used by Akka
+      "ch.megard" %% "akka-http-cors" % "1.1.2" // cors
     ),
     retrieveManaged := true,
     // test setting

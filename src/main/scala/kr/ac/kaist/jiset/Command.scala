@@ -151,3 +151,11 @@ case object CmdTypeCheck extends Command("type-check", CmdBuildCFG >> TypeCheck)
     println(sem.getInfo)
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// JEDIT (Live Language Design for JavaScript with Syntactic Views)
+////////////////////////////////////////////////////////////////////////////////
+// web
+case object CmdWeb extends Command("web", CmdExtract >> Web) {
+  def help = "Run JISET web for interactive ECMAScript execution."
+}
