@@ -3,7 +3,6 @@ import produce from "immer";
 // redux actions
 export enum DebuggerActionType {
   RUN = "DebuggerAction/RUN",
-  PAUSE = "DebuggerAction/PAUSE",
   CLEAR = "DebuggerAction/CLEAR",
   TERMINATE = "DebuggerAction/TERMINATE",
   ADD_BREAK = "DebuggerAction/AD_BREAK",
@@ -18,11 +17,6 @@ export function clearDebugger(): DebuggerAction {
 export function runDebugger(): DebuggerAction {
   return {
     type: DebuggerActionType.RUN,
-  };
-}
-export function pauseDebugger(): DebuggerAction {
-  return {
-    type: DebuggerActionType.PAUSE,
   };
 }
 export function addBreak(bpName: string): DebuggerAction {
@@ -51,9 +45,6 @@ export type DebuggerAction =
       type: DebuggerActionType.RUN;
     }
   | {
-      type: DebuggerActionType.PAUSE;
-    }
-  | {
       type: DebuggerActionType.ADD_BREAK;
       bpName: string;
     }
@@ -69,31 +60,18 @@ export type DebuggerAction =
 // redux state
 type DebuggerState = {
   breakpoints: { name: string; enable: boolean }[];
-  initialized: boolean;
-  busy: boolean;
 };
 const initialState: DebuggerState = {
   breakpoints: [],
-  initialized: false,
-  busy: false,
 };
 
 // reducer
 export default function reducer(state = initialState, action: DebuggerAction) {
   switch (action.type) {
     case DebuggerActionType.CLEAR:
-      return produce(state, (draft) => {
-        draft.initialized = false;
-        draft.busy = false;
-      });
-    case DebuggerActionType.PAUSE:
-      return produce(state, (draft) => {
-        draft.busy = false;
-      });
+      return produce(state, (draft) => {});
     case DebuggerActionType.RUN:
-      return produce(state, (draft) => {
-        draft.busy = true;
-      });
+      return produce(state, (draft) => {});
     case DebuggerActionType.ADD_BREAK:
       return produce(state, (draft) => {
         let valid = state.breakpoints.every(

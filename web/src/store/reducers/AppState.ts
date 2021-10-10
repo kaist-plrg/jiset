@@ -26,8 +26,9 @@ export type AppStateAction = {
 // redux state
 type AppStateState = {
   state: AppState;
+  busy: boolean;
 };
-const initialState: AppStateState = { state: AppState.INIT };
+const initialState: AppStateState = { state: AppState.INIT, busy: false };
 
 // reducer
 export default function reducer(state = initialState, action: AppStateAction) {
