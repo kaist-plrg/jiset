@@ -91,6 +91,5 @@ object IRLogger {
     dumpDepthMap(dirname)
     dumpVisitRecorder(dirname)
     dumpSummary(dirname)
-    dumpPartialModel(dirname)
   }
 }
