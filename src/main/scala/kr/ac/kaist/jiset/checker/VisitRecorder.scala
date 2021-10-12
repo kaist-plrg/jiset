@@ -43,6 +43,21 @@ case class VisitRecorder(
     (fname, _) <- fileMap
   } yield fname).size).mkString(",")).toList
 
+  def fileData: List[String] = {
+    val fmap: MMap[String, Long] = MMap()
+    for {
+      (_, nodeMap) <- funcMap
+      (node, fileMap) <- nodeMap
+      (fname, _) <- fileMap
+    } {
+      val count = fmap.getOrElseUpdate(fname, 0)
+      fmap += fname -> (count + 1)
+    }
+    (for {
+      (fname, count) <- fmap
+    } yield List(fname, count).mkString(",")).toList
+  }
+
   def rawData: List[String] = (for {
     (func, nodeMap) <- funcMap
     (node, fileMap) <- nodeMap
@@ -61,6 +76,10 @@ case class VisitRecorder(
     dumpFile(
       (List("Node", "# File").mkString(",") :: nodeData).mkString(LINE_SEP),
       s"$filename-node.csv"
+    )
+    dumpFile(
+      (List("File", "# Node").mkString(",") :: fileData).mkString(LINE_SEP),
+      s"$filename-file.csv"
     )
   }
 }
