@@ -11,7 +11,6 @@ import kr.ac.kaist.jiset.web
 
 // breakpoint router
 object BreakpointRoute extends FailFastCirceSupport {
-  // TODO JS
   // root router
   def apply(): Route = pathEnd {
     concat(

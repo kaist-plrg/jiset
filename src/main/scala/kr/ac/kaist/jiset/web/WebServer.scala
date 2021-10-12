@@ -28,7 +28,6 @@ object WebServer {
     val rootRoute = cors(settings) {
       concat(
         pathPrefix("spec")(SpecRoute()), // spec route
-        pathPrefix("state")(StateRoute()), // state route
         pathPrefix("exec")(ExecRoute()), // exec route
         pathPrefix("breakpoint")(BreakpointRoute()), // breakpoint route
       )

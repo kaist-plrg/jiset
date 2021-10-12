@@ -30,7 +30,6 @@ object ExecRoute extends FailFastCirceSupport {
         path("run") {
           entity(as[RunParams]) {
             case RunParams(bps, compressed) => {
-              println(bps, compressed)
               web.setDebugger(bps, compressed)
               complete(HttpEntity(ContentTypes.`application/json`, "null"))
             }

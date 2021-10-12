@@ -10,6 +10,7 @@ import kr.ac.kaist.jiset.spec.JsonProtocol._
 import scala.collection.mutable.{ Map => MMap }
 
 // ECMAScript Debugger
+// TODO JS breakpoint, JS state
 class Debugger(override val st: State) extends IRDebugger {
   type StepResult = Debugger.StepResult
   detail = false
@@ -92,12 +93,6 @@ class Debugger(override val st: State) extends IRDebugger {
       case (addr, obj) => (addr.toString, obj.toString)
     }
   )
-
-  // TODO JS
-  // def addJSBreak(line: Int, enabled: Boolean = true) = addBreakJS(line, enabled)
-  // def rmJSBreak(opt: String) = rmBreakJS(opt)
-  // def toggleJSBreak(opt: String) = toggleBreakJS(opt)
-  // def getEnv(): String = getFullEnv().asJson.noSpaces
 
   // helpers
   def isValidLine(line: Int): Boolean = line != -1

@@ -12,8 +12,6 @@ import StackFrameViewer from "./StackFrameViewer";
 import HeapViewer from "./HeapViewer";
 import Breakpoints from "./Breakpoints";
 import SpecEnvViewer from "./SpecEnvViewer";
-import JSEnvViewer from "./JSEnvViewer";
-import JSBreakpoints from "./JSBreakpoints";
 
 import { connect, ConnectedProps } from "react-redux";
 import { ReduxState, Dispatch } from "../store";
@@ -108,16 +106,6 @@ class StateViewer extends React.Component<StateViewerProps> {
           disabled={ disableStateViewer }
           header={ <Typography>ECMAScript Breakpoints</Typography> }
           body={ <Breakpoints /> }
-        />
-        <StateViewerItem
-          disabled={ disableStateViewer }
-          header={ <Typography>JavaScript Environment</Typography> }
-          body={ <JSEnvViewer /> }
-        />
-        <StateViewerItem
-          disabled={ disableStateViewer }
-          header={ <Typography>JavaScript Breakpoints</Typography> }
-          body={ <JSBreakpoints /> }
         />
       </div>
     );

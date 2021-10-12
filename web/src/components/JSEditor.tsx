@@ -29,7 +29,11 @@ class JSEditor extends React.Component<JSEditorProps> {
     let genUid = () => ` __${ uuid().replaceAll( "-", "_" ) }__ `
     return [ ` ${ genUid() } `, ` ${ genUid() } ` ];
   }
-  highlightWithLine ( code: string, line: number = 0, start: number = -1, end: number = -1, breakpoints: { line: number, enable: boolean }[] ): string {
+  highlightWithLine (
+    code: string, 
+    start: number = -1, 
+    end: number = -1
+  ): string {
     let highlighted: string;
     // use highlighting when start, end index is given
     if ( start >= 0 && end >= 0 ) {
@@ -44,16 +48,13 @@ class JSEditor extends React.Component<JSEditorProps> {
       .split( "\n" )
       .map( ( l, idx ) => {
         let codeStr = `${ l }`
-        if ( line > 0 && line === ( idx + 1 ) ) { codeStr = `<span class="editor-line-now">${ l }</span>` }
-        if ( breakpoints.some( bp => ( ( bp.line === ( idx + 1 ) ) && bp.enable ) ) ) {
-          return `<span class="editor-line-break">${ idx + 1 } |</span>` + codeStr
-        } else { return `<span class="editor-line">${ idx + 1 } |</span>` + codeStr }
+        return `<span class="editor-line" onclick="console.log('test')">${ idx + 1 } |</span>` + codeStr;
       } )
       .join( "\n" );
   }
 
   render () {
-    const { code, line, start, end, breakpoints } = this.props.js;
+    const { code, start, end } = this.props.js;
     return (
       <Paper className="editor-container" variant="outlined">
         <Typography variant="h6">JavaScript</Typography>
@@ -61,7 +62,7 @@ class JSEditor extends React.Component<JSEditorProps> {
           <Editor
             value={ code }
             onValueChange={ ( code ) => this.onCodeChange( code ) }
-            highlight={ ( code ) => this.highlightWithLine( code, line, start, end, breakpoints ) }
+            highlight={ ( code ) => this.highlightWithLine(code, start, end) }
             padding={ 10 }
             style={ {
               fontFamily: '"Fira code", "Fira Mono", monospace',
