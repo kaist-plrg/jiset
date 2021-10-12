@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.ir
 
 import kr.ac.kaist.jiset.LINE_SEP
-import kr.ac.kaist.jiset.js._
+import kr.ac.kaist.jiset.js.algoMap
 import kr.ac.kaist.jiset.ir.Parser._
 import kr.ac.kaist.jiset.util.Useful._
 import org.jline.builtins.Completers.TreeCompleter
@@ -56,10 +56,10 @@ class REPL(override val st: State) extends Debugger {
 
           // breakpoints
           case CmdBreak.name :: algoName :: _ =>
-            addBreak(algoName); true
+            addAlgoBreak(algoName); true
           case CmdLsBreak.name :: _ =>
-            breakpointsAlgo.zipWithIndex.foreach {
-              case ((_, AlgoBreakPoint(name)), i) => println(f"$i: $name")
+            breakpoints.zipWithIndex.foreach {
+              case ((_, AlgoBreakpoint(name, _)), i) => println(f"$i: $name")
             }; true
           case CmdRmBreak.name :: opt :: _ =>
             rmBreak(opt); true

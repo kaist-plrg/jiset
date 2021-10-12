@@ -10,11 +10,11 @@ export enum DebuggerActionType {
   SPEC_STEP_OUT = "DebuggerAction/STEP_OUT",
   SPEC_STEP_OVER = "DebuggerAction/STEP_OVER",
   SPEC_CONTINUE = "DebuggerAction/SPEC_CONTINUE",
-  // TODO
-  TERMINATE = "DebuggerAction/TERMINATE",
-  ADD_BREAK = "DebuggerAction/AD_BREAK",
+  ADD_BREAK = "DebuggerAction/ADD_BREAK",
   RM_BREAK = "DebuggerAction/RM_BREAK",
   TOGGLE_BREAK = "DebuggerAction/TOGGLE_BREAK",
+  // TODO
+  TERMINATE = "DebuggerAction/TERMINATE",
 }
 export const run = (): DebuggerAction => ({
   type: DebuggerActionType.RUN,
@@ -37,24 +37,18 @@ export const specContinue = (): DebuggerAction => ({
 export const clearDebugger = (): DebuggerAction => ({
   type: DebuggerActionType.CLEAR,
 });
-export function addBreak(bpName: string): DebuggerAction {
-  return {
-    type: DebuggerActionType.ADD_BREAK,
-    bpName,
-  };
-}
-export function rmBreak(opt: string): DebuggerAction {
-  return {
-    type: DebuggerActionType.RM_BREAK,
-    opt,
-  };
-}
-export function toggleBreak(opt: string): DebuggerAction {
-  return {
-    type: DebuggerActionType.TOGGLE_BREAK,
-    opt,
-  };
-}
+export const addBreak = (bpName: string): DebuggerAction => ({
+  type: DebuggerActionType.ADD_BREAK,
+  bpName,
+});
+export const rmBreak = (opt: string): DebuggerAction => ({
+  type: DebuggerActionType.RM_BREAK,
+  opt,
+});
+export const toggleBreak = (opt: string): DebuggerAction => ({
+  type: DebuggerActionType.TOGGLE_BREAK,
+  opt,
+});
 export type DebuggerAction =
   | {
       type: DebuggerActionType.RUN;
@@ -101,17 +95,10 @@ const initialState: DebuggerState = {
 // reducer
 export default function reducer(state = initialState, action: DebuggerAction) {
   switch (action.type) {
-    case DebuggerActionType.CLEAR:
-      return produce(state, (draft) => {});
     case DebuggerActionType.ADD_BREAK:
       return produce(state, (draft) => {
-        let valid = state.breakpoints.every(
-          ({ name }) => name !== action.bpName
-        );
-        if (valid) {
-          let bp = { name: action.bpName, enable: true };
-          draft.breakpoints.push(bp);
-        }
+        console.log(action);
+        draft.breakpoints.push({ name: action.bpName, enabled: true });
       });
     case DebuggerActionType.RM_BREAK:
       return produce(state, (draft) => {
@@ -121,10 +108,10 @@ export default function reducer(state = initialState, action: DebuggerAction) {
     case DebuggerActionType.TOGGLE_BREAK:
       return produce(state, (draft) => {
         if (action.opt === "all")
-          draft.breakpoints.forEach((bp) => (bp.enable = !bp.enable));
+          draft.breakpoints.forEach((bp) => (bp.enabled = !bp.enabled));
         else {
           let i = Number(action.opt);
-          draft.breakpoints[i].enable = !draft.breakpoints[i].enable;
+          draft.breakpoints[i].enabled = !draft.breakpoints[i].enabled;
         }
       });
     default:

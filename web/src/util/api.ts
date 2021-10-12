@@ -106,28 +106,28 @@ export const doAPIGetRequest = (
 const doAPIWriteRequest = (
   method: HTTPMethod,
   endpoint: string,
-  bodyObj?: object
+  bodyObj?: unknown
 ): Promise<unknown> => {
   return doWriteRequest(API_HOST, method, endpoint, bodyObj);
 };
 // POST
 export const doAPIPostRequest = (
   endpoint: string,
-  bodyObj?: object
+  bodyObj?: unknown
 ): Promise<unknown> => {
   return doAPIWriteRequest("POST", endpoint, bodyObj);
 };
 // DELETE
 export const doAPIDeleteRequest = (
   endpoint: string,
-  bodyObj?: object
+  bodyObj?: unknown
 ): Promise<unknown> => {
   return doAPIWriteRequest("DELETE", endpoint, bodyObj);
 };
 // PUT
 export const doAPIPutRequest = (
   endpoint: string,
-  bodyObj?: object
+  bodyObj?: unknown
 ): Promise<unknown> => {
   return doAPIWriteRequest("PUT", endpoint, bodyObj);
 };

@@ -1,4 +1,4 @@
 export interface Breakpoint {
   name: string;
-  enable: boolean;
+  enabled: boolean;
 }

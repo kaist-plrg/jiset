@@ -9,8 +9,8 @@ import scala.collection.mutable.ArrayBuffer
 import scala.annotation.tailrec
 
 // Debugger breakpoint
-trait BreakPoint {
-  var enabled = true
+trait Breakpoint {
+  var enabled: Boolean
   private var trigger = false
   def needTrigger: Boolean = {
     if (trigger) { trigger = false; true }
@@ -20,11 +20,17 @@ trait BreakPoint {
   def check(str: String): Unit
   def toggle() = { enabled = !enabled }
 }
-case class AlgoBreakPoint(name: String) extends BreakPoint {
+case class AlgoBreakpoint(
+  name: String,
+  var enabled: Boolean = true
+) extends Breakpoint {
   override def check(str: String): Unit =
     if (enabled && name == str) this.on
 }
-case class JSBreakPoint(line: Int) extends BreakPoint {
+case class JSBreakpoint(
+  line: Int,
+  var enabled: Boolean = true
+) extends Breakpoint {
   private var suppressed = false
   override def check(str: String): Unit =
     if (enabled) {
@@ -58,7 +64,7 @@ trait Debugger {
   @tailrec
   final def stepUntil(pred: => Boolean): StepResult = {
     DEBUG = true
-    if (!isBreakAlgo && !isBreakJS) {
+    if (!isBreak) {
       val keep = interp.step
       if (pred && keep) stepUntil(pred)
       else {
@@ -92,99 +98,93 @@ trait Debugger {
   final def continue: StepResult = stepUntil { true }
 
   // breakpoints
-  val breakpointsAlgo = ArrayBuffer[(InterpHook, BreakPoint)]()
-  val breakpointsJS = ArrayBuffer[(InterpHook, BreakPoint)]()
+  val breakpoints = ArrayBuffer[(InterpHook, Breakpoint)]()
+  // val breakpointsJS = ArrayBuffer[(InterpHook, Breakpoint)]()
+
+  // check if current step is in break
+  final def isBreak: Boolean = breakpoints.foldLeft(false) {
+    case (acc, (_, bp)) => bp.needTrigger || acc
+  }
 
   // get breakpoint by index
-  private def getBreakIdx(bpList: ArrayBuffer[(InterpHook, BreakPoint)], idx: String): Int =
+  private def getBreakIdx(bpList: ArrayBuffer[(InterpHook, Breakpoint)], idx: String): Int =
     optional(idx.toInt) match {
       case Some(idx) if idx < bpList.size => idx
       case None => error("wrong breakpoints index: $idx")
     }
 
   // add break
-  final def addBreak(algoName: String, enabled: Boolean = true) = {
-    val bp = AlgoBreakPoint(algoName)
-    val hook = interp.subscribe(algoName, Interp.Event.Call, st => {
+  final def addBreak(bp: Breakpoint, name: Option[String] = None) = {
+    val hook = interp.subscribe(Interp.Event.Call, st => {
       st.context.algo match {
         case Some(algo) => bp.check(algo.name)
         case None =>
       }
-    })
-    bp.enabled = enabled
-    breakpointsAlgo += ((hook, bp))
+    }, name)
+    breakpoints += ((hook, bp))
+  }
+  final def addAlgoBreak(algoName: String, enabled: Boolean = true) = {
+    val bp = AlgoBreakpoint(algoName, enabled)
+    addBreak(bp, Some(algoName))
   }
 
   // remove break
   final def rmBreak(opt: String) = opt match {
     case "all" =>
-      breakpointsAlgo.foreach { case (hook, _) => interp.unsubscribe(hook) }
-      breakpointsAlgo.clear
+      breakpoints.foreach { case (hook, _) => interp.unsubscribe(hook) }
+      breakpoints.clear
     case _ =>
-      val idx = getBreakIdx(breakpointsAlgo, opt)
-      val (hook, _) = breakpointsAlgo(idx)
-      breakpointsAlgo.remove(idx)
+      val idx = getBreakIdx(breakpoints, opt)
+      val (hook, _) = breakpoints(idx)
+      breakpoints.remove(idx)
       interp.unsubscribe(hook)
   }
 
   // toggle break
   final def toggleBreak(opt: String) = opt match {
     case "all" =>
-      breakpointsAlgo.foreach { case (_, bp) => bp.toggle() }
+      breakpoints.foreach { case (_, bp) => bp.toggle() }
     case _ =>
-      val idx = getBreakIdx(breakpointsAlgo, opt)
-      val (_, bp) = breakpointsAlgo(idx)
+      val idx = getBreakIdx(breakpoints, opt)
+      val (_, bp) = breakpoints(idx)
       bp.toggle()
   }
 
-  // add break on JS
-  final def addBreakJS(line: Int, enabled: Boolean = true) = {
-    val bp = JSBreakPoint(line)
-    val hook = interp.subscribe("", Interp.Event.Call, st => {
-      val (l0, l1, _, _) = st.getJSInfo()
-      if (l0 == l1) { bp.check(l0.toString) }
-    })
-    bp.enabled = enabled
-    breakpointsJS += ((hook, bp))
-  }
+  // // add break on JS
+  // final def addBreakJS(line: Int, enabled: Boolean = true) = {
+  //   val bp = JSBreakpoint(line)
+  //   val hook = interp.subscribe("", Interp.Event.Call, st => {
+  //     val (l0, l1, _, _) = st.getJSInfo()
+  //     if (l0 == l1) { bp.check(l0.toString) }
+  //   })
+  //   bp.enabled = enabled
+  //   breakpointsJS += ((hook, bp))
+  // }
 
-  // remove break on JS
-  final def rmBreakJS(opt: String) = opt match {
-    case "all" =>
-      breakpointsJS.foreach { case (hook, _) => interp.unsubscribe(hook) }
-      breakpointsJS.clear
-    case _ =>
-      val idx = getBreakIdx(breakpointsJS, opt)
-      val (hook, _) = breakpointsJS(idx)
-      breakpointsJS.remove(idx)
-      interp.unsubscribe(hook)
-  }
-  // toggle break on JS
-  final def toggleBreakJS(opt: String) = opt match {
-    case "all" =>
-      breakpointsJS.foreach { case (_, bp) => bp.toggle() }
-    case _ =>
-      val idx = getBreakIdx(breakpointsJS, opt)
-      val (_, bp) = breakpointsJS(idx)
-      bp.toggle()
-  }
+  // // remove break on JS
+  // final def rmBreakJS(opt: String) = opt match {
+  //   case "all" =>
+  //     breakpointsJS.foreach { case (hook, _) => interp.unsubscribe(hook) }
+  //     breakpointsJS.clear
+  //   case _ =>
+  //     val idx = getBreakIdx(breakpointsJS, opt)
+  //     val (hook, _) = breakpointsJS(idx)
+  //     breakpointsJS.remove(idx)
+  //     interp.unsubscribe(hook)
+  // }
+  // // toggle break on JS
+  // final def toggleBreakJS(opt: String) = opt match {
+  //   case "all" =>
+  //     breakpointsJS.foreach { case (_, bp) => bp.toggle() }
+  //   case _ =>
+  //     val idx = getBreakIdx(breakpointsJS, opt)
+  //     val (_, bp) = breakpointsJS(idx)
+  //     bp.toggle()
+  // }
 
-  // check if current step is in break
-  final def isBreakAlgo: Boolean = breakpointsAlgo.foldLeft(false) {
-    case (acc, (_, bp)) => bp.needTrigger || acc
-  }
-  final def isBreakJS: Boolean = breakpointsJS.foldLeft(false) {
-    case (acc, (_, bp)) => bp.needTrigger || acc
-  }
-
-  // watch expressions
-  var watchExprs = ArrayBuffer[Expr]()
-  final def addExpr(exprStr: String) = {
-    val expr = Expr(exprStr)
-    watchExprs += expr
-    println(evalExpr(expr))
-    if (detail) println(s"$expr added to watch list")
-  }
+  // final def isBreakJS: Boolean = breakpointsJS.foldLeft(false) {
+  //   case (acc, (_, bp)) => bp.needTrigger || acc
+  // }
 
   // remove watch
   final def rmWatch(opt: String) = opt match {
@@ -195,6 +195,15 @@ trait Debugger {
         watchExprs.remove(idx)
       case None => error("wrong watch expressions index: $idx")
     }
+  }
+
+  // watch expressions
+  var watchExprs = ArrayBuffer[Expr]()
+  final def addExpr(exprStr: String) = {
+    val expr = Expr(exprStr)
+    watchExprs += expr
+    println(evalExpr(expr))
+    if (detail) println(s"$expr added to watch list")
   }
 
   // evaluate watch expressions

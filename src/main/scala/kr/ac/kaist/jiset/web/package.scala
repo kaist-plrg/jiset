@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset
 
 import io.circe._, io.circe.syntax._, io.circe.parser._
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.ir.{ State, NodeCursor }
+import kr.ac.kaist.jiset.ir.{ State, Breakpoint, NodeCursor }
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.ECMAScript
@@ -14,7 +14,7 @@ package object web {
   def debugger: Debugger = _debugger.get
 
   // set debugger based on given AST
-  def setDebugger(compressed: String): Unit = {
+  def setDebugger(bps: List[Breakpoint], compressed: String): Unit = {
     // decompress AST
     val script = parse(compressed) match {
       case Left(err) => throw err
@@ -24,5 +24,7 @@ package object web {
     val initSt = Initialize(script, cursorGen = NodeCursor)
     // set current debugger
     _debugger = Some(new Debugger(initSt))
+    // add initial breakpoints
+    bps.foreach(debugger.addBreak(_))
   }
 }

@@ -13,11 +13,6 @@ import scala.collection.mutable.{ Map => MMap }
 class Debugger(override val st: State) extends IRDebugger {
   type StepResult = Debugger.StepResult
   detail = true
-  // ir steps
-  def irStep(): Int = step.id
-  def irStepOver(): Int = stepOver.id
-  def irStepOut(): Int = stepOut.id
-
   // spec steps
   def specStep(): StepResult = decorate {
     val (n0, l0, _) = st.context.getInfo()
@@ -36,8 +31,8 @@ class Debugger(override val st: State) extends IRDebugger {
   }
   def specStepOut(): StepResult = decorate(stepOut)
 
-  // continue
-  def continueAlgo(): StepResult = decorate(continue)
+  // spec continue
+  def specContinue(): StepResult = decorate(continue)
 
   // decorate StepResult with state information
   private def decorate(
@@ -51,26 +46,19 @@ class Debugger(override val st: State) extends IRDebugger {
     }
   )
 
-  // JS steps
-  def jsStep(): Int = {
-    val (lPrev0, _, _, _) = st.getJSInfo()
-    stepUntil {
-      val (lNext0, lNext1, _, _) = st.getJSInfo()
-      val (n, _, _) = st.context.getInfo()
-      (lNext0 != lNext1) || (lPrev0 == lNext0) || ((lPrev0 > 0) && (lNext0 <= 0))
-    }.id
-  }
+  // TODO JS
+  // def jsStep(): Int = {
+  //   val (lPrev0, _, _, _) = st.getJSInfo()
+  //   stepUntil {
+  //     val (lNext0, lNext1, _, _) = st.getJSInfo()
+  //     val (n, _, _) = st.context.getInfo()
+  //     (lNext0 != lNext1) || (lPrev0 == lNext0) || ((lPrev0 > 0) && (lNext0 <= 0))
+  //   }.id
 
-  // breakpoints
-  def addAlgoBreak(algoName: String, enabled: Boolean = true) = addBreak(algoName, enabled)
-  def rmAlgoBreak(opt: String) = rmBreak(opt)
-  def toggleAlgoBreak(opt: String) = toggleBreak(opt)
-  def addJSBreak(line: Int, enabled: Boolean = true) = addBreakJS(line, enabled)
-  def rmJSBreak(opt: String) = rmBreakJS(opt)
-  def toggleJSBreak(opt: String) = toggleBreakJS(opt)
-
-  // TODO
-  def getEnv(): String = getFullEnv().asJson.noSpaces
+  // def addJSBreak(line: Int, enabled: Boolean = true) = addBreakJS(line, enabled)
+  // def rmJSBreak(opt: String) = rmBreakJS(opt)
+  // def toggleJSBreak(opt: String) = toggleBreakJS(opt)
+  // def getEnv(): String = getFullEnv().asJson.noSpaces
 }
 
 object Debugger {
@@ -83,4 +71,3 @@ object Debugger {
     heap: MMap[String, String]
   )
 }
-

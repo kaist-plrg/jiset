@@ -3,10 +3,18 @@ import { toast } from "react-toastify";
 
 import { ReduxState } from "../store";
 import { AppState, move } from "../store/reducers/AppState";
-import { DebuggerActionType, clearDebugger } from "../store/reducers/Debugger";
+import {
+  DebuggerAction,
+  DebuggerActionType,
+  clearDebugger,
+} from "../store/reducers/Debugger";
 import { StackFrame, updateInfo, clearIR } from "../store/reducers/IR";
 import { updateRange, clearJS } from "../store/reducers/JS";
-import { doAPIPostRequest } from "../util/api";
+import {
+  doAPIPostRequest,
+  doAPIDeleteRequest,
+  doAPIPutRequest,
+} from "../util/api";
 import { StepResultType } from "../object/StepResult";
 
 // run debugger saga
@@ -21,10 +29,7 @@ function* runSaga() {
       console.log(code, breakpoints, compressed);
       // run server debugger with js code and breakpoints
       yield call(() =>
-        doAPIPostRequest("exec/run", {
-          compressed,
-          bps: JSON.stringify(breakpoints),
-        })
+        doAPIPostRequest("exec/run", { compressed, breakpoints })
       );
       // move app state to DEBUG_READY
       yield put(move(AppState.DEBUG_READY));
@@ -63,7 +68,7 @@ function mkStepSaga(endpoint: string) {
         () => doAPIPostRequest(endpoint)
       );
       if (result === StepResultType.TERMINATE) toast.success("Terminated");
-      else if (result === StepResultType.BREAK) toast.success("Breaked");
+      else if (result === StepResultType.BREAK) toast.info("Breaked");
       console.log(result);
       yield put(updateInfo(stackFrames, heap, []));
       yield put(updateRange(...jsRanges));
@@ -78,21 +83,58 @@ function mkStepSaga(endpoint: string) {
 function* specStepSaga() {
   yield takeLatest(DebuggerActionType.SPEC_STEP, mkStepSaga("exec/specStep"));
 }
-// spec step over
+// spec step over saga
 function* specStepOverSaga() {
   yield takeLatest(
     DebuggerActionType.SPEC_STEP_OVER,
     mkStepSaga("exec/specStepOver")
   );
 }
-// spec step over
+// spec step over saga
 function* specStepOutSaga() {
   yield takeLatest(
     DebuggerActionType.SPEC_STEP_OUT,
     mkStepSaga("exec/specStepOut")
   );
 }
+// spec continue saga
+function* specContinueSaga() {
+  yield takeLatest(
+    DebuggerActionType.SPEC_CONTINUE,
+    mkStepSaga("exec/specContinue")
+  );
+}
 
+// add breakpoint saga
+function* addBreakSaga() {
+  function* _addBreakSaga(action: DebuggerAction) {
+    if (action.type !== DebuggerActionType.ADD_BREAK) return;
+    let bp = { name: action.bpName, enabled: true };
+    console.log(bp);
+    yield call(() => doAPIPostRequest("breakpoint", bp));
+  }
+  yield takeLatest(DebuggerActionType.ADD_BREAK, _addBreakSaga);
+}
+
+// remove breakpoint saga
+function* rmBreakSaga() {
+  function* _rmBreakSaga(action: DebuggerAction) {
+    if (action.type !== DebuggerActionType.RM_BREAK) return;
+    yield call(() => doAPIDeleteRequest("breakpoint", action.opt));
+  }
+  yield takeLatest(DebuggerActionType.RM_BREAK, _rmBreakSaga);
+}
+
+// toggle breakpoint saga
+function* toggleBreakSaga() {
+  function* _toggleBreakSaga(action: DebuggerAction) {
+    if (action.type !== DebuggerActionType.TOGGLE_BREAK) return;
+    yield call(() => doAPIPutRequest("breakpoint", action.opt));
+  }
+  yield takeLatest(DebuggerActionType.TOGGLE_BREAK, _toggleBreakSaga);
+}
+
+// debugger sagas
 export default function* debuggerSaga() {
   yield all([
     runSaga(),
@@ -100,5 +142,9 @@ export default function* debuggerSaga() {
     specStepSaga(),
     specStepOverSaga(),
     specStepOutSaga(),
+    specContinueSaga(),
+    addBreakSaga(),
+    rmBreakSaga(),
+    toggleBreakSaga(),
   ]);
 }

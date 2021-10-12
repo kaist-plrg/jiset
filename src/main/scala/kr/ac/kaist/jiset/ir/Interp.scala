@@ -621,13 +621,13 @@ class Interp(
 
   // hooks
   private var hooks: Set[InterpHook] = Set()
-  def subscribe(name: String, kind: Event, f: State => Unit): InterpHook = {
-    val hook = InterpHook(name, kind, f)
+  def subscribe(kind: Event, f: State => Unit, name: Option[String] = None): InterpHook = {
+    val hook = InterpHook(kind, f, name)
     hooks += hook
     hook
   }
   def notify(event: Event): Unit = hooks.foreach {
-    case InterpHook(_, kind, f) if kind == event => f(st)
+    case InterpHook(kind, f, _) if kind == event => f(st)
     case _ =>
   }
   def unsubscribe(hook: InterpHook): Unit = hooks -= hook
@@ -635,9 +635,9 @@ class Interp(
 
 // interp hook
 case class InterpHook(
-  name: String,
   kind: Interp.Event,
-  f: State => Unit
+  f: State => Unit,
+  name: Option[String]
 )
 
 // interp object
