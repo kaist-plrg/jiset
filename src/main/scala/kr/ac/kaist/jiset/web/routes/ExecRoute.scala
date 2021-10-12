@@ -13,8 +13,6 @@ import kr.ac.kaist.jiset.js._
 
 // exec router
 object ExecRoute extends FailFastCirceSupport {
-  // TODO JS steps
-
   // parameters for `/exec/run`
   case class RunParams(breakpoints: List[Breakpoint], compressed: String)
   implicit lazy val RunParamsDecoder: Decoder[RunParams] = deriveDecoder
@@ -51,6 +49,21 @@ object ExecRoute extends FailFastCirceSupport {
         // spec step-out
         path("specStepOut") {
           val result = web.debugger.specStepOut();
+          complete(HttpEntity(ContentTypes.`application/json`, result))
+        },
+        // js step
+        path("jsStep") {
+          val result = web.debugger.jsStep();
+          complete(HttpEntity(ContentTypes.`application/json`, result))
+        },
+        // js step-over
+        path("jsStepOver") {
+          val result = web.debugger.jsStepOver();
+          complete(HttpEntity(ContentTypes.`application/json`, result))
+        },
+        // js step-out
+        path("jsStepOut") {
+          val result = web.debugger.jsStepOut();
           complete(HttpEntity(ContentTypes.`application/json`, result))
         },
         // spec continue

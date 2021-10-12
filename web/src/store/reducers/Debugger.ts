@@ -5,16 +5,16 @@ import { Breakpoint } from "../../object/Breakpoint";
 export enum DebuggerActionType {
   RUN = "DebuggerAction/RUN",
   STOP = "DebuggerAction/STOP",
-  CLEAR = "DebuggerAction/CLEAR",
   SPEC_STEP = "DebuggerAction/STEP",
   SPEC_STEP_OUT = "DebuggerAction/STEP_OUT",
   SPEC_STEP_OVER = "DebuggerAction/STEP_OVER",
+  JS_STEP = "DebuggerAction/JS_STEP",
+  JS_STEP_OUT = "DebuggerAction/JS_STEP_OUT",
+  JS_STEP_OVER = "DebuggerAction/JS_STEP_OVER",
   SPEC_CONTINUE = "DebuggerAction/SPEC_CONTINUE",
   ADD_BREAK = "DebuggerAction/ADD_BREAK",
   RM_BREAK = "DebuggerAction/RM_BREAK",
   TOGGLE_BREAK = "DebuggerAction/TOGGLE_BREAK",
-  // TODO
-  TERMINATE = "DebuggerAction/TERMINATE",
 }
 export const run = (): DebuggerAction => ({
   type: DebuggerActionType.RUN,
@@ -31,11 +31,17 @@ export const specStepOver = (): DebuggerAction => ({
 export const specStepOut = (): DebuggerAction => ({
   type: DebuggerActionType.SPEC_STEP_OUT,
 });
+export const jsStep = (): DebuggerAction => ({
+  type: DebuggerActionType.JS_STEP,
+});
+export const jsStepOver = (): DebuggerAction => ({
+  type: DebuggerActionType.JS_STEP_OVER,
+});
+export const jsStepOut = (): DebuggerAction => ({
+  type: DebuggerActionType.JS_STEP_OUT,
+});
 export const specContinue = (): DebuggerAction => ({
   type: DebuggerActionType.SPEC_CONTINUE,
-});
-export const clearDebugger = (): DebuggerAction => ({
-  type: DebuggerActionType.CLEAR,
 });
 export const addBreak = (bpName: string): DebuggerAction => ({
   type: DebuggerActionType.ADD_BREAK,
@@ -66,10 +72,16 @@ export type DebuggerAction =
       type: DebuggerActionType.SPEC_STEP_OUT;
     }
   | {
-      type: DebuggerActionType.SPEC_CONTINUE;
+      type: DebuggerActionType.JS_STEP;
     }
   | {
-      type: DebuggerActionType.CLEAR;
+      type: DebuggerActionType.JS_STEP_OVER;
+    }
+  | {
+      type: DebuggerActionType.JS_STEP_OUT;
+    }
+  | {
+      type: DebuggerActionType.SPEC_CONTINUE;
     }
   | {
       type: DebuggerActionType.ADD_BREAK;

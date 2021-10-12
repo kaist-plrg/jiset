@@ -107,7 +107,10 @@ trait Debugger {
   }
 
   // get breakpoint by index
-  private def getBreakIdx(bpList: ArrayBuffer[(InterpHook, Breakpoint)], idx: String): Int =
+  private def getBreakIdx(
+    bpList: ArrayBuffer[(InterpHook, Breakpoint)],
+    idx: String
+  ): Int =
     optional(idx.toInt) match {
       case Some(idx) if idx < bpList.size => idx
       case None => error("wrong breakpoints index: $idx")

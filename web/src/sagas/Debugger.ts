@@ -3,11 +3,7 @@ import { toast } from "react-toastify";
 
 import { ReduxState } from "../store";
 import { AppState, move } from "../store/reducers/AppState";
-import {
-  DebuggerAction,
-  DebuggerActionType,
-  clearDebugger,
-} from "../store/reducers/Debugger";
+import { DebuggerAction, DebuggerActionType } from "../store/reducers/Debugger";
 import { StackFrame, updateInfo, clearIR } from "../store/reducers/IR";
 import { updateRange, clearJS } from "../store/reducers/JS";
 import {
@@ -46,7 +42,6 @@ function* stopSaga() {
   function* _stopSaga() {
     yield put(clearIR());
     yield put(clearJS());
-    yield put(clearDebugger());
     yield put(move(AppState.JS_INPUT));
   }
   yield takeLatest(DebuggerActionType.STOP, _stopSaga);
@@ -62,7 +57,7 @@ type StepResult = {
 
 // step body saga
 function mkStepSaga(endpoint: string) {
-  function* _specBodySaga() {
+  function* _stepBodySaga() {
     try {
       const { result, jsRanges, heap, stackFrames }: StepResult = yield call(
         () => doAPIPostRequest(endpoint)
@@ -76,7 +71,7 @@ function mkStepSaga(endpoint: string) {
       toast.error(e);
     }
   }
-  return _specBodySaga;
+  return _stepBodySaga;
 }
 
 // spec step saga
@@ -102,6 +97,27 @@ function* specContinueSaga() {
   yield takeLatest(
     DebuggerActionType.SPEC_CONTINUE,
     mkStepSaga("exec/specContinue")
+  );
+}
+
+// js step saga
+function* jsStepSaga() {
+  yield takeLatest(DebuggerActionType.JS_STEP, mkStepSaga("exec/jsStep"));
+}
+
+// js step over saga
+function* jsStepOverSaga() {
+  yield takeLatest(
+    DebuggerActionType.JS_STEP_OVER,
+    mkStepSaga("exec/jsStepOver")
+  );
+}
+
+// js step out saga
+function* jsStepOutSaga() {
+  yield takeLatest(
+    DebuggerActionType.JS_STEP_OUT,
+    mkStepSaga("exec/jsStepOut")
   );
 }
 
@@ -142,6 +158,9 @@ export default function* debuggerSaga() {
     specStepSaga(),
     specStepOverSaga(),
     specStepOutSaga(),
+    jsStepSaga(),
+    jsStepOverSaga(),
+    jsStepOutSaga(),
     specContinueSaga(),
     addBreakSaga(),
     rmBreakSaga(),

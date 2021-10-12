@@ -47,4 +47,9 @@ case class Context(
       case s: SyntaxDirectedHead => s.methodName == "Evaluation"
       case _ => false
     })
+  // check if JS call
+  def isJsCall = algo.fold(false)(_.name match {
+    case "Call" | "Construct" => true
+    case _ => false
+  })
 }

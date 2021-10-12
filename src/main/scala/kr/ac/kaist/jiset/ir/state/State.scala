@@ -137,12 +137,15 @@ case class State(
   // move to the next cursor
   def moveNext: Unit = context.moveNext
 
-  // debugger info
-  def getJSInfo(): (Int, Int, Int, Int) = (context :: ctxtStack).foldLeft((0, 0, -1, -1)) {
-    case ((0, 0, -1, -1), cntxt) if cntxt.isAstEvaluation =>
-      val ast = cntxt.astOpt.get
-      val Span(start, end) = ast.span
-      (start.line, end.line, start.index, end.index)
-    case (acc, _) => acc
+  // get position of JS AST of topmost evaluation
+  // start line, end line, start index, end index
+  def getJsPos(): (Int, Int, Int, Int) = {
+    (context :: ctxtStack).foldLeft((-1, -1, -1, -1)) {
+      case ((-1, -1, -1, -1), ctxt) if ctxt.isAstEvaluation =>
+        val ast = ctxt.astOpt.get
+        val Span(start, end) = ast.span
+        (start.line, end.line, start.index, end.index)
+      case (acc, _) => acc
+    }
   }
 }
