@@ -63,7 +63,7 @@ const doGetRequest = async (
     const url = mkURL(host, endpoint, queryObj);
     const response = await fetch(url, { method: "GET" });
     if (!response.ok)
-      throw `GET request to ${url} failed with ${response.status}`;
+      throw new Error(`GET request to ${url} failed with ${response.status}`);
     return await response.json();
   } catch (e) {
     throw new Error(e);
@@ -87,7 +87,9 @@ const doWriteRequest = async (
       body: bodyObj ? JSON.stringify(bodyObj) : undefined,
     });
     if (!response.ok)
-      throw `${method} request to ${url} failed with ${response.status}`;
+      throw new Error(
+        `${method} request to ${url} failed with ${response.status}`
+      );
     return await response.json();
   } catch (e) {
     throw new Error(e);
