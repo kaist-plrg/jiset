@@ -1,5 +1,57 @@
 \section{Introduction}\label{sec:intro}
 
-\begin{itemize}
-  \item \todo
-\end{itemize}
+In the beginning, JavaScript was a scripting language designed in a ten-day
+hack. However, it has become a de facto Web standard and eventually becomes one
+of the dominating programming languages in various fields. For example, Node.js
+introduced full-stack JavaScript by supporting server-side programming, and
+JavaScript has recently begun to be used even in embedded systems and
+microcontrollers for the Internet of Things (IoT). Furthermore, according to the
+annual report of GitHub\footnote{\url{https://octoverse.github.com/}},
+JavaScript has consistently been the most popular programming language based on
+the number of contributors to GitHub projects.
+
+Recently, JavaScript has rapidly evolved with a yearly release cadence and open
+development process. In 2015, The Ecma Technical Committee 39 (TC39) decided to
+annually release ECMAScript, the standard specification for JavaScript, with a
+massive update in ECMAScript 2015 (ES6, 2015)~\cite{es6}. Moreover, they
+published the specification as an open-source project in a GitHub repository to
+quickly adapt users' demands to the language.
+
+In this fast-evolving nature of JavaScript, the need for language design
+assistants (LDAs)~\cite{lda} has grown to understand original or revised
+semantics correctly in the revision process. Historically, researchers have
+proposed several language design assistants, such as LISA~\cite{lisa} and
+$\asfsdf$~\cite{asf-sdf, meta-env}, with semantics editors and the generators
+for language-based tools, such as parsers, compilers, interpreters, and so on.
+However, only small-size domain-specific languages are their targets due to
+their low expressive power. On the other hand, there are several attempts to
+develop language design assistants for JavaScript in the academy and industry.
+For example, in the academy, \citet{jsexplain} presented JSExplain, a JavaScript
+reference interpreter written in OCaml that closely follows ECMAScript and
+produces execution traces for debugging both ECMAScript and a given program. In
+the industry, Mozilla and several contributors introduced JavaScript
+interpreters written in pure JavaScript, such as Narcissus~\cite{narcissus} and
+engine262~\cite{engine262}, to aid the development of new features in
+JavaScript.
+
+However, existing language design assistants for JavaScript have two
+limitations: \textit{manual updates} and \textit{lack of connection with
+conformance tests}. First, all existing assistants are developed manually; thus,
+developers should manually update them for each frequent evolution of
+ECMAScript. This manual approach is a tedious, labor-intensive, and even
+error-prone process. Moreover, they lack information about the relationship
+between specific semantics with conformance tests. When a language designer
+desires to understand specific language semantics, one possible approach is to
+learn them from related conformance tests. Fortunately, TC39 provides Test262,
+an official conformance test suite for the latest version of ECMAScript.
+However, existing assistants do not utilize them to give a better comprehension
+of language semantics.
+
+In this paper, we present $\tool$, a \textit{live} language design assistant for
+JavaScript, which automatically synchronizes with a given language specification
+and shows related conformance tests in the revision process. To synchronize our
+tool with ECMAScript, we utilize another tool $\jiset$~\cite{jiset}, which
+automatically extracts a mechanized specification from a given version of
+ECMAScript. Note that a specification is mechanized if and only if it is both
+executable and formalized.
+\todo
