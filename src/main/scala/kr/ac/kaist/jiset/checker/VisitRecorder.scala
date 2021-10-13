@@ -66,18 +66,22 @@ case class VisitRecorder(
 
   def dumpCsv(filename: String): Unit = {
     dumpFile(
+      "Visited-nodes.csv",
       (List("Function", "Node", "File", "Count").mkString(",") :: rawData).mkString(LINE_SEP),
       s"$filename.csv"
     )
     dumpFile(
+      "Visited-nodes-func.csv",
       (List("Function", "# File").mkString(",") :: funcData).mkString(LINE_SEP),
       s"$filename-func.csv"
     )
     dumpFile(
+      "Visited-nodes-node.csv",
       (List("Node", "# File").mkString(",") :: nodeData).mkString(LINE_SEP),
       s"$filename-node.csv"
     )
     dumpFile(
+      "Visited-nodes-file.csv",
       (List("File", "# Node").mkString(",") :: fileData).mkString(LINE_SEP),
       s"$filename-file.csv"
     )

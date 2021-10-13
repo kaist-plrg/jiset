@@ -54,8 +54,8 @@ object IRLogger {
   //dump to a directory
   def dumpVisitRecorder(dirname: String): Unit = {
     import cfgStringifer._, checker.Stringifier._
-    dumpFile(visitRecorder, s"$dirname/visited-nodes")
-    dumpJson(visitRecorder, s"$dirname/visited-nodes.json")
+    dumpFile("Visited-nodes", visitRecorder, s"$dirname/visited-nodes")
+    dumpJson("Visited-nodes.json", visitRecorder, s"$dirname/visited-nodes.json", false)
     visitRecorder.dumpCsv(s"$dirname/visited-nodes")
   }
 
