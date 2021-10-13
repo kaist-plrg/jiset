@@ -42,6 +42,7 @@ case class DiffGenerator(grammar: Grammar) {
     val Production(lhs, rhsList) = prod
     val Lhs(name, rawParams) = lhs
     nf.println(s"""  def diff(l: $name, r: $name): Unit = (l, r) match {""")
+    nf.println(s"""    case (Abs$name, _) | (_, Abs$name) =>""")
     for ((rhs, k) <- rhsList.zipWithIndex) {
       val xs = for {
         (token, i) <- rhs.tokens.zipWithIndex
