@@ -3,24 +3,25 @@
   it has rapidly evolved with a yearly release cadence and open development
   process to adapt users' demands to the language quickly. In this fast-evolving
   nature of JavaScript, the need for \textit{language design assistants} has
-  grown to understand target semantics and to synchronize three language
+  grown to understand the current language semantics and to update it with new
+  language features in a tool-based approach. Unfortunately, existing tools have
+  two limitations related to the \textit{understanding} and \textit{update} of
+  language semantics. They 1) do not provide any automatic ways to focus on
+  target semantics and 2) manually or slowly synchronize three language
   components: specifications, conformance tests, and language-based tools.
-  Unfortunately, while several language design assistants for JavaScript have
-  been proposed in academia and industry, they have two limitations: 1) no
-  functionalities to focus the target semantics and 2) manual or slow updates of
-  language components.
 
   To alleviate this problem, we present $\tool$, a \textit{live} language design
   assistant for JavaScript with \textit{syntactic views}. First, our tool
-  provides a way to focus on target semantics using syntactic views, abstract
-  syntax trees with abstracted nodes. It automatically reduces semantics and
-  filters out conformance tests depending on user-defined syntactic views.
-  Second, $\tool$ automatically and quickly synchronizes language components in
-  the language design process. It detects which parts of semantics are revised
-  and partially updates specifications and conformance tests. For evaluation, we
-  demonstrate the effectiveness of $\tool$ with randomly selected syntactic
-  views and randomly modified semantics. With randomly selected syntactic views,
-  it reduces the \inred{XX.X}\% of semantics and filters out \inred{XX.X}\% of
-  conformance tests on average. With randomly modified semantics, it shortens
-  the time to synchronize three language components by \inred{XX.X}\%.
+  provides a way to enhance the understanding of the target semantics using a
+  syntactic view, an abstract syntax tree containing abstracted nodes. It
+  automatically reduces semantics and filters out conformance tests depending on
+  user-defined syntactic views. Second, $\tool$ automatically and quickly
+  synchronizes language components in the language design process. It detects
+  which parts of semantics are revised and partially updates related parts in
+  specifications, conformance tests, and language-based tools. For evaluation,
+  we experimentally demonstrate the effectiveness of $\tool$. With randomly
+  selected syntactic views, our tool reduces the \inred{XX.X}\% of semantics and
+  filters out \inred{XX.X}\% of conformance tests on average. With randomly
+  modified semantics, it shortens the time to synchronize three language
+  components by \inred{XX.X}\% on average.
 \end{abstract}
