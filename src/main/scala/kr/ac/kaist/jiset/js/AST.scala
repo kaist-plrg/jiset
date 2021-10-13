@@ -1,13 +1,14 @@
 package kr.ac.kaist.jiset.js.ast
 
+import io.circe._, io.circe.syntax._
+import kr.ac.kaist.jiset.error._
+import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.spec.algorithm._
-import kr.ac.kaist.jiset.ir._
-import kr.ac.kaist.jiset.error._
 import kr.ac.kaist.jiset.spec.grammar._
-import kr.ac.kaist.jiset.util.{ WeakUId, Span, Pos }
 import kr.ac.kaist.jiset.util.Useful.{ cached, error }
-import io.circe._, io.circe.syntax._
+import kr.ac.kaist.jiset.util.{ WeakUId, Span, Pos }
+import scala.annotation.tailrec
 
 trait AST {
   var parent: Option[AST] = None
@@ -90,6 +91,29 @@ trait AST {
         case _ => None
       }
     }
+  }
+
+  // trim root of AST
+  @tailrec
+  final def trim: AST = list match {
+    case (_, ASTVal(v)) :: Nil => v.trim
+    case _ => this
+  }
+
+  // subtree check
+  final def contains(that: AST): Boolean = {
+    val trimmed = that.trim
+    var result: Boolean = false
+    val walker = new ASTWalker {
+      override def job(ast: AST): Unit =
+        // check diff if kinds are same
+        if (ast.kind == trimmed.kind) try {
+          ASTDiff.diff(ast, trimmed)
+          result = true
+        } catch { case _: Exception => }
+    }
+    walker.walk(this)
+    result
   }
 
   // existence check

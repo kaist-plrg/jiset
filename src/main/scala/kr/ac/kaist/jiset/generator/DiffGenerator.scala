@@ -35,6 +35,14 @@ case class DiffGenerator(grammar: Grammar) {
     nf.println(s"""  }""")
     nf.println
     prods.foreach(genDiff)
+    nf.println
+    nf.println(s"""  def diff(l: AST, r: AST): Unit = (l, r) match {""")
+    prods.foreach {
+      case Production(Lhs(name, _), _) =>
+        nf.println(s"""    case (l: $name, r: $name) => diff(l, r)""")
+    }
+    nf.println(s"""    case _ => diffError(l, r)""")
+    nf.println(s"""  }""")
     nf.println(s"""}""")
   }
 

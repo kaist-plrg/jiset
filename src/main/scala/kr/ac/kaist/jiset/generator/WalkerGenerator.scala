@@ -24,6 +24,14 @@ case class WalkerGenerator(grammar: Grammar) {
     nf.println(s"""  def walk(lex: Lexical): Unit = {}""")
     nf.println
     prods.foreach(genWalker)
+    nf.println
+    nf.println(s"""  def walk(ast: AST): Unit = ast match {""")
+    prods.foreach {
+      case Production(Lhs(name, _), _) =>
+        nf.println(s"""    case ast: $name => walk(ast)""")
+    }
+    nf.println(s"""    case _ =>""")
+    nf.println(s"""  }""")
     nf.println(s"""}""")
   }
 
