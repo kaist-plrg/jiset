@@ -110,7 +110,7 @@ trait AST {
         if (ast.kind == trimmed.kind) try {
           ASTDiff.diff(ast, trimmed)
           result = true
-        } catch { case _: Exception => }
+        } catch { case _: Throwable => }
     }
     walker.walk(this)
     result
