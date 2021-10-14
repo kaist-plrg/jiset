@@ -1,6 +1,14 @@
 \section{Introduction}\label{sec:intro}
 
-\todo Figure
+\begin{figure}
+  \centering
+  \includegraphics[width=\columnwidth]{img/lda.png}
+  \caption{A manual approach (left) and a tool-oriented approach with language
+    design assistants (right) with three language components: specifications,
+  conformance tests, and language-based tools.}
+  \label{fig:lda}
+  \vspace*{-.5em}
+\end{figure}
 
 In the beginning, JavaScript was a scripting language designed in a ten-day
 hack. However, it has become a de facto Web standard and eventually becomes one
@@ -22,37 +30,38 @@ published the specification as an open-source project in a GitHub repository to
 quickly adapt users' demands to the language.
 
 In this fast-evolving nature of JavaScript, the need for \textit{language design
-assistants}~\cite{lda} has grown to understand the current language semantics
-and to update it with new language features in a tool-based approach. In the
-early 2000s, \citet{lda} first presented the concept of language design
-assistants, and several researchers actualized it in tools such as
-LISA~\cite{lisa} and $\asfsdf$~\cite{asf-sdf, meta-env}. As described in
-Figure~\ref{fig:lda}, they bridge the gap between three language components:
-specifications, conformance tests, and language-based tools (e.g., parsers,
-interpreters, and compilers) by automatically generating them from the language
-semantics. However, only small-size domain-specific languages are their targets
-due to their low expressive power. On the other hand, several tools recently
-have been presented towards language design assistants for JavaScript in
-academia and industry. For example, JSExplain~\cite{jsexplain},
-Narcissus~\cite{narcissus}, and engine262~\cite{engine262} are reference
-interpreters that closely follow writing styles of ECMAScript, and they provide
-debugger-style support. $\jiset$~\cite{jiset} is a tool to compile ECMAScript to
-an executable specification. $\jest$~\cite{jest} is an extension of $\jiset$ to
-synthesize conformance tests, and $\jstar$~\cite{jstar} is another extension
-that performs type analysis for the specification.
+assistants} has grown to understand the current language semantics and to update
+it with new language features in a tool-based approach. In the early 2000s,
+\citet{lda} first presented the concept of language design assistants, and
+several researchers actualized it in tools such as LISA~\cite{lisa} and
+$\asfsdf$~\cite{asf-sdf, meta-env}. As described in Figure~\ref{fig:lda}, they
+bridge the gap between three language components: specifications, conformance
+tests, and language-based tools (e.g., parsers, interpreters, and compilers) by
+automatically generating them from the language semantics. Moreover, they
+provide query-based interactions to language designers for better understanding.
+However, only small-size domain-specific languages are their targets due to
+their low expressive power. On the other hand, several tools recently have been
+presented towards language design assistants for JavaScript in academia and
+industry. For example, JSExplain~\cite{jsexplain}, Narcissus~\cite{narcissus},
+and engine262~\cite{engine262} are reference interpreters that closely follow
+writing styles of ECMAScript, and they provide debugger-style support.
+$\jiset$~\cite{jiset} is a tool to compile ECMAScript to an executable
+specification. $\jest$~\cite{jest} is an extension of $\jiset$ to synthesize
+conformance tests, and $\jstar$~\cite{jstar} is another extension that performs
+type analysis for the specification.
 
-However, existing language design assistants for JavaScript have two limitations
-related to the \textit{understanding} and \textit{update} of language semantics.
-First, they do not provide any automatic ways to focus on target semantics for
-better comprehension. JavaScript language designers often want to understand
-specific language semantics in the revision process. However, existing tools do
-not provide mechanized methods; thus, finding related parts manually in the
-specification or conformance tests is tedious. For example, while reference
-interpreters and $\jstar$ visualize execution states and type information,
-respectively, in the specification, they cannot localize parts in the
-specification or conformance tests related to the target semantics. Second, they
-manually or slowly synchronize three language components. For example, there is
-no synchronization between reference interpreters with other language
+However, existing tools for JavaScript language design assistants have two
+limitations related to the \textit{understanding} and \textit{update} of
+language semantics. First, they do not provide any automatic ways to focus on
+target semantics for better comprehension. JavaScript language designers often
+want to understand specific language semantics in the revision process. However,
+existing tools do not provide mechanized methods; thus, finding related parts
+manually in the specification or conformance tests is tedious. For example,
+while reference interpreters and $\jstar$ visualize execution states and type
+information, respectively, in the specification, they cannot localize parts in
+the specification or conformance tests related to the target semantics. Second,
+they manually or slowly synchronize three language components. For example,
+there is no synchronization between reference interpreters with other language
 components: ECMAScript and conformance tests. While $\jiset$ and $\jest$
 automatically generate interpreters and conformance tests from ECMAScript, they
 are appropriate for live language design because of the long time to extract
@@ -77,7 +86,15 @@ language-based tools.
 
 Our contributions are as follows:
 \begin{itemize}
-  \item \todo language design assistant for JavaScript with automatic sync
-  \item \todo filtering with syntactic views
-  \item \todo fast update for live language design
+  \item We present $\tool$, a live language design assistant for JavaScript with
+    syntactic views. It automatically synchronizes three language components:
+    specifications, conformance tests, and language-based tools.
+  \item We introduce a way to enhance the understanding of the target semantics
+    using user-defined \textit{syntactic views}, abstract syntax trees
+    containing abstract nodes. We experimentally demonstrate its effectiveness
+    with randomly selected syntactic views.
+  \item Towards \textit{live} language designs, we present an approach to detect
+    which parts of semantics are revised and partially update related parts in
+    language components. We also evaluate how it efficiently propagates
+    modification to language components with randomly modified semantics.
 \end{itemize}
