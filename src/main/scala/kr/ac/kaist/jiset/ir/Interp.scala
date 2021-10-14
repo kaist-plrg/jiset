@@ -9,7 +9,7 @@ import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
-import kr.ac.kaist.jiset.{ TEST_MODE, LOG, DEBUG, TIMEOUT, VIEW, PARTIAL }
+import kr.ac.kaist.jiset.{ TEST_MODE, LOG, DEBUG, TIMEOUT, VIEW, PARTIAL, VISITED_LOG_DIR }
 import scala.annotation.tailrec
 import scala.collection.mutable.{ Map => MMap }
 
@@ -27,6 +27,20 @@ class Interp(
   // set start time of interpreter
   val startTime: Long = System.currentTimeMillis
 
+  // file name
+  val fname = st.fnameOpt.getOrElse("UNKNOWN")
+
+  private var nodeMap: Map[Node, (Function, Int)] = Map()
+  def nodeRecord(func: Function, node: Node) = {
+    val count = nodeMap.getOrElse(node, (func, 0))._2
+    nodeMap += (node -> (func, count + 1))
+  }
+  def visitedNode: (String, Map[Node, (Function, Int)]) = (fname, nodeMap)
+  def dumpVisitJson() = {
+    import JvmUseful._, cfg.jsonProtocol._
+    val testName = convert262(fname)
+    dumpJson(visitedNode, s"$VISITED_LOG_DIR/$testName.json")
+  }
   // the number of instructions
   def getIter: Int = iter
   private var iter: Int = 0
@@ -69,6 +83,7 @@ class Interp(
       if (LOG) {
         IRLogger.recordIter(st.fnameOpt, iter)
         IRLogger.recordCallDepth(st.fnameOpt, maxDepth)
+        dumpVisitJson()
       }
       false
     case ReturnUndef =>
@@ -111,19 +126,20 @@ class Interp(
 
   // fixpoint
   @tailrec
-  final def fixpoint: State = step match {
+  final def fixpoint: State = (try step catch {
+    case e: Throwable =>
+      if (LOG) dumpVisitJson()
+      throw e
+  }) match {
     case true => fixpoint
     case false => st
   }
 
   // transition for nodes
   def interp(node: Node): Unit = {
-    st.context.viewOpt match {
-      case Some(view) if LOG =>
-        val func = cfg.funcOf(node)
-        val fnameOpt = st.fnameOpt
-        IRLogger.visitRecorder.record(func, node, fnameOpt)
-      case _ =>
+    if (LOG) {
+      val func = cfg.funcOf(node)
+      nodeRecord(func, node)
     }
     node match {
       case Entry(_) => st.moveNext

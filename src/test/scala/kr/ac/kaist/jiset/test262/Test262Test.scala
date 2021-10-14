@@ -56,6 +56,7 @@ trait Test262Test extends JSTest {
     var ijkInfo: Map[String, (MaxIJK, MaxIJK)] = Map()
     var analyzeResult: List[AnalyzeResult] = List()
     mkdir(logDir)
+    if (LOG) mkdir(VISITED_LOG_DIR)
     dumpFile(JISETTest.spec.version, s"$logDir/ecma262-version")
     dumpFile(currentVersion(BASE_DIR), s"$logDir/jiset-version")
     summary.timeouts.setPath(s"$logDir/$name-timeout.log")
