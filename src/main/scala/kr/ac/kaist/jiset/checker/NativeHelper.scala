@@ -112,12 +112,6 @@ object NativeHelper {
     } else println(s"Dumped CFG to $CFG_PATH.dot")
   }
 
-  // load VisitRecorder
-  def loadVisitRecorder(dirname: String): VisitRecorder = {
-    import js.checkerJsonProtocol._
-    readJson[VisitRecorder](s"$dirname/visited-nodes.json")
-  }
-
   // load CFGPartialModel
   def loadPartialModel(filename: String): CFGPartialModel = {
     import js.checkerJsonProtocol._
