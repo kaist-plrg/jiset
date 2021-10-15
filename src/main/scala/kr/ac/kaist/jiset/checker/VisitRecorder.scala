@@ -1,99 +1,60 @@
 package kr.ac.kaist.jiset.checker
 
-import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.{ LINE_SEP }
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import scala.collection.mutable.{ Map => MMap }
 
 // recorder for visited CFG nodes
 case class VisitRecorder(
-  funcMap: VisitRecorder.FuncMap
+  fileMap: VisitRecorder.FileMap
 ) extends CheckerElem {
   import VisitRecorder._
 
-  // record visited nodes
-  def record(
-    func: Function,
-    node: Node,
-    fnameOpt: Option[String]
-  ): Unit = {
-    val fname = fnameOpt.getOrElse("UNKNOWN")
-    val nodeMap = funcMap.getOrElseUpdate(func, MMap())
-    val fileMap = nodeMap.getOrElseUpdate(node, MMap())
-    val count = fileMap.getOrElseUpdate(fname, 0)
-    fileMap += fname -> (count + 1)
-  }
-
-  // number of components
-  def func: Long = funcMap.size
-  def node: Long = funcMap.map(_._2.size).sum
-
   // Data for CSV
   def funcData: List[String] = (for {
-    (func, nodeMap) <- funcMap
-  } yield List(func.uid, (for {
-    (_, fileMap) <- nodeMap
-    (fname, _) <- fileMap
-  } yield fname).toSet.size).mkString(",")).toList
+    (file, nodeMap) <- fileMap
+  } yield List(file, (for {
+    (_, (func, count)) <- nodeMap
+  } yield func).toSet.size).mkString(",")).toList
 
   def nodeData: List[String] = (for {
-    (func, nodeMap) <- funcMap
-    (node, fileMap) <- nodeMap
-  } yield List(node.uid, (for {
-    (fname, _) <- fileMap
-  } yield fname).size).mkString(",")).toList
-
-  def fileData: List[String] = {
-    val fmap: MMap[String, Long] = MMap()
-    for {
-      (_, nodeMap) <- funcMap
-      (node, fileMap) <- nodeMap
-      (fname, _) <- fileMap
-    } {
-      val count = fmap.getOrElseUpdate(fname, 0)
-      fmap += fname -> (count + 1)
-    }
-    (for {
-      (fname, count) <- fmap
-    } yield List(fname, count).mkString(",")).toList
-  }
+    (file, nodeMap) <- fileMap
+  } yield List(file, nodeMap.size).mkString(",")).toList
 
   def rawData: List[String] = (for {
-    (func, nodeMap) <- funcMap
-    (node, fileMap) <- nodeMap
-    (file, count) <- fileMap
-  } yield List(func.uid, node.uid, file, count).mkString(",")).toList
+    (file, nodeMap) <- fileMap
+    (node, (func, count)) <- nodeMap
+  } yield List(file, node, func, count).mkString(",")).toList
 
-  def dumpCsv(filename: String): Unit = {
-    dumpFile(
-      "Visited-nodes.csv",
-      (List("Function", "Node", "File", "Count").mkString(",") :: rawData).mkString(LINE_SEP),
-      s"$filename.csv"
-    )
+  def dumpCsv(dirname: String): Unit = {
     dumpFile(
       "Visited-nodes-func.csv",
-      (List("Function", "# File").mkString(",") :: funcData).mkString(LINE_SEP),
-      s"$filename-func.csv"
+      (List("File", "# Func").mkString(",") :: funcData).mkString(LINE_SEP),
+      s"$dirname/visited-nodes-func.csv"
     )
     dumpFile(
       "Visited-nodes-node.csv",
-      (List("Node", "# File").mkString(",") :: nodeData).mkString(LINE_SEP),
-      s"$filename-node.csv"
-    )
-    dumpFile(
-      "Visited-nodes-file.csv",
-      (List("File", "# Node").mkString(",") :: fileData).mkString(LINE_SEP),
-      s"$filename-file.csv"
+      (List("File", "# Node").mkString(",") :: nodeData).mkString(LINE_SEP),
+      s"$dirname/visited-nodes-node.csv"
     )
   }
 }
 object VisitRecorder {
   // internal types
-  type FuncMap = MMap[Function, NodeMap]
-  type NodeMap = MMap[Node, FileMap]
-  type FileMap = MMap[String, Long]
+  type FileMap = Map[String, NodeMap]
+  type NodeMap = Map[Node, (Function, Int)]
 
-  // constructors
-  def apply(pairs: (Function, NodeMap)*): VisitRecorder =
-    VisitRecorder(MMap.from(pairs))
+  // load VisitRecorder
+  def apply(dirname: String): VisitRecorder = {
+    import cfg.jsonProtocol._
+    VisitRecorder(
+      (for {
+        file <- walkTree(s"$dirname")
+        if jsonFilter(file.getName)
+        pair = readJson[(String, Map[Node, (Function, Int)])](file.toString)
+      } yield pair).toMap
+    )
+  }
 }

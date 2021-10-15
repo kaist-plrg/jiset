@@ -62,6 +62,14 @@ object IRLogger {
        """.stripMargin
   )
 
+  val visitDir = s"$VERSION_DIR/visited-nodes"
+
+  def dumpVisitStat(dirname: String): Unit = {
+    val vr = VisitRecorder(visitDir)
+    mkdir(s"$dirname/visit-recorder")
+    vr.dumpCsv(s"$dirname/visit-recorder")
+  }
+
   def dumpSummary(dirname: String): Unit =
     dumpFile(summaryString, s"$dirname/summary")
 
@@ -70,6 +78,7 @@ object IRLogger {
     mkdir(dirname)
     dumpIterMap(dirname)
     dumpDepthMap(dirname)
+    dumpVisitStat(dirname)
     dumpSummary(dirname)
   }
 }

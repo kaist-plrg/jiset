@@ -30,17 +30,19 @@ class Interp(
   // file name
   val fname = st.fnameOpt.getOrElse("UNKNOWN")
 
+  // visited nodes
   private var nodeMap: Map[Node, (Function, Int)] = Map()
   def nodeRecord(func: Function, node: Node) = {
     val count = nodeMap.getOrElse(node, (func, 0))._2
     nodeMap += (node -> (func, count + 1))
   }
-  def visitedNode: (String, Map[Node, (Function, Int)]) = (fname, nodeMap)
+  def visitedNode: (String, Map[Node, (Function, Int)]) = (convert262(fname), nodeMap)
   def dumpVisitJson() = {
     import JvmUseful._, cfg.jsonProtocol._
-    val testName = convert262(fname)
-    dumpJson(visitedNode, s"$VISITED_LOG_DIR/$testName.json")
+    val testName = convert262(fname).replace("/", ".")
+    dumpJson(visitedNode, s"$VISITED_LOG_DIR/$testName.json", true)
   }
+
   // the number of instructions
   def getIter: Int = iter
   private var iter: Int = 0

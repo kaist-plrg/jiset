@@ -131,6 +131,5 @@ object Useful {
 
   // convert test262 file name
   def convert262(fname: String): String =
-    fname.toSeq.diff(s"$TEST262_TEST_DIR/").unwrap.replace("/", ".")
-
+    fname.toSeq.diff(s"$TEST262_TEST_DIR/").unwrap
 }

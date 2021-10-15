@@ -116,7 +116,7 @@ object Stringifier {
 
   // visit recorder
   implicit lazy val VisitRecorderApp: App[VisitRecorder] = (app, vr) => {
-    app >> vr.funcMap
+    app >> vr.fileMap
   }
 
   // partial model
