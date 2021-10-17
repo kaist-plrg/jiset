@@ -128,11 +128,7 @@ class Interp(
 
   // fixpoint
   @tailrec
-  final def fixpoint: State = (try step catch {
-    case e: Throwable =>
-      if (LOG) dumpVisitJson()
-      throw e
-  }) match {
+  final def fixpoint: State = step match {
     case true => fixpoint
     case false => st
   }
