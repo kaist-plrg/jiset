@@ -66,8 +66,8 @@ object IRLogger {
 
   def dumpVisitStat(dirname: String): Unit = {
     val vr = VisitRecorder(visitDir)
-    mkdir(s"$dirname/visit-recorder")
-    vr.dumpCsv(s"$dirname/visit-recorder")
+    mkdir(s"$dirname")
+    vr.dumpCsv(s"$dirname")
   }
 
   def dumpSummary(dirname: String): Unit =
@@ -78,7 +78,6 @@ object IRLogger {
     mkdir(dirname)
     dumpIterMap(dirname)
     dumpDepthMap(dirname)
-    dumpVisitStat(dirname)
     dumpSummary(dirname)
   }
 }
