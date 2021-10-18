@@ -62,10 +62,11 @@ object IRLogger {
        """.stripMargin
   )
 
-  val visitDir = s"$VERSION_DIR/visited-nodes"
+  val visitDir = s"$VERSION_DIR/test262/visited-nodes"
+  val passFile = s"$VERSION_DIR/test262/log/eval-pass.log"
 
   def dumpVisitStat(dirname: String): Unit = {
-    val vr = VisitRecorder(visitDir)
+    val vr = VisitRecorder(visitDir, passFile)
     mkdir(s"$dirname")
     vr.dumpCsv(s"$dirname")
   }

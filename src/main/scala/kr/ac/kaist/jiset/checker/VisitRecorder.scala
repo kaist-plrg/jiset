@@ -47,13 +47,15 @@ object VisitRecorder {
   type NodeMap = Map[Node, (Function, Int)]
 
   // load VisitRecorder
-  def apply(dirname: String): VisitRecorder = {
+  def apply(dirname: String, passfile: String): VisitRecorder = {
     import cfg.jsonProtocol._
+    val passTests = readFile(passfile).split(LINE_SEP).toSet
     VisitRecorder(
       (for {
         file <- walkTree(s"$dirname")
         if jsonFilter(file.getName)
         pair = readJson[(String, Map[Node, (Function, Int)])](file.toString)
+        if passTests(pair._1)
       } yield pair).toMap
     )
   }
