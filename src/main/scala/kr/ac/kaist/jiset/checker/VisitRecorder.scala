@@ -13,30 +13,43 @@ case class VisitRecorder(
   import VisitRecorder._
 
   // Data for CSV
-  def funcData: List[String] = (for {
-    (file, nodeMap) <- fileMap
-  } yield List(file, (for {
-    (_, (func, count)) <- nodeMap
-  } yield func).toSet.size).mkString(",")).toList
+  def funcData: List[String] = {
+    val fmap: MMap[Function, Set[String]] = MMap()
+    for {
+      (file, nodeMap) <- fileMap
+      (node, (func, _)) <- nodeMap
+    } {
+      val fileSet = fmap.getOrElseUpdate(func, Set())
+      fmap += func -> (fileSet + file)
+    }
+    (for {
+      (func, fileset) <- fmap
+    } yield List(func, fileset.size).mkString(",")).toList
+  }
 
-  def nodeData: List[String] = (for {
-    (file, nodeMap) <- fileMap
-  } yield List(file, nodeMap.size).mkString(",")).toList
-
-  def rawData: List[String] = (for {
-    (file, nodeMap) <- fileMap
-    (node, (func, count)) <- nodeMap
-  } yield List(file, node, func, count).mkString(",")).toList
+  def nodeData: List[String] = {
+    val nmap: MMap[Node, Set[String]] = MMap()
+    for {
+      (file, nodeMap) <- fileMap
+      (node, _) <- nodeMap
+    } {
+      val fileSet = nmap.getOrElseUpdate(node, Set())
+      nmap += node -> (fileSet + file)
+    }
+    (for {
+      (node, fileset) <- nmap
+    } yield List(node, fileset.size).mkString(",")).toList
+  }
 
   def dumpCsv(dirname: String): Unit = {
     dumpFile(
       "Visited-nodes-func.csv",
-      (List("File", "# Func").mkString(",") :: funcData).mkString(LINE_SEP),
+      (List("Func", "# File").mkString(",") :: funcData).mkString(LINE_SEP),
       s"$dirname/visited-nodes-func.csv"
     )
     dumpFile(
       "Visited-nodes-node.csv",
-      (List("File", "# Node").mkString(",") :: nodeData).mkString(LINE_SEP),
+      (List("Node", "# File").mkString(",") :: nodeData).mkString(LINE_SEP),
       s"$dirname/visited-nodes-node.csv"
     )
   }
