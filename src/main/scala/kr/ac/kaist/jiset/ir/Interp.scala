@@ -36,7 +36,8 @@ class Interp(
     val count = nodeMap.getOrElse(node, (func, 0))._2
     nodeMap += (node -> (func, count + 1))
   }
-  def visitedNode: (String, Map[Node, (Function, Int)]) = (convert262(fname), nodeMap)
+  def visitedNode: (String, Map[Node, (Function, Int)]) =
+    (convert262(fname), nodeMap)
   def dumpVisitJson() = {
     import JvmUseful._, cfg.jsonProtocol._
     val testName = convert262(fname).replace("/", ".")

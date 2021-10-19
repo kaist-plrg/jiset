@@ -675,7 +675,6 @@ object BasePartialEval extends PartialEval {
     case ENotSupported(msg) => (PartialExpr.mkDynamic(ENotSupported(msg))) // TODO
   }
 
-
   def pe_refid: RefId => Result[Ref] = {
     case RefId(id) => RefId(id)
   }
