@@ -20,9 +20,6 @@ object Stringifier {
     case comp: AbsType => AbsTypeApp(app, comp)
     case comp: Type => TypeApp(app, comp)
     case comp: AbsRef => AbsRefApp(app, comp)
-    case comp: VisitRecorder => VisitRecorderApp(app, comp)
-    case comp: CFGPartialModel => CFGPartialModelApp(app, comp)
-    case comp: PartialFunc => PartialFuncApp(app, comp)
   }
 
   // abstract semantics
@@ -46,7 +43,7 @@ object Stringifier {
   // views
   implicit lazy val ViewApp: App[View] = (app, view) => {
     implicit val t = ListApp[Type]("[", ", ", "]")
-    if (USE_VIEW) app >> view.tys
+    if (VIEW) app >> view.tys
     else app >> "I"
   }
 
@@ -113,13 +110,4 @@ object Stringifier {
     case ANull => app >> "null"
     case AAbsent => app >> "?"
   }
-
-  // visit recorder
-  implicit lazy val VisitRecorderApp: App[VisitRecorder] = (app, vr) => {
-    app >> vr.fileMap
-  }
-
-  // partial model
-  implicit lazy val CFGPartialModelApp: App[CFGPartialModel] = (app, _) => app
-  implicit lazy val PartialFuncApp: App[PartialFunc] = (app, _) => app
 }

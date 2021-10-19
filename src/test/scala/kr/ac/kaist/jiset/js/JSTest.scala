@@ -40,7 +40,6 @@ trait JSTest extends IRTest {
   // load initial codes
   def load(script: Script, fnameOpt: Option[String] = None): State = {
     setSpec(loadSpec(s"$VERSION_DIR/generated"))
-    if (PARTIAL) setPartialModel(loadPartialModel(s"$VERSION_DIR/partial.json"))
     Initialize(script, fnameOpt, cursorGen)
   }
 

@@ -22,14 +22,11 @@ trait Test262Test extends JSTest {
   // test kinds
   type TestKind = TestKind.Value
   object TestKind extends Enumeration {
-    val Eval, EvalPartial, EvalManual, EvalManualPartial, Analyze, VisitStat = Value
+    val Eval, EvalManual, Analyze = Value
     def getName(kind: Value) = kind match {
       case Eval => "eval"
-      case EvalPartial => "partial-eval"
       case EvalManual => "eval-manual"
-      case EvalManualPartial => "partial-eval-manual"
       case Analyze => "analyze"
-      case VisitStat => "visit-stat"
     }
   }
 
@@ -50,7 +47,7 @@ trait Test262Test extends JSTest {
   def test262Test(
     targets: List[NormalTestConfig],
     kind: TestKind
-  ): Unit = if (!targets.isEmpty) {
+  ): Unit = {
     val name = TestKind.getName(kind)
     val progress = ProgressBar(s"test262 $name test", targets)
     val summary = progress.summary
@@ -156,17 +153,5 @@ trait Test262Test extends JSTest {
     if (summary.timeout > 0) println(s"${summary.timeout} tests are timeout.")
     if (summary.yet > 0) println(s"${summary.yet} tests are not yet supported.")
     if (summary.fail > 0) fail(s"${summary.fail} tests are failed.")
-  } else {
-    //VisitStat Test
-    kind match {
-      case TestKind.VisitStat =>
-        //dump Visit Statistics
-        val name = TestKind.getName(kind)
-        val progress = ProgressBar(s"test262 $name test", targets)
-        mkdir(logDir)
-        dumpFile(JISETTest.spec.version, s"$logDir/ecma262-version")
-        IRLogger.dumpVisitStat(s"$logDir")
-      case _ =>
-    }
   }
 }

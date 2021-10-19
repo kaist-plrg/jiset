@@ -2,7 +2,6 @@ package kr.ac.kaist.jiset
 
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.cfg.CFG
-import kr.ac.kaist.jiset.checker.CFGPartialModel
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
@@ -22,14 +21,6 @@ package object js {
 
   // current control-flow graph (CFG)
   lazy val cfg: CFG = new CFG(spec)
-
-  // set current CFG partial model
-  def setPartialModel(partialModel: => CFGPartialModel): Unit =
-    if (_partialModel.isEmpty) _partialModel = Some(partialModel)
-  private var _partialModel: Option[CFGPartialModel] = None
-
-  // current CFG partial model
-  lazy val partialModel: CFGPartialModel = _partialModel.get
 
   // json protocols
   lazy val cfgJsonProtocol = cfg.jsonProtocol

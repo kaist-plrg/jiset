@@ -6,9 +6,8 @@ import kr.ac.kaist.jiset.js.Test262
 class EvalLargeTest extends Test262Test {
   val name: String = "test262Test"
 
-  // logging with view information
+  // logging execution traces
   LOG = true
-  VIEW = true
 
   // registration
   def init: Unit = check(name, {

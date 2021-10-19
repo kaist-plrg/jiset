@@ -231,7 +231,7 @@ class Stringifier(
 
   // contexts
   implicit lazy val ContextApp: App[Context] = (app, context) => app.wrap {
-    val Context(cursorOpt, _, retId, name, _, _, locals, _) = context
+    val Context(cursorOpt, _, retId, name, _, _, locals) = context
     app :> "name: " >> name >> LINE_SEP
     app :> "return: " >> retId >> LINE_SEP
     app :> "cursor: "
@@ -248,7 +248,7 @@ class Stringifier(
   implicit lazy val CursorApp: App[Cursor] = (app, cursor) => cursor match {
     case InstCursor(cur, rest) =>
       app >> cur >> " [# rest: " >> rest.size >> "]"
-    case NodeCursor(node, _) =>
+    case NodeCursor(node) =>
       app >> node.toString(detail, line, asite)
   }
 

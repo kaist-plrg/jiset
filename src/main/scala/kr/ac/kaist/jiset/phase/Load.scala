@@ -22,7 +22,6 @@ case object Load extends Phase[Script, LoadConfig, State] {
   ): State = {
     val filename = getFirstFilename(jisetConfig, "load")
     setSpec(loadSpec(s"$VERSION_DIR/generated"))
-    if (PARTIAL) setPartialModel(loadPartialModel(s"$VERSION_DIR/partial.json"))
     Initialize(script, Some(filename), config.cursorGen)
   }
 

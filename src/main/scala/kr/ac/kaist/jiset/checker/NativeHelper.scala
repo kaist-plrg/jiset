@@ -92,16 +92,6 @@ object NativeHelper {
     case _: Throwable => printlnColor(RED)(s"Cannot dump CFG function")
   }
 
-  // dump CFG Partial Function in DOT/PDF format
-  def dumpPartialFunc(
-    pf: PartialFunc,
-    pdf: Boolean = true
-  ): Unit = try {
-    dumpDot(pf.toDot, pdf)
-  } catch {
-    case _: Throwable => printlnColor(RED)(s"Cannot dump CFG partial function")
-  }
-
   // dump DOT
   def dumpDot(dot: String, pdf: Boolean): Unit = {
     dumpFile(dot, s"$CFG_PATH.dot")
@@ -110,11 +100,5 @@ object NativeHelper {
       executeCmd(s"""dot -Tpdf "${CFG_PATH}_trans.dot" -o "$CFG_PATH.pdf"""")
       println(s"Dumped CFG to $CFG_PATH.pdf")
     } else println(s"Dumped CFG to $CFG_PATH.dot")
-  }
-
-  // load CFGPartialModel
-  def loadPartialModel(filename: String): CFGPartialModel = {
-    import js.checkerJsonProtocol._
-    readJson[CFGPartialModel](filename)
   }
 }

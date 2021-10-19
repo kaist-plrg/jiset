@@ -4,14 +4,11 @@ import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.cfg
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.js._
-import kr.ac.kaist.jiset.checker
-import kr.ac.kaist.jiset.checker._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender._
 
 object IRLogger {
-  import js.checkerJsonProtocol._
   val cfgStringifer = CFGElem.getStringifier(true, false, false)
 
   // iteration counter

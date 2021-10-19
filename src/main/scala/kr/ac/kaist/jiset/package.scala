@@ -59,12 +59,6 @@ package object jiset {
   // Debugging mode
   var DEBUG: Boolean = false
 
-  // View mode
-  var VIEW: Boolean = false
-
-  // partial eval mode
-  var PARTIAL: Boolean = false
-
   // Interactive debugging mode
   var INTERACTIVE: Boolean = false
 

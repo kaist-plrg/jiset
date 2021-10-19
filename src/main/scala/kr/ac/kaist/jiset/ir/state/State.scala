@@ -18,7 +18,8 @@ case class State(
   def moveTo(program: Program): State = moveTo(program.insts)
   def moveTo(insts: List[Inst]): State = moveTo(ISeq(insts))
   def moveTo(inst: Inst): State = {
-    context.cursorOpt = cursorGen(inst, None); this
+    context.cursorOpt = Some(cursorGen(inst))
+    this
   }
 
   // return id and its value

@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.checker
+package kr.ac.kaist.jiset.cfg
 
 import kr.ac.kaist.jiset.{ LINE_SEP }
 import kr.ac.kaist.jiset.cfg._
@@ -9,7 +9,7 @@ import scala.collection.mutable.{ Map => MMap }
 // recorder for visited CFG nodes
 case class VisitRecorder(
   fileMap: VisitRecorder.FileMap
-) extends CheckerElem {
+) extends CFGElem {
   import VisitRecorder._
 
   // Data for CSV

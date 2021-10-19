@@ -184,7 +184,7 @@ trait UnitWalker {
     case InstCursor(cur, rest) =>
       walk(cur)
       walkList[Inst](rest, walk)
-    case NodeCursor(node, _) =>
+    case NodeCursor(node) =>
   }
 
   // heaps

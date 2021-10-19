@@ -18,7 +18,7 @@ object Initialize {
     script match {
       case Script0(Some(body), _, _) => {
         st.globals += Id(SCRIPT_BODY) -> ASTVal(body)
-        st.context.cursorOpt = cursorGen(algoMap("RunJobs").body, None)
+        st.context.cursorOpt = Some(cursorGen(algoMap("RunJobs").body))
       }
       case _ =>
     }

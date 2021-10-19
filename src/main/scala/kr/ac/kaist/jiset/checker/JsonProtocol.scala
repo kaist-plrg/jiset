@@ -58,10 +58,4 @@ class JsonProtocol(cfg: CFG) extends BasicJsonProtocol {
     typeDecoder: Decoder[Type],
     typeEncoder: Encoder[Type]
     ) = stringCodec[Type](Type.apply, stringify)
-
-  implicit lazy val cfgPartialModelDecoder: Decoder[CFGPartialModel] = deriveDecoder
-  implicit lazy val cfgPartialModelEncoder: Encoder[CFGPartialModel] = deriveEncoder
-
-  implicit lazy val partialFuncDecoder: Decoder[PartialFunc] = deriveDecoder
-  implicit lazy val partialFuncEncoder: Encoder[PartialFunc] = deriveEncoder
 }

@@ -60,13 +60,12 @@ package object checker {
   //////////////////////////////////////////////////////////////////////////////
   // options
   var TARGET: Option[String] = None
-  var USE_VIEW: Boolean = true
+  var VIEW: Boolean = true
   var PRUNE: Boolean = true
   var CHECK_BUG: Boolean = false
   var USE_REPL: Boolean = false
   var DOT: Boolean = false
   var PDF: Boolean = false
-  var PARTIAL_MODEL: Option[String] = None
 
   // current control points for alarms
   var alarmCP: ControlPoint = null

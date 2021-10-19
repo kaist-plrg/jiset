@@ -10,9 +10,8 @@ class ManualMiddleTest extends Test262Test {
   // filename for manual target names
   val filename = s"$BASE_DIR/tests/manual-test262"
 
-  // logging with view information
+  // logging execution traces
   LOG = true
-  VIEW = true
 
   // registration
   def init: Unit = check(name, {
