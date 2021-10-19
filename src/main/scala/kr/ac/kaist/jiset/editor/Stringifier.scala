@@ -1,18 +1,18 @@
-package kr.ac.kaist.jiset.viewer
+package kr.ac.kaist.jiset.editor
 
 import kr.ac.kaist.jiset.LINE_SEP
 import kr.ac.kaist.jiset.util.Appender
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
-// Viewer Stringifier
+// Editor Stringifier
 class Stringifier(
   detail: Boolean = true,
   line: Boolean = false,
   asite: Boolean = false
 ) {
-  // Viewer elements
-  implicit lazy val ViewerElemApp: App[ViewerElem] = (app, elem) => elem match {
+  // Editor elements
+  implicit lazy val EditorElemApp: App[EditorElem] = (app, elem) => elem match {
     case view: SyntacticView => SyntacticViewApp(app, view)
   }
 

@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.js.ast.Script
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.JvmUseful._
-import kr.ac.kaist.jiset.viewer._
+import kr.ac.kaist.jiset.editor._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.NativeHelper._
 import kr.ac.kaist.jiset.js.{ Parser => ESParser }

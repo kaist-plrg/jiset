@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.viewer
+package kr.ac.kaist.jiset.editor
 
 import kr.ac.kaist.jiset.{ VISITED_LOG_DIR, BASE_DIR }
 import kr.ac.kaist.jiset.cfg._

@@ -1,9 +1,9 @@
-package kr.ac.kaist.jiset.viewer
+package kr.ac.kaist.jiset.editor
 
 import kr.ac.kaist.jiset.util.Useful._
 
-// Viewer components
-trait ViewerElem {
+// Editor components
+trait EditorElem {
   // conversion to string
   override def toString: String = toString(true, false, false)
 
@@ -13,12 +13,12 @@ trait ViewerElem {
     line: Boolean = false,
     asite: Boolean = false
   ): String = {
-    val stringifier = ViewerElem.getStringifier((detail, line, asite))
+    val stringifier = EditorElem.getStringifier((detail, line, asite))
     import stringifier._
     stringify(this)
   }
 }
-object ViewerElem {
+object EditorElem {
   val getStringifier = {
     cached[(Boolean, Boolean, Boolean), Stringifier](key => {
       val (detail, line, asite) = key

@@ -1,4 +1,4 @@
-package kr.ac.kaist.jiset.viewer
+package kr.ac.kaist.jiset.editor
 
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.ir._
