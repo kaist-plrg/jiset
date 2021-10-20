@@ -1,10 +1,21 @@
 \section{Partial Evaluation of $\ires$}\label{sec:formal}
 
-\subsection{Abstract Syntax}
+We first define $\ires$ with its abstract syntax, states, and concrete
+semantics.  Then, we define syntactic views as JavaScript ASTs with abstract
+nodes. Finally, we define the partial evaluation as a transformation of $\ires$
+to specialize $\ires$ functions.  To prove the semantics preservation of the
+partial evaluation, we introduce an observational semantics of $\ires$ and prove
+that each specialized $\ires$ functions has equivalent observational semantics
+of the corresponding original one.
+
+\subsection{$\ires$: Intermediate Representations for ECMAScript}
+
+First, we define abstract syntax, states, and concrete semantics of $\ires$.
+
+\subsubsection{Abstract Syntax}
 
 \[
   \begin{array}{lr@{~}c@{~}c@{~}c@{~}l}
-    \text{Programs} & \progset &\ni& \prog &::=& \langle \func^*, \inst \rangle\\
     \text{Functions} & \funcset &\ni& \func &::=&
     \kwdef \; x \; \kwrl x^* \kwrr \; \kwcl [\lab: \inst]^* \kwcr\\
     \text{Variables} & \varset &\ni& x\\
@@ -23,10 +34,8 @@
   \end{array}
 \]
 
-A program $\prog \in \progset$ is a pair of functions and a top-level
-instruction.  A function $\func \in \funcset$ is defined with its name,
-parameters, and body instructions with labels $\labset$.  An instruction $\inst
-\in \instset$ is
+A function $\func \in \funcset$ is defined with its name, parameters, and body
+instructions with labels $\labset$.  An instruction $\inst \in \instset$ is
 a primitive value assignment $x = \pval$,
 an operation between values $x = \op \kwrl x^* \kwrr$,
 a function call $x = x \kwrl x^* \kwrr$,
@@ -36,12 +45,13 @@ a field assignment $x \kwsl x \kwsr = x$,
 a conditional branch $\kwif \; x \; \lab \; \lab$,
 or a return instruction $\kwret \; x$.
 
-\subsection{States}
+
+\subsubsection{States}
 
 \[
   \begin{array}{lr@{~}c@{~}l@{~}c@{~}l}
     \text{States} & \st &\in& \stset &=&
-    \heapset \times \ctxtset\\
+    \heapset \times \envset \times \ctxtset\\
     \text{Heaps} & \heap &\in& \heapset &=&
     \addrset \finmap \recset\\
     \text{Contexts} & \ctxt &\in& \ctxtset &=&
@@ -58,13 +68,46 @@ or a return instruction $\kwret \; x$.
   \end{array}
 \]
 
-States $\stset$ consists of heaps $\heapset$ and contexts $\ctxtset$.  A heap
-$\heap \in \heapset$ is a finite mapping from addresses to records.  Each record
-allocation instruction $x = \kwcl \kwcr$ creates a unique address $\addr \in
-\addrset$ different from existing addresses.  A context $\ctxt \in \ctxtset$ is
-a triple of 1) a program point, 2) an environment, and 3) an optional calling
-context.  An environment $\env \in \envset$ is a finite mapping from variables
-to values. A value $\val \in \valset$ is a primitive value $\pval \in \pvalset$
-(e.g., a string value $\str \in \strset$), an address $\addr \in \addrset$, an
-JavaScript AST $\tree \in \treeset$, or a function $f \in \funcset$.  A record
-$\rec \in \recset$ is a finite mappings from strings to values.
+States $\stset$ consist of heaps $\heapset$, global environments $\envset$, and
+contexts $\ctxtset$.  A heap $\heap \in \heapset$ is a finite mapping from
+addresses to records.  Each record allocation instruction $x = \kwcl \kwcr$
+creates a unique address $\addr \in \addrset$ different from existing addresses.
+A context $\ctxt \in \ctxtset$ is a triple of a label, a local environment, and
+an optional calling context.  An environment $\env \in \envset$ is a finite
+mapping from variables to values. A value $\val \in \valset$ is a primitive
+value $\pval \in \pvalset$ (e.g., a string value $\str \in \strset$), an address
+$\addr \in \addrset$, a JavaScript AST $\tree \in \treeset$, or a function $f
+\in \funcset$.  A record $\rec \in \recset$ is a finite mappings from strings to
+values.
+
+\subsubsection{Concrete Semantics of Instructions}
+
+\[
+  \framebox{$\sem{\inst}: \stset \rightarrow \stset$}
+\]
+
+\todo
+
+\subsubsection{Concrete Semantics of Functions}
+
+\[
+  \framebox{$\sem{\func}: \stset \times \valset^* \rightarrow \stset$}
+\]
+
+\todo
+
+\subsection{Syntatic Views}
+
+\todo
+
+\subsection{Partial Evaluation}
+
+\todo
+
+\subsection{Observational Semantics}
+
+\todo
+
+\subsection{Proof of Semantics Preservation}
+
+\todo
