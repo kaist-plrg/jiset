@@ -1,0 +1,70 @@
+\section{Partial Evaluation of $\ires$}\label{sec:formal}
+
+\subsection{Abstract Syntax}
+
+\[
+  \begin{array}{lr@{~}c@{~}c@{~}c@{~}l}
+    \text{Programs} & \progset &\ni& \prog &::=& \langle \func^*, \inst \rangle\\
+    \text{Functions} & \funcset &\ni& \func &::=&
+    \kwdef \; x \; \kwrl x^* \kwrr \; \kwcl [\lab: \inst]^* \kwcr\\
+    \text{Variables} & \varset &\ni& x\\
+    \text{Labels} & \labset &\ni& \lab\\
+    \text{Instructions} & \instset &\ni& \inst &::=&
+    x = \pval \mid
+    x = \op \kwrl x^* \kwrr \mid
+    x = x \kwrl x^* \kwrr\\
+    &&&&\mid&
+    x = \kwcl \kwcr \mid
+    x = x \kwsl x \kwsr \mid
+    x \kwsl x \kwsr = x\\
+    &&&&\mid&
+    \kwif \; x \; \lab \; \lab \mid
+    \kwret \; x\\
+  \end{array}
+\]
+
+A program $\prog \in \progset$ is a pair of functions and a top-level
+instruction.  A function $\func \in \funcset$ is defined with its name,
+parameters, and body instructions with labels $\labset$.  An instruction $\inst
+\in \instset$ is
+a primitive value assignment $x = \pval$,
+an operation between values $x = \op \kwrl x^* \kwrr$,
+a function call $x = x \kwrl x^* \kwrr$,
+a record allocation $x = \kwcl \kwcr$,
+a field access $x = x \kwsl x \kwsr$,
+a field assignment $x \kwsl x \kwsr = x$,
+a conditional branch $\kwif \; x \; \lab \; \lab$,
+or a return instruction $\kwret \; x$.
+
+\subsection{States}
+
+\[
+  \begin{array}{lr@{~}c@{~}l@{~}c@{~}l}
+    \text{States} & \st &\in& \stset &=&
+    \heapset \times \ctxtset\\
+    \text{Heaps} & \heap &\in& \heapset &=&
+    \addrset \finmap \recset\\
+    \text{Contexts} & \ctxt &\in& \ctxtset &=&
+    \labset \times \envset \times \ctxtset^?\\
+    \text{Environments} & \env &\in& \envset &=&
+    \varset \finmap \valset\\
+    \text{Values} & \val &\in& \valset &=&
+    \pvalset \uplus \addrset \uplus \treeset \uplus \funcset\\
+    \text{Primive Values} & \pval &\in& \pvalset &=&
+    \strset \uplus \cdots\\
+    \text{JavaScript ASTs} & \tree &\in& \treeset\\
+    \text{Records} & \rec &\in& \recset &=&
+    \strset \finmap \valset\\
+  \end{array}
+\]
+
+States $\stset$ consists of heaps $\heapset$ and contexts $\ctxtset$.  A heap
+$\heap \in \heapset$ is a finite mapping from addresses to records.  Each record
+allocation instruction $x = \kwcl \kwcr$ creates a unique address $\addr \in
+\addrset$ different from existing addresses.  A context $\ctxt \in \ctxtset$ is
+a triple of 1) a program point, 2) an environment, and 3) an optional calling
+context.  An environment $\env \in \envset$ is a finite mapping from variables
+to values. A value $\val \in \valset$ is a primitive value $\pval \in \pvalset$
+(e.g., a string value $\str \in \strset$), an address $\addr \in \addrset$, an
+JavaScript AST $\tree \in \treeset$, or a function $f \in \funcset$.  A record
+$\rec \in \recset$ is a finite mappings from strings to values.

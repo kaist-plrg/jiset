@@ -38,6 +38,29 @@
 \newcommand{\jstar}{\sname{JSTAR}}
 \newcommand{\asfsdf}{\textsc{Asf+Sdf}}
 
+% ECMAScript Intermediate Reprentations (IRES)
+\newcommand{\ires}{\text{IR}_\text{ES}}
+\lstdefinestyle{ires}{
+  frame=tb,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=fixed,
+  basicstyle={\footnotesize\ttfamily},
+  numberstyle=\tiny\color{darkgray},
+  numbers=none,
+  numbersep=5pt,
+  keywordstyle=\color{blue},
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3,
+}
+
 % JavaScript code style
 \lstdefinelanguage{JavaScript}{
   keywords={async, await, break, case, catch, class, const, continue, debugger,
@@ -72,4 +95,89 @@
 }
 
 % codes
-\newcommand{\code}[1]{\text{\lstinline[style=JS]!#1!}} 
+\newcommand{\jscode}[1]{\text{\lstinline[style=JS]!#1!}} 
+\newcommand{\ircode}[1]{\text{\lstinline[style=ires]!#1!}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\kwsyn}{\code{syntax}}
+\newcommand{\kwdef}{\code{def}}
+\newcommand{\kwret}{\code{return}}
+\newcommand{\kwif}{\code{if}}
+\newcommand{\kwrl}{\code{(}}
+\newcommand{\kwrr}{\code{)}}
+\newcommand{\kwcl}{\code{\{}}
+\newcommand{\kwcr}{\code{\}}}
+\newcommand{\kwsl}{\code{[}}
+\newcommand{\kwsr}{\code{]}}
+
+% Basic
+\DeclareMathAlphabet{\mathpzc}{T1}{pzc}{m}{it}
+\newcommand{\powerset}[1]{\mathcal{P}(#1)}
+\newcommand{\abs}[1]{{#1}^{\#}}
+\newcommand{\finmap}{{\xrightarrow[]{\text{fin}}}}
+\newcommand{\mapstos}{\;\dot{\mapsto}\;}
+\newcommand{\Dom}{\name{Dom}}
+\DeclarePairedDelimiter{\norm}{\lvert}{\rvert} 
+
+% Notations
+\newcommand{\progset}{\mathbb{P}}
+\newcommand{\prog}{p}
+\newcommand{\funcset}{\mathbb{F}}
+\newcommand{\func}{f}
+\newcommand{\labset}{\mathcal{L}}
+\newcommand{\lab}{\mathpzc{l}}
+\newcommand{\labdot}[1]{{{\bullet_{\lab_{#1}}}}}
+\newcommand{\ilab}{\lab_\iota}
+\newcommand{\labnext}{\name{next}}
+\newcommand{\op}{\name{op}}
+\newcommand{\ops}{\dot{\name{op}}}
+\newcommand{\instset}{\mathbb{I}}
+\newcommand{\inst}{i}
+
+% Values
+\newcommand{\valset}{\mathbb{V}}
+\newcommand{\val}{v}
+\newcommand{\pvalset}{\valset_\name{p}}
+\newcommand{\pval}{\val_\name{p}}
+\newcommand{\strset}{\valset_\name{str}}
+\newcommand{\str}{\val_\name{str}}
+\newcommand{\treeset}{\mathbb{T}}
+\newcommand{\tree}{t}
+\newcommand{\trees}{\overline{t}}
+
+% States
+\newcommand{\stset}{\mathbb{S}}
+\newcommand{\st}{\sigma}
+\newcommand{\istset}{\stset_\iota}
+\newcommand{\ist}{\st_\iota}
+
+% Helper of States
+\newcommand{\synctxtof}{\name{syntax-ctxt}}
+\newcommand{\jscallctxtof}{\name{js-call-ctxt}}
+\newcommand{\funcof}{\name{func}}
+\newcommand{\ctxtsof}{\name{ctxts}}
+
+% Heaps
+\newcommand{\heapset}{\mathbb{H}}
+\newcommand{\heap}{h}
+
+% Contexts
+\newcommand{\ctxtset}{\mathbb{C}}
+\newcommand{\ctxt}{c}
+
+% Environments
+\newcommand{\envset}{\mathbb{E}}
+\newcommand{\env}{e}
+
+% Variables
+\newcommand{\varset}{\mathbb{X}}
+
+% Addresses
+\newcommand{\addrset}{\mathbb{A}}
+\newcommand{\addr}{a}
+
+% Records
+\newcommand{\recset}{\mathbb{R}}
+\newcommand{\rec}{r}
+
+% Transition Relations
+\newcommand{\trans}{\leadsto}
