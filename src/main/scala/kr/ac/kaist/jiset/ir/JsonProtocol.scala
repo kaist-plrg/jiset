@@ -3,12 +3,13 @@ package kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.ir.Parser._
 import kr.ac.kaist.jiset.util.BasicJsonProtocol
 import kr.ac.kaist.jiset.util.Useful.stringify
+import kr.ac.kaist.jiset.js._
 import io.circe._, io.circe.generic.semiauto._, io.circe.generic.auto._
 import io.circe.syntax._
 
 object JsonProtocol extends BasicJsonProtocol {
   val stringifier = new Stringifier(line = true, asite = true)
-  import stringifier._
+  import stringifier._, cfgJsonProtocol._
 
   implicit val (tyDecoder: Decoder[Ty], tyEncoder: Encoder[Ty]) =
     stringCodec[Ty](Ty.apply, stringify)
@@ -18,6 +19,10 @@ object JsonProtocol extends BasicJsonProtocol {
     stringCodec[Expr](Expr.apply, stringify)
   implicit val (instDecoder: Decoder[Inst], instEncoder: Encoder[Inst]) =
     stringCodec[Inst](Inst.apply, stringify)
+
+  // interp result
+  implicit lazy val LoggerResultDecoder: Decoder[Logger.Result] = deriveDecoder
+  implicit lazy val LoggerResultEncoder: Encoder[Logger.Result] = deriveEncoder
 
   // debugger breakpoint
   implicit lazy val AlgoBreakpointDecoder: Decoder[AlgoBreakpoint] = deriveDecoder

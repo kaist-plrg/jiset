@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.util
 
 import java.io.PrintWriter
 import kr.ac.kaist.jiset.LINE_SEP
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 class Summary {
   // not yet supported
@@ -22,6 +23,15 @@ class Summary {
 
   // close all print writers
   def close: Unit = { yets.close; timeouts.close; fails.close; passes.close }
+
+  // set base path of passes, fails, yets, timeouts
+  def setBase(logDir: String, name: String) = {
+    mkdir(logDir)
+    timeouts.setPath(s"$logDir/$name-timeout.log")
+    yets.setPath(s"$logDir/$name-yet.log")
+    fails.setPath(s"$logDir/$name-fail.log")
+    passes.setPath(s"$logDir/$name-pass.log")
+  }
 
   // time
   var timeMillis: Long = 0L

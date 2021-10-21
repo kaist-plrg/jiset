@@ -25,6 +25,21 @@ object Test262 {
   def parseFile(filename: String): Script =
     Parser.parse(Parser.Script(Nil), fileReader(filename)).get
 
+  // load test262 test file
+  def loadTest262(jsName: String, harness: List[String]): Script = {
+    val harnessStmts = harness.foldLeft(basicStmts) {
+      case (li, s) => for {
+        x <- li
+        y <- getInclude(s)
+      } yield x ++ y
+    } match {
+      case Right(l) => l
+      case Left(msg) => throw NotSupported(msg)
+    }
+    val stmts = harnessStmts ++ flattenStmt(parseFile(jsName))
+    mergeStmt(stmts)
+  }
+
   // test262 test configuration
   lazy val config = FilterMeta.test262configSummary
 

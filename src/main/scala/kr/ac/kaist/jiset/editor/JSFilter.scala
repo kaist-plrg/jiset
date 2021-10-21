@@ -1,10 +1,13 @@
 package kr.ac.kaist.jiset.editor
 
-import kr.ac.kaist.jiset.{ VISITED_LOG_DIR, BASE_DIR }
+import kr.ac.kaist.jiset.BASE_DIR
 import kr.ac.kaist.jiset.cfg._
+import kr.ac.kaist.jiset.ir.Logger
+import kr.ac.kaist.jiset.ir.JsonProtocol._
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.util.JvmUseful._
+import kr.ac.kaist.jiset.util.{ UIdGen, UId }
 import scala.math.log10
 
 // filtering JavaScript programs using a given syntactic view
@@ -12,38 +15,45 @@ object JSFilter {
   def apply(ast: AST, view: SyntacticView): Boolean =
     ast.contains(view.ast)
 
-  // test with trace
-  case class Test(name: String, trace: Map[Node, Int]) {
+  // test id generator
+  val tidGen: UIdGen[Test] = new UIdGen
+
+  // test object
+  case class Test(
+    uidGen: UIdGen[Test],
+    result: Logger.Result
+  ) extends UId[Test] {
+    def name: String = result.name
+    def touched: Map[Node, Int] = result.touched
+
+    // stats
     def max: Int = ???
-    def sum: Int = trace.values.sum
+    def sum: Int = touched.values.sum
 
     // term frequency(tf)
-    def tf_binary(node: Node) = if (trace.contains(node)) 1 else 0
-    def tf_raw(node: Node) = trace.getOrElse(node, 0)
-    def tf_basic(node: Node) = tf_raw(node) / sum
-    def tf_log(node: Node) = log10(1 + tf_raw(node))
-    def tf_augmented(node: Node, k: Double = 0.5) = k + k * tf_raw(node) / max
+    def tf_binary(n: Node) = if (touched.contains(n)) 1 else 0
+    def tf_raw(n: Node) = touched.getOrElse(n, 0)
+    def tf_basic(n: Node) = tf_raw(n) / sum
+    def tf_log(n: Node) = log10(1 + tf_raw(n))
+    def tf_augmented(n: Node, k: Double = 0.5) = k + k * tf_raw(n) / max
   }
 
   object Test {
     // NOTE: spec should be loaded before
-    def apply(path: String): Test = {
-      import cfg.jsonProtocol._
-      val (name, rawTrace) =
-        readJson[(String, Map[Node, (Function, Int)])](path)
-      val trace = rawTrace.map { case (n, (_, c)) => n -> c }.toMap
-      Test(name, trace)
+    def apply(filename: String): Test = {
+      val result = readJson[Logger.Result](filename)
+      Test(tidGen, result)
     }
   }
 
   // TestList
   case class TestList(tests: List[Test], nodeMap: Map[Node, List[Test]]) {
     // inverse document frequency(idf)
-    def n_t(node: Node) = nodeMap.getOrElse(node, List()).size + 1
-    def idf_basic(node: Node) = log10(tests.size / n_t(node))
-    def idf_smooth(node: Node) = log10(tests.size / n_t(node)) + 1
-    def idf_prob(node: Node) = log10((tests.size - n_t(node)) / n_t(node))
-    def tfidf(node: Node, test: Test) = test.tf_raw(node) * idf_smooth(node)
+    def n_t(n: Node) = nodeMap.getOrElse(n, List()).size + 1
+    def idf_basic(n: Node) = log10(tests.size / n_t(n))
+    def idf_smooth(n: Node) = log10(tests.size / n_t(n)) + 1
+    def idf_prob(n: Node) = log10((tests.size - n_t(n)) / n_t(n))
+    def tfidf(n: Node, test: Test) = test.tf_raw(n) * idf_smooth(n)
 
     // sorted by tf-idf score
     // lazy val sortedNodeMap: Map[Node, List[Test]] = (for {
@@ -58,8 +68,8 @@ object JSFilter {
     def dump(dirname: String = BASE_DIR): Unit = {
       mkdir(dirname)
       dumpScore(dirname)
-      dumpTestTraceSize(dirname)
-      dumpNodeTouchedSize(dirname)
+      dumpTestTouched(dirname)
+      dumpNodeTouched(dirname)
     }
 
     // dump tf-idf score
@@ -77,18 +87,18 @@ object JSFilter {
       nf.close()
     }
 
-    // dump trace size of each test
-    def dumpTestTraceSize(dirname: String = BASE_DIR): Unit = {
-      val nf = getPrintWriter(s"$dirname/test_trace_size.csv")
+    // dump touched size of each test
+    def dumpTestTouched(dirname: String = BASE_DIR): Unit = {
+      val nf = getPrintWriter(s"$dirname/test_touched.csv")
       tests.foreach { test =>
-        nf.println(s"${test.name},${test.trace.size}")
+        nf.println(s"${test.name},${test.touched.size}")
       }
       nf.close()
     }
 
     // dump touched test size of each node in cfg
-    def dumpNodeTouchedSize(dirname: String = BASE_DIR): Unit = {
-      val nf = getPrintWriter(s"$dirname/node_touched_size.tsv")
+    def dumpNodeTouched(dirname: String = BASE_DIR): Unit = {
+      val nf = getPrintWriter(s"$dirname/node_touched.tsv")
       cfg.nodes.sortWith(_.uid < _.uid).foreach { node =>
         {
           val names = nodeMap.getOrElse(node, List()).map(_.name)
@@ -101,7 +111,9 @@ object JSFilter {
     override def toString: String = ???
   }
   object TestList {
-    def apply(dirname: String = VISITED_LOG_DIR): Unit = {
+    // NOTE: spec should be loaded before
+    // TODO
+    def apply(dirname: String = ???): Unit = {
       var tests: List[Test] = List()
       var nodeMap: Map[Node, List[Test]] = Map()
       // walk visited-nodes directory
@@ -110,14 +122,14 @@ object JSFilter {
         test = Test(file.toString) // read test file
       } {
         // update nodeMap from test trace
-        test.trace.keySet.foreach { node =>
+        test.touched.keySet.foreach { node =>
           val testList = nodeMap.getOrElse(node, List())
           nodeMap += node -> (test :: testList)
         }
         // update total test list
         tests ::= test
       }
-      TestList(tests, nodeMap) // TODO sort tests
+      TestList(tests, nodeMap)
     }
   }
 }

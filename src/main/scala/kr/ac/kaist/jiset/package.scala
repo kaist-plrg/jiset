@@ -13,7 +13,6 @@ package object jiset {
   val CFG_LOG_DIR = s"$LOG_DIR/cfg"
   val CHECK_LOG_DIR = s"$LOG_DIR/check"
   val ANALYZE_LOG_DIR = s"$LOG_DIR/analyze"
-  val VISITED_LOG_DIR = s"$LOG_DIR/visited-nodes"
 
   // Specification directory
   val ECMA262_DIR = s"$BASE_DIR/ecma262"

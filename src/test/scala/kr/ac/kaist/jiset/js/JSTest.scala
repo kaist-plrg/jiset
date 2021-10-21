@@ -69,28 +69,18 @@ trait JSTest extends IRTest {
   }
 
   // tests for esparse
-  def esparseTest(jsName: String, filename: String): Unit = {
-    val answer = parseFile(jsName)
+  def esparseTest(answer: Script, jsName: String): Unit = {
     val toJsonName = changeExt("js", "json")
-    try {
-      val json = esparseFile(jsName)
+    val json = esparseFile(jsName)
 
-      // check compressed form equality
-      val comp0 = AST(answer.toJson).get
-      val comp1 = AST(json).get
-      assert(comp0.equals(comp1))
+    // check compressed form equality
+    val comp0 = AST(answer.toJson).get
+    val comp1 = AST(json).get
+    assert(comp0.equals(comp1))
 
-      // check AST equality
-      val ast = Script(comp1)
-      ASTDiff.diff(answer, ast)
-    } catch {
-      // save answer to tests/ast for debugging
-      case e: Throwable =>
-        val jsonName = toJsonName(filename)
-        dumpFile(answer.toString, s"$ESPARSE_DIR/$filename")
-        dumpFile(answer.toJson.noSpaces, s"$ESPARSE_DIR/$jsonName")
-        fail(s"esparse failed: $jsName")
-    }
+    // check AST equality
+    val ast = Script(comp1)
+    ASTDiff.diff(answer, ast)
   }
 
   // tests for JS interpreter
@@ -110,8 +100,14 @@ trait JSTest extends IRTest {
   // tests for JS analyzer
   def analyzeTestFile(filename: String): AbsSemantics =
     analyzeFile(filename, 0)
-  def analyzeTest(script: Script): AbsSemantics =
-    analyze(script, 0)
+  def analyzeTest(script: Script): AbsSemantics = {
+    val absSem = analyze(script, 0)
+    absSem.finalResult.value.isAbruptCompletion.getSingle match {
+      case FlatElem(Bool(false)) =>
+      case res => fail(s"analyze failed: $res")
+    }
+    absSem
+  }
 
   // conversion extension from .js to .ir
   val js2ir = changeExt("js", "ir")

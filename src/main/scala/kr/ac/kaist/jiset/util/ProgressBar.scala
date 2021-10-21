@@ -6,7 +6,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import kr.ac.kaist.jiset.LINE_SEP
 
 // progress bar
-case class ProgressBar[T](msg: String, seq: Iterable[T]) {
+case class ProgressBar[T](
+  msg: String,
+  seq: Iterable[T]
+) {
   // summary
   val summary = new Summary
 

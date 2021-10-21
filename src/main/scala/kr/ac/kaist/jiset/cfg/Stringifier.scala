@@ -22,7 +22,6 @@ class Stringifier(
     case func: Function => FunctionApp(app, func)
     case origin: Origin => OriginApp(app, origin)
     case node: Node => NodeApp(app, node)
-    case comp: VisitRecorder => VisitRecorderApp(app, comp)
   }
 
   // CFGs
@@ -48,10 +47,5 @@ class Stringifier(
       case Exit(_) =>
     }
     app
-  }
-
-  // visit recorder
-  implicit lazy val VisitRecorderApp: App[VisitRecorder] = (app, vr) => {
-    app >> vr.fileMap
   }
 }

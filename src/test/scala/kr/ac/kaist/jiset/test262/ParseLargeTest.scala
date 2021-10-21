@@ -2,6 +2,7 @@ package kr.ac.kaist.jiset.test262
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.js._
+import kr.ac.kaist.jiset.js.ast.Script
 import kr.ac.kaist.jiset.phase.FilterMeta
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Useful._
@@ -10,37 +11,18 @@ import kr.ac.kaist.jiset.util.JvmUseful._
 class ParseLargeTest extends Test262Test {
   val name: String = "test262ParseTest"
 
-  import Test262._
-
   // parser timeout
   val PARSE_TIMEOUT = 100 // second
 
-  // progress bar
-  val progress = ProgressBar("test262 parse test", config.normal)
+  // test test262 test
+  def doTest(script: Script, name: String): Unit =
+    parseTest(script)
 
-  // summary
-  val summary = progress.summary
+  // parse
+  override def parse(filename: String, includes: List[String]): Script =
+    timeout(parseFile(filename), PARSE_TIMEOUT)
 
   // registration
-  def init: Unit = check(name, {
-    mkdir(logDir)
-    dumpFile(JISETTest.spec.version, s"$logDir/ecma262-version")
-    dumpFile(currentVersion(BASE_DIR), s"$logDir/jiset-version")
-    summary.fails.setPath(s"$logDir/eval-fail.log")
-    summary.passes.setPath(s"$logDir/eval-pass.log")
-    for (config <- progress) {
-      val name = config.name
-      val jsName = s"$TEST262_TEST_DIR/$name"
-      getError {
-        timeout(parseTest(parseFile(jsName)), PARSE_TIMEOUT)
-        summary.passes += name
-      }.foreach(e => {
-        summary.fails += name
-      })
-    }
-    summary.close
-    dumpFile(summary, s"$logDir/parse-summary")
-    if (summary.fail > 0) fail(s"${summary.fail} tests are failed.")
-  })
+  def init: Unit = check(name, { test262Test("parse") })
   init
 }

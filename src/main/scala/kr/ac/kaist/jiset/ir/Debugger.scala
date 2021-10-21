@@ -98,7 +98,7 @@ trait Debugger {
   final def continue: StepResult = stepUntil { true }
 
   // breakpoints
-  val breakpoints = ArrayBuffer[(InterpHook, Breakpoint)]()
+  val breakpoints = ArrayBuffer[(Interp.Hook, Breakpoint)]()
 
   // check if current step is in break
   final def isBreak: Boolean = breakpoints.foldLeft(false) {
@@ -107,7 +107,7 @@ trait Debugger {
 
   // get breakpoint by index
   private def getBreakIdx(
-    bpList: ArrayBuffer[(InterpHook, Breakpoint)],
+    bpList: ArrayBuffer[(Interp.Hook, Breakpoint)],
     idx: String
   ): Int =
     optional(idx.toInt) match {

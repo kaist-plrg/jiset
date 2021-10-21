@@ -8,7 +8,7 @@ import kr.ac.kaist.jiset.parser.ESValueParser
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
-import kr.ac.kaist.jiset.{ TEST_MODE, LOG, DEBUG, TIMEOUT, VISITED_LOG_DIR }
+import kr.ac.kaist.jiset.{ TEST_MODE, LOG, DEBUG, TIMEOUT }
 import scala.annotation.tailrec
 import scala.collection.mutable.{ Map => MMap }
 
@@ -26,33 +26,9 @@ class Interp(
   // set start time of interpreter
   val startTime: Long = System.currentTimeMillis
 
-  // file name
-  val fname = st.fnameOpt.getOrElse("UNKNOWN")
-
-  // visited nodes
-  private var nodeMap: Map[Node, (Function, Int)] = Map()
-  def nodeRecord(func: Function, node: Node) = {
-    val count = nodeMap.getOrElse(node, (func, 0))._2
-    nodeMap += (node -> (func, count + 1))
-  }
-  def visitedNode: (String, Map[Node, (Function, Int)]) =
-    (convert262(fname), nodeMap)
-  def dumpVisitJson() = {
-    import JvmUseful._, cfg.jsonProtocol._
-    val testName = convert262(fname).replace("/", ".")
-    dumpJson(visitedNode, s"$VISITED_LOG_DIR/$testName.json", true)
-  }
-
   // the number of instructions
   def getIter: Int = iter
   private var iter: Int = 0
-
-  // maximum callstack size
-  private var maxDepth: Int = 1
-  private def updateCallDepth() = {
-    val d = st.ctxtStack.size + 1
-    if (d > maxDepth) maxDepth = d
-  }
 
   // iteration period for check
   val CHECK_PERIOD = 10000
@@ -82,11 +58,8 @@ class Interp(
   final def step: Boolean = nextTarget match {
     case Terminate =>
       // stop evaluation
-      if (LOG) {
-        IRLogger.recordIter(st.fnameOpt, iter)
-        IRLogger.recordCallDepth(st.fnameOpt, maxDepth)
-        dumpVisitJson()
-      }
+      if (useHook) notify(Event.Terminate)
+
       false
     case ReturnUndef =>
       // do return
@@ -109,6 +82,9 @@ class Interp(
         case _ =>
           println(s"[$iter] ${st.context.name}: ${cursor.toString(detail = false)}")
       }
+
+      // use hook
+      if (useHook) notify(Event.Step)
 
       // interp the current cursor
       catchReturn(cursor match {
@@ -134,27 +110,21 @@ class Interp(
   }
 
   // transition for nodes
-  def interp(node: Node): Unit = {
-    if (LOG) {
-      val func = cfg.funcOf(node)
-      nodeRecord(func, node)
+  def interp(node: Node): Unit = node match {
+    case Entry(_) => st.moveNext
+    case Normal(_, inst) => interp(inst)
+    case Call(_, inst) => interp(inst)
+    case Arrow(_, inst, fid) => interp(inst)
+    case branch @ Branch(_, inst) => {
+      val (thenNode, elseNode) = cfg.branchOf(branch)
+      st.context.cursorOpt = Some(interp(inst.cond).escaped match {
+        case Bool(true) => NodeCursor(thenNode)
+        case Bool(false) => NodeCursor(elseNode)
+        case v => error(s"not a boolean: $v")
+      })
     }
-    node match {
-      case Entry(_) => st.moveNext
-      case Normal(_, inst) => interp(inst)
-      case Call(_, inst) => interp(inst)
-      case Arrow(_, inst, fid) => interp(inst)
-      case branch @ Branch(_, inst) => {
-        val (thenNode, elseNode) = cfg.branchOf(branch)
-        st.context.cursorOpt = Some(interp(inst.cond).escaped match {
-          case Bool(true) => NodeCursor(thenNode)
-          case Bool(false) => NodeCursor(elseNode)
-          case v => error(s"not a boolean: $v")
-        })
-      }
-      case LoopCont(_) => st.moveNext
-      case Exit(_) => throw ReturnValue(Undef)
-    }
+    case LoopCont(_) => st.moveNext
+    case Exit(_) => throw ReturnValue(Undef)
   }
   // transition for instructions
   def interp(inst: Inst, rest: List[Inst]): Unit = inst match {
@@ -202,8 +172,6 @@ class Interp(
           st.ctxtStack ::= st.context
           st.context = context
 
-          // log
-          if (LOG) updateCallDepth()
           // use hooks
           if (useHook) notify(Event.Call)
         }
@@ -214,8 +182,6 @@ class Interp(
           st.ctxtStack ::= st.context
           st.context = context
 
-          // log
-          if (LOG) updateCallDepth()
           // use hooks
           if (useHook) notify(Event.Call)
         }
@@ -224,8 +190,7 @@ class Interp(
           st.context = context.copied
           st.context.locals ++= params zip vs
           st.ctxtStack = ctxtStack.map(_.copied)
-          // log
-          if (LOG) updateCallDepth()
+
           // use hooks
           if (useHook) notify(Event.Cont)
         }
@@ -252,8 +217,6 @@ class Interp(
               st.ctxtStack ::= st.context
               st.context = context
 
-              // log
-              if (LOG) updateCallDepth()
               // use hooks
               if (useHook) notify(Event.Call)
               None
@@ -623,25 +586,26 @@ class Interp(
   }
 
   // hooks
-  private var hooks: Set[InterpHook] = Set()
-  def subscribe(kind: Event, f: State => Unit, name: Option[String] = None): InterpHook = {
-    val hook = InterpHook(kind, f, name)
+  private var hooks: Set[Hook] = Set()
+  def subscribe(
+    kinds: List[Event],
+    f: State => Unit
+  ): List[Hook] = kinds.map(subscribe(_, f))
+  def subscribe(
+    kind: Event,
+    f: State => Unit,
+    name: Option[String] = None
+  ): Hook = {
+    val hook = Hook(kind, f, name)
     hooks += hook
     hook
   }
   def notify(event: Event): Unit = hooks.foreach {
-    case InterpHook(kind, f, _) if kind == event => f(st)
+    case Hook(kind, f, _) if kind == event => f(st)
     case _ =>
   }
-  def unsubscribe(hook: InterpHook): Unit = hooks -= hook
+  def unsubscribe(hook: Hook): Unit = hooks -= hook
 }
-
-// interp hook
-case class InterpHook(
-  kind: Interp.Event,
-  f: State => Unit,
-  name: Option[String]
-)
 
 // interp object
 object Interp {
@@ -649,10 +613,24 @@ object Interp {
     st: State,
     timeLimit: Option[Long] = Some(TIMEOUT)
   ): State = {
-    val interp = new Interp(st, timeLimit)
+    val interp = new Interp(st, timeLimit, LOG)
+    if (LOG) Logger.log(interp)
     interp.fixpoint
     st
   }
+
+  // interp event
+  type Event = Event.Value
+  object Event extends Enumeration {
+    val Call, Return, Cont, Terminate, Step = Value
+  }
+
+  // interp hook
+  case class Hook(
+    kind: Event,
+    f: State => Unit,
+    name: Option[String]
+  )
 
   // type update algorithms
   val setTypeMap: Map[String, Ty] = Map(
@@ -729,12 +707,6 @@ object Interp {
       case (st, List(value)) => Bool(value.isAbruptCompletion)
     }),
   )
-
-  // interp event
-  type Event = Event.Value
-  object Event extends Enumeration {
-    val Call, Return, Cont = Value
-  }
 
   // unary operators
   def interp(uop: UOp, operand: Value): Value = (uop, operand) match {
