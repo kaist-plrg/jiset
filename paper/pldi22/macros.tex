@@ -100,7 +100,7 @@
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\kwsyn}{\code{syntax}}
 \newcommand{\kwdef}{\code{def}}
-\newcommand{\kwret}{\code{return}}
+\newcommand{\kwret}{\code{ret}}
 \newcommand{\kwif}{\code{if}}
 \newcommand{\kwrl}{\code{(}}
 \newcommand{\kwrr}{\code{)}}
@@ -119,9 +119,7 @@
 \DeclarePairedDelimiter{\norm}{\lvert}{\rvert} 
 
 % Notations
-\newcommand{\progset}{\mathbb{P}}
-\newcommand{\prog}{p}
-\newcommand{\funcset}{\mathbb{F}}
+\newcommand{\funcset}{\mathcal{F}}
 \newcommand{\func}{f}
 \newcommand{\labset}{\mathcal{L}}
 \newcommand{\lab}{\mathpzc{l}}
@@ -130,8 +128,13 @@
 \newcommand{\labnext}{\name{next}}
 \newcommand{\op}{\name{op}}
 \newcommand{\ops}{\dot{\name{op}}}
-\newcommand{\instset}{\mathbb{I}}
+\newcommand{\instset}{\mathcal{I}}
 \newcommand{\inst}{i}
+\newcommand{\exprset}{\mathcal{E}}
+\newcommand{\expr}{e}
+\newcommand{\varset}{\mathcal{X}}
+\newcommand{\referset}{\mathcal{R}}
+\newcommand{\refer}{r}
 
 % Values
 \newcommand{\valset}{\mathbb{V}}
@@ -151,7 +154,7 @@
 \newcommand{\ist}{\st_\iota}
 
 % Helper of States
-\newcommand{\synctxtof}{\name{syntax-ctxt}}
+\newcommand{\syoptctxtof}{\name{syntax-ctxt}}
 \newcommand{\jscallctxtof}{\name{js-call-ctxt}}
 \newcommand{\funcof}{\name{func}}
 \newcommand{\ctxtsof}{\name{ctxts}}
@@ -163,21 +166,20 @@
 % Contexts
 \newcommand{\ctxtset}{\mathbb{C}}
 \newcommand{\ctxt}{c}
+\newcommand{\ctxtoptset}{\ctxtset_\bot}
+\newcommand{\ctxtopt}{\ctxt_\bot}
 
 % Environments
 \newcommand{\envset}{\mathbb{E}}
-\newcommand{\env}{e}
-
-% Variables
-\newcommand{\varset}{\mathbb{X}}
+\newcommand{\env}{\rho}
 
 % Addresses
 \newcommand{\addrset}{\mathbb{A}}
 \newcommand{\addr}{a}
 
-% Records
-\newcommand{\recset}{\mathbb{R}}
-\newcommand{\rec}{r}
+% Objects
+\newcommand{\objset}{\mathbb{O}}
+\newcommand{\obj}{o}
 
 % Transition Relations
 \newcommand{\trans}{\leadsto}
