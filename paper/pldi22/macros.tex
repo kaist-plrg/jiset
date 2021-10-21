@@ -147,6 +147,10 @@
 \newcommand{\tree}{t}
 \newcommand{\trees}{\overline{t}}
 
+% Optional Values
+\newcommand{\valoptset}{\valset^\top}
+\newcommand{\valopt}{\val^\top}
+
 % States
 \newcommand{\stset}{\mathbb{S}}
 \newcommand{\st}{\sigma}
@@ -166,8 +170,6 @@
 % Contexts
 \newcommand{\ctxtset}{\mathbb{C}}
 \newcommand{\ctxt}{c}
-\newcommand{\ctxtoptset}{\ctxtset_\bot}
-\newcommand{\ctxtopt}{\ctxt_\bot}
 
 % Environments
 \newcommand{\envset}{\mathbb{E}}
@@ -181,9 +183,21 @@
 \newcommand{\objset}{\mathbb{O}}
 \newcommand{\obj}{o}
 
-% Transition Relations
-\newcommand{\trans}{\leadsto}
-
 % semantics
 \newcommand{\sem}[1]{\llbracket{#1}\rrbracket}
 \newcommand{\osem}[1]{\sem{#1}_{o}}
+
+% transformations
+\newcommand{\trans}{T}
+\newcommand{\transf}{\trans_\func}
+\newcommand{\transi}{\trans_\inst}
+\newcommand{\transe}{\trans_\expr}
+\newcommand{\transcpf}{\trans^\name{cp}_\func}
+\newcommand{\transcpe}{\trans^\name{cp}_\expr}
+\newcommand{\transcpi}{\trans^\name{cp}_\inst}
+\newcommand{\transref}{\trans^\name{re}_\func}
+\newcommand{\transrei}{\trans^\name{re}_\inst}
+\newcommand{\transree}{\trans^\name{re}_\expr}
+
+% restrictions
+\newcommand{\restrictset}{\mathbb{R}}

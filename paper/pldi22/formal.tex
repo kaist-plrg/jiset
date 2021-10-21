@@ -1,16 +1,19 @@
-\section{$\ires$ Specialization}\label{sec:formal}
+\section{JavaScript Semantics Specialization with Syntactic Views}\label{sec:formal}
 
-We first define $\ires$ with its abstract syntax, states, and concrete
-semantics.  Then, we define syntactic views as JavaScript ASTs with abstract
-nodes. Finally, we define the specialization of $\ires$ as a transformation to
-specialize $\ires$ functions.  To prove the semantics preservation of the
-specialization, we introduce an observational semantics of $\ires$ and prove
-that each specialized $\ires$ functions has equivalent observational semantics
-of the corresponding original one.
+We first define $\ires$ as a specification language to describe JavaScript
+semantics.  Then, we define a function specialization in $\ires$ with two
+different source-to-source transformations: a constant propagation
+transformation and a redundancy elimination transformation.  We prove the
+semantics preservation of function specialization under an observational
+semantics.  Finally, we define the JavaScript semantics specialization with
+syntactic views using function specialization.
 
 \subsection{$\ires$: Intermediate Representations for ECMAScript}
 
-First, we define abstract syntax, states, and concrete semantics of $\ires$.
+We first introduce $\ires$, an \textbf{I}ntermediate \textbf{R}epresentations
+for \textbf{E}CMA\textbf{S}cript, as a specification language for JavaScript to
+describe JavaScript semantics. We define its abstract syntax, states, and
+concrete semantics in the remainder of this section.
 
 \subsubsection{Abstract Syntax}
 
@@ -83,17 +86,18 @@ or a return instruction $\kwret \; x$.
   \end{array}
 \]
 
-States $\stset$ consist of heaps $\heapset$ and contexts $\ctxtset$.  A heap
-$\heap \in \heapset$ is a finite mapping from addresses to objects.  Each object
-allocation instruction $x = \kwcl \kwcr$ creates a unique address $\addr \in
-\addrset$ different from existing addresses.  A context $\ctxt \in \ctxtset$ is
-a triple of a label, a environment, and an optional calling context $\ctxtopt
-\in \ctxtoptset = \ctxtset \uplus \{ \bot \}$.  An environment $\env \in
-\envset$ is a finite mapping from variables to values. A value $\val \in
-\valset$ is a primitive value $\pval \in \pvalset$ (e.g., a string value $\str
-\in \strset$), an address $\addr \in \addrset$, a JavaScript AST $\tree \in
-\treeset$, or a function $f \in \funcset$.  A object $\obj \in \objset$ is a
-finite mappings from strings to values.
+\todo
+% States $\stset$ consist of heaps $\heapset$ and contexts $\ctxtset$.  A heap
+% $\heap \in \heapset$ is a finite mapping from addresses to objects.  Each object
+% allocation instruction $x = \kwcl \kwcr$ creates a unique address $\addr \in
+% \addrset$ different from existing addresses.  A context $\ctxt \in \ctxtset$ is
+% a triple of a label, a environment, and an optional calling context $\ctxtopt
+% \in \ctxtoptset = \ctxtset \uplus \{ \bot \}$.  An environment $\env \in
+% \envset$ is a finite mapping from variables to values. A value $\val \in
+% \valset$ is a primitive value $\pval \in \pvalset$ (e.g., a string value $\str
+% \in \strset$), an address $\addr \in \addrset$, a JavaScript AST $\tree \in
+% \treeset$, or a function $f \in \funcset$.  A object $\obj \in \objset$ is a
+% finite mappings from strings to values.
 
 \subsubsection{Concrete Semantics of Functions}
 
@@ -169,24 +173,85 @@ finite mappings from strings to values.
 
 
 
-\subsection{Specialization}
+\subsection{Function Specialization}
 
 \todo
+
+A source-to-source transformation is defined with parameteric restrictions
+$\restrictset$ and its concretization $\gamma: \restrictset \rightarrow
+\powerset{\stset \times \valset^*}$.
+\[
+  \framebox{$\transf: \funcset \times \restrictset \rightarrow \funcset$}
+\]
+
+\todo
+
+
 
 \subsubsection{Constant Propagation Transformation}
+\[
+  \begin{array}{lr@{~}c@{~}l}
+    \text{Restrictions} & (\valoptset)^* &=& (\valset \uplus \{ \top \})^*\\
+    \text{Concretization} & \gamma(\valopt_1, \cdots, \valopt_n) &=& \\
+    \multicolumn{4}{l}{\qquad \{
+      (\st, (\val_1, \cdots, \val_n)) \mid
+      \val_i \in \left\{
+        \begin{array}{ll}
+          \valset & \text{if} \; \valopt_i = \top\\
+          \{ \valopt_i \} & \text{otherwise}\\
+        \end{array}
+      \right.
+    \}}\\
+  \end{array}
+\]
+
+In the constant propagation transformation, restrictions $(\valoptset)^*$ are
+sequences of static values $\valset$ or a dynamic value $\top$.
+
+\[
+  \framebox{$\transcpe: \exprset \times \envset \rightarrow \exprset$}
+\]
 
 \todo
 
-\subsubsection{Cleanup Transformation}
+\[
+  \framebox{$\transcpi: \instset \times \envset \rightarrow \instset \times
+  \envset$}
+\]
+
+\todo
+
+\[
+  \framebox{$\transcpf: \funcset \times (\valoptset)^* \rightarrow \funcset$}
+\]
+
+\todo
+
+
+\subsubsection{Redundancy Elimination Transformation}
+
+\todo
+
+\[
+  \begin{array}{lr@{~}c@{~}l}
+    \text{Restrictions} &\{ \top \}\\
+    \text{Concretization} & \gamma(\top) &=& \stset \times \valset^*\\
+  \end{array}
+\]
+
+The redundancy elimination transformation is defined without any restriction,
+which means its restriction set consists of a single element $\top$
+representing all possible cases.  Therefore, we omit the restriction part in
+this transformation for the brevity.
+
+\[
+  \framebox{$\transref: \funcset \rightarrow \funcset$}
+\]
 
 \todo
 
 
 
-
-\subsection{Observational Semantics}
-
-\todo
 
 
 
@@ -196,9 +261,22 @@ finite mappings from strings to values.
 
 \todo
 
+\subsubsection{Observational Semantics}
+
+\todo
 
 
 
-\section{Syntatic Views}
+
+
+\subsection{JavaScript Semantics Specialization}
+
+\todo
+
+\subsubsection{Syntatic Views}
+
+\todo
+
+\subsubsection{Specialization with Syntatic Views}
 
 \todo
