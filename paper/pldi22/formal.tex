@@ -1,12 +1,11 @@
 \section{JavaScript Semantics Specialization with Syntactic Views}\label{sec:formal}
 
 We first define $\ires$ as a specification language to describe JavaScript
-semantics.  Then, we define a function specialization in $\ires$ with two
-different source-to-source transformations: a constant propagation
-transformation and a redundancy elimination transformation.  We prove the
-semantics preservation of function specialization under an observational
-semantics.  Finally, we define the JavaScript semantics specialization with
-syntactic views using function specialization.
+semantics.  Then, we introduce a general formalization of function
+specialization in $\ires$. Finally, we define a constant propagation
+specialization as its an instance to reduce JavaScript semantics using given
+syntactic views. We also prove its semantics preservation under an observational
+semantics.
 
 \subsection{$\ires$: Intermediate Representations for ECMAScript}
 
@@ -177,78 +176,100 @@ or a return instruction $\kwret \; x$.
 
 \todo
 
-A source-to-source transformation is defined with parameteric restrictions
-$\restrictset$ and its concretization $\gamma: \restrictset \rightarrow
-\powerset{\stset \times \valset^*}$.
-\[
-  \framebox{$\transf: \funcset \times \restrictset \rightarrow \funcset$}
-\]
+A function specialization is defined with the following three components:
+\begin{itemize}
+  \item Restriction $\restrictset$
+  \item Concretization $\gamma: \restrictset \rightarrow \powerset{\stset
+    \times \valset^*}$
+  \item Transformation $\trans: \restrictset \rightarrow \funcset \rightarrow
+    \funcset$.
+\end{itemize}
 
 \todo
 
 
 
-\subsubsection{Constant Propagation Transformation}
+\subsubsection{Constant Propagation Specialization}
+\begin{itemize}
+  \item Restriction $\cprestrictset = (\valoptset)^* =
+    (\valset \uplus \{ \top \})^*$
+  \item Concretization $\cpgamma: (\valoptset)^* \rightarrow \powerset{\stset
+    \times \valset^*}$ s.t.
+    \[
+      \cpgamma(\valopt_1, \cdots, \valopt_n) = \stset \times (V_1 \times \cdots
+      \times V_n)
+    \]
+    where $V_i = \left\{
+      \begin{array}{ll}
+        \valset & \text{if} \; \valopt_i = \top\\
+        \{ \valopt_i \} & \text{otherwise}\\
+      \end{array}
+    \right.$
+  \item Transformation $\cptrans: (\valoptset)^* \rightarrow \funcset
+    \rightarrow \funcset$
+\end{itemize}
+In the constant propagation specialization, a restriction is a sequences of
+static values $\valset$ or a dynamic value $\top$.
+
 \[
-  \begin{array}{lr@{~}c@{~}l}
-    \text{Restrictions} & (\valoptset)^* &=& (\valset \uplus \{ \top \})^*\\
-    \text{Concretization} & \gamma(\valopt_1, \cdots, \valopt_n) &=& \\
-    \multicolumn{4}{l}{\qquad \{
-      (\st, (\val_1, \cdots, \val_n)) \mid
-      \val_i \in \left\{
-        \begin{array}{ll}
-          \valset & \text{if} \; \valopt_i = \top\\
-          \{ \valopt_i \} & \text{otherwise}\\
-        \end{array}
-      \right.
-    \}}\\
+  \begin{array}{lr@{~}c@{~}l@{~}c@{~}l}
+    \text{Symbolic Environments} & \senv &\in& \senvset &=&
+    \varset \finmap \svalset\\
+    \text{Symbolic Values} & \sval &\in& \svalset &=&
+    \valoptset \times \exprset\\
   \end{array}
 \]
 
-In the constant propagation transformation, restrictions $(\valoptset)^*$ are
-sequences of static values $\valset$ or a dynamic value $\top$.
-
 \[
-  \framebox{$\transcpe: \exprset \times \envset \rightarrow \exprset$}
+  \framebox{$\cptranse: \exprset \times \senvset \rightarrow \svalset$}
 \]
 
-\todo
-
 \[
-  \framebox{$\transcpi: \instset \times \envset \rightarrow \instset \times
-  \envset$}
-\]
-
-\todo
-
-\[
-  \framebox{$\transcpf: \funcset \times (\valoptset)^* \rightarrow \funcset$}
-\]
-
-\todo
-
-
-\subsubsection{Redundancy Elimination Transformation}
-
-\todo
-
-\[
-  \begin{array}{lr@{~}c@{~}l}
-    \text{Restrictions} &\{ \top \}\\
-    \text{Concretization} & \gamma(\top) &=& \stset \times \valset^*\\
+  \begin{array}{lcl}
+    \cptranse(\pval, \env) &=& \pval\\
+    \cptranse(\op \kwrl \expr^* \kwrr, \env) &=& \todo\\
+    \cptranse(\kwcl \kwcr, \env) &=& \todo\\
+    \cptranse(\refer, \env) &=& \todo\\
   \end{array}
 \]
 
-The redundancy elimination transformation is defined without any restriction,
-which means its restriction set consists of a single element $\top$
-representing all possible cases.  Therefore, we omit the restriction part in
-this transformation for the brevity.
-
 \[
-  \framebox{$\transref: \funcset \rightarrow \funcset$}
+  \framebox{$\cptransi: \instset \times \senvset \rightarrow \instset \times
+  \senvset$}
 \]
 
 \todo
+
+\[
+  \framebox{$\cptrans: (\valoptset)^* \rightarrow \funcset \rightarrow
+  \funcset$}
+\]
+
+\todo
+
+
+
+
+
+% \subsubsection{Redundancy Elimination Transformation}
+% 
+% \[
+%   \begin{array}{lr@{~}c@{~}l}
+%     \text{Restrictions} &\{ \top \}\\
+%     \text{Concretization} & \gamma(\top) &=& \stset \times \valset^*\\
+%   \end{array}
+% \]
+% 
+% The redundancy elimination transformation is defined without any restriction,
+% which means its restriction set consists of a single element $\top$
+% representing all possible cases.  Therefore, we omit the restriction part in
+% this transformation for the brevity.
+% 
+% \[
+%   \framebox{$\transref: \funcset \rightarrow \funcset$}
+% \]
+% 
+% \todo
 
 
 
