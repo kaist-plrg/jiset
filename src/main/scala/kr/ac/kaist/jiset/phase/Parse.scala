@@ -22,20 +22,26 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
     config: ParseConfig
   ): Script = {
     val filename = getFirstFilename(jisetConfig, "parse")
-    val ast = parseJS(jisetConfig.args, config.esparse) match {
-      case ast if config.test262 => prependedTest262Harness(filename, ast)
-      case ast => ast
-    }
-    config.jsonFile match {
-      case Some(name) =>
-        val nf = getPrintWriter(name)
-        nf.println(ast.toJson.noSpaces)
-        nf.close()
-      case None =>
-    }
-    if (config.pprint) println(ast.prettify.noSpaces)
 
-    ast
+    // parse
+    val ast = parseJS(jisetConfig.args, config.esparse)
+    val transformed = (config.test262, config.noAssert) match {
+      case (true, na) => prependedTest262Harness(filename, ast, na)
+      case (false, true) => Test262.AssertionRemover(ast)
+      case (false, false) => ast
+    }
+
+    // dump json
+    config.jsonFile.foreach(name => {
+      val nf = getPrintWriter(name)
+      nf.println(transformed.toJson.noSpaces)
+      nf.close()
+    })
+
+    // pretty-print
+    if (config.pprint) println(transformed.prettify.noSpaces)
+
+    transformed
   }
 
   // parse JavaScript files
@@ -58,21 +64,14 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
   }
 
   // prepend harness.js for Test262
-  def prependedTest262Harness(filename: String, script: Script): Script = {
+  def prependedTest262Harness(
+    filename: String,
+    script: Script,
+    noAssert: Boolean = false
+  ): Script = {
     import Test262._
     val meta = MetaParser(filename)
-    val includes = meta.includes
-    val includeStmts = includes.foldLeft(basicStmts) {
-      case (li, s) => for {
-        x <- li
-        y <- getInclude(s)
-      } yield x ++ y
-    } match {
-      case Right(l) => l
-      case Left(msg) => throw NotSupported(msg)
-    }
-    val stmts = includeStmts ++ flattenStmt(script)
-    mergeStmt(stmts)
+    loadTest262(script, meta.includes, noAssert)
   }
 
   def defaultConfig: ParseConfig = ParseConfig()
@@ -85,6 +84,8 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
       "use `esparse` instead of the generated parser."),
     ("test262", BoolOption(c => c.test262 = true),
       "prepend test262 harness files based on metadata."),
+    ("noAssert", BoolOption(c => c.noAssert = true),
+      "remove test262 assertions"),
   )
 }
 
@@ -93,5 +94,6 @@ case class ParseConfig(
   var jsonFile: Option[String] = None,
   var esparse: Boolean = false,
   var test262: Boolean = false,
-  var pprint: Boolean = false
+  var pprint: Boolean = false,
+  var noAssert: Boolean = false
 ) extends Config

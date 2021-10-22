@@ -27,9 +27,12 @@ trait Test262Test extends JSTest {
   // dump test262 test stats
   def dumpStats(logDir: String): Unit = ()
 
+  // remove assertion
+  val noAssert = false
+
   // get AST for test262 test
   def parse(filename: String, includes: List[String]): Script =
-    loadTest262(filename, includes)
+    loadTest262(parseFile(filename), includes, noAssert)
 
   // test 262 tests
   def test262Test(desc: String): Unit = {
