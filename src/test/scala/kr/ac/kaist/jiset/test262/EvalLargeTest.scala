@@ -11,6 +11,9 @@ class EvalLargeTest extends Test262Test {
   // logging execution traces
   LOG = true
 
+  // remove assertion
+  override val noAssert = true
+
   // set base directory for ir.Logger
   Logger.setBase(s"$logDir/logger")
 
