@@ -1411,6 +1411,5 @@ trait ASTWalker {
     case ast: NamedExports => walk(ast)
     case ast: ExportsList => walk(ast)
     case ast: ExportSpecifier => walk(ast)
-    case _ =>
   }
 }

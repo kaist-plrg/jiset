@@ -21,7 +21,10 @@ case class ModelGenerator(spec: ECMAScript, parser: Boolean) {
   if (parser) ParserGenerator(grammar)
 
   // generate js/ASTWalker.scala in source code directory
-  WalkerGenerator(grammar)
+  ASTWalkerGenerator(grammar)
+
+  // generate js/ASTTransformer.scala in source code directory
+  ASTTransformerGenerator(grammar)
 
   // generate js/ASTDiff.scala in source code directory
   DiffGenerator(grammar)
