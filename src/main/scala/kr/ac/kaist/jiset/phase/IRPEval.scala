@@ -26,7 +26,7 @@ case object IRPEval extends Phase[Unit, IRPEvalConfig, Algo] {
     setSpec(loadSpec(s"$VERSION_DIR/generated"))
     val p = ESParser.rules(config.target)
     val result = ESParser.parse(p(config.parseOption.toList.map(_ == 'T')), f)
-    if (result.successful) BasePartialEval(SyntacticView(result.get.checkSupported))
+    if (result.successful) BasePartialEvalImpl(SyntacticView(result.get.checkSupported))
     else throw new Error("re-parse fail")
   }
 
