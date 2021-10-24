@@ -152,7 +152,7 @@ where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
     where
     \[
       \begin{array}{l@{~}c@{~}ll}
-        \sem{\expr} &=& (\st_0, \kwdef \; \varf \; \kwrl \varp_1, \cdots,
+        \sem{\expr}(\st) &=& (\st_0, \kwdef \; \varf \; \kwrl \varp_1, \cdots,
         \varp_n \kwrr \; \lab_\varf) &\wedge\\
         \sem{\expr_k}(\st_{k-1}) &=& (\st_k, \val_k) \; \forall 1 \leq k \leq n
         &\wedge\\
@@ -194,19 +194,28 @@ where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
 \begin{itemize}
   \item \underline{Primive Values}:
     \[
-      \sem{\pval}(\st) = \todo
+      \sem{\pval}(\st) =
+      (\st, \pval)
     \]
   \item \underline{Operations}:
     \[
-      \sem{\op \kwrl \expr^* \kwrr}(\st) = \todo
+      \sem{\op \kwrl \expr_1, \cdots, \expr_n \kwrr}(\st) =
+      (\st_n, \op(\val_1, \cdots, \val_n))
+    \]
+    where
+    \[
+      \st_0 = \st \wedge
+      \forall 1 \leq k \leq n. \; \sem{\expr_k}(\st_{k-1}) = (\st_k, \val_k)
     \]
   \item \underline{Object Allocations}:
     \[
-      \sem{\kwcl \kwcr}(\st) = \todo
+      \sem{\kwcl \kwcr}(\st) =
+      ((\lab, \ctxts, \heap[\addr \mapsto \varnothing], \env), \addr)
     \]
-  \item \underline{References}:
+    where
     \[
-      \sem{\refer}(\st) = \todo
+      \st = (\lab, \ctxts, \heap, \env) \wedge
+      \addr \not\in \text{Domain}(\heap)
     \]
 \end{itemize}
 
@@ -215,11 +224,27 @@ where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
 \begin{itemize}
   \item \underline{Variable Lookups}:
     \[
-      \sem{\varx}(\st) = \todo
+      \sem{\varx}(\st) =
+      (\st, \env(\varx))
+    \]
+    where
+    \[
+      \st = (\_, \_, \_, \env)
     \]
   \item \underline{Field Lookups}:
     \[
-      \sem{\refer \kwsl \expr \kwsr}(\st) = \todo
+      \sem{\refer \kwsl \expr \kwsr}(\st) =
+      (\st'', \val')
+    \]
+    where
+    \[
+      \begin{array}{l@{~}c@{~}ll}
+        \sem{\refer}(\st) &=& (\st', \addr) &\wedge\\
+        \sem{\expr}(\st') &=& (\st'', \str) &\wedge\\
+        \st'' &=& (\_, \_, \heap, \_) &\wedge\\
+        \obj &=& \heap(\addr) &\wedge\\
+        \val' &=& \obj(\str)\\
+      \end{array}
     \]
 \end{itemize}
 
