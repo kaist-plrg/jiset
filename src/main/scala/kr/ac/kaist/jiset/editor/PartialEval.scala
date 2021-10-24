@@ -8,7 +8,7 @@ import scala.annotation.tailrec
 import scala.collection.mutable.{ Map => MMap }
 
 trait LabelwiseContext[T] {
-  def merge(other: T): ((List[(String, SymbolicValue)], List[(String, SymbolicValue)]), T)
+  def merge(other: T): (List[Inst], List[Inst], T)
   def setId: (String, SymbolicValue) => T
   def getId: String => Option[SymbolicValue]
   def setRet: Option[SymbolicValue] => T
@@ -40,7 +40,6 @@ case object EmptyGlobalContextBuilder extends GCBuilder[EmptyGlobalContext] {
   def empty = EmptyGlobalContext()
 }
 
-
 case class FunctionMap(m: Map[(Algo, List[Option[Value]]), Option[(Algo, Option[SymbolicValue])]]) extends GlobalContext[FunctionMap] {
   def getAlgo: (Algo, List[Option[Value]]) => Option[Option[(Algo, Option[SymbolicValue])]] = (k, v) => m.get((k, v))
   def visitAlgo: (Algo, List[Option[Value]]) => FunctionMap = (k, v) => this.copy(m = m + ((k, v) -> None))
@@ -58,11 +57,21 @@ case class SpecializeContextImpl[LT <: LabelwiseContext[LT], GT <: GlobalContext
 }
 
 case class SymbolicEnv(locals: Map[String, SymbolicValue], ret: Option[SymbolicValue]) extends LabelwiseContext[SymbolicEnv] {
-  def merge(other: SymbolicEnv): ((List[(String, SymbolicValue)], List[(String, SymbolicValue)]), SymbolicEnv) = {
+  def merge(other: SymbolicEnv): (List[Inst], List[Inst], SymbolicEnv) = {
+    val identList = locals.keySet ++ other.locals.keySet
+    val (itrue, ifalse, nlocals) = identList.foldLeft((List[Inst](), List[Inst](), Map[String, SymbolicValue]())) {
+      case ((lt, lf, m), s) => (locals.get(s), other.locals.get(s)) match {
+        case (Some(SymbolicValue(vo1, e1)), Some(SymbolicValue(vo2, e2))) if (vo1 == vo2 && e1 == e2) => (lt, lf, m + (s -> SymbolicValue(vo1, e1)))
+        case (Some(SymbolicValue(vo1, e1)), Some(SymbolicValue(vo2, e2))) => (lt :+ ILet(Id(s), e1), lf :+ ILet(Id(s), e2), m + (s -> SymbolicValueFactory.mkDynamic(ERef(RefId(Id(s))))))
+        case (Some(SymbolicValue(vo1, e1)), None) => (lt :+ ILet(Id(s), e1), lf, m + (s -> SymbolicValueFactory.mkDynamic(ERef(RefId(Id(s))))))
+        case (None, Some(SymbolicValue(vo2, e2))) => (lt, lf :+ ILet(Id(s), e2), m + (s -> SymbolicValueFactory.mkDynamic(ERef(RefId(Id(s))))))
+        case (None, None) => (lt, lf, m + (s -> SymbolicValueFactory.mkDynamic(ERef(RefId(Id(s))))))
+      }
+    }
     if (this.ret == other.ret && (this.ret match { case Some(SymbolicValue(Some(_), _)) => true; case _ => false })) {
-      ((List(), List()), this)
+      (itrue, ifalse, this.copy(locals = nlocals))
     } else {
-      ((List(), List()), this.copy(ret = None))
+      (itrue, ifalse, this.copy(locals = nlocals, ret = None))
     }
   }
   def toDynamic: SymbolicEnv = this.copy(locals = locals.map { case (id, v) => (id, SymbolicValueFactory.mkDynamic(ERef(RefId(Id(id))))) }, ret = None)
@@ -76,7 +85,7 @@ case class SymbolicEnv(locals: Map[String, SymbolicValue], ret: Option[SymbolicV
 
 case object SymbolicEnvBuilder extends LCBuilder[SymbolicEnv] {
   def empty = SymbolicEnv(Map(), None)
-  def init(m: Map[String,SymbolicValue]): SymbolicEnv = SymbolicEnv(m, None)
+  def init(m: Map[String, SymbolicValue]): SymbolicEnv = SymbolicEnv(m, None)
 }
 
 object SymbolicValueFactory {
@@ -125,9 +134,11 @@ trait GCBuilder[GT <: GlobalContext[GT]] {
 trait PartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] {
   val lcbuilder: LCBuilder[LT]
   val gcbuilder: GCBuilder[GT]
-  
+
   val psm = SymbolicEnvMonad[LT, GT, SpecializeContext[LT, GT]]()
   import psm._
+
+  def init(view: SyntacticView) = {}
 
   def getLocals(params: List[Param], args: List[Option[Value]]): MMap[String, SymbolicValue] = {
     val map = MMap[String, SymbolicValue]()
@@ -155,6 +166,7 @@ trait PartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] {
   }
 
   def apply(view: SyntacticView): Algo = {
+    init(view)
     val (targetAlgo, asts) = view.ast.semantics("Evaluation").get
     val ((nalgo, _), _) = pe(targetAlgo, asts.map(Some(_)))(SpecializeContextImpl(lcbuilder.empty, gcbuilder.empty)) // TODO: AAST to Dynamic Value
     nalgo
@@ -163,11 +175,9 @@ trait PartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] {
   def pe(algo: Algo, args: List[Option[Value]]): Result[(Algo, Option[SymbolicValue])] = (dcontext: SpecializeContext[LT, GT]) => {
     dcontext.globalContext.getAlgo(algo, args) match {
       case None => {
-        println(algo.head.name)
         val locals = getLocals(algo.head.params, args)
         val (newInsts, ncontext) = pe(algo.rawBody)(SpecializeContextImpl(lcbuilder.init(locals.toMap), dcontext.globalContext.setAlgo((algo, args), None)))
-        val nalgo = new Algo(algo.head, algo.id, newInsts, algo.code)
-        println(nalgo)
+        val nalgo = new Algo(algo.head, algo.id, newInsts.getOrElse(IExpr(EStr("empty"))), algo.code)
         ((nalgo, ncontext.labelwiseContext.getRet), SpecializeContextImpl(dcontext.labelwiseContext, ncontext.globalContext.setAlgo((algo, args), Some((nalgo, ncontext.labelwiseContext.getRet)))))
       }
       case Some(None) => ((algo, None), dcontext)
@@ -175,26 +185,26 @@ trait PartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] {
     }
   }
 
-  def pe_iseq: ISeq => Result[Inst]
-  def pe_iaccess: IAccess => Result[Inst]
-  def pe_iapp: IApp => Result[Inst]
-  def pe_iappend: IAppend => Result[Inst]
-  def pe_iassert: IAssert => Result[Inst]
-  def pe_iassign: IAssign => Result[Inst]
-  def pe_iclo: IClo => Result[Inst]
-  def pe_icont: ICont => Result[Inst]
-  def pe_idelete: IDelete => Result[Inst]
-  def pe_iexpr: IExpr => Result[Inst]
-  def pe_iif: IIf => Result[Inst]
-  def pe_ilet: ILet => Result[Inst]
-  def pe_iprepend: IPrepend => Result[Inst]
-  def pe_iprint: IPrint => Result[Inst]
-  def pe_ireturn: IReturn => Result[Inst]
-  def pe_ithrow: IThrow => Result[Inst]
-  def pe_iwhile: IWhile => Result[Inst]
-  def pe_iwithcont: IWithCont => Result[Inst]
+  def pe_iseq: ISeq => Result[Option[Inst]]
+  def pe_iaccess: IAccess => Result[Option[Inst]]
+  def pe_iapp: IApp => Result[Option[Inst]]
+  def pe_iappend: IAppend => Result[Option[Inst]]
+  def pe_iassert: IAssert => Result[Option[Inst]]
+  def pe_iassign: IAssign => Result[Option[Inst]]
+  def pe_iclo: IClo => Result[Option[Inst]]
+  def pe_icont: ICont => Result[Option[Inst]]
+  def pe_idelete: IDelete => Result[Option[Inst]]
+  def pe_iexpr: IExpr => Result[Option[Inst]]
+  def pe_iif: IIf => Result[Option[Inst]]
+  def pe_ilet: ILet => Result[Option[Inst]]
+  def pe_iprepend: IPrepend => Result[Option[Inst]]
+  def pe_iprint: IPrint => Result[Option[Inst]]
+  def pe_ireturn: IReturn => Result[Option[Inst]]
+  def pe_ithrow: IThrow => Result[Option[Inst]]
+  def pe_iwhile: IWhile => Result[Option[Inst]]
+  def pe_iwithcont: IWithCont => Result[Option[Inst]]
 
-  def pe(inst: Inst): Result[Inst] = inst match {
+  def pe(inst: Inst): Result[Option[Inst]] = inst match {
     case inst: ISeq => pe_iseq(inst)
     case inst: IAccess => pe_iaccess(inst)
     case inst: IApp => pe_iapp(inst)

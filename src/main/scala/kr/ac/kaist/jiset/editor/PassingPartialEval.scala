@@ -14,122 +14,122 @@ import kr.ac.kaist.jiset.js.Initialize
 trait PassingPartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] extends PartialEval[LT, GT] {
   import psm._
 
-  def pe_iseq: ISeq => Result[Inst] = {
-    case ISeq(insts) => join(insts.map(pe)).map(ISeq)
+  def pe_iseq: ISeq => Result[Option[Inst]] = {
+    case ISeq(insts) => join(insts.map(pe)).map((l) => Some(ISeq(l.flatten)))
   }
-  def pe_iaccess: IAccess => Result[Inst] = {
+  def pe_iaccess: IAccess => Result[Option[Inst]] = {
     case IAccess(id, bexpr, expr, args) => for {
       baseE <- pe(bexpr)
       propE <- pe(expr)
       argsE <- join(args.map(pe))
       _ <- (context: S) => context.labelwiseContext.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id))))
-    } yield IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr))
+    } yield Some(IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr)))
   }
-  def pe_iapp: IApp => Result[Inst] = {
+  def pe_iapp: IApp => Result[Option[Inst]] = {
     case IApp(id, fexpr, args) => for {
       fexpr <- pe(fexpr)
       argsE <- join(args.map(pe))
       _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
-    } yield IApp(id, fexpr.expr, argsE.map(_.expr))
+    } yield Some(IApp(id, fexpr.expr, argsE.map(_.expr)))
   }
-  def pe_iappend: IAppend => Result[Inst] = {
+  def pe_iappend: IAppend => Result[Option[Inst]] = {
     case IAppend(expr, list) => for {
       expre <- pe(expr)
       liste <- pe(list)
-    } yield IAppend(expre.expr, liste.expr)
+    } yield Some(IAppend(expre.expr, liste.expr))
   }
-  def pe_iassert: IAssert => Result[Inst] = {
+  def pe_iassert: IAssert => Result[Option[Inst]] = {
     case IAssert(expr) => for {
       expre <- pe(expr)
-    } yield IAssert(expre.expr)
+    } yield Some(IAssert(expre.expr))
   }
-  def pe_iassign: IAssign => Result[Inst] = {
+  def pe_iassign: IAssign => Result[Option[Inst]] = {
     case IAssign(ref, expr) => for {
       refr <- pe(ref)
       expre <- pe(expr)
-    } yield { IAssign(refr, expre.expr) } // TODO
+    } yield { Some(IAssign(refr, expre.expr)) } // TODO
   }
-  def pe_iclo: IClo => Result[Inst] = {
+  def pe_iclo: IClo => Result[Option[Inst]] = {
     case IClo(id, params, captured, body) => for {
       _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
-    } yield IClo(id, params, captured, body)
+    } yield Some(IClo(id, params, captured, body))
   }
-  def pe_icont: ICont => Result[Inst] = {
+  def pe_icont: ICont => Result[Option[Inst]] = {
     case ICont(id, params, body) => (context: S) => {
       val (nbody, _) = pe(body)(params.foldLeft(context) {
         case (nc, id) => nc.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
       })
-      (ICont(id, params, nbody), context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id))))))
+      (Some(ICont(id, params, nbody.getOrElse(IExpr(EStr("empty"))))), context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id))))))
     }
   }
-  def pe_idelete: IDelete => Result[Inst] = {
+  def pe_idelete: IDelete => Result[Option[Inst]] = {
     case IDelete(ref) => for {
       refr <- pe(ref)
-    } yield IDelete(refr)
+    } yield Some(IDelete(refr))
   }
-  def pe_iexpr: IExpr => Result[Inst] = {
+  def pe_iexpr: IExpr => Result[Option[Inst]] = {
     case IExpr(expr) => for {
       e <- pe(expr)
-    } yield IExpr(e.expr)
+    } yield Some(IExpr(e.expr))
   }
 
-  def pe_iif: IIf => Result[Inst] = {
+  def pe_iif: IIf => Result[Option[Inst]] = {
     case IIf(cond, thenInst, elseInst) => (dcontext: S) => {
       val (c, dcontext1) = pe(cond)(dcontext)
       val (thenInstI, dcontext2) = pe(thenInst)(dcontext1)
       val (elseInstI, dcontext3) = pe(elseInst)(SpecializeContextImpl(dcontext1.labelwiseContext, dcontext2.globalContext))
-      val ((eif, efalse), nstate) = dcontext2.labelwiseContext merge dcontext3.labelwiseContext
+      val (itrue, ifalse, nstate) = dcontext2.labelwiseContext merge dcontext3.labelwiseContext
 
-      (IIf(
+      (Some(IIf(
         c.expr,
-        ISeq(eif.map { case (x, v) => ILet(Id(x), v.expr) } :+ thenInstI),
-        ISeq(efalse.map { case (x, v) => ILet(Id(x), v.expr) } :+ elseInstI)
-      ), SpecializeContextImpl(nstate, dcontext3.globalContext))
+        ISeq(thenInstI.toList ++ itrue),
+        ISeq(elseInstI.toList ++ ifalse)
+      )), SpecializeContextImpl(nstate, dcontext3.globalContext))
     }
   }
 
-  def pe_ilet: ILet => Result[Inst] = {
+  def pe_ilet: ILet => Result[Option[Inst]] = {
     case ILet(id, expr) => for {
       v <- pe(expr)
       _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
-    } yield ILet(id, v.expr)
+    } yield Some(ILet(id, v.expr))
   }
 
-  def pe_iprepend: IPrepend => Result[Inst] = {
+  def pe_iprepend: IPrepend => Result[Option[Inst]] = {
     case IPrepend(expr, list) => for {
       expre <- pe(expr)
       liste <- pe(list)
-    } yield IPrepend(expre.expr, liste.expr)
+    } yield Some(IPrepend(expre.expr, liste.expr))
   }
 
-  def pe_iprint: IPrint => Result[Inst] = {
+  def pe_iprint: IPrint => Result[Option[Inst]] = {
     case IPrint(expr) => for {
       expre <- pe(expr)
-    } yield IPrint(expre.expr)
+    } yield Some(IPrint(expre.expr))
   }
 
-  def pe_ireturn: IReturn => Result[Inst] = {
+  def pe_ireturn: IReturn => Result[Option[Inst]] = {
     case IReturn(expr) => for {
       ne <- pe(expr)
       _ <- (context: S) => context.updateLabelwise((u) => u.setRet(Some(ne)))
-    } yield IReturn(ne.expr)
+    } yield Some(IReturn(ne.expr))
 
   }
 
-  def pe_ithrow: IThrow => Result[Inst] = {
-    case IThrow(name) => IThrow(name)
+  def pe_ithrow: IThrow => Result[Option[Inst]] = {
+    case IThrow(name) => Some(IThrow(name))
   }
 
-  def pe_iwhile: IWhile => Result[Inst] = {
+  def pe_iwhile: IWhile => Result[Option[Inst]] = {
     case IWhile(cond, body) => for {
       _ <- (context: S) => context.toDynamic
-    } yield IWhile(cond, body) // TODO
+    } yield Some(IWhile(cond, body)) // TODO
   }
 
-  def pe_iwithcont: IWithCont => Result[Inst] = {
+  def pe_iwithcont: IWithCont => Result[Option[Inst]] = {
     case IWithCont(id, params, body) => (context: S) => {
       val (nbody, _) = pe(body)(context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id))))))
-      (IWithCont(id, params, nbody), params.foldLeft(context) {
+      (Some(IWithCont(id, params, nbody.getOrElse(IExpr(EStr("empty"))))), params.foldLeft(context) {
         case (nc, id) => nc.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
       })
     }

@@ -11,7 +11,24 @@ import kr.ac.kaist.jiset.js.ast.AbsAST
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.js.Initialize
 
+case class MustBoundVariableWalker(m: collection.mutable.Set[String]) extends UnitWalker {
+  override def walk(i: Inst) = i match {
+    case IClo(id, params, captured, body) => m ++= captured.map(_.name)
+    case _ => super.walk(i)
+  }
+  override def walk(r: Ref) = r match {
+    case RefProp(RefId(id), expr) => { m += id.name; super.walk(expr) }
+    case _ => super.walk(r)
+  }
+}
+
 trait BasePartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] extends PassingPartialEval[LT, GT] {
+
+  val mustBoundVariable = collection.mutable.Set[String]()
+  override def init(view: SyntacticView): Unit = {
+    val (algo, _) = view.ast.semantics("Evaluation").get
+    MustBoundVariableWalker(mustBoundVariable).walk(algo)
+  }
 
   val simpleFuncs: Set[String] = Set(
     "GetArgument",
@@ -44,28 +61,28 @@ trait BasePartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] exten
 
   import psm._
 
-  override def pe_ilet: ILet => Result[Inst] = {
+  override def pe_ilet: ILet => Result[Option[Inst]] = {
     case ILet(id, expr) => for {
       v <- pe(expr)
       _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, v))
-    } yield ILet(id, v.expr) // if (v.isRepresentable) IExpr(EStr("skip")) else ILet(id, v.expr)
+    } yield if (v.isRepresentable && !mustBoundVariable.contains(id.name)) None else Some(ILet(id, v.expr))
   }
 
-  override def pe_iseq: ISeq => Result[Inst] = {
+  override def pe_iseq: ISeq => Result[Option[Inst]] = {
     case ISeq(insts) => { (dcontext: SpecializeContext[LT, GT]) =>
       {
         val (z, y) = insts.foldLeft((List[Inst](), dcontext)) {
           case ((li, dc), i) => if (dc.labelwiseContext.getRet.map(_.isRepresentable).getOrElse(false)) (li, dc) else {
             val (i2, dc2) = pe(i)(dc)
-            (li :+ i2, dc2)
+            (li ++ i2.toList, dc2)
           }
         }
-        (ISeq(z), y)
+        (Some(ISeq(z)), y)
       }
     }
   }
 
-  override def pe_iif: IIf => Result[Inst] = {
+  override def pe_iif: IIf => Result[Option[Inst]] = {
     case IIf(cond, thenInst, elseInst) => for {
       c <- pe(cond)
       res <- (c match {
@@ -74,14 +91,14 @@ trait BasePartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] exten
         case _ => (dcontext1: S) => {
           val (thenInstI, dcontext2) = pe(thenInst)(dcontext1)
           val (elseInstI, dcontext3) = pe(elseInst)(SpecializeContextImpl(dcontext1.labelwiseContext, dcontext2.globalContext))
-          val ((eif, efalse), nstate) = dcontext2.labelwiseContext merge dcontext3.labelwiseContext
-          (IIf(
+          val (itrue, ifalse, nstate) = dcontext2.labelwiseContext merge dcontext3.labelwiseContext
+          (Some(IIf(
             c.expr,
-            thenInstI,
-            elseInstI
-          ), SpecializeContextImpl(nstate, dcontext3.globalContext))
+            ISeq(thenInstI.toList ++ itrue),
+            ISeq(elseInstI.toList ++ ifalse)
+          )), SpecializeContextImpl(nstate, dcontext3.globalContext))
         }
-      }): Result[Inst]
+      }): Result[Option[Inst]]
     } yield res
   }
 
