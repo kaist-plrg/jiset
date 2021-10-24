@@ -254,9 +254,8 @@ where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
 
 \subsection{Function Specialization}
 
-\todo
-
-A function specialization is defined with the following three components:
+A \textit{function specialization} is defined with the following three
+components:
 \begin{itemize}
   \item Restriction $\restrictset$
   \item Concretization $\gamma: \restrictset \rightarrow \powerset{\stset
@@ -264,12 +263,18 @@ A function specialization is defined with the following three components:
   \item Transformation $\transform: \restrictset \rightarrow \funcset
     \rightarrow \funcset$.
 \end{itemize}
-
-\todo
-
+We can restrict possible input states and arguments of functions by defining a
+set of restrictions $\restrictset$ with their concretization $\gamma:
+\restrictset \rightarrow \powerset{\stset \times \valset^*}$. A transformation
+$\transform: \restrictset \rightarrow \funcset \rightarrow \funcset$ is
+parameteric with such restrictions and transforms a function to another function
+by preserving observational semantics under a given restriction.
 
 
 \subsubsection{Constant Propagation Specialization}
+We define a \textit{constant propagation specialization} with the following
+three components:
+
 \begin{itemize}
   \item Restriction $\cprestrictset = (\valoptset)^* =
     (\valset \uplus \{ \top \})^*$
@@ -288,8 +293,14 @@ A function specialization is defined with the following three components:
   \item Transformation $\cptransform: (\valoptset)^* \rightarrow \funcset
     \rightarrow \funcset$
 \end{itemize}
-In the constant propagation specialization, a restriction is a sequences of
-static values $\valset$ or a dynamic value $\top$.
+The constant propagation specialization restricts specific arguments with
+concrete values with a restriction defined with a sequence of static or dynamic
+values $\valset \uplus \{ \top \}$, but it does not restrict input states.
+While a dynamic value $\top$ denotes no restriction, it restricts a specific
+argument with the static value $\val \in \valset$. To specialize functions under
+a given restriction $(\valopt_1, \cdots, \valopt_n) \in (\valoptset)^*$, we
+define a transformation $\cptransform: (\valoptset)^* \rightarrow \funcset
+\rightarrow \funcset$. To propagate constants, \todo What is a constant?
 
 \[
   \begin{array}{lr@{~}c@{~}l@{~}c@{~}l}
