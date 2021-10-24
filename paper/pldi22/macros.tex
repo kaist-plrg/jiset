@@ -119,6 +119,9 @@
 \DeclarePairedDelimiter{\norm}{\lvert}{\rvert} 
 
 % Notations
+\newcommand{\prog}{P}
+\newcommand{\getinst}{\code{inst}}
+\newcommand{\getnext}{\code{next}}
 \newcommand{\funcset}{\mathcal{F}}
 \newcommand{\func}{f}
 \newcommand{\labset}{\mathcal{L}}
@@ -132,9 +135,13 @@
 \newcommand{\inst}{i}
 \newcommand{\exprset}{\mathcal{E}}
 \newcommand{\expr}{e}
-\newcommand{\varset}{\mathcal{X}}
 \newcommand{\referset}{\mathcal{R}}
 \newcommand{\refer}{r}
+\newcommand{\varset}{\mathcal{X}}
+\newcommand{\varx}{\code{x}}
+\newcommand{\vart}{\code{t}}
+\newcommand{\varf}{\code{f}}
+\newcommand{\varp}{\code{p}}
 
 % Values
 \newcommand{\valset}{\mathbb{V}}
@@ -142,7 +149,11 @@
 \newcommand{\pvalset}{\valset_\name{p}}
 \newcommand{\pval}{\val_\name{p}}
 \newcommand{\strset}{\valset_\name{str}}
-\newcommand{\str}{\val_\name{str}}
+\newcommand{\str}{s}
+\newcommand{\boolset}{\valset_\name{bool}}
+\newcommand{\bool}{b}
+\newcommand{\true}{\code{\#t}}
+\newcommand{\false}{\code{\#f}}
 \newcommand{\treeset}{\mathbb{T}}
 \newcommand{\tree}{t}
 \newcommand{\trees}{\overline{t}}
@@ -157,18 +168,13 @@
 \newcommand{\istset}{\stset_\iota}
 \newcommand{\ist}{\st_\iota}
 
-% Helper of States
-\newcommand{\syoptctxtof}{\name{syntax-ctxt}}
-\newcommand{\jscallctxtof}{\name{js-call-ctxt}}
-\newcommand{\funcof}{\name{func}}
-\newcommand{\ctxtsof}{\name{ctxts}}
-
 % Heaps
 \newcommand{\heapset}{\mathbb{H}}
 \newcommand{\heap}{h}
 
 % Contexts
 \newcommand{\ctxtset}{\mathbb{C}}
+\newcommand{\ctxts}{\overline{\ctxt}}
 \newcommand{\ctxt}{c}
 
 % Environments
@@ -185,15 +191,18 @@
 
 % semantics
 \newcommand{\sem}[1]{\llbracket{#1}\rrbracket}
+\newcommand{\trans}{\leadsto}
+
+% observational semantics
 \newcommand{\osem}[1]{\sem{#1}_{o}}
 
 % specialization
-\newcommand{\trans}{T}
-\newcommand{\transi}{\trans_\inst}
-\newcommand{\transe}{\trans_\expr}
-\newcommand{\cptrans}{\trans^\name{cp}}
-\newcommand{\cptranse}{\trans^\name{cp}_\expr}
-\newcommand{\cptransi}{\trans^\name{cp}_\inst}
+\newcommand{\transform}{T}
+\newcommand{\transformi}{\transform_\inst}
+\newcommand{\transforme}{\transform_\expr}
+\newcommand{\cptransform}{\transform^\name{cp}}
+\newcommand{\cptransforme}{\transform^\name{cp}_\expr}
+\newcommand{\cptransformi}{\transform^\name{cp}_\inst}
 \newcommand{\cprestrictset}{\restrictset^\name{cp}}
 \newcommand{\cpgamma}{\gamma^\name{cp}}
 

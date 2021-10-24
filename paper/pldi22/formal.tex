@@ -19,15 +19,15 @@ concrete semantics in the remainder of this section.
 \[
   \begin{array}{lr@{~}c@{~}c@{~}c@{~}l}
     \text{Functions} & \funcset &\ni& \func &::=&
-    \kwdef \; x \; \kwrl x^* \kwrr \; \kwcl [\lab: \inst]^* \kwcr\\
+    \kwdef \; \varx \; \kwrl \varx^* \kwrr \; \lab\\
 
-    \text{Variables} & \varset &\ni& x\\
+    \text{Variables} & \varset &\ni& \varx\\
 
     \text{Labels} & \labset &\ni& \lab\\
 
     \text{Instructions} & \instset &\ni& \inst &::=&
     \refer = \expr \mid
-    x = \expr \kwrl \expr^* \kwrr \mid
+    \varx = \expr \kwrl \expr^* \kwrr \mid
     \kwif \; \expr \; \lab \; \lab \mid
     \kwret \; \expr\\
 
@@ -38,22 +38,26 @@ concrete semantics in the remainder of this section.
     \refer\\
 
     \text{References} & \referset &\ni& \refer &::=&
-    x \mid \refer \kwsl \expr \kwsr\\
+    \varx \mid \refer \kwsl \expr \kwsr\\
   \end{array}
 \]
 
-\todo update explanation
-
-A function $\func \in \funcset$ is defined with its name, parameters, and body
-instructions with labels $\labset$.  An instruction $\inst \in \instset$ is
-a primitive value assignment $x = \pval$,
-an operation between values $x = \op \kwrl x^* \kwrr$,
-a function call $x = x \kwrl x^* \kwrr$,
-a object allocation $x = \kwcl \kwcr$,
-a field access $x = x \kwsl x \kwsr$,
-a field assignment $x \kwsl x \kwsr = x$,
-a conditional branch $\kwif \; x \; \lab \; \lab$,
-or a return instruction $\kwret \; x$.
+An $\ires$ program $\prog = (\istset, \getinst, \getnext)$ consists of initial
+states and two mappings; $\getinst: \labset \rightarrow \instset$ maps labels to
+their instructions, and $\getnext: \labset \rightarrow \labset$ maps labels to
+their next labels, where a label $\lab \in \labset$ denotes a program point.  A
+function $\func \in \funcset$ is defined with its name, parameters, and body
+label.  For presentation brevity, we assume that no global variables exist in
+this paper.  An instruction $\inst \in \instset$ is an assignment $\refer =
+\expr$, a function call $x = \expr \kwrl \expr^* \kwrr$, a branch $\kwif \;
+\expr \; \lab \; \lab$, or a return instruction $\kwret \; \expr$.  An
+invocation of an abstract algorithm in ECMAScript is compiled to a function call
+instruction with a new temporary variable.  We represent loops using branch
+instructions with cyclic pointing of labels in $\getnext$.  An expression is a
+primitive value $\pval$, an operation $\op \kwrl \expr^* \kwrr$, an object
+allocation $\kwcl \kwcr$, or a reference $\refer$.  A reference is a variable
+$x$ or an object field $\refer \kwsl \expr \kwsr$.  We write $\refer.\varf$ to
+briefly represent $\refer \kwsl \code{"f"} \kwsr$.
 
 
 \subsubsection{States}
@@ -69,6 +73,9 @@ or a return instruction $\kwret \; x$.
     \text{Heaps} & \heap &\in& \heapset &=&
     \addrset \finmap \objset\\
 
+    \text{Objects} & \obj &\in& \objset &=&
+    \strset \finmap \valset\\
+
     \text{Environments} & \env &\in& \envset &=&
     \varset \finmap \valset\\
 
@@ -76,97 +83,145 @@ or a return instruction $\kwret \; x$.
     \pvalset \uplus \addrset \uplus \treeset \uplus \funcset\\
 
     \text{Primive Values} & \pval &\in& \pvalset &=&
-    \strset \uplus \cdots\\
+    \boolset \uplus \strset \uplus \cdots\\
 
     \text{JavaScript ASTs} & \tree &\in& \treeset\\
-
-    \text{Objects} & \obj &\in& \objset &=&
-    \strset \finmap \valset\\
   \end{array}
 \]
 
-\todo
-% States $\stset$ consist of heaps $\heapset$ and contexts $\ctxtset$.  A heap
-% $\heap \in \heapset$ is a finite mapping from addresses to objects.  Each object
-% allocation instruction $x = \kwcl \kwcr$ creates a unique address $\addr \in
-% \addrset$ different from existing addresses.  A context $\ctxt \in \ctxtset$ is
-% a triple of a label, a environment, and an optional calling context $\ctxtopt
-% \in \ctxtoptset = \ctxtset \uplus \{ \bot \}$.  An environment $\env \in
-% \envset$ is a finite mapping from variables to values. A value $\val \in
-% \valset$ is a primitive value $\pval \in \pvalset$ (e.g., a string value $\str
-% \in \strset$), an address $\addr \in \addrset$, a JavaScript AST $\tree \in
-% \treeset$, or a function $f \in \funcset$.  A object $\obj \in \objset$ is a
-% finite mappings from strings to values.
+States $\stset$ consist of labels $\labset$, calling context stacks
+$\ctxtset^*$, heaps $\heapset$, and environments $\envset$.  A calling context
+$\ctxt \in \ctxtset$ consists of a label denoting the return point, a caller's
+environment, and a return variable.  A heap $\heap \in \heapset$ is a finite
+mapping from addresses to objects, and an object $\obj \in \objset$ is a finite
+mappings from strings to values.  Each object allocation $\kwcl \kwcr$ creates a
+unique address $\addr \in \addrset$ different from existing addresses.  An
+environment $\env \in \envset$ is a finite mapping from variables to values. A
+value $\val \in \valset$ is a primitive value $\pval \in \pvalset$ (e.g., a
+boolean value $\bool \in \boolset$ or a string value $\str \in \strset$), an
+address $\addr \in \addrset$, a JavaScript AST $\tree \in \treeset$, or a
+function $f \in \funcset$.
 
-\subsubsection{Concrete Semantics of Functions}
+\subsubsection{Concrete Semantics}
 
+The concrete semantics $\sem{\prog}$ of an $\ires$ program $\prog = (\istset, \getinst,
+\getnext)$ is defined as follows:
 \[
-  \framebox{$\sem{\func}: \stset \times \valset^* \rightarrow \stset \times
-  \valset$}
+  \sem{\prog} = \{ \st \in \stset \mid \ist \in \istset \wedge \ist \trans^* \st \}
 \]
+where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
+\st$ if and only if $\st = (\lab, \_, \_, \_)$ and $\sem{\getinst(\lab)}(\st) =
+\st'$. Now, we define the denotational semantics of instructions $\sem{\inst}:
+\stset \rightarrow \stset$, expressions $\sem{\expr}: \stset \rightarrow \stset
+\times \valset$, and references $\sem{\refer}: \stset \rightarrow \stset \times
+\valset$.
 
-\todo
+\paragraph{Instructions: $\framebox{$\sem{\inst}: \stset \rightarrow \stset$}$}
+\begin{itemize}
+  \item \underline{Variable Assignments}:
+    \[
+      \sem{\varx = \expr}(\st) =
+      (\getnext(\lab), \ctxts, \heap, \env[\varx \mapsto \val])
+    \]
+    where
+    \[
+      \sem{\expr}(\st) = ((\lab, \ctxts, \heap, \env), \val)
+    \]
 
-\subsubsection{Concrete Semantics of Instructions}
+  \item \underline{Field Assignments}:
+    \[
+      \sem{\refer \kwsl \expr_0 \kwsr = \expr_1}(\st) =
+      (\getnext(\lab), \ctxts, \heap[\addr \mapsto \obj'], \env)
+    \]
+    where
+    \[
+      \begin{array}{l@{~}c@{~}ll}
+        \sem{\refer}(\st) &=& (\st', \addr) &\wedge\\
+        \sem{\expr_0}(\st') &=& (\st'', \str) &\wedge\\
+        \sem{\expr_1}(\st'') &=& ((\lab, \ctxts, \heap, \env), \val) &\wedge\\
+        \obj &=& \heap(\addr) &\wedge\\
+        \obj' &=& \obj[\str \mapsto \val]\\
+      \end{array}
+    \]
 
-\[
-  \framebox{$\sem{\inst}: \stset \rightarrow \stset$}
-\]
+  \item \underline{Function Calls}:
+    \[
+      \sem{\varx = \expr \kwrl \expr_1 \cdots \expr_n \kwrr}(\st) =
+      (\lab_\varf, \ctxt :: \ctxts, \heap, \env')
+    \]
+    where
+    \[
+      \begin{array}{l@{~}c@{~}ll}
+        \sem{\expr} &=& (\st_0, \kwdef \; \varf \; \kwrl \varp_1, \cdots,
+        \varp_n \kwrr \; \lab_\varf) &\wedge\\
+        \sem{\expr_k}(\st_{k-1}) &=& (\st_k, \val_k) \; \forall 1 \leq k \leq n
+        &\wedge\\
+        \st_n &=& (\lab, \ctxts, \heap, \env) &\wedge\\
+        \env' &=& [\varp_1 \mapsto \val_1, \cdots, \varp_n \mapsto \val_n]
+        &\wedge\\
+        \ctxt &=& (\getnext(\lab), \env, \varx)\\
+      \end{array}
+    \]
 
-\todo
-% \[
-%   \begin{array}{l}
-%     \sem{x = \pval}(\heap, (\lab, \env, \ctxtopt)) =\\
-%     \qquad (\heap, (\lab, \env[x \mapsto \pval], \ctxtopt)) \\
-%     \\
-% 
-%     \sem{x = \op \kwrl x_1, \cdots, x_n \kwrr}(\heap, (\lab, \env, \ctxtopt)) =\\
-%     \qquad (\heap, (\lab, \env[x \mapsto \sem{\op}(x_1, \cdots, x_n)], \ctxtopt)) \\
-%     \\
-% 
-%     \sem{x = x \kwrl x^* \kwrr}(\heap, (\lab, \env, \ctxtopt)) =\\
-%     \qquad \todo \\
-%     \\
-% 
-%     \sem{x = \kwcl \kwcr}(\heap, (\lab, \env, \ctxtopt)) =\\
-%     \qquad \todo \\
-%     \\
-% 
-%     \sem{x = x \kwsl x \kwsr}(\heap, (\lab, \env, \ctxtopt)) =\\
-%     \qquad \todo \\
-%     \\
-% 
-%     \sem{x \kwsl x \kwsr = x}(\heap, (\lab, \env, \ctxtopt)) =\\
-%     \qquad \todo \\
-%     \\
-% 
-%     \sem{\kwif \; x \; \lab \; \lab}(\heap, (\lab, \env, \ctxtopt)) =\\
-%     \qquad \todo \\
-%     \\
-% 
-%     \sem{\kwret \; x}(\heap, (\lab, \env, \ctxtopt)) =\\
-%     \qquad \todo \\
-% 
-%   \end{array}
-% \]
+  \item \underline{Branches}:
+    \[
+      \sem{\kwif \; \expr \; \lab_\vart \; \lab_\varf}(\st) =
+      \left\{
+        \begin{array}{ll}
+          (\lab_\vart, \ctxts, \heap, \env) & \text{if} \; \val = \true\\
+          (\lab_\varf, \ctxts, \heap, \env) & \text{if} \; \val = \false\\
+        \end{array}
+      \right.
+    \]
+    where
+    \[
+      \sem{\expr}(\st) = ((\lab, \ctxts, \heap, \env), \val)
+    \]
 
-\subsubsection{Concrete Semantics of Expressions}
+  \item \underline{Returns}:
+    \[
+      \sem{\kwret \; \expr}(\st) = (\lab, \ctxts, \heap, \env[\varx \mapsto
+      \val])
+    \]
+    where
+    \[
+      \sem{\expr}(\st) = ((\_, (\lab, \env, \varx) :: \ctxts, \heap, \_), \val)
+    \]
+\end{itemize}
 
-\[
-  \framebox{$\sem{\expr}: \stset \rightarrow \stset \times \valset$}
-\]
+\paragraph{Expressions: $\framebox{$\sem{\expr}: \stset \rightarrow \stset
+\times \valset$}$}
+\begin{itemize}
+  \item \underline{Primive Values}:
+    \[
+      \sem{\pval}(\st) = \todo
+    \]
+  \item \underline{Operations}:
+    \[
+      \sem{\op \kwrl \expr^* \kwrr}(\st) = \todo
+    \]
+  \item \underline{Object Allocations}:
+    \[
+      \sem{\kwcl \kwcr}(\st) = \todo
+    \]
+  \item \underline{References}:
+    \[
+      \sem{\refer}(\st) = \todo
+    \]
+\end{itemize}
 
-\todo
-
-
-
-\subsubsection{Concrete Semantics of References}
-
-\[
-  \framebox{$\sem{\refer}: \stset \rightarrow \stset \times \valset$}
-\]
-
-\todo
+\paragraph{References: $\framebox{$\sem{\refer}: \stset \rightarrow \stset
+\times \valset$}$}
+\begin{itemize}
+  \item \underline{Variable Lookups}:
+    \[
+      \sem{\varx}(\st) = \todo
+    \]
+  \item \underline{Field Lookups}:
+    \[
+      \sem{\refer \kwsl \expr \kwsr}(\st) = \todo
+    \]
+\end{itemize}
 
 
 
@@ -181,8 +236,8 @@ A function specialization is defined with the following three components:
   \item Restriction $\restrictset$
   \item Concretization $\gamma: \restrictset \rightarrow \powerset{\stset
     \times \valset^*}$
-  \item Transformation $\trans: \restrictset \rightarrow \funcset \rightarrow
-    \funcset$.
+  \item Transformation $\transform: \restrictset \rightarrow \funcset
+    \rightarrow \funcset$.
 \end{itemize}
 
 \todo
@@ -205,7 +260,7 @@ A function specialization is defined with the following three components:
         \{ \valopt_i \} & \text{otherwise}\\
       \end{array}
     \right.$
-  \item Transformation $\cptrans: (\valoptset)^* \rightarrow \funcset
+  \item Transformation $\cptransform: (\valoptset)^* \rightarrow \funcset
     \rightarrow \funcset$
 \end{itemize}
 In the constant propagation specialization, a restriction is a sequences of
@@ -221,27 +276,27 @@ static values $\valset$ or a dynamic value $\top$.
 \]
 
 \[
-  \framebox{$\cptranse: \exprset \times \senvset \rightarrow \svalset$}
+  \framebox{$\cptransforme: \exprset \times \senvset \rightarrow \svalset$}
 \]
 
 \[
   \begin{array}{lcl}
-    \cptranse(\pval, \env) &=& \pval\\
-    \cptranse(\op \kwrl \expr^* \kwrr, \env) &=& \todo\\
-    \cptranse(\kwcl \kwcr, \env) &=& \todo\\
-    \cptranse(\refer, \env) &=& \todo\\
+    \cptransforme(\pval, \env) &=& \pval\\
+    \cptransforme(\op \kwrl \expr^* \kwrr, \env) &=& \todo\\
+    \cptransforme(\kwcl \kwcr, \env) &=& \todo\\
+    \cptransforme(\refer, \env) &=& \todo\\
   \end{array}
 \]
 
 \[
-  \framebox{$\cptransi: \instset \times \senvset \rightarrow \instset \times
+  \framebox{$\cptransformi: \instset \times \senvset \rightarrow \instset \times
   \senvset$}
 \]
 
 \todo
 
 \[
-  \framebox{$\cptrans: (\valoptset)^* \rightarrow \funcset \rightarrow
+  \framebox{$\cptransform: (\valoptset)^* \rightarrow \funcset \rightarrow
   \funcset$}
 \]
 
@@ -266,7 +321,7 @@ static values $\valset$ or a dynamic value $\top$.
 % this transformation for the brevity.
 % 
 % \[
-%   \framebox{$\transref: \funcset \rightarrow \funcset$}
+%   \framebox{$\transformref: \funcset \rightarrow \funcset$}
 % \]
 % 
 % \todo
