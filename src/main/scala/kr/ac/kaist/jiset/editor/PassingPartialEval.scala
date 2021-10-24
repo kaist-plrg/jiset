@@ -11,25 +11,25 @@ import kr.ac.kaist.jiset.js.ast.AbsAST
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.js.Initialize
 
-class PassingPartialEval extends PartialEval {
-  import PartialStateMonad._
+trait PassingPartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] extends PartialEval[LT, GT] {
+  import psm._
 
   def pe_iseq: ISeq => Result[Inst] = {
-    case ISeq(insts) => PartialStateMonad.join(insts.map(pe)).map(ISeq)
+    case ISeq(insts) => join(insts.map(pe)).map(ISeq)
   }
   def pe_iaccess: IAccess => Result[Inst] = {
     case IAccess(id, bexpr, expr, args) => for {
       baseE <- pe(bexpr)
       propE <- pe(expr)
-      argsE <- PartialStateMonad.join(args.map(pe))
-      _ <- (context: S) => context.labelwiseContext.setId(id.name, PartialExpr.mkDynamic(ERef(RefId(id))))
+      argsE <- join(args.map(pe))
+      _ <- (context: S) => context.labelwiseContext.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id))))
     } yield IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr))
   }
   def pe_iapp: IApp => Result[Inst] = {
     case IApp(id, fexpr, args) => for {
       fexpr <- pe(fexpr)
-      argsE <- PartialStateMonad.join(args.map(pe))
-      _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, PartialExpr.mkDynamic(ERef(RefId(id)))))
+      argsE <- join(args.map(pe))
+      _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
     } yield IApp(id, fexpr.expr, argsE.map(_.expr))
   }
   def pe_iappend: IAppend => Result[Inst] = {
@@ -51,15 +51,15 @@ class PassingPartialEval extends PartialEval {
   }
   def pe_iclo: IClo => Result[Inst] = {
     case IClo(id, params, captured, body) => for {
-      _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, PartialExpr.mkDynamic(ERef(RefId(id)))))
+      _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
     } yield IClo(id, params, captured, body)
   }
   def pe_icont: ICont => Result[Inst] = {
     case ICont(id, params, body) => (context: S) => {
       val (nbody, _) = pe(body)(params.foldLeft(context) {
-        case (nc, id) => nc.updateLabelwise((u) => u.setId(id.name, PartialExpr.mkDynamic(ERef(RefId(id)))))
+        case (nc, id) => nc.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
       })
-      (ICont(id, params, nbody), context.updateLabelwise((u) => u.setId(id.name, PartialExpr.mkDynamic(ERef(RefId(id))))))
+      (ICont(id, params, nbody), context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id))))))
     }
   }
   def pe_idelete: IDelete => Result[Inst] = {
@@ -77,21 +77,21 @@ class PassingPartialEval extends PartialEval {
     case IIf(cond, thenInst, elseInst) => (dcontext: S) => {
       val (c, dcontext1) = pe(cond)(dcontext)
       val (thenInstI, dcontext2) = pe(thenInst)(dcontext1)
-      val (elseInstI, dcontext3) = pe(elseInst)(PartialContextImpl(dcontext1.labelwiseContext, dcontext2.globalContext))
+      val (elseInstI, dcontext3) = pe(elseInst)(SpecializeContextImpl(dcontext1.labelwiseContext, dcontext2.globalContext))
       val ((eif, efalse), nstate) = dcontext2.labelwiseContext merge dcontext3.labelwiseContext
 
       (IIf(
         c.expr,
         ISeq(eif.map { case (x, v) => ILet(Id(x), v.expr) } :+ thenInstI),
         ISeq(efalse.map { case (x, v) => ILet(Id(x), v.expr) } :+ elseInstI)
-      ), PartialContextImpl(nstate, dcontext3.globalContext))
+      ), SpecializeContextImpl(nstate, dcontext3.globalContext))
     }
   }
 
   def pe_ilet: ILet => Result[Inst] = {
     case ILet(id, expr) => for {
       v <- pe(expr)
-      _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, PartialExpr.mkDynamic(ERef(RefId(id)))))
+      _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
     } yield ILet(id, v.expr)
   }
 
@@ -128,178 +128,178 @@ class PassingPartialEval extends PartialEval {
 
   def pe_iwithcont: IWithCont => Result[Inst] = {
     case IWithCont(id, params, body) => (context: S) => {
-      val (nbody, _) = pe(body)(context.updateLabelwise((u) => u.setId(id.name, PartialExpr.mkDynamic(ERef(RefId(id))))))
+      val (nbody, _) = pe(body)(context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id))))))
       (IWithCont(id, params, nbody), params.foldLeft(context) {
-        case (nc, id) => nc.updateLabelwise((u) => u.setId(id.name, PartialExpr.mkDynamic(ERef(RefId(id)))))
+        case (nc, id) => nc.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
       })
     }
   }
 
-  def pe_enum: ENum => Result[PartialValue] = {
-    case ENum(n) => PartialExpr.mkDynamic(ENum(n))
+  def pe_enum: ENum => Result[SymbolicValue] = {
+    case ENum(n) => SymbolicValueFactory.mkDynamic(ENum(n))
   }
 
-  def pe_einum: EINum => Result[PartialValue] = {
-    case EINum(n) => PartialExpr.mkDynamic(EINum(n))
+  def pe_einum: EINum => Result[SymbolicValue] = {
+    case EINum(n) => SymbolicValueFactory.mkDynamic(EINum(n))
   }
 
-  def pe_ebiginum: EBigINum => Result[PartialValue] = {
-    case EBigINum(b) => PartialExpr.mkDynamic(EBigINum(b))
+  def pe_ebiginum: EBigINum => Result[SymbolicValue] = {
+    case EBigINum(b) => SymbolicValueFactory.mkDynamic(EBigINum(b))
   }
 
-  def pe_estr: EStr => Result[PartialValue] = {
-    case EStr(str) => PartialExpr.mkDynamic(EStr(str))
+  def pe_estr: EStr => Result[SymbolicValue] = {
+    case EStr(str) => SymbolicValueFactory.mkDynamic(EStr(str))
   }
 
-  def pe_ebool: EBool => Result[PartialValue] = {
-    case EBool(b) => PartialExpr.mkDynamic(EBool(b))
+  def pe_ebool: EBool => Result[SymbolicValue] = {
+    case EBool(b) => SymbolicValueFactory.mkDynamic(EBool(b))
   }
 
-  def pe_eundef: EUndef.type => Result[PartialValue] = {
-    case EUndef => PartialExpr.mkDynamic(EUndef)
+  def pe_eundef: EUndef.type => Result[SymbolicValue] = {
+    case EUndef => SymbolicValueFactory.mkDynamic(EUndef)
   }
 
-  def pe_enull: ENull.type => Result[PartialValue] = {
-    case ENull => PartialExpr.mkDynamic(ENull)
+  def pe_enull: ENull.type => Result[SymbolicValue] = {
+    case ENull => SymbolicValueFactory.mkDynamic(ENull)
   }
 
-  def pe_eabsent: EAbsent.type => Result[PartialValue] = {
-    case EAbsent => PartialExpr.mkDynamic(EAbsent)
+  def pe_eabsent: EAbsent.type => Result[SymbolicValue] = {
+    case EAbsent => SymbolicValueFactory.mkDynamic(EAbsent)
   }
 
-  def pe_econst: EConst => Result[PartialValue] = {
-    case EConst(name) => PartialExpr.mkDynamic(EConst(name))
+  def pe_econst: EConst => Result[SymbolicValue] = {
+    case EConst(name) => SymbolicValueFactory.mkDynamic(EConst(name))
   }
 
-  def pe_ecomp: EComp => Result[PartialValue] = {
+  def pe_ecomp: EComp => Result[SymbolicValue] = {
     case EComp(ty, value, target) => for {
       tye <- pe(ty)
       ve <- pe(value)
       targete <- pe(target)
-    } yield PartialExpr.mkDynamic(EComp(tye.expr, ve.expr, targete.expr))
+    } yield SymbolicValueFactory.mkDynamic(EComp(tye.expr, ve.expr, targete.expr))
   }
 
-  def pe_emap: EMap => Result[PartialValue] = {
+  def pe_emap: EMap => Result[SymbolicValue] = {
     case EMap(ty, props) => for {
-      propse <- PartialStateMonad.join(props.map { case (ek, ev) => pe(ek).flatMap((vk) => pe(ev).flatMap((vv) => (vk, vv))) })
-    } yield PartialExpr.mkDynamic(EMap(ty, propse.map { case (ek, ev) => (ek.expr, ev.expr) }))
+      propse <- join(props.map { case (ek, ev) => pe(ek).flatMap((vk) => pe(ev).flatMap((vv) => (vk, vv))) })
+    } yield SymbolicValueFactory.mkDynamic(EMap(ty, propse.map { case (ek, ev) => (ek.expr, ev.expr) }))
   }
 
-  def pe_elist: EList => Result[PartialValue] = {
+  def pe_elist: EList => Result[SymbolicValue] = {
     case EList(exprs) => for {
-      le <- PartialStateMonad.join(exprs.map(pe))
-    } yield (PartialExpr.mkDynamic(EList(le.map(_.expr))))
+      le <- join(exprs.map(pe))
+    } yield (SymbolicValueFactory.mkDynamic(EList(le.map(_.expr))))
   }
 
-  def pe_esymbol: ESymbol => Result[PartialValue] = {
+  def pe_esymbol: ESymbol => Result[SymbolicValue] = {
     case ESymbol(desc) => for {
       desce <- pe(desc)
-    } yield (PartialExpr.mkDynamic(ESymbol(desce.expr)))
+    } yield (SymbolicValueFactory.mkDynamic(ESymbol(desce.expr)))
   }
 
-  def pe_epop: EPop => Result[PartialValue] = {
+  def pe_epop: EPop => Result[SymbolicValue] = {
     case EPop(list, idx) => for {
       liste <- pe(list)
       idxe <- pe(idx)
-    } yield (PartialExpr.mkDynamic(EPop(liste.expr, idxe.expr)))
+    } yield (SymbolicValueFactory.mkDynamic(EPop(liste.expr, idxe.expr)))
   }
 
-  def pe_eref: ERef => Result[PartialValue] = {
+  def pe_eref: ERef => Result[SymbolicValue] = {
     case ERef(ref) => for {
       refr <- pe(ref)
-    } yield PartialExpr.mkDynamic(ERef(refr))
+    } yield SymbolicValueFactory.mkDynamic(ERef(refr))
   }
 
-  def pe_euop: EUOp => Result[PartialValue] = {
+  def pe_euop: EUOp => Result[SymbolicValue] = {
     case EUOp(uop, expr) => for {
       e <- pe(expr)
-    } yield PartialExpr.mkDynamic(EUOp(uop, e.expr))
+    } yield SymbolicValueFactory.mkDynamic(EUOp(uop, e.expr))
   }
 
-  def pe_ebop: EBOp => Result[PartialValue] = {
+  def pe_ebop: EBOp => Result[SymbolicValue] = {
     case EBOp(bop, left, right) => for {
       le <- pe(left)
       re <- pe(right)
-    } yield PartialExpr.mkDynamic(EBOp(bop, le.expr, re.expr))
+    } yield SymbolicValueFactory.mkDynamic(EBOp(bop, le.expr, re.expr))
   }
 
-  def pe_etypeof: ETypeOf => Result[PartialValue] = {
+  def pe_etypeof: ETypeOf => Result[SymbolicValue] = {
     case ETypeOf(expr) => for {
       e <- pe(expr)
-    } yield PartialExpr.mkDynamic(ETypeOf(e.expr))
+    } yield SymbolicValueFactory.mkDynamic(ETypeOf(e.expr))
 
   }
 
-  def pe_eiscompletion: EIsCompletion => Result[PartialValue] = {
+  def pe_eiscompletion: EIsCompletion => Result[SymbolicValue] = {
     case EIsCompletion(expr) => for {
       e <- pe(expr)
-    } yield PartialExpr.mkDynamic(EIsCompletion(e.expr))
+    } yield SymbolicValueFactory.mkDynamic(EIsCompletion(e.expr))
   }
 
-  def pe_eisinstanceof: EIsInstanceOf => Result[PartialValue] = {
+  def pe_eisinstanceof: EIsInstanceOf => Result[SymbolicValue] = {
     case EIsInstanceOf(base, name) => for {
       be <- pe(base)
-    } yield PartialExpr.mkDynamic(EIsInstanceOf(be.expr, name))
+    } yield SymbolicValueFactory.mkDynamic(EIsInstanceOf(be.expr, name))
   }
 
-  def pe_egetelems: EGetElems => Result[PartialValue] = {
+  def pe_egetelems: EGetElems => Result[SymbolicValue] = {
     case EGetElems(base, name) => for {
       basee <- pe(base)
-    } yield PartialExpr.mkDynamic(EGetElems(basee.expr, name))
+    } yield SymbolicValueFactory.mkDynamic(EGetElems(basee.expr, name))
 
   }
 
-  def pe_egetsyntax: EGetSyntax => Result[PartialValue] = {
+  def pe_egetsyntax: EGetSyntax => Result[SymbolicValue] = {
     case EGetSyntax(base) => for {
       basee <- pe(base)
-    } yield PartialExpr.mkDynamic(EGetSyntax(basee.expr))
+    } yield SymbolicValueFactory.mkDynamic(EGetSyntax(basee.expr))
 
   }
 
-  def pe_eparsesyntax: EParseSyntax => Result[PartialValue] = {
+  def pe_eparsesyntax: EParseSyntax => Result[SymbolicValue] = {
     case EParseSyntax(code, rule, parserParams) => for {
       codee <- pe(code)
       rulee <- pe(rule)
-    } yield PartialExpr.mkDynamic(EParseSyntax(codee.expr, rulee.expr, parserParams))
+    } yield SymbolicValueFactory.mkDynamic(EParseSyntax(codee.expr, rulee.expr, parserParams))
 
   }
 
-  def pe_econvert: EConvert => Result[PartialValue] = {
+  def pe_econvert: EConvert => Result[SymbolicValue] = {
     case EConvert(source, target, flags) => for {
       sourcee <- pe(source)
-      flagse <- PartialStateMonad.join(flags.map(pe))
-    } yield PartialExpr.mkDynamic(EConvert(sourcee.expr, target, flagse.map(_.expr)))
+      flagse <- join(flags.map(pe))
+    } yield SymbolicValueFactory.mkDynamic(EConvert(sourcee.expr, target, flagse.map(_.expr)))
 
   }
 
-  def pe_econtains: EContains => Result[PartialValue] = {
+  def pe_econtains: EContains => Result[SymbolicValue] = {
     case EContains(list, elem) => for {
       liste <- pe(list)
       eleme <- pe(elem)
-    } yield PartialExpr.mkDynamic(EContains(liste.expr, eleme.expr))
+    } yield SymbolicValueFactory.mkDynamic(EContains(liste.expr, eleme.expr))
 
   }
 
-  def pe_ereturnifabrupt: EReturnIfAbrupt => Result[PartialValue] = {
+  def pe_ereturnifabrupt: EReturnIfAbrupt => Result[SymbolicValue] = {
     case EReturnIfAbrupt(expr, check) => for {
       ne <- pe(expr)
-    } yield PartialExpr.mkDynamic(EReturnIfAbrupt(ne.expr, check))
+    } yield SymbolicValueFactory.mkDynamic(EReturnIfAbrupt(ne.expr, check))
   }
-  def pe_ecopy: ECopy => Result[PartialValue] = {
+  def pe_ecopy: ECopy => Result[SymbolicValue] = {
     case ECopy(obj) => for {
       obje <- pe(obj)
-    } yield PartialExpr.mkDynamic(ECopy(obje.expr))
+    } yield SymbolicValueFactory.mkDynamic(ECopy(obje.expr))
 
   }
 
-  def pe_ekeys: EKeys => Result[PartialValue] = {
+  def pe_ekeys: EKeys => Result[SymbolicValue] = {
     case EKeys(mobj, intSorted) => for {
       mobje <- pe(mobj)
-    } yield PartialExpr.mkDynamic(EKeys(mobje.expr, intSorted))
+    } yield SymbolicValueFactory.mkDynamic(EKeys(mobje.expr, intSorted))
   }
 
-  def pe_enotsupported: ENotSupported => Result[PartialValue] = {
-    case ENotSupported(msg) => PartialExpr.mkDynamic(ENotSupported(msg))
+  def pe_enotsupported: ENotSupported => Result[SymbolicValue] = {
+    case ENotSupported(msg) => SymbolicValueFactory.mkDynamic(ENotSupported(msg))
   }
 
   def pe_refid: RefId => Result[Ref] = {

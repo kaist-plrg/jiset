@@ -7,69 +7,88 @@ import kr.ac.kaist.jiset.util.Useful._
 import scala.annotation.tailrec
 import scala.collection.mutable.{ Map => MMap }
 
-trait LabelwiseContext {
-  def merge(other: LabelwiseContext): ((List[(String, PartialValue)], List[(String, PartialValue)]), LabelwiseContext)
-  def setId: (String, PartialValue) => LabelwiseContext
-  def getId: String => Option[PartialValue]
-  def getRet: Option[PartialValue]
-  def setRet: Option[PartialValue] => LabelwiseContext
-  def toDynamic: LabelwiseContext
+trait LabelwiseContext[T] {
+  def merge(other: T): ((List[(String, SymbolicValue)], List[(String, SymbolicValue)]), T)
+  def setId: (String, SymbolicValue) => T
+  def getId: String => Option[SymbolicValue]
+  def setRet: Option[SymbolicValue] => T
+  def getRet: Option[SymbolicValue]
+  def toDynamic: T
 }
 
-trait GlobalContext {
-  def getAlgo: (Algo, List[Option[Value]]) => Option[Option[(Algo, Option[PartialValue])]]
-  def visitAlgo: (Algo, List[Option[Value]]) => GlobalContext
-  def setAlgo: ((Algo, List[Option[Value]]), Option[(Algo, Option[PartialValue])]) => GlobalContext
+trait GlobalContext[T] {
+  def getAlgo: (Algo, List[Option[Value]]) => Option[Option[(Algo, Option[SymbolicValue])]]
+  def visitAlgo: (Algo, List[Option[Value]]) => T
+  def setAlgo: ((Algo, List[Option[Value]]), Option[(Algo, Option[SymbolicValue])]) => T
 }
 
-trait PartialContext {
-  val labelwiseContext: LabelwiseContext
-  val globalContext: GlobalContext
-  def updateLabelwise(u: LabelwiseContext => LabelwiseContext): PartialContext
-  def updateGlobal(u: GlobalContext => GlobalContext): PartialContext
-  def toDynamic: PartialContext
+trait SpecializeContext[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] {
+  val labelwiseContext: LT
+  val globalContext: GT
+  def updateLabelwise(u: LT => LT): SpecializeContext[LT, GT]
+  def updateGlobal(u: GT => GT): SpecializeContext[LT, GT]
+  def toDynamic: SpecializeContext[LT, GT]
 }
 
-case class FunctionMap(m: Map[(Algo, List[Option[Value]]), Option[(Algo, Option[PartialValue])]]) extends GlobalContext {
-  def getAlgo: (Algo, List[Option[Value]]) => Option[Option[(Algo, Option[PartialValue])]] = (k, v) => m.get((k, v))
-  def visitAlgo: (Algo, List[Option[Value]]) => GlobalContext = (k, v) => this.copy(m = m + ((k, v) -> None))
-  def setAlgo: ((Algo, List[Option[Value]]), Option[(Algo, Option[PartialValue])]) => GlobalContext = (k, v) => this.copy(m = m + (k -> v))
+case class EmptyGlobalContext() extends GlobalContext[EmptyGlobalContext] {
+  def getAlgo: (Algo, List[Option[Value]]) => Option[Option[(Algo, Option[SymbolicValue])]] = (_, _) => None
+  def visitAlgo: (Algo, List[Option[Value]]) => EmptyGlobalContext = (_, _) => EmptyGlobalContext()
+  def setAlgo: ((Algo, List[Option[Value]]), Option[(Algo, Option[SymbolicValue])]) => EmptyGlobalContext = (_, _) => EmptyGlobalContext()
 }
 
-case class PartialContextImpl(val labelwiseContext: LabelwiseContext, val globalContext: GlobalContext) extends PartialContext {
-  def updateLabelwise(u: LabelwiseContext => LabelwiseContext): PartialContext = copy(labelwiseContext = u(labelwiseContext))
-  def updateGlobal(u: GlobalContext => GlobalContext): PartialContext = copy(globalContext = u(globalContext))
-  def toDynamic: PartialContextImpl = PartialContextImpl(labelwiseContext.toDynamic, globalContext)
+case object EmptyGlobalContextBuilder extends GCBuilder[EmptyGlobalContext] {
+  def empty = EmptyGlobalContext()
 }
 
-case class PartialState(locals: Map[String, PartialValue], ret: Option[PartialValue]) extends LabelwiseContext {
-  def merge(other: LabelwiseContext): ((List[(String, PartialValue)], List[(String, PartialValue)]), PartialState) = {
-    if (!other.isInstanceOf[PartialState]) error("A")
-    if (this.ret == other.asInstanceOf[PartialState].ret && (this.ret match { case Some(PartialValue(Some(_), _)) => true; case _ => false })) {
+
+case class FunctionMap(m: Map[(Algo, List[Option[Value]]), Option[(Algo, Option[SymbolicValue])]]) extends GlobalContext[FunctionMap] {
+  def getAlgo: (Algo, List[Option[Value]]) => Option[Option[(Algo, Option[SymbolicValue])]] = (k, v) => m.get((k, v))
+  def visitAlgo: (Algo, List[Option[Value]]) => FunctionMap = (k, v) => this.copy(m = m + ((k, v) -> None))
+  def setAlgo: ((Algo, List[Option[Value]]), Option[(Algo, Option[SymbolicValue])]) => FunctionMap = (k, v) => this.copy(m = m + (k -> v))
+}
+
+case object FunctionMapBuilder extends GCBuilder[FunctionMap] {
+  def empty = FunctionMap(Map())
+}
+
+case class SpecializeContextImpl[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]](val labelwiseContext: LT, val globalContext: GT) extends SpecializeContext[LT, GT] {
+  def updateLabelwise(u: LT => LT): SpecializeContextImpl[LT, GT] = copy(labelwiseContext = u(labelwiseContext))
+  def updateGlobal(u: GT => GT): SpecializeContextImpl[LT, GT] = copy(globalContext = u(globalContext))
+  def toDynamic: SpecializeContextImpl[LT, GT] = SpecializeContextImpl(labelwiseContext.toDynamic, globalContext)
+}
+
+case class SymbolicEnv(locals: Map[String, SymbolicValue], ret: Option[SymbolicValue]) extends LabelwiseContext[SymbolicEnv] {
+  def merge(other: SymbolicEnv): ((List[(String, SymbolicValue)], List[(String, SymbolicValue)]), SymbolicEnv) = {
+    if (this.ret == other.ret && (this.ret match { case Some(SymbolicValue(Some(_), _)) => true; case _ => false })) {
       ((List(), List()), this)
     } else {
       ((List(), List()), this.copy(ret = None))
     }
   }
-  def toDynamic: LabelwiseContext = this.copy(locals = locals.map { case (id, v) => (id, PartialExpr.mkDynamic(ERef(RefId(Id(id))))) }, ret = None)
+  def toDynamic: SymbolicEnv = this.copy(locals = locals.map { case (id, v) => (id, SymbolicValueFactory.mkDynamic(ERef(RefId(Id(id))))) }, ret = None)
 
   def getRet = ret
-  def setRet: Option[PartialValue] => LabelwiseContext = (ret) => this.copy(ret = ret)
-  def setId: (String, PartialValue) => LabelwiseContext = (s, v) => this.copy(locals = locals + (s -> v))
-  def getId: String => Option[PartialValue] = this.locals.get
+  def setRet: Option[SymbolicValue] => SymbolicEnv = (ret) => this.copy(ret = ret)
+  def setId: (String, SymbolicValue) => SymbolicEnv = (s, v) => this.copy(locals = locals + (s -> v))
+  def getId: String => Option[SymbolicValue] = this.locals.get
 
 }
 
-object PartialExpr {
-  def mkPValue(v: Option[Value], e: Expr) = v match {
+case object SymbolicEnvBuilder extends LCBuilder[SymbolicEnv] {
+  def empty = SymbolicEnv(Map(), None)
+  def init(m: Map[String,SymbolicValue]): SymbolicEnv = SymbolicEnv(m, None)
+}
+
+object SymbolicValueFactory {
+  def mkSymbolic(v: Option[Value], e: Expr) = v match {
     case Some(v: SimpleValue) => mkSimple(v)
-    case _ => PartialValue(v, e)
+    case _ => SymbolicValue(v, e)
   }
-  def mkSExpr(v: Value, e: Expr): PartialValue = v match {
+  def mkSExpr(v: Value, e: Expr): SymbolicValue = v match {
     case v: SimpleValue => mkSimple(v)
-    case _ => PartialValue(Some(v), e)
+    case _ => SymbolicValue(Some(v), e)
   }
-  def mkSimple(v: SimpleValue): PartialValue = {
+  def mkSimple(v: SimpleValue): SymbolicValue = {
     val e = v match {
       case Num(double) => ENum(double)
       case INum(long) => EINum(long)
@@ -80,33 +99,45 @@ object PartialExpr {
       case Null => ENull
       case Absent => EAbsent
     }
-    PartialValue(Some(v), e)
+    SymbolicValue(Some(v), e)
   }
-  def mkDynamic(e: Expr): PartialValue = PartialValue(None, e)
+  def mkDynamic(e: Expr): SymbolicValue = SymbolicValue(None, e)
 }
 
-case class PartialValue(valueOption: Option[Value], expr: Expr) {
+case class SymbolicValue(valueOption: Option[Value], expr: Expr) {
   def isRepresentable: Boolean = valueOption.map(_.isInstanceOf[SimpleValue]).getOrElse(false)
 }
 
-object PartialStateMonad extends StateMonad[PartialContext] {
-  type S = PartialContext
+case class SymbolicEnvMonad[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT], ST <: SpecializeContext[LT, GT]]() extends StateMonad[ST] {
+  type S = ST
+}
+
+trait LCBuilder[LT <: LabelwiseContext[LT]] {
+  def empty: LT
+  def init(m: Map[String, SymbolicValue]): LT
+}
+
+trait GCBuilder[GT <: GlobalContext[GT]] {
+  def empty: GT
 }
 
 // partial evaluator for IR functions with a given syntactic view
-trait PartialEval {
+trait PartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] {
+  val lcbuilder: LCBuilder[LT]
+  val gcbuilder: GCBuilder[GT]
+  
+  val psm = SymbolicEnvMonad[LT, GT, SpecializeContext[LT, GT]]()
+  import psm._
 
-  import PartialStateMonad._
-
-  def getLocals(params: List[Param], args: List[Option[Value]]): MMap[String, PartialValue] = {
-    val map = MMap[String, PartialValue]()
+  def getLocals(params: List[Param], args: List[Option[Value]]): MMap[String, SymbolicValue] = {
+    val map = MMap[String, SymbolicValue]()
     @tailrec
     def aux(ps: List[Param], as: List[Option[Value]]): Unit = (ps, as) match {
       case (Nil, Nil) =>
       case (Param(name, kind) :: pl, Nil) => kind match {
         case Param.Kind.Normal => error(s"remaining parameter: $name")
         case _ => {
-          map += name -> PartialExpr.mkSExpr(Absent, ERef(RefId(Id(name))))
+          map += name -> SymbolicValueFactory.mkSExpr(Absent, ERef(RefId(Id(name))))
           aux(pl, Nil)
         }
       }
@@ -115,7 +146,7 @@ trait PartialEval {
         error(s"$params, $args: remaining arguments: $argsStr")
       }
       case (param :: pl, arg :: al) => {
-        map += param.name -> arg.map((v) => PartialExpr.mkSExpr(v, ERef(RefId(Id(param.name))))).getOrElse(PartialExpr.mkDynamic(ERef(RefId(Id(param.name)))))
+        map += param.name -> arg.map((v) => SymbolicValueFactory.mkSExpr(v, ERef(RefId(Id(param.name))))).getOrElse(SymbolicValueFactory.mkDynamic(ERef(RefId(Id(param.name)))))
         aux(pl, al)
       }
     }
@@ -125,19 +156,19 @@ trait PartialEval {
 
   def apply(view: SyntacticView): Algo = {
     val (targetAlgo, asts) = view.ast.semantics("Evaluation").get
-    val ((nalgo, _), _) = pe(targetAlgo, asts.map(Some(_)))(PartialContextImpl(PartialState(Map(), None), FunctionMap(Map()))) // TODO: AAST to Dynamic Value
+    val ((nalgo, _), _) = pe(targetAlgo, asts.map(Some(_)))(SpecializeContextImpl(lcbuilder.empty, gcbuilder.empty)) // TODO: AAST to Dynamic Value
     nalgo
   }
 
-  def pe(algo: Algo, args: List[Option[Value]]): PartialStateMonad.Result[(Algo, Option[PartialValue])] = (dcontext: PartialContext) => {
+  def pe(algo: Algo, args: List[Option[Value]]): Result[(Algo, Option[SymbolicValue])] = (dcontext: SpecializeContext[LT, GT]) => {
     dcontext.globalContext.getAlgo(algo, args) match {
       case None => {
         println(algo.head.name)
         val locals = getLocals(algo.head.params, args)
-        val (newInsts, ncontext) = pe(algo.rawBody)(PartialContextImpl(PartialState(locals.toMap, None), dcontext.globalContext.setAlgo((algo, args), None)))
+        val (newInsts, ncontext) = pe(algo.rawBody)(SpecializeContextImpl(lcbuilder.init(locals.toMap), dcontext.globalContext.setAlgo((algo, args), None)))
         val nalgo = new Algo(algo.head, algo.id, newInsts, algo.code)
         println(nalgo)
-        ((nalgo, ncontext.labelwiseContext.getRet), PartialContextImpl(dcontext.labelwiseContext, ncontext.globalContext.setAlgo((algo, args), Some((nalgo, ncontext.labelwiseContext.getRet)))))
+        ((nalgo, ncontext.labelwiseContext.getRet), SpecializeContextImpl(dcontext.labelwiseContext, ncontext.globalContext.setAlgo((algo, args), Some((nalgo, ncontext.labelwiseContext.getRet)))))
       }
       case Some(None) => ((algo, None), dcontext)
       case Some(Some((a, p))) => ((a, p), dcontext)
@@ -163,7 +194,7 @@ trait PartialEval {
   def pe_iwhile: IWhile => Result[Inst]
   def pe_iwithcont: IWithCont => Result[Inst]
 
-  def pe(inst: Inst): PartialStateMonad.Result[Inst] = inst match {
+  def pe(inst: Inst): Result[Inst] = inst match {
     case inst: ISeq => pe_iseq(inst)
     case inst: IAccess => pe_iaccess(inst)
     case inst: IApp => pe_iapp(inst)
@@ -184,37 +215,37 @@ trait PartialEval {
     case inst: IWithCont => pe_iwithcont(inst)
   }
 
-  def pe_enum: ENum => Result[PartialValue]
-  def pe_einum: EINum => Result[PartialValue]
-  def pe_ebiginum: EBigINum => Result[PartialValue]
-  def pe_estr: EStr => Result[PartialValue]
-  def pe_ebool: EBool => Result[PartialValue]
-  def pe_eundef: EUndef.type => Result[PartialValue]
-  def pe_enull: ENull.type => Result[PartialValue]
-  def pe_eabsent: EAbsent.type => Result[PartialValue]
-  def pe_econst: EConst => Result[PartialValue]
-  def pe_ecomp: EComp => Result[PartialValue]
-  def pe_emap: EMap => Result[PartialValue]
-  def pe_elist: EList => Result[PartialValue]
-  def pe_esymbol: ESymbol => Result[PartialValue]
-  def pe_epop: EPop => Result[PartialValue]
-  def pe_eref: ERef => Result[PartialValue]
-  def pe_euop: EUOp => Result[PartialValue]
-  def pe_ebop: EBOp => Result[PartialValue]
-  def pe_etypeof: ETypeOf => Result[PartialValue]
-  def pe_eiscompletion: EIsCompletion => Result[PartialValue]
-  def pe_eisinstanceof: EIsInstanceOf => Result[PartialValue]
-  def pe_egetelems: EGetElems => Result[PartialValue]
-  def pe_egetsyntax: EGetSyntax => Result[PartialValue]
-  def pe_eparsesyntax: EParseSyntax => Result[PartialValue]
-  def pe_econvert: EConvert => Result[PartialValue]
-  def pe_econtains: EContains => Result[PartialValue]
-  def pe_ereturnifabrupt: EReturnIfAbrupt => Result[PartialValue]
-  def pe_ecopy: ECopy => Result[PartialValue]
-  def pe_ekeys: EKeys => Result[PartialValue]
-  def pe_enotsupported: ENotSupported => Result[PartialValue]
+  def pe_enum: ENum => Result[SymbolicValue]
+  def pe_einum: EINum => Result[SymbolicValue]
+  def pe_ebiginum: EBigINum => Result[SymbolicValue]
+  def pe_estr: EStr => Result[SymbolicValue]
+  def pe_ebool: EBool => Result[SymbolicValue]
+  def pe_eundef: EUndef.type => Result[SymbolicValue]
+  def pe_enull: ENull.type => Result[SymbolicValue]
+  def pe_eabsent: EAbsent.type => Result[SymbolicValue]
+  def pe_econst: EConst => Result[SymbolicValue]
+  def pe_ecomp: EComp => Result[SymbolicValue]
+  def pe_emap: EMap => Result[SymbolicValue]
+  def pe_elist: EList => Result[SymbolicValue]
+  def pe_esymbol: ESymbol => Result[SymbolicValue]
+  def pe_epop: EPop => Result[SymbolicValue]
+  def pe_eref: ERef => Result[SymbolicValue]
+  def pe_euop: EUOp => Result[SymbolicValue]
+  def pe_ebop: EBOp => Result[SymbolicValue]
+  def pe_etypeof: ETypeOf => Result[SymbolicValue]
+  def pe_eiscompletion: EIsCompletion => Result[SymbolicValue]
+  def pe_eisinstanceof: EIsInstanceOf => Result[SymbolicValue]
+  def pe_egetelems: EGetElems => Result[SymbolicValue]
+  def pe_egetsyntax: EGetSyntax => Result[SymbolicValue]
+  def pe_eparsesyntax: EParseSyntax => Result[SymbolicValue]
+  def pe_econvert: EConvert => Result[SymbolicValue]
+  def pe_econtains: EContains => Result[SymbolicValue]
+  def pe_ereturnifabrupt: EReturnIfAbrupt => Result[SymbolicValue]
+  def pe_ecopy: ECopy => Result[SymbolicValue]
+  def pe_ekeys: EKeys => Result[SymbolicValue]
+  def pe_enotsupported: ENotSupported => Result[SymbolicValue]
 
-  def pe(expr: Expr): PartialStateMonad.Result[PartialValue] = expr match {
+  def pe(expr: Expr): Result[SymbolicValue] = expr match {
     case expr: ENum => pe_enum(expr)
     case expr: EINum => pe_einum(expr)
     case expr: EBigINum => pe_ebiginum(expr)
@@ -249,7 +280,7 @@ trait PartialEval {
   def pe_refid: RefId => Result[Ref]
   def pe_refprop: RefProp => Result[Ref]
 
-  def pe(ref: Ref): PartialStateMonad.Result[Ref] = ref match {
+  def pe(ref: Ref): Result[Ref] = ref match {
     case ref: RefId => pe_refid(ref)
     case ref: RefProp => pe_refprop(ref)
   }

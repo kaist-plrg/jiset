@@ -11,7 +11,7 @@ import kr.ac.kaist.jiset.js.ast.AbsAST
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.js.Initialize
 
-class BasePartialEval extends PassingPartialEval {
+trait BasePartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] extends PassingPartialEval[LT, GT] {
 
   val simpleFuncs: Set[String] = Set(
     "GetArgument",
@@ -42,7 +42,7 @@ class BasePartialEval extends PassingPartialEval {
 
   def isPermittedGlobal(id: Id) = if (dynamicGlobal contains id.name) false else true
 
-  import PartialStateMonad._
+  import psm._
 
   override def pe_ilet: ILet => Result[Inst] = {
     case ILet(id, expr) => for {
@@ -52,7 +52,7 @@ class BasePartialEval extends PassingPartialEval {
   }
 
   override def pe_iseq: ISeq => Result[Inst] = {
-    case ISeq(insts) => { (dcontext: PartialContext) =>
+    case ISeq(insts) => { (dcontext: SpecializeContext[LT, GT]) =>
       {
         val (z, y) = insts.foldLeft((List[Inst](), dcontext)) {
           case ((li, dc), i) => if (dc.labelwiseContext.getRet.map(_.isRepresentable).getOrElse(false)) (li, dc) else {
@@ -69,91 +69,91 @@ class BasePartialEval extends PassingPartialEval {
     case IIf(cond, thenInst, elseInst) => for {
       c <- pe(cond)
       res <- (c match {
-        case PartialValue(Some(Bool(true)), _) => pe(thenInst)
-        case PartialValue(Some(Bool(false)), _) => pe(elseInst)
+        case SymbolicValue(Some(Bool(true)), _) => pe(thenInst)
+        case SymbolicValue(Some(Bool(false)), _) => pe(elseInst)
         case _ => (dcontext1: S) => {
           val (thenInstI, dcontext2) = pe(thenInst)(dcontext1)
-          val (elseInstI, dcontext3) = pe(elseInst)(PartialContextImpl(dcontext1.labelwiseContext, dcontext2.globalContext))
+          val (elseInstI, dcontext3) = pe(elseInst)(SpecializeContextImpl(dcontext1.labelwiseContext, dcontext2.globalContext))
           val ((eif, efalse), nstate) = dcontext2.labelwiseContext merge dcontext3.labelwiseContext
           (IIf(
             c.expr,
             thenInstI,
             elseInstI
-          ), PartialContextImpl(nstate, dcontext3.globalContext))
+          ), SpecializeContextImpl(nstate, dcontext3.globalContext))
         }
       }): Result[Inst]
     } yield res
   }
 
-  override def pe_enum: ENum => Result[PartialValue] = {
-    case ENum(n) => PartialExpr.mkSimple(Num(n))
+  override def pe_enum: ENum => Result[SymbolicValue] = {
+    case ENum(n) => SymbolicValueFactory.mkSimple(Num(n))
   }
 
-  override def pe_einum: EINum => Result[PartialValue] = {
-    case EINum(n) => (PartialExpr.mkSimple(INum(n)))
+  override def pe_einum: EINum => Result[SymbolicValue] = {
+    case EINum(n) => (SymbolicValueFactory.mkSimple(INum(n)))
   }
 
-  override def pe_ebiginum: EBigINum => Result[PartialValue] = {
-    case EBigINum(b) => (PartialExpr.mkSimple(BigINum(b)))
+  override def pe_ebiginum: EBigINum => Result[SymbolicValue] = {
+    case EBigINum(b) => (SymbolicValueFactory.mkSimple(BigINum(b)))
   }
 
-  override def pe_estr: EStr => Result[PartialValue] = {
-    case EStr(str) => (PartialExpr.mkSimple(Str(str)))
+  override def pe_estr: EStr => Result[SymbolicValue] = {
+    case EStr(str) => (SymbolicValueFactory.mkSimple(Str(str)))
   }
 
-  override def pe_ebool: EBool => Result[PartialValue] = {
-    case EBool(b) => (PartialExpr.mkSimple(Bool(b)))
+  override def pe_ebool: EBool => Result[SymbolicValue] = {
+    case EBool(b) => (SymbolicValueFactory.mkSimple(Bool(b)))
   }
 
-  override def pe_eundef: EUndef.type => Result[PartialValue] = {
-    case EUndef => (PartialExpr.mkSimple(Undef))
+  override def pe_eundef: EUndef.type => Result[SymbolicValue] = {
+    case EUndef => (SymbolicValueFactory.mkSimple(Undef))
   }
 
-  override def pe_enull: ENull.type => Result[PartialValue] = {
-    case ENull => (PartialExpr.mkSimple(Null))
+  override def pe_enull: ENull.type => Result[SymbolicValue] = {
+    case ENull => (SymbolicValueFactory.mkSimple(Null))
   }
 
-  override def pe_eabsent: EAbsent.type => Result[PartialValue] = {
-    case EAbsent => PartialExpr.mkSimple(Absent)
+  override def pe_eabsent: EAbsent.type => Result[SymbolicValue] = {
+    case EAbsent => SymbolicValueFactory.mkSimple(Absent)
   }
 
-  override def pe_eref: ERef => Result[PartialValue] = {
+  override def pe_eref: ERef => Result[SymbolicValue] = {
 
     case ERef(ref) => for {
       refr <- pe(ref)
       res <- (refr match {
         case RefId(id) => for {
-          context <- PartialStateMonad.get
+          context <- get
         } yield context.labelwiseContext.getId(id.name) match {
-          case Some(PartialValue(Some(ASTVal(ast: AbsAST)), _)) => PartialExpr.mkDynamic(ERef(refr))
-          case Some(v @ PartialValue(Some(_), _)) => v
-          case Some(_) => PartialExpr.mkDynamic(ERef(refr))
+          case Some(SymbolicValue(Some(ASTVal(ast: AbsAST)), _)) => SymbolicValueFactory.mkDynamic(ERef(refr))
+          case Some(v @ SymbolicValue(Some(_), _)) => v
+          case Some(_) => SymbolicValueFactory.mkDynamic(ERef(refr))
           case None => if (isPermittedGlobal(id)) Initialize.initGlobal.get(id) match {
-            case Some(v: Addr) => PartialExpr.mkDynamic(ERef(refr))
-            case Some(v) => PartialExpr.mkSExpr(v, ERef(ref))
-            case _ => PartialExpr.mkDynamic(ERef(refr))
+            case Some(v: Addr) => SymbolicValueFactory.mkDynamic(ERef(refr))
+            case Some(v) => SymbolicValueFactory.mkSExpr(v, ERef(ref))
+            case _ => SymbolicValueFactory.mkDynamic(ERef(refr))
           }
-          else PartialExpr.mkDynamic(ERef(refr))
+          else SymbolicValueFactory.mkDynamic(ERef(refr))
         }
-        case _ => PartialExpr.mkDynamic(ERef(refr))
-      }): PartialStateMonad.Result[PartialValue]
+        case _ => SymbolicValueFactory.mkDynamic(ERef(refr))
+      }): Result[SymbolicValue]
     } yield res
   }
 
-  override def pe_euop: EUOp => Result[PartialValue] = {
+  override def pe_euop: EUOp => Result[SymbolicValue] = {
     case EUOp(uop, expr) => (for {
       e <- pe(expr)
-    } yield PartialExpr.mkPValue(e.valueOption.map((v) => Interp.interp(uop, v)), EUOp(uop, e.expr)))
+    } yield SymbolicValueFactory.mkSymbolic(e.valueOption.map((v) => Interp.interp(uop, v)), EUOp(uop, e.expr)))
   }
 
-  override def pe_ebop: EBOp => Result[PartialValue] = {
+  override def pe_ebop: EBOp => Result[SymbolicValue] = {
     case EBOp(bop, left, right) => (for {
       le <- pe(left)
       re <- pe(right)
-    } yield PartialExpr.mkPValue(le.valueOption.flatMap((lv) => re.valueOption.map((rv) => Interp.interp(bop, lv, rv))), EBOp(bop, le.expr, re.expr)))
+    } yield SymbolicValueFactory.mkSymbolic(le.valueOption.flatMap((lv) => re.valueOption.map((rv) => Interp.interp(bop, lv, rv))), EBOp(bop, le.expr, re.expr)))
   }
 
-  override def pe_etypeof: ETypeOf => Result[PartialValue] = {
+  override def pe_etypeof: ETypeOf => Result[SymbolicValue] = {
     case ETypeOf(expr) => for {
       e <- pe(expr)
       v = e.valueOption.flatMap {
@@ -162,30 +162,30 @@ class BasePartialEval extends PassingPartialEval {
         case pure: PureValue => Some(pure)
       } match {
         case Some(value) => value match {
-          case Const(_) => PartialExpr.mkSimple(Str("Constant"))
-          case (addr: Addr) => PartialExpr.mkDynamic(ETypeOf(e.expr))
-          case Func(_) => PartialExpr.mkSimple(Str("Function"))
-          case Clo(_, _, _, _) => PartialExpr.mkSimple(Str("Closure"))
-          case Cont(_, _, _) => PartialExpr.mkSimple(Str("Continuation"))
-          case ASTVal(_) => PartialExpr.mkSimple(Str("AST"))
-          case Num(_) | INum(_) => PartialExpr.mkSimple(Str("Number"))
-          case BigINum(_) => PartialExpr.mkSimple(Str("BigInt"))
-          case Str(_) => PartialExpr.mkSimple(Str("String"))
-          case Bool(_) => PartialExpr.mkSimple(Str("Boolean"))
-          case Undef => PartialExpr.mkSimple(Str("Undefined"))
-          case Null => PartialExpr.mkSimple(Str("Null"))
-          case Absent => PartialExpr.mkSimple(Str("Absent"))
+          case Const(_) => SymbolicValueFactory.mkSimple(Str("Constant"))
+          case (addr: Addr) => SymbolicValueFactory.mkDynamic(ETypeOf(e.expr))
+          case Func(_) => SymbolicValueFactory.mkSimple(Str("Function"))
+          case Clo(_, _, _, _) => SymbolicValueFactory.mkSimple(Str("Closure"))
+          case Cont(_, _, _) => SymbolicValueFactory.mkSimple(Str("Continuation"))
+          case ASTVal(_) => SymbolicValueFactory.mkSimple(Str("AST"))
+          case Num(_) | INum(_) => SymbolicValueFactory.mkSimple(Str("Number"))
+          case BigINum(_) => SymbolicValueFactory.mkSimple(Str("BigInt"))
+          case Str(_) => SymbolicValueFactory.mkSimple(Str("String"))
+          case Bool(_) => SymbolicValueFactory.mkSimple(Str("Boolean"))
+          case Undef => SymbolicValueFactory.mkSimple(Str("Undefined"))
+          case Null => SymbolicValueFactory.mkSimple(Str("Null"))
+          case Absent => SymbolicValueFactory.mkSimple(Str("Absent"))
         }
-        case None => PartialExpr.mkDynamic(ETypeOf(e.expr))
+        case None => SymbolicValueFactory.mkDynamic(ETypeOf(e.expr))
       }
     } yield v // TODO
 
   }
 
-  override def pe_eisinstanceof: EIsInstanceOf => Result[PartialValue] = {
+  override def pe_eisinstanceof: EIsInstanceOf => Result[SymbolicValue] = {
     case EIsInstanceOf(base, name) => (for {
       be <- pe(base)
-    } yield PartialExpr.mkPValue(be.valueOption.flatMap((bv) => {
+    } yield SymbolicValueFactory.mkSymbolic(be.valueOption.flatMap((bv) => {
       if (bv.isAbruptCompletion) Some(Bool(false))
       else bv.escaped match {
         case ASTVal(ast) => Some(Bool(ast.name == name || ast.getKinds.contains(name)))
@@ -196,10 +196,10 @@ class BasePartialEval extends PassingPartialEval {
     }), EIsInstanceOf(be.expr, name)))
   }
 
-  override def pe_ereturnifabrupt: EReturnIfAbrupt => Result[PartialValue] = {
+  override def pe_ereturnifabrupt: EReturnIfAbrupt => Result[SymbolicValue] = {
     case EReturnIfAbrupt(expr, check) => (for {
       ne <- pe(expr)
-    } yield PartialExpr.mkPValue(ne.valueOption.flatMap(({
+    } yield SymbolicValueFactory.mkSymbolic(ne.valueOption.flatMap(({
       case NormalComp(value) => value
       case pure: PureValue => pure
     }: PartialFunction[Value, Value]).lift), EReturnIfAbrupt(ne.expr, check)))
@@ -207,4 +207,7 @@ class BasePartialEval extends PassingPartialEval {
 
 }
 
-object BasePartialEvalImpl extends BasePartialEval
+object BasePartialEvalImpl extends BasePartialEval[SymbolicEnv, EmptyGlobalContext] {
+  val lcbuilder = SymbolicEnvBuilder
+  val gcbuilder = EmptyGlobalContextBuilder
+}

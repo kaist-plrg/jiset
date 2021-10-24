@@ -11,16 +11,16 @@ import kr.ac.kaist.jiset.js.ast.AbsAST
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.js.Initialize
 
-class BaseAppPartialEval extends BasePartialEval {
-  import PartialStateMonad._
+trait BaseAppPartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] extends BasePartialEval[LT, GT] {
+  import psm._
 
   override def pe_iaccess: IAccess => Result[Inst] = {
     case IAccess(id, bexpr, expr, args) => (for {
       baseE <- pe(bexpr)
       propE <- pe(expr)
-      argsE <- PartialStateMonad.join(args.map(pe))
+      argsE <- join(args.map(pe))
       res <- ((baseE, propE) match {
-        case (PartialValue(Some(b), _), PartialValue(Some(p), _)) =>
+        case (SymbolicValue(Some(b), _), SymbolicValue(Some(p), _)) =>
           {
             val escapedb = b match {
               case NormalComp(v) => Some(v)
@@ -35,7 +35,7 @@ class BaseAppPartialEval extends BasePartialEval {
             (escapedb, escapedp) match {
               case (Some(eb), Some(ep)) => (eb, ep) match {
                 case (ASTVal(Lexical(kind, str)), Str(name)) => for {
-                  _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, PartialExpr.mkSimple(Interp.getLexicalValue(kind, name, str))))
+                  _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkSimple(Interp.getLexicalValue(kind, name, str))))
                 } yield IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr)) // IExpr(EStr("skip"))
                 case (ASTVal(ast), Str("parent")) => IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr))
                 case (ASTVal(ast), Str("children")) => IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr))
@@ -75,7 +75,7 @@ class BaseAppPartialEval extends BasePartialEval {
       fpe <- pe(fexpr)
       argse <- join(args.map(pe))
       res <- (fpe match {
-        case PartialValue(Some(Func(algo)), _) => for {
+        case SymbolicValue(Some(Func(algo)), _) => for {
           pres <- pe(algo, argse.map(_.valueOption))
           (_, rpv) = pres // TODO: test whether algorithm does not contains instruction causes side-effect
           res <- (rpv match {
@@ -90,4 +90,9 @@ class BaseAppPartialEval extends BasePartialEval {
       }): Result[Inst]
     } yield res)
   }
+}
+
+object BaseAppPartialEvalImpl extends BaseAppPartialEval[SymbolicEnv, FunctionMap] {
+  val lcbuilder = SymbolicEnvBuilder
+  val gcbuilder = FunctionMapBuilder
 }
