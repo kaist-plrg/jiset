@@ -212,14 +212,7 @@ object Test262 {
 
       // parse str to StatementListItem
       def parse(str: String, params: List[Boolean]): StatementListItem =
-        try {
-          Parser.parse(Parser.StatementListItem(params), str).get
-        } catch {
-          case err: Throwable =>
-            println(ast.toString, ast.parserParams)
-            println(str, params)
-            throw err
-        }
+        Parser.parse(Parser.StatementListItem(params), str).get
 
       // fix parser params from AssignmentExpression to StatementListItem
       def fixParams(ps: List[Boolean]): List[Boolean] = {
@@ -261,7 +254,6 @@ object Test262 {
       rewrites match {
         case Some(rs) => rs.flatMap {
           case (str, params) =>
-            println(str)
             removeAssertion(parse(str, params))
         }
         case None => List(ast)
