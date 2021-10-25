@@ -4,8 +4,7 @@ We first define $\ires$ as a specification language to describe JavaScript
 semantics.  Then, we introduce a general formalization of function
 specialization in $\ires$. Finally, we define a constant propagation
 specialization as its an instance to reduce JavaScript semantics using given
-syntactic views. We also prove its semantics preservation under an observational
-semantics.
+syntactic views. We also prove its semantics preservation.
 
 \subsection{$\ires$: Intermediate Representations for ECMAScript}
 
@@ -38,7 +37,7 @@ concrete semantics in the remainder of this section.
     \refer\\
 
     \text{References} & \referset &\ni& \refer &::=&
-    \varx \mid \refer \kwsl \expr \kwsr\\
+    \varx \mid \expr \kwsl \expr \kwsr\\
   \end{array}
 \]
 
@@ -56,8 +55,8 @@ instruction with a new temporary variable.  We represent loops using branch
 instructions with cyclic pointing of labels in $\getnext$.  An expression is a
 primitive value $\pval$, an operation $\op \kwrl \expr^* \kwrr$, an object
 allocation $\kwcl \kwcr$, or a reference $\refer$.  A reference is a variable
-$x$ or an object field $\refer \kwsl \expr \kwsr$.  We write $\refer.\varf$ to
-briefly represent $\refer \kwsl \code{"f"} \kwsr$.
+$x$ or an object field $\expr \kwsl \expr \kwsr$.  We write $\expr.\varf$ to
+briefly represent $\expr \kwsl \code{"f"} \kwsr$.
 
 
 \subsubsection{States}
@@ -85,7 +84,7 @@ briefly represent $\refer \kwsl \code{"f"} \kwsr$.
     \text{Primive Values} & \pval &\in& \pvalset &=&
     \boolset \uplus \strset \uplus \cdots\\
 
-    \text{JavaScript ASTs} & \tree &\in& \treeset\\
+    \text{JavaScript ASTs} & \tree &\in& \treeset &::=& \\
   \end{array}
 \]
 
@@ -102,21 +101,62 @@ boolean value $\bool \in \boolset$ or a string value $\str \in \strset$), an
 address $\addr \in \addrset$, a JavaScript AST $\tree \in \treeset$, or a
 function $f \in \funcset$.
 
+Since $\ires$ is a specification language for JavaScript, it treats JavaScript
+ASTs $\treeset$ as its values. For presentation brevity, we represent a JavaScript
+AST as follows:
+\[
+  \tree ::= \str \mid \ty_k \langle \tree^* \rangle
+\]
+A string $\str$ denotes a leaf node with a terminal symbol, and $\ty_k \langle
+\tree^* \rangle$ denotes a non-leaf node for $k$-th alternative in the syntactic
+production of nonterminal symbol $\ty$ with its subtrees $\tree^*$.  The notation
+$\ty_k.\eval$ denotes an $\ires$ function for the evaluation of $k$-th
+alternative in $\ty$, and it takes the AST itself and its nonterminal subtrees
+as arguments. For each integer $k$, the notation $\tree[k]$ denotes $k$-th
+subtree of $\tree$.  For example, Figure~\ref{fig:coalesce-prod} shows a
+syntactic production for coalesce expressions.  Consider the following coalesce
+expression:
+\begin{lstlisting}[style=JS]
+                    42 ?? true
+\end{lstlisting}
+Then, the following AST is produced as its parsing result:
+\begin{figure}[H]
+  \includegraphics[width=.8\columnwidth]{img/ast-example.png}
+\end{figure}
+\noindent Moreover, its evaluation function $\nterm{CoalesceExpression}_0.\eval$
+takes three subtrees as arguments annotated by $\tree_0$, $\tree_1$, and
+$\tree_2$ in the AST.
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=.8\columnwidth]{img/coalesce-prod.png}
+  \caption{A JavaScript syntactic production for coalesce expressions}
+  \label{fig:coalesce-prod}
+\end{figure}
+
+
+
+
 \subsubsection{Concrete Semantics}
 
-The concrete semantics $\sem{\prog}$ of an $\ires$ program $\prog = (\istset, \getinst,
-\getnext)$ is defined as follows:
+The concrete semantics $\sem{\prog}$ of an $\ires$ program $\prog = (\istset,
+\getinst, \getnext)$ is defined as follows:
 \[
   \sem{\prog} = \{ \st \in \stset \mid \ist \in \istset \wedge \ist \trans^* \st \}
 \]
 where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
-\st$ if and only if $\st = (\lab, \_, \_, \_)$ and $\sem{\getinst(\lab)}(\st) =
+\st'$ if and only if $\st = (\lab, \_, \_, \_)$ and $\sem{\getinst(\lab)}(\st) =
 \st'$. Now, we define the denotational semantics of instructions $\sem{\inst}:
-\stset \rightarrow \stset$, expressions $\sem{\expr}: \stset \rightarrow \stset
-\times \valset$, and references $\sem{\refer}: \stset \rightarrow \stset \times
-\valset$.
+\stset \rightarrow \stset$ and expressions $\sem{\expr}: \stset \rightarrow
+\stset \times \valset$.
 
-\paragraph{Instructions: $\framebox{$\sem{\inst}: \stset \rightarrow \stset$}$}
+\todo function semantics
+
+\paragraph{Instructions}
+\[
+  \framebox{$\sem{\inst}: \stset \rightarrow \stset$}
+\]
 \begin{itemize}
   \item \underline{Variable Assignments}:
     \[
@@ -130,15 +170,15 @@ where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
 
   \item \underline{Field Assignments}:
     \[
-      \sem{\refer \kwsl \expr_0 \kwsr = \expr_1}(\st) =
+      \sem{\expr_0 \kwsl \expr_1 \kwsr = \expr_2}(\st) =
       (\getnext(\lab), \ctxts, \heap[\addr \mapsto \obj'], \env)
     \]
     where
     \[
       \begin{array}{l@{~}c@{~}ll}
-        \sem{\refer}(\st) &=& (\st', \addr) &\wedge\\
-        \sem{\expr_0}(\st') &=& (\st'', \str) &\wedge\\
-        \sem{\expr_1}(\st'') &=& ((\lab, \ctxts, \heap, \env), \val) &\wedge\\
+        \sem{\expr_0}(\st) &=& (\st', \addr) &\wedge\\
+        \sem{\expr_1}(\st') &=& (\st'', \str) &\wedge\\
+        \sem{\expr_2}(\st'') &=& ((\lab, \ctxts, \heap, \env), \val) &\wedge\\
         \obj &=& \heap(\addr) &\wedge\\
         \obj' &=& \obj[\str \mapsto \val]\\
       \end{array}
@@ -189,14 +229,17 @@ where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
     \]
 \end{itemize}
 
-\paragraph{Expressions: $\framebox{$\sem{\expr}: \stset \rightarrow \stset
-\times \valset$}$}
+\paragraph{Expressions}
+\[
+  \framebox{$\sem{\expr}: \stset \rightarrow \stset \times \valset$}
+\]
 \begin{itemize}
   \item \underline{Primive Values}:
     \[
       \sem{\pval}(\st) =
       (\st, \pval)
     \]
+
   \item \underline{Operations}:
     \[
       \sem{\op \kwrl \expr_1, \cdots, \expr_n \kwrr}(\st) =
@@ -207,6 +250,7 @@ where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
       \st_0 = \st \wedge
       \forall 1 \leq k \leq n. \; \sem{\expr_k}(\st_{k-1}) = (\st_k, \val_k)
     \]
+
   \item \underline{Object Allocations}:
     \[
       \sem{\kwcl \kwcr}(\st) =
@@ -217,11 +261,7 @@ where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
       \st = (\lab, \ctxts, \heap, \env) \wedge
       \addr \not\in \text{Domain}(\heap)
     \]
-\end{itemize}
 
-\paragraph{References: $\framebox{$\sem{\refer}: \stset \rightarrow \stset
-\times \valset$}$}
-\begin{itemize}
   \item \underline{Variable Lookups}:
     \[
       \sem{\varx}(\st) =
@@ -231,16 +271,17 @@ where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
     \[
       \st = (\_, \_, \_, \env)
     \]
+
   \item \underline{Field Lookups}:
     \[
-      \sem{\refer \kwsl \expr \kwsr}(\st) =
+      \sem{\expr_0 \kwsl \expr_1 \kwsr}(\st) =
       (\st'', \val')
     \]
     where
     \[
       \begin{array}{l@{~}c@{~}ll}
-        \sem{\refer}(\st) &=& (\st', \addr) &\wedge\\
-        \sem{\expr}(\st') &=& (\st'', \str) &\wedge\\
+        \sem{\expr_0}(\st) &=& (\st', \addr) &\wedge\\
+        \sem{\expr_1}(\st') &=& (\st'', \str) &\wedge\\
         \st'' &=& (\_, \_, \heap, \_) &\wedge\\
         \obj &=& \heap(\addr) &\wedge\\
         \val' &=& \obj(\str)\\
@@ -268,7 +309,7 @@ set of restrictions $\restrictset$ with their concretization $\gamma:
 \restrictset \rightarrow \powerset{\stset \times \valset^*}$. A transformation
 $\transform: \restrictset \rightarrow \funcset \rightarrow \funcset$ is
 parameteric with such restrictions and transforms a function to another function
-by preserving observational semantics under a given restriction.
+by preserving semantics under a given restriction.
 
 
 \subsubsection{Constant Propagation Specialization}
@@ -276,21 +317,14 @@ We define a \textit{constant propagation specialization} with the following
 three components:
 
 \begin{itemize}
-  \item Restriction $\cprestrictset = (\valoptset)^* =
-    (\valset \uplus \{ \top \})^*$
-  \item Concretization $\cpgamma: (\valoptset)^* \rightarrow \powerset{\stset
+  \item Restriction $\cprestrictset = \avalset^*$
+  \item Concretization $\cpgamma: \avalset^* \rightarrow \powerset{\stset
     \times \valset^*}$ s.t.
     \[
-      \cpgamma(\valopt_1, \cdots, \valopt_n) = \stset \times (V_1 \times \cdots
-      \times V_n)
+      \cpgamma(\aval_1, \cdots, \aval_n) =
+      \stset \times (\valgamma(\aval_1) \times \cdots \times \valgamma(\aval_n))
     \]
-    where $V_i = \left\{
-      \begin{array}{ll}
-        \valset & \text{if} \; \valopt_i = \top\\
-        \{ \valopt_i \} & \text{otherwise}\\
-      \end{array}
-    \right.$
-  \item Transformation $\cptransform: (\valoptset)^* \rightarrow \funcset
+  \item Transformation $\cptransform: \avalset^* \rightarrow \funcset
     \rightarrow \funcset$
 \end{itemize}
 The constant propagation specialization restricts specific arguments with
@@ -298,41 +332,156 @@ concrete values with a restriction defined with a sequence of static or dynamic
 values $\valset \uplus \{ \top \}$, but it does not restrict input states.
 While a dynamic value $\top$ denotes no restriction, it restricts a specific
 argument with the static value $\val \in \valset$. To specialize functions under
-a given restriction $(\valopt_1, \cdots, \valopt_n) \in (\valoptset)^*$, we
-define a transformation $\cptransform: (\valoptset)^* \rightarrow \funcset
+a given restriction $(\aval_1, \cdots, \aval_n) \in \avalset^*$, we
+define a transformation $\cptransform: \avalset^* \rightarrow \funcset
 \rightarrow \funcset$. To propagate constants, \todo What is a constant?
+a constant is a value which is statically fixed under a given restriction.
 
 \[
   \begin{array}{lr@{~}c@{~}l@{~}c@{~}l}
-    \text{Symbolic Environments} & \senv &\in& \senvset &=&
-    \varset \finmap \svalset\\
-    \text{Symbolic Values} & \sval &\in& \svalset &=&
-    \valoptset \times \exprset\\
+    \text{Abstract Environments} & \aenv &\in& \aenvset &=&
+    \varset \rightarrow \avalset\\
+    \text{Abstract Values} & \aval &\in& \avalset &=&
+    (\valset \times \exprset) \uplus \{ \bot, \top \}\\
   \end{array}
 \]
 
-\[
-  \framebox{$\cptransforme: \exprset \times \senvset \rightarrow \svalset$}
-\]
+\todo $\envgamma, \valgamma, \join, \meet, \order$
 
+\paragraph{Expressions}
 \[
-  \begin{array}{lcl}
-    \cptransforme(\pval, \env) &=& \pval\\
-    \cptransforme(\op \kwrl \expr^* \kwrr, \env) &=& \todo\\
-    \cptransforme(\kwcl \kwcr, \env) &=& \todo\\
-    \cptransforme(\refer, \env) &=& \todo\\
+  \framebox{$\asem{\expr}: \aenvset \rightarrow \avalset$}
+\]
+\begin{itemize}
+  \item \underline{Primive Values}:
+    \[
+      \asem{\pval}(\aenv) = (\pval, \pval)
+    \]
+  \item \underline{Operations}:
+    \[
+      \asem{\op \kwrl \expr_1, \cdots, \expr_n \kwrr}(\aenv) =
+      (\aval, \expr)
+    \]
+    where
+    \[
+      \begin{array}{l@{~}c@{~}ll}
+        \asem{\expr_k}(\aenv) &=& \aval_k \; \forall 1 \leq k \leq n
+        &\wedge\\
+        \aval &=& \left\{
+          \begin{array}{ll}
+            \bot & \text{if} \; \exists k. \; \aval_k = \bot\\
+            \top & \text{if} \; \exists k. \; \aval_k = \top\\
+            (\val, \expr') &
+            \text{if} \; \forall k. \; \aval_k = (\val_k, \expr'_k)\\
+          \end{array}
+        \right. &\wedge\\
+        \val &=& \op(\val_1, \cdots, \val_n) &\wedge\\
+        \expr' &=& \op(\expr'_1, \cdots, \expr'_n)\\
+      \end{array}
+    \]
+  \item \underline{Object Allocations}:
+    \[
+      \asem{\kwcl \kwcr}(\aenv) = \top
+    \]
+  \item \underline{Variable Lookups}:
+    \[
+      \asem{\varx}(\aenv) = \aenv(\varx)
+    \]
+  \item \underline{Field Lookups}:
+    \[
+      \asem{\expr_0 \kwsl \expr_1 \kwsr}(\aenv) = \top
+    \]
+\end{itemize}
+\[
+  \framebox{$\cptransforme: \exprset \times \aenvset \rightarrow \exprset \times
+  \avalset$}
+\]
+\[
+  \cptransforme(\expr, \aenv) = (\expr'', \aval)
+\]
+where
+\[
+  \begin{array}{l@{~}c@{~}ll}
+    \aval &=& \asem{\expr}(\aenv) &\wedge\\
+    \expr'' &=& \left\{
+      \begin{array}{ll}
+        \pval & \text{if} \; \aval = (\pval, \_)\\
+        \expr' & \text{if} \; \aval = (\_, \expr')\\
+        \expr & \text{otherwise}\\
+      \end{array}
+    \right.\\
   \end{array}
 \]
 
+\paragraph{Instructions}
 \[
-  \framebox{$\cptransformi: \instset \times \senvset \rightarrow \instset \times
-  \senvset$}
+  \framebox{$\cptransformi: \instset \times \aenvset \rightarrow \instset \times
+  \aenvset$}
 \]
+\begin{itemize}
+  \item \underline{Variable Assignments}:
+    \[
+      \cptransformi(\varx = \expr, \aenv) =
+      (\varx = \expr', \aenv[\varx \mapsto \aval])
+    \]
+    where
+    \[
+      (\expr', \aval) = \cptransforme(\expr, \aenv)
+    \]
 
-\todo
+  \item \underline{Field Assignments}:
+    \[
+      \cptransformi(\expr_0 \kwsl \expr_1 \kwsr = \expr_2, \aenv) =
+      (\expr'_0 \kwsl \expr'_1 \kwsr = \expr'_2, \aenv)
+    \]
+    where
+    \[
+      \begin{array}{l@{~}c@{~}ll}
+        (\expr'_0, \_) = \cptransforme(\expr_0, \aenv) &\wedge\\
+        (\expr'_1, \_) = \cptransforme(\expr_1, \aenv) &\wedge\\
+        (\expr'_2, \_) = \cptransforme(\expr_2, \aenv)\\
+      \end{array}
+    \]
 
+  \item \underline{Function Calls}:
+    \[
+      \cptransformi(\varx = \expr \kwrl \expr_1 \cdots \expr_n \kwrr, \aenv) =
+      (\varx = \expr' \kwrl \expr'_1 \cdots \expr'_n \kwrr,
+      \aenv[\varx \mapsto \top])
+    \]
+    where
+    \[
+      \begin{array}{l@{~}c@{~}ll}
+        (\expr', \_) = \cptransforme(\expr, \aenv) &\wedge\\
+        (\expr'_k, \_) = \cptransforme(\expr_k, \aenv) \; \forall 1 \leq k \leq
+        n\\
+      \end{array}
+    \]
+
+  \item \underline{Branches}:
+    \[
+      \cptransformi(\kwif \; \expr \; \lab_\vart \; \lab_\varf, \aenv) =
+      (\kwif \; \expr' \; \lab_\vart \; \lab_\varf, \aenv)
+    \]
+    where
+    \[
+      (\expr', \_) = \cptransforme(\expr, \aenv)
+    \]
+
+  \item \underline{Returns}:
+    \[
+      \cptransformi(\kwret \; \expr, \aenv) =
+      (\kwret \; \expr, \aenv)
+    \]
+    where
+    \[
+      (\expr', \_) = \cptransforme(\expr', \aenv)
+    \]
+\end{itemize}
+
+\paragraph{Functions}
 \[
-  \framebox{$\cptransform: (\valoptset)^* \rightarrow \funcset \rightarrow
+  \framebox{$\cptransform: (\avalset)^* \rightarrow \funcset \rightarrow
   \funcset$}
 \]
 
@@ -373,17 +522,17 @@ define a transformation $\cptransform: (\valoptset)^* \rightarrow \funcset
 
 \todo
 
-\subsubsection{Observational Semantics}
-
-\todo
-
 
 
 
 
 \subsection{JavaScript Semantics Specialization}
 
-\todo
+This section explains how to utilize the constant propagation specialization for
+the JavaScript semantics specialization with a user-defined syntactic view.  We
+first formally define syntactic views and their operations, then we explain how
+to decide a restriction of the constant propagation specialization based on a
+given syntactic view.
 
 \subsubsection{Syntatic Views}
 

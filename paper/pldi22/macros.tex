@@ -154,13 +154,15 @@
 \newcommand{\bool}{b}
 \newcommand{\true}{\code{\#t}}
 \newcommand{\false}{\code{\#f}}
+
+% JavaScript ASTs
 \newcommand{\treeset}{\mathbb{T}}
 \newcommand{\tree}{t}
 \newcommand{\trees}{\overline{t}}
-
-% Optional Values
-\newcommand{\valoptset}{\valset^\top}
-\newcommand{\valopt}{\val^\top}
+\newcommand{\ty}{\tau}
+\newcommand{\eval}{\code{eval}}
+\newcommand{\nterm}[1]{\textit{\small #1}}
+\newcommand{\term}[1]{\code{#1}}
 
 % States
 \newcommand{\stset}{\mathbb{S}}
@@ -191,10 +193,8 @@
 
 % semantics
 \newcommand{\sem}[1]{\llbracket{#1}\rrbracket}
+\newcommand{\asem}[1]{\widehat{\sem{#1}}}
 \newcommand{\trans}{\leadsto}
-
-% observational semantics
-\newcommand{\osem}[1]{\sem{#1}_{o}}
 
 % specialization
 \newcommand{\transform}{T}
@@ -206,11 +206,22 @@
 \newcommand{\cprestrictset}{\restrictset^\name{cp}}
 \newcommand{\cpgamma}{\gamma^\name{cp}}
 
-% symbolic elements
-\newcommand{\senvset}{\widehat{\envset}}
-\newcommand{\senv}{\widehat{\env}}
-\newcommand{\svalset}{\widehat{\valset}}
-\newcommand{\sval}{\widehat{\val}}
+% abstract environments
+\newcommand{\aenvset}{\widehat{\envset}}
+\newcommand{\aenv}{\widehat{\env}}
+\newcommand{\envgamma}{\gamma_\env}
+
+% abstract values
+\newcommand{\avalset}{\widehat{\valset}}
+\newcommand{\aval}{\widehat{\val}}
+\newcommand{\valgamma}{\gamma_\val}
+
+% abstract operations
+\newcommand{\join}{\sqcup}
+\newcommand{\bigjoin}{\bigsqcup}
+\newcommand{\meet}{\sqcap}
+\newcommand{\bigmeet}{\bigsqcap}
+\newcommand{\order}{\sqsubseteq}
 
 % restrictions
 \newcommand{\restrictset}{\mathbb{R}}
