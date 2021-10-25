@@ -82,9 +82,9 @@ briefly represent $\expr \kwsl \code{"f"} \kwsr$.
     \pvalset \uplus \addrset \uplus \treeset \uplus \funcset\\
 
     \text{Primive Values} & \pval &\in& \pvalset &=&
-    \boolset \uplus \strset \uplus \cdots\\
+    \boolset \uplus \intset \uplus \strset \uplus \cdots\\
 
-    \text{JavaScript ASTs} & \tree &\in& \treeset &::=& \\
+    \text{JavaScript ASTs} & \tree &\in& \treeset\\
   \end{array}
 \]
 
@@ -97,9 +97,9 @@ mappings from strings to values.  Each object allocation $\kwcl \kwcr$ creates a
 unique address $\addr \in \addrset$ different from existing addresses.  An
 environment $\env \in \envset$ is a finite mapping from variables to values. A
 value $\val \in \valset$ is a primitive value $\pval \in \pvalset$ (e.g., a
-boolean value $\bool \in \boolset$ or a string value $\str \in \strset$), an
-address $\addr \in \addrset$, a JavaScript AST $\tree \in \treeset$, or a
-function $f \in \funcset$.
+boolean value $\bool \in \boolset$, an integer $k \in \intset$, or a string
+$\str \in \strset$), an address $\addr \in \addrset$, a JavaScript AST $\tree
+\in \treeset$, or a function $f \in \funcset$.
 
 Since $\ires$ is a specification language for JavaScript, it treats JavaScript
 ASTs $\treeset$ as its values. For presentation brevity, we represent a JavaScript
@@ -147,26 +147,80 @@ The concrete semantics $\sem{\prog}$ of an $\ires$ program $\prog = (\istset,
 \]
 where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
 \st'$ if and only if $\st = (\lab, \_, \_, \_)$ and $\sem{\getinst(\lab)}(\st) =
-\st'$. Now, we define the denotational semantics of instructions $\sem{\inst}:
-\stset \rightarrow \stset$ and expressions $\sem{\expr}: \stset \rightarrow
-\stset \times \valset$.
+\st'$. Now, we define the denotational semantics of expressions, instructions,
+and functions.
 
-\todo function semantics
+\paragraph{Expressions} We define the denotational semantics of expressions with
+the following form:
+\[
+  \framebox{$\sem{\expr}: \stset \rightarrow \stset \times \valset$}
+\]
+For each expression $\expr \in \exprset$, its semantics $\sem{\expr}$ takes a
+state and returns a pair of an updated state and a value as the result of
+expression. We define five different cases in the semantics of expressions as
+follows:
+\begin{itemize}
+  \item \underline{Primitive Values}:
+    \[
+      \sem{\pval}(\st) =
+      (\st, \pval)
+    \]
 
-\paragraph{Instructions}
+  \item \underline{Operations}:
+    \[
+      \sem{\op \kwrl \expr_1, \cdots, \expr_n \kwrr}(\st) =
+      (\st_n, \op(\val_1, \cdots, \val_n))
+    \]
+    where $\st_0 = \st \wedge \forall 1 \leq k \leq n. \;
+    \sem{\expr_k}(\st_{k-1}) = (\st_k, \val_k)$
+
+  \item \underline{Object Allocations}:
+    \[
+      \sem{\kwcl \kwcr}(\st) =
+      ((\lab, \ctxts, \heap[\addr \mapsto \varnothing], \env), \addr)
+    \]
+    where $\st = (\lab, \ctxts, \heap, \env) \wedge \addr \not\in
+    \text{Domain}(\heap)$
+
+  \item \underline{Variable Lookups}:
+    \[
+      \sem{\varx}(\st) =
+      (\st, \env(\varx))
+    \]
+    where $\st = (\_, \_, \_, \env)$
+
+  \item \underline{Field Lookups}:
+    \[
+      \sem{\expr_0 \kwsl \expr_1 \kwsr}(\st) =
+      (\st'', \obj(\str))
+    \]
+    where
+    \[
+      \begin{array}{l@{~}c@{~}ll}
+        \sem{\expr_0}(\st) &=& (\st', \addr) &\wedge\\
+        \sem{\expr_1}(\st') &=& (\st'', \str) &\wedge\\
+        \st'' &=& (\_, \_, \heap, \_) &\wedge\\
+        \obj &=& \heap(\addr)\\
+      \end{array}
+    \]
+\end{itemize}
+
+\paragraph{Instructions} We define the denotational semantics of instructions
+with the following form:
 \[
   \framebox{$\sem{\inst}: \stset \rightarrow \stset$}
 \]
+For each instruction $\inst \in \instset$, its semantics $\sem{\inst}$ takes a
+state and returns an updated state. We define five different cases in the
+semantics of instructions as follows:
+
 \begin{itemize}
   \item \underline{Variable Assignments}:
     \[
       \sem{\varx = \expr}(\st) =
       (\getnext(\lab), \ctxts, \heap, \env[\varx \mapsto \val])
     \]
-    where
-    \[
-      \sem{\expr}(\st) = ((\lab, \ctxts, \heap, \env), \val)
-    \]
+    where $\sem{\expr}(\st) = ((\lab, \ctxts, \heap, \env), \val)$
 
   \item \underline{Field Assignments}:
     \[
@@ -213,81 +267,41 @@ where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
         \end{array}
       \right.
     \]
-    where
-    \[
-      \sem{\expr}(\st) = ((\lab, \ctxts, \heap, \env), \val)
-    \]
+    where $\sem{\expr}(\st) = ((\lab, \ctxts, \heap, \env), \val)$
 
   \item \underline{Returns}:
     \[
       \sem{\kwret \; \expr}(\st) = (\lab, \ctxts, \heap, \env[\varx \mapsto
       \val])
     \]
-    where
-    \[
-      \sem{\expr}(\st) = ((\_, (\lab, \env, \varx) :: \ctxts, \heap, \_), \val)
-    \]
+    where $\sem{\expr}(\st) = ((\_, (\lab, \env, \varx) :: \ctxts, \heap, \_),
+    \val)$
 \end{itemize}
 
-\paragraph{Expressions}
+\paragraph{Functions} Moreover, we define the denotational semantics of
+functions with the following form:
 \[
-  \framebox{$\sem{\expr}: \stset \rightarrow \stset \times \valset$}
+  \framebox{$\sem{\func}: \heapset \times \valset^* \rightarrow \heapset \times
+  \valset$}
 \]
-\begin{itemize}
-  \item \underline{Primive Values}:
-    \[
-      \sem{\pval}(\st) =
-      (\st, \pval)
-    \]
-
-  \item \underline{Operations}:
-    \[
-      \sem{\op \kwrl \expr_1, \cdots, \expr_n \kwrr}(\st) =
-      (\st_n, \op(\val_1, \cdots, \val_n))
-    \]
-    where
-    \[
-      \st_0 = \st \wedge
-      \forall 1 \leq k \leq n. \; \sem{\expr_k}(\st_{k-1}) = (\st_k, \val_k)
-    \]
-
-  \item \underline{Object Allocations}:
-    \[
-      \sem{\kwcl \kwcr}(\st) =
-      ((\lab, \ctxts, \heap[\addr \mapsto \varnothing], \env), \addr)
-    \]
-    where
-    \[
-      \st = (\lab, \ctxts, \heap, \env) \wedge
-      \addr \not\in \text{Domain}(\heap)
-    \]
-
-  \item \underline{Variable Lookups}:
-    \[
-      \sem{\varx}(\st) =
-      (\st, \env(\varx))
-    \]
-    where
-    \[
-      \st = (\_, \_, \_, \env)
-    \]
-
-  \item \underline{Field Lookups}:
-    \[
-      \sem{\expr_0 \kwsl \expr_1 \kwsr}(\st) =
-      (\st'', \val')
-    \]
-    where
-    \[
-      \begin{array}{l@{~}c@{~}ll}
-        \sem{\expr_0}(\st) &=& (\st', \addr) &\wedge\\
-        \sem{\expr_1}(\st') &=& (\st'', \str) &\wedge\\
-        \st'' &=& (\_, \_, \heap, \_) &\wedge\\
-        \obj &=& \heap(\addr) &\wedge\\
-        \val' &=& \obj(\str)\\
-      \end{array}
-    \]
-\end{itemize}
+For each function $\func \in \funcset$, its semantics $\sem{\func}$ takes a heap
+and values as arguments, and it returns a pair of an updated heap and a return
+value as follows:
+\[
+  \sem{\kwdef \; \varf \; \kwrl \varp_1, \cdots, \varp_n \kwrr \lab_\varf}
+  (\heap, (\val_1, \cdots, \val_n)) = (\heap'', \val'')
+\]
+where
+\[
+  \begin{array}{l@{~}c@{~}ll}
+    \st &=& (\lab_\varf, \epsilon, \heap, \env) &\wedge\\
+    \env &=& [\varp_1 \mapsto \val_1, \cdots, \varp_n \mapsto \val_n] &\wedge\\
+    \st \trans^* \st' &=& (\lab', \epsilon, \heap', \_) &\wedge\\
+    \getinst(\lab') &=& \kwret \; \expr' &\wedge\\
+    \sem{\expr'}(\st') &=& (\st'', \val'') &\wedge\\
+    \st'' &=& (\_, \epsilon, \heap'', \_)\\
+  \end{array}
+\]
 
 
 
