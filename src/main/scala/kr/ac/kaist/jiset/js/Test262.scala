@@ -83,7 +83,7 @@ object Test262 {
     // handle new `Test262Error` => new function() {}
     override def transform(ast: MemberExpression): MemberExpression =
       ast match {
-        case expr @ MemberExpression6(x1, x2, params, span) if x1.toString == "Test262Error" =>
+        case expr @ MemberExpression6(x1, x2, params, span) if x1.toString == TEST262_ERROR =>
           val emptyFunc = getEmptyFunc(Parser.MemberExpression(x1.parserParams))
           MemberExpression6(emptyFunc, super.transform(x2), params, span)
         case _ => super.transform(ast)
@@ -92,7 +92,7 @@ object Test262 {
     // handle e instanceof `Test262Error` => e instanceof function () {}
     override def transform(ast: RelationalExpression): RelationalExpression =
       ast match {
-        case expr @ RelationalExpression5(x0, x2, params, span) if x2.toString == "Test262Error" =>
+        case expr @ RelationalExpression5(x0, x2, params, span) if x2.toString == TEST262_ERROR =>
           val emptyFunc = getEmptyFunc(Parser.ShiftExpression(x2.parserParams))
           RelationalExpression5(super.transform(x0), emptyFunc, params, span)
         case _ => super.transform(ast)
@@ -155,6 +155,7 @@ object Test262 {
       "checkSettledPromises" -> 1,
     )
     val ASSERT_THROW = "assert . throws"
+    val TEST262_ERROR = "Test262Error"
 
     // helpers for removal
     implicit def downcast[T <: AST](ast: AST): T = ast.asInstanceOf[T]
