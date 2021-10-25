@@ -175,9 +175,11 @@ trait PartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] {
   def pe(algo: Algo, args: List[Option[Value]]): Result[(Algo, Option[SymbolicValue])] = (dcontext: SpecializeContext[LT, GT]) => {
     dcontext.globalContext.getAlgo(algo, args) match {
       case None => {
+        // println(algo)
         val locals = getLocals(algo.head.params, args)
         val (newInsts, ncontext) = pe(algo.rawBody)(SpecializeContextImpl(lcbuilder.init(locals.toMap), dcontext.globalContext.setAlgo((algo, args), None)))
         val nalgo = new Algo(algo.head, algo.id, newInsts.getOrElse(IExpr(EStr("empty"))), algo.code)
+        // println(nalgo)
         ((nalgo, ncontext.labelwiseContext.getRet), SpecializeContextImpl(dcontext.labelwiseContext, ncontext.globalContext.setAlgo((algo, args), Some((nalgo, ncontext.labelwiseContext.getRet)))))
       }
       case Some(None) => ((algo, None), dcontext)

@@ -44,6 +44,10 @@ trait PassingPartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] ex
     } yield Some(IAssert(expre.expr))
   }
   def pe_iassign: IAssign => Result[Option[Inst]] = {
+    case IAssign(RefId(id), expr) => for {
+      v <- pe(expr)
+      _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkDynamic(ERef(RefId(id)))))
+    } yield Some(IAssign(RefId(id), v.expr)) // TODO
     case IAssign(ref, expr) => for {
       refr <- pe(ref)
       expre <- pe(expr)

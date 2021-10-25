@@ -68,6 +68,19 @@ trait BasePartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] exten
     } yield if (v.isRepresentable && !mustBoundVariable.contains(id.name)) None else Some(ILet(id, v.expr))
   }
 
+  override def pe_iassign: IAssign => Result[Option[Inst]] = {
+    case IAssign(RefId(id), expr) => for {
+      v <- pe(expr)
+      _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, v))
+    } yield if (v.isRepresentable && !mustBoundVariable.contains(id.name)) None else {
+      Some(IAssign(RefId(id), v.expr))
+    }
+    case IAssign(ref, expr) => for {
+      refr <- pe(ref)
+      expre <- pe(expr)
+    } yield { Some(IAssign(refr, expre.expr)) }
+  }
+
   override def pe_iseq: ISeq => Result[Option[Inst]] = {
     case ISeq(insts) => { (dcontext: SpecializeContext[LT, GT]) =>
       {
@@ -97,6 +110,35 @@ trait BasePartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] exten
             ISeq(thenInstI.toList ++ itrue),
             ISeq(elseInstI.toList ++ ifalse)
           )), SpecializeContextImpl(nstate, dcontext3.globalContext))
+        }
+      }): Result[Option[Inst]]
+    } yield res
+  }
+
+  override def pe_iwhile: IWhile => Result[Option[Inst]] = {
+    case IWhile(cond, body) => for {
+      c <- pe(cond)
+      res <- (c match {
+        case SymbolicValue(Some(Bool(false)), _) => None
+        case _ => (dcontext1: S) => {
+          def aux(dcbase: S, dccurrent: S): S = {
+            val (_, dc2) = pe(body)(dccurrent)
+            val (_, _, lc) = dcbase.labelwiseContext merge dc2.labelwiseContext
+            val dc3 = dc2.updateLabelwise((_) => lc)
+            if (dccurrent.labelwiseContext == dc3.labelwiseContext) dc3
+            else {
+              // println(dccurrent.labelwiseContext)
+              // println(dc3.labelwiseContext)
+              aux(dcbase, dc3)
+            }
+          }
+          val dcontext2 = aux(dcontext1, dcontext1)
+          val (b, dcontext3) = pe(body)(dcontext2)
+          val (inotloop, iloop, nlabcont) = dcontext1.labelwiseContext merge dcontext3.labelwiseContext
+          assert(nlabcont == dcontext2.labelwiseContext)
+          val dcontext4 = SpecializeContextImpl(nlabcont, dcontext3.globalContext)
+          val (c2, _) = pe(cond)(dcontext4)
+          (Some(ISeq(inotloop :+ IWhile(c2.expr, ISeq(b.toList ++ iloop)))), dcontext4)
         }
       }): Result[Option[Inst]]
     } yield res
