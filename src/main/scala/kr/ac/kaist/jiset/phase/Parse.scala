@@ -84,7 +84,7 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
       "use `esparse` instead of the generated parser."),
     ("test262", BoolOption(c => c.test262 = true),
       "prepend test262 harness files based on metadata."),
-    ("noAssert", BoolOption(c => c.noAssert = true),
+    ("no-assert", BoolOption(c => c.noAssert = true),
       "remove test262 assertions"),
   )
 }

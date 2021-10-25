@@ -11,6 +11,7 @@ import kr.ac.kaist.jiset.util.JvmUseful._
 object Test262 {
   // parsing result
   type ParseResult = Either[String, List[StatementListItem]]
+  type LAParser[T] = Parser.LAParser[T]
 
   // test262 test configuration
   lazy val config = FilterMeta.test262configSummary
@@ -45,6 +46,7 @@ object Test262 {
         mergeStmtList(stmts, sl.parserParams)
       }
 
+    // handle statement list
     override def transform(ast: Block): Block =
       ast match {
         case Block0(l, p, s) =>
@@ -69,11 +71,38 @@ object Test262 {
       val stmts = flattenStmt(ast).flatMap(removeNested)
       super.transform(mergeStmt(stmts))
     }
+
+    // create empty function
+    private def getEmptyFunc(ps: List[Boolean]): ShiftExpression =
+      Parser.parse(Parser.ShiftExpression(ps), "function () {}").get
+
+    // get empty function
+    def getEmptyFunc[T](p: LAParser[T]): T =
+      Parser.parse(p, "function() {}").get
+
+    // handle new `Test262Error` => new function() {}
+    override def transform(ast: MemberExpression): MemberExpression =
+      ast match {
+        case expr @ MemberExpression6(x1, x2, params, span) if x1.toString == "Test262Error" =>
+          val emptyFunc = getEmptyFunc(Parser.MemberExpression(x1.parserParams))
+          MemberExpression6(emptyFunc, super.transform(x2), params, span)
+        case _ => super.transform(ast)
+      }
+
+    // handle e instanceof `Test262Error` => e instanceof function () {}
+    override def transform(ast: RelationalExpression): RelationalExpression =
+      ast match {
+        case expr @ RelationalExpression5(x0, x2, params, span) if x2.toString == "Test262Error" =>
+          val emptyFunc = getEmptyFunc(Parser.ShiftExpression(x2.parserParams))
+          RelationalExpression5(super.transform(x0), emptyFunc, params, span)
+        case _ => super.transform(ast)
+      }
   }
   object AssertionRemover {
     // remove assertion
-    def apply(script: Script): Script =
+    def apply(script: Script): Script = {
       (new AssertionRemover).transform(script)
+    }
 
     // harness related to assertion
     lazy val assertions = Set(
@@ -96,6 +125,9 @@ object Test262 {
       "assert . deepEqual" -> 1,
 
       //compareArray.js
+      "compareArray" -> 2,
+      "compareArray . isSameValue" -> 2,
+      "compareArray . format" -> 1,
       "assert . compareArray" -> 1,
 
       //compareIterator.js
@@ -206,7 +238,7 @@ object Test262 {
                 getArguments(x1)
                   .take(argc)
                   .map(arg => (
-                    s"var _ = ${arg.toString};",
+                    s"(${arg.toString});",
                     fixParams(arg.parserParams)
                   ))
               )
@@ -227,8 +259,10 @@ object Test262 {
 
       // re-parse rewrite strs to statement list item
       rewrites match {
-        case Some(rs) => rs.map {
-          case (str, params) => parse(str, params)
+        case Some(rs) => rs.flatMap {
+          case (str, params) =>
+            println(str)
+            removeAssertion(parse(str, params))
         }
         case None => List(ast)
       }
