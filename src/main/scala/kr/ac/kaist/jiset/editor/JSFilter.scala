@@ -49,6 +49,17 @@ object JSFilter {
     def idf_prob(n: Node) = log10((tests.size - n_t(n)) / n_t(n))
     def tfidf(n: Node, test: Test) = test.tf_raw(n) * idf_smooth(n)
 
+    def testMap: Array[Set[Int]] = {
+      val mmap = Array.fill(tests.size)(Set[Int]())
+      for {
+        (tids, nid) <- nodeMap.zipWithIndex
+        tid <- tids
+      } {
+        mmap(tid) = (mmap(tid) + nid)
+      }
+      mmap
+    }
+
     // sorted by tf-idf score
     // lazy val sortedNodeMap: Map[Node, List[Test]] = (for {
     //   (node, tests) <- nodeMap
@@ -61,19 +72,21 @@ object JSFilter {
     // dump
     def dump(dirname: String = EDITOR_LOG_DIR): Unit = {
       mkdir(dirname)
-      dumpScore(dirname)
+      dumpNodeScore(dirname)
+      dumpTestScore(dirname)
       dumpTestTouched(dirname)
+      dumpBest(dirname)
       // dumpNodeTouched(dirname)
     }
 
-    // dump tf-idf score
-    def dumpScore(dirname: String): Unit = {
-      mkdir(s"$dirname/tfidf")
+    // dump tf-idf score per node
+    def dumpNodeScore(dirname: String): Unit = {
+      mkdir(s"$dirname/tfidf-node")
       nodeMap.zipWithIndex.foreach {
         case (tids, nid) => {
           if (tids.size != 0) {
             val node = cfg.nidGen.get(nid)
-            val nf = getPrintWriter(s"$dirname/tfidf/${nid}.csv")
+            val nf = getPrintWriter(s"$dirname/tfidf-node/${nid}.csv")
             tids.toArray.foreach { tid =>
               val test = tests(tid)
               nf.println(s"${tfidf(node, test)}, ${test.name}")
@@ -82,6 +95,43 @@ object JSFilter {
           }
         }
       }
+    }
+
+    // dump tf-idf score per test
+    def dumpTestScore(dirname: String): Unit = {
+      mkdir(s"$dirname/tfidf-test")
+      testMap.zipWithIndex.foreach {
+        case (nids, tid) => {
+          val test = tests(tid)
+          val nf = getPrintWriter(s"$dirname/tfidf-test/${tid}.csv")
+          nf.println(s"${test.name}")
+          nids.toArray.foreach { nid =>
+            val node = cfg.nidGen.get(nid)
+            nf.println(s"${tfidf(node, test)}, ${nid}")
+          }
+          nf.close()
+        }
+      }
+    }
+
+    // dump best node in test
+    def dumpBest(dirname: String): Unit = {
+      implicit val order = Ordering.Double.TotalOrdering
+      val nf = getPrintWriter(s"$dirname/best-nodes.tsv")
+      nf.println(s"Test\tBestNode")
+      testMap.zipWithIndex.foreach {
+        case (nids, tid) => {
+          val test = tests(tid)
+          val nodes = nids.toArray
+          val tfidfs = nodes.map { nid =>
+            val node = cfg.nidGen.get(nid)
+            tfidf(node, test)
+          }
+          val best = nodes(tfidfs.indexOf(tfidfs.max))
+          nf.println(s"${test.name}\t${best}")
+        }
+      }
+      nf.close()
     }
 
     // dump touched size of each test
