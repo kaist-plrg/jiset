@@ -79,7 +79,6 @@ object JSFilter {
               nf.println(s"${tfidf(node, test)}, ${test.name}")
             }
             nf.close()
-            println(nid)
           }
         }
       }
@@ -132,8 +131,6 @@ object JSFilter {
 
         // update total test list
         tests :+= test
-
-        println(tid, test.name)
       }
       TestList(tests.toArray, nodeMap)
     }

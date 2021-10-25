@@ -105,7 +105,7 @@ object Test262 {
     }
 
     // harness related to assertion
-    lazy val assertions = Set(
+    lazy val harness = Set(
       "deepEqual.js",
       "compareArray.js",
       "compareIterator.js",
@@ -274,7 +274,7 @@ object Test262 {
     // filter assertion harness
     val filtered =
       if (noAssert)
-        harness.filter(!AssertionRemover.assertions.contains(_))
+        harness.filter(!AssertionRemover.harness.contains(_))
       else
         harness
 
@@ -291,7 +291,7 @@ object Test262 {
 
     // remove assertion
     val removed =
-      if (noAssert) AssertionRemover(script)
+      if (noAssert) timeout(AssertionRemover(script), TIMEOUT) // TODO debug
       else script
 
     // prepend harness to script
