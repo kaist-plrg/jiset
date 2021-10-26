@@ -114,9 +114,10 @@ production of nonterminal symbol $\ty$ with its subtrees $\tree^*$.  The notatio
 $\ty_k.\eval$ denotes an $\ires$ function for the evaluation of $k$-th
 alternative in $\ty$, and it takes the AST itself and its nonterminal subtrees
 as arguments. For each integer $k$, the notation $\tree[k]$ denotes $k$-th
-subtree of $\tree$.  For example, Figure~\ref{fig:coalesce-prod} shows a
-syntactic production for coalesce expressions.  Consider the following coalesce
-expression:
+subtree of $\tree$. If an AST $\tree$ is a subtree of another AST $\tree'$, we
+represent it as $\tree \subtree \tree'$.  For example,
+Figure~\ref{fig:coalesce-prod} shows a syntactic production for coalesce
+expressions.  Consider the following coalesce expression:
 \begin{lstlisting}[style=JS]
                     42 ?? true
 \end{lstlisting}
@@ -124,9 +125,10 @@ Then, the following AST is produced as its parsing result:
 \begin{figure}[H]
   \includegraphics[width=.8\columnwidth]{img/ast-example.png}
 \end{figure}
-\noindent Moreover, its evaluation function $\nterm{CoalesceExpression}_0.\eval$
-takes three subtrees as arguments annotated by $\tree_0$, $\tree_1$, and
-$\tree_2$ in the AST.
+\noindent Its evaluation function $\nterm{CoalesceExpression}_0.\eval$ takes
+three subtrees as arguments annotated by $\tree_0$, $\tree_1$, and $\tree_2$ in
+the figure. Note that $\tree_1$ and $\tree_2$ are subtrees of $\tree_0$ (i.e.,
+$\tree_1 \subtree \tree_0$ and $\tree_2 \subtree \tree_0$).
 
 
 \begin{figure}
@@ -359,8 +361,8 @@ environments, and values as follows:
         \multicolumn{3}{l}{\valgamma: \avalset \rightarrow \powerset{\valset}}\\
         \valgamma(\aval) &=& \left\{
           \begin{array}{ll}
-            \{ \val \} & \aval = (\val, \expr) \\
-            \valset & \aval = \top\\
+            \{ \val \} & \text{if} \; \aval = (\val, \expr) \\
+            \valset & \text{if} \; \aval = \top\\
           \end{array}
         \right.\\
 
@@ -387,8 +389,8 @@ directly represented as expressions, each static values $\langle \val, \expr
 define transformations of expressions and instructions, and introduce an
 iterative algorithm to proceed the partial evaluation in $\ires$.
 
-\subsubsection{Expressions} Before defining a transformation of expressions, we
-first define abstract evaluation of expressions as follows:
+\subsubsection{Transformation of Expressions} Before defining a transformation of
+expressions, we first define abstract evaluation of expressions as follows:
 \[
   \framebox{$\asem{\expr}: \aenvset \rightarrow \avalset$}
 \]
@@ -463,8 +465,8 @@ where
   \end{array}
 \]
 
-\subsubsection{Instructions} Now, we define a transformation of instructions
-using the transformation of expressions as follows:
+\subsubsection{Transformation of Instructions} Now, we define a transformation
+of instructions using the transformation of expressions as follows:
 \[
   \framebox{$\transformi: \instset \times \aenvset \rightarrow \instset \times
   \aenvset$}
@@ -535,7 +537,16 @@ using the transformation of expressions as follows:
     \]
 \end{itemize}
 
-\subsubsection{Fixpoint of Abstract Transfer Function}
+
+\subsubsection{Fixpoint of Abstract Transfer Function} Finally, we define an
+abstract transfer function and its fixpoint to represent abstract semantics of a
+given function and abstract values:
+\[
+  \begin{array}{ll}
+    \text{Abstract Transfer Function} & \atransfer: \aelemset \rightarrow
+    \aelemset\\
+\end{array}
+\]
 
 \todo
 
@@ -550,16 +561,45 @@ using the transformation of expressions as follows:
 
 \subsection{JavaScript Semantics Specialization}
 
-This section explains how to utilize the constant propagation specialization for
-the JavaScript semantics specialization with a user-defined syntactic view.  We
-first formally define syntactic views and their operations, then we explain how
-to decide a restriction of the constant propagation specialization based on a
-given syntactic view.
+This section explains how to utilize the partial evaluation for the JavaScript
+semantics specialization with a user-defined syntactic view.  We first formally
+define syntactic views and their operations, then we explain how to decide a
+restriction of the constant propagation specialization based on a given
+syntactic view.
 
-\subsubsection{Syntatic Views}
+\subsubsection{Syntatic Views} A syntatic view $\atree \in \atreeset$ is an
+augmented JavaScript ASTs with abstract nodes $\top$ as follows:
+\[
+  \atree ::= \str \mid \ty_k \langle \atree^* \rangle \mid \top
+\]
+\[
+  \begin{array}{lcl}
+    \multicolumn{3}{l}{\treegamma: \atreeset \rightarrow \powerset{\treeset}}\\
+    \treegamma(\atree) &=& \left\{
+      \begin{array}{ll}
+        \{ \str \} &
+        \text{if} \; \atree = \str \\
+
+        A & \text{if} \; \atree = \ty_k
+        \langle \atree_1, \cdots, \atree_n \rangle \\
+
+        \treeset & \atree = \top\\
+      \end{array}
+    \right.\\
+    A &=& \{ \ty_k \langle \tree_1, \cdots, \tree_n \rangle \mid \forall 1 \leq
+    j \leq n.  \; \tree_j \in \treegamma(\atree_j) \}
+  \end{array}
+\]
+
+\subsubsection{JavaScript Program Filtering}
+
+\[
+  \atree \subtree \tree' \iff \exists \tree \in \treegamma{\atree}. \; \tree
+  \subtree \tree'
+\]
 
 \todo
 
-\subsubsection{Specialization with Syntatic Views}
+\subsubsection{Semantics Specialization}
 
 \todo

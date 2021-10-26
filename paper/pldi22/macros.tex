@@ -111,7 +111,7 @@
 % basic
 \DeclareMathAlphabet{\mathpzc}{T1}{pzc}{m}{it}
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
-\newcommand{\abs}[1]{{#1}^{\#}}
+\newcommand{\abs}[1]{\widehat{#1}}
 \newcommand{\finmap}{{\xrightarrow[]{\text{fin}}}}
 \newcommand{\mapstos}{\;\dot{\mapsto}\;}
 \newcommand{\Dom}{\name{Dom}}
@@ -159,7 +159,7 @@
 % JavaScript ASTs
 \newcommand{\treeset}{\mathbb{T}}
 \newcommand{\tree}{t}
-\newcommand{\trees}{\overline{t}}
+\newcommand{\subtree}{\lhd}
 \newcommand{\ty}{\tau}
 \newcommand{\eval}{\code{eval}}
 \newcommand{\nterm}[1]{\textit{\small #1}}
@@ -197,6 +197,10 @@
 \newcommand{\asem}[1]{\widehat{\sem{#1}}}
 \newcommand{\trans}{\leadsto}
 
+% transfer function
+\newcommand{\transfer}{F}
+\newcommand{\atransfer}{\abs{\transfer}}
+
 % specialization
 \newcommand{\transform}{T}
 \newcommand{\transformi}{\transform_\inst}
@@ -204,19 +208,24 @@
 
 % abstract states
 \newcommand{\elemset}{\mathbb{D}}
-\newcommand{\aelemset}{\widehat{\elemset}}
-\newcommand{\aelem}{\widehat{d}}
+\newcommand{\aelemset}{\abs{\elemset}}
+\newcommand{\aelem}{\abs{d}}
 \newcommand{\elemgamma}{\gamma_d}
 
 % abstract environments
-\newcommand{\aenvset}{\widehat{\envset}}
-\newcommand{\aenv}{\widehat{\env}}
+\newcommand{\aenvset}{\abs{\envset}}
+\newcommand{\aenv}{\abs{\env}}
 \newcommand{\envgamma}{\gamma_\env}
 
 % abstract values
-\newcommand{\avalset}{\widehat{\valset}}
-\newcommand{\aval}{\widehat{\val}}
+\newcommand{\avalset}{\abs{\valset}}
+\newcommand{\aval}{\abs{\val}}
 \newcommand{\valgamma}{\gamma_\val}
+
+% syntactic views
+\newcommand{\atreeset}{\abs{\treeset}}
+\newcommand{\atree}{\abs{\tree}}
+\newcommand{\treegamma}{\gamma_\tree}
 
 % abstract operations
 \newcommand{\join}{\sqcup}
