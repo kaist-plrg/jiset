@@ -82,7 +82,7 @@ briefly represent $\expr \kwsl \code{"f"} \kwsr$.
     \text{Values} & \val &\in& \valset &=&
     \pvalset \uplus \addrset \uplus \treeset \uplus \funcset\\
 
-    \text{Primive Values} & \pval &\in& \pvalset &=&
+    \text{Primitive Values} & \pval &\in& \pvalset &=&
     \boolset \uplus \intset \uplus \strset \uplus \cdots\\
 
     \text{JavaScript ASTs} & \tree &\in& \treeset\\
@@ -395,7 +395,7 @@ expressions, we first define abstract evaluation of expressions as follows:
   \framebox{$\asem{\expr}: \aenvset \rightarrow \avalset$}
 \]
 \begin{itemize}
-  \item \underline{Primive Values}:
+  \item \underline{Primitive Values}:
     \[
       \asem{\pval}(\aenv) = \langle \pval, \pval \rangle
     \]
@@ -567,7 +567,7 @@ define syntactic views and their operations, then we explain how to decide a
 restriction of the constant propagation specialization based on a given
 syntactic view.
 
-\subsubsection{Syntatic Views} A syntatic view $\atree \in \atreeset$ is an
+\subsubsection{Syntactic Views} A syntactic view $\atree \in \atreeset$ is an
 augmented JavaScript ASTs with abstract nodes $\top$ as follows:
 \[
   \atree ::= \str \mid \ty_k \langle \atree^* \rangle \mid \top
