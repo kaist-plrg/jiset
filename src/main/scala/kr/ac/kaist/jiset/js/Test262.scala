@@ -39,46 +39,24 @@ object Test262 {
   class AssertionRemover extends ASTTransformer {
     import AssertionRemover._
 
-    // helper for remove assertion
-    def aux(l: Option[StatementList]): Option[StatementList] =
-      l.flatMap { sl =>
-        val stmts = flattenStmtList(sl).flatMap(removeNested)
-        mergeStmtList(stmts, sl.parserParams)
-      }
+    // handle assertion calls
+    override def transform(ast: Statement): Statement = {
+      // check if rewrite is needed
+      val checker = new RewriteChecker(ast)
+      checker.walk(ast)
 
-    // handle statement list
-    override def transform(ast: Block): Block =
-      ast match {
-        case Block0(l, p, s) =>
-          super.transform(Block0(aux(l), p, s))
-      }
-    override def transform(ast: CaseClause): CaseClause =
-      ast match {
-        case CaseClause0(e, l, p, s) =>
-          super.transform(CaseClause0(e, aux(l), p, s))
-      }
-    override def transform(ast: DefaultClause): DefaultClause =
-      ast match {
-        case DefaultClause0(l, p, s) =>
-          super.transform(DefaultClause0(aux(l), p, s))
-      }
-    override def transform(ast: FunctionStatementList): FunctionStatementList =
-      ast match {
-        case FunctionStatementList0(l, p, s) =>
-          super.transform(FunctionStatementList0(aux(l), p, s))
-      }
-    override def transform(ast: Script): Script = {
-      val stmts = flattenStmt(ast).flatMap(removeNested)
-      super.transform(mergeStmt(stmts))
+      // rewrite statement
+      if (checker.needRewrite) {
+        // get assert call and rewrite assertion
+        val assertCall = ast.getElems("CoverCallExpressionAndAsyncArrowHead")(0)
+        val stmts = rewriteAssertion(assertCall.asInstanceOf[CoverCallExpressionAndAsyncArrowHead])
+
+        // transform to Statement
+        if (stmts.isEmpty) getEmptyStmt(ast.parserParams)
+        else super.transform(fromStmts(stmts, ast.parserParams))
+      } else if (checker.nested) super.transform(ast)
+      else ast
     }
-
-    // create empty function
-    private def getEmptyFunc(ps: List[Boolean]): ShiftExpression =
-      Parser.parse(Parser.ShiftExpression(ps), "function () {}").get
-
-    // get empty function
-    def getEmptyFunc[T](p: LAParser[T]): T =
-      Parser.parse(p, "function() {}").get
 
     // handle new `Test262Error` => new function() {}
     override def transform(ast: MemberExpression): MemberExpression =
@@ -97,11 +75,28 @@ object Test262 {
           RelationalExpression5(super.transform(x0), emptyFunc, params, span)
         case _ => super.transform(ast)
       }
+
+    // helpers
+    def getEmptyFunc[T](p: LAParser[T]): T =
+      Parser.parse(p, "function() {}").get
+    def getEmptyStmt(ps: List[Boolean]): Statement =
+      Parser.parse(Parser.Statement(ps), "{}").get
+    def fromStmts(
+      stmts: List[Statement],
+      ps: List[Boolean]
+    ): Statement = {
+      val stmtItems = stmts.map(s => StatementListItem0(s, s.parserParams, Span()))
+      val stmtList = mergeStmtList(stmtItems, ps)
+      val block = Block0(stmtList, ps, Span())
+      val blockStmt = BlockStatement0(block, ps, Span())
+      Statement0(blockStmt, ps, Span())
+    }
   }
   object AssertionRemover {
     // remove assertion
     def apply(script: Script): Script = {
-      (new AssertionRemover).transform(script)
+      val removed = (new AssertionRemover).transform(script)
+      (new FlattenTransformer).transform(removed)
     }
 
     // harness related to assertion
@@ -157,47 +152,91 @@ object Test262 {
     val ASSERT_THROW = "assert . throws"
     val TEST262_ERROR = "Test262Error"
 
-    // helpers for removal
-    implicit def downcast[T <: AST](ast: AST): T = ast.asInstanceOf[T]
-    implicit def downcastOption[T <: AST](ast: Option[AST]): Option[T] =
-      ast.map(downcast[T])
+    // check if statement rewrite is required
+    class RewriteChecker(target: Statement) extends ASTWalker {
+      var (hasAssertion, nested) = (false, false)
+      def needRewrite: Boolean = hasAssertion && !nested
 
-    // check if there is nested statement list item
-    class NestedChecker(target: StatementListItem) extends ASTWalker {
-      var nested = false
-      override def job(ast: AST) = ast match {
-        case stmt: StatementListItem if ast != target =>
-          nested = true
-        case _ =>
+      // check nested statement
+      override def walk(ast: Statement) = {
+        if (ast == target) super.walk(ast)
+        else nested = true
       }
-      // guard for assertion function calls
+
+      // check assertion function calls
       override def walk(ast: CoverCallExpressionAndAsyncArrowHead) = ast match {
         case CoverCallExpressionAndAsyncArrowHead0(x0, _, _, _) =>
           val funcName = x0.toString
-          val guarded = argsMap.contains(funcName) || funcName == ASSERT_THROW
-          if (!guarded) super.walk(ast)
-
+          val isAssertion = argsMap.contains(funcName) || funcName == ASSERT_THROW
+          if (isAssertion) hasAssertion = true
       }
     }
-    def checkNested(ast: StatementListItem): Boolean = {
-      val checker = new NestedChecker(ast)
-      checker.walk(ast)
-      checker.nested
+
+    // flatten nested block statements
+    class FlattenTransformer extends ASTTransformer {
+      private def aux(ast: Option[StatementList]): Option[StatementList] =
+        ast.flatMap { sl =>
+          val stmts = flattenStmtList(sl).flatMap(getItems)
+          mergeStmtList(stmts, sl.parserParams)
+        }
+
+      // handle statement list
+      override def transform(ast: Block): Block =
+        ast match {
+          case Block0(l, p, s) =>
+            super.transform(Block0(aux(l), p, s))
+        }
+      override def transform(ast: CaseClause): CaseClause =
+        ast match {
+          case CaseClause0(e, l, p, s) =>
+            super.transform(CaseClause0(e, aux(l), p, s))
+        }
+      override def transform(ast: DefaultClause): DefaultClause =
+        ast match {
+          case DefaultClause0(l, p, s) =>
+            super.transform(DefaultClause0(aux(l), p, s))
+        }
+      override def transform(ast: FunctionStatementList): FunctionStatementList =
+        ast match {
+          case FunctionStatementList0(l, p, s) =>
+            super.transform(FunctionStatementList0(aux(l), p, s))
+        }
+      override def transform(ast: Script): Script = {
+        val stmts = flattenStmt(ast).flatMap(getItems)
+        super.transform(mergeStmt(stmts))
+      }
+
+      // helpers
+      def getItems(ast: StatementListItem): List[StatementListItem] = ast match {
+        case item @ StatementListItem0(stmt, _, _) => getItems(stmt, List(item))
+        case decl => List(decl)
+      }
+      def getItems(
+        ast: Statement,
+        default: List[StatementListItem]
+      ): List[StatementListItem] = ast match {
+        case Statement0(x0, _, _) => getItems(x0, default)
+        case _ => default
+      }
+      def getItems(
+        ast: BlockStatement,
+        default: List[StatementListItem]
+      ): List[StatementListItem] = ast match {
+        case BlockStatement0(x0, _, _) => getItems(x0, default)
+        case _ => default
+      }
+      def getItems(
+        ast: Block,
+        default: List[StatementListItem]
+      ): List[StatementListItem] = ast match {
+        case Block0(Some(sl), _, _) => flattenStmtList(sl).flatMap(getItems)
+        case Block0(None, _, _) => List()
+        case _ => default
+      }
     }
 
-    // remove assertion in nested statement list item
-    def removeNested(ast: StatementListItem): List[StatementListItem] = {
-      val nested = checkNested(ast)
-      if (nested) List((new AssertionRemover).transform(ast))
-      else removeAssertion(ast)
-    }
-
-    // remove assertion in deepest statement list item
-    def removeAssertion(ast: StatementListItem): List[StatementListItem] = {
-      // get first call
-      def getFirstCall: Option[CoverCallExpressionAndAsyncArrowHead] =
-        ast.getElems("CoverCallExpressionAndAsyncArrowHead").lift(0)
-
+    // rewrite assertion in CoverCallExpressionAndAsyncArrowHead
+    def rewriteAssertion(assertCall: CoverCallExpressionAndAsyncArrowHead): List[Statement] = {
       // get argument list from Arguments
       def getArguments(ast: Arguments): List[AssignmentExpression] = ast match {
         case Arguments0(_, _) => List()
@@ -211,53 +250,45 @@ object Test262 {
         case ArgumentList3(x0, x2, _, _) => _getArguments(x0) ++ List(x2)
       }
 
-      // parse str to StatementListItem
-      def parse(str: String, params: List[Boolean]): StatementListItem =
-        Parser.parse(Parser.StatementListItem(params), str).get
+      // parse str to Statement
+      def parse(str: String, params: List[Boolean]): Statement =
+        Parser.parse(Parser.Statement(params), str).get
 
-      // fix parser params from AssignmentExpression to StatementListItem
+      // fix parser params from AssignmentExpression to Statement
       def fixParams(ps: List[Boolean]): List[Boolean] = {
         val List(_, pYield, pAwait) = ps
-        val List(_, _, pReturn) = ast.parserParams // TODO correct?
-        List(pYield, pAwait, pReturn)
+        List(pYield, pAwait, false) // TODO correct?
       }
 
       // get string of rewrite statements
-      val rewrites = getFirstCall.flatMap {
+      val rewrites = assertCall match {
         case CoverCallExpressionAndAsyncArrowHead0(x0, x1, _, _) =>
           argsMap.get(x0.toString) match {
             case Some(argc) =>
               // if function name is in argsMap, take args by amount of argc
-              Some(
-                getArguments(x1)
-                  .take(argc)
-                  .map(arg => (
-                    s"(${arg.toString});",
-                    fixParams(arg.parserParams)
-                  ))
-              )
+              getArguments(x1)
+                .take(argc)
+                .map(arg => {
+                  val argStr = arg.toString
+                  val str = if (argStr.startsWith("{")) s"($argStr);" else argStr
+                  (str, fixParams(arg.parserParams))
+                })
             case None if x0.toString == ASSERT_THROW =>
               // if throw assertion, wrap try-catch
-              Some(
-                getArguments(x1)
-                  .lift(1)
-                  .map(cb => (
-                    s"try { ($cb)(); } catch {}",
-                    fixParams(cb.parserParams)
-                  ))
-                  .toList
-              )
-            case _ => None
+              getArguments(x1)
+                .lift(1)
+                .map(cb => (
+                  s"try { ($cb)(); } catch {}",
+                  fixParams(cb.parserParams)
+                ))
+                .toList
+            case _ => ??? // TODO error
           }
       }
 
-      // re-parse rewrite strs to statement list item
-      rewrites match {
-        case Some(rs) => rs.flatMap {
-          case (str, params) =>
-            removeAssertion(parse(str, params))
-        }
-        case None => List(ast)
+      // re-parse rewrite strs to Statement
+      rewrites.map {
+        case (str, params) => parse(str, params)
       }
     }
   }
