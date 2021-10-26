@@ -1,10 +1,9 @@
 \section{JavaScript Semantics Specialization with Syntactic Views}\label{sec:formal}
 
 We first define $\ires$ as a specification language to describe JavaScript
-semantics.  Then, we introduce a general formalization of function
-specialization in $\ires$. Finally, we define a constant propagation
-specialization as its an instance to reduce JavaScript semantics using given
-syntactic views. We also prove its semantics preservation.
+semantics.  Then, we introduce a partial evaluation in $\ires$ to reduce
+JavaScript semantics using given syntactic views. We also prove its semantics
+preservation.
 
 \subsection{$\ires$: Intermediate Representations for ECMAScript}
 
@@ -17,23 +16,25 @@ concrete semantics in the remainder of this section.
 
 \[
   \begin{array}{lr@{~}c@{~}c@{~}c@{~}l}
+    \text{Programs} & \progset &\ni& \prog &=& (\istset, \getinst, \getnext)\\
+
     \text{Functions} & \funcset &\ni& \func &::=&
-    \kwdef \; \varx \; \kwrl \varx^* \kwrr \; \lab\\
+    \kwdef \; \kwrl \varx^* \kwrr \; \lab\\
 
     \text{Variables} & \varset &\ni& \varx\\
 
-    \text{Labels} & \labset &\ni& \lab\\
-
     \text{Instructions} & \instset &\ni& \inst &::=&
     \refer = \expr \mid
-    \varx = \expr \kwrl \expr^* \kwrr \mid
+    \varx = \kwcl \kwcr \mid
+    \varx = \expr \kwrl \expr^* \kwrr \mid \\&&&&&
     \kwif \; \expr \; \lab \; \lab \mid
     \kwret \; \expr\\
+
+    \text{Labels} & \labset &\ni& \lab\\
 
     \text{Expressions} & \exprset &\ni& \expr &::=&
     \pval \mid
     \op \kwrl \expr^* \kwrr \mid
-    \kwcl \kwcr \mid
     \refer\\
 
     \text{References} & \referset &\ni& \refer &::=&
@@ -45,17 +46,17 @@ An $\ires$ program $\prog = (\istset, \getinst, \getnext)$ consists of initial
 states and two mappings; $\getinst: \labset \rightarrow \instset$ maps labels to
 their instructions, and $\getnext: \labset \rightarrow \labset$ maps labels to
 their next labels, where a label $\lab \in \labset$ denotes a program point.  A
-function $\func \in \funcset$ is defined with its name, parameters, and body
-label.  For presentation brevity, we assume that no global variables exist in
-this paper.  An instruction $\inst \in \instset$ is an assignment $\refer =
-\expr$, a function call $x = \expr \kwrl \expr^* \kwrr$, a branch $\kwif \;
-\expr \; \lab \; \lab$, or a return instruction $\kwret \; \expr$.  An
-invocation of an abstract algorithm in ECMAScript is compiled to a function call
-instruction with a new temporary variable.  We represent loops using branch
-instructions with cyclic pointing of labels in $\getnext$.  An expression is a
-primitive value $\pval$, an operation $\op \kwrl \expr^* \kwrr$, an object
-allocation $\kwcl \kwcr$, or a reference $\refer$.  A reference is a variable
-$x$ or an object field $\expr \kwsl \expr \kwsr$.  We write $\expr.\varf$ to
+function $\func \in \funcset$ is defined with its parameters and body label.
+For presentation brevity, we assume that no global or captured variables exist
+in this paper.  An instruction $\inst \in \instset$ is an assignment $\refer =
+\expr$, an object allocation $\varx = \kwcl \kwcr$,  a function call $\varx =
+\expr \kwrl \expr^* \kwrr$, a branch $\kwif \; \expr \; \lab \; \lab$, or a
+return instruction $\kwret \; \expr$.  An invocation of an abstract algorithm in
+ECMAScript is compiled to a function call instruction with a new temporary
+variable.  We represent loops using branch instructions with cyclic pointing of
+labels in $\getnext$.  An expression is a primitive value $\pval$, an operation
+$\op \kwrl \expr^* \kwrr$, or a reference $\refer$.  A reference is a variable
+$\varx$ or an object field $\expr \kwsl \expr \kwsr$.  We write $\expr.\varf$ to
 briefly represent $\expr \kwsl \code{"f"} \kwsr$.
 
 
@@ -153,54 +154,49 @@ and functions.
 \paragraph{Expressions} We define the denotational semantics of expressions with
 the following form:
 \[
-  \framebox{$\sem{\expr}: \stset \rightarrow \stset \times \valset$}
+  \framebox{$\sem{\expr}: \stset \rightarrow \valset$}
 \]
 For each expression $\expr \in \exprset$, its semantics $\sem{\expr}$ takes a
-state and returns a pair of an updated state and a value as the result of
-expression. We define five different cases in the semantics of expressions as
+state and returns a value as the result of expression. We define four different
+cases in the semantics of expressions as
 follows:
 \begin{itemize}
   \item \underline{Primitive Values}:
     \[
-      \sem{\pval}(\st) =
-      (\st, \pval)
+      \sem{\pval}(\st) = \pval
     \]
 
   \item \underline{Operations}:
     \[
       \sem{\op \kwrl \expr_1, \cdots, \expr_n \kwrr}(\st) =
-      (\st_n, \op(\val_1, \cdots, \val_n))
+      \op(\val_1, \cdots, \val_n)
     \]
-    where $\st_0 = \st \wedge \forall 1 \leq k \leq n. \;
-    \sem{\expr_k}(\st_{k-1}) = (\st_k, \val_k)$
-
-  \item \underline{Object Allocations}:
-    \[
-      \sem{\kwcl \kwcr}(\st) =
-      ((\lab, \ctxts, \heap[\addr \mapsto \varnothing], \env), \addr)
-    \]
-    where $\st = (\lab, \ctxts, \heap, \env) \wedge \addr \not\in
-    \text{Domain}(\heap)$
+    where $\forall 1 \leq k \leq n. \; \sem{\expr_k}(\st) = \val_k$
 
   \item \underline{Variable Lookups}:
     \[
-      \sem{\varx}(\st) =
-      (\st, \env(\varx))
+      \sem{\varx}(\st) = \env(\varx)
     \]
     where $\st = (\_, \_, \_, \env)$
 
   \item \underline{Field Lookups}:
     \[
-      \sem{\expr_0 \kwsl \expr_1 \kwsr}(\st) =
-      (\st'', \obj(\str))
+      \sem{\expr_0 \kwsl \expr_1 \kwsr}(\st) = \val
     \]
     where
     \[
       \begin{array}{l@{~}c@{~}ll}
-        \sem{\expr_0}(\st) &=& (\st', \addr) &\wedge\\
-        \sem{\expr_1}(\st') &=& (\st'', \str) &\wedge\\
-        \st'' &=& (\_, \_, \heap, \_) &\wedge\\
-        \obj &=& \heap(\addr)\\
+        \val_0 &=& \sem{\expr_0}(\st) &\wedge\\
+        \val_1 &=& \sem{\expr_1}(\st) &\wedge\\
+        \st &=& (\_, \_, \heap, \_) &\wedge\\
+        \val &=& \left\{
+          \begin{array}{ll}
+            \heap(\addr)(\str)
+            & \text{if} \; \val_0 = \addr \wedge \val_1 = \str\\
+            \tree[k]
+            & \text{if} \; \val_0 = \tree \wedge \val_1 = k\\
+          \end{array}
+        \right.\\
       \end{array}
     \]
 \end{itemize}
@@ -211,7 +207,7 @@ with the following form:
   \framebox{$\sem{\inst}: \stset \rightarrow \stset$}
 \]
 For each instruction $\inst \in \instset$, its semantics $\sem{\inst}$ takes a
-state and returns an updated state. We define five different cases in the
+state and returns an updated state. We define six different cases in the
 semantics of instructions as follows:
 
 \begin{itemize}
@@ -238,6 +234,15 @@ semantics of instructions as follows:
       \end{array}
     \]
 
+  \item \underline{Object Allocations}:
+    \[
+      \sem{\varx = \kwcl \kwcr}(\st) =
+      (\lab, \ctxts, \heap[\addr \mapsto \epsilon], \env[\varx \mapsto
+      \addr])
+    \]
+    where $\st = (\lab, \ctxts, \heap, \env) \wedge \addr \not\in
+    \text{Domain}(\heap)$ and $\epsilon$ denotes an empty object.
+
   \item \underline{Function Calls}:
     \[
       \sem{\varx = \expr \kwrl \expr_1 \cdots \expr_n \kwrr}(\st) =
@@ -246,8 +251,8 @@ semantics of instructions as follows:
     where
     \[
       \begin{array}{l@{~}c@{~}ll}
-        \sem{\expr}(\st) &=& (\st_0, \kwdef \; \varf \; \kwrl \varp_1, \cdots,
-        \varp_n \kwrr \; \lab_\varf) &\wedge\\
+        \sem{\expr}(\st) &=& (\st_0, \kwdef \; \kwrl \varp_1, \cdots, \varp_n
+        \kwrr \; \lab_\varf) &\wedge\\
         \sem{\expr_k}(\st_{k-1}) &=& (\st_k, \val_k) \; \forall 1 \leq k \leq n
         &\wedge\\
         \st_n &=& (\lab, \ctxts, \heap, \env) &\wedge\\
@@ -278,124 +283,139 @@ semantics of instructions as follows:
     \val)$
 \end{itemize}
 
-\paragraph{Functions} Moreover, we define the denotational semantics of
-functions with the following form:
-\[
-  \framebox{$\sem{\func}: \heapset \times \valset^* \rightarrow \heapset \times
-  \valset$}
-\]
-For each function $\func \in \funcset$, its semantics $\sem{\func}$ takes a heap
-and values as arguments, and it returns a pair of an updated heap and a return
-value as follows:
-\[
-  \sem{\kwdef \; \varf \; \kwrl \varp_1, \cdots, \varp_n \kwrr \lab_\varf}
-  (\heap, (\val_1, \cdots, \val_n)) = (\heap'', \val'')
-\]
-where
-\[
-  \begin{array}{l@{~}c@{~}ll}
-    \st &=& (\lab_\varf, \epsilon, \heap, \env) &\wedge\\
-    \env &=& [\varp_1 \mapsto \val_1, \cdots, \varp_n \mapsto \val_n] &\wedge\\
-    \st \trans^* \st' &=& (\lab', \epsilon, \heap', \_) &\wedge\\
-    \getinst(\lab') &=& \kwret \; \expr' &\wedge\\
-    \sem{\expr'}(\st') &=& (\st'', \val'') &\wedge\\
-    \st'' &=& (\_, \epsilon, \heap'', \_)\\
-  \end{array}
-\]
+% \paragraph{Functions} Moreover, we define the denotational semantics of
+% functions with the following form:
+% \[
+%   \framebox{$\sem{\func}: \heapset \times \valset^n \rightarrow \heapset \times
+%   \valset$}
+% \]
+% For each function $\func \in \funcset$, its semantics $\sem{\func}$ takes a heap
+% and values as arguments, and it returns a pair of an updated heap and a return
+% value as follows:
+% \[
+%   \sem{\kwdef \; \kwrl \varp_1, \cdots, \varp_n \kwrr \; \lab_\varf}
+%   (\heap, (\val_1, \cdots, \val_n)) = (\heap'', \val'')
+% \]
+% where
+% \[
+%   \begin{array}{l@{~}c@{~}ll}
+%     \env &=& [\varp_1 \mapsto \val_1, \cdots, \varp_n \mapsto \val_n] &\wedge\\
+%     \st &=& (\lab_\varf, \epsilon, \heap, \env) &\wedge\\
+%     \st \trans^* \st' &=& (\lab', \epsilon, \heap', \_) &\wedge\\
+%     \getinst(\lab') &=& \kwret \; \expr' &\wedge\\
+%     \sem{\expr'}(\st') &=& (\st'', \val'') &\wedge\\
+%     \st'' &=& (\_, \epsilon, \heap'', \_)\\
+%   \end{array}
+% \]
 
 
 
 
 
-\subsection{Function Specialization}
+\subsection{Partial Evaluation}
 
-A \textit{function specialization} is defined with the following three
-components:
+We define a \textit{partial evaluation} in $\ires$ as a transformation
+$\transform: \funcset \times \avalset^n \rightarrow \progset$.  It takes a
+target function and abstract values $\avalset^n$ to restrict specific function
+parameters with static values, then it returns the transformed $\ires$ program
+in the given restriction.  We first define abstract domains of states,
+environments, and values as follows:
 \begin{itemize}
-  \item Restriction $\restrictset$
-  \item Concretization $\gamma: \restrictset \rightarrow \powerset{\stset
-    \times \valset^*}$
-  \item Transformation $\transform: \restrictset \rightarrow \funcset
-    \rightarrow \funcset$.
-\end{itemize}
-We can restrict possible input states and arguments of functions by defining a
-set of restrictions $\restrictset$ with their concretization $\gamma:
-\restrictset \rightarrow \powerset{\stset \times \valset^*}$. A transformation
-$\transform: \restrictset \rightarrow \funcset \rightarrow \funcset$ is
-parameteric with such restrictions and transforms a function to another function
-by preserving semantics under a given restriction.
-
-
-\subsubsection{Constant Propagation Specialization}
-We define a \textit{constant propagation specialization} with the following
-three components:
-
-\begin{itemize}
-  \item Restriction $\cprestrictset = \avalset^*$
-  \item Concretization $\cpgamma: \avalset^* \rightarrow \powerset{\stset
-    \times \valset^*}$ s.t.
+  \item \underline{Abstract States}: $\aelemset = \labset \rightarrow \aenvset$
     \[
-      \cpgamma(\aval_1, \cdots, \aval_n) =
-      \stset \times (\valgamma(\aval_1) \times \cdots \times \valgamma(\aval_n))
+      \begin{array}{lcl}
+        \multicolumn{3}{l}{\elemgamma: \aelemset \rightarrow \powerset{\stset}}\\
+        \elemgamma(\aelem) &=& \{ \st \in \stset \mid \st = (\lab, \_, \_, \_)
+        \wedge \st \in \envgamma(\aelem(\lab)) \}\\
+
+        \aelem \order \aelem' &\Leftrightarrow& \forall \lab \in \labset. \;
+        \aelem(\lab) \order \aelem'(\lab)\\
+
+        \aelem \join \aelem' &=& \lambda \lab \in \labset. \; \aelem(\varx) \join
+        \aelem(\lab)\\
+      \end{array}
     \]
-  \item Transformation $\cptransform: \avalset^* \rightarrow \funcset
-    \rightarrow \funcset$
+  \item \underline{Abstract Environments}: $\aenvset = \varset \rightarrow
+    \avalset$
+    \[
+      \begin{array}{lcl}
+        \multicolumn{3}{l}{\envgamma: \aenvset \rightarrow \powerset{\stset}}\\
+        \envgamma(\aenv) &=& \{ \st \in \stset \mid \forall \varx \in \varset.
+          \; (\aenv(\varx) = \langle \val, \expr \rangle) \Rightarrow\\ &&
+          \phantom{\{ \st \in \stset \mid} (\sem{\varx}(\st) = \sem{\expr}(\st) =
+          \val) \}\\
+
+        \aenv \order \env' &\Leftrightarrow& \forall \varx \in \varset. \;
+        \aenv(\varx) \order \aenv'(\varx)\\
+
+        \aenv \join \aenv' &=& \lambda \varx \in \varset. \; \aenv(\varx) \join
+        \aenv(\varx)\\
+      \end{array}
+    \]
+  \item \underline{Abstract Values}: $\avalset = (\valset \times \exprset)
+    \uplus \{ \top \}$
+    \[
+      \begin{array}{lcl}
+        \multicolumn{3}{l}{\valgamma: \avalset \rightarrow \powerset{\valset}}\\
+        \valgamma(\aval) &=& \left\{
+          \begin{array}{ll}
+            \{ \val \} & \aval = (\val, \expr) \\
+            \valset & \aval = \top\\
+          \end{array}
+        \right.\\
+
+        \aval \order \aval' &\Leftrightarrow&
+        \aval' = \top \vee \aval = \aval'\\
+
+        \aval \join \aval' &=& \left\{
+          \begin{array}{ll}
+            \aval & \text{if} \; \aval = \aval'\\
+            \top & \text{otherwise}\\
+          \end{array}
+        \right.\\
+      \end{array}
+    \]
 \end{itemize}
-The constant propagation specialization restricts specific arguments with
-concrete values with a restriction defined with a sequence of static or dynamic
-values $\valset \uplus \{ \top \}$, but it does not restrict input states.
-While a dynamic value $\top$ denotes no restriction, it restricts a specific
-argument with the static value $\val \in \valset$. To specialize functions under
-a given restriction $(\aval_1, \cdots, \aval_n) \in \avalset^*$, we
-define a transformation $\cptransform: \avalset^* \rightarrow \funcset
-\rightarrow \funcset$. To propagate constants, \todo What is a constant?
-a constant is a value which is statically fixed under a given restriction.
+An abstract state $\aelem \in \aelemset$ is a mapping from labels to abstract
+environments to represent the shape of states in each label. An abstract
+environment $\aenv \in \aenvset$ is a mapping from variables to abstract values
+to describe values stored in variables.  An abstract value $\aval \in \avalset$
+is a static value $\langle \val, \expr \rangle$ or a dynamic value $\top$.
+Since non-primitive values (e.g., addresses or JavaScript ASTs) cannot be
+directly represented as expressions, each static values $\langle \val, \expr
+\rangle$ also keeps another way to represent itself as an expression. Now, we
+define transformations of expressions and instructions, and introduce an
+iterative algorithm to proceed the partial evaluation in $\ires$.
 
-\[
-  \begin{array}{lr@{~}c@{~}l@{~}c@{~}l}
-    \text{Abstract Environments} & \aenv &\in& \aenvset &=&
-    \varset \rightarrow \avalset\\
-    \text{Abstract Values} & \aval &\in& \avalset &=&
-    (\valset \times \exprset) \uplus \{ \bot, \top \}\\
-  \end{array}
-\]
-
-\todo $\envgamma, \valgamma, \join, \meet, \order$
-
-\paragraph{Expressions}
+\subsubsection{Expressions} Before defining a transformation of expressions, we
+first define abstract evaluation of expressions as follows:
 \[
   \framebox{$\asem{\expr}: \aenvset \rightarrow \avalset$}
 \]
 \begin{itemize}
   \item \underline{Primive Values}:
     \[
-      \asem{\pval}(\aenv) = (\pval, \pval)
+      \asem{\pval}(\aenv) = \langle \pval, \pval \rangle
     \]
   \item \underline{Operations}:
     \[
-      \asem{\op \kwrl \expr_1, \cdots, \expr_n \kwrr}(\aenv) =
-      (\aval, \expr)
+      \asem{\op \kwrl \expr_1, \cdots, \expr_n \kwrr}(\aenv) = \aval
     \]
     where
     \[
-      \begin{array}{l@{~}c@{~}ll}
+      \begin{array}{l@{~}c@{~}l@{~}l}
         \asem{\expr_k}(\aenv) &=& \aval_k \; \forall 1 \leq k \leq n
         &\wedge\\
         \aval &=& \left\{
           \begin{array}{ll}
-            \bot & \text{if} \; \exists k. \; \aval_k = \bot\\
             \top & \text{if} \; \exists k. \; \aval_k = \top\\
-            (\val, \expr') &
-            \text{if} \; \forall k. \; \aval_k = (\val_k, \expr'_k)\\
+            \langle \val, \expr' \rangle & \text{if} \; \forall k. \; \aval_k =
+            \langle \val_k, \expr'_k \rangle\\
           \end{array}
         \right. &\wedge\\
         \val &=& \op(\val_1, \cdots, \val_n) &\wedge\\
         \expr' &=& \op(\expr'_1, \cdots, \expr'_n)\\
       \end{array}
-    \]
-  \item \underline{Object Allocations}:
-    \[
-      \asem{\kwcl \kwcr}(\aenv) = \top
     \]
   \item \underline{Variable Lookups}:
     \[
@@ -403,15 +423,31 @@ a constant is a value which is statically fixed under a given restriction.
     \]
   \item \underline{Field Lookups}:
     \[
-      \asem{\expr_0 \kwsl \expr_1 \kwsr}(\aenv) = \top
+      \asem{\expr_0 \kwsl \expr_1 \kwsr}(\aenv) = \aval
+    \]
+    where
+    \[
+      \begin{array}{l@{~}c@{~}l@{~}l}
+        \asem{\expr_0}(\aenv) &=& \aval_0 &\wedge\\
+        \asem{\expr_1}(\aenv) &=& \aval_1 &\wedge\\
+        \aval &=& \left\{
+          \begin{array}{ll}
+            \langle \tree[k], \expr'_0 \kwsl \expr'_1 \kwsr \rangle & \text{if}
+            \; \aval_0 = \langle \tree, \expr'_0 \rangle \wedge \aval_1 =
+            \langle k, \expr'_1 \rangle\\
+            \top & \text{otherwise}\\
+          \end{array}
+        \right.\\
+      \end{array}
     \]
 \end{itemize}
+Then, we define the transformation of expressions as follows:
 \[
-  \framebox{$\cptransforme: \exprset \times \aenvset \rightarrow \exprset \times
+  \framebox{$\transforme: \exprset \times \aenvset \rightarrow \exprset \times
   \avalset$}
 \]
 \[
-  \cptransforme(\expr, \aenv) = (\expr'', \aval)
+  \transforme(\expr, \aenv) = (\expr'', \aval)
 \]
 where
 \[
@@ -419,117 +455,89 @@ where
     \aval &=& \asem{\expr}(\aenv) &\wedge\\
     \expr'' &=& \left\{
       \begin{array}{ll}
-        \pval & \text{if} \; \aval = (\pval, \_)\\
-        \expr' & \text{if} \; \aval = (\_, \expr')\\
+        \pval & \text{if} \; \aval = \langle \pval, \_ \rangle\\
+        \expr' & \text{if} \; \aval = \langle \_, \expr' \rangle\\
         \expr & \text{otherwise}\\
       \end{array}
     \right.\\
   \end{array}
 \]
 
-\paragraph{Instructions}
+\subsubsection{Instructions} Now, we define a transformation of instructions
+using the transformation of expressions as follows:
 \[
-  \framebox{$\cptransformi: \instset \times \aenvset \rightarrow \instset \times
+  \framebox{$\transformi: \instset \times \aenvset \rightarrow \instset \times
   \aenvset$}
 \]
 \begin{itemize}
   \item \underline{Variable Assignments}:
     \[
-      \cptransformi(\varx = \expr, \aenv) =
+      \transformi(\varx = \expr, \aenv) =
       (\varx = \expr', \aenv[\varx \mapsto \aval])
     \]
     where
     \[
-      (\expr', \aval) = \cptransforme(\expr, \aenv)
+      (\expr', \aval) = \transforme(\expr, \aenv)
     \]
 
   \item \underline{Field Assignments}:
     \[
-      \cptransformi(\expr_0 \kwsl \expr_1 \kwsr = \expr_2, \aenv) =
+      \transformi(\expr_0 \kwsl \expr_1 \kwsr = \expr_2, \aenv) =
       (\expr'_0 \kwsl \expr'_1 \kwsr = \expr'_2, \aenv)
     \]
     where
     \[
       \begin{array}{l@{~}c@{~}ll}
-        (\expr'_0, \_) = \cptransforme(\expr_0, \aenv) &\wedge\\
-        (\expr'_1, \_) = \cptransforme(\expr_1, \aenv) &\wedge\\
-        (\expr'_2, \_) = \cptransforme(\expr_2, \aenv)\\
+        (\expr'_0, \_) = \transforme(\expr_0, \aenv) &\wedge\\
+        (\expr'_1, \_) = \transforme(\expr_1, \aenv) &\wedge\\
+        (\expr'_2, \_) = \transforme(\expr_2, \aenv)\\
       \end{array}
+    \]
+  \item \underline{Object Allocations}:
+    \[
+      \transformi(\varx = \kwcl \kwcr, \aenv) =
+      (\varx = \kwcl \kwcr, \aenv[\varx \mapsto \top])
     \]
 
   \item \underline{Function Calls}:
     \[
-      \cptransformi(\varx = \expr \kwrl \expr_1 \cdots \expr_n \kwrr, \aenv) =
+      \transformi(\varx = \expr \kwrl \expr_1 \cdots \expr_n \kwrr, \aenv) =
       (\varx = \expr' \kwrl \expr'_1 \cdots \expr'_n \kwrr,
       \aenv[\varx \mapsto \top])
     \]
     where
     \[
       \begin{array}{l@{~}c@{~}ll}
-        (\expr', \_) = \cptransforme(\expr, \aenv) &\wedge\\
-        (\expr'_k, \_) = \cptransforme(\expr_k, \aenv) \; \forall 1 \leq k \leq
+        (\expr', \_) = \transforme(\expr, \aenv) &\wedge\\
+        (\expr'_k, \_) = \transforme(\expr_k, \aenv) \; \forall 1 \leq k \leq
         n\\
       \end{array}
     \]
 
   \item \underline{Branches}:
     \[
-      \cptransformi(\kwif \; \expr \; \lab_\vart \; \lab_\varf, \aenv) =
+      \transformi(\kwif \; \expr \; \lab_\vart \; \lab_\varf, \aenv) =
       (\kwif \; \expr' \; \lab_\vart \; \lab_\varf, \aenv)
     \]
     where
     \[
-      (\expr', \_) = \cptransforme(\expr, \aenv)
+      (\expr', \_) = \transforme(\expr, \aenv)
     \]
 
   \item \underline{Returns}:
     \[
-      \cptransformi(\kwret \; \expr, \aenv) =
+      \transformi(\kwret \; \expr, \aenv) =
       (\kwret \; \expr, \aenv)
     \]
     where
     \[
-      (\expr', \_) = \cptransforme(\expr', \aenv)
+      (\expr', \_) = \transforme(\expr', \aenv)
     \]
 \end{itemize}
 
-\paragraph{Functions}
-\[
-  \framebox{$\cptransform: (\avalset)^* \rightarrow \funcset \rightarrow
-  \funcset$}
-\]
+\subsubsection{Fixpoint of Abstract Transfer Function}
 
 \todo
-
-
-
-
-
-% \subsubsection{Redundancy Elimination Transformation}
-% 
-% \[
-%   \begin{array}{lr@{~}c@{~}l}
-%     \text{Restrictions} &\{ \top \}\\
-%     \text{Concretization} & \gamma(\top) &=& \stset \times \valset^*\\
-%   \end{array}
-% \]
-% 
-% The redundancy elimination transformation is defined without any restriction,
-% which means its restriction set consists of a single element $\top$
-% representing all possible cases.  Therefore, we omit the restriction part in
-% this transformation for the brevity.
-% 
-% \[
-%   \framebox{$\transformref: \funcset \rightarrow \funcset$}
-% \]
-% 
-% \todo
-
-
-
-
-
-
 
 
 \subsection{Proof of Semantics Preservation}

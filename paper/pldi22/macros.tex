@@ -98,7 +98,6 @@
 \newcommand{\jscode}[1]{\text{\lstinline[style=JS]!#1!}} 
 \newcommand{\ircode}[1]{\text{\lstinline[style=ires]!#1!}}
 \newcommand{\code}[1]{\texttt{#1}}
-\newcommand{\kwsyn}{\code{syntax}}
 \newcommand{\kwdef}{\code{def}}
 \newcommand{\kwret}{\code{ret}}
 \newcommand{\kwif}{\code{if}}
@@ -109,7 +108,7 @@
 \newcommand{\kwsl}{\code{[}}
 \newcommand{\kwsr}{\code{]}}
 
-% Basic
+% basic
 \DeclareMathAlphabet{\mathpzc}{T1}{pzc}{m}{it}
 \newcommand{\powerset}[1]{\mathcal{P}(#1)}
 \newcommand{\abs}[1]{{#1}^{\#}}
@@ -118,7 +117,8 @@
 \newcommand{\Dom}{\name{Dom}}
 \DeclarePairedDelimiter{\norm}{\lvert}{\rvert} 
 
-% Notations
+% notations
+\newcommand{\progset}{\mathfrak{P}}
 \newcommand{\prog}{P}
 \newcommand{\getinst}{\code{inst}}
 \newcommand{\getnext}{\code{next}}
@@ -143,7 +143,7 @@
 \newcommand{\varf}{\code{f}}
 \newcommand{\varp}{\code{p}}
 
-% Values
+% values
 \newcommand{\valset}{\mathbb{V}}
 \newcommand{\val}{v}
 \newcommand{\pvalset}{\valset_\name{p}}
@@ -165,30 +165,30 @@
 \newcommand{\nterm}[1]{\textit{\small #1}}
 \newcommand{\term}[1]{\code{#1}}
 
-% States
+% states
 \newcommand{\stset}{\mathbb{S}}
 \newcommand{\st}{\sigma}
 \newcommand{\istset}{\stset_\iota}
 \newcommand{\ist}{\st_\iota}
 
-% Heaps
+% heaps
 \newcommand{\heapset}{\mathbb{H}}
 \newcommand{\heap}{h}
 
-% Contexts
+% contexts
 \newcommand{\ctxtset}{\mathbb{C}}
 \newcommand{\ctxts}{\overline{\ctxt}}
 \newcommand{\ctxt}{c}
 
-% Environments
+% environments
 \newcommand{\envset}{\mathbb{E}}
 \newcommand{\env}{\rho}
 
-% Addresses
+% addresses
 \newcommand{\addrset}{\mathbb{A}}
 \newcommand{\addr}{a}
 
-% Objects
+% objects
 \newcommand{\objset}{\mathbb{O}}
 \newcommand{\obj}{o}
 
@@ -201,11 +201,12 @@
 \newcommand{\transform}{T}
 \newcommand{\transformi}{\transform_\inst}
 \newcommand{\transforme}{\transform_\expr}
-\newcommand{\cptransform}{\transform^\name{cp}}
-\newcommand{\cptransforme}{\transform^\name{cp}_\expr}
-\newcommand{\cptransformi}{\transform^\name{cp}_\inst}
-\newcommand{\cprestrictset}{\restrictset^\name{cp}}
-\newcommand{\cpgamma}{\gamma^\name{cp}}
+
+% abstract states
+\newcommand{\elemset}{\mathbb{D}}
+\newcommand{\aelemset}{\widehat{\elemset}}
+\newcommand{\aelem}{\widehat{d}}
+\newcommand{\elemgamma}{\gamma_d}
 
 % abstract environments
 \newcommand{\aenvset}{\widehat{\envset}}
@@ -220,10 +221,5 @@
 % abstract operations
 \newcommand{\join}{\sqcup}
 \newcommand{\bigjoin}{\bigsqcup}
-\newcommand{\meet}{\sqcap}
-\newcommand{\bigmeet}{\bigsqcap}
 \newcommand{\order}{\sqsubseteq}
-
-% restrictions
-\newcommand{\restrictset}{\mathbb{R}}
-\newcommand{\restrict}{r}
+\newcommand{\revorder}{\sqsupseteq}
