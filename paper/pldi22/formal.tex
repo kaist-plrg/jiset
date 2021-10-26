@@ -550,6 +550,16 @@ given function and abstract values:
 
 \todo
 
+\subsubsection{Cleanup Algorithm}
+
+\todo
+
+\begin{itemize}
+  \item perform a syntactic def-use analysis
+  \item remove unnecessary variable assignments
+  \item remove unreachable instructions
+\end{itemize}
+
 
 \subsection{Proof of Semantics Preservation}
 
@@ -594,7 +604,7 @@ augmented JavaScript ASTs with abstract nodes $\top$ as follows:
 \subsubsection{JavaScript Program Filtering}
 
 \[
-  \atree \subtree \tree' \iff \exists \tree \in \treegamma{\atree}. \; \tree
+  \atree \subtree \tree' \iff \exists \tree \in \treegamma(\atree). \; \tree
   \subtree \tree'
 \]
 
