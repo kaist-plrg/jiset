@@ -10,17 +10,41 @@ import scala.collection.mutable.{ Map => MMap }
 import kr.ac.kaist.jiset.js.ast.AbsAST
 import kr.ac.kaist.jiset.js.ast.Lexical
 import kr.ac.kaist.jiset.js.Initialize
+import kr.ac.kaist.jiset.analyzer.domain.FlatElem
 
-trait BaseAppPartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] extends BasePartialEval[LT, GT] {
-  import psm._
+class BaseAppPartialEval extends PartialEval[EnvOnlyAbstraction[FlatVE]] {
+  val vtbuilder = FlatVEBuilder
+  val asbuilder = EnvOnlyAbstractionBuilder[FlatVE]()(vtbuilder)
+  val instTransformer = new BaseAppInstTransformer(ExprTransformer(new BaseExprEvaluator))
+}
+class BaseAppInstTransformer(override val pet: ExprTransformer[EnvOnlyAbstraction[FlatVE]]) extends BaseInstTransformer(pet) {
 
-  override def pe_iaccess: IAccess => Result[Option[Inst]] = {
-    case IAccess(id, bexpr, expr, args) => (for {
-      baseE <- pe(bexpr)
-      propE <- pe(expr)
-      argsE <- join(args.map(pe))
-      res <- ((baseE, propE) match {
-        case (SymbolicValue(Some(b), _), SymbolicValue(Some(p), _)) =>
+  val simpleFuncs: Set[String] = Set(
+    "GetArgument",
+    "IsDuplicate",
+    "IsArrayIndex",
+    "min",
+    "max",
+    "abs",
+    "floor",
+    "fround",
+    "ThrowCompletion",
+    "NormalCompletion",
+    "IsAbruptCompletion"
+  )
+
+  override def pe_iaccess: IAccess => Result[Inst] = {
+    case IAccess(id, bexpr, expr, args) => ((s: EnvOnlyAbstraction[FlatVE]) => {
+      val ((baseV, baseE), s1) = pet.pe(bexpr)(s)
+      val ((propV, propE), s2) = pet.pe(expr)(s1)
+      val ((argsV, argsE), s3) = args.foldLeft(((List[FlatVE](), List[Expr]()), s2)) {
+        case (((lv, le), s), arg) => {
+          val ((v, e), sp) = pet.pe(arg)(s)
+          ((lv :+ v, le :+ e), sp)
+        }
+      }
+      ((baseV, propV) match {
+        case (FlatVE(FlatElem((b, _))), FlatVE(FlatElem((p, _)))) =>
           {
             val escapedb = b match {
               case NormalComp(v) => Some(v)
@@ -34,65 +58,76 @@ trait BaseAppPartialEval[LT <: LabelwiseContext[LT], GT <: GlobalContext[GT]] ex
             }
             (escapedb, escapedp) match {
               case (Some(eb), Some(ep)) => (eb, ep) match {
-                case (ASTVal(Lexical(kind, str)), Str(name)) => for {
-                  _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, SymbolicValueFactory.mkSimple(Interp.getLexicalValue(kind, name, str))))
-                } yield if (!mustBoundVariable.contains(id.name)) None else Some(IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr))) // IExpr(EStr("skip"))
-                case (ASTVal(ast), Str("parent")) => Some(IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr)))
-                case (ASTVal(ast), Str("children")) => Some(IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr)))
-                case (ASTVal(ast), Str("kind")) => Some(IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr)))
-                case (ASTVal(ast), Str(name)) => ast.semantics(name) match {
-                  case Some((algo, asts)) => {
-                    val args = asts.map(Some(_)) ++ argsE.map(_.valueOption)
-                    for {
-                      peres <- pe(algo, args)
-                      (_, rpv) = peres // TODO: verify whether algorithm does not contains instruction causes side-effect
-                      res <- (rpv match {
-                        case Some(v) if (v.isRepresentable && !mustBoundVariable.contains(id.name)) => for {
-                          _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, v))
-                        } yield None
-                        case _ => Some(IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr)))
-                      }): Result[Option[Inst]]
-                    } yield res
-                  }
-                  case _ => Some(IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr)))
+                case (ASTVal(Lexical(kind, str)), Str(name)) => {
+                  val s4 = s3.setVar(id.name, FlatVEBuilder.simple(Interp.getLexicalValue(kind, name, str)))
+                  (IAccess(id, baseE, propE, argsE), s4)
                 }
-                case _ => Some(IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr)))
+                case (ASTVal(ast), Str("parent")) => (IAccess(id, baseE, propE, argsE), s3)
+                case (ASTVal(ast), Str("children")) => (IAccess(id, baseE, propE, argsE), s3)
+                case (ASTVal(ast), Str("kind")) => (IAccess(id, baseE, propE, argsE), s3)
+                case (ASTVal(ast), Str(name)) => ast.semantics(name) match {
+                  case Some((algo, asts)) if (argsV.forall { case FlatVE(FlatElem(_)) => true; case _ => false }) => {
+                    val args = asts.map(Some(_)) ++ argsV.map {
+                      case FlatVE(FlatElem((v, _))) => Some(v)
+                      case _ => None
+                    }
+                    val (nalgo, ns) = pe(algo, args) // potential infinite loop
+                    (ns.getRet match {
+                      case FlatVE(FlatElem((v: SimpleValue, _))) => {
+                        val s4 = s3.setVar(id.name, FlatVEBuilder.simple(v))
+                        (IAccess(id, baseE, propE, argsE), s4)
+                      }
+                      case _ => (IAccess(id, baseE, propE, argsE), s3)
+                    })
+                  }
+                  case _ => (IAccess(id, baseE, propE, argsE), s3)
+                }
+                case _ => (IAccess(id, baseE, propE, argsE), s3)
               }
-              case _ => Some(IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr)))
+              case _ => (IAccess(id, baseE, propE, argsE), s3)
             }
           }
         case _ => {
-          Some(IAccess(id, baseE.expr, propE.expr, argsE.map(_.expr)))
+          (IAccess(id, baseE, propE, argsE), s3)
         }
-      }): Result[Option[Inst]]
-    } yield res)
+      })
+    })
   }
-  override def pe_iapp: IApp => Result[Option[Inst]] = {
-    case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => for {
-      argse <- join(args.map(pe))
-    } yield Some(IApp(id, ERef(RefId(Id(name))), argse.map(_.expr)))
-    case IApp(id, fexpr, args) => (for {
-      fpe <- pe(fexpr)
-      argse <- join(args.map(pe))
-      res <- (fpe match {
-        case SymbolicValue(Some(Func(algo)), _) => for {
-          pres <- pe(algo, argse.map(_.valueOption))
-          (_, rpv) = pres // TODO: verify whether algorithm does not contains instruction causes side-effect
-          res <- (rpv match {
-            case Some(v) if (v.isRepresentable && !mustBoundVariable.contains(id.name)) => for {
-              _ <- (context: S) => context.updateLabelwise((u) => u.setId(id.name, v))
-            } yield None
-            case _ =>
-              Some(IApp(id, fpe.expr, argse.map(_.expr)))
-          }): Result[Option[Inst]]
-        } yield res
-        case _ => Some(IApp(id, fpe.expr, argse.map(_.expr)))
-      }): Result[Option[Inst]]
-    } yield res)
-  }
-}
 
-object BaseAppPartialEvalImpl extends BaseAppPartialEval[SymbolicEnv, FunctionMap] {
-  val lcbuilder = SymbolicEnvBuilder
-  val gcbuilder = FunctionMapBuilder
+  override def pe_iapp: IApp => Result[Inst] = {
+    case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => (s: EnvOnlyAbstraction[FlatVE]) => {
+      val ((argsV, argsE), s2) = args.foldLeft(((List[FlatVE](), List[Expr]()), s)) {
+        case (((lv, le), s), arg) => {
+          val ((v, e), sp) = pet.pe(arg)(s)
+          ((lv :+ v, le :+ e), sp)
+        }
+      }
+      (IApp(id, ERef(RefId(Id(name))), argsE), s2)
+    }
+    case IApp(id, fexpr, args) => ((s: EnvOnlyAbstraction[FlatVE]) => {
+      val ((fpV, fpE), s2) = pet.pe(fexpr)(s)
+      val ((argsV, argsE), s3) = args.foldLeft(((List[FlatVE](), List[Expr]()), s2)) {
+        case (((lv, le), s), arg) => {
+          val ((v, e), sp) = pet.pe(arg)(s)
+          ((lv :+ v, le :+ e), sp)
+        }
+      }
+      (fpV match {
+        case FlatVE(FlatElem((Func(algo), _))) if (argsV.forall { case FlatVE(FlatElem(_)) => true; case _ => false }) => {
+          val (nalgo, ns) = pe(algo, argsV.map {
+            case FlatVE(FlatElem((v, _))) => Some(v)
+            case _ => None
+          }) // potential infinite loop
+          (ns.getRet match {
+            case FlatVE(FlatElem((v: SimpleValue, _))) => {
+              val s4 = s3.setVar(id.name, FlatVEBuilder.simple(v))
+              (IApp(id, fpE, argsE), s4)
+            }
+            case _ => (IApp(id, fpE, argsE), s3)
+          })
+        }
+        case _ => (IApp(id, fpE, argsE), s3)
+      })
+    })
+  }
 }
