@@ -19,7 +19,8 @@ class ManualMiddleTest extends Test262Test {
   Logger.setBase(s"$logDir/logger")
 
   // filename for manual target names
-  val filename = s"$BASE_DIR/tests/manual-test262"
+  // val filename = s"$BASE_DIR/tests/manual-test262"
+  val filename = s"$BASE_DIR/tests/eval-pass"
 
   // eval-manual targets
   val names = readFile(filename).split(LINE_SEP).toSet

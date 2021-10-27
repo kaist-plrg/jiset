@@ -165,16 +165,6 @@ object Test262 {
       (new FlattenTransformer).transform(removed)
     }
 
-    // harness related to assertion
-    lazy val harness = Set(
-      "deepEqual.js",
-      "compareArray.js",
-      "compareIterator.js",
-      "assertRelativeDateMs.js",
-      "propertyHelper.js",
-      "promiseHelper.js"
-    )
-
     // # of arguments to preserve for assertion removal
     lazy val argsMap = Map(
       //assert.js
@@ -217,6 +207,10 @@ object Test262 {
 
       // doneprintHandle.js
       "$DONE" -> 0,
+
+      //nativeFunctionMatcher.js
+      "assertToStringOrNativeFunction" -> 2,
+      "assertNativeFunction" -> 2,
     )
     val ASSERT_THROW = "assert . throws"
 
@@ -301,7 +295,7 @@ object Test262 {
 
     // helpers
     private def getEmptyFunc[T](p: LAParser[T]): T =
-      Parser.parse(p, "function() {}").get
+      Parser.parse(p, "(function() {})").get
   }
   object HarnessRemover {
     // remove harness
@@ -316,7 +310,13 @@ object Test262 {
       "$DONE",
       "Test262Error . thrower",
       "isEnumerable",
+      "isConstructor",
       "assert . sameValue",
+      "allowProxyTraps",
+    )
+
+    val UTILS = Set(
+      "hidden-constructors.js"
     )
   }
 
@@ -326,21 +326,35 @@ object Test262 {
     includes: List[String],
     harness: Boolean = true
   ): Script = {
-    // load harness
-    if (harness) {
-      val harnessStmts = includes.foldLeft(basicStmts) {
-        case (li, s) => for {
-          x <- li
-          y <- getInclude(s)
-        } yield x ++ y
-      } match {
-        case Right(l) => l
-        case Left(msg) => throw NotSupported(msg)
+    // base statments
+    val baseStmts = if (harness) basicStmts else Right(List())
+
+    // filter includes
+    val filtered =
+      if (harness) includes
+      else includes.filter(HarnessRemover.UTILS.contains(_))
+
+    // get harness-prepended ast
+    val ast =
+      if (filtered.isEmpty) script
+      else {
+        // include harness
+        val harnessStmts = filtered.foldLeft(baseStmts) {
+          case (li, s) => for {
+            x <- li
+            y <- getInclude(s)
+          } yield x ++ y
+        } match {
+          case Right(l) => l
+          case Left(msg) => throw NotSupported(msg)
+        }
+
+        // prepend harness to original script
+        mergeStmt(harnessStmts ++ flattenStmt(script))
       }
 
-      // prepend harness to original script
-      mergeStmt(harnessStmts ++ flattenStmt(script))
-    } // remove harness
-    else timeout(HarnessRemover(script), TIMEOUT)
+    // remove harness
+    if (harness) ast
+    else timeout(HarnessRemover(ast), TIMEOUT)
   }
 }

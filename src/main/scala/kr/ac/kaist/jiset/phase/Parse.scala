@@ -26,10 +26,10 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
     // parse
     val ast = parseJS(jisetConfig.args, config.esparse)
     val transformed = (config.test262, config.noHarness) match {
-      case (_, true) => Test262.HarnessRemover(ast)
-      case (test262, false) =>
-        if (test262) Test262.loadTest(ast, MetaParser(filename).includes)
-        else ast
+      case (true, nh) =>
+        Test262.loadTest(ast, MetaParser(filename).includes, !nh)
+      case (false, true) => Test262.HarnessRemover(ast)
+      case (false, false) => ast
     }
 
     // dump json
