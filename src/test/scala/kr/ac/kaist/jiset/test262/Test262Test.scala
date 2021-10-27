@@ -66,7 +66,7 @@ trait Test262Test extends JSTest {
     summary.close
 
     // dump logs
-    dumpFile(summary, s"$logDir/$name-summary")
+    dumpFile(summary, s"$logDir/$desc-summary")
     dumpStats()
 
     // print stats
