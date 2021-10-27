@@ -28,9 +28,6 @@ class CFG(val spec: ECMAScript) extends CFGElem {
   // get fids of syntax-directed algorithms
   def getSyntaxFids(lhs: String, method: String): Set[Int] =
     getSyntaxAlgo(lhs, method).map(funcMap(_).uid)
-  // get function of node
-  def getFuncByNid(nid: Int): Function = funcOf(nidGen.get(nid))
-  def getFunc(fid: Int): Function = fidGen.get(fid)
 
   // syntax algorithms
   lazy val syntaxAlgos: List[(Algo, SyntaxDirectedHead)] = spec.algos.collect {
