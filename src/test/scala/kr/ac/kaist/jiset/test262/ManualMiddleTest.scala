@@ -26,6 +26,9 @@ class ManualMiddleTest extends Test262Test {
   def doTest(script: Script, name: String): Unit =
     evalTest(script, name)
 
+  // dump test262 test stats
+  override def dumpStats(): Unit = Logger.dump()
+
   // registration
   def init: Unit = check(name, { test262Test("eval-manual") })
   init

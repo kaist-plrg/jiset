@@ -25,7 +25,7 @@ trait Test262Test extends JSTest {
   def doTest(script: Script, name: String): Unit
 
   // dump test262 test stats
-  def dumpStats(logDir: String): Unit = ()
+  def dumpStats(): Unit = ()
 
   // remove assertion
   val noAssert = false
@@ -67,7 +67,7 @@ trait Test262Test extends JSTest {
 
     // dump logs
     dumpFile(summary, s"$logDir/$name-summary")
-    dumpStats(s"$logDir/$desc")
+    dumpStats()
 
     // print stats
     if (summary.timeout > 0) println(s"${summary.timeout} tests are timeout.")

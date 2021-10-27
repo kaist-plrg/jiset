@@ -11,8 +11,7 @@ object Logger {
   // result for each interp
   case class MResult(
     name: String,
-    var maxDepth: Int = 1,
-    touched: MMap[Node, Int] = MMap()
+    var maxDepth: Int = 1
   ) {
     // update maximum call depth
     def updateDepth(st: State): Unit = {
@@ -20,33 +19,19 @@ object Logger {
       if (d > maxDepth) maxDepth = d
     }
 
-    // update touched
-    def updateTouched(st: State): Unit = {
-      val cursor = st.context.cursorOpt.get
-      cursor match {
-        case NodeCursor(node) =>
-          val count = touched.getOrElse(node, 0) + 1
-          touched += (node -> count)
-        case _ =>
-      }
-    }
-
     // convert to fixed result object
-    def into(iter: Int): Result =
-      Result(name, iter, maxDepth, Map(touched.toSeq: _*))
+    def into(iter: Int): Result = Result(name, iter, maxDepth)
   }
-
-  // result counter
-  private var rid = 0
-  private def incRid(): Int = { val prev = rid; rid += 1; prev }
 
   // interp result
   case class Result(
     name: String,
     iter: Int,
-    maxDepth: Int,
-    touched: Map[Node, Int]
+    maxDepth: Int
   )
+
+  // record touched node set during logging
+  var touched: Set[Int] = Set()
 
   // log IR interp
   def log(interp: Interp): Unit = {
@@ -61,13 +46,16 @@ object Logger {
     )
 
     // subscribe each step and update touched
-    interp.subscribe(Interp.Event.Step, mresult.updateTouched)
+    interp.subscribe(Interp.Event.Step, { st =>
+      val cursor = st.context.cursorOpt.get
+      cursor match {
+        case NodeCursor(n) => { touched += n.uid }
+        case _ =>
+      }
+    })
 
     // subscribe termination and dump result
     interp.subscribe(Interp.Event.Terminate, { st =>
-      // dump result
-      val result = mresult.into(interp.getIter)
-      dumpJson(result, s"$logDir/${incRid()}.json", true)
     })
   }
 
@@ -77,5 +65,16 @@ object Logger {
   def setBase(logDir: String) = {
     mkdir(logDir)
     _logDir = Some(logDir)
+  }
+
+  // dump
+  def dump(): Unit = {
+    mkdir(logDir)
+
+    // dump touched node
+    dumpFile(
+      touched.toArray.sorted.mkString(LINE_SEP),
+      s"$logDir/touched_nodes.log"
+    )
   }
 }

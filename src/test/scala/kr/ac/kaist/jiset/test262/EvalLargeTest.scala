@@ -11,15 +11,15 @@ class EvalLargeTest extends Test262Test {
   // logging execution traces
   LOG = true
 
-  // remove assertion
-  override val noAssert = true
-
   // set base directory for ir.Logger
   Logger.setBase(s"$logDir/logger")
 
   // test test262 test
   def doTest(script: Script, name: String): Unit =
     evalTest(script, name)
+
+  // dump test262 test stats
+  override def dumpStats(): Unit = Logger.dump()
 
   // registration
   def init: Unit = check(name, { test262Test("eval") })
