@@ -32,7 +32,7 @@ trait Test262Test extends JSTest {
 
   // get AST for test262 test
   def parse(filename: String, includes: List[String]): Script =
-    loadTest262(parseFile(filename), includes, harness)
+    loadTest(parseFile(filename), includes, harness)
 
   // test 262 tests
   def test262Test(desc: String): Unit = {

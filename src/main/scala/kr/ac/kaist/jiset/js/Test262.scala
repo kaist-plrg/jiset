@@ -49,13 +49,17 @@ object Test262 {
         if (ast == target) super.walk(ast)
         else nested = true
       }
+      override def walk(ast: ExpressionBody) = {
+        nested = true
+      }
 
       // check assertion function calls
       override def walk(ast: CoverCallExpressionAndAsyncArrowHead) = ast match {
-        case CoverCallExpressionAndAsyncArrowHead0(x0, _, _, _) =>
+        case CoverCallExpressionAndAsyncArrowHead0(x0, x1, _, _) =>
           val funcName = x0.toString
           val isAssertion = argsMap.contains(funcName) || funcName == ASSERT_THROW
           if (isAssertion) hasAssertion = true
+          else super.walk(ast)
       }
     }
 
@@ -103,6 +107,13 @@ object Test262 {
         List(pYield, pAwait, false) // TODO correct?
       }
 
+      // add parenthesis to rewrite str
+      def fixExprStr(str: String): String = {
+        val prefix = List("{", "function", "class", "async")
+        if (prefix.exists(str.startsWith(_))) s"($str);"
+        else str
+      }
+
       // get string of rewrite statements
       val rewrites = assertCall match {
         case CoverCallExpressionAndAsyncArrowHead0(x0, x1, _, _) =>
@@ -112,9 +123,7 @@ object Test262 {
               getArguments(x1)
                 .take(argc)
                 .map(arg => {
-                  val argStr = arg.toString
-                  val str = if (argStr.startsWith("{")) s"($argStr);" else argStr
-                  (str, fixParams(arg.parserParams))
+                  (fixExprStr(arg.toString), fixParams(arg.parserParams))
                 })
             case None if x0.toString == ASSERT_THROW =>
               // if throw assertion, wrap try-catch
@@ -170,11 +179,11 @@ object Test262 {
     lazy val argsMap = Map(
       //assert.js
       "assert" -> 1,
-      "assert . sameValue" -> 1,
-      "assert . notSameValue" -> 1,
+      "assert . sameValue" -> 2,
+      "assert . notSameValue" -> 2,
 
       //deepEqual.js
-      "assert . deepEqual" -> 1,
+      "assert . deepEqual" -> 2,
 
       //compareArray.js
       "compareArray" -> 2,
@@ -183,10 +192,10 @@ object Test262 {
       "assert . compareArray" -> 1,
 
       //compareIterator.js
-      "assert . compareIterator" -> 1,
+      "assert . compareIterator" -> 2,
 
       //assertRelativeDateMs.js
-      "assertRelativeDateMs" -> 1,
+      "assertRelativeDateMs" -> 2,
 
       //sta.js
       "$ERROR" -> 0,
@@ -194,9 +203,9 @@ object Test262 {
 
       //propertyHelper.js
       "verifyProperty" -> 3,
-      "verifyEqualTo" -> 2,
-      "verifyWritable" -> 3,
-      "verifyNotWritable" -> 3,
+      "verifyEqualTo" -> 3,
+      "verifyWritable" -> 4,
+      "verifyNotWritable" -> 4,
       "verifyEnumerable" -> 2,
       "verifyNotEnumerable" -> 2,
       "verifyConfigurable" -> 2,
@@ -204,7 +213,10 @@ object Test262 {
 
       //promiseHelper.js
       "checkSequence" -> 1,
-      "checkSettledPromises" -> 1,
+      "checkSettledPromises" -> 2,
+
+      // doneprintHandle.js
+      "$DONE" -> 0,
     )
     val ASSERT_THROW = "assert . throws"
 
@@ -277,31 +289,15 @@ object Test262 {
   class HarnessRemover extends ASTTransformer {
     import HarnessRemover._
 
-    // handle new `Test262Error` => new function() {}
-    override def transform(ast: MemberExpression): MemberExpression =
+    // handle FUNCS => function () {}
+    override def transform(ast: MemberExpression): MemberExpression = {
+      val parser = Parser.MemberExpression
       ast match {
-        case expr @ MemberExpression6(x1, x2, params, span) if x1.toString == TEST262_ERROR =>
-          val emptyFunc = getEmptyFunc(Parser.MemberExpression(x1.parserParams))
-          MemberExpression6(emptyFunc, super.transform(x2), params, span)
+        case expr if FUNCS.contains(expr.toString) =>
+          getEmptyFunc(parser(expr.parserParams))
         case _ => super.transform(ast)
       }
-
-    // handle e instanceof `Test262Error` => e instanceof function () {}
-    override def transform(ast: RelationalExpression): RelationalExpression =
-      ast match {
-        case expr @ RelationalExpression5(x0, x2, params, span) if x2.toString == TEST262_ERROR =>
-          val emptyFunc = getEmptyFunc(Parser.ShiftExpression(x2.parserParams))
-          RelationalExpression5(super.transform(x0), emptyFunc, params, span)
-        case _ => super.transform(ast)
-      }
-
-    // handle $DONE => function () {}
-    override def transform(ast: AssignmentExpression): AssignmentExpression =
-      ast match {
-        case expr @ AssignmentExpression0(x0, ps, _) if x0.toString == $DONE =>
-          getEmptyFunc(Parser.AssignmentExpression(ps))
-        case _ => super.transform(ast)
-      }
+    }
 
     // helpers
     private def getEmptyFunc[T](p: LAParser[T]): T =
@@ -315,8 +311,13 @@ object Test262 {
     }
 
     // constants
-    val TEST262_ERROR = "Test262Error"
-    val $DONE = "$DONE"
+    val FUNCS = Set(
+      "Test262Error",
+      "$DONE",
+      "Test262Error . thrower",
+      "isEnumerable",
+      "assert . sameValue",
+    )
   }
 
   // load test262 test file
