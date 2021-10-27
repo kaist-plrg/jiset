@@ -11,6 +11,9 @@ class EvalLargeTest extends Test262Test {
   // logging execution traces
   LOG = true
 
+  // include harness
+  override val harness = false
+
   // set base directory for ir.Logger
   Logger.setBase(s"$logDir/logger")
 
