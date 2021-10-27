@@ -39,6 +39,26 @@ object Test262 {
   class AssertionRemover extends ASTTransformer {
     import AssertionRemover._
 
+    // check if statement rewrite is required
+    private class RewriteChecker(target: Statement) extends ASTWalker {
+      var (hasAssertion, nested) = (false, false)
+      def needRewrite: Boolean = hasAssertion && !nested
+
+      // check nested statement
+      override def walk(ast: Statement) = {
+        if (ast == target) super.walk(ast)
+        else nested = true
+      }
+
+      // check assertion function calls
+      override def walk(ast: CoverCallExpressionAndAsyncArrowHead) = ast match {
+        case CoverCallExpressionAndAsyncArrowHead0(x0, _, _, _) =>
+          val funcName = x0.toString
+          val isAssertion = argsMap.contains(funcName) || funcName == ASSERT_THROW
+          if (isAssertion) hasAssertion = true
+      }
+    }
+
     // handle assertion calls
     override def transform(ast: Statement): Statement = {
       // check if rewrite is needed
@@ -58,30 +78,67 @@ object Test262 {
       else ast
     }
 
-    // handle new `Test262Error` => new function() {}
-    override def transform(ast: MemberExpression): MemberExpression =
-      ast match {
-        case expr @ MemberExpression6(x1, x2, params, span) if x1.toString == TEST262_ERROR =>
-          val emptyFunc = getEmptyFunc(Parser.MemberExpression(x1.parserParams))
-          MemberExpression6(emptyFunc, super.transform(x2), params, span)
-        case _ => super.transform(ast)
+    // rewrite assertion in CoverCallExpressionAndAsyncArrowHead
+    private def rewriteAssertion(assertCall: CoverCallExpressionAndAsyncArrowHead): List[Statement] = {
+      // get argument list from Arguments
+      def getArguments(ast: Arguments): List[AssignmentExpression] = ast match {
+        case Arguments0(_, _) => List()
+        case Arguments1(x1, _, _) => _getArguments(x1)
+        case Arguments2(x1, _, _) => _getArguments(x1)
+      }
+      def _getArguments(ast: ArgumentList): List[AssignmentExpression] = ast match {
+        case ArgumentList0(x0, _, _) => List(x0)
+        case ArgumentList1(x0, _, _) => List(x0)
+        case ArgumentList2(x0, x2, _, _) => _getArguments(x0) ++ List(x2)
+        case ArgumentList3(x0, x2, _, _) => _getArguments(x0) ++ List(x2)
       }
 
-    // handle e instanceof `Test262Error` => e instanceof function () {}
-    override def transform(ast: RelationalExpression): RelationalExpression =
-      ast match {
-        case expr @ RelationalExpression5(x0, x2, params, span) if x2.toString == TEST262_ERROR =>
-          val emptyFunc = getEmptyFunc(Parser.ShiftExpression(x2.parserParams))
-          RelationalExpression5(super.transform(x0), emptyFunc, params, span)
-        case _ => super.transform(ast)
+      // parse str to Statement
+      def parse(str: String, params: List[Boolean]): Statement =
+        Parser.parse(Parser.Statement(params), str).get
+
+      // fix parser params from AssignmentExpression to Statement
+      def fixParams(ps: List[Boolean]): List[Boolean] = {
+        val List(_, pYield, pAwait) = ps
+        List(pYield, pAwait, false) // TODO correct?
       }
+
+      // get string of rewrite statements
+      val rewrites = assertCall match {
+        case CoverCallExpressionAndAsyncArrowHead0(x0, x1, _, _) =>
+          argsMap.get(x0.toString) match {
+            case Some(argc) =>
+              // if function name is in argsMap, take args by amount of argc
+              getArguments(x1)
+                .take(argc)
+                .map(arg => {
+                  val argStr = arg.toString
+                  val str = if (argStr.startsWith("{")) s"($argStr);" else argStr
+                  (str, fixParams(arg.parserParams))
+                })
+            case None if x0.toString == ASSERT_THROW =>
+              // if throw assertion, wrap try-catch
+              getArguments(x1)
+                .lift(1)
+                .map(cb => (
+                  s"try { ($cb)(); } catch {}",
+                  fixParams(cb.parserParams)
+                ))
+                .toList
+            case _ => ??? // TODO error
+          }
+      }
+
+      // re-parse rewrite strs to Statement
+      rewrites.map {
+        case (str, params) => parse(str, params)
+      }
+    }
 
     // helpers
-    def getEmptyFunc[T](p: LAParser[T]): T =
-      Parser.parse(p, "function() {}").get
-    def getEmptyStmt(ps: List[Boolean]): Statement =
+    private def getEmptyStmt(ps: List[Boolean]): Statement =
       Parser.parse(Parser.Statement(ps), "{}").get
-    def fromStmts(
+    private def fromStmts(
       stmts: List[Statement],
       ps: List[Boolean]
     ): Statement = {
@@ -150,30 +207,10 @@ object Test262 {
       "checkSettledPromises" -> 1,
     )
     val ASSERT_THROW = "assert . throws"
-    val TEST262_ERROR = "Test262Error"
-
-    // check if statement rewrite is required
-    class RewriteChecker(target: Statement) extends ASTWalker {
-      var (hasAssertion, nested) = (false, false)
-      def needRewrite: Boolean = hasAssertion && !nested
-
-      // check nested statement
-      override def walk(ast: Statement) = {
-        if (ast == target) super.walk(ast)
-        else nested = true
-      }
-
-      // check assertion function calls
-      override def walk(ast: CoverCallExpressionAndAsyncArrowHead) = ast match {
-        case CoverCallExpressionAndAsyncArrowHead0(x0, _, _, _) =>
-          val funcName = x0.toString
-          val isAssertion = argsMap.contains(funcName) || funcName == ASSERT_THROW
-          if (isAssertion) hasAssertion = true
-      }
-    }
 
     // flatten nested block statements
     class FlattenTransformer extends ASTTransformer {
+      // helper
       private def aux(ast: Option[StatementList]): Option[StatementList] =
         ast.flatMap { sl =>
           val stmts = flattenStmtList(sl).flatMap(getItems)
@@ -234,98 +271,75 @@ object Test262 {
         case _ => default
       }
     }
+  }
 
-    // rewrite assertion in CoverCallExpressionAndAsyncArrowHead
-    def rewriteAssertion(assertCall: CoverCallExpressionAndAsyncArrowHead): List[Statement] = {
-      // get argument list from Arguments
-      def getArguments(ast: Arguments): List[AssignmentExpression] = ast match {
-        case Arguments0(_, _) => List()
-        case Arguments1(x1, _, _) => _getArguments(x1)
-        case Arguments2(x1, _, _) => _getArguments(x1)
-      }
-      def _getArguments(ast: ArgumentList): List[AssignmentExpression] = ast match {
-        case ArgumentList0(x0, _, _) => List(x0)
-        case ArgumentList1(x0, _, _) => List(x0)
-        case ArgumentList2(x0, x2, _, _) => _getArguments(x0) ++ List(x2)
-        case ArgumentList3(x0, x2, _, _) => _getArguments(x0) ++ List(x2)
-      }
+  // harness remover
+  class HarnessRemover extends ASTTransformer {
+    import HarnessRemover._
 
-      // parse str to Statement
-      def parse(str: String, params: List[Boolean]): Statement =
-        Parser.parse(Parser.Statement(params), str).get
-
-      // fix parser params from AssignmentExpression to Statement
-      def fixParams(ps: List[Boolean]): List[Boolean] = {
-        val List(_, pYield, pAwait) = ps
-        List(pYield, pAwait, false) // TODO correct?
+    // handle new `Test262Error` => new function() {}
+    override def transform(ast: MemberExpression): MemberExpression =
+      ast match {
+        case expr @ MemberExpression6(x1, x2, params, span) if x1.toString == TEST262_ERROR =>
+          val emptyFunc = getEmptyFunc(Parser.MemberExpression(x1.parserParams))
+          MemberExpression6(emptyFunc, super.transform(x2), params, span)
+        case _ => super.transform(ast)
       }
 
-      // get string of rewrite statements
-      val rewrites = assertCall match {
-        case CoverCallExpressionAndAsyncArrowHead0(x0, x1, _, _) =>
-          argsMap.get(x0.toString) match {
-            case Some(argc) =>
-              // if function name is in argsMap, take args by amount of argc
-              getArguments(x1)
-                .take(argc)
-                .map(arg => {
-                  val argStr = arg.toString
-                  val str = if (argStr.startsWith("{")) s"($argStr);" else argStr
-                  (str, fixParams(arg.parserParams))
-                })
-            case None if x0.toString == ASSERT_THROW =>
-              // if throw assertion, wrap try-catch
-              getArguments(x1)
-                .lift(1)
-                .map(cb => (
-                  s"try { ($cb)(); } catch {}",
-                  fixParams(cb.parserParams)
-                ))
-                .toList
-            case _ => ??? // TODO error
-          }
+    // handle e instanceof `Test262Error` => e instanceof function () {}
+    override def transform(ast: RelationalExpression): RelationalExpression =
+      ast match {
+        case expr @ RelationalExpression5(x0, x2, params, span) if x2.toString == TEST262_ERROR =>
+          val emptyFunc = getEmptyFunc(Parser.ShiftExpression(x2.parserParams))
+          RelationalExpression5(super.transform(x0), emptyFunc, params, span)
+        case _ => super.transform(ast)
       }
 
-      // re-parse rewrite strs to Statement
-      rewrites.map {
-        case (str, params) => parse(str, params)
+    // handle $DONE => function () {}
+    override def transform(ast: AssignmentExpression): AssignmentExpression =
+      ast match {
+        case expr @ AssignmentExpression0(x0, ps, _) if x0.toString == $DONE =>
+          getEmptyFunc(Parser.AssignmentExpression(ps))
+        case _ => super.transform(ast)
       }
+
+    // helpers
+    private def getEmptyFunc[T](p: LAParser[T]): T =
+      Parser.parse(p, "function() {}").get
+  }
+  object HarnessRemover {
+    // remove harness
+    def apply(script: Script): Script = {
+      val s0 = AssertionRemover(script)
+      (new HarnessRemover).transform(s0)
     }
+
+    // constants
+    val TEST262_ERROR = "Test262Error"
+    val $DONE = "$DONE"
   }
 
   // load test262 test file
-  def loadTest262(
+  def loadTest(
     script: Script,
-    harness: List[String],
-    noAssert: Boolean = false
+    includes: List[String],
+    harness: Boolean = true
   ): Script = {
-    // choose basic assert harnesses
-    val baseStmts = if (noAssert) Right(List()) else basicStmts
-
-    // filter assertion harness
-    val filtered =
-      if (noAssert)
-        harness.filter(!AssertionRemover.harness.contains(_))
-      else
-        harness
-
     // load harness
-    val harnessStmts = filtered.foldLeft(baseStmts) {
-      case (li, s) => for {
-        x <- li
-        y <- getInclude(s)
-      } yield x ++ y
-    } match {
-      case Right(l) => l
-      case Left(msg) => throw NotSupported(msg)
-    }
+    if (harness) {
+      val harnessStmts = includes.foldLeft(basicStmts) {
+        case (li, s) => for {
+          x <- li
+          y <- getInclude(s)
+        } yield x ++ y
+      } match {
+        case Right(l) => l
+        case Left(msg) => throw NotSupported(msg)
+      }
 
-    // remove assertion
-    val removed =
-      if (noAssert) timeout(AssertionRemover(script), TIMEOUT) // TODO debug
-      else script
-
-    // prepend harness to script
-    mergeStmt(harnessStmts ++ flattenStmt(removed))
+      // prepend harness to original script
+      mergeStmt(harnessStmts ++ flattenStmt(script))
+    } // remove harness
+    else timeout(HarnessRemover(script), TIMEOUT)
   }
 }

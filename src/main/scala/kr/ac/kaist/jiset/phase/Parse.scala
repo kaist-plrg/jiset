@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.BASE_DIR
 import kr.ac.kaist.jiset.error.NotSupported
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
-import kr.ac.kaist.jiset.parser.{ MetaParser, MetaData }
+import kr.ac.kaist.jiset.parser.MetaParser
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util._
@@ -25,10 +25,11 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
 
     // parse
     val ast = parseJS(jisetConfig.args, config.esparse)
-    val transformed = (config.test262, config.noAssert) match {
-      case (true, na) => prependedTest262Harness(filename, ast, na)
-      case (false, true) => Test262.AssertionRemover(ast)
-      case (false, false) => ast
+    val transformed = (config.test262, config.noHarness) match {
+      case (_, true) => Test262.HarnessRemover(ast)
+      case (test262, false) =>
+        if (test262) Test262.loadTest(ast, MetaParser(filename).includes)
+        else ast
     }
 
     // dump json
@@ -63,17 +64,6 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
     }
   }
 
-  // prepend harness.js for Test262
-  def prependedTest262Harness(
-    filename: String,
-    script: Script,
-    noAssert: Boolean = false
-  ): Script = {
-    import Test262._
-    val meta = MetaParser(filename)
-    loadTest262(script, meta.includes, noAssert)
-  }
-
   def defaultConfig: ParseConfig = ParseConfig()
   val options: List[PhaseOption[ParseConfig]] = List(
     ("json", StrOption((c, s) => c.jsonFile = Some(s)),
@@ -84,8 +74,8 @@ case object Parse extends Phase[Unit, ParseConfig, Script] {
       "use `esparse` instead of the generated parser."),
     ("test262", BoolOption(c => c.test262 = true),
       "prepend test262 harness files based on metadata."),
-    ("no-assert", BoolOption(c => c.noAssert = true),
-      "remove test262 assertions"),
+    ("no-harness", BoolOption(c => c.noHarness = true),
+      "remove test262 harness"),
   )
 }
 
@@ -95,5 +85,5 @@ case class ParseConfig(
   var esparse: Boolean = false,
   var test262: Boolean = false,
   var pprint: Boolean = false,
-  var noAssert: Boolean = false
+  var noHarness: Boolean = false
 ) extends Config
