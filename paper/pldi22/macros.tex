@@ -120,6 +120,7 @@
 % notations
 \newcommand{\progset}{\mathfrak{P}}
 \newcommand{\prog}{P}
+\newcommand{\getfunc}{\code{func}}
 \newcommand{\getinst}{\code{inst}}
 \newcommand{\getnext}{\code{next}}
 \newcommand{\funcset}{\mathcal{F}}
@@ -146,8 +147,8 @@
 % values
 \newcommand{\valset}{\mathbb{V}}
 \newcommand{\val}{v}
-\newcommand{\pvalset}{\valset_\name{p}}
-\newcommand{\pval}{\val_\name{p}}
+\newcommand{\pvalset}{\valset_\name{prim}}
+\newcommand{\pval}{\val^\name{p}}
 \newcommand{\strset}{\valset_\name{str}}
 \newcommand{\str}{s}
 \newcommand{\boolset}{\valset_\name{bool}}
@@ -160,10 +161,11 @@
 \newcommand{\treeset}{\mathbb{T}}
 \newcommand{\tree}{t}
 \newcommand{\subtree}{\lhd}
+\newcommand{\treetop}{\code{\#}}
 \newcommand{\ty}{\tau}
 \newcommand{\eval}{\code{eval}}
 \newcommand{\nterm}[1]{\textit{\small #1}}
-\newcommand{\term}[1]{\code{#1}}
+\newcommand{\term}[1]{\langle #1 \rangle}
 
 % states
 \newcommand{\stset}{\mathbb{S}}
@@ -201,34 +203,42 @@
 \newcommand{\transfer}{F}
 \newcommand{\atransfer}{\abs{\transfer}}
 
-% specialization
+% partial evaluation
+\newcommand{\peval}[1]{\textbf{PE}\sem{#1}}
+
+% transformations
 \newcommand{\transform}{T}
 \newcommand{\transformi}{\transform_\inst}
 \newcommand{\transforme}{\transform_\expr}
 
 % abstract states
-\newcommand{\elemset}{\mathbb{D}}
-\newcommand{\aelemset}{\abs{\elemset}}
+\newcommand{\aelemset}{\abs{\mathbb{D}}}
 \newcommand{\aelem}{\abs{d}}
-\newcommand{\elemgamma}{\gamma_d}
+\newcommand{\iaelem}{\aelem_\iota}
+
+% abstract calling contexts
+\newcommand{\actxtset}{\abs{\ctxtset}}
+\newcommand{\actxt}{\abs{\ctxt}}
 
 % abstract environments
 \newcommand{\aenvset}{\abs{\envset}}
 \newcommand{\aenv}{\abs{\env}}
-\newcommand{\envgamma}{\gamma_\env}
+\newcommand{\afsenvset}{\aenvset_\name{fs}}
+\newcommand{\afsenv}{\aenv_\name{fs}}
 
 % abstract values
 \newcommand{\avalset}{\abs{\valset}}
 \newcommand{\aval}{\abs{\val}}
-\newcommand{\valgamma}{\gamma_\val}
 
 % syntactic views
 \newcommand{\atreeset}{\abs{\treeset}}
 \newcommand{\atree}{\abs{\tree}}
-\newcommand{\treegamma}{\gamma_\tree}
 
 % abstract operations
 \newcommand{\join}{\sqcup}
 \newcommand{\bigjoin}{\bigsqcup}
 \newcommand{\order}{\sqsubseteq}
 \newcommand{\revorder}{\sqsupseteq}
+
+% least fixed point
+\newcommand{\lfp}{\textbf{lfp}}
