@@ -1,76 +1,25 @@
 package kr.ac.kaist.jiset.editor
 
-import kr.ac.kaist.jiset.{ EDITOR_LOG_DIR, LOG, DEBUG }
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.ir.{ State, NodeCursor, Interp }
+import kr.ac.kaist.jiset.editor.JsonProtocol._
+import kr.ac.kaist.jiset.ir.{ NodeCursor, Interp }
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
-import kr.ac.kaist.jiset.parser.MetaParser
 import kr.ac.kaist.jiset.util.JvmUseful._
+import kr.ac.kaist.jiset.{ EDITOR_LOG_DIR, LOG, DEBUG }
 
 // filtering js programs using its size and spec coverage
 object Filter {
+  import cfgJsonProtocol._
+
   // filter program using a given syntactic view
   // def apply(ast: AST, view: SyntacticView): Boolean =
   //   ast.contains(view.ast)
 
-  // js program in filtered mapping
-  trait JsProgram {
-    // unique id
-    def uid: String
-
-    // AST of js program
-    val script: Script
-
-    // filename
-    val filename: String
-
-    // raw string of js program
-    lazy val raw: String = script.toString
-
-    // size of js program
-    def size: Int = raw.length
-
-    // initialize state
-    def initState: State =
-      Initialize(script, Some(filename), NodeCursor)
-
-    // parse script from filename
-    def fromFile(filename: String): Script =
-      Parser.parse(Parser.Script(Nil), fileReader(filename)).get
-
-    // toString
-    override def toString: String = s"[$uid]: $filename ($size)"
-  }
-  case class Test262Program(id: Int, filename: String) extends JsProgram {
-    // unique id
-    def uid: String = s"T$id"
-
-    // AST of js program
-    lazy val script = Test262.loadTest(
-      fromFile(filename),
-      MetaParser(filename).includes
-    )
-  }
-  case class JestProgram(id: Int, filename: String) extends JsProgram {
-    // unique id
-    def uid: String = s"J$id"
-
-    // AST of js program
-    lazy val script = fromFile(filename)
-  }
-  case class CustomProgram(id: Int, filename: String) extends JsProgram {
-    // unique id
-    def uid: String = s"C$id"
-
-    // AST of js program
-    lazy val script = fromFile(filename)
-  }
-  // case class Generated(id, Int, filename: String) extends JsProgram
-  // case class Reduced(uid, Int,  extends JsProgram
+  type NodeMap = Map[Node, JsProgram]
 
   // mapping from node to shortest program
-  var nodeMap: Map[Node, JsProgram] = Map()
+  var nodeMap: NodeMap = Map()
 
   // count put operation
   var putCount = 0
@@ -116,11 +65,27 @@ object Filter {
   // select one program and try to reduce its size
   def tryReduce(): Boolean = ???
 
+  // dump stats
+  def dumpStats(): Unit = ???
+  def getProgramCount: Int =
+    nodeMap.values.map(_.uid).toSet.size
+  def getCoveredSize: Int =
+    nodeMap.size
+
   // dump
-  def dump = ???
+  def dump() =
+    dumpJson(
+      (putCount, nodeMap),
+      s"$EDITOR_LOG_DIR/filter_data.json",
+      noSpace = true
+    )
 
   // load
-  def load = ???
+  def load() = {
+    val (c, m) = readJson[(Int, NodeMap)](s"$EDITOR_LOG_DIR/filter_data.json")
+    putCount = c
+    nodeMap = m
+  }
 
   // close
   def close(): Unit = nfLog.close()

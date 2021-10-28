@@ -14,6 +14,12 @@ class Stringifier(
   // Editor elements
   implicit lazy val EditorElemApp: App[EditorElem] = (app, elem) => elem match {
     case view: SyntacticView => SyntacticViewApp(app, view)
+    case jsprog: JsProgram => JsProgramApp(app, jsprog)
+  }
+
+  // JsProgram
+  implicit lazy val JsProgramApp: App[JsProgram] = (app, elem) => {
+    app >> "[uid: " >> elem.uid >> "]" >> elem.filename
   }
 
   // TODO syntactic views

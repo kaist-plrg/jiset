@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.phase
 
 import kr.ac.kaist.jiset._
-import kr.ac.kaist.jiset.editor.Filter
+import kr.ac.kaist.jiset.editor._
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.ProgressBar
@@ -16,8 +16,6 @@ case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
     jisetConfig: JISETConfig,
     config: FilterJsConfig
   ): Unit = {
-    import Filter._
-
     // get program list from path
     def getList(path: String): List[String] =
       readFile(path).split(LINE_SEP).toList
@@ -28,7 +26,7 @@ case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
       getList(s"$DATA_DIR/test262-list").zipWithIndex
     ).foreach {
         case (name, id) =>
-          put(Test262Program(id, s"$TEST262_TEST_DIR/$name"))
+          Filter.put(Test262Program(id, s"$TEST262_TEST_DIR/$name"))
       }
 
     // put programs from JEST list
@@ -37,7 +35,7 @@ case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
       getList(s"$DATA_DIR/jest-list").zipWithIndex
     ).foreach {
         case (name, id) =>
-          put(JestProgram(id, s"$DATA_DIR/jest/$name"))
+          Filter.put(JestProgram(id, s"$DATA_DIR/jest/$name"))
       }
 
     // put programs from custom list
@@ -46,8 +44,14 @@ case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
       getList(s"$DATA_DIR/custom-list").zipWithIndex
     ).foreach {
         case (name, id) =>
-          put(CustomProgram(id, s"$DATA_DIR/custom/$name"))
+          Filter.put(CustomProgram(id, s"$DATA_DIR/custom/$name"))
       }
+
+    // print stats
+    if (!jisetConfig.silent) {
+      println(s"${Filter.getProgramCount}/${Filter.putCount} for ${Filter.getCoveredSize}")
+    }
+    if (LOG) Filter.dump()
 
     // close file handles in editor.Filter
     Filter.close()
