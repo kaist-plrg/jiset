@@ -368,8 +368,24 @@ prove the semantics preservation of the partial evaluation consisting of them.
 
 \subsubsection{Static Analysis}
 
-To define static analysis of $\ires$ programs, we first define abstract domains
-of states, calling contexts, environments, and values as follows:
+To define static analysis of $\ires$ programs, we first define target function
+and its abstract arguments based on a given syntactic view $\atree$.  Since only
+non-leaf nodes has single evaluation functions, we assume that $\atree = \ty_k
+\langle \atree_1, \cdots, \atree_n \rangle$.  Then, the target function and its
+abstract arguments are defined as follows:
+\[
+  \begin{array}{ll@{~}c@{~}l}
+    \text{Target Function} & \targetfunc &=& \ty_k.\eval\\
+
+    \text{Abstract Arguments} &
+    [\aval_0, \cdots, \aval_m] &=&
+    [\atree, \atree_{i_1}, \cdots, \atree_{i_m}]\\
+  \end{array}
+\]
+where $m$ denotes the number of nonterminal subtrees of $\atree$ and
+$\atree_{i_j}$ denotes $j$-th one for each $1 \leq i \leq m$.  The abstract
+domains of states, calling contexts, environments, and values are defined as
+follows:
 \begin{itemize}
   \item \underline{Abstract States}:
     $\aelemset = \actxtset \times \afsenvset$
@@ -390,10 +406,10 @@ of states, calling contexts, environments, and values as follows:
       \end{array}
     \]
 
-  \item \underline{Abstract Calling Contexts}:
+  \item \todo \underline{Abstract Calling Contexts}:
+    % \powerset{\labset \times \funcset}
     $\actxtset = \funcset \finmap \powerset{\labset \times \varset}$
     \[
-      \todo
       \begin{array}{lcl}
         \gamma(\actxt) &=& \{ \st \in \stset \mid
           \st = (\lab', (\lab, \_, \varx) :: \_, \_, \_) \wedge \\&&
