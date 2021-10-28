@@ -1,0 +1,1 @@
+var x = Array . prototype . slice . call ( [ 42 , 'str' , true ] , async function * x ( ) { } , class x { x ( ) { } } ?. x ?. x ) ;

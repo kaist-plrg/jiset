@@ -1,0 +1,1 @@
+var x = ( - 0 ) != { [ Symbol . toPrimitive ] : 0 } ; var [ , ... x ] = class x extends { [ Symbol . toPrimitive ] : 0 } [ '' ] { } ;

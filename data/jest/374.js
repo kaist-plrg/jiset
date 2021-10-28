@@ -1,0 +1,1 @@
+var x = Promise . all ( 0 ) ;

@@ -1,0 +1,1 @@
+class x { } ( Symbol . split ) /= this ;

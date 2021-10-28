@@ -1,0 +1,1 @@
+var x = Promise . race ( 0 ) ;

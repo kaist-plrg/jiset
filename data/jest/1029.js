@@ -1,0 +1,1 @@
+var x = Array . prototype . some . call ( '0' , class x { ; } ) ;

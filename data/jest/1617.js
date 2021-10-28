@@ -1,0 +1,1 @@
+var x = ( x => { var { } = x ; x >= x ; switch ( 'str' ) { case x !== x : default : case 'str' ( ) `` : } return function ( ) { } ; } ) `` ;

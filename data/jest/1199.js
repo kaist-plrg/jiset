@@ -1,0 +1,1 @@
+switch ( '' ) { default : ; x ( ) ; function * x ( ... { x : { } } ) { } }

@@ -1,0 +1,1 @@
+class x { } new x ( ) ;

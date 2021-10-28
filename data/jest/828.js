@@ -1,0 +1,1 @@
+var x = Symbol . prototype . toString . call ( null ) ;

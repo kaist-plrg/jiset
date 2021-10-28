@@ -1,0 +1,1 @@
+class x { } x instanceof { [ Symbol . hasInstance ] : '0' } ;

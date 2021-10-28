@@ -1,0 +1,1 @@
+var x = Object . assign ( x <<= { set x ( x ) { } } , 'str' ) ;

@@ -1,0 +1,1 @@
+var x = class extends new x ( ) { } . prototype . clear . call ( new ( Symbol . isConcatSpreadable ) ( ) ) ;

@@ -1,0 +1,1 @@
+var x = String . prototype . search . call ( null , 0 ) ;

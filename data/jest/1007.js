@@ -1,0 +1,1 @@
+var x = Number . isSafeInteger ( Symbol . isConcatSpreadable ) ;

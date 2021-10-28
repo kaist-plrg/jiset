@@ -1,0 +1,1 @@
+var x = WeakSet . prototype . add . call ( new WeakSet ( ) , { [ "prototype" ] : true } ) ;

@@ -1,0 +1,1 @@
+var x = { [ Symbol . hasInstance ] : async * function ( x ) { } } instanceof { [ Symbol . hasInstance ] : async * function ( x ) { } } ;

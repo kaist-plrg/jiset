@@ -1,0 +1,1 @@
+var x = Object . defineProperties ( [ 42 , 'str' , true ] , x != x ) ;

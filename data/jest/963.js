@@ -1,0 +1,1 @@
+var x = Array . prototype . map . call ( new Array ( ) , 0 ) ;

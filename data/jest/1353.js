@@ -1,0 +1,1 @@
+var x = Object . defineProperty ( [ x , , x >>> x ] , Symbol . split , { p : 42 } ) ;

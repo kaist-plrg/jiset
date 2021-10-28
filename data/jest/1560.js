@@ -1,0 +1,1 @@
+try { ; x ( 42 ) ; class x extends new x ( x , ... '' ) { ; } } catch ( x ) { ; x ( ) ; } var [ , ... x ] = false != x ;

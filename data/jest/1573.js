@@ -1,0 +1,1 @@
+var x = Array . prototype . splice . call ( x => { } , { async * x ( ... x ) { } } , - ( - Infinity ) , x ?. x [ '' , '' ] ) ;

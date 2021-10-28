@@ -1,0 +1,1 @@
+var x = [ 1 , { [ Symbol . asyncIterator ] : '' , [ Symbol . iterator ] : async function ( ) { } } , 3 ] ; ( [ , ( Symbol . toPrimitive ) , ... x ] = { [ Symbol . asyncIterator ] : '' , [ Symbol . iterator ] : async function ( ) { } } ) ;

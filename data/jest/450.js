@@ -1,0 +1,1 @@
+var x = Number . isFinite ( 0 ) ;

@@ -1,0 +1,1 @@
+try { } catch ( x ) { } var [ , ... x ] = false != x ;

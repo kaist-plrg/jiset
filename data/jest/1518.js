@@ -1,0 +1,1 @@
+var x = { [ Symbol . toPrimitive ] : true } . resolve ( { [ { [ Symbol . toPrimitive ] : true } ] : null } ) ;

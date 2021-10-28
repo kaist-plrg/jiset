@@ -1,0 +1,1 @@
+var x = Object . assign ( { get x ( ) { } } , { async x ( ... [ x ] ) { } } ) ;

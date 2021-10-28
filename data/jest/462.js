@@ -1,0 +1,1 @@
+while ( class x extends x { } ) ;

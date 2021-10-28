@@ -1,0 +1,1 @@
+var x = { async x ( ... { x : { } } ) { } } + ( Symbol . toPrimitive ) ;

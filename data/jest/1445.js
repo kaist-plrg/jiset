@@ -1,0 +1,1 @@
+var x = new Set ( [ 0 , x & x , ( Symbol . asyncIterator ) ] ) ; var [ x , , ] = x instanceof x ;

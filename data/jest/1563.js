@@ -1,0 +1,1 @@
+var x = Object . prototype . toLocaleString . call ( ( Symbol . species ) , `${ '' }${ '' }` , { x ( ... [ x ] ) { } } ) ;

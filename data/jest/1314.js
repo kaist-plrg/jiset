@@ -1,0 +1,1 @@
+var x = ( x => { ; ( - 1n ) ( ) ; return x >= x ; var [ , , ] = x === x ; } ) `` ;

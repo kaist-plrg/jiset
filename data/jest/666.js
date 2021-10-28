@@ -1,0 +1,1 @@
+var x = Object . defineProperty ( 0 , 0 , 0 ) ;

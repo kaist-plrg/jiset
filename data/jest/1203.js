@@ -1,0 +1,1 @@
+var x = Array . prototype . some . call ( async x => x , class x { ; } ) ;

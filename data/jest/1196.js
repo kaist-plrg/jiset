@@ -1,0 +1,1 @@
+var x = Symbol . prototype [ Symbol . toPrimitive ] . call ( null , 0 ) ;

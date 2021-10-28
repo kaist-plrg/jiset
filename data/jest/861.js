@@ -1,0 +1,1 @@
+var x = class extends new x ( x , ... '' ) { ; } !== x ;

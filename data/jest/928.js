@@ -1,0 +1,1 @@
+while ( '' ) ; ( { p : { } } = ( Symbol . unscopables ) ) ;

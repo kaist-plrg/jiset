@@ -49,6 +49,9 @@ package object jiset {
   val ID_START_JSON = s"$RESOURCE_DIR/ID_Start.json"
   val ID_CONTINUE_JSON = s"$RESOURCE_DIR/ID_Continue.json"
 
+  // Data directory
+  val DATA_DIR = s"$BASE_DIR/data"
+
   // Package name
   val PACKAGE_NAME = "kr.ac.kaist.jiset"
 

@@ -1,0 +1,1 @@
+var x = Object . prototype . hasOwnProperty . call ( new Object ( ) , 0 ) ;

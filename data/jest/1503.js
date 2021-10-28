@@ -1,0 +1,1 @@
+var x = [ 1 , { [ "length" ] : true } , { [ "length" ] : true } ] ; ( [ , x ] = { [ "length" ] : true } ) ;

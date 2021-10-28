@@ -1,0 +1,1 @@
+var x = class extends x ( ) [ '' ] { } `` ; async function x ( ... { x : { } } ) { }

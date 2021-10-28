@@ -1,0 +1,1 @@
+var x = { [ "prototype" ] : async function ( x ) { } } . prototype . toString . call ( new Number ( 0 ) ) ;

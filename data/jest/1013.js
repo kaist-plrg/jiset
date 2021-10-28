@@ -1,0 +1,1 @@
+var x = String . prototype . includes . call ( class { } , 0 ) ;

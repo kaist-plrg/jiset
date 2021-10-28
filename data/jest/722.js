@@ -1,0 +1,1 @@
+if ( x <= x ) switch ( '' ) { case '' : ; } else ;

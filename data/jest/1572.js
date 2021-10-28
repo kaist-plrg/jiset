@@ -1,0 +1,1 @@
+for ( x in { async * x ( ... [ ] ) { } } ) while ( { } , class x extends x ( ) [ '' , '' ] { ; } ) for ( var x ; '' , '' ; ) ;

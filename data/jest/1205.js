@@ -1,0 +1,1 @@
+var x = Object . prototype . toLocaleString . call ( - 1n , x && x , 0 ) ;

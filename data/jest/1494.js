@@ -1,0 +1,1 @@
+var x = x `` ; var [ ... { } ] = x ; var [ , x ] = x ; function * x ( ... x ) { ; new x ( ) ; x ( 42 ) ; }

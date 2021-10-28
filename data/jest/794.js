@@ -1,0 +1,1 @@
+var x = Array . prototype . join . call ( null , 0 ) ;

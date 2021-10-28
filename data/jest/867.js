@@ -1,0 +1,1 @@
+var x = Array . prototype . fill . call ( 'str' , [ ] ) ;

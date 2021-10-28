@@ -1,0 +1,1 @@
+var x = Symbol . isConcatSpreadable ; var x = 42n / class x { static x ( ) { } } ;

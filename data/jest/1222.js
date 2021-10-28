@@ -1,0 +1,1 @@
+var x = Object . assign ( ( Symbol . split ) <<= Symbol . match , x < x ) ;

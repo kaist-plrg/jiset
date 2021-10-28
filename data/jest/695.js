@@ -1,0 +1,1 @@
+var x = eval ( class extends x ?. x ?. x { } ) ;

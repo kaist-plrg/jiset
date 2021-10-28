@@ -1,0 +1,1 @@
+var x = new Set ( [ 42 , { [ "value" ] : function * ( ) { } } , { [ "value" ] : function * ( ) { } } ] ) ;

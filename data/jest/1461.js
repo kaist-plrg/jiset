@@ -1,0 +1,1 @@
+var x = Function . prototype . bind . call ( ( ( ) => { ; class x extends '' { } } ) , '' ) ; x ( ) ;

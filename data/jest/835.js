@@ -1,0 +1,1 @@
+var x = this ; async function * x ( ... [ x , , ] ) { }

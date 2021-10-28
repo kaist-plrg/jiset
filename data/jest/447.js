@@ -1,0 +1,1 @@
+var x = ++ x ; var x = typeof x ;

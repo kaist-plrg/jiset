@@ -1,0 +1,1 @@
+var x = WeakSet . prototype . delete . call ( null , 0 ) ;

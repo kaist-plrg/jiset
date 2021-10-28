@@ -1,0 +1,1 @@
+var x = typeof 42n ;

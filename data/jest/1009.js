@@ -1,0 +1,1 @@
+var x = Object . getPrototypeOf ( 0 ) ; var x = x instanceof x ;

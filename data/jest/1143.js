@@ -1,0 +1,1 @@
+var x = Promise . race ( [ 42 , 'str' , true ] ) ; var { x , x } = x ;

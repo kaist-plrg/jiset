@@ -1,0 +1,1 @@
+switch ( '' ) { case '' : ; class x extends function * ( ) { } { } }

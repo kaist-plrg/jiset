@@ -1,0 +1,1 @@
+var x = EvalError ( { [ "valueOf" ] : 0 , [ "toString" ] : false } ) ; var x = x / { [ "valueOf" ] : 0 , [ "toString" ] : false } ;

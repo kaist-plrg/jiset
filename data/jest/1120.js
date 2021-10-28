@@ -1,0 +1,1 @@
+var x = Object . prototype . toLocaleString . call ( null , 0 , 0 ) ;

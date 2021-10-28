@@ -1,0 +1,1 @@
+function x ( ) { } var { '' : { } = class x extends x `${ '' }` { } } = x !== x ;

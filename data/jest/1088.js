@@ -1,0 +1,1 @@
+var x = Array . prototype . forEach . call ( '0' , class x { ; } ) ;

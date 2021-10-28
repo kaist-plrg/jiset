@@ -1,0 +1,1 @@
+do switch ( '' ) { default : ; x ( 42 ) ; case x : ; class x extends [ '' ] { ; } } while ( class x { ; } ) ;

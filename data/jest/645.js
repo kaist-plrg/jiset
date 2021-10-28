@@ -1,0 +1,1 @@
+let x = class extends new x ( x , '' ) { ; } ;

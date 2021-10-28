@@ -1,0 +1,1 @@
+var x = - x ; var [ , ... x ] = { [ Symbol . toPrimitive ] : function ( x ) { } } != x ;

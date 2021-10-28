@@ -1,0 +1,1 @@
+for ( let x in { [ ( - 1 ) ] : Symbol . toStringTag } ) ;

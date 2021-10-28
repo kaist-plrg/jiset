@@ -1,0 +1,1 @@
+var x = Promise . prototype . finally . call ( x => { } , x == { [ "constructor" ] : async * function ( x ) { } , [ Symbol . species ] : async function ( ) { } } ) ;

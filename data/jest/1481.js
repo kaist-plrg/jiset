@@ -1,0 +1,1 @@
+var x = eval ( `${ ( ) => { ; var x = { get x ( ) { } } ; var x = { * x ( ... await ) { ; } } ; } }` ) ;

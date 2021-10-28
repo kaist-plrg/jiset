@@ -1,0 +1,1 @@
+var x = Array . prototype . reduce . call ( { [ "length" ] : true } , x => { } ) ;

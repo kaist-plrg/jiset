@@ -1,0 +1,1 @@
+var x = ( x => { ; for ( [ x , , ... x ] in '' ) ; for ( x [ { '' : '' } , 1 ] in { * x ( ... { x , } ) { } } ) for ( x . x in '' ) ; return Symbol . search ; for ( var { } = x ; '' ; ) ; } ) `` ;

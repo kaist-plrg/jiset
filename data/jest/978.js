@@ -1,0 +1,1 @@
+try { ; var x = { async x ( ... [ ] ) { } } ; } catch ( x ) { }

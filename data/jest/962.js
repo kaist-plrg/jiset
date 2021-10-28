@@ -1,0 +1,1 @@
+var x = Array . prototype . entries . call ( new Array ( ) ) ;

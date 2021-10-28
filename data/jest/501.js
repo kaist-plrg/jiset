@@ -1,0 +1,1 @@
+var x = Promise . allSettled ( 0 ) ;

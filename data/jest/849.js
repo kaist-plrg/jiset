@@ -1,0 +1,1 @@
+var x = Boolean . prototype . toString . call ( null ) ;

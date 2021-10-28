@@ -1,0 +1,1 @@
+var x = Object . is ( x %= '' , x -= '' ) ;

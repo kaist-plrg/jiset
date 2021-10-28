@@ -1,0 +1,1 @@
+var x = BigInt . asIntN ( Infinity , Symbol . iterator ) ;

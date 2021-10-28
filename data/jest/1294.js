@@ -1,0 +1,1 @@
+var x = String . prototype . endsWith . call ( 0n , 0 , Symbol . hasInstance ) ;

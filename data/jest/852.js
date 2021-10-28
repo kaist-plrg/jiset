@@ -1,0 +1,1 @@
+var x = Map . prototype . clear . call ( new Map ( ) ) ;

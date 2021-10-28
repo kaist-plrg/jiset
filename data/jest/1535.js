@@ -1,0 +1,1 @@
+var x = String . prototype . split . call ( { * x ( ) { } } , '' , { async * x ( ... [ x ] ) { } } ?. x [ '' ] ) ;

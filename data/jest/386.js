@@ -1,0 +1,1 @@
+class x { } '0' instanceof x ;

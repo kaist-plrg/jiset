@@ -1,0 +1,1 @@
+try { ; x ( ) ; } finally { ; for ( let x of '' ) ; }

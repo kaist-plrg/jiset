@@ -1,0 +1,1 @@
+var x = ( x => { ; x ( ) ; return 42 ; for ( var { } = x ; '' ; ) ; } ) `` ;

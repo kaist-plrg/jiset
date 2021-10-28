@@ -1,0 +1,1 @@
+var x = ReferenceError ( Symbol . replace ) ;

@@ -1,0 +1,1 @@
+var x = String . prototype . substring . call ( new String ( [ x , ] ) , 0 , Symbol . match ) ;

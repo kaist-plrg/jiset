@@ -1,0 +1,1 @@
+var x = String . prototype . trimStart . call ( new String ( 0 ) ) ;

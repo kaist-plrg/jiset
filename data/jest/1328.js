@@ -1,0 +1,1 @@
+var x = new Map ( ) ; var x = x += { [ "valueOf" ] : 0 , [ "toString" ] : null } ;

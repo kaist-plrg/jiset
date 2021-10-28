@@ -1,0 +1,1 @@
+var x = String . prototype . padEnd . call ( Symbol . unscopables , 0 ) ;

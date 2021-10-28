@@ -1,0 +1,1 @@
+var x = Object . isExtensible ( async function ( ) { } ) ;

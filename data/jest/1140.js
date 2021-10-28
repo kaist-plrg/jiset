@@ -1,0 +1,1 @@
+var x = Array . prototype . shift . call ( { [ "length" ] : true } ) ;

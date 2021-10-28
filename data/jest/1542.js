@@ -1,0 +1,1 @@
+var x = ( x => { ; Number ( Symbol . iterator ) ; for ( var { } in '' , '' ) ; for ( '' ; ; '' ) ; return ; } ) `` ;

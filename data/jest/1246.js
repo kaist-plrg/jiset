@@ -1,0 +1,1 @@
+try { } catch { ; var x = { async * x ( ... [ , x ] ) { } } ; } finally { ; }

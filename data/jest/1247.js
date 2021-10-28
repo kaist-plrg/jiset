@@ -1,0 +1,1 @@
+var x = '' . race ( [ - 1n , 'str' , class extends new x ( ... '' ) { } ] ) ;

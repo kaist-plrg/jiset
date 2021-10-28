@@ -1,0 +1,1 @@
+var x = Array . prototype . flat . call ( `${ { [ "length" ] : async * function ( ) { } } }${ { [ "length" ] : async * function ( ) { } } }${ { [ "length" ] : async * function ( ) { } } }` ) ;

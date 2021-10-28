@@ -1,0 +1,1 @@
+var x = [ { [ "value" ] : async * function ( x ) { } } , { [ "value" ] : async * function ( x ) { } } , 3 ] ; ( [ , x ] = { [ "value" ] : async * function ( x ) { } } ) ;

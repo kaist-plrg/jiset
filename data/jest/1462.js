@@ -1,0 +1,1 @@
+var x = Set . prototype . forEach . call ( new Set ( ) , { [ "prototype" ] : function ( x ) { } } ) ;

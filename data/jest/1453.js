@@ -1,0 +1,1 @@
+var x = String . prototype . startsWith . call ( new String ( { [ "prototype" ] : false } ) , 0 ) ;

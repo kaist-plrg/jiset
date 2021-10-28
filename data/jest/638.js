@@ -1,0 +1,1 @@
+var x = Symbol . keyFor ( Symbol . search ) ;

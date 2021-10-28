@@ -1,0 +1,1 @@
+var x = Set . prototype . clear . call ( { async x ( ... [ , x ] ) { } } ) ;

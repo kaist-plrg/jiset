@@ -1,0 +1,1 @@
+var x = BigInt . prototype . toString . call ( null ) ;

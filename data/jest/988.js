@@ -1,0 +1,1 @@
+var x = Object . defineProperty ( class { ; } , x + x , 42n ) ;

@@ -1,0 +1,1 @@
+var x = Number . prototype . toString . call ( new ( ( ) => { } ) ( class extends x { x ( ) { } } ) ) ;

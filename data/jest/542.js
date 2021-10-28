@@ -1,0 +1,1 @@
+var x = SyntaxError ( x ?. x [ '' ] ) ;

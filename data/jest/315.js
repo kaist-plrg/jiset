@@ -1,0 +1,1 @@
+var x = Array . of ( 0 ) ;

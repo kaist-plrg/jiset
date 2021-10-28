@@ -1,0 +1,1 @@
+var x = Array . prototype . copyWithin . call ( Symbol . split , 0 , Symbol . asyncIterator ) ;

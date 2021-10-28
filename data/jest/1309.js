@@ -1,0 +1,1 @@
+var x = BigInt ( { [ "valueOf" ] : true , [ "toString" ] : function ( ) { } } ) ;

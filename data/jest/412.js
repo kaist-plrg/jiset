@@ -1,0 +1,1 @@
+var x = Object . freeze ( 0 ) ;

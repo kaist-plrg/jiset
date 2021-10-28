@@ -1,0 +1,1 @@
+var x = x != x ; var x = { x ( ... await ) { } } ; var [ , ... x ] = class extends x ?. x . x { } ;

@@ -1,0 +1,1 @@
+var x = Array . prototype . flat . call ( new Array ( ) ) ; var [ x ] = x ;

@@ -1,0 +1,1 @@
+var x = ( x => { } ) . getPrototypeOf ( class x extends x `${ '' }${ x }${ '' , '' }` { ; } ?. x ) ;

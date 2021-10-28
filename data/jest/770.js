@@ -1,0 +1,1 @@
+var x = isNaN ( { [ Symbol . toPrimitive ] : 0 } ) ;

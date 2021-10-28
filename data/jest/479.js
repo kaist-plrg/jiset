@@ -1,0 +1,1 @@
+var x = Error ( Symbol . search ) ;

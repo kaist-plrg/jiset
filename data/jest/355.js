@@ -1,0 +1,1 @@
+var x = Symbol . for ( 0 ) ;

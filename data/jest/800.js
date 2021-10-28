@@ -1,0 +1,1 @@
+var x = Error . prototype . toString . call ( null ) ;

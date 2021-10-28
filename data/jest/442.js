@@ -1,0 +1,1 @@
+LABEL : for ( ; ; ) break LABEL ;

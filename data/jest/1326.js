@@ -1,0 +1,1 @@
+var x = String . prototype . slice . call ( Symbol . asyncIterator , 0 , 'str' ) ;

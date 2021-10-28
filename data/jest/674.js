@@ -1,0 +1,1 @@
+var x = new Promise ( class x { x ( ) { } } ) ;

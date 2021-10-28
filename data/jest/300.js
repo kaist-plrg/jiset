@@ -1,0 +1,1 @@
+var x = EvalError ( 0 ) ;

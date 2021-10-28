@@ -1,0 +1,1 @@
+for ( var x in { async * x ( ) { ; new x ( ) ; } } ) switch ( '' ) { case x : ; default : ; var x = x <= x ; }

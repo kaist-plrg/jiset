@@ -1,0 +1,1 @@
+var x = ( x => { ; x ( ) ; switch ( '' ) { case x : default : case x : } return 42 ; async function * x ( ... { x , } ) { } return '' , '' ; for ( let x of '' ) ; return ; switch ( '' ) { case x : case x : ; async function x ( ) { } } } ) `` ;

@@ -1,0 +1,1 @@
+var x = BigInt . asIntN ( x ?. [ '' ] , [ 42 , 'str' , true ] ) ;

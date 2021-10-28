@@ -1,0 +1,1 @@
+var x = EvalError ( 0 ) ; var x = { [ "valueOf" ] : async * function ( ) { } , [ "toString" ] : async function ( ) { } } / x ;

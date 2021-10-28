@@ -1,0 +1,1 @@
+var x = ( x => { ; x ( ) ; switch ( '' ) { case x : default : case x : } return 42 ; throw 42 ; } ) `` ;

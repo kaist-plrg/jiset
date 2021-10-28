@@ -1,0 +1,1 @@
+for ( x of { [ Symbol . asyncIterator ] : 0 , [ Symbol . iterator ] : function * ( x ) { ; var x = ++ x ; } } ) ;

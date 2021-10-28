@@ -1,0 +1,1 @@
+var x = Set . prototype . entries . call ( null ) ;

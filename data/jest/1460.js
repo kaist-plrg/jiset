@@ -1,0 +1,1 @@
+var x = Array . prototype . reduceRight . call ( [ ( Symbol . asyncIterator ) , , '' ] , x => { } ) ;

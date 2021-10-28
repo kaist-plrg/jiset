@@ -1,0 +1,1 @@
+var x = 1 ; ( { x , ... Symbol . hasInstance } = class extends x ( ) . x { } ) ;

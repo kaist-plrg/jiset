@@ -1,0 +1,1 @@
+var x = Symbol . prototype . valueOf . call ( null ) ;

@@ -1,0 +1,1 @@
+var x = Array ( ) ; var x = x ?. x [ class extends x [ '' , '' ] { } , - Infinity ] ;

@@ -1,0 +1,1 @@
+var x = WeakSet . prototype . has . call ( null , 0 ) ;

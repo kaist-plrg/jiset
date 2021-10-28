@@ -1,0 +1,1 @@
+var x = Map . prototype . forEach . call ( new Map ( ) , ( ) => { } ) ;

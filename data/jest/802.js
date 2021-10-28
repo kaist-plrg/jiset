@@ -1,0 +1,1 @@
+var x = Number . prototype . valueOf . call ( null ) ;

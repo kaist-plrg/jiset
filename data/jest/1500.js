@@ -1,0 +1,1 @@
+var x = Array . prototype . copyWithin . call ( new Array ( ) , Symbol . asyncIterator , Symbol . match ) ;

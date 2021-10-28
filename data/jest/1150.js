@@ -1,0 +1,1 @@
+async function * x ( ) { for await ( var x of '' ) ; } ; { p : 42 ; } ;

@@ -1,0 +1,1 @@
+var x = Array . prototype . flatMap . call ( null , 0 ) ;

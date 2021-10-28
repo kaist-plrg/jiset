@@ -1,0 +1,1 @@
+var x = ( Symbol . isConcatSpreadable ) = class x extends x { ; } ;

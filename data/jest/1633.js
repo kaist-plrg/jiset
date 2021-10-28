@@ -1,0 +1,1 @@
+var x = x `` ; var [ ] = x ; var [ , x ] = x ; if ( '' ) ; function * x ( ... x ) { ; yield 42 ; x ( 42 ) ; async function * x ( ... { x : x } ) { } }

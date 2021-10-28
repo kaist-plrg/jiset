@@ -1,0 +1,1 @@
+var x = new x ( [ x , ... x ] , ... class extends new x ( '' ) { } ) ;

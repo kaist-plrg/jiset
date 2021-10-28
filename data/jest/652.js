@@ -1,0 +1,1 @@
+var x = this . isFinite ( Symbol . species ) ;

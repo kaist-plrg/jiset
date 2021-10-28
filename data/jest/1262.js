@@ -1,0 +1,1 @@
+switch ( class extends x ( ) `` { } ) { case { } : for ( [ x , , ] in '' ) ; }

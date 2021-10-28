@@ -1,0 +1,1 @@
+var x = Array . prototype . copyWithin . call ( { async x ( ) { } } , ( - Infinity ) , async x => '' , 0 ) ;

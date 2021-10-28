@@ -1,0 +1,1 @@
+var x = Array . prototype . lastIndexOf . call ( new Array ( ) , 0 ) ;

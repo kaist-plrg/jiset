@@ -159,3 +159,8 @@ case object CmdTypeCheck extends Command("type-check", CmdBuildCFG >> TypeCheck)
 case object CmdWeb extends Command("web", CmdExtract >> Web) {
   def help = "Run JISET web for interactive ECMAScript execution."
 }
+
+// filter-js
+case object CmdFilterJs extends Command("filter-js", CmdExtract >> FilterJs) {
+  def help = "Filter a set of JS programs for ECMAScript comprehension."
+}

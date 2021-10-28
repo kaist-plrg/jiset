@@ -1,0 +1,1 @@
+var x = eval ( `${ class x { static x ( ) { } } }` ) ;

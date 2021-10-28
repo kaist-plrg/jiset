@@ -1,0 +1,1 @@
+var x = x `` ; function x ( ... { x = class extends x . x { } } ) { ; var { [ '' ] : x } = x ; }

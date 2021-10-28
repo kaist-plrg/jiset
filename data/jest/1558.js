@@ -1,0 +1,1 @@
+var x = 42n . prototype . set . call ( new class x extends new x ( '' ) { ; } ( ) , { * x ( ... { x } ) { ; } } , 0 ) ;

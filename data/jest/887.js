@@ -1,0 +1,1 @@
+var x = void class extends x `${ '' }${ x }${ '' }` { } ;

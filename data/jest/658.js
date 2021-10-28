@@ -1,0 +1,1 @@
+for ( x in x === x ) for ( let x = x ; ; '' ) ;

@@ -1,0 +1,1 @@
+var x = Object . preventExtensions ( { async x ( ... [ ... x ] ) { ; } } ) ;

@@ -1,0 +1,1 @@
+try { for ( [ ] in '' ) ; new x ( x , ... '' ) ; } catch ( x ) { } var [ , ... x ] = null != x ;

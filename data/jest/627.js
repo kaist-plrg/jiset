@@ -1,0 +1,1 @@
+function x ( ) { } var { '' : { } = x } = x ;

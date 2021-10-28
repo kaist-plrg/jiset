@@ -1,0 +1,1 @@
+var x = new Set ( [ { [ Symbol . asyncIterator ] : function * ( ) { } , [ Symbol . iterator ] : async function ( ) { } } , Infinity , { [ Symbol . asyncIterator ] : function * ( ) { } , [ Symbol . iterator ] : async function ( ) { } } ] ) ; var [ x , , ] = { [ Symbol . asyncIterator ] : function * ( ) { } , [ Symbol . iterator ] : async function ( ) { } } ;

@@ -1,0 +1,1 @@
+for ( x of { [ - { [ Symbol . toPrimitive ] : function ( x ) { } } ] : typeof x , [ { [ Symbol . toPrimitive ] : function ( x ) { } } ] : { [ Symbol . toPrimitive ] : function ( x ) { } } > x } ) for ( { [ Symbol . toPrimitive ] : function ( x ) { } } , { [ Symbol . toPrimitive ] : function ( x ) { } } ; ; { [ Symbol . toPrimitive ] : function ( x ) { } } , '' ) ;

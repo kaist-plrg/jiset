@@ -1,0 +1,1 @@
+var x = x += Symbol . iterator ; async function * x ( ... [ x ] ) { }

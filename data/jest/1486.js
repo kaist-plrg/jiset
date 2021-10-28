@@ -1,0 +1,1 @@
+var x = { [ "length" ] : async * function ( x ) { } } ( { [ "length" ] : async * function ( x ) { } } ) ;

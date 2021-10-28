@@ -1,0 +1,1 @@
+do switch ( '' ) { default : case x : } while ( class x { ; } ) ;

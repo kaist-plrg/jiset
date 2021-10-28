@@ -1,0 +1,1 @@
+var x = eval ( `${ async function x ( ) { } }` ) ;
