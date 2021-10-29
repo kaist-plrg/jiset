@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.editor
 
+import kr.ac.kaist.jiset.{ TEST262_TEST_DIR, DATA_DIR }
 import kr.ac.kaist.jiset.ir.{ State, NodeCursor }
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
@@ -14,8 +15,10 @@ trait JsProgram extends EditorElem {
   // AST of js program
   val script: Script
 
-  // filename
-  val filename: String
+  // meta-data of js program (id, name)
+  val meta: (String, Int)
+  val (name, id) = meta
+  def filename: String
 
   // touched nodes
   var touched: Array[Boolean] = Array.fill(cfg.nodes.size)(false)
@@ -39,9 +42,12 @@ trait JsProgram extends EditorElem {
 }
 
 // test262 program
-case class Test262Program(id: Int, filename: String) extends JsProgram {
+case class Test262Program(meta: (String, Int)) extends JsProgram {
   // unique id
   def uid: String = s"T$id"
+
+  // filename
+  override def filename: String = s"$TEST262_TEST_DIR/$name"
 
   // AST of js program
   lazy val script = Test262.loadTest(
@@ -51,18 +57,24 @@ case class Test262Program(id: Int, filename: String) extends JsProgram {
 }
 
 // jest program
-case class JestProgram(id: Int, filename: String) extends JsProgram {
+case class JestProgram(meta: (String, Int)) extends JsProgram {
   // unique id
   def uid: String = s"J$id"
+
+  // filename
+  override def filename: String = s"$DATA_DIR/jest/$name"
 
   // AST of js program
   lazy val script = fromFile(filename)
 }
 
 // custom program
-case class CustomProgram(id: Int, filename: String) extends JsProgram {
+case class CustomProgram(meta: (String, Int)) extends JsProgram {
   // unique id
   def uid: String = s"C$id"
+
+  // filename
+  override def filename: String = s"$DATA_DIR/custom/$name"
 
   // AST of js program
   lazy val script = fromFile(filename)
@@ -73,12 +85,14 @@ case class CustomProgram(id: Int, filename: String) extends JsProgram {
 // js program parser
 object JsProgramParser extends BasicParsers {
   implicit lazy val program: Parser[JsProgram] =
-    ("[uid: " ~> (word ~ int) <~ "]") ~ "\\S+".r ^^ {
-      case (kind ~ id) ~ filename => kind match {
-        case "T" => Test262Program(id, filename)
-        case "J" => JestProgram(id, filename)
-        case "C" => CustomProgram(id, filename)
-      }
+    ("[uid: " ~> ("\\w".r ~ int) <~ "]") ~ "[\\w-.\\/]+".r ^^ {
+      case (kind ~ id) ~ name =>
+        val meta = (name, id)
+        kind match {
+          case "T" => Test262Program(meta)
+          case "J" => JestProgram(meta)
+          case "C" => CustomProgram(meta)
+        }
     }
   def apply(str: String): JsProgram = parse(str)
 }

@@ -37,14 +37,14 @@ object Filter {
       val cursor = st.context.cursorOpt.get
       cursor match {
         case NodeCursor(n) =>
-          //flag update
+          // update touched
           p.touched(n.uid) = true
 
-          //nodeMap update
+          // update nodeMap
           nodeMap.get(n) match {
             case Some(p0) if p0.size <= p.size =>
             case _ =>
-              nodeMap += (n -> p) // TODO save touched
+              nodeMap += (n -> p)
 
               // logging
               if (LOG) {

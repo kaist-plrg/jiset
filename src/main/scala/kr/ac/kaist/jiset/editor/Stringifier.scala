@@ -19,7 +19,7 @@ class Stringifier(
 
   // JsProgram
   implicit lazy val JsProgramApp: App[JsProgram] = (app, elem) => {
-    app >> "[uid: " >> elem.uid >> "]" >> elem.filename
+    app >> "[uid: " >> elem.uid >> "]" >> elem.name
   }
 
   // TODO syntactic views

@@ -17,40 +17,39 @@ case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
     config: FilterJsConfig
   ): Unit = {
     // get program list from path
-    def getList(path: String): List[String] =
-      readFile(path).split(LINE_SEP).toList
+    def getList(path: String, cons: ((String, Int)) => JsProgram): List[JsProgram] =
+      readFile(path).split(LINE_SEP).toList.zipWithIndex.map(cons(_))
+
+    // put js programs to filter
+    def doPut(desc: String, ps: List[JsProgram]): Unit = {
+      // put js program to filter
+      ProgressBar(desc, ps).foreach { p => Filter.put(p) }
+
+      // print stats
+      if (!jisetConfig.silent) {
+        println(s"${Filter.getProgramCount}/${Filter.putCount} for ${Filter.getCoveredSize}")
+      }
+    }
 
     // put programs from test262 list
-    ProgressBar(
-      s"put test262 programs",
-      getList(s"$DATA_DIR/test262-list").zipWithIndex
-    ).foreach {
-        case (name, id) =>
-          Filter.put(Test262Program(id, s"$TEST262_TEST_DIR/$name"))
-      }
+    // doPut(
+    //   s"put test262 programs",
+    //   getList(s"$DATA_DIR/test262-list", Test262Program.apply)
+    // )
 
     // put programs from JEST list
-    ProgressBar(
+    doPut(
       s"put jest programs",
-      getList(s"$DATA_DIR/jest-list").zipWithIndex
-    ).foreach {
-        case (name, id) =>
-          Filter.put(JestProgram(id, s"$DATA_DIR/jest/$name"))
-      }
+      getList(s"$DATA_DIR/jest-list", JestProgram.apply)
+    )
 
     // put programs from custom list
-    ProgressBar(
+    doPut(
       s"put custom programs",
-      getList(s"$DATA_DIR/custom-list").zipWithIndex
-    ).foreach {
-        case (name, id) =>
-          Filter.put(CustomProgram(id, s"$DATA_DIR/custom/$name"))
-      }
+      getList(s"$DATA_DIR/custom-list", CustomProgram.apply)
+    )
 
-    // print stats
-    if (!jisetConfig.silent) {
-      println(s"${Filter.getProgramCount}/${Filter.putCount} for ${Filter.getCoveredSize}")
-    }
+    // dump filter result
     if (LOG) Filter.dump()
 
     // close file handles in editor.Filter
