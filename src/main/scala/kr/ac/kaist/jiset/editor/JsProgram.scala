@@ -17,6 +17,9 @@ trait JsProgram extends EditorElem {
   // filename
   val filename: String
 
+  // touched nodes
+  var touched: Array[Boolean] = Array.fill(cfg.nodes.size)(false)
+
   // raw string of js program
   lazy val raw: String = script.toString
 
@@ -34,6 +37,8 @@ trait JsProgram extends EditorElem {
   // toString
   override def toString: String = s"[$uid]: $filename ($size)"
 }
+
+// test262 program
 case class Test262Program(id: Int, filename: String) extends JsProgram {
   // unique id
   def uid: String = s"T$id"
@@ -44,6 +49,8 @@ case class Test262Program(id: Int, filename: String) extends JsProgram {
     MetaParser(filename).includes
   )
 }
+
+// jest program
 case class JestProgram(id: Int, filename: String) extends JsProgram {
   // unique id
   def uid: String = s"J$id"
@@ -51,6 +58,8 @@ case class JestProgram(id: Int, filename: String) extends JsProgram {
   // AST of js program
   lazy val script = fromFile(filename)
 }
+
+// custom program
 case class CustomProgram(id: Int, filename: String) extends JsProgram {
   // unique id
   def uid: String = s"C$id"

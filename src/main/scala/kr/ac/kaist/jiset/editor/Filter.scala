@@ -11,36 +11,22 @@ import kr.ac.kaist.jiset.{ EDITOR_LOG_DIR, LOG, DEBUG }
 // filtering js programs using its size and spec coverage
 object Filter {
   import cfgJsonProtocol._
-
-  // filter program using a given syntactic view
-  // def apply(ast: AST, view: SyntacticView): Boolean =
-  //   ast.contains(view.ast)
-
-  type NodeMap = Map[Node, JsProgram]
+  mkdir(s"$EDITOR_LOG_DIR")
 
   // mapping from node to shortest program
+  type NodeMap = Map[Node, JsProgram]
   var nodeMap: NodeMap = Map()
 
-  // mapping from uid of program to touched nodes
-  type Flag = Array[Boolean]
-  var touchedMap: Map[String, Flag] = Map()
-
-  // count put operation
-  var putCount = 0
-
   // file writer for log
-  mkdir(s"$EDITOR_LOG_DIR")
   val nfLog = getPrintWriter(s"$EDITOR_LOG_DIR/put.log")
 
   // put one js program to filter
+  var putCount = 0
   def put(p: JsProgram): Unit = {
     putCount += 1
 
     // uid of the program
     val pid = p.uid
-
-    // create touched flag
-    var flag = touchedMap.getOrElse(pid, Array.fill(cfg.nodes.size)(false))
 
     // create interp object
     val interp = new Interp(p.initState, useHook = true)
@@ -52,7 +38,7 @@ object Filter {
       cursor match {
         case NodeCursor(n) =>
           //flag update
-          flag(n.uid) = true
+          p.touched(n.uid) = true
 
           //nodeMap update
           nodeMap.get(n) match {
@@ -75,13 +61,19 @@ object Filter {
 
     // fixpoint
     interp.fixpoint
-
-    //touchedMap update
-    touchedMap += (p.uid -> flag)
   }
+
+  // get programs touching a node
+  def getTouched(n: Node): Set[JsProgram] = for {
+    p <- nodeMap.values.toSet if p.touched(n.uid)
+  } yield p
 
   // select one program and try to reduce its size
   def tryReduce(): Boolean = ???
+
+  // filter program using a given syntactic view
+  // def apply(ast: AST, view: SyntacticView): Boolean =
+  //   ast.contains(view.ast)
 
   // dump stats
   def dumpStats(): Unit = ???
@@ -105,12 +97,6 @@ object Filter {
     nodeMap = m
   }
 
-  // ??
-  //  def touchPrograms(nid: Int): Set[String] = (for {
-  //    (pid, flag) <- touchedMap
-  //    if flag(nid)
-  //  } yield pid).toSet
-  //
   //  def dumpPrograms: Unit = for {
   //    (_, nid) <- Array.fill(cfg.nodes.size)(0).zipWithIndex
   //  } {
