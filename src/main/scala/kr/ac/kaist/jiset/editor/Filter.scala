@@ -25,9 +25,6 @@ object Filter {
   def put(p: JsProgram): Unit = {
     putCount += 1
 
-    // uid of the program
-    val pid = p.uid
-
     // create interp object
     val interp = new Interp(p.initState, useHook = true)
 
@@ -68,6 +65,10 @@ object Filter {
     p <- nodeMap.values.toSet if p.touched(n.uid)
   } yield p
 
+  def getCovered(p: JsProgram): Set[Node] = for {
+    n <- nodeMap.keySet if nodeMap(n).uid == p.uid
+  } yield n
+
   // select one program and try to reduce its size
   def tryReduce(): Boolean = ???
 
@@ -77,6 +78,25 @@ object Filter {
 
   // dump stats
   def dumpStats(): Unit = ???
+
+  def dumpCSV(): Unit = {
+    val nf = getPrintWriter(s"$EDITOR_LOG_DIR/Covered.csv")
+    val header = "Program, Size, #Covered"
+    nf.println(header)
+    mkdir(s"$EDITOR_LOG_DIR/Covered")
+    for {
+      p: JsProgram <- nodeMap.values.toSet
+    } {
+      val data = s"${p.uid},${p.size},${getCovered(p).size}"
+      nf.println(data)
+
+      val covernf = getPrintWriter(s"$EDITOR_LOG_DIR/Covered/${p.uid}.log")
+      covernf.println(getCovered(p).mkString)
+      covernf.close
+    }
+    nf.close
+  }
+
   def getProgramCount: Int =
     nodeMap.values.map(_.uid).toSet.size
   def getCoveredSize: Int =
@@ -96,19 +116,6 @@ object Filter {
     putCount = c
     nodeMap = m
   }
-
-  //  def dumpPrograms: Unit = for {
-  //    (_, nid) <- Array.fill(cfg.nodes.size)(0).zipWithIndex
-  //  } {
-  //    val nf = getPrintWriter(s"$EDITOR_LOG_DIR/$nid.log")
-  //    val ps = touchPrograms(nid)
-  //    for {
-  //      p <- ps
-  //    } {
-  //      nf.println(s"$p")
-  //    }
-  //    nf.close
-  //  }
 
   // close
   def close(): Unit = nfLog.close()
