@@ -23,21 +23,22 @@ trait JsProgram extends EditorElem {
   // touched nodes
   lazy val touched: Array[Boolean] = {
     val cached = s"$EDITOR_LOG_DIR/cached/$uid.json"
+    val _touched = Array.fill(cfg.nodes.size)(false)
 
     // check if cached result exists
     if (exists(cached)) {
       // read touched from cached
       val data = readJson[Array[Int]](cached)
-      data.map(b => if (b == 0) false else true)
+      data.foreach(nid => _touched(nid) = true)
+      _touched
     } else {
       // run interp and dump touched result
-      val touched = Array.fill(cfg.nodes.size)(false)
       val interp = new Interp(initState, useHook = true)
 
       // subscribe step event in interp
       interp.subscribe(Interp.Event.Step, { st =>
         st.context.cursorOpt.get match {
-          case NodeCursor(n) => { touched(n.uid) = true }
+          case NodeCursor(n) => { _touched(n.uid) = true }
           case _ =>
         }
       })
@@ -46,8 +47,12 @@ trait JsProgram extends EditorElem {
       interp.fixpoint
 
       // cache touched result
-      dumpJson(touched.map(if (_) 1 else 0), cached, true)
-      touched
+      val data = _touched.zipWithIndex.flatMap {
+        case (true, nid) => Some(nid)
+        case _ => None
+      }
+      dumpJson(data, cached, true)
+      _touched
     }
   }
 
