@@ -27,7 +27,8 @@ trait JsProgram extends EditorElem {
     // check if cached result exists
     if (exists(cached)) {
       // read touched from cached
-      readJson[Array[Boolean]](cached)
+      val data = readJson[Array[Int]](cached)
+      data.map(b => if (b == 0) false else true)
     } else {
       // run interp and dump touched result
       val touched = Array.fill(cfg.nodes.size)(false)
@@ -45,7 +46,7 @@ trait JsProgram extends EditorElem {
       interp.fixpoint
 
       // cache touched result
-      dumpJson(touched, cached, true)
+      dumpJson(touched.map(if (_) 1 else 0), cached, true)
       touched
     }
   }
