@@ -27,15 +27,15 @@ case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
 
       // print stats
       if (!jisetConfig.silent) {
-        println(s"${Filter.getProgramCount}/${Filter.putCount} for ${Filter.getCoveredSize}")
+        println(s"${Filter.programSize}/${Filter.putCount} for ${Filter.touchedSize}")
       }
     }
 
     // put programs from test262 list
-    // doPut(
-    //   s"put test262 programs",
-    //   getList(s"$DATA_DIR/test262-list", Test262Program.apply)
-    // )
+    doPut(
+      s"put test262 programs",
+      getList(s"$DATA_DIR/test262-list", Test262Program.apply)
+    )
 
     // put programs from JEST list
     doPut(

@@ -1,7 +1,7 @@
 package kr.ac.kaist.jiset.editor
 
-import kr.ac.kaist.jiset.{ TEST262_TEST_DIR, DATA_DIR }
-import kr.ac.kaist.jiset.ir.{ State, NodeCursor }
+import kr.ac.kaist.jiset.{ cfg => CFG, _ }
+import kr.ac.kaist.jiset.ir.{ State, NodeCursor, Interp }
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
 import kr.ac.kaist.jiset.parser.{ MetaParser, BasicParsers }
@@ -21,7 +21,34 @@ trait JsProgram extends EditorElem {
   def filename: String
 
   // touched nodes
-  var touched: Array[Boolean] = Array.fill(cfg.nodes.size)(false)
+  lazy val touched: Array[Boolean] = {
+    val cached = s"$EDITOR_LOG_DIR/cached/$uid.json"
+
+    // check if cached result exists
+    if (exists(cached)) {
+      // read touched from cached
+      readJson[Array[Boolean]](cached)
+    } else {
+      // run interp and dump touched result
+      val touched = Array.fill(cfg.nodes.size)(false)
+      val interp = new Interp(initState, useHook = true)
+
+      // subscribe step event in interp
+      interp.subscribe(Interp.Event.Step, { st =>
+        st.context.cursorOpt.get match {
+          case NodeCursor(n) => { touched(n.uid) = true }
+          case _ =>
+        }
+      })
+
+      // fixpoint
+      interp.fixpoint
+
+      // cache touched result
+      dumpJson(touched, cached, true)
+      touched
+    }
+  }
 
   // raw string of js program
   lazy val raw: String = script.toString
@@ -39,6 +66,15 @@ trait JsProgram extends EditorElem {
 
   // toString
   override def toString: String = s"[$uid]: $filename ($size)"
+
+  // equals
+  override def equals(that: Any): Boolean = that match {
+    case that: JsProgram => this.uid == that.uid
+    case _ => false
+  }
+
+  // override hashCode
+  override def hashCode: Int = uid.hashCode
 }
 
 // test262 program
