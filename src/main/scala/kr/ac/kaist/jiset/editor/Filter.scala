@@ -1,65 +1,95 @@
 package kr.ac.kaist.jiset.editor
 
 import kr.ac.kaist.jiset.cfg._
-import kr.ac.kaist.jiset.editor.JsonProtocol._
 import kr.ac.kaist.jiset.js._
+import kr.ac.kaist.jiset.js.ast.Script
+import kr.ac.kaist.jiset.parser.MetaParser
 import kr.ac.kaist.jiset.util.JvmUseful._
-import kr.ac.kaist.jiset.{ EDITOR_LOG_DIR, LOG, LINE_SEP }
+import kr.ac.kaist.jiset.{ cfg => Cfg, _ }
+import kr.ac.kaist.jiset.editor.JsonProtocol._
 
 // filtering js programs using its size and spec coverage
 object Filter {
   // files
-  mkdir(s"$EDITOR_LOG_DIR")
-  mkdir(s"$EDITOR_LOG_DIR/cached")
-  val cached = s"$EDITOR_LOG_DIR/cached/filter.json"
+  val PROGRAM_DIR = s"$EDITOR_LOG_DIR/programs"
+  List(EDITOR_LOG_DIR, EDITOR_CACHED_DIR, PROGRAM_DIR).foreach(mkdir(_))
+  val cached = s"$EDITOR_CACHED_DIR/filter_data.json"
   val nfLog = getPrintWriter(s"$EDITOR_LOG_DIR/log")
   def close(): Unit = nfLog.close()
 
-  // mapping from node to shortest program
-  type NodeMap = Array[Option[JsProgram]]
-  var nodeMap: NodeMap = Array.fill(cfg.nodes.size)(None)
+  // program id
+  private var pid = 0
+  private def nextPId: Int = { val prev = pid; pid += 1; prev }
+  def getPId: Int = pid
 
-  // reference counting for each js program
-  type RcMap = Map[JsProgram, Int]
-  private var rcMap: RcMap = Map()
-  private def incRc(p: JsProgram): Unit =
-    rcMap += (p -> (rcMap.getOrElse(p, 0) + 1))
-  private def decRc(p: JsProgram): Unit =
-    rcMap(p) match {
-      case cnt if cnt <= 1 => rcMap -= p
-      case cnt => rcMap += (p -> (cnt - 1))
-    }
+  // mapping from node to shortest program
+  private var nodeMap: Array[Option[JsProgram]] =
+    Array.fill(cfg.nodes.size)(None)
+
+  // mapping from shortest program to node
+  private var programMap: Map[JsProgram, Set[Int]] = Map()
 
   // touched nodes by programs put in filter
   def touchedSize: Int = nodeMap.count(!_.isEmpty)
 
   // get # of programs after filtering
-  def programSize: Int = rcMap.size
+  def programSize: Int = programMap.size
 
   // get programs touching a node
   def getTouchedPrograms(n: Node): Set[JsProgram] = for {
-    p <- rcMap.keySet if p.touched(n.uid)
+    p <- programMap.keySet if p.touched(n.uid)
   } yield p
 
-  // put one js program to filter
-  var putCount = 0
+  // put test 262 test
+  def putTest262(meta: (String, Int)): Unit = {
+    val (name, id) = meta
+    val (uid, filename) = (s"T$id", s"$TEST262_TEST_DIR/$name")
+    val script = Test262.loadTest(
+      parseFile(filename),
+      MetaParser(filename).includes
+    )
+    put(script, Some(s"$uid"))
+  }
+
+  // put jest program
+  def putJest(meta: (String, Int)): Unit = {
+    val (name, id) = meta
+    val (uid, filename) = (s"J$id", s"$DATA_DIR/jest/$name")
+    val script = parseFile(filename)
+    put(script, Some(s"$uid"))
+  }
+
+  // put custom program
+  def putCustom(meta: (String, Int)): Unit = {
+    val (name, id) = meta
+    val (uid, filename) = (s"C$id", s"$DATA_DIR/custom/$name")
+    val script = parseFile(filename)
+    put(script, Some(s"$uid"))
+  }
+
+  // put js program
+  def put(script: Script, touchedFile: Option[String]): Unit =
+    put(JsProgram(nextPId, script, touchedFile))
   def put(p: JsProgram): Unit = {
     // logging
-    putCount += 1
     var printed = false
     def log(nid: Int): Unit = {
       if (!printed) {
-        nfLog.println("!!!", p.toString)
+        nfLog.println("!!!", p.raw)
         printed = true
       }
-      nfLog.println(s"$putCount, ${nid}, ${touchedSize}")
+      nfLog.println(s"${pid}, ${nid}, ${touchedSize}")
     }
 
     // update nodeMap
     def update(nid: Int): Unit = {
-      nodeMap(nid).foreach(decRc(_))
+      nodeMap(nid).foreach(p0 => {
+        val nids = programMap(p0)
+        if (nids.size <= 1) programMap -= p0
+        else programMap += (p0 -> (nids - nid))
+      })
       nodeMap(nid) = Some(p)
-      incRc(p)
+      programMap += (p -> (programMap.getOrElse(p, Set()) + nid))
     }
 
     // update shortest programs by node
@@ -85,42 +115,57 @@ object Filter {
   }
 
   // dump
-  def dump() = {
-    val data = (putCount, nodeMap, rcMap)
+  def dump(): Unit = {
+    // dump programs
+    programMap.keySet.foreach(p => {
+      p.saveTouched()
+      dumpJson(p, s"$PROGRAM_DIR/${p.uid}.json", true)
+    })
+
+    // dump data
+    val nmap = nodeMap.map(_.map(p => p.uid))
+    val pmap = programMap.map { case (p, nids) => p.uid -> nids }.toMap
+    val data = (pid, nmap, pmap)
     dumpJson(data, cached, true)
   }
 
   // load
-  type FilterData = (Int, NodeMap, RcMap)
+  type FilterData = (Int, Array[Option[Int]], Map[Int, Set[Int]])
   def load(): Unit = {
+    // load programs
+    val programs = (for {
+      file <- walkTree(PROGRAM_DIR) if jsonFilter(file.getName)
+      p = readJson[JsProgram](file.toString)
+    } yield p.uid -> p).toMap
+
+    // load data
     val data = readJson[FilterData](cached)
-    putCount = data._1; nodeMap = data._2; rcMap = data._3
+    pid = data._1
+    nodeMap = data._2.map(_.map(pid => programs(pid)))
+    programMap = data._3.map { case (pid, nids) => (programs(pid) -> nids) }.toMap
   }
+
+  // print stats
+  def printStats(): Unit = println(s"${programSize}/${getPId} for ${touchedSize}")
+
+  // dump csv files
+  def dumpCsv(): Unit = {
+    // dump program map to csv file
+    val nf = getPrintWriter(s"$EDITOR_LOG_DIR/program_map.csv")
+    for { (p, nids) <- programMap } {
+      val nodesStr = if (nids.size > 0) {
+        "," + nids.toArray.sorted.mkString(",")
+      } else ""
+      nf.println(s"${p.uid},${p.size},${nids.size}$nodesStr")
+    }
+    nf.close
+  }
+
+  // parse script from filename
+  def parseFile(filename: String): Script =
+    Parser.parse(Parser.Script(Nil), fileReader(filename)).get
 
   // filter program using a given syntactic view
   // def apply(ast: AST, view: SyntacticView): Boolean =
   //   ast.contains(view.ast)
-
-  // dump stats
-  def dumpStats(): Unit = ???
-
-  def dumpCSV(): Unit = {
-    // get node s.t. nodeMap[node] == p
-    def getCovered(p: JsProgram): Array[Int] = (for {
-      (p0Opt, nid) <- nodeMap.zipWithIndex
-      p0 <- p0Opt if p0 == p
-    } yield nid).sorted
-
-    val nf = getPrintWriter(s"$EDITOR_LOG_DIR/Covered.csv")
-    val header = "Program, Size, #Covered"
-    nf.println(header)
-    mkdir(s"$EDITOR_LOG_DIR/Covered")
-    for { (p, rc) <- rcMap } {
-      nf.println(s"${p.uid},${p.size},${rc}")
-      val covernf = getPrintWriter(s"$EDITOR_LOG_DIR/Covered/${p.uid}.log")
-      covernf.println(getCovered(p).mkString(LINE_SEP))
-      covernf.close
-    }
-    nf.close
-  }
 }

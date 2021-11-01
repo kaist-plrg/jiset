@@ -14,6 +14,7 @@ package object jiset {
   val CHECK_LOG_DIR = s"$LOG_DIR/check"
   val ANALYZE_LOG_DIR = s"$LOG_DIR/analyze"
   val EDITOR_LOG_DIR = s"$LOG_DIR/editor"
+  val EDITOR_CACHED_DIR = s"$EDITOR_LOG_DIR/cached"
 
   // Specification directory
   val ECMA262_DIR = s"$BASE_DIR/ecma262"

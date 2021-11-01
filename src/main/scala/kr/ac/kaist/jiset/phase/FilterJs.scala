@@ -17,40 +17,45 @@ case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
     config: FilterJsConfig
   ): Unit = {
     // get program list from path
-    def getList(path: String, cons: ((String, Int)) => JsProgram): List[JsProgram] =
-      readFile(path).split(LINE_SEP).toList.zipWithIndex.map(cons(_))
+    def getList(path: String): List[(String, Int)] =
+      readFile(path).split(LINE_SEP).toList.zipWithIndex
 
     // put js programs to filter
-    def doPut(desc: String, ps: List[JsProgram]): Unit = {
+    def doPut(
+      desc: String,
+      metas: List[(String, Int)],
+      put: ((String, Int)) => Unit
+    ): Unit = {
       // put js program to filter
-      ProgressBar(desc, ps).foreach { p => Filter.put(p) }
+      ProgressBar(desc, metas).foreach(put(_))
 
       // print stats
-      if (!jisetConfig.silent) {
-        println(s"${Filter.programSize}/${Filter.putCount} for ${Filter.touchedSize}")
-      }
+      if (!jisetConfig.silent) Filter.printStats()
     }
 
     // put programs from test262 list
     doPut(
       s"put test262 programs",
-      getList(s"$DATA_DIR/test262-list", Test262Program.apply)
+      getList(s"$DATA_DIR/test262-list"),
+      Filter.putTest262
     )
 
     // put programs from JEST list
     doPut(
       s"put jest programs",
-      getList(s"$DATA_DIR/jest-list", JestProgram.apply)
+      getList(s"$DATA_DIR/jest-list"),
+      Filter.putJest
     )
 
     // put programs from custom list
     doPut(
       s"put custom programs",
-      getList(s"$DATA_DIR/custom-list", CustomProgram.apply)
+      getList(s"$DATA_DIR/custom-list"),
+      Filter.putCustom
     )
 
     // dump filter result
-    if (LOG) Filter.dump()
+    if (LOG) { Filter.dump(); Filter.dumpCsv() }
 
     // close file handles in editor.Filter
     Filter.close()
