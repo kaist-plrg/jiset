@@ -22,20 +22,27 @@ class ReplaceExprWalker(f: Map[NodePoint[Node], AbsState], uidMap: Map[Int, Node
   def pe(expr: Expr, astate: AbsState, np: NodePoint[Node]): Expr = {
     val helper = new sem.transfer.Helper(np)
     helper.transfer(expr)(astate)._1.getSingle match {
-      case FlatElem(v: SimpleValue) => v match {
-        case Num(double) => ENum(double)
-        case INum(long) => EINum(long)
-        case BigINum(b) => EBigINum(b)
-        case Str(str) => EStr(str)
-        case Bool(bool) => EBool(bool)
-        case Undef => EUndef
-        case Null => ENull
-        case Absent => EAbsent
+      case FlatElem(v: Value) => v match {
+        case CompValue(ty, value: SimpleValue, targetOpt) => EComp(EConst(ty.name), simpleToExpr(value), EConst(targetOpt.getOrElse(CONST_EMPTY.name)))
+        case Const(name) => EConst(name)
+        case v: SimpleValue => simpleToExpr(v)
+        case _ => expr
       }
       case _ => expr
     }
-
   }
+
+  def simpleToExpr(v: SimpleValue): Expr = v match {
+    case Num(double) => ENum(double)
+    case INum(long) => EINum(long)
+    case BigINum(b) => EBigINum(b)
+    case Str(str) => EStr(str)
+    case Bool(bool) => EBool(bool)
+    case Undef => EUndef
+    case Null => ENull
+    case Absent => EAbsent
+  }
+
   override def walk(inst: Inst): Inst = {
     uidMap.get(inst.uid).flatMap((np) => f.get(np).map((astate) => (np, astate))) match {
       case Some((np, astate)) => (if (astate.reachable) (inst match {

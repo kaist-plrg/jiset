@@ -190,7 +190,7 @@ case class AbsTransfer(sem: AbsSemantics) {
                   cursorOpt = Some(initSt.cursorGen(algo.body))
                 ))
                 try {
-                  val st = Interp(initSt, Some(100))
+                  val st = DSInterp(initSt, Some(100))
                   st.context.locals.get(Id(RESULT)) match {
                     case Some(value) => returnValue = AbsValue(value)
                     case None => ()
@@ -253,13 +253,13 @@ case class AbsTransfer(sem: AbsSemantics) {
                       ))
 
                       try {
-                        val st = Interp(initSt, Some(100))
+                        val st = DSInterp(initSt, Some(100))
                         st.context.locals.get(Id(RESULT)) match {
                           case Some(value) => returnValue = AbsValue(value)
                           case None => ()
                         }
                       } catch {
-                        case e: JISETError => e.printStackTrace()
+                        case e: JISETError => ()
                       }
                     }
                     if (returnValue.isBottom) {
