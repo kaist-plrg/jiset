@@ -55,7 +55,7 @@ case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
     )
 
     // dump filter result
-    if (LOG) { Filter.dump(); Filter.dumpCsv() }
+    if (LOG) { Filter.dump(); Filter.dumpStats() }
 
     // close file handles in editor.Filter
     Filter.close()

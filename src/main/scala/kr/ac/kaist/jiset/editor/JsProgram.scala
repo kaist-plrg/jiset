@@ -38,11 +38,7 @@ class JsProgram(
   // save touched result
   def saveTouched(): Unit = {
     val filename = s"$EDITOR_CACHED_DIR/$uid.json"
-    val data = touched.zipWithIndex.flatMap {
-      case (true, nid) => Some(nid)
-      case _ => None
-    }
-    dumpJson(data, filename, true)
+    dumpJson(JsProgram.getTouchedNodes(touched), filename, true)
     touchedFile = Some(s"$uid")
   }
 }
@@ -85,13 +81,16 @@ object JsProgram {
 
         // cache touched result
         cached.foreach(cached => {
-          val data = _touched.zipWithIndex.flatMap {
-            case (true, nid) => Some(nid)
-            case _ => None
-          }
-          dumpJson(data, cached, true)
+          dumpJson(getTouchedNodes(_touched), cached, true)
         })
         _touched
     }
   }
+
+  // convert touched result to nid list
+  def getTouchedNodes(touched: Array[Boolean]): Array[Int] =
+    touched.zipWithIndex.flatMap {
+      case (true, nid) => Some(nid)
+      case _ => None
+    }
 }

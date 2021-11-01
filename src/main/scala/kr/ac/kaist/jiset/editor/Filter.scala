@@ -4,6 +4,7 @@ import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
 import kr.ac.kaist.jiset.parser.MetaParser
+import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.{ cfg => Cfg, _ }
 import kr.ac.kaist.jiset.editor.JsonProtocol._
@@ -16,6 +17,10 @@ object Filter {
   val cached = s"$EDITOR_CACHED_DIR/filter_data.json"
   val nfLog = getPrintWriter(s"$EDITOR_LOG_DIR/log")
   def close(): Unit = nfLog.close()
+
+  // for total stats
+  var programStats: Map[Int, (Long, Int)] = Map()
+  val nodeStats: Array[Int] = Array.fill(cfg.nodes.size)(0)
 
   // program id
   private var pid = 0
@@ -92,8 +97,16 @@ object Filter {
       programMap += (p -> (programMap.getOrElse(p, Set()) + nid))
     }
 
+    val (execTime, touched) = time { p.touched }
+
+    // log stats
+    if (LOG) {
+      programStats += (p.uid -> (execTime, p.size))
+      JsProgram.getTouchedNodes(touched).foreach(nid => { nodeStats(nid) += 1 })
+    }
+
     // update shortest programs by node
-    p.touched.zipWithIndex.foreach {
+    touched.zipWithIndex.foreach {
       case (true, nid) =>
         nodeMap(nid) match {
           case Some(p0) if p0.size <= p.size =>
@@ -108,9 +121,7 @@ object Filter {
   // select one program and try to reduce its size
   def tryReduce(): Boolean = {
     // TODO how to select target program?
-
     // TODO how to reduce program?
-
     ???
   }
 
@@ -148,9 +159,48 @@ object Filter {
   // print stats
   def printStats(): Unit = println(s"${programSize}/${getPId} for ${touchedSize}")
 
-  // dump csv files
-  def dumpCsv(): Unit = {
-    // dump program map to csv file
+  // dump stats
+  def dumpStats(): Unit = {
+    def getNodeStr(stats: Array[Int]): String = stats
+      .zipWithIndex
+      .map { case (cnt, nid) => s"$nid,$cnt" }
+      .mkString(LINE_SEP)
+    // dump total node stats
+    dumpFile(
+      getNodeStr(nodeStats),
+      s"$EDITOR_LOG_DIR/total_nodes.csv"
+    )
+    // dump filtered node stats
+    val filteredNodeStats = Array.fill(cfg.nodes.size)(0)
+    for {
+      p <- programMap.keySet
+      nid <- JsProgram.getTouchedNodes(p.touched)
+    } { filteredNodeStats(nid) += 1 }
+    dumpFile(
+      getNodeStr(filteredNodeStats),
+      s"$EDITOR_LOG_DIR/filtered_nodes.csv"
+    )
+
+    def getProgramStr(stats: Map[Int, (Long, Int)]) = stats
+      .toList
+      .sortWith(_._1 < _._1)
+      .map { case (pid, (execTime, size)) => s"$pid,$execTime,$size" }
+      .mkString(LINE_SEP)
+    // dump total program stats
+    dumpFile(
+      getProgramStr(programStats),
+      s"$EDITOR_LOG_DIR/total_programs.csv"
+    )
+    // dump filtered program stats
+    val filteredPids = programMap.keySet.map(_.uid)
+    dumpFile(
+      getProgramStr(
+        programStats.filter { case (pid, _) => filteredPids contains pid }
+      ),
+      s"$EDITOR_LOG_DIR/filtered_programs.csv"
+    )
+
+    // dump programMap to csv file
     val nf = getPrintWriter(s"$EDITOR_LOG_DIR/program_map.csv")
     for { (p, nids) <- programMap } {
       val nodesStr = if (nids.size > 0) {
