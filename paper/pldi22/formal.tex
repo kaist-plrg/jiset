@@ -1,7 +1,13 @@
 \section{JavaScript Semantics Specialization with Syntactic Views}\label{sec:formal}
 
-We first define $\ires$ as a specification language to describe JavaScript
-semantics.
+In this section, we introduce a JavaScript semantics specialization with
+syntactic views.  We first introduce $\ires$ as a specification language to
+describe JavaScript semantics. To provide options to select target semantics, we
+also introduce syntactic views as an abstraction of JavaScript ASTs.  Then, we
+define a JavaScript semantics specialization with syntactic views as a partial
+evaluation of $\ires$ programs, which is a combination of static analysis and
+program transformation. Finally, we prove the semantics preservation of the
+partial evaluation.
 
 \subsection{$\ires$: Intermediate Representations for ECMAScript}
 
@@ -23,9 +29,9 @@ concrete semantics in the remainder of this section.
     \text{Variables} & \varset &\ni& \varx\\
 
     \text{Instructions} & \instset &\ni& \inst &::=&
-    \refer = \expr \mid
-    \varx = \kwcl \kwcr \mid
-    \varx = \expr \kwrl \expr^* \kwrr \mid \\&&&&&
+    \refer \kweq \expr \mid
+    \varx \kweq \kwcl \kwcr \mid
+    \varx \kweq \expr \kwrl \expr^* \kwrr \mid \\&&&&&
     \kwif \; \expr \; \lab \; \lab \mid
     \kwret \; \expr\\
 
@@ -49,8 +55,8 @@ functions and instructions, respectively, and $\getnext: \labset \rightarrow
 denotes a program point.  A function $\func \in \funcset$ is defined with its
 parameters and body label.  For presentation brevity, we assume that no global
 or captured variables exist in this paper.  An instruction $\inst \in \instset$
-is an assignment $\refer = \expr$, an object allocation $\varx = \kwcl \kwcr$, a
-function call $\varx = \expr \kwrl \expr^* \kwrr$, a branch $\kwif \; \expr \;
+is an assignment $\refer \kweq \expr$, an object allocation $\varx \kweq \kwcl \kwcr$, a
+function call $\varx \kweq \expr \kwrl \expr^* \kwrr$, a branch $\kwif \; \expr \;
 \lab \; \lab$, or a return instruction $\kwret \; \expr$.  An invocation of an
 abstract algorithm in ECMAScript is compiled to a function call instruction with
 a new temporary variable.  We represent loops using branch instructions with
@@ -102,32 +108,56 @@ boolean value $\bool \in \boolset$, an integer $k \in \intset$, or a string
 $\str \in \strset$), an address $\addr \in \addrset$, a JavaScript AST $\tree
 \in \treeset$, or a function $f \in \funcset$.
 
-Since $\ires$ is a specification language for JavaScript, it treats JavaScript
-ASTs $\treeset$ as its values. For presentation brevity, we represent a JavaScript
-AST as follows:
+$\ires$ is a specification language for JavaScript that treats JavaScript ASTs
+as its values. To handle JavaScript ASTs in $\ires$, we define them with tree
+nodes $\nodeset$ as follows:
 \[
-  \tree ::= \term{\str} \mid \ty_k \langle \tree^* \rangle
+  \begin{array}{l@{~}c@{~}l@{~}c@{~}l}
+    \treeset &\ni& \tree &::=& \ty_k \langle \node^* \rangle\\
+    \nodeset &\ni& \node &::=& \str \mid \tree\\
+  \end{array}
 \]
-A leaf node $\term{\str}$ defined with a string $\str$ denotes a terminal
-symbol, and a non-leaf node $\ty_k \langle \tree^* \rangle$ denotes $k$-th
-alternative in the syntactic production of nonterminal symbol $\ty$ with its
-subtrees $\tree^*$.  The notation $\ty_k.\eval$ denotes an $\ires$ function for
-the evaluation of $k$-th alternative in $\ty$, and it takes the AST itself and
-its nonterminal subtrees as arguments. If an AST $\tree$ is a subtree of another
-AST $\tree'$, we represent it as $\tree \subtree \tree'$.  For example,
+A JavaScript AST $\ty_k \langle \node_1, \cdots, \node_n \rangle$ denotes $k$-th
+alternative in the syntactic production of nonterminal symbol $\ty$ with
+multiple tree nodes $\node_1, \cdots, \node_n$.  A tree node is a string for a
+terminal symbol or another tree for a nonterminal symbol. We define several
+notations to easily deal with JavaScript ASTs.  The notation $\ty_k.\eval$ denotes
+an \esalg{Evaluation} function of $k$-th alternative in the production $\ty$.
+Similarly, the notation $\tree.\eval$ denotes the \esalg{Evaluation} function of
+the AST $\tree$, and it is same with $\ty_k.\eval$ when $\tree = \ty_k \langle
+\cdots \rangle$. The \esalg{Evaluation} of each AST takes the AST itself and its
+tree nodes that are nonterminals as arguments.  The notation $\getsubs(\tree)$
+denotes tree nodes that are subtrees of $\tree$.  For example,
 Figure~\ref{fig:coalesce-prod} shows a syntactic production for coalesce
-expressions.  Consider the following coalesce expression:
+expressions.  Consider the following JavaScript coalesce expression:
 \begin{lstlisting}[style=JS]
                     42 ?? true
 \end{lstlisting}
 Then, the following AST is produced as its parsing result:
+\[
+  \begin{array}{lcl}
+    \tree_0 &=&
+    \essyn{CoalesceExpression}_0 \langle \tree_1, \code{"??"}, \tree_2 \rangle\\
+
+    \tree_1 &=&
+    \essyn{CoalesceExpressionHead}_1 \langle \tree_3 \rangle\\
+
+    \tree_2 &=&
+    \essyn{BitwiseORExpression}_0 \langle \cdots \rangle\\
+
+    \tree_3 &=&
+    \essyn{BitwiseORExpression}_0 \langle \cdots \rangle\\
+  \end{array}
+\]
 \begin{figure}[H]
   \includegraphics[width=.8\columnwidth]{img/ast-example.png}
 \end{figure}
-\noindent Its evaluation function $\nterm{CoalesceExpression}_0.\eval$ takes
-three subtrees as arguments annotated by $\tree_0$, $\tree_1$, and $\tree_2$ in
-the figure. Note that $\tree_1$ and $\tree_2$ are subtrees of $\tree_0$ (i.e.,
-$\tree_1 \subtree \tree_0$ and $\tree_2 \subtree \tree_0$).
+\noindent Its \esalg{Evaluation} function $\essyn{CoalesceExpression}_0.\eval$
+takes three subtrees as arguments annotated by $\tree_0$, $\tree_1$, and
+$\tree_2$ in the figure. The ASTs $\tree_0$, $\tree_1$, $\tree_2$, and $\tree_3$
+are subtrees of $\tree_0$ (i.e., $\tree_0 \subtree \tree_0, \cdots, \tree_3
+\subtree \tree_0$), and $\getsubs(\tree_0) = [\tree_1, \tree_2] \wedge
+\getsubs(\tree_1) = [\tree_3]$.
 
 
 \begin{figure}
@@ -149,8 +179,14 @@ The concrete semantics $\sem{\prog}$ of an $\ires$ program $\prog = (\istset,
 \]
 where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
 \st'$ if and only if $\st = (\lab, \_, \_, \_)$ and $\sem{\getinst(\lab)}(\st) =
-\st'$. Now, we define the denotational semantics of expressions, instructions,
-and functions.
+\st'$. Another way to represent the concrete semantics is to define a transfer
+function $\transfer: \powerset{\stset} \rightarrow \powerset{\stset}$:
+\[
+  \sem{\prog} = \lim_{n \rightarrow \infty}\transfer^n(\istset)
+\]
+where $\transfer(S) = \{ \st' \mid \st \in S \wedge \st \trans \st' \}$.  Now,
+we define the denotational semantics of expressions, instructions, and
+functions.
 
 \paragraph{Expressions} We define the denotational semantics of expressions with
 the following form:
@@ -216,14 +252,14 @@ semantics of instructions as follows:
 \begin{itemize}
   \item \underline{Variable Assignments}:
     \[
-      \sem{\varx = \expr}(\st) =
+      \sem{\varx \kweq \expr}(\st) =
       (\getnext(\lab), \ctxts, \heap, \env[\varx \mapsto \val])
     \]
     where $\sem{\expr}(\st) = ((\lab, \ctxts, \heap, \env), \val)$
 
   \item \underline{Field Assignments}:
     \[
-      \sem{\expr_0 \kwsl \expr_1 \kwsr = \expr_2}(\st) =
+      \sem{\expr_0 \kwsl \expr_1 \kwsr \kweq \expr_2}(\st) =
       (\getnext(\lab), \ctxts, \heap[\addr \mapsto \obj'], \env)
     \]
     where
@@ -239,27 +275,27 @@ semantics of instructions as follows:
 
   \item \underline{Object Allocations}:
     \[
-      \sem{\varx = \kwcl \kwcr}(\st) =
-      (\lab, \ctxts, \heap[\addr \mapsto \epsilon], \env[\varx \mapsto
+      \sem{\varx \kweq \kwcl \kwcr}(\st) =
+      (\lab, \ctxts, \heap[\addr \mapsto \varnothing], \env[\varx \mapsto
       \addr])
     \]
     where $\st = (\lab, \ctxts, \heap, \env) \wedge \addr \not\in
-    \text{Domain}(\heap)$ and $\epsilon$ denotes an empty object.
+    \text{Domain}(\heap)$
 
   \item \underline{Function Calls}:
     \[
-      \sem{\varx = \expr \kwrl \expr_1 \cdots \expr_n \kwrr}(\st) =
+      \sem{\varx \kweq \expr \kwrl \expr_1 \cdots \expr_n \kwrr}(\st) =
       (\lab_\varf, \ctxt :: \ctxts, \heap, \env')
     \]
     where
     \[
       \begin{array}{l@{~}c@{~}ll}
-        \sem{\expr}(\st) &=& (\st_0, \kwdef \; \kwrl \varp_1, \cdots, \varp_n
+        \sem{\expr}(\st) &=& (\st_0, \kwdef \; \kwrl \varx_1, \cdots, \varx_n
         \kwrr \; \lab_\varf) &\wedge\\
         \sem{\expr_j}(\st_{j-1}) &=& (\st_j, \val_j) \;
         [\forall 1 \leq j \leq n] &\wedge\\
         \st_n &=& (\lab, \ctxts, \heap, \env) &\wedge\\
-        \env' &=& [\varp_1 \mapsto \val_1, \cdots, \varp_n \mapsto \val_n]
+        \env' &=& [\varx_1 \mapsto \val_1, \cdots, \varx_n \mapsto \val_n]
         &\wedge\\
         \ctxt &=& (\getnext(\lab), \env, \varx)\\
       \end{array}
@@ -287,66 +323,89 @@ semantics of instructions as follows:
 \end{itemize}
 
 
-\subsection{Syntactic Views} A syntactic view $\atree \in \atreeset$ is an
-augmented JavaScript ASTs with abstract nodes $\treetop$:
-\[
-  \atree ::= \term{\str} \mid \ty_k \langle \atree^* \rangle \mid \treetop
-\]
-and its concretization is defined as follows:
-\[
-  \begin{array}{lcl}
-    \gamma(\term{\str}) &=&
-    \{ \term{\str} \}\\
+\subsection{Syntactic Views}
 
-    \gamma(\ty_k \langle \atree_1, \cdots, \atree_n \rangle) &=&
-    \{ \ty_k \langle \tree_1, \cdots, \tree_n \rangle \mid \tree_j \in
-    \gamma(\atree_j) \}\\
-
-    \gamma(\treetop) &=& \treeset\\
+A syntactic view $\atree \in \atreeset$ is an abstract JavaScript AST with
+abstract tree nodes $\anodeset$:
+\[
+  \begin{array}{l@{~}c@{~}l@{~}c@{~}l}
+    \atreeset &\ni& \atree &::=& \ty_k \langle \anode^* \rangle \mid \ty\\
+    \anodeset &\ni& \anode &::=& \str \mid \atree\\
   \end{array}
 \]
-The partial order and join operator between abstract trees are defined as
-follows:
+where $\ty$ denotes all ASTs whose nonterminal symbol $\ty$. We define the
+concretization of abstract trees $\atreegamma: \atreeset \rightarrow
+\powerset{\treeset}$ and that of abstract nodes $\anodegamma: \anodeset
+\rightarrow \powerset{\nodeset}$ as follows:
 \[
   \begin{array}{lcl}
-    \atree \order \atree' &\Leftrightarrow& \left\{
-      \begin{array}{ll}
-        \atree = \atree' &\vee\\
+    \atreegamma(\ty_k \langle \anode_1, \cdots, \anode_n \rangle) &=&
+    \{ \ty_k \langle \node_1, \cdots, \node_n \rangle \mid \node_j \in
+    \anodegamma(\anode_j) \}\\
 
-        \atree' = \treetop &\vee\\
+    \atreegamma(\ty) &=&
+    \{ \tree \in \treeset \mid \tree = \ty_k \langle \cdots \rangle \}\\
 
-        \begin{array}{@{}l@{}}
-          \atree = \ty_k \langle \atree_1, \cdots, \atree_n \rangle \wedge
-          \atree' = \ty_k \langle \atree'_1, \cdots, \atree'_n \rangle \wedge\\
-          \forall j. \; \tree_j \order \tree'_j\\
-        \end{array}\\
-      \end{array}
-    \right.\\
+    \anodegamma(\str) &=& \{ \str \}\\
 
-    \atree \join \atree' &=& \left\{
-      \begin{array}{ll}
-        \atree' & \text{if} \; \atree \order \atree'\\
-
-        \atree & \text{if} \; \atree \revorder \atree'\\
-
-        \ty_k \langle \atree''_1, \cdots, \atree''_n \rangle &
-        \text{if} \; \atree = \ty_k \langle \atree_1, \cdots, \atree_n \rangle
-        \wedge\\&
-        \phantom{\text{if} \;} \atree = \ty_k \langle \atree_1, \cdots, \atree_n
-        \rangle \wedge\\&
-        \phantom{\text{if} \;} \forall j. \; \atree''_j = \atree_j
-        \join \atree'_j\\
-        \treetop & \text{otherwise}\\
-      \end{array}
-    \right.\\
+    \anodegamma(\atree) &=& \atreegamma(\atree)\\
   \end{array}
 \]
-Moreover, we can filter out JavaScript programs using the subtree relation with
-syntactic views:
+% \[
+%   \begin{array}{lcl}
+%     \anode \order \anode' &\Leftrightarrow& \left\{
+%       \begin{array}{ll}
+%         \anode = \anode' &\vee\\
+% 
+%         \anode' = \ty &\vee\\
+% 
+%         (\anode = \atree \wedge \anode' = \atree' \wedge \atree \order
+%         \atree')\\
+%       \end{array}
+%     \right.\\
+% 
+%     \atree \order \atree' &\Leftrightarrow& \left\{
+%       \begin{array}{ll}
+%         \atree = \atree' &\vee\\
+% 
+%         \atree' = \treetop &\vee\\
+% 
+%         \begin{array}{@{}l@{}}
+%           \atree = \ty_k \langle \atree_1, \cdots, \atree_n \rangle \wedge
+%           \atree' = \ty_k \langle \atree'_1, \cdots, \atree'_n \rangle \wedge\\
+%           \forall j. \; \tree_j \order \tree'_j\\
+%         \end{array}\\
+%       \end{array}
+%     \right.\\
+% 
+%     \atree \join \atree' &=& \left\{
+%       \begin{array}{ll}
+%         \atree' & \text{if} \; \atree \order \atree'\\
+% 
+%         \atree & \text{if} \; \atree \revorder \atree'\\
+% 
+%         \ty_k \langle \atree''_1, \cdots, \atree''_n \rangle &
+%         \text{if} \; \atree = \ty_k \langle \atree_1, \cdots, \atree_n \rangle
+%         \wedge\\&
+%         \phantom{\text{if} \;} \atree = \ty_k \langle \atree_1, \cdots, \atree_n
+%         \rangle \wedge\\&
+%         \phantom{\text{if} \;} \forall j. \; \atree''_j = \atree_j
+%         \join \atree'_j\\
+%         \treetop & \text{otherwise}\\
+%       \end{array}
+%     \right.\\
+%   \end{array}
+% \]
+Moreover, we define abstract subtree relation $\asubtree \subseteq \atreeset
+\times \treeset$:
 \[
-  \atree \subtree \tree' \iff \exists \tree \in \gamma(\atree). \; \tree
-  \subtree \tree'
+  \atree \; \asubtree \; \tree' \iff \exists \tree \in \atreegamma(\atree). \;
+  \tree \subtree \tree'
 \]
+to filter out JavaScript programs not related to a given syntactic view.
+Similar to $\getsubs(\tree)$, an abstract helper function $\agetsubs(\atree)$
+denotes abstract tree nodes that are syntactic views when $\atree = \ty_k
+\langle \cdots \rangle$.
 
 
 
@@ -356,76 +415,87 @@ We define a \textit{partial evaluation} $\peval{-}: \progset \rightarrow
 \atreeset \rightarrow \progset$ of $\ires$ programs to specialize JavaScript
 semantics with a given syntactic view:
 \[
-  \peval{\prog}(\atree) = \transform(\prog, \asem{\prog}(\atree))
+  \peval{\prog}(\atree) = \transform{\prog} \circ \asem{\prog} (\atree)
 \]
 It takes a syntactic view $\atree \in \atreeset$ to restrict arguments of the
-corresponding evaluation function. Then, it performs a static analysis
-$\asem{-}$ of a given program $\prog$ with the static part $\atree$ and
-transforms it using $\transform$ with the analysis result
-$\asem{\prog}(\atree)$ to produce a new specialized $\ires$ program.  Now, we
+corresponding \esalg{Evaluation} function. Then, it performs a static analysis
+$\asem{-}$ of a given program $\prog$ with the syntactic view $\atree$ and
+transforms the program using $\transform{-}$ with the analysis result
+$\asem{\prog}(\atree)$ to produce a specialized $\ires$ program.  Since the
+\esalg{Evaluation} of $\ty$ might one or more $\ires$ functions, we only define
+the partial evaluation when $\atree = \ty_k \langle \cdots \rangle$.  Now, we
 define the static analysis and program transformation of $\ires$ programs and
 prove the semantics preservation of the partial evaluation consisting of them.
 
+
 \subsubsection{Static Analysis}
 
-To define static analysis of $\ires$ programs, we first define target function
-and its abstract arguments based on a given syntactic view $\atree$.  Since only
-non-leaf nodes has single evaluation functions, we assume that $\atree = \ty_k
-\langle \atree_1, \cdots, \atree_n \rangle$.  Then, the target function and its
-abstract arguments are defined as follows:
-\[
-  \begin{array}{ll@{~}c@{~}l}
-    \text{Target Function} & \targetfunc &=& \ty_k.\eval\\
-
-    \text{Abstract Arguments} &
-    [\aval_0, \cdots, \aval_m] &=&
-    [\atree, \atree_{i_1}, \cdots, \atree_{i_m}]\\
-  \end{array}
-\]
-where $m$ denotes the number of nonterminal subtrees of $\atree$ and
-$\atree_{i_j}$ denotes $j$-th one for each $1 \leq i \leq m$.  The abstract
-domains of states, calling contexts, environments, and values are defined as
-follows:
+The static analysis $\asem{\prog}(\atree)$ performs an abstract
+interpretation~\cite{ai1977, ai1992} to abstract concrete semantics under the
+given given syntactic view $\atree$.  We first define abstract domains of
+states, calling contexts, environments, and values as follows:
 \begin{itemize}
   \item \underline{Abstract States}:
-    $\aelemset = \actxtset \times \afsenvset$
+    $\aelemset = \amctxtset \times \atctxtset \times \afsenvset$
     \[
       \begin{array}{lcl}
-        \gamma(\afsenv, \actxt) &=& \gamma(\actxt) \cap
-        \gamma(\afsenv)\\
+        \aelemgamma(\amctxt, \atctxt, \afsenv) &=&
+        \amctxtgamma(\amctxt) \cup
+        (\atctxtgamma(\atctxt) \cap \afsenvgamma(\afsenv))\\
 
-        (\actxt, \afsenv) \order (\actxt', \afsenv') &\Leftrightarrow&
-        (\actxt \order \actxt') \wedge (\afsenv \order \afsenv')\\
+        (\amctxt, \atctxt, \afsenv) \order
+        (\amctxt', \atctxt', \afsenv') &\Leftrightarrow&
+        (\amctxt \order \amctxt') \wedge
+        (\atctxt \order \atctxt') \wedge
+        (\afsenv \order \afsenv')\\
 
-        (\actxt, \afsenv) \join (\actxt', \afsenv') &=&
-        (\actxt \join \actxt', \afsenv \join \afsenv')\\
-
-        \bot &=& (\bot, \bot)\\
-
-        \top &=& (\top, \top)\\
+        (\amctxt, \atctxt, \afsenv) \join (\amctxt', \atctxt', \afsenv') &=&
+        (\amctxt \join \amctxt', \atctxt \join \atctxt', \afsenv \join \afsenv')\\
       \end{array}
     \]
 
-  \item \todo \underline{Abstract Calling Contexts}:
-    % \powerset{\labset \times \funcset}
-    $\actxtset = \funcset \finmap \powerset{\labset \times \varset}$
+  \item \underline{Merged Calling Contexts}:
+    $\amctxtset = \powerset{\labset}$
     \[
       \begin{array}{lcl}
-        \gamma(\actxt) &=& \{ \st \in \stset \mid
-          \st = (\lab', (\lab, \_, \varx) :: \_, \_, \_) \wedge \\&&
-          \phantom{\{ \st \in \stset \mid} (\lab, \varx) \in
-            \actxt(\getfunc(\lab'))
+        \amctxtgamma(\amctxt) &=& \{ \st \in \stset \mid
+          \st = (\lab, [\ctxt_1, \cdots, \ctxt_n], \_, \_) \wedge\\&&
+
+          \phantom{\{ \st \in \stset \mid}
+          \exists 1 \leq j \leq n. \; \ctxt_j = (\lab_j, \_, \_) \wedge\\&&
+
+          \phantom{\{ \st \in \stset \mid}
+          \lab_j \in \amctxt
         \}\\
 
-        \actxt \order \actxt' &\Leftrightarrow&
-        \forall \func \in \funcset. \; \actxt(\func) \subseteq \actxt'(\func)\\
+        \amctxt \order \amctxt' &\Leftrightarrow&
+        \amctxt \subseteq \amctxt\\
 
-        \actxt \join \actxt' &=&
-        \lambda \func \in \funcset. \; \actxt(\func) \cup \actxt'(\func)\\
+        \amctxt \join \amctxt' &=&
+        \amctxt \cup \amctxt\\
+      \end{array}
+    \]
 
-        \bot &=& \lambda \func \in \funcset. \; \bot\\
+  \item \underline{Target Calling Contexts}:
+    $\atctxtset = \powerset{\labset \times \funcset}$
+    \[
+      \begin{array}{lcl}
+        \atctxtgamma(\atctxt) &=& \{ \st \in \stset \mid
+          \st = (\lab_0, [\ctxt_1, \cdots, \ctxt_n], \_, \_) \wedge\\&&
 
-        \top &=& \lambda \func \in \funcset. \; \top\\
+          \phantom{\{ \st \in \stset \mid}
+          \forall 1 \leq j \leq n. \; \ctxt_j = (\lab_j, \_, \_) \wedge\\&&
+
+          \phantom{\{ \st \in \stset \mid}
+          \exists 0 \leq m \leq n. \; \getfunc(\lab_m) = \ty_k.\eval \wedge\\&&
+
+          \phantom{\{ \st \in \stset \mid}
+          \forall 1 \leq j \leq m. \; (\lab_j, \getfunc{\lab_{j-1}}) \in \atctxt
+        \}\\
+
+        \atctxt \order \atctxt' &\Leftrightarrow& \atctxt \subseteq \atctxt\\
+
+        \atctxt \join \atctxt' &=& \atctxt \cup \atctxt'\\
       \end{array}
     \]
 
@@ -433,8 +503,8 @@ follows:
     $\afsenvset = \labset \rightarrow \aenvset$
     \[
       \begin{array}{lcl}
-        \gamma(\afsenv) &=& \{ \st \in \stset \mid
-          \st = (\lab, \_, \_, \_) \wedge \st \in \gamma(\afsenv(\lab))
+        \afsenvgamma(\afsenv) &=& \{ \st \in \stset \mid
+          \st = (\lab, \_, \_, \_) \wedge \st \in \aenvgamma(\afsenv(\lab))
         \}\\
 
         \afsenv \order \afsenv' &\Leftrightarrow&
@@ -442,10 +512,6 @@ follows:
 
         \afsenv \join \afsenv' &=&
         \lambda \lab \in \labset. \; \afsenv(\lab) \join \afsenv'(\lab)\\
-
-        \bot &=& \lambda \lab \in \labset. \; \bot\\
-
-        \top &=& \lambda \lab \in \labset. \; \top\\
       \end{array}
     \]
 
@@ -453,9 +519,9 @@ follows:
     $\aenvset = \varset \rightarrow \aenvset$
     \[
       \begin{array}{lcl}
-        \gamma(\aenv) &=& \{ \st \in \stset \mid
+        \aenvgamma(\aenv) &=& \{ \st \in \stset \mid
           \forall \varx \in \varset. \;
-          \sem{\varx}(\st) \in \gamma(\aenv(\varx))
+          \sem{\varx}(\st) \in \avalgamma(\aenv(\varx))
         \}\\
 
         \aenv \order \aenv' &\Leftrightarrow&
@@ -465,23 +531,19 @@ follows:
         \aenv \join \aenv' &=&
         \lambda \varx \in \varset. \;
         \aenv(\varx) \join \aenv'(\varx)\\
-
-        \bot &=& \lambda \varx \in \varset. \; \bot\\
-
-        \top &=& \lambda \varx \in \varset. \; \top\\
       \end{array}
     \]
 
   \item \underline{Abstract Values}: $\avalset = \valset \uplus \atreeset \uplus
-    \{ \bot, \top \}$
+    \{ \top, \bot,  \}$
     \[
       \begin{array}{lcl}
-        \gamma(\aval) &=& \left\{
+        \avalgamma(\aval) &=& \left\{
           \begin{array}{ll}
             \{ \val \} & \text{if} \; \aval = \val\\
-            \gamma(\atree) & \text{if} \; \aval = \atree\\
-            \varnothing & \text{if} \; \aval = \bot\\
+            \atreegamma(\atree) & \text{if} \; \aval = \atree\\
             \valset & \text{if} \; \aval = \top\\
+            \varnothing & \text{if} \; \aval = \bot\\
           \end{array}
         \right.\\
 
@@ -491,7 +553,7 @@ follows:
             \aval = \atree \wedge \aval' = \atree' \wedge
             \atree \order \atree' &\vee\\
             \aval = \tree \wedge \aval' = \atree' \wedge \tree \in
-            \gamma(\atree')\\
+            \atreegamma(\atree')\\
           \end{array}
         \right.\\
 
@@ -506,17 +568,19 @@ follows:
     \]
 \end{itemize}
 
-An abstract state $\aelem \in \aelemset$ is a pair of an abstract calling
-context and a flow-sensitive abstract environment.  An abstract calling context
-$\actxt \in \actxtset$ is a mapping from functions to return labels and
-variables in their calling contexts. A flow-sensitive abstract environment
-$\afsenv \in \afsenvset$ is a mapping from labels to abstract environments to
-represent the shape of environments in each label. An abstract environment
-$\aenv \in \aenvset$ is a mapping from variables to abstract values to describe
-values stored in variables. An abstract value $\aval \in \avalset$ is a static
-value $\val$, a syntactic view $\atree$, a dynamic value $\top$, or nothing
-$\bot$. Now, we define abstract semantics of expressions, instructions, and
-programs.
+An abstract state $\aelem \in \aelemset$ is a triple of a merged and target call
+edges and a flow-sensitive abstract environment.  A merged calling context
+$\amctxt \in \amctxtset$ is a set of call labels representing merged function
+calls. A target calling context $\atctxt \in \atctxtset$ is a set of possible
+static call edges from labels to function, and it represents the scope of static
+analysis. To more precisely represent states in target calling contexts, we
+define a flow-sensitive abstract environment $\afsenv \in \afsenvset$. It is
+a mapping from labels to abstract environments to represents the shape of
+environments in each label. An abstract environment $\aenv \in \aenvset$ is a
+mapping from variables to abstract values to describe values stored in
+variables. An abstract value $\aval \in \avalset$ is a static value $\val$, a
+syntactic view $\atree$, a dynamic value $\top$, or nothing $\bot$.  Now, we
+define abstract semantics of expressions, instructions, and programs.
 
 \paragraph{Expressions} We first define abstract semantics of expressions as
 follows:
@@ -580,185 +644,259 @@ follows:
 \end{itemize}
 
 \paragraph{Instructions} Then, we define the abstract semantics of instructions
-using the abstract semantics of expressions as follows:
+as follows:
 \[
-  \todo
-  \framebox{$\asem{\inst}: \labset \times \aenvset \rightarrow \aelemset
-  \rightarrow \aelemset$}
+  \framebox{$\asem{\inst}: \amctxtset \times \atctxtset \times \labset \times
+    \aenvset \rightarrow
+  \aelemset$}
 \]
 \begin{itemize}
   \item \underline{Variable Assignments}:
     \[
-      \asem{\varx = \expr}(\lab, \aenv) =
-      (\bot[\getnext(\lab) \mapsto \aenv[\varx \mapsto \aval]], \bot)
+      \asem{\varx \kweq \expr}(\amctxt, \atctxt, \lab, \aenv) =
+      (\amctxt, \atctxt, [\getnext(\lab) \mapsto \aenv[\varx \mapsto \aval]])
     \]
     where $\aval = \asem{\expr}(\aenv)$
 
   \item \underline{Field Assignments}:
     \[
-      \asem{\expr_0 \kwsl \expr_1 \kwsr = \expr_2}(\lab, \aenv) =
-      (\bot[\getnext(\lab) \mapsto \aenv], \bot)
+      \asem{\expr_0 \kwsl \expr_1 \kwsr \kweq \expr_2}(\amctxt, \atctxt, \lab, \aenv) =
+      (\amctxt, \atctxt, [\getnext(\lab) \mapsto \aenv])
     \]
+
   \item \underline{Object Allocations}:
     \[
-      \asem{\varx = \kwcl \kwcr}(\lab, \aenv) =
-      (\bot[\getnext(\lab) \mapsto \aenv[\varx \mapsto \top]], \bot)
+      \asem{\varx \kweq \kwcl \kwcr}(\amctxt, \atctxt, \lab, \aenv) =
+      (\amctxt, \atctxt, [\getnext(\lab) \mapsto \aenv[\varx \mapsto \top]])
     \]
 
   \item \underline{Function Calls}:
     \[
-      \asem{\varx = \expr \kwrl \expr_1 \cdots \expr_n \kwrr}(\lab, \aenv) =
-      \text{\todo extensible target functions}
+      \asem{\varx \kweq \expr \kwrl \expr_1 \cdots \expr_n \kwrr}(\amctxt,
+      \atctxt, \lab, \aenv) = (\amctxt', \atctxt', \afsenv)
     \]
     where
     \[
       \begin{array}{l@{~}c@{~}ll}
-        \aval' = \asem{\expr}(\aenv) &\wedge\\
-        (\expr'_j, \_) = \transforme(\expr_j, \aenv) \; [\forall 1 \leq j \leq
+        \aval &=& \asem{\expr}(\aenv) &\wedge\\
+        \aval_j &=& \asem{\expr_j}(\aenv) \; [\forall 1 \leq j \leq n] &\wedge\\
+        (\amctxt', \atctxt') &=& \left\{
+          \begin{array}{ll}
+            (\amctxt, \atctxt \cup \{ (\lab, \func) \} &
+            \text{if} \; \aval = \func \wedge \exists j. \; \aval_j \neq \top\\
+
+            (\amctxt \cup \{ \lab \}, \atctxt) &
+            \text{otherwise}
+          \end{array}
+        \right.\\
+        \afsenv &=& [ \lab_\func \mapsto \aenv_\func \mid
+        (\lab, \func) \in \atctxt' \wedge\\&&
+
+        \phantom{[\lab_\func \mapsto \aenv_\func \mid \;}
+        \func = \kwdef \; \kwrl \varx_1, \cdots, \varx_n \kwrr
+        \; \lab_\func \wedge\\&&
+
+        \phantom{[\lab_\func \mapsto \aenv_\func \mid \;}
+        \aenv_\func = [\varx_1 \mapsto \aval_1, \cdots,
+        \varx_n \mapsto \aval_n] ]\\
+      \end{array}
+    \]
+
+  \item \underline{Branches}:
+    \[
+      \asem{\kwif \; \expr \; \lab_\vart \; \lab_\varf}(\amctxt, \atctxt, \lab, \aenv) =
+      (\amctxt, \atctxt, \afsenv')
+    \]
+    where
+    \[
+      \begin{array}{lcl}
+        \aval &=& \asem{\expr}(\aenv)\\
+
+        \afsenv &=& \left\{
+          \begin{array}{ll}
+            [\lab_\vart \mapsto \aenv] & \text{if} \; \true \in
+            \avalgamma(\aval)\\
+            \varnothing & \text{otherwise}\\
+          \end{array}
+        \right.\\
+
+        \afsenv' &=& \left\{
+          \begin{array}{ll}
+            \afsenv[\lab_\varf \mapsto \aenv] & \text{if} \; \false \in
+            \avalgamma(\aval)\\
+            \afsenv & \text{otherwise}\\
+          \end{array}
+        \right.\\
+      \end{array}
+    \]
+
+  \item \underline{Returns}:
+    \[
+      \asem{\kwret \; \expr}(\amctxt, \atctxt, \lab_0, \aenv) =
+      (\amctxt, \atctxt, \afsenv)
+    \]
+    where
+    \[
+      \begin{array}{lcl}
+        \aval &=& \asem{\expr'}(\aenv)\\
+
+        \func &=& \getfunc(\lab_0)\\
+        R &=& \{ (\getnext(\lab), \varx) \mid
+          (\lab, \func) \in \atctxt \wedge\\
+
+          && \phantom{\{ (\getnext(\lab), \varx) \mid}
+          \getinst(\lab) = \varx \kweq \expr^\lab (\expr^\lab_1 \cdots \expr^\lab_n)
+        \}\\
+
+        \afsenv &=& \lambda \lab \in \labset. \; \left\{
+          \begin{array}{ll}
+            [\varx \mapsto \aval]
+            & \text{if} \; (\lab, \varx) \in R\\
+
+            \varnothing
+            & \text{otherwise}\\
+          \end{array}
+        \right.\\
+      \end{array}
+    \]
+\end{itemize}
+
+\paragraph{Programs} Finally, we define the abstract semantics of programs with
+a given syntactic view.  We define it as the least fixed point of the abstract
+transfer function with the target initial abstract state depending on the given
+syntactic view:
+\[
+  \asem{\prog}(\atree) = \lim_{n \rightarrow
+  \infty}(\atransfer)^n(\iaelem(\atree))
+\]
+where
+\begin{itemize}
+  \item \underline{Abstract Transfer Function}: $\atransfer: \aelemset
+    \rightarrow \aelemset$
+    \[
+      \atransfer(\aelem) = \aelem \join \sem{\amctxt} \wedge
+      \bigjoin_{\lab \in \labset}{\asem{\getinst(\lab)}(\amctxt, \atctxt, \lab,
+      \afsenv(\lab))}
+    \]
+    where $\aelem = (\amctxt, \atctxt, \afsenv)$ and $\sem{\amctxt} = (\amctxt,
+    \atctxt, [\lab \mapsto \aenv_\lab \mid \lab \in \amctxt \wedge
+    \getinst(\lab) = \varx = \expr(\cdots) \wedge \aenv_\lab = [\varx \mapsto
+    \top]])$.
+  \item \underline{Target Initial Abstract State}: $\iaelem:
+    \atreeset \rightarrow \aelemset$
+    \[
+      \iaelem(\atree) = (\varnothing, \varnothing, \afsenv)
+    \]
+    where \[
+      \begin{array}{lcl}
+        \atree &=& \ty_k \langle \cdots \rangle\\
+
+        \agetsubs(\atree) &=& [\atree_1, \cdots, \atree_n]\\
+
+        \ty_k.\eval &=& \lambda \kwdef \; \kwrl \varx_1, \cdots, \varx_n \kwrr
+        \; \lab\\
+
+        \aenv &=& [\varx_1 \mapsto \atree_1, \cdots, \varx_n \mapsto
+        \atree_n]\\
+
+        \afsenv &=& [\lab \mapsto \aenv]\\
+      \end{array}
+    \]
+\end{itemize}
+
+
+\subsubsection{Transformations}
+
+Using the analysis result, we define transformations for expressions,
+instructions, and programs.
+
+\paragraph{Expressions} We first define the transformation of expressions as
+follows:
+
+\[
+  \framebox{$\transform{\expr}: \aenvset \rightarrow \exprset$}
+\]
+\[
+  \transform{\expr}(\aenv) = \left\{
+    \begin{array}{ll}
+      \pval & \text{if} \; \asem{\expr}(\aenv) = \pval\\
+      \expr & \text{otherwise}\\
+    \end{array}
+  \right.
+\]
+
+\paragraph{Instructions} Then, we define the transformation of instructions
+as follows:
+\[
+  \framebox{$\transform{\inst}: \aenvset \rightarrow \instset$}
+\]
+\begin{itemize}
+  \item \underline{Variable Assignments}:
+    \[
+      \transform{\varx \kweq \expr}(\aenv) =
+      \varx \kweq \expr'
+    \]
+    where $\expr' = \transform{\expr}(\aenv)$
+
+  \item \underline{Field Assignments}:
+    \[
+      \transform{\expr_0 \kwsl \expr_1 \kwsr \kweq \expr_2}(\aenv) =
+      \expr'_0 \kwsl \expr'_1 \kwsr \kweq \expr'_2
+    \]
+    where
+    \[
+      \begin{array}{l@{~}c@{~}ll}
+        \expr'_0 = \transform{\expr_0}(\aenv) &\wedge\\
+        \expr'_1 = \transform{\expr_1}(\aenv) &\wedge\\
+        \expr'_2 = \transform{\expr_2}(\aenv)\\
+      \end{array}
+    \]
+  \item \underline{Object Allocations}:
+    \[
+      \transform{\varx \kweq \kwcl \kwcr}(\aenv) =
+      \varx \kweq \kwcl \kwcr
+    \]
+
+  \item \underline{Function Calls}:
+    \[
+      \transform{\varx \kweq \expr \kwrl \expr_1 \cdots \expr_n \kwrr}(\aenv) =
+      \varx \kweq \expr' \kwrl \expr'_1 \cdots \expr'_n \kwrr
+    \]
+    where
+    \[
+      \begin{array}{l@{~}c@{~}ll}
+        \expr' = \transform{\expr}(\aenv) &\wedge\\
+        \expr'_k = \transform{\expr_k}(\aenv) \; [\forall 1 \leq k \leq
         n]\\
       \end{array}
     \]
 
   \item \underline{Branches}:
     \[
-      \asem{\kwif \; \expr \; \lab_\vart \; \lab_\varf, \aenv} =
-      (\kwif \; \expr' \; \lab_\vart \; \lab_\varf, \aenv)
+      \transform{\kwif \; \expr \; \lab_\vart \; \lab_\varf}(\aenv) =
+      \kwif \; \expr' \; \lab_\vart \; \lab_\varf
     \]
-    where
-    \[
-      (\expr', \_) = \transforme(\expr, \aenv)
-    \]
+    where $\expr' = \transform{\expr}(\aenv)$
 
   \item \underline{Returns}:
     \[
-      \asem{\kwret \; \expr, \aenv} =
-      (\kwret \; \expr, \aenv)
+      \transform{\kwret \; \expr}(\aenv) =
+      \kwret \; \expr'
     \]
-    where
-    \[
-      (\expr', \_) = \transforme(\expr', \aenv)
-    \]
+    where $\expr' = \transform{\expr}(\aenv)$
 \end{itemize}
 
-% \paragraph{Transformation of Programs} Finally, we define the transformation
-% of programs as the least fixed point of the abstract transfer function:
-% \[
-%   \transform(\prog, (\func, (\aval_1, \cdots, \aval_n))) = \lfp \; \atransfer =
-%   \lim_{n \rightarrow \infty}(\atransfer)^n(\prog, \iaelem)
-% \]
-% where
-% \begin{itemize}
-%   \item \underline{Abstract Transfer Function}: $\atransfer: \progset \times
-%     \aelemset \rightarrow \progset \times \aelemset$
-%     \[
-%       \atransfer(\prog, \aelem) = \lambda \lab \in \labset. \; \bigjoin_{\lab' \in
-%       \labset}{\todo}
-%     \]
-%     where
-%     \[
-%     \]
-%   \item \underline{Initial Abstract State}: $\iaelem \in \elemset$
-%     \[
-%       \iaelem = \todo
-%     \]
-% \end{itemize}
-% 
-% \todo
-
-\subsubsection{Transformations}
-
-\todo
-
-% \[
-%   \framebox{$\transforme: \exprset \times \aenvset \rightarrow \exprset \times
-%   \avalset$}
-% \]
-% \[
-%   \transforme(\expr, \aenv) = (\expr'', \aval)
-% \]
-% where
-% \[
-%   \begin{array}{l@{~}c@{~}ll}
-%     \aval &=& \asem{\expr}(\aenv) &\wedge\\
-%     \expr'' &=& \left\{
-%       \begin{array}{ll}
-%         \pval & \text{if} \; \aval = \langle \pval, \_ \rangle\\
-%         \expr' & \text{if} \; \aval = \langle \_, \expr' \rangle\\
-%         \expr & \text{otherwise}\\
-%       \end{array}
-%     \right.\\
-%   \end{array}
-% \]
-
-% \[
-%   \framebox{$\transformi: \instset \times \aenvset \rightarrow \instset \times
-%   \aenvset$}
-% \]
-% \begin{itemize}
-%   \item \underline{Variable Assignments}:
-%     \[
-%       \transformi(\varx = \expr, \aenv) =
-%       (\varx = \expr', \aenv[\varx \mapsto \aval])
-%     \]
-%     where
-%     \[
-%       (\expr', \aval) = \transforme(\expr, \aenv)
-%     \]
-% 
-%   \item \underline{Field Assignments}:
-%     \[
-%       \transformi(\expr_0 \kwsl \expr_1 \kwsr = \expr_2, \aenv) =
-%       (\expr'_0 \kwsl \expr'_1 \kwsr = \expr'_2, \aenv)
-%     \]
-%     where
-%     \[
-%       \begin{array}{l@{~}c@{~}ll}
-%         (\expr'_0, \_) = \transforme(\expr_0, \aenv) &\wedge\\
-%         (\expr'_1, \_) = \transforme(\expr_1, \aenv) &\wedge\\
-%         (\expr'_2, \_) = \transforme(\expr_2, \aenv)\\
-%       \end{array}
-%     \]
-%   \item \underline{Object Allocations}:
-%     \[
-%       \transformi(\varx = \kwcl \kwcr, \aenv) =
-%       (\varx = \kwcl \kwcr, \aenv[\varx \mapsto \top])
-%     \]
-% 
-%   \item \underline{Function Calls}:
-%     \[
-%       \transformi(\varx = \expr \kwrl \expr_1 \cdots \expr_n \kwrr, \aenv) =
-%       (\varx = \expr' \kwrl \expr'_1 \cdots \expr'_n \kwrr,
-%       \aenv[\varx \mapsto \top])
-%     \]
-%     where
-%     \[
-%       \begin{array}{l@{~}c@{~}ll}
-%         (\expr', \_) = \transforme(\expr, \aenv) &\wedge\\
-%         (\expr'_k, \_) = \transforme(\expr_k, \aenv) \; \forall 1 \leq k \leq
-%         n\\
-%       \end{array}
-%     \]
-% 
-%   \item \underline{Branches}:
-%     \[
-%       \transformi(\kwif \; \expr \; \lab_\vart \; \lab_\varf, \aenv) =
-%       (\kwif \; \expr' \; \lab_\vart \; \lab_\varf, \aenv)
-%     \]
-%     where
-%     \[
-%       (\expr', \_) = \transforme(\expr, \aenv)
-%     \]
-% 
-%   \item \underline{Returns}:
-%     \[
-%       \transformi(\kwret \; \expr, \aenv) =
-%       (\kwret \; \expr, \aenv)
-%     \]
-%     where
-%     \[
-%       (\expr', \_) = \transforme(\expr', \aenv)
-%     \]
-% \end{itemize}
+\paragraph{Programs} Finally, we define the program transformation as follows:
+\[
+  \framebox{$\transform{\prog}: \aelemset \rightarrow \progset$}
+\]
+\[
+  \transform{\prog}(\amctxt, \atctxt, \afsenv) = (\istset, \getfunc, \getinst',
+  \getnext)
+\]
+where $\prog = (\istset, \getfunc, \getinst, \getnext)$ and $\getinst' =
+\getinst[\lab \mapsto \inst_\lab \mid \aenv = \afsenv(\lab) \neq \epsilon \wedge
+\inst_\lab = \transform{\getinst(\lab)}(\aenv)]$.
 
 
 
@@ -773,22 +911,71 @@ using the abstract semantics of expressions as follows:
 \end{itemize}
 
 
-\subsubsection{Proof of Semantics Preservation}
+\subsubsection{Semantics Preservation}
+
+% We first define a helper function $\entrystset: \atreeset \rightarrow
+% \powerset{\stset}$ to define the set of entry states for a given syntactic view
+% $\atree = \ty_k \langle \cdots \rangle$:
+% \[
+%   \begin{array}{l@{~}l}
+%     \entrystset(\atree) = \{ \st \in \stset \mid &
+%       \st = (\lab, \_, \_, \env) \wedge\\&
+% 
+%       \env = [\varx_0 \mapsto \atree, \varx_1 \mapsto \atree_1, \cdots, \varx_n
+%       \mapsto \atree_n]
+%     \}\\
+%   \end{array}
+% \]
+% where $\ty_k.\eval = \kwdef \; \kwrl \varx_0, \cdots, \varx_n \kwrr \lab$ and
+% $\agetsubs(\atree) = [\atree_1, \cdots, \atree_n]$. Then, we define a restricted
+% semantics $\rsem{-}: \progset \rightarrow \atreeset \rightarrow
+% \powerset{\stset}$ as follows:
+% \[
+%   \begin{array}{l@{~}l@{~}l}
+%     \rsem{\prog}(\atree) = \{ \st \in \stset \mid&
+%       \st' \in \sem{\prog} \cap \entrystset(\atree) &\wedge\\&
+%       \st' \trans^* \st  &\wedge\\&
+%       \st' = (\_, \ctxts', \_, \_) &\wedge\\&
+%       \st = (\_, \ctxts, \_, \_) &\wedge\\&
+%       \ctxts \postfix \ctxts
+%     \}
+%   \end{array}
+% \]
+% where $x \postfix y$ denotes that a sequence $y$ is a postfix of a sequence $x$.
 
 \todo
 
+\begin{theorem}[Soundness of $\asem{-}$]
+  For a given program $\prog \in \progset$ and a syntactic view $\atree \in
+  \atreeset$. Assume that $\asem{\prog}(\atree) = \aelem = (\amctxt, \atctxt,
+  \afsenv)$. Then, the following condition should be satisfied:
+  \[
+    \rsem{\prog}(\atree, \atctxt) \subseteq \gamma(\aelem)
+  \]
+\end{theorem}
+\begin{proof}
+  \todo
+\end{proof}
 
+\begin{lemma}[Soundness of $\atransfer$]
+  The abstract transfer function $\atransfer$ is a sound approximation of the
+  transfer function $\transfer$ by satisfying the following condition:
+  \[
+    \forall \aelem \in \aelemset. \;
+    \transfer \circ \gamma(\aelem) \subseteq \gamma \circ \atransfer(\aelem)
+  \]
+\end{lemma}
+\begin{proof}
+  \todo
+\end{proof}
 
-
-
-\subsection{JavaScript Semantics Specialization}
-
-This section explains how to utilize the partial evaluation for the JavaScript
-semantics specialization with a user-defined syntactic view.  We first formally
-define syntactic views and their operations, then we explain how to decide a
-restriction of the constant propagation specialization based on a given
-syntactic view.
-
-\subsubsection{Semantics Specialization}
+\begin{theorem}[Semantics Preservation of $\transform{-}$]
+  \[
+    \todo
+  \]
+\end{theorem}
+\begin{proof}
+  \todo
+\end{proof}
 
 \todo

@@ -29,6 +29,8 @@
 \newcommand{\sname}[1]{\name{\small #1}}
 \newcommand{\stextbf}[1]{\textbf{\small #1}}
 \definecolor{dkgreen}{rgb}{0,0.5,0}
+\definecolor{esvar}{HTML}{36702F}
+\definecolor{esalg}{HTML}{376BA2}
 
 % tools
 \newcommand{\tool}{\sname{JEDIT}}
@@ -99,6 +101,7 @@
 \newcommand{\ircode}[1]{\text{\lstinline[style=ires]!#1!}}
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\kwdef}{\code{def}}
+\newcommand{\kweq}{\code{=}}
 \newcommand{\kwret}{\code{ret}}
 \newcommand{\kwif}{\code{if}}
 \newcommand{\kwrl}{\code{(}}
@@ -107,6 +110,14 @@
 \newcommand{\kwcr}{\code{\}}}
 \newcommand{\kwsl}{\code{[}}
 \newcommand{\kwsr}{\code{]}}
+
+% ECMAScript fonts
+\newcommand{\esvar}[1]{{\color{esvar}{\textit{\small #1}}}}
+\newcommand{\esalg}[1]{{\color{esalg}{\small #1}}}
+\newcommand{\essyn}[1]{\textit{\small #1}}
+\newcommand{\esval}[1]{\textbf{\small #1}}
+\newcommand{\eswrd}[1]{{\small #1}}
+\newcommand{\escall}[2]{#1\eswrd{(}#2\eswrd{)}}
 
 % basic
 \DeclareMathAlphabet{\mathpzc}{T1}{pzc}{m}{it}
@@ -142,13 +153,12 @@
 \newcommand{\varx}{\code{x}}
 \newcommand{\vart}{\code{t}}
 \newcommand{\varf}{\code{f}}
-\newcommand{\varp}{\code{p}}
 
 % values
 \newcommand{\valset}{\mathbb{V}}
 \newcommand{\val}{v}
 \newcommand{\pvalset}{\valset_\name{prim}}
-\newcommand{\pval}{\val^\name{p}}
+\newcommand{\pval}{p}
 \newcommand{\strset}{\valset_\name{str}}
 \newcommand{\str}{s}
 \newcommand{\boolset}{\valset_\name{bool}}
@@ -160,12 +170,13 @@
 % JavaScript ASTs
 \newcommand{\treeset}{\mathbb{T}}
 \newcommand{\tree}{t}
+\newcommand{\nodeset}{\Phi}
+\newcommand{\node}{\phi}
 \newcommand{\subtree}{\lhd}
+\newcommand{\getsubs}{\name{subs}}
 \newcommand{\treetop}{\code{\#}}
 \newcommand{\ty}{\tau}
 \newcommand{\eval}{\code{eval}}
-\newcommand{\nterm}[1]{\textit{\small #1}}
-\newcommand{\term}[1]{\langle #1 \rangle}
 
 % states
 \newcommand{\stset}{\mathbb{S}}
@@ -180,6 +191,7 @@
 % contexts
 \newcommand{\ctxtset}{\mathbb{C}}
 \newcommand{\ctxts}{\overline{\ctxt}}
+\newcommand{\postfix}{\ll}
 \newcommand{\ctxt}{c}
 
 % environments
@@ -196,20 +208,23 @@
 
 % semantics
 \newcommand{\sem}[1]{\llbracket{#1}\rrbracket}
-\newcommand{\asem}[1]{\abs{\sem{#1}}}
 \newcommand{\trans}{\leadsto}
+
+% restricted semantics
+\newcommand{\rsem}[1]{\sem{#1}_\textbf{R}}
+
+% abstract semantics
+\newcommand{\asem}[1]{\abs{\sem{#1}}}
+
+% transformations
+\newcommand{\transform}[1]{\textbf{T}[#1]}
+
+% partial evaluation
+\newcommand{\peval}[1]{\textbf{PE}[#1]}
 
 % transfer function
 \newcommand{\transfer}{F}
 \newcommand{\atransfer}{\abs{\transfer}}
-
-% partial evaluation
-\newcommand{\peval}[1]{\textbf{PE}\sem{#1}}
-
-% transformations
-\newcommand{\transform}{T}
-\newcommand{\transformi}{\transform_\inst}
-\newcommand{\transforme}{\transform_\expr}
 
 % abstract states
 \newcommand{\aelemset}{\abs{\mathbb{D}}}
@@ -217,8 +232,14 @@
 \newcommand{\iaelem}{\aelem_\iota}
 
 % abstract calling contexts
-\newcommand{\actxtset}{\abs{\ctxtset}}
-\newcommand{\actxt}{\abs{\ctxt}}
+\newcommand{\atctxtset}{\abs{\ctxtset}_\name{t}}
+\newcommand{\atctxt}{\abs{\ctxt}_\name{t}}
+\newcommand{\amctxtset}{\abs{\ctxtset}_\name{m}}
+\newcommand{\amctxt}{\abs{\ctxt}_\name{m}}
+
+% function summaries
+\newcommand{\funcsumset}{\abs{\funcset}}
+\newcommand{\funcsum}{\abs{\func}}
 
 % abstract environments
 \newcommand{\aenvset}{\abs{\envset}}
@@ -233,7 +254,12 @@
 % syntactic views
 \newcommand{\atreeset}{\abs{\treeset}}
 \newcommand{\atree}{\abs{\tree}}
-\newcommand{\targetfunc}{\func_\name{target}}
+\newcommand{\anodeset}{\abs{\nodeset}}
+\newcommand{\anode}{\abs{\node}}
+\newcommand{\asubtree}{\abs{\subtree}}
+\newcommand{\targetfunc}{\func_{\atree}}
+\newcommand{\entrystset}{\stset_\name{entry}}
+\newcommand{\agetsubs}{\abs{\getsubs}}
 
 % abstract operations
 \newcommand{\join}{\sqcup}
@@ -243,3 +269,13 @@
 
 % least fixed point
 \newcommand{\lfp}{\textbf{lfp}}
+
+% concretization
+\newcommand{\atreegamma}{\gamma_{\atree}}
+\newcommand{\anodegamma}{\gamma_{\anode}}
+\newcommand{\aelemgamma}{\gamma_{\aelem}}
+\newcommand{\amctxtgamma}{\gamma_{\amctxt}}
+\newcommand{\atctxtgamma}{\gamma_{\atctxt}}
+\newcommand{\afsenvgamma}{\gamma_{\afsenv}}
+\newcommand{\aenvgamma}{\gamma_{\aenv}}
+\newcommand{\avalgamma}{\gamma_{\aval}}
