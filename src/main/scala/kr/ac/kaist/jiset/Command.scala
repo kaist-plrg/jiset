@@ -70,7 +70,7 @@ case object CmdParse extends Command("parse", CmdBase >> Parse) {
 
 case object CmdPEval extends Command("peval", CmdBase >> IRPEval) {
   def help = "partial evaluates a JavaScript file using the generated parser."
-  override def display(algo: spec.algorithm.Algo): Unit = println(algo)
+  override def display(algos: List[spec.algorithm.Algo]): Unit = algos.foreach(println)
 }
 
 // load

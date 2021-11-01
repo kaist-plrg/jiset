@@ -12,7 +12,7 @@ import kr.ac.kaist.jiset.spec.NativeHelper._
 import kr.ac.kaist.jiset.js.{ Parser => ESParser }
 
 // IREval phase
-case object IRPEval extends Phase[Unit, IRPEvalConfig, Algo] {
+case object IRPEval extends Phase[Unit, IRPEvalConfig, List[Algo]] {
   val name: String = "peval-ir"
   val help: String = "partial evaluates a given Script."
 
@@ -20,14 +20,16 @@ case object IRPEval extends Phase[Unit, IRPEvalConfig, Algo] {
     unit: Unit,
     jisetConfig: JISETConfig,
     config: IRPEvalConfig
-  ): Algo = {
+  ): List[Algo] = {
     val filename = getFirstFilename(jisetConfig, "peval")
     val f = fileReader(filename)
     setSpec(loadSpec(s"$VERSION_DIR/generated"))
     val p = ESParser.rules(config.target)
     val result = ESParser.parse(p(config.parseOption.toList.map(_ == 'T')), f)
-    if (result.successful) new BaseAppPartialEval()(SyntacticView(result.get.checkSupported))
-    else throw new Error("re-parse fail")
+    if (result.successful) {
+      val sv = SyntacticView(result.get.checkSupported)
+      PartialEval(sv)
+    } else throw new Error("re-parse fail")
   }
 
   def defaultConfig: IRPEvalConfig = IRPEvalConfig()
