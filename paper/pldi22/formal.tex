@@ -177,7 +177,7 @@ are subtrees of $\tree_0$ (i.e., $\tree_0 \subtree \tree_0, \cdots, \tree_3
 The concrete semantics $\sem{\prog}$ of an $\ires$ program $\prog$ is defined as
 follows:
 \[
-  \sem{\prog} = \{ \st \in \stset \mid \initst \in \initstset{\prog} \wedge
+  \sem{\prog} = \{ \st \in \stset \mid \exists \initst \in \initstset{\prog}. \;
   \initst \trans{\prog}^* \st \}
 \]
 where $\trans{\prog}^*$ denotes one or more repetition of $\trans{\prog}$, and
@@ -190,7 +190,8 @@ semantics is to define a transfer function $\transfer: \powerset{\stset}
 \]
 where
 \begin{equation}\label{eqn:transfer}
-  \transfer(S) = \{ \st' \mid \st \in S \wedge \st \trans{\prog} \st' \}
+  \transfer(S) = \{ \st' \in \stset \mid \exists \st \in S. \; \st \trans{\prog}
+  \st' \}
 \end{equation}
 Now, we define the denotational semantics of expressions, instructions, and
 functions.
