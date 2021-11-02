@@ -612,8 +612,9 @@ static call set, and a flow-sensitive abstract environment.  A dynamic call set
 $\adcall \in \adcallset$ is a set of call labels representing function calls
 with multiple functions or no static arguments. A static call set $\ascall \in
 \ascallset$ is a set of possible static call edges from labels to function, and
-it represent a set of \textit{static calling contexts} $\ascallgamma(\ascall)$
-used as the scope of program transformations.  To more precisely in the static
+it represent a set of \textit{static calling contexts}
+$\ascallgamma(\ascall)(\atree)$ with a given syntactic view $\atree$ to
+determine the scope of program transformations.  To more precisely in the static
 calling contexts, we define a flow-sensitive abstract environment $\afsenv \in
 \afsenvset$. It is a mapping from labels to abstract environments to represents
 the shape of environments in each label. An abstract environment $\aenv \in
@@ -844,7 +845,7 @@ $\atree$:
   \item \underline{Abstract Transfer Function}: $\atransfer: \aelemset
     \rightarrow \aelemset$
     \[
-      \atransfer(\aelem) = \aelem \join \sem{\adcall} \wedge
+      \atransfer(\aelem) = \aelem \join \sem{\adcall} \join
       \bigjoin_{\lab \in \labset}{\asem{\getinst{\prog}(\lab)}(\lab, \aelem)}
     \]
     where $\aelem = (\adcall, \ascall, \afsenv)$ and $\sem{\adcall} = (\adcall,
@@ -862,7 +863,7 @@ $\atree$:
 
         \agetsubs(\atree) &=& [\atree_1, \cdots, \atree_n]\\
 
-        \ty_k.\eval &=& \lambda \kwdef \; \kwrl \varx_1, \cdots, \varx_n \kwrr
+        \ty_k.\eval &=& \kwdef \; \kwrl \varx_1, \cdots, \varx_n \kwrr
         \; \entrylab\\
 
         \aenv &=& [\varx_1 \mapsto \atree_1, \cdots, \varx_n \mapsto
@@ -1049,22 +1050,26 @@ several lemmas.
   \]
 \end{theorem}
 \begin{proof}
-  \todo
+  We use an induction on $n$.  Lemma~\ref{lem:sound-entryaelem} proves the base
+  case, $n=0$. Then, we can prove the inductive case using
+  Lemma~\ref{lem:sound-atransfer}.
 \end{proof}
 
-\begin{lemma}[Soundness of $\entryaelem$]\label{thm:sound-entryaelem}
+\begin{lemma}[Soundness of $\entryaelem$]\label{lem:sound-entryaelem}
   For a given syntactic view $\atree \in \atreeset$, the abstract entry state
   $\entryaelem(\atree)$ is a sound approximation of the entry states
   $\entrystset(\atree)$ by satisfying the following condition:
   \[
-    \entrystset(\atree) \subseteq \aelemgamma \circ \entryaelem(\atree) 
+    \entrystset(\atree) \subseteq \aelemgamma \circ \entryaelem(\atree)
   \]
 \end{lemma}
 \begin{proof}
-  \todo
+  Since all the conditions described in the definition $\entrystset$ and
+  $\entryaelem$ are exactly same with a given syntactic view $\atree$, this
+  lemma is trivially proved.
 \end{proof}
 
-\begin{lemma}[Soundness of $\atransfer$]\label{thm:sound-atransfer}
+\begin{lemma}[Soundness of $\atransfer$]\label{lem:sound-atransfer}
   The abstract transfer function $\atransfer$ is a sound approximation of the
   transfer function $\transfer$ by satisfying the following condition:
   \[
@@ -1077,21 +1082,22 @@ several lemmas.
   \todo
 \end{proof}
 
-\begin{lemma}[Soundness of $\asem{\inst}$]\label{thm:sound-inst}
-  For a given label $\lab \in \labset$ and its instruction $\inst =
-  \getinst{\prog}(\lab)$, the abstract semantics $\asem{\inst}$ of the
-  instruction is a sound approximation of its concrete semantics $\sem{\inst}$:
-  \[
-    \forall \aelem \in \aelemset. \;
-    \st \in \aelemgamma(\aelem) \wedge \st = (\lab, \_, \_, \_) \Rightarrow
-    \sem{\inst}(\st) \in \aelemgamma \circ \asem{\inst}(\lab, \aelem)
-  \]
+\begin{lemma}[Soundness of $\asem{\inst}$]\label{lem:sound-inst}
+  \todo
+  % For a given label $\lab \in \labset$ and its instruction $\inst =
+  % \getinst{\prog}(\lab)$, the abstract semantics $\asem{\inst}$ of the
+  % instruction is a sound approximation of its concrete semantics $\sem{\inst}$:
+  % \[
+  %   \forall \aelem = \in \aelemset. \;
+  %   \st \in \aelemgamma(\aelem) \wedge \st = (\lab, \_, \_, \_) \Rightarrow
+  %   \sem{\inst}(\st) \in \aelemgamma \circ \asem{\inst}(\lab, \aelem)
+  % \]
 \end{lemma}
 \begin{proof}
   \todo
 \end{proof}
 
-\begin{lemma}[Soundness of $\asem{\expr}$]\label{thm:sound-inst}
+\begin{lemma}[Soundness of $\asem{\expr}$]\label{lem:sound-inst}
   The abstract semantics $\asem{\inst}$ of an expression $\expr$ is a sound
   approximation of its concrete semantics $\sem{\expr}$:
   \[
@@ -1114,7 +1120,7 @@ Theorem~\ref{thm:preserve-prog} with several lemmas.
   $\prog' = \transform{\prog}(\aelem)$ with an abstract state $\aelem =
   (\adcall, \ascall, \afsenv) \in \aelemset$ preserves the restricted semantics
   $\rsem{\prog}(\atree)$ under the static calling contexts
-  $\ascallgamma(\ascall)$ if $\aelem$ is sound:
+  $\ascallgamma(\ascall)(\atree)$ if $\aelem$ is sound:
   \[
     \todo
     % \rsem{\prog}(\atree) \subseteq \aelemgamma(\aelem) \Rightarrow
