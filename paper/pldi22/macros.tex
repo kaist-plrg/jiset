@@ -131,9 +131,9 @@
 % notations
 \newcommand{\progset}{\mathfrak{P}}
 \newcommand{\prog}{P}
-\newcommand{\getfunc}{\code{func}}
-\newcommand{\getinst}{\code{inst}}
-\newcommand{\getnext}{\code{next}}
+\newcommand{\getfunc}[1]{\code{func}_{#1}}
+\newcommand{\getinst}[1]{\code{inst}_{#1}}
+\newcommand{\getnext}[1]{\code{next}_{#1}}
 \newcommand{\funcset}{\mathcal{F}}
 \newcommand{\func}{f}
 \newcommand{\labset}{\mathcal{L}}
@@ -181,8 +181,8 @@
 % states
 \newcommand{\stset}{\mathbb{S}}
 \newcommand{\st}{\sigma}
-\newcommand{\istset}{\stset_\iota}
-\newcommand{\ist}{\st_\iota}
+\newcommand{\initstset}[1]{\stset^\name{init}_{#1}}
+\newcommand{\initst}{\st^\name{init}}
 
 % heaps
 \newcommand{\heapset}{\mathbb{H}}
@@ -208,10 +208,12 @@
 
 % semantics
 \newcommand{\sem}[1]{\llbracket{#1}\rrbracket}
-\newcommand{\trans}{\leadsto}
+\newcommand{\trans}[1]{\leadsto_{#1}}
 
 % restricted semantics
 \newcommand{\rsem}[1]{\sem{#1}_\textbf{R}}
+\newcommand{\entrystset}{\stset^\name{entry}}
+\newcommand{\entrylab}{\lab^\name{entry}}
 
 % abstract semantics
 \newcommand{\asem}[1]{\abs{\sem{#1}}}
@@ -229,13 +231,17 @@
 % abstract states
 \newcommand{\aelemset}{\abs{\mathbb{D}}}
 \newcommand{\aelem}{\abs{d}}
-\newcommand{\iaelem}{\aelem_\iota}
+\newcommand{\entryaelem}{\aelem^\name{entry}}
 
 % abstract calling contexts
-\newcommand{\atctxtset}{\abs{\ctxtset}_\name{t}}
-\newcommand{\atctxt}{\abs{\ctxt}_\name{t}}
-\newcommand{\amctxtset}{\abs{\ctxtset}_\name{m}}
-\newcommand{\amctxt}{\abs{\ctxt}_\name{m}}
+\newcommand{\actxtset}{\abs{\ctxtset}}
+\newcommand{\actxt}{\abs{\ctxt}}
+\newcommand{\ascallset}{\abs{\ctxtset}_\name{s}}
+\newcommand{\ascall}{\abs{\ctxt}_\name{s}}
+\newcommand{\adcallset}{\abs{\ctxtset}_\name{d}}
+\newcommand{\adcall}{\abs{\ctxt}_\name{d}}
+\newcommand{\funcbot}{\bot_\funcset}
+\newcommand{\functop}{\top_\funcset}
 
 % function summaries
 \newcommand{\funcsumset}{\abs{\funcset}}
@@ -250,6 +256,8 @@
 % abstract values
 \newcommand{\avalset}{\abs{\valset}}
 \newcommand{\aval}{\abs{\val}}
+\newcommand{\valbot}{\bot_\valset}
+\newcommand{\valtop}{\top_\valset}
 
 % syntactic views
 \newcommand{\atreeset}{\abs{\treeset}}
@@ -258,7 +266,6 @@
 \newcommand{\anode}{\abs{\node}}
 \newcommand{\asubtree}{\abs{\subtree}}
 \newcommand{\targetfunc}{\func_{\atree}}
-\newcommand{\entrystset}{\stset_\name{entry}}
 \newcommand{\agetsubs}{\abs{\getsubs}}
 
 % abstract operations
@@ -274,8 +281,8 @@
 \newcommand{\atreegamma}{\gamma_{\atree}}
 \newcommand{\anodegamma}{\gamma_{\anode}}
 \newcommand{\aelemgamma}{\gamma_{\aelem}}
-\newcommand{\amctxtgamma}{\gamma_{\amctxt}}
-\newcommand{\atctxtgamma}{\gamma_{\atctxt}}
+\newcommand{\adcallgamma}{\gamma_{\adcall}}
+\newcommand{\ascallgamma}{\gamma_{\ascall}}
 \newcommand{\afsenvgamma}{\gamma_{\afsenv}}
 \newcommand{\aenvgamma}{\gamma_{\aenv}}
 \newcommand{\avalgamma}{\gamma_{\aval}}

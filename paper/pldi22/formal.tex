@@ -20,8 +20,8 @@ concrete semantics in the remainder of this section.
 
 \[
   \begin{array}{lr@{~}c@{~}c@{~}c@{~}l}
-    \text{Programs} & \progset &\ni& \prog &=& (\istset, \getfunc, \getinst,
-    \getnext)\\
+    \text{Programs} & \progset &\ni& \prog &=& (\initstset{\prog},
+    \getfunc{\prog}, \getinst{\prog}, \getnext{\prog})\\
 
     \text{Functions} & \funcset &\ni& \func &::=&
     \kwdef \; \kwrl \varx^* \kwrr \; \lab\\
@@ -47,23 +47,25 @@ concrete semantics in the remainder of this section.
   \end{array}
 \]
 
-An $\ires$ program $\prog = (\istset, \getfunc, \getinst, \getnext) \in \progset $
-consists of initial states and three mappings; $\getfunc: \labset \rightarrow
-\funcset$ and $\getinst: \labset \rightarrow \instset$ map labels to their
-functions and instructions, respectively, and $\getnext: \labset \rightarrow
+An $\ires$ program $\prog = (\initstset{\prog}, \getfunc{\prog},
+\getinst{\prog}, \getnext{\prog}) \in \progset $ consists of initial states and
+three mappings; $\getfunc{\prog}: \labset \rightarrow \funcset$ and
+$\getinst{\prog}: \labset \rightarrow \instset$ map labels to their functions
+and instructions, respectively, and $\getnext{\prog}: \labset \rightarrow
 \labset$ maps labels to their next labels, where a label $\lab \in \labset$
 denotes a program point.  A function $\func \in \funcset$ is defined with its
 parameters and body label.  For presentation brevity, we assume that no global
 or captured variables exist in this paper.  An instruction $\inst \in \instset$
-is an assignment $\refer \kweq \expr$, an object allocation $\varx \kweq \kwcl \kwcr$, a
-function call $\varx \kweq \expr \kwrl \expr^* \kwrr$, a branch $\kwif \; \expr \;
-\lab \; \lab$, or a return instruction $\kwret \; \expr$.  An invocation of an
-abstract algorithm in ECMAScript is compiled to a function call instruction with
-a new temporary variable.  We represent loops using branch instructions with
-cyclic pointing of labels in $\getnext$.  An expression is a primitive value
-$\pval$, an operation $\op \kwrl \expr^* \kwrr$, or a reference $\refer$.  A
-reference is a variable $\varx$ or an object field $\expr \kwsl \expr \kwsr$.
-We write $\expr.\varf$ to briefly represent $\expr \kwsl \code{"f"} \kwsr$.
+is an assignment $\refer \kweq \expr$, an object allocation $\varx \kweq \kwcl
+\kwcr$, a function call $\varx \kweq \expr \kwrl \expr^* \kwrr$, a branch $\kwif
+\; \expr \; \lab \; \lab$, or a return instruction $\kwret \; \expr$.  An
+invocation of an abstract algorithm in ECMAScript is compiled to a function call
+instruction with a new temporary variable.  We represent loops using branch
+instructions with cyclic pointing of labels in $\getnext{\prog}$.  An expression
+is a primitive value $\pval$, an operation $\op \kwrl \expr^* \kwrr$, or a
+reference $\refer$.  A reference is a variable $\varx$ or an object field $\expr
+\kwsl \expr \kwsr$.  We write $\expr.\varf$ to briefly represent $\expr \kwsl
+\code{"f"} \kwsr$.
 
 
 \subsubsection{States}
@@ -172,20 +174,25 @@ are subtrees of $\tree_0$ (i.e., $\tree_0 \subtree \tree_0, \cdots, \tree_3
 
 \subsubsection{Concrete Semantics}
 
-The concrete semantics $\sem{\prog}$ of an $\ires$ program $\prog = (\istset,
-\getinst, \getnext)$ is defined as follows:
+The concrete semantics $\sem{\prog}$ of an $\ires$ program $\prog$ is defined as
+follows:
 \[
-  \sem{\prog} = \{ \st \in \stset \mid \ist \in \istset \wedge \ist \trans^* \st \}
+  \sem{\prog} = \{ \st \in \stset \mid \initst \in \initstset{\prog} \wedge
+  \initst \trans{\prog}^* \st \}
 \]
-where $\trans^*$ denotes one or more repetition of $\trans$, and $\st \trans
-\st'$ if and only if $\st = (\lab, \_, \_, \_)$ and $\sem{\getinst(\lab)}(\st) =
-\st'$. Another way to represent the concrete semantics is to define a transfer
-function $\transfer: \powerset{\stset} \rightarrow \powerset{\stset}$:
+where $\trans{\prog}^*$ denotes one or more repetition of $\trans{\prog}$, and
+$\st \trans{\prog} \st'$ if and only if $\st = (\lab, \_, \_, \_)$ and
+$\sem{\getinst{\prog}(\lab)}(\st) = \st'$. Another way to represent the concrete
+semantics is to define a transfer function $\transfer: \powerset{\stset}
+\rightarrow \powerset{\stset}$:
 \[
-  \sem{\prog} = \lim_{n \rightarrow \infty}\transfer^n(\istset)
+  \sem{\prog} = \lim_{n \rightarrow \infty}\transfer^n(\initstset{\prog})
 \]
-where $\transfer(S) = \{ \st' \mid \st \in S \wedge \st \trans \st' \}$.  Now,
-we define the denotational semantics of expressions, instructions, and
+where
+\begin{equation}\label{eqn:transfer}
+  \transfer(S) = \{ \st' \mid \st \in S \wedge \st \trans{\prog} \st' \}
+\end{equation}
+Now, we define the denotational semantics of expressions, instructions, and
 functions.
 
 \paragraph{Expressions} We define the denotational semantics of expressions with
@@ -234,6 +241,10 @@ follows:
             \tree_j
             & \text{if} \; \val_0 = \ty_k \langle \tree_1, \cdots, \tree_n
             \rangle \wedge \val_1 = j\\
+
+            \ty_k.\eval
+            & \text{if} \; \val_0 = \ty_k \langle \tree_1, \cdots, \tree_n
+            \rangle \wedge \val_1 = \code{"eval"}\\
           \end{array}
         \right.\\
       \end{array}
@@ -253,14 +264,14 @@ semantics of instructions as follows:
   \item \underline{Variable Assignments}:
     \[
       \sem{\varx \kweq \expr}(\st) =
-      (\getnext(\lab), \ctxts, \heap, \env[\varx \mapsto \val])
+      (\getnext{\prog}(\lab), \ctxts, \heap, \env[\varx \mapsto \val])
     \]
     where $\sem{\expr}(\st) = ((\lab, \ctxts, \heap, \env), \val)$
 
   \item \underline{Field Assignments}:
     \[
       \sem{\expr_0 \kwsl \expr_1 \kwsr \kweq \expr_2}(\st) =
-      (\getnext(\lab), \ctxts, \heap[\addr \mapsto \obj'], \env)
+      (\getnext{\prog}(\lab), \ctxts, \heap[\addr \mapsto \obj'], \env)
     \]
     where
     \[
@@ -276,7 +287,7 @@ semantics of instructions as follows:
   \item \underline{Object Allocations}:
     \[
       \sem{\varx \kweq \kwcl \kwcr}(\st) =
-      (\lab, \ctxts, \heap[\addr \mapsto \varnothing], \env[\varx \mapsto
+      (\lab, \ctxts, \heap[\addr \mapsto \epsilon], \env[\varx \mapsto
       \addr])
     \]
     where $\st = (\lab, \ctxts, \heap, \env) \wedge \addr \not\in
@@ -297,7 +308,7 @@ semantics of instructions as follows:
         \st_n &=& (\lab, \ctxts, \heap, \env) &\wedge\\
         \env' &=& [\varx_1 \mapsto \val_1, \cdots, \varx_n \mapsto \val_n]
         &\wedge\\
-        \ctxt &=& (\getnext(\lab), \env, \varx)\\
+        \ctxt &=& (\getnext{\prog}(\lab), \env, \varx)\\
       \end{array}
     \]
 
@@ -411,21 +422,21 @@ denotes abstract tree nodes that are syntactic views when $\atree = \ty_k
 
 \subsection{Partial Evaluation}
 
-We define a \textit{partial evaluation} $\peval{-}: \progset \rightarrow
-\atreeset \rightarrow \progset$ of $\ires$ programs to specialize JavaScript
-semantics with a given syntactic view:
+We define a \textit{partial evaluation} $\peval{\prog}: \atreeset \rightarrow
+\progset$ of $\ires$ programs to specialize JavaScript semantics with a given
+syntactic view:
 \[
   \peval{\prog}(\atree) = \transform{\prog} \circ \asem{\prog} (\atree)
 \]
 It takes a syntactic view $\atree \in \atreeset$ to restrict arguments of the
 corresponding \esalg{Evaluation} function. Then, it performs a static analysis
-$\asem{-}$ of a given program $\prog$ with the syntactic view $\atree$ and
-transforms the program using $\transform{-}$ with the analysis result
-$\asem{\prog}(\atree)$ to produce a specialized $\ires$ program.  Since the
-\esalg{Evaluation} of $\ty$ might one or more $\ires$ functions, we only define
-the partial evaluation when $\atree = \ty_k \langle \cdots \rangle$.  Now, we
-define the static analysis and program transformation of $\ires$ programs and
-prove the semantics preservation of the partial evaluation consisting of them.
+$\asem{\prog}$ of a given program $\prog$ with the syntactic view $\atree$, and
+transforms the program to a specialized program using $\transform{\prog}$ with
+the analysis result $\asem{\prog}(\atree)$.  Since the \esalg{Evaluation} of
+$\ty$ might one or more $\ires$ functions, we only define the partial evaluation
+when $\atree = \ty_k \langle \cdots \rangle$.  Now, we define the static
+analysis and program transformation of $\ires$ programs and prove the semantics
+preservation of the partial evaluation consisting of them.
 
 
 \subsubsection{Static Analysis}
@@ -433,76 +444,97 @@ prove the semantics preservation of the partial evaluation consisting of them.
 The static analysis $\asem{\prog}(\atree)$ performs an abstract
 interpretation~\cite{ai1977, ai1992} to abstract concrete semantics under the
 given given syntactic view $\atree$.  We first define abstract domains of
-states, calling contexts, environments, and values as follows:
+states, call edges, environments, and values as follows:
 \begin{itemize}
-  \item \underline{Abstract States}:
-    $\aelemset = \amctxtset \times \atctxtset \times \afsenvset$
+  \item \underline{Abstract States}: $\aelemset$
     \[
       \begin{array}{lcl}
-        \aelemgamma(\amctxt, \atctxt, \afsenv) &=&
-        \amctxtgamma(\amctxt) \cup
-        (\atctxtgamma(\atctxt) \cap \afsenvgamma(\afsenv))\\
+        \aelemset &=& \adcallset \times \ascallset \times \afsenvset\\
 
-        (\amctxt, \atctxt, \afsenv) \order
-        (\amctxt', \atctxt', \afsenv') &\Leftrightarrow&
-        (\amctxt \order \amctxt') \wedge
-        (\atctxt \order \atctxt') \wedge
-        (\afsenv \order \afsenv')\\
+        \aelemgamma &:& \atreeset \rightarrow \aelemset \rightarrow
+        \powerset{\stset}\\
 
-        (\amctxt, \atctxt, \afsenv) \join (\amctxt', \atctxt', \afsenv') &=&
-        (\amctxt \join \amctxt', \atctxt \join \atctxt', \afsenv \join \afsenv')\\
+        \aelemgamma(\atree)(\aelem) &=&
+        (\adcallgamma(\atree)(\adcall) \setminus C) \uplus
+        (C \cap \afsenvgamma(\afsenv))\\
+        \multicolumn{3}{r}{\text{where} \; C = \ascallgamma(\atree)(\ascall)}\\
+
+        \aelem \order \aelem' &\Leftrightarrow&
+        \adcall \order \adcall' \wedge
+        \ascall \order \ascall' \wedge
+        \afsenv \order \afsenv'\\
+
+        \aelem \join \aelem' &=&
+        (\adcall \join \adcall', \ascall \join \ascall', \afsenv \join \afsenv')\\
       \end{array}
     \]
+    where $\atree = \ty_k \langle \cdots \rangle$, $\aelem = (\adcall, \ascall,
+    \afsenv)$ and $\aelem' = (\adcall', \ascall', \afsenv')$
 
-  \item \underline{Merged Calling Contexts}:
-    $\amctxtset = \powerset{\labset}$
+  \item \underline{Dynamic Call Sets}: $\adcallset$
     \[
       \begin{array}{lcl}
-        \amctxtgamma(\amctxt) &=& \{ \st \in \stset \mid
+        \adcallset &=& \powerset{\labset}\\
+
+        \adcallgamma &:& \atreeset \rightarrow \adcallset \rightarrow
+        \powerset{\stset}\\
+
+        \adcallgamma(\atree)(\adcall) &=& \{ \st \in \stset \mid
           \st = (\lab, [\ctxt_1, \cdots, \ctxt_n], \_, \_) \wedge\\&&
 
           \phantom{\{ \st \in \stset \mid}
           \exists 1 \leq j \leq n. \; \ctxt_j = (\lab_j, \_, \_) \wedge\\&&
 
           \phantom{\{ \st \in \stset \mid}
-          \lab_j \in \amctxt
+          \lab_j \in \adcall
         \}\\
 
-        \amctxt \order \amctxt' &\Leftrightarrow&
-        \amctxt \subseteq \amctxt\\
+        \adcall \order \adcall' &\Leftrightarrow&
+        \adcall \subseteq \adcall\\
 
-        \amctxt \join \amctxt' &=&
-        \amctxt \cup \amctxt\\
+        \adcall \join \adcall' &=&
+        \adcall \cup \adcall\\
       \end{array}
     \]
+    where $\atree = \ty_k \langle \cdots \rangle$
 
-  \item \underline{Target Calling Contexts}:
-    $\atctxtset = \powerset{\labset \times \funcset}$
+  \item \underline{Static Call Sets}: $\ascallset$
     \[
       \begin{array}{lcl}
-        \atctxtgamma(\atctxt) &=& \{ \st \in \stset \mid
+        \ascallset &=& \powerset{\labset \times \funcset}\\
+
+        \ascallgamma &:& \atreeset \rightarrow \ascallset \rightarrow
+        \powerset{\stset}\\
+
+        \ascallgamma(\atree)(\ascall) &=& \{ \st \in \stset \mid
           \st = (\lab_0, [\ctxt_1, \cdots, \ctxt_n], \_, \_) \wedge\\&&
 
           \phantom{\{ \st \in \stset \mid}
           \forall 1 \leq j \leq n. \; \ctxt_j = (\lab_j, \_, \_) \wedge\\&&
 
           \phantom{\{ \st \in \stset \mid}
-          \exists 0 \leq m \leq n. \; \getfunc(\lab_m) = \ty_k.\eval \wedge\\&&
+          \exists 0 \leq m \leq n. \; \getfunc{\prog}(\lab_m) = \ty_k.\eval
+          \wedge\\&&
 
           \phantom{\{ \st \in \stset \mid}
-          \forall 1 \leq j \leq m. \; (\lab_j, \getfunc{\lab_{j-1}}) \in \atctxt
+          \forall 1 \leq j \leq m. \; (\lab_j, \getfunc{\prog}{\lab_{j-1}}) \in
+          \ascall
         \}\\
 
-        \atctxt \order \atctxt' &\Leftrightarrow& \atctxt \subseteq \atctxt\\
+        \ascall \order \ascall' &\Leftrightarrow& \ascall \subseteq \ascall\\
 
-        \atctxt \join \atctxt' &=& \atctxt \cup \atctxt'\\
+        \ascall \join \ascall' &=& \ascall \cup \ascall'\\
       \end{array}
     \]
+    where $\atree = \ty_k \langle \cdots \rangle$
 
-  \item \underline{Flow-Sensitive Abstract Environments}:
-    $\afsenvset = \labset \rightarrow \aenvset$
+  \item \underline{Flow-Sensitive Abstract Environments}: $\afsenvset$
     \[
       \begin{array}{lcl}
+        \afsenvset &=& \labset \rightarrow \aenvset\\
+
+        \afsenvgamma &:& \afsenvset \rightarrow \powerset{\stset}\\
+
         \afsenvgamma(\afsenv) &=& \{ \st \in \stset \mid
           \st = (\lab, \_, \_, \_) \wedge \st \in \aenvgamma(\afsenv(\lab))
         \}\\
@@ -515,10 +547,13 @@ states, calling contexts, environments, and values as follows:
       \end{array}
     \]
 
-  \item \underline{Abstract Environments}:
-    $\aenvset = \varset \rightarrow \aenvset$
+  \item \underline{Abstract Environments}: $\aenvset$
     \[
       \begin{array}{lcl}
+        \aenvset &=& \varset \rightarrow \aenvset\\
+
+        \aenvgamma &:& \aenvset \rightarrow \powerset{\stset}\\
+
         \aenvgamma(\aenv) &=& \{ \st \in \stset \mid
           \forall \varx \in \varset. \;
           \sem{\varx}(\st) \in \avalgamma(\aenv(\varx))
@@ -534,10 +569,13 @@ states, calling contexts, environments, and values as follows:
       \end{array}
     \]
 
-  \item \underline{Abstract Values}: $\avalset = \valset \uplus \atreeset \uplus
-    \{ \top, \bot,  \}$
+  \item \underline{Abstract Values}: $\avalset$
     \[
       \begin{array}{lcl}
+        \avalset &=& \valset \uplus \atreeset \uplus \{ \top, \bot,  \}\\
+
+        \avalgamma &:& \avalset \rightarrow \powerset{\valset}\\
+
         \avalgamma(\aval) &=& \left\{
           \begin{array}{ll}
             \{ \val \} & \text{if} \; \aval = \val\\
@@ -568,19 +606,20 @@ states, calling contexts, environments, and values as follows:
     \]
 \end{itemize}
 
-An abstract state $\aelem \in \aelemset$ is a triple of a merged and target call
-edges and a flow-sensitive abstract environment.  A merged calling context
-$\amctxt \in \amctxtset$ is a set of call labels representing merged function
-calls. A target calling context $\atctxt \in \atctxtset$ is a set of possible
-static call edges from labels to function, and it represents the scope of static
-analysis. To more precisely represent states in target calling contexts, we
-define a flow-sensitive abstract environment $\afsenv \in \afsenvset$. It is
-a mapping from labels to abstract environments to represents the shape of
-environments in each label. An abstract environment $\aenv \in \aenvset$ is a
-mapping from variables to abstract values to describe values stored in
-variables. An abstract value $\aval \in \avalset$ is a static value $\val$, a
-syntactic view $\atree$, a dynamic value $\top$, or nothing $\bot$.  Now, we
-define abstract semantics of expressions, instructions, and programs.
+An abstract state $\aelem \in \aelemset$ is a triple of a dynamic call set, a
+static call set, and a flow-sensitive abstract environment.  A dynamic call set
+$\adcall \in \adcallset$ is a set of call labels representing function calls
+with multiple functions or no static arguments. A static call set $\ascall \in
+\ascallset$ is a set of possible static call edges from labels to function, and
+it represent a set of \textit{static calling contexts} $\ascallgamma(\ascall)$
+used as the scope of program transformations.  To more precisely in the static
+calling contexts, we define a flow-sensitive abstract environment $\afsenv \in
+\afsenvset$. It is a mapping from labels to abstract environments to represents
+the shape of environments in each label. An abstract environment $\aenv \in
+\aenvset$ is a mapping from variables to abstract values to describe values
+stored in variables. An abstract value $\aval \in \avalset$ is a static value
+$\val$, a syntactic view $\atree$, a dynamic value $\top$, or nothing $\bot$.
+Now, we define abstract semantics of expressions, instructions, and programs.
 
 \paragraph{Expressions} We first define abstract semantics of expressions as
 follows:
@@ -623,18 +662,18 @@ follows:
     \]
     where
     \[
-      \begin{array}{l@{~}c@{~}l@{~}l}
-        \asem{\expr_0}(\aenv) &=& \aval_0 &\wedge\\
-        \asem{\expr_1}(\aenv) &=& \aval_1 &\wedge\\
+      \begin{array}{lcl}
+        \asem{\expr_0}(\aenv) &=& \aval_0\\
+        \asem{\expr_1}(\aenv) &=& \aval_1\\
         \aval &=& \left\{
           \begin{array}{ll}
-            \tree_j & \text{if} \;
-            \aval_0 = \ty_k \langle \tree_1, \cdots, \tree_n \rangle \wedge
-            \aval_1 = j\\
-
             \atree_j & \text{if} \;
             \aval_0 = \ty_k \langle \atree_1, \cdots, \atree_n \rangle \wedge
             \aval_1 = j\\
+
+            \ty_k.\eval & \text{if} \;
+            \aval_0 = \ty_k \langle \cdots \rangle \wedge
+            \aval_1 = \code{"eval"}\\
 
             \top & \text{otherwise}\\
           \end{array}
@@ -646,51 +685,75 @@ follows:
 \paragraph{Instructions} Then, we define the abstract semantics of instructions
 as follows:
 \[
-  \framebox{$\asem{\inst}: \amctxtset \times \atctxtset \times \labset \times
-    \aenvset \rightarrow
-  \aelemset$}
+  \framebox{$\asem{\inst}: \labset \times \aelemset \rightarrow \aelemset$}
 \]
 \begin{itemize}
   \item \underline{Variable Assignments}:
     \[
-      \asem{\varx \kweq \expr}(\amctxt, \atctxt, \lab, \aenv) =
-      (\amctxt, \atctxt, [\getnext(\lab) \mapsto \aenv[\varx \mapsto \aval]])
+      \asem{\varx \kweq \expr}(\lab, \aelem) =
+      (\adcall, \ascall, [\getnext{\prog}(\lab) \mapsto \aenv[\varx
+      \mapsto \aval]])
     \]
-    where $\aval = \asem{\expr}(\aenv)$
+    where
+    \[
+      \begin{array}{lcl}
+        \aelem &=& (\adcall, \ascall, \afsenv)\\
+        \aenv &=& \afsenv(\lab)\\
+        \aval &=& \asem{\expr}(\aenv)\\
+      \end{array}
+    \]
 
   \item \underline{Field Assignments}:
     \[
-      \asem{\expr_0 \kwsl \expr_1 \kwsr \kweq \expr_2}(\amctxt, \atctxt, \lab, \aenv) =
-      (\amctxt, \atctxt, [\getnext(\lab) \mapsto \aenv])
+      \asem{\expr_0 \kwsl \expr_1 \kwsr \kweq \expr_2}
+      (\lab, \aelem) =
+      (\adcall, \ascall, [\getnext{\prog}(\lab) \mapsto \aenv])
+    \]
+    where
+    \[
+      \begin{array}{lcl}
+        \aelem &=& (\adcall, \ascall, \afsenv)\\
+        \aenv &=& \afsenv(\lab)\\
+      \end{array}
     \]
 
   \item \underline{Object Allocations}:
     \[
-      \asem{\varx \kweq \kwcl \kwcr}(\amctxt, \atctxt, \lab, \aenv) =
-      (\amctxt, \atctxt, [\getnext(\lab) \mapsto \aenv[\varx \mapsto \top]])
+      \asem{\varx \kweq \kwcl \kwcr}(\lab, \aelem) =
+      (\adcall, \ascall, [\getnext{\prog}(\lab) \mapsto \aenv[\varx
+      \mapsto \top]])
+    \]
+    where
+    \[
+      \begin{array}{lcl}
+        \aelem &=& (\adcall, \ascall, \afsenv)\\
+        \aenv &=& \afsenv(\lab)\\
+      \end{array}
     \]
 
   \item \underline{Function Calls}:
     \[
-      \asem{\varx \kweq \expr \kwrl \expr_1 \cdots \expr_n \kwrr}(\amctxt,
-      \atctxt, \lab, \aenv) = (\amctxt', \atctxt', \afsenv)
+      \asem{\varx \kweq \expr \kwrl \expr_1 \cdots \expr_n \kwrr}(\lab, \aelem)
+      = (\adcall', \ascall', \afsenv')
     \]
     where
     \[
-      \begin{array}{l@{~}c@{~}ll}
-        \aval &=& \asem{\expr}(\aenv) &\wedge\\
-        \aval_j &=& \asem{\expr_j}(\aenv) \; [\forall 1 \leq j \leq n] &\wedge\\
-        (\amctxt', \atctxt') &=& \left\{
+      \begin{array}{l@{~}c@{~}l}
+        \aelem &=& (\adcall, \ascall, \afsenv)\\
+        \aenv &=& \afsenv(\lab)\\
+        \aval &=& \asem{\expr}(\aenv)\\
+        \aval_j &=& \asem{\expr_j}(\aenv) \; [\forall 1 \leq j \leq n]\\
+        (\adcall', \ascall') &=& \left\{
           \begin{array}{ll}
-            (\amctxt, \atctxt \cup \{ (\lab, \func) \} &
+            (\adcall, \ascall \cup \{ (\lab, \func) \} &
             \text{if} \; \aval = \func \wedge \exists j. \; \aval_j \neq \top\\
 
-            (\amctxt \cup \{ \lab \}, \atctxt) &
+            (\adcall \cup \{ \lab \}, \ascall) &
             \text{otherwise}
           \end{array}
         \right.\\
-        \afsenv &=& [ \lab_\func \mapsto \aenv_\func \mid
-        (\lab, \func) \in \atctxt' \wedge\\&&
+        \afsenv' &=& [ \lab_\func \mapsto \aenv_\func \mid
+        (\lab, \func) \in \ascall' \wedge\\&&
 
         \phantom{[\lab_\func \mapsto \aenv_\func \mid \;}
         \func = \kwdef \; \kwrl \varx_1, \cdots, \varx_n \kwrr
@@ -704,27 +767,29 @@ as follows:
 
   \item \underline{Branches}:
     \[
-      \asem{\kwif \; \expr \; \lab_\vart \; \lab_\varf}(\amctxt, \atctxt, \lab, \aenv) =
-      (\amctxt, \atctxt, \afsenv')
+      \asem{\kwif \; \expr \; \lab_\vart \; \lab_\varf}(\lab, \aelem) =
+      (\adcall, \ascall, \afsenv'')
     \]
     where
     \[
       \begin{array}{lcl}
+        \aelem &=& (\adcall, \ascall, \afsenv)\\
+        \aenv &=& \afsenv(\lab)\\
         \aval &=& \asem{\expr}(\aenv)\\
-
-        \afsenv &=& \left\{
-          \begin{array}{ll}
-            [\lab_\vart \mapsto \aenv] & \text{if} \; \true \in
-            \avalgamma(\aval)\\
-            \varnothing & \text{otherwise}\\
-          \end{array}
-        \right.\\
 
         \afsenv' &=& \left\{
           \begin{array}{ll}
-            \afsenv[\lab_\varf \mapsto \aenv] & \text{if} \; \false \in
+            [\lab_\vart \mapsto \aenv] & \text{if} \; \true \in
             \avalgamma(\aval)\\
-            \afsenv & \text{otherwise}\\
+            \epsilon & \text{otherwise}\\
+          \end{array}
+        \right.\\
+
+        \afsenv'' &=& \left\{
+          \begin{array}{ll}
+            \afsenv'[\lab_\varf \mapsto \aenv] & \text{if} \; \false \in
+            \avalgamma(\aval)\\
+            \afsenv' & \text{otherwise}\\
           \end{array}
         \right.\\
       \end{array}
@@ -732,28 +797,31 @@ as follows:
 
   \item \underline{Returns}:
     \[
-      \asem{\kwret \; \expr}(\amctxt, \atctxt, \lab_0, \aenv) =
-      (\amctxt, \atctxt, \afsenv)
+      \asem{\kwret \; \expr}(\lab_0, \aelem) =
+      (\adcall, \ascall, \afsenv')
     \]
     where
     \[
       \begin{array}{lcl}
+        \aelem &=& (\adcall, \ascall, \afsenv)\\
+        \aenv &=& \afsenv(\lab)\\
         \aval &=& \asem{\expr'}(\aenv)\\
 
-        \func &=& \getfunc(\lab_0)\\
-        R &=& \{ (\getnext(\lab), \varx) \mid
-          (\lab, \func) \in \atctxt \wedge\\
+        \func &=& \getfunc{\prog}(\lab_0, \aelem)\\
+        R &=& \{ (\getnext{\prog}(\lab), \varx) \mid
+          (\lab, \func) \in \ascall \wedge\\&&
 
-          && \phantom{\{ (\getnext(\lab), \varx) \mid}
-          \getinst(\lab) = \varx \kweq \expr^\lab (\expr^\lab_1 \cdots \expr^\lab_n)
+          \phantom{\{ (\getnext{\prog}(\lab), \varx) \mid}
+          \getinst{\prog}(\lab) = \varx \kweq \expr^\lab (\expr^\lab_1 \cdots
+          \expr^\lab_n)
         \}\\
 
-        \afsenv &=& \lambda \lab \in \labset. \; \left\{
+        \afsenv' &=& \lambda \lab \in \labset. \; \left\{
           \begin{array}{ll}
             [\varx \mapsto \aval]
             & \text{if} \; (\lab, \varx) \in R\\
 
-            \varnothing
+            \epsilon
             & \text{otherwise}\\
           \end{array}
         \right.\\
@@ -761,31 +829,31 @@ as follows:
     \]
 \end{itemize}
 
-\paragraph{Programs} Finally, we define the abstract semantics of programs with
-a given syntactic view.  We define it as the least fixed point of the abstract
-transfer function with the target initial abstract state depending on the given
-syntactic view:
+\paragraph{Programs} Finally, we define the abstract semantics $\asem{\prog}:
+\atreeset \rightarrow \aelemset$ of a program $\prog$ with a given syntactic
+view:
 \[
-  \asem{\prog}(\atree) = \lim_{n \rightarrow
-  \infty}(\atransfer)^n(\iaelem(\atree))
+  \asem{\prog}(\atree) = \lim_{n \rightarrow \infty}(\atransfer)^n \circ
+  \entryaelem(\atree)
 \]
-where
+It is the least fixed point of the abstract transfer function $\atransfer$ with
+an abstract entry state $\entryaelem$ depending on the given syntactic view
+$\atree$:
 \begin{itemize}
   \item \underline{Abstract Transfer Function}: $\atransfer: \aelemset
     \rightarrow \aelemset$
     \[
-      \atransfer(\aelem) = \aelem \join \sem{\amctxt} \wedge
-      \bigjoin_{\lab \in \labset}{\asem{\getinst(\lab)}(\amctxt, \atctxt, \lab,
-      \afsenv(\lab))}
+      \atransfer(\aelem) = \aelem \join \sem{\adcall} \wedge
+      \bigjoin_{\lab \in \labset}{\asem{\getinst{\prog}(\lab)}(\lab, \aelem)}
     \]
-    where $\aelem = (\amctxt, \atctxt, \afsenv)$ and $\sem{\amctxt} = (\amctxt,
-    \atctxt, [\lab \mapsto \aenv_\lab \mid \lab \in \amctxt \wedge
-    \getinst(\lab) = \varx = \expr(\cdots) \wedge \aenv_\lab = [\varx \mapsto
-    \top]])$.
-  \item \underline{Target Initial Abstract State}: $\iaelem:
+    where $\aelem = (\adcall, \ascall, \afsenv)$ and $\sem{\adcall} = (\adcall,
+    \ascall, [\lab \mapsto \aenv_\lab \mid \lab \in \adcall \wedge
+    \getinst{\prog}(\lab) = \varx = \expr(\cdots) \wedge \aenv_\lab = [\varx
+    \mapsto \top]])$.
+  \item \underline{Abstract Entry States}: $\entryaelem:
     \atreeset \rightarrow \aelemset$
     \[
-      \iaelem(\atree) = (\varnothing, \varnothing, \afsenv)
+      \entryaelem(\atree) = (\varnothing, \varnothing, \afsenv)
     \]
     where \[
       \begin{array}{lcl}
@@ -794,12 +862,12 @@ where
         \agetsubs(\atree) &=& [\atree_1, \cdots, \atree_n]\\
 
         \ty_k.\eval &=& \lambda \kwdef \; \kwrl \varx_1, \cdots, \varx_n \kwrr
-        \; \lab\\
+        \; \entrylab\\
 
         \aenv &=& [\varx_1 \mapsto \atree_1, \cdots, \varx_n \mapsto
         \atree_n]\\
 
-        \afsenv &=& [\lab \mapsto \aenv]\\
+        \afsenv &=& [\entrylab \mapsto \aenv]\\
       \end{array}
     \]
 \end{itemize}
@@ -891,12 +959,23 @@ as follows:
   \framebox{$\transform{\prog}: \aelemset \rightarrow \progset$}
 \]
 \[
-  \transform{\prog}(\amctxt, \atctxt, \afsenv) = (\istset, \getfunc, \getinst',
-  \getnext)
+  \transform{\prog}(\adcall, \ascall, \afsenv) = (\initstset{\prog},
+  \getfunc{\prog}, \getinst{\prog'}, \getnext{\prog})
 \]
-where $\prog = (\istset, \getfunc, \getinst, \getnext)$ and $\getinst' =
-\getinst[\lab \mapsto \inst_\lab \mid \aenv = \afsenv(\lab) \neq \epsilon \wedge
-\inst_\lab = \transform{\getinst(\lab)}(\aenv)]$.
+where
+\[
+  \begin{array}{lcl}
+    \prog &=&
+    (\initstset{\prog}, \getfunc{\prog}, \getinst{\prog}, \getnext{\prog})\\
+
+    \getinst{\prog'} &=&
+    \getinst{\prog}[\lab \mapsto \inst_\lab \mid
+    \lab \in \labset \wedge \aenv = \afsenv(\lab) \wedge\\&&
+
+    \phantom{\getinst{\prog}[\lab \mapsto \inst_\lab \mid}
+    \inst_\lab = \transform{\getinst{\prog}(\lab)}(\aenv)]\\
+  \end{array}
+\]
 
 
 
@@ -913,69 +992,136 @@ where $\prog = (\istset, \getfunc, \getinst, \getnext)$ and $\getinst' =
 
 \subsubsection{Semantics Preservation}
 
-% We first define a helper function $\entrystset: \atreeset \rightarrow
-% \powerset{\stset}$ to define the set of entry states for a given syntactic view
-% $\atree = \ty_k \langle \cdots \rangle$:
-% \[
-%   \begin{array}{l@{~}l}
-%     \entrystset(\atree) = \{ \st \in \stset \mid &
-%       \st = (\lab, \_, \_, \env) \wedge\\&
-% 
-%       \env = [\varx_0 \mapsto \atree, \varx_1 \mapsto \atree_1, \cdots, \varx_n
-%       \mapsto \atree_n]
-%     \}\\
-%   \end{array}
-% \]
-% where $\ty_k.\eval = \kwdef \; \kwrl \varx_0, \cdots, \varx_n \kwrr \lab$ and
-% $\agetsubs(\atree) = [\atree_1, \cdots, \atree_n]$. Then, we define a restricted
-% semantics $\rsem{-}: \progset \rightarrow \atreeset \rightarrow
-% \powerset{\stset}$ as follows:
-% \[
-%   \begin{array}{l@{~}l@{~}l}
-%     \rsem{\prog}(\atree) = \{ \st \in \stset \mid&
-%       \st' \in \sem{\prog} \cap \entrystset(\atree) &\wedge\\&
-%       \st' \trans^* \st  &\wedge\\&
-%       \st' = (\_, \ctxts', \_, \_) &\wedge\\&
-%       \st = (\_, \ctxts, \_, \_) &\wedge\\&
-%       \ctxts \postfix \ctxts
-%     \}
-%   \end{array}
-% \]
-% where $x \postfix y$ denotes that a sequence $y$ is a postfix of a sequence $x$.
+To prove the semantics preservation of the partial evaluation for each syntactic
+view $\atree$, we first define a restricted semantics depending on the given
+syntactic view. Then, we prove the soundness of the static analysis
+$\asem{\prog}$ of the program. Finally, we prove the semantics preservation of
+the program transformation $\transform{\prog}$.
 
-\todo
 
-\begin{theorem}[Soundness of $\asem{-}$]
-  For a given program $\prog \in \progset$ and a syntactic view $\atree \in
-  \atreeset$. Assume that $\asem{\prog}(\atree) = \aelem = (\amctxt, \atctxt,
-  \afsenv)$. Then, the following condition should be satisfied:
+\paragraph{Restricted Semantics} We first define a \textit{restricted semantics}
+$\rsem{\prog}: \atreeset \rightarrow \powerset{\stset}$ with a syntactic view:
+\[
+  \rsem{\prog}(\atree) = \lim_{n \rightarrow \infty}\transfer^n \circ
+  \entrystset(\atree)
+\]
+It is the least fixed point of a transfer function $\transfer: \powerset{\stset}
+\rightarrow \powerset{\stset}$ defined in Equation~\ref{eqn:transfer} with the
+following entry states $\entrystset: \atreeset \rightarrow \powerset{\stset}$
+depending on the given syntactic view $\atree$:
+\[
+  \begin{array}{lcl}
+    \entrystset &:& \atreeset \rightarrow \powerset{\stset}\\
+
+    \entrystset(\atree) &=& \{ \st \in \stset \mid
+      \st = (\entrylab, \_, \_, \env) \wedge\\&&
+
+      \phantom{\{ \st \in \stset \mid}
+        \tree \in \atreegamma(\atree) \wedge \forall 1 \leq j \leq n. \;
+      \tree_j \in \atreegamma(\atree_j) \wedge\\&&
+
+      \phantom{\{ \st \in \stset \mid}
+        \env = [\varx_0 \mapsto \tree, \varx_1 \mapsto \tree_1, \cdots,
+        \varx_n \mapsto \tree_n]
+      \}\\
+    \end{array}
+  \]
+where
+\[
+  \begin{array}{lcl}
+    \atree &=& \ty_k \langle \cdots \rangle\\
+    \ty_k.\eval &=& \kwdef \; \kwrl \varx_0, \cdots, \varx_n \kwrr \entrylab\\
+    \agetsubs(\atree) &=& [\atree_1, \cdots, \atree_n]\\
+  \end{array}
+\]
+
+
+\paragraph{Proof of Soundness} We formally define the soundness of the static
+analysis $\asem{\prog}$ in Theorem~\ref{thm:sound-prog} and prove it using
+several lemmas.
+
+\begin{theorem}[Soundness of $\asem{\prog}$]\label{thm:sound-prog}
+  For a given syntactic view $\atree \in \atreeset$, the static analysis
+  $\asem{\prog}(\atree)$ is sound by satisfying the following condition:
   \[
-    \rsem{\prog}(\atree, \atctxt) \subseteq \gamma(\aelem)
+    \rsem{\prog}(\atree) \subseteq \aelemgamma \circ \asem{\prog}(\atree)
   \]
 \end{theorem}
 \begin{proof}
   \todo
 \end{proof}
 
-\begin{lemma}[Soundness of $\atransfer$]
-  The abstract transfer function $\atransfer$ is a sound approximation of the
-  transfer function $\transfer$ by satisfying the following condition:
+\begin{lemma}[Soundness of $\entryaelem$]\label{thm:sound-entryaelem}
+  For a given syntactic view $\atree \in \atreeset$, the abstract entry state
+  $\entryaelem(\atree)$ is a sound approximation of the entry states
+  $\entrystset(\atree)$ by satisfying the following condition:
   \[
-    \forall \aelem \in \aelemset. \;
-    \transfer \circ \gamma(\aelem) \subseteq \gamma \circ \atransfer(\aelem)
+    \entrystset(\atree) \subseteq \aelemgamma \circ \entryaelem(\atree) 
   \]
 \end{lemma}
 \begin{proof}
   \todo
 \end{proof}
 
-\begin{theorem}[Semantics Preservation of $\transform{-}$]
+\begin{lemma}[Soundness of $\atransfer$]\label{thm:sound-atransfer}
+  The abstract transfer function $\atransfer$ is a sound approximation of the
+  transfer function $\transfer$ by satisfying the following condition:
+  \[
+    \forall \aelem \in \aelemset. \;
+    \transfer \circ \aelemgamma(\aelem) \subseteq
+    \aelemgamma \circ \atransfer(\aelem)
+  \]
+\end{lemma}
+\begin{proof}
+  \todo
+\end{proof}
+
+\begin{lemma}[Soundness of $\asem{\inst}$]\label{thm:sound-inst}
+  For a given label $\lab \in \labset$ and its instruction $\inst =
+  \getinst{\prog}(\lab)$, the abstract semantics $\asem{\inst}$ of the
+  instruction is a sound approximation of its concrete semantics $\sem{\inst}$:
+  \[
+    \forall \aelem \in \aelemset. \;
+    \st \in \aelemgamma(\aelem) \wedge \st = (\lab, \_, \_, \_) \Rightarrow
+    \sem{\inst}(\st) \in \aelemgamma \circ \asem{\inst}(\lab, \aelem)
+  \]
+\end{lemma}
+\begin{proof}
+  \todo
+\end{proof}
+
+\begin{lemma}[Soundness of $\asem{\expr}$]\label{thm:sound-inst}
+  The abstract semantics $\asem{\inst}$ of an expression $\expr$ is a sound
+  approximation of its concrete semantics $\sem{\expr}$:
+  \[
+    \forall \aenv \in \aenvset. \;
+    \st \in \aenvgamma(\aenv) \Rightarrow
+    \sem{\expr}(\st) \in \avalgamma \circ \asem{\expr}(\aenv)
+  \]
+\end{lemma}
+\begin{proof}
+  \todo
+\end{proof}
+
+\paragraph{Proof of Semantics Preservation} Finally, we prove the semantics
+prservation of the program transformation $\transform{\prog}$ in
+Theorem~\ref{thm:preserve-prog} with several lemmas.
+
+\begin{theorem}[Semantics Preservation of $\transform{\prog}$]
+  \label{thm:preserve-prog}
+  For a given syntactic view $\atree \in \atreeset$, a transformed program
+  $\prog' = \transform{\prog}(\aelem)$ with an abstract state $\aelem =
+  (\adcall, \ascall, \afsenv) \in \aelemset$ preserves the restricted semantics
+  $\rsem{\prog}(\atree)$ under the static calling contexts
+  $\ascallgamma(\ascall)$ if $\aelem$ is sound:
   \[
     \todo
+    % \rsem{\prog}(\atree) \subseteq \aelemgamma(\aelem) \Rightarrow
+    % \forall \st \in \rsem{\prog}(\atree) \cap \ascallgamma(\ascall). \;
+    % (\st \trans{\prog} \st' \wedge \st \trans{\prog'} \st'') \Rightarrow (\st' =
+    % \st'')
   \]
 \end{theorem}
 \begin{proof}
   \todo
 \end{proof}
-
-\todo
