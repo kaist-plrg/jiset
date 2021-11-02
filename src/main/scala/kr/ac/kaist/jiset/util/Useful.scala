@@ -128,8 +128,4 @@ object Useful {
   // get catched error message
   def getError[T](f: => T): Option[Throwable] =
     try { f; None } catch { case e: Throwable => Some(e) }
-
-  // convert test262 file name
-  def convert262(fname: String): String =
-    fname.toSeq.diff(s"$TEST262_TEST_DIR/").unwrap
 }
