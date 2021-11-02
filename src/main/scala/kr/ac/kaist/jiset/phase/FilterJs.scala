@@ -4,7 +4,6 @@ import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.editor._
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.util.JvmUseful._
-import kr.ac.kaist.jiset.util.ProgressBar
 
 // FilterJs phase
 case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
@@ -16,49 +15,22 @@ case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
     jisetConfig: JISETConfig,
     config: FilterJsConfig
   ): Unit = {
-    // get program list from path
-    def getList(path: String): List[(String, Int)] =
-      readFile(path).split(LINE_SEP).toList.zipWithIndex
-
-    // put js programs to filter
-    def doPut(
-      desc: String,
-      metas: List[(String, Int)],
-      put: ((String, Int)) => Unit
-    ): Unit = {
-      // put js program to filter
-      ProgressBar(desc, metas).foreach(put(_))
-
-      // print stats
-      if (!jisetConfig.silent) Filter.printStats()
-    }
-
-    // put programs from test262 list
-    doPut(
-      s"put test262 programs",
-      getList(s"$DATA_DIR/test262-list"),
-      Filter.putTest262
+    List(EDITOR_LOG_DIR, EDITOR_CACHED_DIR).foreach(mkdir(_))
+    // load program set from test262, jest, custom lists
+    val total = List(
+      // SimpleProgramSet.fromTest262(),
+      SimpleProgramSet.fromJest(),
+      SimpleProgramSet.fromCustom()
     )
+      .reduce(_ union _)
+      .setDumpDir(s"$EDITOR_LOG_DIR/total")
+    if (LOG) total.dumpStats()
 
-    // put programs from JEST list
-    doPut(
-      s"put jest programs",
-      getList(s"$DATA_DIR/jest-list"),
-      Filter.putJest
-    )
-
-    // put programs from custom list
-    doPut(
-      s"put custom programs",
-      getList(s"$DATA_DIR/custom-list"),
-      Filter.putCustom
-    )
-
-    // dump filter result
-    if (LOG) { Filter.dump(); Filter.dumpStats() }
-
-    // close file handles in editor.Filter
-    Filter.close()
+    // filtered program set
+    val filtered =
+      FilteredProgramSet(total).setDumpDir(s"$EDITOR_LOG_DIR/filtered")
+    if (LOG) filtered.dumpStats()
+    filtered.dump()
   }
 
   def defaultConfig: FilterJsConfig = FilterJsConfig()

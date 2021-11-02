@@ -2,13 +2,14 @@ package kr.ac.kaist.jiset
 
 import kr.ac.kaist.jiset.extractor.ECMAScriptParser
 import kr.ac.kaist.jiset.cfg.CFG
-import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.ir.{ Parser => IRParser, _ }
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.JsonProtocol._
-import kr.ac.kaist.jiset.spec._
+import kr.ac.kaist.jiset.spec.{ Parser => SpecParser, _ }
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.util.Span
 import kr.ac.kaist.jiset.util.Useful._
+import kr.ac.kaist.jiset.util.JvmUseful._
 
 package object js {
   // set current ECMAScript model
@@ -103,4 +104,8 @@ package object js {
     val span = bodyOpt.fold(Span())(_.span)
     Script0(bodyOpt, params, span)
   }
+
+  // parse js file
+  def parseJsFile(filename: String): Script =
+    Parser.parse(Parser.Script(Nil), fileReader(filename)).get
 }

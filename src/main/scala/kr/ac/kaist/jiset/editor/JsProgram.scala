@@ -4,27 +4,29 @@ import kr.ac.kaist.jiset.{ cfg => CFG, _ }
 import kr.ac.kaist.jiset.ir.{ State, NodeCursor, Interp }
 import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
+import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.WeakUId
 import kr.ac.kaist.jiset.EDITOR_LOG_DIR
 
-// js program in filtered mapping
-class JsProgram(
+// js program
+case class JsProgram(
   script: Script,
-  var touchedFile: Option[String] = None
+  touched: Array[Boolean],
+  execTime: Int
 ) extends WeakUId {
-  // touched nodes
-  lazy val touched: Array[Boolean] =
-    JsProgram.getTouched(script, touchedFile)
-
   // raw string of js program
   def raw: String = script.toString
 
   // size of js program
   def size: Int = raw.length
 
-  // get original script
-  def getScript: Script = script
+  // get touched node ids
+  def touchedNIds: Array[Int] =
+    touched.zipWithIndex.flatMap {
+      case (true, nid) => Some(nid)
+      case _ => None
+    }
 
   // equals
   override def equals(that: Any): Boolean = that match {
@@ -34,63 +36,29 @@ class JsProgram(
 
   // override hashCode
   override def hashCode: Int = uid
-
-  // save touched result
-  def saveTouched(): Unit = {
-    val filename = s"$EDITOR_CACHED_DIR/$uid.json"
-    dumpJson(JsProgram.getTouchedNodes(touched), filename, true)
-    touchedFile = Some(s"$uid")
-  }
 }
+
 object JsProgram {
-  // factory
-  def apply(
-    pid: Int,
-    script: Script,
-    touchedFile: Option[String] = None
-  ): JsProgram =
-    (new JsProgram(script, touchedFile)).setUId(pid)
+  def fromScript(script: Script): JsProgram = {
+    // init touched
+    val touched = Array.fill(cfg.nodes.size)(false)
 
-  // get touched nodes by interp script
-  def getTouched(script: Script, touchedFile: Option[String]): Array[Boolean] = {
-    val _touched = Array.fill(cfg.nodes.size)(false)
-    val cached = touchedFile.map(uid => s"$EDITOR_CACHED_DIR/$uid.json")
+    // run interp and dump touched result
+    val initState = Initialize(script, None, NodeCursor)
+    val interp = new Interp(initState, useHook = true)
 
-    // check if cached result exists
-    cached match {
-      case Some(cached) if exists(cached) =>
-        // read touched from cached
-        val data = readJson[Array[Int]](cached)
-        data.foreach(nid => _touched(nid) = true)
-        _touched
-      case _ =>
-        // run interp and dump touched result
-        val initState = Initialize(script, None, NodeCursor)
-        val interp = new Interp(initState, useHook = true)
+    // subscribe step event in interp
+    interp.subscribe(Interp.Event.Step, { st =>
+      st.context.cursorOpt.get match {
+        case NodeCursor(n) => { touched(n.uid) = true }
+        case _ =>
+      }
+    })
 
-        // subscribe step event in interp
-        interp.subscribe(Interp.Event.Step, { st =>
-          st.context.cursorOpt.get match {
-            case NodeCursor(n) => { _touched(n.uid) = true }
-            case _ =>
-          }
-        })
+    // fixpoint and measure time
+    val (execTime, _) = time(interp.fixpoint)
 
-        // fixpoint
-        interp.fixpoint
-
-        // cache touched result
-        cached.foreach(cached => {
-          dumpJson(getTouchedNodes(_touched), cached, true)
-        })
-        _touched
-    }
+    // create js program
+    JsProgram(script, touched, execTime.toInt)
   }
-
-  // convert touched result to nid list
-  def getTouchedNodes(touched: Array[Boolean]): Array[Int] =
-    touched.zipWithIndex.flatMap {
-      case (true, nid) => Some(nid)
-      case _ => None
-    }
 }

@@ -8,9 +8,9 @@ class BoxPlot[T](seqs: Seq[T], implicit val num: Numeric[T]) {
 
   // sorted data
   private lazy val sorted = seqs.sorted
-  
+
   def size: Int = seqs.size
-  
+
   // quartile data
   lazy val min: T = sorted.head
   lazy val max: T = sorted.last
@@ -18,7 +18,7 @@ class BoxPlot[T](seqs: Seq[T], implicit val num: Numeric[T]) {
     if (size <= 1) (min, min)
     else {
       var (lh, uh) = sorted.splitAt(size / 2)
-      if (size % 2 == 1)  uh = uh.tail
+      if (size % 2 == 1) uh = uh.tail
       (median(lh, true).get, median(uh, true).get)
     }
   }
@@ -26,7 +26,7 @@ class BoxPlot[T](seqs: Seq[T], implicit val num: Numeric[T]) {
 
   // average
   lazy val avg: Double = num.toDouble(seqs.sum(num)) / seqs.size
-  
+
   // to csv summary string
   def csvSummary: String =
     f"$min%2.2f,$q1%2.2f,$med%2.2f,$q3%2.2f,$max%2.2f,$avg%2.2f,$size"
@@ -57,7 +57,7 @@ object Statistics {
   def median[T](
     data: Seq[T],
     ordered: Boolean = false
-  )(implicit num: Numeric[T]): Option[Double] = 
+  )(implicit num: Numeric[T]): Option[Double] =
     if (data.isEmpty) None
     else {
       val sorted = if (ordered) data else data.sorted
@@ -66,7 +66,7 @@ object Statistics {
       Some(
         if (size % 2 == 1) num.toDouble(data(idx))
         else {
-          val s = num.plus(data(idx), data(idx-1))
+          val s = num.plus(data(idx), data(idx - 1))
           num.toDouble(s) / 2
         }
       )
