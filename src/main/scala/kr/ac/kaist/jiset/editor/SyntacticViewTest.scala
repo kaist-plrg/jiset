@@ -24,19 +24,23 @@ object SyntacticViewTest {
   def apply(): Unit = {
     val evaluated = SyntacticViewSeed.syntacticViewSeed.map(
       (view) => {
+        val beforeT = System.currentTimeMillis()
         val algos = PartialEval(view)
-        val touchedNum = algos.length
-        val origInstNum = algos.map((algo) => getInstNum(algoMap(algo.name).rawBody)).sum
-        val newInstNum = algos.map((algo) => getInstNum(algo.rawBody)).sum
-        (view, touchedNum, origInstNum, newInstNum)
+        val execT = System.currentTimeMillis() - beforeT
+        val reducedAlgos = algos.filter((algo) => getInstNum(algoMap(algo.name).rawBody) != getInstNum(algo.rawBody))
+        val reducedNum = reducedAlgos.length
+        val origInstNum = reducedAlgos.map((algo) => getInstNum(algoMap(algo.name).rawBody)).sum
+        val newInstNum = reducedAlgos.map((algo) => getInstNum(algo.rawBody)).sum
+        (view, reducedNum, origInstNum, newInstNum, execT)
       }
     )
-    println("ast : touched Algo Num / original Inst Num / PE-ed Inst Num")
+    println("ast : reduced Algo Num / original Inst Num / reduced Inst Num / diff / reduced percent / execution time")
     evaluated.foreach {
-      case (view, touchedNum, origInstNum, newInstNum) =>
-        println(s"[${view.ast.kind}] : $touchedNum / $origInstNum / $newInstNum || (${view.ast.toString})")
+      case (view, reducedNum, origInstNum, newInstNum, execT) =>
+        println(s"[${view.ast.kind}] : $reducedNum / $origInstNum / $newInstNum / ${origInstNum - newInstNum} / ${if (origInstNum != 0) 1.0 - newInstNum.toDouble / origInstNum.toDouble else 0.0} / ${execT.toDouble / 1000.0} || (${view.ast.toString})")
     }
-    println(s"Averaged reduced percent : ${evaluated.map((x) => 1.0 - x._4.toDouble / x._3.toDouble).sum / evaluated.length.toDouble}")
+    println(s"Average execution time : ${evaluated.map((x) => x._5.toDouble / 1000.0).sum / evaluated.length.toDouble}")
+    println(s"Average reduced percent : ${evaluated.filter(_._3 > 0).map((x) => 1.0 - x._4.toDouble / x._3.toDouble).sum / evaluated.length.toDouble}")
 
   }
 }

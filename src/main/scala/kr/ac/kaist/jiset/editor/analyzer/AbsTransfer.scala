@@ -178,7 +178,6 @@ case class AbsTransfer(sem: AbsSemantics) {
 
           value.getSingle match {
             case FlatBot => ()
-            case FlatTop => returnValue = AbsValue.Top
             case FlatElem(Func(algo)) => {
               val locals = getLocals(algo.head.params, vs)
               if (locals.forall { case (_, v) => v.getSingle.isInstanceOf[FlatElem[_]] }) {
@@ -205,7 +204,14 @@ case class AbsTransfer(sem: AbsSemantics) {
                 sem.doCall(call, st, algo.func, newSt)
               }
             }
-            case _ => returnValue = AbsValue.Top
+            case _ => {
+              sem.retEdges.filter { case (rp, callNodeSet) => callNodeSet contains NodePoint(call) }.map { case (ReturnPoint(func), _) => func }.toSet.foreach((func: Function) => {
+                val newLocals = getLocals(func.params, vs)
+                val newSt = st.copy(locals = newLocals)
+                sem.doCall(call, st, func, newSt)
+              })
+              returnValue = AbsValue.Top
+            }
           }
 
           returnValue
@@ -263,7 +269,8 @@ case class AbsTransfer(sem: AbsSemantics) {
                       }
                     }
                     if (returnValue.isBottom) {
-                      sem.doCall(call, st, algo.func, newSt, astOpt).flatMap((_) => AbsValue.Bot)
+                      sem.doCall(call, st, algo.func, newSt, astOpt)
+                      pure(AbsValue.Bot)
                     } else {
                       pure(returnValue)
                     }
@@ -275,7 +282,18 @@ case class AbsTransfer(sem: AbsSemantics) {
               }
             }
             case (FlatBot, _) | (_, FlatBot) => pure(AbsValue.Bot)
-            case _ => pure(AbsValue.Top)
+            case _ => {
+              for {
+                st <- get
+                _ = {
+                  sem.retEdges.filter { case (rp, callNodeSet) => callNodeSet contains NodePoint(call) }.map { case (ReturnPoint(func), _) => func }.toSet.foreach((func: Function) => {
+                    val newLocals = func.params.map(p => (Id(p.name) -> AbsValue.Top)).toMap
+                    val newSt = st.copy(locals = newLocals)
+                    sem.doCall(call, st, func, newSt)
+                  })
+                }
+              } yield AbsValue.Top
+            }
           }
           _ <- {
             if (!value.isBottom) modify(_.defineLocal(id -> value))
