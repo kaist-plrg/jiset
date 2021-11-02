@@ -18,7 +18,7 @@ case object FilterJs extends Phase[ECMAScript, FilterJsConfig, Unit] {
     List(EDITOR_LOG_DIR, EDITOR_CACHED_DIR).foreach(mkdir(_))
     // load program set from test262, jest, custom lists
     val total = List(
-      // SimpleProgramSet.fromTest262(),
+      SimpleProgramSet.fromTest262(),
       SimpleProgramSet.fromJest(),
       SimpleProgramSet.fromCustom()
     )
