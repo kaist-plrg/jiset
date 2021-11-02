@@ -28,4 +28,7 @@ case class ModelGenerator(spec: ECMAScript, parser: Boolean) {
 
   // generate js/ASTDiff.scala in source code directory
   DiffGenerator(grammar)
+
+  // generate editor/SyntacticViewSeed.scala in source code directory
+  SyntacticViewSeedGenerator(grammar, spec.algos)
 }

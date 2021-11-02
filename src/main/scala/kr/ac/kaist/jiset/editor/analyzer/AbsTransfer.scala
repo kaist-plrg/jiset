@@ -408,7 +408,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         ruleV <- escape(transfer(rule))
         p = ruleV.getSingle match {
           case FlatElem(Str(str)) =>
-            Some(ESParser.rules.getOrElse(str, error(s"not exist parse rule: $rule")))
+            ESParser.rules.get(str).map((x) => Some(x)).getOrElse(None)
           case _ => None
         }
         st <- get
@@ -418,7 +418,7 @@ case class AbsTransfer(sem: AbsSemantics) {
         case FlatElem(Str(str)) => {
           p.map((p) => AbsValue(Interp.doParseStr(p(parserParams))(str))).getOrElse(AbsValue.Top)
         }
-        case v => error(s"not an AST value or a string: $v")
+        case v => AbsValue.Top
       }
       case EConvert(source, target, flags) => AbsValue.Top
       case EContains(list, elem) => AbsValue.Top

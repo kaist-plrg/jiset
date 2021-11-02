@@ -16,7 +16,7 @@ object DSInterp {
     st: State,
     timeLimit: Option[Long] = Some(100)
   ): State = {
-    val interp = new Interp(st, timeLimit, false)
+    val interp = new DSInterp(st, timeLimit, false)
     interp.fixpoint
     st
   }
