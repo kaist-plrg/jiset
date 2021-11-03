@@ -118,7 +118,7 @@ object SimpleProgramSet {
   type MetaList = List[(String, Int)]
   implicit def raw2simple(r: RawProgramSet): SimpleProgramSet =
     r.asInstanceOf[SimpleProgramSet]
-  // prgram set builder
+  // program set builder
   private def fromList(
     kind: String,
     pset: RawProgramSet,
