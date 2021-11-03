@@ -21,17 +21,24 @@ trait ProgramSet {
   def +=(p: JsProgram): Unit
 
   // stat for programs (pid, execTime, size)
-  def programStat: Array[(Int, Long, Int)] =
-    programs.map(p => (p.uid, p.execTime, p.size))
+  def programStat: List[(Int, Int, Int)] =
+    programs.map(p => (p.uid, p.execTime, p.size)).toList
 
   // stat for nodes
-  def nodeStat: Array[Int] = {
+  def nodeStat: List[Int] = {
     val counter = Array.fill(cfg.nodes.size)(0)
     for {
       p <- programs
       nid <- p.touchedNIds
     } { counter(nid) += 1 }
-    counter
+    counter.toList
+  }
+
+  // box-plot
+  def getBoxPlots = {
+    val (_, times, sizes) = programStat.unzip3
+    val touchCnts = nodeStat.filter(_ != 0)
+    (BoxPlot(times), BoxPlot(sizes), BoxPlot(touchCnts))
   }
 
   // base directory
@@ -162,6 +169,9 @@ class FilteredProgramSet extends ProgramSet {
   // touched size
   def touchedSize: Int = nodeMap.count(!_.isEmpty)
 
+  // get nodes, which uniquely covered by a given program
+  def getUniqueNIds(p: JsProgram): Set[Int] = programMap.getOrElse(p, Set())
+
   // add a program
   private var _pid = 0
   private def nextPId: Int = { val prev = _pid; _pid += 1; prev }
@@ -211,14 +221,23 @@ class FilteredProgramSet extends ProgramSet {
   }
 
   // print stats
-  def printStats(): Unit =
+  def printStats(detail: Boolean = false): Unit = {
     println(s"${size}/${_pid} for ${touchedSize}")
+    if (detail) {
+      val (bTime, bSize, bTouched) = getBoxPlots
+      println("* execution time")
+      println(bTime.summary)
+      println("* program size")
+      println(bSize.summary)
+      println("* touched counts")
+      println(bTouched.summary)
+    }
+  }
 }
 object FilteredProgramSet {
   def apply(pset: SimpleProgramSet): FilteredProgramSet = {
     val fset = new FilteredProgramSet
     ProgressBar(s"filtering programs", pset.programs).foreach { p => fset += p }
-    fset.printStats
     fset
   }
 
@@ -239,7 +258,6 @@ object FilteredProgramSet {
     fset.nodeMap = data._2.map(_.map(pid => programs(pid)))
     fset.programMap = data._3.map { case (pid, nids) => (programs(pid) -> nids) }.toMap
 
-    fset.printStats
     fset
   }
 }

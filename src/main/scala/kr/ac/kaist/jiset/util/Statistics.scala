@@ -34,7 +34,7 @@ class BoxPlot[T](seqs: Seq[T], implicit val num: Numeric[T]) {
   // to summary string
   def summary: String = {
     val app = new Appender
-    app >> f"$size%,d items (avg: $avg%2.2f)" >> LINE_SEP
+    app >> f"-  avg: $avg%2.2f" >> LINE_SEP
     app >> f"-  min: $min%2.2f" >> LINE_SEP
     app >> f"-   Q1: $q1%2.2f" >> LINE_SEP
     app >> f"-  med: $med%2.2f" >> LINE_SEP

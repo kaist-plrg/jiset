@@ -90,7 +90,8 @@ object JISET {
     // JEDIT
     CmdPEval,
     CmdWeb,
-    CmdFilterJs,
+    CmdFilter,
+    CmdReduce,
   )
   val cmdMap = commands.foldLeft[Map[String, Command[_]]](Map()) {
     case (map, cmd) => map + (cmd.name -> cmd)
@@ -126,7 +127,8 @@ object JISET {
     // JEDIT
     IRPEval,
     Web,
-    FilterJs,
+    Filter,
+    Reduce,
   )
 
   // global options
