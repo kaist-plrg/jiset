@@ -157,24 +157,15 @@ case class AbsTransfer(sem: AbsSemantics) {
       _ = sem.doReturn(rp, ret)
     } yield ()
 
-    // transfer function for calls
-    def transfer(call: Call): Updater = call.inst match {
-      case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => {
-        for {
-          as <- join(args.map(transfer))
-          vs = if (name == "IsAbruptCompletion") as else as.map(_.escaped)
-          st <- get
-          v <- simpleFuncs(name)(vs)
-          _ <- modify(_.defineLocal(id -> v))
-        } yield ()
-      }
-      case IApp(id, fexpr, args) => for {
+    def appReturnValueHelper: (Option[Call], IApp) => Result[(AbsValue, Boolean)] = {
+      case (callopt, IApp(id, fexpr, args)) => for {
         value <- transfer(fexpr)
         vs <- join(args.map(transfer))
         st <- get
-        v: AbsValue = {
+        v: (AbsValue, Boolean) = {
           // return values
           var returnValue: AbsValue = AbsValue.Bot
+          var isShortCut = false
 
           value.getSingle match {
             case FlatBot => ()
@@ -191,7 +182,7 @@ case class AbsTransfer(sem: AbsSemantics) {
                 try {
                   val st = DSInterp(initSt, Some(100))
                   st.context.locals.get(Id(RESULT)) match {
-                    case Some(value) => returnValue = AbsValue(value)
+                    case Some(value) => { returnValue = AbsValue(value); isShortCut = true }
                     case None => ()
                   }
                 } catch {
@@ -199,43 +190,46 @@ case class AbsTransfer(sem: AbsSemantics) {
                 }
               }
               if (returnValue.isBottom) {
-                val newLocals = getLocals(algo.head.params, vs)
-                val newSt = st.copy(locals = newLocals)
-                sem.doCall(call, st, algo.func, newSt)
+                callopt.foreach((call) => {
+                  val newLocals = getLocals(algo.head.params, vs)
+                  val newSt = st.copy(locals = newLocals)
+                  sem.doCall(call, st, algo.func, newSt)
+                })
               }
             }
             case _ => {
-              sem.retEdges.filter { case (rp, callNodeSet) => callNodeSet contains NodePoint(call) }.map { case (ReturnPoint(func), _) => func }.toSet.foreach((func: Function) => {
-                val newLocals = getLocals(func.params, vs)
-                val newSt = st.copy(locals = newLocals)
-                sem.doCall(call, st, func, newSt)
+              callopt.foreach((call) => {
+                sem.retEdges.filter { case (rp, callNodeSet) => callNodeSet contains NodePoint(call) }.map { case (ReturnPoint(func), _) => func }.toSet.foreach((func: Function) => {
+                  val newLocals = getLocals(func.params, vs)
+                  val newSt = st.copy(locals = newLocals)
+                  sem.doCall(call, st, func, newSt)
+                })
               })
               returnValue = AbsValue.Top
             }
           }
+          (returnValue, isShortCut)
+        }
+      } yield v
+    }
 
-          returnValue
-        }
-        _ <- {
-          if (v.isBottom) put(AbsState.Bot)
-          else modify(_.defineLocal(id -> v))
-        }
-      } yield ()
-      case access @ IAccess(id, bexpr, expr, args) => {
+    def accessReturnValueHelper: (Option[Call], IAccess) => Result[(AbsValue, Boolean)] = {
+      case (callopt, access @ IAccess(id, bexpr, expr, args)) => {
         val loc: AllocSite = AllocSite(access.asite)
+        def pureF(x: AbsValue) = pure(x, false)
         for {
           origB <- transfer(bexpr)
           b = origB.escaped
           p <- escape(transfer(expr))
           value <- (b.getSingleAST, p.getSingle) match {
-            case (FlatElem(ast), FlatElem(Str(name))) => (ast, name) match {
+            case (FlatElem(ast), FlatElem(Str(name))) => ((ast, name) match {
               case (Lexical(kind, str), name) =>
-                pure(AbsValue(Interp.getLexicalValue(kind, name, str)))
+                pureF(AbsValue(Interp.getLexicalValue(kind, name, str)))
               case (ast, "parent") =>
-                pure(ast.parent.map((x) => AbsValue(ASTVal(x))).getOrElse(AbsValue.absent))
-              case (ast, "children") => pure(AbsValue.Top)
+                pureF(ast.parent.map((x) => AbsValue(ASTVal(x))).getOrElse(AbsValue.absent))
+              case (ast, "children") => pureF(AbsValue.Top)
               case (ast, "kind") =>
-                pure(AbsValue(Str(ast.kind)))
+                pureF(AbsValue(Str(ast.kind)))
               case _ => ast.semantics(name) match {
                 case Some((algo, asts)) => for {
                   as <- join(args.map(transfer))
@@ -251,6 +245,7 @@ case class AbsTransfer(sem: AbsSemantics) {
                   )
                   v <- {
                     var returnValue: AbsValue = AbsValue.Bot
+                    var isShortCut: Boolean = false
                     if (locals.forall { case (_, v) => v.getSingle.isInstanceOf[FlatElem[_]] }) {
                       var initSt = kr.ac.kaist.jiset.js.Initialize.initSt.copy()
                       initSt = initSt.copy(context = Context(
@@ -261,7 +256,7 @@ case class AbsTransfer(sem: AbsSemantics) {
                       try {
                         val st = DSInterp(initSt, Some(100))
                         st.context.locals.get(Id(RESULT)) match {
-                          case Some(value) => returnValue = AbsValue(value)
+                          case Some(value) => { returnValue = AbsValue(value); isShortCut = true }
                           case None => ()
                         }
                       } catch {
@@ -269,32 +264,63 @@ case class AbsTransfer(sem: AbsSemantics) {
                       }
                     }
                     if (returnValue.isBottom) {
-                      sem.doCall(call, st, algo.func, newSt, astOpt)
-                      pure(AbsValue.Bot)
+                      callopt.foreach((call) => sem.doCall(call, st, algo.func, newSt, astOpt))
+                      pureF(AbsValue.Bot)
                     } else {
-                      pure(returnValue)
+                      pure((returnValue, isShortCut))
                     }
                   }
                 } yield v
                 case None =>
                   val v = ast.subs(name).map(AbsValue(_)).getOrElse(AbsValue.Top)
-                  pure(v)
+                  pureF(v)
               }
-            }
-            case (FlatBot, _) | (_, FlatBot) => pure(AbsValue.Bot)
+            }): Result[(AbsValue, Boolean)]
+            case (FlatBot, _) | (_, FlatBot) => pureF(AbsValue.Bot)
             case _ => {
               for {
                 st <- get
                 _ = {
-                  sem.retEdges.filter { case (rp, callNodeSet) => callNodeSet contains NodePoint(call) }.map { case (ReturnPoint(func), _) => func }.toSet.foreach((func: Function) => {
-                    val newLocals = func.params.map(p => (Id(p.name) -> AbsValue.Top)).toMap
-                    val newSt = st.copy(locals = newLocals)
-                    sem.doCall(call, st, func, newSt)
+                  callopt.foreach((call) => {
+                    sem.retEdges.filter { case (rp, callNodeSet) => callNodeSet contains NodePoint(call) }.map { case (ReturnPoint(func), _) => func }.toSet.foreach((func: Function) => {
+                      val newLocals = func.params.map(p => (Id(p.name) -> AbsValue.Top)).toMap
+                      val newSt = st.copy(locals = newLocals)
+                      sem.doCall(call, st, func, newSt)
+                    })
                   })
                 }
-              } yield AbsValue.Top
-            }
+              } yield (AbsValue.Top, false)
+            }: Result[(AbsValue, Boolean)]
           }
+        } yield value
+      }
+    }
+
+    // transfer function for calls
+    def transfer(call: Call): Updater = call.inst match {
+      case IApp(id, ERef(RefId(Id(name))), args) if simpleFuncs contains name => {
+        for {
+          as <- join(args.map(transfer))
+          vs = if (name == "IsAbruptCompletion") as else as.map(_.escaped)
+          st <- get
+          v <- simpleFuncs(name)(vs)
+          _ <- modify(_.defineLocal(id -> v))
+        } yield ()
+      }
+      case app @ IApp(id, fexpr, args) => {
+        for {
+          res <- appReturnValueHelper(Some(call), app)
+          (v, _) = res
+          _ <- {
+            if (v.isBottom) put(AbsState.Bot)
+            else modify(_.defineLocal(id -> v))
+          }
+        } yield ()
+      }
+      case access @ IAccess(id, bexpr, expr, args) => {
+        for {
+          res <- accessReturnValueHelper(Some(call), access)
+          (value, _) = res
           _ <- {
             if (!value.isBottom) modify(_.defineLocal(id -> value))
             else put(AbsState.Bot)

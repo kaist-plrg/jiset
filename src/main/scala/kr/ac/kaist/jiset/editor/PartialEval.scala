@@ -22,14 +22,16 @@ class ReplaceExprWalker(f: Map[NodePoint[Node], AbsState], uidMap: Map[Int, Node
   def pe(expr: Expr, astate: AbsState, np: NodePoint[Node]): Expr = {
     val helper = new sem.transfer.Helper(np)
     helper.transfer(expr)(astate)._1.getSingle match {
-      case FlatElem(v: Value) => v match {
-        case CompValue(ty, value: SimpleValue, targetOpt) => EComp(EConst(ty.name), simpleToExpr(value), EConst(targetOpt.getOrElse(CONST_EMPTY.name)))
-        case Const(name) => EConst(name)
-        case v: SimpleValue => simpleToExpr(v)
-        case _ => expr
-      }
+      case FlatElem(v: Value) => pureToExpr(v).getOrElse(expr)
       case _ => expr
     }
+  }
+
+  def pureToExpr(v: Value): Option[Expr] = v match {
+    case CompValue(ty, value: SimpleValue, targetOpt) => Some(EComp(EConst(ty.name), simpleToExpr(value), EConst(targetOpt.getOrElse(CONST_EMPTY.name))))
+    case Const(name) => Some(EConst(name))
+    case v: SimpleValue => Some(simpleToExpr(v))
+    case _ => None
   }
 
   def simpleToExpr(v: SimpleValue): Expr = v match {
@@ -43,13 +45,39 @@ class ReplaceExprWalker(f: Map[NodePoint[Node], AbsState], uidMap: Map[Int, Node
     case Absent => EAbsent
   }
 
+  def peIApp(inst: IApp, astate: AbsState, np: NodePoint[Node]): Inst = {
+    val IApp(id, fexpr, args) = inst
+    val helper = new sem.transfer.Helper(np)
+    val newInst = helper.appReturnValueHelper(None, inst)(astate) match {
+      case ((absvalue, true), _) => absvalue.getSingle match {
+        case FlatElem(v) => pureToExpr(v).map((e) => ILet(id, e))
+        case _ => None
+      }
+      case _ => None
+    }
+    newInst.getOrElse(IApp(id, pe(fexpr, astate, np), args.map(pe(_, astate, np))))
+  }
+
+  def peIAccess(inst: IAccess, astate: AbsState, np: NodePoint[Node]): Inst = {
+    val IAccess(id, bexpr, expr, args) = inst
+    val helper = new sem.transfer.Helper(np)
+    val newInst = helper.accessReturnValueHelper(None, inst)(astate) match {
+      case ((absvalue, true), _) => absvalue.getSingle match {
+        case FlatElem(v) => pureToExpr(v).map((e) => ILet(id, e))
+        case _ => None
+      }
+      case _ => None
+    }
+    newInst.getOrElse(IAccess(id, pe(bexpr, astate, np), pe(expr, astate, np), args.map(pe(_, astate, np))))
+  }
+
   override def walk(inst: Inst): Inst = {
     uidMap.get(inst.uid).flatMap((np) => f.get(np).map((astate) => (np, astate))) match {
       case Some((np, astate)) => (if (astate.reachable) (inst match {
         case IIf(cond, thenInst, elseInst) => IIf(pe(cond, astate, np), walk(thenInst), walk(elseInst))
         case IWhile(cond, body) => IWhile(pe(cond, astate, np), walk(body))
-        case IApp(id, fexpr, args) => IApp(id, pe(fexpr, astate, np), args.map(pe(_, astate, np)))
-        case IAccess(id, bexpr, expr, args) => IAccess(id, pe(bexpr, astate, np), pe(expr, astate, np), args.map(pe(_, astate, np)))
+        case inst: IApp => peIApp(inst, astate, np)
+        case inst: IAccess => peIAccess(inst, astate, np)
         case IExpr(expr) => IExpr(pe(expr, astate, np))
         case ILet(id, expr) => ILet(id, pe(expr, astate, np))
         case IAssign(ref, expr) => IAssign(ref, pe(expr, astate, np))
