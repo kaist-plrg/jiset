@@ -38,7 +38,7 @@ trait ProgramSet {
   def getBoxPlots = {
     val (_, times, sizes) = programStat.unzip3
     val touchCnts = nodeStat.filter(_ != 0)
-    (BoxPlot(times), BoxPlot(sizes), BoxPlot(touchCnts))
+    List(BoxPlot(times), BoxPlot(sizes), BoxPlot(touchCnts))
   }
 
   // base directory
@@ -218,44 +218,25 @@ class FilteredProgramSet extends ProgramSet {
     val pmap = programMap.map { case (p, nids) => p.uid -> nids }.toMap
     val data = (_pid, nmap, pmap)
     dumpJson(data, s"$dumpDir/data.json", true)
+
+    // dump summary
+    dumpFile(summary(detail = true), s"$dumpDir/summary")
   }
 
-  // print stats
-  def printStats(detail: Boolean = false): Unit = {
-    println(s"${size} for ${touchedSize}")
+  // summary
+  def summary(detail: Boolean = false): String = {
+    val app = new Appender
+    app >> s"${size} for ${touchedSize}" >> LINE_SEP
     if (detail) {
-      val (bTime, bSize, bTouched) = getBoxPlots
-      println("* execution time")
-      println(bTime.summary)
-      println("* program size")
-      println(bSize.summary)
-      println("* touched counts")
-      println(bTouched.summary)
+      val List(bTime, bSize, bTouched) = getBoxPlots
+      app >> "* execution time" >> LINE_SEP
+      app >> bTime.summary >> LINE_SEP
+      app >> "* program size" >> LINE_SEP
+      app >> bSize.summary >> LINE_SEP
+      app >> "* touched counts" >> LINE_SEP
+      app >> bTouched.summary
     }
-  }
-
-  // dump reduced stats
-  def dumpReducedStats(): Unit = {
-    val (bTime, bSize, bTouched) = getBoxPlots
-    val csvHeader = "Min, Q1, Median, Q3, Max, Avg, Size"
-
-    //dump time stat
-    val nfTime = getPrintWriter(s"$REDUCED_DIR/time.csv")
-    nfTime.println(csvHeader)
-    nfTime.println(bTime.csvSummary)
-    nfTime.close()
-
-    // dump size stat
-    val nfSize = getPrintWriter(s"$REDUCED_DIR/size.csv")
-    nfSize.println(csvHeader)
-    nfSize.println(bSize.csvSummary)
-    nfSize.close()
-
-    // dump touched stat
-    val nfTouched = getPrintWriter(s"$REDUCED_DIR/touched.csv")
-    nfTouched.println(csvHeader)
-    nfTouched.println(bTouched.csvSummary)
-    nfTouched.close()
+    app.toString
   }
 }
 object FilteredProgramSet {

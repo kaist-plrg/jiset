@@ -41,7 +41,7 @@ case object Filter extends Phase[ECMAScript, FilterConfig, FilteredProgramSet] {
       filtered
     }
     if (LOG) fset.dumpStats()
-    fset.printStats()
+    println(fset.summary())
     fset
   }
 
