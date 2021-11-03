@@ -139,6 +139,18 @@ object JvmUseful {
     file.delete
   }
 
+  // remove directories
+  def rmdir(name: String): Unit = {
+    def deleteRecursively(f: File): Boolean = {
+      if (f.isDirectory) f.listFiles match {
+        case files: Array[File] => files.foreach(deleteRecursively)
+        case null =>
+      }
+      f.delete()
+    }
+    deleteRecursively(new File(name))
+  }
+
   // file existence check
   def exists(name: String): Boolean = new File(name).exists
 

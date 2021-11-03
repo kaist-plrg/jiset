@@ -5,7 +5,7 @@ import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.js.ast.Script
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.Useful._
-import scala.annotation.tailrec
+import kr.ac.kaist.jiset.util._
 
 // reduce a filtered program set
 case class Reducer(
@@ -13,32 +13,32 @@ case class Reducer(
   loopMax: Int,
   reduceLoop: Int
 ) {
-  @tailrec
-  final def loop(iter: Int = 0): Unit = if (iter < loopMax) {
-    // logging
-    if (LOG) {
-      nfLog.println(s"========================================")
-      nfLog.println(s"[loop#$iter]")
-    }
+  final def loop(): Unit = {
+    // start loop
+    ProgressBar("reducing", 1 to loopMax).foreach(iter => {
+      // logging
+      if (LOG) {
+        nfLog.println(s"========================================")
+        nfLog.println(s"[loop#$iter]")
+      }
 
-    // dump filtered set results
-    if (iter % 100 == 0)
-      fset.setDumpDir(s"$REDUCED_DIR/$iter").dump()
-    dumpStats(iter)
+      // select
+      val selected = select(fset.programs)
 
-    // select
-    val selected = select(fset.programs)
+      // reduce
+      for { reduced <- reduce(selected, fset.getUniqueNIds(selected)) } {
+        fset += reduced
+      }
 
-    // reduce
-    for { reduced <- reduce(selected, fset.getUniqueNIds(selected)) } {
-      fset += reduced
-    }
+      // dump filtered set results
+      if (iter % 100 == 0)
+        fset.setDumpDir(s"$REDUCED_DIR/$iter").dump()
+      dumpStats(iter)
 
-    // loop
-    loop(iter + 1)
-  } else {
+    })
+
     // dump final result
-    fset.setDumpDir(s"$REDUCED_DIR/$iter").dump()
+    fset.setDumpDir(s"$REDUCED_DIR/$loopMax").dump()
     close()
   }
 
@@ -84,22 +84,25 @@ case class Reducer(
   }
 
   // log
+  rmdir(REDUCED_DIR)
   mkdir(REDUCED_DIR)
   val nfLog = getPrintWriter(s"$REDUCED_DIR/reducer.log")
   val nfTime = getPrintWriter(s"$REDUCED_DIR/time.csv")
   val nfSize = getPrintWriter(s"$REDUCED_DIR/size.csv")
   val nfTouched = getPrintWriter(s"$REDUCED_DIR/touched.csv")
   val nfStats = List(nfTime, nfSize, nfTouched)
+  val startTime = System.currentTimeMillis
+  def getTime: Double = (System.currentTimeMillis - startTime).toDouble / 1000
 
   // write header to stat files
-  val csvHeader = "# of iter, Min, Q1, Median, Q3, Max, Avg, Size"
+  val csvHeader = "# of iter, Time, Min, Q1, Median, Q3, Max, Avg, Size"
   nfStats.foreach(_.println(csvHeader))
 
   // dump stats
   def dumpStats(iter: Int): Unit = {
     (nfStats zip fset.getBoxPlots).foreach {
       case (nf, bp) =>
-        nf.println(s"$iter,${bp.csvSummary}")
+        nf.println(f"$iter,$getTime%2.2f,${bp.csvSummary}")
         nf.flush
     }
   }
