@@ -222,7 +222,7 @@ class FilteredProgramSet extends ProgramSet {
 
   // print stats
   def printStats(detail: Boolean = false): Unit = {
-    println(s"${size}/${_pid} for ${touchedSize}")
+    println(s"${size} for ${touchedSize}")
     if (detail) {
       val (bTime, bSize, bTouched) = getBoxPlots
       println("* execution time")

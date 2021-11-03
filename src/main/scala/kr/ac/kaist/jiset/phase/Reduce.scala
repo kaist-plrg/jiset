@@ -16,7 +16,8 @@ case object Reduce extends Phase[FilteredProgramSet, ReduceConfig, Unit] {
     config: ReduceConfig
   ): Unit = {
     fset.printStats(detail = true)
-    Reducer(fset)
+    val reducer = Reducer(fset)
+    reducer.loop()
     fset.printStats(detail = true)
     fset.setDumpDir(REDUCED_DIR).dump()
   }

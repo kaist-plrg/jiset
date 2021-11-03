@@ -1,12 +1,12 @@
 package kr.ac.kaist.jiset.util
 
-import scala.collection.mutable
-import scala.util.Random.shuffle
-import kr.ac.kaist.jiset.error._
-import kr.ac.kaist.jiset._
-import scala.Console._
 import java.text.SimpleDateFormat
 import java.util.Date
+import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.error._
+import scala.Console._
+import scala.collection.mutable
+import scala.util.Random
 
 object Useful {
   // cache for function
@@ -128,4 +128,20 @@ object Useful {
   // get catched error message
   def getError[T](f: => T): Option[Throwable] =
     try { f; None } catch { case e: Throwable => Some(e) }
+
+  // randomly choose an element in a list
+  val rand = new Random
+  def choose[T](seq: Seq[T]): T = seq(rand.nextInt(seq.length))
+  def randBool: Boolean = rand.nextBoolean
+  def randInt(n: Int): Int = rand.nextInt(n)
+  def weightedChoose[T](arr: Array[(T, Int)]): T = {
+    val _arr = arr.filter(_._2 != 0)
+    val n = rand.nextInt(_arr.map(_._2).sum) + 1
+    def aux(idx: Int = 0, acc: Int = 0): T = {
+      val curr = acc + _arr(idx)._2
+      if (curr >= n) _arr(idx)._1
+      else aux(idx + 1, curr)
+    }
+    aux()
+  }
 }
