@@ -15,6 +15,10 @@ case class Reducer(
   // reducer loop
   @tailrec
   final def loop(iter: Long = 0): Unit = if (iter < loopMax) {
+    if (iter % 100 == 0) {
+      val iterDir = s"$REDUCED_DIR/$iter"
+      fset.setDumpDir(iterDir).dump()
+    }
     if (LOG) {
       nfLog.println(s"========================================")
       nfLog.println(s"[loop#$iter]")
@@ -26,6 +30,9 @@ case class Reducer(
     for { reduced <- reduce(selected, fset.getUniqueNIds(selected)) } {
       fset += reduced
     }
+
+    // dump csv
+    fset.dumpReducedStats()
 
     // loop
     loop(iter + 1)

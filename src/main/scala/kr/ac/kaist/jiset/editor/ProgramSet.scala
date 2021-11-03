@@ -233,6 +233,30 @@ class FilteredProgramSet extends ProgramSet {
       println(bTouched.summary)
     }
   }
+
+  // dump reduced stats
+  def dumpReducedStats(): Unit = {
+    val (bTime, bSize, bTouched) = getBoxPlots
+    val csvHeader = "Min, Q1, Median, Q3, Max, Avg, Size"
+
+    //dump time stat
+    val nfTime = getPrintWriter(s"$REDUCED_DIR/time.csv")
+    nfTime.println(csvHeader)
+    nfTime.println(bTime.csvSummary)
+    nfTime.close()
+
+    // dump size stat
+    val nfSize = getPrintWriter(s"$REDUCED_DIR/size.csv")
+    nfSize.println(csvHeader)
+    nfSize.println(bSize.csvSummary)
+    nfSize.close()
+
+    // dump touched stat
+    val nfTouched = getPrintWriter(s"$REDUCED_DIR/touched.csv")
+    nfTouched.println(csvHeader)
+    nfTouched.println(bTouched.csvSummary)
+    nfTouched.close()
+  }
 }
 object FilteredProgramSet {
   def apply(pset: SimpleProgramSet): FilteredProgramSet = {
