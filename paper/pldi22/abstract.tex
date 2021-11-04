@@ -3,19 +3,21 @@
   it has rapidly evolved with a yearly release cadence and open development
   process to adapt users' demands to the language quickly. In this fast-evolving
   nature of JavaScript, developers and even language designers often suffer from
-  complex semantics in newly introduced language features and desire to
-  understand them correctly.  To meet the demand, researchers have proposed
-  several tools that enhance the understanding of JavaScript semantics. However,
-  existing tools 1) require manual updates for new specifications or 2) do not
-  provide any automatic ways to focus on specific semantics.
+  complex semantics in newly introduced language features and want to
+  \textit{understand} them correctly.  To meet the demand, researchers have
+  proposed several tools that enhance the understanding of JavaScript semantics.
+  However, existing tools 1) require manual updates for new specifications or 2)
+  do not provide additional information when users desire to understand specific
+  parts of semantics.
 
   To alleviate this problem, we present $\tool$, a JavaScript interactive
   specification. First, it provides step-by-step program execution automatically
   synchronized with a given version of JavaScript specification. Second, our
-  tool offers two approaches to focus on target semantics: 1) reducing semantics
-  with a user-defined \textit{syntactic view} and 2) providing a small-sized
-  program related to a selected algorithm step with automatically inferred
-  assertions. For evaluation, we experimentally demonstrate the effectiveness of
+  tool offers two different kinds of additional information for target semantics
+  selected by users: 1) reduced semantics for a selected \textit{syntactic view}
+  using \textit{partial evaluation} and 2) a small-sized program related to a
+  selected algorithm step using \textit{delta debugging} with a given set of
+  programs. For evaluation, we experimentally demonstrate the effectiveness of
   $\tool$ with the latest ECMAScript (ES12, 2021), \inred{177} syntactic views,
   and \inred{19,839} programs. Our tool successfully reduces \inred{18.9}\%
   algorithm steps for each syntactic view on average. For each algorithm step,
