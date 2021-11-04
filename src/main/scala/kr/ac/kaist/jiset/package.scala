@@ -41,14 +41,14 @@ package object jiset {
   val CUR_DIR = System.getProperty("user.dir")
 
   // ECMAScript version (ES12 / ECMASCript 2021 / es2021)
-  var VERSION = "es2021"
+  var VERSION = "41ddcc284ba20945658b96f4c89cc549ab11da30"
 
   // Source code directory
   val SRC_DIR = s"$BASE_DIR/src/main/scala/kr/ac/kaist/jiset"
 
   // Resource directory
   val RESOURCE_DIR = s"$BASE_DIR/src/main/resources"
-  val VERSION_DIR = s"$RESOURCE_DIR/$VERSION"
+  val VERSION_DIR = s"$RESOURCE_DIR/es2021" // XXX need to be sync with VERSION
   val ID_START_JSON = s"$RESOURCE_DIR/ID_Start.json"
   val ID_CONTINUE_JSON = s"$RESOURCE_DIR/ID_Continue.json"
 
