@@ -10,7 +10,7 @@ import kr.ac.kaist.jiset.util.Useful._
 // random mutator
 case class RandomMutator(program: JsProgram, nids: Set[Int]) extends Mutator with ASTTransformer {
   // handle stmts
-  var transformed :Boolean = false
+  var transformed: Boolean = false
   override def transform(ast: StatementList): StatementList = if (!transformed) {
     val stmts = flattenStmtList(ast)
     val length = stmts.length
@@ -25,7 +25,7 @@ case class RandomMutator(program: JsProgram, nids: Set[Int]) extends Mutator wit
   val name: String = "random"
   val retryMax = 10
   def _mutate: Option[Script] = {
-   val removed = transform(program.script)
-   Some(removed)
+    val removed = transform(program.script)
+    Some(removed)
   }
 }
