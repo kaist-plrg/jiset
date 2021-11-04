@@ -148,7 +148,7 @@ object SimpleProgramSet {
   // from custom
   def fromCustom(): SimpleProgramSet = {
     val metas = getList(s"$DATA_DIR/custom-list")
-    val pset = new RawProgramSet("J", s"$DATA_DIR/custom")
+    val pset = new RawProgramSet("C", s"$DATA_DIR/custom")
     fromList("custom", pset, metas)
   }
 }
