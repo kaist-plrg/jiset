@@ -1,8 +1,10 @@
 package kr.ac.kaist.jiset.ir
 
-import kr.ac.kaist.jiset.util.Useful._
-import kr.ac.kaist.jiset.util.UIdGen
+import kr.ac.kaist.jiset.cfg.Node
+import kr.ac.kaist.jiset.js.ast.AST
 import kr.ac.kaist.jiset.util.Span
+import kr.ac.kaist.jiset.util.UIdGen
+import kr.ac.kaist.jiset.util.Useful._
 import scala.collection.mutable.{ Map => MMap }
 
 // IR States
@@ -138,15 +140,22 @@ case class State(
   // move to the next cursor
   def moveNext: Unit = context.moveNext
 
-  // get position of JS AST of topmost evaluation
-  // start line, end line, start index, end index
-  def getJsPos(): (Int, Int, Int, Int) = {
-    (context :: ctxtStack).foldLeft((-1, -1, -1, -1)) {
-      case ((-1, -1, -1, -1), ctxt) if ctxt.isAstEvaluation =>
-        val ast = ctxt.astOpt.get
-        val Span(start, end) = ast.span
-        (start.line, end.line, start.index, end.index)
-      case (acc, _) => acc
-    }
+  // get AST of topmost evaluation
+  def currentAst: Option[AST] = (context :: ctxtStack).flatMap(c => {
+    if (c.isAstEvaluation) c.astOpt else None
+  }).headOption
+
+  // get current node
+  def currentNode: Option[Node] = context.cursorOpt.flatMap {
+    case NodeCursor(n) => Some(n)
+    case _ => None
   }
+
+  // get position of AST of topmost evaluation
+  // start line, end line, start index, end index
+  def getJsPos(): (Int, Int, Int, Int) =
+    currentAst.fold((-1, -1, -1, -1))(ast => {
+      val Span(start, end) = ast.span
+      (start.line, end.line, start.index, end.index)
+    })
 }

@@ -3,7 +3,7 @@ package kr.ac.kaist.jiset.editor
 import kr.ac.kaist.jiset.{ cfg => CFG, _ }
 import kr.ac.kaist.jiset.ir.{ State, NodeCursor, Interp }
 import kr.ac.kaist.jiset.js._
-import kr.ac.kaist.jiset.js.ast.Script
+import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.util.WeakUId
@@ -28,6 +28,28 @@ case class JsProgram(
       case _ => None
     }
 
+  // get ast from script which covers given nids
+  def covered(nids: Set[Int]): Map[Int, Set[AST]] = {
+    var m: Map[Int, Set[AST]] = Map()
+
+    // run interp and dump touched result
+    val initState = Initialize(script, None, NodeCursor)
+    val interp = new Interp(initState, useHook = true)
+
+    // subscribe step event in interp
+    interp.subscribe(Interp.Event.Step, { st =>
+      for {
+        ast <- st.currentAst
+        nid <- st.currentNode.map(_.uid) if nids contains nid
+      } { m += (nid -> (m.getOrElse(nid, Set()) + ast)) }
+    })
+
+    // run interp
+    interp.fixpoint
+
+    m
+  }
+
   // equals
   override def equals(that: Any): Boolean = that match {
     case that: JsProgram => this.uid == that.uid
@@ -49,10 +71,7 @@ object JsProgram {
 
     // subscribe step event in interp
     interp.subscribe(Interp.Event.Step, { st =>
-      st.context.cursorOpt.get match {
-        case NodeCursor(n) => { touched(n.uid) = true }
-        case _ =>
-      }
+      for { node <- st.currentNode } { touched(node.uid) = true }
     })
 
     // fixpoint and measure time

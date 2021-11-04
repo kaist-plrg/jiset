@@ -13,6 +13,7 @@ case class Reducer(
   loopMax: Int,
   reduceLoop: Int
 ) {
+  // select-reduce loop
   final def loop(): Unit = {
     // start loop
     ProgressBar("reducing", 1 to loopMax).foreach(iter => {
@@ -26,7 +27,7 @@ case class Reducer(
       val selected = select(fset.programs)
 
       // reduce
-      for { reduced <- reduce(selected, fset.getUniqueNIds(selected)) } {
+      for { reduced <- reduce(selected) } {
         fset += reduced
       }
 
@@ -54,7 +55,10 @@ case class Reducer(
   }
 
   // reduce a given js program
-  def reduce(p: JsProgram, nids: Set[Int]): Option[JsProgram] = {
+  def reduce(p: JsProgram): Option[JsProgram] = {
+    // nodes to preserve
+    val nids = fset.getUniqueNIds(p)
+
     // final reduced program
     var reduced: Option[JsProgram] = None
     val mutators: List[Mutator] = List(
@@ -69,6 +73,7 @@ case class Reducer(
       val mutator = choose(mutators)
       val target = reduced.getOrElse(p)
       val mutated = mutator.mutate
+      // TODO reset tried counter when mutation succeed?
       if (!mutated.isEmpty) { reduced = mutated }
       tried += 1
     }

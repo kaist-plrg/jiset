@@ -42,7 +42,7 @@ case class Context(
   // check if AST evaluation
   def isAstEvaluation: Boolean =
     astOpt.nonEmpty && algo.fold(false)(_.head match {
-      case s: SyntaxDirectedHead => s.methodName == "Evaluation"
+      case s: SyntaxDirectedHead => s.methodName == "Evaluation" || s.methodName == "NamedEvaluation"
       case _ => false
     })
   // check if JS call
