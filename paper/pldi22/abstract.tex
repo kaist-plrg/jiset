@@ -1,26 +1,25 @@
 \begin{abstract}\label{sec:abstract}
-  JavaScript is a widely-used programming language in various fields. Recently,
-  it has rapidly evolved with a yearly release cadence and open development
-  process to adapt users' demands to the language quickly. In this fast-evolving
-  nature of JavaScript, developers and even language designers often suffer from
-  complex semantics in newly introduced language features and want to
-  \textit{understand} them correctly.  To meet the demand, researchers have
-  proposed several tools that enhance the understanding of JavaScript semantics.
-  However, existing tools 1) require manual updates for new specifications or 2)
-  do not provide additional information when users desire to understand specific
-  parts of semantics.
+  JavaScript is a widely-used programming language in various fields.
+  Unfortunately, developers and even language designers often suffer from
+  complex semantics in JavaScript and desire to \textit{understand} them
+  correctly. Therefore, researchers have presented several tools for a better
+  understanding of JavaScript semantics. However, existing tools 1) require
+  manual updates for new specifications while JavaScript has rapidly evolved
+  with various language features and 2) do not support user interactions to
+  select target semantics to get additional information.
 
   To alleviate this problem, we present $\tool$, a JavaScript interactive
   specification. First, it provides step-by-step program execution automatically
   synchronized with a given version of JavaScript specification. Second, our
-  tool offers two different kinds of additional information for target semantics
-  selected by users: 1) reduced semantics for a selected \textit{syntactic view}
-  using \textit{partial evaluation} and 2) a small-sized program related to a
-  selected algorithm step using \textit{delta debugging} with a given set of
-  programs. For evaluation, we experimentally demonstrate the effectiveness of
-  $\tool$ with the latest ECMAScript (ES12, 2021), \inred{177} syntactic views,
-  and \inred{19,839} programs. Our tool successfully reduces \inred{18.9}\%
-  algorithm steps for each syntactic view on average. For each algorithm step,
-  it provides \inred{2.3} lines (\inred{152.3} bytes) of a program with
-  automatically inferred assertions on average.
+  tool supports two different types of user interactions to select target
+  semantics: 1) a \textit{syntactic view selection} to reduce abstract
+  algorithms using \textit{partial evaluation} and 2) an \textit{algorithm step
+  selection} to get a small-sized JavaScript program related to the step using
+  \textit{delta debugging} with a given set of programs. For evaluation, we
+  experimentally demonstrate the effectiveness of $\tool$ with the latest
+  ECMAScript (ES12, 2021), \inred{177} syntactic views, and \inred{19,839}
+  programs. Our tool successfully supports step-by-step program execution in
+  ES12. It reduces \inred{18.9}\% algorithm steps for each syntactic view and
+  provides \inred{2.3} lines (\inred{152.3} bytes) of a program for each step on
+  average.
 \end{abstract}

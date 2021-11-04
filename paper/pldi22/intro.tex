@@ -1,15 +1,5 @@
 \section{Introduction}\label{sec:intro}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\columnwidth]{img/lda.png}
-  \caption{A manual approach (left) and a tool-oriented approach with language
-    design assistants (right) with three language components: specifications,
-  conformance tests, and language-based tools.}
-  \label{fig:lda}
-  \vspace*{-.5em}
-\end{figure}
-
 In the beginning, JavaScript was a scripting language designed in a ten-day
 hack. However, it has become a de facto Web standard and eventually becomes one
 of the dominating programming languages in various fields. For example,
@@ -21,80 +11,108 @@ report of GitHub\footnote{\url{https://octoverse.github.com/}}, JavaScript has
 consistently been the most popular programming language based on the number of
 contributors to GitHub projects.
 
-Recently, JavaScript has rapidly evolved with a yearly release cadence and open
-development process. In 2015, The Ecma Technical Committee 39 (TC39) decided to
-annually release ECMAScript, the standard specification for JavaScript, with a
-massive update in ECMAScript 6 (ES6, 2015)~\cite{es6}. Therefore, six more
-versions from ES7 to ES12 have already been released since 2015. Moreover, they
-published the specification as an open-source project in a GitHub repository to
-quickly adapt users' demands to the language.
+Unfortunately, developers and even language designers often suffer from complex
+semantics in new language features and desire to understand them correctly.
+ECMAScript is the standard specification for JavaScript maintained by Ecma
+Technical Committee 39 (TC39). It describes the language semantics in abstract
+algorithms consisting of English sentences. However, it is infeasible to know
+all the detailed complex semantics by reading the specification even to language
+designers. For example, consider a JavaScript logical nullish assignment
+\jscode{x ??= y} newly introduced in the latest ECMAScript (ES12,
+2021)~\cite{es12}. Its basic semantics is to assign \jscode{y} to \jscode{x}
+only if \jscode{x} is nullish (\jscode{undefined} or \jscode{null}). Therefore,
+it seems to have exactly same semantics with an assignment \jscode{x = x ?? y}
+with a nullish coalescing operator \jscode{??}.  However, it is not true because
+of the short-circuiting for assignments:
+\begin{lstlisting}[style=JS]
+       const x = 0;  x ??= 1;    // x === 0
+       const y = 0;  y = y ?? 1; // TypeError
+\end{lstlisting}
+and the named evaluation for anonymous functions:
+\begin{lstlisting}[style=JS]
+   let f;  f ??= () => {};      // f.name === "f"
+   let g;  g = g ?? (() => {}); // g.name === ""
+\end{lstlisting}
+Such misunderstanding of complex semantics in various language features causes
+the wrong implementation of JavaScript applications or even JavaScript engines.
 
-In this fast-evolving nature of JavaScript, the need for \textit{language design
-assistants} has grown to understand the current language semantics and to update
-it with new language features in a tool-based approach. In the early 2000s,
-\citet{lda} first presented the concept of language design assistants, and
-several researchers actualized it in tools such as LISA~\cite{lisa} and
-$\asfsdf$~\cite{asf-sdf, meta-env}. As described in Figure~\ref{fig:lda}, they
-bridge the gap between three language components: specifications, conformance
-tests, and language-based tools (e.g., parsers, interpreters, and compilers) by
-automatically generating them from the language semantics. Moreover, they
-provide query-based interactions to language designers for better understanding.
-However, only small-size domain-specific languages are their targets due to
-their low expressive power. On the other hand, several tools recently have been
-presented towards language design assistants for JavaScript in academia and
-industry. For example, JSExplain~\cite{jsexplain}, Narcissus~\cite{narcissus},
-and engine262~\cite{engine262} are reference interpreters that closely follow
-writing styles of ECMAScript, and they provide debugger-style support.
-$\jiset$~\cite{jiset} is a tool to compile ECMAScript to an executable
-specification. $\jest$~\cite{jest} is an extension of $\jiset$ to synthesize
-conformance tests, and $\jstar$~\cite{jstar} is another extension that performs
-type analysis for the specification.
+Thus, researchers have presented several tools for a better understanding of
+JavaScript semantics. For example, JSExplain~\cite{jsexplain} is a reference
+interpreter that provides step-by-step execution of a given JavaScript program
+by closely following the English sentences of the specification. Several
+JavaScript language designers accept the concept of reference interpreters and
+implement Narcissus~\cite{narcissus} and engine262~\cite{engine262} to use in
+the language design process. On the other hand, TC39 feels the need for type
+information in ECMAScript to enhance its readability and has started internal
+discussions on manual type annotations for each abstract
+algorithm\footnote{https://github.com/tc39/ecmarkup/issues/173}. To meet the
+demand of type information, \citet{jstar} presents a tool named $\jstar$ to
+perform a type analysis for a given ECMAScript. Besides, they detect
+type-related specification bugs in ES12 using the type analysis result. Finally,
+$\jest$~\cite{jest} is another tool that synthesizes JavaScript conformance
+tests from a given ECMAScript. Thus, it allows users to understand language
+semantics using test programs instead of English sentences in the specification.
 
-However, existing tools for JavaScript language design assistants have two
-limitations related to the \textit{understanding} and \textit{update} of
-language semantics. First, they do not provide any automatic ways to focus on
-target semantics for better comprehension. JavaScript language designers often
-want to understand specific language semantics in the revision process. However,
-existing tools do not provide mechanized methods; thus, finding related parts
-manually in the specification or conformance tests is tedious. For example,
-while reference interpreters and $\jstar$ visualize execution states and type
-information, respectively, in the specification, they cannot localize parts in
-the specification or conformance tests related to the target semantics. Second,
-they manually or slowly synchronize three language components. For example,
-there is no synchronization between reference interpreters with other language
-components: ECMAScript and conformance tests. While $\jiset$ and $\jest$
-automatically generate interpreters and conformance tests from ECMAScript, they
-are appropriate for live language design because of the long time to extract
-them from scratch for each semantics update.
+However, existing tools have two limitations: 1) manual update for evolving
+language specification and 2) no user interactions to select target semantics.
+Among existing tools, JavaScript reference interpreters require manual updates
+when ECMAScript evolves. Until 2015, it was not a critical problem because
+ECMAScript had rarely evolved. However, TC39 decided to annually release the
+specification with a massive update in ECMAScript 6 (ES6, 2015)~\cite{es6} in
+2015. Moreover, they published the specification as an open-source project in a
+GitHub repository to quickly adapt users' demands to the language. For example,
+JSExplain also requires manual updates for new specifications. Thus, it still
+supports only ECMAScript 5.1 (ES5.1, 2011)~\cite{es5}, while already seven more
+versions from ES6 to ES12 have been released. Another limitation is that
+existing tools do not support user interactions to select target semantics to
+get additional information. For example, $\jstar$ and $\jest$ do not interact
+with users to give more information helpful for semantics understanding.
+Instead, they only extract type information and conformance tests for a given
+ECMAScript. On the other hand, while JSExplain supports step-by-step execution
+as user interaction with several debugger-like features, it can deal with only
+the execution trace of a single JavaScript program.
 
-In this paper, we present $\tool$, a \textit{live} language design assistant for
-JavaScript with \textit{syntactic views}. Our tool extends $\jiset$ and $\jest$
-to automatically synchronize language components and visualize additional
-information for better understanding. To alleviate problems in existing tools,
-we present two different techniques for better understanding and fast update of
-language semantics, respectively. First, our tool provides a way to enhance the
-understanding of the target semantics using a syntactic view, an abstract syntax
-tree containing abstracted nodes. It automatically reduces semantics and filters
-out conformance tests depending on user-defined syntactic views. To reduce
-semantics in ECMAScript, we augment a partial evaluation~\cite{peval,
-peval-survey} with syntactic views. We utilize statistical information to find
-test programs related to a given syntactic view. Second, $\tool$ quickly
-synchronizes language components in the language design process. Unlike $\jiset$
-and $\jest$, our tool first detects which parts of semantics are revised and
-partially updates related parts in specifications, conformance tests, and
-language-based tools.
+In this paper, we present $\tool$, a \textbf{J}ava\textbf{S}cript
+\textbf{I}nteractive \textbf{S}pecification. It is the first reference
+interpreter automatically synchronized with a given ECMAScript supporting
+step-by-step program execution. Fortunately, \citet{jiset} presents a tool named
+$\jiset$ that extracts a mechanized specification from a given specification.
+The extracted mechanized specification is written in a specification language
+$\ires$ and executable with a JavaScript program. Thus, we implement our tool
+using $\jiset$ and design debugger-like features: stepping controls, state
+visualization, and breakpoints with algorithm names or JavaScript program
+points. Moreover, our tool supports two different types of user interactions to
+select target semantics: \textit{syntactic view selection} and \textit{algorithm
+step selection}. First, we introduce a way to reduce abstract algorithms using a
+partial evaluation~\cite{peval, peval-survey, trans-ai} with a \textit{syntactic
+view}. A syntactic view is a JavaScript Abstract Syntax Tree (AST) defined with
+abstracted nodes. We formally define a partial evaluation with syntactic views
+and prove its semantics preservation under the given syntactic view. Second, we
+also present a way to extract a small-sized program for each algorithm step
+using delta debugging~\cite{delta-debugging} with a given set of programs. For
+the f first step, we execute each program using $\tool$ to compute semantics
+coverage in ECMAScript and filter out unnecessary programs. Then, we perform
+delta debugging for each program to reduce program sizes without loss of
+semantics coverage.
 
 Our contributions are as follows:
 \begin{itemize}
-  \item We present $\tool$, a live language design assistant for JavaScript with
-    syntactic views. It automatically synchronizes three language components:
-    specifications, conformance tests, and language-based tools.
-  \item We introduce a way to enhance the understanding of the target semantics
-    using user-defined \textit{syntactic views}, abstract syntax trees
-    containing abstract nodes. We experimentally demonstrate its effectiveness
-    with randomly selected syntactic views.
-  \item Towards \textit{live} language designs, we present an approach to detect
-    which parts of semantics are revised and partially update related parts in
-    language components. We also evaluate how it efficiently propagates
-    modification to language components with randomly modified semantics.
+  \item We present $\tool$, a JavaScript interactive specification. It is the
+    first reference interpreter automatically synchronized with a given
+    ECMAScript supporting step-by-step program execution.
+
+  \item We introduce two different types of user interactions to select target
+    semantics and implement them in $\tool$: 1) a \textit{syntactic view
+    selection} to reduce abstract algorithms using \textit{partial evaluation}
+    and 2) an \textit{algorithm step selection} to extract a small-sized
+    JavaScript program related to the selected step using \textit{delta
+    debugging} with a given set of programs.
+
+  \item We evaluate $\tool$ with the latest ECMAScript, ES12, and experimentally
+    show the effectiveness of two different target semantics selections with
+    \inred{177} syntactic views and \inred{19,839} programs. Our tool
+    successfully supports step-by-step program execution in ES12. It reduces
+    \inred{18.9}\% algorithm steps for each syntactic view and provides
+    \inred{2.3} lines (\inred{152.3} bytes) of a program for each step on
+    average.
 \end{itemize}
