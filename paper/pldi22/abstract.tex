@@ -2,26 +2,23 @@
   JavaScript is a widely-used programming language in various fields. Recently,
   it has rapidly evolved with a yearly release cadence and open development
   process to adapt users' demands to the language quickly. In this fast-evolving
-  nature of JavaScript, the need for \textit{language design assistants} has
-  grown to understand the current language semantics and to update it with new
-  language features in a tool-oriented approach. Unfortunately, existing tools have
-  two limitations related to the \textit{understanding} and \textit{update} of
-  language semantics. They 1) do not provide any automatic ways to focus on
-  target semantics and 2) manually or slowly synchronize three language
-  components: specifications, conformance tests, and language-based tools.
+  nature of JavaScript, developers and even language designers often suffer from
+  complex semantics in newly introduced language features and desire to
+  understand them correctly.  To meet the demand, researchers have proposed
+  several tools that enhance the understanding of JavaScript semantics. However,
+  existing tools 1) require manual updates for new specifications or 2) do not
+  provide any automatic ways to focus on specific semantics.
 
-  To alleviate this problem, we present $\tool$, a \textit{live} language design
-  assistant for JavaScript with \textit{syntactic views}. First, our tool
-  provides a way to enhance the understanding of the target semantics using a
-  syntactic view, an abstract syntax tree containing abstracted nodes. It
-  automatically reduces semantics and filters out conformance tests depending on
-  user-defined syntactic views. Second, $\tool$ automatically and quickly
-  synchronizes language components in the language design process. It detects
-  which parts of semantics are revised and partially updates related parts in
-  specifications, conformance tests, and language-based tools. For evaluation,
-  we experimentally demonstrate the effectiveness of $\tool$. With randomly
-  selected syntactic views, our tool reduces the \inred{XX.X}\% of semantics and
-  filters out \inred{XX.X}\% of conformance tests on average. With randomly
-  modified semantics, it shortens the time to synchronize three language
-  components by \inred{XX.X}\% on average.
+  To alleviate this problem, we present $\tool$, a JavaScript interactive
+  specification. First, it provides step-by-step program execution automatically
+  synchronized with a given version of JavaScript specification. Second, our
+  tool offers two approaches to focus on target semantics: 1) reducing semantics
+  with a user-defined \textit{syntactic view} and 2) providing a small-sized
+  program related to a selected algorithm step with automatically inferred
+  assertions. For evaluation, we experimentally demonstrate the effectiveness of
+  $\tool$ with the latest ECMAScript (ES12, 2021), \inred{177} syntactic views,
+  and \inred{19,839} programs. Our tool successfully reduces \inred{18.9}\%
+  algorithm steps for each syntactic view on average. For each algorithm step,
+  it provides \inred{2.3} lines (\inred{152.3} bytes) of a program with
+  automatically inferred assertions on average.
 \end{abstract}
