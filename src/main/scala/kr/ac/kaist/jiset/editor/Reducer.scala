@@ -58,7 +58,8 @@ case class Reducer(
     // final reduced program
     var reduced: Option[JsProgram] = None
     val mutators: List[Mutator] = List(
-      RandomMutator(p, nids)
+      RandomMutator1(p, nids),
+      RandomMutator2(p, nids),
     )
 
     // reduce by mutation
