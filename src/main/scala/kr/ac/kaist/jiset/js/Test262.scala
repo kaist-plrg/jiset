@@ -84,18 +84,6 @@ object Test262 {
 
     // rewrite assertion in CoverCallExpressionAndAsyncArrowHead
     private def rewriteAssertion(assertCall: CoverCallExpressionAndAsyncArrowHead): List[Statement] = {
-      // get argument list from Arguments
-      def getArguments(ast: Arguments): List[AssignmentExpression] = ast match {
-        case Arguments0(_, _) => List()
-        case Arguments1(x1, _, _) => _getArguments(x1)
-        case Arguments2(x1, _, _) => _getArguments(x1)
-      }
-      def _getArguments(ast: ArgumentList): List[AssignmentExpression] = ast match {
-        case ArgumentList0(x0, _, _) => List(x0)
-        case ArgumentList1(x0, _, _) => List(x0)
-        case ArgumentList2(x0, x2, _, _) => _getArguments(x0) ++ List(x2)
-        case ArgumentList3(x0, x2, _, _) => _getArguments(x0) ++ List(x2)
-      }
 
       // parse str to Statement
       def parse(str: String, params: List[Boolean]): Statement =

@@ -60,6 +60,7 @@ case class Reducer(
     val mutators: List[Mutator] = List(
       RandomMutator1(p, nids),
       RandomMutator2(p, nids),
+      RandomMutator3(p, nids),
     )
 
     // reduce by mutation

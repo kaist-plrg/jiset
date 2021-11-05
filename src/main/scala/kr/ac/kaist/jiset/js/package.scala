@@ -67,6 +67,19 @@ package object js {
   // prefixes
   val SYMBOL_PREFIX = "SYMBOL_"
 
+  // get argument list from Arguments
+  def getArguments(ast: Arguments): List[AssignmentExpression] = ast match {
+    case Arguments0(_, _) => List()
+    case Arguments1(x1, _, _) => _getArguments(x1)
+    case Arguments2(x1, _, _) => _getArguments(x1)
+  }
+  def _getArguments(ast: ArgumentList): List[AssignmentExpression] = ast match {
+    case ArgumentList0(x0, _, _) => List(x0)
+    case ArgumentList1(x0, _, _) => List(x0)
+    case ArgumentList2(x0, x2, _, _) => _getArguments(x0) ++ List(x2)
+    case ArgumentList3(x0, x2, _, _) => _getArguments(x0) ++ List(x2)
+  }
+
   // flatten statements
   def flattenStmtList(
     s: StatementList,
@@ -103,6 +116,51 @@ package object js {
     val bodyOpt = mergeStmtList(l, params).map(l => ScriptBody0(l, params, l.span))
     val span = bodyOpt.fold(Span())(_.span)
     Script0(bodyOpt, params, span)
+  }
+
+  // flatten expressions
+  def flattenExprList(
+    s: Expression,
+    list: List[AssignmentExpression] = Nil
+  ): List[AssignmentExpression] = s match {
+    case Expression0(x0, _, _) => x0 :: list
+    case Expression1(x0, x2, _, _) => flattenExprList(x0, x2 :: list)
+  }
+  def flattenExpr(
+    s: CoverParenthesizedExpressionAndArrowParameterList
+  ): (List[AssignmentExpression], List[Boolean], Span) = s match {
+    case CoverParenthesizedExpressionAndArrowParameterList0(expr, ps, span) =>
+      (flattenExprList(expr), ps, span)
+    case _ => (Nil, Nil, Span())
+  }
+
+  // merge statements to script
+  def mergeExprList(
+    l: List[AssignmentExpression],
+    params: List[Boolean]
+  ): Option[Expression] =
+    l match {
+      case a :: rest => {
+        val init: Expression = Expression0(a, params, a.span)
+        val list = rest.foldLeft(init) {
+          case (x, y) =>
+            val span = Span(x.span.start, y.span.end)
+            Expression1(x, y, params, span)
+        }
+        Some(list)
+      }
+      case Nil => None
+    }
+  def mergeExpr(
+    l: List[AssignmentExpression],
+    params: List[Boolean],
+    span: Span
+  ): CoverParenthesizedExpressionAndArrowParameterList = {
+    val exprOpt = mergeExprList(l, params)
+    exprOpt match {
+      case Some(expr) => CoverParenthesizedExpressionAndArrowParameterList0(expr, params, span)
+      case None => CoverParenthesizedExpressionAndArrowParameterList2(params, span)
+    }
   }
 
   // parse js file
