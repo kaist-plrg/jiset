@@ -1,6 +1,7 @@
 package kr.ac.kaist.jiset.phase
 
-import kr.ac.kaist.jiset._
+import kr.ac.kaist.jiset.{ cfg => CFG, _ }
+import kr.ac.kaist.jiset.js._
 import kr.ac.kaist.jiset.editor._
 import kr.ac.kaist.jiset.spec.ECMAScript
 import kr.ac.kaist.jiset.util._
@@ -17,24 +18,39 @@ case object Reduce extends Phase[FilteredProgramSet, ReduceConfig, Unit] {
     config: ReduceConfig
   ): Unit = {
     val reducer = Reducer(fset, config.loopMax, config.reduceLoop)
-    config.pid match {
-      case None =>
-        println(fset.summary(detail = true))
-        reducer.loop()
-        println(fset.summary(detail = true))
-      case Some(pid) =>
-        val p = fset.programs.find(_.uid == pid).get
-        println(p.raw)
-        // println("----------------------------------------")
-        // fset.printFeatures(p)
-        val reduced = reducer.reduce(p)
+
+    // print programs in set which touches nid
+    config.nid match {
+      case Some(nid) =>
         println("----------------------------------------")
-        reduced match {
-          case None => println("FAILED")
-          case Some(r) =>
-            println(r.raw)
-            println
-            println(p.size, r.size)
+        val funcName = cfg.funcOf(cfg.nidGen.get(nid)).name
+        println(s"[$funcName,$nid]")
+        println("----------------------------------------")
+        val ps = fset.getPrograms(nid)
+        ps.foreach(p => {
+          println("----------------------------------------")
+          println(p.raw)
+        })
+      case None =>
+        config.pid match {
+          case Some(pid) =>
+            val p = fset.programs.find(_.uid == pid).get
+            println(p.raw)
+            println("----------------------------------------")
+            fset.printFeatures(p)
+          // val reduced = reducer.reduce(p)
+          // println("----------------------------------------")
+          // reduced match {
+          //   case None => println("FAILED")
+          //   case Some(r) =>
+          //     println(r.raw)
+          //     println
+          //     println(p.size, r.size)
+          // }
+          case _ =>
+            println(fset.summary(detail = true))
+            reducer.loop()
+            println(fset.summary(detail = true))
         }
     }
   }
@@ -45,8 +61,11 @@ case object Reduce extends Phase[FilteredProgramSet, ReduceConfig, Unit] {
       "set maximum loop iteration."),
     ("reduce-loop", NumOption((c, i) => c.reduceLoop = i),
       "set maximum reduce loop depth."),
+    // XXX delete
     ("pid", NumOption((c, i) => c.pid = Some(i)),
-      "set maximum loop iteration."),
+      ""),
+    ("nid", NumOption((c, i) => c.nid = Some(i)),
+      ""),
   )
 }
 
@@ -54,5 +73,7 @@ case object Reduce extends Phase[FilteredProgramSet, ReduceConfig, Unit] {
 case class ReduceConfig(
   var loopMax: Int = 100,
   var reduceLoop: Int = 5,
-  var pid: Option[Int] = None
+  // XXX delete
+  var pid: Option[Int] = None,
+  var nid: Option[Int] = None
 ) extends Config

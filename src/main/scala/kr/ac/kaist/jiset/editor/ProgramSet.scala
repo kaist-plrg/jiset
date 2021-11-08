@@ -175,6 +175,11 @@ class FilteredProgramSet extends ProgramSet {
   // get nearest AST which touches unique nids
   def getFeatures(p: JsProgram): Map[Int, Set[AST]] = p.covered(getUniqueNIds(p))
 
+  // get programs, which touches a given node id
+  def getPrograms(nid: Int): Set[JsProgram] = (for {
+    p <- programs if p.touched(nid)
+  } yield p).toSet
+
   // add a program
   private var _pid = 0
   private def nextPId: Int = { val prev = _pid; _pid += 1; prev }
@@ -244,14 +249,14 @@ class FilteredProgramSet extends ProgramSet {
 
   // for debug
   def printFeatures(p: JsProgram): Unit = for {
-    // (nid, astSet) <- getFeatures(p)
-    nid <- getUniqueNIds(p)
+    (nid, astSet) <- getFeatures(p)
+    // nid <- getUniqueNIds(p)
     node = cfg.nidGen.get(nid)
     func = cfg.funcOf(node)
   } {
     println("----------------------------------------")
     println(s"[${func.name},$nid]")
-    // astSet.foreach(a => println(a.toString))
+    astSet.foreach(a => println(a.toString))
   }
 }
 object FilteredProgramSet {

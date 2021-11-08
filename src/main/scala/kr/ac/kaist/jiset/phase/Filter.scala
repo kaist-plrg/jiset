@@ -27,7 +27,7 @@ case object Filter extends Phase[ECMAScript, FilterConfig, FilteredProgramSet] {
       )
         .reduce(_ union _)
         .setDumpDir(s"$EDITOR_LOG_DIR/total")
-      if (LOG) total.dumpStats()
+      total.dumpStats()
 
       // filtered program set
       val filtered = FilteredProgramSet(total).setDumpDir(FILTERED_DIR)
@@ -40,7 +40,7 @@ case object Filter extends Phase[ECMAScript, FilterConfig, FilteredProgramSet] {
       )
       filtered
     }
-    if (LOG) fset.dumpStats()
+    fset.dumpStats()
     println(fset.summary())
     fset
   }
