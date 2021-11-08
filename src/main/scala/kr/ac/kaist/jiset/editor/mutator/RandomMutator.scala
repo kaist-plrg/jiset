@@ -132,3 +132,33 @@ case class RandomMutator3(program: JsProgram, nids: Set[Int]) extends Mutator wi
     if (transformed) Some(removed) else None
   }
 }
+
+// random4 mutator
+case class RandomMutator4(program: JsProgram, nids: Set[Int]) extends Mutator with ASTTransformer {
+  // flag
+  var transformed: Boolean = false
+
+  // Object property definitions transformation
+  override def transform(ast: ObjectLiteral): ObjectLiteral = {
+    var a = ast
+    if (!transformed) {
+      val (pds, ps, span) = flattenPd(ast)
+      val length = pds.length
+      if (length > 1) {
+        val sep = randInt(length)
+        val removed = pds.take(sep) ++ pds.takeRight(pds.size - sep - 1)
+        a = mergePd(removed, ps, span)
+        transformed = true
+      }
+    }
+    a
+  }
+
+  val name: String = "random4"
+  val retryMax = 10
+  def _mutate: Option[Script] = {
+    transformed = false
+    val removed = transform(program.script)
+    if (transformed) Some(removed) else None
+  }
+}

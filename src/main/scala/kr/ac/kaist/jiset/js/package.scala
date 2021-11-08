@@ -134,7 +134,7 @@ package object js {
     case _ => (Nil, Nil, Span())
   }
 
-  // merge statements to script
+  // merge statements to Expression
   def mergeExprList(
     l: List[AssignmentExpression],
     params: List[Boolean]
@@ -163,6 +163,50 @@ package object js {
     }
   }
 
+  // flatten Property Definition List
+  def flattenPdList(
+    s: PropertyDefinitionList,
+    list: List[PropertyDefinition] = Nil
+  ): List[PropertyDefinition] = s match {
+    case PropertyDefinitionList0(x0, _, _) => x0 :: list
+    case PropertyDefinitionList1(x0, x2, _, _) => flattenPdList(x0, x2 :: list)
+  }
+  def flattenPd(
+    s: ObjectLiteral
+  ): (List[PropertyDefinition], List[Boolean], Span) = s match {
+    case ObjectLiteral1(pds, ps, span) =>
+      (flattenPdList(pds), ps, span)
+    case _ => (Nil, Nil, Span())
+  }
+
+  // merge Property Definitions to script
+  def mergePdList(
+    l: List[PropertyDefinition],
+    params: List[Boolean]
+  ): Option[PropertyDefinitionList] =
+    l match {
+      case a :: rest => {
+        val init: PropertyDefinitionList = PropertyDefinitionList0(a, params, a.span)
+        val list = rest.foldLeft(init) {
+          case (x, y) =>
+            val span = Span(x.span.start, y.span.end)
+            PropertyDefinitionList1(x, y, params, span)
+        }
+        Some(list)
+      }
+      case Nil => None
+    }
+  def mergePd(
+    l: List[PropertyDefinition],
+    params: List[Boolean],
+    span: Span
+  ): ObjectLiteral = {
+    val pdOpt = mergePdList(l, params)
+    pdOpt match {
+      case Some(pd) => ObjectLiteral1(pd, params, span)
+      case None => ObjectLiteral0(params, span)
+    }
+  }
   // parse js file
   def parseJsFile(filename: String): Script =
     Parser.parse(Parser.Script(Nil), fileReader(filename)).get
