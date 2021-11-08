@@ -27,7 +27,7 @@ case class Reducer(
       val selected = select(fset.programs)
 
       // reduce
-      for { reduced <- reduce(selected) } {
+      for { reduced <- reduce(selected, iter) } {
         fset += reduced
       }
 
@@ -55,27 +55,33 @@ case class Reducer(
   }
 
   // reduce a given js program
-  def reduce(p: JsProgram): Option[JsProgram] = {
+  def reduce(p: JsProgram, iter: Int): Option[JsProgram] = {
     // nodes to preserve
     val nids = fset.getUniqueNIds(p)
 
     // final reduced program
     var reduced: Option[JsProgram] = None
-    val mutators: List[Mutator] = List(
-      RandomMutator1(p, nids),
-      // RandomMutator2(p, nids),
-      // RandomMutator3(p, nids),
-      TrimTraceMutator(p, nids)
-    )
 
     // reduce by mutation
     var tried = 0
     while (tried < reduceLoop) {
-      val mutator = choose(mutators)
       val target = reduced.getOrElse(p)
+      val mutators: List[Mutator] = List(
+        RandomMutator1(target, nids),
+        RandomMutator2(target, nids),
+        RandomMutator3(target, nids),
+        TrimTraceMutator(target, nids)
+      )
+      val mutator = choose(mutators)
       val mutated = mutator.mutate
       // TODO reset tried counter when mutation succeed?
-      if (!mutated.isEmpty) { reduced = mutated }
+      if (!mutated.isEmpty) { 
+        nfMutator.println(
+          f"$iter,$getTime%2.2f,${mutator.name},${target.size},${mutated.get.size}"
+        )
+        nfMutator.flush
+        reduced = mutated 
+      }
       tried += 1
     }
 
@@ -98,13 +104,15 @@ case class Reducer(
   val nfTime = getPrintWriter(s"$REDUCED_DIR/time.csv")
   val nfSize = getPrintWriter(s"$REDUCED_DIR/size.csv")
   val nfTouched = getPrintWriter(s"$REDUCED_DIR/touched.csv")
+  val nfMutator = getPrintWriter(s"$REDUCED_DIR/mutator.csv")
   val nfStats = List(nfTime, nfSize, nfTouched)
   val startTime = System.currentTimeMillis
   def getTime: Double = (System.currentTimeMillis - startTime).toDouble / 1000
 
-  // write header to stat files
-  val csvHeader = "# of iter, Time, Min, Q1, Median, Q3, Max, Avg, Size"
-  nfStats.foreach(_.println(csvHeader))
+  // write header
+  val statHeader = "# of iter, Time, Min, Q1, Median, Q3, Max, Avg, Size"
+  nfStats.foreach(_.println(statHeader))
+  nfMutator.println("# of iter, Time, name, from, to")
 
   // dump stats
   def dumpStats(iter: Int): Unit = {
@@ -116,5 +124,5 @@ case class Reducer(
   }
 
   // close file handles
-  def close(): Unit = (nfLog :: nfStats).foreach(_.close)
+  def close(): Unit = (nfLog :: nfMutator :: nfStats).foreach(_.close)
 }

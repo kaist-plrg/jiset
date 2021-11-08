@@ -38,7 +38,7 @@ case object Reduce extends Phase[FilteredProgramSet, ReduceConfig, Unit] {
             println(p.raw)
             // println("----------------------------------------")
             // fset.printFeatures(p)
-            val reduced = reducer.reduce(p)
+            val reduced = reducer.reduce(p, 1)
             println("----------------------------------------")
             reduced match {
               case None => println("FAILED")
