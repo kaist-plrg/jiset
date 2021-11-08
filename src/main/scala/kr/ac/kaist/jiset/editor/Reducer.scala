@@ -16,12 +16,15 @@ case class Reducer(
   // select-reduce loop
   final def loop(): Unit = {
     // trim
-    nfLog.println(s"========================================")
-    nfLog.println(s"[trimming]")
-    for {
-      p <- fset.programs
-      trimmed <- trim(p, 0)
-    } { fset += trimmed }
+    if (LOG) {
+      nfLog.println(s"========================================")
+      nfLog.println(s"[trimming]")
+    }
+    ProgressBar("trimming", fset.programs).foreach(p => {
+      val nids = fset.getUniqueNIds(p)
+      for { trimmed <- trim(p, nids, 0) } { fset += trimmed }
+    })
+    fset.setDumpDir(s"$REDUCED_DIR/0").dump()
 
     // start loop
     ProgressBar("reducing", 1 to loopMax).foreach(iter => {
@@ -37,14 +40,12 @@ case class Reducer(
       // reduce
       for {
         reduced <- reduce(selected, iter)
-        trimmed = trim(reduced, iter)
-      } { fset += trimmed.getOrElse(reduced) }
+      } { fset += reduced }
 
       // dump filtered set results
       if (iter % 100 == 0)
         fset.setDumpDir(s"$REDUCED_DIR/$iter").dump()
       dumpStats(iter)
-
     })
 
     // dump final result
@@ -79,14 +80,12 @@ case class Reducer(
         RandomMutator1(target, nids),
         RandomMutator2(target, nids),
         RandomMutator3(target, nids),
-      // TrimTraceMutator(target, nids)
       )
       val mutator = choose(mutators)
       val mutated = mutator.mutate
       // TODO reset tried counter when mutation succeed?
       if (!mutated.isEmpty) {
         logSuccess(iter, mutator, target, mutated.get)
-        nfMutator.flush
         reduced = mutated
       }
       tried += 1
@@ -100,12 +99,16 @@ case class Reducer(
       }
       nfLog.flush
     }
-    reduced
+
+    // trim if reduced
+    reduced.map(r => {
+      val trimmed = trim(r, nids, iter)
+      trimmed.getOrElse(r)
+    })
   }
 
   // trim js program
-  def trim(p: JsProgram, iter: Int): Option[JsProgram] = {
-    val nids = fset.getUniqueNIds(p)
+  def trim(p: JsProgram, nids: Set[Int], iter: Int): Option[JsProgram] = {
     val mutator = TrimTraceMutator(p, nids)
     val trimmed = mutator.mutate
     trimmed.foreach(logSuccess(iter, mutator, p, _))
