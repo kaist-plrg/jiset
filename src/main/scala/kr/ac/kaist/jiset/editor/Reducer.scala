@@ -15,6 +15,15 @@ case class Reducer(
 ) {
   // select-reduce loop
   final def loop(): Unit = {
+    // trim
+    for {
+      p <- fset.programs
+      trimmed <- trim(p)
+    } {
+      fset += trimmed
+      logSuccess(0, "trim", p, trimmed)
+    }
+
     // start loop
     ProgressBar("reducing", 1 to loopMax).foreach(iter => {
       // logging
@@ -27,9 +36,10 @@ case class Reducer(
       val selected = select(fset.programs)
 
       // reduce
-      for { reduced <- reduce(selected, iter) } {
-        fset += reduced
-      }
+      for {
+        reduced <- reduce(selected, iter)
+        trimmed = trim(reduced)
+      } { fset += trimmed.getOrElse(reduced) }
 
       // dump filtered set results
       if (iter % 100 == 0)
@@ -70,17 +80,15 @@ case class Reducer(
         RandomMutator1(target, nids),
         RandomMutator2(target, nids),
         RandomMutator3(target, nids),
-        TrimTraceMutator(target, nids)
+      // TrimTraceMutator(target, nids)
       )
       val mutator = choose(mutators)
       val mutated = mutator.mutate
       // TODO reset tried counter when mutation succeed?
-      if (!mutated.isEmpty) { 
-        nfMutator.println(
-          f"$iter,$getTime%2.2f,${mutator.name},${target.size},${mutated.get.size}"
-        )
+      if (!mutated.isEmpty) {
+        logSuccess(iter, mutator.name, target, mutated.get)
         nfMutator.flush
-        reduced = mutated 
+        reduced = mutated
       }
       tried += 1
     }
@@ -95,6 +103,13 @@ case class Reducer(
       nfLog.flush
     }
     reduced
+  }
+
+  // trim js program
+  def trim(p: JsProgram): Option[JsProgram] = {
+    val nids = fset.getUniqueNIds(p)
+    val mutator = TrimTraceMutator(p, nids)
+    mutator.mutate
   }
 
   // log
@@ -121,6 +136,12 @@ case class Reducer(
         nf.println(f"$iter,$getTime%2.2f,${bp.csvSummary}")
         nf.flush
     }
+  }
+  def logSuccess(iter: Int, mutator: String, from: JsProgram, to: JsProgram) = {
+    nfMutator.println(
+      f"$iter,$getTime%2.2f,${mutator},${from.size},${to.size}"
+    )
+    nfMutator.flush
   }
 
   // close file handles
