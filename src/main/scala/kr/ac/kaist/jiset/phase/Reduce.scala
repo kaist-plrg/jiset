@@ -36,10 +36,14 @@ case object Reduce extends Phase[FilteredProgramSet, ReduceConfig, Unit] {
           case Some(pid) =>
             val p = fset.programs.find(_.uid == pid).get
             println(p.raw)
-            // println("----------------------------------------")
-            // fset.printFeatures(p)
-            val reduced = reducer.reduce(p, 1)
             println("----------------------------------------")
+            val nids = fset.getUniqueNIds(p)
+            println(nids)
+            fset.printFeatures(p)
+            println("----------------------------------------")
+            for { trimmed <- reducer.trim(p, nids, 0) } { println(trimmed.raw) }
+            println("----------------------------------------")
+            val reduced = reducer.reduce(p, 1)
             reduced match {
               case None => println("FAILED")
               case Some(r) =>

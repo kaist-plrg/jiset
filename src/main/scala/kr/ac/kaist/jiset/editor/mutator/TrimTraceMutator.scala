@@ -19,6 +19,15 @@ case class TrimTraceMutator(program: JsProgram, nids: Set[Int]) extends Mutator 
       case stmt: StatementListItem => stmts += stmt
       case _ =>
     }
+
+    // handle reparsed asts
+    override def walk(ast: CoverCallExpressionAndAsyncArrowHead) = ()
+    override def walk(ast: CoverParenthesizedExpressionAndArrowParameterList) = ()
+    override def walk(ast: AssignmentExpression) = ast match {
+      case AssignmentExpression4(x0, x2, ps, span) => walk(x2)
+      case _ => super.walk(ast)
+    }
+
   }
 
   // remove statment list item
