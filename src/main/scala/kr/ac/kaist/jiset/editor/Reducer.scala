@@ -16,13 +16,12 @@ case class Reducer(
   // select-reduce loop
   final def loop(): Unit = {
     // trim
+    nfLog.println(s"========================================")
+    nfLog.println(s"[trimming]")
     for {
       p <- fset.programs
-      trimmed <- trim(p)
-    } {
-      fset += trimmed
-      logSuccess(0, "trim", p, trimmed)
-    }
+      trimmed <- trim(p, 0)
+    } { fset += trimmed }
 
     // start loop
     ProgressBar("reducing", 1 to loopMax).foreach(iter => {
@@ -38,7 +37,7 @@ case class Reducer(
       // reduce
       for {
         reduced <- reduce(selected, iter)
-        trimmed = trim(reduced)
+        trimmed = trim(reduced, iter)
       } { fset += trimmed.getOrElse(reduced) }
 
       // dump filtered set results
@@ -86,14 +85,13 @@ case class Reducer(
       val mutated = mutator.mutate
       // TODO reset tried counter when mutation succeed?
       if (!mutated.isEmpty) {
-        logSuccess(iter, mutator.name, target, mutated.get)
+        logSuccess(iter, mutator, target, mutated.get)
         nfMutator.flush
         reduced = mutated
       }
       tried += 1
     }
 
-    // reduced.foreach(r => println(r.raw))
     if (LOG) {
       nfLog.println(s"----------------------------------------")
       reduced match {
@@ -106,10 +104,12 @@ case class Reducer(
   }
 
   // trim js program
-  def trim(p: JsProgram): Option[JsProgram] = {
+  def trim(p: JsProgram, iter: Int): Option[JsProgram] = {
     val nids = fset.getUniqueNIds(p)
     val mutator = TrimTraceMutator(p, nids)
-    mutator.mutate
+    val trimmed = mutator.mutate
+    trimmed.foreach(logSuccess(iter, mutator, p, _))
+    trimmed
   }
 
   // log
@@ -137,9 +137,9 @@ case class Reducer(
         nf.flush
     }
   }
-  def logSuccess(iter: Int, mutator: String, from: JsProgram, to: JsProgram) = {
+  def logSuccess(iter: Int, mutator: Mutator, from: JsProgram, to: JsProgram) = {
     nfMutator.println(
-      f"$iter,$getTime%2.2f,${mutator},${from.size},${to.size}"
+      f"$iter,$getTime%2.2f,${mutator.name},${from.size},${to.size}"
     )
     nfMutator.flush
   }
