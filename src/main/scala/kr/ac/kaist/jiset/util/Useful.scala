@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.util
 
+import Math.{ log, round }
 import java.text.SimpleDateFormat
 import java.util.Date
 import kr.ac.kaist.jiset._
@@ -144,4 +145,5 @@ object Useful {
     }
     aux()
   }
+  def log2Round(n: Int): Long = round(log(n) / log(2))
 }

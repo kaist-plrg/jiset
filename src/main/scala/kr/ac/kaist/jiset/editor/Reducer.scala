@@ -65,7 +65,7 @@ case class Reducer(
   }
 
   // reduce a given js program
-  def reduce(p: JsProgram, iter: Int): Option[JsProgram] = {
+  def reduce(p: JsProgram, iter: Int, wighted: Boolean = false): Option[JsProgram] = {
     // nodes to preserve
     val nids = fset.getUniqueNIds(p)
 
@@ -74,12 +74,16 @@ case class Reducer(
 
     // reduce by mutation
     var tried = 0
-    while (tried < reduceLoop) {
+
+    // reduce loop
+    val loop = if (wighted) log2Round(p.size) else reduceLoop
+    while (tried < loop) {
       val target = reduced.getOrElse(p)
       val mutators: List[Mutator] = List(
         RandomMutator1(target, nids),
         RandomMutator2(target, nids),
         RandomMutator3(target, nids),
+        RandomMutator4(target, nids),
       )
       val mutator = choose(mutators)
       val mutated = mutator.mutate

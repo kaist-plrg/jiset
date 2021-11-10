@@ -43,7 +43,7 @@ case object Reduce extends Phase[FilteredProgramSet, ReduceConfig, Unit] {
             println("----------------------------------------")
             for { trimmed <- reducer.trim(p, nids, 0) } { println(trimmed.raw) }
             println("----------------------------------------")
-            val reduced = reducer.reduce(p, 1)
+            val reduced = reducer.reduce(p, 1, config.weighted)
             reduced match {
               case None => println("FAILED")
               case Some(r) =>
@@ -70,6 +70,8 @@ case object Reduce extends Phase[FilteredProgramSet, ReduceConfig, Unit] {
       ""),
     ("nid", NumOption((c, i) => c.nid = Some(i)),
       ""),
+    ("weighted", BoolOption(c => c.weighted = true),
+      ""),
   )
 }
 
@@ -79,5 +81,6 @@ case class ReduceConfig(
   var reduceLoop: Int = 5,
   // XXX delete
   var pid: Option[Int] = None,
-  var nid: Option[Int] = None
+  var nid: Option[Int] = None,
+  var weighted: Boolean = false
 ) extends Config
