@@ -324,7 +324,7 @@ object Test262 {
 
     // get harness-prepended ast
     val ast =
-      if (filtered.isEmpty) script
+      if (!harness) script
       else {
         // include harness
         val harnessStmts = filtered.foldLeft(baseStmts) {
