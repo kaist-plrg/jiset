@@ -96,6 +96,11 @@ case object CmdAnalyze extends Command("analyze", CmdParse >> Analyze) {
   }
 }
 
+// analyze
+case object CmdCollect extends Command("collect", CmdBase >> Collect) {
+  def help = "collects a JS state from concrete evaluation"
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // test262
 ////////////////////////////////////////////////////////////////////////////////

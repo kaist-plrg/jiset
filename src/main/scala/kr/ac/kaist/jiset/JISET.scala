@@ -73,6 +73,7 @@ object JISET {
 
     // JSAVER
     CmdAnalyze,
+    CmdCollect,
 
     // test262
     CmdFilterMeta,
@@ -107,6 +108,7 @@ object JISET {
 
     // JSAVER
     Analyze,
+    Collect,
 
     // IRES
     IRParse,
