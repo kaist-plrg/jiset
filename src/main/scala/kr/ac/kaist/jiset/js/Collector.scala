@@ -35,6 +35,7 @@ case class Collector(script: Script) {
     case Num(d) if d.isNegInfinity => Json.obj("neginf" -> "".asJson)
     case Num(d) if d.isPosInfinity => Json.obj("posinf" -> "".asJson)
     case Num(d) if d.isNaN => Json.obj("nan" -> "".asJson)
+    case Num(d) if d equals -0.0 => Json.obj("negzero" -> "".asJson)
     case Num(d) => d.asJson
     case INum(l) => l.asJson
     case BigINum(b) => Json.obj("bigint" -> b.toString.asJson)
