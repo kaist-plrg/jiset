@@ -49,6 +49,7 @@ case class Collector(script: Script) {
   // handle variables
   private def handleVariable: Unit = for (x <- createdVars) {
     getValue(s"$globalMap.$x.Value") match {
+      case Absent => // handle global accessor property
       case sv: SimpleValue => add(x, sv)
       case (addr: Addr) => handleObject(addr, List(x))
       case _ =>
