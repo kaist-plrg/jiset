@@ -49,7 +49,7 @@ case class Collector(script: Script) {
 
   // handle variables
   private def handleVariable: Unit = for (x <- createdVars) {
-    getValue(s"$globalMap.$x.Value") match {
+    getValue(s"""$globalMap["$x"].Value""") match {
       case Absent => // handle global accessor property
       case sv: SimpleValue => add(x, sv)
       case (addr: Addr) => handleObject(addr, List(x))
@@ -59,7 +59,7 @@ case class Collector(script: Script) {
 
   // handle lexical variables
   private def handleLet: Unit = for (x <- createdLets) {
-    getValue(s"$lexRecord.$x.BoundValue") match {
+    getValue(s"""$lexRecord["$x"].BoundValue""") match {
       case sv: SimpleValue => add(x, sv)
       case (addr: Addr) => handleObject(addr, List(x))
       case _ =>
