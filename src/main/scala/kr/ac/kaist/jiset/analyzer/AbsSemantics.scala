@@ -5,6 +5,7 @@ import kr.ac.kaist.jiset.analyzer.domain._
 import kr.ac.kaist.jiset.error.AnalysisTimeout
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir
+import kr.ac.kaist.jiset.ir.Bool
 import kr.ac.kaist.jiset.js
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.util.Useful._
@@ -52,10 +53,6 @@ case class AbsSemantics(
 
   // iteration period for check
   val CHECK_PERIOD = 10000
-
-  // log max ijk
-  val irIJK = AbsSemantics.MaxIJK()
-  val jsIJK = AbsSemantics.MaxIJK()
 
   // fixpiont computation
   @tailrec
@@ -132,12 +129,6 @@ case class AbsSemantics(
     val calleeView = viewCall(callerView, call, isJsCall, astOpt)
     val np = NodePoint(func.entry, calleeView)
     this += np -> st.doCall
-
-    // log max ijk
-    if (LOG) {
-      irIJK.update(calleeView.getIrIJK)
-      jsIJK.update(calleeView.getJsIJK)
-    }
 
     val rp = ReturnPoint(func, calleeView)
     val set = retEdges.getOrElse(rp, Set())
@@ -284,18 +275,6 @@ case class AbsSemantics(
   }
 }
 object AbsSemantics {
-  // maximum ijk
-  case class MaxIJK(var i: Int = -1, var j: Int = -1, var k: Int = -1) {
-    def update(ijk: (Int, Int, Int)): Unit = {
-      val (curI, curJ, curK) = ijk
-      if (curI > i) i = curI
-      if (curJ > j) j = curJ
-      if (curK > k) k = curK
-    }
-    def get: (Int, Int, Int) = (i, j, k)
-    override def toString: String = s"I/J/K = $i/$j/$k"
-  }
-
   // constructors
   def apply(
     script: js.ast.Script,
