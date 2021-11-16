@@ -123,7 +123,6 @@ case class Collector(script: Script, id: Int, start: Long) {
     } yield propStr -> fixedV).toMap
   }
 
-
   // get values
   def getValue(str: String): AbsValue =
     getValue(ir.Parser.parse[ir.Expr](str)).escaped
@@ -172,7 +171,7 @@ object Collector {
 
   // convert loc to unique string
   def loc2str(loc: Loc): String = loc.hashCode.toString
-  
+
   // result
   case class CResult(
     pass: Boolean,
