@@ -20,7 +20,7 @@ case class Collector(script: Script, id: Int, start: Long) {
   private val elapsed = (System.currentTimeMillis - start) / 1000.0d
   private val finalResult = absSem.finalResult
   private val AbsRet(value, absState) = absSem.finalResult
-  private var handledObjects: Set[SubMapLoc] = Set()
+  private var handledLocs: Set[SubMapLoc] = Set()
 
   // reachability
   val (pass, fail) =
@@ -52,42 +52,79 @@ case class Collector(script: Script, id: Int, start: Long) {
 
   // handle variables
   private def handleVariable: Unit = for (x <- createdVars) {
-    val absV = getValue(s"""$globalMap["$x"].Value""")
-    result.addEnv(x, absV)
-    handleBaseLoc(absV.loc)
+    val absV = fixLoc(getValue(s"""$globalMap["$x"].Value"""))
+    if (!absV.isBottom) {
+      result.addEnv(x, absV)
+      handleLoc(absV.loc)
+    }
   }
 
   // handle lexical variables
   private def handleLet: Unit = for (x <- createdLets) {
-    val absV = getValue(s"$lexRecord.$x.BoundValue")
-    result.addEnv(x, absV)
-    handleBaseLoc(absV.loc)
+    val absV = fixLoc(getValue(s"$lexRecord.$x.BoundValue"))
+    if (!absV.isBottom) {
+      result.addEnv(x, absV)
+      handleLoc(absV.loc)
+    }
   }
 
   // handle locations
-  private def handleBaseLoc(absLoc: AbsLoc): Unit = absLoc.getSingle match {
-    case FlatElem(loc) => handleBaseLoc(loc)
-    case _ =>
+  private def handleLoc(absLoc: AbsLoc): Unit = absLoc.getSingle match {
+    case FlatElem(loc: SubMapLoc) => handleSubMapLoc(loc)
+    case FlatBot =>
+    case _ => error("should be single submap location")
   }
-  private def handleBaseLoc(loc: Loc): Unit = loc match {
-    case base: BaseLoc => handleBaseLoc(base)
-    case _ => error("should be base location")
-  }
-  private def handleBaseLoc(baseLoc: BaseLoc): Unit =
-    handleSubMapLoc(SubMapLoc(baseLoc))
   private def handleSubMapLoc(subMapLoc: SubMapLoc): Unit = {
-    if (!(handledObjects contains subMapLoc)) {
-      handledObjects += subMapLoc
+    if (!(handledLocs contains subMapLoc)) {
+      handledLocs += subMapLoc
       val jsPropMap: Map[String, CValue] =
         (for {
           (jsPropStr, absV) <- getProps(subMapLoc)
-          _ = handleBaseLoc(absV.loc)
+          _ = handleLoc(absV.loc)
         } yield jsPropStr -> convertValue(absV)).toMap
       result.addHeap(subMapLoc, jsPropMap)
     }
   }
 
-  // // get values
+  // fix location in abstract value
+  def fixLoc(absV: AbsValue): AbsValue = {
+    val fixedLoc = absV.loc.getSingle match {
+      case FlatElem(loc) => loc match {
+        case base: BaseLoc => absState(base) match {
+          case m: AbsObj.MapElem => AbsLoc(SubMapLoc(base))
+          case _ => AbsLoc.Bot
+        }
+        case _ => error("should be base location")
+      }
+      case FlatBot => AbsLoc.Bot
+      case FlatTop => AbsLoc.Top
+    }
+    absV.copy(loc = fixedLoc)
+  }
+
+  // get js properties
+  private def getProps(loc: SubMapLoc): Map[String, AbsValue] = {
+    val descMap =
+      absState(loc) match {
+        case AbsObj.KeyWiseMap(_, map) => map
+        case AbsObj.OrderedMap(_, map, _) => map
+        case AbsObj.MergedMap(_, prop, _) => ???
+        case v => error(s"should be map object: $loc => $v")
+      }
+    (for {
+      (propKey, desc) <- descMap
+      propStr <- propKey match {
+        case ASimple(ir.Str(str)) => Some(str)
+        case _ => None
+      }
+      descLoc = desc.loc
+      propV = absState(AbsValue(loc = descLoc), AbsValue("Value")).escaped
+      fixedV = fixLoc(propV) if !fixedV.isBottom
+    } yield propStr -> fixedV).toMap
+  }
+
+
+  // get values
   def getValue(str: String): AbsValue =
     getValue(ir.Parser.parse[ir.Expr](str)).escaped
   def getValue(expr: ir.Expr): AbsValue =
@@ -106,27 +143,6 @@ case class Collector(script: Script, id: Int, start: Long) {
   private lazy val lexRecord = "REALM.GlobalEnv.DeclarativeRecord.SubMap"
   private lazy val createdLets: Set[String] =
     getStrKeys(getValue(lexRecord))
-
-  // get js properties
-  private def getProps(loc: SubMapLoc): Map[String, AbsValue] = {
-    val descMap =
-      absState(loc) match {
-        case AbsObj.KeyWiseMap(_, map) => map
-        case AbsObj.OrderedMap(_, map, _) => map
-        case AbsObj.MergedMap(_, prop, _) => ???
-        case v => error(s"should be js object: $loc => $v")
-      }
-    (for {
-      (propKey, desc) <- descMap
-      propStr <- propKey match {
-        case ASimple(ir.Str(str)) => Some(str)
-        case _ => None
-      }
-      descLoc = desc.loc
-      propV = absState(AbsValue(loc = descLoc), AbsValue("Value")).escaped
-      if !propV.isBottom
-    } yield propStr -> propV).toMap
-  }
 
   // get keys
   private def getStrKeys(absV: AbsValue): Set[String] =
@@ -156,7 +172,7 @@ object Collector {
 
   // convert loc to unique string
   def loc2str(loc: Loc): String = loc.hashCode.toString
-
+  
   // result
   case class CResult(
     pass: Boolean,
@@ -246,8 +262,8 @@ object Collector {
   }
   implicit def convertLoc(absV: AbsLoc): CFlat[String] = absV.getSingle match {
     case FlatBot => CFlatBot
-    case FlatElem(base: BaseLoc) => CFlatElem(loc2str(SubMapLoc(base)))
-    case FlatElem(sub: SubMapLoc) => error("")
+    case FlatElem(loc: SubMapLoc) => CFlatElem(loc2str(loc))
+    case FlatElem(base: BaseLoc) => error("")
     case FlatTop => CFlatTop
   }
 

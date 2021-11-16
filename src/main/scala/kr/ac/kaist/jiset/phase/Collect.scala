@@ -28,7 +28,7 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
     // XXX for debug
     // val filename = getFirstFilename(jisetConfig, "parse")
     // val ast = parseFile(filename)
-    // println(if (config.concrete) js.Collector(ast).toJson else analyzer.Collector(ast).toJson)
+    // println(if (config.concrete) js.Collector(ast).toJson else analyzer.Collector(ast, 0, 0).toJson)
 
     // base directory
     val baseDir =
