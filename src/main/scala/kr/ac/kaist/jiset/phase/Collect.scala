@@ -68,7 +68,7 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
           catch {
             case e: Throwable =>
               println(e)
-              analyzer.Collector.errorResult
+              analyzer.Collector.toErrorJson(idx, start)
           }
         },
         s"$baseDir/$idx.json"
