@@ -15,8 +15,10 @@ case class Collector(script: Script, id: Int, start: Long) {
   import Collector._
 
   // state
+  private val analysisStart = System.currentTimeMillis
   private val absSem =
     AbsSemantics(script, 0, timeLimit = Some(ANALYSIS_TIMEOUT)).fixpoint
+  private val analysisTime = (System.currentTimeMillis - analysisStart) / 1000.0d
   private val elapsed = (System.currentTimeMillis - start) / 1000.0d
   private val finalResult = absSem.finalResult
   private val AbsRet(value, absState) = absSem.finalResult
@@ -32,10 +34,10 @@ case class Collector(script: Script, id: Int, start: Long) {
     }
 
   // result
-  private var result: CResult = CResult(pass, fail)
+  private var result: CResult = CResult(elapsed, analysisTime, pass, fail)
   def toJson: String = Json.obj(
     "id" -> id.asJson,
-    "time" -> Json.fromDouble(elapsed).get,
+    "time" -> Json.fromDouble((System.currentTimeMillis - start) / 1000.0d).get,
     "result" -> result.asJson
   ).noSpaces
 
@@ -178,6 +180,8 @@ object Collector {
 
   // result
   case class CResult(
+    time: Double,
+    analysisTime: Double,
     pass: Boolean,
     fail: Boolean,
     state: CState = CState()

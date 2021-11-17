@@ -33,9 +33,11 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
     // base directory
     val baseDir =
       if (config.concrete) s"$LOG_DIR/collect/concrete"
-      else s"$LOG_DIR/collect/abstract"
+      else s"$LOG_DIR/collect/jsaver"
+    val errorDir = s"$LOG_DIR/collect/error"
     mkdir(s"$LOG_DIR/collect")
     mkdir(baseDir)
+    mkdir(errorDir)
 
     // read test262 list
     val tests = readFile(s"$BASE_DIR/tests/analyze-test262").split(LINE_SEP).toList
@@ -68,6 +70,7 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
           catch {
             case e: Throwable =>
               println(e)
+              dumpFile(e.toString, s"$errorDir/$idx")
               analyzer.Collector.toErrorJson(idx, start)
           }
         },
