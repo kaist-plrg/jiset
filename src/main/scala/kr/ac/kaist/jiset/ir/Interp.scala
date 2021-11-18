@@ -1,5 +1,6 @@
 package kr.ac.kaist.jiset.ir
 
+import kr.ac.kaist.jiset.analyzer
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.checker.{ Type, View }
 import kr.ac.kaist.jiset.error.{ InterpTimeout, NotSupported }
@@ -882,7 +883,8 @@ object Interp {
     cached(str => doParseSyntax(parser, str))
   })
   private def doParseSyntax(parser: ESParser.LAParser[AST], str: String): Value = {
-    val result = ESParser.parse(parser, str)
+    val (__PARSE_TIME__, result) = time(ESParser.parse(parser, str))
+    analyzer.__ADD_PARSE_TIME__(__PARSE_TIME__)
     if (result.successful) ASTVal(result.get.checkSupported)
     else Absent
   }

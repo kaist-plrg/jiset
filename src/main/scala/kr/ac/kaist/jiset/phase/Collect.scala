@@ -6,6 +6,7 @@ import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.error._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util._
+import kr.ac.kaist.jiset.analyzer._
 import kr.ac.kaist.jiset.util.JvmUseful._
 import kr.ac.kaist.jiset.spec.NativeHelper._
 import kr.ac.kaist.jiset.checker.NativeHelper._
@@ -79,6 +80,9 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
       val __JSAVER_START_TIME__ = System.currentTimeMillis // start to measure time
       val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
       val merged = mergeStmt(stmts)
+
+      // start to measure parse time
+      __INIT_PARSE_TIME__
 
       // dump js states
       dumpFile(

@@ -35,6 +35,7 @@ case class Collector(script: Script, id: Int, __JSAVER_START_TIME__ : Long) {
   private var result: CResult = CResult(
     __JSAVER_TIME__,
     __JSAVER_ANALYSIS_TIME__ / 1000.0d,
+    __GET_TOTAL_PARSE_TIME__,
     pass,
     fail
   )
@@ -185,7 +186,8 @@ object Collector {
       "result" -> Json.obj(
         "top" -> true.asJson,
         "analysisTime" -> duration,
-        "time" -> duration
+        "time" -> duration,
+        "parseTime" -> Json.fromDouble(__GET_TOTAL_PARSE_TIME__).get
       )
     ).noSpaces
   }
@@ -197,6 +199,7 @@ object Collector {
   case class CResult(
     time: Double,
     analysisTime: Double,
+    parseTime: Double,
     pass: Boolean,
     fail: Boolean,
     state: CState = CState()
