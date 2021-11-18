@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.phase
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.js.setSpec
 import kr.ac.kaist.jiset.js.ast._
+import kr.ac.kaist.jiset.error._
 import kr.ac.kaist.jiset.ir._
 import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.JvmUseful._
@@ -75,7 +76,7 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
         case Left(msg) => throw NotSupported(msg)
       }
 
-      val start = System.currentTimeMillis // start to measure time
+      val __JSAVER_START_TIME__ = System.currentTimeMillis // start to measure time
       val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
       val merged = mergeStmt(stmts)
 
@@ -83,12 +84,14 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
       dumpFile(
         if (config.concrete) JsCollector(merged, harnessBases).toJson
         else {
-          try { analyzer.Collector(merged, idx, start).toJson }
+          try { analyzer.Collector(merged, idx, __JSAVER_START_TIME__).toJson }
           catch {
+            case e: AnalysisImprecise =>
+              analyzer.Collector.toImpreciseJson(idx, __JSAVER_START_TIME__)
             case e: Throwable =>
               println(e)
               dumpFile(e.toString, s"$errorDir/$idx")
-              analyzer.Collector.toErrorJson(idx, start)
+              analyzer.Collector.toErrorJson(idx, __JSAVER_START_TIME__)
           }
         },
         s"$baseDir/$idx.json"

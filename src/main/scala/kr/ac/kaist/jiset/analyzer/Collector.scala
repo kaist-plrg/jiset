@@ -11,15 +11,13 @@ import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
-case class Collector(script: Script, id: Int, start: Long) {
+case class Collector(script: Script, id: Int, __JSAVER_START_TIME__ : Long) {
   import Collector._
 
   // state
-  private val analysisStart = System.currentTimeMillis
-  private val absSem =
-    AbsSemantics(script, 0, timeLimit = Some(ANALYSIS_TIMEOUT)).fixpoint
-  private val analysisTime = (System.currentTimeMillis - analysisStart) / 1000.0d
-  private val elapsed = (System.currentTimeMillis - start) / 1000.0d
+  private val (__JSAVER_ANALYSIS_TIME__, absSem) =
+    time(AbsSemantics(script, 0, timeLimit = Some(ANALYSIS_TIMEOUT)).fixpoint)
+  private val __JSAVER_TIME__ = (System.currentTimeMillis - __JSAVER_START_TIME__) / 1000.0d
   private val finalResult = absSem.finalResult
   private val AbsRet(value, absState) = absSem.finalResult
   private var handledLocs: Set[SubMapLoc] = Set()
@@ -34,10 +32,15 @@ case class Collector(script: Script, id: Int, start: Long) {
     }
 
   // result
-  private var result: CResult = CResult(elapsed, analysisTime, pass, fail)
+  private var result: CResult = CResult(
+    __JSAVER_TIME__,
+    __JSAVER_ANALYSIS_TIME__ / 1000.0d,
+    pass,
+    fail
+  )
   def toJson: String = Json.obj(
     "id" -> id.asJson,
-    "time" -> Json.fromDouble((System.currentTimeMillis - start) / 1000.0d).get,
+    "time" -> Json.fromDouble((System.currentTimeMillis - __JSAVER_START_TIME__) / 1000.0d).get,
     "result" -> result.asJson
   ).noSpaces
 
@@ -172,6 +175,21 @@ object Collector {
     "time" -> Json.fromDouble((System.currentTimeMillis - start) / 1000.0d).get,
     "result" -> Json.obj("error" -> true.asJson)
   ).noSpaces
+
+  // imprecise result
+  def toImpreciseJson(id: Int, start: Long): String = {
+    val duration = Json.fromDouble((System.currentTimeMillis - start) / 1000.0d).get
+    Json.obj(
+      "id" -> id.asJson,
+      "time" -> duration,
+      "result" -> Json.obj(
+        "top" -> true.asJson,
+        "analysisTime" -> duration,
+        "time" -> duration
+      )
+    ).noSpaces
+  }
+
   // convert loc to unique string
   def loc2str(loc: Loc): String = loc.hashCode.toString
 
