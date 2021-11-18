@@ -43,50 +43,67 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
     val tests = readFile(s"$BASE_DIR/tests/analyze-test262").split(LINE_SEP).toList
     val targets = Test262.config.normal.filter(tests contains _.name)
 
-    // collect
-    ProgressBar("collect", targets.zipWithIndex).foreach(target => {
-      // parse test262
-      val (NormalTestConfig(name, includes), idx) = target
-      val jsName = s"$TEST262_TEST_DIR/$name"
-      val includeStmts = includes.foldLeft(basicStmts) {
-        case (li, s) => for {
-          x <- li
-          y <- getInclude(s)
-        } yield x ++ y
-      } match {
-        case Right(l) => l
-        case Left(msg) => throw NotSupported(msg)
+    if (config.harness) {
+      val harnessSet = targets.foldLeft(Set("assert.js", "sta.js")) {
+        case (acc, NormalTestConfig(_, includes)) => acc ++ includes
+        case (acc, _) => acc
       }
+      val harnessPaths = harnessSet.flatMap(jsName => {
+        val harnessFile = s"$TEST262_DIR/harness/$jsName"
+        JsCollector(parseFile(harnessFile)).result.map(_._1)
+      })
+      dumpJson(harnessPaths, s"$LOG_DIR/collect/harness.json", true)
+    } else {
+      // collect
+      ProgressBar("collect", targets.zipWithIndex).foreach(target => {
+        // parse test262
+        val (NormalTestConfig(name, includes), idx) = target
+        val jsName = s"$TEST262_TEST_DIR/$name"
 
-      val start = System.currentTimeMillis // start to measure time
-      val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
-      val merged = mergeStmt(stmts)
+        val includeStmts = includes.foldLeft(basicStmts) {
+          case (li, s) => for {
+            x <- li
+            y <- getInclude(s)
+          } yield x ++ y
+        } match {
+          case Right(l) => l
+          case Left(msg) => throw NotSupported(msg)
+        }
 
-      // dump js states
-      dumpFile(
-        if (config.concrete) JsCollector(merged).toJson
-        else {
-          try { analyzer.Collector(merged, idx, start).toJson }
-          catch {
-            case e: Throwable =>
-              println(e)
-              dumpFile(e.toString, s"$errorDir/$idx")
-              analyzer.Collector.toErrorJson(idx, start)
-          }
-        },
-        s"$baseDir/$idx.json"
-      )
-    })
+        val start = System.currentTimeMillis // start to measure time
+        val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
+        val merged = mergeStmt(stmts)
+
+        // dump js states
+        dumpFile(
+          if (config.concrete) JsCollector(merged).toJson
+          else {
+            try { analyzer.Collector(merged, idx, start).toJson }
+            catch {
+              case e: Throwable =>
+                println(e)
+                dumpFile(e.toString, s"$errorDir/$idx")
+                analyzer.Collector.toErrorJson(idx, start)
+            }
+          },
+          s"$baseDir/$idx.json"
+        )
+      })
+    }
+
   }
 
   def defaultConfig: CollectConfig = CollectConfig()
   val options: List[PhaseOption[CollectConfig]] = List(
     ("concrete", BoolOption(c => c.concrete = true),
       "collect concrete state"),
+    ("harness", BoolOption(c => c.harness = true),
+      "collect harness state"),
   )
 }
 
 // Parse phase config
 case class CollectConfig(
-  var concrete: Boolean = false
+  var concrete: Boolean = false,
+  var harness: Boolean = false
 ) extends Config

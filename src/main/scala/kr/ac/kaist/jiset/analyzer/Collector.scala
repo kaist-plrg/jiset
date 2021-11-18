@@ -167,13 +167,10 @@ case class Collector(script: Script, id: Int, start: Long) {
 
 object Collector {
   // error result
-  lazy val errorResult: String = Json.obj(
-    "error" -> true.asJson
-  ).asJson.noSpaces
   def toErrorJson(id: Int, start: Long): String = Json.obj(
     "id" -> id.asJson,
     "time" -> Json.fromDouble((System.currentTimeMillis - start) / 1000.0d).get,
-    "result" -> errorResult.asJson
+    "result" -> Json.obj("error" -> true.asJson)
   ).noSpaces
   // convert loc to unique string
   def loc2str(loc: Loc): String = loc.hashCode.toString
