@@ -29,7 +29,7 @@ package object analyzer {
     __TOTAL_PARSE_TIME__ = None
     res / 1000.0d
   }
-  def __ADD_PARSE_TIME__(t: Long): Unit = {
+  def __ADD_PARSE_TIME__(t: Long): Unit = if (!__TOTAL_PARSE_TIME__.isEmpty) {
     __TOTAL_PARSE_TIME__ = Some(__TOTAL_PARSE_TIME__.get + t)
   }
 
