@@ -6,7 +6,7 @@ import kr.ac.kaist.jiset.ir._
 import io.circe._, io.circe.generic.semiauto._, io.circe.generic.auto._
 import io.circe.syntax._
 
-case class Collector(script: Script) {
+case class Collector(script: Script, harnessBases: Set[String] = Set()) {
   // state
   private lazy val state = Initialize(script)
   private lazy val interp = new Interp(state, None)
@@ -48,7 +48,7 @@ case class Collector(script: Script) {
   def toJson: String = result.asJson.noSpaces
 
   // handle variables
-  private def handleVariable: Unit = for (x <- createdVars) {
+  private def handleVariable: Unit = for (x <- createdVars if !harnessBases.contains(x)) {
     getValue(s"""$globalMap["$x"].Value""") match {
       case Absent => // handle global accessor property
       case sv: SimpleValue => add(x, sv)
@@ -58,7 +58,7 @@ case class Collector(script: Script) {
   }
 
   // handle lexical variables
-  private def handleLet: Unit = for (x <- createdLets) {
+  private def handleLet: Unit = for (x <- createdLets if !harnessBases.contains(x)) {
     getValue(s"""$lexRecord["$x"].BoundValue""") match {
       case sv: SimpleValue => add(x, sv)
       case (addr: Addr) => handleObject(addr, List(x))
@@ -90,21 +90,24 @@ case class Collector(script: Script) {
 
   // handle properties
   private def handleProperty(addr: Addr, path: List[String]): Unit = {
+    // if object has [[Call]] or [[Construct]], exclude name prop
+    val noNameProp = getStrKeys(addr).exists(p => p == "Call" || p == "Construct")
     val subMap = access(addr, Str("SubMap"))
-    for (p <- getStrKeys(subMap)) access(subMap, Str(p)) match {
-      case addr: Addr => state(addr) match {
-        case IRMap(Ty("DataProperty"), props, _) =>
-          for {
-            (value, _) <- props.get(Str("Value"))
-          } value.escaped match {
-            case sv: SimpleValue => add(path ++ List(p), sv)
-            case addr: Addr => handleObject(addr, path ++ List(p))
-            case _ =>
-          }
-        case x =>
+    for (p <- getStrKeys(subMap) if !(noNameProp && p == "name"))
+      access(subMap, Str(p)) match {
+        case addr: Addr => state(addr) match {
+          case IRMap(Ty("DataProperty"), props, _) =>
+            for {
+              (value, _) <- props.get(Str("Value"))
+            } value.escaped match {
+              case sv: SimpleValue => add(path ++ List(p), sv)
+              case addr: Addr => handleObject(addr, path ++ List(p))
+              case _ =>
+            }
+          case x =>
+        }
+        case _ =>
       }
-      case _ =>
-    }
   }
 
   // get values
@@ -122,10 +125,13 @@ case class Collector(script: Script) {
       case (base, p) => state(base, p.escaped)
     }
 
+  // get all top-level defs
+  private def getToplevelNames: Set[String] = createdLets ++ createdVars
+
   // get created variables
   private lazy val globalMap = "REALM.GlobalObject.SubMap"
   private lazy val globalThis = getValue(s"$globalMap.globalThis.Value")
-  private lazy val createdVars: Set[String] = {
+  lazy val createdVars: Set[String] = {
     val initial = getStrKeys(getValue("GLOBAL.SubMap"))
     val current = getStrKeys(getValue(globalMap))
     current -- initial
@@ -133,7 +139,7 @@ case class Collector(script: Script) {
 
   // get created lexical variables
   private lazy val lexRecord = "REALM.GlobalEnv.DeclarativeRecord.SubMap"
-  private lazy val createdLets: Set[String] =
+  lazy val createdLets: Set[String] =
     getStrKeys(getValue(lexRecord))
 
   // get keys
