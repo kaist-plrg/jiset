@@ -12,10 +12,10 @@ package object analyzer {
 
   // (i, j) for loop sensitivity
   var LOOP_ITER: Int = 100
-  var LOOP_DEPTH: Int = 20
+  var LOOP_DEPTH: Int = 10
 
   // k for call-site sensitivity
-  var JS_CALL_DEPTH: Int = 5
+  var JS_CALL_DEPTH: Int = 20
   var IR_CALL_DEPTH: Int = 50
 
   // Exploded

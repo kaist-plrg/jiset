@@ -180,7 +180,10 @@ case class AbsSemantics(
     astOpt match {
       // flow sensitivity
       case Some(ast) =>
-        val newJsLoops = handleSens(loops ++ jsLoops, LOOP_DEPTH)
+        val boundedLoops = loops.map {
+          case LoopCtxt(loop, k) => LoopCtxt(loop, handleSens(k, LOOP_ITER))
+        }
+        val newJsLoops = handleSens(boundedLoops ++ jsLoops, LOOP_DEPTH)
         View(Some(JSView(ast, jsCalls, newJsLoops)), Nil, Nil, 0)
 
       // call-site sensitivity
@@ -214,12 +217,12 @@ case class AbsSemantics(
   // loop transition
   def loopNext(view: View): View = view.loops match {
     case LoopCtxt(loop, k) :: rest =>
-      view.copy(loops = LoopCtxt(loop, handleSens(k + 1, LOOP_ITER)) :: rest)
+      view.copy(loops = LoopCtxt(loop, k + 1) :: rest)
     case _ => view
   }
   def loopEnter(view: View, loop: Loop): View = {
     val loopView = view.copy(
-      loops = handleSens(LoopCtxt(loop, 0) :: view.loops, LOOP_DEPTH),
+      loops = LoopCtxt(loop, 0) :: view.loops,
       intraLoopDepth = view.intraLoopDepth + 1,
     )
     loopOut += loopView -> (loopOut.getOrElse(loopView, Set()) + view)
