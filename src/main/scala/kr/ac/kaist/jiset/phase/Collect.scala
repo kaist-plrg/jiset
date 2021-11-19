@@ -71,6 +71,12 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
       nfIJK.flush
     }
 
+    // dump config
+    dumpJson(
+      List(LOOP_ITER, LOOP_DEPTH, JS_CALL_DEPTH, IR_CALL_DEPTH),
+      s"$LOG_DIR/collect/ijk-info"
+    )
+
     if (LOG)
       nfIJK.println(s"id,name,#iter,ir-i,ir-j,ir-k,js-i,js-j,js-k")
 
