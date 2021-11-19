@@ -38,7 +38,7 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
 
     // read test262 list
     val tests = readFile(s"$BASE_DIR/tests/analyze-test262").split(LINE_SEP).toList
-    val targets = Test262.config.normal.filter(tests contains _.name)
+    val targets = Test262.config.normal.filter(tests contains _.name).slice(config.start, config.end)
 
     // load harness declaration
     val harnessCache = s"$LOG_DIR/collect/harness.json"
@@ -61,10 +61,13 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
     // val ast = parseFile(filename)
     // println(if (config.concrete) js.Collector(ast, harnessBases).toJson else analyzer.Collector(ast, 0, 0).toJson)
 
+    println(s"Collecting [${config.start}, ${config.end})")
+
     // collect
     ProgressBar("collect", targets.zipWithIndex).foreach(target => {
       // parse test262
-      val (NormalTestConfig(name, includes), idx) = target
+      val (NormalTestConfig(name, includes), offset) = target
+      val idx = config.start + offset
       val jsName = s"$TEST262_TEST_DIR/$name"
 
       val includeStmts = includes.foldLeft(basicStmts) {
@@ -107,10 +110,14 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
   val options: List[PhaseOption[CollectConfig]] = List(
     ("concrete", BoolOption(c => c.concrete = true),
       "collect concrete state"),
+    ("start", NumOption((c, i) => c.start = i), ""),
+    ("end", NumOption((c, i) => c.end = i), ""),
   )
 }
 
 // Parse phase config
 case class CollectConfig(
-  var concrete: Boolean = false
+  var concrete: Boolean = false,
+  var start: Int = 0,
+  var end: Int = 18556
 ) extends Config

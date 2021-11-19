@@ -15,7 +15,7 @@ package object analyzer {
   var LOOP_DEPTH: Int = 20
 
   // k for call-site sensitivity
-  var JS_CALL_DEPTH: Int = 10
+  var JS_CALL_DEPTH: Int = 5
   var IR_CALL_DEPTH: Int = 50
 
   // Exploded
