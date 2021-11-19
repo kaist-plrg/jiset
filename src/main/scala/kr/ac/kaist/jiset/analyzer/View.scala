@@ -13,6 +13,19 @@ case class View(
   // get JavaScript contexts
   def jsCalls: List[AST] = jsViewOpt.fold(List[AST]())(_.calls)
   def jsLoops: List[LoopCtxt] = jsViewOpt.fold(List[LoopCtxt]())(_.loops)
+
+  // get ir ijk
+  def getIrIJK: (Int, Int, Int) = (
+    if (loops.isEmpty) 0 else loops.map(_.depth).max,
+    loops.length,
+    calls.length
+  )
+  // get js ijk
+  def getJsIJK: (Int, Int, Int) = jsViewOpt.fold((-1, -1, -1))(js => (
+    if (js.loops.isEmpty) 0 else js.loops.map(_.depth).max,
+    js.loops.length,
+    js.calls.length
+  ))
 }
 
 // contexts

@@ -11,12 +11,11 @@ import kr.ac.kaist.jiset.util._
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.util.Useful._
 
-case class Collector(script: Script, id: Int, __JSAVER_START_TIME__ : Long) {
+case class Collector(absSem: AbsSemantics, id: Int, __JSAVER_START_TIME__ : Long) {
   import Collector._
 
   // state
-  private val (__JSAVER_ANALYSIS_TIME__, absSem) =
-    time(AbsSemantics(script, 0, timeLimit = Some(ANALYSIS_TIMEOUT)).fixpoint)
+  private val (__JSAVER_ANALYSIS_TIME__, _) = time(absSem.fixpoint)
   private val __JSAVER_TIME__ = (System.currentTimeMillis - __JSAVER_START_TIME__) / 1000.0d
   private val finalResult = absSem.finalResult
   private val AbsRet(value, absState) = absSem.finalResult

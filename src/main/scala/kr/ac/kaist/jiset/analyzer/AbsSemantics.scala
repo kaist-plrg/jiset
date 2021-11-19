@@ -54,6 +54,10 @@ case class AbsSemantics(
   // iteration period for check
   val CHECK_PERIOD = 10000
 
+  // log max ijk
+  val irIJK = AbsSemantics.MaxIJK()
+  val jsIJK = AbsSemantics.MaxIJK()
+
   // fixpiont computation
   @tailrec
   final def fixpoint: AbsSemantics = worklist.next match {
@@ -130,6 +134,12 @@ case class AbsSemantics(
     val np = NodePoint(func.entry, calleeView)
     this += np -> st.doCall
 
+    // log max ijk
+    if (LOG) {
+      irIJK.update(calleeView.getIrIJK)
+      jsIJK.update(calleeView.getJsIJK)
+    }
+
     val rp = ReturnPoint(func, calleeView)
     val set = retEdges.getOrElse(rp, Set())
     retEdges += rp -> (set + callerNp)
@@ -137,6 +147,12 @@ case class AbsSemantics(
     val retT = this(rp)
     if (!retT.isBottom) worklist += rp
   }
+
+  // handle sensiticity
+  def handleSens[T](l: List[T], bound: Int): List[T] =
+    if (INF_SENS) l else l.take(bound)
+  def handleSens(n: Int, bound: Int): Int =
+    if (INF_SENS) n else n min bound
 
   // call transition
   def viewCall(
@@ -147,11 +163,10 @@ case class AbsSemantics(
   ): View = {
     val View(_, calls, _, _) = callerView
     val view = callerView.copy(
-      calls = (call :: calls).take(IR_CALL_DEPTH),
+      calls = handleSens(call :: calls, IR_CALL_DEPTH),
       intraLoopDepth = 0
     )
-    if (INF_SENS) view
-    else viewJsSens(view, isJsCall, astOpt)
+    viewJsSens(view, isJsCall, astOpt)
   }
 
   // JavaScript sensitivities
@@ -165,14 +180,14 @@ case class AbsSemantics(
     astOpt match {
       // flow sensitivity
       case Some(ast) =>
-        val newJsLoops = (loops ++ jsLoops).take(LOOP_DEPTH)
+        val newJsLoops = handleSens(loops ++ jsLoops, LOOP_DEPTH)
         View(Some(JSView(ast, jsCalls, newJsLoops)), Nil, Nil, 0)
 
       // call-site sensitivity
       case _ if isJsCall => view.copy(jsViewOpt = jsViewOpt.map {
         case JSView(ast, calls, loops) => JSView(
           ast,
-          (ast :: calls).take(JS_CALL_DEPTH),
+          handleSens(ast :: calls, JS_CALL_DEPTH),
           loops
         )
       })
@@ -199,12 +214,12 @@ case class AbsSemantics(
   // loop transition
   def loopNext(view: View): View = view.loops match {
     case LoopCtxt(loop, k) :: rest =>
-      view.copy(loops = LoopCtxt(loop, (k + 1) min LOOP_ITER) :: rest)
+      view.copy(loops = LoopCtxt(loop, handleSens(k + 1, LOOP_ITER)) :: rest)
     case _ => view
   }
   def loopEnter(view: View, loop: Loop): View = {
     val loopView = view.copy(
-      loops = (LoopCtxt(loop, 0) :: view.loops).take(LOOP_DEPTH),
+      loops = handleSens(LoopCtxt(loop, 0) :: view.loops, LOOP_DEPTH),
       intraLoopDepth = view.intraLoopDepth + 1,
     )
     loopOut += loopView -> (loopOut.getOrElse(loopView, Set()) + view)
@@ -275,6 +290,19 @@ case class AbsSemantics(
   }
 }
 object AbsSemantics {
+  // maximum ijk
+  case class MaxIJK(var i: Int = -1, var j: Int = -1, var k: Int = -1) {
+    def update(ijk: (Int, Int, Int)): Unit = {
+      val (curI, curJ, curK) = ijk
+      if (curI > i) i = curI
+      if (curJ > j) j = curJ
+      if (curK > k) k = curK
+    }
+    def get: (Int, Int, Int) = (i, j, k)
+    def getList: List[Int] = List(i, j, k)
+    override def toString: String = s"I/J/K = $i/$j/$k"
+  }
+
   // constructors
   def apply(
     script: js.ast.Script,

@@ -63,6 +63,17 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
 
     println(s"Collecting [${config.start}, ${config.end})")
 
+    // dump ijk
+    val nfIJK = getPrintWriter(s"$LOG_DIR/collect/ijk.csv")
+    def dumpIJK(id: Int, name: String, absSem: AbsSemantics): Unit = {
+      val ijkInfo = absSem.irIJK.getList ++ absSem.jsIJK.getList
+      nfIJK.println(s"$id,$name,${absSem.getIter},${ijkInfo.mkString(",")}")
+      nfIJK.flush
+    }
+
+    if (LOG)
+      nfIJK.println(s"id,name,#iter,ir-i,ir-j,ir-k,js-i,js-j,js-k")
+
     // collect
     ProgressBar("collect", targets.zipWithIndex).foreach(target => {
       // parse test262
@@ -91,19 +102,27 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
       dumpFile(
         if (config.concrete) JsCollector(merged, harnessBases).toJson
         else {
-          try { analyzer.Collector(merged, idx, __JSAVER_START_TIME__).toJson }
-          catch {
-            case e: AnalysisImprecise =>
-              analyzer.Collector.toImpreciseJson(idx, __JSAVER_START_TIME__)
-            case e: Throwable =>
-              println(e)
-              dumpFile(e.toString, s"$errorDir/$idx")
-              analyzer.Collector.toErrorJson(idx, __JSAVER_START_TIME__)
-          }
+          val absSem = AbsSemantics(merged, 0, timeLimit = Some(ANALYSIS_TIMEOUT))
+          val jsonStr =
+            try {
+              analyzer.Collector(absSem, idx, __JSAVER_START_TIME__).toJson
+            } catch {
+              case e: AnalysisImprecise =>
+                analyzer.Collector.toImpreciseJson(idx, __JSAVER_START_TIME__)
+              case e: Throwable =>
+                println(e)
+                dumpFile(e.toString, s"$errorDir/$idx")
+                analyzer.Collector.toErrorJson(idx, __JSAVER_START_TIME__)
+            }
+          if (LOG) dumpIJK(idx, name, absSem) // dump ijk info
+          jsonStr
         },
         s"$baseDir/$idx.json"
       )
     })
+
+    // close file handle
+    nfIJK.close
   }
 
   def defaultConfig: CollectConfig = CollectConfig()
@@ -112,6 +131,16 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
       "collect concrete state"),
     ("start", NumOption((c, i) => c.start = i), ""),
     ("end", NumOption((c, i) => c.end = i), ""),
+    ("inf-sens", BoolOption(c => INF_SENS = true),
+      "use infinite sensitivity."),
+    ("loop-iter", NumOption((c, i) => LOOP_ITER = i),
+      "set maximum loop iteration."),
+    ("loop-depth", NumOption((c, i) => LOOP_DEPTH = i),
+      "set maximum loop depth."),
+    ("js-k-cfa", NumOption((c, i) => JS_CALL_DEPTH = i),
+      "set k for JavaScrpt callsite sensitivity."),
+    ("ir-k-cfa", NumOption((c, i) => IR_CALL_DEPTH = i),
+      "set k for IRES callsite sensitivity."),
   )
 }
 
