@@ -67,7 +67,7 @@ case class AbsSemantics(
       // check time limit
       if (iter % CHECK_PERIOD == 0) timeLimit.map(limit => {
         val duration = (System.currentTimeMillis - startTime) / 1000
-        if (duration > limit) throw AnalysisTimeout
+        if (duration > limit) throw AnalysisImprecise
       })
 
       // text-based debugging
