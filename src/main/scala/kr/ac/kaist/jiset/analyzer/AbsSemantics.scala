@@ -2,7 +2,7 @@ package kr.ac.kaist.jiset.analyzer
 
 import kr.ac.kaist.jiset._
 import kr.ac.kaist.jiset.analyzer.domain._
-import kr.ac.kaist.jiset.error.AnalysisTimeout
+import kr.ac.kaist.jiset.error.AnalysisImprecise
 import kr.ac.kaist.jiset.cfg._
 import kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.ir.Bool
@@ -67,7 +67,7 @@ case class AbsSemantics(
       // check time limit
       if (iter % CHECK_PERIOD == 0) timeLimit.map(limit => {
         val duration = (System.currentTimeMillis - startTime) / 1000
-        if (duration > limit) throw AnalysisImprecise
+        if (duration > limit) throw AnalysisImprecise("timeout")
       })
 
       // text-based debugging
