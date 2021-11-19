@@ -601,7 +601,7 @@ case class AbsTransfer(sem: AbsSemantics) {
     ): AbsValue = operand.simple.getSingle match {
       case FlatBot => AbsValue.Bot
       case FlatElem(ASimple(x)) =>
-        AbsValue(Interp.interp(uop, x))
+        optional(AbsValue(Interp.interp(uop, x))).getOrElse(AbsValue.Bot)
       case FlatTop => uop match {
         case ONeg => exploded(s"uop: ($uop $operand)")
         case ONot => AbsValue(bool = !operand.bool)
@@ -618,7 +618,7 @@ case class AbsTransfer(sem: AbsSemantics) {
     ): AbsValue = (left.getSingle, right.getSingle) match {
       case (FlatBot, _) | (_, FlatBot) => AbsValue.Bot
       case (FlatElem(ASimple(l)), FlatElem(ASimple(r))) =>
-        AbsValue(Interp.interp(bop, l, r))
+        optional(AbsValue(Interp.interp(bop, l, r))).getOrElse(AbsValue.Bot)
       case (FlatElem(l), FlatElem(r)) if bop == OEq || bop == OEqual =>
         (l, r) match {
           case (lloc: Loc, rloc: Loc) => if (lloc == rloc) {
