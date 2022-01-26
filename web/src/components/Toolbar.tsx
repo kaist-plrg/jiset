@@ -29,7 +29,7 @@ type ToolbarProps = ConnectedProps<typeof connector>;
 
 class Toolbar extends React.Component<ToolbarProps> {
   render () {
-    const { disableRun, disableDebuggerBtn, run, stop, specStep, specStepOver, specStepOut, jsStep, jsStepOver, jsStepOut } = this.props;
+    const { specContinue, disableRun, disableDebuggerBtn, run, stop, specStep, specStepOver, specStepOut, jsStep, jsStepOver, jsStepOut } = this.props;
     return (
       <div className="toolbar-container">
         <ButtonGroup variant="text" color="primary">

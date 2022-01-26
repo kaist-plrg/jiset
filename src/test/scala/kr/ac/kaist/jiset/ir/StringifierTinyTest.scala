@@ -3,6 +3,7 @@ package kr.ac.kaist.jiset.ir
 import kr.ac.kaist.jiset.util.Useful._
 import kr.ac.kaist.jiset.util.Appender._
 import kr.ac.kaist.jiset.ir._
+import kr.ac.kaist.jiset.js.TOP_LEVEL
 import kr.ac.kaist.jiset.js.ast._
 import kr.ac.kaist.jiset.spec.algorithm._
 import kr.ac.kaist.jiset.spec.grammar._
@@ -154,9 +155,9 @@ class StringifierTinyTest extends IRTest {
 
     // State
     test("State")(
-      State() -> """{
+      State() -> s"""{
       |  context: {
-      |    name: TOP_LEVEL
+      |    name: $TOP_LEVEL
       |    return: RETURN
       |    cursor: [EMPTY]
       |    local-vars: {}
@@ -168,8 +169,8 @@ class StringifierTinyTest extends IRTest {
       |}""".stripMargin
     )
     test("Context")(
-      Context() -> """{
-      |  name: TOP_LEVEL
+      Context() -> s"""{
+      |  name: $TOP_LEVEL
       |  return: RETURN
       |  cursor: [EMPTY]
       |  local-vars: {}
@@ -224,7 +225,7 @@ class StringifierTinyTest extends IRTest {
         "clo:closure(x, y)[z -> 3.0] => ..."
     )
     test("Cont")(
-      Cont(idList, Context(), List()) -> "TOP_LEVEL(x, y) [=>] ...",
+      Cont(idList, Context(), List()) -> s"$TOP_LEVEL(x, y) [=>] ...",
     )
     test("RefValue")(
       RefValueId(Id("x")) -> "x",

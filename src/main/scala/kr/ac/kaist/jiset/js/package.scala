@@ -61,7 +61,7 @@ package object js {
   val RET_CONT = "RET_CONT"
   val SCRIPT_BODY = "SCRIPT_BODY"
   val SYMBOL_REGISTRY = "SYMBOL_REGISTRY"
-  val TOP_LEVEL = "TOP_LEVEL"
+  val TOP_LEVEL = "RunJobs"
   val TYPED_ARRAY_INFO = "TYPED_ARRAY_INFO"
 
   // prefixes

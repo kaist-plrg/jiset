@@ -9,8 +9,8 @@ class GrammarSmallTest extends ExtractTest {
   val name: String = "extractGrammarTest"
 
   // registration
-  def init: Unit = check(VERSION, {
-    val filename = s"$GRAMMAR_DIR/$VERSION.grammar"
+  def init: Unit = check("es2021", { // XXX need to be synced with VERSION
+    val filename = s"$GRAMMAR_DIR/es2021.grammar"
     val answer = readFile(filename)
     val grammar = JISETTest.spec.grammar
     assert(answer == grammar.toString)
