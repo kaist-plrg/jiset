@@ -24,7 +24,7 @@ class SpecViewer extends React.Component<SpecViewerProps> {
     let algoName: string;
 
     if ( stackFrame.data.length === 0 ) {
-      algo = undefined;
+      algo = getAlgo( spec, "RunJobs"); // show top-level algorithms
       currentStep = -1;
     } else {
       [ algoName, currentStep ] = stackFrame.data[ stackFrame.idx ];

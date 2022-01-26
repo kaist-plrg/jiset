@@ -10,10 +10,12 @@ import { Typography, Paper } from "@material-ui/core";
 import { connect, ConnectedProps } from "react-redux";
 import { ReduxState, Dispatch } from "../store";
 import { edit } from "../store/reducers/JS";
+import { AppState } from "../store/reducers/AppState";
 
 // connect redux store
 const mapStateToProps = ( st: ReduxState ) => ( {
   js: st.js,
+  appState: st.appState.state
 } );
 const mapDispatchToProps = (dispatch : Dispatch) => ( {
   edit: (code: string) => dispatch(edit(code))
@@ -23,7 +25,8 @@ type JSEditorProps = ConnectedProps<typeof connector>;
 
 class JSEditor extends React.Component<JSEditorProps> {
   onCodeChange ( code: string ) {
-    this.props.edit(code);
+    if (this.props.appState === AppState.JS_INPUT)
+      this.props.edit(code);
   }
   private genMarker (): [ string, string ] {
     let genUid = () => ` __${ uuid().replaceAll( "-", "_" ) }__ `

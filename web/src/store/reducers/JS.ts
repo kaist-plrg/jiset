@@ -49,7 +49,32 @@ type JSState = {
   end: number;
 };
 const initialState: JSState = {
-  code: "var x = 1;\nvar y = 2;\nvar z = x + y;",
+  code: `var x = 1;
+var y = 2;
+var z = x + y;
+var w = z + x;
+
+function f () {
+  let a = 42;
+  g(a);
+  return 0;
+}
+
+function g(a) {
+  a = 1;
+  a = 1;
+  a = 1;
+  a = 1;
+  a = 1;
+  a = 1;
+  a = 1;
+  a = 1;
+  a = 1;
+  a = 1;
+  a = 1;
+}
+
+f();`,
   start: -1,
   end: -1,
 };

@@ -22,6 +22,7 @@ function* runSaga() {
       const code = state.js.code;
       const breakpoints = state.webDebugger.breakpoints;
       const compressed = new ESParse("2021").parseWithCompress(code);
+      console.log("A");
       console.log(code, breakpoints, compressed);
       // run server debugger with js code and breakpoints
       yield call(() =>
@@ -31,7 +32,8 @@ function* runSaga() {
       yield put(move(AppState.DEBUG_READY));
     } catch (e) {
       // show error toast
-      toast.error(e);
+      toast.error(e.message);
+      console.error(e);
     }
   }
   yield takeLatest(DebuggerActionType.RUN, _runSaga);
