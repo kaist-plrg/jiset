@@ -11,7 +11,8 @@ Details of the JISET framework are available in our papers:
   Toolchain](https://doi.org/10.1145/3324884.3416632)
 - [ICSE 2021] [JEST: N+1-version Differential Testing of Both JavaScript
   Engines](https://doi.org/10.1109/ICSE43902.2021.00015)
-- [ASE 2021] JSTAR: JavaScript Specification Type Analyzer using Refinement
+- [ASE 2021] [JSTAR: JavaScript Specification Type Analyzer using
+  Refinement](https://github.com/kaist-plrg/jiset.git)
 
 ## Overall Structure
 
@@ -19,7 +20,7 @@ Details of the JISET framework are available in our papers:
 
 ## Installation Guide
 
-We explain how to install JISET with necessary environment settings from the
+We explain how to install JISET with necessary environment settings from
 scratch.  Before installation, please download JDK 8 and
 [`sbt`](https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Linux.html).
 
@@ -28,7 +29,7 @@ scratch.  Before installation, please download JDK 8 and
 $ git clone https://github.com/kaist-plrg/jiset.git
 ```
 
-### Environment Setting
+### Environment Settings
 Insert the following commands to `~/.bashrc` (or `~/.zshrc`):
 ```bash
 # for JISET
@@ -36,7 +37,7 @@ export JISET_HOME="<path to JISET>" # IMPORTANT!!!
 export PATH="$JISET_HOME/bin:$PATH" # for executables `jiset` and etc.
 source $JISET_HOME/jiset-auto-completion # for auto completion
 ```
-The `<path to JISET>` should be the absolute path of JISET repository.
+The `<path to JISET>` should be the absolute path of the JISET repository.
 
 ### Installation of JISET using `sbt`
 ```bash
@@ -76,7 +77,7 @@ Evaluate `sample.js`:
 $ jiset eval sample.js -silent
 # 3.0
 ```
-Show detail path and final results during evaluation of `sample.js`:
+Show the details and final results of the evaluation of `sample.js`:
 ```bash
 $ jiset eval sample.js -debug
 ```
@@ -89,54 +90,56 @@ $ jiset <sub-command> <option>*
 ```
 with the following sub-commands:
 - `help` shows the help message.
-- `extract` extracts ECMAScript model from `ecma262/spec.html`.
+- `extract` extracts an ECMAScript model from `ecma262/spec.html`.
 - `gen-model` generates ECMAScript models.
-- `compile-repl` performs REPL for printing compile result of particular step.
+- `compile-repl` performs REPL for printing the compile result of a particular step.
 - `gen-test` generates tests with the current implementation as the oracle.
 - `parse` parses a JavaScript file using the generated parser.
 - `load` loads a JavaScript AST to the initial IR states.
-- `eval` evaluates a JavaScript file using generated interpreter.
+- `eval` evaluates a JavaScript file using the generated interpreter.
 - `filter-meta` extracts and filters out metadata of test262 tests.
 - `parse-ir` parses an IR file.
 - `load-ir` loads an IR AST to the initial IR states.
 - `eval-ir` evaluates an IR file.
 - `repl-ir` performs REPL for IR instructions.
-- `build-cfg` builds control flow graph (CFG).
+- `build-cfg` builds control flow graphs (CFGs).
 
 and global options:
 - `-silent` does not show final results.
 - `-debug` turns on the debug mode.
 - `-interactive` turns on the interactive mode.
-- `-no-bugfix` uses semantics including specification bugs.
+- `-no-bugfix` uses the semantics including specification bugs.
 - `-time` displays the duration time.
 
 ## ECMAScript Debugger Guide
 
 **ECMAScript Debugger** extends the interpreter of JISET to help you understand how a JavaScript Program runs in ECMAScript.
-Currently, it is in **alpha stage** and supports only basic features such as:
+Currently, it is in an **alpha stage** and supports only basic features such as:
 
-- Step-by-step execution for ECMAScript.
-- Breakpoints by abstract algorithm name in ECMAScript
-- Visualize state(i.e. a call stack, an environment, and a heap) for ECMAScript
-- Line-by-line execution for JavaScript.
+- Step-by-step execution of ECMAScript
+- Breakpoints by abstract algorithm names in ECMAScript
+- Visualization of states like a call stack, an environment, and a heap of ECMAScript
+- Line-by-line execution of JavaScript
+
+A short [introduction video](https://youtu.be/syfZ3v6JNg8) is available.
 
 ### How to Run
 
-You can try ECMAScript Debugger with following instructions in `$JISET_HOME` directory:
+You can try ECMAScript Debugger with the following instructions in the `$JISET_HOME` directory:
 
-First, you should check out to `editor` branch to use ECMAScript Debugger.
+First, you should check out to the `editor` branch to use ECMAScript Debugger.
 
 ```bash
 $ git checkout editor && git submodule update && sbt assembly
 ```
 
-Next, you should start the server.
+Next, you should start a server.
 
 ```bash
 $ jiset web
 ```
 
-Finally, start the debugger client.
+Finally, start a debugger client.
 
 ```bash
 $ cd web && npm install && npm start
@@ -144,11 +147,11 @@ $ cd web && npm install && npm start
 
 ### Future Plans
 
-We have following future plans:
-- Add more debugger features
-  - Show a JavaScript state by refining ECMAScript state
-  - Time stamping during execution for reasoning resume & suspend steps (especially for Generator)
+We have the following future plans:
+- Add more debugger features:
+  - Show a JavaScript state by refining an ECMAScript state.
+  - Record timestamps during execution for resume & suspend steps (especially for Generator).
   - ...
-- Show relevant test262 tests for each algorithm steps in specification viewer
-- Show types of each variable using type analysis result of JSTAR
-- Live editing "spec.html" in specification viewer
+- Show relevant test262 tests for each algorithm step in the specification viewer.
+- Show the type of each variable using the type analysis result of JSTAR.
+- Live-edit of "spec.html" in the specification viewer.
