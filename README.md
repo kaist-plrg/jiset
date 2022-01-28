@@ -123,6 +123,8 @@ Currently, it is in an **alpha stage** and supports only basic features such as:
 
 **A short [introduction video](https://youtu.be/syfZ3v6JNg8) is available.**
 
+<img width="1150" alt="debugger" src="https://user-images.githubusercontent.com/7039121/151577359-7d6a90af-7940-4904-912e-dd9113b8ba2f.png">
+
 ### How to Run
 
 You can try ECMAScript Debugger with the following instructions in the `$JISET_HOME` directory:
