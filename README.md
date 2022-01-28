@@ -109,3 +109,46 @@ and global options:
 - `-interactive` turns on the interactive mode.
 - `-no-bugfix` uses semantics including specification bugs.
 - `-time` displays the duration time.
+
+## ECMAScript Debugger Guide
+
+**ECMAScript Debugger** extends the interpreter of JISET to help you understand how a JavaScript Program runs in ECMAScript.
+Currently, it is in **alpha stage** and supports only basic features such as:
+
+- Step-by-step execution for ECMAScript.
+- Breakpoints by abstract algorithm name in ECMAScript
+- Visualize state(i.e. a call stack, an environment, and a heap) for ECMAScript
+- Line-by-line execution for JavaScript.
+
+### How to Run
+
+You can try ECMAScript Debugger with following instructions in `$JISET_HOME` directory:
+
+First, you should check out to `editor` branch to use ECMAScript Debugger.
+
+```bash
+$ git checkout editor && sbt assembly
+```
+
+Next, you should start the server.
+
+```bash
+$ jiset web
+```
+
+Finally, start the debugger client.
+
+```bash
+$ cd web && npm install && npm start
+```
+
+### Future Plans
+
+We have following future plans:
+- Add more debugger features
+  - Show a JavaScript state by refining ECMAScript state
+  - Time stamping during execution for reasoning resume & suspend steps (especially for Generator)
+  - ...
+- Show relevant test262 tests for each algorithm steps in specification viewer
+- Show types of each variable using type analysis result of JSTAR
+- Live editing "spec.html" in specification viewer
