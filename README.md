@@ -127,7 +127,7 @@ You can try ECMAScript Debugger with following instructions in `$JISET_HOME` dir
 First, you should check out to `editor` branch to use ECMAScript Debugger.
 
 ```bash
-$ git checkout editor && sbt assembly
+$ git checkout editor && git submodule update && sbt assembly
 ```
 
 Next, you should start the server.
