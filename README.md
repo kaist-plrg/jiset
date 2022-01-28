@@ -121,7 +121,7 @@ Currently, it is in an **alpha stage** and supports only basic features such as:
 - Visualization of states like a call stack, an environment, and a heap of ECMAScript
 - Line-by-line execution of JavaScript
 
-A short [introduction video](https://youtu.be/syfZ3v6JNg8) is available.
+**A short [introduction video](https://youtu.be/syfZ3v6JNg8) is available.**
 
 ### How to Run
 
