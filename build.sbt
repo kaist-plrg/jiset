@@ -42,14 +42,15 @@ lazy val jsEvalTest = taskKey[Unit]("Launch eval js tests (small)")
 lazy val jsAnalyzeTest = taskKey[Unit]("Launch analyze js tests (middle)")
 
 // test262
-lazy val test262ParseTest = taskKey[Unit]("Launch parse test262 tests (large)")
-lazy val test262ESParseTest = taskKey[Unit]("Launch parse test262 tests using esparse (large)")
-lazy val test262ParserBenchmarkTest = taskKey[Unit]("Launch compare parsing test262 tests using esparse and JSParse")
-lazy val test262EvalTest = taskKey[Unit]("Launch eval test262 tests (large)")
-lazy val test262PartialEvalTest = taskKey[Unit]("Launch partial-eval test262 tests (large)")
-lazy val test262ManualTest = taskKey[Unit]("Launch manual eval test262 tests (middle)")
-lazy val test262PartialManualTest = taskKey[Unit]("Launch partial manual eval test262 tests (middle)")
-lazy val test262AnalyzeTest = taskKey[Unit]("Launch analyze test 262 tests (large)")
+lazy val test262ParseTest = taskKey[Unit]("Launch parse Test262 tests (large)")
+lazy val test262ESParseTest = taskKey[Unit]("Launch parse Test262 tests using esparse (large)")
+lazy val test262ParserBenchmarkTest = taskKey[Unit]("Launch compare parsing Test262 tests using esparse and JSParse")
+lazy val test262EvalTest = taskKey[Unit]("Launch eval Test262 tests (large)")
+lazy val test262PartialEvalTest = taskKey[Unit]("Launch partial-eval Test262 tests (large)")
+lazy val test262ManualTest = taskKey[Unit]("Launch manual eval Test262 tests (middle)")
+lazy val test262PartialManualTest = taskKey[Unit]("Launch partial manual eval Test262 tests (middle)")
+lazy val test262AnalyzeTest = taskKey[Unit]("Launch analyze Test262 tests (large)")
+lazy val test262BabelAnalyzeTest = taskKey[Unit]("Launch analyze Test262 tests with Babel (large)")
 
 // type checker
 lazy val checkerTest = taskKey[Unit]("Launch type checker tests")
@@ -119,6 +120,7 @@ lazy val jiset = (project in file("."))
     test262PartialEvalTest := (testOnly in Test).toTask(" *.test262.PartialEval*Test").value,
     test262PartialManualTest := (testOnly in Test).toTask(" *.test262.PartialManual*Test").value,
     test262AnalyzeTest := (testOnly in Test).toTask(" *.test262.Analyze*Test").value,
+    test262BabelAnalyzeTest := (testOnly in Test).toTask(" *.test262.BabelAnalyze*Test").value,
     // type checker
     checkerTest := (testOnly in Test).toTask(" *.checker.*Test").value,
     checkerJsonTest := (testOnly in Test).toTask(" *.checker.Json*Test").value,

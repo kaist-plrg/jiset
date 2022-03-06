@@ -35,7 +35,8 @@ trait Test262Test extends JSTest {
   // test 262 tests
   def test262Test(
     targets: List[NormalTestConfig],
-    kind: TestKind
+    kind: TestKind,
+    testDir: String = TEST262_TEST_DIR
   ): Unit = if (!targets.isEmpty) {
     val name = TestKind.getName(kind)
     val progress = ProgressBar(s"test262 $name test", targets)
@@ -49,7 +50,7 @@ trait Test262Test extends JSTest {
     summary.passes.setPath(s"$logDir/$name-pass.log")
     for (config <- progress) {
       val NormalTestConfig(name, includes) = config
-      val jsName = s"$TEST262_TEST_DIR/$name"
+      val jsName = s"$testDir/$name"
       try {
         // parse test262 including harness
         val includeStmts = includes.foldLeft(basicStmts) {
