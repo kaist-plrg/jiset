@@ -30,6 +30,7 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
     // base directory
     val baseDir =
       if (config.concrete) s"$LOG_DIR/collect/concrete"
+      else if (config.compiled) s"$LOG_DIR/collect/compiled"
       else s"$LOG_DIR/collect/jsaver"
     val errorDir = s"$LOG_DIR/collect/error"
     mkdir(s"$LOG_DIR/collect")
@@ -85,7 +86,9 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
       // parse test262
       val (NormalTestConfig(name, includes), offset) = target
       val idx = config.start + offset
-      val jsName = s"$TEST262_TEST_DIR/$name"
+      val jsName =
+        if (config.compiled) s"$LOG_DIR/compile/test262/$name"
+        else s"$TEST262_TEST_DIR/$name"
 
       val includeStmts = includes.foldLeft(basicStmts) {
         case (li, s) => for {
@@ -134,7 +137,9 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
   def defaultConfig: CollectConfig = CollectConfig()
   val options: List[PhaseOption[CollectConfig]] = List(
     ("concrete", BoolOption(c => c.concrete = true),
-      "collect concrete state"),
+      "collect concrete state."),
+    ("compiled", BoolOption(c => c.compiled = true),
+      "collect final states using compiled programs."),
     ("start", NumOption((c, i) => c.start = i), ""),
     ("end", NumOption((c, i) => c.end = i), ""),
     ("inf-sens", BoolOption(c => INF_SENS = true),
@@ -153,6 +158,7 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
 // Parse phase config
 case class CollectConfig(
   var concrete: Boolean = false,
+  var compiled: Boolean = false,
   var start: Int = 0,
   var end: Int = 18556
 ) extends Config
