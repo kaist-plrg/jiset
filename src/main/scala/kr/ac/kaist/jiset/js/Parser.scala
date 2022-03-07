@@ -82,10 +82,9 @@ object Parser extends ESParsers {
     Template
   )
   // TODO automatically synthesize this part: handling unicodes
-  lazy val IdentifierName: Lexer = (
-    IdentifierStart |||
-    IdentifierName % IdentifierPart
-  ) ^^ { case str => ESValueParser.parseIdentifier(str) }
+  lazy val IdentifierName: Lexer = IdentifierStart ~ rep(IdentifierPart) ^^ {
+    case s ~ ps => ESValueParser.parseIdentifier(ps.foldLeft(s)(_ + _))
+  }
   lazy val IdentifierStart: Lexer = (
     UnicodeIDStart |||
     "$" |||
