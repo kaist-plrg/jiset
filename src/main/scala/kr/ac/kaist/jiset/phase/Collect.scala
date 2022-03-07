@@ -51,6 +51,9 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
 
     // load harness declaration
     val harnessCache = s"$LOG_DIR/collect/harness.json"
+    val harnessDir =
+      if (config.compiled) s"$LOG_DIR/compile/harness"
+      else s"$TEST262_DIR/harness"
     val harnessBases =
       if (exists(harnessCache)) readJson[Set[String]](harnessCache)
       else {
@@ -59,7 +62,7 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
           case (acc, _) => acc
         }
         val data = harnessSet.flatMap(jsName => {
-          JsCollector(parseFile(s"$TEST262_DIR/harness/$jsName")).createdVars
+          JsCollector(parseFile(s"$harnessDir/$jsName")).createdVars
         })
         dumpJson(data, harnessCache, true)
         data
