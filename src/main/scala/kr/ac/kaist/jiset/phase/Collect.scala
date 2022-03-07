@@ -27,6 +27,14 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
   ): Unit = {
     setSpec(loadSpec(s"$VERSION_DIR/generated"))
 
+    // compile Test262 programs using Babel
+    if (config.compiled) {
+      println("install a wrapper of babel...")
+      executeCmd("npm install", s"$BASE_DIR/lib/compiler")
+      println("compile Test262 programs using Babel...")
+      executeCmd("npm run start", s"$BASE_DIR/lib/compiler")
+    }
+
     // base directory
     val baseDir =
       if (config.concrete) s"$LOG_DIR/collect/concrete"
