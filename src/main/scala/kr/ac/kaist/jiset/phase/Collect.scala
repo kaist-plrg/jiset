@@ -118,27 +118,26 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
       // start to measure parse time
       __INIT_PARSE_TIME__
 
-      // dump js states
-      dumpFile(
+      // get the result
+      val result = try {
         if (config.concrete) JsCollector(merged, harnessBases).toJson
         else {
           val absSem = AbsSemantics(merged, 0, timeLimit = Some(ANALYSIS_TIMEOUT))
-          val jsonStr =
-            try {
-              analyzer.Collector(absSem, idx, __JSAVER_START_TIME__).toJson
-            } catch {
-              case e: AnalysisImprecise =>
-                analyzer.Collector.toImpreciseJson(idx, __JSAVER_START_TIME__)
-              case e: Throwable =>
-                println(e)
-                dumpFile(e.toString, s"$errorDir/$idx")
-                analyzer.Collector.toErrorJson(idx, __JSAVER_START_TIME__)
-            }
+          val jsonStr = analyzer.Collector(absSem, idx, __JSAVER_START_TIME__).toJson
           if (LOG) dumpIJK(idx, name, absSem) // dump ijk info
           jsonStr
-        },
-        s"$baseDir/$idx.json"
-      )
+        }
+      } catch {
+        case e: AnalysisImprecise =>
+          analyzer.Collector.toImpreciseJson(idx, __JSAVER_START_TIME__)
+        case e: Throwable =>
+          println(e)
+          dumpFile(e.toString, s"$errorDir/$idx")
+          analyzer.Collector.toErrorJson(idx, __JSAVER_START_TIME__)
+      }
+
+      // dump js states
+      dumpFile(result, s"$baseDir/$idx.json")
     })
 
     // close file handle
