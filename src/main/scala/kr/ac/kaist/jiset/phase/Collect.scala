@@ -112,14 +112,16 @@ case object Collect extends Phase[Unit, CollectConfig, Unit] {
       }
 
       val __JSAVER_START_TIME__ = System.currentTimeMillis // start to measure time
-      val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
-      val merged = mergeStmt(stmts)
-
-      // start to measure parse time
-      __INIT_PARSE_TIME__
 
       // get the result
       val result = try {
+        val stmts = includeStmts ++ flattenStmt(parseFile(jsName))
+        val merged = mergeStmt(stmts)
+
+        // start to measure parse time
+        __INIT_PARSE_TIME__
+
+        // get the result
         if (config.concrete) JsCollector(merged, harnessBases).toJson
         else {
           val absSem = AbsSemantics(merged, 0, timeLimit = Some(ANALYSIS_TIMEOUT))
