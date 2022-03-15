@@ -109,7 +109,7 @@ trait ESParsers extends LAParsers {
       FirstTerms() + (name -> nt)
     ))(name)
   }
-  def ntl = cached[Lexer, LAParser[Lexical]] {
+  val ntl = cached[Lexer, LAParser[Lexical]] {
     case nt => log(new LAParser(
       follow => (Skip ~> nt) ^^ { case s => Lexical("", s) },
       FirstTerms()

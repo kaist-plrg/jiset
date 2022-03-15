@@ -128,7 +128,7 @@ object AST {
     ast
   }
 
-  private def getSemMap = cached[(String, Int), Map[String, Algo]] {
+  private val getSemMap = cached[(String, Int), Map[String, Algo]] {
     case (kind, idx) => {
       val pattern = s"${kind}\\[${idx},(\\d+)\\]\\.(.*)".r
       (for {
