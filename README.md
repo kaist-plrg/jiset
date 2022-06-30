@@ -1,5 +1,9 @@
 # JISET: JavaScript IR-based Semantics Extraction Toolchain
 
+> **Warning**
+> This repository is no longer maintained. Please use the its rebranded version
+> called [ESMeta](https://github.com/es-meta/esmeta).
+
 **JISET** is a **J**avaScript **I**R-based **S**emantics **E**xtraction
 **T**oolchain. It is the first tool that automatically synthesizes parsers and
 AST-IR translators directly from a given language specification, ECMAScript.
