@@ -1,6 +1,6 @@
 # JISET: JavaScript IR-based Semantics Extraction Toolchain
 
-> **Warning** - This repository is no longer maintained. Please use its
+> **Warning** - This repository is no longer maintained. Instead, please use its
 > rebranded version called [ESMeta](https://github.com/es-meta/esmeta).
 
 **JISET** is a **J**avaScript **I**R-based **S**emantics **E**xtraction
